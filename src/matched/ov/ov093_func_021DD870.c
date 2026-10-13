@@ -1,5 +1,5 @@
 /*
- * function: BTL_ITEM_GetRaiseAttackOneHandlers
+ * function: HAND_ITEM_GetRaiseAttackOneHandlers
  * address: 0x021DD870
  * packet: pkt_ov093_021DD870
  * region: ov093
@@ -15,10 +15,10 @@
  *   gBtlItemRaiseAttackOneHandlers 0x021F1CCC data ov093 a4
  */
 
-int *BTL_ITEM_GetRaiseAttackOneHandlers(int *p);
+int *HAND_ITEM_GetRaiseAttackOneHandlers(int *p);
 extern int gBtlItemRaiseAttackOneHandlers[];
 
-int *BTL_ITEM_GetRaiseAttackOneHandlers(int *p)
+int *HAND_ITEM_GetRaiseAttackOneHandlers(int *p)
 {
     *p = 5;
     return gBtlItemRaiseAttackOneHandlers;

@@ -11,6 +11,7 @@
  *
  * symbols:
  *   BMP_Clear  0x02043B5C  arm  arm9
+ *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  */
 
 typedef struct {
@@ -21,10 +22,10 @@ typedef struct {
 typedef unsigned char  u8;
 struct CharBuf;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
 void FIELD_PLACE_NAME_ClearWindow(Obj *p)
 {
-    BMP_Clear(func_02045770(p->f24), 3);
+    BMP_Clear(BMP_WIN_GetBmp(p->f24), 3);
 }

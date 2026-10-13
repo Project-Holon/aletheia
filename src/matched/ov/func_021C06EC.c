@@ -10,6 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  *   (none)
 
  * Clears a word and releases two handles of each of four entries.
@@ -18,8 +20,8 @@
 
 
 struct PrintSys;
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 
 void func_021C06EC(void *unused, char *p, void *a2)
 {
@@ -28,8 +30,8 @@ void func_021C06EC(void *unused, char *p, void *a2)
     for (i = 0; i < 4; i++) {
         char *e = p + i * 4;
         ((struct Obj09204 *)e)->f24 = 0;
-        func_0201C6EC((struct PrintSys *)(((struct Obj09204 *)e)->f34));
-        func_0201C4C0((struct PrintSys *)(((struct Obj09204 *)e)->f34));
+        PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj09204 *)e)->f34));
+        PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj09204 *)e)->f34));
     }
 }
 

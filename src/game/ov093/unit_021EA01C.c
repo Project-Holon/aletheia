@@ -16,7 +16,7 @@
  *   func_0689B514  0x0689B514  thumb
  *   MYITEM_SAVEDATA_SetBattlePocketCursors  0x020082B8  thumb
  *   MYITEM_SAVEDATA_SetLastBattleItem  0x020082D4  thumb
- *   func_021B8E70  0x021B8E70  thumb  ov093
+ *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
  *   func_021ED118  0x021ED118  thumb  ov093
  *   func_021ED1B0   0x021ED1B0  thumb  ov093
  *   func_021E9100  0x021E9100  thumb  ov093
@@ -25,7 +25,7 @@
  *   func_021ED250  0x021ED250  thumb  ov093
  *   func_021ED268  0x021ED268  thumb  ov093
  *   func_021ED280  0x021ED280  thumb  ov093
- *   func_021B8D8C  0x021B8D8C  thumb  ov093
+ *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
  *   func_021ECF68  0x021ECF68  thumb  ov093
  *   func_021EAF00  0x021EAF00  thumb  ov093
  *   func_021F7F1C  0x021F7F1C  thumb  ov094
@@ -43,7 +43,7 @@
  *   func_021ED304   0x021ED304  thumb  ov093
  *   func_021ED318  0x021ED318  thumb  ov093
  *   func_021ED374   0x021ED374  thumb  ov093
- *   func_021B98AC  0x021B98AC  thumb  ov093
+ *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021ED3D4  0x021ED3D4  thumb  ov093
  *   func_021ED450  0x021ED450  thumb  ov093
@@ -84,7 +84,7 @@
  *   func_021F84B4  0x021F84B4  thumb  ov094
  *   func_021ED4E4  0x021ED4E4  thumb  ov093
  *   func_021ED510  0x021ED510  thumb  ov093
- *   func_021B9AF8  0x021B9AF8  thumb  ov093
+ *   BTL_SIDE_GetSlotOfClientThunk  0x021B9AF8  thumb  ov093
  */
 #include "../../matched/include/Obj12164.h"
 #include "../../matched/include/Obj18477.h"
@@ -213,7 +213,7 @@ typedef struct {
 
 extern void MYITEM_SAVEDATA_SetBattlePocketCursors(struct MyItemSave *p, const s16 *a, const s16 *b);
 extern void MYITEM_SAVEDATA_SetLastBattleItem(struct MyItemSave *p, u16 a, u16 b);
-extern u8 func_021B8E70(u8 *p, u32 k);
+extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k);
 extern void func_021ED118(u8 *p, int a, int b, u32 c, u32 d, int e, u8 f);
 extern u8 *func_021E9100(u8 *p, int n);
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
@@ -221,7 +221,7 @@ extern void func_021ED208(char *p, u8 k, u16 a, int flag);
 extern int func_021ED250(char *p);
 extern void func_021ED268(u8 *p, u8 k, u32 x);
 extern int func_021ED280(char *p);
-extern int func_021B8D8C(void *p, void *a, u32 b);
+extern int BTL_MAIN_GetTrainerSlotOfPoke(void *p, void *a, u32 b);
 extern int func_021ECF68(struct T *p);
 extern void func_021EAF00(u8 *p, int a);
 extern int func_021F7F1C(int i);
@@ -234,7 +234,7 @@ extern int func_021F7EB4(void);
 extern void func_021F7AAC(int a, int b, u32 c);
 extern void func_021ED294(u8 *p, int k, u32 x);
 extern void func_021ED318(char *p, u16 k, u16 a, int flag);
-extern u8 *func_021B98AC(char *const *q, u8 b);
+extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void func_021ED3D4(char *p, u8 k, int a, u8 b, int flag);
 extern int func_021ED450(u8 *p);
@@ -262,7 +262,7 @@ extern u8 BTL_MAIN_GetClientTrainerIndex(u8 *p, u32 k, u8 n);
 extern void func_021F84B4(u32 a, u32 b);
 extern void func_021ED4E4(u8 *p, int a, int b);
 extern int func_021ED510(u8 *p, int a, int b);
-extern char *func_021B9AF8(char *p, int i);
+extern char *BTL_SIDE_GetSlotOfClientThunk(char *p, int i);
 extern void func_0689B514(void *a, u8 *t);
 u16 func_021EA01C(u8 *p);
 u8 func_021EA030(u8 *p);
@@ -392,9 +392,9 @@ void func_021EA0A0(u32 *p, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u8 s7)
     u32 r7;
     u32 r2;
 
-    r7 = func_021B8E70((u8 *)p[0], a1);
+    r7 = BTL_MAIN_GetViewPosOfSlot((u8 *)p[0], a1);
     if (a2 != 6) {
-        r2 = func_021B8E70((u8 *)p[0], a2);
+        r2 = BTL_MAIN_GetViewPosOfSlot((u8 *)p[0], a2);
     } else {
         r2 = 0xff;
     }
@@ -535,7 +535,7 @@ void func_021EA280(char *ctx, u32 n, int b, const u8 *c, u16 e)
     ((struct Obj06283 *)t)->f10 = e;
     ((struct Obj06283 *)t)->f8 = 0;
     for (i = 0; i < n; i++) {
-        t[i] = func_021B8D8C(((struct Obj13557 *)ctx)->f0, ((struct Obj13557 *)ctx)->f8, c[i]);
+        t[i] = BTL_MAIN_GetTrainerSlotOfPoke(((struct Obj13557 *)ctx)->f0, ((struct Obj13557 *)ctx)->f8, c[i]);
     }
 }
 
@@ -685,7 +685,7 @@ void func_021EA488(struct S_021EA488 *s, u8 a, u8 b, u8 c)
     u8 *o;
 
     t = func_021E9100((u8 *)s, 4);
-    o = func_021B98AC(s->f08, a);
+    o = BTL_SIDE_GetPokeAtPos(s->f08, a);
     t[1] = b;
     t[2] = c;
     t[0] = a;
@@ -916,10 +916,10 @@ void func_021EA824(char *p)
 }
 
 
-void func_021EA838(u32 *p, u32 k) { func_021ED56C(p[0x5f], func_021B8E70((u8 *)p[0], k)); }
+void func_021EA838(u32 *p, u32 k) { func_021ED56C(p[0x5f], BTL_MAIN_GetViewPosOfSlot((u8 *)p[0], k)); }
 
 
-int func_021EA850(u32 *p, u32 k) { return func_021ED57C(p[0x5f], func_021B8E70((u8 *)p[0], k)); }
+int func_021EA850(u32 *p, u32 k) { return func_021ED57C(p[0x5f], BTL_MAIN_GetViewPosOfSlot((u8 *)p[0], k)); }
 
 
 void func_021EA868(u32 *p, u32 a2, u32 a3) { func_021ED590(p[0x5f], a2, a3); }
@@ -1028,6 +1028,6 @@ void func_021EAA00(u8 *p, u8 v)
     u8 *t;
 
     t = func_021E9100(p, 0x3c);
-    func_021B9AF8(*(char * *)&((struct Obj10115 *)p)->f8, p[0xc]);
+    BTL_SIDE_GetSlotOfClientThunk(*(char * *)&((struct Obj10115 *)p)->f8, p[0xc]);
     func_0689B514(((struct Obj10115 *)p)->f180, t);
 }

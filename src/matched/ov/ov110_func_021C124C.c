@@ -15,7 +15,7 @@
  *   PMS_WORD_GetSaveEntry 0x02024910 thumb
  *   PMSI_PARAM_GetSentenceType 0x0202452C thumb
  *   func_021C080C 0x021C080C thumb ov110
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   PMS_DRAW_SetPrintColor 0x0202DE64 thumb
  *   PMS_DRAW_SetNullColorPalette 0x0202DE5C thumb
@@ -32,7 +32,7 @@ struct T;
 extern void *PMS_WORD_GetSaveEntry(char *p, int idx);
 extern int PMSI_PARAM_GetSentenceType(const u16 *p);
 extern void func_021C080C(u8 *,int,int,int);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
@@ -43,11 +43,11 @@ void func_021C124C(u8 *p,int index,u8 which,int flag) {
     item=PMS_WORD_GetSaveEntry(*(void **)(p+0x20),which);
     func_021C080C(p+0x24,index,PMSI_PARAM_GetSentenceType(item),flag);
     if (flag) {
-        BMP_Clear(func_02045770(*(void **)(p+0x6c+index*4)),14);
+        BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+0x6c+index*4)),14);
         PMS_DRAW_SetPrintColor(*(void **)(p+0x8c),0x44e);
         PMS_DRAW_SetNullColorPalette(*(void **)(p+0x8c),14);
     } else {
-        BMP_Clear(func_02045770(*(void **)(p+0x6c+index*4)),13);
+        BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+0x6c+index*4)),13);
         PMS_DRAW_SetPrintColor(*(void **)(p+0x8c),0x44d);
         PMS_DRAW_SetNullColorPalette(*(void **)(p+0x8c),13);
     }

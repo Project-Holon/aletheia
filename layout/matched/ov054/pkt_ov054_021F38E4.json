@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "FIELD_GIMMICK_BSUBWAY_ExitTrainSway",
+   "name": "GIMMICK54_ExitSoundObjs",
    "address": "0x021F38E4",
    "kind": "game",
    "region": "ov054",

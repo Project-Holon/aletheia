@@ -1,5 +1,5 @@
 /*
- * function: func_021DBBCC
+ * function: HAND_TOKUSEI_GetPickupHandlers
  * address: 0x021DBBCC
  * packet: pkt_ov093_021DBBCC
  * region: ov093
@@ -15,10 +15,10 @@
  *   gPickupHandlers 0x021F06C8 data ov093 a4
  */
 
-int *func_021DBBCC(int *p);
+int *HAND_TOKUSEI_GetPickupHandlers(int *p);
 extern int gPickupHandlers[];
 
-int *func_021DBBCC(int *p)
+int *HAND_TOKUSEI_GetPickupHandlers(int *p)
 {
     *p = 1;
     return gPickupHandlers;

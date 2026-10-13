@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   func_02030734  0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
  *   func_0220684C  0x0220684C  thumb  ov094
@@ -34,7 +34,7 @@ typedef struct {
     int fc;
 } Ctx;
 
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern void *func_02030DA8(void *owner, void *fn, void *p, u32 a3);
 extern void func_0220684C(char *p, int a, int b);
@@ -49,7 +49,7 @@ int func_02206578(char *s, int a, int b)
 
     if (b < 0)
         return a;
-    if ((func_0203630C() & 0x200) && a < 4 && (((struct Obj00823 *)s)->f58 == 2 || ((struct Obj00823 *)s)->f58 == 5))
+    if ((KEY_GetCont() & 0x200) && a < 4 && (((struct Obj00823 *)s)->f58 == 2 || ((struct Obj00823 *)s)->f58 == 5))
         ((struct Obj00823 *)s)->f70 = a | 0x8000;
     else
         ((struct Obj00823 *)s)->f70 = a;

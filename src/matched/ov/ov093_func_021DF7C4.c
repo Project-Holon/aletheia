@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetSharpBeakHandlers
+ * function: HAND_ITEM_GetSharpBeakHandlers
  * address: 0x021DF7C4
  * packet: pkt_ov093_021DF7C4
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int gSharpBeakHandlers[];
-int *BTL_HANDLER_ITEM_GetSharpBeakHandlers(int *p);
+int *HAND_ITEM_GetSharpBeakHandlers(int *p);
 
-int *BTL_HANDLER_ITEM_GetSharpBeakHandlers(int *p)
+int *HAND_ITEM_GetSharpBeakHandlers(int *p)
 {
     *p = 1;
     return gSharpBeakHandlers;

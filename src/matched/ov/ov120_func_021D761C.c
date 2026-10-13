@@ -11,7 +11,7 @@
  * trailing: 2-byte zero alignment padding at 0x021D770E.
  * lever: indexed pointer sum before the far field offset preserves the base.
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   func_021D6ED8 0x021D6ED8 thumb ov120
  *   func_021D6C64 0x021D6C64 thumb ov120
@@ -32,7 +32,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void func_021D6ED8(u8 *);
 extern void func_021D6C64(u8 *);
@@ -53,7 +53,7 @@ void func_021D761C(u8 *p)
     void *t;
     for(i=0;i<6;i++) {
         if(*(void **)(p+i*4+0x14c)) {
-            func_0204B3DC(*(void **)(p+i*4+0x14c),0);
+            CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x14c),0);
             CLACT_DeleteActor(*(void **)(p+i*4+0x14c));
             *(u32 *)(p+i*4+0x14c)=0;
         }

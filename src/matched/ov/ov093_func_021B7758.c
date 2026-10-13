@@ -21,11 +21,11 @@
  *   BTL_NET_FreeRelayPacket 0x021D4D5C thumb ov093
  *   BTL_NET_GetParty 0x021D47A4 thumb ov093
  *   BTL_NET_FreeAfterPartyUse 0x021D4800 thumb ov093
- *   func_021B93E0 0x021B93E0 thumb ov093
+ *   BTL_SIDE_Init 0x021B93E0 thumb ov093
  *   BTL_MAIN_IsClientUsed 0x021B8B9C thumb ov093
- *   func_021BA128 0x021BA128 thumb ov093
- *   func_021BA648 0x021BA648 thumb ov093
- *   func_021B9460 0x021B9460 thumb ov093
+ *   BTL_MAIN_SetClientParty 0x021BA128 thumb ov093
+ *   BTL_MAIN_CopyClientParty 0x021BA648 thumb ov093
+ *   BTL_SIDE_SetupClientParty 0x021B9460 thumb ov093
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  */
 #include "../include/Obj00764.h"
@@ -47,11 +47,11 @@ extern int BTL_NET_IsRelayedPartyReceived(u32 a);
 extern void BTL_NET_FreeRelayPacket(void *);
 extern void *BTL_NET_GetParty(u8);
 extern void BTL_NET_FreeAfterPartyUse(void);
-extern void func_021B93E0(char *p, u32 a, u32 b);
+extern void BTL_SIDE_Init(char *p, u32 a, u32 b);
 extern int BTL_MAIN_IsClientUsed(unsigned char *p, unsigned char k);
-extern void func_021BA128(struct S *p, int i, void *x);
-extern void func_021BA648(char *p, u8 k, void *dst);
-extern void func_021B9460(char *a, char *b, u8 c);
+extern void BTL_MAIN_SetClientParty(struct S *p, int i, void *x);
+extern void BTL_MAIN_CopyClientParty(char *p, u8 k, void *dst);
+extern void BTL_SIDE_SetupClientParty(char *a, char *b, u8 c);
 extern int POKE_REGULATION_GetDataSize(void);
 int BTL_MAIN_SeqExchangeRegulation(u8 *p,u32 *state)
 {
@@ -114,21 +114,21 @@ int BTL_MAIN_SeqExchangeRegulation(u8 *p,u32 *state)
         }
         break;
     case 10:
-        func_021B93E0((char *)(p + 0xc8),(u32)p,(int)0);
+        BTL_SIDE_Init((char *)(p + 0xc8),(u32)p,(int)0);
         desc = p + 0xc8;
         for (i = 0; i < 4; ++i) {
             if (BTL_MAIN_IsClientUsed(p,i)) {
-                func_021BA128((struct S *)p,(u8)i,BTL_NET_GetParty(i));
-                func_021BA648((char *)p,i,BTL_NET_GetParty(i));
-                func_021B9460((char *)desc,(char *)p,i);
+                BTL_MAIN_SetClientParty((struct S *)p,(u8)i,BTL_NET_GetParty(i));
+                BTL_MAIN_CopyClientParty((char *)p,i,BTL_NET_GetParty(i));
+                BTL_SIDE_SetupClientParty((char *)desc,(char *)p,i);
             }
         }
         ++*state;
         break;
     case 11:
-        func_021B93E0((char *)(p + 0x1b0),(u32)p,(int)1);
+        BTL_SIDE_Init((char *)(p + 0x1b0),(u32)p,(int)1);
         for (i = 0; i < 4; ++i) {
-            if (BTL_MAIN_IsClientUsed(p,i)) func_021B9460((char *)(p + 0x1b0),(char *)p,i);
+            if (BTL_MAIN_IsClientUsed(p,i)) BTL_SIDE_SetupClientParty((char *)(p + 0x1b0),(char *)p,i);
         }
         ++*state;
         break;

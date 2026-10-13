@@ -13,11 +13,12 @@
  *   func_0201F7A8 0x0201F7A8 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_021F882C 0x021F882C thumb ov135
  *   func_021F8154 0x021F8154 thumb ov135
+ *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  */
 #include "../include/Obj05417.h"
 typedef unsigned short u16;
@@ -31,9 +32,9 @@ extern void func_021FF570(u32 v);
 extern void func_0201F7A8(void *, unsigned);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_021F882C(u8 *dst, int i, int kind);
 extern void func_021F8154(void *, void *, int, unsigned, unsigned, u16, int, void *);
@@ -51,7 +52,7 @@ int func_021FEE70(char *p)
         func_021FF570(0);
         func_021F882C((u8 *)(p + 0xb56), r, 1);
         ((struct Obj05417 *)p)->f28 = 0;
-        BMP_Clear(func_02045770(((struct Obj05417 *)p)->fDA4), 0);
+        BMP_Clear(BMP_WIN_GetBmp(((struct Obj05417 *)p)->fDA4), 0);
         func_021F8154(((struct Obj05417 *)p)->fDA4, ((struct Obj05417 *)p)->fB6C, r, 0, 0, 0x3c40, 1, p + 0xfa0);
         break;
     }

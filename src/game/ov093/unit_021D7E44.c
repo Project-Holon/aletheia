@@ -20,22 +20,22 @@
  *   func_02019C90  0x02019C90  thumb
  *   _u32_div_f     0x0209C2B0  arm
  *   func_0202A3FC 0x0202A3FC thumb
- *   func_0201AA18 0x0201AA18 thumb
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_0202A230 0x0202A230 thumb
  *   func_02017E1C 0x02017E1C thumb
- *   func_021B9B94  0x021B9B94  thumb  ov093
- *   func_021B9C00  0x021B9C00  thumb  ov093
+ *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
+ *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
  *   gBtlCalcDefeatMoneyScales     0x021F042D  data  ov093  a1
  *   func_02020FE4 0x02020FE4 thumb
  *   BTL_POKEPARAM_HasType  0x021D5814  thumb  ov093
  *   BTL_MAIN_GetRule  0x021B8588  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
- *   func_021B8D8C  0x021B8D8C  thumb  ov093
- *   sub_0201BD28   0x0201BD28  thumb
+ *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
+ *   WAZA_TOOL_GetParam   0x0201BD28  thumb
  *   WAZA_TOOL_GetFlag   0x0201BEB8  thumb
  *   BTL_MAIN_GetEnemyLanePosFromWork  0x021B8C50  thumb  ov093
- *   func_021B8D38  0x021B8D38  thumb  ov093
+ *   BTL_MAIN_CollectLivingPokeIds  0x021B8D38  thumb  ov093
  *   BTL_MAIN_DecodeMessageCode  0x021B8778  thumb  ov093
  */
 #include "btl_calc_types.h"
@@ -59,21 +59,21 @@ u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *bpp);
 extern int func_021D59B4(struct BtlPokeParam *bpp, int valueId);
 u32 func_02019C90(u16 species, u16 form, u32 paramId);
 extern u8 func_0202A3FC(u32 trainerId);
-extern u32 func_0201AA18(struct Party *party);
-extern void *func_0201AB28(struct Party *party, u32 index);
+extern u32 POKEPARTY_GetCount(struct Party *party);
+extern void *POKEPARTY_GetMember(struct Party *party, u32 index);
 extern u32 func_0202A230(u32 trainerId, u32 paramIndex);
 extern u32 func_02017E1C(void *mon, u32 valueId, u32 arg);
-u8 func_021B9B94(struct BtlParty *party);
-extern struct BtlPokeParam *func_021B9C00(struct BtlParty *party, u32 index);
+u8 BTL_SLOT_GetCount(struct BtlParty *party);
+extern struct BtlPokeParam *BTL_SLOT_GetPokeParam(struct BtlParty *party, u32 index);
 extern u32 func_02020FE4(void *mon, u32 paramId, u32 heapId);
 extern int BTL_POKEPARAM_HasType(struct BtlPokeParam *bpp, int type);
 extern u32 BTL_MAIN_GetRule(void *main);
 extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *bpp);
-extern int func_021B8D8C(void *main, void *posTable, u32 pokeId);
-extern u32 sub_0201BD28(u16 moveId, u32 fieldIndex);
+extern int BTL_MAIN_GetTrainerSlotOfPoke(void *main, void *posTable, u32 pokeId);
+extern u32 WAZA_TOOL_GetParam(u16 moveId, u32 fieldIndex);
 extern u32 WAZA_TOOL_GetFlag(u16 moveId, u32 bit);
 extern u8 BTL_MAIN_GetEnemyLanePosFromWork(void *main, u32 basePos, int lane);
-extern u8 func_021B8D38(void *main, void *posTable, int posCode, u8 *outPokeIds);
+extern u8 BTL_MAIN_CollectLivingPokeIds(void *main, void *posTable, int posCode, u8 *outPokeIds);
 extern u8 BTL_MAIN_DecodeMessageCode(void *main, int posCode, u8 *outPositions);
 u16 BTL_CALC_PickRandomMoveExcluding(const u16 *excludedMoves, int excludedCount);
 int BTL_CALC_ContainsU16(const u16 *list, u32 count, u32 value);
@@ -164,19 +164,19 @@ int BTL_CALC_IsBossTrainer(u32 trainerId) { if(BTL_CALC_IsGymLeaderTrainer(train
 u32 BTL_CALC_CalcPrizeMoney(struct BattleSetupParam *setup) { u32 money=0; if(setup->competitor==BTL_COMPETITOR_TRAINER) { if(setup->trainerData[1] && setup->party[1]) money+=BTL_CALC_CalcTrainerPrizeMoney(setup->trainerData[1],setup->party[1]); if(setup->trainerData[3] && setup->party[3]) money+=BTL_CALC_CalcTrainerPrizeMoney(setup->trainerData[3],setup->party[3]); } return money; }
 
 /* Prize money of one trainer: money rate * level of the last party member * 4. */
-u32 BTL_CALC_CalcTrainerPrizeMoney(struct BattleTrainerData *trainer,struct Party *party) { u8 count; void *lastMon; u32 moneyRate; if(party) { count=(u8)func_0201AA18(party); if(count) { lastMon=func_0201AB28(party,count-1); moneyRate=func_0202A230(trainer->trainerId,TRAINER_PARAM_MONEY_RATE); return moneyRate*func_02017E1C(lastMon,POKE_VALUE_LEVEL,0)*4; } } return 0; }
+u32 BTL_CALC_CalcTrainerPrizeMoney(struct BattleTrainerData *trainer,struct Party *party) { u8 count; void *lastMon; u32 moneyRate; if(party) { count=(u8)POKEPARTY_GetCount(party); if(count) { lastMon=POKEPARTY_GetMember(party,count-1); moneyRate=func_0202A230(trainer->trainerId,TRAINER_PARAM_MONEY_RATE); return moneyRate*func_02017E1C(lastMon,POKE_VALUE_LEVEL,0)*4; } } return 0; }
 
 
 /* Money lost on defeat: badge table value * highest party level * 4. */
 u32 BTL_CALC_CalcDefeatMoneyLoss(u32 badgeCount, struct BtlParty *party)
 {
-    u32 count = func_021B9B94(party);
+    u32 count = BTL_SLOT_GetCount(party);
     u32 maxLevel = 1;
     u32 index;
     u32 level;
 
     for (index = 0; index < count; index++) {
-        level = func_021D59B4(func_021B9C00(party, (u8)index), BTL_BPP_VALUE_LEVEL);
+        level = func_021D59B4(BTL_SLOT_GetPokeParam(party, (u8)index), BTL_BPP_VALUE_LEVEL);
         if (level > maxLevel)
             maxLevel = level;
     }
@@ -229,8 +229,8 @@ int BTL_CALC_DecideMoveTarget(void *main, void *posTable, struct BtlPokeParam *a
     u8 candidate;
 
     rule = BTL_MAIN_GetRule(main);
-    posCode = func_021B8D8C(main, posTable, BTL_POKEPARAM_GetPokeId(attacker));
-    targetKind = sub_0201BD28(moveId, 0x1B);
+    posCode = BTL_MAIN_GetTrainerSlotOfPoke(main, posTable, BTL_POKEPARAM_GetPokeId(attacker));
+    targetKind = WAZA_TOOL_GetParam(moveId, 0x1B);
     if (moveId == 0xAE) targetKind = BTL_CALC_GetCurseTargetKind(attacker);
 
     if (rule == BTL_RULE_SINGLE) {
@@ -274,10 +274,10 @@ int BTL_CALC_DecideMoveTarget(void *main, void *posTable, struct BtlPokeParam *a
     }
 
     /* candidate holds the number of Pokemon in range, then the index picked. */
-    candidate = func_021B8D38(main, posTable, posCode, candidates);
+    candidate = BTL_MAIN_CollectLivingPokeIds(main, posTable, posCode, candidates);
     if (candidate) {
         candidate = BTL_CALC_Random(candidate);
-        return func_021B8D8C(main, posTable, candidates[candidate]);
+        return BTL_MAIN_GetTrainerSlotOfPoke(main, posTable, candidates[candidate]);
     }
     candidate = BTL_MAIN_DecodeMessageCode(main, posCode, candidates);
     if (candidate) return candidates[(u8)BTL_CALC_Random(candidate)];

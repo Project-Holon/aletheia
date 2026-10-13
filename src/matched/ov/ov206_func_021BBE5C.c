@@ -14,7 +14,7 @@
  *   func_021BC0E0 0x021BC0E0 thumb ov206
  *   func_020490F4 0x020490F4 arm
  *   func_02045B38 0x02045B38 arm
- *   func_0201ADE4 0x0201ADE4 thumb
+ *   POKE_PERSONAL_Create 0x0201ADE4 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   tbl_021BC134 0x021BC134 data
  *   tbl_021BC1C4 0x021BC1C4 data
@@ -45,7 +45,7 @@ extern u32 func_021BC0E0(void);
 struct MsgBank;
 extern void *func_020490F4(u32 id, u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_0201ADE4(u32 a, int b, u32 c);
+extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 void func_021BBE5C(S *p)
 {
@@ -95,7 +95,7 @@ void func_021BBE5C(S *p)
             break;
         }
     }
-    p->x = func_0201ADE4(p->fc, p->fe, p->id);
+    p->x = POKE_PERSONAL_Create(p->fc, p->fe, p->id);
     for (i = 0; i < 16; i++)
         p->a[i] = func_02045EC0(p->objs[0], tbl_021BC184[i]);
 }

@@ -24,7 +24,7 @@
  *   g_ClactSystem     0x02146A74  data
  *   s_clact_c      0x020A7F74  data
  *   sub_02030734   0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   CLACT_InitResources  0x0204D7E0  arm
  *   CLACT_InitOamManagers  0x0204BC94  arm
  *   CLACT_InitDefaultRenderer  0x0204BA38  arm
@@ -87,7 +87,7 @@ extern char s_clact_c[];
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
-extern void  func_02082BCC(void *dst, int fill, u32 size);
+extern void  MI_CpuFill8(void *dst, int fill, u32 size);
 struct Caps;
 struct Obj;
 struct Res;
@@ -106,7 +106,7 @@ void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId)
     int i;
 
     g_ClactSystem = sub_02030734(heapId, sizeof(struct Sys), 0, s_clact_c, 0x28f);
-    func_02082BCC(g_ClactSystem, 0, sizeof(struct Sys));
+    MI_CpuFill8(g_ClactSystem, 0, sizeof(struct Sys));
 
     dims[0] = cfg->unk_10;
     dims[1] = cfg->unk_12;

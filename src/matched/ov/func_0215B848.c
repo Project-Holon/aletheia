@@ -14,7 +14,7 @@
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AB08  0x0201AB08  thumb
+ *   POKEPARTY_FindFirstBattleReady  0x0201AB08  thumb
  *   POKEPARTY_FindFirstNonEgg  0x0201AB18  thumb
  */
 #include "../include/Obj17690.h"
@@ -28,7 +28,7 @@ extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct BigObj;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern u32 func_0201AB08(void *p);
+extern u32 POKEPARTY_FindFirstBattleReady(void *p);
 extern u32 POKEPARTY_FindFirstNonEgg(void *p);
 
 int SCRCMD_PROC_FindFirstPartyIndex(int a0, int a1)
@@ -56,7 +56,7 @@ loc_0215B868:
 loc_0215B86C:
     if (t4 != 2) goto loc_0215B880;
 loc_0215B870:
-    a0 = func_0201AB08(p);
+    a0 = POKEPARTY_FindFirstBattleReady(p);
 loc_0215B874:
 a0 = a0 << 0x10;
 a0 = (unsigned)a0 >> 0x10;

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021F30D4  0x021F30D4  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02030734  0x02030734  arm
  *   CLACT_RegisterPalette  0x0204ABF0  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
@@ -35,7 +35,7 @@ typedef struct {
 } ResSpec;
 
 extern char d_021F36A0[];
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 typedef signed int     s32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
@@ -46,7 +46,7 @@ void func_021F30D4(char *this, ResList *out, const ResSpec *spec, void *arc)
 {
     int i;
 
-    func_02082BCC(out, 0, 0x18);
+    MI_CpuFill8(out, 0, 0x18);
     for (i = 0; i < 3; i++) {
         out[i].count = spec[i].count;
         if (out[i].count != 0)

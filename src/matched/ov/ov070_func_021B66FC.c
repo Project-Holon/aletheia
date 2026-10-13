@@ -11,19 +11,19 @@
  *
  * symbols:
  *   BLINK_PALANM_Update  0x0202EA40  thumb
- *   func_0201C6B4  0x0201C6B4  thumb
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   ITEMMENU_GetCursorIndex  0x021B61B8  thumb  ov070
  *   ITEMMENU_HandleScrollbarTouch  0x021B63F8  thumb  ov070
  *   ITEMMENU_MoveSlot  0x021B624C  thumb  ov070
  *   ITEMMENU_RedrawList  0x021B6138  thumb  ov070
  *   TOUCHPANEL_GetCont  0x02035C38  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_02007CC8  0x02007CC8  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   ITEMMENU_UpdateSideButtonsForMode  0x021BB5DC  thumb  ov070
  *   ITEMMENU_SetCursorActive  0x021B80C4  thumb  ov070
  *   ITEMMENU_ReturnToBagMain  0x021B8AF4  thumb  ov070
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   ITEMMENU_StartSideButtonPress  0x021B8C1C  thumb  ov070
  *   ITEMMENU_TaskFinishClose  0x021B66E8  thumb  ov070
  *   ITEMMENU_IsBackButtonTouched  0x021B66B8  thumb  ov070
@@ -42,19 +42,19 @@ struct PrintSys;
 struct Row;
 typedef signed int     s32;
 extern s32 BLINK_PALANM_Update(struct Row *p);
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern int ITEMMENU_GetCursorIndex(u8 *p);
 extern u32  ITEMMENU_HandleScrollbarTouch(u8 *p);
 extern void ITEMMENU_MoveSlot(void *o, int a, int b);
 extern void ITEMMENU_RedrawList(char *p);
 extern int  TOUCHPANEL_GetCont(void);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void func_02007CC8(u8 *base, void *buf, u32 id, int save);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void ITEMMENU_UpdateSideButtonsForMode(int p, int mode);
 extern void ITEMMENU_SetCursorActive(struct Obj *o, int flag);
 extern void ITEMMENU_ReturnToBagMain(void *o);
-extern u32  func_020362DC(void);
+extern u32  KEY_GetTrg(void);
 extern void ITEMMENU_StartSideButtonPress(int p, int a, int b);
 extern void ITEMMENU_TaskFinishClose(int p);
 extern int  ITEMMENU_IsBackButtonTouched(void);
@@ -67,7 +67,7 @@ void ITEMMENU_TaskListInput(u8 *p)
     int a;
 
     BLINK_PALANM_Update((struct Row *)(*(u32 *)&((struct Obj00002 *)p)->f850));
-    if (func_0201C6B4((const struct PrintSys *)(*(u32 *)&((struct Obj00002 *)p)->f50C)) == 0)
+    if (PRINTSYS_QUE_IsFinished((const struct PrintSys *)(*(u32 *)&((struct Obj00002 *)p)->f50C)) == 0)
         return;
     a = ITEMMENU_GetCursorIndex(p);
     if (ITEMMENU_HandleScrollbarTouch(p)) {
@@ -79,7 +79,7 @@ void ITEMMENU_TaskListInput(u8 *p)
     if (TOUCHPANEL_GetCont() == 0) {
         ((struct Obj00002 *)p)->f85C = 0;
         if (((struct Obj00002 *)p)->f860 == 1) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             ((struct Obj00002 *)p)->f860 = 0;
             func_02007CC8(((struct Obj00002 *)p)->f18, p + 0x20, *(u32 *)&((struct Obj00002 *)p)->f80C, 0);
             CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)&((struct Obj00002 *)p)->f6A4), 1);
@@ -92,8 +92,8 @@ void ITEMMENU_TaskListInput(u8 *p)
     }
     if (((struct Obj00002 *)p)->f85C == 1)
         return;
-    if (func_020362DC() & 5) {
-        func_020061E4(0x54C);
+    if (KEY_GetTrg() & 5) {
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         func_02007CC8(((struct Obj00002 *)p)->f18, p + 0x20, *(u32 *)&((struct Obj00002 *)p)->f80C, 0);
         CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)&((struct Obj00002 *)p)->f6A4), 1);
         ITEMMENU_UpdateSideButtonsForMode((int)p, 1);
@@ -102,8 +102,8 @@ void ITEMMENU_TaskListInput(u8 *p)
         ITEMMENU_ReturnToBagMain(p);
         return;
     }
-    if (func_020362DC() & 2) {
-        func_020061E4(0x551);
+    if (KEY_GetTrg() & 2) {
+        GFL_USE_PlaySeDefaultVolume(0x551);
         CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)&((struct Obj00002 *)p)->f6A4), 1);
         ((struct Obj00002 *)p)->f81C = 0;
         ITEMMENU_SetCursorActive((struct Obj *)p, 1);
@@ -113,7 +113,7 @@ void ITEMMENU_TaskListInput(u8 *p)
         return;
     }
     if (ITEMMENU_IsBackButtonTouched() == 1) {
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)&((struct Obj00002 *)p)->f6A4), 1);
         ((struct Obj00002 *)p)->f81C = 0;
         ITEMMENU_SetCursorActive((struct Obj *)p, 0);
@@ -125,14 +125,14 @@ void ITEMMENU_TaskListInput(u8 *p)
     if (ITEMMENU_HandleListTouch(p)) {
         ((struct Obj00002 *)p)->f860 = 1;
         ITEMMENU_MoveCursorToRow((char *)p);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         *(u32 *)&((struct Obj00002 *)p)->f818 = 0xFFFF;
         ITEMMENU_RedrawList((char *)p);
         return;
     }
     if (ITEMMENU_HandleMoveModeKeys(p)) {
         ITEMMENU_MoveCursorToRow((char *)p);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         *(u32 *)&((struct Obj00002 *)p)->f818 = 0xFFFF;
         ITEMMENU_RedrawList((char *)p);
     }

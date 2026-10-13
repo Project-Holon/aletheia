@@ -17,7 +17,7 @@
  *   func_021DE980 0x021DE980 thumb
  *   func_021DEA3C 0x021DEA3C thumb
  *   func_021DEAFC 0x021DEAFC thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *
  * Callback of func_021E6A60 (state machine in the 021E1324 family): show
  * window 10, return the held item to its slot, then hide the window.
@@ -42,7 +42,7 @@ extern u32 func_021EBFEC(char *p, int i);
 extern void func_021DE980(unsigned char *p, int mode);
 extern void func_021DEA3C(int a, int b, int c, int d);
 extern int func_021DEAFC(int a);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
@@ -78,7 +78,7 @@ int func_021E122C(unsigned char *p)
         if (p[0x17] != 0xFF && p[0x17] != p[0x14]) {
             b->state = 5;
         } else {
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 4;
         }
         break;

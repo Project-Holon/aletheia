@@ -12,7 +12,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FC3BC 0x021FC3BC thumb ov186
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   func_0200C3E0 0x0200C3E0 thumb
@@ -67,7 +67,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 extern char ov125_id[];
 extern const char d_02200254[];
-extern void GFL_HEAP_CreateChildHeap(u32,u32,u32),func_02082BCC(void *,int,unsigned);
+extern void GFL_HEAP_CreateChildHeap(u32,u32,u32),MI_CpuFill8(void *,int,unsigned);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 struct SoundSys;
@@ -104,7 +104,7 @@ int func_021F90C0(void *obj,int unused,char *q)
     GFL_HEAP_CreateChildHeap(1,0x5a,0x90000);
     p=PROCSYS_AllocProcWork(obj,0x1c,0x5a);
     zero=0;
-    func_02082BCC(p,0,0x1c);
+    MI_CpuFill8(p,0,0x1c);
     *(char * *)&((struct Obj00387 *)p)->f18=q;
     ((struct Obj24765 *)(*(char * *)&((struct Obj24764 *)q)->fC))->fC=zero;
     if(**(int * *)&((struct Obj24766 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC!=2) flag=zero;

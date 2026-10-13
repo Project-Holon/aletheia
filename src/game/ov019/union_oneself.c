@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_02030734  0x02030734  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
@@ -34,7 +34,7 @@
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   memcmp         0x0203EFC8  arm
  *   UNION_ONESELF_SetFieldBusy 0x0217BAF0 thumb ov019
  *   gUnionEmptyString1     0x021807E4  data a1
@@ -42,15 +42,15 @@
  *   UNION_COMMAND_SendMyMac  0x02173A90  thumb ov012
  *   UNION_COMM_ClearPartnerSelects  0x02173518  thumb  ov012
  *   UNION_COMM_AddMemberFromBeaconPc  0x021735FC  thumb  ov012
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   UNION_COMMAND_SendMyStatus  0x02173B4C  thumb  ov012
  *   func_02080D24  0x02080D24  arm
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_0201AA1C  0x0201AA1C  thumb
- *   func_0201AAD4  0x0201AAD4  thumb
- *   func_0201AA88  0x0201AA88  thumb
+ *   POKEPARTY_GetNonEggCount  0x0201AA1C  thumb
+ *   POKEPARTY_GetBadEggCount  0x0201AAD4  thumb
+ *   POKEPARTY_GetEggCount  0x0201AA88  thumb
  *   UNION_COMMAND_SendPartnerSelectA  0x02173A04  thumb ov012
  *   UNION_ONESELF_IsBattleStatus  0x0217B9BC  thumb ov019
  *   UNION_ONESELF_LoadRegulation  0x0217BA10  thumb ov019
@@ -69,7 +69,7 @@
  *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
  *   func_02008530  0x02008530  thumb
  *   func_0200ED54  0x0200ED54  thumb
- *   func_0201A920  0x0201A920  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
  *   UNION_COMM_SetGameKindByStatus  0x021736E0  thumb  ov012
  *   UNION_COMM_StartConnectSync  0x02172EDC  thumb  ov012
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
@@ -121,7 +121,7 @@
  *   COLOSSEUM_AllPartiesReceived  0x02175214  thumb  ov012
  *   COLOSSEUM_SendParty  0x02174D98  thumb  ov012
  *   COLOSSEUM_SendBattlePositions  0x02174DF0  thumb  ov012
- *   func_0201AC2C  0x0201AC2C  thumb
+ *   POKEPARTY_Copy  0x0201AC2C  thumb
  *   POKE_REGULATION_AdjustPartyLevels  0x0201A2A8  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   func_0200873C  0x0200873C  thumb
@@ -297,7 +297,7 @@ typedef struct UnionSceneFourParam {
 
 /* Draw parameters of G3D_SYSTEM_DrawObjectCulling (0x3C bytes). */
 
-extern void func_020061E4(u32 seId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const void *site, unsigned short tag);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern void UNION_MAIN_RequestScene(UnionRoomWork *unisys, int sceneId, int param);
@@ -317,22 +317,22 @@ extern void GFL_NET_NotifyUserEvent(u32 unused, void *value);
 extern void GFL_NET_SetLoginOption(u8 enable);
 extern int  GFL_NET_SYSTEM_GetConnectNum(void);
 extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int  memcmp(const void *a, const void *b, u32 n);
 extern void UNION_ONESELF_SetFieldBusy(UnionRoomWork *unisys, void *fieldMap, unsigned int busy);
 void func_02034714(const void *expr, u32 line, const void *file);
 int UNION_COMMAND_SendMyMac(void);
 extern void UNION_COMM_ClearPartnerSelects(void *connect);
 extern int UNION_COMM_AddMemberFromBeaconPc(void *connect, const void *connectPc);
-extern void func_02039C68(void *link, u32 phase, u32 count);
-extern u32 func_02039CB4(void *link, u32 phase, u32 count);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(void *link, u32 phase, u32 count);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(void *link, u32 phase, u32 count);
 extern int UNION_COMMAND_SendMyStatus(void *unisys);
 extern unsigned int func_02080D24(int bits);
 void *GAME_DATA_GetMyParty(const void *gameData);
 void *GAMESYSTEM_GetGameData(const void *gameSystem);
-u32 func_0201AA1C(void *party);
-u32 func_0201AAD4(void *party);
-u32 func_0201AA88(void *party);
+u32 POKEPARTY_GetNonEggCount(void *party);
+u32 POKEPARTY_GetBadEggCount(void *party);
+u32 POKEPARTY_GetEggCount(void *party);
 int UNION_COMMAND_SendPartnerSelectA(int choice, ...);
 int UNION_ONESELF_IsBattleStatus(unsigned int category);
 void UNION_ONESELF_LoadRegulation(UnionRoomWork *unisys, int category);
@@ -351,7 +351,7 @@ extern u32 GFL_NET_GetHandleNetID(void *link);
 extern void *GAME_DATA_GetPlayerStatus(void *gameData, u32 playerIndex);
 extern u32 func_02008530(const void *obj);
 extern void func_0200ED54(void *commState, u32 value);
-extern void *func_0201A920(u32 heap);
+extern void *POKEPARTY_Create(u32 heap);
 extern void UNION_COMM_SetGameKindByStatus(unsigned int category);
 extern void UNION_COMM_StartConnectSync(void *unisys);
 extern int GFL_NET_IsSessionNull(void);
@@ -403,7 +403,7 @@ void COLOSSEUM_ClearConfirmCount(void *colosseum);
 int COLOSSEUM_AllPartiesReceived(void *colosseum);
 u32 COLOSSEUM_SendParty(struct Party *party);
 int COLOSSEUM_SendBattlePositions(u32 choice);
-void func_0201AC2C(const void *src, void *dst);
+void POKEPARTY_Copy(const void *src, void *dst);
 void POKE_REGULATION_AdjustPartyLevels(void *regulation, void *party);
 void *GAME_DATA_GetMyItem(const void *gameData);
 void *func_0200873C(void *sys);
@@ -541,7 +541,7 @@ int UNION_ONESELF_ChatInputMain(UnionRoomWork *unisys, UnionMySituation *situati
         if (unisys->talkCancel == 0)
             return 1;
         unisys->talkCancel = 0;
-        func_020061E4(0x54B);
+        GFL_USE_PlaySeDefaultVolume(0x54B);
         param = func_02030734(4, 12, 1, (const char *)d_021807E8, 0x41A);
         param->saveData = GAME_DATA_GetSaveControl(unisys->parent->gameData);
         unisys->sceneParam = param;
@@ -570,7 +570,7 @@ int UNION_ONESELF_ChatInputMain(UnionRoomWork *unisys, UnionMySituation *situati
 
 int UNION_ONESELF_ConnectParentStart(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap)
 {
-    func_020061E4(0x547);
+    GFL_USE_PlaySeDefaultVolume(0x547);
     UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, 0xE2);
     return 1;
 }
@@ -617,7 +617,7 @@ int UNION_ONESELF_ConnectParentMain(UnionRoomWork *unisys, UnionMySituation *sit
             }
         } else {
             situation->waitTimer++;
-            if (situation->waitTimer > 600 || (func_020362DC() & 2)) {
+            if (situation->waitTimer > 600 || (KEY_GetTrg() & 2)) {
                 UNION_COMM_RequestRestart(unisys);
                 UNION_ONESELF_SetNextPlayCategory(unisys, 0);
                 UNION_COMM_SetSituationParam(unisys, 1, 0);
@@ -639,7 +639,7 @@ int UNION_ONESELF_ConnectParentMain(UnionRoomWork *unisys, UnionMySituation *sit
                 }
             } else {
                 if (UNION_COMMAND_SendPartnerMode(1) == 1) {
-                    func_020061E4(0x806);
+                    GFL_USE_PlaySeDefaultVolume(0x806);
                     UNION_ONESELF_SetNextPlayCategory(unisys, 7);
                     UNION_COMM_SetSituationParam(unisys, 3, (u32)situation->connect.talkPc);
                     UNION_COMM_SetSituationParam(unisys, 1, 0);
@@ -654,7 +654,7 @@ int UNION_ONESELF_ConnectParentMain(UnionRoomWork *unisys, UnionMySituation *sit
         }
         break;
     case 4:
-        if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1 && (func_020362DC() & 0xF3)) {
+        if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1 && (KEY_GetTrg() & 0xF3)) {
             return 1;
         }
         break;
@@ -696,7 +696,7 @@ int UNION_ONESELF_ConnectParentEnd(UnionRoomWork *unisys)
 
 int UNION_ONESELF_ConnectChildStart(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap)
 {
-    func_020061E4(0x806);
+    GFL_USE_PlaySeDefaultVolume(0x806);
     UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, 7);
     UNION_ONESELF_SetFieldBusy(unisys, fieldMap, 1);
     return 1;
@@ -726,7 +726,7 @@ int UNION_ONESELF_ConnectChildMain(UnionRoomWork *unisys, UnionMySituation *situ
             break;
         }
         situation->waitTimer++;
-        if (situation->waitTimer > 600 || (func_020362DC() & 2)) {
+        if (situation->waitTimer > 600 || (KEY_GetTrg() & 2)) {
             UNION_COMM_RequestRestart(unisys);
             UNION_ONESELF_SetNextPlayCategory(unisys, 0);
             UNION_COMM_SetSituationParam(unisys, 2, 0);
@@ -738,7 +738,7 @@ int UNION_ONESELF_ConnectChildMain(UnionRoomWork *unisys, UnionMySituation *situ
         }
         break;
     case 2:
-        if (UNION_COMM_IsResetting(unisys) == 0 && UNION_MSG_CheckTalkPrintEnd(unisys) == 1 && (func_020362DC() & 0xf3))
+        if (UNION_COMM_IsResetting(unisys) == 0 && UNION_MSG_CheckTalkPrintEnd(unisys) == 1 && (KEY_GetTrg() & 0xf3))
             return 1;
         break;
     case 3:
@@ -761,7 +761,7 @@ int UNION_ONESELF_ConnectChildMain(UnionRoomWork *unisys, UnionMySituation *situ
         }
         break;
     case 5:
-        if (UNION_COMM_IsResetting(unisys) == 0 && UNION_MSG_CheckTalkPrintEnd(unisys) == 1 && (func_020362DC() & 0xf3)) {
+        if (UNION_COMM_IsResetting(unisys) == 0 && UNION_MSG_CheckTalkPrintEnd(unisys) == 1 && (KEY_GetTrg() & 0xf3)) {
             UNION_ONESELF_SetNextPlayCategory(unisys, 0);
             return 1;
         }
@@ -799,12 +799,12 @@ int UNION_ONESELF_TalkParentStart(UnionRoomWork *unisys, UnionMySituation *situa
         UNION_COMM_SetSituationParam(unisys, 4, 1);
         UNION_COMM_AddMemberFromBeaconPc(&situation->connect, (situation->connect.connectPc));
         commLink = GFL_NET_HANDLE_GetCurrentHandle();
-        func_02039C68(commLink, 2, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange(commLink, 2, 0x14);
         (*seq)++;
         break;
     case 1:
         commLink = GFL_NET_HANDLE_GetCurrentHandle();
-        if (func_02039CB4(commLink, 2, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange(commLink, 2, 0x14) == 1)
             (*seq)++;
         break;
     case 2:
@@ -865,17 +865,17 @@ int UNION_ONESELF_TalkParentMain(UnionRoomWork *unisys, UnionMySituation *situat
         }
         if (menuResult == 0x18) {
             GAMESYSTEM_GetGameData(unisys->parent->gameSystem);
-            if ((int)func_0201AA1C(party) < 2) {
+            if ((int)POKEPARTY_GetNonEggCount(party) < 2) {
                 UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217ECA0(situation->connect.talkParam->sex));
                 *seq = 4;
                 break;
             }
         } else if (menuResult == 0x19) {
-            if ((int)func_0201AAD4(party) > 0) {
+            if ((int)POKEPARTY_GetBadEggCount(party) > 0) {
                 UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217ECB8(unisys));
                 *seq = 4;
                 break;
-            } else if (func_0201AA88(party) == 0) {
+            } else if (POKEPARTY_GetEggCount(party) == 0) {
                 UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, func_0217ECAC(situation->connect.talkParam->sex));
                 *seq = 4;
                 break;
@@ -961,12 +961,12 @@ int UNION_ONESELF_TalkChildStart(UnionRoomWork *unisys, UnionMySituation *situat
         UNION_COMM_SetSituationParam(unisys, 4, 1);
         UNION_COMM_AddMemberFromBeaconPc(&situation->connect, (situation->connect.connectPc));
         commLink = GFL_NET_HANDLE_GetCurrentHandle();
-        func_02039C68(commLink, 2, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange(commLink, 2, 0x14);
         (*seq)++;
         break;
     case 1:
         commLink = GFL_NET_HANDLE_GetCurrentHandle();
-        if (func_02039CB4(commLink, 2, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange(commLink, 2, 0x14) == 1)
             (*seq)++;
         break;
     case 2:
@@ -1043,15 +1043,15 @@ int UNION_ONESELF_TalkChildMain(UnionRoomWork *unisys, UnionMySituation *situati
             accepted = 0;
         } else if (situation->connect.partnerSelectA == 0x18 && accepted == 1) {
             GAMESYSTEM_GetGameData(unisys->parent->gameSystem);
-            if ((int)func_0201AA1C(party) < 2) {
+            if ((int)POKEPARTY_GetNonEggCount(party) < 2) {
                 accepted = 0;
                 situation->subState = 1;
             }
         } else if (situation->connect.partnerSelectA == 0x19 && accepted == 1) {
-            if ((int)func_0201AAD4(party) > 0) {
+            if ((int)POKEPARTY_GetBadEggCount(party) > 0) {
                 accepted = 0;
                 situation->subState = 3;
-            } else if (func_0201AA88(party) == 0) {
+            } else if (POKEPARTY_GetEggCount(party) == 0) {
                 accepted = 0;
                 situation->subState = 2;
             }
@@ -1072,7 +1072,7 @@ int UNION_ONESELF_TalkChildMain(UnionRoomWork *unisys, UnionMySituation *situati
         (*seq)++;
         break;
     case 7:
-        if (UNION_MSG_CheckRegulationPrintEnd(unisys, (u32)fieldMap) == 1 && (func_020362DC() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd(unisys, (u32)fieldMap) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow(unisys);
             if (situation->teamFailMask == -1)
                 *seq = 10;
@@ -1085,7 +1085,7 @@ int UNION_ONESELF_TalkChildMain(UnionRoomWork *unisys, UnionMySituation *situati
         (*seq)++;
         break;
     case 9:
-        if (UNION_MSG_CheckRegulationPrintEnd(unisys, (u32)fieldMap) == 1 && (func_020362DC() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd(unisys, (u32)fieldMap) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow(unisys);
             *seq = 10;
         }
@@ -1187,7 +1187,7 @@ int UNION_ONESELF_BattleMenuMain(UnionRoomWork *unisys, UnionMySituation *situat
         (*seq)++;
         break;
     case 4:
-        if (UNION_MSG_CheckRegulationPrintEnd(unisys, (u32)fieldMap) == 1 && (func_020362DC() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd(unisys, (u32)fieldMap) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow(unisys);
             *seq = 1;
         }
@@ -1197,7 +1197,7 @@ int UNION_ONESELF_BattleMenuMain(UnionRoomWork *unisys, UnionMySituation *situat
         (*seq)++;
         break;
     case 6:
-        if (UNION_MSG_CheckRegulationPrintEnd(unisys, (u32)fieldMap) == 1 && (func_020362DC() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd(unisys, (u32)fieldMap) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow(unisys);
             if (situation->teamFailMask == -1)
                 *seq = 9;
@@ -1210,7 +1210,7 @@ int UNION_ONESELF_BattleMenuMain(UnionRoomWork *unisys, UnionMySituation *situat
         (*seq)++;
         break;
     case 8:
-        if (UNION_MSG_CheckRegulationPrintEnd(unisys, (u32)fieldMap) == 1 && (func_020362DC() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd(unisys, (u32)fieldMap) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow(unisys);
             *seq = 9;
         }
@@ -1272,7 +1272,7 @@ int UNION_ONESELF_TalkPlayingMain(UnionRoomWork *unisys, UnionMySituation *situa
         }
         break;
     case 2:
-        if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1 && (func_020362DC() & 0xf3)) return 1;
+        if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1 && (KEY_GetTrg() & 0xf3)) return 1;
         break;
     case 1:
         if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1) return 1;
@@ -1304,7 +1304,7 @@ int UNION_ONESELF_TalkPlayingMain(UnionRoomWork *unisys, UnionMySituation *situa
         UNION_MSG_SetupRegulationWindow(unisys,(int)fieldMap,(int)situation->partyFailMask,UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA),1); (*seq)++;
         break;
     case 7:
-        if (UNION_MSG_CheckRegulationPrintEnd(unisys,(u32)fieldMap) == 1 && (func_020362DC() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd(unisys,(u32)fieldMap) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow(unisys);
             if (situation->teamFailMask == -1) *seq = 1; else (*seq)++;
         }
@@ -1313,7 +1313,7 @@ int UNION_ONESELF_TalkPlayingMain(UnionRoomWork *unisys, UnionMySituation *situa
         UNION_MSG_SetupRegulationWindow(unisys,(int)fieldMap,(int)situation->partyFailMask,UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA),2); (*seq)++;
         break;
     case 9:
-        if (UNION_MSG_CheckRegulationPrintEnd(unisys,(u32)fieldMap) == 1 && (func_020362DC() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd(unisys,(u32)fieldMap) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow(unisys); *seq = 1;
         }
         break;
@@ -1337,10 +1337,10 @@ int UNION_ONESELF_TalkPlayingMain(UnionRoomWork *unisys, UnionMySituation *situa
                 case 3: UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217EE04(situation->connect.talkParam->sex)); break;
                 case 25:
                     party = GAME_DATA_GetMyParty(unisys->parent->gameData);
-                    if ((int)func_0201AAD4(party) > 0) {
+                    if ((int)POKEPARTY_GetBadEggCount(party) > 0) {
                         UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217EDD4(situation->connect.talkParam->sex));
                         UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq = 2;
-                    } else if (func_0201AA88(party) == 0) {
+                    } else if (POKEPARTY_GetEggCount(party) == 0) {
                         UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217EDC8(situation->connect.talkParam->sex));
                         UNION_ONESELF_SetNextPlayCategory(unisys, 0); *seq = 2;
                     } else UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,func_0217EDE0(situation->connect.talkParam->sex));
@@ -1399,7 +1399,7 @@ int UNION_ONESELF_TalkPlayingChildMain(UnionRoomWork *unisys, UnionMySituation *
         (*seq)++;
         break;
     case 1:
-        if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1 && (func_020362DC() & 0xf3))
+        if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1 && (KEY_GetTrg() & 0xf3))
             return 1;
         break;
     }
@@ -1427,12 +1427,12 @@ int UNION_ONESELF_TrainerCardMain(UnionRoomWork *unisys, UnionMySituation *situa
         unisys->recvTrainerCard = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B5);
         TRCARD_SYS_BuildProfile(unisys->myTrainerCard, unisys->parent->gameData, 1, 0, 0x41);
         func_02082D44(unisys->myTrainerCard, unisys->recvTrainerCard, 0x678);
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x14);
         UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_CheckLanguageVersion(unisys, situation->connect.talkParam->nation, situation->connect.talkParam->area));
         (*seq)++;
         break;
     case 1:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x14) == 1)
             (*seq)++;
         break;
     case 2:
@@ -1448,11 +1448,11 @@ int UNION_ONESELF_TrainerCardMain(UnionRoomWork *unisys, UnionMySituation *situa
         }
         break;
     case 4:
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 4, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 4, 0x14);
         (*seq)++;
         break;
     case 5:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 4, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 4, 0x14) == 1)
             (*seq)++;
         break;
     case 6:
@@ -1465,11 +1465,11 @@ int UNION_ONESELF_TrainerCardMain(UnionRoomWork *unisys, UnionMySituation *situa
         break;
     case 8:
         UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, 0x10);
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 5, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 5, 0x14);
         (*seq)++;
         break;
     case 9:
-        if (UNION_MSG_CheckTalkPrintEnd(unisys) != 0 && func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 5, 0x14) == 1) {
+        if (UNION_MSG_CheckTalkPrintEnd(unisys) != 0 && GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 5, 0x14) == 1) {
             func_020307B0(unisys->myTrainerCard);
             func_020307B0(unisys->recvTrainerCard);
             unisys->partnerCard = 0;
@@ -1509,12 +1509,12 @@ int UNION_ONESELF_TradeMain(UnionRoomWork *unisys, UnionMySituation *situation, 
         break;
     case 1:
         if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1) {
-            func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 6, 0x14);
+            GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 6, 0x14);
             (*seq)++;
         }
         break;
     case 2:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 6, 0x14) == 1) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 6, 0x14) == 1) {
             gameData = GAMESYSTEM_GetGameData(unisys->parent->gameSystem);
             commState = func_0200ED48(GAME_DATA_GetSaveControl(gameData));
             func_0200ED54(commState, func_02008530(GAME_DATA_GetPlayerStatus(gameData, GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) ^ 1)));
@@ -1524,7 +1524,7 @@ int UNION_ONESELF_TradeMain(UnionRoomWork *unisys, UnionMySituation *situation, 
     case 3:
         param = func_02030734(0x41, 0x30, 1, (const char *)d_021807E8, 0xA54);
         param->gameData = (int)GAMESYSTEM_GetGameData(unisys->parent->gameSystem);
-        param->party = (int)func_0201A920(0x41);
+        param->party = (int)POKEPARTY_Create(0x41);
         setup = func_02030734(4, 0x14, 0, (const char *)d_021807E8, 0xA5B);
         setup->gameData = param->gameData;
         setup->party = param->party;
@@ -1551,11 +1551,11 @@ int UNION_ONESELF_TradeMain(UnionRoomWork *unisys, UnionMySituation *situation, 
         break;
     case 5:
         UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, 0x10);
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 7, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 7, 0x14);
         (*seq)++;
         break;
     case 6:
-        if (UNION_MSG_CheckTalkPrintEnd(unisys) != 0 && func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 7, 0x14) == 1) {
+        if (UNION_MSG_CheckTalkPrintEnd(unisys) != 0 && GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 7, 0x14) == 1) {
             if (GFL_NET_IsParentAid() == 1)
                 UNION_ONESELF_SetNextPlayCategory(unisys, 7);
             else
@@ -1628,7 +1628,7 @@ int UNION_ONESELF_JoinMain(UnionRoomWork *unisys, UnionMySituation *situation, v
             }
         } else {
             situation->waitTimer++;
-            if (situation->waitTimer > 600 || (func_020362DC() & 2)) {
+            if (situation->waitTimer > 600 || (KEY_GetTrg() & 2)) {
                 situation->connect.serviceLocked = 0;
                 UNION_ONESELF_SetNextPlayCategory(unisys, (int)0);
                 *seq = 4;
@@ -1707,7 +1707,7 @@ int UNION_ONESELF_ConnectGroupMain(UnionRoomWork *unisys, UnionMySituation *situ
         break;
     case 3:
         if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1) {
-            if (func_020362DC() & 0xf3)
+            if (KEY_GetTrg() & 0xf3)
                 return 1;
         }
         break;
@@ -1737,11 +1737,11 @@ int UNION_ONESELF_AppMain(UnionRoomWork *unisys, UnionMySituation *situation, vo
             (*seq)++;
         break;
     case 1:
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 8, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 8, 0x14);
         (*seq)++;
         break;
     case 2:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 8, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 8, 0x14) == 1)
             (*seq)++;
         break;
     case 3:
@@ -1839,11 +1839,11 @@ int UNION_ONESELF_ColosseumEnterParentMain(UnionRoomWork *unisys, UnionMySituati
             (*seq)++;
         break;
     case 2:
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0xb, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xb, 0x14);
         (*seq)++;
         break;
     case 3:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0xb, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xb, 0x14) == 1)
             (*seq)++;
         break;
     case 4:
@@ -1887,12 +1887,12 @@ int UNION_ONESELF_ColosseumEnterChildMain(UnionRoomWork *unisys, UnionMySituatio
         break;
     case 2:
         if (situation->connect.serviceFlag == 0)
-            func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0xb, 0x14);
+            GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xb, 0x14);
         (*seq)++;
         break;
     case 3:
         if (situation->connect.serviceFlag == 0) {
-            if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0xb, 0x14) == 1)
+            if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xb, 0x14) == 1)
                 (*seq)++;
         } else {
             (*seq)++;
@@ -1969,13 +1969,13 @@ int UNION_ONESELF_ColosseumEntryMain(UnionRoomWork *unisys, UnionMySituation *si
         }
         if (situation->connect.serviceFlag == 0) {
             UNION_COMM_SetGameKindByStatus(situation->status);
-            func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0xc, 0x14);
+            GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xc, 0x14);
         }
         (*seq)++;
         break;
     case 1:
         if (situation->connect.serviceFlag == 0) {
-            if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0xc, 0x14) == 1) {
+            if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xc, 0x14) == 1) {
                 GFL_NET_NotifyUserEvent((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
                 (*seq)++;
             }
@@ -2085,20 +2085,20 @@ int UNION_ONESELF_ColosseumSetupMain(UnionRoomWork *unisys, UnionMySituation *si
 
     switch (*seq) {
     case 0:
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0xd, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xd, 0x14);
         (*seq)++;
         break;
     case 1:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0xd, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xd, 0x14) == 1)
             (*seq)++;
         break;
     case 2:
         COLOSSEUM_AddCommandTable(unisys);
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0xe, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xe, 0x14);
         (*seq)++;
         break;
     case 3:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0xe, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xe, 0x14) == 1)
             (*seq)++;
         break;
     case 4:
@@ -2119,11 +2119,11 @@ int UNION_ONESELF_ColosseumSetupMain(UnionRoomWork *unisys, UnionMySituation *si
         }
         break;
     case 6:
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x14);
         (*seq)++;
         break;
     case 7:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x14) == 1)
             (*seq)++;
         break;
     case 8:
@@ -2196,7 +2196,7 @@ int UNION_ONESELF_ColosseumFreeMoveMain(UnionRoomWork *unisys, UnionMySituation 
             UNION_ONESELF_SetFieldBusy(unisys, fieldMap, 1);
             return 1;
         }
-        if (func_020362DC() & 1) {
+        if (KEY_GetTrg() & 1) {
             found = 0;
             FIELD_PLAYER_GetFrontGridPos((u32)fieldCtrl, (u32)(&position[2]), (u32)(&position[1]), (u32)(&position[0]));
             if (COMM_PLAYER_ForwardRequest((void *)(colosseum->commPlayer), position[2], position[1], position[0], (int)(&talkPlayer), (int)(&found)) == 1) {
@@ -2408,7 +2408,7 @@ int UNION_ONESELF_ColosseumPartySelectMain(UnionRoomWork *unisys, UnionMySituati
         }
         break;
     case 6:
-        if (func_020362DC() & 3) {
+        if (KEY_GetTrg() & 3) {
             UNION_MSG_DeleteRegulationWindow(unisys);
             if (situation->subState == 0) {
                 *seq = 0;
@@ -2454,7 +2454,7 @@ int UNION_ONESELF_ColosseumReadyWaitMain(UnionRoomWork *unisys, UnionMySituation
         }
         break;
     case 2:
-        if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1 && (func_020362DC() & 2))
+        if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1 && (KEY_GetTrg() & 2))
             *seq = 100;
         break;
     case 100:
@@ -2493,11 +2493,11 @@ int UNION_ONESELF_ColosseumPartyExchangeMain(UnionRoomWork *unisys, UnionMySitua
         switch (colosseum->partySource) {
         case 0:
         default:
-            func_0201AC2C(GAME_DATA_GetMyParty(unisys->parent->gameData), (colosseum->party[myIndex]));
+            POKEPARTY_Copy(GAME_DATA_GetMyParty(unisys->parent->gameData), (colosseum->party[myIndex]));
             break;
         case 1:
             party = UNION_ONESELF_CreateBattleTeamParty(unisys);
-            func_0201AC2C(party, (colosseum->party[myIndex]));
+            POKEPARTY_Copy(party, (colosseum->party[myIndex]));
             UNION_ONESELF_DeleteParty(party);
             break;
         }
@@ -2508,11 +2508,11 @@ int UNION_ONESELF_ColosseumPartyExchangeMain(UnionRoomWork *unisys, UnionMySitua
         COLOSSEUM_ResetParties(colosseum, 1);
         COLOSSEUM_ClearPositionsReceived(colosseum);
         COLOSSEUM_ClearConfirmCount(colosseum);
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0x14, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x14, 0x14);
         (*seq)++;
         break;
     case 2:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x14, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x14, 0x14) == 1)
             (*seq)++;
         break;
     case 3:
@@ -2524,11 +2524,11 @@ int UNION_ONESELF_ColosseumPartyExchangeMain(UnionRoomWork *unisys, UnionMySitua
             (*seq)++;
         break;
     case 5:
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0x10, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x10, 0x14);
         (*seq)++;
         break;
     case 6:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x10, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x10, 0x14) == 1)
             (*seq)++;
         break;
     case 7:
@@ -2604,12 +2604,12 @@ int UNION_ONESELF_ColosseumBattleMain(UnionRoomWork *unisys, UnionMySituation *s
         break;
     case 1:
         if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1) {
-            func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 0x14);
+            GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 0x14);
             (*seq)++;
         }
         break;
     case 2:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 0x14) == 1) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 0x14) == 1) {
             UNION_MSG_CloseAllWindows(unisys);
             (*seq)++;
         }
@@ -2757,11 +2757,11 @@ int UNION_ONESELF_ColosseumExitMain(UnionRoomWork *unisys, UnionMySituation *sit
             (*seq)++;
         break;
     case 4:
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0x13, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x13, 0x14);
         (*seq)++;
         break;
     case 5:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x13, 0x14) == 1) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x13, 0x14) == 1) {
             GFL_NET_SetLoginOption(0);
             (*seq)++;
         }
@@ -2871,7 +2871,7 @@ int UNION_ONESELF_ColosseumTrainerCardMain(UnionRoomWork *unisys, UnionMySituati
         (*seq)++;
         break;
     case 1:
-        if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1 && (func_020362DC() & 3)) {
+        if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_CloseAllWindows(unisys);
             ((u8 *)colosseum->trainerCard[colosseum->talkPlayer])[4] |= 0x20;
             partnerCard = TRCARD_SYS_CreateEditWork(unisys->parent->gameData, (u8 *)colosseum->trainerCard[colosseum->talkPlayer], 0x41);

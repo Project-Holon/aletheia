@@ -13,7 +13,7 @@
  *   func_021BF814 0x021BF814 thumb ov110
  *   func_021BC78C 0x021BC78C thumb ov110
  *   STRBUF_Create 0x020457B0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_02040804 0x02040804 arm
@@ -34,7 +34,7 @@ struct CharBuf;
 struct Descriptor;
 struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_021BF814(u8 *p, u32 a, int b);
 extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
@@ -52,13 +52,13 @@ void func_021BBA10(u8 *p,unsigned n)
     owner=func_021BAC4C(*(u8 * *)&((struct Obj02460 *)p)->f0);
     font=func_021BAC44(*(u8 * *)&((struct Obj02460 *)p)->f0);
     str=STRBUF_Create(15,42);
-    BMP_Clear(func_02045770(((struct Obj02460 *)p)->f98),15);
+    BMP_Clear(BMP_WIN_GetBmp(((struct Obj02460 *)p)->f98),15);
     ((struct Obj02460 *)p)->f9C=((struct Obj02460 *)p)->f98;
     p[0xa0]=0;
     for(i=0;i<n;i++) {
         if(i%2==0) x=8; else x=128;
         func_021BF814(*(u8 * *)&((struct Obj02460 *)p)->f4,i,(int)str);
-        PRINTSYS_PrintQueColor((void *)owner,(u32)func_02045770(((struct Obj02460 *)p)->f9C),(s16)x,(s16)((i/2)*16),(u32)str,font,1103);
+        PRINTSYS_PrintQueColor((void *)owner,(u32)BMP_WIN_GetBmp(((struct Obj02460 *)p)->f9C),(s16)x,(s16)((i/2)*16),(u32)str,font,1103);
         p[0xa0]=1;
     }
     STRBUF_Delete(str);

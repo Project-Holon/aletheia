@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02177B2C 0x02177B2C thumb ov014
+ *   NET_WHPIPE_GetEntryBeaconData 0x02177B2C thumb ov014
  */
 typedef unsigned char  u8;
-extern u8 *func_02177B2C(int i);
+extern u8 *NET_WHPIPE_GetEntryBeaconData(int i);
 void *GFL_NET_DEVWIRELESS_GetScanResult(int index)
 {
     if (index >= 16) return 0;
-    return func_02177B2C(index);
+    return NET_WHPIPE_GetEntryBeaconData(index);
 }

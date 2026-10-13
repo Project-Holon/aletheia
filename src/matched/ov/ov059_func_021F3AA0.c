@@ -13,7 +13,7 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  *   FLD_EXP_OBJ_SetModelHidden  0x021BE4B4  thumb  ov021
  *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
@@ -36,7 +36,7 @@ struct Ctx;
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int *FIELDMAP_GetCommonWork(char *p, int idx);
 extern int FIELDMAP_GetExpObj(int *p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern V *FLD_EXP_OBJ_GetModelStatus(void *p, int i, u16 j);
 extern void FLD_EXP_OBJ_SetModelHidden(char *p, int i, int j, int v);
 extern u8 *FLD_EXP_OBJ_GetAnime(void *p, int i, u16 j, u16 k);
@@ -57,9 +57,9 @@ void SP_POKE_GIMMICK_ShowAndPlay(void *a, int b, V *c)
     s = (void *)FIELDMAP_GetExpObj(t);
     if (b == 0) {
         flag = 0;
-        func_020061E4(0x567);
+        GFL_USE_PlaySeDefaultVolume(0x567);
     } else {
-        func_020061E4(0x793);
+        GFL_USE_PlaySeDefaultVolume(0x793);
     }
     *FLD_EXP_OBJ_GetModelStatus(s, 0, flag) = *c;
     FLD_EXP_OBJ_SetModelHidden(s, 0, (u16)flag, 0);

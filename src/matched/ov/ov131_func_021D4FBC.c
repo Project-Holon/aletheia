@@ -16,8 +16,8 @@
  * symbols:
  *   g_BFA0 0x021DBFA0 data ov131
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   P_STATUS_CanUseButtons 0x021D62E4 thumb ov131
  *   P_STA_SUB_CreateObjects 0x021D6810 thumb ov131
  *   P_STA_RIBBON_CreateObjects 0x021D8938 thumb ov131
@@ -33,8 +33,8 @@ struct Context {u8 prefix[0x100];u8 rest[0x74];void *bank;void *actors[8];};
 extern struct Bytes g_BFA0[3];
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern int P_STATUS_CanUseButtons(char *);
 extern void P_STA_SUB_CreateObjects(u8 *a, u8 *p);
 extern void P_STA_RIBBON_CreateObjects(u8 *a, u8 *p);
@@ -53,15 +53,15 @@ void P_STATUS_CreateButtonActors(struct Context *ctx)
         else{a=((struct Obj00591 *)p)->fCC;b=((struct Obj00591 *)p)->f100;}
         d.x=x.v[i];d.y=(i==3)?172:168;d.z=z.v[i];
         ctx->actors[i]=CLACT_CreateActor(ctx->bank,a,((struct Obj00591 *)p)->f98,b,&d,0,((struct Obj00591 *)p)->f0);
-        func_0204B92C(ctx->actors[i],1);
-        func_0204B3DC(ctx->actors[i],1);
+        CLACT_SetActorAutoAnim(ctx->actors[i],1);
+        CLACT_SetActorDrawEnable(ctx->actors[i],1);
     }
     d.x=0;d.y=0;d.z=0;
     ((struct Obj00591 *)p)->f198=CLACT_CreateActor((void *)*(u32 *)&((struct Obj00591 *)p)->f174,((struct Obj00591 *)p)->f130,((struct Obj00591 *)p)->fA4,((struct Obj00591 *)p)->f10C,&d,0,((struct Obj00591 *)p)->f0);
     ((struct Obj00591 *)p)->f19C=CLACT_CreateActor((void *)*(u32 *)&((struct Obj00591 *)p)->f174,((struct Obj00591 *)p)->f130,((struct Obj00591 *)p)->fA4,((struct Obj00591 *)p)->f10C,&d,0,((struct Obj00591 *)p)->f0);
-    for(j=0;j<2;j++)func_0204B3DC(*(void **)(p+0x198+j*4),0);
-    if((*(u8 **)(p+8))[13]==2)for(i=0;i<8;i++)if(i!=7)func_0204B3DC(*(void **)(p+0x178+i*4),0);
-    if(P_STATUS_CanUseButtons(p)==0){func_0204B3DC(((struct Obj00591 *)p)->f190,0);func_0204B3DC(((struct Obj00591 *)p)->f184,0);}
+    for(j=0;j<2;j++)CLACT_SetActorDrawEnable(*(void **)(p+0x198+j*4),0);
+    if((*(u8 **)(p+8))[13]==2)for(i=0;i<8;i++)if(i!=7)CLACT_SetActorDrawEnable(*(void **)(p+0x178+i*4),0);
+    if(P_STATUS_CanUseButtons(p)==0){CLACT_SetActorDrawEnable(((struct Obj00591 *)p)->f190,0);CLACT_SetActorDrawEnable(((struct Obj00591 *)p)->f184,0);}
     P_STA_SUB_CreateObjects((u8 *)p,((struct Obj00591 *)p)->f88);
     P_STA_RIBBON_CreateObjects((u8 *)p,((struct Obj00591 *)p)->f94);
     P_STA_SKILL_CreateObjects((u8 *)p,((struct Obj00591 *)p)->f90);

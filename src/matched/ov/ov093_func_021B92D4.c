@@ -1,5 +1,5 @@
 /*
- * function: func_021B92D4
+ * function: BTL_MAIN_UpdateFriendship
  * address:  0x021B92D4
  * packet:   pkt_ov093_021B92D4
  * region:   ov093
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
- *   func_021B9940  0x021B9940  thumb  ov093
+ *   BTL_SIDE_GetPokeById  0x021B9940  thumb  ov093
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   BTL_MAIN_GetFieldSituation  0x021B8714  thumb  ov093
  *   NATSUKI_Calc  0x0201B7A0  thumb
@@ -23,12 +23,12 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern u8 *func_021B9940(char *p, u8 i);
+extern u8 *BTL_SIDE_GetPokeById(char *p, u8 i);
 extern void *BTL_POKEPARAM_GetMon(void *m);
 extern char *BTL_MAIN_GetFieldSituation(char **p);
 extern void NATSUKI_Calc(void *a0, int a1, int a2, int a3);
 
-void func_021B92D4(char *p, void *m, int c)
+void BTL_MAIN_UpdateFriendship(char *p, void *m, int c)
 {
     u8 i;
     void *x;
@@ -36,8 +36,8 @@ void func_021B92D4(char *p, void *m, int c)
     char *e;
 
     i = BTL_POKEPARAM_GetPokeId(m);
-    x = func_021B9940(p + 0x1b0, i);
-    y = func_021B9940(p + 0xc8, i);
+    x = BTL_SIDE_GetPokeById(p + 0x1b0, i);
+    y = BTL_SIDE_GetPokeById(p + 0xc8, i);
     x = BTL_POKEPARAM_GetMon(x);
     y = BTL_POKEPARAM_GetMon(y);
     e = BTL_MAIN_GetFieldSituation((char **)p);

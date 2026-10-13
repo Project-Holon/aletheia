@@ -13,7 +13,7 @@
  *   func_021EF5E8 0x021EF5E8 thumb ov170
  *   func_020260E4 0x020260E4 thumb
  *   func_021EE408 0x021EE408 thumb ov170
- *   func_0203633C 0x0203633C arm
+ *   KEY_GetRepeat 0x0203633C arm
  *   func_021DD238 0x021DD238 thumb ov170
  */
 struct WinMgr;
@@ -24,7 +24,7 @@ extern int func_02025DE8(struct Sound *obj);
 extern int func_021EF5E8(struct WinMgr *mgr);
 extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EE408(char *, int);
-extern unsigned int func_0203633C(void);
+extern unsigned int KEY_GetRepeat(void);
 extern void func_021DD238(char *);
 #define WORK(p) (*(char **)((p)+0x2c))
 #define OBJ(p) (*(void **)(WORK(p)+0x70))
@@ -48,8 +48,8 @@ unsigned func_021EEEA4(char *p)
         return -1;
     }
     if(r==-1) {
-        if(func_0203633C()&0x200) { func_021DD238(p); return 0x1f; }
-        if(func_0203633C()&0x100) { func_021DD238(p); return 0x20; }
+        if(KEY_GetRepeat()&0x200) { func_021DD238(p); return 0x1f; }
+        if(KEY_GetRepeat()&0x100) { func_021DD238(p); return 0x20; }
     }
     return r;
 }

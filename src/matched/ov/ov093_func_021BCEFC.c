@@ -8,26 +8,26 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * interface: func_021CC8D8 returns its four-byte Lock in r0; use the
+ * interface: BTL_SERVER_FLOW_BeginHandExScope returns its four-byte Lock in r0; use the
  * full-word payload spelling of matched caller BTL_SERVER_FLOW_ProcPreTurnMoveCheck. The entire
- * func_021CC95C body is str r1,[r0]; bx lr, retaining every payload bit.
+ * BTL_SERVER_FLOW_EndHandExScope body is str r1,[r0]; bx lr, retaining every payload bit.
  * Aggregate spelling added eight bytes of frame; paired fixed-flag
  * runs were DIFF (60 bytes) and EXACT (56 bytes). Calls and stores agree.
  * symbols:
- *   func_021CC8D8 0x021CC8D8 thumb ov093
+ *   BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
  *   BTL_SERVER_FLOW_DispatchActionStartEvent 0x021BCF34 thumb ov093
- *   func_021CC95C 0x021CC95C thumb ov093
+ *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Lock { u32 a:10, b:9, c:9, d:1, e:1, f:1, g:1; };
-extern u32 func_021CC8D8(struct Lock *, int);
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(struct Lock *, int);
 extern void BTL_SERVER_FLOW_DispatchActionStartEvent(u8 *, u8 *, u32);
-extern void func_021CC95C(u32 *p, u32 v, int line);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 void BTL_SERVER_FLOW_NotifyActionStart(u8 *p, u8 *a, u32 k)
 {
     int line = 0x854;
-    u32 old = func_021CC8D8((struct Lock *)(p + 0x1d74), line);
+    u32 old = BTL_SERVER_FLOW_BeginHandExScope((struct Lock *)(p + 0x1d74), line);
     BTL_SERVER_FLOW_DispatchActionStartEvent(p, a, k);
-    func_021CC95C((u32 *)(p + 0x1d74), old, line + 3);
+    BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), old, line + 3);
 }

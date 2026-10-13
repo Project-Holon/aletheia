@@ -53,7 +53,7 @@
  *   func_02065CE4  0x02065CE4  arm
  *   func_02065D4C  0x02065D4C  arm
  *   func_02066080  0x02066080  arm
- *   g_020A1B38     0x020A1B38  data
+ *   FX_SinCosTable_     0x020A1B38  data
  *   _fflt          0x0209BDBC  arm
  *   _ffix          0x0209C494  arm
  *   _fadd          0x0209C95C  arm
@@ -89,7 +89,7 @@ struct Obj {
     u32 unk_a4;        /* 0xa4 */
 };
 
-extern s16 g_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 extern void func_020663D0(s32 x, s32 y, s32 z);
 extern void func_020664CC(s32 x, s32 y, s32 z);
@@ -118,7 +118,7 @@ void CLACT_ApplyActorTransform(struct Obj *o)
         func_020664CC(o->unk_14, o->unk_18, 0x1000);
 
         i = o->unk_58 >> 4;
-        func_02066620(g_020A1B38[i * 2], g_020A1B38[i * 2 + 1]);
+        func_02066620(FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
 
         CONV(a, o->unk_12);
         CONV(b, o->unk_10);

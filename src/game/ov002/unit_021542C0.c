@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GFL_USE_GetBgmNo  0x02005C44  thumb
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
@@ -68,7 +68,7 @@ typedef struct WifiBattleMatchEventWork {
 } WifiBattleMatchEventWork;
 
 extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
-extern u32 func_02026454(void *gameComm);
+extern u32 GAME_COMM_GetKind(void *gameComm);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_FadeOutBgm(u32 frames);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
@@ -100,7 +100,7 @@ u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatc
 
     switch (*seq) {
     case 0:
-        if (func_02026454(GAMESYSTEM_GetGameComm(gameSystem)) == 0) {
+        if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(gameSystem)) == 0) {
             work->savedBgmNo = GFL_USE_GetBgmNo();
             GFL_USE_FadeOutBgm(6);
             (*seq)++;
@@ -160,7 +160,7 @@ void *EVENT_WIFIBATTLEMATCH_Create(void *gameSystem, int fieldMap, int entryMode
     void *event = func_020122C0(gameSystem, 0, EVENT_WIFIBATTLEMATCH_Main, 0x20);
     WifiBattleMatchEventWork *work;
 
-    if (func_02026454(GAMESYSTEM_GetGameComm(gameSystem)))
+    if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(gameSystem)))
         GAME_COMM_RequestExitNoCallback(GAMESYSTEM_GetGameComm(gameSystem));
     work = func_020124E8(event);
     work->gameSystem = gameSystem;

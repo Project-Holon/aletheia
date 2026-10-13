@@ -14,7 +14,7 @@
  * the offset's products are named locals stored after the position copy.
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   func_020124E8  0x020124E8  thumb
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
@@ -27,7 +27,7 @@
  *   FIELD_CAMERA_RestartDelay  0x0218F05C  thumb  ov021
  *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
  *   _u32_div_f     0x0209C2B0  arm
- *   d_020A1B38     0x020A1B38  data   a2
+ *   FX_SinCosTable_     0x020A1B38  data   a2
  * Addresses are Black-image addresses.
  */
 
@@ -57,7 +57,7 @@ typedef struct Work {
 
 struct Ctx;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *func_020124E8(struct Obj *p);
 extern void *FIELDMAP_GetCamera(void *o);
@@ -69,7 +69,7 @@ extern void FIELD_CAMERA_SetEyeShift(u8 *p, const struct Vec *v);
 extern void FIELD_CAMERA_SetTraceTarget(void *h, Vec *v);
 extern void FIELD_CAMERA_RestartDelay(unsigned char *a);
 extern void FIELD_CAMERA_SetTarget(void *h, Vec *v);
-extern const s16 d_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 
 int FIELD_CAMERA_ShakeTask(void *task, int *state)
 {
@@ -81,7 +81,7 @@ int FIELD_CAMERA_ShakeTask(void *task, int *state)
     int s;
 
     done = 0;
-    o = GAMESYSTEM_GetFieldMap(func_020124E4(task));
+    o = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(task));
     w = func_020124E8(task);
     h = FIELDMAP_GetCamera(o);
 
@@ -132,7 +132,7 @@ int FIELD_CAMERA_ShakeTask(void *task, int *state)
             Vec pos;
             Vec ofs;
             int ox, oy;
-            s = d_020A1B38[(ang >> 4) * 2];
+            s = FX_SinCosTable_[(ang >> 4) * 2];
             ox = w->x * s;
             oy = w->y * s;
             pos = *w->pos;

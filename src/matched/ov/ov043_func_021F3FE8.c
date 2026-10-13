@@ -24,9 +24,9 @@
  *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
  *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GFL_USE_GetSeSlot  0x02006148  thumb
- *   func_020061F8  0x020061F8  thumb
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb
  *   GIMMICK43_StartCameraShake  0x021F41B8  thumb  ov043
  *   GIMMICK43_UpdateCameraShake  0x021F4210  thumb  ov043
  *   FIELDMAP_GetZoneFog  0x02188C68  thumb  ov021
@@ -55,9 +55,9 @@ extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int GFL_USE_GetSeSlot(u32 a0);
-extern void func_020061F8(int i);
+extern void GFL_USE_StopSeSlot(int i);
 extern void GIMMICK43_StartCameraShake(int a0, int a1, int a2, int a3, u8 *s);
 extern int GIMMICK43_UpdateCameraShake(u8 *s);
 extern u32 FIELDMAP_GetZoneFog(u8 *p);
@@ -89,7 +89,7 @@ void GIMMICK43_UpdateBigLift(void *a)
     if (q[6] == 0 && w[1] <= -0x230000) {
         q[6] = 1;
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(r, 0, 6, 0), 0);
-        func_020061E4(0x6cd);
+        GFL_USE_PlaySeDefaultVolume(0x6cd);
         w[1] = -0x230000;
         w[6] = 1;
         ((u16 *)w)[14] = 0;
@@ -100,7 +100,7 @@ void GIMMICK43_UpdateBigLift(void *a)
         switch (((u16 *)w)[15]) {
         case 0:
             GIMMICK43_StartCameraShake((u8)w[0], w[3], 0, (u32)h, (u8 *)(w + 8));
-            func_020061E4(0x6cb);
+            GFL_USE_PlaySeDefaultVolume(0x6cb);
             ((u16 *)w)[15]++;
             break;
         case 1:
@@ -109,7 +109,7 @@ void GIMMICK43_UpdateBigLift(void *a)
                 if (((u16 *)w)[14] >= 100) {
                     w[3] = -0x2000;
                     w[6] = 0;
-                    func_020061E4(0x6ca);
+                    GFL_USE_PlaySeDefaultVolume(0x6ca);
                 }
             }
             break;
@@ -143,7 +143,7 @@ void GIMMICK43_UpdateBigLift(void *a)
             return;
         }
         if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(r, 0, 6, 0))) {
-            func_020061F8(GFL_USE_GetSeSlot(0x6cd));
+            GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(0x6cd));
             w[16] = 0;
         }
     }

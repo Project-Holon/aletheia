@@ -23,10 +23,10 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   PMS_DRAW_Create  0x0202DB0C  thumb
  *   PMS_DRAW_SetNullColorPalette  0x0202DE5C  thumb
- *   func_02026474  0x02026474  thumb
+ *   GAME_COMM_GetWork  0x02026474  thumb
  *   UNION_MAIN_GetAppealNo  0x02173940  thumb  ov012
  *   UNION_SUBDISP_DrawVisibleChatLines  0x021F09A0  thumb  ov031
- *   func_0204B6F4  0x0204B6F4  arm
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   GFL_NET_WM_ICON_EasyObjWindowOn  0x02037174  arm
  *   sUnionSubdispFileName   0x021F10C0  data  ov031  a1
@@ -55,10 +55,10 @@ extern void UNION_SUBDISP_LoadFrameBg(u32 *p);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
-extern u32 func_02026474(void *obj);
+extern u32 GAME_COMM_GetWork(void *obj);
 extern u8 UNION_MAIN_GetAppealNo(u8 *p);
 extern void UNION_SUBDISP_DrawVisibleChatLines(void *a, char *b);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void GFL_NET_WM_ICON_EasyObjWindowOn(void);
 
@@ -87,14 +87,14 @@ u32 *UNION_SUBDISP_Create(void *a)
     ARC_TOOL_DeleteHandle(h);
     w[0x1F] = (u32)PMS_DRAW_Create(w[5], 1, w[0x10], w[0x11], 9, 3, 0x15);
     PMS_DRAW_SetNullColorPalette((void *)w[0x1F], 0);
-    q = (u8 *)func_02026474(s);
+    q = (u8 *)GAME_COMM_GetWork(s);
     if (q != 0) {
         *((u8 *)w + 0x30) = UNION_MAIN_GetAppealNo(q);
         UNION_SUBDISP_DrawVisibleChatLines(w, (char *)(q + 0x30E0));
         if (*((u8 *)w + 0x30) != 0) {
             for (i = 0; (i < 5) ? 1 : 0; i++) {
                 if (sUnionSubdispAppealNo[i] == *((u8 *)w + 0x30)) {
-                    func_0204B6F4((struct Obj *)(*(u32 *)((u8 *)w + 0x18 + i * 4)), 1, 1);
+                    CLACT_SetActorPaletteOffset((struct Obj *)(*(u32 *)((u8 *)w + 0x18 + i * 4)), 1, 1);
                     break;
                 }
             }

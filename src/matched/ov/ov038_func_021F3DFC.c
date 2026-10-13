@@ -12,7 +12,7 @@
  *           on an enum local, int fourth parameter on the 0x021BE6xx calls).
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
@@ -25,7 +25,7 @@
  *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeFrame  0x021BE6CC  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 #include "../include/Obj00881.h"
 
@@ -42,7 +42,7 @@ typedef struct {
 
 struct Ctx;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetExpObj(int *p);
 extern int *FIELDMAP_GetCommonWork(char *p, int idx);
@@ -51,7 +51,7 @@ extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern void FLD_EXP_OBJ_SetModelHidden(char *p, int i, int j, int v);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, int j, int k, int flag);
 extern void FLD_EXP_OBJ_SetAnimeFrame(int p, int i, int j, int k, int flag);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void GFL_USE_StopAllSe(void);
 extern int FLDMMDL_ACMD_ListCheckEnd(u32 a);
 extern void FLDMMDL_ACMD_ListDelete(void *a);
@@ -71,7 +71,7 @@ int GIMMICK38_EventReturnDoor(int a0, int *a1)
     int d;
     V3 v;
 
-    sys = GAMESYSTEM_GetFieldMap(func_020124E4((void *)a0));
+    sys = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem((void *)a0));
     h = FIELDMAP_GetExpObj(sys);
     s = (u8 *)FIELDMAP_GetCommonWork(sys, 1);
     q = FIELDMAP_GetFieldPlayer(sys);
@@ -118,7 +118,7 @@ int GIMMICK38_EventReturnDoor(int a0, int *a1)
             d = (v.z - ((struct Obj00881 *)s)->f10) / 2;
         }
         if (((struct Obj00881 *)s)->f20 == 0 && d != 0) {
-            func_020061E4(0x6C4);
+            GFL_USE_PlaySeDefaultVolume(0x6C4);
             ((struct Obj00881 *)s)->f20 = 1;
         }
         FLD_EXP_OBJ_SetAnimeFrame(h, 0, 0x22, k, d);

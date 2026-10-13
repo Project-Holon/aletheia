@@ -1,5 +1,5 @@
 /*
- * function: func_021C9828
+ * function: BTL_SERVER_FLOW_ExecCmdExpireSideEffects
  * address:  0x021C9828
  * packet:   pkt_ov093_021C9828
  * region:   ov093
@@ -30,7 +30,7 @@ static inline int test(u8 *s, u32 i)
     return 0;
 }
 
-int func_021C9828(void *w, u8 *s)
+int BTL_SERVER_FLOW_ExecCmdExpireSideEffects(void *w, u8 *s)
 {
     int r = 0;
     u32 i;

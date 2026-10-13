@@ -1,6 +1,6 @@
 /*
  * file:     unit_02179810.c
- * function: DWCi_IsShutdownMatch
+ * function: IRCNET_IsNotRunning
  * address:  0x02179810
  * packet:   pkt_ov015_02179810
  * region:   ov015
@@ -10,17 +10,17 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * sdk:      DWCi_IsShutdownMatch (libdwcmatch.TWL.HYB.thumb.a(dwc_match.o))
+ * sdk:      IRCNET_IsNotRunning (libdwcmatch.TWL.HYB.thumb.a(dwc_match.o))
  *
  * symbols:
- *   DWCi_GetMatchCnt  0x021799F0  thumb  ov015
+ *   IRCNET_IsRunning  0x021799F0  thumb  ov015
  */
 
-extern void *DWCi_GetMatchCnt(void);
+extern unsigned char IRCNET_IsRunning(void);
 
-int DWCi_IsShutdownMatch(void)
+int IRCNET_IsNotRunning(void)
 {
-    if (DWCi_GetMatchCnt() == 0)
+    if (IRCNET_IsRunning() == 0)
         return 1;
     return 0;
 }

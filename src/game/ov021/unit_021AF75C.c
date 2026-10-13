@@ -32,7 +32,7 @@
  *   func_0201EE60  0x0201EE60  thumb
  *   func_0201EEC4  0x0201EEC4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_0201EE84  0x0201EE84  thumb
  *   func_0201EEF4  0x0201EEF4  thumb
  *   FIELDMAP_GetSodateya  0x02188D50  thumb  ov021
@@ -64,6 +64,7 @@
  *   EVENT_MAPCHANGE_CreateRailWarpEvent  0x02184D90  thumb  ov020
  *   EVENT_MAPCHANGE_CreateRailWarpEventWithTransition  0x02184DE8  thumb  ov020
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
+ *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb  arm9
  */
 #include "../arm9/script_vm_types.h"
 #include "fldmmdl_rail_types.h"
@@ -109,13 +110,13 @@ extern void func_0201EE60(struct WordSet *wordSet, u32 slot, u32 value);
 extern void func_0201EEC4(struct WordSet *wordSet, u32 slot, u32 value);
 extern void func_0201F14C(struct WordSet *wordSet, u32 slot, u32 value);
 extern void *GAME_DATA_GetMyParty(void *gameData);
-extern void *func_0201AB28(void *party, u32 index);
+extern void *POKEPARTY_GetMember(void *party, u32 index);
 extern void func_0201EE84(struct WordSet *wordSet, u32 slot, void *mon);
 extern void func_0201EEF4(struct WordSet *wordSet, u32 slot, void *mon);
 extern void *FIELDMAP_GetSodateya(struct FieldMap *fieldMap);
 extern void *SODATEYA_GetPokemon(void *sodateya, u32 index);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 slot, u32 number, u32 topDigitIndex, u32 padMode, u32 isHalfWidth);
-extern u32 func_02013E4C(u32 a);
+extern u32 ZONEDATA_GetPlaceNameId(u32 a);
 extern void func_0201F158(struct WordSet *wordSet, u32 slot, u32 value);
 extern void func_0201EFC8(struct WordSet *wordSet, u32 slot, u32 value);
 extern void func_0201F048(struct WordSet *wordSet, u32 slot, u32 value);
@@ -308,7 +309,7 @@ int SCRCMD_BufferPartyMonSpeciesName(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     u32 partyIndex;
 
     partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    func_0201EE84(wordSet, slot, func_0201AB28(GAME_DATA_GetMyParty(gameData), partyIndex));
+    func_0201EE84(wordSet, slot, POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex));
     return 0;
 }
 
@@ -322,7 +323,7 @@ int SCRCMD_BufferPartyMonNickname(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     u32 partyIndex;
 
     partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    func_0201EEF4(wordSet, slot, func_0201AB28(GAME_DATA_GetMyParty(gameData), partyIndex));
+    func_0201EEF4(wordSet, slot, POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex));
     return 0;
 }
 
@@ -370,7 +371,7 @@ int SCRCMD_BufferPlaceName(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     struct WordSet *wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork));
     u8 slot = ScriptVm_ReadU8(vm);
 
-    func_0201F158(wordSet, slot, func_02013E4C(SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
+    func_0201F158(wordSet, slot, ZONEDATA_GetPlaceNameId(SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
     return 0;
 }
 

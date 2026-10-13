@@ -1,5 +1,5 @@
 /*
- * function: func_02177ACC
+ * function: NET_WHPIPE_GetChildBitmap
  * address: 0x02177ACC
  * packet: pkt_ov014_02177ACC
  * region: ov014
@@ -16,4 +16,4 @@
 extern unsigned char *g_pWhPipeWork;
 typedef unsigned short u16;
 extern u16 func_02178E38(void);
-unsigned int func_02177ACC(void) { if (g_pWhPipeWork != 0) return func_02178E38() & 0xFFFE; return 0; }
+unsigned int NET_WHPIPE_GetChildBitmap(void) { if (g_pWhPipeWork != 0) return func_02178E38() & 0xFFFE; return 0; }

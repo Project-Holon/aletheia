@@ -9,22 +9,22 @@
  * status: EXACT
  * lever: bind the full party-count-plus-30 expression to an int local.
  * symbols:
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   func_021DE158 0x021DE158 thumb ov170
  *   func_021ED6E4 0x021ED6E4 thumb ov170
  *   func_021DD930 0x021DD930 thumb ov170
  *   func_021DE66C 0x021DE66C thumb ov170
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 #include "../include/Obj00000.h"
 #include "../include/Obj08233.h"
-extern unsigned func_0201AA18(void *p);
+extern unsigned POKEPARTY_GetCount(void *p);
 extern int func_021DE158(unsigned char *p, unsigned a, unsigned b);
 extern void func_021ED6E4(char **p, int v);
 extern int func_021DD930(unsigned char *p);
 extern void func_021DE66C(char *p, void *a);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 int func_021E0068(char *p)
 {
     char *s;
@@ -32,7 +32,7 @@ int func_021E0068(char *p)
     s = *(char * *)&((struct Obj00000 *)p)->f2C + 0x58;
     switch (((struct Obj08233 *)s)->fC) {
     case 0:
-        count = func_0201AA18((*(void *** )p)[2]) + 30;
+        count = POKEPARTY_GetCount((*(void *** )p)[2]) + 30;
         func_021DE158((unsigned char *)p, ((struct Obj00000 *)p)->f16, count);
         func_021ED6E4((char **)p, 0);
         (((struct Obj08233 *)s)->fC)++;
@@ -40,7 +40,7 @@ int func_021E0068(char *p)
     case 1:
         if (func_021DD930((unsigned char *)p) == 0) {
             func_021DE66C(p, ((struct Obj08233 *)s)->f8);
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             ((struct Obj08233 *)s)->fC = 0;
             return 0;
         }

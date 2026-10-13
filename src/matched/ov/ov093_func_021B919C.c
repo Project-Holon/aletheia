@@ -1,5 +1,5 @@
 /*
- * function: func_021B919C
+ * function: BTL_MAIN_GetPrizeMoney
  * address:  0x021B919C
  * packet:   pkt_ov093_021B919C
  * region:   ov093
@@ -12,7 +12,7 @@
  * symbols:
  *   GPOWER_ApplyPrizeMoney  0x0201119C  thumb
  *
- * The extent runs long because the follower func_021B91E4 has no label
+ * The extent runs long because the follower BTL_MAIN_AddBonusMoney has no label
  * (already filed as ov093_func_021B91E4.c).
  */
 #include "../include/Obj06219.h"
@@ -34,7 +34,7 @@ typedef struct {
 
 extern u32 GPOWER_ApplyPrizeMoney(u32 v);
 
-u32 func_021B919C(u8 *p)
+u32 BTL_MAIN_GetPrizeMoney(u8 *p)
 {
     if (((B *)p)->d == 0) {
         if (((B *)p)->g) {

@@ -15,6 +15,7 @@
  *   func_021B940C   0x021B940C  thumb ov133
  *   d_021BEAE0      0x021BEAE0  data
  *   TOUCHPANEL_HitTrg  0x02035C08  arm  arm9
+ *   KEY_GetTrg  0x020362DC  arm  arm9
  *
  * MATCH (byte-correct, 1 relocation site wildcarded).  All concrete bytes
  * reproduce exactly.
@@ -34,7 +35,7 @@ typedef unsigned int u32;
 
 extern int TOUCHPANEL_HitTrg(const void *p);
 struct Blk37;
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
 extern u8 func_020355C4(void);
 extern u32 func_0200CA54(struct Blk37 *p);
@@ -69,21 +70,21 @@ int func_021BE658(void *ctx_)
         func_020355D8(1);
         return v;
     } else {
-        if (func_020362DC() & 2) {
+        if (KEY_GetTrg() & 2) {
             func_020355D8(0);
             return 0xc;
         }
-        if (func_020362DC() & 0x400) {
+        if (KEY_GetTrg() & 0x400) {
             func_020355D8(0);
             return 0xb;
         }
-        if (func_020362DC() & 8) {
+        if (KEY_GetTrg() & 8) {
             if (func_0200CA54((struct Blk37 *)(*(u32 *)(*(u32 *)ctx + 4))) == 1) {
                 func_020355D8(0);
                 return 8;
             }
         }
-        if (func_020362DC() & 4) {
+        if (KEY_GetTrg() & 4) {
             if (func_0200CA38((struct Blk37 *)(*(u32 *)(*(u32 *)ctx + 4))) == 0)
                 return -1;
             if (*(u16 *)(*(u32 *)ctx + 8) == 1)
@@ -91,7 +92,7 @@ int func_021BE658(void *ctx_)
             func_020355D8(0);
             return 9;
         }
-        if (func_020362DC() & 0x800) {
+        if (KEY_GetTrg() & 0x800) {
             if (*(u16 *)(*(u32 *)ctx + 8) == 1)
                 return -1;
             if (func_020355C4() == 1) {

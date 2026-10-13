@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E4EC4",
-    "func_021E4FE8"
+    "HAND_WAZA_GuardSwapOnUncategorizedMove",
+    "HAND_WAZA_AddPowerTrick"
+   ],
+   "addresses": [
+    "0x021E4EC4",
+    "0x021E4FE8"
    ],
    "evidence": {
     "sole-ref": [

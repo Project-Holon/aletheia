@@ -13,7 +13,7 @@
  * symbols:
  *   GAMESYSTEM_GetGameComm     0x02012138  thumb
  *   GFL_NET_GetRunState     0x0203CD98  arm
- *   func_02026454     0x02026454  thumb
+ *   GAME_COMM_GetKind     0x02026454  thumb
  *   GAMESYSTEM_CanStartAutoComm     0x02012164  thumb
  *   GAME_COMM_Start     0x020263D8  thumb
  *
@@ -40,7 +40,7 @@ struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int GFL_NET_GetRunState(void);
 struct Comm;
-extern u32 func_02026454(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
 extern u32 GAMESYSTEM_CanStartAutoComm(struct IcaAnime *p);
 extern void GAME_COMM_Start(struct Comm *p, u32 a1, u32 a2);
 
@@ -49,7 +49,7 @@ u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p)
     u32 h = GAMESYSTEM_GetGameComm((const struct Ctx *)p);
 
     if (GFL_NET_GetRunState() == 0) {
-        if (func_02026454((void *)h) == 0) {
+        if (GAME_COMM_GetKind((void *)h) == 0) {
             if (GAMESYSTEM_CanStartAutoComm(p) == 1) {
                 GAME_COMM_Start((struct Comm *)h, 1, (u32)p);
                 return 1;

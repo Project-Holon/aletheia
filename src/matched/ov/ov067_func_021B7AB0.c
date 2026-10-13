@@ -16,7 +16,7 @@
  *   FRAME_LIST_StepScrollBarDrag  0x021B8B74  thumb  ov067
  *   FRAME_LIST_StepRowDrag  0x021B8C4C  thumb  ov067
  *   func_020355C4  0x020355C4  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   BLINK_PALANM_Update  0x0202EA40  thumb
  *   FRAME_LIST_UpdateWindows  0x021B9344  thumb  ov067
  */
@@ -50,7 +50,7 @@ extern int FRAME_LIST_StepScrollBarDrag(S *p);
 extern int FRAME_LIST_StepRowDrag(S *p);
 struct Row;
 extern u8 func_020355C4(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 typedef signed int     s32;
 extern s32 BLINK_PALANM_Update(struct Row *p);
 extern void FRAME_LIST_UpdateWindows(S *p);
@@ -81,7 +81,7 @@ int FRAME_LIST_Update(S *p)
             ret = -8;
         break;
     case 4:
-        if (func_020355C4() == 0 && (func_020362DC() & 1))
+        if (func_020355C4() == 0 && (KEY_GetTrg() & 1))
             ret = p->f5c;
         if (p->f96 == 0)
             p->f4e = 0;

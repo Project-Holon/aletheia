@@ -1,5 +1,5 @@
 /*
- * function: func_021B8CB0
+ * function: BTL_MAIN_MapPosForRule
  * address:  0x021B8CB0
  * packet:   pkt_ov093_021B8CB0
  * region:   ov093
@@ -15,7 +15,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 struct Unk021B8CB0 { u32 f0; u32 mode; };
 
-u8 func_021B8CB0(struct Unk021B8CB0 **p, u8 x)
+u8 BTL_MAIN_MapPosForRule(struct Unk021B8CB0 **p, u8 x)
 {
     switch ((*p)->mode) {
     case 0:

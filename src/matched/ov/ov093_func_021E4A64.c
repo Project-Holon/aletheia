@@ -1,5 +1,5 @@
 /*
- * function: func_021E4A64
+ * function: HAND_WAZA_AddMemento
  * address: 0x021E4A64
  * packet: pkt_ov093_021E4A64
  * region: ov093
@@ -12,11 +12,11 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E492C.c and filed here.
  *
  * symbols:
- *   d_021F2744 0x021F2744 data ov093 a4
+ *   gMementoHandlers 0x021F2744 data ov093 a4
  */
 
-int *func_021E4A64(int *p);
-extern int d_021F2744[];
+int *HAND_WAZA_AddMemento(int *p);
+extern int gMementoHandlers[];
 
 /*
  * Sibling of src/matched/ov170_func_021E2650.c and ov170_func_021E376C.c.
@@ -24,8 +24,8 @@ extern int d_021F2744[];
  * separately for func_021DEFEC and for the call after it; the (int) cast on
  * the first keeps the two expressions apart so they are not CSEd.
  */
-int *func_021E4A64(int *p)
+int *HAND_WAZA_AddMemento(int *p)
 {
     *p = 1;
-    return d_021F2744;
+    return gMementoHandlers;
 }

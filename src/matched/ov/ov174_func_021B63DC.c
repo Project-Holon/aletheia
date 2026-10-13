@@ -33,7 +33,7 @@
  *   func_021B6538 0x021B6538 thumb ov174
  *   func_02082A7C 0x02082A7C arm
  *   CLACT_InitSystem 0x0204A48C arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
@@ -65,7 +65,7 @@ struct BgTemplate;
 extern void func_021B6538(const struct BgTemplate *p, int i, int type);
 extern void func_02082A7C(int,int,u32);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
@@ -98,7 +98,7 @@ void func_021B63DC(u8 *p)
     func_02082A7C(0,0x06000000,0x40000);
     c=gClActorInitParam;
     CLACT_InitSystem((const struct Cfg *)(&c),(u32)d_021B7450,*(u16 *)p);
-    func_020434DC(16,1);
+    BG_SYS_SetMainPlaneVisible(16,1);
     BG_SYS_SetSubPlaneVisible(16,1);
     *(void **)(p+80)=CLACT_CreateUnit(16,0,*(u16 *)p);
     CLACT_SetUnitDefaultRenderer(*(void **)(p+80));

@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045770  0x02045770  arm
- *   func_0201C6FC  0x0201C6FC  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   STRBUF_Delete  0x02045808  arm
  */
 #include "../include/Obj02123.h"
@@ -27,9 +27,9 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct PrintSys;
-extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
+extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
 void MONOLITH_TOOL_LIST_DrawTitle(char *a, char *b)
@@ -41,7 +41,7 @@ void MONOLITH_TOOL_LIST_DrawTitle(char *a, char *b)
     r6 = func_02045EC0(((struct Obj20750 *)(*(char * *)&((struct Obj02123 *)a)->f4))->f28, 0x22);
     r4 = *(char * *)&((struct Obj02123 *)a)->f4;
     r7 = ((struct Obj13183 *)r4)->f8;
-    func_0201C6FC(r7, (u32)func_02045770(((struct Obj13182 *)b)->f288), 0x18, 4, r6, (u32)(((struct Obj13183 *)r4)->fC));
+    PRINTSYS_PrintQue(r7, (u32)BMP_WIN_GetBmp(((struct Obj13182 *)b)->f288), 0x18, 4, r6, (u32)(((struct Obj13183 *)r4)->fC));
     ((struct Obj13182 *)b)->f28C = 1;
     STRBUF_Delete(r6);
 }

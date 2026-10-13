@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   func_02034714  0x02034714  arm
@@ -19,7 +19,7 @@
  * Acquire a message buffer from the message bank at +0xc, then take the
  * first of the eight +0x50 occupancy slots that is free: publish the
  * +0x10 word, clear then re-set the +0x14 byte flag, pass the +0x4 owner,
- * the +0x10 handle (through func_02045770), the two signed arguments, the
+ * the +0x10 handle (through BMP_WIN_GetBmp), the two signed arguments, the
  * buffer, the +0 handle and 0x3DC8 to PRINTSYS_PrintQueColor, mark the slot used,
  * and release the buffer.  All eight slots busy reports through
  * func_02034714.
@@ -63,7 +63,7 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 #pragma thumb on
@@ -83,7 +83,7 @@ void func_02202B20(struct Obj *p, int arg1, void *arg2, int arg3, int arg4)
             p->slots[i].f10 = arg2;
             p->slots[i].f14 = 0;
             owner = p->f04;
-            h = func_02045770(p->slots[i].f10);
+            h = BMP_WIN_GetBmp(p->slots[i].f10);
             PRINTSYS_PrintQueColor(owner, (u32)h, (s16)arg3, (s16)arg4, (u32)buf, p->f00, (int)0x3DC8);
             p->slots[i].f14 = 1;
             p->used[i] = 1;

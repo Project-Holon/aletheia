@@ -22,8 +22,8 @@
  *   func_021B97CC  0x021B97CC  thumb  ov099
  *   func_021B9FDC  0x021B9FDC  thumb  ov099
  *   func_021B9F48  0x021B9F48  thumb  ov099
- *   func_0203630C  0x0203630C  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetCont  0x0203630C  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_021B97F4  0x021B97F4  thumb  ov099
  *   func_021B9BC4  0x021B9BC4  thumb  ov099
  */
@@ -41,8 +41,8 @@ extern int func_021B9BA8(char *p);
 extern void func_021B97CC(char *p);
 extern int func_021B9FDC(char *p);
 extern void func_021B9F48(u8 *p);
-extern u32 func_0203630C(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetCont(void);
+extern u32 KEY_GetTrg(void);
 extern u8 func_021B97F4(char *p);
 extern int func_021B9BC4(char *p);
 
@@ -62,10 +62,10 @@ u32 func_021B96D0(char *p)
         func_021B97CC(p);
         if (func_021B9FDC(p) == 1) {
             func_021B9F48((u8 *)p);
-            if (func_0203630C() & 0x80)
+            if (KEY_GetCont() & 0x80)
                 return 1;
         }
-        if (func_020362DC() & 1) {
+        if (KEY_GetTrg() & 1) {
             if (func_021B97F4(p) != 0)
                 return 2;
             if (func_021B9BC4(p) == 1)

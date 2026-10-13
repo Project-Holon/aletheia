@@ -9,18 +9,18 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   d_02213D04 0x02213D04 data a1 ov199
  */
 #include "../include/Obj08370.h"
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern const char d_02213D04[];
 int *func_02212FD8(int unused, unsigned heap, char *ctx)
 {
     int zero = 0;
     int *p = func_02030734(heap, 0x28, zero, d_02213D04, 0x588);
-    func_02082BCC(p, zero, 0x28);
+    MI_CpuFill8(p, zero, 0x28);
     p[0] = ((struct Obj08370 *)ctx)->f4;
     p[1] = zero;
     p[2] = 1;

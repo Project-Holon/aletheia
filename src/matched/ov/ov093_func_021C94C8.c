@@ -1,5 +1,5 @@
 /*
- * function: func_021C94C8
+ * function: BTL_SERVER_FLOW_ExecCmdSetStatValues
  * address: 0x021C94C8
  * packet: pkt_ov093_021C94C8
  * region: ov093
@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   func_021C95C0 0x021C95C0 thumb ov093
- *   func_021B9934 0x021B9934 thumb ov093
+ *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   BTL_POKEPARAM_SetStat 0x021D5970 thumb ov093
  *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
- *   func_021C99A0 0x021C99A0 thumb ov093
+ *   BTL_SERVER_FLOW_PushMsgRecord 0x021C99A0 thumb ov093
  */
 #include "../include/Obj00003.h"
 typedef unsigned char u8;
@@ -20,22 +20,22 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 w; u16 values[5]; u8 id; u8 f0:1,f1:1,f2:1,f3:1,f4:1,pad:3; u8 msg[36]; } Ent;
 extern int func_021C95C0(void *, u8);
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void BTL_POKEPARAM_SetStat(u8 *, int, u16);
 extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 struct Msg;
-extern int func_021C99A0(void *w, const struct Msg *m);
-int func_021C94C8(u8 *p, const Ent *e)
+extern int BTL_SERVER_FLOW_PushMsgRecord(void *w, const struct Msg *m);
+int BTL_SERVER_FLOW_ExecCmdSetStatValues(u8 *p, const Ent *e)
 {
     u8 *a;
     if (func_021C95C0(p + 0x1ab8, e->id)) {
-        a = func_021B9934(((struct Obj00003 *)p)->f8, e->id);
+        a = BTL_SIDE_GetPokeByIdThunk(((struct Obj00003 *)p)->f8, e->id);
         if (e->f0) { BTL_POKEPARAM_SetStat(a, 8, e->values[0]); BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 19, e->id, 8, (u8)e->values[0]); }
         if (e->f1) { BTL_POKEPARAM_SetStat(a, 9, e->values[1]); BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 19, e->id, 9, (u8)e->values[1]); }
         if (e->f2) { BTL_POKEPARAM_SetStat(a, 10, e->values[2]); BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 19, e->id, 10, (u8)e->values[2]); }
         if (e->f3) { BTL_POKEPARAM_SetStat(a, 11, e->values[3]); BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 19, e->id, 11, (u8)e->values[3]); }
         if (e->f4) { BTL_POKEPARAM_SetStat(a, 12, e->values[4]); BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 19, e->id, 12, (u8)e->values[4]); }
-        func_021C99A0(p, (const struct Msg *)e->msg);
+        BTL_SERVER_FLOW_PushMsgRecord(p, (const struct Msg *)e->msg);
         return 1;
     }
     return 0;

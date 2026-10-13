@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_0201BB5C  0x0201BB5C  thumb
+ *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B6F4  0x0204B6F4  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   d_021DB404     0x021DB404  data  a2
  */
 
@@ -51,14 +51,14 @@ typedef struct {
 
 extern Pos d_021DB404;
 
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
-extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
+extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 void PARTY_SELECT_LIST_CreateMonIcons(Obj *p)
 {
@@ -72,30 +72,30 @@ void PARTY_SELECT_LIST_CreateMonIcons(Obj *p)
     u32 e;
     u32 r;
 
-    n1 = func_0201AA18(p->f4);
+    n1 = POKEPARTY_GetCount(p->f4);
     for (i = 0; i < n1; i++) {
         pos.x = i * 0x28 + 0x18;
         p->f1C[i] = (u32)CLACT_CreateActor((void *)p->f18, p->f80[i], p->f7C, p->f7E, &pos, 0, p->heap);
-        mon = func_0201AB28(p->f4, i);
+        mon = POKEPARTY_GetMember(p->f4, i);
         s = POKE_TOOL_GetPartyValue(mon, 5, 0);
         f = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
         e = (POKE_TOOL_GetPartyValue(mon, 0xab, 0) == 0x28a) ? 1 : 0;
-        r = func_0201BB5C(s, f, POKE_TOOL_GetPartyValue(mon, 0x6e, 0), e);
-        func_0204B6F4((struct Obj *)p->f1C[i], (u8)r, 1);
-        func_0204B3DC((struct Obj *)p->f1C[i], 0);
+        r = POKE_TOOL_CalcIconPalette(s, f, POKE_TOOL_GetPartyValue(mon, 0x6e, 0), e);
+        CLACT_SetActorPaletteOffset((struct Obj *)p->f1C[i], (u8)r, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->f1C[i], 0);
     }
     if (p->f8 != 0) {
-        n2 = func_0201AA18(p->f8);
+        n2 = POKEPARTY_GetCount(p->f8);
         for (i = 0; i < n2; i++) {
             pos.x = i * 0x28 + 0x18;
             p->f34[i] = (u32)CLACT_CreateActor((void *)p->f18, p->f8C[i], p->f7C, p->f7E, &pos, 0, p->heap);
-            mon = func_0201AB28(p->f8, i);
+            mon = POKEPARTY_GetMember(p->f8, i);
             s = POKE_TOOL_GetPartyValue(mon, 5, 0);
             f = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
             e = (POKE_TOOL_GetPartyValue(mon, 0xab, 0) == 0x28a) ? 1 : 0;
-            r = func_0201BB5C(s, f, POKE_TOOL_GetPartyValue(mon, 0x6e, 0), e);
-            func_0204B6F4((struct Obj *)p->f34[i], (u8)r, 1);
-            func_0204B3DC((struct Obj *)p->f34[i], 0);
+            r = POKE_TOOL_CalcIconPalette(s, f, POKE_TOOL_GetPartyValue(mon, 0x6e, 0), e);
+            CLACT_SetActorPaletteOffset((struct Obj *)p->f34[i], (u8)r, 1);
+            CLACT_SetActorDrawEnable((struct Obj *)p->f34[i], 0);
         }
     }
 }

@@ -23,7 +23,7 @@
  *   func_0202761C  0x0202761C  thumb
  *   func_02027620  0x02027620  thumb
  *   CLACT_RegisterPalette  0x0204ABF0  arm
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   gClActorInitParam     0x020A1448  data
  *
@@ -64,7 +64,7 @@ extern u32 func_02027618(void);
 extern u32 func_0202761C(u32 a);
 extern u32 func_02027620(u32 a);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
 void func_021C6D9C(Anim *a, u32 x)
@@ -83,6 +83,6 @@ void func_021C6D9C(Anim *a, u32 x)
     a->fC8 = CLACT_RegisterCharacter(h, func_02027618(), 0, 1, a->heap);
     a->fCC = CLACT_RegisterCellAnim(h, func_0202761C(0), func_02027620(0), a->heap);
     ARC_TOOL_DeleteHandle(h);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }

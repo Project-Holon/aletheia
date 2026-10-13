@@ -14,7 +14,7 @@
  *   func_021EA728 0x021EA728 thumb
  *   func_021ECB60 0x021ECB60 thumb
  *   func_021EE038 0x021EE038 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021DD25C 0x021DD25C thumb
  *   func_021DD2B4 0x021DD2B4 thumb
  *   func_021DD2D0 0x021DD2D0 thumb
@@ -49,7 +49,7 @@ extern void func_021EA728(void *p);
 extern void func_021ECB60(char *w, int i, int f);
 typedef unsigned int   u32;
 extern void func_021EE038(char *p, int a, int b, int c);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern void func_021DD2B4(int a, int b, int c, int d, int e);
 extern int func_021DD2D0(void ***p, int a, unsigned b);
@@ -112,6 +112,6 @@ int func_021E6D00(unsigned char *p)
     func_021EBFA8(WORK(p), 10, 1);
     func_021EC000(WORK(p), 10, 1);
     func_021ED1C8(WORK(p));
-    func_020061E4(0x666);
+    GFL_USE_PlaySeDefaultVolume(0x666);
     return func_021E8FC0((char *)p, (int)func_021E122C, 0x43);
 }

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -34,7 +34,7 @@ struct MsgBank;
 struct StrObj;
 struct U16Vec;
 struct WordSet;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -52,7 +52,7 @@ void func_021DDC28(u8 *p)
     void *s0,*s1,*s2,*s3,*s4,*s5,*s6,*s7;
     u32 width,i;
     row=p+0xc+((struct Obj00142 *)p)->fC5E*0xbc+((struct Obj00142 *)p)->fC5C*0x1c;
-    BMP_Clear(func_02045770(((struct Obj00142 *)p)->fB50),0);
+    BMP_Clear(BMP_WIN_GetBmp(((struct Obj00142 *)p)->fB50),0);
     s0=func_02045EC0(((struct Obj00142 *)p)->fB60,5);
     func_0201EE60(((struct Obj00142 *)p)->fB64,0,((struct Obj05441 *)row)->f10);
     func_0201F250(((struct Obj00142 *)p)->fB64,((struct Obj00142 *)p)->fB68,s0);

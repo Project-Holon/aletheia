@@ -12,11 +12,11 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj21988.h"
 struct Obj0203159C;
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,unsigned int,unsigned int);
-extern void func_02082BCC(void *,int,unsigned int);
-int func_021F6560(struct Obj0203159C *a, int b, int c) { void *p; GFL_HEAP_CreateChildHeap(1,0x71,0x18000); p=PROCSYS_AllocProcWork(a,0x120,0x71); func_02082BCC(p,0,0x120); ((struct Obj21988 *)p)->f0=c; return 1; }
+extern void MI_CpuFill8(void *,int,unsigned int);
+int func_021F6560(struct Obj0203159C *a, int b, int c) { void *p; GFL_HEAP_CreateChildHeap(1,0x71,0x18000); p=PROCSYS_AllocProcWork(a,0x120,0x71); MI_CpuFill8(p,0,0x120); ((struct Obj21988 *)p)->f0=c; return 1; }

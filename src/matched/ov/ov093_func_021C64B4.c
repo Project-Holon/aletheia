@@ -14,15 +14,15 @@
  * leaf is filed; it is the integrator's, inside a labelled arm9 region). Verified C for
  * that leaf (`one` --thumb, no --region, EXACT, 12 bytes):
  *
- *   extern u32 sub_0201BD28(void *p, u32 id);   // symbols: sub_0201BD28 0x0201BD28 thumb
- *   u32 WAZA_TOOL_GetDamageType(void *p) { return sub_0201BD28(p, 2); }
+ *   extern u32 WAZA_TOOL_GetParam(void *p, u32 id);   // symbols: WAZA_TOOL_GetParam 0x0201BD28 thumb
+ *   u32 WAZA_TOOL_GetDamageType(void *p) { return WAZA_TOOL_GetParam(p, 2); }
  *
  * Once the leaf's shard exists re-run this file; it should go EXACT.
  *
  * symbols:
  *   WAZA_TOOL_GetType   0x0201C1C8  thumb
  *   WAZA_TOOL_GetDamageType   0x0201C1E8  thumb
- *   sub_0201BD28   0x0201BD28  thumb
+ *   WAZA_TOOL_GetParam   0x0201BD28  thumb
  *   BTL_POKEPARAM_GetTypePair  0x021D57FC  thumb  ov093
  *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
@@ -38,7 +38,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u8 WAZA_TOOL_GetType(void *p);
 extern int WAZA_TOOL_GetDamageType(int a);
-extern u32 sub_0201BD28(u16 id, u32 field);
+extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern u16 BTL_POKEPARAM_GetTypePair(void *p);
 extern void BTL_EVENT_PushVarFrame(int line);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
@@ -68,7 +68,7 @@ void BTL_SERVER_FLOW_GetMoveParam(u8 *p, u16 q, u8 *a, struct Out64B4 *out)
     BTL_EVENT_SetVarOnce(0x16, WAZA_TOOL_GetType((void *)q));
     BTL_EVENT_SetVar(0x1C, BTL_POKEPARAM_GetTypePair(a));
     BTL_EVENT_SetVar(0x1A, WAZA_TOOL_GetDamageType(q));
-    BTL_EVENT_SetVar(0x1B, sub_0201BD28(q, 0x1B));
+    BTL_EVENT_SetVar(0x1B, WAZA_TOOL_GetParam(q, 0x1B));
     BTL_EVENT_SetVarOnce(0x4B, 0);
     func_021D70F0(p, 0x28);
     out->h0 = q;

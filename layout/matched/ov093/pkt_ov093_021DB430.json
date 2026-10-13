@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_TOKUSEI_StormDrain_AbsorbWaterMove",
-    "BTL_TOKUSEI_GetLightningRodHandlers"
+    "HAND_TOKUSEI_StormDrain_AbsorbWaterMove",
+    "HAND_TOKUSEI_GetLightningRodHandlers"
    ],
    "addresses": [
     "0x021DB430",

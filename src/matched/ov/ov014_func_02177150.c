@@ -11,12 +11,12 @@
  * status: EXACT
  * symbols:
  *   NET_WHPIPE_StartChild 0x02177E20 thumb ov014
- *   func_021776C4 0x021776C4 thumb ov014
+ *   NET_WHPIPE_RequestFinalize 0x021776C4 thumb ov014
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
 extern int NET_WHPIPE_StartChild(u32,u8 *,u32,u32);
 int GFL_NET_DEVWIRELESS_StartChild(u32 a,u8 *b,u32 c,u32 d,u32 e) { return NET_WHPIPE_StartChild(a,b,c,e); }
-extern int func_021776C4(void);
+extern int NET_WHPIPE_RequestFinalize(void);
 int GFL_NET_DEVWIRELESS_UnusedSlot19(void) { return 0; }
-int GFL_NET_DEVWIRELESS_RequestShutdown(void) { return func_021776C4(); }
+int GFL_NET_DEVWIRELESS_RequestShutdown(void) { return NET_WHPIPE_RequestFinalize(); }

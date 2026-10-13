@@ -13,11 +13,11 @@
  *
  * symbols:
  *   g_02150FEC  0x02150FEC  data
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
 extern char g_02150FEC[];
-extern void func_02082BCC(void *dst, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);
 
 void func_0215AB10(void)
 {
@@ -29,7 +29,7 @@ void func_0215AB10(void)
     *(char **)soc = cur;
     *(unsigned char *)(soc + 8) = 0;
     *(unsigned long *)(soc + 0x50) = 0;
-    func_02082BCC(soc + 0x70, 0, 0x30);
+    MI_CpuFill8(soc + 0x70, 0, 0x30);
     *(unsigned long *)(soc + 0x6c) = 0;
     *(unsigned long *)(soc + 0x44) = 0;
     *(unsigned char *)(soc + 0x33) = 0;

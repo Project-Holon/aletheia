@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DC054",
+   "name": "HAND_TOKUSEI_Defiant_RaiseAttackOnStatDrop",
    "address": "0x021DC054",
    "kind": "game",
    "region": "ov093",

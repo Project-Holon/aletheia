@@ -33,7 +33,7 @@
  *   ov075_id       0x0000004B  data
  *   func_02034A5C  0x02034A5C  arm
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   func_02013E40  0x02013E40  thumb
+ *   ZONEDATA_GetParentZoneId  0x02013E40  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb  ov021
  *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
@@ -45,7 +45,7 @@
  *   func_0202A3FC  0x0202A3FC  thumb
  *   func_0202A3D8  0x0202A3D8  thumb
  *   FIELDMAP_GetAreaData  0x02188D58  thumb  ov021
- *   func_020140D8  0x020140D8  thumb
+ *   ZONEDATA_GetAreaInnerOuter  0x020140D8  thumb
  *   d_021DB7E0     0x021DB7E0  data  ov021  a2
  *   d_021DB7F6     0x021DB7F6  data  ov021  a1
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
@@ -56,11 +56,11 @@
  *   func_020122C0  0x020122C0  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008530  0x02008530  thumb
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb
  *   func_020079BC  0x020079BC  thumb
@@ -236,7 +236,7 @@ extern void *func_020124E8(struct GameEvent *event);
 extern int func_02034AC4(s32 overlayId);
 extern void func_02034A5C(s32 overlayId);
 extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
-extern u16 func_02013E40(u32 zoneId);
+extern u16 ZONEDATA_GetParentZoneId(u32 zoneId);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern u32 FIELD_PLAYER_GetNowAttribute(struct FieldPlayer *player);
 extern u16 MAP_ATTR_GetTerrainId(u32 attr);
@@ -248,7 +248,7 @@ extern u32 func_0202A230(void *trainerData, u32 index);
 extern u8 func_0202A3FC(u32 trainerClass);
 extern u8 func_0202A3D8(u32 trainerClass);
 extern u32 FIELDMAP_GetAreaData(struct FieldMap *fieldMap);
-extern u8 func_020140D8(u32 areaData);
+extern u8 ZONEDATA_GetAreaInnerOuter(u32 areaData);
 extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *cmdWork);
 extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *cmdWork);
 extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *cmdWork);
@@ -257,7 +257,7 @@ extern u16 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmd
 extern u16 VM_GetU16(struct ScriptVm *vm);
 extern void SCRIPT_SYS_CallEvent(struct ScriptWork *scriptWork, struct GameEvent *event);
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, void *parent, void *func, u32 workSize);
-extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
@@ -270,8 +270,8 @@ extern u8 func_0200856C(const void *myStatus);
 extern u8 func_02008554(const void *myStatus);
 extern u8 func_02008550(const void *myStatus);
 extern u8 func_02008570(const void *myStatus);
-extern u32 func_0201AA18(struct PokeParty *party);
-extern struct PokemonParam *func_0201AB28(struct PokeParty *party, u32 index);
+extern u32 POKEPARTY_GetCount(struct PokeParty *party);
+extern struct PokemonParam *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
 extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 dataId, u32 arg);
 extern int func_020079BC(struct BoxData *boxData, u32 box, u32 slot, int dataId, int arg);
 extern struct BattleBoxSave *func_0200BAC8(struct SaveControl *saveControl);
@@ -482,7 +482,7 @@ void func_021CF5D8(int species, int effectId, int hasWildOpponent, struct FieldM
     u32 effectKind;
     u16 bgmId;
 
-    parentZoneId = func_02013E40(FIELDMAP_GetZoneId(fieldMap));
+    parentZoneId = ZONEDATA_GetParentZoneId(FIELDMAP_GetZoneId(fieldMap));
     switch (species) {
     case 0x23B:
         *outBgmId = 0x469;
@@ -596,7 +596,7 @@ void func_021CF748(void *trainerData, struct FieldMap *fieldMap, int *outEffectK
         } else if (MAP_ATTR_IsSandVariant(tileType) != 0) {
             effectKind = 8;
         } else {
-            if (func_020140D8(FIELDMAP_GetAreaData(fieldMap)) == 0) {
+            if (ZONEDATA_GetAreaInnerOuter(FIELDMAP_GetAreaData(fieldMap)) == 0) {
                 areaIsInner = 0;
             }
             effectKind = 5;
@@ -646,7 +646,7 @@ int func_021CF844(struct GameEvent *event, int *seq, OtCountTask *task)
     struct GameData *gameData;
     int i;
 
-    gameData = GAMESYSTEM_GetGameData(func_020124E4(event));
+    gameData = GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(event));
     switch (*seq) {
     case 0:
         func_021CF8E4(task->playerId, gameData, &task->list);
@@ -684,12 +684,12 @@ int func_021CF844(struct GameEvent *event, int *seq, OtCountTask *task)
 int func_021CF8E4(u32 playerId, struct GameData *gameData, OtIdList *list)
 {
     struct PokeParty *party = GAME_DATA_GetMyParty(gameData);
-    int partyCount = func_0201AA18(party);
+    int partyCount = POKEPARTY_GetCount(party);
     int added = 0;
     int i;
 
     for (i = 0; i < partyCount; i++) {
-        struct PokemonParam *mon = func_0201AB28(party, i);
+        struct PokemonParam *mon = POKEPARTY_GetMember(party, i);
         if (POKE_TOOL_GetPartyValue(mon, MON_DATA_IS_EGG, 0) == 0) {
             u32 otId = POKE_TOOL_GetPartyValue(mon, MON_DATA_OT_ID, 0);
             if (func_021CFA04(playerId, otId, list) != 0) {

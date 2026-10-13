@@ -15,7 +15,7 @@
  * declaration (int i=0; for(;...)) sets the i/index birth order (r6/r4).
  * note pass 2 2026-10-06 P2L51: closed from 147/200 (h5 pragma form 7/200, i/index swap fixed by i=0 at declaration).
  * symbols:
- *   d_020A1B38 0x020A1B38 data a4
+ *   FX_SinCosTable_ 0x020A1B38 data a4
  *   func_02061CA4 0x02061CA4 arm
  */
 typedef unsigned char u8;
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern const s16 d_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 static inline u16 blend(u16 c1,u16 c2,s16 factor) {
  u8 g1,r1,b1; int db,dr,dg;
@@ -38,7 +38,7 @@ static inline u16 blend(u16 c1,u16 c2,s16 factor) {
 #pragma opt_loop_invariants off
 void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last) {
  int i=0;
- int factor=(d_020A1B38[((angle>>4)*2)+1]+0x1000)/2;
+ int factor=(FX_SinCosTable_[((angle>>4)*2)+1]+0x1000)/2;
  for(;i<16;i++) p[i]=blend(first[i],last[i],factor);
  func_02061CA4(a,bank*32,(u32)p,32);
 }

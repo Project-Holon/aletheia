@@ -14,7 +14,7 @@
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  */
 #include "../include/Obj01128.h"
 
@@ -30,7 +30,7 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 extern int TOUCHPANEL_GetTrg(void);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 int UNION_SUBDISP_UpdateKnobDrag(char *o)
 {
@@ -55,7 +55,7 @@ int UNION_SUBDISP_UpdateKnobDrag(char *o)
         else if (y > 0x9C)
             y = 0x9C;
         buf[1] = y;
-        func_0204B404((struct Obj *)(((struct Obj01128 *)o)->f2C), (const struct Vec2 *)buf, 1);
+        CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj01128 *)o)->f2C), (const struct Vec2 *)buf, 1);
         return 1;
     }
     return 0;

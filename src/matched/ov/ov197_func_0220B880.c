@@ -16,7 +16,7 @@
  * prototype: func_0220B78C has no matched definition; (char *, unsigned) and
  *   void taken from its listing (r1 scaled by 4 as an index, no r0 use after).
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_0220B78C 0x0220B78C thumb ov197
  *   func_0220B3EC 0x0220B3EC thumb ov197
@@ -29,7 +29,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
 struct CharBuf;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0220B78C(u8 *p, u32 idx);
 extern void func_0220B3EC(char *p, u32 i, int id, int w, int unused, int y, int unused2);
@@ -42,7 +42,7 @@ void func_0220B880(char *p)
     int x, y;
     int off;
     for (i = 31; i <= 34; i++)
-        BMP_Clear(func_02045770(*(struct Descriptor **)(p + 0x28 + i * 8)), 0);
+        BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0x28 + i * 8)), 0);
     off = *(u8 *)(p + 0x533) * 2;
     x = *(short *)(*(char **)p + 0x30 + off);
     y = *(short *)(*(char **)p + 0x38 + off) * 6;

@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_WeatherLock_SetFailFlag
+ * function: HAND_TOKUSEI_WeatherLock_SetFailFlag
  * address: 0x021D9830
  * packet: pkt_ov093_021D9830
  * region: ov093
@@ -17,9 +17,9 @@
 
 typedef unsigned int u32;
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
-void BTL_TOKUSEI_WeatherLock_SetFailFlag(void);
+void HAND_TOKUSEI_WeatherLock_SetFailFlag(void);
 
-void BTL_TOKUSEI_WeatherLock_SetFailFlag(void)
+void HAND_TOKUSEI_WeatherLock_SetFailFlag(void)
 {
     BTL_EVENT_OverwriteVar(65, 1);
 }

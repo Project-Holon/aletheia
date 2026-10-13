@@ -17,15 +17,15 @@
  *   func_02040AE0 0x02040AE0 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   func_02017E88 0x02017E88 thumb
  *   CLACT_GetCharacterProxy 0x0204AB84 arm
  *   CLACT_SetActorImageProxy 0x0204B784 arm
  *   func_020275EC 0x020275EC thumb
- *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B404 0x0204B404 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
@@ -47,17 +47,17 @@ struct Obj;
 extern void func_02040AE0(u32 index, const void *src, u32 mode);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32);
 extern u32 func_02017E88(void *,u32,u32);
 extern void CLACT_GetCharacterProxy(u32,struct Rec *);
 struct Struct36;
 extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
 extern u8 func_020275EC(int i);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorBgPriority(void *,u32);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 void P_STA_INFO_ShowPage(u8 *a,u8 *p)
@@ -80,36 +80,36 @@ void P_STA_INFO_ShowPage(u8 *a,u8 *p)
         cell=*(void **)((p+i*4)+0xc);
         BMP_WIN_TransferChars(cell);
         BMP_WIN_MakeScreen(cell);
-        func_020409B4(func_02045730(cell));
+        func_020409B4(BMP_WIN_GetBgLayer(cell));
     }
     cell=((struct Obj05391 *)p)->f34;
     BMP_WIN_TransferChars(cell);
     BMP_WIN_MakeScreen(cell);
-    func_020409B4(func_02045730(cell));
+    func_020409B4(BMP_WIN_GetBgLayer(cell));
     if(((struct Obj01407 *)a)->f38==0) {
         first=func_02017E88(object,174,0);
         second=func_02017E88(object,175,0);
         CLACT_GetCharacterProxy(*(u32 *)((u32)a+first*4u+0x130u),&r1);
         CLACT_SetActorImageProxy(((struct Obj01407 *)a)->f198,(const struct Struct36 *)(&r1));
-        func_0204B6F4(((struct Obj01407 *)a)->f198,func_020275EC((u8)first),1);
+        CLACT_SetActorPaletteOffset(((struct Obj01407 *)a)->f198,func_020275EC((u8)first),1);
         point.x=96;
         point.y=48;
-        func_0204B404(((struct Obj01407 *)a)->f198,(const struct Vec2 *)(&point),0);
-        func_0204B3DC(((struct Obj01407 *)a)->f198,1);
+        CLACT_AddActorSurfacePos(((struct Obj01407 *)a)->f198,(const struct Vec2 *)(&point),0);
+        CLACT_SetActorDrawEnable(((struct Obj01407 *)a)->f198,1);
         CLACT_SetActorBgPriority(((struct Obj01407 *)a)->f198,1);
         if(first!=second) {
             CLACT_GetCharacterProxy(*(u32 *)((u32)a+second*4u+0x130u),&r2);
             CLACT_SetActorImageProxy(((struct Obj01407 *)a)->f19C,(const struct Struct36 *)(&r2));
-            func_0204B6F4(((struct Obj01407 *)a)->f19C,func_020275EC((u8)second),1);
+            CLACT_SetActorPaletteOffset(((struct Obj01407 *)a)->f19C,func_020275EC((u8)second),1);
             point.x=130;
             point.y=48;
-            func_0204B404(((struct Obj01407 *)a)->f19C,(const struct Vec2 *)(&point),0);
-            func_0204B3DC(((struct Obj01407 *)a)->f19C,1);
+            CLACT_AddActorSurfacePos(((struct Obj01407 *)a)->f19C,(const struct Vec2 *)(&point),0);
+            CLACT_SetActorDrawEnable(((struct Obj01407 *)a)->f19C,1);
             CLACT_SetActorBgPriority(((struct Obj01407 *)a)->f19C,1);
-        } else func_0204B3DC(((struct Obj01407 *)a)->f19C,0);
+        } else CLACT_SetActorDrawEnable(((struct Obj01407 *)a)->f19C,0);
     } else {
-        func_0204B3DC(((struct Obj01407 *)a)->f198,0);
-        func_0204B3DC(((struct Obj01407 *)a)->f19C,0);
+        CLACT_SetActorDrawEnable(((struct Obj01407 *)a)->f198,0);
+        CLACT_SetActorDrawEnable(((struct Obj01407 *)a)->f19C,0);
     }
     CLACT_SetActorAnimSeq(((struct Obj01407 *)a)->f178,3);
 }

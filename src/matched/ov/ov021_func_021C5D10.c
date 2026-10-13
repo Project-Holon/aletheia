@@ -11,7 +11,7 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020120F4  0x020120F4  thumb
  *   FIELDMAP_GetEncount  0x02188CE8  thumb  ov021
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
@@ -69,7 +69,7 @@ struct Obj;
 struct Self;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_02082BCC(void *p, int v, u32 n);
+extern void MI_CpuFill8(void *p, int v, u32 n);
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 FIELDMAP_GetEncount(u8 *p);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
@@ -96,7 +96,7 @@ void *FISHING_CreateEvent(struct Obj00020 *a, void *b)
 
     task = func_020122C0(b, 0, FISHING_EventMain, sizeof(Work));
     w = func_020124E8(task);
-    func_02082BCC(w, 0, sizeof(Work));
+    MI_CpuFill8(w, 0, sizeof(Work));
     w->f0 = b;
     w->f8 = (u8 *)a;
     w->f4 = func_020120F4(b);

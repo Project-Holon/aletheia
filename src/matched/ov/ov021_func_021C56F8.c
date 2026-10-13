@@ -10,25 +10,25 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02045770  0x02045770  arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   SHORTCUT_MENU_UpdateCursorBg  0x021C577C  thumb  ov021
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 #include "../include/Obj02094.h"
 
 typedef unsigned char u8;
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 typedef unsigned int   u32;
 struct PrintSys;
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void SHORTCUT_MENU_UpdateCursorBg(int a, int b, int c);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 int SHORTCUT_MENU_FinishPrint(int *a)
 {
@@ -37,7 +37,7 @@ int SHORTCUT_MENU_FinishPrint(int *a)
     int r7;
 
     if (((struct Obj02094 *)a)->f14 != 0) {
-        if (func_0201C6C4((struct PrintSys *)r4, (void *)((int)func_02045770((struct Descriptor *)a[4]))) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)r4, (void *)((int)BMP_WIN_GetBmp((struct Descriptor *)a[4]))) == 0) {
             BMP_WIN_TransferChars((struct Descriptor *)a[4]);
             ((struct Obj02094 *)a)->f14 = 0;
         }
@@ -53,7 +53,7 @@ int SHORTCUT_MENU_FinishPrint(int *a)
         }
         if (a[0x12] != 0) {
             for (i = 0; i < 3; i++) {
-                func_0204B3DC((struct Obj *)a[0xa + i], 1);
+                CLACT_SetActorDrawEnable((struct Obj *)a[0xa + i], 1);
             }
             a[0x12] = 0;
         }

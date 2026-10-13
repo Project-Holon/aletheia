@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C7EC4",
+   "name": "BTL_SERVER_FLOW_IsActionCounterSet",
    "address": "0x021C7EC4",
    "kind": "game",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C8234",
+   "name": "BTL_SERVER_FLOW_IsPokeGroundedById",
    "address": "0x021C8234",
    "kind": "game",
    "region": "ov093",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C8494",
+   "name": "BTL_SERVER_FLOW_ReleaseBindingTargetById",
    "address": "0x021C8494",
    "kind": "game",
    "region": "ov093",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C8828",
+   "name": "BTL_SERVER_FLOW_HasMsgRecord",
    "address": "0x021C8828",
    "kind": "game",
    "region": "ov093",

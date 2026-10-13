@@ -49,6 +49,7 @@
  *   POKELIST_EndMessageToEvolve 0x021BA4E4 thumb ov091
  *   POKELIST_OpenTakeItemMenu 0x021BA098 thumb ov091
  *   POKELIST_OpenLearnMoveMenu 0x021B9EB0 thumb ov091
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj00009.h"
 typedef unsigned char u8;
@@ -56,7 +57,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Sub02008F80Obj;
 extern void func_020409B4(u32 index);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u32 func_0202136C(u16);
 extern struct Sub02008F80Obj *func_02009050(struct Sub02008F80Obj *arr, u32 unused, int i, u32 heap);
@@ -117,10 +118,10 @@ void POKELIST_ApplySelection(u8 *p)
             if (r == 2) PLIST_PLATE_SetMon(p,(u8 *)(*(u32 *)((p+W(0x2c)*4)+0x160)),(u32)W(0x38),0);
             else if (r == 19 || r == 13) {
                 PLIST_PLATE_SetMon(p,(u8 *)(*(u32 *)((p+W(0x2c)*4)+0x160)),(u32)W(0x38),0);
-                func_020061E4(0x56f);
+                GFL_USE_PlaySeDefaultVolume(0x56f);
             } else {
                 PLIST_PLATE_Redraw(p,(u8 *)(*(u32 *)((p+W(0x2c)*4)+0x160)));
-                func_020061E4(0x56f);
+                GFL_USE_PlaySeDefaultVolume(0x56f);
             }
             POKELIST_RemoveBagItem(p,H(0x44)); return;
         }

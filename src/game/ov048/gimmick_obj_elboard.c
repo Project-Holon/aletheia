@@ -26,7 +26,7 @@
  *   d_021F50C0     0x021F50C0  data  a4
  *   func_0201EC74  0x0201EC74  thumb
  *   func_02045B38  0x02045B38  arm
- *   func_02013E4C  0x02013E4C  thumb
+ *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Create  0x020457B0  arm
  *   func_0201EE0C  0x0201EE0C  thumb
@@ -60,7 +60,7 @@
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   func_02030734  0x02030734  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
@@ -74,7 +74,7 @@
  *   func_0201D304  0x0201D304  thumb
  *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
  *   G3D_SYSTEM_GetRenderTexRes  0x02047554  arm
- *   func_021875F4  0x021875F4  thumb  ov020
+ *   EL_SCOREBOARD_CreateLamp  0x021875F4  thumb  ov020
  *   G3D_SYSTEM_GetObjectAnime  0x02047790  arm
  *   G3D_SYSTEM_GetAnimeObj  0x02047674  arm
  *   G3D_SYSTEM_ResetObjectAnimeFrame  0x02047804  arm
@@ -86,8 +86,8 @@
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
  *   _ll_mul        0x0209C054  arm
- *   func_02187684 0x02187684 thumb ov020
- *   func_0218768C  0x0218768C  thumb  ov020
+ *   EL_SCOREBOARD_DeleteLamp 0x02187684 thumb ov020
+ *   EL_SCOREBOARD_TickLamp  0x0218768C  thumb  ov020
  *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm
  *   ARC_TOOL_ReadMemberRange 0x02048F74 arm
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
@@ -103,7 +103,7 @@
  *   FIELD_TASK_CreateCameraTargetTween  0x021C7AE4  thumb  ov021
  *   FIELD_TASK_MANAGER_AddTask  0x021C6DE0  thumb  ov021
  *   FIELD_TASK_MANAGER_IsEmpty  0x021C6E48  thumb  ov021
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  */
@@ -249,7 +249,7 @@ extern void func_0201F230(struct WordSet *wordSet, u32 index, u32 month);
 extern u32 func_0201ED04(struct WordSet *wordSet);
 extern struct WordSet *func_0201EC74(u32 wordMax, u32 bufLen, u16 heapId);
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_02013E4C(u32 placeId);
+extern u32 ZONEDATA_GetPlaceNameId(u32 placeId);
 extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 index);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201EE0C(struct WordSet *wordSet, u32 index, const struct Strbuf *str, u32 sex, u32 singular, u32 lang);
@@ -276,7 +276,7 @@ extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrCmdWork *cmdWork);
 extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrCmdWork *cmdWork);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptContext *ctx, struct ScrCmdWork *cmdWork);
-extern void func_020061E4(u32 seId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern void SCRIPT_SYS_CallEvent(struct ScriptWork *scriptWork, struct GameEvent *event);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
@@ -289,12 +289,12 @@ extern int G3D_SYSTEM_DisableObjectAnime(G3dObject *obj, u32 animIndex);
 extern u32 func_0201D304(struct Strbuf *str, struct GfFont *font, u32 spacing);
 extern G3dRender *G3D_SYSTEM_GetObjectRender(G3dObject *obj);
 extern G3dResource *G3D_SYSTEM_GetRenderTexRes(G3dRender *render);
-extern struct ElboardText *func_021875F4(G3dResource *texRes, const char *textureName, const char *paletteName, struct Strbuf *str, u16 width, u16 flag, u16 heapId);
+extern struct ElboardText *EL_SCOREBOARD_CreateLamp(G3dResource *texRes, const char *textureName, const char *paletteName, struct Strbuf *str, u16 width, u16 flag, u16 heapId);
 extern G3dAnime *G3D_SYSTEM_GetObjectAnime(G3dObject *obj, int animIndex);
 extern NNSG3dAnmObj *G3D_SYSTEM_GetAnimeObj(G3dAnime *anime);
 extern u32 G3D_SYSTEM_ResetObjectAnimeFrame(G3dObject *obj, u16 animIndex);
-extern void func_02187684(struct ElboardText *text);
-extern void func_0218768C(struct ElboardText *text);
+extern void EL_SCOREBOARD_DeleteLamp(struct ElboardText *text);
+extern void EL_SCOREBOARD_TickLamp(struct ElboardText *text);
 extern int G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *obj, int animIndex, int step);
 extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archiveId, u32 memberIndex, u32 mode, u32 size);
 extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
@@ -310,7 +310,7 @@ extern struct FieldTask *FIELD_TASK_CreateCameraYawTween(struct FieldMap *fieldM
 extern struct FieldTask *FIELD_TASK_CreateCameraTargetTween(struct FieldMap *fieldMap, u16 frames, VecFx32 *target);
 extern void FIELD_TASK_MANAGER_AddTask(struct FieldTaskManager *taskManager, struct FieldTask *task, u32 flag);
 extern int FIELD_TASK_MANAGER_IsEmpty(struct FieldTaskManager *taskManager);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, void *parent, GameEventFunc func, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
@@ -513,7 +513,7 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(GateWork *work)
         if (highlights.placeId[i] == ELBOARD_NO_PLACE)
             continue;
         kindIndex = highlights.kind[i];
-        placeName = func_02045EC0(placeNames, func_02013E4C(highlights.placeId[i]));
+        placeName = func_02045EC0(placeNames, ZONEDATA_GetPlaceNameId(highlights.placeId[i]));
         labelText = func_02045EC0(boardText, gElboardLabelMsgId[kindIndex]);
         pairWords = func_0201EC74(2, bufLen, work->heapId);
         pairTemplate = func_02045EC0(boardText, 0xc0);
@@ -574,7 +574,7 @@ void GIMMICK_OBJ_ELBOARD_AddLastPlaceMessage(GateWork *work)
         return;
     words = func_0201EC64(work->heapId);
     placeNames = func_02045B38(0, 2, 0x59, work->heapId);
-    placeName = func_02045EC0(placeNames, func_02013E4C(placeId));
+    placeName = func_02045EC0(placeNames, ZONEDATA_GetPlaceNameId(placeId));
     func_0201EE0C(words, 0, placeName, 0, 1, 0);
     STRBUF_Delete(placeName);
     MSGDATA_Delete(placeNames);
@@ -936,7 +936,7 @@ int GIMMICK_OBJ_ELBOARD_CmdStartCameraEvent(struct ScriptContext *ctx, struct Sc
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     frames = (int)SCRIPT_WORK_ReadWorkValue(ctx, cmdWork);
-    func_020061E4(0x547);
+    GFL_USE_PlaySeDefaultVolume(0x547);
     SCRIPT_SYS_CallEvent(scriptWork, GIMMICK_OBJ_ELBOARD_CreateCameraEvent(gameSystem, fieldMap, frames));
     return 1;
 }
@@ -1116,7 +1116,7 @@ ElboardLine *GIMMICK_OBJ_ELBOARD_CreateLine(GimmickObjElboard *board, const Elbo
         str = func_02045EC0(msgData, msg->msgId);
     }
     width = func_0201D304(str, board->font, 1);
-    line->text = func_021875F4(G3D_SYSTEM_GetRenderTexRes(G3D_SYSTEM_GetObjectRender(board->render)), msg->textureName, msg->paletteName, str, board->leadChars * 14, 1, board->heapId);
+    line->text = EL_SCOREBOARD_CreateLamp(G3D_SYSTEM_GetRenderTexRes(G3D_SYSTEM_GetObjectRender(board->render)), msg->textureName, msg->paletteName, str, board->leadChars * 14, 1, board->heapId);
     func_020307B0(str);
     MSGDATA_Delete(msgData);
     animFrames = G3D_SYSTEM_GetAnimeObj(G3D_SYSTEM_GetObjectAnime(board->render, msg->animIndex))->resAnm->numFrame << 12;
@@ -1141,7 +1141,7 @@ ElboardLine *GIMMICK_OBJ_ELBOARD_CreateLine(GimmickObjElboard *board, const Elbo
 
 void GIMMICK_OBJ_ELBOARD_DeleteLine(ElboardLine *line)
 {
-    func_02187684(line->text);
+    EL_SCOREBOARD_DeleteLamp(line->text);
     func_020307B0(line);
 }
 
@@ -1163,7 +1163,7 @@ void GIMMICK_OBJ_ELBOARD_UpdateLine(GimmickObjElboard *board, ElboardLine *line,
     int newElapsed;
 
     if (line->isPlaying == 1) {
-        func_0218768C(line->text);
+        EL_SCOREBOARD_TickLamp(line->text);
         G3D_SYSTEM_IncObjectAnimeFrame(line->render, line->animIndex, step);
         newElapsed = line->elapsed + step;
         line->elapsed = newElapsed;
@@ -1271,7 +1271,7 @@ int GIMMICK_OBJ_ELBOARD_CameraEventMain(struct GameEvent *event, int *seq, void 
             (*seq)++;
         break;
     case 3:
-        keys = func_020362DC();
+        keys = KEY_GetTrg();
         /* Left, Right, Down or B */
         if ((keys & 0x20) || (keys & 0x10) || (keys & 0x80) || (keys & 2))
             (*seq)++;

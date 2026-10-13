@@ -13,7 +13,7 @@
  *   func_0201F73C 0x0201F73C thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_0201F7A8 0x0201F7A8 thumb
  */
@@ -26,6 +26,6 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern void func_02041B6C(unsigned);
 extern void func_0201F7A8(void *desc, u32 kind);
-extern unsigned char func_02045730(struct Descriptor *);
-void func_021BA074(int unused,char *p){struct Descriptor *d;func_0201F73C(((struct Obj10935 *)p)->f6C,1,(unsigned short)(((struct Obj10935 *)p)->f74),10);d=*(struct Descriptor * *)&((struct Obj10935 *)p)->f6C;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);func_02041B6C(func_02045730(d));}
+extern unsigned char BMP_WIN_GetBgLayer(struct Descriptor *);
+void func_021BA074(int unused,char *p){struct Descriptor *d;func_0201F73C(((struct Obj10935 *)p)->f6C,1,(unsigned short)(((struct Obj10935 *)p)->f74),10);d=*(struct Descriptor * *)&((struct Obj10935 *)p)->f6C;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);func_02041B6C(BMP_WIN_GetBgLayer(d));}
 void func_021BA0A4(int unused,char *p){func_0201F7A8(((struct Obj25724 *)p)->f6C,(int)1);}

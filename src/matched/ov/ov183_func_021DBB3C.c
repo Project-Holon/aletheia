@@ -17,7 +17,7 @@
  *   func_021FD15C 0x021FD15C thumb ov186
  *   func_021FD820 0x021FD820 thumb ov186
  *   func_021FD714 0x021FD714 thumb ov186
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   BMP_OAM_DeleteSys 0x02025588 thumb
  *   func_020315D4 0x020315D4 arm
  */
@@ -35,7 +35,7 @@ extern void func_020409B4(u32 index);
 extern void func_021FD15C(void *,int);
 extern void func_021FD820(char *);
 extern void func_021FD714(void *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void BMP_OAM_DeleteSys(void *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
@@ -56,7 +56,7 @@ int func_021DBB3C(int task,int b,char *q,char *p)
     }
     for(i=0;i<2;i++) func_021FD820(*(char **)(p+i*4+0xc));
     func_021FD714((void *)(((struct Obj00050 *)p)->f8));
-    func_0201C4C0(((struct Obj00050 *)p)->f4);
+    PRINTSYS_QUE_Delete(((struct Obj00050 *)p)->f4);
     BMP_OAM_DeleteSys((void *)(((struct Obj00050 *)p)->f0));
     func_020315D4((struct S020315D4 *)task);
     return 1;

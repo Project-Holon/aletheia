@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -24,12 +24,12 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Rec3;
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern u32 func_020307B0(void *p);
 
 int FIELD_MSGBG_DeleteMsgStream(void *a)
 {
-func_0201CE48((struct Rec3 *)(((struct Obj17932 *)((u8 *)(a)))->f4));
+PRINTSYS_PrintStreamDelete((struct Rec3 *)(((struct Obj17932 *)((u8 *)(a)))->f4));
 return func_020307B0(a);
 }
 

@@ -44,8 +44,8 @@
  *   gNetIrcWirelessLink     0x021469F0  data
  *   sNetIrcWirelessFileName     0x020A7D34  data
  *   str_020A7D48  0x020A7D48  data
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   str_020A7D4C  0x020A7D4C  data
  *   s_020A7D68      0x020A7D68  data
  *   GFL_NET_WM_ICON_EasyStart 0x02037010 arm
@@ -113,8 +113,8 @@ extern void func_02034FB8(u32 flag);
 extern void GFL_NET_LOWER_DATA_MainSend(void);
 extern u32  FLASH_ACCESS_GetBusyFlag(void);
 extern void GFL_NET_HANDLE_IsTimingSync(void);
-extern void func_02039C68(GFLNetHandle *handle, u32 timingNo, u32 option);
-extern u32 func_02039CB4(GFLNetHandle *handle, u32 timingNo, u32 option);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(GFLNetHandle *handle, u32 timingNo, u32 option);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(GFLNetHandle *handle, u32 timingNo, u32 option);
 void GFL_NET_WM_ICON_EasyStart(u32 timeoutFrames, u32 timeoutExtra, u32 isWifi, u32 heapId);
 void GFL_NET_WM_ICON_EasyEnd(void);
 void GFL_NET_WM_ICON_EasySetScreen(u32 restartParamA, u32 restartParamB);
@@ -3050,11 +3050,11 @@ void GFL_NET_IRC_WIRELESS_Main(void)
         if (link->syncReady != 1)
             return;
         link->active = 1;
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 3, 0);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 3, 0);
         GFL_NET_IRC_WIRELESS_SetState(link, 1);
         break;
     case 1:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 3, 0) == 0)
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 3, 0) == 0)
             return;
         GFL_NET_IRC_WIRELESS_SetState(link, 2);
         break;
@@ -3228,12 +3228,12 @@ void GFL_NET_IRC_WIRELESS_Main(void)
     case 16:
         if (link->syncReady != 1)
             return;
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 3, 0);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 3, 0);
         gNetIrcWirelessLink->active = 1;
         GFL_NET_IRC_WIRELESS_SetState(link, 0x11);
         break;
     case 17:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 3, 0) == 0)
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 3, 0) == 0)
             return;
         if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0, 0) == 0)
             return;

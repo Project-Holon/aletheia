@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B9234",
+   "name": "BTL_MAIN_SetDoubleMoney",
    "address": "0x021B9234",
    "kind": "game",
    "region": "ov093",

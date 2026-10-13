@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
@@ -17,7 +17,7 @@
  *   func_0201EF40  0x0201EF40  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_CMD_SendProposal  0x0217405C  thumb  ov011
  *   INTRUDE_COMM_SendAnswer  0x02173B9C  thumb  ov011
@@ -61,7 +61,7 @@ struct Ctx;
 struct Obj;
 struct S0201235C;
 struct WordSet;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
@@ -69,7 +69,7 @@ extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
-extern u32   func_020362DC(void);
+extern u32   KEY_GetTrg(void);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern int INTRUDE_CMD_SendProposal(char *a, char *b);
 extern int INTRUDE_COMM_SendAnswer(int a, int b);
@@ -89,7 +89,7 @@ int EVENT_COMM_COMMON_ItemSaleEventMain(void *a, int *state, Outer *c)
     u8 *v;
     u16 *h;
 
-    sub = func_020124E4(a);
+    sub = GAME_EVENT_GetGameSystem(a);
     v = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(sub)));
     if (v == 0 && *state <= 4) {
         if (EVENT_COMM_COMMON_IsPrintFinished((u8 *)c + 0x10) == 0) {
@@ -129,7 +129,7 @@ int EVENT_COMM_COMMON_ItemSaleEventMain(void *a, int *state, Outer *c)
                 *state = 7;
                 break;
             default:
-                if ((func_020362DC() & 2) && INTRUDE_COMM_SendAnswer(v[0x154], v[0x158]) == 1) {
+                if ((KEY_GetTrg() & 2) && INTRUDE_COMM_SendAnswer(v[0x154], v[0x158]) == 1) {
                     INTRUDE_COMM_NextRequestToken(v);
                     c->fA0 = 1;
                     *state = 8;

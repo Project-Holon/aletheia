@@ -19,7 +19,7 @@
  *   func_02025DE8 0x02025DE8 thumb
  *   func_021EF5E8 0x021EF5E8 thumb
  *   func_021EE408 0x021EE408 thumb
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  */
 
@@ -33,7 +33,7 @@ extern void func_020260E4(struct Sound *obj, u8 sel);
 extern int func_02025DE8(struct Sound *obj);
 extern int func_021EF5E8(struct WinMgr *mgr);
 extern void func_021EE408(char *p, int v);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -49,7 +49,7 @@ unsigned func_021EEB40(char *p)
             func_021EE408(p, sel);
             return -1;
         }
-        if (func_020362DC() & 0x400) {
+        if (KEY_GetTrg() & 0x400) {
             func_020355D8(0);
             return 7;
         }

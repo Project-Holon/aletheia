@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DBAF0",
+   "name": "HAND_TOKUSEI_MagnetPull_BlockSteelEscape",
    "address": "0x021DBAF0",
    "kind": "game",
    "region": "ov093",

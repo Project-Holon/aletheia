@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B6F4 0x0204B6F4 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  */
 typedef unsigned char u8;
 typedef signed char s8;
@@ -17,8 +17,8 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 struct Obj;
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 void func_021BD470(u8 *p,int i)
 {
-    func_0204B6F4(*(void **)(p+i*4+0x70),6,1);
+    CLACT_SetActorPaletteOffset(*(void **)(p+i*4+0x70),6,1);
 }

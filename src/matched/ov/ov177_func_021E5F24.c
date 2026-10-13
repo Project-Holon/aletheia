@@ -16,13 +16,13 @@
  * asks for the double assignment is superseded.
  *
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_021E7270 0x021E7270 thumb ov177
  *   func_021E6F20 0x021E6F20 thumb ov177
  *   func_020407E8 0x020407E8 arm
- *   func_0204B404 0x0204B404 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_02045EC0 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -39,13 +39,13 @@ struct Descriptor;
 struct MsgBank;
 struct Obj;
 struct U16Vec;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_021E7270(char *);
 extern void func_021E6F20(Work *,void *,void *,u16);
 extern u32 func_020407E8(u32 layer);
-extern void func_0204B404(void *,const Pt *,u16);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_AddActorSurfacePos(void *,const Pt *,u16);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -56,7 +56,7 @@ void func_021E5F24(char *p, int mode, void *mgr, void *print, int font, u16 a5)
     int x;
     int base,layer1,secondary,layer2;
     Pt pos;
-    BMP_Clear(func_02045770(((struct Obj00133 *)p)->f20),0);
+    BMP_Clear(BMP_WIN_GetBmp(((struct Obj00133 *)p)->f20),0);
     i=0;
     func_021E7270(p);
     base=0x240;
@@ -72,11 +72,11 @@ void func_021E5F24(char *p, int mode, void *mgr, void *print, int font, u16 a5)
         pos.y=168;pos.x=x+i*32;
         q=p+i*4;
         o=*(void **)(q+base);
-        if(o)func_0204B404(o,&pos,*(unsigned *)(p+layer1));
+        if(o)CLACT_AddActorSurfacePos(o,&pos,*(unsigned *)(p+layer1));
         o=*(void **)(q+secondary);
         if(o) {
             pos.x+=12;pos.y+=8;
-            func_0204B404(o,&pos,*(unsigned *)(p+layer2));
+            CLACT_AddActorSurfacePos(o,&pos,*(unsigned *)(p+layer2));
         }
     }
     switch(mode) {
@@ -86,13 +86,13 @@ void func_021E5F24(char *p, int mode, void *mgr, void *print, int font, u16 a5)
             void *o;
             q=p+i*4;
             o=((struct Obj05464 *)q)->f1A8;
-            if(o)func_0204B3DC(o,1);
+            if(o)CLACT_SetActorDrawEnable(o,1);
             o=((struct Obj05464 *)q)->f16C;
-            if(o)func_0204B3DC(o,1);
+            if(o)CLACT_SetActorDrawEnable(o,1);
         }
-        func_0204B3DC(((struct Obj00133 *)p)->f18C,1);
+        CLACT_SetActorDrawEnable(((struct Obj00133 *)p)->f18C,1);
         s=func_02045EC0(mgr,17);
-        PRINTSYS_PrintQueColor(print,(u32)func_02045770(((struct Obj00133 *)p)->fB4),0,0,(u32)s,font,0x3c40);
+        PRINTSYS_PrintQueColor(print,(u32)BMP_WIN_GetBmp(((struct Obj00133 *)p)->fB4),0,0,(u32)s,font,0x3c40);
         ((struct Obj00133 *)p)->fB8=1;
         break;
     case 1:
@@ -101,13 +101,13 @@ void func_021E5F24(char *p, int mode, void *mgr, void *print, int font, u16 a5)
             void *o;
             q=p+i*4;
             o=((struct Obj05464 *)q)->f1A8;
-            if(o)func_0204B3DC(o,1);
+            if(o)CLACT_SetActorDrawEnable(o,1);
             o=((struct Obj05464 *)q)->f16C;
-            if(o)func_0204B3DC(o,1);
+            if(o)CLACT_SetActorDrawEnable(o,1);
         }
-        func_0204B3DC(((struct Obj00133 *)p)->f18C,0);
+        CLACT_SetActorDrawEnable(((struct Obj00133 *)p)->f18C,0);
         s=func_02045EC0(mgr,18);
-        PRINTSYS_PrintQueColor(print,(u32)func_02045770(((struct Obj00133 *)p)->fB4),0,0,(u32)s,font,0x3c40);
+        PRINTSYS_PrintQueColor(print,(u32)BMP_WIN_GetBmp(((struct Obj00133 *)p)->fB4),0,0,(u32)s,font,0x3c40);
         ((struct Obj00133 *)p)->fB8=1;
         break;
     case 2:
@@ -116,13 +116,13 @@ void func_021E5F24(char *p, int mode, void *mgr, void *print, int font, u16 a5)
             void *o;
             q=p+i*4;
             o=((struct Obj05464 *)q)->f1A8;
-            if(o)func_0204B3DC(o,0);
+            if(o)CLACT_SetActorDrawEnable(o,0);
             o=((struct Obj05464 *)q)->f16C;
-            if(o)func_0204B3DC(o,0);
+            if(o)CLACT_SetActorDrawEnable(o,0);
         }
-        func_0204B3DC(((struct Obj00133 *)p)->f18C,0);
+        CLACT_SetActorDrawEnable(((struct Obj00133 *)p)->f18C,0);
         s=func_02045EC0(mgr,19);
-        PRINTSYS_PrintQueColor(print,(u32)func_02045770(((struct Obj00133 *)p)->fB4),0,0,(u32)s,font,0x3c40);
+        PRINTSYS_PrintQueColor(print,(u32)BMP_WIN_GetBmp(((struct Obj00133 *)p)->fB4),0,0,(u32)s,font,0x3c40);
         ((struct Obj00133 *)p)->fB8=1;
         break;
     }

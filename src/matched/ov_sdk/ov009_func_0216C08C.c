@@ -14,15 +14,15 @@
  * The GP error argument arrives in r1 (the callback's second parameter).
  *
  * symbols:
- *   func_0216BD04  0x0216BD04  arm  ov009
+ *   DWCi_HandleGPError  0x0216BD04  arm  ov009
  */
 
-extern int func_0216BD04(int result);
+extern int DWCi_HandleGPError(int result);
 
 void DWCi_GPErrorCallback(void *connection, int *arg)
 {
     int v = arg[1];
 
     if (v == 0x603 || v == 0x901 || v == 0xb01) return;
-    func_0216BD04(3);
+    DWCi_HandleGPError(3);
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020434DC   0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible   0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible   0x02043598  arm
  *   CLACT_InitSystem   0x0204A48C  arm
  *   CLACT_CreateUnit   0x0204B100  arm
@@ -29,7 +29,7 @@ extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 struct Bank;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern void func_020434DC(u32, u32);
+extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 void func_021C65A8(u8 *p)
 {
@@ -39,6 +39,6 @@ void func_021C65A8(u8 *p)
     bank = CLACT_CreateUnit(8, 0, 0x66);
     ((struct Obj23593 *)p)->f1EC = bank;
     CLACT_SetUnitDefaultRenderer(bank);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }

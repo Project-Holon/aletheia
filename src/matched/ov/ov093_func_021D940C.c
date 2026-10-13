@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetParalysisGuardHandlers
+ * function: HAND_TOKUSEI_GetParalysisGuardHandlers
  * address: 0x021D940C
  * packet: pkt_ov093_021D940C
  * region: ov093
@@ -15,10 +15,10 @@
  *   gParalysisGuardHandlers 0x021F0BFC data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetParalysisGuardHandlers(int *p);
+int *HAND_TOKUSEI_GetParalysisGuardHandlers(int *p);
 extern int gParalysisGuardHandlers[];
 
-int *BTL_TOKUSEI_GetParalysisGuardHandlers(int *p)
+int *HAND_TOKUSEI_GetParalysisGuardHandlers(int *p)
 {
     *p = 5;
     return gParalysisGuardHandlers;

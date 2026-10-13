@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -18,11 +18,11 @@
 
 typedef unsigned short u16;
 
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 
 void func_021C2DCC(char *p)
 {
     u16 t = ((struct Obj14768 *)p)->f0;
-    func_02082BCC(p, 0, 0x20);
+    MI_CpuFill8(p, 0, 0x20);
     ((struct Obj14768 *)p)->f0 = t;
 }

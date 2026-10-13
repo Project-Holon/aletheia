@@ -16,10 +16,10 @@
  *   BTL_SETUP_SetStatusFlag   0x02013144  thumb
  *   BTL_SETUP_SetPlayerParty   0x0201333C  thumb
  *   BTL_SETUP_InitCommon   0x02013360  thumb
- *   func_0201A920   0x0201A920  thumb
- *   func_0201AA14   0x0201AA14  thumb
- *   func_0201AA18   0x0201AA18  thumb
- *   func_0201AC2C   0x0201AC2C  thumb
+ *   POKEPARTY_Create   0x0201A920  thumb
+ *   POKEPARTY_GetCapacity   0x0201AA14  thumb
+ *   POKEPARTY_GetCount   0x0201AA18  thumb
+ *   POKEPARTY_Copy   0x0201AC2C  thumb
  *
  * btl_setup.c.  The link-battle variant of the setup builder: the same
  * three shared writers as BTL_SETUP_SetupDemo, then the object is put in mode 0
@@ -31,12 +31,12 @@
  * readings are what close it, and both are the same idiom, see
  * docs/idioms/a-loop-carried-value-in-a-callees-argument-register-names-the-arity.md.
  *
- * (1) func_0201AC2C takes the func_0201A920 result as a second argument.
+ * (1) POKEPARTY_Copy takes the POKEPARTY_Create result as a second argument.
  * The original writes `adds r1, r0, #0; str r1, [r4, #0x28]`, which reads
  * as a gratuitous register copy before the store.  It is not: r1 is the
- * second argument of the guarded func_0201AC2C call below, so the value has
+ * second argument of the guarded POKEPARTY_Copy call below, so the value has
  * to reach r1 anyway and the store then sources it from there.  The
- * declaration has to be variadic, `void func_0201AC2C(u32 a, ...)`, because
+ * declaration has to be variadic, `void POKEPARTY_Copy(u32 a, ...)`, because
  * the other call site of this family (in BTL_SETUP_SetupDemo, EXACT) passes two
  * registers while some pass one; a fixed two-parameter declaration emits a
  * spurious `movs r1, #0`.  This is the same finding
@@ -79,10 +79,10 @@ struct Party;
 struct Rec534;
 extern void BTL_SETUP_InitCommon(u8 *o, void *a1, const void *a2);
 extern int BTL_SETUP_SetPlayerParty(int a0, int a1, int a2);
-extern struct Party *func_0201A920(u32 heap);
-extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
-extern u32  func_0201AA18(void *p);
-extern u32 func_0201AA14(void *p);
+extern struct Party *POKEPARTY_Create(u32 heap);
+extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
+extern u32  POKEPARTY_GetCount(void *p);
+extern u32 POKEPARTY_GetCapacity(void *p);
 extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
 extern int func_020076D0(void *save, int *pbox, int *pslot);
 extern void BTL_SETUP_SetStatusFlag(char *p, int v);
@@ -98,15 +98,15 @@ void BTL_SETUP_SetupWild(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
     BTL_SETUP_Clear(a0);
     BTL_SETUP_InitCommon(a0, a1, (const void *)a3);
     BTL_SETUP_SetPlayerParty((int)a0, (int)a1, a5);
-    r = (u32)func_0201A920(a5);
+    r = (u32)POKEPARTY_Create(a5);
     ((struct Obj00155 *)a0)->f28 = r;
     if (a2 != 0) {
-        func_0201AC2C((const struct Rec534 *)a2, (struct Rec534 *)r);
+        POKEPARTY_Copy((const struct Rec534 *)a2, (struct Rec534 *)r);
     }
     ((struct Obj00155 *)a0)->f4 = a4;
     ((struct Obj00155 *)a0)->f0 = 0;
-    t = func_0201AA18((void *)((struct Obj00155 *)a0)->f24);
-    if (t != func_0201AA14((void *)(((struct Obj00155 *)a0)->f24))) {
+    t = POKEPARTY_GetCount((void *)((struct Obj00155 *)a0)->f24);
+    if (t != POKEPARTY_GetCapacity((void *)(((struct Obj00155 *)a0)->f24))) {
         return;
     }
     u = GAME_DATA_GetBoxManager(a1);

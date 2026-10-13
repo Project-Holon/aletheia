@@ -16,7 +16,7 @@
  *   _fflt 0x0209BDBC arm
  *   _fdiv 0x0209CE10 arm
  *   _ffix 0x0209C494 arm
- *   d_020A1B38 0x020A1B38 data a4
+ *   FX_SinCosTable_ 0x020A1B38 data a4
  */
 #include "../include/Obj04524.h"
 typedef unsigned char u8;
@@ -27,7 +27,7 @@ typedef struct { u16 lo : 2; u16 flag : 1; u16 hi : 13; } Flags;
 extern void func_021F4F04(u8 *, Offset *);
 extern int func_021F4EFC(int, Flags *);
 extern void func_021F4EE0(int, u16 *, u16 *);
-extern const s16 d_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 int func_021BA25C(u8 *p, int x, int y)
 {
     s16 s;
@@ -39,8 +39,8 @@ int func_021BA25C(u8 *p, int x, int y)
     func_021F4F04(((struct Obj04524 *)p)->fC, (Offset *)pos);
     if (func_021F4EFC(0, ((struct Obj04524 *)p)->fC) == 1) {
         func_021F4EE0(0, ((struct Obj04524 *)p)->fC, &angle);
-        s = d_020A1B38[(angle >> 4) * 2];
-        c = d_020A1B38[(angle >> 4) * 2 + 1];
+        s = FX_SinCosTable_[(angle >> 4) * 2];
+        c = FX_SinCosTable_[(angle >> 4) * 2 + 1];
         dx = (int)((float)(pos[0] * c - pos[1] * s) / 4096.0f);
         dy = (int)((float)(pos[0] * s + pos[1] * c) / 4096.0f);
         rx = ((struct Obj04524 *)p)->f10 - dx - x;

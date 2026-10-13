@@ -11,7 +11,7 @@
  * symbols:
  *   d_021DF86E 0x021DF86E data ov121 a2
  *   func_02041300 0x02041300 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
@@ -29,7 +29,7 @@ extern void func_02041300(u32,u16,u8,u8,u8,u8,u8);
 struct CharBuf;
 struct Descriptor;
 struct Obj;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void CLACT_DeleteActor(struct Obj *p);
@@ -53,7 +53,7 @@ void func_021DB938(char *p,int a,u16 index)
         for(x=0;x<12;x++)
             func_02041300(3,(u16)(x+tile),(u8)(rect.b[0]+x),yy,1,1,3);
     }
-    BMP_Clear(func_02045770(*(void **)(p+0xb08+index*4)),0);
+    BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+0xb08+index*4)),0);
     BMP_WIN_TransferChars(*(void **)(p+0xb08+index*4));
     if(*(void **)(p+0xb28+index*4)) {
         CLACT_DeleteActor(*(void **)(p+0xb28+index*4));

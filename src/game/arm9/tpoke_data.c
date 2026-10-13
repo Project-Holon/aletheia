@@ -55,8 +55,6 @@ typedef struct {
     u32   count;
 } Tpoke;
 
-typedef struct { void *p0; void *p1; } XmlReader;
-
 typedef unsigned char  u8;
 
 struct Item {
@@ -122,7 +120,7 @@ u32 func_0202A420(u32 key);
 extern void  func_02082A60(const void *src, void *dest, u32 size);
 extern void  PMSI_PARAM_ClearSentence(void *p);
 Tpoke *func_0202A128(int heap);
-void gsXmlFreeReader(XmlReader *reader);
+void TPOKE_Delete(Tpoke *tpoke);
 u32 func_0202A188(u8 *p, u32 a, u32 v2, u32 v3);
 int func_0202A19C(u32 a, u32 *p, u32 c, u32 d, u16 e);
 extern const char sTpokeData82[];
@@ -153,11 +151,11 @@ Tpoke *func_0202A128(int heap)
 
 
 
-void gsXmlFreeReader(XmlReader *reader)
+void TPOKE_Delete(Tpoke *tpoke)
 {
-    func_020307B0(reader->p1);
-    func_020307B0(reader->p0);
-    func_020307B0(reader);
+    func_020307B0(tpoke->buf);
+    func_020307B0((void *)tpoke->handle);
+    func_020307B0(tpoke);
 }
 
 

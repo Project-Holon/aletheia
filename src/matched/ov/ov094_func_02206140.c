@@ -16,6 +16,9 @@
  *   func_02206B14  0x02206B14  thumb
  *   func_02206B30  0x02206B30  thumb
  *   func_02206B58  0x02206B58  thumb
+ *   KEY_GetTrg  0x020362DC  arm  arm9
+ *   KEY_GetCont  0x0203630C  arm  arm9
+ *   CLACT_SetUnitDrawEnable  0x0204B22C  arm  arm9
  *
  * `const Ctx *c` lets the scheduler hoist the reload of c above the
  * bitfield store in the ret != -1 arm.
@@ -59,10 +62,10 @@ typedef struct {
     int *flags;
 } Ctx;
 
-extern u32 func_020362DC(void);
-extern unsigned int func_0203630C(void);
+extern u32 KEY_GetTrg(void);
+extern unsigned int KEY_GetCont(void);
 struct Bank;
-extern void func_0204B22C(struct Bank *bank, u32 mode);
+extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
 extern void func_02206950(W *p);
 extern void func_022064CC(W *p, u8 (*tab)[4], s8 (*rows)[12]);
 extern int func_02206908(char *p, char *q, int i);
@@ -80,8 +83,8 @@ int func_02206140(W *p, const Ctx *c, s8 (*rows)[12], u8 *list, int ret, int arg
     int k;
     int v;
 
-    keys = func_020362DC();
-    cont = func_0203630C();
+    keys = KEY_GetTrg();
+    cont = KEY_GetCont();
     done = 0;
     if (p->b0 == 0)
         keys &= ~2;
@@ -89,7 +92,7 @@ int func_02206140(W *p, const Ctx *c, s8 (*rows)[12], u8 *list, int ret, int arg
         p->redraw = 0;
         func_02206950(p);
         func_022064CC(p, c->tab, rows);
-        func_0204B22C(p->f17c, 1);
+        CLACT_SetUnitDrawEnable(p->f17c, 1);
     }
     v = -1;
     if (ret != v) {
@@ -196,7 +199,7 @@ end:
         p->cur = 0;
         p->prev = 0xF;
         p->redraw = 1;
-        func_0204B22C(p->f17c, 0);
+        CLACT_SetUnitDrawEnable(p->f17c, 0);
     }
     return ret;
 }

@@ -26,7 +26,7 @@
  *   FX_AcosIdx       0x0207D184  arm
  *   _ll_mul          0x0209C054  arm
  *   gFieldCameraRingRefVec       0x021D3E38  data   a4
- *   d_020A1B38       0x020A1B38  data   a2
+ *   FX_SinCosTable_       0x020A1B38  data   a2
  * Addresses are Black-image addresses.
  */
 
@@ -51,7 +51,7 @@ extern void VEC_CrossProduct(V *a, V *b, V *o);
 extern int VEC_DotProduct(V *a, V *b);
 extern u16 FX_AcosIdx(int x);
 extern V gFieldCameraRingRefVec;
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 int FIELD_CAMERA_AreaKeepInRing(const Ring *a, V *b, V *out)
 {
@@ -122,9 +122,9 @@ int FIELD_CAMERA_AreaKeepInRing(const Ring *a, V *b, V *out)
     }
     if (r != 0) {
         i = (ang >> 4) * 2;
-        s = d_020A1B38[i];
+        s = FX_SinCosTable_[i];
         out->x = e.x + (int)(((long long)s * m + 0x800) >> 12);
-        s = d_020A1B38[i + 1];
+        s = FX_SinCosTable_[i + 1];
         out->z = e.z + (int)(((long long)s * m + 0x800) >> 12);
         out->y = d.y;
     }

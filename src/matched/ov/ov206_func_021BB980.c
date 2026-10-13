@@ -10,13 +10,13 @@
  * tail: zero alignment halfword at 0x021BB9DE before 0x021BB9E0.
  * lever: two-dimensional arrays as struct fields avoid hoisted raw-offset bases.
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 typedef unsigned char u8;
 struct State { char pad[0xb8]; int ids[3][2]; void *objects[2][2]; int selected,mode; };
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 void func_021BB980(struct State *p)
 {
     u8 i,j;
@@ -25,7 +25,7 @@ void func_021BB980(struct State *p)
             if(i != p->selected) {
                 for(j=0;j<2;j++) {
                     if(p->ids[i][j]!=-1)
-                        func_0204B3DC(p->objects[i][j],0);
+                        CLACT_SetActorDrawEnable(p->objects[i][j],0);
                 }
             }
         }

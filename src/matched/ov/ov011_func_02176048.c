@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb  ov011
  *   INTRUDE_COMM_IsJoinRequestValid  0x02175FB8  thumb  ov011
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
@@ -67,7 +67,7 @@ typedef struct {
     Entry entries[1];
 } Work;
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern int INTRUDE_COMM_IsSessionActive(u8 *p);
 extern int INTRUDE_COMM_IsJoinRequestValid(void *p, Src *src);
 extern u32 GFL_NET_SYSTEM_GetConnectNum(void);
@@ -79,7 +79,7 @@ int INTRUDE_COMM_ReceiveJoinRequest(u8 *a0, Work *p, Src *src, int idx)
 {
     Rec *tmp = &p->tmp;
 
-    func_02082BCC(&p->entries[idx], 0, sizeof(Entry));
+    MI_CpuFill8(&p->entries[idx], 0, sizeof(Entry));
     if (INTRUDE_COMM_IsSessionActive(a0 + 0x1AC) == 1) {
         p->entries[idx].state = 2;
         return 0;

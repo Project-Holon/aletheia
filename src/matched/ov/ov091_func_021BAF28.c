@@ -17,7 +17,7 @@
  *   POKELIST_PrintExpandedTextMain  0x021B9CF4  thumb  ov091
  *   STRBUF_Delete  0x02045808  arm
  *   func_0201ED04  0x0201ED04  thumb
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  */
 #include "../include/Obj03183.h"
@@ -40,7 +40,7 @@ extern void POKELIST_PrintExpandedTextMain(u8 *p, u32 win, void *set, u32 idx, s
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
 void PLIST_PLATE_DrawEgg(u8 *a, u8 *s)
@@ -54,7 +54,7 @@ void PLIST_PLATE_DrawEgg(u8 *a, u8 *s)
     POKELIST_PrintExpandedTextMain(a, ((struct Obj03183 *)s)->f20, (void *)r6, 3, 0x29, 9, 0x440);
     STRBUF_Delete((struct U16Vec *)r7);
     func_0201ED04((struct WordSet *)r6);
-    func_0204B3DC((struct Obj *)((struct Obj03183 *)s)->f38, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj03183 *)s)->f38, 0);
     CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj03183 *)s)->f30), 1);
     ((struct Obj03183 *)s)->f18 = 1;
 }

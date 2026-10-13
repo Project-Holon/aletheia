@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 #include "../../matched/include/Obj21912.h"
 
@@ -27,7 +27,7 @@ typedef struct { u32 value; u16 kind; u8 data, flag; } Rec;
 
 typedef struct { u32 pos; Rec r[120]; } O;
 
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 void func_0689CFF0(void *p);
 void func_0689D01C(O *p, u32 kind, u32 value, u32 data);
 void func_0689D050(O *p);
@@ -38,7 +38,7 @@ u16 func_0689D0C8(O *p, u32 value);
 void func_0689CFF0(void *p)
 {
     u32 i;
-    func_02082BCC(p, 0, 964);
+    MI_CpuFill8(p, 0, 964);
     ((struct Obj21912 *)p)->f0 = 0;
     for (i = 0; i < 120; i++) {
         *(u16 *)((u32)p + i * 8 + 8) = 0;

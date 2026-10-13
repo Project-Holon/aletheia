@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C50
+ * function: BTL_SLOT_Rotate
  * address:  0x021B9C50
  * packet:   pkt_ov093_021B9C50
  * region:   ov093
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9AB0  0x021B9AB0  thumb  ov093
- *   func_021B9AC8  0x021B9AC8  thumb  ov093
+ *   BTL_SLOT_GetRotateSrcIndex  0x021B9AB0  thumb  ov093
+ *   BTL_SLOT_GetRotateDstIndex  0x021B9AC8  thumb  ov093
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021B9AB0(int k);
-extern int func_021B9AC8(int k);
+extern int BTL_SLOT_GetRotateSrcIndex(int k);
+extern int BTL_SLOT_GetRotateDstIndex(int k);
 
-void func_021B9C50(u8 **p, int k, u8 **o1, u8 **o2)
+void BTL_SLOT_Rotate(u8 **p, int k, u8 **o1, u8 **o2)
 {
     u8 *t;
     int a;
@@ -29,8 +29,8 @@ void func_021B9C50(u8 **p, int k, u8 **o1, u8 **o2)
     if (k != 0) {
         if (k != 1) {
             t = p[0];
-            a = func_021B9AB0(k);
-            b = func_021B9AC8(k);
+            a = BTL_SLOT_GetRotateSrcIndex(k);
+            b = BTL_SLOT_GetRotateDstIndex(k);
             p[0] = p[a];
             p[a] = p[b];
             p[b] = t;

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
@@ -25,7 +25,7 @@ typedef struct { u32 f0; } Ctx;
 
 struct Ctx;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 struct IcaAnime;
@@ -36,7 +36,7 @@ extern const char MUSICAL_DRESSUP_SYS_ProcTable[];
 
 int SCRCMD_MUSICAL_TaskShowMusicalProc(void *a, u32 *st, u32 *c)
 {
-    void *h = func_020124E4(a);
+    void *h = GAME_EVENT_GetGameSystem(a);
     GAMESYSTEM_GetGameData(h);
     GAMESYSTEM_GetFieldMap(h);
     switch (*st) {

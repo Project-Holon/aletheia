@@ -13,7 +13,7 @@
  *   func_020409B4 0x020409B4 arm
  *   func_02041570 0x02041570 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 #include "../include/Obj10521.h"
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern void func_02041570(int channel, u16 val);
 extern void func_02041B6C(unsigned);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 void P_STA_SKILL_HideMovesPage(u8 *a,u8 *b) {
     u8 i;
@@ -36,9 +36,9 @@ void P_STA_SKILL_HideMovesPage(u8 *a,u8 *b) {
     func_020409B4(1);
     func_02041570(4,0);
     func_02041B6C(4);
-    func_0204B3DC(((struct Obj10522 *)b)->f90,0);
-    func_0204B3DC(((struct Obj10522 *)b)->f94,0);
-    func_0204B3DC(((struct Obj10521 *)a)->f198,0);
-    func_0204B3DC(((struct Obj10521 *)a)->f19C,0);
+    CLACT_SetActorDrawEnable(((struct Obj10522 *)b)->f90,0);
+    CLACT_SetActorDrawEnable(((struct Obj10522 *)b)->f94,0);
+    CLACT_SetActorDrawEnable(((struct Obj10521 *)a)->f198,0);
+    CLACT_SetActorDrawEnable(((struct Obj10521 *)a)->f19C,0);
     CLACT_SetActorAnimSeq(((struct Obj10521 *)a)->f17C,1);
 }

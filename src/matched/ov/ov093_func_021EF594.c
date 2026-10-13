@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8FF4  0x021B8FF4  thumb  ov093
- *   func_021B9F70  0x021B9F70  thumb  ov093
+ *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
+ *   BTL_MAIN_IsTrainerSlotNpc  0x021B9F70  thumb  ov093
  *   BTL_MSG_ExpandTags  0x021EEFE0  thumb  ov093
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
@@ -39,8 +39,8 @@ typedef struct {
     u16 f5a;
 } D;
 
-extern u8 func_021B8FF4(u8 *p);
-extern int func_021B9F70(u8 *p, int i);
+extern u8 BTL_MAIN_GetOwnClientId(u8 *p);
+extern int BTL_MAIN_IsTrainerSlotNpc(u8 *p, int i);
 struct MsgBank;
 struct WordSet;
 extern void BTL_MSG_ExpandTags(void *s, const u32 *values, void *w);
@@ -53,8 +53,8 @@ void BTL_MSG_BuildClientAction(u32 a, u32 b, u32 *p)
     u8 id = p[0];
     int k;
 
-    if (id != func_021B8FF4((u8 *)gBtlMsgState.f0)) {
-        if (func_021B9F70((u8 *)gBtlMsgState.f0, id))
+    if (id != BTL_MAIN_GetOwnClientId((u8 *)gBtlMsgState.f0)) {
+        if (BTL_MAIN_IsTrainerSlotNpc((u8 *)gBtlMsgState.f0, id))
             k = 0x23;
         else
             k = 0x22;

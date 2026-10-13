@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0201CE30 0x0201CE30 thumb
- *   func_0203630C 0x0203630C arm
- *   func_0201CE5C 0x0201CE5C thumb
- *   func_020362DC 0x020362DC arm
- *   func_0201CE38 0x0201CE38 thumb
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
+ *   KEY_GetCont 0x0203630C arm
+ *   PRINTSYS_PrintStreamShortWait 0x0201CE5C thumb
+ *   KEY_GetTrg 0x020362DC arm
+ *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  */
 #include "../include/Obj05428.h"
 typedef unsigned short u16;
@@ -22,24 +22,24 @@ typedef unsigned int u32;
 typedef signed int     s32;
 struct Rec;
 struct Rec3;
-extern u32 func_0201CE30(void *p);
-extern unsigned int func_0203630C(void);
-extern void func_0201CE5C(struct Rec *p, s32 v);
-extern u32 func_020362DC(void);
-extern void func_0201CE38(void *);
-extern void func_0201CE48(struct Rec3 *p);
+extern u32 PRINTSYS_PrintStreamGetState(void *p);
+extern unsigned int KEY_GetCont(void);
+extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
+extern u32 KEY_GetTrg(void);
+extern void PRINTSYS_PrintStreamReleasePause(void *);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 int func_021DE55C(char *p) {
     int state;
     if (((struct Obj05428 *)p)->fF0 == 0) return 1;
-    state = func_0201CE30(((struct Obj05428 *)p)->fF0);
+    state = PRINTSYS_PrintStreamGetState(((struct Obj05428 *)p)->fF0);
     if (state == 0) {
-        if (func_0203630C() & 1)
-            func_0201CE5C(((struct Obj05428 *)p)->fF0, 0);
+        if (KEY_GetCont() & 1)
+            PRINTSYS_PrintStreamShortWait(((struct Obj05428 *)p)->fF0, 0);
     } else if (state == 1) {
-        if (func_020362DC() & 1)
-            func_0201CE38(((struct Obj05428 *)p)->fF0);
+        if (KEY_GetTrg() & 1)
+            PRINTSYS_PrintStreamReleasePause(((struct Obj05428 *)p)->fF0);
     } else if (state == 2) {
-        func_0201CE48(((struct Obj05428 *)p)->fF0);
+        PRINTSYS_PrintStreamDelete(((struct Obj05428 *)p)->fF0);
         ((struct Obj05428 *)p)->fF0 = 0;
         return 1;
     }

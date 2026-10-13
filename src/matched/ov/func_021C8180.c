@@ -1,5 +1,5 @@
 /*
- * function: func_021C8180
+ * function: BTL_SERVER_FLOW_GetActivePosPerSide
  * address:  0x021C8180
  * packet:   pkt_021C8180
  * region:   ov093
@@ -16,7 +16,7 @@
 
 unsigned int BTL_MAIN_GetActivePosPerSide(unsigned int **p);
 
-int func_021C8180(int *p)
+int BTL_SERVER_FLOW_GetActivePosPerSide(int *p)
 {
     return BTL_MAIN_GetActivePosPerSide((unsigned int **)(((struct Obj18337 *)p)->f4));
 }

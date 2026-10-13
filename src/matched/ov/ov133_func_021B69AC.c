@@ -37,7 +37,7 @@
  *   func_02040588 0x02040588 arm
  *   func_0207D63C 0x0207D63C arm
  *   CLACT_InitSystem 0x0204A48C arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
@@ -88,7 +88,7 @@ extern void func_021B6E4C(const void *t, unsigned int id);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern void func_020434DC(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void *func_0204EBD4(u8 *,void *);
@@ -134,7 +134,7 @@ void func_021B69AC(u8 *p)
     cfg = gClActorInitParam;
     cfg.a = 16; cfg.b = 112;
     CLACT_InitSystem((const struct Cfg *)(&cfg),(u32)d_021BA518,*(u16 *)p);
-    func_020434DC(16,1); BG_SYS_SetSubPlaneVisible(16,1);
+    BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
     *(void **)(p+0x1848) = CLACT_CreateUnit(24,0,*(u16 *)p);
     CLACT_SetUnitDefaultRenderer(*(void **)(p+0x1848));
     board = d_021BA5C4;

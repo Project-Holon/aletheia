@@ -22,7 +22,7 @@
  *   func_021E3FE4 0x021E3FE4 thumb ov119
  *   func_021E3F74 0x021E3F74 thumb ov119
  *   func_021E3208 0x021E3208 thumb ov119
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_021E3C20 0x021E3C20 thumb ov119
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
@@ -53,7 +53,7 @@ extern void func_021E3E80(char *p);
 extern void func_021E3FE4(char *p);
 extern void func_021E3F74(char *p);
 extern void func_021E3208(void *,int);
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_021E3C20(char *p);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
@@ -66,7 +66,7 @@ void func_021DE820(char *p)
         ((struct Obj00252 *)p)->f9C4=CLACT_CreateUnit(0x154,0,((struct Obj00252 *)p)->f5F4);
         func_021E10D8(p); func_021E58A0((int)p); func_021E467C(p);
         func_021E3E80(p); func_021E3FE4(p); func_021E3F74(p);
-        func_021E3208(p,0); func_02043534(31); BG_SYS_SetSubVisiblePlanes(30);
+        func_021E3208(p,0); BG_SYS_SetMainVisiblePlanes(31); BG_SYS_SetSubVisiblePlanes(30);
         func_021E3C20(p); GFL_NET_RestartWithDefaultTimeout(0,((struct Obj00252 *)p)->f5F4);
         *(volatile unsigned *)0x04001000 &= 0xffff1fff;
         func_021D8E84(p,(int)func_021DACE4);

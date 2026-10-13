@@ -34,10 +34,10 @@
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   func_02017E88 0x02017E88 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
  */
 #include "../include/Obj00026.h"
@@ -62,10 +62,10 @@ extern int TOUCHPANEL_GetCont(void);
 extern int TOUCHPANEL_HitTrg(const void *p);
 extern int TOUCHPANEL_HitCont(const void *p);
 extern u32 func_02017E88(void *,u32,u32);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
-extern void func_0204B3DC(struct Obj *,u32);
-extern void func_0204B404(struct Obj *,const struct Vec2 *,u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
+extern void CLACT_AddActorSurfacePos(struct Obj *,const struct Vec2 *,u32);
 extern void CLACT_RestartActorAnim(struct Actor *);
 void P_STA_SKILL_HandleTouch(u8 *a,u8 *b)
 {
@@ -79,16 +79,16 @@ void P_STA_SKILL_HandleTouch(u8 *a,u8 *b)
         P_STATUS_SetInputEnable((char *)a,1);
         CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj00132 *)a)->f194,9);
         P_STA_SKILL_SetSlotAnim(b+176+b[41]*24,0);
-        func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->f98,0);
+        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00026 *)b)->f98,0);
         P_STA_SKILL_PrintStatsPage(a,(int)b);
         if (((struct Obj00026 *)b)->f14==1) {
             P_STA_SKILL_SetSlotAnim(b+176+b[42]*24,0);
-            func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,0);
+            CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,0);
             ((struct Obj00026 *)b)->f14=0;
             b[42]=5;
         }
         a[28]=1;
-        func_020061E4(1361);
+        GFL_USE_PlaySeDefaultVolume(1361);
         return;
     }
     for (i=0;i<5;i++) P_STA_SKILL_GetSlotTouchRect(b+176+i*24,touch[i]);
@@ -103,8 +103,8 @@ void P_STA_SKILL_HandleTouch(u8 *a,u8 *b)
             if (((struct Obj00026 *)b)->f14!=1) {
                 b[42]=index;
                 P_STA_SKILL_GetSlotPos(b+176+index*24,(short unsigned int *)((u8 *)&point1));
-                func_0204B404(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,&point1,0);
-                func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,1);
+                CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,&point1,0);
+                CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,1);
                 if (index==0) CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,3);
                 else if (index==3) CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,4);
                 else CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,2);
@@ -112,13 +112,13 @@ void P_STA_SKILL_HandleTouch(u8 *a,u8 *b)
             ((struct Obj00026 *)b)->f2C=((struct Obj00132 *)a)->f28;
             ((struct Obj00026 *)b)->f30=((struct Obj00132 *)a)->f2C;
             P_STA_SKILL_GetSlotPos(b+176+index*24,(short unsigned int *)((u8 *)&point2));
-            func_0204B404(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,&point2,0);
-            func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,1);
+            CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,&point2,0);
+            CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,1);
             CLACT_RestartActorAnim(*(struct Actor * *)&((struct Obj00026 *)b)->f9C);
         }
         a[28]=1;
         P_STA_SKILL_SetCursor(a,b,index,1);
-        func_020061E4(1356);
+        GFL_USE_PlaySeDefaultVolume(1356);
         return;
     }
     if (TOUCHPANEL_GetCont()==1) {
@@ -127,15 +127,15 @@ void P_STA_SKILL_HandleTouch(u8 *a,u8 *b)
         if (((struct Obj00026 *)b)->f14==0) {
             if (index==-1) {
                 ((struct Obj00026 *)b)->f1C=0;
-                func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,0);
-                func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,0);
+                CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,0);
+                CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,0);
             } else {
                 distance=((struct Obj00026 *)b)->f30-((struct Obj00132 *)a)->f2C;
                 if ((int)distance<0) distance=0U-distance;
                 if ((int)distance>8) {
                     P_STA_SKILL_SetSlotAnim(b+176+b[42]*24,2);
                     ((struct Obj00026 *)b)->f14=1;
-                    func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,0);
+                    CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,0);
                 }
             }
         }
@@ -146,8 +146,8 @@ void P_STA_SKILL_HandleTouch(u8 *a,u8 *b)
                 return;
             }
             P_STA_SKILL_SetSlotAnim(b+176+b[42]*24,0);
-            func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,0);
-            func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,0);
+            CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,0);
+            CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,0);
             ((struct Obj00026 *)b)->f14=0;
             ((struct Obj00026 *)b)->f1C=0;
             P_STA_SKILL_SetCursor(a,b,b[41],0);
@@ -156,12 +156,12 @@ void P_STA_SKILL_HandleTouch(u8 *a,u8 *b)
         }
     } else {
         if (((struct Obj00026 *)b)->f1C==1) {
-            func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,0);
-            func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,0);
+            CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,0);
+            CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,0);
             if (((struct Obj00026 *)b)->f14==1) {
                 if (b[42]!=b[41]) {
                     P_STA_SKILL_SwapMoves(a,b,b[42],b[41]);
-                    func_020061E4(1357);
+                    GFL_USE_PlaySeDefaultVolume(1357);
                     return;
                 }
                 ((struct Obj00026 *)b)->f14=0;

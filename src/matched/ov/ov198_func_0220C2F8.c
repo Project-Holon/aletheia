@@ -12,7 +12,7 @@
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_0202D01C 0x0202D01C thumb
  *   func_0202D034 0x0202D034 thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_FillRect 0x02043AF4 arm
  */
 #include "../include/Obj08357.h"
@@ -24,7 +24,7 @@ extern int func_022110D4(u8 *,int);
 extern u8 func_0202D01C(u32,u32,u32);
 extern int func_0202D034(u32,u32);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct Bmp;
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 void func_0220C2F8(u8 *p,int slot,int index,u16 value,u8 extra)
@@ -38,7 +38,7 @@ void func_0220C2F8(u8 *p,int slot,int index,u16 value,u8 extra)
     case 1: color=3; break;
     case 2: color=5; break;
     }
-    BMP_FillRect((struct Bmp *)((u32)func_02045770(*(void **)(p+0x1F70+slot*8))),(u16)value,(s16)(extra+3),width,(u8)1,(u8)color);
+    BMP_FillRect((struct Bmp *)((u32)BMP_WIN_GetBmp(*(void **)(p+0x1F70+slot*8))),(u16)value,(s16)(extra+3),width,(u8)1,(u8)color);
     color++;
-    BMP_FillRect((struct Bmp *)((u32)func_02045770(*(void **)(p+0x1F70+slot*8))),(u16)value,(s16)(extra+4),width,(u8)1,(u8)color);
+    BMP_FillRect((struct Bmp *)((u32)BMP_WIN_GetBmp(*(void **)(p+0x1F70+slot*8))),(u16)value,(s16)(extra+4),width,(u8)1,(u8)color);
 }

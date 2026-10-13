@@ -18,7 +18,7 @@
  *   GAME_BEACON_ACCESSOR_TableRingGet  0x02165AC4  thumb  ov010
  *   GAME_BEACON_ACCESSOR_TableGetRingIndex  0x021659F0  thumb  ov010
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
- *   func_02035D20  0x02035D20  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   GAME_BEACON_ACCESSOR_IsDistributionAction  0x02165C10  thumb  ov010
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   INTRUDE_COMM_GetVisitProgress  0x021585E0  thumb  ov010
@@ -62,11 +62,11 @@
  *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb
  *   APP_TASKMENU_WIN_Delete  0x02028148  thumb
  *   GAME_BEACON_ACCESSOR_GetActionNo 0x02165E24 thumb ov010
- *   func_020061E4 0x020061E4 thumb
- *   func_0204B404 0x0204B404 arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   BMP_OAM_SetEnabled 0x02025774 thumb
  *   BMP_OAM_UploadChars  0x020257D0  thumb
  *   STRBUF_Clear  0x0204581C  arm
@@ -88,7 +88,7 @@
  *   BEACON_STATUS_SetViewTop 0x020275B8 thumb
  *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0207C768 0x0207C768 arm
  *   _fflt          0x0209BDBC  arm
  *   _fadd          0x0209C95C  arm
@@ -111,10 +111,10 @@
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   func_020409B4 0x020409B4 arm
- *   func_0201C6C4 0x0201C6C4 thumb
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   func_02041B6C 0x02041B6C arm
  *   func_02030734 0x02030734 arm
  *   d_021F36A0 0x021F36A0 data ov032 a1
@@ -166,7 +166,7 @@
  *   func_020056A0  0x020056A0  thumb
  *   PALANM_Create  0x02021518  thumb
  *   PALANM_AllocSlotBuffers  0x0202155C  thumb
- *   func_0201C440  0x0201C440  thumb
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   PRINTSYS_QUE_SetForceQueue  0x0201C4C8  thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
@@ -177,8 +177,8 @@
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_0201ED04 0x0201ED04 thumb
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
  *   PALANM_Delete 0x02021540 thumb
  *   func_02030EAC 0x02030EAC arm
@@ -211,7 +211,7 @@
  *   d_021F35E0 0x021F35E0 data ov032 a4
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_CreateRenderer 0x0204B034 arm
- *   func_0204B258 0x0204B258 arm
+ *   CLACT_SetUnitRenderer 0x0204B258 arm
  *   BMP_OAM_CreateSys 0x02025538 thumb
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   BEACON_VIEW_DeleteEntry 0x021F34C8 thumb ov032
@@ -219,7 +219,7 @@
  *   CLACT_DeleteRenderer 0x0204B084 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   CLACT_RegisterPalette  0x0204ABF0  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
@@ -227,11 +227,11 @@
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorVisible 0x0204BA20 arm
  *   d_021F35F0 0x021F35F0 data ov032 a2
  *   CLACT_DeleteActor 0x0204B3B4 arm
- *   func_0204B6F4  0x0204B6F4  arm
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   BMP_Create  0x02043678  arm
  *   BMP_OAM_Create  0x020255A0  thumb
  *   BMP_OAM_Delete  0x0202570C  thumb
@@ -360,7 +360,7 @@ extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
 extern int GAME_BEACON_ACCESSOR_TableRingGet(struct Queue *q, struct Rec_021EFEC0 *out, u16 *tag, int delta);
 extern int GAME_BEACON_ACCESSOR_TableGetRingIndex(u8 *q, int delta);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int GAME_BEACON_ACCESSOR_IsDistributionAction(u8 *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int INTRUDE_COMM_GetVisitProgress(int);
@@ -400,11 +400,11 @@ extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern int GAME_BEACON_ACCESSOR_GetActionNo(int a0);
-extern void func_020061E4(unsigned int a);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned int a);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void BMP_OAM_SetEnabled(unsigned char *,unsigned);
 extern void BMP_OAM_UploadChars(struct Obj *o);
 extern void STRBUF_Clear(struct U16Vec *vec);
@@ -425,7 +425,7 @@ extern void BMP_OAM_SetPos(struct Grid *g, s16_021EFEC0 x, s16_021EFEC0 y);
 extern void BEACON_STATUS_SetViewTop(char *p, int v);
 extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 a3);
 extern void *TCBL_GetWork(struct S02030FB4 *p);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern u32 func_0207C768(u32 a, u32 b);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void GAME_BEACON_ACCESSOR_RegisterRecordWords(int a, int b, u16 c);
@@ -443,10 +443,10 @@ extern u8 GAME_BEACON_ACCESSOR_GetActionViewVariant(u32 type);
 extern void PRINTSYS_PrintColor(u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
-extern void *func_02045770(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void func_02041B6C(u32 bit);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020120F4(const struct Ctx *p);
@@ -497,7 +497,7 @@ extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void *func_020056A0(void *fn, void *ctx, u32 a);
 extern void *PALANM_Create(u32 heap);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern void PRINTSYS_QUE_SetForceQueue(struct PrintSys *p, u32 v);
 extern u32 FIELDMAP_GetMsgBg(u8 *p);
 extern u32 FIELD_MSGBG_GetFont(u8 *p);
@@ -508,8 +508,8 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(void *rec);
 extern u32 func_0201ED04(struct WordSet *p);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *a0);
 extern void func_02030EAC(struct Node *n);
@@ -534,7 +534,7 @@ extern s32 func_02062A00(struct NitroFileHeader *file, void **out);
 extern void DC_FlushAll(void);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
-extern void func_0204B258(struct Bank *bank, void *p);
+extern void CLACT_SetUnitRenderer(struct Bank *bank, void *p);
 extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 extern void BEACON_VIEW_DeleteEntry(char *, int);
@@ -544,7 +544,7 @@ extern void BMP_OAM_DeleteSys(void *p);
 extern void CLACT_DeleteRenderer(int);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void *BMP_WIN_Create(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -552,10 +552,10 @@ extern void CLACT_ReleaseCellAnim(unsigned);
 extern void CLACT_ReleaseCharacter(unsigned);
 extern void CLACT_ReleasePalette(unsigned);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
 extern void CLACT_DeleteActor(struct Obj *);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
 void BEACON_VIEW_InitList(BeaconViewWork *work);
@@ -770,7 +770,7 @@ int BEACON_VIEW_UpdateListTouch(BeaconViewWork *work)
     int r;
     int s;
 
-    if (func_02035D20(&v.x, &v.y) == 0)
+    if (TOUCHPANEL_GetPointTrg(&v.x, &v.y) == 0)
         return 0;
     r = func_021F0A18(work, (u32 *)(&v));
     if (r != -1) {
@@ -1178,7 +1178,7 @@ int func_021F055C(BeaconViewWork *work)
         func_021F253C(work, 1);
         return 6;
     }
-    if (func_02035D20(&v.x, &v.y) == 0)
+    if (TOUCHPANEL_GetPointTrg(&v.x, &v.y) == 0)
         return 2;
     if (func_021F0A18(work, (u32 *)(&v)) == 2)
         return 6;
@@ -1648,7 +1648,7 @@ int func_021F0BA8(u8 *p)
         p[0] = 0;
         return 1;
     }
-    if (func_02035D20(&x, &y) != 0) {
+    if (TOUCHPANEL_GetPointTrg(&x, &y) != 0) {
         if (func_02041FF4(6, x, y + 0x40, &v) != 0) {
             p[0] = 0;
             return 1;
@@ -1820,7 +1820,7 @@ int func_021F0DC0(void *p) { int a; a=GAME_BEACON_ACCESSOR_GetActionNo((int)p); 
 
 void func_021F0DD8(unsigned int a)
 {
-    func_020061E4(a);
+    GFL_USE_PlaySeDefaultVolume(a);
 }
 
 
@@ -1830,7 +1830,7 @@ void func_021F0DD8(unsigned int a)
 
 
 
-void func_021F0DE0(void *p, short x, short y) { Pair_021F0BA8 d; d.x=x; d.y=y; func_0204B404(p,(const struct Vec2 *)(&d),0); }
+void func_021F0DE0(void *p, short x, short y) { Pair_021F0BA8 d; d.x=x; d.y=y; CLACT_AddActorSurfacePos(p,(const struct Vec2 *)(&d),0); }
 
 
 
@@ -1848,7 +1848,7 @@ void func_021F0DF4(void *p, unsigned short v) { CLACT_SetActorAnimSeq(p,v); CLAC
 
 
 
-void func_021F0E04(BeaconViewWork *work, unsigned a) { int i; for(i=0;i<=3;i++) func_0204B3DC(work->actors[i],a); }
+void func_021F0E04(BeaconViewWork *work, unsigned a) { int i; for(i=0;i<=3;i++) CLACT_SetActorDrawEnable(work->actors[i],a); }
 
 
 
@@ -1888,7 +1888,7 @@ void func_021F0E7C(BeaconViewWork *work) { if(work->recordCount==0) CLACT_SetAct
 
 
 
-void func_021F0EA4(BeaconViewEntry *icon,unsigned a) { BMP_OAM_SetEnabled(*(unsigned char * *)&icon->textWindow,a); func_0204B3DC(icon->iconActor,a); func_0204B3DC(icon->panelActor,a); if(a==0) func_021F0ED0(icon,a); }
+void func_021F0EA4(BeaconViewEntry *icon,unsigned a) { BMP_OAM_SetEnabled(*(unsigned char * *)&icon->textWindow,a); CLACT_SetActorDrawEnable(icon->iconActor,a); CLACT_SetActorDrawEnable(icon->panelActor,a); if(a==0) func_021F0ED0(icon,a); }
 
 
 
@@ -1900,7 +1900,7 @@ void func_021F0EA4(BeaconViewEntry *icon,unsigned a) { BMP_OAM_SetEnabled(*(unsi
 
 void func_021F0ED0(BeaconViewEntry *icon, int a)
 {
-    func_0204B3DC(icon->statusActor, a);
+    CLACT_SetActorDrawEnable(icon->statusActor, a);
 }
 
 
@@ -2283,7 +2283,7 @@ void func_021F13A0(BeaconViewWork *work, int a, int b, int c, int s)
     icon = (BeaconViewEntry *)func_021F0F44(work, 0xff);
     if (icon != 0) {
         task = TCBL_GetWork(TCBL_AddTask(work->taskList, (void *)func_021F1418, sizeof(BeaconViewIconMoveTask), 0));
-        func_02082BCC(task, 0, sizeof(BeaconViewIconMoveTask));
+        MI_CpuFill8(task, 0, sizeof(BeaconViewIconMoveTask));
         task->work = work;
         task->slot = c;
         task->entry = icon;
@@ -2411,7 +2411,7 @@ void func_021F155C(BeaconViewWork *work, BeaconViewEntry *icon, int mode, u8 del
     BeaconViewIconSlideTask *task;
 
     task = TCBL_GetWork(TCBL_AddTask(work->taskList, (void *)func_021F1704, sizeof(BeaconViewIconSlideTask), 0));
-    func_02082BCC(task, 0, sizeof(BeaconViewIconSlideTask));
+    MI_CpuFill8(task, 0, sizeof(BeaconViewIconSlideTask));
     task->mode = mode;
     if (task->mode == 0) {
         icon->state = icon->state - 1;
@@ -2501,7 +2501,7 @@ void func_021F178C(BeaconViewWork *work, u8 a, int *p)
     int v;
 
     task = TCBL_GetWork(TCBL_AddTask(work->taskList, (void *)func_021F17D8, 0xc, 0));
-    func_02082BCC(task, 0, 0xc);
+    MI_CpuFill8(task, 0, 0xc);
     task->phase = a;
     if (task->phase == 0) {
         task->position = 0;
@@ -2622,7 +2622,7 @@ void func_021F18E0(BeaconViewWork *work, u32 a, int *c)
     BeaconViewFadeTask *task;
 
     task = TCBL_GetWork(TCBL_AddTask(work->taskList, (void *)func_021F1930, sizeof(BeaconViewFadeTask), 0));
-    func_02082BCC(task, 0, sizeof(BeaconViewFadeTask));
+    MI_CpuFill8(task, 0, sizeof(BeaconViewFadeTask));
     STRBUF_Copy((struct U16Vec *)(work->stringList), (struct U16Vec *)a);
     task->work = work;
     task->duration = 0x5a;
@@ -2747,7 +2747,7 @@ void func_021F1A28(BeaconViewWork *work, int b, u8 c, int *r)
 
     h = TCBL_AddTask(work->taskList, (void *)func_021F1B94, sizeof(BeaconViewPowerAnimTask), 0);
     task = TCBL_GetWork(h);
-    func_02082BCC(task, 0, sizeof(BeaconViewPowerAnimTask));
+    MI_CpuFill8(task, 0, sizeof(BeaconViewPowerAnimTask));
     work->powerIdArg = 0x30;
     flag = 0;
     if (c == 0)
@@ -2960,7 +2960,7 @@ void func_021F1E40(BeaconViewWork *work, BeaconViewEntry *icon, void *x, int fla
 
     t = TCBL_AddTask(work->taskList, (void *)func_021F1EAC, 0x18, 0);
     task = TCBL_GetWork(t);
-    func_02082BCC(task, 0, 0x18);
+    MI_CpuFill8(task, 0, 0x18);
     task->work = work;
     task->entry = icon;
     task->delay = 0x5a;
@@ -3032,7 +3032,7 @@ void func_021F1F34(BeaconViewWork *work, BeaconViewEntry *icon, int *r)
     BeaconViewWindowATask *task;
 
     task = TCBL_GetWork(TCBL_AddTask(work->taskList, (void *)func_021F1F9C, sizeof(BeaconViewWindowATask), 0));
-    func_02082BCC(task, 0, sizeof(BeaconViewWindowATask));
+    MI_CpuFill8(task, 0, sizeof(BeaconViewWindowATask));
     task->work = work;
     task->entry = icon;
     task->interval = 2;
@@ -3092,11 +3092,11 @@ void func_021F201C(BeaconViewWork *work, BeaconViewWindow *window, void *text, u
         w = (unsigned int)window->handle;
         BMP_WIN_TransferChars((struct Descriptor *)w);
         BMP_WIN_MakeScreen((struct Cfg *)w);
-        func_020409B4(func_02045730((struct Descriptor *)w));
+        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)w));
         return;
     }
     v = work->printQueue;
-    PRINTSYS_PrintQueColor((void *)v, (u32)func_02045770((struct Descriptor *)(unsigned int)window->layout), x, y, (u32)text,
+    PRINTSYS_PrintQueColor((void *)v, (u32)BMP_WIN_GetBmp((struct Descriptor *)(unsigned int)window->layout), x, y, (u32)text,
                   work->font, col);
     window->drawn = 1;
     func_021F20A8(work, window, (int *)a7);
@@ -3113,7 +3113,7 @@ void func_021F20A8(BeaconViewWork *work, BeaconViewWindow *window, int *r)
 {
     BeaconViewWindowBTask *task;
     task = TCBL_GetWork(TCBL_AddTask(work->taskList, (void *)func_021F20E4, sizeof(BeaconViewWindowBTask), 0));
-    func_02082BCC(task, 0, sizeof(BeaconViewWindowBTask));
+    MI_CpuFill8(task, 0, sizeof(BeaconViewWindowBTask));
     task->work = work;
     task->window = window;
     if (r != 0) {
@@ -3138,14 +3138,14 @@ void func_021F20E4(void *task, BeaconViewWindowBTask *taskData)
     v = taskData->work->printQueue;
     drawn = (u8 *)&taskData->window->layout;
     if (drawn[4] != 0) {
-        if (func_0201C6C4((struct PrintSys *)v, (void *)((u32)func_02045770(*(struct Descriptor **)drawn))) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)v, (void *)((u32)BMP_WIN_GetBmp(*(struct Descriptor **)drawn))) == 0) {
             BMP_WIN_TransferChars(*(struct Descriptor **)drawn);
             drawn[4] = 0;
         }
     }
     if (drawn[4] == 0) {
         BMP_WIN_MakeScreen((struct Cfg *)taskData->window->handle);
-        func_02041B6C(func_02045730((struct Descriptor *)taskData->window->handle));
+        func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)taskData->window->handle));
         r = taskData->busyCounter;
         if (r != 0)
             (*r)--;
@@ -3189,7 +3189,7 @@ void func_021F21B0(BeaconViewWork *work, BeaconViewEntry *icon, int *r)
 
     t = TCBL_AddTask(work->taskList, (void *)func_021F21F8, sizeof(BeaconViewWindowCTask), 0);
     task = TCBL_GetWork(t);
-    func_02082BCC(task, 0, sizeof(BeaconViewWindowCTask));
+    MI_CpuFill8(task, 0, sizeof(BeaconViewWindowCTask));
     task->work = work;
     task->entry = icon;
     *(char * *)&task->windowRef = (char *)&icon->textWindow;
@@ -3209,7 +3209,7 @@ void func_021F21B0(BeaconViewWork *work, BeaconViewEntry *icon, int *r)
 void func_021F21F8(void *task, BeaconViewWindowCTask *taskData)
 {
     int *r;
-    if (func_0201C6C4((struct PrintSys *)(taskData->work->printQueue), (void *)((taskData->windowRef)[1])) == 0) {
+    if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)(taskData->work->printQueue), (void *)((taskData->windowRef)[1])) == 0) {
         BMP_OAM_UploadChars((struct Obj *)(*taskData->windowRef));
         r = taskData->busyCounter;
         if (r != 0)
@@ -3775,7 +3775,7 @@ void func_021F2908(BeaconViewWork *work)
     work->paletteAnim = (u32)PALANM_Create(work->mainHeapId);
     PALANM_AllocSlotBuffers((struct PalAnmSlot *)(work->paletteAnim), 1, 0x1c0, work->mainHeapId);
     PALANM_AllocSlotBuffers((struct PalAnmSlot *)(work->paletteAnim), 3, 0x200, work->mainHeapId);
-    work->printQueue = func_0201C440((void *)(work->mainHeapId));
+    work->printQueue = PRINTSYS_QUE_Create((void *)(work->mainHeapId));
     PRINTSYS_QUE_SetForceQueue((struct PrintSys *)(work->printQueue), 1);
     PRINTSYS_QUE_SetLimitTick((struct PrintSys *)(work->printQueue), 0x1f4, 0);
     work->font = FIELD_MSGBG_GetFont((u8 *)FIELDMAP_GetMsgBg((u8 *)(*(u32 *)&work->sessionInfo)));
@@ -3801,8 +3801,8 @@ void func_021F2A04(BeaconViewWork *work)
     STRBUF_Delete((struct U16Vec *)((int)work->messageBuffer));
     MSGDATA_Delete(work->messageBank);
     func_0201ED04((struct WordSet *)((int)work->wordSet));
-    func_0201C6EC((struct PrintSys *)((int)work->printQueue));
-    func_0201C4C0((struct PrintSys *)((int)work->printQueue));
+    PRINTSYS_QUE_Clear((struct PrintSys *)((int)work->printQueue));
+    PRINTSYS_QUE_Delete((struct PrintSys *)((int)work->printQueue));
     func_0201DD68();
     PALANM_FreeSlotBuffers((struct PalAnmSlot *)((int)work->paletteAnim), 3);
     PALANM_FreeSlotBuffers((struct PalAnmSlot *)((int)work->paletteAnim), 1);
@@ -4004,7 +4004,7 @@ void func_021F2EDC(BeaconViewWork *work)
 
 
 /*
- * note:     func_0204B258 takes two arguments (twin ov029_func_021F1DE8): the
+ * note:     CLACT_SetUnitRenderer takes two arguments (twin ov029_func_021F1DE8): the
  *           0x12C result still in r1 at that call is its second argument.
  */
 void func_021F2F44(BeaconViewWork *work, void *a)
@@ -4015,7 +4015,7 @@ void func_021F2F44(BeaconViewWork *work, void *a)
     work->actorBank = CLACT_CreateUnit(0x40, 0, work->tempHeapId);
     t = d_021F35E0;
     work->actorResource = CLACT_CreateRenderer((u8 *)(&t), 1, work->mainHeapId);
-    func_0204B258(work->actorBank, work->actorResource);
+    CLACT_SetUnitRenderer(work->actorBank, work->actorResource);
     work->actorSystem = BMP_OAM_CreateSys(work->mainHeapId, work->actorBank);
     func_021F3264(work);
     for (i = 0; i < 5; i++) {
@@ -4054,13 +4054,13 @@ void func_021F3010(BeaconViewWindow *window, unsigned a, unsigned b, unsigned c,
 {
     void *w;
     window->handle = BMP_WIN_Create((void *)a, c, d, e, f, b, 1);
-    window->bitmap = func_02045770(window->handle);
+    window->bitmap = BMP_WIN_GetBmp(window->handle);
     w = window->handle;
     window->drawn = 0;
     window->layout = w;
     BMP_WIN_TransferChars(w);
     BMP_WIN_MakeScreen(w);
-    func_020409B4(func_02045730(w));
+    func_020409B4(BMP_WIN_GetBgLayer(w));
 }
 
 
@@ -4081,7 +4081,7 @@ void func_021F30B4(BeaconViewWork *work)
 {
     int i;
     for (i = 0; i < 3; i++)
-        func_020452E8(*(struct Descriptor * *)&work->windows[i].handle);
+        BMP_WIN_Delete(*(struct Descriptor * *)&work->windows[i].handle);
 }
 
 
@@ -4092,7 +4092,7 @@ void func_021F30D4(BeaconViewWork *work, BeaconViewResList *out, const ResSpec *
 {
     int i;
 
-    func_02082BCC(out, 0, 0x18);
+    MI_CpuFill8(out, 0, 0x18);
     for (i = 0; i < 3; i++) {
         out[i].count = spec[i].count;
         if (out[i].count != 0)
@@ -4138,7 +4138,7 @@ void *func_021F3214(BeaconViewWork *work, unsigned a, unsigned b, unsigned c, sh
     r.h = h;
     r.z = z;
     res = CLACT_CreateActor((void *)(unsigned int)work->actorBank, a, b, c, &r, 0, work->tempHeapId);
-    func_0204B92C(res, 1);
+    CLACT_SetActorAutoAnim(res, 1);
     CLACT_SetActorVisible(res, 0);
     return res;
 }
@@ -4154,7 +4154,7 @@ void func_021F3264(BeaconViewWork *work)
     int i;
     for (i = 0; i < 6; i++) {
         work->actors[i] = func_021F3214(work, *work->panelLists.images.items, *work->panelLists.palettes.items, *work->panelLists.cells.items, d_021F35F0[i].x, d_021F35F0[i].y, i * 3 + 1, 1, 1);
-        func_0204B3DC(work->actors[i], 1);
+        CLACT_SetActorDrawEnable(work->actors[i], 1);
     }
 }
 
@@ -4164,7 +4164,7 @@ void func_021F32D4(BeaconViewWork *work)
 {
     int i;
     for (i = 0; i < 6; i++) {
-        func_0204B3DC(work->actors[i], 0);
+        CLACT_SetActorDrawEnable(work->actors[i], 0);
         CLACT_DeleteActor(work->actors[i]);
     }
 }
@@ -4181,7 +4181,7 @@ void func_021F32F8(BeaconViewWork *work, u8 idx)
     Tmpl t;
 
     icon = &work->icons[idx];
-    func_02082BCC(icon, 0, 0x34);
+    MI_CpuFill8(icon, 0, 0x34);
     icon->index = idx;
     icon->peerSlot = 0xff;
     icon->state = 0;
@@ -4190,10 +4190,10 @@ void func_021F32F8(BeaconViewWork *work, u8 idx)
     icon->y = idx * 0x28;
     icon->panelActor = func_021F3214(work, *work->panelLists.images.items, *work->panelLists.palettes.items, *work->panelLists.cells.items,
                                      icon->x, icon->y, 0, 3, idx + 0x14);
-    func_0204B6F4(icon->panelActor, (u8)idx, 0);
+    CLACT_SetActorPaletteOffset(icon->panelActor, (u8)idx, 0);
     icon->iconActor = func_021F3214(work, work->iconLists.images.items[idx], *work->panelLists.palettes.items, *work->iconLists.cells.items,
                                     icon->x + 0x20, icon->y + 0x18, 0, 3, idx + 10);
-    func_0204B6F4(icon->iconActor, (u8)(idx + 9), 1);
+    CLACT_SetActorPaletteOffset(icon->iconActor, (u8)(idx + 9), 1);
     icon->statusActor = func_021F3214(work, work->statusLists.images.items[idx], *work->panelLists.palettes.items, *work->statusLists.cells.items,
                                       icon->x + 0x3c, icon->y + 0x18, 0, 3, idx + 5);
     icon->textBitmap = BMP_Create(0xc, 2, 0x20, work->mainHeapId);
@@ -4212,9 +4212,9 @@ void func_021F32F8(BeaconViewWork *work, u8 idx)
     BMP_Clear(icon->textBitmap, 0);
     BMP_OAM_UploadChars(icon->textWindow);
     BMP_OAM_SetEnabled(icon->textWindow, 0);
-    func_0204B3DC(icon->panelActor, 0);
-    func_0204B3DC(icon->iconActor, 0);
-    func_0204B3DC(icon->statusActor, 0);
+    CLACT_SetActorDrawEnable(icon->panelActor, 0);
+    CLACT_SetActorDrawEnable(icon->iconActor, 0);
+    CLACT_SetActorDrawEnable(icon->statusActor, 0);
 }
 
 /* Frees the strings, window, bitmap and actors of one list slot and clears it. */
@@ -4227,11 +4227,11 @@ void BEACON_VIEW_DeleteEntry(char *work, int index)
     BMP_OAM_SetEnabled(entry->textWindow, 0);
     BMP_OAM_Delete(entry->textWindow);
     BMP_Delete(entry->textBitmap);
-    func_0204B3DC(entry->statusActor, 0);
+    CLACT_SetActorDrawEnable(entry->statusActor, 0);
     CLACT_DeleteActor(entry->statusActor);
-    func_0204B3DC(entry->iconActor, 0);
+    CLACT_SetActorDrawEnable(entry->iconActor, 0);
     CLACT_DeleteActor(entry->iconActor);
-    func_0204B3DC(entry->panelActor, 0);
+    CLACT_SetActorDrawEnable(entry->panelActor, 0);
     CLACT_DeleteActor(entry->panelActor);
-    func_02082BCC(entry, 0, sizeof(BeaconViewEntry));
+    MI_CpuFill8(entry, 0, sizeof(BeaconViewEntry));
 }

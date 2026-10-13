@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020124E4 0x020124E4 thumb
+ *   GAME_EVENT_GetGameSystem 0x020124E4 thumb
  *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
  *   FIELDMAP_GetExpObj 0x02188D2C thumb ov021
  *   FIELDMAP_GetCommonWork 0x021897BC thumb
@@ -25,7 +25,7 @@
  *   GIMMICK39_GetAnimeFrame 0x021F3DE4 thumb ov039
  *   FLD_EXP_OBJ_SetAnimePaused 0x021BE6B0 thumb ov021
  *   FLD_EXP_OBJ_IsAnimeStopped 0x021BE6BC thumb ov021
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 
 typedef signed char s8;
@@ -44,7 +44,7 @@ typedef struct {
 
 struct Ctx;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetExpObj(int *p);
 extern Work *FIELDMAP_GetCommonWork(void *p, int idx);
@@ -62,7 +62,7 @@ extern void GIMMICK39_SetAnimeFrame(void *p, u8 delta, u16 i, int frame);
 extern int GIMMICK39_GetAnimeFrame(void *p, u16 delta, u16 i);
 extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 int GIMMICK39_RideRefusedEventMain(void *a0, int *a1)
 {
@@ -73,7 +73,7 @@ int GIMMICK39_RideRefusedEventMain(void *a0, int *a1)
     u8 j;
     void *o;
 
-    sys = GAMESYSTEM_GetFieldMap(func_020124E4(a0));
+    sys = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(a0));
     h = FIELDMAP_GetExpObj(sys);
     s = FIELDMAP_GetCommonWork(sys, 1);
     c = (u8)(s->sel >> 1);
@@ -88,7 +88,7 @@ int GIMMICK39_RideRefusedEventMain(void *a0, int *a1)
     case 1:
         GIMMICK39_SetAnimeFrame((void *)h, j, 0, 0);
         FLD_EXP_OBJ_SetAnimePaused(o, 0);
-        func_020061E4(0x687);
+        GFL_USE_PlaySeDefaultVolume(0x687);
         *a1 = *a1 + 1;
         break;
     case 2:
@@ -101,7 +101,7 @@ int GIMMICK39_RideRefusedEventMain(void *a0, int *a1)
         break;
     case 3:
         FLD_EXP_OBJ_SetAnimePaused(o, 0);
-        func_020061E4(0x687);
+        GFL_USE_PlaySeDefaultVolume(0x687);
         *a1 = *a1 + 1;
         break;
     case 4:

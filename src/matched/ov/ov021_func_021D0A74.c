@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0201A954  0x0201A954  thumb
+ *   POKEPARTY_InitEx  0x0201A954  thumb
  *
  * The 0x124 store is written in each arm of the mode test (cross-jumped
  * into one tail) and the 0x12C store after it: that puts the two stores in
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 typedef signed int     s32;
 struct Party;
-void func_0201A954(struct Party *p, s32 capacity);
+void POKEPARTY_InitEx(struct Party *p, s32 capacity);
 
 void TRIAL_HOUSE_SetBattleMode(int *p, u32 mode)
 {
@@ -43,5 +43,5 @@ void TRIAL_HOUSE_SetBattleMode(int *p, u32 mode)
         p[0x4B] = 0;
         p[0x49] = 3;
     }
-    func_0201A954((struct Party *)p[0x4A], p[0x49]);
+    POKEPARTY_InitEx((struct Party *)p[0x4A], p[0x49]);
 }

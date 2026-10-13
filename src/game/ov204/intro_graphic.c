@@ -16,7 +16,7 @@
  *   func_02034AC4 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   func_021BF594 0x021BF594 thumb ov204
@@ -38,7 +38,7 @@
  *   func_021BF610  0x021BF610  thumb  ov204
  *   func_021BFCE0  0x021BFCE0  thumb  ov204
  *   func_021BF9FC  0x021BF9FC  thumb  ov204
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
@@ -156,7 +156,7 @@ typedef struct { u32 x, y, z; } Vec3;
 extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned, unsigned);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
-extern void func_02082BCC(void *, unsigned, unsigned);
+extern void MI_CpuFill8(void *, unsigned, unsigned);
 extern struct GfFont *GF_FONT_Create(int, int, int, int, unsigned);
 extern struct MsgBank *func_02045B38(unsigned, unsigned, unsigned, unsigned);
 extern void *func_021BF594(unsigned int heap, int kind);
@@ -177,7 +177,7 @@ extern void func_021BF898(char *p);
 extern void func_021BF610(u8 *p);
 extern void func_021BFCE0(int);
 extern void func_021BF9FC(char *p);
-extern void func_020434DC(unsigned, unsigned);
+extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void G3X_SetFog(BOOL, int, int, int);
 extern void G3X_SetClearColor(unsigned short, int, int, int, BOOL);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
@@ -277,7 +277,7 @@ int func_021BDA40(struct Obj0203159C *owner, int unused, char *args)
     func_02034AC4((int)ov067_id);
     GFL_HEAP_CreateChildHeap(1, 111, 0x100000);
     p = PROCSYS_AllocProcWork(owner, 0x24, 111);
-    func_02082BCC(p, 0, 0x24);
+    MI_CpuFill8(p, 0, 0x24);
     ((struct Obj00689 *)p)->f0 = 111;
     *(char * *)&((struct Obj00689 *)p)->f4 = args;
     *(unsigned char * *)&((struct Obj00689 *)p)->f8 = func_021BDC18(1, ((struct Obj25331 *)args)->f8, ((struct Obj00689 *)p)->f0);
@@ -347,7 +347,7 @@ static inline void EdgeMarking(BOOL enable) { if (enable) REG3D = (unsigned shor
 void func_021BDB70(void)
 {
     unsigned i;
-    func_020434DC(1, 1);
+    BG_SYS_SetMainPlaneVisible(1, 1);
     *(volatile unsigned short *)0x04000008 = (unsigned short)((*(volatile unsigned short *)0x04000008 & ~3) | 1);
     Shading(SHADING1);
     AntiAlias(0);
@@ -366,7 +366,7 @@ void *func_021BDC18(int swap, int mode, u16 heap)
 {
     u8 *p;
     p=func_02030734(heap,20,0,d_021C09C0,406);
-    func_02082BCC(p,0,20);
+    MI_CpuFill8(p,0,20);
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04000000 &=0xFFFF1FFF;
@@ -407,7 +407,7 @@ void func_021BDCF0(unsigned char *p)
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &= 0xFFFF1FFF;
-    func_02082BCC(p, 0, 0x14);
+    MI_CpuFill8(p, 0, 0x14);
     func_020307B0(p);
 }
 
@@ -444,7 +444,7 @@ void func_021BDD98(void *p, unsigned heap)
 {
     const unsigned *row;
     unsigned i, layer;
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
     func_0203F8F4(heap);
     BMP_WIN_Init(heap);
     func_0203FC28(&(*(struct DispConfig *)&d_021BFD80));
@@ -466,7 +466,7 @@ void func_021BDDF8(u8 *p)
 {
     BMP_WIN_Exit();
     func_0203F9B4();
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
 }
 
 
@@ -485,7 +485,7 @@ void func_021BDE28(void *a0) { func_020419E4(); }
 void func_021BDE30(void *p,u16 heap)
 {
     struct BgTemplate t1,t2,t3,t4,t5;
-    func_02082BCC(p,0,4);
+    MI_CpuFill8(p,0,4);
     func_0203F8F4(heap);
     BMP_WIN_Init(heap);
     func_0203FC28(&d_021BFD80);
@@ -509,11 +509,11 @@ void func_021BDE30(void *p,u16 heap)
 
 void func_021BDF34(unsigned char *p, int a, int b)
 {
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021BFD90, a, b);
     ((struct Obj14602 *)p)->f0 = CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer(((struct Obj14602 *)p)->f0);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
@@ -523,7 +523,7 @@ void func_021BDF74(u8 *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj25335 *)p)->f0));
     CLACT_ExitSystem();
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
 }
 
 

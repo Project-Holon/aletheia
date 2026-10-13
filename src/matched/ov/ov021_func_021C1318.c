@@ -22,7 +22,7 @@
  *   FIELD_EFFECT_LoadResources  0x021ABE30  thumb  ov021
  *   FLDEFF_NAMIPOKE_SPLASH_StartOnEffect  0x021AD564  thumb  ov021
  *   FIELDMAP_TCB_CAMERA_ZOOM_Create  0x021C6B18  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj01665.h"
@@ -48,7 +48,7 @@ extern u32 FIELDMAP_GetEffect(u8 *p);
 extern void FIELD_EFFECT_LoadResources(int a, int *b, int c);
 extern u32 FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(u32 a, u32 b, u32 c);
 extern void FIELDMAP_TCB_CAMERA_ZOOM_Create(u32 a, u16 b, u32 c);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 
 int FIELD_PLAYER_GRID_EVENT_JumpUpStart(u8 *p)
 {
@@ -88,7 +88,7 @@ int FIELD_PLAYER_GRID_EVENT_JumpUpStart(u8 *p)
     FIELD_EFFECT_LoadResources(r7, &n, 1);
     ((struct Obj01665 *)p)->f48 = FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(r7, k, r6);
     FIELDMAP_TCB_CAMERA_ZOOM_Create(((struct Obj01665 *)p)->f40, 0x10, 0x20000);
-    func_020061E4(0x6e0);
+    GFL_USE_PlaySeDefaultVolume(0x6e0);
     ((struct Obj01665 *)p)->f2 = ((struct Obj01665 *)p)->f2 + 1;
     return 1;
 }

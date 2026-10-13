@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   g_0689E7E0 0x0689E7E0 data a4
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  * note: Follower after veneer 0x06898BEC; next function starts with push at 0x06898C10.
  */
 
@@ -17,8 +17,8 @@
 
 typedef unsigned char u8;
 extern struct Row g_0689E7E0;
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 void func_06898BFC(void)
 {
-    func_02082BCC(((u8 *)&g_0689E7E0), 0, 448);
+    MI_CpuFill8(((u8 *)&g_0689E7E0), 0, 448);
 }

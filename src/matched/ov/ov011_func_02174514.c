@@ -16,7 +16,7 @@
  * Everything else in the file compiles byte-correct (88 of 90 B listed, tail is pad).
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetPmsWork  0x02012F20  thumb
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   FIELD_STATUS_GetSeasonDispFlag  0x02014484  thumb
@@ -31,7 +31,7 @@ struct BigObj;
 struct Rec44;
 struct Sub02014444Obj;
 struct Sub24;
-u32 func_02026478(void *obj);
+u32 GAME_COMM_GetGameData(void *obj);
 int GAME_DATA_GetPmsWork(int a);
 void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 u8 FIELD_STATUS_GetSeasonDispFlag(struct Sub02014444Obj *o);
@@ -45,7 +45,7 @@ void INTRUDE_COMM_RecvSupportMode(int a, int b, int *c, char *d)
     int q;
     int t;
 
-    p = func_02026478((void *)(((int *)d)[1]));
+    p = GAME_COMM_GetGameData((void *)(((int *)d)[1]));
     q = GAME_DATA_GetPmsWork(p);
     if ((unsigned char)d[0x8fb] & (1 << a)) {
         if (FIELD_STATUS_GetSeasonDispFlag(GAME_DATA_GetMoveModelSys((const struct BigObj *)p)) == 1) {

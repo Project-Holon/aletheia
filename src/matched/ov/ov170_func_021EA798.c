@@ -14,7 +14,7 @@
  *   func_021EC35C 0x021EC35C thumb
  *   func_021DEDCC 0x021DEDCC thumb
  *   func_021DEC98 0x021DEC98 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021E8FC0 0x021E8FC0 thumb
  *   func_021E0128 0x021E0128 thumb
  *   func_021E00C4 0x021E00C4 thumb
@@ -25,7 +25,7 @@ extern int func_021DD210(unsigned char *p, unsigned a, unsigned b);
 extern void func_021EC35C(char **p, int box);
 extern int func_021DEDCC(char *p, int box);
 extern void func_021DEC98(char *p, void *a, int dir);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E0128(char *p);
 extern int func_021E00C4(char *p);
@@ -51,6 +51,6 @@ int func_021EA798(unsigned char *p, int sel)
         ((struct Obj00000 *)p)->f28 = 0x63;
         break;
     }
-    func_020061E4(0x548);
+    GFL_USE_PlaySeDefaultVolume(0x548);
     return func_021E8FC0((char *)p, (int)cb, ((struct Obj00000 *)p)->f28);
 }

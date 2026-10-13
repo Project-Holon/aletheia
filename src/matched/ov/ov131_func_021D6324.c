@@ -12,14 +12,14 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02030734 0x02030734 arm
- *   func_0203630C 0x0203630C arm
- *   func_0201A920 0x0201A920 thumb
- *   func_0201A954 0x0201A954 thumb
+ *   KEY_GetCont 0x0203630C arm
+ *   POKEPARTY_Create 0x0201A920 thumb
+ *   POKEPARTY_InitEx 0x0201A954 thumb
  *   POKE_TOOL_Create 0x020173F0 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
- *   func_0201A98C 0x0201A98C thumb
+ *   POKEPARTY_Add 0x0201A98C thumb
  *   func_020307B0 0x020307B0 arm
  *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
  *   POKE_TOOL_ClearBoxParam 0x02017550 thumb
@@ -42,17 +42,17 @@ typedef struct {u16 v[5];} Moves;
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 typedef signed int     s32;
 struct Party;
 struct PartyMon;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_0203630C(void);
-extern struct Party *func_0201A920(u32 heap);
-extern void func_0201A954(struct Party *p, s32 capacity);
+extern u32 KEY_GetCont(void);
+extern struct Party *POKEPARTY_Create(u32 heap);
+extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
 extern void *POKE_TOOL_Create(u16,u16,u32,u32,u32);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern u32 func_020307B0(void *p);
 extern u32 POKE_TOOL_GetBoxParamSize(void);
 struct Sav;
@@ -76,21 +76,21 @@ int P_STATUS_ProcInit(u32 heap,int *st,u8 *obj,char *d) {
         u8 i;
                 GFL_HEAP_CreateChildHeap(1,0x42,0x50000);
         o=PROCSYS_AllocProcWork((void *)heap,0x264,0x42);
-        func_02082BCC(o,0,0x264);
+        MI_CpuFill8(o,0,0x264);
         ((struct Obj14064 *)o)->f0=0x42;
         i=0;
         if(c==0) {
             c=func_02030734(1,0x28,0,d_021DC80C,0x4d);
-            if((func_0203630C()&0x400)==0) {
+            if((KEY_GetCont()&0x400)==0) {
                 void *party;
                 void *pt;
-                party=func_0201A920(1);
-                func_0201A954(party,6);
+                party=POKEPARTY_Create(1);
+                POKEPARTY_InitEx(party,6);
                 for(i=0;i<5;i++) {
                     pt=POKE_TOOL_Create(i+3,10,-1,0,1);
                     SetA(pt,d_021DC138);
                     POKE_TOOL_SetPartyValue(pt,0x9a,0);
-                    func_0201A98C(party,pt);
+                    POKEPARTY_Add(party,pt);
                     func_020307B0(pt);
                 }
                 c[0xf]=0;
@@ -125,12 +125,12 @@ int P_STATUS_ProcInit(u32 heap,int *st,u8 *obj,char *d) {
             ((struct Obj00830 *)c)->f20=1;
             ((struct Obj00830 *)c)->f18=1;
             ((struct Obj00830 *)c)->f8=GAME_DATA_Create(1);
-            if(func_0203630C()&0x400) {
+            if(KEY_GetCont()&0x400) {
                 c[0xd]=2;
                 ((struct Obj00830 *)c)->f20=i;
                 ((struct Obj00830 *)c)->f14=10;
             }
-            if(func_0203630C()&0x100) {
+            if(KEY_GetCont()&0x100) {
                 c[0xd]=1;
                 ((struct Obj00830 *)c)->f20=0;
             }

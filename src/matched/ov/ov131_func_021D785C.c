@@ -11,7 +11,7 @@
  *   scheduler effect of the pre-allocation instruction count before group 2
  *   (a no-arg call inserted earlier shifts it; a band of 5 positions swaps).
  *   MCSS_TOOL_SetAnimeStopCallback is declared void(void *): its body only forwards to
- *   func_02015F2C, and an int return adds one result copy per call, which
+ *   MCSS_SetAnimCallback, and an int return adds one result copy per call, which
  *   put the second store inside the band. ov195 declares it the same way.
  * symbols:
  *   d_021DC1F8 0x021DC1F8 data ov131 a4

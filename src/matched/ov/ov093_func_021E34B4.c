@@ -1,5 +1,5 @@
 /*
- * function: func_021E34B4
+ * function: HAND_WAZA_MagicCoatOnExecuteCheck
  * address:  0x021E34B4
  * packet:   pkt_ov093_021E34B4
  * region:   ov093
@@ -13,7 +13,7 @@
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021E8624  0x021E8624  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
- *   func_021B9A24  0x021B9A24  thumb  ov093
+ *   BTL_MAIN_IsPokeSamePair  0x021B9A24  thumb  ov093
  *   BTLV_CORE_EventRedirectMove  0x021E8744  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -22,10 +22,10 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern int BTL_EVENT_GetVar(int key);
 extern int func_021E8624(int a, int b);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
-extern int func_021B9A24(unsigned int a, unsigned int b);
+extern int BTL_MAIN_IsPokeSamePair(unsigned int a, unsigned int b);
 extern void BTLV_CORE_EventRedirectMove(int a, void *b, int c, int d);
 
-void func_021E34B4(int u, void *p, int key, int o)
+void HAND_WAZA_MagicCoatOnExecuteCheck(int u, void *p, int key, int o)
 {
     u8 v = BTL_EVENT_GetVar(2);
     if (v == key) {
@@ -33,7 +33,7 @@ void func_021E34B4(int u, void *p, int key, int o)
             BTL_EVENT_OverwriteVar(0x22, 0x1a);
             return;
         }
-    } else if (func_021B9A24(key, v) == 0) {
+    } else if (BTL_MAIN_IsPokeSamePair(key, v) == 0) {
         BTLV_CORE_EventRedirectMove(u, p, key, o);
     }
 }

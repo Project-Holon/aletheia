@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: BTL_ITEM_FlavorHealSpAttackIfForcedUse, BTL_ITEM_GetFlavorHealSpDefenseHandlers
+ * function: HAND_ITEM_FlavorHealSpAttackIfForcedUse, HAND_ITEM_GetFlavorHealSpDefenseHandlers
  * address: 0x021DD6C0
  * packet: pkt_ov093_021DD6C0
  * region: ov093
@@ -10,14 +10,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   BTL_ITEM_FlavorHeal 0x021DD7B8 thumb ov093
+ *   HAND_ITEM_FlavorHeal 0x021DD7B8 thumb ov093
  *   gBtlItemFlavorHealSpDefenseHandlers 0x021F1CA4 data a4
  */
 typedef unsigned char u8;
-extern void BTL_ITEM_FlavorHeal(int, u8 *, int, int *, int);
-void BTL_ITEM_FlavorHealSpAttackIfForcedUse(int a, u8 *b, int c, int *d)
+extern void HAND_ITEM_FlavorHeal(int, u8 *, int, int *, int);
+void HAND_ITEM_FlavorHealSpAttackIfForcedUse(int a, u8 *b, int c, int *d)
 {
-    if (d[6] != 0) BTL_ITEM_FlavorHeal(a, b, c, d, 3);
+    if (d[6] != 0) HAND_ITEM_FlavorHeal(a, b, c, d, 3);
 }
 extern u8 gBtlItemFlavorHealSpDefenseHandlers[];
-void *BTL_ITEM_GetFlavorHealSpDefenseHandlers(int *p) { *p = 5; return gBtlItemFlavorHealSpDefenseHandlers; }
+void *HAND_ITEM_GetFlavorHealSpDefenseHandlers(int *p) { *p = 5; return gBtlItemFlavorHealSpDefenseHandlers; }

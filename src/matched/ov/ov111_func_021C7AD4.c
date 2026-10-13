@@ -11,7 +11,7 @@
  *
  * symbols:
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   d_021C8894  0x021C8894  data
  *
@@ -96,7 +96,7 @@ typedef short s16;
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern const int d_021C8894[];
 
@@ -106,6 +106,6 @@ void func_021C7AD4(Work *p, int x, int k, int col)
 
     MSGDATA_ReadString(p->f20, x + d_021C8894[k], (void *)col);
     v = p->f14;
-    PRINTSYS_PrintQueColor(v, (u32)func_02045770(p->fC), (int)0, (s16)(x << 5), (int)col, (u32)p->f4, (int)0x44F);
+    PRINTSYS_PrintQueColor(v, (u32)BMP_WIN_GetBmp(p->fC), (int)0, (s16)(x << 5), (int)col, (u32)p->f4, (int)0x44F);
     p->f10 = 1;
 }

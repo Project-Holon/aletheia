@@ -1,5 +1,5 @@
 /*
- * function: func_021CFADC
+ * function: BTL_CLIENT_CanArenaTrapTrap
  * address:  0x021CFADC
  * packet:   pkt_ov093_021CFADC
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CF89C  0x021CF89C  thumb  ov093
+ *   BTL_CLIENT_IsHeldItemEffective  0x021CF89C  thumb  ov093
  *   func_021EFCE4  0x021EFCE4  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
@@ -23,18 +23,18 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 struct QI;
 struct Unk021D62A8;
-extern int func_021CF89C(u8 *p, void *q);
+extern int BTL_CLIENT_IsHeldItemEffective(u8 *p, void *q);
 extern void *func_021EFCE4(char *arg0, int arg1);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 extern int func_021D59B4(u8 *p, int k);
 extern int BTL_POKEPARAM_HasType(void *m, int k);
 
-int func_021CFADC(u8 *g, void *m)
+int BTL_CLIENT_CanArenaTrapTrap(u8 *g, void *m)
 {
     u32 a;
 
-    a = func_021CF89C(g, m);
+    a = BTL_CLIENT_IsHeldItemEffective(g, m);
     if (func_021EFCE4((char *)(*(int *)&((struct Obj01894 *)g)->f34), 2) != 0)
         return 1;
     if (BTL_POKEPARAM_HasSick(m, 0x1f) != 0)

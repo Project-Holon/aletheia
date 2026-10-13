@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: two zero padding bytes at 0x021D9B26.
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   STRBUF_Copy 0x02045838 arm
  *   func_021D9BC0 0x021D9BC0 thumb ov121
@@ -22,7 +22,7 @@ typedef signed short s16;
 typedef struct { int x; int y; } Pair;
 struct CharBuf;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 struct U16Vec;
 extern void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src);
@@ -33,11 +33,11 @@ void func_021D9AC8(u8 *p, int a, int b)
 {
     Pair xy;
     void *q;
-    BMP_Clear(func_02045770(((struct Obj01057 *)p)->fC), ((struct Obj01057 *)p)->f16 & 31);
+    BMP_Clear(BMP_WIN_GetBmp(((struct Obj01057 *)p)->fC), ((struct Obj01057 *)p)->f16 & 31);
     STRBUF_Copy(((struct Obj01057 *)p)->f10, (struct U16Vec *)a);
     func_021D9BC0(p, b, &xy);
     q = ((struct Obj01057 *)p)->f8;
-    PRINTSYS_PrintQueColor(q, (u32)func_02045770(((struct Obj01057 *)p)->f0), (s16)xy.x, (s16)xy.y,
+    PRINTSYS_PrintQueColor(q, (u32)BMP_WIN_GetBmp(((struct Obj01057 *)p)->f0), (s16)xy.x, (s16)xy.y,
                  (u32)(((struct Obj01057 *)p)->f10), b, ((struct Obj01057 *)p)->f16);
     p[4] = 1;
 }

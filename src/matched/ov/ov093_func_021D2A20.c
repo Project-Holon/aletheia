@@ -1,5 +1,5 @@
 /*
- * function: func_021D2A20
+ * function: BTL_CLIENT_StepGiveExp
  * address: 0x021D2A20
  * packet: pkt_ov093_021D2A20
  * region: ov093
@@ -10,11 +10,11 @@
  * evidence: 43/43 relocations resolved after parent-coordinated overlay
  * leaf witnesses; all ARM9 calls resolve without new ARM9 files.
  * lever: int id loaded via (u8) cast fixes spill slots; widening the
- * func_021B8DC0 third extern parameter removes absent call truncation.
+ * BTL_MAIN_GetViewPosOfPoke third extern parameter removes absent call truncation.
  * StateData fields keep counter updates on one global base.
  * symbols:
- *   func_021B9934 0x021B9934 thumb ov093
- *   func_021B8DC0 0x021B8DC0 thumb ov093
+ *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
+ *   BTL_MAIN_GetViewPosOfPoke 0x021B8DC0 thumb ov093
  *   func_021F8204 0x021F8204 thumb ov094
  *   BTL_POKEPARAM_AddExp 0x021D69B8 thumb ov093
  *   func_021F8134 0x021F8134 thumb ov094
@@ -22,7 +22,7 @@
  *   BTL_EVENT_ReleaseClientHandle 0x021D6EA0 thumb ov093
  *   BTL_POKEPARAM_ReloadFromParam 0x021D6BFC thumb ov093
  *   func_021F8150 0x021F8150 thumb ov094
- *   func_02006238 0x02006238 thumb
+ *   GFL_USE_IsAnySeBusy 0x02006238 thumb
  *   func_021EA3B8 0x021EA3B8 thumb ov093
  *   func_021EA3D4 0x021EA3D4 thumb ov093
  *   func_021EAF18 0x021EAF18 thumb ov093
@@ -33,20 +33,20 @@
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_021EA710 0x021EA710 thumb ov093
- *   func_02005F38 0x02005F38 thumb
+ *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_021BA238 0x021BA238 thumb ov093
+ *   BTL_MAIN_NotifyLevelUp 0x021BA238 thumb ov093
  *   func_021EADA4 0x021EADA4 thumb ov093
  *   func_021EADB4 0x021EADB4 thumb ov093
  *   func_021EADC4 0x021EADC4 thumb ov093
  *   func_021EADD4 0x021EADD4 thumb ov093
  *   func_021EADE4 0x021EADE4 thumb ov093
  *   func_021EADF4 0x021EADF4 thumb ov093
- *   func_021D2CA8 0x021D2CA8 thumb ov093
- *   func_021B9358 0x021B9358 thumb ov093
- *   d_021F3B64 0x021F3B64 data a4
+ *   BTL_CLIENT_StepLearnLevelUpMoves 0x021D2CA8 thumb ov093
+ *   BTL_MAIN_CopyLiveToSnapshotPoke 0x021B9358 thumb ov093
+ *   gExpGainWork 0x021F3B64 data a4
  */
 #include "../include/Obj00268.h"
 typedef unsigned char u8;
@@ -64,8 +64,8 @@ typedef struct {
     u8 unk19C[0xa];
     u8 side;
 } LearnSeq;
-extern u8 *func_021B9934(char *p, int i);
-extern unsigned char func_021B8DC0(unsigned char *p, void *a, unsigned int b);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
+extern unsigned char BTL_MAIN_GetViewPosOfPoke(unsigned char *p, void *a, unsigned int b);
 extern int func_021F8204(int);
 struct H;
 struct L;
@@ -77,7 +77,7 @@ extern int func_021F8180(void);
 extern void BTL_EVENT_ReleaseClientHandle(void *);
 extern void BTL_POKEPARAM_ReloadFromParam(u8 *p);
 extern void func_021F8150(int, void *);
-extern int func_02006238(void);
+extern int GFL_USE_IsAnySeBusy(void);
 extern void func_021EA3B8(char *ctx, int a, int b);
 extern int func_021EA3D4(void *);
 struct L;
@@ -89,11 +89,11 @@ extern void GFL_USE_SetBgmPlayerParam(void *);
 extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 extern int func_021EA710(u32 *p);
-extern int func_02005F38(void);
+extern int GFL_USE_IsBgmPlaying(void);
 extern int GFL_USE_PopBgm(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_021BA238(char *p, void *m);
+extern void BTL_MAIN_NotifyLevelUp(char *p, void *m);
 struct T;
 extern void func_021EADA4(u8 *, int, struct T *);
 extern int func_021EADB4(u8 *);
@@ -101,11 +101,11 @@ extern void func_021EADC4(u8 *);
 extern int func_021EADD4(u8 *);
 extern void func_021EADE4(u8 *);
 extern int func_021EADF4(u8 *);
-extern int func_021D2CA8(LearnSeq *, int *, void *);
-extern void func_021B9358(char *p, int i);
+extern int BTL_CLIENT_StepLearnLevelUpMoves(LearnSeq *, int *, void *);
+extern void BTL_MAIN_CopyLiveToSnapshotPoke(char *p, int i);
 struct StateData { u8 pad0[8]; int counter; u32 remaining; u32 pad10; u8 result[14]; };
-extern struct StateData d_021F3B64;
-int func_021D2A20(u8 *p, int *state, u32 *args)
+extern struct StateData gExpGainWork;
+int BTL_CLIENT_StepGiveExp(u8 *p, int *state, u32 *args)
 {
     void *obj;
     int id;
@@ -113,28 +113,28 @@ int func_021D2A20(u8 *p, int *state, u32 *args)
     int enabled;
     u32 remaining;
     id = (u8)args[0];
-    obj = func_021B9934(*(char * *)&((struct Obj00268 *)p)->f4, id);
-    index = func_021B8DC0(((struct Obj00268 *)p)->f0, ((struct Obj00268 *)p)->f4, id);
+    obj = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00268 *)p)->f4, id);
+    index = BTL_MAIN_GetViewPosOfPoke(((struct Obj00268 *)p)->f0, ((struct Obj00268 *)p)->f4, id);
     enabled = 0;
     if (index != 0xff && func_021F8204(index)) enabled = 1;
     switch (*state) {
     case 0:
-        d_021F3B64.remaining = args[1];
-        d_021F3B64.counter = 0;
+        gExpGainWork.remaining = args[1];
+        gExpGainWork.counter = 0;
         *state = 1;
     case 1:
-        if (d_021F3B64.remaining) {
-            remaining = d_021F3B64.remaining;
-            if (BTL_POKEPARAM_AddExp(obj, &remaining, (struct Result *)d_021F3B64.result)) {
+        if (gExpGainWork.remaining) {
+            remaining = gExpGainWork.remaining;
+            if (BTL_POKEPARAM_AddExp(obj, &remaining, (struct Result *)gExpGainWork.result)) {
                 *state = 3;
             } else {
                 if (enabled) {
-                    func_021F8134(index, d_021F3B64.remaining);
+                    func_021F8134(index, gExpGainWork.remaining);
                     *state = 2;
                 } else *state = 13;
                 remaining = 0;
             }
-            d_021F3B64.remaining = remaining;
+            gExpGainWork.remaining = remaining;
         } else *state = 13;
         break;
     case 2:
@@ -149,7 +149,7 @@ int func_021D2A20(u8 *p, int *state, u32 *args)
         } else *state = 6;
         break;
     case 4:
-        if (!func_021F8180() && !func_02006238()) {
+        if (!func_021F8180() && !GFL_USE_IsAnySeBusy()) {
             func_021EA3B8(((struct Obj00268 *)p)->f54, index, 0x25d);
             *state = 5;
         }
@@ -160,7 +160,7 @@ int func_021D2A20(u8 *p, int *state, u32 *args)
     case 6:
         func_021EAF18((struct L *)(p + 0x58), 1, 0x3c);
         func_021EAF50((struct L *)(p + 0x58), (int)id);
-        func_021EAF50((struct L *)(p + 0x58), (int)d_021F3B64.result[0]);
+        func_021EAF50((struct L *)(p + 0x58), (int)gExpGainWork.result[0]);
         func_021EA614(((struct Obj00268 *)p)->f54, (struct H *)(p + 0x58));
         *state = 7;
         break;
@@ -170,45 +170,45 @@ int func_021D2A20(u8 *p, int *state, u32 *args)
             GFL_USE_PushBgm();
             GFL_USE_CancelChangeAndPlayBgm(0x515, 0xffff);
         }
-        if (func_021EA710(((struct Obj00268 *)p)->f54) && !func_02005F38()) {
+        if (func_021EA710(((struct Obj00268 *)p)->f54) && !GFL_USE_IsBgmPlaying()) {
             GFL_USE_PopBgm();
             GFL_USE_SetBgmPlayerParam(0);
-            d_021F3B64.counter = 0;
+            gExpGainWork.counter = 0;
             *state = 8;
         }
         break;
     case 8:
-        d_021F3B64.counter++;
-        if ((func_020362DC() & 3) || TOUCHPANEL_GetTrg() || d_021F3B64.counter > 80) {
-            d_021F3B64.counter = 0;
-            func_021BA238(((struct Obj00268 *)p)->f0, obj);
-            func_021EADA4(*(u8 * *)&((struct Obj00268 *)p)->f54, (int)obj, (struct T *)d_021F3B64.result);
+        gExpGainWork.counter++;
+        if ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg() || gExpGainWork.counter > 80) {
+            gExpGainWork.counter = 0;
+            BTL_MAIN_NotifyLevelUp(((struct Obj00268 *)p)->f0, obj);
+            func_021EADA4(*(u8 * *)&((struct Obj00268 *)p)->f54, (int)obj, (struct T *)gExpGainWork.result);
             *state = 9;
         }
         break;
     case 9:
-        if (func_021EADB4(((struct Obj00268 *)p)->f54) && ((func_020362DC() & 3) || TOUCHPANEL_GetTrg())) {
+        if (func_021EADB4(((struct Obj00268 *)p)->f54) && ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg())) {
             func_021EADC4(((struct Obj00268 *)p)->f54);
             *state = 10;
         }
         break;
     case 10:
-        if (func_021EADD4(((struct Obj00268 *)p)->f54) && ((func_020362DC() & 3) || TOUCHPANEL_GetTrg())) {
+        if (func_021EADD4(((struct Obj00268 *)p)->f54) && ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg())) {
             func_021EADE4(((struct Obj00268 *)p)->f54);
             *state = 11;
         }
         break;
     case 11:
         if (func_021EADF4(((struct Obj00268 *)p)->f54)) {
-            d_021F3B64.counter = 0;
+            gExpGainWork.counter = 0;
             *state = 12;
         }
         break;
     case 12:
-        if (func_021D2CA8((LearnSeq *)p, &d_021F3B64.counter, obj)) *state = 1;
+        if (BTL_CLIENT_StepLearnLevelUpMoves((LearnSeq *)p, &gExpGainWork.counter, obj)) *state = 1;
         break;
     case 13:
-        func_021B9358(((struct Obj00268 *)p)->f0, id);
+        BTL_MAIN_CopyLiveToSnapshotPoke(((struct Obj00268 *)p)->f0, id);
         return 1;
     }
     return 0;

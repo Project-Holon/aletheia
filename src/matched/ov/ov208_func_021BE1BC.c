@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021BD3C0  0x021BD3C0  thumb
- *   func_0204B6F4  0x0204B6F4  arm
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  */
 
 typedef unsigned char  u8;
@@ -96,7 +96,7 @@ struct Ov208Scene {
 
 struct Obj;
 extern int func_021BD3C0(void *mgr, int key);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 
 void ov208_func_021BE1BC(struct Ov208Scene *p)
 {
@@ -117,7 +117,7 @@ void ov208_func_021BE1BC(struct Ov208Scene *p)
         break;
     }
     if (slot != 9) {
-        func_0204B6F4((struct Obj *)func_021BD3C0((void *)p->mgr, p->slots[slot].src->id), 0, 0);
+        CLACT_SetActorPaletteOffset((struct Obj *)func_021BD3C0((void *)p->mgr, p->slots[slot].src->id), 0, 0);
         p->f1c = 4;
     }
 }

@@ -10,7 +10,7 @@
  * extent: two bytes of zero alignment padding at 0x021DB73E
  * symbols:
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021F9B9C 0x021F9B9C thumb ov186
  *   func_021FC1F8 0x021FC1F8 thumb ov186
  *   func_021FC148 0x021FC148 thumb ov186
@@ -23,7 +23,7 @@
 #include "../include/Obj02517.h"
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 struct Obj24810;
 extern unsigned func_021F9B9C(struct Obj24810 *p);
 extern void func_021FC1F8(int *,int);
@@ -38,7 +38,7 @@ int func_021DB698(int *task,int b,char *p)
 {
     char *s;
     s=PROCSYS_AllocProcWork((struct Obj0203159C *)task,24,func_021F9B9C((struct Obj24810 *)(*(char * *)&((struct Obj01072 *)p)->f1C)));
-    func_02082BCC(s,0,24);
+    MI_CpuFill8(s,0,24);
     *(char * *)&((struct Obj02517 *)s)->fC=p;
     ((struct Obj02517 *)s)->f14=func_021F9B9C((struct Obj24810 *)(*(char * *)&((struct Obj01072 *)p)->f1C));
     func_021FC1F8(*(int * *)&((struct Obj01072 *)p)->f18,0);

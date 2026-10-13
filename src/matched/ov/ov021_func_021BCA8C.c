@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb  arm9
  */
 
 typedef unsigned short u16;
@@ -19,13 +22,13 @@ typedef struct {
 } Obj;
 
 typedef unsigned int   u32;
-extern u32 func_02013E4C(u32 id);
+extern u32 ZONEDATA_GetPlaceNameId(u32 id);
 
 int FIELD_PLACE_NAME_HasPlaceNameChanged(Obj *p)
 {
-    int a = func_02013E4C(p->h44);
+    int a = ZONEDATA_GetPlaceNameId(p->h44);
 
-    if (a != func_02013E4C(p->h46)) {
+    if (a != ZONEDATA_GetPlaceNameId(p->h46)) {
         return 1;
     }
     return 0;

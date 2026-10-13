@@ -25,6 +25,8 @@
  *   BGWINFRM_PutFrame  0x0202CB4C  thumb  arm9
  *   BGWINFRM_GetFrameBuffer  0x0202CF84  thumb  arm9
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
  */
 
 typedef signed char s8;
@@ -84,8 +86,8 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern u8 func_020355C4(void);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 
 int func_021FB3D8(Obj *p)
 {
@@ -107,9 +109,9 @@ int func_021FB3D8(Obj *p)
     func_021F4FF4(p->left, 0xE4, 0x78);
     func_021F4FF4(p->right, 0x9A, 0x78);
     if (func_020355C4() == 1) {
-        func_0204B3DC((struct Obj *)p->cursor, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 0);
     } else {
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
     }
     if (pages == 1) {
         CLACT_SetActorAnimSeq((struct Obj *)p->left, 0x3D);
@@ -118,10 +120,10 @@ int func_021FB3D8(Obj *p)
         CLACT_SetActorAnimSeq((struct Obj *)p->left, 0x26);
         CLACT_SetActorAnimSeq((struct Obj *)p->right, 0x27);
     }
-    func_0204B92C((struct Obj *)p->left, 0);
-    func_0204B92C((struct Obj *)p->right, 0);
-    func_0204B3DC((struct Obj *)p->left, 1);
-    func_0204B3DC((struct Obj *)p->right, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)p->left, 0);
+    CLACT_SetActorAutoAnim((struct Obj *)p->right, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)p->left, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)p->right, 1);
     p->state = 0xF;
     return -1;
 }

@@ -14,19 +14,19 @@
  * symbols:
  *   g_021AB1A4     0x021AB1A4  data
  *   g_021AB208     0x021AB208  data
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
 #include "../include/G_DWCAuthState.h"
 
 extern struct DWCAuthState g_021AB1A4;
 extern unsigned char g_021AB208[];
-extern void func_02082BCC(void *dst, int data, unsigned long size);
+extern void MI_CpuFill8(void *dst, int data, unsigned long size);
 
 void func_02178CE0(void)
 {
 	g_021AB1A4.s_finished = 0;
 	g_021AB1A4.state = 0;
 	g_021AB1A4.returnCode = 0;
-	func_02082BCC(g_021AB208, 0, 0x1c50);
+	MI_CpuFill8(g_021AB208, 0, 0x1c50);
 }

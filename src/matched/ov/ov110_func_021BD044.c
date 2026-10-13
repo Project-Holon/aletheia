@@ -15,7 +15,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_021BAC78 0x021BAC78 thumb ov110
  *   func_021BD0F8 0x021BD0F8 thumb ov110
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj01249.h"
 typedef unsigned char u8;
@@ -33,7 +33,7 @@ extern struct Obj *func_021BAC78(char *p, unsigned int *r, short x, short y, uns
 extern void func_021BD0F8(u8 *p, int i, int flag);
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 void func_021BD044(Object *p) {
     void *h;
     int i;
@@ -48,6 +48,6 @@ void func_021BD044(Object *p) {
         if(i==7) x=0;
         p->items[i]=func_021BAC78(p->root,(unsigned int *)((u8 *)p+0x10),x,168,0,1);
         func_021BD0F8((u8 *)p,i,0);
-        func_0204B3DC(p->items[i],0);
+        CLACT_SetActorDrawEnable(p->items[i],0);
     }
 }

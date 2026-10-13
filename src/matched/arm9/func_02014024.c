@@ -1,5 +1,5 @@
 /*
- * function: func_02014024
+ * function: ZONEDATA_IsZoneInTableDFD2
  * address:  0x02014024
  * packet:   pkt_02014024
  * region:   arm9
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 extern u32 ZONEDATA_IsZoneInTable(u32 id, const u16 *table, s32 count);
 extern const char d_0209DFD2[];
 
-int func_02014024(u32 a)
+int ZONEDATA_IsZoneInTableDFD2(u32 a)
 {
     return ZONEDATA_IsZoneInTable(a, (const u16 *)d_0209DFD2, 5);
 }

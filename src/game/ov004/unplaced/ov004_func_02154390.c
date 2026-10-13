@@ -15,7 +15,7 @@
  *
  * symbols:
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GFL_USE_GetBgmNo  0x02005C44  thumb
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
@@ -55,7 +55,7 @@ typedef struct WorldTradeEventWork {
 } WorldTradeEventWork;
 
 extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
-extern u32 func_02026454(void *gameComm);
+extern u32 GAME_COMM_GetKind(void *gameComm);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_FadeOutBgm(u32 frames);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
@@ -75,7 +75,7 @@ u32 EVENT_WORLDTRADE_Main(struct GameEvent *event, u32 *seq, WorldTradeEventWork
 {
     switch (*seq) {
     case 0:
-        if (func_02026454(GAMESYSTEM_GetGameComm(work->gameSystem)) == 0)
+        if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(work->gameSystem)) == 0)
             *seq = 1;
         break;
     case 1:

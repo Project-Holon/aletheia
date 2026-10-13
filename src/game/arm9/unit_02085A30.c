@@ -1,6 +1,6 @@
 /*
  * file:     unit_02085A30.c
- * function: func_02085A30
+ * function: OS_GetThreadPriority
  * address:  0x02085A30
  * packet:   pkt_02085A30
  * region:   arm9
@@ -12,7 +12,7 @@
  */
 #include "../../matched/include/Obj01024.h"
 
-void *func_02085A30(char *thread)
+void *OS_GetThreadPriority(char *thread)
 {
     return ((struct Obj01024 *)thread)->f70;
 }

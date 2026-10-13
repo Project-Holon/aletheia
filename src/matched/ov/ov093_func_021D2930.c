@@ -1,5 +1,5 @@
 /*
- * function: func_021D2930
+ * function: BTL_CLIENT_StepPlayHitEffect
  * address:  0x021D2930
  * packet:   pkt_ov093_021D2930
  * region:   ov093
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
- *   func_021B8D8C  0x021B8D8C  thumb  ov093
+ *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
  *   BTL_CALC_SummarizeTypeAffinity  0x021D7AD4  thumb  ov093
  *   func_021EA1B8  0x021EA1B8  thumb  ov093
  *   func_021EA1F0  0x021EA1F0  thumb  ov093
@@ -22,21 +22,21 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
-extern int func_021B8D8C(void *p, void *a, u32 b);
+extern int BTL_MAIN_GetTrainerSlotOfPoke(void *p, void *a, u32 b);
 extern int BTL_CALC_SummarizeTypeAffinity(int a);
 struct S;
 extern void func_021EA1B8(struct S *s, u32 a, int b, int c);
 struct S;
 extern int func_021EA1F0(struct S *s);
 
-int func_021D2930(u32 *a, int *b, u32 *c)
+int BTL_CLIENT_StepPlayHitEffect(u32 *a, int *b, u32 *c)
 {
     int t;
 
     switch (*b) {
     case 0:
         if (BTL_CLIENT_IsMainStepActive((u8 *)a) == 0) {
-            t = func_021B8D8C((void *)a[0], (void *)a[1], (u8)c[0]);
+            t = BTL_MAIN_GetTrainerSlotOfPoke((void *)a[0], (void *)a[1], (u8)c[0]);
             func_021EA1B8((struct S *)a[0x15], (u16)c[2], t, BTL_CALC_SummarizeTypeAffinity(c[1]));
             (*b)++;
             break;

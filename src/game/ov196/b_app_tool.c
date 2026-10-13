@@ -17,10 +17,10 @@
  *   d_0220B100 0x0220B100 data a4
  *   func_020307B0 0x020307B0 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   sub_02041B6C 0x02041B6C arm
@@ -55,11 +55,11 @@ typedef short s16_0220B07C;
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern int CLACT_CreateActor(int, int, int, int, void *, int, u16);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B92C(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
 extern void CLACT_DeleteActor(struct Obj *p);
-extern void func_0204B3DC(struct Obj *, unsigned int);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void sub_02041B6C(u32);
@@ -91,8 +91,8 @@ void func_0220AF6C(char *p, int a, int b, int c, int d)
     for(i=0;i<4;i++) {
         pos.z=i;
         *(int *)(p+i*4)=CLACT_CreateActor(a,b,c,d,&pos,1,((struct Obj24987 *)p)->f10);
-        func_0204B6F4((struct Obj *)(*(int *)(p+i*4)),0,1);
-        func_0204B92C((struct Obj *)*(int *)(p+i*4),1);
+        CLACT_SetActorPaletteOffset((struct Obj *)(*(int *)(p+i*4)),0,1);
+        CLACT_SetActorAutoAnim((struct Obj *)*(int *)(p+i*4),1);
     }
 }
 
@@ -117,7 +117,7 @@ void func_0220AFDC(char *p, void *v)
         unsigned int i;
         for (i = 0; i < 4; i++)
         {
-            func_0204B3DC(*(void **)(p + i * 4), (unsigned int)v);
+            CLACT_SetActorDrawEnable(*(void **)(p + i * 4), (unsigned int)v);
         }
         ((struct Obj14540 *)p)->f14 = v;
     }
@@ -128,10 +128,10 @@ void func_0220B000(int *p, u8 *q)
     Pos_0220B000 pos;
     u8 h=q[3]/2;
     u8 w=q[2]/2;
-    pos.x=q[0]-w;pos.y=q[1]-h;func_0204B404((struct Obj *)p[0],(const struct Vec2 *)(&pos),1);
-    pos.x=q[0]-w;pos.y=q[1]+h;func_0204B404((struct Obj *)p[1],(const struct Vec2 *)(&pos),1);
-    pos.x=q[0]+w;pos.y=q[1]-h;func_0204B404((struct Obj *)p[2],(const struct Vec2 *)(&pos),1);
-    pos.x=q[0]+w;pos.y=q[1]+h;func_0204B404((struct Obj *)p[3],(const struct Vec2 *)(&pos),1);
+    pos.x=q[0]-w;pos.y=q[1]-h;CLACT_AddActorSurfacePos((struct Obj *)p[0],(const struct Vec2 *)(&pos),1);
+    pos.x=q[0]-w;pos.y=q[1]+h;CLACT_AddActorSurfacePos((struct Obj *)p[1],(const struct Vec2 *)(&pos),1);
+    pos.x=q[0]+w;pos.y=q[1]-h;CLACT_AddActorSurfacePos((struct Obj *)p[2],(const struct Vec2 *)(&pos),1);
+    pos.x=q[0]+w;pos.y=q[1]+h;CLACT_AddActorSurfacePos((struct Obj *)p[3],(const struct Vec2 *)(&pos),1);
 }
 
 /*

@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020434DC 0x020434DC arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj23440.h"
 struct Obj;
-extern void func_020434DC(unsigned,unsigned);extern void func_0204B3DC(struct Obj *,unsigned);
-void func_02200130(char *p) {func_020434DC(1,0);func_020434DC(2,0);func_020434DC(4,0);func_0204B3DC(*(struct Obj * *)&((struct Obj23440 *)p)->fBF4,0);}
+extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned);extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned);
+void func_02200130(char *p) {BG_SYS_SetMainPlaneVisible(1,0);BG_SYS_SetMainPlaneVisible(2,0);BG_SYS_SetMainPlaneVisible(4,0);CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj23440 *)p)->fBF4,0);}

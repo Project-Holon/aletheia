@@ -1,5 +1,5 @@
 /*
- * function: func_021E0F74
+ * function: HAND_WAZA_WorrySeedFailOnTruantOrInsomnia
  * address:  0x021E0F74
  * packet:   pkt_ov093_021E0F74
  * region:   ov093
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C7CF4  0x021C7CF4  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int key);
-extern void *func_021C7CF4(int *p, int i);
+extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E0F74(int unused, void *q, int id)
+void HAND_WAZA_WorrySeedFailOnTruantOrInsomnia(int unused, void *q, int id)
 {
     void *m;
     int k;
@@ -33,7 +33,7 @@ void func_021E0F74(int unused, void *q, int id)
 
     if (id == BTL_EVENT_GetVar(3)) {
         t = BTL_EVENT_GetVar(4);
-        m = func_021C7CF4(q, t);
+        m = BTL_SERVER_FLOW_GetPokeParam(q, t);
         k = 0x11;
         if (func_021D59B4(m, 0x11) == 0x36 || func_021D59B4(m, k) == 0xf)
             BTL_EVENT_OverwriteVar(0x40, 1);

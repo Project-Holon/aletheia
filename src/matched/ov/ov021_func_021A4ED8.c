@@ -14,7 +14,7 @@
  *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb  ov021
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
  *   FIELD_PLAYER_CORE_SetStepKind  0x021A3964  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 #include "../include/Obj19792.h"
 
@@ -27,12 +27,12 @@ int FLDMMDL_ACMD_ConvertCodeByDir(int k, int a);
 void FLDMMDL_SetAcmd(int b, int v);
 void FIELD_PLAYER_CORE_SetStepKind(u8 *p, u32 v);
 
-void func_020061E4(u32 a);
+void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 void FIELD_PLAYER_GRID_StartLedgeJumpOnFoot(u32 *p, int b, u8 *c)
 {
     FLDMMDL_SetAcmd(b, FLDMMDL_ACMD_ConvertCodeByDir(((struct Obj19792 *)c)->f8, 0x38));
     p[0] = 1;
     FIELD_PLAYER_CORE_SetStepKind((u8 *)p[3], 1);
-    func_020061E4(0x55E);
+    GFL_USE_PlaySeDefaultVolume(0x55E);
 }

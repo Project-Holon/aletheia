@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
@@ -23,7 +23,7 @@
 #include "../include/Obj22250.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern int func_021B87E8(unsigned,int *);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049658(void *,int,int,int,int,int,int);
@@ -40,7 +40,7 @@ void func_021B84B4(u8 *p,int id,int choice,int heap)
     void *archive, *data, *raw;
     u8 *pal;
     int i;
-    func_02082BCC(p,0,0x60);
+    MI_CpuFill8(p,0,0x60);
     ((struct Obj07990 *)p)->f0=id;
     ((struct Obj07990 *)p)->f54=func_021B87E8(choice,(int *)(p+0x5c));
     if (((struct Obj07990 *)p)->f5C) ++((struct Obj07990 *)p)->f54;

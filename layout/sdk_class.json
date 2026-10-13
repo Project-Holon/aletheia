@@ -24956,27 +24956,6 @@
    }
   },
   "ov014": {
-   "021771E4": {
-    "name": "DWCi_IsShutdownMatch",
-    "size": 18,
-    "lib": "libdwcmatch.TWL.HYB.thumb.a",
-    "member": "dwc_match.o",
-    "method": "verified"
-   },
-   "021771F8": {
-    "name": "DWC_GHTTPCleanupRootCAList",
-    "size": 18,
-    "lib": "libdwcghttp.TWL.HYB.thumb.a",
-    "member": "dwc_ghttp.o",
-    "method": "verified"
-   },
-   "02177C08": {
-    "name": "DWC_IsValidFriendData",
-    "size": 18,
-    "lib": "libdwcaccount.TWL.HYB.thumb.a",
-    "member": "dwc_account.o",
-    "method": "verified"
-   },
    "021784F0": {
     "name": "DWCi_MOV_WH_StateInEndParent",
     "size": 28,
@@ -24993,20 +24972,6 @@
    }
   },
   "ov015": {
-   "02179810": {
-    "name": "DWCi_IsShutdownMatch",
-    "size": 18,
-    "lib": "libdwcmatch.TWL.HYB.thumb.a",
-    "member": "dwc_match.o",
-    "method": "verified"
-   },
-   "02179C98": {
-    "name": "DWC_GHTTPCleanupRootCAList",
-    "size": 18,
-    "lib": "libdwcghttp.TWL.HYB.thumb.a",
-    "member": "dwc_ghttp.o",
-    "method": "verified"
-   },
    "0217A014": {
     "name": "IRC_IsSender",
     "size": 16,
@@ -25073,20 +25038,6 @@
     "size": 16,
     "lib": "libctrdg.TWL.HYB.a",
     "member": "ctrdg_proc.o",
-    "method": "verified"
-   },
-   "021B1488": {
-    "name": "OS_IsThreadAvailable",
-    "size": 16,
-    "lib": "libos.TWL.HYB.a",
-    "member": "os_thread.o",
-    "method": "verified"
-   },
-   "021B23C8": {
-    "name": "OS_InitIrqTable",
-    "size": 24,
-    "lib": "libos.TWL.HYB.a",
-    "member": "os_interrupt.o",
     "method": "verified"
    },
    "021B2F98": {
@@ -29216,15 +29167,7 @@
     "method": "verified"
    }
   },
-  "ov095": {
-   "068982AC": {
-    "name": "DWCi_IsShutdownMatch",
-    "size": 18,
-    "lib": "libdwcmatch.TWL.HYB.thumb.a",
-    "member": "dwc_match.o",
-    "method": "verified"
-   }
-  },
+  "ov095": {},
   "ov094": {
    "022090A6": {
     "name": "DWCi_NodeInfo_IsValid",
@@ -42055,6 +41998,48 @@
    "address": "02731594",
    "name": "ghttpThink",
    "reason": "calls ghiEnumConnections at 0x0208C788, where ghiEnumConnections's bytes do not verify (1 of 1 checkable references disagree)"
+  },
+  {
+   "region": "ov013",
+   "address": "021B1488",
+   "name": "OS_IsThreadAvailable",
+   "reason": "the function is game code (VCT_AUDIO_GetPendingHead); the SDK name was a coincidental byte match of a tiny getter"
+  },
+  {
+   "region": "ov014",
+   "address": "021771E4",
+   "name": "DWCi_IsShutdownMatch",
+   "reason": "the function is game code (NET_WHPIPE_IsWorkNotAllocated); the SDK name was a coincidental byte match of a tiny getter"
+  },
+  {
+   "region": "ov014",
+   "address": "021771F8",
+   "name": "DWC_GHTTPCleanupRootCAList",
+   "reason": "the function is game code (NET_WHPIPE_IsWhIdle); the SDK name was a coincidental byte match of a tiny getter"
+  },
+  {
+   "region": "ov014",
+   "address": "02177C08",
+   "name": "DWC_IsValidFriendData",
+   "reason": "the function is game code (WIH_HasBeaconBeenSent); the SDK name was a coincidental byte match of a tiny getter"
+  },
+  {
+   "region": "ov015",
+   "address": "02179810",
+   "name": "DWCi_IsShutdownMatch",
+   "reason": "the function is game code (IRCNET_IsNotRunning); the SDK name was a coincidental byte match of a tiny getter"
+  },
+  {
+   "region": "ov015",
+   "address": "02179C98",
+   "name": "DWC_GHTTPCleanupRootCAList",
+   "reason": "the function is game code (IRCNET_IsSender); the SDK name was a coincidental byte match of a tiny getter"
+  },
+  {
+   "region": "ov095",
+   "address": "068982AC",
+   "name": "DWCi_IsShutdownMatch",
+   "reason": "the function is game code (BTL_EVENT_IsFactorKeyRegistered); the SDK name was a coincidental byte match of a tiny getter"
   }
  ]
 }

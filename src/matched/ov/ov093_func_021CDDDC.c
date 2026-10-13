@@ -1,5 +1,5 @@
 /*
- * function: func_021CDDDC
+ * function: BTL_CLIENT_StepOpenBattleWindow
  * address:  0x021CDDDC
  * packet:   pkt_ov093_021CDDDC
  * region:   ov093
@@ -19,8 +19,8 @@
  *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
  *   func_021E90A0  0x021E90A0  thumb  ov093
  *   func_021E90D0  0x021E90D0  thumb  ov093
- *   func_021BA5C4  0x021BA5C4  thumb  ov093
- *   func_021BA5D0  0x021BA5D0  thumb  ov093
+ *   BTL_MAIN_GetLimitTimeCommand  0x021BA5C4  thumb  ov093
+ *   BTL_MAIN_GetLimitTimeGame  0x021BA5D0  thumb  ov093
  *   func_021F84E8  0x021F84E8  thumb  ov094
  *   func_021F8504  0x021F8504  thumb  ov094
  *   BTL_CLIENT_StoreMonParam  0x021CDECC  thumb  ov093
@@ -37,8 +37,8 @@ struct Q3;
 struct S;
 extern void func_021E90A0(unsigned int *o, unsigned int key);
 extern int func_021E90D0(struct S *s);
-extern u16 func_021BA5C4(u8 *p);
-extern u16 func_021BA5D0(struct Q3 *p);
+extern u16 BTL_MAIN_GetLimitTimeCommand(u8 *p);
+extern u16 BTL_MAIN_GetLimitTimeGame(struct Q3 *p);
 extern void func_021F84E8(int a, int b);
 extern void func_021F8504(u32 a, u32 b, u32 c);
 extern void BTL_CLIENT_StoreMonParam(u8 *p);
@@ -46,7 +46,7 @@ extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern u16 func_021D3FA8(u8 *p);
 extern void func_021EAEA8(u8 *p, int v);
 
-int func_021CDDDC(u8 *p, int *st)
+int BTL_CLIENT_StepOpenBattleWindow(u8 *p, int *st)
 {
     switch (*st) {
     case 0:
@@ -61,8 +61,8 @@ int func_021CDDDC(u8 *p, int *st)
         if (func_021E90D0(((struct Obj01689 *)p)->f54) == 0) {
             break;
         }
-        ((struct Obj01689 *)p)->fE4 = func_021BA5C4(((struct Obj01689 *)p)->f0);
-        ((struct Obj01689 *)p)->fE6 = func_021BA5D0(((struct Obj01689 *)p)->f0);
+        ((struct Obj01689 *)p)->fE4 = BTL_MAIN_GetLimitTimeCommand(((struct Obj01689 *)p)->f0);
+        ((struct Obj01689 *)p)->fE6 = BTL_MAIN_GetLimitTimeGame(((struct Obj01689 *)p)->f0);
         if (((struct Obj01689 *)p)->fE4 != 0 || ((struct Obj01689 *)p)->fE6 != 0) {
             func_021F84E8(((struct Obj01689 *)p)->fE6, ((struct Obj01689 *)p)->fE4);
             if (((struct Obj01689 *)p)->fE6 != 0) {

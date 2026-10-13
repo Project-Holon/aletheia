@@ -12,7 +12,7 @@
  * symbols:
  *   s_clact_c      0x020A7F74  data
  *   sub_02030734   0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *
  * Allocate the pool's parallel array of 0x10-byte entries and zero each one.
  * The __FILE__ pointer is the same s_clact_c the rest of clact.c uses; the
@@ -22,7 +22,7 @@
  * The entry count for the loop is read back out of the object at +0x08 rather
  * than reused from the `n` that sized the allocation: the load right after the
  * call is the loop's rotated entry test, and the same field is re-read at the
- * bottom of every iteration because func_02082BCC may alias it.
+ * bottom of every iteration because MI_CpuFill8 may alias it.
  *
  * The clear is a per-element call, not one call over the whole array, so the
  * zero and the 0x10 are hoisted into callee-saved registers for the loop.
@@ -50,7 +50,7 @@ extern char s_clact_c[];
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
-extern void  func_02082BCC(void *dst, int fill, u32 size);
+extern void  MI_CpuFill8(void *dst, int fill, u32 size);
 
 void CLACT_AllocTransferEntries(struct Pool *p, u32 n, u32 heapId)
 {
@@ -60,6 +60,6 @@ void CLACT_AllocTransferEntries(struct Pool *p, u32 n, u32 heapId)
                            0x137b);
 
     for (i = 0; i < p->count; i++) {
-        func_02082BCC(&p->ents[i], 0, sizeof(struct Entry));
+        MI_CpuFill8(&p->ents[i], 0, sizeof(struct Entry));
     }
 }

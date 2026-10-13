@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_02034AC4 0x02034AC4 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021D8600 0x021D8600 arm ov125
  *   func_02030734 0x02030734 arm
  *   func_02045B38 0x02045B38 arm
@@ -32,7 +32,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern int func_02034AC4(s32 handle);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern int func_021D8600(int);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -48,7 +48,7 @@ extern char d_021D8D28[];
 int func_021D6660(char *p, char *a)
 {
     func_02034AC4((int)ov114_id);
-    func_02082BCC(p, 0, 0x5A4);
+    MI_CpuFill8(p, 0, 0x5A4);
     *(u32 *)(p + 0x13C) = *(u16 *)(a + 4);
     *(u32 *)p = *(u32 *)(a + 8);
     *(u32 *)(p + 0x494) = *(u32 *)(a + 0xC);
@@ -57,7 +57,7 @@ int func_021D6660(char *p, char *a)
     *(u32 *)(p + 0x3D8) = 0x55F4;
     *(u32 *)(p + 0x3DC) = 0x55F4;
     *(void **)(p + 0x3AC) = func_02030734(*(u16 *)(a + 4), func_021D8600(-1), 0, d_021D8D00, 0x84);
-    func_02082BCC(*(void **)(p + 0x3AC), 0, func_021D8600(-1));
+    MI_CpuFill8(*(void **)(p + 0x3AC), 0, func_021D8600(-1));
     *(int *)(p + 0x3E4) = (int)func_02045B38(0, 2, 0xE8, *(u16 *)(a + 4));
     *(int *)(p + 0x3E8) = (int)func_0201EC64(*(u16 *)(a + 4));
     *(int *)(p + 0x3EC) = (int)STRBUF_Create(0x100, *(u16 *)(a + 4));

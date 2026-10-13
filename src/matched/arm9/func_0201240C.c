@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020124E4     0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem     0x020124E4  thumb
  *   GAMESYSTEM_CallProc     0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus     0x020120F0  thumb
  *
- * A three-state driver.  func_020124E4's result is bound before the switch and
+ * A three-state driver.  GAME_EVENT_GetGameSystem's result is bound before the switch and
  * is still live in r0 at the case-0 call, which is why the two loads of the
  * state go to r1 (not r0) and the callee's argument registers are r1, r2, r3
  * with r0 carrying the earlier call's result.  Both arms leave through the
@@ -31,14 +31,14 @@ typedef unsigned int u32;
 
 struct IcaAnime;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 struct Ctx;
 extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 
 int GAME_EVENT_CallProcSeq(void *o, u32 *state, u32 *item)
 {
-    u32 v = (u32)func_020124E4(o);
+    u32 v = (u32)GAME_EVENT_GetGameSystem(o);
 
     switch (*state) {
     case 0:

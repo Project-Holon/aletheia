@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_SwarmBoostBug
+ * function: HAND_TOKUSEI_SwarmBoostBug
  * address: 0x021D8C90
  * packet: pkt_ov093_021D8C90
  * region: ov093
@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D8B50.c and filed here.
  *
  * symbols:
- *   BTL_CALC_PinchBoostType 0x021D8CAC thumb
+ *   HAND_TOKUSEI_PinchBoostType 0x021D8CAC thumb
  */
 
-void BTL_CALC_SwarmBoostBug(int a, int b, int c);
-void BTL_CALC_PinchBoostType(int a, int b, int c);
+void HAND_TOKUSEI_SwarmBoostBug(int a, int b, int c);
+void HAND_TOKUSEI_PinchBoostType(int a, int b, int c);
 
-void BTL_CALC_SwarmBoostBug(int a, int b, int c)
+void HAND_TOKUSEI_SwarmBoostBug(int a, int b, int c)
 {
-    BTL_CALC_PinchBoostType(b, c, 6);
+    HAND_TOKUSEI_PinchBoostType(b, c, 6);
 }

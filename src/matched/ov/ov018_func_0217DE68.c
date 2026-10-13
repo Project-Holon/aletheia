@@ -13,8 +13,8 @@
  *   INTRUDE_SUBDISP_IsAlone  0x0217F284  thumb  ov018
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B6F4  0x0204B6F4  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   func_02082A60  0x02082A60  arm
  *   PALANM_BlendColors  0x02021F64  thumb
  */
@@ -54,8 +54,8 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern int INTRUDE_SUBDISP_IsAlone(u8 *p);
 extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void func_02082A60(const void *, void *, int);
 extern void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
 
@@ -70,19 +70,19 @@ void INTRUDE_SUBDISP_UpdateTownActors(Work *p)
     sys = GAMESYSTEM_GetGameData(p->f00);
     if (INTRUDE_SUBDISP_IsAlone((u8 *)p) == 1) {
         for (i = 0; i <= 7; i++) {
-            func_0204B3DC(p->f5c[i], 0);
+            CLACT_SetActorDrawEnable(p->f5c[i], 0);
         }
-        func_0204B3DC(p->f7c, 0);
+        CLACT_SetActorDrawEnable(p->f7c, 0);
     } else if (p->fd8 == GAME_DATA_GetExitMode(sys) || GAME_DATA_GetIntrudeCount(sys) == 0) {
         for (i = 0; i <= 7; i++) {
-            func_0204B3DC(p->f5c[i], 0);
+            CLACT_SetActorDrawEnable(p->f5c[i], 0);
         }
-        func_0204B3DC(p->f7c, 0);
+        CLACT_SetActorDrawEnable(p->f7c, 0);
     } else {
         for (i = 0; i <= 7; i++) {
-            func_0204B3DC(p->f5c[i], 1);
+            CLACT_SetActorDrawEnable(p->f5c[i], 1);
         }
-        func_0204B3DC(p->f7c, 1);
+        CLACT_SetActorDrawEnable(p->f7c, 1);
     }
     for (i = 6; i <= 8; i++) {
         func_02082A60((void *)(0x05000602 + (p->fd8 + 1) * 32), (void *)(0x0500060C + i * 32), 2);
@@ -100,7 +100,7 @@ void INTRUDE_SUBDISP_UpdateTownActors(Work *p)
             } else {
                 act = p->f7c;
             }
-            func_0204B6F4(act, (u8)c, (int)1);
+            CLACT_SetActorPaletteOffset(act, (u8)c, (int)1);
         }
         if (p->f115 < 10) {
             p->f115++;

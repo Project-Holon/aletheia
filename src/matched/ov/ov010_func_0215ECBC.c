@@ -23,12 +23,12 @@
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   SCRIPT_SYS_CallScriptEvent  0x02158780  thumb  ov010
  *   SCRIPT_WORK_SetParams  0x02159058  thumb  ov010
- *   func_02014468  0x02014468  thumb
+ *   FIELD_STATUS_IsFlashActive  0x02014468  thumb
  *   FIELD_STATUS_SetFlashActive  0x02014464  thumb
  *   GAME_BEACON_SEARCH_SetCountValue  0x02165534  thumb  ov010
  *   FIELD_FLASH_SetPendingCommand  0x021C7E50  thumb  ov021
- *   func_02014470  0x02014470  thumb
- *   func_0201446C  0x0201446C  thumb
+ *   FIELD_STATUS_GetMapEffectMask  0x02014470  thumb
+ *   FIELD_STATUS_SetMapEffectMask  0x0201446C  thumb
  *   FIELD_FLASH_GetState  0x021C7E54  thumb  ov021
  */
 
@@ -55,12 +55,12 @@ extern void *FIELDSKILL_MAPEFF_GetFlash(void **p);
 extern u16 FIELDMAP_GetHeapId(u8 *p);
 extern void *SCRIPT_SYS_CallScriptEvent(void *a, u32 id, u32 b, u32 c, u32 d);
 extern int SCRIPT_WORK_SetParams(int a, int b, int c, int d, u16 e);
-extern u8 func_02014468(struct Sub02014444Obj *o);
+extern u8 FIELD_STATUS_IsFlashActive(struct Sub02014444Obj *o);
 extern void FIELD_STATUS_SetFlashActive(struct Sub02014444Obj *o, u8 v);
 extern void GAME_BEACON_SEARCH_SetCountValue(void *a0);
 extern void FIELD_FLASH_SetPendingCommand(u8 *p, u16 v);
-extern u16 func_02014470(struct Sub02014444Obj *o);
-extern void func_0201446C(void *p, u32 v);
+extern u16 FIELD_STATUS_GetMapEffectMask(struct Sub02014444Obj *o);
+extern void FIELD_STATUS_SetMapEffectMask(void *p, u32 v);
 extern u16 FIELD_FLASH_GetState(struct Obj *p);
 
 int MOVE_POKEMON_FlashEventMain(void *a0, int *state, Arg *arg)
@@ -87,12 +87,12 @@ int MOVE_POKEMON_FlashEventMain(void *a0, int *state, Arg *arg)
         (*state)++;
         break;
     case 1:
-        if (func_02014468(obj2) == 0) {
+        if (FIELD_STATUS_IsFlashActive(obj2) == 0) {
             o = GAME_DATA_GetMoveModelSys(obj);
             FIELD_STATUS_SetFlashActive(obj2, 1);
             GAME_BEACON_SEARCH_SetCountValue((void *)0x94);
             FIELD_FLASH_SetPendingCommand(ctl, 1);
-            func_0201446C(o, (func_02014470(o) & ~1) | 2);
+            FIELD_STATUS_SetMapEffectMask(o, (FIELD_STATUS_GetMapEffectMask(o) & ~1) | 2);
         } else {
             return 1;
         }

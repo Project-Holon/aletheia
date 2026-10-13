@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  */
 #include "../include/Obj00112.h"
 typedef unsigned int u32;
 
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 struct Src { int v; int pad[2]; unsigned char kind; };
 int P_STATUS_GetPokeParaSource(char *p)
 {
@@ -22,7 +22,7 @@ int P_STATUS_GetPokeParaSource(char *p)
     case 0:
         return s->v;
     case 1:
-        return (int)func_0201AB28((void *)s->v, ((struct Obj00112 *)p)->f18);
+        return (int)POKEPARTY_GetMember((void *)s->v, ((struct Obj00112 *)p)->f18);
     case 2:
         return *(int *)&((struct Obj00112 *)p)->f258;
     default:

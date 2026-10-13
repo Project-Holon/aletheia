@@ -1,7 +1,7 @@
 /*
  * file:     btl_pokeparam.c
  * unit:     yes
- * function: BTL_POKEPARAM_Create, BTL_POKEPARAM_ReloadFromMon, BTL_POKEPARAM_LoadMoves, BTL_POKEPARAM_SaveMovesToMon, BTL_POKEPARAM_SyncMovesFromMon, BTL_POKEPARAM_ResetBattleMoves, BTL_POKEPARAM_ClearMoveUsedFlags, func_021D51DC, BTL_POKEPARAM_SetMoveInfo, BTL_POKEPARAM_LoadMoveInfo, BTL_POKEPARAM_LoadStats, BTL_POKEPARAM_RestoreIfNeeded, BTL_POKEPARAM_ResetMoveHistory, BTL_POKEPARAM_ClearMoveFlags, BTL_POKEPARAM_Delete, BTL_POKEPARAM_InitStatStages, BTL_POKEPARAM_SetNeutralStatStages, BTL_POKEPARAM_RaiseLowStatStagesInArray, BTL_POKEPARAM_GetPokeId, BTL_POKEPARAM_GetSpecies, BTL_POKEPARAM_GetMoveCount, func_021D5450, func_021D5478, BTL_POKEPARAM_GetUsedMoveTotal, BTL_POKEPARAM_GetMoveId, BTL_POKEPARAM_GetRealMoveId, BTL_POKEPARAM_GetMoveUsedFlag, func_021D54F4, func_021D5528, BTL_POKEPARAM_GetMovePPLost, BTL_POKEPARAM_GetRealMovePPLost, BTL_POKEPARAM_GetMovePPChecked, BTL_POKEPARAM_GetMovePPById, BTL_POKEPARAM_IsMovePPFull, BTL_POKEPARAM_DecrementMovePP, BTL_POKEPARAM_DecrementRealMovePP, BTL_POKEPARAM_RestoreMovePP, BTL_POKEPARAM_RestoreRealMovePP, BTL_POKEPARAM_MarkMoveUsed, BTL_POKEPARAM_ReplaceMove, BTL_POKEPARAM_HasMove, BTL_POKEPARAM_FindMoveSlot, BTL_POKEPARAM_GetTypes, BTL_POKEPARAM_GetTypePair, BTL_POKEPARAM_HasType, BTL_POKEPARAM_GetMon, BTL_POKEPARAM_SetFakeMon, BTL_POKEPARAM_ClearFakeMon, BTL_POKEPARAM_GetDisplayMon, BTL_POKEPARAM_RemapStatId, func_021D58A8, BTL_POKEPARAM_ReadStatsFromMon, BTL_POKEPARAM_SetStat, func_021D59B4, BTL_POKEPARAM_GetStatForCrit, BTL_POKEPARAM_GetItem, BTL_POKEPARAM_SetItem, BTL_POKEPARAM_IsHpFull, BTL_POKEPARAM_IsFainted, BTL_POKEPARAM_IsAbleToBattle, BTL_POKEPARAM_GetTurnCount, BTL_POKEPARAM_TestTurnFlag, BTL_POKEPARAM_TestContFlag, BTL_POKEPARAM_GetSemiInvulnerableFlag, BTL_POKEPARAM_IsSemiInvulnerable, BTL_POKEPARAM_GetHpRatioFixed, func_021D5CB4, func_021D5D14, func_021D5D50, BTL_POKEPARAM_HasLoweredStatStage, BTL_POKEPARAM_RaiseStatStage, BTL_POKEPARAM_LowerStatStage, BTL_POKEPARAM_SetStatStage, BTL_POKEPARAM_RaiseLoweredStatStages, BTL_POKEPARAM_ResetStatStages, BTL_POKEPARAM_GetCritStage, BTL_POKEPARAM_AddCritStage, BTL_POKEPARAM_SubHp, BTL_POKEPARAM_AddHp, BTL_POKEPARAM_ZeroHp, BTL_POKEPARAM_SetTurnFlag, BTL_POKEPARAM_SetContFlag, BTL_POKEPARAM_ClearContFlag, BTL_POKEPARAM_SetSickCont, func_021D6064, BTL_POKEPARAM_TickSleepTurn, BTL_POKEPARAM_TickSlot6Turn, BTL_POKEPARAM_ClearMajorStatus, BTL_POKEPARAM_ClearDependentSick, BTL_POKEPARAM_CureSick, BTL_POKEPARAM_CureSickBySource, BTL_POKEPARAM_GetMajorStatusIndex, BTL_POKEPARAM_HasSick, BTL_POKEPARAM_GetSickParam, BTL_POKEPARAM_GetSickContRaw, BTL_POKEPARAM_GetSickTurn, func_021D6324, BTL_POKEPARAM_ClearSickConts, BTL_POKEPARAM_StartTurnThreshold, BTL_POKEPARAM_AdvanceTurn, BTL_POKEPARAM_ClearTurnFlag, BTL_POKEPARAM_ResetAllEffects, BTL_POKEPARAM_ResetEffectsOnSwitchOut, BTL_POKEPARAM_ReloadAndResetEffects, BTL_POKEPARAM_PassEffects, BTL_POKEPARAM_SetTypes, BTL_POKEPARAM_SetAbility, BTL_POKEPARAM_ChangeForm, BTL_POKEPARAM_ConsumeHeldItem, BTL_POKEPARAM_ClearConsumedItem, BTL_POKEPARAM_GetConsumedItem, BTL_POKEPARAM_RecordMoveUse, BTL_POKEPARAM_GetMoveStreak, BTL_POKEPARAM_GetLastUsedMoveId, BTL_POKEPARAM_GetLastTargetPos, BTL_POKEPARAM_GetLastSelectedMoveId, BTL_POKEPARAM_GetLastMoveSlot, BTL_POKEPARAM_IsLevelUpPending, BTL_POKEPARAM_SetWeight, BTL_POKEPARAM_GetWeight, BTL_POKEPARAM_ClearHitHistory, BTL_POKEPARAM_AdvanceHitTurn, BTL_POKEPARAM_AddHitRecord, BTL_POKEPARAM_GetHitCount, BTL_POKEPARAM_GetHitRecord, func_021D69A0, func_021D69AC, BTL_POKEPARAM_AddExp, BTL_POKEPARAM_GetMaxLevelExp, BTL_POKEPARAM_WriteBackToParam, BTL_POKEPARAM_ReloadFromParam, BTL_POKEPARAM_IsIllusionActive, BTL_POKEPARAM_ClearIllusion, BTL_POKEPARAM_SetPokeParam, BTL_POKEPARAM_Transform, BTL_POKEPARAM_IsTransformed, BTL_POKEPARAM_SetSubstituteHp, BTL_POKEPARAM_ClearSubstitute, BTL_POKEPARAM_HasSubstitute, BTL_POKEPARAM_GetSubstituteHp, BTL_POKEPARAM_DamageSubstitute, func_021D6DC4, BTL_EVENT_GetClientPartyCount, BTL_EVENT_GetClientPartySlotId, BTL_EVENT_StartClientPalAnm, BTL_EVENT_SetClientReservedChoice, BTL_EVENT_GetClientReservedChoice, BTL_EVENT_HasClientReservedChoice, BTL_EVENT_ClearClientReservedChoice, BTL_EVENT_ReleaseClientHandle
+ * function: BTL_POKEPARAM_Create, BTL_POKEPARAM_ReloadFromMon, BTL_POKEPARAM_LoadMoves, BTL_POKEPARAM_SaveMovesToMon, BTL_POKEPARAM_SyncMovesFromMon, BTL_POKEPARAM_ResetBattleMoves, BTL_POKEPARAM_ClearMoveUsedFlags, BTL_POKEPARAM_ReplaceMoveSlot, BTL_POKEPARAM_SetMoveInfo, BTL_POKEPARAM_LoadMoveInfo, BTL_POKEPARAM_LoadStats, BTL_POKEPARAM_RestoreIfNeeded, BTL_POKEPARAM_ResetMoveHistory, BTL_POKEPARAM_ClearMoveFlags, BTL_POKEPARAM_Delete, BTL_POKEPARAM_InitStatStages, BTL_POKEPARAM_SetNeutralStatStages, BTL_POKEPARAM_RaiseLowStatStagesInArray, BTL_POKEPARAM_GetPokeId, BTL_POKEPARAM_GetSpecies, BTL_POKEPARAM_GetMoveCount, func_021D5450, func_021D5478, BTL_POKEPARAM_GetUsedMoveTotal, BTL_POKEPARAM_GetMoveId, BTL_POKEPARAM_GetRealMoveId, BTL_POKEPARAM_GetMoveUsedFlag, func_021D54F4, func_021D5528, BTL_POKEPARAM_GetMovePPLost, BTL_POKEPARAM_GetRealMovePPLost, BTL_POKEPARAM_GetMovePPChecked, BTL_POKEPARAM_GetMovePPById, BTL_POKEPARAM_IsMovePPFull, BTL_POKEPARAM_DecrementMovePP, BTL_POKEPARAM_DecrementRealMovePP, BTL_POKEPARAM_RestoreMovePP, BTL_POKEPARAM_RestoreRealMovePP, BTL_POKEPARAM_MarkMoveUsed, BTL_POKEPARAM_ReplaceMove, BTL_POKEPARAM_HasMove, BTL_POKEPARAM_FindMoveSlot, BTL_POKEPARAM_GetTypes, BTL_POKEPARAM_GetTypePair, BTL_POKEPARAM_HasType, BTL_POKEPARAM_GetMon, BTL_POKEPARAM_SetFakeMon, BTL_POKEPARAM_ClearFakeMon, BTL_POKEPARAM_GetDisplayMon, BTL_POKEPARAM_RemapStatId, func_021D58A8, BTL_POKEPARAM_ReadStatsFromMon, BTL_POKEPARAM_SetStat, func_021D59B4, BTL_POKEPARAM_GetStatForCrit, BTL_POKEPARAM_GetItem, BTL_POKEPARAM_SetItem, BTL_POKEPARAM_IsHpFull, BTL_POKEPARAM_IsFainted, BTL_POKEPARAM_IsAbleToBattle, BTL_POKEPARAM_GetTurnCount, BTL_POKEPARAM_TestTurnFlag, BTL_POKEPARAM_TestContFlag, BTL_POKEPARAM_GetSemiInvulnerableFlag, BTL_POKEPARAM_IsSemiInvulnerable, BTL_POKEPARAM_GetHpRatioFixed, func_021D5CB4, func_021D5D14, func_021D5D50, BTL_POKEPARAM_HasLoweredStatStage, BTL_POKEPARAM_RaiseStatStage, BTL_POKEPARAM_LowerStatStage, BTL_POKEPARAM_SetStatStage, BTL_POKEPARAM_RaiseLoweredStatStages, BTL_POKEPARAM_ResetStatStages, BTL_POKEPARAM_GetCritStage, BTL_POKEPARAM_AddCritStage, BTL_POKEPARAM_SubHp, BTL_POKEPARAM_AddHp, BTL_POKEPARAM_ZeroHp, BTL_POKEPARAM_SetTurnFlag, BTL_POKEPARAM_SetContFlag, BTL_POKEPARAM_ClearContFlag, BTL_POKEPARAM_SetSickCont, BTL_POKEPARAM_TickSickCont, BTL_POKEPARAM_TickSleepTurn, BTL_POKEPARAM_TickSlot6Turn, BTL_POKEPARAM_ClearMajorStatus, BTL_POKEPARAM_ClearDependentSick, BTL_POKEPARAM_CureSick, BTL_POKEPARAM_CureSickBySource, BTL_POKEPARAM_GetMajorStatusIndex, BTL_POKEPARAM_HasSick, BTL_POKEPARAM_GetSickParam, BTL_POKEPARAM_GetSickContRaw, BTL_POKEPARAM_GetSickTurn, BTL_POKEPARAM_CalcSickDamage, BTL_POKEPARAM_ClearSickConts, BTL_POKEPARAM_StartTurnThreshold, BTL_POKEPARAM_AdvanceTurn, BTL_POKEPARAM_ClearTurnFlag, BTL_POKEPARAM_ResetAllEffects, BTL_POKEPARAM_ResetEffectsOnSwitchOut, BTL_POKEPARAM_ReloadAndResetEffects, BTL_POKEPARAM_PassEffects, BTL_POKEPARAM_SetTypes, BTL_POKEPARAM_SetAbility, BTL_POKEPARAM_ChangeForm, BTL_POKEPARAM_ConsumeHeldItem, BTL_POKEPARAM_ClearConsumedItem, BTL_POKEPARAM_GetConsumedItem, BTL_POKEPARAM_RecordMoveUse, BTL_POKEPARAM_GetMoveStreak, BTL_POKEPARAM_GetLastUsedMoveId, BTL_POKEPARAM_GetLastTargetPos, BTL_POKEPARAM_GetLastSelectedMoveId, BTL_POKEPARAM_GetLastMoveSlot, BTL_POKEPARAM_IsLevelUpPending, BTL_POKEPARAM_SetWeight, BTL_POKEPARAM_GetWeight, BTL_POKEPARAM_ClearHitHistory, BTL_POKEPARAM_AdvanceHitTurn, BTL_POKEPARAM_AddHitRecord, BTL_POKEPARAM_GetHitCount, BTL_POKEPARAM_GetHitRecord, func_021D69A0, func_021D69AC, BTL_POKEPARAM_AddExp, BTL_POKEPARAM_GetMaxLevelExp, BTL_POKEPARAM_WriteBackToParam, BTL_POKEPARAM_ReloadFromParam, BTL_POKEPARAM_IsIllusionActive, BTL_POKEPARAM_ClearIllusion, BTL_POKEPARAM_SetPokeParam, BTL_POKEPARAM_Transform, BTL_POKEPARAM_IsTransformed, BTL_POKEPARAM_SetSubstituteHp, BTL_POKEPARAM_ClearSubstitute, BTL_POKEPARAM_HasSubstitute, BTL_POKEPARAM_GetSubstituteHp, BTL_POKEPARAM_DamageSubstitute, func_021D6DC4, BTL_EVENT_GetClientPartyCount, BTL_EVENT_GetClientPartySlotId, BTL_EVENT_StartClientPalAnm, BTL_EVENT_SetClientReservedChoice, BTL_EVENT_GetClientReservedChoice, BTL_EVENT_HasClientReservedChoice, BTL_EVENT_ClearClientReservedChoice, BTL_EVENT_ReleaseClientHandle
  * address:  0x021D4D84
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021B9934 0x021B9934 thumb ov093
+ *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   BTL_POKEPARAM_ConsumeHeldItem 0x021D6730 thumb ov093
  *   BTL_POKEPARAM_RecordMoveUse 0x021D6744 thumb ov093
  *   BTL_POKEPARAM_SetContFlag 0x021D5FE4 thumb ov093
@@ -31,9 +31,9 @@
  *   BTL_POKEPARAM_SetSubstituteHp 0x021D6D5C thumb ov093
  *   BTL_POKEPARAM_ClearSubstitute   0x021D6D70  thumb
  *   BTL_CLIENT_AddPoints 0x021CD9F4 thumb ov093
- *   func_021B9B10 0x021B9B10 thumb ov093
- *   func_021B9AEC 0x021B9AEC thumb ov093
- *   func_021B9D10 0x021B9D10 thumb ov093
+ *   BTL_MAIN_AddClientPoints 0x021B9B10 thumb ov093
+ *   BTL_SIDE_GetSlotOfClient 0x021B9AEC thumb ov093
+ *   BTL_SLOT_UpdateIllusion 0x021B9D10 thumb ov093
  *   BTL_POKEPARAM_ClearConsumedItem   0x021D6738  thumb
  *   BTL_POKEPARAM_CureSickBySource 0x021D6264 thumb ov093
  *   BTL_POKEPARAM_AddHitRecord 0x021D6848 thumb ov093
@@ -42,9 +42,9 @@
  *   func_021EFC78   0x021EFC78  thumb
  *   BTL_POKEPARAM_SetWeight 0x021D67D8 thumb ov093
  *   BTL_FIELD_GetCountdownByte 0x021EF9A8 thumb ov093
- *   func_021B9F84 0x021B9F84 thumb ov093
+ *   BTL_MAIN_GetTrainerItem 0x021B9F84 thumb ov093
  *   d_021EFF74  0x021EFF74  data  a1
- *   func_021B9B94  0x021B9B94  thumb  ov093
+ *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   func_021D805C  0x021D805C  thumb  ov093
  *   BTL_CALC_DivideMaxHp  0x021D7B60  thumb  ov093
@@ -59,7 +59,7 @@
  *   GFL_USE_SetPlayersAudible 0x02005CA4 thumb
  *   PM_VOICE_SetMasterVolume 0x02006734 thumb
  *   func_021F8B10 0x021F8B10 thumb ov094
- *   func_021B92A0 0x021B92A0 thumb ov093
+ *   BTL_MAIN_SetKeepBgm 0x021B92A0 thumb ov093
  *   func_021EAE14 0x021EAE14 thumb ov093
  *   gBtlNet 0x021F3B88 data ov093 a4
  *   gBtlNetSourceName 0x021F3A98 data ov093 a4
@@ -75,8 +75,8 @@
  *   func_02007B50  0x02007B50  thumb
  *   func_02007B00  0x02007B00  thumb
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   FIELD_GIMMICK_GATE_IsSaveBlockListOn   0x021F3A98  data
  *   STRBUF_GetEosChar  0x02045A98  arm
@@ -85,7 +85,7 @@
  *   STRBUF_GetChars   0x02045A90  arm
  *   sub_0201F41C   0x0201F41C  thumb
  *   GFL_NET_HANDLE_SetUserInfo 0x0203A424 arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   func_02082D44 0x02082D44 arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_02017E1C  0x02017E1C  thumb
@@ -127,7 +127,7 @@
  *   BTLV_CORE_GetSlotPosition  0x021E8A98  thumb  ov093
  *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
  *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb  ov093
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   BTL_POKEPARAM_AdvanceHitTurn  0x021D6824  thumb  ov093
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   BTL_POKEPARAM_RestoreIfNeeded  0x021D533C  thumb  ov093
@@ -149,7 +149,7 @@
  *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
  *   BTL_POKEPARAM_LoadMoves 0x021D4F84 thumb ov093
  *   BTL_POKEPARAM_SyncMovesFromMon 0x021D50B4 thumb ov093
- *   func_021D51DC  0x021D51DC  thumb  ov093
+ *   BTL_POKEPARAM_ReplaceMoveSlot  0x021D51DC  thumb  ov093
  *   gBtlPokeParamTransformMoves     0x021F3B8C  data  a4
  *   gBtlPokeParamTransformKept     0x021F3BC4  data  a4
  *   BTL_POKEPARAM_CureSick 0x021D6238 thumb ov093
@@ -157,9 +157,9 @@
  *   gBtlEventFactorStorage  0x021F4470  data  a4
  *   gBtlEventFactorFreePool  0x021F3CBC  data  a4
  *   gBtlEventFactorList  0x021F3CB0  data  a4
- *   func_021C7CF4 0x021C7CF4 thumb ov093
+ *   BTL_SERVER_FLOW_GetPokeParam 0x021C7CF4 thumb ov093
  *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
- *   func_021E03E8  0x021E03E8  thumb  ov093
+ *   HAND_WAZA_IsKeptOnSuspend  0x021E03E8  thumb  ov093
  *   gBtlEventVarStack 0x021F3ECC data a4
  *   gBtlEventEmptyString  0x021F3AB4  data
  *   func_02034714  0x02034714  arm
@@ -205,7 +205,7 @@ void BTL_POKEPARAM_SaveMovesToMon(BtlPokeParam *pp);
 void BTL_POKEPARAM_SyncMovesFromMon(BtlPokeParam *pp);
 void BTL_POKEPARAM_ResetBattleMoves(BtlPokeParam *pp);
 void BTL_POKEPARAM_ClearMoveUsedFlags(struct BattleMoveSlot *slot);
-void func_021D51DC(struct BattleMoveSlot *slot, u32 moveId, u32 ppCap, u32 toReal);
+void BTL_POKEPARAM_ReplaceMoveSlot(struct BattleMoveSlot *slot, u32 moveId, u32 ppCap, u32 toReal);
 void BTL_POKEPARAM_SetMoveInfo(struct MoveInfo *info, u32 moveId, u32 ppCap);
 int BTL_POKEPARAM_LoadMoveInfo(struct MoveInfo *info, PokemonParam *mon, u8 slotIndex);
 void BTL_POKEPARAM_LoadStats(BtlPokeParam *pp, PokemonParam *mon, u32 withTypes);
@@ -278,7 +278,6 @@ extern int BTLV_CORE_IsSlotKindNone(union SickCont cont);
 extern int BTLV_CORE_GetSlotPosition(union SickCont cont);
 extern int BTLV_CORE_IsSlotKind1Index15(union SickCont cont);
 extern int BTL_CALC_DivideMaxHpMin1(struct BtlPokeParam *bpp, u32 divisor);
-extern void func_02082BCC(void *dst, int value, u32 size);
 void BTL_POKEPARAM_AdvanceHitTurn(struct BtlPokeParam *bpp);
 extern void POKE_TOOL_RecalcParam(void *mon);
 void BTL_EVENT_ClearClientReservedChoice(struct BtlPokeParam *bpp);
@@ -297,7 +296,7 @@ void BTL_POKEPARAM_SetTurnFlag(struct BtlPokeParam *bpp, u32 flagIndex);
 void BTL_POKEPARAM_SetContFlag(struct BtlPokeParam *bpp, unsigned int flagIndex);
 void BTL_POKEPARAM_ClearContFlag(struct BtlPokeParam *bpp, unsigned int flagIndex);
 void BTL_POKEPARAM_SetSickCont(struct BtlPokeParam *bpp, int sickIndex, union SickCont cont);
-int func_021D6064(struct BtlPokeParam *bpp, u32 sickIndex, union SickCont *outCont, int *outCured);
+int BTL_POKEPARAM_TickSickCont(struct BtlPokeParam *bpp, u32 sickIndex, union SickCont *outCont, int *outCured);
 int BTL_POKEPARAM_TickSleepTurn(struct BtlPokeParam *bpp);
 int BTL_POKEPARAM_TickSlot6Turn(struct BtlPokeParam *bpp);
 void BTL_POKEPARAM_ClearMajorStatus(struct BtlPokeParam *bpp);
@@ -308,7 +307,7 @@ int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *bpp);
 u16 BTL_POKEPARAM_GetSickParam(struct BtlPokeParam *bpp, int sickIndex);
 u32 BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *bpp, int sickIndex);
 u8 BTL_POKEPARAM_GetSickTurn(struct BtlPokeParam *bpp, int sickIndex);
-int func_021D6324(struct BtlPokeParam *bpp, int sickIndex);
+int BTL_POKEPARAM_CalcSickDamage(struct BtlPokeParam *bpp, int sickIndex);
 void BTL_POKEPARAM_StartTurnThreshold(struct BtlPokeParam *bpp, u16 threshold);
 void BTL_POKEPARAM_AdvanceTurn(struct BtlPokeParam *bpp);
 void BTL_POKEPARAM_ClearTurnFlag(struct BtlPokeParam *bpp, u32 flagIndex);
@@ -495,7 +494,7 @@ void BTL_POKEPARAM_ClearMoveUsedFlags(struct BattleMoveSlot *slot)
 }
 
 /* BTL_POKEPARAM_ReplaceMoveSlot: toReal sets the real move (and the battle copy while linked), else only the battle move. */
-void func_021D51DC(struct BattleMoveSlot *slot, u32 moveId, u32 ppCap, u32 toReal)
+void BTL_POKEPARAM_ReplaceMoveSlot(struct BattleMoveSlot *slot, u32 moveId, u32 ppCap, u32 toReal)
 {
     if (toReal != 0) {
         BTL_POKEPARAM_SetMoveInfo(&slot->cur, moveId, ppCap);
@@ -814,7 +813,7 @@ void BTL_POKEPARAM_MarkMoveUsed(BtlPokeParam *pp, int slot)
 
 /* BTL_POKEPARAM_ReplaceMove */
 void BTL_POKEPARAM_ReplaceMove(BtlPokeParam *pp, u8 slot, u16 moveId, u8 ppCap, u32 toReal)
-{ func_021D51DC(&pp->moves[slot], moveId, ppCap, toReal); }
+{ BTL_POKEPARAM_ReplaceMoveSlot(&pp->moves[slot], moveId, ppCap, toReal); }
 
 /* BTL_POKEPARAM_HasMove */
 int BTL_POKEPARAM_HasMove(BtlPokeParam *pp, u16 moveId)
@@ -1363,7 +1362,7 @@ void BTL_POKEPARAM_SetSickCont(struct BtlPokeParam *bpp, int sickIndex, union Si
  * condition ran out and the slot was cleared. Slots 2 and 6 are ticked by
  * their own functions and return 0 here.
  */
-int func_021D6064(struct BtlPokeParam *bpp, u32 sickIndex, union SickCont *outCont, int *outCured)
+int BTL_POKEPARAM_TickSickCont(struct BtlPokeParam *bpp, u32 sickIndex, union SickCont *outCont, int *outCured)
 {
     u8 turnLimit;
     union SickCont cont;
@@ -1516,7 +1515,7 @@ u32 BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *bpp, int sickIndex) { retu
 u8 BTL_POKEPARAM_GetSickTurn(struct BtlPokeParam *bpp, int sickIndex) { return bpp->sickTurn[sickIndex]; }
 
 /* Damage taken per turn from the condition in slot sickIndex (a fraction of the maximum HP). */
-int func_021D6324(struct BtlPokeParam *bpp, int sickIndex)
+int BTL_POKEPARAM_CalcSickDamage(struct BtlPokeParam *bpp, int sickIndex)
 {
     if (BTL_POKEPARAM_HasSick(bpp, sickIndex) != 0) {
         switch (sickIndex) {
@@ -1554,7 +1553,7 @@ void BTL_POKEPARAM_ClearSickConts(struct BtlPokeParam *bpp, int clearMajor)
         bpp->sickCont[i].raw = 0;
         bpp->sickCont[i].byPart.kind = 0;
     }
-    func_02082BCC(bpp->sickTurn, 0, 36);
+    MI_CpuFill8(bpp->sickTurn, 0, 36);
 }
 
 /* Start counting turns: restart the turn counter and arm the threshold. */
@@ -1571,7 +1570,7 @@ void BTL_POKEPARAM_StartTurnThreshold(struct BtlPokeParam *bpp, u16 threshold)
  */
 void BTL_POKEPARAM_AdvanceTurn(struct BtlPokeParam *bpp)
 {
-    func_02082BCC(bpp->turnFlags, 0, 2);
+    MI_CpuFill8(bpp->turnFlags, 0, 2);
     if (bpp->turnsOnField < 9999)
         bpp->turnsOnField += 1;
     BTL_POKEPARAM_AdvanceHitTurn(bpp);
@@ -1592,8 +1591,8 @@ void BTL_POKEPARAM_ClearTurnFlag(struct BtlPokeParam *bpp, u32 flagIndex)
 /* Reset all battle effects (flags, history, conditions, stages) and reload the form and ability. */
 void BTL_POKEPARAM_ResetAllEffects(struct BtlPokeParam *bpp)
 {
-    func_02082BCC(bpp->turnFlags, 0, 2);
-    func_02082BCC(bpp->contFlags, 0, 2);
+    MI_CpuFill8(bpp->turnFlags, 0, 2);
+    MI_CpuFill8(bpp->contFlags, 0, 2);
     BTL_POKEPARAM_RestoreIfNeeded(bpp);
     BTL_POKEPARAM_ResetBattleMoves(bpp);
     BTL_POKEPARAM_ResetMoveHistory(bpp);
@@ -1612,7 +1611,7 @@ void BTL_POKEPARAM_ResetAllEffects(struct BtlPokeParam *bpp)
 /* Switch-out reset: like the full reset, but keeps conditions, stages and continuous flags when flag 0xe is set. */
 void BTL_POKEPARAM_ResetEffectsOnSwitchOut(struct BtlPokeParam *bpp)
 {
-    func_02082BCC(bpp->turnFlags, 0, 2);
+    MI_CpuFill8(bpp->turnFlags, 0, 2);
     BTL_POKEPARAM_RestoreIfNeeded(bpp);
     BTL_POKEPARAM_ResetBattleMoves(bpp);
     BTL_POKEPARAM_ResetMoveHistory(bpp);
@@ -1623,7 +1622,7 @@ void BTL_POKEPARAM_ResetEffectsOnSwitchOut(struct BtlPokeParam *bpp)
         BTL_POKEPARAM_ClearSubstitute(bpp);
         BTL_POKEPARAM_ClearSickConts(bpp, 0);
         BTL_POKEPARAM_InitStatStages(bpp->stages.stage);
-        func_02082BCC(bpp->contFlags, 0, 2);
+        MI_CpuFill8(bpp->contFlags, 0, 2);
     }
     bpp->form = bpp->baseForm;
     bpp->ability = bpp->baseAbility;
@@ -1635,8 +1634,8 @@ void BTL_POKEPARAM_ResetEffectsOnSwitchOut(struct BtlPokeParam *bpp)
 void BTL_POKEPARAM_ReloadAndResetEffects(struct BtlPokeParam *bpp)
 {
     BTL_POKEPARAM_ReloadFromMon(bpp, bpp->mon, 0, 1);
-    func_02082BCC(bpp->contFlags, 0, 2);
-    func_02082BCC(bpp->turnFlags, 0, 2);
+    MI_CpuFill8(bpp->contFlags, 0, 2);
+    MI_CpuFill8(bpp->turnFlags, 0, 2);
     BTL_POKEPARAM_ClearSubstitute(bpp);
     BTL_POKEPARAM_ResetMoveHistory(bpp);
     BTL_POKEPARAM_ClearSickConts(bpp, 0);
@@ -1668,7 +1667,7 @@ void BTL_POKEPARAM_PassEffects(struct BtlPokeParam *dst, struct BtlPokeParam *sr
     BTL_POKEPARAM_ClearSubstitute(src);
     BTL_POKEPARAM_ClearSickConts(src, 0);
     BTL_POKEPARAM_InitStatStages(src->stages.stage);
-    func_02082BCC(src->contFlags, 0, 2);
+    MI_CpuFill8(src->contFlags, 0, 2);
 }
 
 void BTL_POKEPARAM_SetTypes(struct BtlPokeParam *poke, int typePair)
@@ -1773,8 +1772,8 @@ u16 BTL_POKEPARAM_GetWeight(struct BtlPokeParam *poke)
 
 void BTL_POKEPARAM_ClearHitHistory(struct BtlPokeParam *poke)
 {
-    func_02082BCC(poke->hitHistory, 0, sizeof(poke->hitHistory));
-    func_02082BCC(poke->hitCount, 0, sizeof(poke->hitCount));
+    MI_CpuFill8(poke->hitHistory, 0, sizeof(poke->hitHistory));
+    MI_CpuFill8(poke->hitCount, 0, sizeof(poke->hitCount));
     poke->hitTurnIndex = 0;
     poke->hitHistorySpare = 0;
 }
@@ -1921,7 +1920,7 @@ int BTL_POKEPARAM_AddExp(struct BtlPokeParam *poke, u32 *remaining, struct BtlLe
             POKE_TOOL_SetPartyValue(poke->mon, 8, newExp);
         }
     }
-    if (result != 0) func_02082BCC(result, 0, sizeof(struct BtlLevelUpResult));
+    if (result != 0) MI_CpuFill8(result, 0, sizeof(struct BtlLevelUpResult));
     return 0;
 }
 
@@ -1998,7 +1997,7 @@ int BTL_POKEPARAM_Transform(struct BtlPokeParam *poke, struct BtlPokeParam *targ
         poke->substituteHp = savedSubstituteHp;
         MI_CpuCopy8(gBtlPokeParamTransformMoves, poke->moves, sizeof(poke->moves));
         for (i = 0; i < BTL_POKEPARAM_MOVE_COUNT; i++)
-            func_021D51DC(&poke->moves[i], target->moves[i].saved.id, 5, 0);
+            BTL_POKEPARAM_ReplaceMoveSlot(&poke->moves[i], target->moves[i].saved.id, 5, 0);
         MI_CpuFill8(poke->turnFlags, 0, sizeof(poke->turnFlags));
         MI_CpuFill8(poke->contFlags, 0, sizeof(poke->contFlags));
         poke->turnThreshold = 10000;

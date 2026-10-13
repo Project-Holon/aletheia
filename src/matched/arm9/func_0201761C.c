@@ -19,7 +19,7 @@
  *   POKE_TOOL_CheckShiny  0x02017ED8  thumb
  *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   POKE_TOOL_GetExpForLevel  0x02018584  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   func_02019C7C  0x02019C7C  thumb
  *   POKE_TOOL_GetBoxGender  0x02017F08  thumb
  *   POKE_TOOL_SetBoxDefaultMoves  0x02017FB0  thumb
@@ -66,7 +66,7 @@ extern void  POKE_TOOL_SetBoxValue(void *obj, u32 id, u32 val);
 extern u32   POKE_TOOL_CheckShiny(u32 a, u32 b);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern u32   POKE_TOOL_GetExpForLevel(u16 a, u16 b, u16 c);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern u32   func_02019C7C(void *a);
 extern u8 POKE_TOOL_GetBoxGender(void *p);
 extern u32 POKE_TOOL_SetBoxDefaultMoves(void *p);
@@ -109,7 +109,7 @@ void POKE_TOOL_SetupBoxParamEx(void *obj, u16 species, u16 level, u64 id, u32 po
     MSGDATA_ReadUnits(gSpeciesNameBank, species, gNameBuf, 0x20);
     POKE_TOOL_SetBoxValue(obj, 0x74, (u32)gNameBuf);
     POKE_TOOL_SetBoxValue(obj, 8, POKE_TOOL_GetExpForLevel(species, 0, level));
-    POKE_TOOL_SetBoxValue(obj, 9, func_0201AE1C(rec, 0x16));
+    POKE_TOOL_SetBoxValue(obj, 9, POKE_PERSONAL_GetParam(rec, 0x16));
     POKE_TOOL_SetBoxValue(obj, 0x99, level);
     POKE_TOOL_SetBoxValue(obj, 0x77, GAME_VERSION_Code);
     POKE_TOOL_SetBoxValue(obj, 0x98, 4);
@@ -134,7 +134,7 @@ void POKE_TOOL_SetupBoxParamEx(void *obj, u16 species, u16 level, u64 id, u32 po
     if (func_02019C7C(rec) == 2 && (rnd & 0x10000) != 0) {
         v = 0x1b;
     }
-    POKE_TOOL_SetBoxValue(obj, 0xa, func_0201AE1C(rec, v));
+    POKE_TOOL_SetBoxValue(obj, 0xa, POKE_PERSONAL_GetParam(rec, v));
     POKE_TOOL_SetBoxValue(obj, 0x6e, POKE_TOOL_GetBoxGender(obj));
     POKE_TOOL_SetBoxValue(obj, 0x70, func_020056EC(0x19));
     POKE_TOOL_SetBoxDefaultMoves(obj);

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E3A04",
-    "func_021E3A3C"
+    "HAND_WAZA_StompDoubleDamageVsMinimized",
+    "HAND_WAZA_GetFalseSwipeHandlers"
+   ],
+   "addresses": [
+    "0x021E3A04",
+    "0x021E3A3C"
    ],
    "evidence": {
     "sole-ref": [

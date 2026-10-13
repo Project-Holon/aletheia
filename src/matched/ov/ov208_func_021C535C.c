@@ -13,10 +13,10 @@
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
- *   func_0201BB5C  0x0201BB5C  thumb
- *   func_0204B6F4  0x0204B6F4  arm
- *   func_0204B688  0x0204B688  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
+ *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
+ *   CLACT_SetActorObjMode  0x0204B688  arm
  */
 
 typedef unsigned char  u8;
@@ -39,10 +39,10 @@ struct Obj;
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int res, unsigned int j, unsigned int k, const void *pos, unsigned short f, unsigned short heap);
-extern void func_0204B92C(struct Obj *obj, u32 v);
-extern u32  func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAutoAnim(struct Obj *obj, u32 v);
+extern u32  POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
 u32 ov208_func_021C535C(u32 arc, u32 *res, u32 j, u32 k, u32 owner, u16 heap, u32 species,
                         u32 form, u32 gender, u32 isEgg)
@@ -57,8 +57,8 @@ u32 ov208_func_021C535C(u32 arc, u32 *res, u32 j, u32 k, u32 owner, u16 heap, u3
     pos.b7 = 0;
     *res = CLACT_RegisterCharacter((void *)arc, POKE_TOOL_CalcGraphicIndex(species, form, gender, isEgg), 0, 1, heap);
     obj = (u32)CLACT_CreateActor((void *)owner, *res, j, k, &pos, 1, heap);
-    func_0204B92C((struct Obj *)obj, 0);
-    func_0204B6F4((struct Obj *)obj, func_0201BB5C(species, form, gender, isEgg), 0);
-    func_0204B688((struct Actor *)obj, 0);
+    CLACT_SetActorAutoAnim((struct Obj *)obj, 0);
+    CLACT_SetActorPaletteOffset((struct Obj *)obj, POKE_TOOL_CalcIconPalette(species, form, gender, isEgg), 0);
+    CLACT_SetActorObjMode((struct Actor *)obj, 0);
     return obj;
 }

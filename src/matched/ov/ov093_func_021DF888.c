@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_CharcoalBoostPower
+ * function: HAND_ITEM_CharcoalBoostPower
  * address:  0x021DF888
  * packet:   pkt_ov093_021DF888
  * region:   ov093
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   BTL_HANDLER_ITEM_BoostMovePowerOfType  0x021DF93C  thumb  ov093
+ *   HAND_ITEM_BoostMovePowerOfType  0x021DF93C  thumb  ov093
  */
 
-void BTL_HANDLER_ITEM_BoostMovePowerOfType(int, int, int, int);
+void HAND_ITEM_BoostMovePowerOfType(int, int, int, int);
 
-void BTL_HANDLER_ITEM_CharcoalBoostPower(int a, int b, int c)
+void HAND_ITEM_CharcoalBoostPower(int a, int b, int c)
 {
-    BTL_HANDLER_ITEM_BoostMovePowerOfType(a, b, c, 9);
+    HAND_ITEM_BoostMovePowerOfType(a, b, c, 9);
 }

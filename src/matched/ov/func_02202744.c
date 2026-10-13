@@ -13,6 +13,8 @@
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
  *   APP_KEYCURSOR_Delete  0x02028604  thumb  arm9
  *   TCBL_Destroy  0x02031140  arm  arm9
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  *
 
  *
@@ -28,16 +30,16 @@ typedef signed short s16;
 extern int APP_KEYCURSOR_Delete(int a0);
 struct PrintSys;
 struct S02031140;
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void TCBL_Destroy(struct S02031140 *p);
-extern void func_02082BCC(u32 p, u32 v, u32 n);
+extern void MI_CpuFill8(u32 p, u32 v, u32 n);
 
 void func_02202744(u8 *p)
 {
     APP_KEYCURSOR_Delete(((struct Obj07257 *)p)->f138);
-    func_0201C4C0((struct PrintSys *)(((struct Obj07257 *)p)->fC));
+    PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj07257 *)p)->fC));
     GF_FONT_Delete((void *)(((struct Obj07257 *)p)->f0));
     TCBL_Destroy((struct S02031140 *)(((struct Obj07257 *)p)->f4));
-    func_02082BCC((u32)p, 0, 0x13c);
+    MI_CpuFill8((u32)p, 0, 0x13c);
 }

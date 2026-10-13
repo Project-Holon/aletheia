@@ -35,7 +35,7 @@
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   func_021B9AE0 0x021B9AE0 thumb ov099
  *   func_021BE900 0x021BE900 thumb ov099
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021BA874 0x021BA874 thumb ov099
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  *   func_021C23B8 0x021C23B8 thumb ov099
@@ -59,7 +59,7 @@ extern void BMP_MENULIST_Delete(struct Obj *, u16 *, u16 *);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern void func_021B9AE0(void *, u8 *);
 extern void func_021BE900(char *);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_021BA874(char *, int);
 extern void func_021BAAB8(char *, int, int);
 extern int func_021C23B8(int);
@@ -113,11 +113,11 @@ int func_021C0AEC(char *p, int ret)
         }
         break;
     case -2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         *(int *)(p + 0x1cc) = 11;
         break;
     default:
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         if (choice == 1) {
             *(int *)(p + 0x1cc) = 11;
             func_021C08F8(p);

@@ -10,7 +10,7 @@
  * extent: existing matched followers 021D435C, 021D437C, 021D439C remain separate.
  * symbols:
  *   func_020355D8 0x020355D8 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021D69F4 0x021D69F4 thumb ov120
  *   func_021D593C 0x021D593C thumb ov120
  *   func_021D4244 0x021D4244 thumb ov120
@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_020355D8(u8 v);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021D69F4(u8 *, void *, u32);
 extern int func_021D593C(u8 *, int);
 extern void func_021D4244(int *p, int v, int a2);
@@ -30,7 +30,7 @@ int func_021D42D8(int n, u8 *p)
     ((struct Obj02830 *)p)->f138 = n;
     func_020355D8(1);
     if (((struct Obj02830 *)p)->f184 == 1) {
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return 1;
     }
     if (n == 0) {

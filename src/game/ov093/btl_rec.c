@@ -14,10 +14,10 @@
  *
  * symbols:
  *   func_06898020  0x06898020  thumb
- *   func_02082BCC 0x02082BCC arm
- *   func_021B9AF8 0x021B9AF8 thumb ov093
- *   func_021B9B94 0x021B9B94 thumb ov093
- *   func_021B9C00 0x021B9C00 thumb ov093
+ *   MI_CpuFill8 0x02082BCC arm
+ *   BTL_SIDE_GetSlotOfClientThunk 0x021B9AF8 thumb ov093
+ *   BTL_SLOT_GetCount 0x021B9B94 thumb ov093
+ *   BTL_SLOT_GetPokeParam 0x021B9C00 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
  *   BTL_POKEPARAM_IsAbleToBattle 0x021D5B7C thumb ov093
@@ -30,16 +30,16 @@
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_DrawFrame 0x020454E0 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   func_02040618 0x02040618 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BTL_POKEPARAM_ReadStatsFromMon  0x021D590C  thumb  ov093
- *   func_02045758  0x02045758  arm
- *   func_02045760  0x02045760  arm
- *   func_02045738  0x02045738  arm
- *   func_02045740  0x02045740  arm
+ *   BMP_WIN_GetPosX  0x02045758  arm
+ *   BMP_WIN_GetPosY  0x02045760  arm
+ *   BMP_WIN_GetWidth  0x02045738  arm
+ *   BMP_WIN_GetHeight  0x02045740  arm
  *   func_02041300  0x02041300  arm
  *   func_02030734  0x02030734  arm
  *   gBtlRecFileName  0x021F3ADC  data  a4
@@ -58,29 +58,29 @@
  *   BTL_NET_HasServerCmd  0x021D4C60  thumb  ov093
  *   BTL_NET_GetServerCmd  0x021D4C6C  thumb  ov093
  *   BTL_NET_SendClientReply  0x021D4C84  thumb  ov093
- *   func_021BA1A8  0x021BA1A8  thumb  ov093
+ *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
  *   func_0201EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045B38  0x02045B38  arm
  *   gBtlMsgState     0x021F6398  data  ov093  a4
- *   d_021F63D8     0x021F63D8  data  ov093  a4
+ *   gBtlMsgFlags     0x021F63D8  data  ov093  a4
  *   sBtlMsgBankFileIds     0x021F3990  data  ov093  a2
  *   func_0201ED04  0x0201ED04  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_021B9940  0x021B9940  thumb  ov093
+ *   BTL_SIDE_GetPokeById  0x021B9940  thumb  ov093
  *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
  *   func_0201EEF4  0x0201EEF4  thumb
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   func_0201EE84  0x0201EE84  thumb
- *   func_021BA020  0x021BA020  thumb  ov093
+ *   BTL_MAIN_GetTrainerType  0x021BA020  thumb  ov093
  *   func_0201F0F8  0x0201F0F8  thumb
- *   func_021B9F70  0x021B9F70  thumb  ov093
+ *   BTL_MAIN_IsTrainerSlotNpc  0x021B9F70  thumb  ov093
  *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
- *   func_021BA004  0x021BA004  thumb  ov093
- *   func_021B9FAC  0x021B9FAC  thumb  ov093
- *   func_021BA064  0x021BA064  thumb  ov093
- *   func_021BA080  0x021BA080  thumb  ov093
+ *   BTL_MAIN_GetTrainerId  0x021BA004  thumb  ov093
+ *   BTL_MAIN_GetTrainerNameAndType  0x021B9FAC  thumb  ov093
+ *   BTL_MAIN_GetTrainerHandle  0x021BA064  thumb  ov093
+ *   BTL_MAIN_UpdateCommPlayerSupport  0x021BA080  thumb  ov093
  *   func_0202A3CC  0x0202A3CC  thumb
  *   func_0201EE0C  0x0201EE0C  thumb
  *   func_0201F02C  0x0201F02C  thumb
@@ -105,9 +105,9 @@
  *   func_0201EF34 0x0201EF34 thumb
  *   func_0201EF40 0x0201EF40 thumb
  *   func_0201F020 0x0201F020 thumb
- *   func_021B8DDC  0x021B8DDC  thumb  ov093
- *   func_021B8CE8  0x021B8CE8  thumb  ov093
- *   func_021B8FF4  0x021B8FF4  thumb  ov093
+ *   BTL_MAIN_PokeIdToClientIdThunk  0x021B8DDC  thumb  ov093
+ *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093
+ *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
  *   BTLV_CORE_GetZeroMasked  0x021E8918  thumb  ov093
  *   gBtlFieldCountdown  0x021F63F4  data  a4
  *   func_021EFA94  0x021EFA94  thumb  ov093
@@ -158,7 +158,7 @@ typedef struct {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void func_02082BCC(void *dst, u8 value, u32 size);
+extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 extern void func_02082D44(const void *src, void *dst, u32 size);
 void BTL_CALC_ActionSetRecordError(u32 *record);
 void BTL_CALC_ActionSetRecordReset(u32 *record);
@@ -396,7 +396,7 @@ int BTL_REC_IsChannelDone(BtlRecReader *reader, int channel)
 
 void BTL_REC_InitPacket(BtlRecPacket *packet, int flag)
 {
-    func_02082BCC(packet, 0, 0x40);
+    MI_CpuFill8(packet, 0, 0x40);
     packet->flag = (u8)flag;
 }
 

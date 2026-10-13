@@ -18,8 +18,8 @@
  *   ITEMMENU_GetCursorIndex  0x021B61B8  thumb  ov070
  *   ITEMMENU_GetSlot  0x021B616C  thumb  ov070
  *   TOUCHPANEL_HitCont  0x02035BA4  arm
- *   func_0203633C  0x0203633C  arm
- *   func_020061E4  0x020061E4  thumb
+ *   KEY_GetRepeat  0x0203633C  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   ITEMMENU_PrintQuantityPrice  0x021BB260  thumb  ov070
  *   d_021BB960     0x021BB960  data  a1
@@ -59,8 +59,8 @@ extern HitTbl d_021BB960;
 extern int ITEMMENU_GetCursorIndex(u8 *p);
 extern void *ITEMMENU_GetSlot(u8 *p, int i);
 extern int TOUCHPANEL_HitCont(const void *p);
-extern unsigned int func_0203633C(void);
-extern void func_020061E4(unsigned int id);
+extern unsigned int KEY_GetRepeat(void);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned int id);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void ITEMMENU_PrintQuantityPrice(u8 *p, int val);
 
@@ -103,19 +103,19 @@ int ITEMMENU_HandleQuantityInput(Obj *o)
         }
     }
     if (hit == -1) {
-        if (func_0203633C() & 0x40) {
+        if (KEY_GetRepeat() & 0x40) {
             o->num += 1;
             dir = 0;
             changed = 1;
-        } else if (func_0203633C() & 0x80) {
+        } else if (KEY_GetRepeat() & 0x80) {
             o->num -= 1;
             dir = 1;
             changed = 1;
-        } else if (func_0203633C() & 0x10) {
+        } else if (KEY_GetRepeat() & 0x10) {
             o->num += 10;
             dir = 0;
             changed = 1;
-        } else if (func_0203633C() & 0x20) {
+        } else if (KEY_GetRepeat() & 0x20) {
             o->num -= 10;
             dir = 1;
             changed = 1;
@@ -126,7 +126,7 @@ int ITEMMENU_HandleQuantityInput(Obj *o)
     else if (o->num < 1)
         o->num = e->count;
     if (o->num != saved) {
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         if (dir == 0)
             CLACT_SetActorAnimSeq((struct Obj *)o->winA, 0xB);
         else

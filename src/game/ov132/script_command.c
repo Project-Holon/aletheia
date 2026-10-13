@@ -61,10 +61,10 @@
  *   func_021F9730 0x021F9730 thumb ov132
  *   func_021F9768 0x021F9768 thumb ov132
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_020355D8 0x020355D8 arm
- *   func_0204B3F4 0x0204B3F4 arm
+ *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   func_021F9E0C 0x021F9E0C thumb ov132
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -78,7 +78,7 @@
  *   func_021F4F54 0x021F4F54 thumb ov112
  *   func_021F4F70 0x021F4F70 thumb ov112
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   ARC_UTIL_LoadMember 0x0204A1BC arm
  *   NNS_G3dGetTex 0x0206E964 arm
  *   CLACT_GetCharacterVramAddress 0x0204ABBC arm
@@ -130,7 +130,7 @@
  *   func_021F8084 0x021F8084 thumb ov112
  *   _u32_div_f 0x0209C2B0 arm
  *   _ll_mul 0x0209C054 arm
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  *   func_0209C0A4  0x0209C0A4  arm
  *   func_021F8068  0x021F8068  thumb  ov112
  *   func_021F9E20 0x021F9E20 thumb ov132
@@ -190,7 +190,7 @@
  *   func_020173EC 0x020173EC thumb
  *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0200A81C 0x0200A81C thumb
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
@@ -203,11 +203,11 @@
  *   func_021FD7D4 0x021FD7D4 thumb ov132
  *   func_021FD6A4 0x021FD6A4 thumb ov132
  *   func_021FD550 0x021FD550 thumb ov132
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   GFL_NET_SendData 0x0203D3F8 arm
  *   GFL_NET_HANDLE_GetNetHandle 0x0203996C arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_02082D44 0x02082D44 arm
  *   func_020084BC 0x020084BC thumb
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
@@ -366,11 +366,11 @@ extern int TOUCHPANEL_HitTrg(const void *);
 extern void func_0207D658(unsigned long,int,int);
 extern void func_021F9730(char *p, int value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
-extern void func_0204B3DC(struct Obj_021F9E40 *,unsigned int);
-extern void func_0204B404(struct Obj_021F9E40 *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorDrawEnable(struct Obj_021F9E40 *,unsigned int);
+extern void CLACT_AddActorSurfacePos(struct Obj_021F9E40 *p, const struct Vec2 *delta, u32 which);
 extern void func_020355D8(u8);
 extern int func_021F9768(char *p);
-extern u32 func_0204B3F4(struct Obj_021F9E40 *p);
+extern u32 CLACT_GetActorDrawEnable(struct Obj_021F9E40 *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern u32 func_021F9E0C(u8 *p);
 extern u8 *func_021F4F54(u8 *,int);
@@ -379,7 +379,7 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_0204B92C(struct Obj_021F9E40 *,u32);
+extern void CLACT_SetActorAutoAnim(struct Obj_021F9E40 *,u32);
 extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16),CLACT_RegisterCharacter(void *,u32,u32,u32,u16),CLACT_RegisterCellAnim(void *,u32,u32,u32),CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 extern struct Obj_021F9E40 *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern int ARC_UTIL_LoadMember(int,int,int,int);
@@ -486,7 +486,7 @@ extern void *GAME_DATA_GetSaveBlock2A(void *);
 extern u32 func_020173EC(void);
 extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern int MYSTATUS_GetSize(void);
-extern void func_02082BCC(void *,u8,u32);
+extern void MI_CpuFill8(void *,u8,u32);
 extern u16 func_0200A81C(struct Big *p);
 extern u32 func_0203F0A8(void);
 extern int func_021FD84C(u8 *p);
@@ -498,11 +498,11 @@ extern int func_021FD76C(u8 *p);
 extern int func_021FD7D4(u8 *p);
 extern int func_021FD6A4(char *);
 extern void func_021FD550(char *);
-extern void func_02039C68(struct Link *, unsigned int, unsigned int);
-extern unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, unsigned int lo, unsigned int hi);
 extern u32 GFL_NET_SendData(u32,u32,u32,u32,u32,u32,u32,u32);
 extern struct Entry *GFL_NET_HANDLE_GetNetHandle(int);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_02082D44(void *,void *,u32);
 extern int func_020084BC(const u16 *values);
 void func_021F9E40(u8 *p,u32 v);
@@ -656,7 +656,7 @@ extern const Key d_021FDC20;
 extern char d_021FDCEC[];
 extern char d_021FDC2C[];
 extern const char d_021FDD00[];
-extern const s16_021FA558 d_020A1B38[];
+extern const s16_021FA558 FX_SinCosTable_[];
 extern const char d_021FDE5C[];
 extern char d_021FDE4C[];
 extern char d_021FDDEC[];
@@ -1320,8 +1320,8 @@ void func_021FA6CC(char *p)
             pos.x=hit==0?32:224;
             pos.y=128;
             CLACT_RestartActorAnim(((struct TaskObj *)p)->f5C);
-            func_0204B3DC(((struct TaskObj *)p)->f5C,1);
-            func_0204B404(((struct TaskObj *)p)->f5C,(const struct Vec2 *)(&pos),1);
+            CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f5C,1);
+            CLACT_AddActorSurfacePos(((struct TaskObj *)p)->f5C,(const struct Vec2 *)(&pos),1);
             func_020355D8(1);
         }
     }
@@ -1329,16 +1329,16 @@ void func_021FA6CC(char *p)
         if(func_021F9768(((struct TaskObj *)p)->f4)==0) {
             if(((struct TaskObj *)p)->f10==0) {
                 ((struct TaskObj *)p)->fC.s=1;
-                func_0204B3DC(*(void **)(p+0x4c+((struct TaskObj *)p)->f14*4),0);
-                func_0204B3DC(*(void **)(p+0x54+((struct TaskObj *)p)->f14*4),0);
+                CLACT_SetActorDrawEnable(*(void **)(p+0x4c+((struct TaskObj *)p)->f14*4),0);
+                CLACT_SetActorDrawEnable(*(void **)(p+0x54+((struct TaskObj *)p)->f14*4),0);
                 ((struct TaskObj *)p)->f14=2;
             }
         } else {
             if(((struct TaskObj *)p)->f10==1) ((struct TaskObj *)p)->f10=0;
         }
     }
-    if(func_0204B3F4(((struct TaskObj *)p)->f5C)==1) {
-        if(CLACT_IsActorAnimActive(((struct TaskObj *)p)->f5C)==0) func_0204B3DC(((struct TaskObj *)p)->f5C,0);
+    if(CLACT_GetActorDrawEnable(((struct TaskObj *)p)->f5C)==1) {
+        if(CLACT_IsActorAnimActive(((struct TaskObj *)p)->f5C)==0) CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f5C,0);
     }
 }
 
@@ -1389,15 +1389,15 @@ void func_021FA7E0(char *p)
             *(void **)(p+i*4+0x4c)=CLACT_CreateActor((void *)*(u32 *)&((struct TaskObj *)p)->f18,((struct TaskObj *)p)->f28.u,((struct TaskObj *)p)->f1C.u,((struct TaskObj *)p)->f34.u,&configs[1],1,((struct TaskObj *)p)->f0);
             configs[1].index=0;
             *(void **)(p+i*4+0x54)=CLACT_CreateActor((void *)*(u32 *)&((struct TaskObj *)p)->f18,((struct TaskObj *)p)->f2C.u,((struct TaskObj *)p)->f20.u,((struct TaskObj *)p)->f38.u,&configs[1],1,((struct TaskObj *)p)->f0);
-            func_0204B3DC(*(void **)(p+i*4+0x4c),0);
-            func_0204B3DC(*(void **)(p+i*4+0x54),0);
+            CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x4c),0);
+            CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x54),0);
             func_021FA99C((u8 *)p,i,*(u16 *)(p+i*2+0x48),format);
         }
     }
     configs[0].x=128; configs[0].y=96; configs[0].index=0;configs[0].a=0;configs[0].b=0;
     ((struct TaskObj *)p)->f5C=CLACT_CreateActor((void *)*(u32 *)&((struct TaskObj *)p)->f18,((struct TaskObj *)p)->f30.u,((struct TaskObj *)p)->f24.u,((struct TaskObj *)p)->f3C.u,&configs[0],1,((struct TaskObj *)p)->f0);
-    func_0204B3DC(((struct TaskObj *)p)->f5C,0);
-    func_0204B92C(((struct TaskObj *)p)->f5C,1);
+    CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f5C,0);
+    CLACT_SetActorAutoAnim(((struct TaskObj *)p)->f5C,1);
 }
 
 
@@ -1468,12 +1468,12 @@ void func_021FA99C(u8 *p,u16 slot,int resource,u32 type)
 void func_021FAAB8(char *p, unsigned flag)
 {
     if (((struct TaskObj *)p)->f48 != 255) {
-        func_0204B3DC(((struct TaskObj *)p)->f4C, flag);
-        func_0204B3DC(((struct TaskObj *)p)->f54, flag);
+        CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f4C, flag);
+        CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f54, flag);
     }
     if (((struct TaskObj *)p)->f4A != 255) {
-        func_0204B3DC(((struct TaskObj *)p)->f50, flag);
-        func_0204B3DC(((struct TaskObj *)p)->f58, flag);
+        CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f50, flag);
+        CLACT_SetActorDrawEnable(((struct TaskObj *)p)->f58, flag);
     }
     ((struct TaskObj *)p)->fC.u = flag;
 }
@@ -2617,7 +2617,7 @@ void func_021FB8CC(int unused, char *p)
         Vec v;
         int sine;
         v.x = 0;
-        sine = d_020A1B38[((int)(((u32)((struct ScriptSlot *)p)->f4.s << 15) / (u32)((struct ScriptSlot *)p)->f8.s) >> 4) * 2];
+        sine = FX_SinCosTable_[((int)(((u32)((struct ScriptSlot *)p)->f4.s << 15) / (u32)((struct ScriptSlot *)p)->f8.s) >> 4) * 2];
         v.y = -(int)(((long long)sine * ((struct ScriptSlot *)p)->f14.s + 0x800) >> 12);
         v.z = 0;
         func_021F8084(ctx, ((struct ScriptSlot *)p)->f10, (const u32 *)(&v));
@@ -3449,7 +3449,7 @@ void func_021FC81C(char *p) { GFL_NET_COMMAND_AddCommandTable(0x1100,(u32)d_021F
 
 static inline void clear8(void *dest,u32 size)
 {
- func_02082BCC(dest,0,size);
+ MI_CpuFill8(dest,0,size);
 }
 
 
@@ -3716,7 +3716,7 @@ void func_021FCAA8(char *p)
 
 void func_021FCDEC(int a, int b)
 {
-    func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), b, 0x11);
+    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), b, 0x11);
 }
 
 
@@ -3724,7 +3724,7 @@ void func_021FCDEC(int a, int b)
 
 
 
-int func_021FCE00(char *p,int id) {if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),id,0x11)==1)return 1;if(((struct ActingHost *)p)->f4==1)return 1;return 0;}
+int func_021FCE00(char *p,int id) {if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),id,0x11)==1)return 1;if(((struct ActingHost *)p)->f4==1)return 1;return 0;}
 
 
 
@@ -3920,10 +3920,10 @@ void func_021FCEDC(unsigned long slot, int unused, const Packet *q, char *p)
       }
 
       if (code == 1)
-        func_020061E4(0x62c);
+        GFL_USE_PlaySeDefaultVolume(0x62c);
       else
         if (code == 2)
-        func_020061E4(0x62b);
+        GFL_USE_PlaySeDefaultVolume(0x62b);
       break;
     }
 

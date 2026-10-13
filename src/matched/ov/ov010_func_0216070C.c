@@ -14,8 +14,8 @@
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_HasRibbonData  0x0201897C  thumb
  */
@@ -32,8 +32,8 @@ struct Ctx;
 struct Hdr;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern u32 func_0201AA18(void *party);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *party);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *pp, u32 id, u32 v);
 extern u32 POKE_TOOL_HasRibbonData(struct Hdr *p);
 
@@ -44,8 +44,8 @@ int EVENT_SHORTCUT_MENU_CheckPartyRibbon(Work *w)
     int i;
 
     party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(w->f04));
-    for (i = 0; i < (int)func_0201AA18(party); i++) {
-        pp = func_0201AB28(party, i);
+    for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
+        pp = POKEPARTY_GetMember(party, i);
         if (POKE_TOOL_GetPartyValue(pp, 0xA9, 0) != 0 && POKE_TOOL_HasRibbonData(pp) != 0)
             return 1;
     }

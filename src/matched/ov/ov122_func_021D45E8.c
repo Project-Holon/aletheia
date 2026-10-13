@@ -13,7 +13,7 @@
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_0201F7A8 0x0201F7A8 thumb
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  */
 #include "../include/Obj02472.h"
 #include "../include/Obj06456.h"
@@ -23,7 +23,7 @@ struct Descriptor;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 extern void func_0201F7A8(void *, unsigned);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 void func_021D45E8(char *p)
 {
     int i;
@@ -36,7 +36,7 @@ void func_021D45E8(char *p)
             BMP_WIN_ClearScreen(((struct Obj06456 *)q)->f10);
             func_02041B6C(5);
             func_0201F7A8(((struct Obj06456 *)q)->f10, 2);
-            func_020452E8(((struct Obj06456 *)q)->f10);
+            BMP_WIN_Delete(((struct Obj06456 *)q)->f10);
         }
         *(int *)&((struct Obj06456 *)q)->f10 = 0;
     }

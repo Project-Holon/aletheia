@@ -11,7 +11,7 @@
  *   func_021ECB60 0x021ECB60 thumb ov170
  *   func_021EA750 0x021EA750 thumb ov170
  *   func_0202136C 0x0202136C thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021ED55C 0x021ED55C thumb ov170
  *   func_021EBB28 0x021EBB28 thumb ov170
  *   func_020260E0 0x020260E0 thumb
@@ -22,7 +22,7 @@
 extern void func_021ECB60(char *w, int i, int f);
 extern void func_021EA750(char *p);
 extern unsigned func_0202136C(unsigned short v);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void func_021ED55C(char **p, int flag);
 extern void func_021EBB28(char *p, int b);
 typedef unsigned char  u8;
@@ -50,7 +50,7 @@ int func_021E6C3C(unsigned char *p)
     item = *(unsigned short *)(WORK(p) + 0xA16C);
     *(unsigned short *)(WORK(p) + 0xA16C) = 0;
     if (func_0202136C(item) == 1 && slot != old) {
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_021ED55C((char **)p, 0);
         func_021EBB28((char *)p, 0x18);
         ((struct Obj00000 *)p)->f28 = 0x44;

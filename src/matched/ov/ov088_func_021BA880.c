@@ -14,7 +14,7 @@
  * verified with tu over 0x021BA880..0x021BA990 (272 bytes).
  *
  * symbols:
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   func_02040EBC  0x02040EBC  arm
  *   STARTMENU_BeginFadeOut  0x021BC054  thumb  ov088
@@ -22,8 +22,8 @@
  *   STARTMENU_BeginFadeIn  0x021BC080  thumb  ov088
  *   STARTMENU_StartMessage  0x021BBF1C  thumb  ov088
  *   STARTMENU_UpdateMessage  0x021BBFA8  thumb  ov088
- *   func_020362DC  0x020362DC  arm
- *   func_020061E4  0x020061E4  thumb
+ *   KEY_GetTrg  0x020362DC  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   gStartMenuUnlockNotices     0x021BD784  data  ov088  a4
  */
 #include "../include/Obj02127.h"
@@ -38,7 +38,7 @@ typedef struct {
 
 extern const MsgEnt gStartMenuUnlockNotices[8];
 
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void func_02040EBC(u32 a0, u32 a1);
 extern int STARTMENU_BeginFadeOut(char *p, int v);
@@ -46,15 +46,15 @@ extern void STARTMENU_HideMessageWindow(char *p);
 extern int STARTMENU_BeginFadeIn(char *p, int v);
 extern void STARTMENU_StartMessage(char *p, u32 a1);
 extern int STARTMENU_UpdateMessage(char *p);
-extern u32 func_020362DC(void);
-extern void func_020061E4(u32);
+extern u32 KEY_GetTrg(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 
 int STARTMENU_StateUnlockNotices(char *p)
 {
     u32 i;
     switch (((struct Obj02127 *)p)->f12A) {
     case 0:
-        func_020434DC(0x1e, 0);
+        BG_SYS_SetMainPlaneVisible(0x1e, 0);
         BG_SYS_SetSubPlaneVisible(0x17, 0);
         func_02040EBC(0, 0x7d8c);
         func_02040EBC(4, 0x7d8c);
@@ -79,13 +79,13 @@ int STARTMENU_StateUnlockNotices(char *p)
         }
         break;
     case 2:
-        if (STARTMENU_UpdateMessage(p) == 0 && (func_020362DC() & 3)) {
-            func_020061E4(0x547);
+        if (STARTMENU_UpdateMessage(p) == 0 && (KEY_GetTrg() & 3)) {
+            GFL_USE_PlaySeDefaultVolume(0x547);
             ((struct Obj02127 *)p)->f12A = 1;
         }
         break;
     case 3:
-        func_020434DC(0x1e, 1);
+        BG_SYS_SetMainPlaneVisible(0x1e, 1);
         BG_SYS_SetSubPlaneVisible(0x17, 1);
         ((struct Obj02127 *)p)->f12A = 0;
         return STARTMENU_BeginFadeOut(p, 5);

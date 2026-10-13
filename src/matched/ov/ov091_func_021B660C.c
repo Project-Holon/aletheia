@@ -11,17 +11,17 @@
  *
  * The 0x160 table is indexed as `p + i * 4 + 0x160` (base plus scaled
  * index, then the field offset) and the list lookup goes through a temp:
- * that is what puts the row address after func_0201AB28 and keeps the
+ * that is what puts the row address after POKEPARTY_GetMember and keeps the
  * three 0x160 offsets as spilled loop invariants.
  *
  * symbols:
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_020355C4  0x020355C4  arm
  *   func_020212B0  0x020212B0  thumb
  *   POKELIST_SetupDisplay  0x021B6D90  thumb  ov091
  *   POKELIST_LoadGraphics  0x021B7298  thumb  ov091
  *   POKELIST_CreateFonts  0x021B71E4  thumb  ov091
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   PLIST_PLATE_Create  0x021BA6A0  thumb  ov091
  *   PLIST_PLATE_CreateEmpty  0x021BA81C  thumb  ov091
  *   PLIST_PLATE_GetLabelState  0x021BB43C  thumb  ov091
@@ -43,13 +43,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0201AA18(void *);
+extern u32 POKEPARTY_GetCount(void *);
 extern u8 func_020355C4(void);
 extern u16 func_020212B0(u16 id);
 extern void POKELIST_SetupDisplay(u8 *p);
 extern void POKELIST_LoadGraphics(u8 *p);
 extern void POKELIST_CreateFonts(char *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u8 *PLIST_PLATE_Create(u8 *p, int k, void *mon);
 extern int PLIST_PLATE_CreateEmpty(u8 *p, int k);
 struct R;
@@ -76,7 +76,7 @@ int POKELIST_InitWork(u8 *p)
     u8 *q;
     int e;
 
-    n = func_0201AA18((void *)*(int *)W(0x280));
+    n = POKEPARTY_GetCount((void *)*(int *)W(0x280));
     W(8) = func_020355C4();
     W(0x3c) = 0x17;
     p[0xc] = 0;
@@ -129,7 +129,7 @@ int POKELIST_InitWork(u8 *p)
     POKELIST_CreateFonts((char *)p);
     for (i = 0; i < 6; i++) {
         if (i < n) {
-            e = (int)func_0201AB28(*(void **)W(0x280), i);
+            e = (int)POKEPARTY_GetMember(*(void **)W(0x280), i);
             *(int *)(p + i * 4 + 0x160) = (int)PLIST_PLATE_Create(p, i, (void *)e);
         } else
             *(int *)(p + i * 4 + 0x160) = PLIST_PLATE_CreateEmpty(p, i);

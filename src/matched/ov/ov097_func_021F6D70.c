@@ -17,7 +17,7 @@
  * symbols:
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   STRBUF_Delete  0x02045808  arm
  *   func_0201D304  0x0201D304  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
@@ -38,7 +38,7 @@ struct U16Vec;
 struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -72,7 +72,7 @@ void func_021F6D70(char *p, int idx)
     {
         u32 y;
         f1 = *(u32 *)(p + 0x1c);
-        y = (u32)func_02045770((struct Descriptor *)(*(u32 *)(p + 0x20 + idx * 8)));
+        y = (u32)BMP_WIN_GetBmp((struct Descriptor *)(*(u32 *)(p + 0x20 + idx * 8)));
         PRINTSYS_PrintQueColor((void *)f1, y, (s16)r7, 0x20, (u32)t1, *(u32 *)(p + 0x10), 0x3dc0);
     }
     *(u8 *)(p + 0x24 + idx * 8) = 1;
@@ -86,7 +86,7 @@ void func_021F6D70(char *p, int idx)
         h = *(u32 *)(p + 0x10);
         x = r7 - func_0201D304(buf, h, 0);
         f2 = *(u32 *)(p + 0x1c);
-        y = (u32)func_02045770((struct Descriptor *)(*(u32 *)(p + 0x20 + idx * 8)));
+        y = (u32)BMP_WIN_GetBmp((struct Descriptor *)(*(u32 *)(p + 0x20 + idx * 8)));
         PRINTSYS_PrintQueColor((void *)f2, y, x, 0x20, (u32)buf, h, 0x3dc0);
     }
     *(u8 *)(p + 0x24 + idx * 8) = 1;
@@ -98,7 +98,7 @@ void func_021F6D70(char *p, int idx)
     {
         u32 y;
         f3 = *(u32 *)(p + 0x1c);
-        y = (u32)func_02045770((struct Descriptor *)(*(u32 *)(p + 0x20 + idx * 8)));
+        y = (u32)BMP_WIN_GetBmp((struct Descriptor *)(*(u32 *)(p + 0x20 + idx * 8)));
         PRINTSYS_PrintQueColor((void *)f3, y, (s16)(r7 + w8), 0x20, (u32)buf, *(u32 *)(p + 0x10), 0x3dc0);
     }
     *(u8 *)(p + 0x24 + idx * 8) = 1;

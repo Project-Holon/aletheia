@@ -20,7 +20,7 @@
  *   func_020403F4  0x020403F4  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *   func_0204047C  0x0204047C  arm
  *   func_02040588  0x02040588  arm
@@ -35,11 +35,11 @@
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   STRBUF_ToChars  0x02045A38  arm
- *   sub_0201DC6C   0x0201DC6C  thumb
+ *   GF_FONT_GetCharWidth   0x0201DC6C  thumb
  *   gPlaceNameLetterDefaultParam     0x021D9B88  data  a4
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Blit  0x020439A0  arm
- *   func_02013E4C  0x02013E4C  thumb
+ *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
  *   func_02012138  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb
  *   GAME_DATA_GetIntrudeIdByte  0x0215841C  thumb
@@ -53,12 +53,12 @@
  *   STRBUF_GetLength  0x020458F8  arm
  *   func_02012B38  0x02012B38  thumb
  *   func_02012B58  0x02012B58  thumb
- *   func_0201444C  0x0201444C  thumb
- *   func_02013D5C  0x02013D5C  thumb
+ *   FIELD_STATUS_GetMapMode  0x0201444C  thumb
+ *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   func_020414C4  0x020414C4  arm
  *   func_020414EC  0x020414EC  arm
  *   gFieldPlaceNameFileName     0x021DE354  data  a4
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020120F4  0x020120F4  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   func_02008998  0x02008998  thumb
@@ -85,6 +85,10 @@
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm  arm9
  *   CLACT_CreateRenderer  0x0204B034  arm  arm9
  *   CLACT_CreateUnit  0x0204B100  arm  arm9
+ *   ZONEDATA_GetPlaceNameWindow  0x02013E6C  thumb  arm9
+ *   CLACT_SetUnitDrawEnable  0x0204B22C  arm  arm9
+ *   CLACT_SetUnitRenderer  0x0204B258  arm  arm9
+ *   BMP_WIN_Delete  0x020452E8  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -128,7 +132,7 @@ extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020403F4(u32 bgId);
 extern void BMP_WIN_TransferChars(BmpWin *bmpWin);
 extern void BMP_WIN_MakeScreen(BmpWin *bmpWin);
-extern unsigned char func_02045730(BmpWin *bmpWin);
+extern unsigned char BMP_WIN_GetBgLayer(BmpWin *bmpWin);
 extern void func_020409B4(unsigned int bgLayer);
 extern void func_0204047C(int bgId, unsigned short priority);
 extern void func_02040588(unsigned char bgId, unsigned char enable);
@@ -140,24 +144,24 @@ extern s32 func_02062A98(NitroFileHeader *file, void **out);
 extern void func_02040E78(u32 bgId, void *src, u32 size, u32 offset);
 extern u32 func_0203FA08(u32 bgId, u32 size, u32 top);
 extern void func_0203FB44(u32 bgId, u32 offset, u32 size);
-extern Bmp *func_02045770(BmpWin *bmpWin);
+extern Bmp *BMP_WIN_GetBmp(BmpWin *bmpWin);
 extern void BMP_Clear(Bmp *bmp, u8 value);
 extern ClactRenderer *CLACT_CreateRenderer(const u8 *initParam, u32 count, u32 heapId);
 extern void CLACT_DeleteRenderer(ClactRenderer *renderer);
 extern s32 CLACT_RegisterPaletteEx(ArcFile *arc, u32 type, u32 index, u32 size, u16 plane, u16 compress, u16 heapId);
 extern void CLACT_ReleasePalette(u32 paletteId);
 extern ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void func_0204B22C(ClactUnit *unit, u32 mode);
+extern void CLACT_SetUnitDrawEnable(ClactUnit *unit, u32 mode);
 extern u32 CLACT_DeleteUnit(ClactUnit *unit);
-extern void func_0204B258(ClactUnit *unit, ClactRenderer *renderer);
+extern void CLACT_SetUnitRenderer(ClactUnit *unit, ClactRenderer *renderer);
 extern ArcFile *func_020490F4(u32 arcId, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(ArcFile *arc);
 extern void STRBUF_ToChars(Strbuf *strbuf, u16 *out, u32 count);
-extern u32 sub_0201DC6C(GfFont *font, u16 ch);
+extern u32 GF_FONT_GetCharWidth(GfFont *font, u16 ch);
 extern BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, ClactUnit *unit);
 extern void BMP_OAM_DeleteSys(BmpOamSys *sys);
 extern void BMP_Blit(Bmp *dst, Bmp *src, u32 x, u32 y, int srcX, int srcY, u32 w, u32 h, u32 key);
-extern u32 func_02013E4C(u32 zoneId);
+extern u32 ZONEDATA_GetPlaceNameId(u32 zoneId);
 extern unsigned int func_02012138(const GameSystem *gameSystem);
 extern int INTRUDE_COMM_GetWorkIfRunning(int gameComm);
 extern int GAME_DATA_GetIntrudeIdByte(GameData *gameData);
@@ -171,11 +175,11 @@ extern void STRBUF_Delete(Strbuf *strbuf);
 extern u16 STRBUF_GetLength(Strbuf *strbuf);
 extern void *func_02012B38(const GameData *gameData);
 extern u8 func_02012B58(const GameData *gameData);
-extern unsigned int func_0201444C(void *fieldStatus);
-extern u32 func_02013D5C(u32 zoneId);
+extern unsigned int FIELD_STATUS_GetMapMode(void *fieldStatus);
+extern u32 ZONEDATA_IsZone117(u32 zoneId);
 extern void func_020414C4(u32 bgId);
 extern void func_020414EC(u32 bgId);
-extern void func_02082BCC(void *dst, int value, int size);
+extern void MI_CpuFill8(void *dst, int value, int size);
 extern void *func_020120F4(const GameSystem *gameSystem);
 extern WordSet *func_0201EC64(u32 heapId);
 extern MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -183,12 +187,12 @@ extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern BmpWin *BMP_WIN_Create(u32 bgId, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 func_0201ED04(WordSet *wordSet);
 extern u32 MSGDATA_Delete(MsgData *msgData);
-extern u32 func_020452E8(BmpWin *bmpWin);
+extern u32 BMP_WIN_Delete(BmpWin *bmpWin);
 extern void *GAME_DATA_GetSaveControl(GameData *gameData);
 extern void *func_02008854(void *saveControl);
 extern u16 func_02008998(const void *location);
 extern u32 func_020089A0(u32 location, u32 zoneId);
-extern u32 func_02013E6C(u32 zoneId);
+extern u32 ZONEDATA_GetPlaceNameWindow(u32 zoneId);
 extern const u8 gFieldPlaceNameRendererParam[16];
 extern const PlaceNameLetterParam gPlaceNameLetterDefaultParam;
 extern u8 gFieldPlaceNameFileName[20];
@@ -459,7 +463,7 @@ void FIELD_PLACE_NAME_SetupWindow(FieldPlaceName *placeName)
     bmpWin = placeName->bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
-    func_020409B4(func_02045730(bmpWin));
+    func_020409B4(BMP_WIN_GetBgLayer(bmpWin));
     func_0204047C(FIELD_PLACE_NAME_BG_LAYER, 1);
     func_02040588(FIELD_PLACE_NAME_BG_LAYER, 0);
     func_0207D63C(REG_BLDCNT_ADDR, 8, 0x11, 0x10, 4);
@@ -527,7 +531,7 @@ void FIELD_PLACE_NAME_FreeBgChars(FieldPlaceName *placeName)
 /* Clears the window bitmap. */
 void FIELD_PLACE_NAME_ClearWindow(FieldPlaceName *placeName)
 {
-    BMP_Clear(func_02045770(placeName->bmpWin), 3);
+    BMP_Clear(BMP_WIN_GetBmp(placeName->bmpWin), 3);
 }
 
 void FIELD_PLACE_NAME_CreateClactRenderer(FieldPlaceName *placeName)
@@ -559,7 +563,7 @@ void FIELD_PLACE_NAME_ReleaseClactPalette(FieldPlaceName *placeName)
 void FIELD_PLACE_NAME_CreateClactUnit(FieldPlaceName *placeName)
 {
     placeName->clactUnit[0] = CLACT_CreateUnit(FIELD_PLACE_NAME_MAX_LETTERS, 1, FIELD_PLACE_NAME_GetHeapId(placeName));
-    func_0204B22C(placeName->clactUnit[0], 1);
+    CLACT_SetUnitDrawEnable(placeName->clactUnit[0], 1);
 }
 
 void FIELD_PLACE_NAME_DeleteClactUnit(FieldPlaceName *placeName)
@@ -570,7 +574,7 @@ void FIELD_PLACE_NAME_DeleteClactUnit(FieldPlaceName *placeName)
 void FIELD_PLACE_NAME_SetClactUnitRenderer(FieldPlaceName *placeName, int unitIndex)
 {
     if (placeName->clactRenderer != 0) {
-        func_0204B258(placeName->clactUnit[unitIndex], placeName->clactRenderer);
+        CLACT_SetUnitRenderer(placeName->clactUnit[unitIndex], placeName->clactRenderer);
     }
 }
 
@@ -636,7 +640,7 @@ void FIELD_PLACE_NAME_SpawnNextLetter(FieldPlaceName *placeName)
     param.ch = chars[letterIndex];
     for (i = 0; i < letterIndex; i++) {
         if (placeName->shownLetters[i] == 0) {
-            param.targetX += sub_0201DC6C(placeName->font, 0x20);
+            param.targetX += GF_FONT_GetCharWidth(placeName->font, 0x20);
         } else {
             param.targetX += PLACE_NAME_LETTER_GetWidth(placeName->shownLetters[i]);
         }
@@ -719,7 +723,7 @@ void FIELD_PLACE_NAME_BlitNextLetter(FieldPlaceName *placeName)
     letter = placeName->shownLetters[placeName->blittedCount];
     if (letter != 0) {
         letterBmp = PLACE_NAME_LETTER_GetBmp(letter);
-        windowBmp = func_02045770(placeName->bmpWin);
+        windowBmp = BMP_WIN_GetBmp(placeName->bmpWin);
         srcX = PLACE_NAME_LETTER_GetX(letter);
         srcY = PLACE_NAME_LETTER_GetY(letter) - 8;
         width = PLACE_NAME_LETTER_GetWidth(letter);
@@ -772,8 +776,8 @@ u32 FIELD_PLACE_NAME_GetForceShowRequest(FieldPlaceName *placeName)
 /* 1 when the previous and the current zone have different place names. */
 int FIELD_PLACE_NAME_HasPlaceNameChanged(FieldPlaceName *placeName)
 {
-    int prevPlaceNameId = func_02013E4C(placeName->prevZoneId);
-    if (prevPlaceNameId != func_02013E4C(placeName->zoneId)) {
+    int prevPlaceNameId = ZONEDATA_GetPlaceNameId(placeName->prevZoneId);
+    if (prevPlaceNameId != ZONEDATA_GetPlaceNameId(placeName->zoneId)) {
         return 1;
     }
     return 0;
@@ -792,7 +796,7 @@ void FIELD_PLACE_NAME_LoadMessage(FieldPlaceName *placeName)
     Strbuf *template;
 
     zoneId = FIELD_PLACE_NAME_GetZoneId(placeName);
-    placeNameId = func_02013E4C((unsigned int)zoneId);
+    placeNameId = ZONEDATA_GetPlaceNameId((unsigned int)zoneId);
     if (placeNameId >= FIELD_PLACE_NAME_PLACE_COUNT) {
         placeNameId = 0;
     }
@@ -831,10 +835,10 @@ int FIELD_PLACE_NAME_UsesIntrudeTemplate(FieldPlaceName *placeName, int zoneId)
     ownNetId = func_02012B58(placeName->gameData);
     if (intrudeId != 0) {
         intrudeId = GAME_DATA_GetIntrudeIdByte(placeName->gameData);
-        if (func_0201444C(fieldStatus) == 1) {
+        if (FIELD_STATUS_GetMapMode(fieldStatus) == 1) {
             return 1;
         }
-        if (func_02013D5C(zoneId) != 0 && ownNetId != intrudeId) {
+        if (ZONEDATA_IsZone117(zoneId) != 0 && ownNetId != intrudeId) {
             return 1;
         }
     }
@@ -922,7 +926,7 @@ void FIELD_PLACE_NAME_StatePrepare(FieldPlaceName *placeName)
         bmpWin = placeName->bmpWin;
         BMP_WIN_TransferChars(bmpWin);
         BMP_WIN_MakeScreen(bmpWin);
-        func_020409B4(func_02045730(bmpWin));
+        func_020409B4(BMP_WIN_GetBgLayer(bmpWin));
         func_0204047C(FIELD_PLACE_NAME_BG_LAYER, 1);
         func_02040588(FIELD_PLACE_NAME_BG_LAYER, 0);
         func_0207D63C(REG_BLDCNT_ADDR, 8, 0x11, 0x10, 4);
@@ -1088,7 +1092,7 @@ FieldPlaceName *FIELD_PLACE_NAME_AllocWork(u32 heapId)
 
 void FIELD_PLACE_NAME_InitWork(FieldPlaceName *placeName, GameSystem *gameSystem)
 {
-    func_02082BCC(placeName, 0, 0x154);
+    MI_CpuFill8(placeName, 0, 0x154);
     placeName->gameSystem = gameSystem;
     placeName->gameData = func_020120F4(gameSystem);
     placeName->bgCharOffset = -1;
@@ -1153,7 +1157,7 @@ void FIELD_PLACE_NAME_DeleteMessage(FieldPlaceName *placeName)
 void FIELD_PLACE_NAME_DeleteBmpWin(FieldPlaceName *placeName)
 {
     if (placeName->bmpWin != 0) {
-        func_020452E8(placeName->bmpWin);
+        BMP_WIN_Delete(placeName->bmpWin);
         placeName->bmpWin = 0;
     }
 }
@@ -1249,5 +1253,5 @@ u8 FIELD_PLACE_NAME_GetMessageLength(FieldPlaceName *placeName)
 /* Whether the zone has a place name window. */
 u32 FIELD_PLACE_NAME_HasWindow(u32 zoneId)
 {
-    return func_02013E6C(zoneId);
+    return ZONEDATA_GetPlaceNameWindow(zoneId);
 }

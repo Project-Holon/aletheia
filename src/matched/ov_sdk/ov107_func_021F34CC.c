@@ -12,7 +12,7 @@
  * sdk:      MBi_ReadSegmentHeader (libmb.TWL.HYB.a mb_fileinfo.o)
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02082D44  0x02082D44  arm
  */
 
@@ -26,7 +26,7 @@ typedef struct {
     u32 size;
 } SegmentHeaderInfo;
 
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void func_02082D44(void *srcp, void *dstp, unsigned long size);
 
 void func_021F34CC(SegmentHeaderInfo *p, u32 top, u32 bottom, int clean)
@@ -42,7 +42,7 @@ void func_021F34CC(SegmentHeaderInfo *p, u32 top, u32 bottom, int clean)
     if (top >= bottom)
         return;
     if (clean) {
-        func_02082BCC(p->dst + top, 0, bottom - top);
+        MI_CpuFill8(p->dst + top, 0, bottom - top);
         return;
     }
     func_02082D44(p->src + top, p->dst + top, bottom - top);

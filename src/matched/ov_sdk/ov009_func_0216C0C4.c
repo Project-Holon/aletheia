@@ -1,5 +1,5 @@
 /*
- * function: func_0216C0C4
+ * function: DWCi_GPRecvBuddyMessageCallback
  * address:  0x0216C0C4
  * packet:   pkt_ov009_0216C0C4
  * region:   ov009
@@ -50,7 +50,7 @@ extern char *strncpy(char *d, const char *s, unsigned long n);
 extern unsigned long strtoul(const char *s, char **end, int base);
 extern void func_0216EAB8(void **pconnection, int profileID, char *message);
 
-void func_0216C0C4(void **pconnection, GPRecvBuddyMessageArg *arg)
+void DWCi_GPRecvBuddyMessageCallback(void **pconnection, GPRecvBuddyMessageArg *arg)
 {
     unsigned long len;
     char *message;

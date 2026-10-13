@@ -13,7 +13,7 @@
  *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
  *   FIELD_TASK_CreatePlayerDrawOffsetTween  0x021C7858  thumb  ov021
  *   FIELD_TASK_MANAGER_AddTask  0x021C6DE0  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   GFL_USE_IsSeSlotBusy  0x02006224  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -35,7 +35,7 @@ typedef struct { int x, y, z; } Vec;
 extern u32 FIELDMAP_GetTaskManager(unsigned char *p);
 extern int FIELD_TASK_CreatePlayerDrawOffsetTween(u32 a, u32 b, u32 c);
 extern void FIELD_TASK_MANAGER_AddTask(unsigned char *p, u32 *a, u32 b);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int GFL_USE_GetSeSlot(u32 a0);
 extern int GFL_USE_IsSeSlotBusy(u32 a0);
 struct Obj00020;
@@ -72,7 +72,7 @@ int FLDEFF_RIPPLE_WarpToZoneStartTask(u32 a, int *seq, int *w)
         if (w[3] > 0) {
             break;
         }
-        func_020061E4(0x63C);
+        GFL_USE_PlaySeDefaultVolume(0x63C);
         (*seq)++;
         break;
     case 2:

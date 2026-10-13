@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02045770 0x02045770 arm
- *   func_0201C6C4 0x0201C6C4 thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  */
 #include "../include/Obj05502.h"
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
 struct PrintSys;
-extern void *func_02045770(struct Descriptor *p);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-int func_021FC830(u8*p){void*owner=*(void* *)&((struct Obj05502 *)p)->f8;if(p[4]){if(!func_0201C6C4(owner,func_02045770(*(void* *)&((struct Obj05502 *)p)->f0))){BMP_WIN_TransferChars(*(void* *)&((struct Obj05502 *)p)->f0);p[4]=0;}}if(!p[4])return 1;return 0;}
+int func_021FC830(u8*p){void*owner=*(void* *)&((struct Obj05502 *)p)->f8;if(p[4]){if(!PRINTSYS_QUE_IsExistTarget(owner,BMP_WIN_GetBmp(*(void* *)&((struct Obj05502 *)p)->f0))){BMP_WIN_TransferChars(*(void* *)&((struct Obj05502 *)p)->f0);p[4]=0;}}if(!p[4])return 1;return 0;}

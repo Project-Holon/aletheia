@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   g_020A1B38     0x020A1B38  data
+ *   FX_SinCosTable_     0x020A1B38  data
  *   func_0207AF00  0x0207AF00  thumb
  *   func_0207AF1C  0x0207AF1C  thumb
  *   func_0207AF38  0x0207AF38  thumb
@@ -39,7 +39,7 @@ struct Obj {
     u16 f02;
 };
 
-extern s16 g_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern void func_0207AF00(u8 *buf, int a, int b);
 extern void func_0207AF1C(u8 *buf, int a, int b);
 extern void func_0207AF38(u8 *buf, int a, int b);
@@ -53,15 +53,15 @@ void func_020580A8(struct Obj *o, u8 *dst)
     switch (o->f02) {
     case 0:
         idx = o->f00 >> 4;
-        func_0207AF00(buf, g_020A1B38[idx * 2], g_020A1B38[idx * 2 + 1]);
+        func_0207AF00(buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
         break;
     case 1:
         idx = o->f00 >> 4;
-        func_0207AF1C(buf, g_020A1B38[idx * 2], g_020A1B38[idx * 2 + 1]);
+        func_0207AF1C(buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
         break;
     case 2:
         idx = o->f00 >> 4;
-        func_0207AF38(buf, g_020A1B38[idx * 2], g_020A1B38[idx * 2 + 1]);
+        func_0207AF38(buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
         break;
     }
 

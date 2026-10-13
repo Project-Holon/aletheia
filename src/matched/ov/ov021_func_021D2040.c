@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj02103.h"
@@ -32,7 +32,7 @@ typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 int EVENT_PERAP_RECORD_HopPokeIcon(u8 *w)
 {
@@ -50,7 +50,7 @@ int EVENT_PERAP_RECORD_HopPokeIcon(u8 *w)
     }
     CLACT_GetActorSurfacePos((struct Actor *)((struct Obj02103 *)w)->f3C, (struct PtS *)&pt, 0);
     pt.y = pt.y - ((struct Obj02103 *)w)->f4D;
-    func_0204B404((struct Obj *)(((struct Obj02103 *)w)->f3C), (const struct Vec2 *)(&pt), 0);
+    CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj02103 *)w)->f3C), (const struct Vec2 *)(&pt), 0);
     ((struct Obj02103 *)w)->f4D = ((struct Obj02103 *)w)->f4D - 1;
     return 1;
 }

@@ -20,7 +20,7 @@
  *   func_0200CA1C 0x0200CA1C thumb
  *   GAME_DATA_GetBoxManager 0x0201293C thumb
  *   EVENT_BATTLE_RETURN_FlagLeveledUpMembers 0x021B9A14 thumb ov092
- *   func_0201AC2C 0x0201AC2C thumb
+ *   POKEPARTY_Copy 0x0201AC2C thumb
  *   POKERUS_TryInfectParty 0x0201B038 thumb
  *   POKERUS_SpreadParty 0x0201B170 thumb
  *   EVENT_BATTLE_RETURN_ApplyPickupAndHoneyGather 0x021B9AA0 thumb ov092
@@ -31,11 +31,11 @@
  *   func_0200C278 0x0200C278 thumb
  *   func_0200C29C 0x0200C29C thumb
  *   EVENT_BATTLE_RETURN_ApplyNaturalCure 0x021B9BD8 thumb ov092
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02008500 0x02008500 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
- *   func_0201AA18 0x0201AA18 thumb
- *   func_0201AA14 0x0201AA14 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
+ *   POKEPARTY_GetCapacity 0x0201AA14 thumb
  *   func_02007698 0x02007698 thumb
  *   func_020076D0 0x020076D0 thumb
  *   func_02045B38 0x02045B38 arm
@@ -45,7 +45,7 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
- *   func_02013E4C 0x02013E4C thumb
+ *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
  *   func_0202F190 0x0202F190 thumb
  *   func_0200CA38 0x0200CA38 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
@@ -62,7 +62,7 @@
  *   func_02008DF0 0x02008DF0 thumb
  *   NAMEIN_SETUP_FreeArgs 0x0216C0C0 thumb ov010
  *   EVENT_BATTLE_RETURN_ApplyHealBall 0x021B9D04 thumb ov092
- *   func_0201A98C 0x0201A98C thumb
+ *   POKEPARTY_Add 0x0201A98C thumb
  *   POKE_TOOL_Dummy 0x020185F0 thumb
  *   func_020074D8 0x020074D8 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
@@ -108,7 +108,7 @@ extern u8 *GAME_DATA_GetMyStatus(void *);
 extern void *func_0200CA1C(void *);
 extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
 extern void EVENT_BATTLE_RETURN_FlagLeveledUpMembers(u8 *a0, struct S *s);
-extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
+extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
 extern void POKERUS_TryInfectParty(void *);
 extern void POKERUS_SpreadParty(void *);
 extern void EVENT_BATTLE_RETURN_ApplyPickupAndHoneyGather(void *);
@@ -119,11 +119,11 @@ extern void *GAME_DATA_GetMiscSave(int *p);
 extern u32 func_0200C278(struct Blk34 *p, u32 v);
 extern u32 func_0200C29C(struct Blk34 *p, u32 v);
 extern void EVENT_BATTLE_RETURN_ApplyNaturalCure(void *);
-extern void *func_0201AB28(void *, u32);
+extern void *POKEPARTY_GetMember(void *, u32);
 extern void func_02008500(void *, void *);
 extern void POKE_TOOL_SetPartyValue(void *, u32, u32);
-extern u32 func_0201AA18(void *p);
-extern u32 func_0201AA14(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
+extern u32 POKEPARTY_GetCapacity(void *p);
 extern u32 func_02007698(void *);
 extern int func_020076D0(void *, int *, int *);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -133,7 +133,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
-extern u32 func_02013E4C(u32);
+extern u32 ZONEDATA_GetPlaceNameId(u32);
 extern void func_0202F190(void *, u32, u32, u32, u16);
 extern u32 func_0200CA38(struct Blk37 *p);
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
@@ -150,7 +150,7 @@ extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern int NAMEIN_SETUP_FreeArgs(int a0);
 extern void EVENT_BATTLE_RETURN_ApplyHealBall(void *);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern void *POKE_TOOL_Dummy(void *);
 extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
 extern void GFL_USE_FadeOutBgm(u32);
@@ -187,7 +187,7 @@ int EVENT_BATTLE_RETURN_Main(void *unused, u32 *step, u8 *s, u8 *r)
         (((Rec *)r)->mask) = 0;
         if ((*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 0))) <= 1) {
             EVENT_BATTLE_RETURN_FlagLeveledUpMembers(r, (struct S *)s);
-            func_0201AC2C((*(void **)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 36))), party);
+            POKEPARTY_Copy((*(void **)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 36))), party);
             POKERUS_TryInfectParty(party);
             POKERUS_SpreadParty(party);
             if ((*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 140))) == 1) EVENT_BATTLE_RETURN_ApplyPickupAndHoneyGather(party);
@@ -199,11 +199,11 @@ int EVENT_BATTLE_RETURN_Main(void *unused, u32 *step, u8 *s, u8 *r)
         }
         EVENT_BATTLE_RETURN_ApplyNaturalCure(party);
         if ((*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 140))) == 5) {
-            (*(void **)((u8 *)(r)+( 8))) = func_0201AB28((*(void **)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 40))), *((u8 *)(*(void **)((u8 *)(s)+( 4))) + 144));
+            (*(void **)((u8 *)(r)+( 8))) = POKEPARTY_GetMember((*(void **)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 40))), *((u8 *)(*(void **)((u8 *)(s)+( 4))) + 144));
             func_02008500(buf, (*(void **)((u8 *)(r)+( 4))));
             POKE_TOOL_SetPartyValue((*(void **)((u8 *)(r)+( 8))), 141, (*(u32 *)((u8 *)(r)+( 4))));
-            used = (int)func_0201AA18(party);
-            if (used >= (int)func_0201AA14(party)) {
+            used = (int)POKEPARTY_GetCount(party);
+            if (used >= (int)POKEPARTY_GetCapacity(party)) {
                 box = func_02007698(save); bslot = 0;
                 func_020076D0(save, &box, &bslot);
                 (*(u32 *)((u8 *)(r)+( 48))) = box;
@@ -212,7 +212,7 @@ int EVENT_BATTLE_RETURN_Main(void *unused, u32 *step, u8 *s, u8 *r)
                 (*(void **)((u8 *)(r)+( 44))) = func_02045EC0(bank, index);
                 MSGDATA_Delete(bank);
             }
-            func_0202F190((*(void **)((u8 *)(r)+( 8))), 0, (u32)buf, func_02013E4C(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((*(void **)((u8 *)(s)+( 0)))))), (*(u16 *)((u8 *)(r)+( 60))));
+            func_0202F190((*(void **)((u8 *)(r)+( 8))), 0, (u32)buf, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((*(void **)((u8 *)(s)+( 0)))))), (*(u16 *)((u8 *)(r)+( 60))));
             flag = 0;
             dexno = func_0200CA38(dex);
             if (func_0200CED4(dex, POKE_TOOL_GetPartyValue((*(void **)((u8 *)(r)+( 8))), 5, 0)) == 0) flag = 1;
@@ -259,7 +259,7 @@ int EVENT_BATTLE_RETURN_Main(void *unused, u32 *step, u8 *s, u8 *r)
     case 3:
         party = GAME_DATA_GetMyParty((*(void **)((u8 *)(s)+( 0))));
         EVENT_BATTLE_RETURN_ApplyHealBall((*(void **)((u8 *)(r)+( 8))));
-        if (!(*(void **)((u8 *)(r)+( 44)))) func_0201A98C(party, (*(void **)((u8 *)(r)+( 8))));
+        if (!(*(void **)((u8 *)(r)+( 44)))) POKEPARTY_Add(party, (*(void **)((u8 *)(r)+( 8))));
         else {
             save = (void *)GAME_DATA_GetBoxManager((*(void **)((u8 *)(s)+( 0))));
             func_020074D8(save, POKE_TOOL_Dummy((*(void **)((u8 *)(r)+( 8)))));
@@ -285,7 +285,7 @@ int EVENT_BATTLE_RETURN_Main(void *unused, u32 *step, u8 *s, u8 *r)
             *step = 6;
             while ((((Rec *)r)->mask)) {
                 if ((((Rec *)r)->mask) & 1) {
-                    mon = func_0201AB28(party, (((Rec *)r)->idx));
+                    mon = POKEPARTY_GetMember(party, (((Rec *)r)->idx));
                     species = SHINKA_CHECK_CheckEvolution(party, mon, 0, (*(u16 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 18))), GAME_DATA_GetSeason((*(void **)((u8 *)(s)+( 0)))), &method, (*(u16 *)((u8 *)(r)+( 60))));
                     slot = (((Rec *)r)->idx);
                 }

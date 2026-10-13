@@ -18,7 +18,7 @@
  *
  * symbols:
  *   GFL_USE_GetSeSlot  0x02006148  thumb
- *   func_020061F8  0x020061F8  thumb
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb
  *   SCRCMD_FindRegisteredEntry  0x021D21C0  thumb ov021
  *   SCRCMD_IsRegisteredEntryEnabled  0x021D21E0  thumb ov021
  */
@@ -26,7 +26,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern int GFL_USE_GetSeSlot(u32 a0);
-extern void func_020061F8(int i);
+extern void GFL_USE_StopSeSlot(int i);
 extern int SCRCMD_FindRegisteredEntry(u32 id);
 extern int SCRCMD_IsRegisteredEntryEnabled(u32 id);
 struct S { u8 pad[0xac]; u16 lo[2]; u16 hi[2]; };
@@ -36,7 +36,7 @@ void FIELD_SOUND_SYSTEM_ReleaseSlot(u8 *p, int a0)
     struct S *s = (struct S *)p;
     idx = GFL_USE_GetSeSlot(a0);
     if (SCRCMD_FindRegisteredEntry(a0) == 0) {
-        func_020061F8(idx);
+        GFL_USE_StopSeSlot(idx);
         return;
     }
     if (SCRCMD_IsRegisteredEntryEnabled(a0) != 0) {
@@ -45,5 +45,5 @@ void FIELD_SOUND_SYSTEM_ReleaseSlot(u8 *p, int a0)
             s->hi[idx - 1] = 0xffff;
         }
     }
-    func_020061F8(idx);
+    GFL_USE_StopSeSlot(idx);
 }

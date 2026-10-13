@@ -11,7 +11,7 @@
  *   func_021CA444 0x021CA444 thumb ov128
  *   func_021CA458 0x021CA458 thumb ov128
  *   CLACT_DeleteActor 0x0204B3B4 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_021C4080 0x021C4080 thumb ov127
  *   func_021C3F80 0x021C3F80 thumb ov127
@@ -27,7 +27,7 @@ struct Obj;
 struct TaskMenuState;
 struct U16Vec;
 extern void CLACT_DeleteActor(struct Obj *p);
-extern unsigned int func_020452E8(struct Descriptor *d);
+extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern void STRBUF_Delete(struct U16Vec *vec);
 typedef unsigned int   u32;
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
@@ -42,7 +42,7 @@ void func_021C7D48(u8 *p, void *unused, u8 *a)
     func_021CA458((char *)a,a + 12);
     CLACT_DeleteActor(((struct Obj03281 *)p)->f1A4);
     CLACT_DeleteActor(((struct Obj03281 *)p)->f1A0);
-    func_020452E8(((struct Obj03281 *)p)->f108);
+    BMP_WIN_Delete(((struct Obj03281 *)p)->f108);
     STRBUF_Delete(((struct Obj03281 *)p)->f110);
     APP_TASKMENU_RES_Delete(((struct Obj03281 *)p)->f190);
     STRBUF_Delete(((struct Obj03281 *)p)->f178);
@@ -57,5 +57,5 @@ void func_021C7D48(u8 *p, void *unused, u8 *a)
     func_021C4080(((struct Obj03281 *)p)->f104);
     func_021C3F80(*(u8 * *)&((struct Obj03281 *)p)->f104);
     for(i=0;i<3;i++) func_021C88BC(p + 12 + i * 0x4c,a);
-    for(i=0;i<2;i++) func_020452E8(*(void **)(p + i * 8 + 0xf0));
+    for(i=0;i<2;i++) BMP_WIN_Delete(*(void **)(p + i * 8 + 0xf0));
 }

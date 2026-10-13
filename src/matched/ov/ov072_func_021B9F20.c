@@ -15,7 +15,7 @@
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 extern void TOUCHBAR_Delete(unsigned char *);
 struct Obj;
@@ -23,10 +23,10 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCellAnim(unsigned);
 extern void CLACT_ReleaseCharacter(unsigned);
 extern void CLACT_ReleasePalette(unsigned);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 void TOWNMAP_BackButtonFree(unsigned *p) {
     TOUCHBAR_Delete((unsigned char *)p[3]);
     CLACT_DeleteActor((struct Obj *)p[5]); CLACT_ReleaseCellAnim(p[2]);
     CLACT_ReleaseCharacter(p[1]); CLACT_ReleasePalette(p[0]);
-    func_02082BCC(p,0,32);
+    MI_CpuFill8(p,0,32);
 }

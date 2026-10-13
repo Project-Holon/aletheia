@@ -45,7 +45,7 @@
  *   FIELD_PLACE_NAME_Cancel  0x021BC5BC  thumb  ov021
  *   BG_SYS_GetMainVisiblePlanes  0x02043658  arm
  *   FIELDMAP_SetBgMode  0x02188DA0  thumb  ov021
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb  ov021
  *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
  *   func_020122C0  0x020122C0  thumb
@@ -125,7 +125,7 @@ extern u32 FIELDMAP_GetPlaceName(u8 *p);
 extern int FIELD_PLACE_NAME_Cancel(u8 *a);
 extern u32 BG_SYS_GetMainVisiblePlanes(void);
 extern void FIELDMAP_SetBgMode(void);
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void FIELDMAP_ResetBgAffineShowMsg(u8 *a);
 extern void FLDMMDL_SetDirDispCheckPause(int a0, int a1);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
@@ -240,7 +240,7 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(u32 a, int *st, Ctx *c)
         FLDMMDL_SetStatusBitVanish(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(sys)), 1);
         t = (void *)BG_SYS_GetMainVisiblePlanes();
         FIELDMAP_SetBgMode();
-        func_02043534((u32)t);
+        BG_SYS_SetMainVisiblePlanes((u32)t);
         FIELDMAP_ResetBgAffineShowMsg(sys);
         (*st)++;
         break;

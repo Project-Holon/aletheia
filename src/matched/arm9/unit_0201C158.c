@@ -45,6 +45,7 @@
  *
  * symbols:
  *   _s32_div_f  0x0209C0A4  arm
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201C158.c \
@@ -55,7 +56,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 sub_0201BD28(u16 id, u32 field);
+extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 
 u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp)
 {
@@ -64,7 +65,7 @@ u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp)
     if (ppUp > 3) {
         ppUp = 3;
     }
-    base = (u8)sub_0201BD28(move, 5);
+    base = (u8)WAZA_TOOL_GetParam(move, 5);
     return (u8)(base + (u8)((int)(ppUp * (base * 20)) / 100));
 }
 
@@ -81,5 +82,5 @@ u32 WAZA_TOOL_GetWeather(int id)
 
 u32 WAZA_TOOL_GetCategory(u16 move)
 {
-    return sub_0201BD28(move, 1);
+    return WAZA_TOOL_GetParam(move, 1);
 }

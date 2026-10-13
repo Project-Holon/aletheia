@@ -17,6 +17,7 @@
  *   func_021D62BC 0x021D62BC thumb ov123
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D8A7C 0x021D8A7C thumb ov123
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj02183.h"
 extern unsigned int func_020307B0(void *p);
@@ -28,7 +29,7 @@ extern void func_021D56FC(char *p, int mode);
 extern void func_021D62B4(u8 *p, unsigned int i);
 extern void func_021D6650(u8 *p, int flag);
 extern void func_021D62BC(u8 *p, int i, u32 v);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D8A7C(char *p);
 void func_021D8A9C(char *p)
@@ -45,6 +46,6 @@ void func_021D8A9C(char *p)
     func_021D6650(((struct Obj02183 *)p)->f14,0);
     func_021D62B4(((struct Obj02183 *)p)->f14,0);
     func_021D62BC(((struct Obj02183 *)p)->f14,4,6);
-    func_020061E4(0x658);
+    GFL_USE_PlaySeDefaultVolume(0x658);
     func_021D6EE0((u8 *)p,(int)func_021D8A7C,0x8bd);
 }

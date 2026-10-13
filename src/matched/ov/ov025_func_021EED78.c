@@ -15,7 +15,7 @@
  *   WEATHER_TASK_GetParticleActor 0x021A2638 thumb ov021
  *   WEATHER_TASK_RemoveParticle 0x021A21E0 thumb ov021
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 
 typedef signed short s16;
@@ -30,7 +30,7 @@ struct Actor;
 struct PtS;
 typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void WEATHER_BLIZZARD_UpdateParticle(int a)
 {
@@ -54,7 +54,7 @@ void WEATHER_BLIZZARD_UpdateParticle(int a)
                 p[2] = p[2] - 1;
             }
         }
-        func_0204B404((struct Obj *)q, (const struct Vec2 *)v, 0);
+        CLACT_AddActorSurfacePos((struct Obj *)q, (const struct Vec2 *)v, 0);
         break;
     case 1:
         WEATHER_TASK_RemoveParticle((u32 *)a);

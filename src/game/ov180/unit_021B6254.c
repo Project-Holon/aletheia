@@ -18,7 +18,7 @@
  *   func_0207D59C 0x0207D59C arm
  *   func_02041EE4 0x02041EE4 arm
  *   func_02041FB0 0x02041FB0 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_02040EBC 0x02040EBC arm
  *   d_021B80E8 0x021B80E8 data ov180 a4
@@ -41,12 +41,12 @@
  *   GFL_USE_LoadWaveArcSet 0x02005A98 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_02005B04 0x02005B04 thumb
- *   func_0201AA18 0x0201AA18 thumb
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_DecodePartyParam 0x02017D30 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   POKE_TOOL_EncodePartyParam 0x02017D70 thumb
- *   func_02006CAC 0x02006CAC thumb
+ *   PM_VOICE_GetPerapVoiceSave 0x02006CAC thumb
  *   PM_VOICE_Prepare 0x020069D4 thumb
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
@@ -100,11 +100,11 @@
  *   _fmul 0x0209C95C arm
  *   _fdiv 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   func_02015F2C  0x02015F2C  thumb
+ *   MCSS_SetAnimCallback  0x02015F2C  thumb
  *   d_021B814C 0x021B814C data a4
  *   func_021B7D5C 0x021B7D5C thumb ov180
  *   func_021B7F30 0x021B7F30 thumb ov180
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_0207D534 0x0207D534 arm
  *   func_021B6210 0x021B6210 thumb ov180
@@ -116,7 +116,7 @@
  *   func_021B6158 0x021B6158 thumb ov180
  *   func_021B6188 0x021B6188 thumb ov180
  *   func_021B7D44 0x021B7D44 thumb ov180
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   GFL_USE_IsSeqPlaying 0x02006254 thumb
  *   func_021B78E0 0x021B78E0 thumb ov180
  *   func_021B7C08 0x021B7C08 thumb ov180
@@ -132,7 +132,7 @@
  *   func_021B7C60 0x021B7C60 thumb ov180
  *   MCSS_ResetAnmStopFlag 0x02015E4C thumb
  *   func_021B7F38 0x021B7F38 thumb ov180
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   WIPE_SYS_Start 0x0202208C thumb
@@ -150,12 +150,12 @@
  *   CLACT_GetActorAutoAnim 0x0204B944 arm
  *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
  *   CLACT_DrawSystem 0x0204A600 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_IsActorAnimActive  0x0204B98C  arm
  *   d_021B90CC     0x021B90CC  data  ov180  a4
  *   d_021B90E4     0x021B90E4  data  ov180  a4
@@ -326,8 +326,8 @@ extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1,
 extern void func_0207D59C(void *,Mtx *,u32,u32,u32,u32);
 extern void func_02041EE4(u32,u32,u32);
 extern void func_02041FB0(u32,u32,u16);
-extern void func_020434DC(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32),func_02040EBC(u32,u32);
-extern void func_020434DC(u32,u32);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32),func_02040EBC(u32,u32);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void func_020403F4(u32);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -347,12 +347,12 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern struct Sub02005A98Hdr *GFL_USE_LoadWaveArcSet(const u32 *,u32);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,u32);
 extern void func_02005B04(const u32 *arg);
-extern unsigned func_0201AA18(void *);
-extern void *func_0201AB28(void *,unsigned);
+extern unsigned POKEPARTY_GetCount(void *);
+extern void *POKEPARTY_GetMember(void *,unsigned);
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
-extern void func_02006CAC(void **out);
+extern void PM_VOICE_GetPerapVoiceSave(void **out);
 extern int PM_VOICE_Prepare(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8);
 extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(u16,int,int,int,int);
@@ -395,10 +395,10 @@ extern void MCSS_SetAnmStopFlag(void *p);
 extern void MCSS_Del(void *sys, void *obj);
 extern void MCSS_GetPosition(void *p, u32 *out);
 extern void MCSS_SetPosition(void *p, u32 *src);
-extern void func_02015F2C(int, void *, void *, int);
+extern void MCSS_SetAnimCallback(int, void *, void *, int);
 extern void func_021B7D5C(void *p);
 extern void func_021B7F30(void *p);
-extern void func_02043534(u32_021B6A60 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32_021B6A60 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32_021B6A60 planes);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_021B6210(void);
@@ -410,7 +410,7 @@ extern void func_021B7CF0(char *);
 extern void func_021B6158(int *);
 extern void func_021B6188(u8 *p);
 extern void func_021B7D44(int *);
-extern void func_020061E4(u32_021B6BAC);
+extern void GFL_USE_PlaySeDefaultVolume(u32_021B6BAC);
 extern int GFL_USE_IsSeqPlaying(u32_021B6BAC);
 extern int PM_VOICE_Start(u32_021B6BAC);
 extern u32_021B6BAC func_02006BD0(u32_021B6BAC i);
@@ -418,10 +418,10 @@ extern void func_0204363C(u32_021B6F34 swap);
 extern void func_021B7D80(char *);
 extern void func_021B6170(int *p);
 extern void func_021B7F0C(int *p);
-extern u32_021B6FAC func_020362DC(void);
+extern u32_021B6FAC KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern int GFL_USE_IsBgmFading(void);
-extern void GFL_USE_CancelChangeAndStopBgm(void),func_020061E4(u32_021B6FAC),GFL_USE_FadeOutBgm(u32_021B6FAC),MCSS_ResetAnmStopFlag(void *);
+extern void GFL_USE_CancelChangeAndStopBgm(void),GFL_USE_PlaySeDefaultVolume(u32_021B6FAC),GFL_USE_FadeOutBgm(u32_021B6FAC),MCSS_ResetAnmStopFlag(void *);
 extern void func_021B7C60(char *p, int index, unsigned value);
 extern void func_021B692C(char *),func_021B699C(char *,int),func_021B69F8(char *),func_021B6984(char *),func_021B7F38(char *);
 extern void WIPE_SYS_Start(void *p1, u32_021B7210 p2, u32_021B7210 p3, u32_021B7210 p4, u32_021B7210 p5, u32_021B7210 p6, u32_021B7210 p7);
@@ -437,10 +437,10 @@ extern void CLACT_ExitSystem(void);
 extern u32_021B73B0 CLACT_GetActorAutoAnim(struct Obj *p);
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32_021B73B0 arg);
 extern void CLACT_DrawSystem(void);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32_021B73E4 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32_021B73E4 which);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void func_0204B3DC(struct Obj *,unsigned int);
-extern void CLACT_SetActorAnimFrame(struct Obj *,u32_021B7488),CLACT_SetActorAnimSeq(struct Obj *,u16),func_0204B92C(struct Obj *,u32_021B7488);
+extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
+extern void CLACT_SetActorAnimFrame(struct Obj *,u32_021B7488),CLACT_SetActorAnimSeq(struct Obj *,u16),CLACT_SetActorAutoAnim(struct Obj *,u32_021B7488);
 extern u32_021B74B4 CLACT_IsActorAnimActive(struct Actor *a);
 extern void CLACT_ReleaseCharacter(u32_021B7510);
 extern void CLACT_ReleasePalette(u32_021B7530);
@@ -548,7 +548,7 @@ void func_021B6254(void)
     func_02041EE4(7,0,160);func_02041EE4(7,3,-152);
     func_02041FB0(3,9,160);func_02041FB0(3,12,160);
     func_02041FB0(7,9,160);func_02041FB0(7,12,160);
-    func_020434DC(8,1);BG_SYS_SetSubPlaneVisible(8,1);
+    BG_SYS_SetMainPlaneVisible(8,1);BG_SYS_SetSubPlaneVisible(8,1);
     func_02040EBC(0,0);func_02040EBC(4,0);
 }
 
@@ -557,7 +557,7 @@ void func_021B6254(void)
 
 
 
-void func_021B6340(void) {func_020434DC(8,0);BG_SYS_SetSubPlaneVisible(8,0);func_020403F4(7);func_020403F4(3);}
+void func_021B6340(void) {BG_SYS_SetMainPlaneVisible(8,0);BG_SYS_SetSubPlaneVisible(8,0);func_020403F4(7);func_020403F4(3);}
 
 
 
@@ -627,8 +627,8 @@ void func_021B64D0(char *p) {func_02005B04(((struct Obj05469 *)p)->fC);}
 void func_021B64DC(unsigned char *p) {
  unsigned i; void *mon; unsigned saved;
  p[0x915E]=0;
- for(i=0;i<func_0201AA18(**(void ** *)&((struct Obj02515 *)p)->f0);i++) {
-  mon=func_0201AB28(**(void ** *)&((struct Obj02515 *)p)->f0,i); saved=POKE_TOOL_DecodePartyParam(mon);
+ for(i=0;i<POKEPARTY_GetCount(**(void ** *)&((struct Obj02515 *)p)->f0);i++) {
+  mon=POKEPARTY_GetMember(**(void ** *)&((struct Obj02515 *)p)->f0,i); saved=POKE_TOOL_DecodePartyParam(mon);
   if(func_02017E1C(mon,76,0)==0) { *(void **)(p+(unsigned char)p[0x915E]*4+0x9140)=mon; p[0x915E]++; }
   POKE_TOOL_EncodePartyParam(mon,saved);
  }
@@ -655,7 +655,7 @@ void func_021B654C(char *p) {
 void func_021B65A0(char *p) {
  unsigned value;
  if(((struct Obj04568 *)p)->f9158==441) {
-  func_02006CAC((void **)(&value));
+  PM_VOICE_GetPerapVoiceSave((void **)(&value));
   ((struct Obj04568 *)p)->f9184=PM_VOICE_Prepare(((struct Obj04568 *)p)->f9158,(unsigned char)p[0x915C],64,0,0,0,0,(int)(&value));
  } else ((struct Obj04568 *)p)->f9184=PM_VOICE_Prepare(((struct Obj04568 *)p)->f9158,(unsigned char)p[0x915C],64,0,0,0,0,0);
 }
@@ -669,7 +669,7 @@ void func_021B65A0(char *p) {
  */
 void func_021B65FC(void) {
  unsigned i;
- func_020434DC(1,1);
+ BG_SYS_SetMainPlaneVisible(1,1);
  REG(0x04000008)=REG(0x04000008)&~3;
  REG(0x04000060)=(u16)((REG(0x04000060)&~0x3002)|2);
  REG(0x04000060)&=(u16)~0x3010;
@@ -881,7 +881,7 @@ void func_021B69E8(int *p)
 void func_021B69F8(char *p)
 {
     *(int *)(p + 0x24) = 0;
-    func_02015F2C(*(int *)(p + 0x1c), p, (void *)func_021B69E8, 0);
+    MCSS_SetAnimCallback(*(int *)(p + 0x1c), p, (void *)func_021B69E8, 0);
 }
 
 
@@ -904,7 +904,7 @@ int func_021B6A10(char *p) {
 
 
 int func_021B6A60(char *p) {
-    func_02043534(0); BG_SYS_SetSubVisiblePlanes(0);
+    BG_SYS_SetMainVisiblePlanes(0); BG_SYS_SetSubVisiblePlanes(0);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     func_0207D534((void *)0x0400006c,-16);
@@ -921,7 +921,7 @@ int func_021B6AB0(char *p) {
     func_0207D534((void *)0x0400106c,-16);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
-    func_02043534(0); BG_SYS_SetSubVisiblePlanes(0);
+    BG_SYS_SetMainVisiblePlanes(0); BG_SYS_SetSubVisiblePlanes(0);
     return 10;
 }
 
@@ -953,10 +953,10 @@ int func_021B6BAC(char *p) {
     int busy;
     switch(((struct Obj00299 *)p)->f9190){
     case 0: ++((struct Obj00299 *)p)->f9190;return func_021B7268(p,32);
-    case 1: func_020061E4(0x79B);++((struct Obj00299 *)p)->f9190;break;
-    case 2: if(++((struct Obj00299 *)p)->f9188==48){func_020061E4(0x79C);((struct Obj00299 *)p)->f9188=0;++((struct Obj00299 *)p)->f9190;}break;
+    case 1: GFL_USE_PlaySeDefaultVolume(0x79B);++((struct Obj00299 *)p)->f9190;break;
+    case 2: if(++((struct Obj00299 *)p)->f9188==48){GFL_USE_PlaySeDefaultVolume(0x79C);((struct Obj00299 *)p)->f9188=0;++((struct Obj00299 *)p)->f9190;}break;
     case 3: if(GFL_USE_IsSeqPlaying(0x79C)==0){
-        func_020061E4(0x79A);func_021B654C(p);func_021B65A0(p);func_021B6778(p);func_021B67EC(p);func_021B761C(p);func_021B78E0(p);func_021B7C08(p);func_021B7750(p);
+        GFL_USE_PlaySeDefaultVolume(0x79A);func_021B654C(p);func_021B65A0(p);func_021B6778(p);func_021B67EC(p);func_021B761C(p);func_021B78E0(p);func_021B7C08(p);func_021B7750(p);
         ++((struct Obj00299 *)p)->f9190;return func_021B7210(p,5);
     }break;
     case 4: if(((struct Obj00299 *)p)->f9188==22){++((struct Obj00299 *)p)->f9190;return func_021B7268(p,8);}else{func_021B7438((u8 *)p,1,-16,0);++((struct Obj00299 *)p)->f9188;}break;
@@ -965,18 +965,18 @@ int func_021B6BAC(char *p) {
     case 7:
         func_021B7408((u8 *)p,2,&coords[11],&coords[10]);
         if(coords[11]!=168)func_021B7438((u8 *)p,2,16,0);
-        else{func_020061E4(0x57A);func_021B727C(p);((struct Obj00299 *)p)->f9160=coords[11];((struct Obj00299 *)p)->f9162=coords[10];++((struct Obj00299 *)p)->f9190;}
+        else{GFL_USE_PlaySeDefaultVolume(0x57A);func_021B727C(p);((struct Obj00299 *)p)->f9160=coords[11];((struct Obj00299 *)p)->f9162=coords[10];++((struct Obj00299 *)p)->f9190;}
         func_021B7C08(p);break;
     case 8: func_021B682C((int *)p,0);++((struct Obj00299 *)p)->f9190;
     case 9:
         busy=func_021B72B0(p,2);func_021B7408((u8 *)p,3,&coords[9],&coords[8]);
         if(coords[9]!=88)func_021B7438((u8 *)p,3,-16,0);
-        else if(busy==0){func_020061E4(0x57A);func_021B727C(p);((struct Obj00299 *)p)->f9160=coords[9];((struct Obj00299 *)p)->f9162=coords[8];++((struct Obj00299 *)p)->f9190;}
+        else if(busy==0){GFL_USE_PlaySeDefaultVolume(0x57A);func_021B727C(p);((struct Obj00299 *)p)->f9160=coords[9];((struct Obj00299 *)p)->f9162=coords[8];++((struct Obj00299 *)p)->f9190;}
         func_021B7C08(p);break;
     case 10:
         busy=func_021B72B0(p,3);func_021B7408((u8 *)p,0,&coords[7],&coords[6]);
         if(coords[7]!=48)func_021B7438((u8 *)p,0,16,0);
-        else if(busy==0){func_020061E4(0x57A);func_021B727C(p);((struct Obj00299 *)p)->f9160=coords[7];((struct Obj00299 *)p)->f9162=coords[6];++((struct Obj00299 *)p)->f9190;}
+        else if(busy==0){GFL_USE_PlaySeDefaultVolume(0x57A);func_021B727C(p);((struct Obj00299 *)p)->f9160=coords[7];((struct Obj00299 *)p)->f9162=coords[6];++((struct Obj00299 *)p)->f9190;}
         func_021B7C08(p);break;
     case 11: if(func_021B72B0(p,0)==0){PM_VOICE_Start(((struct Obj00299 *)p)->f9184);func_021B746C((int *)p,4,1);func_021B7488((u8 *)p,4,6);++((struct Obj00299 *)p)->f9190;return func_021B7268(p,128);}break;
     case 12: if(func_02006BD0(((struct Obj00299 *)p)->f9184)==0 && func_021B74B4((int *)p,4)==0)++((struct Obj00299 *)p)->f9190;break;
@@ -1014,13 +1014,13 @@ int func_021B6FAC(char *p) {
     if(((struct Obj00242 *)p)->f9198==1 && WIPE_SYS_EndCheck()==1 && GFL_USE_IsBgmFading()==0) { GFL_USE_CancelChangeAndStopBgm();return 9; }
     switch(((struct Obj00242 *)p)->f9190) {
     case 0: ++((struct Obj00242 *)p)->f9190;return func_021B7268(p,32);
-    case 1: func_020061E4(0x79D);++((struct Obj00242 *)p)->f9190;break;
+    case 1: GFL_USE_PlaySeDefaultVolume(0x79D);++((struct Obj00242 *)p)->f9190;break;
     case 2:
         if(((struct Obj00242 *)p)->f9188!=51) {func_021B7438((u8 *)p,5,0,8);func_021B7438((u8 *)p,6,0,8);++((struct Obj00242 *)p)->f9188;}
-        else {func_020061E4(0x57A);++((struct Obj00242 *)p)->f9190;return func_021B7268(p,32);}break;
+        else {GFL_USE_PlaySeDefaultVolume(0x57A);++((struct Obj00242 *)p)->f9190;return func_021B7268(p,32);}break;
     case 3:
         func_021B746C((int *)p,7,1);func_021B746C((int *)p,8,1);func_021B7488((u8 *)p,7,2);func_021B7488((u8 *)p,8,2);++((struct Obj00242 *)p)->f9190;break;
-    case 4: if(func_021B74B4((int *)p,7)==0){func_020061E4(0x79E);++((struct Obj00242 *)p)->f9190;return func_021B7268(p,16);}break;
+    case 4: if(func_021B74B4((int *)p,7)==0){GFL_USE_PlaySeDefaultVolume(0x79E);++((struct Obj00242 *)p)->f9190;return func_021B7268(p,16);}break;
     case 5: func_021B7C60(p,3,1);++((struct Obj00242 *)p)->f9190;return func_021B7268(p,32);
     case 6: func_021B7C60(p,2,1);++((struct Obj00242 *)p)->f9190;break;
     case 7: if(((struct Obj00242 *)p)->f9188==300){((struct Obj00242 *)p)->f9188=0;++((struct Obj00242 *)p)->f9190;}else ++((struct Obj00242 *)p)->f9188;break;
@@ -1039,7 +1039,7 @@ int func_021B6FAC(char *p) {
         }break;
     }
     if(((struct Obj00242 *)p)->f9190>=6)func_021B7F38(p);
-    if(((struct Obj00242 *)p)->f9190>=8 && ((struct Obj00242 *)p)->f9198==0 && ((func_020362DC()&3)!=0 || TOUCHPANEL_GetTrg()==1)){
+    if(((struct Obj00242 *)p)->f9190>=8 && ((struct Obj00242 *)p)->f9198==0 && ((KEY_GetTrg()&3)!=0 || TOUCHPANEL_GetTrg()==1)){
         ((struct Obj00242 *)p)->f9198=1;GFL_USE_FadeOutBgm(220);func_021B723C(p,9,188);
     }
     return 8;
@@ -1106,7 +1106,7 @@ void func_021B7318(char *p,int mode) {
     *(int *)&((struct Obj00547 *)p)->f9044=(int)CLACT_CreateUnit(249,0,141);
     ((struct Obj00547 *)p)->f911C=BMP_OAM_CreateSys(141,((struct Obj00547 *)p)->f9044);
     func_021B74C8((int *)p);
-    func_020434DC(16,1); BG_SYS_SetSubPlaneVisible(16,1);
+    BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
 }
 
 
@@ -1119,7 +1119,7 @@ void func_021B73B0(char *p){u32_021B73B0 i;char *q;for(i=0;i<33;i++){q=p+i*4;if(
 
 
 
-void func_021B73E4(char *p, int i, short x, short y){Pair_021B73E4 v;v.x=x;v.y=y;func_0204B404(*(void **)((u32_021B73E4)p+i*4+36936),(const struct Vec2 *)(&v),0);}
+void func_021B73E4(char *p, int i, short x, short y){Pair_021B73E4 v;v.x=x;v.y=y;CLACT_AddActorSurfacePos(*(void **)((u32_021B73E4)p+i*4+36936),(const struct Vec2 *)(&v),0);}
 
 
 
@@ -1137,12 +1137,12 @@ void func_021B746C(int *p, int i, int a)
     int v = *(int *)((char *)p + i * 4 + 0x9048);
 
     if (v)
-        func_0204B3DC((struct Obj *)v, a);
+        CLACT_SetActorDrawEnable((struct Obj *)v, a);
 }
 
 
 
-void func_021B7488(u8 *p,int n,int v) { CLACT_SetActorAnimFrame(*(struct Obj **)(p+0x9048+n*4),0); CLACT_SetActorAnimSeq(*(struct Obj **)(p+0x9048+n*4),v); func_0204B92C(*(struct Obj **)(p+0x9048+n*4),1); }
+void func_021B7488(u8 *p,int n,int v) { CLACT_SetActorAnimFrame(*(struct Obj **)(p+0x9048+n*4),0); CLACT_SetActorAnimSeq(*(struct Obj **)(p+0x9048+n*4),v); CLACT_SetActorAutoAnim(*(struct Obj **)(p+0x9048+n*4),1); }
 
 
 

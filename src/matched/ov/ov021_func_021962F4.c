@@ -11,7 +11,7 @@
  *
  * symbols:
  *   IRCBATTLEMENU_ClearMessageWindow  0x021962C4  thumb  ov021
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00094.h"
@@ -24,11 +24,11 @@ typedef signed char    s8;
 
 struct Descriptor;
 extern int IRCBATTLEMENU_ClearMessageWindow(u32 a);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 void IRCBATTLEMENU_DeleteMsgWin(u8 *a)
 {
     IRCBATTLEMENU_ClearMessageWindow((u32)a);
-    func_020452E8((struct Descriptor *)(*(u32 *)&((struct Obj00094 *)a)->f2B0));
+    BMP_WIN_Delete((struct Descriptor *)(*(u32 *)&((struct Obj00094 *)a)->f2B0));
     *(u32 *)&((struct Obj00094 *)a)->f2B0 = 0;
 }

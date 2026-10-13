@@ -12,7 +12,7 @@
  * symbols:
  *   func_021BAC50 0x021BAC50 thumb ov110
  *   func_021BAC78 0x021BAC78 thumb ov110
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 typedef unsigned char u8;
 typedef short s16;
@@ -24,7 +24,7 @@ struct Obj;
 extern struct Obj *func_021BAC78(char *p, unsigned int *r, short x, short y, unsigned int a, int mode);
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 void func_021BC160(Obj *p)
 {
     Triple t;
@@ -33,7 +33,7 @@ void func_021BC160(Obj *p)
         func_021BAC50(p->root,(struct V3 *)(&t),i);
         for (j=0;j<2;j++) {
             p->items[j][i]=func_021BAC78(p->root,(unsigned int *)(&t),0,0,2,i+1);
-            func_0204B3DC(p->items[j][i],0);
+            CLACT_SetActorDrawEnable(p->items[j][i],0);
         }
     }
 }

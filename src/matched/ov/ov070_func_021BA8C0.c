@@ -23,7 +23,7 @@
  *   d_021BBBCC     0x021BBBCC  data  a2
  *   d_021BBA81     0x021BBA81  data  a1
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  */
 
 typedef struct {
@@ -48,7 +48,7 @@ extern short d_021BBBCC[][2];
 extern unsigned char d_021BBA81[];
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void func_0204B92C(struct Obj *, unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
 
 void ITEMMENU_CreateTabActors(W *p)
 {
@@ -61,6 +61,6 @@ void ITEMMENU_CreateTabActors(W *p)
         r.y = d_021BBBCC[i][1];
         r.z = d_021BBA81[i * 2 + 1];
         p->obj[i] = (int)CLACT_CreateActor((void *)p->owner, p->res[1], p->res[0], p->res[2], &r, 0, p->heap);
-        func_0204B92C((struct Obj *)p->obj[i], 1);
+        CLACT_SetActorAutoAnim((struct Obj *)p->obj[i], 1);
     }
 }

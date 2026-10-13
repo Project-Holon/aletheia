@@ -1,5 +1,5 @@
 /*
- * function: func_021C78F4
+ * function: BTL_SERVER_FLOW_CalcDrainHealAmount
  * address:  0x021C78F4
  * packet:   pkt_ov093_021C78F4
  * region:   ov093
@@ -35,7 +35,7 @@ extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 extern u32 BTL_CALC_MulRatioMin1(u32 a, u32 b);
 
-u16 func_021C78F4(u8 *p, u8 *a, u8 *b, u32 s)
+u16 BTL_SERVER_FLOW_CalcDrainHealAmount(u8 *p, u8 *a, u8 *b, u32 s)
 {
     int k;
     u32 y;

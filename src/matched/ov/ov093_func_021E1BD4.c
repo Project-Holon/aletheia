@@ -1,5 +1,5 @@
 /*
- * function: func_021E1BD4
+ * function: HAND_WAZA_SnoreOnActionCheck
  * address:  0x021E1BD4
  * packet:   pkt_ov093_021E1BD4
  * region:   ov093
@@ -18,7 +18,7 @@ extern int BTL_EVENT_GetVar(int key);
 typedef unsigned int   u32;
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E1BD4(int a, int b, int c)
+void HAND_WAZA_SnoreOnActionCheck(int a, int b, int c)
 {
     if (c == BTL_EVENT_GetVar(2) && BTL_EVENT_GetVar(34) == 2)
         BTL_EVENT_OverwriteVar(65, 1);

@@ -13,7 +13,7 @@
  *   BGWINFRM_SetFrameDataArc  0x0202CAE4  thumb
  *   BGWINFRM_GetFrameBuffer  0x0202CF84  thumb
  *   ov135_func_021F9260  0x021F9260  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021FBE84  0x021FBE84  thumb
  *   func_021FBF6C  0x021FBF6C  thumb
  *   func_021FBEB8  0x021FBEB8  thumb
@@ -21,7 +21,7 @@
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_021F4FF4  0x021F4FF4  thumb
  *   func_020355C4  0x020355C4  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   tbl_022032C6   0x022032C6  data  a1
  *   tbl_02203324   0x02203324  data
  *   tbl_022033F8   0x022033F8  data
@@ -72,7 +72,7 @@ extern const u32 tbl_02203440[];
 extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
 extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
 extern void ov135_func_021F9260(Menu *m, u32 mode);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void func_021FBE84(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color, void *g);
 extern int func_021FBF6C(Menu *m, u32 idx);
 extern void func_021FBEB8(void *mgr, void *bank, void *win, u32 index, void *g);
@@ -82,7 +82,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern u8 func_020355C4(void);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 int func_021FAFF0(Menu *m)
 {
@@ -93,7 +93,7 @@ int func_021FAFF0(Menu *m)
     BGWINFRM_SetFrameDataArc(m->mgr, 0, 0x60, 0x1A, 1);
     BGWINFRM_GetFrameBuffer(m->mgr, 0);
     ov135_func_021F9260(m, 5);
-    func_02082BCC(m->flags, 1, 0x1A);
+    MI_CpuFill8(m->flags, 1, 0x1A);
     func_021FBE84(m->mgr, m->bank, m->wins[0], m->page + 0x74, 2, 0x3DC2, m->g);
     for (i = 1; i < tbl_022033F8[m->page].count + 1; i++) {
         if (func_021FBF6C(m, tbl_02203324[m->page] + i - 1) > 0) {
@@ -115,9 +115,9 @@ int func_021FAFF0(Menu *m)
     }
     func_021F4FF4(m->cursor, (tbl_022032C6[m->pos].x + 0x10) * 8, tbl_022032C6[m->pos].y * 8);
     if (func_020355C4() == 1) {
-        func_0204B3DC((struct Obj *)m->cursor, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)m->cursor, 0);
     } else {
-        func_0204B3DC((struct Obj *)m->cursor, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)m->cursor, 1);
     }
     m->state = 0xB;
     return -1;

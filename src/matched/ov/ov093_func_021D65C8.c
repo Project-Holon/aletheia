@@ -17,7 +17,7 @@
  *   BTL_POKEPARAM_ClearSubstitute 0x021D6D70 thumb ov093
  *   BTL_POKEPARAM_ClearSickConts 0x021D63B8 thumb ov093
  *   BTL_POKEPARAM_InitStatStages 0x021D53C0 thumb ov093
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 struct Slot {u32 kind:3, rest:29;};
@@ -32,7 +32,7 @@ extern void BTL_POKEPARAM_SetStat(u8 *, int, u16);
 extern void BTL_POKEPARAM_ClearSubstitute(u8 *);
 extern void BTL_POKEPARAM_ClearSickConts(u8 *p, int all);
 extern void BTL_POKEPARAM_InitStatStages(unsigned char *p);
-extern void func_02082BCC(void *, u8, u32);
+extern void MI_CpuFill8(void *, u8, u32);
 void BTL_POKEPARAM_PassEffects(struct Work *p, struct Work *q)
 {
     unsigned long i;
@@ -57,5 +57,5 @@ void BTL_POKEPARAM_PassEffects(struct Work *p, struct Work *q)
     BTL_POKEPARAM_ClearSubstitute((u8 *)q);
     BTL_POKEPARAM_ClearSickConts((void *)q, 0);
     BTL_POKEPARAM_InitStatStages((unsigned char *)((char *)q + 0xfc));
-    func_02082BCC((u8 *)q + 0x155, 0, 2);
+    MI_CpuFill8((u8 *)q + 0x155, 0, 2);
 }

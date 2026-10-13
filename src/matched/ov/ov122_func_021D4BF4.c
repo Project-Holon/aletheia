@@ -9,7 +9,7 @@
  * status: EXACT
  * evidence: unit pkt_ov122_021D4B74 attests callbacks 0x021D4BDC and 0x021D4BF0.
  * symbols:
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_ApplyActorAnimCommand 0x0204BA00 arm
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   func_021D4BDC 0x021D4BDC thumb ov122
@@ -22,7 +22,7 @@ typedef struct { u16 f00; char *f04; void (*f08)(void); } Params;
 typedef unsigned int   u32;
 struct Actor;
 struct Obj;
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 struct Cmd;
 extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
 extern void CLACT_RestartActorAnim(struct Actor *a);
@@ -41,7 +41,7 @@ void func_021D4BF4(char *p)
     if (i == 3) i = 0;
     else if (i == 4) i = 1;
     base = (void **)(p + 0x390);
-    func_0204B92C(base[i], 1);
+    CLACT_SetActorAutoAnim(base[i], 1);
     CLACT_ApplyActorAnimCommand(base[i], (const struct Cmd *)(&args));
     CLACT_RestartActorAnim(base[i]);
     func_021D4244(p, (u32)func_021D4BF0, 0x390);

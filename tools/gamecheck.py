@@ -48,6 +48,28 @@ DEF_RE = re.compile(r'^[ \t]*((?:(?:extern|static)\s+)*)([A-Za-z_][\w\s\*]*?)\b(
                     r'\s*\(([^;{}]*)\)\s*([;{])', re.M)
 
 
+SELF_ROW = re.compile(r'^\s*\*\s+([A-Za-z_]\w*)\s+0[xX]([0-9A-Fa-f]{8})\s+(?:thumb|arm)\b(.*)$')
+
+
+def header_rows(raw):
+    """{name: address} of the code rows (`name 0xADDR thumb|arm [region]`) in the
+    leading comment of a source file.  A row without a region tag, or tagged with
+    the file's own region, may name a function the file defines (a renamed
+    function the layout estimate cannot place)."""
+    m = re.match(r'\s*/\*.*?\*/', raw, re.S)
+    out = {}
+    if not m:
+        return out
+    for line in m.group(0).split('\n'):
+        r = SELF_ROW.match(line)
+        if r:
+            out[r.group(1)] = (int(r.group(2), 16), r.group(3).split())
+    return out
+
+
+ROWDEF = {}   # address -> files defining a function whose header row gives that address
+
+
 def tree_files(tree, region):
     """Paths of the .c files under tree/region (scratch files starting with _ left out)."""
     for dp, _dn, fn in os.walk(os.path.join(tree, region)):
@@ -76,6 +98,7 @@ def defined_in_tree(tree, region, names=None):
     A definition is keyed by the address in its name (func_/sub_XXXXXXXX), else
     by the address `names` (region_names) gives its name, else by its name."""
     out = collections.defaultdict(list)
+    ROWDEF.clear()
     texts = []
     for p in tree_files(tree, region):
         try:
@@ -85,6 +108,7 @@ def defined_in_tree(tree, region, names=None):
         texts.append(raw)
         m = pf.mask(raw)
         tab = pf.depth_table(m)
+        rows = header_rows(raw)
         rel = os.path.relpath(p, ROOT).replace(os.sep, '/')
         for mm in DEF_RE.finditer(m):
             if mm.group(5) != '{' or pf.depth_at(tab, mm.start()) != 0:
@@ -99,6 +123,9 @@ def defined_in_tree(tree, region, names=None):
                 key = names[nm]
             else:
                 key = nm
+            if am is None and nm in rows and (not rows[nm][1] or region in rows[nm][1]):
+                # a renamed function the file defines and gives an address row
+                ROWDEF.setdefault(rows[nm][0], []).append(rel)
             out[key].append(rel)
     return out, '\n'.join(texts)
 
@@ -182,7 +209,7 @@ def main():
         def present(x):
             ent = idx[(region, x)][1]
             nm = ent.get('name')
-            if x in have or nm in have:
+            if x in have or nm in have or x in ROWDEF:
                 return True
             # a unit entry is named after its file; its first listed
             # function is the one at the entry's address (vendor names)

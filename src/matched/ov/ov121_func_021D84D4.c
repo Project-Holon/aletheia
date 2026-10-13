@@ -85,12 +85,12 @@
  *   `adds r1,r6,#0`, as in the original (docs/idioms/a-reload-kept-below-outgoing-stack-
  *   stores-is-a-narrow-local.md read the other way round). Compiles this lane: 3.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02049F34 0x02049F34 arm
  *   func_02082D44 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   func_021D6C58 0x021D6C58 thumb ov121
- *   func_0204B6F4 0x0204B6F4 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   func_020056EC 0x020056EC thumb
  *   func_02012944 0x02012944 thumb
  *   func_02008530 0x02008530 thumb
@@ -125,8 +125,8 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   func_02082A48 0x02082A48 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B688 0x0204B688 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
  *   d_021DF4F2 0x021DF4F2 data a2
  *   d_021DF4FC 0x021DF4FC data a4
  *   GAME_VERSION_Code 0x0209DF08 data
@@ -140,7 +140,7 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct {s16 x,y,z;u8 a,b;} Point;
 typedef struct {u8 iv[6];u16 move[4];Point point;void *resdesc;} Work;
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void *func_02049F34(u32,u32,u32,u32);
 extern void func_02082D44(const void *,void *,int);
 extern u32 func_020307B0(void *p);
@@ -150,7 +150,7 @@ struct Obj;
 struct Sub0200852CObj;
 struct U16Vec;
 extern void *func_021D6C58(u8 *p, int i);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern u32 func_020056EC(u32);
 extern u8 *func_02012944(void *p);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
@@ -187,8 +187,8 @@ extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern void func_02082A48(u32,void *,u32);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern const u16 d_021DF4F2[];
 extern const u32 d_021DF4FC[];
 extern const u8 GAME_VERSION_Code,GAME_LANGUAGE_Code;
@@ -218,7 +218,7 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
     u64 id;
     u32 packed,j,place,value;
     u8 day;
-    func_02082BCC(out,0,300);
+    MI_CpuFill8(out,0,300);
     O(40)=(u32)a6;O(36)=(u32)a5;OH(0)=heap;O(276)=(u32)desc;OH(296)=0;OH(298)=0;
     if(desc[714]) palette=3;
     else palette=d_021DF4F2[desc[179]];
@@ -227,7 +227,7 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
     func_02082D44(base,out+146,32);
     func_02082D44(base+palette*32,out+114,32);
     func_020307B0(buf);
-    for(i=0;i<32;i++) func_0204B6F4(func_021D6C58(list,i+1),(u8)palette,0);
+    for(i=0;i<32;i++) CLACT_SetActorPaletteOffset(func_021D6C58(list,i+1),(u8)palette,0);
     switch(desc[179]) {
     case 1:
         mon=0;
@@ -338,9 +338,9 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
         func_02082A48(32767,PALETTE,32);
         func_02082D44(PALETTE,out+210,32);
     }
-    func_02082BCC(&work.point,0,8);
+    MI_CpuFill8(&work.point,0,8);
     work.point.x=*(s16 *)(out+298)+128;work.point.y=-96;work.point.b=2;
     O(4)=(u32)CLACT_CreateActor((void *)((u32)owner),O(16),O(12),O(20),&work.point,0,heap);
-    func_0204B3DC((void *)O(4),0);
-    if(desc[714]) func_0204B688((void *)O(4),1);
+    CLACT_SetActorDrawEnable((void *)O(4),0);
+    if(desc[714]) CLACT_SetActorObjMode((void *)O(4),1);
 }

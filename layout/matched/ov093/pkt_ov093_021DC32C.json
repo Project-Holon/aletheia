@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DC32C",
-    "func_021DC498"
+    "HAND_TOKUSEI_Moody_RaiseAndLowerStat",
+    "HAND_TOKUSEI_GetMoodyHandlers"
+   ],
+   "addresses": [
+    "0x021DC32C",
+    "0x021DC498"
    ],
    "evidence": {
     "sole-ref": [

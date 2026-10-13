@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1B4
+ * function: BTL_MAIN_TrainerRecordAdd
  * address: 0x021BA1B4
  * packet: pkt_ov093_021BA1B4
  * region: ov093
@@ -18,7 +18,7 @@
 typedef unsigned int u32;
 struct Sub02008C20Obj;
 extern u32 sub_02008DF0(struct Sub02008C20Obj *, int);
-void func_021BA1B4(char **p, int i)
+void BTL_MAIN_TrainerRecordAdd(char **p, int i)
 {
     if (((struct Obj20999 *)(*p))->f23 == 0)
         sub_02008DF0(*(struct Sub02008C20Obj * *)&((struct Obj21000 *)(*p))->f6C, i);

@@ -15,7 +15,7 @@
  *   CLACT_CreateUnit 0x0204B100 arm
  *   BMP_OAM_CreateSys 0x02025538 thumb
  *   func_021B74C8 0x021B74C8 thumb ov180
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  */
 #include "../include/Obj00547.h"
@@ -30,7 +30,7 @@ struct Bank;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 extern void func_021B74C8(int *);
-extern void func_020434DC(unsigned,unsigned);
+extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned,unsigned);
 void func_021B7318(char *p,int mode) {
     if(mode==0) {
@@ -43,5 +43,5 @@ void func_021B7318(char *p,int mode) {
     *(int *)&((struct Obj00547 *)p)->f9044=(int)CLACT_CreateUnit(249,0,141);
     ((struct Obj00547 *)p)->f911C=BMP_OAM_CreateSys(141,((struct Obj00547 *)p)->f9044);
     func_021B74C8((int *)p);
-    func_020434DC(16,1); BG_SYS_SetSubPlaneVisible(16,1);
+    BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
 }

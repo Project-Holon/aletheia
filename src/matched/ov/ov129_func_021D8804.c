@@ -13,7 +13,7 @@
  *   func_02082A7C 0x02082A7C arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414EC 0x020414EC arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   d_021DA800 0x021DA800 data a4
@@ -34,7 +34,7 @@ extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_02082A7C(u32,void *,u32);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u32);
-extern void func_020434DC(u32,u32);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void BG_SYS_SetLcdSwap(u32);
 void func_021D8804(void)
@@ -52,7 +52,7 @@ void func_021D8804(void)
     func_0203FCA0(2,(const struct BgTemplate *)(&main.rows[1]),0);
     func_0203FCA0(3,(const struct BgTemplate *)(&main.rows[2]),0);
     func_020414EC(1); func_020414EC(2); func_020414EC(3);
-    func_020434DC(1,0); func_020434DC(2,1); func_020434DC(4,0); func_020434DC(8,0);
+    BG_SYS_SetMainPlaneVisible(1,0); BG_SYS_SetMainPlaneVisible(2,1); BG_SYS_SetMainPlaneVisible(4,0); BG_SYS_SetMainPlaneVisible(8,0);
     sub=d_021DA698;
     func_0203FCA0(4,(const struct BgTemplate *)(&sub.rows[0]),0);
     func_0203FCA0(5,(const struct BgTemplate *)(&sub.rows[1]),0);
@@ -61,5 +61,5 @@ void func_021D8804(void)
     func_020414EC(4); func_020414EC(5); func_020414EC(6); func_020414EC(7);
     BG_SYS_SetSubPlaneVisible(1,1); BG_SYS_SetSubPlaneVisible(2,1); BG_SYS_SetSubPlaneVisible(4,0); BG_SYS_SetSubPlaneVisible(8,0);
     BG_SYS_SetLcdSwap(0);
-    func_020434DC(16,1); BG_SYS_SetSubPlaneVisible(16,1);
+    BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
 }

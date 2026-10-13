@@ -27,7 +27,7 @@
  *   func_0202F190  0x0202F190  thumb
  *   POKE_TOOL_RecoverAllPP  0x02018198  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
- *   func_0201B9F0  0x0201B9F0  thumb
+ *   POKE_TOOL_HealFull  0x0201B9F0  thumb
  *   gSpeciesNameBank     0x020A7370  data
  *   sSodateyaEggIvIds     0x021DA948  data  ov021  a4
  */
@@ -69,7 +69,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void POKE_TOOL_RecoverAllPP(void *mon);
 extern void POKE_TOOL_RecalcParam(void *mon);
-extern void func_0201B9F0(void *mon);
+extern void POKE_TOOL_HealFull(void *mon);
 extern void *gSpeciesNameBank;
 extern const T6 sSodateyaEggIvIds;
 
@@ -105,5 +105,5 @@ void SODATEYA_SetupEggMon(void *mon, const S *q, void *my, u32 y, u16 heap)
     POKE_TOOL_SetPartyValue(mon, 0x4c, 1);
     POKE_TOOL_RecoverAllPP(mon);
     POKE_TOOL_RecalcParam(mon);
-    func_0201B9F0(mon);
+    POKE_TOOL_HealFull(mon);
 }

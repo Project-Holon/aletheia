@@ -11,14 +11,14 @@
  * lever: the RGB555 lerp is a static inline helper (u16 colour params, as ov105 func_021B8734)
  * symbols:
  *   func_02061CA4 0x02061CA4 arm
- *   tbl_020A1B38 0x020A1B38 data
+ *   FX_SinCosTable_ 0x020A1B38 data
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
 struct Rec { u16 x, y, c, d; };
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 static inline void lerp(u16 *p, int n, u16 a, u16 b)
@@ -41,7 +41,7 @@ void func_021C088C(u16 *ang, u16 *out, struct Rec *recs, u8 count)
         *ang = a - 0xFC00;
     else
         *ang = a + 0x400;
-    t = (tbl_020A1B38[(*ang >> 4) * 2 + 1] + 0x1000) / 2;
+    t = (FX_SinCosTable_[(*ang >> 4) * 2 + 1] + 0x1000) / 2;
     for (i = 0; i < count; i++) {
         lerp(&out[i], t, recs[i].c, recs[i].d);
         func_02061CA4((void *)15, (recs[i].x << 5) + (recs[i].y << 1), (u32)(&out[i]), 2);

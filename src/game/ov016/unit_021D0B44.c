@@ -27,7 +27,7 @@
  *   g_021DA94E  0x021DA94E  data
  *   func_0208F698  0x0208F698  arm
  *   func_0208EBE4  0x0208EBE4  arm
- *   func_0208F400  0x0208F400  arm
+ *   WM_Reset  0x0208F400  arm
  *   WM_End  0x0208F43C  arm
  *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
  *   g_021DE654_b   0x021DE654  data
@@ -130,7 +130,7 @@ extern void *func_021D7680(int kind, void (*func)(void *), void *work, unsigned 
 extern void func_021D6438(void **mem);
 extern int func_0208F698();
 extern int func_0208EBE4(struct WMStatus *statusBuf);
-extern enum WMErrCode func_0208F400(void (*)(void *));
+extern enum WMErrCode WM_Reset(void (*)(void *));
 extern enum WMErrCode WM_End(void (*)(void *));
 extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
 extern void func_02088234(void);
@@ -280,7 +280,7 @@ int func_021D0CEC(void)
     g_021DE654->end = 1;
     func_0208EBE4((struct WMStatus *)(&g_021DE654->status.state));
     if (g_021DE654->status.state != WM_ERRCODE_OPERATING) {
-        rs = func_0208F400(func_021D0DE0);
+        rs = WM_Reset(func_021D0DE0);
         if (rs != WM_ERRCODE_OPERATING)
             return 0;
         do {

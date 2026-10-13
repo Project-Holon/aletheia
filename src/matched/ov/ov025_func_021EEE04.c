@@ -15,7 +15,7 @@
  * symbols:
  *   func_020056EC  0x020056EC  thumb
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   WEATHER_TASK_GetWorkBuffer  0x021A21B8  thumb  ov021
  *   WEATHER_TASK_AddParticle  0x021A21C8  thumb  ov021
  *   WEATHER_TASK_GetParticleWork  0x021A2630  thumb  ov021
@@ -37,7 +37,7 @@ extern u32 func_020056EC(u32 v);
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern int *WEATHER_TASK_GetWorkBuffer(int *p);
 extern void *WEATHER_TASK_AddParticle(void *p, int a1);
 extern unsigned char *WEATHER_TASK_GetParticleWork(unsigned char *o);
@@ -82,6 +82,6 @@ void WEATHER_BLIZZARD_SpawnParticles(int a, int n, u16 idx)
         e[5] = gBlizzardWindSpeedX[k];
         pt.x = -func_020056EC(0x18);
         pt.y = func_020056EC(0xA8) - 0x20;
-        func_0204B404((struct Obj *)h, (const struct Vec2 *)(&pt), 0);
+        CLACT_AddActorSurfacePos((struct Obj *)h, (const struct Vec2 *)(&pt), 0);
     }
 }

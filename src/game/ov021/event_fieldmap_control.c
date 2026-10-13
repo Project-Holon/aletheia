@@ -34,16 +34,16 @@
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_IsSetupDone  0x021903CC  thumb  ov021
  *   FIELD_MSGBG_LoadWindowGraphicsStep  0x021902AC  thumb  ov021
- *   func_0218774C  0x0218774C  thumb  ov020
+ *   EL_SCOREBOARD_StartOnField  0x0218774C  thumb  ov020
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   func_021877A8  0x021877A8  thumb  ov020
+ *   EL_SCOREBOARD_StartOnFieldWithCallback  0x021877A8  thumb  ov020
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *   BG_SYS_GetMainVisiblePlanes  0x02043658  arm
  *   BG_SYS_GetSubVisiblePlanes  0x02043668  arm
  *   FIELDMAP_SetBgMode  0x02188DA0  thumb  ov021
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb
  *   func_020122C0  0x020122C0  thumb
@@ -52,7 +52,7 @@
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback 0x021BE9A0 thumb ov021
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
- *   func_02013FD8  0x02013FD8  thumb
+ *   ZONEDATA_GetExpObjSetId  0x02013FD8  thumb
  *   EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback  0x021BF0E4  thumb  ov021
  *   EVENT_FIELDMAP_CONTROL_RunFadeInWithBgRestore  0x021BF518  thumb  ov021
  *   EVENT_FIELDMAP_CONTROL_RunFadeOut  0x021BEE74  thumb  ov021
@@ -188,8 +188,8 @@ extern void FIELDMAP_ResetBgAffineHideMsg(FieldMap *fieldMap);
 extern struct FieldMsgBg *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
 extern int FIELD_MSGBG_IsSetupDone(struct FieldMsgBg *msgBg);
 extern void FIELD_MSGBG_LoadWindowGraphicsStep(struct FieldMsgBg *msgBg, int step);
-extern GameEvent *func_0218774C(GameSystem *gameSystem, FieldMap *fieldMap, u8 seasonShown, u8 seasonTarget);
-extern GameEvent *func_021877A8(GameSystem *gameSystem, FieldMap *fieldMap, u8 seasonShown, u8 seasonTarget, FieldFadeCallback finishCallback, void *finishCallbackArg);
+extern GameEvent *EL_SCOREBOARD_StartOnField(GameSystem *gameSystem, FieldMap *fieldMap, u8 seasonShown, u8 seasonTarget);
+extern GameEvent *EL_SCOREBOARD_StartOnFieldWithCallback(GameSystem *gameSystem, FieldMap *fieldMap, u8 seasonShown, u8 seasonTarget, FieldFadeCallback finishCallback, void *finishCallbackArg);
 extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
 extern void WIPE_SYS_Start(u32 type, u32 p2, u32 p3, u16 p4, u32 p5, u32 p6, u32 p7);
@@ -197,10 +197,10 @@ extern u32 WIPE_SYS_EndCheck(void);
 extern u32 BG_SYS_GetMainVisiblePlanes(void);
 extern u32 BG_SYS_GetSubVisiblePlanes(void);
 extern void FIELDMAP_SetBgMode(void);
-extern void func_02043534(u32 visiblePlanes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 visiblePlanes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 visiblePlanes);
 extern void FIELDMAP_ResetBgAffineShowMsg(FieldMap *fieldMap);
-extern u8 func_02013FD8(u32 zoneId);
+extern u8 ZONEDATA_GetExpObjSetId(u32 zoneId);
 extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, FieldFadeFunc handler, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
@@ -261,7 +261,7 @@ void EVENT_FIELDMAP_CONTROL_ResetBgAffine(FieldMap *fieldMap);
  */
 int EVENT_FIELDMAP_CONTROL_GetExitEffect(int fromZoneId, u32 toZoneId)
 {
-    return EVENT_FIELDMAP_CONTROL_LookupExitEffect(func_02013FD8(fromZoneId), func_02013FD8(toZoneId));
+    return EVENT_FIELDMAP_CONTROL_LookupExitEffect(ZONEDATA_GetExpObjSetId(fromZoneId), ZONEDATA_GetExpObjSetId(toZoneId));
 }
 
 /*
@@ -269,9 +269,9 @@ int EVENT_FIELDMAP_CONTROL_GetExitEffect(int fromZoneId, u32 toZoneId)
  */
 int EVENT_FIELDMAP_CONTROL_GetEntranceEffect(int fromZoneId, int toZoneId)
 {
-    int fromGroup = func_02013FD8(fromZoneId);
+    int fromGroup = ZONEDATA_GetExpObjSetId(fromZoneId);
 
-    return EVENT_FIELDMAP_CONTROL_LookupEntranceEffect(fromGroup, func_02013FD8(toZoneId));
+    return EVENT_FIELDMAP_CONTROL_LookupEntranceEffect(fromGroup, ZONEDATA_GetExpObjSetId(toZoneId));
 }
 
 /*
@@ -780,7 +780,7 @@ int EVENT_FIELDMAP_CONTROL_RunSeasonFadeIn(GameEvent *event, int *seq, FieldFade
 
     switch (*seq) {
     case SEASON_FADE_STEP_START: {
-        GameEvent *scoreboardEvent = func_0218774C(gameSystem, fieldMap, work->seasonShown, work->seasonTarget);
+        GameEvent *scoreboardEvent = EL_SCOREBOARD_StartOnField(gameSystem, fieldMap, work->seasonShown, work->seasonTarget);
         GAME_EVENT_CallEvent(event, scoreboardEvent);
         *seq = *seq + 1;
         break;
@@ -802,7 +802,7 @@ int EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback(GameEvent *event, int *se
 
     switch (*seq) {
     case SEASON_FADE_STEP_START: {
-        GameEvent *scoreboardEvent = func_021877A8(gameSystem, fieldMap, work->seasonShown, work->seasonTarget, work->finishCallback, work->finishCallbackArg);
+        GameEvent *scoreboardEvent = EL_SCOREBOARD_StartOnFieldWithCallback(gameSystem, fieldMap, work->seasonShown, work->seasonTarget, work->finishCallback, work->finishCallbackArg);
         GAME_EVENT_CallEvent(event, scoreboardEvent);
         *seq = *seq + 1;
         break;
@@ -1093,7 +1093,7 @@ void EVENT_FIELDMAP_CONTROL_ResetBgModeKeepPlanes()
     u32 subPlanes = BG_SYS_GetSubVisiblePlanes();
 
     FIELDMAP_SetBgMode();
-    func_02043534(mainPlanes);
+    BG_SYS_SetMainVisiblePlanes(mainPlanes);
     BG_SYS_SetSubVisiblePlanes(subPlanes);
 }
 

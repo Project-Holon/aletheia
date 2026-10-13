@@ -10,15 +10,15 @@
  * symbols:
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_021DE960 0x021DE960 thumb ov171
- *   func_0203633C 0x0203633C arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetRepeat 0x0203633C arm
+ *   KEY_GetTrg 0x020362DC arm
  *   d_021DED24 0x021DED24 data a4
  */
 typedef unsigned int u32;
 extern int TOUCHPANEL_HitTrg(const void *);
 extern int func_021DE960(char *);
-extern unsigned int func_0203633C(void);
-extern u32 func_020362DC(void);
+extern unsigned int KEY_GetRepeat(void);
+extern u32 KEY_GetTrg(void);
 extern const char d_021DED24[];
 int func_021DE8A8(char *p)
 {
@@ -26,11 +26,11 @@ int func_021DE8A8(char *p)
     if (result == -1) {
         result = func_021DE960(p);
         if (result == 0xFF) {
-            if (func_0203633C() & 0x220) return 0;
-            if (func_0203633C() & 0x110) return 1;
-            if (func_020362DC() & 1) return 4;
-            if (func_020362DC() & 2) return 3;
-            return (func_020362DC() & 0x400) ? 2 : 0xFF;
+            if (KEY_GetRepeat() & 0x220) return 0;
+            if (KEY_GetRepeat() & 0x110) return 1;
+            if (KEY_GetTrg() & 1) return 4;
+            if (KEY_GetTrg() & 2) return 3;
+            return (KEY_GetTrg() & 0x400) ? 2 : 0xFF;
         }
     }
     return result;

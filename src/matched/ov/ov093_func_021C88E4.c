@@ -1,5 +1,5 @@
 /*
- * function: func_021C88E4
+ * function: BTL_SERVER_FLOW_GetLockState
  * address:  0x021C88E4
  * packet:   pkt_ov093_021C88E4
  * region:   ov093
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CC96C  0x021CC96C  thumb  ov093
- *   func_021CC9A4  0x021CC9A4  thumb  ov093
+ *   BTL_SERVER_FLOW_IsHandExScopeActive  0x021CC96C  thumb  ov093
+ *   BTL_SERVER_FLOW_IsHandExScopeInterrupted  0x021CC9A4  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 struct Q9;
-extern int func_021CC96C(struct Q9 *p);
-extern u32 func_021CC9A4(u32 *p);
+extern int BTL_SERVER_FLOW_IsHandExScopeActive(struct Q9 *p);
+extern u32 BTL_SERVER_FLOW_IsHandExScopeInterrupted(u32 *p);
 
-int func_021C88E4(u8 *p)
+int BTL_SERVER_FLOW_GetLockState(u8 *p)
 {
-    if (func_021CC96C((struct Q9 *)(p + 0x1D74)) != 0) {
-        if (func_021CC9A4((u32 *)(p + 0x1D74)) != 0) return 2;
+    if (BTL_SERVER_FLOW_IsHandExScopeActive((struct Q9 *)(p + 0x1D74)) != 0) {
+        if (BTL_SERVER_FLOW_IsHandExScopeInterrupted((u32 *)(p + 0x1D74)) != 0) return 2;
         return 1;
     }
     return 0;

@@ -14,7 +14,7 @@
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
  *   func_0218A0F4  0x0218A0F4  thumb  ov096
- *   func_021C81C8  0x021C81C8  thumb  ov093
+ *   BTL_SERVER_FLOW_CalcPokeSpeedWrapper  0x021C81C8  thumb  ov093
  */
 #include "../include/Obj06341.h"
 
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern int func_0218A0F4(u8 *, int, int, int, int);
-extern u16 func_021C81C8(u8 *, u8 *, int);
+extern u16 BTL_SERVER_FLOW_CalcPokeSpeedWrapper(u8 *, u8 *, int);
 
 int func_02188E24(struct Cursor *a, u8 *b)
 {
@@ -36,8 +36,8 @@ int func_02188E24(struct Cursor *a, u8 *b)
 
     k = VM_GetU32(a);
     m = VM_GetU32(a);
-    x = func_021C81C8(*(u8 * *)&((struct Obj06341 *)b)->fB4, *(u8 * *)&((struct Obj06341 *)b)->fBC, 1);
-    y = func_021C81C8(*(u8 * *)&((struct Obj06341 *)b)->fB4, *(u8 * *)&((struct Obj06341 *)b)->fC0, 1);
+    x = BTL_SERVER_FLOW_CalcPokeSpeedWrapper(*(u8 * *)&((struct Obj06341 *)b)->fB4, *(u8 * *)&((struct Obj06341 *)b)->fBC, 1);
+    y = BTL_SERVER_FLOW_CalcPokeSpeedWrapper(*(u8 * *)&((struct Obj06341 *)b)->fB4, *(u8 * *)&((struct Obj06341 *)b)->fC0, 1);
     switch (k) {
     case 0:
         k = 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021775AC
+ * function: NET_WHPIPE_ForwardEvent
  * address: 0x021775AC
  * packet: pkt_ov014_021775AC
  * region: ov014
@@ -19,7 +19,7 @@
 
 typedef unsigned char u8;
 extern struct W *g_pWhPipeWork;
-int func_021775AC(int a, int b, int c)
+int NET_WHPIPE_ForwardEvent(int a, int b, int c)
 {
     return (*(int (**)(int, int, int))(((u8 *)g_pWhPipeWork) + 4))(a,b,c);
 }

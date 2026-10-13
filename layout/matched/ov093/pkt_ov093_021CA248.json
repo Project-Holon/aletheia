@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CA248",
+   "name": "BTL_SERVER_FLOW_ProcHandExRollFlinch",
    "address": "0x021CA248",
    "kind": "game",
    "region": "ov093",

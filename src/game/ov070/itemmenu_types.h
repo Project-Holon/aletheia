@@ -16,7 +16,7 @@ typedef struct BagSlot {
 /* Text window handle plus a flag: set when the window still has to be
  * flushed to VRAM after printing. */
 typedef struct ItemMenuWindow {
-    unsigned int window;
+    struct BmpWin *window;
     unsigned char isDirty;
     unsigned char reserved[3];
 } ItemMenuWindow;
@@ -29,10 +29,22 @@ typedef struct ItemMenuListEntry {
 } ItemMenuListEntry;
 
 struct Actor;
+struct BmpWin;
 struct Bmp;
 struct BlinkPalAnm;
 struct MsgBank;
 struct WordSet;
+struct Strbuf;
+struct GameData;
+struct MyStatus;
+struct PalAnmSlot;
+struct PrintSys;
+struct TaskMenuRes;
+struct Tcbl;
+struct KeyCursor;
+struct TextStream;
+struct TcblTask;
+struct ButtonTask;
 struct TaskMenu;
 struct ItemMenuWork;
 typedef void (*ItemMenuTaskFn)(struct ItemMenuWork *);
@@ -70,9 +82,9 @@ enum {
 #define ITEMMENU_KEY_L 0x200
 
 typedef struct ItemMenuWork {
-    /* 0x000 */ void *saveData;
+    /* 0x000 */ struct GameData *saveData;
     /* 0x004 */ void *optionsSave;
-    /* 0x008 */ void *myStatus;
+    /* 0x008 */ struct MyStatus *myStatus;
     /* 0x00C */ void *actionPermissions;
     /* 0x010 */ int bagMode;
     /* 0x014 */ void *bagCursor;
@@ -81,15 +93,15 @@ typedef struct ItemMenuWork {
     /* 0x020 */ BagSlot items[ITEMMENU_POCKET_ITEM_COUNT];
     /* 0x4F8 */ ItemMenuTaskFn taskFn;
     /* 0x4FC */ ItemMenuWindow messageWindows[2];
-    /* 0x50C */ void *printSys;
-    /* 0x510 */ int messageWindow;
+    /* 0x50C */ struct PrintSys *printSys;
+    /* 0x510 */ struct TextStream *messageWindow;
     /* 0x514 */ int messageWindowOpen;
-    /* 0x518 */ unsigned int itemDescWindow;
+    /* 0x518 */ struct KeyCursor *itemDescWindow;
     /* 0x51C */ struct MsgBank *msgBank;
     /* 0x520 */ struct WordSet *wordSet;
-    /* 0x524 */ void *tempString;
-    /* 0x528 */ void *messageString;
-    /* 0x52C */ void *listStrings;
+    /* 0x524 */ struct Strbuf *tempString;
+    /* 0x528 */ struct Strbuf *messageString;
+    /* 0x52C */ struct Strbuf *listStrings;
     /* 0x530 */ unsigned int menuTaskArg;
     /* 0x534 */ unsigned char reserved534[0x10];
     /* 0x544 */ unsigned short heapId;
@@ -124,8 +136,8 @@ typedef struct ItemMenuWork {
     /* 0x634 */ struct Actor *slotActorA[8];
     /* 0x654 */ unsigned int slotAnimIndex[8];
     /* 0x674 */ struct Actor *slotActorC[8];
-    /* 0x694 */ void *taskSys;
-    /* 0x698 */ unsigned int unitList;
+    /* 0x694 */ struct ButtonTask *taskSys;
+    /* 0x698 */ struct TcblTask *unitList;
     /* 0x69C */ void *clactSys;
     /* 0x6A0 */ struct Actor *movingCursorActor;
     /* 0x6A4 */ struct Actor *selectorActor;
@@ -137,11 +149,11 @@ typedef struct ItemMenuWork {
     /* 0x724 */ struct Actor *listWindowA;
     /* 0x728 */ struct Actor *listWindowB;
     /* 0x72C */ struct Actor *inputGuard;
-    /* 0x730 */ int touchTask;
+    /* 0x730 */ struct Tcbl *touchTask;
     /* 0x734 */ ItemMenuWindow listWindows[ITEMMENU_LIST_WINDOW_COUNT];
     /* 0x77C */ struct TaskMenu *menuList;
     /* 0x780 */ ItemMenuListEntry listEntries[8];
-    /* 0x7E0 */ int taskMenuState;
+    /* 0x7E0 */ struct TaskMenuRes *taskMenuState;
     /* 0x7E4 */ unsigned char reserved7E4[0x8];
     /* 0x7EC */ int listMode;
     /* 0x7F0 */ int repeatCount;
@@ -166,7 +178,7 @@ typedef struct ItemMenuWork {
     /* 0x848 */ unsigned int usageContext;
     /* 0x84C */ int selectedItemId;
     /* 0x850 */ struct BlinkPalAnm *blinkPalAnm;
-    /* 0x854 */ void *palAnmSlot;
+    /* 0x854 */ struct PalAnmSlot *palAnmSlot;
     /* 0x858 */ int currentPage;
     /* 0x85C */ unsigned int isTouchActive;
     /* 0x860 */ unsigned int isDraggingItem;

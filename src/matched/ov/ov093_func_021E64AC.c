@@ -1,5 +1,5 @@
 /*
- * function: func_021E64AC
+ * function: HAND_WAZA_AddRazorWind
  * address: 0x021E64AC
  * packet: pkt_ov093_021E64AC
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E63BC.c and filed here.
  *
  * symbols:
- *   d_021F27D4 0x021F27D4 data ov093 a4
+ *   gRazorWindHandlers 0x021F27D4 data ov093 a4
  */
 
-int *func_021E64AC(int *p);
-extern int d_021F27D4[];
+int *HAND_WAZA_AddRazorWind(int *p);
+extern int gRazorWindHandlers[];
 
-int *func_021E64AC(int *p)
+int *HAND_WAZA_AddRazorWind(int *p)
 {
     *p = 1;
-    return d_021F27D4;
+    return gRazorWindHandlers;
 }

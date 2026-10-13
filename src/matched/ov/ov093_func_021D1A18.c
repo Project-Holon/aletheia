@@ -1,5 +1,5 @@
 /*
- * function: func_021D1A18
+ * function: BTL_CLIENT_StepShowFixedMessage
  * address:  0x021D1A18
  * packet:   pkt_ov093_021D1A18
  * region:   ov093
@@ -33,7 +33,7 @@ struct H;
 extern void func_021EA614(char *p, struct H *h);
 extern int func_021EA710(u32 *p);
 
-int func_021D1A18(BattleSeq *s, int *state)
+int BTL_CLIENT_StepShowFixedMessage(BattleSeq *s, int *state)
 {
     switch (*state) {
     case 0:

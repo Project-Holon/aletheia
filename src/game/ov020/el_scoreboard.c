@@ -1,7 +1,7 @@
 /*
  * file:     el_scoreboard.c
  * unit:     yes
- * function: func_021875F4, func_02187684, func_0218768C, func_021876B0, func_021876E0, func_0218774C, func_021877A8, func_02187808, func_02187860, func_02187884, func_021878C0, func_02187914, func_02187938, func_0218793C, func_0218794C, func_02187A10, func_02187A38, func_02187B38, func_02187BBC, func_02187C20, func_02187CCC, func_02187CEC, func_02187CFC, func_02187D20, func_02187D24, func_02187D28, func_02187D30, func_02187D40, func_02187D54, func_02187D74, func_02187D94
+ * function: EL_SCOREBOARD_CreateLamp, EL_SCOREBOARD_DeleteLamp, EL_SCOREBOARD_TickLamp, EL_SCOREBOARD_AnimateLampPalette, EL_SCOREBOARD_EventMain, EL_SCOREBOARD_StartOnField, EL_SCOREBOARD_StartOnFieldWithCallback, EL_SCOREBOARD_StartStandalone, EL_SCOREBOARD_SetupDisplay, EL_SCOREBOARD_SetupSharedDisplay, EL_SCOREBOARD_SetupStandaloneDisplay, EL_SCOREBOARD_TeardownDisplay, EL_SCOREBOARD_TeardownSharedDisplay, EL_SCOREBOARD_TeardownStandaloneDisplay, EL_SCOREBOARD_LoadSeasonGraphics, EL_SCOREBOARD_UpdateFade, EL_SCOREBOARD_UpdateFadeShared, EL_SCOREBOARD_UpdateFadeStandalone, EL_SCOREBOARD_GetNextState, EL_SCOREBOARD_EnterState, EL_SCOREBOARD_AdvanceState, EL_SCOREBOARD_OnStart, EL_SCOREBOARD_OnFinish, EL_SCOREBOARD_GetMode, EL_SCOREBOARD_IsFinishRequested, EL_SCOREBOARD_RequestFinish, EL_SCOREBOARD_IsStateDone, EL_SCOREBOARD_GetFadeInDuration, EL_SCOREBOARD_GetFadeOutDuration, EL_SCOREBOARD_GetHoldDuration, EL_SCOREBOARD_CallFinishCallback
  * address:  0x021875F4
  * region:   ov020
  * compiler: dsi/1.1p1
@@ -15,11 +15,11 @@
  * symbols:
  *   GAME_DATA_GetEntranceLocation  0x02012870  thumb
  *   GAME_DATA_GetStartLocation  0x0201284C  thumb
- *   func_02014068  0x02014068  thumb
+ *   ZONEDATA_IsParentZoneD6  0x02014068  thumb
  *   GAME_DATA_SetEscapeLocation  0x020128C0  thumb
  *   ZONEDATA_SetZoneStartLocation  0x02014204  thumb
- *   func_02013C50  0x02013C50  thumb
- *   func_02013FEC 0x02013FEC thumb
+ *   ZONEDATA_IsWeatherEnabled  0x02013C50  thumb
+ *   ZONEDATA_IsZoneInTableDFDC 0x02013FEC thumb
  *   GAME_DATA_GetSpecialLocation 0x02012894 thumb
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetPlayerObjectCode 0x02012B28 thumb
@@ -44,7 +44,7 @@
  *   d_02187DAC  0x02187DAC  data  ov020  a4
  *   d_02187DB4  0x02187DB4  data  ov020  a4
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0201AD0C 0x0201AD0C thumb
+ *   POKEPARTY_GetSaveData 0x0201AD0C thumb
  *   GAME_DATA_GetSeason 0x02012984 thumb
  *   func_02008B14 0x02008B14 thumb
  *   FORMCHANGE_RevertShayminAtNight 0x0216A358 thumb ov010
@@ -102,9 +102,9 @@
  *   FIELDMAP_GetGameSystem 0x02188C80 thumb ov021
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_0203F4E4  0x0203F4E4  arm
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   FIELD_WFBC_GetCityType  0x0219391C  thumb  ov021
  *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
@@ -138,7 +138,7 @@
  *   FIELD_MSGBG_AddTalkWin  0x0219129C  thumb  ov021
  *   d_02187E04     0x02187E04  data  ov020  a2
  *   FIELD_MSGBG_TalkWinMain  0x02191388  thumb  ov021
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   FIELD_MSGBG_CreateYesNoMenu  0x02190BE4  thumb  ov021
  *   FIELD_MSGBG_YesNoMenuMain  0x02190C78  thumb  ov021
  *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
@@ -154,7 +154,7 @@
  *   func_0202E8B8  0x0202E8B8  thumb
  *   BG_SYS_GetMainVisiblePlanes 0x02043658 arm
  *   FIELDMAP_SetBgMode 0x02188DA0 thumb ov021
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   func_0204047C 0x0204047C arm
  *   func_020414AC 0x020414AC arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
@@ -216,7 +216,7 @@ extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, unsigned int membe
 u16 FIELDMAP_GetHeapId(u8 *p);
 struct GameEvent *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct GameEvent *p);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int WAZA_OSHIE_GetTexFormatCount(void);
 extern int WAZA_OSHIE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, u32 a4, u16 a5, u16 a6, u16 a7, u16 heap, struct TexKey *out);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
@@ -224,7 +224,7 @@ extern u32 *func_020124EC(struct GameEvent *p);
 extern u8 func_0202E8B8(int);
 extern u32 BG_SYS_GetMainVisiblePlanes(void);
 extern void FIELDMAP_SetBgMode(void);
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_020414AC(int a);
 void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -252,44 +252,44 @@ u8 func_0202E8A4(u8 x);
 void func_02040588(unsigned char which, unsigned char enable);
 void FIELDMAP_ResetBgAffineShowMsg(u8 *a);
 extern void FIELDMAP_SetSubscreenBusy(char *p, int v);
-ElLamp *func_021875F4(void *archive, const char *texName, const char *plttName, u32 texFormat, ElTexParams loadParams);
-void func_02187684(ElLamp *lamp);
-void func_0218768C(ElLamp *lamp);
-void func_021876B0(ElLampPaletteRef *paletteRef, int tick);
-int func_021876E0(void *eventTask, int *state, ElScoreboardWork *work);
-void *func_0218774C(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason);
-void *func_021877A8(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason, ElScoreboardCallback finishCallback, int finishCallbackArg);
-void *func_02187808(void *p, u8 shownSeason, u8 targetSeason);
-void func_02187860(ElScoreboardWork *work);
-void func_02187884(ElScoreboardWork *work);
-void func_021878C0(ElScoreboardWork *work);
-void func_02187914(ElScoreboardWork *work);
-void func_02187938(ElScoreboardWork *work);
-void func_0218793C(ElScoreboardWork *work);
-void func_0218794C(int season, int heapId);
-void func_02187A10(ElScoreboardWork *work, int state);
-void func_02187A38(const ElScoreboardWork *work, int state);
-void func_02187B38(ElScoreboardWork *work, int state);
-int func_02187BBC(ElScoreboardWork *work, int state);
-void func_02187C20(ElScoreboardWork *work, int *statePtr, int state);
-void func_02187CCC(ElScoreboardWork *work, int *statePtr);
-void func_02187CEC(ElScoreboardWork *work);
-void func_02187CFC(ElScoreboardWork *work);
-u32 func_02187D20(ElScoreboardWork *work);
-u32 func_02187D24(ElScoreboardWork *work);
-void func_02187D28(ElScoreboardWork *work);
-int func_02187D30(ElScoreboardWork *work);
-int func_02187D40(ElScoreboardWork *work);
-int func_02187D54(ElScoreboardWork *work);
-int func_02187D74(ElScoreboardWork *work);
-void func_02187D94(ElScoreboardWork *work);
+ElLamp *EL_SCOREBOARD_CreateLamp(void *archive, const char *texName, const char *plttName, u32 texFormat, ElTexParams loadParams);
+void EL_SCOREBOARD_DeleteLamp(ElLamp *lamp);
+void EL_SCOREBOARD_TickLamp(ElLamp *lamp);
+void EL_SCOREBOARD_AnimateLampPalette(ElLampPaletteRef *paletteRef, int tick);
+int EL_SCOREBOARD_EventMain(void *eventTask, int *state, ElScoreboardWork *work);
+void *EL_SCOREBOARD_StartOnField(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason);
+void *EL_SCOREBOARD_StartOnFieldWithCallback(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason, ElScoreboardCallback finishCallback, int finishCallbackArg);
+void *EL_SCOREBOARD_StartStandalone(void *p, u8 shownSeason, u8 targetSeason);
+void EL_SCOREBOARD_SetupDisplay(ElScoreboardWork *work);
+void EL_SCOREBOARD_SetupSharedDisplay(ElScoreboardWork *work);
+void EL_SCOREBOARD_SetupStandaloneDisplay(ElScoreboardWork *work);
+void EL_SCOREBOARD_TeardownDisplay(ElScoreboardWork *work);
+void EL_SCOREBOARD_TeardownSharedDisplay(ElScoreboardWork *work);
+void EL_SCOREBOARD_TeardownStandaloneDisplay(ElScoreboardWork *work);
+void EL_SCOREBOARD_LoadSeasonGraphics(int season, int heapId);
+void EL_SCOREBOARD_UpdateFade(ElScoreboardWork *work, int state);
+void EL_SCOREBOARD_UpdateFadeShared(const ElScoreboardWork *work, int state);
+void EL_SCOREBOARD_UpdateFadeStandalone(ElScoreboardWork *work, int state);
+int EL_SCOREBOARD_GetNextState(ElScoreboardWork *work, int state);
+void EL_SCOREBOARD_EnterState(ElScoreboardWork *work, int *statePtr, int state);
+void EL_SCOREBOARD_AdvanceState(ElScoreboardWork *work, int *statePtr);
+void EL_SCOREBOARD_OnStart(ElScoreboardWork *work);
+void EL_SCOREBOARD_OnFinish(ElScoreboardWork *work);
+u32 EL_SCOREBOARD_GetMode(ElScoreboardWork *work);
+u32 EL_SCOREBOARD_IsFinishRequested(ElScoreboardWork *work);
+void EL_SCOREBOARD_RequestFinish(ElScoreboardWork *work);
+int EL_SCOREBOARD_IsStateDone(ElScoreboardWork *work);
+int EL_SCOREBOARD_GetFadeInDuration(ElScoreboardWork *work);
+int EL_SCOREBOARD_GetFadeOutDuration(ElScoreboardWork *work);
+int EL_SCOREBOARD_GetHoldDuration(ElScoreboardWork *work);
+void EL_SCOREBOARD_CallFinishCallback(ElScoreboardWork *work);
 extern int EL_SCOREBOARD_SourceFileName;
 extern int EL_SCOREBOARD_LampPaletteColors[];
 extern char EL_SCOREBOARD_VramBankConfig[];
 extern char EL_SCOREBOARD_DispConfig[];
 extern char EL_SCOREBOARD_BgTemplate[];
 
-ElLamp *func_021875F4(void *archive, const char *texName, const char *plttName, u32 texFormat, ElTexParams loadParams)
+ElLamp *EL_SCOREBOARD_CreateLamp(void *archive, const char *texName, const char *plttName, u32 texFormat, ElTexParams loadParams)
 {
     ElTexResult loaded;
     ElLamp *lamp;
@@ -312,12 +312,12 @@ ElLamp *func_021875F4(void *archive, const char *texName, const char *plttName, 
     return lamp;
 }
 
-void func_02187684(ElLamp *lamp) { func_020307B0(lamp); }
+void EL_SCOREBOARD_DeleteLamp(ElLamp *lamp) { func_020307B0(lamp); }
 
 /*
  * lever: capture the base in a local before filling the stack pair, preserving the original r3 load.
  */
-void func_0218768C(ElLamp *lamp)
+void EL_SCOREBOARD_TickLamp(ElLamp *lamp)
 {
     ElLampPaletteRef pair;
     char *base;
@@ -326,53 +326,53 @@ void func_0218768C(ElLamp *lamp)
     if (base != (char *)-1) {
         pair.index = lamp->plttSlot;
         pair.base = base;
-        func_021876B0(&pair, lamp->tick);
+        EL_SCOREBOARD_AnimateLampPalette(&pair, lamp->tick);
     }
 }
 
-void func_021876B0(ElLampPaletteRef *paletteRef, int tick)
+void EL_SCOREBOARD_AnimateLampPalette(ElLampPaletteRef *paletteRef, int tick)
 {
     func_02061CA4((void *)1, (u32)(paletteRef->base + (u16)paletteRef->index * 8), EL_SCOREBOARD_LampPaletteColors[(tick & 31) / 8], 8);
 }
 
-int func_021876E0(void *eventTask, int *state, ElScoreboardWork *work)
+int EL_SCOREBOARD_EventMain(void *eventTask, int *state, ElScoreboardWork *work)
 {
     switch (*state) {
-    case 0: func_02187CEC(work); break;
+    case 0: EL_SCOREBOARD_OnStart(work); break;
     case 1: case 3: break;
-    case 2: func_02187A10(work, *state); break;
-    case 4: func_02187A10(work, *state); break;
-    case 5: func_02187CFC(work); return 1;
+    case 2: EL_SCOREBOARD_UpdateFade(work, *state); break;
+    case 4: EL_SCOREBOARD_UpdateFade(work, *state); break;
+    case 5: EL_SCOREBOARD_OnFinish(work); return 1;
     }
-    if (func_020362DC() & 1) { if (func_02187D20(work) == 0) func_02187D28(work); }
+    if (KEY_GetTrg() & 1) { if (EL_SCOREBOARD_GetMode(work) == 0) EL_SCOREBOARD_RequestFinish(work); }
     work->stateTimer = work->stateTimer + 1;
-    func_02187CCC(work, state);
+    EL_SCOREBOARD_AdvanceState(work, state);
     return 0;
 }
 
 /*
- * shownSeason must be u8 (as in the twin func_02187808): with an int the scheduler
+ * shownSeason must be u8 (as in the twin EL_SCOREBOARD_StartStandalone): with an int the scheduler
  * hoists its spilled reload above the strb of targetSeason.
  */
-void *func_0218774C(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason)
+void *EL_SCOREBOARD_StartOnField(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason)
 {
-    void *eventTask = func_020122C0(gameSystem, 0, func_021876E0, 0x28);
+    void *eventTask = func_020122C0(gameSystem, 0, EL_SCOREBOARD_EventMain, 0x28);
     ElScoreboardWork *work = func_020124E8(eventTask);
     u32 *statePtr = func_020124EC(eventTask);
     work->gameSystem = gameSystem; work->fieldMap = fieldMap; work->heapId = FIELDMAP_GetHeapId((u8 *)fieldMap); work->mode = 0; work->finished = 0;
     work->targetSeason = targetSeason; work->shownSeason = func_0202E8B8(shownSeason); work->finishCallback = 0; work->finishCallbackArg = 0;
-    func_02187C20(work, (int *)statePtr, 0);
+    EL_SCOREBOARD_EnterState(work, (int *)statePtr, 0);
     return eventTask;
 }
 
-void *func_021877A8(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason, ElScoreboardCallback finishCallback, int finishCallbackArg)
+void *EL_SCOREBOARD_StartOnFieldWithCallback(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason, ElScoreboardCallback finishCallback, int finishCallbackArg)
 {
-    void *eventTask = func_020122C0(gameSystem, 0, func_021876E0, 0x28);
+    void *eventTask = func_020122C0(gameSystem, 0, EL_SCOREBOARD_EventMain, 0x28);
     ElScoreboardWork *work = func_020124E8(eventTask);
     u32 *statePtr = func_020124EC(eventTask);
     work->gameSystem = gameSystem; work->fieldMap = fieldMap; work->heapId = FIELDMAP_GetHeapId((u8 *)fieldMap); work->mode = 0; work->finished = 0;
     work->targetSeason = targetSeason; work->shownSeason = func_0202E8B8(shownSeason); work->finishCallback = finishCallback; work->finishCallbackArg = finishCallbackArg;
-    func_02187C20(work, (int *)statePtr, 0);
+    EL_SCOREBOARD_EnterState(work, (int *)statePtr, 0);
     return eventTask;
 }
 
@@ -382,9 +382,9 @@ void *func_021877A8(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetS
  * (targetSeason either int or u8) the scheduler hoists the spilled reload
  * above the strb of targetSeason.
  */
-void *func_02187808(void *gameSystem, u8 shownSeason, u8 targetSeason)
+void *EL_SCOREBOARD_StartStandalone(void *gameSystem, u8 shownSeason, u8 targetSeason)
 {
-    void *eventTask = func_020122C0(gameSystem, 0, func_021876E0, 0x28);
+    void *eventTask = func_020122C0(gameSystem, 0, EL_SCOREBOARD_EventMain, 0x28);
     ElScoreboardWork *work = func_020124E8(eventTask);
     void *stateNum = func_020124EC(eventTask);
 
@@ -397,24 +397,24 @@ void *func_02187808(void *gameSystem, u8 shownSeason, u8 targetSeason)
     work->shownSeason = func_0202E8B8(shownSeason);
     work->finishCallback = 0;
     work->finishCallbackArg = 0;
-    func_02187C20(work, stateNum, 0);
+    EL_SCOREBOARD_EnterState(work, stateNum, 0);
     return eventTask;
 }
 
-void func_02187860(ElScoreboardWork *work)
+void EL_SCOREBOARD_SetupDisplay(ElScoreboardWork *work)
 {
-    switch (func_02187D20(work)) {
-    case 0: func_02187884(work); break;
-    case 1: func_021878C0(work); break;
+    switch (EL_SCOREBOARD_GetMode(work)) {
+    case 0: EL_SCOREBOARD_SetupSharedDisplay(work); break;
+    case 1: EL_SCOREBOARD_SetupStandaloneDisplay(work); break;
     }
 }
 
-void func_02187884(ElScoreboardWork *work)
+void EL_SCOREBOARD_SetupSharedDisplay(ElScoreboardWork *work)
 {
     int planes;
     planes = BG_SYS_GetMainVisiblePlanes();
     FIELDMAP_SetBgMode();
-    func_02043534(planes);
+    BG_SYS_SetMainVisiblePlanes(planes);
     func_0204047C(0, 1);
     func_0204047C(3, 0);
     func_0204047C(1, 3);
@@ -422,7 +422,7 @@ void func_02187884(ElScoreboardWork *work)
     func_020414AC(3);
 }
 
-void func_021878C0(ElScoreboardWork *work)
+void EL_SCOREBOARD_SetupStandaloneDisplay(ElScoreboardWork *work)
 {
     BG_SYS_SetVramBanks((const struct DispVram *)EL_SCOREBOARD_VramBankConfig);
     func_0203F8F4(work->heapId);
@@ -435,28 +435,28 @@ void func_021878C0(ElScoreboardWork *work)
     func_020414AC(3);
 }
 
-void func_02187914(ElScoreboardWork *work)
+void EL_SCOREBOARD_TeardownDisplay(ElScoreboardWork *work)
 {
-    switch (func_02187D20(work)) {
-    case 0: func_02187938(work); break;
-    case 1: func_0218793C(work); break;
+    switch (EL_SCOREBOARD_GetMode(work)) {
+    case 0: EL_SCOREBOARD_TeardownSharedDisplay(work); break;
+    case 1: EL_SCOREBOARD_TeardownStandaloneDisplay(work); break;
     }
 }
 
-void func_02187938(ElScoreboardWork *work)
+void EL_SCOREBOARD_TeardownSharedDisplay(ElScoreboardWork *work)
 {
 }
 
 /*
  * \n * symbols:\n *   func_020403F4  0x020403F4  arm\n *   func_0203F9B4  0x0203F9B4  arm\n
  */
-void func_0218793C(ElScoreboardWork *work)
+void EL_SCOREBOARD_TeardownStandaloneDisplay(ElScoreboardWork *work)
 {
     func_020403F4(3);
     func_0203F9B4();
 }
 
-void func_0218794C(int season, int heapId)
+void EL_SCOREBOARD_LoadSeasonGraphics(int season, int heapId)
 {
     int *palFile;
     int *charFile;
@@ -496,11 +496,11 @@ void func_0218794C(int season, int heapId)
     ARC_TOOL_DeleteHandle(archive);
 }
 
-void func_02187A10(ElScoreboardWork *work, int state)
+void EL_SCOREBOARD_UpdateFade(ElScoreboardWork *work, int state)
 {
-    switch (func_02187D20(work)) {
-    case 0: func_02187A38(work, state); break;
-    case 1: func_02187B38(work, state); break;
+    switch (EL_SCOREBOARD_GetMode(work)) {
+    case 0: EL_SCOREBOARD_UpdateFadeShared(work, state); break;
+    case 1: EL_SCOREBOARD_UpdateFadeStandalone(work, state); break;
     }
 }
 
@@ -512,7 +512,7 @@ void func_02187A10(ElScoreboardWork *work, int state)
  * store, so that store is scheduled last (+0x7E). With a plain `char *` it
  * moves up to +0x78 (8 bytes out); const casts on the loads alone do not.
  */
-void func_02187A38(const ElScoreboardWork *work, int state)
+void EL_SCOREBOARD_UpdateFadeShared(const ElScoreboardWork *work, int state)
 {
     int alpha;
 
@@ -532,7 +532,7 @@ void func_02187A38(const ElScoreboardWork *work, int state)
     }
 }
 
-void func_02187B38(ElScoreboardWork *work, int state)
+void EL_SCOREBOARD_UpdateFadeStandalone(ElScoreboardWork *work, int state)
 {
     u32 elapsed, ratio;
 
@@ -553,7 +553,7 @@ void func_02187B38(ElScoreboardWork *work, int state)
     }
 }
 
-int func_02187BBC(ElScoreboardWork *work, int state)
+int EL_SCOREBOARD_GetNextState(ElScoreboardWork *work, int state)
 {
     switch (state) {
     case 0:
@@ -563,15 +563,15 @@ int func_02187BBC(ElScoreboardWork *work, int state)
         state = 2;
         break;
     case 2:
-        if (func_02187D30(work) == 1)
+        if (EL_SCOREBOARD_IsStateDone(work) == 1)
             state = 3;
         break;
     case 3:
-        if (func_02187D30(work) == 1 || func_02187D24(work) == 1)
+        if (EL_SCOREBOARD_IsStateDone(work) == 1 || EL_SCOREBOARD_IsFinishRequested(work) == 1)
             state = 4;
         break;
     case 4:
-        if (func_02187D30(work) == 1) {
+        if (EL_SCOREBOARD_IsStateDone(work) == 1) {
             state = 5;
             if (work->targetSeason != work->shownSeason)
                 state = 1;
@@ -583,32 +583,32 @@ int func_02187BBC(ElScoreboardWork *work, int state)
     return state;
 }
 
-void func_02187C20(ElScoreboardWork *work, int *statePtr, int state)
+void EL_SCOREBOARD_EnterState(ElScoreboardWork *work, int *statePtr, int state)
 {
     switch (state) {
     case 0:
-        func_02187860(work);
+        EL_SCOREBOARD_SetupDisplay(work);
         break;
     case 1:
         work->shownSeason = func_0202E8A4(work->shownSeason);
-        func_0218794C(work->shownSeason, work->heapId);
+        EL_SCOREBOARD_LoadSeasonGraphics(work->shownSeason, work->heapId);
         break;
     case 2:
         func_02040588(3, 1);
         func_02040588(0, 0);
         func_0207D534((volatile u16 *)0x0400006C, 0);
         func_0207D658(0x04000050, 8, -16);
-        work->stateDuration = func_02187D40(work);
+        work->stateDuration = EL_SCOREBOARD_GetFadeInDuration(work);
         break;
     case 3:
-        work->stateDuration = func_02187D74(work);
+        work->stateDuration = EL_SCOREBOARD_GetHoldDuration(work);
         break;
     case 4:
-        work->stateDuration = func_02187D54(work);
-        if (func_02187D20(work) == 0 && work->shownSeason == work->targetSeason) {
+        work->stateDuration = EL_SCOREBOARD_GetFadeOutDuration(work);
+        if (EL_SCOREBOARD_GetMode(work) == 0 && work->shownSeason == work->targetSeason) {
             FIELDMAP_ResetBgAffineShowMsg((u8 *)work->fieldMap);
             func_02040588(3, 1);
-            func_02187D94(work);
+            EL_SCOREBOARD_CallFinishCallback(work);
         }
         break;
     case 5:
@@ -618,15 +618,15 @@ void func_02187C20(ElScoreboardWork *work, int *statePtr, int state)
     work->stateTimer = 0;
 }
 
-void func_02187CCC(ElScoreboardWork *work, int *statePtr)
+void EL_SCOREBOARD_AdvanceState(ElScoreboardWork *work, int *statePtr)
 {
     int newState;
-    newState = func_02187BBC(work, *statePtr);
-    if (*statePtr != newState) func_02187C20(work, statePtr, newState);
+    newState = EL_SCOREBOARD_GetNextState(work, *statePtr);
+    if (*statePtr != newState) EL_SCOREBOARD_EnterState(work, statePtr, newState);
 }
 
 /* Tells the field map that the scoreboard is up (setter in ov021). */
-void func_02187CEC(ElScoreboardWork *work)
+void EL_SCOREBOARD_OnStart(ElScoreboardWork *work)
 {
     void *fieldMap;
     fieldMap = work->fieldMap;
@@ -634,56 +634,56 @@ void func_02187CEC(ElScoreboardWork *work)
 }
 
 /* Clears the field map flag, then runs the mode-specific teardown. */
-void func_02187CFC(ElScoreboardWork *work)
+void EL_SCOREBOARD_OnFinish(ElScoreboardWork *work)
 {
     func_02040588(3, 0);
     if (work->fieldMap != 0) FIELDMAP_SetSubscreenBusy(work->fieldMap, 0);
-    func_02187914(work);
+    EL_SCOREBOARD_TeardownDisplay(work);
 }
 
-u32 func_02187D20(ElScoreboardWork *work)
+u32 EL_SCOREBOARD_GetMode(ElScoreboardWork *work)
 {
     return work->mode;
 }
 
-u32 func_02187D24(ElScoreboardWork *work)
+u32 EL_SCOREBOARD_IsFinishRequested(ElScoreboardWork *work)
 {
     return work->finished;
 }
 
-void func_02187D28(ElScoreboardWork *work)
+void EL_SCOREBOARD_RequestFinish(ElScoreboardWork *work)
 {
     work->finished = 1;
 }
 
-int func_02187D30(ElScoreboardWork *work)
+int EL_SCOREBOARD_IsStateDone(ElScoreboardWork *work)
 {
     if (work->stateDuration < work->stateTimer)
         return 1;
     return 0;
 }
 
-int func_02187D40(ElScoreboardWork *work)
+int EL_SCOREBOARD_GetFadeInDuration(ElScoreboardWork *work)
 {
-    if (func_02187D20(work) == 1) return 30;
+    if (EL_SCOREBOARD_GetMode(work) == 1) return 30;
     return 10;
 }
 
-int func_02187D54(ElScoreboardWork *work)
+int EL_SCOREBOARD_GetFadeOutDuration(ElScoreboardWork *work)
 {
-    if (func_02187D20(work) == 1) return 60;
+    if (EL_SCOREBOARD_GetMode(work) == 1) return 60;
     if (work->shownSeason == work->targetSeason) return 20;
     return 10;
 }
 
-int func_02187D74(ElScoreboardWork *work)
+int EL_SCOREBOARD_GetHoldDuration(ElScoreboardWork *work)
 {
-    if (func_02187D20(work) == 1) return 120;
+    if (EL_SCOREBOARD_GetMode(work) == 1) return 120;
     if (work->shownSeason == work->targetSeason) return 60;
     return 30;
 }
 
-void func_02187D94(ElScoreboardWork *work)
+void EL_SCOREBOARD_CallFinishCallback(ElScoreboardWork *work)
 {
     if (work->finishCallback)
         work->finishCallback(work->finishCallbackArg);

@@ -30,7 +30,7 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   COMM_PLAYER_SUPPORT_GetInfoCode  0x0202E83C  thumb
  *   INTRUDE_COMM_GetAreaOwnerVersion  0x0215843C  thumb  ov010
- *   func_020143CC  0x020143CC  thumb
+ *   ZONEDATA_GetEventWorkAddress  0x020143CC  thumb
  *   MAP_REPLACE_FindFlagEntry 0x02159F04 thumb ov010
  *   d_02170FF4 0x02170FF4 data a2
  *   d_02170FEC 0x02170FEC data
@@ -109,7 +109,7 @@ int MAP_REPLACE_GetFlagIndex(int selector);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int COMM_PLAYER_SUPPORT_GetInfoCode(void *a0);
 extern int INTRUDE_COMM_GetAreaOwnerVersion(void *p);
-extern u32 func_020143CC(u32 a, u32 b);
+extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
 void MAP_REPLACE_SetupFlags(u8 *variant, int gameSystem);
 MapReplaceFlagEntry *MAP_REPLACE_FindFlagEntry(int unused, int flagNo);
 /* * generated: lane O24 (ov010 leaf/wrapper sweep) * * Constant leaf: `movs r0, N; bx lr`. * * Addresses are Black-image addresses. --region ov010 is required: this * address is only ov010 in the overlay that defines it. * * Verified with: * python tools/match.py one --src src/matched/func_02159F80.c \ * --func func_02159F80 --addr 0x02159F80 --region ov010 --cc dsi/1.1p1 --thumb */ int func_02159F80(void);
@@ -220,7 +220,7 @@ void MAP_REPLACE_SetupFlags(u8 *variant, int gameSystem)
     variant[2] = (variant[1] == 0) ? 0 : infoCode + 1;
     for (i = 0; i < 10; i++) {
         MapReplaceFlagEntry *entry = &d_02170FB0[i];
-        u16 *work = (u16 *)func_020143CC(eventWork, entry->workId);
+        u16 *work = (u16 *)ZONEDATA_GetEventWorkAddress(eventWork, entry->workId);
         if (*work == entry->value)
             variant[3 + i] = 1;
         else
@@ -251,7 +251,7 @@ void MAP_REPLACE_SetFlag(int gameData, int flagNo, int set)
     MapReplaceFlagEntry *entry = MAP_REPLACE_FindFlagEntry(gameData, flagNo);
     u16 *work;
     if (entry) {
-        work = (u16 *)func_020143CC(GAME_DATA_GetEventWork((const struct BigObj *)gameData), entry->workId);
+        work = (u16 *)ZONEDATA_GetEventWorkAddress(GAME_DATA_GetEventWork((const struct BigObj *)gameData), entry->workId);
         if (set)
             *work = entry->value;
         else
@@ -266,7 +266,7 @@ int MAP_REPLACE_CheckFlag(int gameData, int flagNo)
     MapReplaceFlagEntry *entry = MAP_REPLACE_FindFlagEntry(gameData, flagNo);
     u16 *work;
     if (entry) {
-        work = (u16 *)func_020143CC(GAME_DATA_GetEventWork((const struct BigObj *)gameData), entry->workId);
+        work = (u16 *)ZONEDATA_GetEventWorkAddress(GAME_DATA_GetEventWork((const struct BigObj *)gameData), entry->workId);
         if (entry->value == *work)
             return 1;
         else

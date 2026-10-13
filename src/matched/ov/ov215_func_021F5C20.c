@@ -11,7 +11,7 @@
  *   func_02040588 0x02040588 arm
  *   func_021F63CC 0x021F63CC thumb ov215
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_021F5C08 0x021F5C08 thumb ov215
  *   func_021F5D4C 0x021F5D4C thumb ov215
@@ -32,7 +32,7 @@ struct Context; struct GfFont;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern char *func_021F63CC(u32,u16);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
-extern u32 func_0201C440(void *);
+extern u32 PRINTSYS_QUE_Create(void *);
 extern void *func_020056A0(u32,u32,u32);
 extern void func_021F5C08(void *unused, char *p);
 extern void func_021F5D4C(int,char *);
@@ -49,7 +49,7 @@ void func_021F5C20(int a,char *p)
     for (i=0;i<=7;i++) func_02040588(i,0);
     ((struct Obj03372 *)p)->f4=func_021F63CC(1,((struct Obj03372 *)p)->f0);
     ((struct Obj03372 *)p)->f8=GF_FONT_Create(23,0,0,0,((struct Obj03372 *)p)->f0);
-    ((struct Obj03372 *)p)->fC=func_0201C440((void *)(u32)((struct Obj03372 *)p)->f0);
+    ((struct Obj03372 *)p)->fC=PRINTSYS_QUE_Create((void *)(u32)((struct Obj03372 *)p)->f0);
     ((struct Obj03372 *)p)->f28=func_020056A0((u32)func_021F5C08,(u32)p,1);
     func_021F5D4C(a,p);
     func_021F5DAC(a,(struct Context *)p);

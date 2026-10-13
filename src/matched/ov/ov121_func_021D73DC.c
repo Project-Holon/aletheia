@@ -31,7 +31,7 @@
  *   func_021D9FF8 0x021D9FF8 thumb ov121
  *   func_021D6E3C 0x021D6E3C thumb ov121
  *   func_021D7814 0x021D7814 thumb ov121
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_0203F4E4 0x0203F4E4 arm
  *   MYSTERY_DATA_AddCard  0x0200A034  thumb  arm9
  *   MYSTERY_DATA_IsEventFlag  0x0200A1A8  thumb  arm9
@@ -66,7 +66,7 @@ extern void func_021D849C(char *p);
 extern unsigned func_021D9FF8(u8 *p);
 extern void func_021D6E3C(void *task, u32 *state, u8 *p);
 extern void func_021D7814(void *task, u32 *state, u8 *p);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_0203F4E4(struct RtcDate *date);
 extern int MYSTERY_DATA_IsEventFlag(char *p, unsigned int bit);
 extern int MYSTERY_DATA_AddCard(void *p, void *arg);
@@ -97,7 +97,7 @@ void func_021D73DC(void *task,u32 *state,u8 *p)
         }
         v=func_021DE500(P(944));
         switch(v) {case 1:case 2:func_021DE550(P(944));func_021DA8B0(task,(u32)func_021D6E3C);break;}
-        if((func_020362DC()&2) || W(964)++>7200) {
+        if((KEY_GetTrg()&2) || W(964)++>7200) {
             flag=0;
             switch(W(940)) {
             case 1:
@@ -132,7 +132,7 @@ void func_021D73DC(void *task,u32 *state,u8 *p)
             func_021D9F08(P(644),W(932),110,1);
             func_021DA8C0(task,7);*state=14;
         } else if(v==-2) flag=1;
-        } else if(func_020362DC()&2) flag=1;
+        } else if(KEY_GetTrg()&2) flag=1;
         if(flag) {
             func_021D9F08(P(644),W(932),107,1);
             func_021DA8C0(task,9);*state=14;

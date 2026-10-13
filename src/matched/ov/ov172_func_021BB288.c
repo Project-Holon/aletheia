@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035D20  0x02035D20  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   func_021BE0C8  0x021BE0C8  thumb  ov172
  *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
@@ -25,7 +25,7 @@
  *   func_0207E008  0x0207E008  arm
  *   func_0207E100  0x0207E100  arm
  *   func_021BE078  0x021BE078  thumb  ov172
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  */
 #include "../include/Obj00024.h"
@@ -36,7 +36,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
 
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern u32 func_021BE0C8(void *p);
 extern int TOUCHPANEL_GetCont(void);
 extern int TOUCHPANEL_GetTrg(void);
@@ -51,7 +51,7 @@ extern void func_021B8BFC(int unused, u8 *p);
 extern void *func_0207E008(void);
 extern u32 func_0207E100(void);
 extern u32 func_021BE078(void *p);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 
 void func_021BB288(void *ctx, u8 *p)
@@ -75,7 +75,7 @@ void func_021BB288(void *ctx, u8 *p)
     u8 *e;
     u32 cur;
 
-    func_02035D20(&x, &y);
+    TOUCHPANEL_GetPointTrg(&x, &y);
     if (func_021BE0C8(ctx) == 1) {
         return;
     }
@@ -134,7 +134,7 @@ void func_021BB288(void *ctx, u8 *p)
             *(volatile u16 *)0x0500021A = ((struct Obj00024 *)p)->f34 & 0x7fff;
             ((struct Obj00024 *)p)->f28 = (((struct Obj00024 *)p)->f24 == 0) ? 0 : 3;
             func_021BB54C(ctx, p);
-            func_020061E4(0x66d);
+            GFL_USE_PlaySeDefaultVolume(0x66d);
         } else {
             ((struct Obj00024 *)p)->fC = 1;
             ((struct Obj00024 *)p)->f2C = 0xffff;

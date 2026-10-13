@@ -14,7 +14,7 @@
  * Split from field_msgbg.c at 0x021932C0 and field_msgbg_p02.c (lane FXC2, CL114b: FieldG3dMap block type callbacks, no __FILE__ anchor between 021932C0 and the field_wfbc.c anchor at 021938AC).
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FIELD_G3D_MAP_GetActiveRef  0x02169520  thumb ov010
  *   FIELD_G3D_MAP_ResetLoadState  0x0216959C  thumb ov010
  *   FIELD_G3D_MAP_GetMemberIndex  0x02169530  thumb ov010
@@ -116,7 +116,7 @@ extern int FIELD_G3D_MAPPER_SlotResGetGroundAnime(struct FieldG3dMapper *mapper)
 extern int FIELD_BUILDMODEL_RegisterObjects(int buildModel, FieldG3dMap *map, const void *entries, int count);
 extern int FIELD_GROUND_ANIME_BindAnm(int handle, void *modelRes, void *textureRes, FieldG3dMapRenderObj *renderObj);
 extern void FIELD_G3D_MAPPER_GetTilePlane(FieldG3dMapHitList *out, int index, const void *plane, FieldG3dMapVec *localPos, int gridSize, int height);
-extern u32 func_02082BCC(void *dst, int value, u32 size);
+extern u32 MI_CpuFill8(void *dst, int value, u32 size);
 extern struct FieldWfbc *FIELD_G3D_MAPPER_SlotResGetWfbc(struct FieldG3dMapper *mapper);
 extern int FIELD_G3D_MAPPER_SlotResGetSlotIndex(struct FieldG3dMapper *mapper);
 extern u16 FIELD_G3D_MAPPER_SlotResGetHeapId(struct FieldG3dMapper *mapper);
@@ -224,7 +224,7 @@ void FIELD_MSGBG_BlockQueryTwoPlane(FieldG3dMapHitList *hitList, const FieldG3dM
 {
     FieldG3dMapHitList buf;
 
-    func_02082BCC(&buf, 0, sizeof(buf));
+    MI_CpuFill8(&buf, 0, sizeof(buf));
     FIELD_G3D_MAPPER_GetTilePlane(&buf, 0, (const u8 *)header + header->sectionOffset[0], localPos, gridSize, height);
     FIELD_G3D_MAPPER_GetTilePlane(&buf, 1, (const u8 *)header + header->sectionOffset[1], localPos, gridSize, height);
     *hitList = buf;
@@ -236,7 +236,7 @@ void FIELD_MSGBG_BlockQueryOnePlaneBuffered(FieldG3dMapHitList *hitList, const F
 {
     FieldG3dMapHitList buf;
 
-    func_02082BCC(&buf, 0, sizeof(buf));
+    MI_CpuFill8(&buf, 0, sizeof(buf));
     FIELD_G3D_MAPPER_GetTilePlane(&buf, 0, (const u8 *)header + header->sectionOffset[0], localPos, gridSize, height);
     *hitList = buf;
     hitList->count = 1;

@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045748 0x02045748 arm
- *   func_02045750 0x02045750 arm
- *   func_02045758 0x02045758 arm
- *   func_02045760 0x02045760 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetDispWidth 0x02045748 arm
+ *   BMP_WIN_GetDispHeight 0x02045750 arm
+ *   BMP_WIN_GetPosX 0x02045758 arm
+ *   BMP_WIN_GetPosY 0x02045760 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_GetPixels 0x020437D4 arm
  *   func_020490F4 0x020490F4 arm
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
@@ -29,11 +29,11 @@ typedef unsigned int u32;
 
 struct Descriptor;
 struct Bmp;
-extern u8 func_02045748(struct Descriptor *p);
-extern u8 func_02045750(struct Descriptor *p);
-extern u8 func_02045758(struct Descriptor *p);
-extern u8 func_02045760(struct Descriptor *p);
-extern void *func_02045770(struct Descriptor *p);
+extern u8 BMP_WIN_GetDispWidth(struct Descriptor *p);
+extern u8 BMP_WIN_GetDispHeight(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
@@ -61,11 +61,11 @@ void func_021BD4F4(u8 *p, u32 idx)
     void *arc;
     u16 i;
 
-    w = func_02045748(*(struct Descriptor **)((u8 *)ent + idx * 8));
-    h = func_02045750(*(struct Descriptor **)((u8 *)ent + idx * 8));
-    x = func_02045758(*(struct Descriptor **)((u8 *)ent + idx * 8));
-    y = func_02045760(*(struct Descriptor **)((u8 *)ent + idx * 8));
-    dst = BMP_GetPixels(func_02045770(*(struct Descriptor **)((u8 *)ent + idx * 8)));
+    w = BMP_WIN_GetDispWidth(*(struct Descriptor **)((u8 *)ent + idx * 8));
+    h = BMP_WIN_GetDispHeight(*(struct Descriptor **)((u8 *)ent + idx * 8));
+    x = BMP_WIN_GetPosX(*(struct Descriptor **)((u8 *)ent + idx * 8));
+    y = BMP_WIN_GetPosY(*(struct Descriptor **)((u8 *)ent + idx * 8));
+    dst = BMP_GetPixels(BMP_WIN_GetBmp(*(struct Descriptor **)((u8 *)ent + idx * 8)));
     arc = func_020490F4(0x9F, 0x6B);
     t1 = ARC_UTIL_LoadPaletteDataFromHandle(arc, 0x45, 0, &o1, 0x806B);
     map = (u8 *)o1 + 0xC;

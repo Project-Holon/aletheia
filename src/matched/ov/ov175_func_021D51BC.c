@@ -34,7 +34,7 @@
  *   func_0200ED48 0x0200ED48 thumb
  *   func_0200ED54 0x0200ED54 thumb
  *   func_02008530 0x02008530 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021DBC04 0x021DBC04 thumb ov175
  *   func_021DBDAC 0x021DBDAC thumb ov175
  *   GAME_DATA_SaveStart 0x02012DAC thumb
@@ -72,7 +72,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern void *func_0200ED48(void *);
 extern void func_0200ED54(struct L0200ED54 *, u32);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void func_02082BCC(void *, int, unsigned);
+extern void MI_CpuFill8(void *, int, unsigned);
 extern void func_021DBC04(u8 *p, u32 mode, struct Record *src);
 extern int func_021DBDAC(char *);
 extern int GAME_DATA_SaveStart(int);
@@ -157,7 +157,7 @@ void func_021D51BC(unsigned sys, int *state, char *p)
         if (*(int *)Q(0x20) == 0) *state = 8;
         break;
     case 8:
-        func_02082BCC(&rec, 0, 0x54);
+        MI_CpuFill8(&rec, 0, 0x54);
         rec.data = *(Rec80 *)((int *)P(0x40))[9];
         rec.last = *(u32 *)((int *)P(0x40))[10];
         func_021DBC04((u8 *)P(0x30), 3, (struct Record *)(&rec));

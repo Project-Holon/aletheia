@@ -19,28 +19,28 @@
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_020409B4 0x020409B4 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   func_02045B38 0x02045B38 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_0201C6B4 0x0201C6B4 thumb
- *   func_020362DC 0x020362DC arm
- *   func_020061E4 0x020061E4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
+ *   KEY_GetTrg 0x020362DC arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   func_02017E88 0x02017E88 thumb
  *   func_02030734 0x02030734 arm
  *   POKE_TOOL_SetBoxValue 0x02017E64 thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
@@ -50,8 +50,8 @@
  *   CLACT_GetCharacterProxy 0x0204AB84 arm
  *   CLACT_SetActorImageProxy 0x0204B784 arm
  *   func_020275EC 0x020275EC thumb
- *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   func_02041300 0x02041300 arm
  *   func_02041570 0x02041570 arm
@@ -61,7 +61,7 @@
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   BMP_FillRect 0x02043AF4 arm
  *   BMP_Delete 0x020437AC arm
- *   func_0201C6C4 0x0201C6C4 thumb
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   P_STA_SKILL_FileName 0x021DC844 data a1
  *   P_STA_SKILL_WindowTemplates 0x021DC2C2 data a1
  *   BMP_WIN_SetPalette 0x02045798 arm
@@ -77,7 +77,7 @@
  *   POKE_TOOL_SetBoxMoveSlot 0x020181FC thumb
  *   func_02019B44 0x02019B44 thumb
  *   P_STA_SKILL_SlotTilePos 0x021DC2B8 data a1
- *   func_0201BD28 0x0201BD28 thumb
+ *   WAZA_TOOL_GetParam 0x0201BD28 thumb
  *   WAZA_TOOL_GetType 0x0201C1C8 thumb
  *   P_STATUS_SetInputEnable 0x021D5A9C thumb ov131
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
@@ -196,29 +196,29 @@ extern void func_020307B0(void *ptr);
 extern void CLACT_SetActorAnimSeq(struct Obj *obj, u16 animSeq);
 extern void func_020409B4(u32 bgLayer);
 extern struct Obj *CLACT_CreateActor(void *clunit, unsigned int charRes, unsigned int plttRes, unsigned int cellRes, const StaOamActorPos *pos, u16 space, u16 heapId);
-extern void func_0204B92C(struct Obj *obj, u32 value);
-extern void func_0204B3DC(struct Obj *obj, u32 visible);
+extern void CLACT_SetActorAutoAnim(struct Obj *obj, u32 value);
+extern void CLACT_SetActorDrawEnable(struct Obj *obj, u32 visible);
 extern void CLACT_DeleteActor(struct Obj *obj);
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern unsigned int MSGDATA_Delete(struct MsgData *msgData);
 extern int TOUCHPANEL_HitTrg(const void *rectTable);
-extern u32 func_0201C6B4(const struct PrintQue *queue);
-extern u32 func_020362DC(void);
-extern void func_020061E4(u32 seId);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintQue *queue);
+extern u32 KEY_GetTrg(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern u32 func_02017E88(void *pp, int id, void *buf);
 extern u32 func_02017E1C(void *pp, u32 id, u32 buf);
 extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 msgId);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void PRINTSYS_PrintQueColor(struct PrintQue *queue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, void *font, u16 color);
-extern struct Bmp *func_02045770(struct BmpWin *win);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern void POKE_TOOL_SetBoxValue(void *pp, u32 id, u32 value);
 extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 charOffset);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 func_02045730(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void func_02041B6C(u32 bgLayer);
-extern u32 func_020452E8(struct BmpWin *win);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct WordSet *func_0201EC64(u32 heapId);
 extern u32 func_0201ED04(struct WordSet *wordSet);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 padMode, u32 flag);
@@ -231,14 +231,14 @@ extern void func_02040AE0(u32 index, const void *src, u32 size);
 extern void CLACT_GetCharacterProxy(u32 res, StaSpriteRes *out);
 extern void CLACT_SetActorImageProxy(struct Obj *obj, const StaSpriteRes *res);
 extern u8 func_020275EC(int typeId);
-extern void func_0204B6F4(struct Obj *obj, u32 palette, u32 flag);
-extern void func_0204B404(struct Obj *obj, const StaOamPoint *pos, u32 mode);
+extern void CLACT_SetActorPaletteOffset(struct Obj *obj, u32 palette, u32 flag);
+extern void CLACT_AddActorSurfacePos(struct Obj *obj, const StaOamPoint *pos, u32 mode);
 extern void CLACT_SetActorBgPriority(struct Obj *obj, u32 value);
 extern void func_02041300(unsigned int bgLayer, int a, int b, int c, unsigned char d, unsigned char e, unsigned char f);
 extern void func_02041570(int bgLayer, u16 value);
 extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 width, u32 height, u32 color);
 extern void BMP_Delete(struct Bmp *bmp);
-extern u32 func_0201C6C4(struct PrintQue *queue, struct Bmp *bmp);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQue *queue, struct Bmp *bmp);
 extern void BMP_WIN_SetPalette(struct BmpWin *win, u8 value);
 extern void func_020409E0(u32 index, const void *src, u32 size, u32 offset);
 extern int func_0202D034(u32 curHp, u32 maxHp);
@@ -247,7 +247,7 @@ extern void BMP_Clear(struct Bmp *bmp, u8 fill);
 extern int WAZA_TOOL_GetDamageType(int moveId);
 extern u8 func_02027604(u8 typeId);
 extern u32 WAZA_TOOL_GetPower(u16 moveId);
-extern u32 func_0201BD28(u16 moveId, u32 field);
+extern u32 WAZA_TOOL_GetParam(u16 moveId, u32 field);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16 moveId);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
 extern void CLACT_RestartActorAnim(struct Obj *obj);
@@ -368,7 +368,7 @@ void P_STA_SKILL_Main(PStatusWork *wk, PStaSkillWork *work)
     if(work->statsPrintPending==1) {
         allPrinted=1;
         for(i=0;i<=7;i++) {
-            if(func_0201C6C4(wk->printQue,func_02045770(work->win[i]))==1) {
+            if(PRINTSYS_QUE_IsExistTarget(wk->printQue,BMP_WIN_GetBmp(work->win[i]))==1) {
                 allPrinted=0;
                 break;
             }
@@ -378,7 +378,7 @@ void P_STA_SKILL_Main(PStatusWork *wk, PStaSkillWork *work)
                 win=work->win[i];
                 BMP_WIN_TransferChars(win);
                 BMP_WIN_MakeScreen(win);
-                func_02041B6C(func_02045730(win));
+                func_02041B6C(BMP_WIN_GetBgLayer(win));
             }
             P_STA_SKILL_ApplyStatsScreen(wk,work);
             work->statsPrintPending=0;
@@ -387,7 +387,7 @@ void P_STA_SKILL_Main(PStatusWork *wk, PStaSkillWork *work)
     if(work->movePrintPending==1) {
         allPrinted=1;
         for(i=8;i<=11;i++) {
-            if(func_0201C6C4(wk->printQue,func_02045770(work->win[i]))==1) {
+            if(PRINTSYS_QUE_IsExistTarget(wk->printQue,BMP_WIN_GetBmp(work->win[i]))==1) {
                 allPrinted=0;
                 break;
             }
@@ -397,27 +397,27 @@ void P_STA_SKILL_Main(PStatusWork *wk, PStaSkillWork *work)
                 win=work->win[i];
                 BMP_WIN_TransferChars(win);
                 BMP_WIN_MakeScreen(win);
-                func_02041B6C(func_02045730(win));
+                func_02041B6C(BMP_WIN_GetBgLayer(win));
             }
             P_STA_SKILL_ApplyMovesScreen(wk,work);
             work->movePrintPending=0;
         }
     }
     if(work->msgPrintPending==1) {
-        if(func_0201C6C4(wk->printQue,func_02045770(work->win[STA_SKILL_WIN_MESSAGE]))==0) {
+        if(PRINTSYS_QUE_IsExistTarget(wk->printQue,BMP_WIN_GetBmp(work->win[STA_SKILL_WIN_MESSAGE]))==0) {
             win=work->win[STA_SKILL_WIN_MESSAGE];
             BMP_WIN_TransferChars(win);
             BMP_WIN_MakeScreen(win);
-            func_02041B6C(func_02045730(win));
+            func_02041B6C(BMP_WIN_GetBgLayer(win));
             work->msgPrintPending=0;
         }
     }
-    if(work->swapPending==1 && func_0201C6B4(wk->printQue)==1) {
+    if(work->swapPending==1 && PRINTSYS_QUE_IsFinished(wk->printQue)==1) {
         work->isMoveHeld=0;
         P_STA_SKILL_SetSlotAnim(&work->slot[work->heldSlot],0);
         work->heldSlot=STA_SKILL_SLOT_NONE;
         P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
-        func_0204B3DC(work->heldObj,0);
+        CLACT_SetActorDrawEnable(work->heldObj,0);
         work->swapPending=0;
     }
     for(i=0;i<STA_SKILL_SLOT_MAX;i++) P_STA_SKILL_UpdateSlot(wk,work,&work->slot[i]);
@@ -476,25 +476,25 @@ void P_STA_SKILL_CreateObjects(PStatusWork *wk, PStaSkillWork *work)
     i=0;
     pos.animSeq=0;
     work->statsObj=CLACT_CreateActor(wk->clunit,wk->objRes[19],wk->objRes[5],wk->objRes[31],&pos,1,wk->heapId);
-    func_0204B3DC(work->statsObj,0);
+    CLACT_SetActorDrawEnable(work->statsObj,0);
     pos.x=172;
     pos.y=56;
     work->moveTypeObj=CLACT_CreateActor(wk->clunit,wk->objRes[16],wk->objRes[4],wk->objRes[29],&pos,1,wk->heapId);
-    func_0204B3DC(work->moveTypeObj,0);
+    CLACT_SetActorDrawEnable(work->moveTypeObj,0);
     pos.bgPriority=0;
     work->cursorObj=CLACT_CreateActor(wk->clunit,wk->objRes[21],wk->objRes[11],wk->objRes[33],&pos,0,wk->heapId);
-    func_0204B3DC(work->cursorObj,0);
+    CLACT_SetActorDrawEnable(work->cursorObj,0);
     pos.animSeq=5;
     pos.drawPriority=8;
     work->heldObj=CLACT_CreateActor(wk->clunit,wk->objRes[21],wk->objRes[11],wk->objRes[33],&pos,0,wk->heapId);
-    func_0204B3DC(work->heldObj,0);
-    func_0204B92C(work->heldObj,1);
+    CLACT_SetActorDrawEnable(work->heldObj,0);
+    CLACT_SetActorAutoAnim(work->heldObj,1);
     pos.animSeq=2;
     pos.drawPriority=4;
     pos.bgPriority=0;
     work->touchObj=CLACT_CreateActor(wk->clunit,wk->objRes[21],wk->objRes[11],wk->objRes[33],&pos,0,wk->heapId);
-    func_0204B3DC(work->touchObj,0);
-    func_0204B92C(work->touchObj,1);
+    CLACT_SetActorDrawEnable(work->touchObj,0);
+    CLACT_SetActorAutoAnim(work->touchObj,1);
     for(;i<work->slotCount;i++) P_STA_SKILL_CreateSlotObjects(wk,work,&work->slot[i],i);
 }
 
@@ -541,7 +541,7 @@ void P_STA_SKILL_FreeStatsPage(PStatusWork *wk, PStaSkillWork *work)
     for (i = 0; i < work->slotCount; i++)
         P_STA_SKILL_FreeSlot(wk, work, &work->slot[i]);
     for (i = 0; i < STA_SKILL_WIN_MAX; i++)
-        func_020452E8(work->win[i]);
+        BMP_WIN_Delete(work->win[i]);
     work->isOpen = 0;
 }
 
@@ -553,10 +553,10 @@ void P_STA_SKILL_HideStatsPage(PStatusWork *wk, PStaSkillWork *work)
     func_020409B4(1);
     func_02041570(4,0);
     func_02041B6C(4);
-    func_0204B3DC(work->statsObj,0);
-    func_0204B3DC(work->moveTypeObj,0);
-    func_0204B3DC(wk->typeIconActor[0],0);
-    func_0204B3DC(wk->typeIconActor[1],0);
+    CLACT_SetActorDrawEnable(work->statsObj,0);
+    CLACT_SetActorDrawEnable(work->moveTypeObj,0);
+    CLACT_SetActorDrawEnable(wk->typeIconActor[0],0);
+    CLACT_SetActorDrawEnable(wk->typeIconActor[1],0);
     CLACT_SetActorAnimSeq(wk->buttonActor[1],1);
 }
 
@@ -576,16 +576,16 @@ void P_STA_SKILL_ApplyStatsScreen(PStatusWork *wk, PStaSkillWork *work)
         win=work->win[i];
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
-        func_020409B4(func_02045730(win));
+        func_020409B4(BMP_WIN_GetBgLayer(win));
     }
     func_02040AE0(6,(u8 *)work->statsPlttData+12,((StaGraphicsFile *)work->statsPlttData)->dataSize);
     func_02041B6C(6);
     func_020410D0(5,0,0,32,3,(u32)work->statsScrnData+12,0,0,32,32);
     func_02041B6C(5);
-    func_0204B3DC(work->statsObj,1);
-    func_0204B3DC(work->moveTypeObj,0);
-    func_0204B3DC(wk->typeIconActor[0],0);
-    func_0204B3DC(wk->typeIconActor[1],0);
+    CLACT_SetActorDrawEnable(work->statsObj,1);
+    CLACT_SetActorDrawEnable(work->moveTypeObj,0);
+    CLACT_SetActorDrawEnable(wk->typeIconActor[0],0);
+    CLACT_SetActorDrawEnable(wk->typeIconActor[1],0);
 }
 
 void P_STA_SKILL_RefreshMoveDetail(PStatusWork *wk, PStaSkillWork *work)
@@ -613,7 +613,7 @@ void P_STA_SKILL_ApplyMovesScreen(PStatusWork *wk, PStaSkillWork *work)
         win=work->win[i];
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
-        func_020409B4(func_02045730(win));
+        func_020409B4(BMP_WIN_GetBgLayer(win));
     }
     i=0;
     func_020409E0(6,(u8 *)work->movesPlttData+12,((StaGraphicsFile *)work->movesPlttData)->dataSize,0);
@@ -621,30 +621,30 @@ void P_STA_SKILL_ApplyMovesScreen(PStatusWork *wk, PStaSkillWork *work)
     func_02041B6C(6);
     func_020410D0(5,0,0,32,3,(u32)((u8 *)work->movesScrnData+12),0,0,32,32);
     func_02041B6C(5);
-    func_0204B3DC(work->statsObj,0);
-    func_0204B3DC(work->moveTypeObj,1);
+    CLACT_SetActorDrawEnable(work->statsObj,0);
+    CLACT_SetActorDrawEnable(work->moveTypeObj,1);
     for(;i<work->slotCount;i++) P_STA_SKILL_ShowSlot(wk,work,&work->slot[i]);
     pp=P_STATUS_GetPokePara(wk);
     type1=func_02017E88(pp,174,0);
     type2=func_02017E88(pp,175,0);
     CLACT_GetCharacterProxy(wk->typeChrRes[type1],&type1Res);
     CLACT_SetActorImageProxy(wk->typeIconActor[0],&type1Res);
-    func_0204B6F4(wk->typeIconActor[0],func_020275EC((u8)type1),1);
+    CLACT_SetActorPaletteOffset(wk->typeIconActor[0],func_020275EC((u8)type1),1);
     pos.x=208;
     pos.y=120;
-    func_0204B404(wk->typeIconActor[0],&pos,0);
-    func_0204B3DC(wk->typeIconActor[0],1);
+    CLACT_AddActorSurfacePos(wk->typeIconActor[0],&pos,0);
+    CLACT_SetActorDrawEnable(wk->typeIconActor[0],1);
     CLACT_SetActorBgPriority(wk->typeIconActor[0],0);
     if(type1!=type2) {
         CLACT_GetCharacterProxy(wk->typeChrRes[type2],&type2Res);
         CLACT_SetActorImageProxy(wk->typeIconActor[1],&type2Res);
-        func_0204B6F4(wk->typeIconActor[1],func_020275EC((u8)type2),1);
+        CLACT_SetActorPaletteOffset(wk->typeIconActor[1],func_020275EC((u8)type2),1);
         pos.x=240;
         pos.y=120;
-        func_0204B404(wk->typeIconActor[1],&pos,0);
-        func_0204B3DC(wk->typeIconActor[1],1);
+        CLACT_AddActorSurfacePos(wk->typeIconActor[1],&pos,0);
+        CLACT_SetActorDrawEnable(wk->typeIconActor[1],1);
         CLACT_SetActorBgPriority(wk->typeIconActor[1],0);
-    } else func_0204B3DC(wk->typeIconActor[1],0);
+    } else CLACT_SetActorDrawEnable(wk->typeIconActor[1],0);
 }
 
 /*
@@ -703,12 +703,12 @@ void P_STA_SKILL_PrintStats(PStatusWork *wk, PStaSkillWork *work)
     abilityId=func_02017E1C(pp,10,0);
     abilityNameBank=func_02045B38(0,2,183,wk->heapId);
     str=func_02045EC0(abilityNameBank,abilityId);
-    PRINTSYS_PrintQueColor(wk->printQue,func_02045770(work->win[STA_SKILL_WIN_ABILITY]),5,17,str,wk->font,1088);
+    PRINTSYS_PrintQueColor(wk->printQue,BMP_WIN_GetBmp(work->win[STA_SKILL_WIN_ABILITY]),5,17,str,wk->font,1088);
     STRBUF_Delete(str);
     MSGDATA_Delete(abilityNameBank);
     abilityDescBank=func_02045B38(0,2,182,wk->heapId);
     str=func_02045EC0(abilityDescBank,abilityId);
-    PRINTSYS_PrintQueColor(wk->printQue,func_02045770(work->win[STA_SKILL_WIN_ABILITY]),65,one,str,wk->font,1088);
+    PRINTSYS_PrintQueColor(wk->printQue,BMP_WIN_GetBmp(work->win[STA_SKILL_WIN_ABILITY]),65,one,str,wk->font,1088);
     STRBUF_Delete(str);
     MSGDATA_Delete(abilityDescBank);
     work->statsPrintPending=one;
@@ -723,7 +723,7 @@ void P_STA_SKILL_DrawHpBar(PStatusWork *wk, PStaSkillWork *work) {
     curHp=func_02017E1C(pp,160,0);
     barColor=func_0202D034(curHp,maxHp);
     barPixels=func_0202D01C(curHp,maxHp,48);
-    bmp=func_02045770(work->win[STA_SKILL_WIN_HP_BAR]);
+    bmp=BMP_WIN_GetBmp(work->win[STA_SKILL_WIN_HP_BAR]);
     if((u8)(barColor+254)<=1) {firstRow=7;lastRow=8;}
     else if(barColor==1) {firstRow=9;lastRow=10;}
     else {firstRow=5;lastRow=6;}
@@ -747,7 +747,7 @@ void P_STA_SKILL_PrintMoveDetail(PStatusWork *wk, PStaSkillWork *work)
     StaSpriteRes typeRes;
     pp=P_STATUS_GetPokePara(wk);
     zero=0;
-    for(i=8;i<=11;i++) BMP_Clear(func_02045770(work->win[i]),zero);
+    for(i=8;i<=11;i++) BMP_Clear(BMP_WIN_GetBmp(work->win[i]),zero);
     if(work->cursorSlot<4) moveId=func_02017E88(pp,work->cursorSlot+54,(void *)zero);
     else if(work->cursorSlot==STA_SKILL_NO_CURSOR) {
         if(wk->param->mode==2 && work->slotCount==STA_SKILL_SLOT_MAX) moveId=wk->param->newMove;
@@ -758,7 +758,7 @@ void P_STA_SKILL_PrintMoveDetail(PStatusWork *wk, PStaSkillWork *work)
     moveType=WAZA_TOOL_GetDamageType((u16)moveId);
     CLACT_GetCharacterProxy(wk->objRes[moveType+16],&typeRes);
     CLACT_SetActorImageProxy(work->moveTypeObj,&typeRes);
-    func_0204B6F4(work->moveTypeObj,func_02027604(moveType),1);
+    CLACT_SetActorPaletteOffset(work->moveTypeObj,func_02027604(moveType),1);
     P_STATUS_PrintMsgToWin(wk, work->win[STA_SKILL_WIN_MOVE_POWER], 147, 1, one, 15424);
     power=WAZA_TOOL_GetPower(moveId);
     if(power<=1) P_STATUS_PrintMsgToWin(wk, work->win[STA_SKILL_WIN_MOVE_POWER], 154, 87, one, 1088);
@@ -769,7 +769,7 @@ void P_STA_SKILL_PrintMoveDetail(PStatusWork *wk, PStaSkillWork *work)
         func_0201ED04(powerWords);
     }
     P_STATUS_PrintMsgToWin(wk, work->win[STA_SKILL_WIN_MOVE_ACCURACY], 148, 1, 1, 15424);
-    accuracy=func_0201BD28(moveId,4);
+    accuracy=WAZA_TOOL_GetParam(moveId,4);
     if(WAZA_TOOL_IsAlwaysHit(moveId)==1 || accuracy==0) P_STATUS_PrintMsgToWin(wk, work->win[STA_SKILL_WIN_MOVE_ACCURACY], 154, 87, 1, 1088);
     else {
         accuracyWords=func_0201EC64(wk->heapId);
@@ -779,7 +779,7 @@ void P_STA_SKILL_PrintMoveDetail(PStatusWork *wk, PStaSkillWork *work)
     }
     descBank=func_02045B38(0,2,202,wk->heapId);
     str=func_02045EC0(descBank,moveId);
-    PRINTSYS_PrintQueColor(wk->printQue,func_02045770(work->win[STA_SKILL_WIN_MOVE_DESC]),1,1,str,wk->font,1088);
+    PRINTSYS_PrintQueColor(wk->printQue,BMP_WIN_GetBmp(work->win[STA_SKILL_WIN_MOVE_DESC]),1,1,str,wk->font,1088);
     STRBUF_Delete(str);
     MSGDATA_Delete(descBank);
     work->msgPrintPending=0;
@@ -844,7 +844,7 @@ void P_STA_SKILL_FreeMovesPage(PStatusWork *wk, PStaSkillWork *work) {
         P_STA_OAM_DeleteBitmapActors(work->giveUpActors);
     }
     for(i=0;i<work->slotCount;i++) P_STA_SKILL_FreeSlot(wk,work,&work->slot[i]);
-    for(i=0;i<STA_SKILL_WIN_MAX;i++) func_020452E8(work->win[i]);
+    for(i=0;i<STA_SKILL_WIN_MAX;i++) BMP_WIN_Delete(work->win[i]);
     work->isOpen=0;
 }
 
@@ -855,10 +855,10 @@ void P_STA_SKILL_HideMovesPage(PStatusWork *wk, PStaSkillWork *work) {
     func_020409B4(1);
     func_02041570(4,0);
     func_02041B6C(4);
-    func_0204B3DC(work->statsObj,0);
-    func_0204B3DC(work->moveTypeObj,0);
-    func_0204B3DC(wk->typeIconActor[0],0);
-    func_0204B3DC(wk->typeIconActor[1],0);
+    CLACT_SetActorDrawEnable(work->statsObj,0);
+    CLACT_SetActorDrawEnable(work->moveTypeObj,0);
+    CLACT_SetActorDrawEnable(wk->typeIconActor[0],0);
+    CLACT_SetActorDrawEnable(wk->typeIconActor[1],0);
     CLACT_SetActorAnimSeq(wk->buttonActor[1],1);
 }
 
@@ -888,34 +888,34 @@ int P_STA_SKILL_HandleKeys(PStatusWork *wk, PStaSkillWork *work)
     StaOamPoint pos;
     if (work->isTouching==1) return 0;
     if (wk->isInputEnabled==1) {
-        if (func_020362DC()!=1) goto out;
+        if (KEY_GetTrg()!=1) goto out;
             work->cursorSlot=0;
             wk->inputType=0;
             P_STATUS_SetInputEnable(wk,0);
             P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
             P_STA_SKILL_RefreshMoveDetail(wk,work);
-            func_020061E4(1356);
+            GFL_USE_PlaySeDefaultVolume(1356);
             return 1;
     } else {
-        if (func_020362DC()==2 && work->isMoveHeld==0) {
+        if (KEY_GetTrg()==2 && work->isMoveHeld==0) {
             P_STATUS_SetInputEnable(wk,1);
             CLACT_SetActorAnimSeq(wk->buttonActor[7],9);
             P_STA_SKILL_SetSlotAnim(&work->slot[work->cursorSlot],0);
-            func_0204B3DC(work->cursorObj,0);
+            CLACT_SetActorDrawEnable(work->cursorObj,0);
             P_STA_SKILL_PrintStatsPage(wk,work);
             wk->inputType=0;
-            func_020061E4(1361);
+            GFL_USE_PlaySeDefaultVolume(1361);
             return 1;
         }
         if (wk->inputType==1) {
-            if (func_020362DC()==0) goto out;
+            if (KEY_GetTrg()==0) goto out;
                 wk->inputType=0;
                 work->heldSlot=STA_SKILL_SLOT_NONE;
                 P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
-                func_020061E4(1352);
+                GFL_USE_PlaySeDefaultVolume(1352);
                 return 1;
         } else {
-            if (func_020362DC()==1) {
+            if (KEY_GetTrg()==1) {
                 if (wk->param->mode==6) goto out;
                 if (work->isMoveHeld==0) {
                     u8 selected;
@@ -924,34 +924,34 @@ int P_STA_SKILL_HandleKeys(PStatusWork *wk, PStaSkillWork *work)
                     work->heldSlot=selected;
                     P_STA_SKILL_SetSlotAnim(&work->slot[selected],2);
                     P_STA_SKILL_GetSlotPos(&work->slot[work->heldSlot],&pos);
-                    func_0204B404(work->heldObj,&pos,0);
-                    func_0204B3DC(work->heldObj,1);
+                    CLACT_AddActorSurfacePos(work->heldObj,&pos,0);
+                    CLACT_SetActorDrawEnable(work->heldObj,1);
                     CLACT_RestartActorAnim(work->heldObj);
-                    func_020061E4(1356);
+                    GFL_USE_PlaySeDefaultVolume(1356);
                 } else {
                     if (work->heldSlot!=work->cursorSlot) {
                         P_STA_SKILL_SwapMoves(wk,work,work->heldSlot,work->cursorSlot);
-                        func_020061E4(1357);
+                        GFL_USE_PlaySeDefaultVolume(1357);
                     } else {
                         work->isMoveHeld=0;
                         P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
-                        func_0204B3DC(work->heldObj,0);
-                        func_020061E4(1356);
+                        CLACT_SetActorDrawEnable(work->heldObj,0);
+                        GFL_USE_PlaySeDefaultVolume(1356);
                     }
                 }
                 return 1;
             }
-            if (func_020362DC()==2 && work->isMoveHeld==1) {
+            if (KEY_GetTrg()==2 && work->isMoveHeld==1) {
                 P_STA_SKILL_SetSlotAnim(&work->slot[work->heldSlot],0);
                 P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
                 CLACT_SetActorAnimSeq(wk->buttonActor[7],9);
-                func_0204B3DC(work->heldObj,0);
+                CLACT_SetActorDrawEnable(work->heldObj,0);
                 work->isMoveHeld=0;
                 work->heldSlot=STA_SKILL_SLOT_NONE;
-                func_020061E4(1361);
+                GFL_USE_PlaySeDefaultVolume(1361);
                 return 1;
             }
-            if (func_020362DC()==64 || func_020362DC()==128) {
+            if (KEY_GetTrg()==64 || KEY_GetTrg()==128) {
                 P_STA_SKILL_StepCursor(wk,work);
                 return 1;
             }
@@ -988,16 +988,16 @@ void P_STA_SKILL_HandleTouch(PStatusWork *wk, PStaSkillWork *work)
         P_STATUS_SetInputEnable(wk,1);
         CLACT_SetActorAnimSeq(wk->buttonActor[7],9);
         P_STA_SKILL_SetSlotAnim(&work->slot[work->cursorSlot],0);
-        func_0204B3DC(work->cursorObj,0);
+        CLACT_SetActorDrawEnable(work->cursorObj,0);
         P_STA_SKILL_PrintStatsPage(wk,work);
         if (work->isMoveHeld==1) {
             P_STA_SKILL_SetSlotAnim(&work->slot[work->heldSlot],0);
-            func_0204B3DC(work->heldObj,0);
+            CLACT_SetActorDrawEnable(work->heldObj,0);
             work->isMoveHeld=0;
             work->heldSlot=STA_SKILL_SLOT_NONE;
         }
         wk->inputType=1;
-        func_020061E4(1361);
+        GFL_USE_PlaySeDefaultVolume(1361);
         return;
     }
     for (i=0;i<STA_SKILL_SLOT_MAX;i++) P_STA_SKILL_GetSlotTouchRect(&work->slot[i],&touch[i]);
@@ -1012,8 +1012,8 @@ void P_STA_SKILL_HandleTouch(PStatusWork *wk, PStaSkillWork *work)
             if (work->isMoveHeld!=1) {
                 work->heldSlot=touchedSlot;
                 P_STA_SKILL_GetSlotPos(&work->slot[touchedSlot],&pos1);
-                func_0204B404(work->touchObj,&pos1,0);
-                func_0204B3DC(work->touchObj,1);
+                CLACT_AddActorSurfacePos(work->touchObj,&pos1,0);
+                CLACT_SetActorDrawEnable(work->touchObj,1);
                 if (touchedSlot==0) CLACT_SetActorAnimSeq(work->touchObj,3);
                 else if (touchedSlot==3) CLACT_SetActorAnimSeq(work->touchObj,4);
                 else CLACT_SetActorAnimSeq(work->touchObj,2);
@@ -1021,13 +1021,13 @@ void P_STA_SKILL_HandleTouch(PStatusWork *wk, PStaSkillWork *work)
             work->touchStartX=wk->tpX;
             work->touchStartY=wk->tpY;
             P_STA_SKILL_GetSlotPos(&work->slot[touchedSlot],&pos2);
-            func_0204B404(work->heldObj,&pos2,0);
-            func_0204B3DC(work->heldObj,1);
+            CLACT_AddActorSurfacePos(work->heldObj,&pos2,0);
+            CLACT_SetActorDrawEnable(work->heldObj,1);
             CLACT_RestartActorAnim(work->heldObj);
         }
         wk->inputType=1;
         P_STA_SKILL_SetCursor(wk,work,touchedSlot,1);
-        func_020061E4(1356);
+        GFL_USE_PlaySeDefaultVolume(1356);
         return;
     }
     if (TOUCHPANEL_GetCont()==1) {
@@ -1036,15 +1036,15 @@ void P_STA_SKILL_HandleTouch(PStatusWork *wk, PStaSkillWork *work)
         if (work->isMoveHeld==0) {
             if (touchedSlot==-1) {
                 work->isTouching=0;
-                func_0204B3DC(work->touchObj,0);
-                func_0204B3DC(work->heldObj,0);
+                CLACT_SetActorDrawEnable(work->touchObj,0);
+                CLACT_SetActorDrawEnable(work->heldObj,0);
             } else {
                 dragDistance=work->touchStartY-wk->tpY;
                 if ((int)dragDistance<0) dragDistance=0U-dragDistance;
                 if ((int)dragDistance>8) {
                     P_STA_SKILL_SetSlotAnim(&work->slot[work->heldSlot],2);
                     work->isMoveHeld=1;
-                    func_0204B3DC(work->touchObj,0);
+                    CLACT_SetActorDrawEnable(work->touchObj,0);
                 }
             }
         }
@@ -1055,8 +1055,8 @@ void P_STA_SKILL_HandleTouch(PStatusWork *wk, PStaSkillWork *work)
                 return;
             }
             P_STA_SKILL_SetSlotAnim(&work->slot[work->heldSlot],0);
-            func_0204B3DC(work->touchObj,0);
-            func_0204B3DC(work->heldObj,0);
+            CLACT_SetActorDrawEnable(work->touchObj,0);
+            CLACT_SetActorDrawEnable(work->heldObj,0);
             work->isMoveHeld=0;
             work->isTouching=0;
             P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
@@ -1065,12 +1065,12 @@ void P_STA_SKILL_HandleTouch(PStatusWork *wk, PStaSkillWork *work)
         }
     } else {
         if (work->isTouching==1) {
-            func_0204B3DC(work->touchObj,0);
-            func_0204B3DC(work->heldObj,0);
+            CLACT_SetActorDrawEnable(work->touchObj,0);
+            CLACT_SetActorDrawEnable(work->heldObj,0);
             if (work->isMoveHeld==1) {
                 if (work->heldSlot!=work->cursorSlot) {
                     P_STA_SKILL_SwapMoves(wk,work,work->heldSlot,work->cursorSlot);
-                    func_020061E4(1357);
+                    GFL_USE_PlaySeDefaultVolume(1357);
                     return;
                 }
                 work->isMoveHeld=0;
@@ -1087,14 +1087,14 @@ int P_STA_SKILL_HandleKeysForget(PStatusWork *wk, PStaSkillWork *work)
     StaOamPoint pos;
     u32 forgetBlock;
     u8 pickedSlot;
-    if(wk->inputType==1 && func_020362DC()!=0) {
+    if(wk->inputType==1 && KEY_GetTrg()!=0) {
         wk->inputType=0;
         if(work->isPickingForget==0) {
             work->heldSlot=STA_SKILL_SLOT_NONE;
             P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
         }
     }
-    if(func_020362DC()==2) {
+    if(KEY_GetTrg()==2) {
         if(work->isPickingForget==0) {
             wk->inputType=0;
             wk->retCode=1;
@@ -1102,23 +1102,23 @@ int P_STA_SKILL_HandleKeysForget(PStatusWork *wk, PStaSkillWork *work)
             wk->seq=2;
             CLACT_SetActorAnimSeq(wk->buttonActor[7],9);
             wk->pushedButton=wk->buttonActor[7];
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             return 1;
         } else {
             wk->inputType=0;
             P_STA_SKILL_SetSlotAnim(&work->slot[work->heldSlot],0);
             P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
-            func_0204B3DC(work->heldObj,0);
+            CLACT_SetActorDrawEnable(work->heldObj,0);
             work->cursorSlot=work->heldSlot;
             work->heldSlot=STA_SKILL_SLOT_NONE;
             work->isPickingForget=0;
             P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
             CLACT_SetActorAnimSeq(wk->buttonActor[7],9);
             P_STA_SKILL_SetNewMoveHeld(wk,work,0);
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
         }
     } else if(work->isPickingForget!=0) {
-        if(func_020362DC()==1) {
+        if(KEY_GetTrg()==1) {
             wk->inputType=0;
             wk->retCode=1;
             wk->param->retMovePos=work->heldSlot;
@@ -1126,9 +1126,9 @@ int P_STA_SKILL_HandleKeysForget(PStatusWork *wk, PStaSkillWork *work)
             work->isConfirmed=1;
             work->blinkSlotFrame=1;
             wk->pushedButton=0;
-            func_020061E4(0x54c);
+            GFL_USE_PlaySeDefaultVolume(0x54c);
         }
-    } else if(func_020362DC()==1) {
+    } else if(KEY_GetTrg()==1) {
         wk->inputType=0;
         if(work->cursorSlot<4) {
             forgetBlock=func_0202F72C(wk->param->config,func_02017E88(P_STATUS_GetPokePara(wk),*(volatile u8 *)&work->cursorSlot+54,0),wk->heapId);
@@ -1147,8 +1147,8 @@ int P_STA_SKILL_HandleKeysForget(PStatusWork *wk, PStaSkillWork *work)
                     work->cursorSlot=4;
                     P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
                     P_STA_SKILL_GetSlotPos(&work->slot[work->heldSlot],&pos);
-                    func_0204B404(work->heldObj,&pos,0);
-                    func_0204B3DC(work->heldObj,1);
+                    CLACT_AddActorSurfacePos(work->heldObj,&pos,0);
+                    CLACT_SetActorDrawEnable(work->heldObj,1);
                     CLACT_RestartActorAnim(work->heldObj);
                     P_STA_SKILL_SetNewMoveHeld(wk,work,1);
                 }
@@ -1162,11 +1162,11 @@ int P_STA_SKILL_HandleKeysForget(PStatusWork *wk, PStaSkillWork *work)
             work->isConfirmed=1;
             wk->pushedButton=0;
         }
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
 done:
         return 1;
     } else {
-        if(func_020362DC()==0x40 || func_020362DC()==0x80) {
+        if(KEY_GetTrg()==0x40 || KEY_GetTrg()==0x80) {
             P_STA_SKILL_StepCursor(wk,work);
             return 1;
         }
@@ -1199,13 +1199,13 @@ void P_STA_SKILL_HandleTouchForget(PStatusWork *wk, PStaSkillWork *work)
             wk->seq=2;
             CLACT_SetActorAnimSeq(wk->buttonActor[7],9);
             wk->pushedButton=wk->buttonActor[7];
-            func_020061E4(1361);
+            GFL_USE_PlaySeDefaultVolume(1361);
             return;
         }
         wk->inputType=1;
         P_STA_SKILL_SetSlotAnim(&work->slot[work->heldSlot],0);
         P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
-        func_0204B3DC(work->heldObj,0);
+        CLACT_SetActorDrawEnable(work->heldObj,0);
         work->heldSlot=STA_SKILL_SLOT_NONE;
         work->isPickingForget=0;
         if (work->slotCount==STA_SKILL_SLOT_MAX) {
@@ -1216,7 +1216,7 @@ void P_STA_SKILL_HandleTouchForget(PStatusWork *wk, PStaSkillWork *work)
             P_STA_SKILL_SetCursor(wk,work,255,0);
         }
         P_STA_SKILL_SetNewMoveHeld(wk,work,0);
-        func_020061E4(1361);
+        GFL_USE_PlaySeDefaultVolume(1361);
         return;
     }
     for (i=0;i<STA_SKILL_SLOT_MAX;i++) P_STA_SKILL_GetSlotTouchRect(&work->slot[i],&touch[i]);
@@ -1234,7 +1234,7 @@ void P_STA_SKILL_HandleTouchForget(PStatusWork *wk, PStaSkillWork *work)
                     wk->param->retMovePos=touchedSlot;
                     work->isConfirmed=1;
                     wk->pushedButton=0;
-                    func_020061E4(1356);
+                    GFL_USE_PlaySeDefaultVolume(1356);
                     P_STA_SKILL_SetCursor(wk,work,touchedSlot,0);
                     P_STA_SKILL_SetSlotAnim(&work->slot[touchedSlot],2);
                     return;
@@ -1247,11 +1247,11 @@ void P_STA_SKILL_HandleTouchForget(PStatusWork *wk, PStaSkillWork *work)
                 work->cursorSlot=4;
                 P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
                 P_STA_SKILL_GetSlotPos(&work->slot[work->heldSlot],&pos);
-                func_0204B404(work->heldObj,&pos,0);
-                func_0204B3DC(work->heldObj,1);
+                CLACT_AddActorSurfacePos(work->heldObj,&pos,0);
+                CLACT_SetActorDrawEnable(work->heldObj,1);
                 CLACT_RestartActorAnim(work->heldObj);
                 P_STA_SKILL_SetNewMoveHeld(wk,work,1);
-                func_020061E4(1356);
+                GFL_USE_PlaySeDefaultVolume(1356);
                 return;
             }
             P_STA_SKILL_SetCursor(wk,work,touchedSlot,0);
@@ -1266,7 +1266,7 @@ void P_STA_SKILL_HandleTouchForget(PStatusWork *wk, PStaSkillWork *work)
         wk->param->retSel=1;
         work->isConfirmed=1;
         wk->pushedButton=0;
-        func_020061E4(1356);
+        GFL_USE_PlaySeDefaultVolume(1356);
         return;
     }
     if (touchedSlot==4) {
@@ -1277,7 +1277,7 @@ void P_STA_SKILL_HandleTouchForget(PStatusWork *wk, PStaSkillWork *work)
         work->isConfirmed=1;
         work->blinkSlotFrame=1;
         wk->pushedButton=0;
-        func_020061E4(1356);
+        GFL_USE_PlaySeDefaultVolume(1356);
     }
 }
 
@@ -1287,8 +1287,8 @@ void P_STA_SKILL_StepCursor(PStatusWork *wk, PStaSkillWork *work) {
     unsigned moveId;
     pp=P_STATUS_GetPokePara(wk);
     slotIndex=work->cursorSlot;
-    if(func_020362DC()==64) step=-1;else step=1;
-    func_020061E4(1352);
+    if(KEY_GetTrg()==64) step=-1;else step=1;
+    GFL_USE_PlaySeDefaultVolume(1352);
     do {
         slotIndex+=step;
         if(slotIndex<0) slotIndex=work->slotCount-1;
@@ -1300,15 +1300,15 @@ void P_STA_SKILL_StepCursor(PStatusWork *wk, PStaSkillWork *work) {
 }
 
 /*
- * lever: repeat func_0204B3DC in both arms to retain branch to next.
+ * lever: repeat CLACT_SetActorDrawEnable in both arms to retain branch to next.
  */
 void P_STA_SKILL_SetCursor(PStatusWork *wk, PStaSkillWork *work, u8 newSlot, int forceRefresh) {
     StaOamPoint pos;
     if(wk->inputType==0) {
         P_STA_SKILL_GetSlotPos(&work->slot[newSlot],&pos);
-        func_0204B404(work->cursorObj,&pos,0);
-        func_0204B3DC(work->cursorObj,0);
-    } else func_0204B3DC(work->cursorObj,0);
+        CLACT_AddActorSurfacePos(work->cursorObj,&pos,0);
+        CLACT_SetActorDrawEnable(work->cursorObj,0);
+    } else CLACT_SetActorDrawEnable(work->cursorObj,0);
     if(work->cursorSlot!=work->heldSlot || work->isMoveHeld==0) {
         if(work->cursorSlot!=STA_SKILL_NO_CURSOR) P_STA_SKILL_SetSlotAnim(&work->slot[work->cursorSlot],0);
     } else P_STA_SKILL_SetSlotAnim(&work->slot[work->cursorSlot],2);
@@ -1368,12 +1368,12 @@ void P_STA_SKILL_SetNewMoveHeld(PStatusWork *wk, PStaSkillWork *work, int isNewM
     if(isNewMoveHeld==1) {
         CLACT_SetActorAnimSeq(newMoveSlot->frameObj,16);
         P_STA_OAM_SetBitmapActorsEnabled(newMoveSlot->nameActors,0);
-        func_0204B3DC(newMoveSlot->typeObj,0);
+        CLACT_SetActorDrawEnable(newMoveSlot->typeObj,0);
         P_STA_OAM_TransferBitmap(work->giveUpActors);
         P_STA_OAM_SetBitmapActorsEnabled(work->giveUpActors,1);
     } else {
         P_STA_OAM_SetBitmapActorsEnabled(work->giveUpActors,0);
-        func_0204B3DC(newMoveSlot->typeObj,1);
+        CLACT_SetActorDrawEnable(newMoveSlot->typeObj,1);
         if(work->cursorSlot==4) P_STA_SKILL_SetSlotAnim(newMoveSlot,1); else P_STA_SKILL_SetSlotAnim(newMoveSlot,0);
         P_STA_OAM_SetBitmapActorsEnabled(newMoveSlot->nameActors,1);
     }
@@ -1381,9 +1381,9 @@ void P_STA_SKILL_SetNewMoveHeld(PStatusWork *wk, PStaSkillWork *work, int isNewM
 
 void P_STA_SKILL_ShowCantForgetMsg(PStatusWork *wk, PStaSkillWork *work, int result) {
     work->msgPrintPending=1;
-    BMP_Clear(func_02045770(work->win[STA_SKILL_WIN_MESSAGE]),0);
+    BMP_Clear(BMP_WIN_GetBmp(work->win[STA_SKILL_WIN_MESSAGE]),0);
     if(result==1) P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_MESSAGE],156,0,0,15424);
-    func_020061E4(1367);
+    GFL_USE_PlaySeDefaultVolume(1367);
 }
 
 u16 P_STA_SKILL_GetNatureStatColor(PStatusWork *wk, PStaSkillWork *work, unsigned char nature, u32 statIndex) {
@@ -1408,14 +1408,14 @@ void P_STA_SKILL_CreateSlotObjects(PStatusWork *wk, PStaSkillWork *work, PStaSki
     pos.bgPriority=0;
     pos.animSeq=slot->index;
     slot->frameObj=CLACT_CreateActor(wk->clunit,(wk->objRes[20]),(wk->objRes[6]),(wk->objRes[32]),&pos,0,wk->heapId);
-    func_0204B3DC(slot->frameObj,0);
+    CLACT_SetActorDrawEnable(slot->frameObj,0);
     pos.x=P_STA_SKILL_SlotTilePos[slot->index][0]*8+26;
     pos.y=P_STA_SKILL_SlotTilePos[slot->index][1]*8+9;
     pos.drawPriority=8;
     pos.bgPriority=0;
     pos.animSeq=0;
     slot->typeObj=CLACT_CreateActor(wk->clunit,wk->typeChrRes[0],wk->objRes[3],(wk->objRes[29]),&pos,0,wk->heapId);
-    func_0204B3DC(slot->typeObj,0);
+    CLACT_SetActorDrawEnable(slot->typeObj,0);
 }
 
 void P_STA_SKILL_DeleteSlotObjects(PStatusWork *wk, PStaSkillWork *work, PStaSkillSlot *slot)
@@ -1451,7 +1451,7 @@ void P_STA_SKILL_InitSlotText(PStatusWork *wk, PStaSkillWork *work, PStaSkillSlo
         maxPP=func_02017E88(pp,slot->index+66,0);
     } else {
         moveId=wk->param->newMove;
-        curPP=func_0201BD28(moveId,5);
+        curPP=WAZA_TOOL_GetParam(moveId,5);
         maxPP=curPP;
     }
     slot->nameBmp=BMP_Create(11,4,32,wk->heapId);
@@ -1503,11 +1503,11 @@ void P_STA_SKILL_ShowSlot(PStatusWork *wk, PStaSkillWork *work, PStaSkillSlot *s
             moveType=WAZA_TOOL_GetType(moveId);
             CLACT_GetCharacterProxy(wk->typeChrRes[moveType],&typeRes);
             CLACT_SetActorImageProxy(slot->typeObj,&typeRes);
-            func_0204B6F4(slot->typeObj,func_020275EC(moveType),1);
-            func_0204B3DC(slot->typeObj,1);
-        } else func_0204B3DC(slot->typeObj,0);
+            CLACT_SetActorPaletteOffset(slot->typeObj,func_020275EC(moveType),1);
+            CLACT_SetActorDrawEnable(slot->typeObj,1);
+        } else CLACT_SetActorDrawEnable(slot->typeObj,0);
         P_STA_OAM_TransferBitmap(slot->nameActors);
-        func_0204B3DC(slot->frameObj,1);
+        CLACT_SetActorDrawEnable(slot->frameObj,1);
         slot->redrawPending=0;
     }
 }
@@ -1520,8 +1520,8 @@ void P_STA_SKILL_FreeSlot(PStatusWork *wk, PStaSkillWork *work, PStaSkillSlot *s
 
 void P_STA_SKILL_HideSlot(PStatusWork *wk, PStaSkillWork *work, PStaSkillSlot *slot)
 {
-    func_0204B3DC(slot->frameObj, 0);
-    func_0204B3DC(slot->typeObj, 0);
+    CLACT_SetActorDrawEnable(slot->frameObj, 0);
+    CLACT_SetActorDrawEnable(slot->typeObj, 0);
 }
 
 void P_STA_SKILL_GetSlotTouchRect(PStaSkillSlot *slot, StaTouchRect *rect) {

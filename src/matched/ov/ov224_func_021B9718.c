@@ -15,8 +15,8 @@
  *   func_021B9898 0x021B9898 thumb ov224
  *   func_021B99E8 0x021B99E8 thumb ov224
  *   func_02030EAC 0x02030EAC arm
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
@@ -32,8 +32,8 @@ extern void func_020403F4(u32 i);
 extern void func_021B9898(char *),func_021B99E8(char *);
 struct S020315D4;
 extern void func_02030EAC(struct Node *n);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned int heap);
@@ -44,7 +44,7 @@ int func_021B9718(void *a,int b,int c,char *p)
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04001000 &=~0xe000;
     func_021B9898(p);
-    func_02030EAC(((struct Obj06730 *)p)->f14); func_0201C6EC(((struct Obj06730 *)p)->f10); func_0201C4C0(((struct Obj06730 *)p)->f10);
+    func_02030EAC(((struct Obj06730 *)p)->f14); PRINTSYS_QUE_Clear(((struct Obj06730 *)p)->f10); PRINTSYS_QUE_Delete(((struct Obj06730 *)p)->f10);
     GF_FONT_Delete(((struct Obj06730 *)p)->fC); func_021B99E8(*(char * *)&((struct Obj06730 *)p)->f8);
     func_020315D4(a); func_020306F0(136);
     return 1;

@@ -24,7 +24,7 @@
  *   FLDMMDL_InitMoveCmdWork  0x0216D6BC  thumb  ov010
  *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
  *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_ACMD_AnimeDash4FStart  0x02198E44  thumb
  *   FLDMMDL_ACMD_AnimeDash6FStart  0x02198E60  thumb
  *   FLDMMDL_GetMoveCmdWork  0x0216D6D4  thumb  ov010
@@ -137,10 +137,10 @@
  *   EVENT_TRAINER_EYE_GetPlayerDistance  0x021AE198  thumb  ov021
  *   FLDMMDL_ChangeMoveCode  0x0216E0E8  thumb  ov010
  *   gMmdlSwapMoveCodePairs     0x021D4F90  data    a2
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   FLDMMDL_SysSearchPlayer  0x0216DEE0  thumb  ov010
  *   FLDMMDL_GetAcmdCode  0x0216D7C4  thumb  ov010
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_020056EC  0x020056EC  thumb
  *   gMmdlDirSets  0x021D50F8  data  a4
  *   FLDMMDL_MOVE_GetDirFromPoints  0x021642B4  thumb  ov010
@@ -231,10 +231,10 @@ extern u16 FLDMMDL_GetDirMove(Mmdl *mmdl);
 extern int FLDMMDL_GetParam(Mmdl *mmdl, int index);
 extern int EVENT_TRAINER_EYE_GetPlayerDistance(Mmdl *mmdl, int a, int b, int c);
 extern int FLDMMDL_ChangeMoveCode(Mmdl *mmdl, int moveCode);
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 extern Mmdl *FLDMMDL_SysSearchPlayer(MmdlSys *sys);
 extern u16 FLDMMDL_GetAcmdCode(Mmdl *mmdl);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern u32 func_020056EC(u32 range);
 extern u16 FLDMMDL_MOVE_GetDirFromPoints(int x0, int y0, int x1, int y1);
 extern int FLDMMDL_CheckStatusBit(Mmdl *mmdl, int bit);
@@ -1366,7 +1366,7 @@ int FLDMMDL_MOVECODE_RoutePatrolSwapStepWaitWalk(Mmdl *mmdl, MmdlRoutePatrolSwap
 /* Returns 1 while the B button is held. */
 int FLDMMDL_MOVECODE_IsBButtonHeld(void)
 {
-    if (func_0203630C() & 2) {
+    if (KEY_GetCont() & 2) {
         return 1;
     }
     return 0;
@@ -1397,7 +1397,7 @@ int FLDMMDL_MOVECODE_IsPlayerWalking(Mmdl *mmdl)
 /* Returns 1 on the frame the B button goes down. */
 int FLDMMDL_MOVECODE_IsBButtonPressed(void)
 {
-    if (func_020362DC() & 2) {
+    if (KEY_GetTrg() & 2) {
         return 1;
     }
     return 0;
@@ -1935,7 +1935,7 @@ int FLDMMDL_MOVE_TurnSpin(Mmdl *mmdl)
 /* Is the B button held (speeds up the turn animations). */
 int FLDMMDL_MOVE_IsButtonBHeld(void)
 {
-    if (func_0203630C() & 2) {
+    if (KEY_GetCont() & 2) {
         return 1;
     }
     return 0;

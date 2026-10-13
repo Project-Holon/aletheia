@@ -12,7 +12,7 @@
  *   func_0203F4E4 0x0203F4E4 arm
  *   func_0203F540 0x0203F540 arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_021B95D4 0x021B95D4 thumb ov114
  *   func_021B9748 0x021B9748 thumb ov114
@@ -34,7 +34,7 @@ extern u32 func_020093C8(const struct Sub02009210Obj *obj);
 extern void func_0203F4E4(struct RtcDate *);
 extern int func_0203F540(struct RtcDate *);
 extern int GFL_NET_GetRunState(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern int func_021B95D4(int index, u8 *p);
 extern int func_021B9748(u8 *p);
@@ -65,7 +65,7 @@ void func_021D8958(char *p)
         if (func_021B95D4(1,((struct Obj06468 *)p)->f10) && !func_021B9748(((struct Obj06468 *)p)->f10))
             func_021D6EE0((u8 *)p,(int)func_021D88C0,0x871);
     } else {
-        if (func_020362DC() || TOUCHPANEL_GetTrg())
+        if (KEY_GetTrg() || TOUCHPANEL_GetTrg())
             func_021D6EE0((u8 *)p,(int)func_021D88C0,0x878);
     }
 }

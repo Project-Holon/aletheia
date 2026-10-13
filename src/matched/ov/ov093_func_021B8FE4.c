@@ -1,5 +1,5 @@
 /*
- * function: func_021B8FE4
+ * function: BTL_MAIN_IsOwnClientSecondTeam
  * address: 0x021B8FE4
  * packet: pkt_ov093_021B8FE4
  * region: ov093
@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B8FC0 0x021B8FC0 thumb ov093
+ *   BTL_MAIN_IsSecondTeamClient 0x021B8FC0 thumb ov093
  * Leaf: sole unresolved overlay blocker of ov094 func_021F745C.
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern unsigned char func_021B8FC0(unsigned char *p, unsigned int k);
-u8 func_021B8FE4(u8 *p)
+extern unsigned char BTL_MAIN_IsSecondTeamClient(unsigned char *p, unsigned int k);
+u8 BTL_MAIN_IsOwnClientSecondTeam(u8 *p)
 {
-    return func_021B8FC0(p, p[0x46c]);
+    return BTL_MAIN_IsSecondTeamClient(p, p[0x46c]);
 }

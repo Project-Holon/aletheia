@@ -14,7 +14,7 @@
  *
  * symbols:
  *   d_021C3B98 0x021C3B98 data a4
- *   func_020311B8 0x020311B8 arm
+ *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
  *   func_02080C54 0x02080C54 arm
  *   func_020056A0 0x020056A0 thumb
@@ -23,16 +23,16 @@
  *   func_02082AC0 0x02082AC0 arm
  *   TCBL_DeleteTask 0x02031194 arm
  *   func_02030EAC 0x02030EAC arm
- *   func_0200616C 0x0200616C thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeInSlot 0x0200616C thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   GFL_USE_SetSeSlotVolume 0x020062BC thumb
  *   GFL_USE_SetSeSlotParams 0x02006268 thumb
- *   sub_020311B8 0x020311B8 arm
+ *   TCBL_AddTask_Alt 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021BF7AC 0x021BF7AC thumb
- *   sub_0207C768 0x0207C768 arm
+ *   FX_Div 0x0207C768 arm
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -81,7 +81,7 @@ struct Owner { u8 pad[0x20]; struct Tcbl *manager; };
 
 struct Work { struct Owner *owner; u8 state,kind,target,pad; int duration,start,end,current,step; };
 
-extern void *func_020311B8(void *, void (*)(void *, void *), unsigned, unsigned);
+extern void *TCBL_AddTask(void *, void (*)(void *, void *), unsigned, unsigned);
 extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern unsigned short func_02080C54(void);
 extern void *func_020056A0(unsigned, unsigned, unsigned);
@@ -90,17 +90,17 @@ extern void func_0208068C(int);
 extern void func_02082AC0(unsigned,void *,unsigned);
 extern void TCBL_DeleteTask(struct TcblNode *);
 extern void func_02030EAC(struct Node *n);
-extern void func_0200616C(void *,int);
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeInSlot(void *,int);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern int GFL_USE_GetSeSlot(unsigned);
 extern void GFL_USE_SetSeSlotVolume(int,unsigned);
 extern void GFL_USE_SetSeSlotParams(int,unsigned,unsigned,unsigned);
-extern void func_020061F8(int);
-extern struct TcblNode *sub_020311B8(struct Tcbl *,void (*)(struct TcblNode *,void *),u32,u32);
+extern void GFL_USE_StopSeSlot(int);
+extern struct TcblNode *TCBL_AddTask_Alt(struct Tcbl *,void (*)(struct TcblNode *,void *),u32,u32);
 extern void *TCBL_GetWork(struct S02030FB4 *);
-extern void func_02082BCC(void *,u32,u32);
+extern void MI_CpuFill8(void *,u32,u32);
 extern int func_021BF7AC(char *p, int v);
-extern u32 sub_0207C768(u32,u32);
+extern u32 FX_Div(u32,u32);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 void * func_021BE9B8(void *p,unsigned a,unsigned b);
@@ -142,7 +142,7 @@ void *func_021BE9F8(void *manager, const Config_021BE9E8 *source)
 {
     void *task;
     char *ctx;
-    task = func_020311B8(manager, (void (*)(void *, void *))func_021BEAB8, 56, 5);
+    task = TCBL_AddTask(manager, (void (*)(void *, void *))func_021BEAB8, 56, 5);
     ctx = TCBL_GetWork(task);
     *(Config_021BE9E8 *)(ctx + 4) = *source;
     ((struct Obj10864 *)ctx)->f34 = task;
@@ -216,8 +216,8 @@ void func_021BEB48(CaptureConfig *s)
 void func_021BEBC8(void *unused,int ignored,int *s)
 {
     int channel;
-    if(s[4]!=-1){func_0200616C((void *)s[0],s[4]);channel=s[4];}
-    else {func_020061E4(s[0]);channel=GFL_USE_GetSeSlot(s[0]);}
+    if(s[4]!=-1){GFL_USE_PlaySeInSlot((void *)s[0],s[4]);channel=s[4];}
+    else {GFL_USE_PlaySeDefaultVolume(s[0]);channel=GFL_USE_GetSeSlot(s[0]);}
     if(s[1]!=-1)GFL_USE_SetSeSlotVolume(channel,s[1]);
     if(s[2]!=-1)GFL_USE_SetSeSlotParams(channel,-1,-1,s[2]);
     if(s[3]!=-1)GFL_USE_SetSeSlotParams(channel,-1,s[3],-1);
@@ -232,7 +232,7 @@ void func_021BEC24(u32 a, u32 b, int *c)
     if (ch == -1) {
         ch = GFL_USE_GetSeSlot(c[0]);
     }
-    func_020061F8(ch);
+    GFL_USE_StopSeSlot(ch);
 }
 
 
@@ -261,8 +261,8 @@ void func_021BECA8(struct Owner *owner,u8 kind,u16 target,int start,int end,int 
     struct Work *work;
     float a,b,c;
     int final;
-    work=TCBL_GetWork((struct S02030FB4 *)sub_020311B8(owner->manager,(void (*)(struct TcblNode *, void *))func_021BED94,0x1c,0));
-    func_02082BCC(work,0,0x1c);
+    work=TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask_Alt(owner->manager,(void (*)(struct TcblNode *, void *))func_021BED94,0x1c,0));
+    MI_CpuFill8(work,0,0x1c);
     work->owner=owner;
     work->kind=kind;
     work->start=start;
@@ -278,7 +278,7 @@ void func_021BECA8(struct Owner *owner,u8 kind,u16 target,int start,int end,int 
     if(end>0) c=0.5f+(float)(end<<12);
     else c=(float)(end<<12)-0.5f;
     final=(int)c;
-    work->step=sub_0207C768(final-work->current,(int)b);
+    work->step=FX_Div(final-work->current,(int)b);
 }
 
 

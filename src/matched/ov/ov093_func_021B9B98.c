@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B98
+ * function: BTL_SLOT_CountLiving
  * address: 0x021B9B98
  * packet: pkt_ov093_021B9B98
  * region: ov093
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int BTL_POKEPARAM_IsAbleToBattle(void *);
-u8 func_021B9B98(u8 *p) {
+u8 BTL_SLOT_CountLiving(u8 *p) {
     int i;
     u32 n;
     i = 0;

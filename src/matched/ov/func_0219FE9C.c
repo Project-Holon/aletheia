@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj17985.h"
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02082BCC(u32, u32, u32, u32);
+extern u32 MI_CpuFill8(u32, u32, u32, u32);
 
 int FLDMMDL_DRAW_InitDirState(u32 a, u32 b, u32 c, u32 d)
 {
-func_02082BCC(a, 0, 4, d);
+MI_CpuFill8(a, 0, 4, d);
 ((struct Obj17985 *)((u8 *)(a)))->f0 = 8;
 return 8;
 }

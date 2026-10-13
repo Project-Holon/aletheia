@@ -1,5 +1,5 @@
 /*
- * function: func_021CC398
+ * function: BTL_SERVER_FLOW_ItemEffectCureAllSick
  * address:  0x021CC398
  * packet:   pkt_ov093_021CC398
  * region:   ov093
@@ -15,8 +15,8 @@
  *   func_021CC418  0x021CC418  thumb  ov093
  *   func_021CC428  0x021CC428  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
- *   func_021C88A4  0x021C88A4  thumb  ov093
- *   func_021C88C8  0x021C88C8  thumb  ov093
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  */
 #include "../include/Obj09983.h"
 
@@ -30,10 +30,10 @@ extern int func_021CC418(void *p, int id);
 extern u32 func_021CC428(int i);
 struct Unk021D62A8;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *a, void *b);
+extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
-int func_021CC398(char *p, void *m)
+int BTL_SERVER_FLOW_ItemEffectCureAllSick(char *p, void *m)
 {
     u32 k;
     int ret;
@@ -51,11 +51,11 @@ int func_021CC398(char *p, void *m)
                     break;
                 if (BTL_POKEPARAM_HasSick(m, k) != 0) {
                     id = BTL_POKEPARAM_GetPokeId(m);
-                    r = (u8 *)func_021C88A4(p, 11, id);
+                    r = (u8 *)BTL_SERVER_FLOW_AllocCmdRecord(p, 11, id);
                     r[0x14] = 1;
                     r[8] = id;
                     ((struct Obj09983 *)r)->f4 = k;
-                    func_021C88C8(p, r);
+                    BTL_SERVER_FLOW_CommitCmdRecord(p, r);
                     ret = 1;
                 }
             }

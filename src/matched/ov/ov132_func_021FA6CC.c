@@ -17,10 +17,10 @@
  *   func_021F9730 0x021F9730 thumb ov132
  *   func_021F9768 0x021F9768 thumb ov132
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_020355D8 0x020355D8 arm
- *   func_0204B3F4 0x0204B3F4 arm
+ *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  */
 #include "../include/Obj00914.h"
@@ -39,11 +39,11 @@ struct Vec2;
 extern void func_0207D658(unsigned long,int,int);
 extern void func_021F9730(char *p, int value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
-extern void func_0204B3DC(struct Obj *,unsigned int);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_020355D8(u8);
 extern int func_021F9768(char *p);
-extern u32 func_0204B3F4(struct Obj *p);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 void func_021FA6CC(char *p)
 {
@@ -68,8 +68,8 @@ void func_021FA6CC(char *p)
             pos.x=hit==0?32:224;
             pos.y=128;
             CLACT_RestartActorAnim(((struct Obj00914 *)p)->f5C);
-            func_0204B3DC(((struct Obj00914 *)p)->f5C,1);
-            func_0204B404(((struct Obj00914 *)p)->f5C,(const struct Vec2 *)(&pos),1);
+            CLACT_SetActorDrawEnable(((struct Obj00914 *)p)->f5C,1);
+            CLACT_AddActorSurfacePos(((struct Obj00914 *)p)->f5C,(const struct Vec2 *)(&pos),1);
             func_020355D8(1);
         }
     }
@@ -77,15 +77,15 @@ void func_021FA6CC(char *p)
         if(func_021F9768(((struct Obj00914 *)p)->f4)==0) {
             if(((struct Obj00914 *)p)->f10==0) {
                 ((struct Obj00914 *)p)->fC=1;
-                func_0204B3DC(*(void **)(p+0x4c+((struct Obj00914 *)p)->f14*4),0);
-                func_0204B3DC(*(void **)(p+0x54+((struct Obj00914 *)p)->f14*4),0);
+                CLACT_SetActorDrawEnable(*(void **)(p+0x4c+((struct Obj00914 *)p)->f14*4),0);
+                CLACT_SetActorDrawEnable(*(void **)(p+0x54+((struct Obj00914 *)p)->f14*4),0);
                 ((struct Obj00914 *)p)->f14=2;
             }
         } else {
             if(((struct Obj00914 *)p)->f10==1) ((struct Obj00914 *)p)->f10=0;
         }
     }
-    if(func_0204B3F4(((struct Obj00914 *)p)->f5C)==1) {
-        if(CLACT_IsActorAnimActive(((struct Obj00914 *)p)->f5C)==0) func_0204B3DC(((struct Obj00914 *)p)->f5C,0);
+    if(CLACT_GetActorDrawEnable(((struct Obj00914 *)p)->f5C)==1) {
+        if(CLACT_IsActorAnimActive(((struct Obj00914 *)p)->f5C)==0) CLACT_SetActorDrawEnable(((struct Obj00914 *)p)->f5C,0);
     }
 }

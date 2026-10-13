@@ -15,8 +15,8 @@
  *
  * symbols:
  *   func_02082D44  0x02082D44  arm
- *   func_020362DC  0x020362DC  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_020124E8  0x020124E8  thumb
@@ -24,20 +24,20 @@
  *   abs_id_4d      0x0000004D  data
  *   func_020122C0  0x020122C0  thumb
  *   func_020120F4  0x020120F4  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0201210C  0x0201210C  thumb
  *   abs_id_39      0x00000039  data
  *   func_0200E588  0x0200E588  thumb
- *   func_0201A920  0x0201A920  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
  *   d_021DE674     0x021DE674  data  a4
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  *   func_020073D8  0x020073D8  thumb
  *   func_0200E5A0  0x0200E5A0  thumb
  *   func_0200E5CC  0x0200E5CC  thumb
  *   func_0200734C  0x0200734C  thumb
- *   func_0201A954  0x0201A954  thumb
+ *   POKEPARTY_InitEx  0x0201A954  thumb
  *   func_020056EC  0x020056EC  thumb
  *   FLD_BTL_INST_TOOL_CreateTrainer  0x02168878  thumb  ov010
  *   func_0200E5F8  0x0200E5F8  thumb
@@ -197,8 +197,8 @@ typedef struct TrialHouseSaveTaskWork {
 } TrialHouseSaveTaskWork;
 
 extern void func_02082D44(const void *src, void *dst, u32 size);
-extern u32 func_020362DC(void);
-extern void func_02082BCC(void *dst, u32 value, u32 size);
+extern u32 KEY_GetTrg(void);
+extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
 extern void *func_020124E8(GameEvent *event);
@@ -206,11 +206,11 @@ extern GameEvent *func_020122C0(GameSystem *gameSystem, void *arg, int (*func)(G
 extern GameData *func_020120F4(GameSystem *gameSystem);
 extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
 extern FieldMap *func_0201210C(GameSystem *gameSystem);
-extern void *func_0201AB28(Party *party, u32 index);
+extern void *POKEPARTY_GetMember(Party *party, u32 index);
 extern u32 func_02017E1C(void *mon, u32 paramId, u32 arg);
 extern u32 func_0200E588(void);
-extern Party *func_0201A920(u32 heapId);
-extern void func_0201A954(Party *party, s32 capacity);
+extern Party *POKEPARTY_Create(u32 heapId);
+extern void POKEPARTY_InitEx(Party *party, s32 capacity);
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(SaveControl *saveControl, int blockId, int heapId, void *buf, int size);
 extern TrialHouseDelivery *func_020073D8(SaveControl *saveControl, u32 blockId, u32 arg);
 extern void func_0200734C(SaveControl *saveControl, unsigned int blockId);
@@ -283,7 +283,7 @@ TrialHouseWork *TRIAL_HOUSE_CreateWork(GameSystem *gameSystem)
     work->heapId = TRIAL_HOUSE_HEAP_ID;
     work->delivery = func_02030734(TRIAL_HOUSE_HEAP_ID, deliverySize, 1, d_021DE674, 0x5F);
     func_021D09D0(gameSystem, work);
-    work->playerParty = func_0201A920(work->heapId);
+    work->playerParty = POKEPARTY_Create(work->heapId);
     return work;
 }
 
@@ -348,7 +348,7 @@ void TRIAL_HOUSE_SetBattleMode(TrialHouseWork *work, u32 mode)
         work->battleMode = 0;
         work->monCount = 3;
     }
-    func_0201A954(work->playerParty, work->monCount);
+    POKEPARTY_InitEx(work->playerParty, work->monCount);
 }
 
 /*
@@ -493,7 +493,7 @@ int func_021D0C58(GameEvent *event, u32 *seq, void *work)
         }
         break;
     case 1:
-        if (func_020362DC() == 2) {
+        if (KEY_GetTrg() == 2) {
             *task->result = TRIAL_HOUSE_DELIVERY_RESULT_NET_ERROR;
             *seq = 4;
             break;
@@ -504,7 +504,7 @@ int func_021D0C58(GameEvent *event, u32 *seq, void *work)
         }
         break;
     case 2:
-        if (func_020362DC() == 2) {
+        if (KEY_GetTrg() == 2) {
             *task->result = TRIAL_HOUSE_DELIVERY_RESULT_NET_ERROR;
             *seq = 4;
             break;
@@ -518,7 +518,7 @@ int func_021D0C58(GameEvent *event, u32 *seq, void *work)
         }
         break;
     case 3:
-        if (func_020362DC() == 2) {
+        if (KEY_GetTrg() == 2) {
             *task->result = TRIAL_HOUSE_DELIVERY_RESULT_NET_ERROR;
             *seq = 4;
             break;
@@ -635,10 +635,10 @@ void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *wor
         slot->battleMode = 0;
     }
     slot->score = score;
-    func_02082BCC(slot->mons, 0, sizeof(slot->mons));
+    MI_CpuFill8(slot->mons, 0, sizeof(slot->mons));
     for (i = 0; i < work->monCount; i++) {
         saveMon = &slot->mons[i];
-        mon = func_0201AB28(work->playerParty, i);
+        mon = POKEPARTY_GetMember(work->playerParty, i);
         saveMon->species = func_02017E1C(mon, 5, 0);
         saveMon->form = func_02017E1C(mon, 0x6f, 0);
         saveMon->gender = func_02017E1C(mon, 0x6e, 0);
@@ -741,7 +741,7 @@ int func_021D10A8(GameEvent *event, u32 *seq, void *work)
         if (task->mode == 1) {
             func_0200E684(delivery);
         } else {
-            func_02082BCC(delivery, 0, func_0200E588());
+            MI_CpuFill8(delivery, 0, func_0200E588());
         }
         GAME_DATA_PartSaveStart(gameData, TRIAL_HOUSE_SAVE_BLOCK);
         *seq = *seq + 1;

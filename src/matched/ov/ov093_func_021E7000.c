@@ -1,5 +1,5 @@
 /*
- * function: func_021E7000
+ * function: HAND_WAZA_AddHex
  * address: 0x021E7000
  * packet: pkt_ov093_021E7000
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E6FC8.c and filed here.
  *
  * symbols:
- *   d_021F2524 0x021F2524 data ov093 a4
+ *   gHexHandlers 0x021F2524 data ov093 a4
  */
 
-extern int d_021F2524[];
-int *func_021E7000(int *p);
+extern int gHexHandlers[];
+int *HAND_WAZA_AddHex(int *p);
 
-int *func_021E7000(int *p)
+int *HAND_WAZA_AddHex(int *p)
 {
     *p = 1;
-    return d_021F2524;
+    return gHexHandlers;
 }

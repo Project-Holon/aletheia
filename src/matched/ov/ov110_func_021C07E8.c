@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_0203FB44 0x0203FB44 arm
  *   func_020307B0 0x020307B0 arm
  */
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Descriptor;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern u32 func_020307B0(void *p);
-void func_021C07E8(u8 *p) { func_020452E8(((struct Obj08011 *)p)->f24); func_0203FB44(3,(u16)(((struct Obj08011 *)p)->f0),(u16)(((struct Obj08011 *)p)->f0>>16)); func_020307B0(((struct Obj08011 *)p)->f4); }
+void func_021C07E8(u8 *p) { BMP_WIN_Delete(((struct Obj08011 *)p)->f24); func_0203FB44(3,(u16)(((struct Obj08011 *)p)->f0),(u16)(((struct Obj08011 *)p)->f0>>16)); func_020307B0(((struct Obj08011 *)p)->f4); }

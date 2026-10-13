@@ -17,7 +17,7 @@
  *   func_02058518  0x02058518  arm
  *   func_02178A94  0x02178A94  arm  ov009
  *   func_0217967C  0x0217967C  arm  ov009
- *   func_02085A30  0x02085A30  arm
+ *   OS_GetThreadPriority  0x02085A30  arm
  *   func_02179718  0x02179718  arm  ov009
  *   g_021A2358  0x021A2358  data  ov009
  *   g_021A2358_arg  0x021A2358  data  ov009
@@ -67,7 +67,7 @@ struct tagDWCWiFiInfo;
 extern void func_02058518(struct tagDWCWiFiInfo *buf);
 extern int func_02178A94(DWCHttp *http, char *gsbrcd, unsigned short *ingamesn);
 extern int func_0217967C(char *http);
-extern unsigned long func_02085A30(void *thread);
+extern unsigned long OS_GetThreadPriority(void *thread);
 extern void func_02179718(char *http, unsigned long prio);
 
 extern struct DWCHttpParam g_021A2358;
@@ -100,6 +100,6 @@ int func_021782B4(int getwifiinfofromflash)
     if (func_0217967C((char *)AUTH_HTTP) != 0)
         return 4;
 
-    func_02179718((char *)AUTH_HTTP, func_02085A30(g_02150FEC.current) - 1);
+    func_02179718((char *)AUTH_HTTP, OS_GetThreadPriority(g_02150FEC.current) - 1);
     return 0;
 }

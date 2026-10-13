@@ -1,5 +1,5 @@
 /*
- * function: func_021E6164
+ * function: HAND_WAZA_WeatherHealSetRatio
  * address:  0x021E6164
  * packet:   pkt_ov093_021E6164
  * region:   ov093
@@ -11,21 +11,21 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C8288  0x021C8288  thumb  ov093
+ *   BTL_SERVER_FLOW_GetEffectiveWeatherThunk  0x021C8288  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int key);
-extern int func_021C8288(u8 *p);
+extern int BTL_SERVER_FLOW_GetEffectiveWeatherThunk(u8 *p);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E6164(u8 *p, void *a, int b)
+void HAND_WAZA_WeatherHealSetRatio(u8 *p, void *a, int b)
 {
     int v;
     if (b != BTL_EVENT_GetVar(2))
         return;
-    switch (func_021C8288(a)) {
+    switch (BTL_SERVER_FLOW_GetEffectiveWeatherThunk(a)) {
     case 1:
         v = 0xaac;
         break;

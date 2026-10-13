@@ -15,9 +15,9 @@
  * symbols:
  *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   func_02009864 0x02009864 thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_02045748 0x02045748 arm
+ *   BMP_WIN_GetDispWidth 0x02045748 arm
  *   TOUCHBAR_PrintYesNoCancelLabels 0x021B6B2C thumb ov067
  *   func_021C9FC8 0x021C9FC8 thumb ov128
  *   func_021C6C94 0x021C6C94 thumb ov128
@@ -48,9 +48,9 @@ struct Descriptor;
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 struct Sub020097BCObj;
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern u8 func_02045748(struct Descriptor *p);
+extern u8 BMP_WIN_GetDispWidth(struct Descriptor *p);
 extern void TOUCHBAR_PrintYesNoCancelLabels(u32 a0, void *a1, u32 a2, u16 a3, u16 a4, u16 a5, u32 a6, u32 a7, u16 heap);
 extern void func_021C9FC8(u8 *,void *,u8 *,u32,int,int,int);
 extern void func_021C6C94(char **,int);
@@ -72,9 +72,9 @@ void func_021C991C(u8 *p,u8 *q,u8 *ctx,u16 heap)
     Bounds bounds;
     base=GAME_DATA_GetWifiList(((struct Obj00992 *)q)->f4);
     func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),9);
-    for(i=0;i<10;i++) BMP_Clear(func_02045770(*(void **)(p+i*8+0x128)),0);
+    for(i=0;i<10;i++) BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+i*8+0x128)),0);
     offset=0x128;
-    pos=func_02045748(*(void **)(p+offset));
+    pos=BMP_WIN_GetDispWidth(*(void **)(p+offset));
     TOUCHBAR_PrintYesNoCancelLabels((u32)(p+offset),(void *)(*(u32 *)&((struct Obj00329 *)ctx)->f34),*(u32 *)&((struct Obj00329 *)ctx)->f17C,
         (int)((u32)pos*8)/2,0,0x3C40,
         *(u8 *)((u32)q+((struct Obj00992 *)q)->fB+0x38)+1,((struct Obj00992 *)q)->f14,heap);

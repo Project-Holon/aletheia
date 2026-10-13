@@ -10,7 +10,7 @@
  * status: EXACT*
  * symbols:
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_CreateFromArchive 0x0204384C arm
@@ -29,7 +29,7 @@ struct Ov208Gfx { u16 heap; u16 pad; int f4; int f8; int fc; int f10; u32 f14; v
 struct Bmp;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *a);
+extern void *BMP_WIN_GetBmp(struct Descriptor *a);
 struct CharBuf;
 struct MsgBank;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -44,7 +44,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 void func_021BE868(struct Ov208Gfx *g)
 {
     g->f14 = BMP_WIN_Create(5, 0, 0, 0x10, 1, 13, 0);
-    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)g->f14)), 0);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)g->f14)), 0);
     BMP_WIN_TransferChars((struct Descriptor *)g->f14);
     g->f18 = BMP_CreateFromArchive(0x9f, 14, 0, g->heap);
     g->f20 = BMP_GetByteSize(g->f18);

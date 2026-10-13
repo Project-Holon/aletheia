@@ -17,7 +17,7 @@
  *   func_021F1B3C  0x021F1B3C  arm  ov107
  *   func_021F6804  0x021F6804  arm  ov107
  *   func_021F6830  0x021F6830  arm  ov107
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021F3F78  0x021F3F78  arm  ov107
  *   func_021F5BE0  0x021F5BE0  arm  ov107
  *   func_0208799C  0x0208799C  arm
@@ -40,7 +40,7 @@ extern void func_02082A48(u16 data, void *destp, u32 size);
 extern void func_021F1B3C(void (*callback)(u16, u32, void *));
 extern void func_021F6804(u16 childMaxSize);
 extern void func_021F6830(void *buf);
-extern void func_02082BCC(void *dstp, u8 data, u32 size);
+extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void func_021F3F78(void);
 extern int func_021F5BE0(void);
 extern unsigned long func_0208799C(unsigned long state);
@@ -74,7 +74,7 @@ int func_021F5CAC(int channel)
     }
     *(u8 *)(PBUF + 0x1000 + 0x524) = ret;
     func_02082A48(ret, PBUF + 0x388 + 0x1400, 0x5d40);
-    func_02082BCC(PBUF + 0x354 + 0x1400, ret, 0x1e);
+    MI_CpuFill8(PBUF + 0x354 + 0x1400, ret, 0x1e);
     ret = 1;
     *(u16 *)(WM + 0x500 + 0x24) = ret;
     *(void **)(WM + 0x51c) = (void *)func_021F1D80;

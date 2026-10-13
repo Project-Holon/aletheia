@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02045770  0x02045770  arm
- *   func_02045738  0x02045738  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   BMP_WIN_GetWidth  0x02045738  arm
  *   BMP_FillRect  0x02043AF4  arm
  *   BMP_GetWidth  0x020437DC  arm
  *   BMP_MENULIST_PrintItem  0x02020408  thumb
@@ -78,9 +78,9 @@ struct Obj {
 };
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *win);
+extern void *BMP_WIN_GetBmp(struct Descriptor *win);
 struct Bmp;
-extern u8 func_02045738(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void BMP_MENULIST_PrintItem(struct Obj *obj, const void *text, u32 x, u32 y, u32 sel);
@@ -100,8 +100,8 @@ void BMP_MENULIST_DrawItems(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag)
         u8 w;
         u8 k;
         x = (obj->arr[row - 1].value != (u32)-3) ? obj->f15 : obj->f14;
-        bmp = (u32)func_02045770((struct Descriptor *)obj->unk0C);
-        w = func_02045738((struct Descriptor *)obj->unk0C);
+        bmp = (u32)BMP_WIN_GetBmp((struct Descriptor *)obj->unk0C);
+        w = BMP_WIN_GetWidth((struct Descriptor *)obj->unk0C);
         BMP_FillRect((struct Bmp *)bmp, 0, 0, (u16)(w * 8),
                       (u16)(obj->f17lo + (col + 1) * step * 2), obj->f18lo);
         y = (u8)(obj->f17lo + col * step);
@@ -110,7 +110,7 @@ void BMP_MENULIST_DrawItems(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag)
         BMP_MENULIST_PrintItem(obj, obj->arr[row - 1].text, x, y, 0);
         k = obj->f18lo;
         BMP_MENULIST_ShiftWindow((void *)obj->unk0C, 0, step, (u8)((k << 4) | k),
-                      (u16)((step * 2 / 8) * (BMP_GetWidth((const struct Bmp *)((u32)func_02045770((struct Descriptor *)obj->unk0C))) / 8)));
+                      (u16)((step * 2 / 8) * (BMP_GetWidth((const struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)obj->unk0C))) / 8)));
     }
     lim = (u16)(n + 1);
     for (i = 0; i < lim; i++) {

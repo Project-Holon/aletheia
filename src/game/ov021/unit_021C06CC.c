@@ -19,7 +19,7 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
  *   FIELD_G3D_MAPPER_GetBuildModel  0x0218DC6C  thumb  ov021
  *   FIELD_BUILDMODEL_CollectEntriesInRect  0x0218C584  thumb  ov021
@@ -35,10 +35,10 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   FIELD_STATUS_CreateSubProcEvent  0x020146F8  thumb
- *   func_0202647C  0x0202647C  thumb
+ *   GAME_COMM_GetLastKind  0x0202647C  thumb
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
@@ -49,8 +49,8 @@
  *   func_0200FBA0  0x0200FBA0  thumb
  *   GAMESYSTEM_SetFieldMapState  0x02012124  thumb
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
- *   func_02026474  0x02026474  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetWork  0x02026474  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_BEACON_SEARCH_SetStartDelay  0x02164FC4  thumb  ov010
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   FIELD_SOUND_SYSTEM_StartPushAndPlayTask  0x02029830  thumb
@@ -64,7 +64,7 @@
  *   sPartyRecoveryBallOffsets     0x021DA0E0  data  a4
  *   FIELD_BUILDMODEL_TryOpenNodeCurrentSlot  0x0218C8D8  thumb  ov021
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AA1C  0x0201AA1C  thumb
+ *   POKEPARTY_GetNonEggCount  0x0201AA1C  thumb
  */
 #include "fieldmap_types.h"
 
@@ -206,7 +206,7 @@ enum {
 
 extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, GameEventFunc handler, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
-extern GameSystem *func_020124E4(GameEvent *event);
+extern GameSystem *GAME_EVENT_GetGameSystem(GameEvent *event);
 extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
 extern struct GameComm *GAMESYSTEM_GetGameComm(GameSystem *gameSystem);
 extern struct GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
@@ -215,10 +215,10 @@ extern u32 GAMESYSTEM_TryStartAutoComm(GameSystem *gameSystem);
 extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 extern int GAME_DATA_GetIntrudeCount(struct GameData *gameData);
 extern void *GAME_DATA_GetMyParty(struct GameData *gameData);
-extern u32 func_0201AA1C(void *party);
-extern u32 func_0202647C(struct GameComm *gameComm);
-extern void *func_02026474(struct GameComm *gameComm);
-extern u32 func_02026454(struct GameComm *gameComm);
+extern u32 POKEPARTY_GetNonEggCount(void *party);
+extern u32 GAME_COMM_GetLastKind(struct GameComm *gameComm);
+extern void *GAME_COMM_GetWork(struct GameComm *gameComm);
+extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 extern int GFL_NET_GetRunState(void);
 extern int GFL_NET_Exit(int a0);
 extern int GFL_NET_IsSessionNull(void);
@@ -247,7 +247,7 @@ extern int FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(struct BuildModelNode *node);
 extern int FIELD_BUILDMODEL_IsNodeSlotIdle(struct BuildModelNode *node, int slot);
 extern GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(GameSystem *gameSystem, u32 bgmId);
 extern GameEvent *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(GameSystem *gameSystem, u32 a, u32 fadeFrames);
-extern void func_020061E4(u32 seId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern u32 func_020307B0(void *block);
 extern void BUTTON_MAN_MakeRotMtxXYZ(int angleX, int angleY, int angleZ, Mtx33 *out);
 extern void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
@@ -296,14 +296,14 @@ GameEvent *EVENT_COMM_ERROR_Create(GameSystem *gameSystem, FieldMap *fieldMap)
  */
 int EVENT_COMM_ERROR_Run(GameEvent *event, int *seq, void *work)
 {
-    GameSystem *gameSystem = func_020124E4(event);
+    GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     GameEvent *child;
 
     switch (*seq) {
     case COMM_ERROR_STEP_START:
         FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(fieldMap));
-        if (func_0202647C(GAMESYSTEM_GetGameComm(gameSystem)) == 2) {
+        if (GAME_COMM_GetLastKind(GAMESYSTEM_GetGameComm(gameSystem)) == 2) {
             if (GAME_DATA_GetIntrudeCount(GAMESYSTEM_GetGameData(gameSystem)) == 1) {
                 GFL_NET_ERR_RequestScreen();
                 child = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, ov021_id, &sCommErrorSubProcData, gameSystem);
@@ -337,7 +337,7 @@ int EVENT_COMM_ERROR_RunCommExit(GameEvent *event, int *seq, void *work)
     struct GameComm *gameComm;
     void *searchWork;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     switch (*seq) {
     case COMM_EXIT_STEP_EXIT:
@@ -360,8 +360,8 @@ int EVENT_COMM_ERROR_RunCommExit(GameEvent *event, int *seq, void *work)
         }
         return UNIT_021C06CC_FINISHED;
     case COMM_EXIT_STEP_SET_SEARCH_DELAY:
-        searchWork = func_02026474(gameComm);
-        if (searchWork && func_02026454(gameComm)) {
+        searchWork = GAME_COMM_GetWork(gameComm);
+        if (searchWork && GAME_COMM_GetKind(gameComm)) {
             GAME_BEACON_SEARCH_SetStartDelay(searchWork);
             return UNIT_021C06CC_FINISHED;
         }
@@ -526,7 +526,7 @@ void EVENT_RECOVERY_PlaceBall(RecoveryBallsWork *work)
         func_0207C9D0(&work->machinePos, &sRecoveryBallOffsets[i], &placement.pos);
         work->balls[i] = FIELD_BUILDMODEL_CreateNodeFromBlock(work->buildModelMan, RECOVERY_BALL_MODEL_TABLE_ID, &placement);
         work->ballsPlaced = work->ballsPlaced + 1;
-        func_020061E4(RECOVERY_SE_BALL_PLACED);
+        GFL_USE_PlaySeDefaultVolume(RECOVERY_SE_BALL_PLACED);
     }
 }
 
@@ -686,7 +686,7 @@ void EVENT_RECOVERY_PlacePartyBall(PartyRecoveryWork *work)
         func_0207C9D0(&work->machinePos, &sPartyRecoveryBallOffsets[i], &placement.pos);
         work->balls[i] = FIELD_BUILDMODEL_CreateNodeFromBlock(work->buildModelMan, RECOVERY_BALL_MODEL_TABLE_ID, &placement);
         work->ballsPlaced++;
-        func_020061E4(RECOVERY_SE_BALL_PLACED);
+        GFL_USE_PlaySeDefaultVolume(RECOVERY_SE_BALL_PLACED);
     }
 }
 
@@ -719,5 +719,5 @@ int EVENT_RECOVERY_IsMachineAnimeDone(PartyRecoveryWork *work)
  */
 u32 EVENT_RECOVERY_GetPartyBallCount(GameSystem *gameSystem)
 {
-    return func_0201AA1C(GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem)));
+    return POKEPARTY_GetNonEggCount(GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem)));
 }

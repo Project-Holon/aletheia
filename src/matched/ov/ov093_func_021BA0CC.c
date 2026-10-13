@@ -1,5 +1,5 @@
 /*
- * function: func_021BA0CC
+ * function: BTL_MAIN_FreeParties
  * address:  0x021BA0CC
  * packet:   pkt_ov093_021BA0CC
  * region:   ov093
@@ -23,7 +23,7 @@ struct S {
     void *c;
 };
 
-void func_021BA0CC(struct S *p)
+void BTL_MAIN_FreeParties(struct S *p)
 {
     unsigned int i;
 

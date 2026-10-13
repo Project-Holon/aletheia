@@ -13,6 +13,8 @@
  *   func_021BC1AC  0x021BC1AC  thumb  ov217
  *   func_021BC428  0x021BC428  thumb  ov217
  *   func_021BC720  0x021BC720  thumb  ov217
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
  *
  * Packs a 0xF8 message (second halfword from func_021BC1AC()) and pushes
  * it through the +0x0c channel, on the path where func_021BC428() is clear.
@@ -29,9 +31,9 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct Obj;
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern int func_021BC1AC(void *p);
 extern int func_021BC428(void *p);
 extern u32 func_021BC720(void *p, u32 i);
@@ -40,11 +42,11 @@ void func_021BC168(u32 a0)
     u8 s[4];
     u32 v1 = func_021BC720((void *)a0, 0);
     if (func_021BC428((void *)a0) == 0) {
-    func_0204B3DC((struct Obj *)v1, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)v1, 0);
     return;
     }
     ((struct Obj00801 *)((u8*)s))->f0 = 248;
     *(u16 *)&((struct Obj00801 *)(((u8*)s)))->f2 = func_021BC1AC((void *)a0);
-    func_0204B404((struct Obj *)v1, (const struct Vec2 *)s, 0);
-    func_0204B3DC((struct Obj *)v1, 1);
+    CLACT_AddActorSurfacePos((struct Obj *)v1, (const struct Vec2 *)s, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)v1, 1);
 }

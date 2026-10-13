@@ -11,6 +11,7 @@
  *
  * symbols:
  *   func_021F462C  0x021F462C  thumb  ov194
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj24920.h"
@@ -20,12 +21,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_02082BCC(u8 *, u32, u32);
+extern void MI_CpuFill8(u8 *, u32, u32);
 extern void func_021F462C(u8 *, u32);
 
 void func_021F45EC(u8 *a, u32 b, u32 c)
 {
-    func_02082BCC(a, 0, 0x10);
+    MI_CpuFill8(a, 0, 0x10);
     ((struct Obj24920 *)a)->fC = b;
     func_021F462C(a, c);
 }

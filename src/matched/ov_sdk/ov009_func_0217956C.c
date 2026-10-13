@@ -12,7 +12,7 @@
  * sdk:      DWC_Http_Create (libdwcauth.TWL.HYB.a dwc_http.o)
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0217A0D4  0x0217A0D4  arm  ov009
  *   func_0217A1FC  0x0217A1FC  arm  ov009
  *   func_02179DA0  0x02179DA0  arm  ov009
@@ -53,7 +53,7 @@ typedef struct DWCHttp {
     char pad1a74[0x1dc];
 } DWCHttp;
 
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int func_0217A0D4(DWCHttp *http, DWCHttpBuffer *buf, unsigned long size);
 extern int func_0217A1FC(DWCHttp *http, char *url);
 extern int func_02179DA0(char *http);
@@ -62,7 +62,7 @@ int func_0217956C(DWCHttp *http, DWCHttpParam *param)
 {
     void *(*alloc)(unsigned long, long) = param->alloc;
 
-    func_02082BCC(http, 0, sizeof(DWCHttp));
+    MI_CpuFill8(http, 0, sizeof(DWCHttp));
     http->content_len = -1;
     http->receivedbody_len = -1;
     http->param = *param;

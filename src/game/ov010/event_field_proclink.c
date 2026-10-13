@@ -20,7 +20,7 @@
  *   func_02012138  0x02012138  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   GAMESYSTEM_SetCommBlocked  0x0201213C  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -31,14 +31,14 @@
  *   func_02012934   0x02012934  thumb
  *   func_0200873C  0x0200873C  thumb
  *   func_02034AC4 0x02034AC4 arm
- *   func_02082BCC  0x02082BCC  arm
- *   func_02013CE0 0x02013CE0 thumb
+ *   MI_CpuFill8  0x02082BCC  arm
+ *   ZONEDATA_IsZone96Pair 0x02013CE0 thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   func_020127A4  0x020127A4  thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   POKE_TOOL_HasRibbonData  0x0201897C  thumb
  *   func_0201292C  0x0201292C  thumb
@@ -57,7 +57,7 @@
  *   func_0200CA38  0x0200CA38  thumb
  *   func_020120F8 0x020120F8 thumb
  *   func_02012AC8 0x02012AC8 thumb
- *   func_02013CC8 0x02013CC8 thumb
+ *   ZONEDATA_IsZone1A6 0x02013CC8 thumb
  *   BAG_PARAM_Create  0x0202E474  thumb
  *   func_02008298  0x02008298  thumb
  *   func_0202136C  0x0202136C  thumb
@@ -93,7 +93,7 @@
  *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   FLDMMDL_InitPosition  0x0216E014  thumb  ov010
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDEFF_KEMURI_Start  0x021AC528  thumb  ov021
  *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
  *   func_0207CA00  0x0207CA00  arm
@@ -318,7 +318,7 @@ extern int func_020307B0();
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 
-extern u32 func_02026454(GameComm *gameComm);
+extern u32 GAME_COMM_GetKind(GameComm *gameComm);
 extern void GAME_COMM_RequestExitNoCallback(GameComm *gameComm);
 extern void GAMESYSTEM_SetCommBlocked(GameSystem *gameSystem, u32 v);
 
@@ -340,10 +340,10 @@ extern void *func_0200873C(void *saveControl);
 extern int func_02034AC4(int handle);
 
 
-extern void func_02082BCC();
+extern void MI_CpuFill8();
 
 
-extern u32 func_02013CE0(u32);
+extern u32 ZONEDATA_IsZone96Pair(u32);
 extern void *FIELDMAP_GetMmdlSys(void *fieldMap);
 
 
@@ -356,8 +356,8 @@ extern u16 *func_020127A4(GameData *gameData);
 extern void *FIELDMAP_GetMsgBg(void *);
 
 
-extern u32 func_0201AA18(void *party);
-extern void *func_0201AB28(void *party, u32 index);
+extern u32 POKEPARTY_GetCount(void *party);
+extern void *POKEPARTY_GetMember(void *party, u32 index);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern u32 POKE_TOOL_HasRibbonData(void *mon);
 
@@ -376,7 +376,7 @@ extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16
 extern u32 func_0200CA38(void *zukanSave);
 extern u8 *func_020120F8(const GameSystem *gameSystem);
 extern u16 func_02012AC8(const void *playerWork);
-extern u32 func_02013CC8(u32);
+extern u32 ZONEDATA_IsZone1A6(u32);
 extern BagParam *BAG_PARAM_Create(const GameData *gameData, u8 *itemCheck, int mode, int heapId);
 extern void func_02008298(void *myItem, u16 pocket);
 extern u32 func_0202136C(u16 v);
@@ -407,7 +407,7 @@ extern fx32 FX_Div(fx32 numer, fx32 denom);
 extern void FLDMMDL_SetPos(void *obj, const VecFx32 *pos);
 extern void FLDMMDL_GetPos(void *object, VecFx32 *out);
 extern void FLDMMDL_InitPosition(void *object, int *position, int direction);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void FLDEFF_KEMURI_Start(u32 object, u32 owner);
 extern u32 FIELDMAP_GetEffect(void *fieldWork);
 extern void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
@@ -677,7 +677,7 @@ ZukanParam *EVENT_FIELD_PROCLINK_CreateZukanParam(ProcLinkWork *work, int startS
     int bgmInfo;
 
     param = func_02030734(4, 0x10, 0, (const char *)d_02172978, 0x49b);
-    func_02082BCC(param, 0, 0x10);
+    MI_CpuFill8(param, 0, 0x10);
     gameData = func_020120F4(work->context->gameSystem);
     param->gameData = gameData;
     param->zukanSave = func_0200CA1C(gameData);
@@ -710,7 +710,7 @@ Bool EVENT_FIELD_PROCLINK_ReturnZukan(ProcLinkWork *work, ZukanParam *param)
  * caller's record) or mode 6 (from the save, picking the first party
  * slot that passes the kind's checks). Levers: both source words read
  * into locals before the two stores, the kind == -1 arm written as the
- * else so it lands at the tail, func_0201AA18 returning int.
+ * else so it lands at the tail, POKEPARTY_GetCount returning int.
  */
 PStatusParam *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(ProcLinkWork *work, int page, int mode, PokeListParam *listResult)
 {
@@ -736,7 +736,7 @@ PStatusParam *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(ProcLinkWork *work, int
         mailBox = listResult->playerSaveBlock;
         param->ppd = party;
         param->callerData = mailBox;
-        param->max = func_0201AA18(party);
+        param->max = POKEPARTY_GetCount(party);
         param->pos = listResult->selectedSlot;
         switch (listResult->command) {
         case 4:
@@ -762,7 +762,7 @@ PStatusParam *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(ProcLinkWork *work, int
     } else if (mode == 6) {
         param->callerData = func_0200873C(saveControl);
         param->ppd = func_02012934(gameData);
-        param->max = func_0201AA18(func_02012934(gameData));
+        param->max = POKEPARTY_GetCount(func_02012934(gameData));
         param->pos = 0;
         param->mode = 0;
         param->canUseButtons = 1;
@@ -770,8 +770,8 @@ PStatusParam *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(ProcLinkWork *work, int
             param->page = page;
             if (param->page == 2) {
                 party = func_02012934(gameData);
-                for (i = 0; i < (int)func_0201AA18(party); i++) {
-                    mon = func_0201AB28(party, i);
+                for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
+                    mon = POKEPARTY_GetMember(party, i);
                     if (func_02017E1C(mon, 0xA9, 0) && POKE_TOOL_HasRibbonData(mon) && func_02017E1C(mon, 0x4C, 0) == 0) {
                         param->pos = i;
                         break;
@@ -779,8 +779,8 @@ PStatusParam *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(ProcLinkWork *work, int
                 }
             } else if (param->page == 1) {
                 party = func_02012934(gameData);
-                for (i = 0; i < (int)func_0201AA18(party); i++) {
-                    mon = func_0201AB28(party, i);
+                for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
+                    mon = POKEPARTY_GetMember(party, i);
                     if (func_02017E1C(mon, 0xA9, 0) && func_02017E1C(mon, 0x4C, 0) == 0) {
                         param->pos = i;
                         break;
@@ -819,9 +819,9 @@ int EVENT_FIELD_PROCLINK_IsSpecialZone(GameSystem *gameSystem)
 {
     unsigned short zoneId = func_02012AC8(func_020120F8(gameSystem));
 
-    if (func_02013CC8(zoneId) == 1)
+    if (ZONEDATA_IsZone1A6(zoneId) == 1)
         return 1;
-    if (func_02013CE0(zoneId) == 1)
+    if (ZONEDATA_IsZone96Pair(zoneId) == 1)
         return 3;
     return 0;
 }
@@ -923,7 +923,7 @@ int EVENT_FIELD_PROCLINK_ReturnBag(ProcLinkWork *work, PokeListParam *listResult
         return 4;
     case 18:
         party = func_02012934(func_020120F4(work->context->gameSystem));
-        if (func_02017E1C(func_0201AB28(party, work->context->partySlot), 6, 0) != 0)
+        if (func_02017E1C(POKEPARTY_GetMember(party, work->context->partySlot), 6, 0) != 0)
             work->nextState = 0;
         else
             work->nextState = 9;
@@ -953,7 +953,7 @@ void EVENT_FIELD_PROCLINK_CreateTrainerCardView(ProcLinkWork *work, int startPag
 
     bgmInfo = func_02012A30(gameData);
     FIELD_SOUND_SYSTEM_LowerVolume((u8 *)bgmInfo, GAMESYSTEM_GetIssSystem(work->context->gameSystem));
-    if (func_02013CC8(zoneId) != 0 || (int)func_02013CE0((u16)zoneId) != 0) {
+    if (ZONEDATA_IsZone1A6(zoneId) != 0 || (int)ZONEDATA_IsZone96Pair((u16)zoneId) != 0) {
         canFly = 0;
     }
     viewWork = TRCARD_SYS_CreateViewWork(gameData, 4, canFly);
@@ -1138,7 +1138,7 @@ int EVENT_FIELD_PROCLINK_CreateMailParam(ProcLinkWork *work, int kind, int mode,
         if (listResult->command == 6)
             return (int)func_021C3CC0(gameData, 2, (u8)listResult->selectedSlot, func_0202138C(itemId), 4);
         work->purpose = 1;
-        return (int)func_021C3D44(gameData, func_0201AB28(party, slot), 4);
+        return (int)func_021C3D44(gameData, POKEPARTY_GetMember(party, slot), 4);
     }
     if (listResult->carry.words[4] == 2) {
         mailParam = (int)func_021C3CC0(gameData, 2, (u8)listResult->listArg, func_0202138C((u16)listResult->listArg), 4);
@@ -1163,7 +1163,7 @@ int EVENT_FIELD_PROCLINK_ReturnMail(ProcLinkWork *work, void *mailParam)
     if (work->childResult == 0) {
         if (work->purpose == 0 || work->purpose == 2) {
             if (func_021C3E00(mailParam) == 1) {
-                func_021C3E04(mailParam, func_0201AB28(func_02012934(gameData), work->resultSlot));
+                func_021C3E04(mailParam, POKEPARTY_GetMember(func_02012934(gameData), work->resultSlot));
                 nextState = 0;
             } else if (work->purpose == 0) {
                 nextState = 2;
@@ -1180,7 +1180,7 @@ int EVENT_FIELD_PROCLINK_ReturnMail(ProcLinkWork *work, void *mailParam)
     if (work->childResult == 2) {
         if (work->purpose == 2) {
             if (func_021C3E00(mailParam) == 1) {
-                func_021C3E04(mailParam, func_0201AB28(func_02012934(gameData), work->resultSlot));
+                func_021C3E04(mailParam, POKEPARTY_GetMember(func_02012934(gameData), work->resultSlot));
                 work->nextState = 0;
             } else {
                 work->nextState = 0;
@@ -1221,12 +1221,12 @@ EvolutionRequest *EVENT_FIELD_PROCLINK_CreateEvolutionParam(ProcLinkWork *work, 
         party = func_02012934(gameData);
         if (listResult->command == 8) {
             work->purpose = 3;
-            mon = func_0201AB28(party, listResult->selectedSlot);
+            mon = POKEPARTY_GetMember(party, listResult->selectedSlot);
             season = func_02012984(gameData);
             targetSpecies = SHINKA_CHECK_CheckEvolution(party, mon, 3, listResult->argValue, season, &method, 4);
         } else {
             work->purpose = 4;
-            mon = func_0201AB28(party, listResult->selectedSlot);
+            mon = POKEPARTY_GetMember(party, listResult->selectedSlot);
             targetSpecies = SHINKA_CHECK_CheckEvolution(party, mon, 0, *func_020127A4(gameData), func_02012984(gameData), &method, 4);
         }
         request = func_02030734(4, 0x14, 0, d_02172978, 0x868);
@@ -1303,7 +1303,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateFreeEvent(GameSystem *gameSystem, void *fi
     GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELD_PROCLINK_FreeEventMain, 0x1C);
     ReportEventWork *work = func_020124E8(event);
 
-    func_02082BCC(work, 0, 0x1C);
+    MI_CpuFill8(work, 0, 0x1C);
     work->msgContext = objectModel;
     work->heapId = heapId;
     work->gameSystem = gameSystem;
@@ -1581,7 +1581,7 @@ int EVENT_FIELD_PROCLINK_HopEventMain(GameEvent *event, u32 *seq, HopWork *work)
             pos.x = work->start.x + work->delta.x;
             pos.z = work->start.z + work->delta.z;
             FLDMMDL_InitPosition(work->object, (int *)(&pos), FLDMMDL_GetDirDisp(work->object));
-            func_020061E4(0x67B);
+            GFL_USE_PlaySeDefaultVolume(0x67B);
             FLDEFF_KEMURI_Start((u32)work->object, (u32)work->owner);
         }
         break;
@@ -1601,7 +1601,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateHopEvent(GameSystem *gameSystem, void *obj
     work->owner = (void *)FIELDMAP_GetEffect(func_0201210C(gameSystem));
     work->start = *start;
     func_0207CA00(target, start, &work->delta);
-    func_020061E4(0x55E);
+    GFL_USE_PlaySeDefaultVolume(0x55E);
     return event;
 }
 
@@ -1648,7 +1648,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(GameSystem *gameSystem, Game
 
     event = func_020122C0(gameSystem, parent, EVENT_FIELD_PROCLINK_CommExitEventMain, 0x24);
     work = func_020124E8(event);
-    func_02082BCC(work, 0, 0x24);
+    MI_CpuFill8(work, 0, 0x24);
     work->gameSystem = gameSystem;
     work->gameComm = func_02012138(gameSystem);
     if (useRealTime != 0)
@@ -1667,7 +1667,7 @@ int EVENT_FIELD_PROCLINK_CommExitEventMain(GameEvent *event, int *state, CommPro
     case 0:
         work->savedCommBlocked = GAMESYSTEM_IsCommBlocked(work->gameSystem);
         GAMESYSTEM_SetCommBlocked(work->gameSystem, 1);
-        if (func_02026454(work->gameComm) == 0) {
+        if (GAME_COMM_GetKind(work->gameComm) == 0) {
             *state = *state + 2;
         } else {
             GAME_COMM_RequestExitNoCallback(work->gameComm);
@@ -1675,7 +1675,7 @@ int EVENT_FIELD_PROCLINK_CommExitEventMain(GameEvent *event, int *state, CommPro
         }
         break;
     case 1:
-        if (func_02026454(work->gameComm) == 0)
+        if (GAME_COMM_GetKind(work->gameComm) == 0)
             *state = *state + 1;
         break;
     case 2:
@@ -1695,7 +1695,7 @@ int EVENT_FIELD_PROCLINK_CommExitEventMain(GameEvent *event, int *state, CommPro
 
 void EVENT_FIELD_PROCLINK_SetCommProcParam(CommProcParam *param, GameSystem *gameSystem, int kind, u8 sub, u32 flags, u8 hour, u8 minute, u8 season)
 {
-    func_02082BCC(param, 0, 0x18);
+    MI_CpuFill8(param, 0, 0x18);
     param->gameSystem = gameSystem;
     param->kind = kind;
     param->sub = sub;

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  */
 #include "../include/Obj01132.h"
@@ -17,6 +17,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct PrintSys;
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
-void BSUBWAY_RECORD_LIST_ExitText(u8 *p) { func_0201C4C0(((struct Obj01132 *)p)->fE8); GF_FONT_Delete(((struct Obj01132 *)p)->fC); }
+void BSUBWAY_RECORD_LIST_ExitText(u8 *p) { PRINTSYS_QUE_Delete(((struct Obj01132 *)p)->fE8); GF_FONT_Delete(((struct Obj01132 *)p)->fC); }

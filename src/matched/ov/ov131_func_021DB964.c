@@ -15,8 +15,8 @@
  *   CLACT_GetCharacterProxy 0x0204AB84 arm
  *   CLACT_SetActorImageProxy 0x0204B784 arm
  *   func_020275EC 0x020275EC thumb
- *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   P_STA_OAM_TransferBitmap 0x021DBCF4 thumb ov131
  */
 #include "../include/Obj00112.h"
@@ -34,8 +34,8 @@ extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
 extern u8 func_020275EC(int i);
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void P_STA_OAM_TransferBitmap(u8 *p);
 void P_STA_SKILL_ShowSlot(u8 *a,void *b,u8 *p) {
     unsigned v;
@@ -50,11 +50,11 @@ void P_STA_SKILL_ShowSlot(u8 *a,void *b,u8 *p) {
             i=WAZA_TOOL_GetType(v);
             CLACT_GetCharacterProxy((unsigned int)(*(void **)(a+304+i*4)),(struct Rec *)words);
             CLACT_SetActorImageProxy(((struct Obj02847 *)p)->fC,(const struct Struct36 *)words);
-            func_0204B6F4(((struct Obj02847 *)p)->fC,func_020275EC(i),1);
-            func_0204B3DC(((struct Obj02847 *)p)->fC,1);
-        } else func_0204B3DC(((struct Obj02847 *)p)->fC,0);
+            CLACT_SetActorPaletteOffset(((struct Obj02847 *)p)->fC,func_020275EC(i),1);
+            CLACT_SetActorDrawEnable(((struct Obj02847 *)p)->fC,1);
+        } else CLACT_SetActorDrawEnable(((struct Obj02847 *)p)->fC,0);
         P_STA_OAM_TransferBitmap(((struct Obj02847 *)p)->f14);
-        func_0204B3DC(((struct Obj02847 *)p)->f8,1);
+        CLACT_SetActorDrawEnable(((struct Obj02847 *)p)->f8,1);
         ((struct Obj02847 *)p)->f4=0;
     }
 }

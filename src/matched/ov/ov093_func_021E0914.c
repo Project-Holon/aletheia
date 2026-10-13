@@ -1,5 +1,5 @@
 /*
- * function: func_021E0914
+ * function: HAND_WAZA_GetJumpKickHandlers
  * address: 0x021E0914
  * packet: pkt_ov093_021E0914
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E072C_p02.c and filed here.
  *
  * symbols:
- *   d_021F2504 0x021F2504 data a4
+ *   gJumpKickHandlers 0x021F2504 data a4
  */
 
-int *func_021E0914(int *p);
-extern int d_021F2504[];
+int *HAND_WAZA_GetJumpKickHandlers(int *p);
+extern int gJumpKickHandlers[];
 
-int *func_021E0914(int *p)
+int *HAND_WAZA_GetJumpKickHandlers(int *p)
 {
     *p = 1;
-    return d_021F2504;
+    return gJumpKickHandlers;
 }

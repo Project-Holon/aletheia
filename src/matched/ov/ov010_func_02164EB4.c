@@ -14,7 +14,7 @@
  * constant (no relocation).
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GFL_NET_SYSTEM_CheckError  0x02039414  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
@@ -48,7 +48,7 @@ typedef struct Flags {
     u32 rest : 26;
 } Flags;
 
-extern void func_02082BCC(void *p, int v, u32 n);
+extern void MI_CpuFill8(void *p, int v, u32 n);
 extern int GFL_NET_GetNegotiationNum(void);
 extern u32 GFL_NET_SYSTEM_CheckError(void);
 extern int OS_IsRunOnTwl(void);
@@ -62,7 +62,7 @@ void GAME_BEACON_SEARCH_BuildBeaconHeader(Hdr *p, void *src)
     int v;
     int t;
 
-    func_02082BCC(p, 0, 100);
+    MI_CpuFill8(p, 0, 100);
     p->f00 = 3;
     p->f01_lo = (u8)GFL_NET_GetNegotiationNum();
     p->f01_hi = 3;

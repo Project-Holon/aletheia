@@ -1,5 +1,5 @@
 /*
- * function: func_021EE788
+ * function: WEATHER_CLEAR_BeginParticles
  * address:  0x021EE788
  * packet:   pkt_ov024_021EE788
  * region:   ov024
@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 int WEATHER_TASK_FadeLight(u32 a, int b, int c);
 int WEATHER_TASK_IsFogIdle(u32 a);
 
-int func_021EE788(int *p, int v)
+int WEATHER_CLEAR_BeginParticles(int *p, int v)
 {
     int *s = WEATHER_TASK_GetWorkBuffer(p);
     int t;

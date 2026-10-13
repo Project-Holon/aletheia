@@ -1,5 +1,5 @@
 /*
- * function: func_021BA2D4
+ * function: BTL_MAIN_NotifyCapture
  * address: 0x021BA2D4
  * packet: pkt_ov093_021BA2D4
  * region: ov093
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void BTL_SERVER_NotifyCapture(u8 *, u32 *);
-void func_021BA2D4(u32 p, u32 *q) {
+void BTL_MAIN_NotifyCapture(u32 p, u32 *q) {
     u8 *v = *(u8 **)(p + 8);
     if (v) BTL_SERVER_NotifyCapture(v, q);
 }

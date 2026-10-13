@@ -20,7 +20,7 @@
  * func_021BE9C8 0x021BE9C8 arm ov114
  * func_021BE79C 0x021BE79C arm ov114
  * func_02034714 0x02034714 arm
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * func_0208CADC 0x0208CADC arm
  */
 #include "../include/Obj10329.h"
@@ -38,7 +38,7 @@ extern u32 func_021BE6AC(void);
 extern int func_021BE9C8(int a, int b, int c);
 extern int func_021BE79C(void *handle, void *value_p, unsigned long length);
 extern void func_02034714(const char *, u32, const char *);
-extern void func_02082BCC(int, int, int);
+extern void MI_CpuFill8(int, int, int);
 extern char *func_0208CADC(char *, const char *);
 int func_021B98F8(u8 *p)
 {
@@ -48,7 +48,7 @@ int func_021B98F8(u8 *p)
         func_02034714(d_021CE2D4, 0, d_021CE2D4);
         return 0;
     }
-    func_02082BCC((int)(p+0x410), 0, 4);
+    MI_CpuFill8((int)(p+0x410), 0, 4);
     func_0208CADC((char *)(p+0x410), (char *)((u32 *)&d_021CE284)[14]);
     h = (int)func_021BF04C((char *)((u32 *)&d_021CE284)[14], ((u32 *)&d_021CE284)[15], (char *)(p+0x10), 0x400, (int (*)(void *, int,  void *))func_021B95C0, 0);
     if (h == 0) {

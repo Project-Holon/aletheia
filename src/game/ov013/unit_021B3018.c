@@ -26,7 +26,7 @@
  *   gEchoReferenceFrame     0x021B4C8C  data a4
  *   OSi_ReferSymbol  0x02004EB0  arm
  *   d_02005108     0x02005108  data
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   gVctState     0x021B60CC  data ov013
  *   gVctSession     0x021B60D8  data ov013
  *   VCT_SESSION_Init  0x021B0508  arm ov013
@@ -56,7 +56,7 @@ typedef enum { HangoverFramesDefault } HangoverFrames;
 extern void func_02082D44(void *dst, void *src, int n);
 extern void MIi_CpuCopyFast(void *src, void *dst, u32 n);
 extern void OSi_ReferSymbol(const void *symbol);
-extern void func_02082BCC(void *dst, int c, int n);
+extern void MI_CpuFill8(void *dst, int c, int n);
 extern int  VCT_SESSION_Init(void);
 extern int VCT_SESSION_InitPeerPool(VctInitParams *params);
 extern void VCT_SESSION_ClearPeerLists(void);
@@ -507,7 +507,7 @@ int VCT_Init(VctInitParams *params)
         return 0;
     if (params->frameBuffer % 32 != 0)
         return 0;
-    func_02082BCC(&gVctSession, 0, sizeof(VctSession));
+    MI_CpuFill8(&gVctSession, 0, sizeof(VctSession));
     gVctState.session.eventCallback = params->eventCallback;
     gVctState.session.callbackArg = params->callbackArg;
     gVctState.session.mode = params->mode;

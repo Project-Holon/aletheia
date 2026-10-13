@@ -1,5 +1,5 @@
 /*
- * function: func_021CBF70
+ * function: BTL_SERVER_FLOW_ItemEffectCureParalysis
  * address:  0x021CBF70
  * packet:   pkt_021CBF30
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CBF70   0x021CBF70  thumb
- *   func_021CC350   0x021CC350  thumb
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #1; str r4, [sp]; bl func_021CC350; add sp, #4; pop {r3, r4, pc}.
+ *   BTL_SERVER_FLOW_ItemEffectCureParalysis   0x021CBF70  thumb
+ *   BTL_SERVER_FLOW_ItemEffectCureSick   0x021CC350  thumb
+ * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #1; str r4, [sp]; bl BTL_SERVER_FLOW_ItemEffectCureSick; add sp, #4; pop {r3, r4, pc}.
  */
 
 typedef unsigned char u8;
@@ -22,6 +22,6 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-/* 021CBF70  stack-arg wrapper: func_021CC350(a, b, c, d, 0x1) */
-void func_021CBF70(int a, int b, int c, int d) { func_021CC350(a, b, c, d, 0x1); }
+/* 021CBF70  stack-arg wrapper: BTL_SERVER_FLOW_ItemEffectCureSick(a, b, c, d, 0x1) */
+void BTL_SERVER_FLOW_ItemEffectCureParalysis(int a, int b, int c, int d) { BTL_SERVER_FLOW_ItemEffectCureSick(a, b, c, d, 0x1); }
 

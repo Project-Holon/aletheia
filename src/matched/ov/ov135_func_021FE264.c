@@ -10,9 +10,9 @@
  * status: EXACT
  * symbols:
  *   WIPE_SYS_Start 0x0202208C thumb
- *   func_0201ADE4 0x0201ADE4 thumb
- *   func_0201AE1C 0x0201AE1C thumb
- *   func_0201AE14 0x0201AE14 thumb
+ *   POKE_PERSONAL_Create 0x0201ADE4 thumb
+ *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
+ *   POKE_PERSONAL_Delete 0x0201AE14 thumb
  *   func_021F7B9C 0x021F7B9C thumb ov135
  *   func_021FF318 0x021FF318 thumb ov135
  *   func_021F4E98 0x021F4E98 thumb ov135
@@ -24,10 +24,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void *func_0201ADE4(u32,int,u32);
+extern void *POKE_PERSONAL_Create(u32,int,u32);
 struct Personal;
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *p);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *p);
 extern int func_021F7B9C(u8 *p, int event);
 extern void func_021FF318(u8 *p, u32 k, int b, int c, int d);
 extern void func_021F4E98(u8 *p, u32 a, u32 b);
@@ -39,9 +39,9 @@ void func_021FE264(u8 *p, int mode)
     case 0: ((struct Obj00018 *)p)->f28=4; break;
     case 1:
         if(((struct Obj00018 *)p)->fB56!=0) {
-            h=(u32)func_0201ADE4((u16)((struct Obj00018 *)p)->fB56,0,0x48);
-            v=func_0201AE1C((const struct Personal *)h,0x14);
-            func_0201AE14((void *)h);
+            h=(u32)POKE_PERSONAL_Create((u16)((struct Obj00018 *)p)->fB56,0,0x48);
+            v=POKE_PERSONAL_GetParam((const struct Personal *)h,0x14);
+            POKE_PERSONAL_Delete((void *)h);
             ((struct Obj23414 *)(*(u8 * *)&((struct Obj00018 *)p)->fE00))->f20=v;
             if(func_021F7B9C(p+0xB56,((struct Obj23415 *)(*(u8 * *)&((struct Obj00018 *)p)->fE00))->f20)) break;
         }

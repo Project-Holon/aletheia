@@ -1,5 +1,5 @@
 /*
- * function: func_021B99C0
+ * function: BTL_MAIN_GetViewPositionsPerClient
  * address: 0x021B99C0
  * packet: pkt_ov093_021B99C0
  * region: ov093
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct S;
 extern int BTL_MAIN_GetPositionsPerClient(struct S **, u32);
 extern u32 BTL_MAIN_GetRule(void **p);
-int func_021B99C0(struct S **p, u32 b)
+int BTL_MAIN_GetViewPositionsPerClient(struct S **p, u32 b)
 {
     int result = BTL_MAIN_GetPositionsPerClient(p, b);
     if (BTL_MAIN_GetRule((void **)p) == 3) result = (u8)(result + 2);

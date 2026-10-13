@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_PranksterRaiseStatusPriority
+ * function: HAND_TOKUSEI_PranksterRaiseStatusPriority
  * address:  0x021DCA98
  * packet:   pkt_ov093_021DCA98
  * region:   ov093
@@ -23,7 +23,7 @@ extern int BTL_EVENT_GetVar(int key);
 extern int WAZA_TOOL_GetDamageType(int a);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void BTL_ABILITY_PranksterRaiseStatusPriority(int a, int b, int c)
+void HAND_TOKUSEI_PranksterRaiseStatusPriority(int a, int b, int c)
 {
     u8 v;
 

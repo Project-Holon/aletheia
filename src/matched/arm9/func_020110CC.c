@@ -12,8 +12,8 @@
  * symbols:
  *   g_02146208     0x02146208  data
  *   g_02146228     0x02146228  data
- *   func_0201AB08  0x0201AB08  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_FindFirstBattleReady  0x0201AB08  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   WAZA_TOOL_GetMaxPP  0x0201C158  thumb
@@ -39,8 +39,8 @@ typedef unsigned int   u32;
 
 extern u8 g_02146208[];
 extern u8 g_02146228[];
-extern u32   func_0201AB08(void *box);
-extern void *func_0201AB28(void *box, u32 idx);
+extern u32   POKEPARTY_FindFirstBattleReady(void *box);
+extern void *POKEPARTY_GetMember(void *box, u32 idx);
 struct Sav;
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
@@ -60,8 +60,8 @@ u32 GPOWER_UsePpRestore(void *box)
     u32 v;
 
     if (g_02146208[0x1a] != 0x30) {
-        idx = func_0201AB08(box);
-        p = func_0201AB28(box, idx);
+        idx = POKEPARTY_FindFirstBattleReady(box);
+        p = POKEPARTY_GetMember(box, idx);
         h = POKE_TOOL_DecodePartyParam(p);
         for (i = 0; i < 4; i++) {
             move = POKE_TOOL_GetPartyValue(p, (int)(0x36 + i), (int)0);

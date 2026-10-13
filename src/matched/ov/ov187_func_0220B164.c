@@ -17,7 +17,7 @@
  *   void BATTLE_REC_UnloadToolOverlay(void) { func_02034A5C((int)overlay188); }
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BTL_SETUP_InitWithSlots 0x020138C4 thumb
  *   BATTLE_REC_LoadToolOverlay 0x0200BA58 thumb
  *   BATTLE_REC_UnloadToolOverlay 0x0200BA68 thumb
@@ -32,7 +32,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void BTL_SETUP_InitWithSlots(void *,int,void *);
 extern void BATTLE_REC_LoadToolOverlay(void);
 extern void BATTLE_REC_UnloadToolOverlay(void);
@@ -45,7 +45,7 @@ extern char d_0220B2E4[];
 void *func_0220B164(u32 a,u8 *b)
 {
     u8 *p = func_02030734(a,240,0,d_0220B2E4,542);
-    func_02082BCC(p,0,240);
+    MI_CpuFill8(p,0,240);
     BTL_SETUP_InitWithSlots(p,*(int *)(*(u8 **)(b+0x17F0)+4),(void *)a);
     BATTLE_REC_LoadToolOverlay();
     func_021EEEA8(p,a);

@@ -13,7 +13,7 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  *   FLD_EXP_OBJ_SetModelHidden  0x021BE4B4  thumb  ov021
  *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
@@ -47,7 +47,7 @@ struct Ctx;
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int *FIELDMAP_GetCommonWork(char *p, int idx);
 extern int FIELDMAP_GetExpObj(int *p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 struct Desc;
 extern int FLD_EXP_OBJ_GetModelStatus(char *p, unsigned i, int j);
 extern void FLD_EXP_OBJ_SetModelHidden(char *p, int i, int j, int v);
@@ -68,7 +68,7 @@ void GIMMICK64_StartArcEffect(int a, const V3 *p0, const V3 *p1, int f30, int n)
     sys = GAMESYSTEM_GetFieldMap((void *)a);
     w = (W *)FIELDMAP_GetCommonWork((char *)sys, 1);
     s = FIELDMAP_GetExpObj(sys);
-    func_020061E4(0x566);
+    GFL_USE_PlaySeDefaultVolume(0x566);
     *(V3 *)FLD_EXP_OBJ_GetModelStatus((char *)s, 0, 1) = *p0;
     FLD_EXP_OBJ_SetModelHidden((char *)s, 0, 1, 0);
     for (i = 0; i < 3; i++) {

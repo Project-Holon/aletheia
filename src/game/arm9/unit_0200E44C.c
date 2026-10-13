@@ -12,7 +12,7 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
- *   func_0203F1FC 0x0203F1FC  thumb, not otherwise called in arm9_main
+ *   func_0203F1FC 0x0203F1FC  arm, not otherwise called in arm9_main
  * symbols:
  *   QUESTIONNAIRE_GetFirstAnswerMessageOffset    0x0216736C  thumb  ov010
  *   MI_CpuFill8  0x02082BCC  arm
@@ -40,9 +40,9 @@
  *   func_0200E918  0x0200E918  thumb
  *   func_0200E938  0x0200E938  thumb
  *   func_0203EFC8  0x0203EFC8  arm
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
  *   STRBUF_ToChars  0x02045A38  arm
  *   STRBUF_GetEosChar  0x02045A98  arm
@@ -216,9 +216,9 @@ extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void func_0200E904(void *p);
 extern void BSUBWAY_SAVEDATA_InitStats(void *p);
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
 extern u16   STRBUF_GetEosChar(void);
@@ -1564,7 +1564,7 @@ void func_0200EA2C(void *block)
  */
 void func_0200EA3C(struct Rec *rec, void *party, struct Date *date, u32 heap)
 {
-    int count = func_0201AA18(party);
+    int count = POKEPARTY_GetCount(party);
     void *buf = STRBUF_Create(11, heap);
     int i;
     int n;
@@ -1573,7 +1573,7 @@ void func_0200EA3C(struct Rec *rec, void *party, struct Date *date, u32 heap)
     i = 0;
     n = 0;
     for (; i < count; i++) {
-        void *mon = func_0201AB28(party, i);
+        void *mon = POKEPARTY_GetMember(party, i);
         u32 saved = POKE_TOOL_DecodePartyParam(mon);
         if (func_02017E1C(mon, 0x4c, 0) == 0) {
             struct Entry *e = &rec->e[n];

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA82C
+ * function: BTL_SETUP_ClearResultStats
  * address:  0x021BA82C
  * packet:   pkt_ov093_021BA82C
  * region:   ov093
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-void func_021BA82C(char *p)
+void BTL_SETUP_ClearResultStats(char *p)
 {
     p[0xb6] = 0;
     p[0xb7] = 0;

@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: forwards arg(s) (u32)(a0 + 56), 0, 640 to func_02082BCC.
+ * Tail-call veneer: forwards arg(s) (u32)(a0 + 56), 0, 640 to MI_CpuFill8.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_02082BCC(u32, u32, u32);
+extern void MI_CpuFill8(u32, u32, u32);
 
 void func_021BFC50(u8 *a0)
 {
-    func_02082BCC((u32)(a0 + 56), 0, 640);
+    MI_CpuFill8((u32)(a0 + 56), 0, 640);
 }
 

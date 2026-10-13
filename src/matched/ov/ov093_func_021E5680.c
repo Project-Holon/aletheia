@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021E5680, func_021E56D4
+ * function: HAND_WAZA_HealingWishSetPosEffect, HAND_WAZA_GetWishHandlers
  * address:  0x021E5680
  * packet:   pkt_ov093_021E5680
  * region:   ov093
@@ -12,11 +12,11 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C7F24  0x021C7F24  thumb  ov093
- *   func_021C8010  0x021C8010  thumb  ov093
- *   func_021C88A4  0x021C88A4  thumb  ov093
- *   func_021C88C8  0x021C88C8  thumb  ov093
- *   d_021F254C     0x021F254C  data   ov093  a4
+ *   BTL_SERVER_FLOW_CheckClientHasBackupPoke  0x021C7F24  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeViewPos  0x021C8010  thumb  ov093
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
+ *   gWishHandlers     0x021F254C  data   ov093  a4
  */
 #include "../include/Obj10095.h"
 
@@ -25,29 +25,29 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int key);
-extern int func_021C7F24(u8 *p, int i);
-extern int func_021C8010(u8 *p, unsigned int v);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *a, void *b);
-extern int d_021F254C[];
+extern int BTL_SERVER_FLOW_CheckClientHasBackupPoke(u8 *p, int i);
+extern int BTL_SERVER_FLOW_GetPokeViewPos(u8 *p, unsigned int v);
+extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
+extern int gWishHandlers[];
 
-void func_021E5680(int a, void *b, int c)
+void HAND_WAZA_HealingWishSetPosEffect(int a, void *b, int c)
 {
     u8 *m;
 
-    if (c == BTL_EVENT_GetVar(3) && func_021C7F24(b, c) != 0) {
-        m = (u8 *)func_021C88A4(b, 0x1e, c);
+    if (c == BTL_EVENT_GetVar(3) && BTL_SERVER_FLOW_CheckClientHasBackupPoke(b, c) != 0) {
+        m = (u8 *)BTL_SERVER_FLOW_AllocCmdRecord(b, 0x1e, c);
         ((struct Obj10095 *)m)->f4 = 2;
-        m[8] = func_021C8010(b, c);
-        func_021C88C8(b, m);
-        m = (u8 *)func_021C88A4(b, 0x13, c);
+        m[8] = BTL_SERVER_FLOW_GetPokeViewPos(b, c);
+        BTL_SERVER_FLOW_CommitCmdRecord(b, m);
+        m = (u8 *)BTL_SERVER_FLOW_AllocCmdRecord(b, 0x13, c);
         m[4] = c;
-        func_021C88C8(b, m);
+        BTL_SERVER_FLOW_CommitCmdRecord(b, m);
     }
 }
 
-int *func_021E56D4(int *p)
+int *HAND_WAZA_GetWishHandlers(int *p)
 {
     *p = 1;
-    return d_021F254C;
+    return gWishHandlers;
 }

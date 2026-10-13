@@ -1,5 +1,5 @@
 /*
- * function: func_021DFEE8
+ * function: HAND_ITEM_GetFireGemHandlers
  * address: 0x021DFEE8
  * packet: pkt_ov093_021DFEE8
  * region: ov093
@@ -12,16 +12,16 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DFCE8.c and filed here.
  *
  * symbols:
- *   d_021F1A3C 0x021F1A3C data a4
+ *   gHandItemFireGemHandlers 0x021F1A3C data a4
  */
 
-int *func_021DFEE8(int *p);
+int *HAND_ITEM_GetFireGemHandlers(int *p);
 
-/* 021DFEF4  stack-arg wrapper: func_021E0284(a, b, c, d, 0x9) */
-extern int d_021F1A3C[];
+/* 021DFEF4  stack-arg wrapper: HAND_ITEM_GemMovePower(a, b, c, d, 0x9) */
+extern int gHandItemFireGemHandlers[];
 
-int *func_021DFEE8(int *p)
+int *HAND_ITEM_GetFireGemHandlers(int *p)
 {
     *p = 3;
-    return d_021F1A3C;
+    return gHandItemFireGemHandlers;
 }

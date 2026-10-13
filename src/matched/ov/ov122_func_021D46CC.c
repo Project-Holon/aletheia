@@ -23,9 +23,9 @@
  *   data_021D5704 0x021D5704 data a1
  *   data_021D570C 0x021D570C data a1
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B688 0x0204B688 arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
  */
 #include "../include/Obj00073.h"
 typedef unsigned char u8;
@@ -37,9 +37,9 @@ extern const Triple data_021D5708, data_021D5704, data_021D570C;
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 space, u16 heap);
 struct Actor;
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 void func_021D46CC(char *p)
 {
     Triple x = data_021D5708;
@@ -61,23 +61,23 @@ void func_021D46CC(char *p)
         req.f06 = 1; req.f07 = 2;
         q = p + 4 * i;
         *(void **)(q + d) = CLACT_CreateActor((void *)*(u32 *)&((struct Obj00073 *)p)->f30C, *(u32 *)(p + a), *(u32 *)(p + b), *(u32 *)(p + c), &req, 1, ((struct Obj00073 *)p)->fC);
-        func_0204B92C(*(void **)(q + e), 0);
-        func_0204B3DC(*(void **)(q + f), 1);
-        func_0204B688(*(void **)(q + g), 1);
+        CLACT_SetActorAutoAnim(*(void **)(q + e), 0);
+        CLACT_SetActorDrawEnable(*(void **)(q + f), 1);
+        CLACT_SetActorObjMode(*(void **)(q + g), 1);
     }
     req.f00 = 128; req.f02 = 96; req.f04 = 15; req.f06 = 0; req.f07 = 2;
     ((struct Obj00073 *)p)->f39C = CLACT_CreateActor((void *)*(u32 *)&((struct Obj00073 *)p)->f30C, ((struct Obj00073 *)p)->f37C, ((struct Obj00073 *)p)->f378, ((struct Obj00073 *)p)->f380, &req, 1, ((struct Obj00073 *)p)->fC);
-    func_0204B92C(((struct Obj00073 *)p)->f39C, 1);
-    func_0204B3DC(((struct Obj00073 *)p)->f39C, 1);
-    func_0204B688(((struct Obj00073 *)p)->f39C, 1);
+    CLACT_SetActorAutoAnim(((struct Obj00073 *)p)->f39C, 1);
+    CLACT_SetActorDrawEnable(((struct Obj00073 *)p)->f39C, 1);
+    CLACT_SetActorObjMode(((struct Obj00073 *)p)->f39C, 1);
     req.f00 = 128; req.f02 = 96; req.f04 = 18; req.f06 = 0; req.f07 = 2;
     ((struct Obj00073 *)p)->f3A0 = CLACT_CreateActor((void *)*(u32 *)&((struct Obj00073 *)p)->f30C, ((struct Obj00073 *)p)->f37C, ((struct Obj00073 *)p)->f378, ((struct Obj00073 *)p)->f380, &req, 1, ((struct Obj00073 *)p)->fC);
-    func_0204B92C(((struct Obj00073 *)p)->f3A0, 1);
-    func_0204B3DC(((struct Obj00073 *)p)->f3A0, 0);
-    func_0204B688(((struct Obj00073 *)p)->f3A0, 1);
+    CLACT_SetActorAutoAnim(((struct Obj00073 *)p)->f3A0, 1);
+    CLACT_SetActorDrawEnable(((struct Obj00073 *)p)->f3A0, 0);
+    CLACT_SetActorObjMode(((struct Obj00073 *)p)->f3A0, 1);
     req.f00 = 128; req.f02 = 96; req.f04 = 25; req.f06 = 0; req.f07 = 2;
     ((struct Obj00073 *)p)->f3A4 = CLACT_CreateActor((void *)*(u32 *)&((struct Obj00073 *)p)->f30C, ((struct Obj00073 *)p)->f37C, ((struct Obj00073 *)p)->f378, ((struct Obj00073 *)p)->f380, &req, 1, ((struct Obj00073 *)p)->fC);
-    func_0204B92C(((struct Obj00073 *)p)->f3A4, 1);
-    func_0204B3DC(((struct Obj00073 *)p)->f3A4, 0);
-    func_0204B688(((struct Obj00073 *)p)->f3A4, 1);
+    CLACT_SetActorAutoAnim(((struct Obj00073 *)p)->f3A4, 1);
+    CLACT_SetActorDrawEnable(((struct Obj00073 *)p)->f3A4, 0);
+    CLACT_SetActorObjMode(((struct Obj00073 *)p)->f3A4, 1);
 }

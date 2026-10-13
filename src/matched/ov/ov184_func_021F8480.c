@@ -12,8 +12,8 @@
  *   func_02034AC4 0x02034AC4 arm
  *   func_021F9B9C 0x021F9B9C thumb ov186
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
- *   func_0201C440 0x0201C440 thumb
+ *   MI_CpuFill8 0x02082BCC arm
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_021FC4DC 0x021FC4DC thumb ov186
  *   BMP_OAM_CreateSys 0x02025538 thumb
  *   func_021FD760 0x021FD760 thumb ov186
@@ -36,8 +36,8 @@ struct Obj24810;
 extern unsigned func_021F9B9C(struct Obj24810 *p);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,unsigned);
-extern u32 func_0201C440(void *);
+extern void MI_CpuFill8(void *,int,unsigned);
+extern u32 PRINTSYS_QUE_Create(void *);
 typedef unsigned char  u8;
 struct Big;
 extern u32 func_021FC4DC(u8 *p);
@@ -57,10 +57,10 @@ int func_021F8480(void *obj,int b,char *q)
     int i;
     func_02034AC4((int)ov112_id);
     p=PROCSYS_AllocProcWork(obj,0x34,func_021F9B9C(((struct Obj06617 *)q)->f10));
-    func_02082BCC(p,0,0x34);
+    MI_CpuFill8(p,0,0x34);
     ((struct Obj02898 *)p)->f24=func_021F9B9C(((struct Obj06617 *)q)->f10);
     *(char * *)&((struct Obj02898 *)p)->f30=q;
-    ((struct Obj02898 *)p)->f20=func_0201C440((void *)(unsigned int)((struct Obj02898 *)p)->f24);
+    ((struct Obj02898 *)p)->f20=PRINTSYS_QUE_Create((void *)(unsigned int)((struct Obj02898 *)p)->f24);
     v=(void *)func_021FC4DC(((struct Obj06617 *)q)->f8);
     ((struct Obj02898 *)p)->f1C=BMP_OAM_CreateSys(((struct Obj02898 *)p)->f24,v);
     for (i=0;i<2;i++) *(void **)(p+i*4+0x14)=func_021FD760((unsigned int)v,(char *)(((struct Obj06617 *)q)->fC),i,((struct Obj02898 *)p)->f24);

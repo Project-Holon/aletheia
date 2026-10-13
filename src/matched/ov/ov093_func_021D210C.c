@@ -1,5 +1,5 @@
 /*
- * function: func_021D210C
+ * function: BTL_CLIENT_StepPlayMonTaskAnim
  * address:  0x021D210C
  * packet:   pkt_ov093_021D210C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8D8C  0x021B8D8C  thumb  ov093
+ *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
  *   func_021EA0F4  0x021EA0F4  thumb  ov093
  *   func_021EA120  0x021EA120  thumb  ov093
  */
@@ -26,19 +26,19 @@ typedef struct {
     void *win;            /* 0x54 */
 } Seq;
 
-extern int func_021B8D8C(void *p, void *a, u32 b);
+extern int BTL_MAIN_GetTrainerSlotOfPoke(void *p, void *a, u32 b);
 struct S;
 extern void func_021EA0F4(struct S *s, u32 a, u32 b, u32 c);
 struct S;
 extern int func_021EA120(struct S *s);
 
-int func_021D210C(Seq *s, int *state, u32 *a)
+int BTL_CLIENT_StepPlayMonTaskAnim(Seq *s, int *state, u32 *a)
 {
     int t;
 
     switch (*state) {
     case 0:
-        t = func_021B8D8C((void *)s->unk00, (void *)s->unk04, (u8)a[0]);
+        t = BTL_MAIN_GetTrainerSlotOfPoke((void *)s->unk00, (void *)s->unk04, (u8)a[0]);
         func_021EA0F4(s->win, (u16)a[2], t, (u8)a[1]);
         *state = *state + 1;
         break;

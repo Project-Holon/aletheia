@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_TOKUSEI_InfatuationGuard_ShowBlockedMoveMessage",
-    "BTL_TOKUSEI_GetInfatuationGuardHandlers"
+    "HAND_TOKUSEI_InfatuationGuard_ShowBlockedMoveMessage",
+    "HAND_TOKUSEI_GetInfatuationGuardHandlers"
    ],
    "addresses": [
     "0x021D95CC",

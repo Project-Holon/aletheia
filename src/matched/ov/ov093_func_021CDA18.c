@@ -12,7 +12,7 @@
  *   BTL_ADAPTER_GetRecvCommand 0x021EEBE8 thumb ov093
  *   BTL_CLIENT_ResetSendWord 0x021CDD34 thumb ov093
  *   BTL_ADAPTER_GetRecvData 0x021EEC20 thumb ov093
- *   func_021CDD50 0x021CDD50 thumb ov093
+ *   BTL_CLIENT_FindCommandStepFn 0x021CDD50 thumb ov093
  *   func_021D3FAC 0x021D3FAC thumb ov093
  *   func_021D3FC4 0x021D3FC4 thumb ov093
  *   func_021D3F4C 0x021D3F4C thumb ov093
@@ -22,7 +22,7 @@
  *   PM_VOICE_ResetMasterVolume 0x02006740 thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   func_021D3FA8 0x021D3FA8 thumb ov093
- *   func_021BA73C 0x021BA73C thumb ov093
+ *   BTL_MAIN_RestartBattle 0x021BA73C thumb ov093
  *   PM_VOICE_SetMasterVolume 0x02006734 thumb
  */
 #include "../include/Obj00463.h"
@@ -36,7 +36,7 @@ extern void func_021D3FDC(u8 *p, struct Q *q);
 extern u8 BTL_ADAPTER_GetRecvCommand(void *);
 extern void BTL_CLIENT_ResetSendWord(u8 *);
 extern int BTL_ADAPTER_GetRecvData(int,u32 **);
-extern Callback func_021CDD50(u8 *,u32,int *);
+extern Callback BTL_CLIENT_FindCommandStepFn(u8 *,u32,int *);
 extern int func_021D3FAC(u8 *);
 extern void func_021D3FC4(u8 *);
 extern int func_021D3F4C(void *);
@@ -46,7 +46,7 @@ extern void GFL_USE_SetPlayersAudible(int,u32);
 extern void PM_VOICE_ResetMasterVolume(void);
 extern int GFL_USE_IsBgmFading(void);
 extern u16 func_021D3FA8(u8 *p);
-extern void func_021BA73C(char *,int);
+extern void BTL_MAIN_RestartBattle(char *,int);
 extern void PM_VOICE_SetMasterVolume(u8);
 int BTL_CLIENT_StepMain(u8 *p)
 {
@@ -66,7 +66,7 @@ int BTL_CLIENT_StepMain(u8 *p)
             ((struct Obj00463 *)p)->fCC = 0;
             p[0x1a8] = 3;
         } else if (id) {
-            *(Callback *)&((struct Obj00463 *)p)->fC8 = func_021CDD50(p,id,&flag);
+            *(Callback *)&((struct Obj00463 *)p)->fC8 = BTL_CLIENT_FindCommandStepFn(p,id,&flag);
             if (flag) {
                 if (!func_021D3FAC(p+0x18)) { p[0x1a8] = 6; break; }
             } else func_021D3FC4(p+0x18);
@@ -108,7 +108,7 @@ int BTL_CLIENT_StepMain(u8 *p)
         if (!GFL_USE_IsBgmFading()) {
             n = func_021D3FA8(p+0x18);
             GFL_USE_SetPlayersAudible(0,1);
-            func_021BA73C(*(char * *)&((struct Obj00463 *)p)->f0,n);
+            BTL_MAIN_RestartBattle(*(char * *)&((struct Obj00463 *)p)->f0,n);
             PM_VOICE_SetMasterVolume(0);
         }
         break;

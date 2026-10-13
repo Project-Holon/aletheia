@@ -18,8 +18,8 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   func_021F8710 0x021F8710 thumb ov094
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -54,8 +54,8 @@ struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern int func_021F8710(void);
 struct Obj;
-extern void func_0204B92C(struct Obj *, unsigned int);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 void func_02207430(Work *p, int mode, int i)
 {
     int chr, pal, cell, cpal, j, n, side;
@@ -113,10 +113,10 @@ void func_02207430(Work *p, int mode, int i)
         p->entries[i].f54 = (u32)CLACT_CreateActor((void *)p->f0, p->f30, p->f3c, p->f34, &cfg, 0, p->heap);
     else
         p->entries[i].f54 = (u32)CLACT_CreateActor((void *)p->f0, p->f30, p->f38, p->f34, &cfg, 0, p->heap);
-    func_0204B92C((struct Obj *)p->entries[i].f54, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)p->entries[i].f54, 1);
     cfg.pri = n;
     p->entries[i].f4c = (u32)CLACT_CreateActor((void *)p->f0, p->entries[i].f70, p->pal[j], p->entries[i].f74, &cfg, 0, p->heap);
-    func_0204B3DC((struct Obj *)p->entries[i].f4c, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)p->entries[i].f4c, 0);
     if (side == 0 && mode != 2 && mode != 3)
         p->entries[i].f50 = (u32)CLACT_CreateActor((void *)p->f0, p->entries[i].f78, p->pal[j], p->entries[i].f7c, &cfg, 0, p->heap);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E5F0C
+ * function: HAND_WAZA_GetHelpingHandHandlers
  * address: 0x021E5F0C
  * packet: pkt_ov093_021E5F0C
  * region: ov093
@@ -12,16 +12,16 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E5B78.c and filed here.
  *
  * symbols:
- *   d_021F2EF0 0x021F2EF0 data ov093 a4
+ *   gHelpingHandHandlers 0x021F2EF0 data ov093 a4
  */
 
-int *func_021E5F0C(int *p);
+int *HAND_WAZA_GetHelpingHandHandlers(int *p);
 
 /* 021E5F18  shape F1: gate on BTL_EVENT_GetVar(3) */
-extern int d_021F2EF0[];
+extern int gHelpingHandHandlers[];
 
-int *func_021E5F0C(int *p)
+int *HAND_WAZA_GetHelpingHandHandlers(int *p)
 {
     *p = 5;
-    return d_021F2EF0;
+    return gHelpingHandHandlers;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E06D0
+ * function: HAND_WAZA_GetMudSportHandlers
  * address: 0x021E06D0
  * packet: pkt_ov093_021E06D0
  * region: ov093
@@ -12,17 +12,17 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E0628.c and filed here.
  *
  * symbols:
- *   d_021F2614 0x021F2614 data ov093 a4
+ *   gMudSportHandlers 0x021F2614 data ov093 a4
  */
 
-int *func_021E06D0(int *p);
-extern int d_021F2614[];
+int *HAND_WAZA_GetMudSportHandlers(int *p);
+extern int gMudSportHandlers[];
 
 /*
  * extent: 0754 tail-call stub; 075C state getter; 0764 64-bit getter; 0772 padding.
  */
-int *func_021E06D0(int *p)
+int *HAND_WAZA_GetMudSportHandlers(int *p)
 {
     *p = 1;
-    return d_021F2614;
+    return gMudSportHandlers;
 }

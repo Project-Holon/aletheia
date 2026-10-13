@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021C6FA0  0x021C6FA0  thumb  ov111
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -31,17 +31,17 @@ typedef struct {
 extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
 void func_021C51E4(Work *p, int flag)
 {
     if (flag == 0) {
         func_021C6FA0(&p->anim, 2, 0xB, 1);
-        func_0204B3DC(p->anim.obj[4], 0);
-        func_0204B3DC(p->anim.obj[5], 0);
+        CLACT_SetActorDrawEnable(p->anim.obj[4], 0);
+        CLACT_SetActorDrawEnable(p->anim.obj[5], 0);
     } else {
         func_021C6FA0(&p->anim, 2, 0xD, 1);
-        func_0204B3DC(p->anim.obj[4], 1);
-        func_0204B3DC(p->anim.obj[5], 1);
+        CLACT_SetActorDrawEnable(p->anim.obj[4], 1);
+        CLACT_SetActorDrawEnable(p->anim.obj[5], 1);
     }
 }

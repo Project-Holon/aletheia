@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217721C",
+   "name": "GFL_NET_DEVWIRELESS_GetSignalLevel",
    "address": "0x0217721C",
    "kind": "game",
    "region": "ov014",

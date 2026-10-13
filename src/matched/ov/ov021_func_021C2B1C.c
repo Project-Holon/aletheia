@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
  */
 
 struct Obj;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Ctx;
@@ -26,7 +26,7 @@ int FADE_IsActive(void);
 
 int FLD3D_CI_FadeOutTask(int a, int *b)
 {
-    GAMESYSTEM_GetFieldMap(func_020124E4((struct Obj *)a));
+    GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem((struct Obj *)a));
     switch (*b) {
     case 0:
         FADE_Start(4, 0, 0x10, -1);

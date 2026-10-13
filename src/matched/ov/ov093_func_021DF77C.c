@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetMagnetHandlers
+ * function: HAND_ITEM_GetMagnetHandlers
  * address: 0x021DF77C
  * packet: pkt_ov093_021DF77C
  * region: ov093
@@ -15,10 +15,10 @@
  *   gMagnetHandlers 0x021F14C4 data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetMagnetHandlers(int *p);
+int *HAND_ITEM_GetMagnetHandlers(int *p);
 extern int gMagnetHandlers[];
 
-int *BTL_HANDLER_ITEM_GetMagnetHandlers(int *p)
+int *HAND_ITEM_GetMagnetHandlers(int *p)
 {
     *p = 1;
     return gMagnetHandlers;

@@ -11,7 +11,7 @@
  * Extent remainder: 2-byte zero alignment padding.
  * symbols:
  *   CLACT_IsActorAnimActive 0x0204B98C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021F9660 0x021F9660 thumb ov135
  */
 #include "../include/Obj00098.h"
@@ -23,6 +23,6 @@ typedef unsigned int u32;
 struct Actor;
 struct Obj;
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void func_021F9660(void *,u32);
-int func_021FBD68(u8 *p) { if(CLACT_IsActorAnimActive(((struct Obj00098 *)p)->f8))return -1;func_0204B3DC(((struct Obj00098 *)p)->f8,0);func_021F9660(p,1);return ((struct Obj00098 *)p)->f40; }
+int func_021FBD68(u8 *p) { if(CLACT_IsActorAnimActive(((struct Obj00098 *)p)->f8))return -1;CLACT_SetActorDrawEnable(((struct Obj00098 *)p)->f8,0);func_021F9660(p,1);return ((struct Obj00098 *)p)->f40; }

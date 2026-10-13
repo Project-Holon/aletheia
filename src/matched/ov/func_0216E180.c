@@ -11,13 +11,13 @@
  *
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
 
  *
  * generated: lane O24 (ov010 leaf/wrapper sweep)
  *
  * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_02082BCC, the shape of the arm9 copy.
+ * thunk into MI_CpuFill8, the shape of the arm9 copy.
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
  *
  * Addresses are Black-image addresses.  --region ov010 is required: this
@@ -32,10 +32,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02082BCC(void *, unsigned, unsigned);
+extern void MI_CpuFill8(void *, unsigned, unsigned);
 
 void FLDMMDL_ClearMmdlWork(void *a0)
 {
 
-    func_02082BCC(a0, 0, 256);
+    MI_CpuFill8(a0, 0, 256);
 }

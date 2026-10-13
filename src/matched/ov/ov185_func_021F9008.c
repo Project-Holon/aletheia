@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021FD860   0x021FD860  thumb
- *   func_020061E4   0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume   0x020061E4  thumb
  *
  * Range-gate the pair then hand them to 0x21FD860 as a two-word record.
  */
@@ -20,7 +20,7 @@
 
 extern void func_021FD860(int, int, int *);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 int func_021F9008(int a, int b, int c)
 {
@@ -30,7 +30,7 @@ int func_021F9008(int a, int b, int c)
         buf[0] = b;
         buf[1] = c;
         func_021FD860(((struct Obj24762 *)a)->f3C, 1, buf);
-        func_020061E4(0x703);
+        GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;
 }

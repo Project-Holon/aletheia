@@ -12,6 +12,8 @@
  * symbols:
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb  arm9
  *   BMP_WIN_TransferChars  0x02045334  arm  arm9
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb  arm9
+ *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  */
 
 typedef signed char s8;
@@ -36,8 +38,8 @@ typedef struct {
 
 struct Descriptor;
 struct PrintSys;
-extern void *func_02045770(struct Descriptor *p);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
@@ -49,7 +51,7 @@ void func_022029F8(Printer *q)
     for (i = 0; i < 8; i++) {
         if (q->active[i] != 0) {
             queue = q->queue;
-            if (q->ent[i].busy != 0 && func_0201C6C4(queue, func_02045770(q->ent[i].win)) == 0) {
+            if (q->ent[i].busy != 0 && PRINTSYS_QUE_IsExistTarget(queue, BMP_WIN_GetBmp(q->ent[i].win)) == 0) {
                 BMP_WIN_TransferChars(q->ent[i].win);
                 q->ent[i].busy = 0;
             }

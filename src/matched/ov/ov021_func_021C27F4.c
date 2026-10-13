@@ -11,7 +11,7 @@
  * symbols:
  *   func_020124F0  0x020124F0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FLD3D_CI_LoadPokemonIconTexture  0x021C2918  thumb  ov021
  *   BMP_Delete  0x020437AC  arm
@@ -25,7 +25,7 @@ void *func_020124F0(struct Obj *p);
 struct Ctx;
 struct Obj;
 void *func_020124E8(struct Obj *p);
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 void FLD3D_CI_LoadPokemonIconTexture(struct Obj *p);
 void BMP_Delete(struct Obj020437AC *p);
@@ -37,7 +37,7 @@ int FLD3D_CI_PokemonExtraTask(int a, int *b)
     char *p;
 
     p = *(char **)func_020124E8(func_020124F0((struct Obj *)a));
-    GAMESYSTEM_GetFieldMap(func_020124E4((struct Obj *)a));
+    GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem((struct Obj *)a));
     switch (*b) {
     case 0:
         FLD3D_CI_LoadPokemonIconTexture((struct Obj *)((int)p));

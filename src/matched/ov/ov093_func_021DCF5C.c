@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_AddHeldItemFactor
+ * function: HAND_ITEM_AddHeldItemFactor
  * address: 0x021DCF5C
  * packet: pkt_ov093_021DCF5C
  * region: ov093
@@ -13,11 +13,11 @@
  * therefore uses a wide result and a u16 021DCEC4 argument, as the listing shows.
  * symbols:
  *   BTL_POKEPARAM_GetItem 0x021D5B40 thumb ov093
- *   BTL_HANDLER_ITEM_AddFactor 0x021DCEC4 thumb ov093
+ *   HAND_ITEM_AddFactor 0x021DCEC4 thumb ov093
  */
 typedef unsigned short u16;
 struct QI;
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 typedef unsigned int   u32;
-extern void *BTL_HANDLER_ITEM_AddFactor(void *a, u32 k);
-void *BTL_HANDLER_ITEM_AddHeldItemFactor(void *p) { int k; k=BTL_POKEPARAM_GetItem(p); if(k) return BTL_HANDLER_ITEM_AddFactor(p,(unsigned short)k); return 0; }
+extern void *HAND_ITEM_AddFactor(void *a, u32 k);
+void *HAND_ITEM_AddHeldItemFactor(void *p) { int k; k=BTL_POKEPARAM_GetItem(p); if(k) return HAND_ITEM_AddFactor(p,(unsigned short)k); return 0; }

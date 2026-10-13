@@ -13,7 +13,7 @@
  *   func_021BE034  0x021BE034  thumb  ov172
  *   func_021BE03C  0x021BE03C  thumb  ov172
  *   func_021BE044  0x021BE044  thumb  ov172
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_02045EC0  0x02045EC0  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
@@ -31,7 +31,7 @@ extern u32 func_021BE034(void *p);
 extern u32 func_021BE03C(void *p);
 extern u32 func_021BE044(void *p);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *win);
+extern void *BMP_WIN_GetBmp(struct Descriptor *win);
 typedef unsigned char  u8;
 struct CharBuf;
 struct MsgBank;
@@ -51,9 +51,9 @@ void func_021BD134(void *ctx, char *st, u32 msgId)
     u32 sys = func_021BE044(ctx);
     u32 str;
 
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01266 *)st)->f30)), 0xf);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01266 *)st)->f30)), 0xf);
     str = (u32)func_02045EC0((struct MsgBank *)msgs, msgId);
-    PRINTSYS_PrintQueColor((void *)sys, (u32)func_02045770((struct Descriptor *)((struct Obj01266 *)st)->f30), 0, 0, str, font, 0x440);
+    PRINTSYS_PrintQueColor((void *)sys, (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01266 *)st)->f30), 0, 0, str, font, 0x440);
     STRBUF_Delete((struct U16Vec *)str);
     func_0201F73C((void *)(((struct Obj01266 *)st)->f30), 2, 0x140, 9);
     ((struct Obj01266 *)st)->f24 = 1;

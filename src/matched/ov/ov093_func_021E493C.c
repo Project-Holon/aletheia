@@ -1,5 +1,5 @@
 /*
- * function: func_021E493C
+ * function: HAND_WAZA_AddHealBell
  * address: 0x021E493C
  * packet: pkt_ov093_021E493C
  * region: ov093
@@ -12,16 +12,16 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E492C.c and filed here.
  *
  * symbols:
- *   d_021F2BA0 0x021F2BA0 data ov093 a4
+ *   gHealBellHandlers 0x021F2BA0 data ov093 a4
  */
 
-int *func_021E493C(int *p);
+int *HAND_WAZA_AddHealBell(int *p);
 
-/* 021E4948  stack-arg wrapper: func_021E4958(a, b, c, d, 0x6f) */
-extern int d_021F2BA0[];
+/* 021E4948  stack-arg wrapper: HAND_WAZA_CureParty(a, b, c, d, 0x6f) */
+extern int gHealBellHandlers[];
 
-int *func_021E493C(int *p)
+int *HAND_WAZA_AddHealBell(int *p)
 {
     *p = 3;
-    return d_021F2BA0;
+    return gHealBellHandlers;
 }

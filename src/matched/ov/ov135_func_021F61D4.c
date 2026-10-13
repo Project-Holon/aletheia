@@ -30,6 +30,7 @@
  *   func_021F6474  0x021F6474  thumb
  *   POKE_TOOL_ChangeBoxForm  0x020179B8  thumb  arm9
  *   BMP_MENUWORK_Delete  0x0201F868  thumb  arm9
+ *   POKEPARTY_GetMember  0x0201AB28  thumb  arm9
  */
 
 typedef signed char s8;
@@ -72,7 +73,7 @@ extern void func_021F4E98(u8 *p, u32 a, u32 b);
 extern int func_021F6BFC(u32 handle);
 extern int func_021F6C28(u32 handle);
 extern int func_021F6B34(int v);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern int POKE_TOOL_ChangeBoxForm(int a0, int a1);
 extern int func_021F6474(Work *p);
@@ -108,7 +109,7 @@ int func_021F61D4(Work *p)
             func_021F4E98((u8 *)p, 4, 1);
         } else {
             if (func_021F6B34(p->box) != 0) {
-                func_0201AB28(p->ctx->party, p->slot);
+                POKEPARTY_GetMember(p->ctx->party, p->slot);
             }
             if (func_02017E88(mon, 5, 0) == 0x1EC) {
                 POKE_TOOL_ChangeBoxForm((int)mon, 0);

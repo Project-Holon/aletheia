@@ -13,7 +13,7 @@
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  */
 
@@ -24,7 +24,7 @@ struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(unsigned int);
 
 typedef struct {
@@ -48,11 +48,11 @@ void INTRUDE_SUBDISP_BmpWinSetup(S *p)
     p->b = z;
     BMP_WIN_TransferChars((struct Descriptor *)r);
     BMP_WIN_MakeScreen((struct Cfg *)r);
-    func_020409B4(func_02045730((struct Descriptor *)r));
+    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)r));
     r2 = BMP_WIN_Create(6, 1, 0x12, 0x1e, 4, 14, 1);
     p->c = r2;
     p->d = z;
     BMP_WIN_TransferChars((struct Descriptor *)r2);
     BMP_WIN_MakeScreen((struct Cfg *)r2);
-    func_020409B4(func_02045730((struct Descriptor *)r2));
+    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)r2));
 }

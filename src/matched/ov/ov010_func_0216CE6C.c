@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FLDMMDL_AddMmdl  0x0216CE60  thumb  ov010
  */
 
@@ -35,7 +35,7 @@ typedef struct {
     u32 pad2;
 } Big;
 
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void *FLDMMDL_AddMmdl(void *o, Big *b, u32 c);
 
 void *FLDMMDL_AddMmdlParam(void *o, u32 f, u32 g, u32 d, In3 in, u32 x)
@@ -45,7 +45,7 @@ void *FLDMMDL_AddMmdlParam(void *o, u32 f, u32 g, u32 d, In3 in, u32 x)
     Big *v = &s;
     W2 *w;
 
-    func_02082BCC(&s, 0, 0x24);
+    MI_CpuFill8(&s, 0, 0x24);
     v->a = ip->a;
     v->b = ip->b;
     v->c = ip->c;

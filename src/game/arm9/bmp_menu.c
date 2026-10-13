@@ -17,11 +17,11 @@
  *   sub_0209E8CA_Map  0x0209E8CA  data  a1
  *   func_0203FB44  0x0203FB44  arm
  *   func_02041300  0x02041300  arm
- *   func_02045730 0x02045730 arm
- *   func_02045758 0x02045758 arm
- *   func_02045760 0x02045760 arm
- *   func_02045748 0x02045748 arm
- *   func_02045750 0x02045750 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
+ *   BMP_WIN_GetPosX 0x02045758 arm
+ *   BMP_WIN_GetPosY 0x02045760 arm
+ *   BMP_WIN_GetDispWidth 0x02045748 arm
+ *   BMP_WIN_GetDispHeight 0x02045750 arm
  *   func_020409B4 0x020409B4 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_02030734        0x02030734  arm
@@ -33,13 +33,13 @@
  *   sBmpMenuFile    0x020A7384  data
  *   BMP_CURSOR_Create   0x02020D18  thumb
  *   BMP_CURSOR_SetTileBitmap   0x02020DC8  thumb
- *   func_020362DC  0x020362DC  arm
- *   func_020061E4  0x020061E4  thumb
- *   func_02045770  0x02045770  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_FillRect  0x02043AF4  arm
  *   _s32_div_f  0x0209C0A4  arm
  *   BMP_Clear   0x02043B5C  arm
- *   func_0201C6FC   0x0201C6FC  thumb
+ *   PRINTSYS_PrintQue   0x0201C6FC  thumb
  *   BMP_CURSOR_Draw   0x02020D5C  thumb
  *   func_02045B38   0x02045B38  arm
  *   MSGDATA_Delete   0x02045C04  arm
@@ -47,12 +47,15 @@
  *   BMP_WIN_Create   0x020450F0  arm
  *   GF_FONT_Create   0x0201D7EC  thumb
  *   func_0201DC80   0x0201DC80  thumb
- *   func_0201C440   0x0201C440  thumb
+ *   PRINTSYS_QUE_Create   0x0201C440  thumb
  *   BMP_WIN_MakeScreen   0x02045374  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
  *   BMP_CURSOR_Delete  0x02020D3C  thumb
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
+ *   BMP_WIN_Delete  0x020452E8  arm
  */
 struct BmpWin;
 struct MsgBank;
@@ -133,11 +136,11 @@ extern void *func_020496E4(u32 arcId, u32 fileId, u32 layer, u32 flagA, u32 flag
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_02041300(u32 bgId, u32 tile, u8 x, u8 y, u8 width, u8 height,
                           u32 palette);
-extern u8 func_02045730(struct BmpWin *p);
-extern u8 func_02045758(struct BmpWin *p);
-extern u8 func_02045760(struct BmpWin *p);
-extern u8 func_02045748(struct BmpWin *p);
-extern u8 func_02045750(struct BmpWin *p);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
+extern u8 BMP_WIN_GetPosX(struct BmpWin *p);
+extern u8 BMP_WIN_GetPosY(struct BmpWin *p);
+extern u8 BMP_WIN_GetDispWidth(struct BmpWin *p);
+extern u8 BMP_WIN_GetDispHeight(struct BmpWin *p);
 extern void func_020409B4(u32 index);
 extern void func_02041B6C(u32 bit);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -148,14 +151,14 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct BmpCursor *BMP_CURSOR_Create(u32 heap);
 extern void BMP_CURSOR_SetTileBitmap(struct BmpCursor *cursor, int heapId);
 extern void BMP_CURSOR_Delete(struct BmpCursor *p);
-extern u32  func_020362DC(void);
-extern void func_020061E4(u32 id);
-extern void *func_02045770(struct BmpWin *p);
+extern u32  KEY_GetTrg(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
+extern void *BMP_WIN_GetBmp(struct BmpWin *p);
 extern void BMP_FillRect(void *bitmap, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern s32 _s32_div_f(s32 num, s32 den);
 extern u32 func_0201D304(const void *str, struct GfFont *font, u32 flags);
 extern void BMP_Clear(void *bitmap, u8 value);
-extern void func_0201C6FC(void *que, void *bitmap, u32 x, u32 y, const void *str, struct GfFont *font);
+extern void PRINTSYS_PrintQue(void *que, void *bitmap, u32 x, u32 y, const void *str, struct GfFont *font);
 extern void BMP_CURSOR_Draw(struct BmpCursor *c, u32 x, u32 y, PrintUtil *util, void *que, struct GfFont *font);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
@@ -163,14 +166,14 @@ extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 extern struct BmpWin *BMP_WIN_Create(u32 bgFrame, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slotId);
 extern struct GfFont *GF_FONT_Create(int fontKind, int flagA, int flagB, int flagC, u32 heapId);
 extern u32 func_0201DC80(struct GfFont *p);
-extern void *func_0201C440(void *heapIdAsPtr);
+extern void *PRINTSYS_QUE_Create(void *heapIdAsPtr);
 extern void BMP_WIN_MakeScreen(struct BmpWin *cfg);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern u32 PRINTSYS_QUE_Main(void *que);
-extern void func_0201C6EC(void *que);
-extern void func_0201C4C0(void *que);
+extern void PRINTSYS_QUE_Clear(void *que);
+extern void PRINTSYS_QUE_Delete(void *que);
 extern u32 GF_FONT_Delete(struct GfFont *font);
-extern u32 func_020452E8(struct BmpWin *win);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 u8 func_0201F53C(int index);
 u8 func_0201F548(int index);
 void func_0201F554(u32 layer, u32 tileOffset, u32 frameId, u32 heapId);
@@ -419,7 +422,7 @@ void func_0201F614(int layer, u32 packedOffsets)
  *    remaining 86 bytes were three `str r5, [sp, #8]` palette stores and the
  *    top-of-function argument spill issued one slot late, and narrowing the
  *    first parameter moves all four.  The narrowing is real, not a trick --
- *    func_0201F73C hands this the result of func_02045730, which
+ *    func_0201F73C hands this the result of BMP_WIN_GetBgLayer, which
  *    src/matched/func_0201F7A8.c (the sibling that calls func_02041300
  *    directly) already declares as a narrow byte accessor, so the caller
  *    side agrees.  With u32 the value is a fresh full-word value in mwccarm's
@@ -479,11 +482,11 @@ void func_0201F628(u16 bgId, u8 x, u8 y, u8 width, u8 height, u32 palette, u16 t
  */
 void func_0201F73C(struct BmpWin *win, int commitMode, u16 tileBase, u32 palette)
 {
-    u8 bgId = func_02045730(win);
-    u8 x = func_02045758(win);
-    u8 y = func_02045760(win);
-    u8 width = func_02045748(win);
-    u8 height = func_02045750(win);
+    u8 bgId = BMP_WIN_GetBgLayer(win);
+    u8 x = BMP_WIN_GetPosX(win);
+    u8 y = BMP_WIN_GetPosY(win);
+    u8 width = BMP_WIN_GetDispWidth(win);
+    u8 height = BMP_WIN_GetDispHeight(win);
 
     func_0201F628(bgId, x, y, width, height, palette, tileBase);
 
@@ -551,11 +554,11 @@ void func_0201F7A8(struct BmpWin *desc, u32 commitMode)
     u8 width;
     u8 height;
 
-    bgId = func_02045730(desc);
-    x = func_02045758(desc);
-    y = func_02045760(desc);
-    width = func_02045748(desc);
-    height = func_02045750(desc);
+    bgId = BMP_WIN_GetBgLayer(desc);
+    x = BMP_WIN_GetPosX(desc);
+    y = BMP_WIN_GetPosY(desc);
+    width = BMP_WIN_GetDispWidth(desc);
+    height = BMP_WIN_GetDispHeight(desc);
     func_02041300(bgId, 0, (u8)(x - 1), (u8)(y - 1), (u8)(width + 2), (u8)(height + 2), 0);
     if (commitMode == 0) {
         func_020409B4(bgId);
@@ -935,16 +938,16 @@ void BMP_MENU_Delete(BmpMenu *menu, u8 *outSelected)
  */
 u32 BMP_MENU_ProcessInput(BmpMenu *menu)
 {
-    u32 pressed = func_020362DC();
+    u32 pressed = KEY_GetTrg();
 
     menu->movedDir = 0;
 
     if (pressed & 1) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return menu->header.items[menu->selected].value;
     }
     if (pressed & menu->cancelMask) {
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return -2;
     }
     if (pressed & 0x40) {
@@ -998,10 +1001,10 @@ int BMP_MENU_MoveCursor(BmpMenu *menu, u32 dir, u32 sfxId)
     }
 
     BMP_MENU_GetItemPixelPos(menu, &cellXY[1], &cellXY[0], oldSelected);
-    BMP_FillRect(func_02045770(menu->header.win), cellXY[1], cellXY[0], menu->xPad,
+    BMP_FillRect(BMP_WIN_GetBmp(menu->header.win), cellXY[1], cellXY[0], menu->xPad,
                   menu->lineHeight, 0xff);
     BMP_MENU_DrawCursor(menu);
-    func_020061E4(sfxId);
+    GFL_USE_PlaySeDefaultVolume(sfxId);
     return 1;
 }
 
@@ -1117,7 +1120,7 @@ u32 BMP_MENU_GetMaxItemWidth(BmpMenu *menu)
 
 static inline void PrintUtil_Print(PrintUtil *util, void *que, s32 x, s32 y, const void *str, struct GfFont *font)
 {
-    func_0201C6FC(que, func_02045770(util->win), x, y, str, font);
+    PRINTSYS_PrintQue(que, BMP_WIN_GetBmp(util->win), x, y, str, font);
     util->printed = 1;
 }
 
@@ -1129,7 +1132,7 @@ static inline void PrintUtil_Print(PrintUtil *util, void *que, s32 x, s32 y, con
  *   BMP_MENU_DrawItems  clear the window bitmap to 0xFF and print every item of
  *                  the numColumns * itemsPerColumn grid (column-major index j + i * itemsPerColumn)
  *                  through the print-util inline (the BMP_CURSOR_Draw shape:
- *                  print via func_0201C6FC, then util->printed = 1).
+ *                  print via PRINTSYS_PrintQue, then util->printed = 1).
  *   BMP_MENU_DrawCursor  unless the cursor-display bitfield (+0x0B bits 4..5) is 1,
  *                  place the cursor at the pixel position of the current item.
  *   BMP_MENU_GetItemPixelPos  item index -> pixel position: column = pos / itemsPerColumn, row =
@@ -1158,7 +1161,7 @@ void BMP_MENU_DrawItems(BmpMenu *menu)
     u8 col, row;
     u8 x, colStep;
 
-    BMP_Clear(func_02045770(menu->header.win), 0xFF);
+    BMP_Clear(BMP_WIN_GetBmp(menu->header.win), 0xFF);
     x = menu->originX;
     colStep = menu->colWidth + menu->xPad * 2;
     for (col = 0; col < menu->header.numColumns; col++) {
@@ -1244,13 +1247,13 @@ BmpMenu *BMP_MENU_CreateYesNo(const WinDat *winData, u16 tileBase, u8 palette, u
     header.lineHeight = func_0201DC80(header.fontH);
     header.xPad = 10;
     PrintUtil_Init(header.util, header.win);
-    header.que = func_0201C440((void *)heapId);
+    header.que = PRINTSYS_QUE_Create((void *)heapId);
     header.committed = 0;
 
     menu = BMP_MENU_Add(&header, 0xE, 0, startPos, heapId, 2);
     BMP_WIN_MakeScreen(header.win);
     func_0201F73C(header.win, 0, tileBase, palette);
-    func_020409B4(func_02045730(header.win));
+    func_020409B4(BMP_WIN_GetBgLayer(header.win));
     BMP_WIN_TransferChars(header.win);
     return menu;
 }
@@ -1283,12 +1286,12 @@ u32 BMP_MENU_ProcessYesNo(BmpMenu *menu)
 
 void BMP_MENU_DeleteYesNo(BmpMenu *menu)
 {
-    func_0201C6EC(menu->header.que);
-    func_0201C4C0(menu->header.que);
+    PRINTSYS_QUE_Clear(menu->header.que);
+    PRINTSYS_QUE_Delete(menu->header.que);
     func_020307B0(menu->header.util);
     func_0201F7A8(menu->header.win, 0);
     GF_FONT_Delete(menu->header.fontH);
     BMP_MENUWORK_Delete(menu->header.items);
-    func_020452E8(menu->header.win);
+    BMP_WIN_Delete(menu->header.win);
     BMP_MENU_Delete(menu, 0);
 }

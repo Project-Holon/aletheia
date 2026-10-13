@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
@@ -30,7 +30,7 @@ typedef unsigned char u8;
 struct Big;
 struct Ctx;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetExpObj(int *p);
 extern int *FIELDMAP_GetCommonWork(char *p, int idx);
@@ -57,7 +57,7 @@ int GIMMICK45_SecondarySwitchEventProc(void *a0, int *a1)
     int idx;
     u8 v;
 
-    r7 = GAMESYSTEM_GetFieldMap(func_020124E4(a0));
+    r7 = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(a0));
     r6 = (void *)FIELDMAP_GetExpObj(r7);
     s = FIELDMAP_GetCommonWork(r7, 1);
     flag = 1;

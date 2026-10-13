@@ -8,18 +8,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021F265C 0x021F265C thumb ov194
  *   func_020355D8 0x020355D8 arm
  */
 #include "../include/Obj14503.h"
-extern unsigned func_02035D20(unsigned *,unsigned *);
+extern unsigned TOUCHPANEL_GetPointTrg(unsigned *,unsigned *);
 extern int func_021F265C(char *,int *,int *);
 typedef unsigned char  u8;
 extern void func_020355D8(u8 v);
 int func_021F38CC(char *p,int *out) {
  int point[2];unsigned x,y;int u;
- if(func_02035D20(&x,&y)) {
+ if(TOUCHPANEL_GetPointTrg(&x,&y)) {
  point[0]=x;point[1]=y;
  if(func_021F265C(p,point,(int *)(p+0xD8))) {
  u=((struct Obj14503 *)p)->fD8;out[3]=((struct Obj14503 *)p)->fDC;out[1]=1;out[2]=u;func_020355D8(1);return 1;

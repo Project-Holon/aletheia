@@ -1,5 +1,5 @@
 /*
- * function: func_021E6AD8
+ * function: HAND_WAZA_MetronomeSetFailMessage
  * address:  0x021E6AD8
  * packet:   pkt_ov093_021E6AD8
  * region:   ov093
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C8838  0x021C8838  thumb  ov093
- *   func_021C8860  0x021C8860  thumb  ov093
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 
@@ -21,12 +21,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int key);
-extern void func_021C8838(void *p, int a, int b);
+extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 struct S;
-extern void func_021C8860(struct S *p, u32 val);
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 val);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E6AD8(int x, int a, int c)
+void HAND_WAZA_MetronomeSetFailMessage(int x, int a, int c)
 {
     void *p;
     u16 id;
@@ -34,8 +34,8 @@ void func_021E6AD8(int x, int a, int c)
     if (c == BTL_EVENT_GetVar(2)) {
         p = (void *)BTL_EVENT_GetVar(0x3f);
         id = BTL_EVENT_GetVar(0x12);
-        func_021C8838(p, 1, 0x78);
-        func_021C8860(p, id);
+        BTL_SERVER_FLOW_InitMsgRecord(p, 1, 0x78);
+        BTL_SERVER_FLOW_AppendMsgRecordArg(p, id);
         BTL_EVENT_OverwriteVar(0x51, 1);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E3D98
+ * function: HAND_WAZA_BideCheckStoredDamage
  * address:  0x021E3D98
  * packet:   pkt_ov093_021E3D98
  * region:   ov093
@@ -19,7 +19,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern int BTL_EVENT_GetVar(int key);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E3D98(int u, int a, int b, int *p)
+void HAND_WAZA_BideCheckStoredDamage(int u, int a, int b, int *p)
 {
     if (b == BTL_EVENT_GetVar(2)) {
         if (*p >= 2) {

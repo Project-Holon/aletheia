@@ -15,13 +15,13 @@
  *   (3) the parameter is a non-const pointer (const reorders the outgoing stack argument load).
  *   Callee func_021DE6EC takes a fifth unused stack argument in the caller (stale prototype).
  * symbols:
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_02008550 0x02008550 thumb
  *   func_02008554 0x02008554 thumb
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   func_021DE6EC 0x021DE6EC thumb ov137
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -33,8 +33,8 @@ extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void func_021DE6EC(u8 *,u8 *,int,int,int);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_020061E4(u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 void func_021DE5D0(u8 *p)
 {
     int i;
@@ -52,7 +52,7 @@ void func_021DE5D0(u8 *p)
                 func_021DE6EC((u8 *)p,*(u8 **)(p+0x114),i,b,a);
                 CLACT_SetActorAnimSeq(*(void **)(p+i*4+0x9c),4);
             }
-            func_0204B3DC(*(void **)(p+i*4+0x9c),1);
+            CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x9c),1);
             *(u32 *)(p+i*4+0x160)=2;
             flag=1;
             break;
@@ -68,5 +68,5 @@ void func_021DE5D0(u8 *p)
             break;
         }
     }
-    if(flag) func_020061E4(0x676);
+    if(flag) GFL_USE_PlaySeDefaultVolume(0x676);
 }

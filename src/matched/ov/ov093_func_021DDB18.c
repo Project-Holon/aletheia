@@ -1,5 +1,5 @@
 /*
- * function: BTL_ITEM_GetWeakenDamageGrassHandlers
+ * function: HAND_ITEM_GetWeakenDamageGrassHandlers
  * address: 0x021DDB18
  * packet: pkt_ov093_021DDB18
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int gBtlItemWeakenDamageGrassHandlers[];
-int *BTL_ITEM_GetWeakenDamageGrassHandlers(int *p);
+int *HAND_ITEM_GetWeakenDamageGrassHandlers(int *p);
 
-int *BTL_ITEM_GetWeakenDamageGrassHandlers(int *p)
+int *HAND_ITEM_GetWeakenDamageGrassHandlers(int *p)
 {
     *p = 2;
     return gBtlItemWeakenDamageGrassHandlers;

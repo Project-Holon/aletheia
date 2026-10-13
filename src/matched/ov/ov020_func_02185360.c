@@ -15,10 +15,10 @@
  *   func_020124E8  0x020124E8  thumb
  *   GAME_DATA_GetSpecialLocation  0x02012894  thumb
  *   GAME_DATA_GetEntranceLocation  0x02012870  thumb
- *   func_02013E7C  0x02013E7C  thumb
+ *   ZONEDATA_IsFieldMatrix  0x02013E7C  thumb
  *   GAME_DATA_SetEscapeLocation  0x020128C0  thumb
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
- *   func_0201447C  0x0201447C  thumb
+ *   FIELD_STATUS_SwapSeasonDispFlag  0x0201447C  thumb
  *   EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly  0x02162694  thumb  ov010
  *   EVENTDATA_SYSTEM_IsSpecialExitConnect  0x021625E8  thumb  ov010
  *   EVENTDATA_SYSTEM_GetConnectExitType  0x021626E8  thumb  ov010
@@ -45,10 +45,10 @@ void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 S7 *GAME_DATA_GetSpecialLocation(void *p);
 struct Rec1C;
 struct Rec1C *GAME_DATA_GetEntranceLocation(const struct BigObj *p);
-u32 func_02013E7C(u32 id);
+u32 ZONEDATA_IsFieldMatrix(u32 id);
 void GAME_DATA_SetEscapeLocation(struct BigObj *p, const struct Rec1C *src);
 void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
-u8 func_0201447C(struct Sub02014444Obj *o, u8 v);
+u8 FIELD_STATUS_SwapSeasonDispFlag(struct Sub02014444Obj *o, u8 v);
 int EVENTDATA_SYSTEM_IsSpecialExitConnect(int a0);
 int EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(int a0, int a1, int a2);
 u8 EVENTDATA_SYSTEM_GetConnectExitType(u8 *p);
@@ -73,10 +73,10 @@ void *EVENT_MAPCHANGE_CreateExitWarpEvent(void *p, int u, int a, int b)
     }
     ((struct Obj00248 *)r4)->f2C = EVENTDATA_SYSTEM_GetConnectExitType((u8 *)a);
     r6 = (u16 *)GAME_DATA_GetEntranceLocation(r5);
-    if (func_02013E7C(r6[2]) == 1 && func_02013E7C(((struct Obj00248 *)r4)->f14) == 0) {
+    if (ZONEDATA_IsFieldMatrix(r6[2]) == 1 && ZONEDATA_IsFieldMatrix(((struct Obj00248 *)r4)->f14) == 0) {
         GAME_DATA_SetEscapeLocation(r5, (const struct Rec1C *)r6);
     }
     EVENT_MAPCHANGE_UpdateEscapeLocation((int)r5, (u16 *)(r4 + 0x10));
-    func_0201447C(GAME_DATA_GetMoveModelSys(r5), 2);
+    FIELD_STATUS_SwapSeasonDispFlag(GAME_DATA_GetMoveModelSys(r5), 2);
     return r0v;
 }

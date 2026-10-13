@@ -1,5 +1,5 @@
 /*
- * function: func_021770FC
+ * function: GFL_NET_DEVWIRELESS_UnusedSlot8
  * address:  0x021770FC
  * packet:   pkt_021770FC
  * region:   ov014
@@ -15,4 +15,4 @@
  *   (none)
  */
 
-int func_021770FC(void) { return 1; }
+int GFL_NET_DEVWIRELESS_UnusedSlot8(void) { return 1; }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_SendToHandle  0x0203D3A8  arm
@@ -21,7 +21,7 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 typedef unsigned int   u32;
 struct Entry;
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
@@ -34,7 +34,7 @@ int OEKAKI_StepSendQuitConfirm(char *p, int x)
 {
     u8 b[4];
 
-    func_02082BCC(b, 0, 4);
+    MI_CpuFill8(b, 0, 4);
     b[2] = 1;
     b[0] = GFL_NET_SYSTEM_GetCurrentAid();
     if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2905, 4, (u32)((void *)b)))

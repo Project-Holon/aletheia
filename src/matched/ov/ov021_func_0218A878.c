@@ -14,7 +14,7 @@
  *
  * symbols:
  *   INTRUDE_FIELD_CreateEdgeTask  0x0217B4D8  thumb ov018
- *   func_02013D5C  0x02013D5C  thumb
+ *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   FIELD_PLAYER_ChooseMoveDirFromKeys  0x021A2FA4  thumb
  * Addresses are Black-image addresses.
  */
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern u32 func_02013D5C(u32 id);
+extern u32 ZONEDATA_IsZone117(u32 id);
 extern u16 FIELD_PLAYER_ChooseMoveDirFromKeys(u8 *p, u32 a1);
 extern void *INTRUDE_FIELD_CreateEdgeTask(void *a, void *b, void *c, int *d, u16 e, int f);
 
@@ -33,7 +33,7 @@ void *FIELD_EVENT_CHECK_CheckIntrudeEdge(u8 *p, void *a, void *b)
 {
     int r;
 
-    if (func_02013D5C(((struct Obj04981 *)p)->f10) == 0)
+    if (ZONEDATA_IsZone117(((struct Obj04981 *)p)->f10) == 0)
         return 0;
     r = FIELD_PLAYER_ChooseMoveDirFromKeys(((struct Obj04981 *)p)->f18, ((struct Obj04981 *)p)->f2C);
     if (r == 9)

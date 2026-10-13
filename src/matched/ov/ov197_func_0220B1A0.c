@@ -11,17 +11,17 @@
  *
  * symbols:
  *   func_0220B188 0x0220B188 thumb
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  */
 #include "../include/Obj24989.h"
 
 extern void func_0220B188(char *a);
 struct Descriptor;
 typedef unsigned int   u32;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 void func_0220B1A0(char *a)
 {
     func_0220B188(a);
-    func_020452E8((struct Descriptor *)(((struct Obj24989 *)a)->f24));
+    BMP_WIN_Delete((struct Descriptor *)(((struct Obj24989 *)a)->f24));
 }

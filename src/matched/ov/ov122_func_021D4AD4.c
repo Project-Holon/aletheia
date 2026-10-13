@@ -15,7 +15,7 @@
  *   func_020403F4 0x020403F4 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
  */
 #include "../include/Obj02472.h"
@@ -32,7 +32,7 @@ extern void func_020403F4(u32 i);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 void func_021D4AD4(char *p)
 {
     unsigned ranges;
@@ -48,5 +48,5 @@ void func_021D4AD4(char *p)
     STRBUF_Delete(((struct Obj02472 *)p)->f54);
     STRBUF_Delete(((struct Obj02472 *)p)->f50);
     STRBUF_Delete(((struct Obj02472 *)p)->f58);
-    func_020452E8(((struct Obj02472 *)p)->f3C);
+    BMP_WIN_Delete(((struct Obj02472 *)p)->f3C);
 }

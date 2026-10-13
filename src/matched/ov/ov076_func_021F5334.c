@@ -31,7 +31,7 @@
  * allocates (f4 = b, f2C/f30 = c/d, f34 = fade plane, f40 = -1 sound).
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
  *   ENCEFF_GetWork  0x021CF560  thumb  ov021
@@ -50,7 +50,7 @@
  *   FIELDMAP_GetDrawMode  0x021899F0  thumb  ov021
  *   FIELDMAP_SetDrawMode  0x021899F8  thumb  ov021
  *   G3D_SYSTEM_GetObjectAnimeFrameMax  0x02047888  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   G3D_SYSTEM_GetObjectAnimeFrame  0x02047828  arm
  *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm
  *   G3D_SYSTEM_DeleteObject  0x02047738  arm
@@ -91,7 +91,7 @@ struct G3dSys;
 struct Obj;
 struct Rec;
 struct Tagged;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetEncEff(unsigned char *p);
 extern u32 ENCEFF_GetWork(u32 *p);
@@ -110,7 +110,7 @@ extern void SCREENTEX_CaptureDisplay(u32 a0, u32 a1);
 extern u32 FIELDMAP_GetDrawMode(u8 *p);
 extern void FIELDMAP_SetDrawMode(u8 *p, u32 v);
 extern int G3D_SYSTEM_GetObjectAnimeFrameMax(int *a, int idx, int *out);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern u32 G3D_SYSTEM_GetObjectAnimeFrame(struct AnmCtl *c, u32 idx, s32 *frame);
 extern int G3D_SYSTEM_IncObjectAnimeFrame(void *a, int idx, int amount);
 extern void G3D_SYSTEM_DeleteObject(struct Rec *p);
@@ -125,7 +125,7 @@ int ENCEFF_ModelSceneEventMain(void *task, int *st)
     s32 frame;
     s32 cur;
 
-    w =(Work *)ENCEFF_GetWork((u32 *)FIELDMAP_GetEncEff((unsigned char *)((int)GAMESYSTEM_GetFieldMap(func_020124E4(task)))));
+    w =(Work *)ENCEFF_GetWork((u32 *)FIELDMAP_GetEncEff((unsigned char *)((int)GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(task)))));
     switch (*st) {
     case 0:
         FADE_Start(4, 0, 0x10, 0);
@@ -169,7 +169,7 @@ int ENCEFF_ModelSceneEventMain(void *task, int *st)
         G3D_SYSTEM_GetObjectAnimeFrameMax(w->f28, 0, &end);
         w->f3C = end - 0x14000;
         if (w->f40 != -1) {
-            func_020061E4(w->f40);
+            GFL_USE_PlaySeDefaultVolume(w->f40);
         }
         *st = *st + 1;
         break;

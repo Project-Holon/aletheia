@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02082BCC    0x02082BCC  arm
+ *   MI_CpuFill8    0x02082BCC  arm
  */
 
 typedef unsigned short u16;
@@ -26,11 +26,11 @@ struct Flags02008320 {
     u16 h : 5;
 };
 
-extern void func_02082BCC(void *p, int c, u16 n);
+extern void MI_CpuFill8(void *p, int c, u16 n);
 
 void CONFIG_Init(struct Flags02008320 *p)
 {
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
     p->a = 1;
     p->b = 0;
     p->c = 0;

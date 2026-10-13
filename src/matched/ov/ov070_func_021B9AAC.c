@@ -12,7 +12,7 @@
  * symbols:
  *   ITEMMENU_SetMoveTypeIconsVisible  0x021B97E8  thumb  ov070
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 #include "../include/Obj20672.h"
 
@@ -20,7 +20,7 @@ extern void ITEMMENU_SetMoveTypeIconsVisible(char *, int);
 struct Descriptor;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 void ITEMMENU_HideMoveInfo(char *p)
 {
@@ -29,9 +29,9 @@ void ITEMMENU_HideMoveInfo(char *p)
     ITEMMENU_SetMoveTypeIconsVisible(p, 0);
     BMP_WIN_ClearScreen((struct Descriptor *)(((struct Obj20672 *)p)->f734));
     for (i = 0; i < 3; i++) {
-        func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x6C0), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + i * 4 + 0x6C0), 0);
     }
     for (j = 0; j < 0x11; j++) {
-        func_0204B3DC((struct Obj *)*(int *)(p + j * 4 + 0x6CC), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + j * 4 + 0x6CC), 0);
     }
 }

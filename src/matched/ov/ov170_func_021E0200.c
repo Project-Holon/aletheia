@@ -12,7 +12,7 @@
  * State machine in the family of src/matched/ov170_func_021DFA30.c.
  *
  * symbols:
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_021DD16C 0x021DD16C thumb
@@ -62,7 +62,7 @@ extern void func_021DE428(unsigned char *p, unsigned a, unsigned b);
 extern int func_021EF60C(struct WinMgr *mgr);
 extern void func_021ED6E4(char **p, int v);
 extern int func_021DE5C8(char *p, unsigned id);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void func_021EF36C(struct WinMgr *mgr);
 extern void func_021EF534(struct WinMgr *mgr);
 extern int func_021EF248(void);
@@ -110,7 +110,7 @@ int func_021E0200(unsigned char *p)
                 b->state = 6;
             } else {
                 if (func_021EF480(MGR(p)) == 0)
-                    func_020061E4(0x669);
+                    GFL_USE_PlaySeDefaultVolume(0x669);
                 func_021EF36C(MGR(p));
                 func_021EF534(MGR(p));
                 b->state = 4;
@@ -126,16 +126,16 @@ int func_021E0200(unsigned char *p)
                     p[0x17] = 0xFF;
                     p[0x1A] = 0;
                     func_021EF3A0(MGR(p));
-                    func_020061E4(0x669);
+                    GFL_USE_PlaySeDefaultVolume(0x669);
                 }
             } else if (b->timer == 0) {
                 int dir = func_021EF1B4();
                 if (dir == 0) {
-                    func_020061E4(0x548);
+                    GFL_USE_PlaySeDefaultVolume(0x548);
                     func_021DD16C(p, 0);
                     b->state = 2;
                 } else if (dir == 1) {
-                    func_020061E4(0x548);
+                    GFL_USE_PlaySeDefaultVolume(0x548);
                     func_021DD16C(p, 1);
                     b->state = 3;
                 }
@@ -161,7 +161,7 @@ int func_021E0200(unsigned char *p)
         break;
     case 4:
         if (func_021DD930(p) == 0) {
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 5;
         }
         break;
@@ -177,8 +177,8 @@ int func_021E0200(unsigned char *p)
         if (func_021DDAE8(p) == 0) {
             func_021DE66C(p, b->moves);
             func_021DF040((char *)p);
-            func_020061E4(0x667);
-            func_020061E4(0x669);
+            GFL_USE_PlaySeDefaultVolume(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x669);
             func_021EF36C(MGR(p));
             p[0x16] = 0xFF;
             b->state = 7;

@@ -10,7 +10,7 @@
  * symbols:
  *   STRBUF_Delete 0x02045808 arm
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_020409B4 0x020409B4 arm
  */
 #include "../include/Obj00295.h"
@@ -22,7 +22,7 @@ struct Obj;
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void func_020409B4(u32 index);
 void func_021BCAD8(Object *p) {
     int i;
@@ -30,8 +30,8 @@ void func_021BCAD8(Object *p) {
         if(p->records[i].s) { STRBUF_Delete(p->records[i].s); p->records[i].s=0; }
         if(p->windows[i]) { APP_TASKMENU_WIN_Delete(p->windows[i]); p->windows[i]=0; }
     }
-    for(i=0;i<8;i++) func_0204B3DC(p->items[i],0);
-    for(i=0;i<2;i++) func_0204B3DC(p->other[i],0);
+    for(i=0;i<8;i++) CLACT_SetActorDrawEnable(p->items[i],0);
+    for(i=0;i<2;i++) CLACT_SetActorDrawEnable(p->other[i],0);
     func_020409B4(0);
-    func_0204B3DC(((struct Obj00295 *)p)->f28,0);
+    CLACT_SetActorDrawEnable(((struct Obj00295 *)p)->f28,0);
 }

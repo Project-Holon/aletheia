@@ -12,7 +12,7 @@
  * symbols:
  *   func_021DDEFC 0x021DDEFC thumb
  *   func_021DDC00 0x021DDC00 thumb
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   func_021DE07C 0x021DE07C thumb
  *   func_021DE120 0x021DE120 thumb
  *   func_021DD25C 0x021DD25C thumb
@@ -43,7 +43,7 @@ typedef struct {
 
 extern void func_021DDEFC(unsigned char *p, Entry *e);
 extern int func_021DDC00(unsigned char *p, unsigned a, unsigned b);
-extern unsigned func_0201AA18(void *party);
+extern unsigned POKEPARTY_GetCount(void *party);
 extern void func_021DE07C(unsigned char *p, Entry *e);
 extern void func_021DE120(char *p, int a, int b);
 extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
@@ -96,7 +96,7 @@ int func_021DE158(unsigned char *p, unsigned a, unsigned b)
     }
     m->a = a;
     m->b = b;
-    n = func_0201AA18(((void **)((struct Obj00000 *)p)->f0)[2]);
+    n = POKEPARTY_GetCount(((void **)((struct Obj00000 *)p)->f0)[2]);
     if (b >= 0x24) {
         m->e[0].id = 0x24;
         m->e[0].slot = b;

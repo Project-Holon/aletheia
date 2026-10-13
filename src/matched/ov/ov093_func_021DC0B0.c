@@ -1,5 +1,5 @@
 /*
- * function: func_021DC0B0
+ * function: HAND_TOKUSEI_GetDefiantHandlers
  * address: 0x021DC0B0
  * packet: pkt_ov093_021DC0B0
  * region: ov093
@@ -15,10 +15,10 @@
  *   gDefiantHandlers 0x021F0688 data ov093 a4
  */
 
-int *func_021DC0B0(int *p);
+int *HAND_TOKUSEI_GetDefiantHandlers(int *p);
 extern int gDefiantHandlers[];
 
-int *func_021DC0B0(int *p)
+int *HAND_TOKUSEI_GetDefiantHandlers(int *p)
 {
     *p = 1;
     return gDefiantHandlers;

@@ -1,5 +1,5 @@
 /*
- * function: func_02177AEC
+ * function: NET_WHPIPE_IsDisconnectDetected
  * address:  0x02177AEC
  * packet:   pkt_ov014_02177AEC
  * region:   ov014
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 
 extern struct W *g_pWhPipeWork;
 
-int func_02177AEC(void)
+int NET_WHPIPE_IsDisconnectDetected(void)
 {
     u8 *w = ((u8 *)g_pWhPipeWork);
 

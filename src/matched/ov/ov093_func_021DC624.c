@@ -1,5 +1,5 @@
 /*
- * function: func_021DC624
+ * function: HAND_TOKUSEI_GetSandRushHandlers
  * address: 0x021DC624
  * packet: pkt_ov093_021DC624
  * region: ov093
@@ -15,10 +15,10 @@
  *   gSandRushHandlers 0x021F0950 data ov093 a4
  */
 
-int *func_021DC624(int *p);
+int *HAND_TOKUSEI_GetSandRushHandlers(int *p);
 extern int gSandRushHandlers[];
 
-int *func_021DC624(int *p)
+int *HAND_TOKUSEI_GetSandRushHandlers(int *p)
 {
     *p = 2;
     return gSandRushHandlers;

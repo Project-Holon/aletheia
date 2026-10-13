@@ -10,7 +10,7 @@
  * volatile: BLDCNT04000050/04001050 writes A870-A872; DISPCNT04000000/04001000 reread and masked A876-A884.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
@@ -31,7 +31,7 @@ struct DispVram;
 extern const struct DispVram d_021BAEF8;
 extern const char d_021BB094[];
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void func_0204363C(unsigned);
@@ -48,7 +48,7 @@ char *func_021BA848(unsigned swap, unsigned heap)
 {
     char *p;
     p = func_02030734(heap, 16, 0, d_021BB094, 436);
-    func_02082BCC(p, 0, 16);
+    MI_CpuFill8(p, 0, 16);
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= ~0xe000u;

@@ -14,7 +14,7 @@
  *   func_020403F4  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   func_0203F9B4  0x0203F9B4  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
 typedef unsigned char u8;
@@ -25,7 +25,7 @@ extern u8 g_021D83F0[];
 void func_020403F4(u32 i);
 void BMP_WIN_Exit(void);
 void func_0203F9B4(void);
-void func_02082BCC(void *dst, int c, int n);
+void MI_CpuFill8(void *dst, int c, int n);
 
 void func_021D8364(void *a0)
 {
@@ -36,5 +36,5 @@ void func_021D8364(void *a0)
     }
     BMP_WIN_Exit();
     func_0203F9B4();
-    func_02082BCC(a0, 0, 4);
+    MI_CpuFill8(a0, 0, 4);
 }

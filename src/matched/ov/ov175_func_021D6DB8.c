@@ -27,12 +27,12 @@
  *   func_021D98D8 0x021D98D8 thumb
  *   func_021D98B8 0x021D98B8 thumb
  *   func_021D9A50 0x021D9A50 thumb
- *   func_0201AA50 0x0201AA50 thumb
+ *   POKEPARTY_GetBattleReadyCount 0x0201AA50 thumb
  *   func_0200AE14 0x0200AE14 thumb
  *   POKE_REGULATION_CheckParty 0x0201A090 thumb
  *   func_021DCB58 0x021DCB58 thumb
  *   func_021DCC28 0x021DCC28 thumb
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   func_021DBC04 0x021DBC04 thumb
  *   func_021DBDAC 0x021DBDAC thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
@@ -46,7 +46,7 @@
  *   func_020307B0 0x020307B0 arm
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021DD020 0x021DD020 thumb
  *   func_021DC8B4 0x021DC8B4 thumb
  *   func_021DC908 0x021DC908 thumb
@@ -100,7 +100,7 @@ typedef signed int     s32;
 struct Rec1E;
 struct RecBig;
 struct Reg2;
-extern u32 func_0201AA50(void *p);
+extern u32 POKEPARTY_GetBattleReadyCount(void *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Obj;
@@ -109,7 +109,7 @@ extern int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask);
 extern void func_021DCB58(char *,void *,int);
 struct Record;
 extern int func_021DCC28(char *p, u8 *out);
-extern u32 func_0201AA18(void *);
+extern u32 POKEPARTY_GetCount(void *);
 extern void func_021DBC04(u8 *p, u32 mode, struct Record *src);
 extern int func_021DBDAC(char *);
 struct Big;
@@ -124,7 +124,7 @@ extern void func_0200B2A4(int,int);
 extern u32 func_020307B0(void *p);
 extern int GAME_DATA_SaveStart(int);
 extern int GAME_DATA_SaveMain(unsigned char *);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern unsigned func_021DD020(char *);
 extern void func_021DC8B4(char *,void *,unsigned);
 extern int func_021DC908(char *);
@@ -174,7 +174,7 @@ void func_021D6DB8(int *sys,int *state,char *p)
     switch(*state) {
     case 0: if(((unsigned char *)ctx[12])[4]==1) *state=1; else *state=3; break;
     case 1: {
-        func_02082BCC(&request1,0,8); request1.b=0; request1.a=((unsigned char *)CTX[12])[4];
+        MI_CpuFill8(&request1,0,8); request1.b=0; request1.a=((unsigned char *)CTX[12])[4];
         request1.id=func_021DD020(H); ((unsigned char *)CTX[12])[5]=0;
         func_021DC8B4(H,&request1,87); *state=2; break;
     }
@@ -194,7 +194,7 @@ void func_021D6DB8(int *sys,int *state,char *p)
     case 5:func_021E8738((int *)W(0x2c),W(0x14),0x39,1);func_021E8AB4((u32)sys,46);*state=56;break;
     case 6:func_021E8738((int *)W(0x2c),W(0x14),0x39,1);func_021E8AB4((u32)sys,46);*state=56;break;
     case 7: {
-        func_02082BCC(&request7,0,8); request7.b=func_0200B078((struct Reg2 *)aux,10); request7.id=func_021DD020(H);
+        MI_CpuFill8(&request7,0,8); request7.b=func_0200B078((struct Reg2 *)aux,10); request7.id=func_021DD020(H);
         ((unsigned char *)CTX[12])[5]=func_0200B078((struct Reg2 *)aux,10);
         func_021DC8B4(H,&request7,87);*state=8;break;
     }
@@ -244,12 +244,12 @@ void func_021D6DB8(int *sys,int *state,char *p)
     case 35:if(func_021D97C4(p))*state=36;break;
     case 36:func_021D97A4(p);*state=42;break;
     case 37:func_021E8738((int *)W(0x2c),W(0x14),0x46,2);func_021E8AB4((u32)sys,38);*state=56;break;
-    case 38:if(*(u32 *)ctx[8]==0){func_02082BCC((void *)(ctx[13]+0x18),0,0x534);func_021DBC04((u8 *)H,0,(void *)(CTX[13]+0x18));*state=39;}break;
+    case 38:if(*(u32 *)ctx[8]==0){MI_CpuFill8((void *)(ctx[13]+0x18),0,0x534);func_021DBC04((u8 *)H,0,(void *)(CTX[13]+0x18));*state=39;}break;
     case 39:
         r=func_021DBDAC(H);if(r==1){*(u32 *)CTX[8]=0x708;*state=40;}
         if(r!=0)switch(func_021D9F04(H,(void *)1,0)){case 1:case 2:func_021E8AA0(sys,(int)func_021D9064);break;}break;
     case 40:{
-        func_02082BCC(&request40,0,8);request40.a=0;request40.b=1;request40.id=func_021DD020(H);
+        MI_CpuFill8(&request40,0,8);request40.a=0;request40.b=1;request40.id=func_021DD020(H);
         ((unsigned char *)CTX[12])[5]=1;func_021DC8B4(H,&request40,87);*state=41;break;
     }
     case 41:

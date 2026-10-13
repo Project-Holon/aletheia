@@ -13,13 +13,13 @@
  * (+0044) and part of the func_021D7130 tree.  Interpolates between a0 and a1
  * at record stride (the difference divided by f04, scaled by f08), then, when
  * the record's f16 is set and a3 is nonzero, re-derives the position from the
- * sine table tbl_020A1B38 with the phase f14>>4.  The divide's destination
+ * sine table FX_SinCosTable_ with the phase f14>>4.  The divide's destination
  * only reproduces when the quotient is bound to its own local first
  * (`int q = ...; int r = q * a2->f08 + a0;`).
  *
  * symbols:
  *   _s32_div_f      0x0209C0A4  arm
- *   tbl_020A1B38    0x020A1B38  data
+ *   FX_SinCosTable_    0x020A1B38  data
  *
  * Addresses are Black-image addresses.
  */
@@ -30,7 +30,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 extern s32 _s32_div_f(s32, s32);
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 typedef struct {
     u32 f00;
@@ -48,6 +48,6 @@ int func_021DFBF0(int a0, int a1, S *a2, int a3)
     int r = q * a2->f08 + a0;
 
     if (a2->f16 != 0 && a3 != 0)
-        r = a1 + tbl_020A1B38[2 * (a2->f14 >> 4)] * 8;
+        r = a1 + FX_SinCosTable_[2 * (a2->f14 >> 4)] * 8;
     return r;
 }

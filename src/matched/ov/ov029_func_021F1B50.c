@@ -10,10 +10,10 @@
  * status:   EXACT*
  * symbols:
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  */
 #include "../include/Obj06128.h"
 
@@ -27,13 +27,13 @@ typedef struct {
 
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 typedef unsigned int   u32;
 struct Actor;
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 struct Obj;
-extern void func_0204B92C(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
 
 void C_GEAR_CreateSplashActors(char *p)
 {
@@ -50,9 +50,9 @@ void C_GEAR_CreateSplashActors(char *p)
         q = (int *)(p + i * 4);
         q[0x5c] = (int)CLACT_CreateActor((void *)((struct Obj06128 *)p)->f34, ((struct Obj06128 *)p)->f2C, ((struct Obj06128 *)p)->f28,
                                 ((struct Obj06128 *)p)->f30, &s, 0, ((struct Obj06128 *)p)->fC);
-        func_0204B3DC((struct Obj *)q[0x5c], 0);
+        CLACT_SetActorDrawEnable((struct Obj *)q[0x5c], 0);
         CLACT_SetActorAutoAnimSpeed((struct Actor *)q[0x5c], 0x2000);
         CLACT_RestartActorAnim((struct Actor *)q[0x5c]);
-        func_0204B92C((struct Obj *)q[0x5c], 1);
+        CLACT_SetActorAutoAnim((struct Obj *)q[0x5c], 1);
     }
 }

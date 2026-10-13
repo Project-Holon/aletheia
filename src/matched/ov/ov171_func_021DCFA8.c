@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201C6B4 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  */
 #include "../include/Obj14287.h"
@@ -17,6 +17,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct PrintSys;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern u32 WIPE_SYS_EndCheck(void);
-int func_021DCFA8(u8*p){if(func_0201C6B4(*(void* *)&((struct Obj14287 *)p)->fB6C)==1 && WIPE_SYS_EndCheck()==1)return ((struct Obj14287 *)p)->fC74;return 2;}
+int func_021DCFA8(u8*p){if(PRINTSYS_QUE_IsFinished(*(void* *)&((struct Obj14287 *)p)->fB6C)==1 && WIPE_SYS_EndCheck()==1)return ((struct Obj14287 *)p)->fC74;return 2;}

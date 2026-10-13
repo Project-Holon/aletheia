@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_0201B9F0 with no argument change.
+ * Tail-call thunk: forwards to POKE_TOOL_HealFull with no argument change.
  *
  * symbols:
- *   func_0201B9F0  0x0201B9F0  thumb
+ *   POKE_TOOL_HealFull  0x0201B9F0  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0201B9F0(void *mon);
+extern void POKE_TOOL_HealFull(void *mon);
 
 void SODATEYA_PrepareDeposit(void *a0)
 {
-    func_0201B9F0(a0);
+    POKE_TOOL_HealFull(a0);
 }

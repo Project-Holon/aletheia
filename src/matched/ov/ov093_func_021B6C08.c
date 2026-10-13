@@ -1,5 +1,5 @@
 /*
- * function: func_021B6C08
+ * function: BTL_MAIN_TaskCleanup
  * address:  0x021B6C08
  * packet:   pkt_ov093_021B6C08
  * region:   ov093
@@ -12,7 +12,7 @@
  * symbols:
  *   func_021E9034  0x021E9034  thumb  ov093
  *   BTL_CLIENT_Delete  0x021CD8E0  thumb  ov093
- *   func_021B9674  0x021B9674  thumb  ov093
+ *   BTL_SIDE_DeletePokeParams  0x021B9674  thumb  ov093
  *   BTL_SERVER_Delete  0x021BAB5C  thumb  ov093
  */
 
@@ -32,10 +32,10 @@ struct S {
 
 extern void func_021E9034(char *p);
 extern void BTL_CLIENT_Delete(u8 *p);
-extern void func_021B9674(char *p);
+extern void BTL_SIDE_DeletePokeParams(char *p);
 extern void BTL_SERVER_Delete(int a);
 
-int func_021B6C08(int a0, struct S *s)
+int BTL_MAIN_TaskCleanup(int a0, struct S *s)
 {
     u32 i;
 
@@ -48,8 +48,8 @@ int func_021B6C08(int a0, struct S *s)
             BTL_CLIENT_Delete((u8 *)s->f10[i]);
         }
     }
-    func_021B9674((char *)((u8 *)s + 0xc8));
-    func_021B9674((char *)((u8 *)s + 0x1b0));
+    BTL_SIDE_DeletePokeParams((char *)((u8 *)s + 0xc8));
+    BTL_SIDE_DeletePokeParams((char *)((u8 *)s + 0x1b0));
     if (s->f08 != 0) {
         BTL_SERVER_Delete(s->f08);
     }

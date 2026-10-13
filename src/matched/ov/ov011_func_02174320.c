@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   GAME_DATA_GetBattleRecSlot  0x020127AC  thumb
@@ -24,7 +24,7 @@ typedef struct H {
 typedef unsigned int   u32;
 struct Link;
 struct SaveBlock;
-u32 func_02026478(void *obj);
+u32 GAME_COMM_GetGameData(void *obj);
 struct Entry;
 struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 u32 GFL_NET_GetHandleNetID(struct Link *p);
@@ -35,7 +35,7 @@ void INTRUDE_CMD_RecvProfile(int a, int b, void *c, char *d)
 {
     int p;
 
-    p = func_02026478((void *)(((int *)d)[1]));
+    p = GAME_COMM_GetGameData((void *)(((int *)d)[1]));
     if (a != GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle())) && ((unsigned char)d[0x8fb] & (1 << a))) {
         func_02082D44(c, (int)GAME_DATA_GetBattleRecSlot((struct SaveBlock *)p, a), 0x10);
         if (a == ((H *)(d + 0x86))->f) {

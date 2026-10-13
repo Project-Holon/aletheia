@@ -14,7 +14,7 @@
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetEventData  0x02012844  thumb
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
- *   func_02014454  0x02014454  thumb
+ *   FIELD_STATUS_SetFieldInitFlag  0x02014454  thumb
  *   GAME_DATA_GetEntranceLocation  0x02012870  thumb
  *   GAME_DATA_SetSpecialLocation  0x0201289C  thumb
  *   GAME_DATA_SetPlayerZoneId  0x02012AC4  thumb
@@ -28,7 +28,7 @@
  *   GAME_DATA_SetStartLocation  0x02012854  thumb
  *   GAME_DATA_SetWarpId  0x02012900  thumb
  *   func_0202C83C  0x0202C83C  thumb
- *   func_0201405C  0x0201405C  thumb
+ *   ZONEDATA_GetMapSubType  0x0201405C  thumb
  *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
  *   EVENT_MAPCHANGE_ResolveLocation  0x02185788  thumb  ov020
  *   EVENT_MAPCHANGE_DirToAngle  0x02185758  thumb  ov020
@@ -71,7 +71,7 @@ typedef unsigned char  u8;
 struct BigObj;
 struct Rec44;
 struct Sub02014444Obj;
-void func_02014454(struct Sub02014444Obj *o, u8 v);
+void FIELD_STATUS_SetFieldInitFlag(struct Sub02014444Obj *o, u8 v);
 struct Rec1C *GAME_DATA_GetEntranceLocation(const struct BigObj *p);
 void GAME_DATA_SetSpecialLocation(struct BigObj *p, const struct Rec1C *src);
 struct Rec44 *GAME_DATA_SetPlayerZoneId(struct Rec44 *p, u16 v);
@@ -85,7 +85,7 @@ void ISS_SYS_ChangeZone(u32 a, u16 b);
 void GAME_DATA_SetStartLocation(struct BigObj *p, const struct Rec1C *src);
 void GAME_DATA_SetWarpId(const struct BigObj *p, u16 v);
 int func_0202C83C(int a0, int a1);
-u8 func_0201405C(u32 id);
+u8 ZONEDATA_GetMapSubType(u32 id);
 u32 GAME_DATA_GetOccupyInfo(const struct BigObj *p);
 void EVENT_MAPCHANGE_ResolveLocation(int a, int b, Obj *o);
 int EVENT_MAPCHANGE_DirToAngle(int v);
@@ -114,7 +114,7 @@ void EVENT_MAPCHANGE_ApplyLocation(void *a, int b)
     r5 = GAMESYSTEM_GetGameData(a);
     r4 = GAME_DATA_GetMyPlayerWork(r5);
     t = (int)GAME_DATA_GetEventData(r5);
-    func_02014454(GAME_DATA_GetMoveModelSys(r5), 1);
+    FIELD_STATUS_SetFieldInitFlag(GAME_DATA_GetMoveModelSys(r5), 1);
     EVENT_MAPCHANGE_ResolveLocation(t, b, &s);
     if (s.f0 == 3)
         GAME_DATA_SetSpecialLocation(r5, GAME_DATA_GetEntranceLocation(r5));
@@ -141,7 +141,7 @@ void EVENT_MAPCHANGE_ApplyLocation(void *a, int b)
     EVENT_MAPCHANGE_SetMapEffectMask(r5, (u16)s.h4);
     EVENT_MAPCHANGE_ReloadMmdl(r5, (const short int *)(&s));
     func_0202C83C((int)a, s.h4);
-    n = (int)func_0201405C((u16)s.h4);
+    n = (int)ZONEDATA_GetMapSubType((u16)s.h4);
     q = (void *)GAME_DATA_GetOccupyInfo(r5);
     if (n < 16)
         FLDMMDL_SysLoadObjCodeParamCache(q, n);

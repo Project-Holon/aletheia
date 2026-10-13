@@ -10,7 +10,7 @@
  * symbols:
  *   func_021DD140 0x021DD140 thumb ov119
  *   func_021E12AC 0x021E12AC thumb ov119
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020355C4 0x020355C4 arm
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 typedef unsigned char  u8;
 extern int func_021DD140(char *p);
 extern int func_021E12AC(char *p);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
 extern int TOUCHPANEL_GetTrg(void);
 extern u8 func_020355C4(void);
@@ -38,7 +38,7 @@ void func_021DEB34(void *p)
 {
     int v;
     if(func_021DD140(p) && func_021E12AC(p)) {
-        v=func_020362DC();
+        v=KEY_GetTrg();
         if(v) func_020355D8(0);
         if(v==0) {
             v=TOUCHPANEL_GetTrg();

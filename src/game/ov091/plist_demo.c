@@ -48,6 +48,7 @@ typedef unsigned int   u32;
 typedef short s16;
 typedef signed int     s32;
 
+#include "pokelist_types.h"
 #include "plist_battle_types.h"
 #include "plist_demo_types.h"
 
@@ -76,15 +77,15 @@ extern u32 POKE_TOOL_GetExpForLevel(u16, u16, u16);
 extern void POKE_TOOL_RecalcParam(void *);
 extern u32 POKE_TOOL_RestorePP(void *, u32, u32);
 extern int PLIST_DEMO_ApplyFriendshipItem(int, int, int, int, u16, int);
-void PLIST_PLATE_GetCenterPos(PlistWork *work, u8 *plate, PlistPos *out);
-void PLIST_DEMO_CreateParticles(PlistWork *work);
-void PLIST_DEMO_DeleteParticles(PlistWork *work);
-int PLIST_DEMO_CheckGiratinaToOrigin(PlistWork *work, void *unused);
-void PLIST_DEMO_ApplyGiratinaOriginForm(PlistWork *work, void *mon);
-int PLIST_DEMO_CheckGiratinaToAltered(PlistWork *work, void *unused);
-void PLIST_DEMO_ApplyGiratinaAlteredForm(PlistWork *work, void *mon);
-int PLIST_DEMO_CanUseGracidea(PlistWork *work, u32 unused);
-void PLIST_DEMO_ApplyShayminSkyForm(PlistWork *work, void *mon);
+void PLIST_PLATE_GetCenterPos(PokelistWork *work, u8 *plate, PlistPos *out);
+void PLIST_DEMO_CreateParticles(PokelistWork *work);
+void PLIST_DEMO_DeleteParticles(PokelistWork *work);
+int PLIST_DEMO_CheckGiratinaToOrigin(PokelistWork *work, void *unused);
+void PLIST_DEMO_ApplyGiratinaOriginForm(PokelistWork *work, void *mon);
+int PLIST_DEMO_CheckGiratinaToAltered(PokelistWork *work, void *unused);
+void PLIST_DEMO_ApplyGiratinaAlteredForm(PokelistWork *work, void *mon);
+int PLIST_DEMO_CanUseGracidea(PokelistWork *work, u32 unused);
+void PLIST_DEMO_ApplyShayminSkyForm(PokelistWork *work, void *mon);
 int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId);
 int PLIST_DEMO_UseItemOnMon(void *mon, u16 item, u16 moveSlot, u16 arg, int heap);
 int PLIST_DEMO_RaiseMovePpUps(void *mon, int moveSlot, int ups);
@@ -96,7 +97,7 @@ extern u8 d_021BED58[];
 /*
  * lever: two-halfword coordinate struct keeps its address sp-relative; int alias added 4 B.
  */
-void PLIST_DEMO_CreateParticles(PlistWork *work)
+void PLIST_DEMO_CreateParticles(PokelistWork *work)
 {
     u8 count;
     int member;
@@ -129,13 +130,13 @@ void PLIST_DEMO_CreateParticles(PlistWork *work)
     for (i = 0; i < count; i++) PARTICLE_StartEffect(work->particleSystem, i, (int)vec);
 }
 
-void PLIST_DEMO_DeleteParticles(PlistWork *work)
+void PLIST_DEMO_DeleteParticles(PokelistWork *work)
 {
     PARTICLE_DeleteSystem(work->particleSystem);
     GFL_NET_FreeAligned(work->particleMemory);
 }
 
-int PLIST_DEMO_CheckGiratinaToOrigin(PlistWork *work, void *unused)
+int PLIST_DEMO_CheckGiratinaToOrigin(PokelistWork *work, void *unused)
 {
     int result = 0;
     if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_SPECIES, 0) != PLIST_SPECIES_GIRATINA)
@@ -150,13 +151,13 @@ int PLIST_DEMO_CheckGiratinaToOrigin(PlistWork *work, void *unused)
 /*
  * Extent tail: two bytes of alignment padding at 0x021BDC5A.
  */
-void PLIST_DEMO_ApplyGiratinaOriginForm(PlistWork *work, void *mon)
+void PLIST_DEMO_ApplyGiratinaOriginForm(PokelistWork *work, void *mon)
 {
     POKE_TOOL_ChangeForm(mon, 1);
     func_0200CDE0(work->arg->zukanSave, mon);
 }
 
-int PLIST_DEMO_CheckGiratinaToAltered(PlistWork *work, void *unused)
+int PLIST_DEMO_CheckGiratinaToAltered(PokelistWork *work, void *unused)
 {
     int result = 0;
     if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_HELD_ITEM, 0) == PLIST_ITEM_GRISEOUS_ORB)
@@ -171,13 +172,13 @@ int PLIST_DEMO_CheckGiratinaToAltered(PlistWork *work, void *unused)
 /*
  * Extent tail: two bytes of alignment padding at 0x021BDCBE.
  */
-void PLIST_DEMO_ApplyGiratinaAlteredForm(PlistWork *work, void *mon)
+void PLIST_DEMO_ApplyGiratinaAlteredForm(PokelistWork *work, void *mon)
 {
     POKE_TOOL_ChangeForm(mon, 0);
     func_0200CDE0(work->arg->zukanSave, mon);
 }
 
-int PLIST_DEMO_CanUseGracidea(PlistWork *work, u32 unused)
+int PLIST_DEMO_CanUseGracidea(PokelistWork *work, u32 unused)
 {
     u32 now[3];
     u32 dayStart, dayEnd;
@@ -198,7 +199,7 @@ int PLIST_DEMO_CanUseGracidea(PlistWork *work, u32 unused)
     return 1;
 }
 
-void PLIST_DEMO_ApplyShayminSkyForm(PlistWork *work, void *mon)
+void PLIST_DEMO_ApplyShayminSkyForm(PokelistWork *work, void *mon)
 {
     POKE_TOOL_ChangeForm(mon, 1);
     func_0200CDE0(work->arg->zukanSave, mon);

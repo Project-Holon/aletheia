@@ -13,15 +13,16 @@
  *
  * symbols:
  *   g_021A8264  0x021A8264  data
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 
 #include "../include/G__anon_Work.h"
 
 extern struct _anon_Work *g_021A8264;
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 
 void DWC_RAP_ClearPeerCounters(void)
 {
-    func_02082BCC(((char *)g_021A8264) + 0x784, 0, 8);
+    MI_CpuFill8(((char *)g_021A8264) + 0x784, 0, 8);
 }
 

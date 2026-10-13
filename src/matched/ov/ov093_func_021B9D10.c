@@ -1,5 +1,5 @@
 /*
- * function: func_021B9D10
+ * function: BTL_SLOT_UpdateIllusion
  * address:  0x021B9D10
  * packet:   pkt_ov093_021B9D10
  * region:   ov093
@@ -40,7 +40,7 @@ extern void *BTL_POKEPARAM_GetDisplayMon(struct Work *p);
 extern void BTL_POKEPARAM_ClearFakeMon(struct Work *p);
 extern int BTL_POKEPARAM_IsIllusionActive(struct R4 *p);
 
-void func_021B9D10(char *a, struct Arr *arr, int k)
+void BTL_SLOT_UpdateIllusion(char *a, struct Arr *arr, int k)
 {
     int j;
     void *m;

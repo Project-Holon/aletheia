@@ -1,5 +1,5 @@
 /*
- * function: func_021E146C
+ * function: HAND_WAZA_AddSuperFang
  * address: 0x021E146C
  * packet: pkt_ov093_021E146C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E12A4.c and filed here.
  *
  * symbols:
- *   d_021F25A4 0x021F25A4 data ov093 a4
+ *   gSuperFangHandlers 0x021F25A4 data ov093 a4
  */
 
-int *func_021E146C(int *p);
-extern int d_021F25A4[];
+int *HAND_WAZA_AddSuperFang(int *p);
+extern int gSuperFangHandlers[];
 
-int *func_021E146C(int *p)
+int *HAND_WAZA_AddSuperFang(int *p)
 {
     *p = 1;
-    return d_021F25A4;
+    return gSuperFangHandlers;
 }

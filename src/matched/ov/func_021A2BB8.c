@@ -12,7 +12,7 @@
  * Tail-call thunk: pins arguments 2 and 3 to 0 and 56.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02082BCC();
+extern void MI_CpuFill8();
 
 void WEATHER_TASK_ClearParticle(u32 a)
 {
-    func_02082BCC(a, 0, 56);
+    MI_CpuFill8(a, 0, 56);
 }

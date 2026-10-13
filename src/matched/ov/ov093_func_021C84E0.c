@@ -1,5 +1,5 @@
 /*
- * function: func_021C84E0
+ * function: BTL_SERVER_FLOW_AddSeenPokeThunk
  * address:  0x021C84E0
  * packet:   pkt_021C84E0
  * region:   ov093
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C84F4  0x021C84F4  thumb  ov093
+ *   BTL_SERVER_FLOW_AddSeenPoke  0x021C84F4  thumb  ov093
  *
  * Was MATCH (pool word to the unlabelled 0x021C84F4 had no witness); the
- * matched func_021C84F4 now resolves it, verified EXACT.
+ * matched BTL_SERVER_FLOW_AddSeenPoke now resolves it, verified EXACT.
  */
 
-void func_021C84F4(unsigned char *p, unsigned int v);
+void BTL_SERVER_FLOW_AddSeenPoke(unsigned char *p, unsigned int v);
 
-void func_021C84E0(unsigned char *p, unsigned int v)
+void BTL_SERVER_FLOW_AddSeenPokeThunk(unsigned char *p, unsigned int v)
 {
-    func_021C84F4(p, v);
+    BTL_SERVER_FLOW_AddSeenPoke(p, v);
 }

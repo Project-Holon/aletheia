@@ -27,6 +27,8 @@
  *   BGWINFRM_PutFrame  0x0202CB4C  thumb  arm9
  *   BGWINFRM_GetFrameBuffer  0x0202CF84  thumb  arm9
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 
 typedef signed char s8;
@@ -75,7 +77,7 @@ extern const Cell tbl_022032C6[];
 extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
 extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
 extern void func_021F9260(Obj *p, u32 mode);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void func_021FBE84(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color, void *g);
 extern int func_021FC008(void *p, u32 a);
 extern void func_021FBEB8(void *mgr, void *bank, void *win, u32 index, void *g);
@@ -85,7 +87,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern u8 func_020355C4(void);
 struct Obj;
-extern void func_0204B3DC(struct Obj *obj, unsigned int on);
+extern void CLACT_SetActorDrawEnable(struct Obj *obj, unsigned int on);
 
 int func_021FB800(Obj *p)
 {
@@ -95,7 +97,7 @@ int func_021FB800(Obj *p)
     BGWINFRM_SetFrameDataArc(p->mgr, 0, 0x60, 0x1A, 1);
     BGWINFRM_GetFrameBuffer(p->mgr, 0);
     func_021F9260(p, 5);
-    func_02082BCC(p->flags, 1, 0x1A);
+    MI_CpuFill8(p->flags, 1, 0x1A);
     func_021FBE84(p->mgr, p->bank, p->strs[0], p->layout + 0x74, 2, 0x3DC2, p->g);
     for (i = 1; i < 4; i++) {
         if (func_021FC008(p, tbl_02203324[p->layout] + i - 1) > 0) {
@@ -117,12 +119,12 @@ int func_021FB800(Obj *p)
     }
     func_021F4FF4(p->cursor, (tbl_022032C6[p->pos].x + 0x10) * 8, tbl_022032C6[p->pos].y * 8);
     if (func_020355C4() == 1) {
-        func_0204B3DC((struct Obj *)p->cursor, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 0);
     } else {
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
     }
     if (p->cursor2 != 0) {
-        func_0204B3DC((struct Obj *)p->cursor2, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor2, 1);
     }
     p->state = 0x17;
     return -1;

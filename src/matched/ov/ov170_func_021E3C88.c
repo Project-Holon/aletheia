@@ -22,7 +22,7 @@
  *   func_021E8FC0 0x021E8FC0 thumb
  *   func_021E0190 0x021E0190 thumb
  *   func_021E01B0 0x021E01B0 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021EBD78 0x021EBD78 thumb
  *   func_021EF3D8 0x021EF3D8 thumb
  *   func_021EF35C 0x021EF35C thumb
@@ -64,7 +64,7 @@ extern void func_021EF57C(struct WinMgr *mgr);
 extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E0190(char *p);
 extern int func_021E01B0(unsigned char *p);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void func_021EBD78(char *p, int b);
 extern void func_021EF3D8(struct WinMgr *mgr);
 extern void func_021EF35C(struct WinMgr *mgr);
@@ -129,7 +129,7 @@ int func_021E3C88(unsigned char *p)
         return func_021E8FC0((char *)p, (int)func_021E0190, 0x1F);
     case 1:
         if (*(int *)(TOP(p) + 0x24) == 4 && *(int *)(TOP(p) + 0x14) == 1) {
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
             func_021EBD78((char *)p, 0);
             NIB(p)->lo = 0;
             STEP(p) = 0;
@@ -144,7 +144,7 @@ int func_021E3C88(unsigned char *p)
             func_021EF36C(MGR(p));
             func_021EC5A0((char **)p, 0);
         }
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         return func_021E8FC0((char *)p, (int)func_021E01B0, 0x1F);
     case 2:
         func_021ECB20((char *)p, 1, 0);

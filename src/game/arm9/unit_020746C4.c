@@ -1,7 +1,7 @@
 /*
  * file:     unit_020746C4.c
  * unit:     yes
- * function: func_020746C4, func_020746D0, func_020746DC, func_020746E8, func_02074758, func_02074770, func_0207482C, func_02074894, func_020748E0, func_020749B4, func_020749C4, func_020749F8, func_02074A34, DWCi_IsShutdownMatch, func_02074A6C, func_02074A98, func_02074AC4, func_02074AE8, func_02074BEC, func_02074C70, func_02074CD0, func_02074E10, func_02074E9C, func_02074F3C, func_02074FA8, func_02075014, func_02075080, func_020750EC, func_020751F4, func_0207524C, func_02075274, func_020752A4, func_020752D4, func_020752F4, func_0207533C, func_02075404, func_020754C4
+ * function: func_020746C4, func_020746D0, func_020746DC, func_020746E8, func_02074758, func_02074770, func_0207482C, func_02074894, func_020748E0, func_020749B4, func_020749C4, func_020749F8, func_02074A34, SNDARC_IsGroupLoaded, func_02074A6C, func_02074A98, func_02074AC4, func_02074AE8, func_02074BEC, func_02074C70, func_02074CD0, func_02074E10, func_02074E9C, func_02074F3C, func_02074FA8, func_02075014, func_02075080, func_020750EC, func_020751F4, func_0207524C, func_02075274, func_020752A4, func_020752D4, func_020752F4, func_0207533C, func_02075404, func_020754C4
  * address:  0x020746C4
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -196,7 +196,7 @@ void func_020749B4(void *node);
 int func_020749C4(struct Table_020746C4 *t, void *heap);
 int func_020749F8(struct Table_020746C4 *t);
 void func_02074A34(void);
-BOOL DWCi_IsShutdownMatch(void);
+BOOL SNDARC_IsGroupLoaded(u32 index, u32 arg);
 u32 func_02074A6C(u32 a, u32 b);
 u32 func_02074A98(u32 a, u32 b);
 u32 func_02074AC4(u32 a, u32 b, u32 c);
@@ -616,9 +616,9 @@ void func_02074A34(void)
 
 
 
-BOOL DWCi_IsShutdownMatch(void)
+BOOL SNDARC_IsGroupLoaded(u32 index, u32 arg)
 {
-    return func_02074AE8() == 0;
+    return func_02074AE8(index, arg) == 0;
 }
 
 

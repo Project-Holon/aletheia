@@ -13,6 +13,7 @@
  *
  * symbols:
  *   SCRIPT_WORK_GetTrainerParam  0x02158F88  thumb  ov010
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb  arm9
  */
 
 typedef unsigned char  u8;
@@ -22,7 +23,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 
 extern u8 *SCRIPT_WORK_GetTrainerParam(void *p);
-extern void func_020061F8(int i);
+extern void GFL_USE_StopSeSlot(int i);
 
 void SCRCMD_StopMarkedSeSlots(u32 a)
 {
@@ -33,7 +34,7 @@ void SCRCMD_StopMarkedSeSlots(u32 a)
 
     for (i = 0; i < 5; i++) {
         if (*p & (1 << i))
-            func_020061F8(i);
+            GFL_USE_StopSeSlot(i);
     }
     *p = 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: BTL_ITEM_GetWeakenDamagePsychicHandlers
+ * function: HAND_ITEM_GetWeakenDamagePsychicHandlers
  * address: 0x021DDBD8
  * packet: pkt_ov093_021DDBD8
  * region: ov093
@@ -15,10 +15,10 @@
  *   gBtlItemWeakenDamagePsychicHandlers 0x021F172C data ov093 a4
  */
 
-int *BTL_ITEM_GetWeakenDamagePsychicHandlers(int *p);
+int *HAND_ITEM_GetWeakenDamagePsychicHandlers(int *p);
 extern int gBtlItemWeakenDamagePsychicHandlers[];
 
-int *BTL_ITEM_GetWeakenDamagePsychicHandlers(int *p)
+int *HAND_ITEM_GetWeakenDamagePsychicHandlers(int *p)
 {
     *p = 2;
     return gBtlItemWeakenDamagePsychicHandlers;

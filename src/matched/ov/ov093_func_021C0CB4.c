@@ -13,13 +13,13 @@
  * a flexible array models that extent without imposing a one-record bound.
  * The original narrows the five-bit field to u8 before the call.
  * symbols:
- *   func_021B9934 0x021B9934 thumb ov093
+ *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  */
 #include "../include/Obj21064.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 struct Ent {
     u16 v;
     u16 lo:5;
@@ -34,6 +34,6 @@ int BTL_SERVER_FLOW_UnpackEntryPokes(u8 *p, const struct Q *q, u32 *out)
 {
     u32 i = 0;
     for (; i < q->n; i++)
-        out[i] = (u32)func_021B9934(*(char * *)&((struct Obj21064 *)p)->f8, (u8)q->e[i].lo);
+        out[i] = (u32)BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj21064 *)p)->f8, (u8)q->e[i].lo);
     return q->n;
 }

@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_0201F73C  0x0201F73C  thumb
  * Addresses are Black-image addresses.
@@ -27,11 +27,11 @@ extern u32 func_0201F73C(u32, u32, u32, u32);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
 int SCRCMD_PROC_FLD_PrepareMessageWindow(u32 a)
 {
-BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)a)), 15);
+BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)a)), 15);
 return func_0201F73C(a, 0, 228, 9);
 }
 

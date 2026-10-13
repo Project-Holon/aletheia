@@ -21,7 +21,7 @@
  *   func_0217814C  0x0217814C  thumb  ov014
  *   func_02179188  0x02179188  thumb  ov014
  *   DWCi_MOV_WH_StateOutSetLifeTime  0x021791EC  thumb  ov014
- *   func_0208EAC8  0x0208EAC8  arm
+ *   WM_SetIndCallback  0x0208EAC8  arm
  *   WM_SetLifeTime  0x02090DEC  arm
  */
 
@@ -35,7 +35,7 @@ extern void func_02178138(int state);
 extern void func_0217814C(int err);
 extern void func_02179188(u8 *p);
 extern void DWCi_MOV_WH_StateOutSetLifeTime(void);
-extern int func_0208EAC8(void (*f)(void));
+extern int WM_SetIndCallback(void (*f)(void));
 extern void WM_SetLifeTime(void (*f)(void), int a, int b, int c, int d);
 
 void func_021791F8(u16 *arg)
@@ -52,7 +52,7 @@ void func_021791F8(u16 *arg)
             cb(0);
         return;
     }
-    r = func_0208EAC8((void (*)(void))func_02179188);
+    r = WM_SetIndCallback((void (*)(void))func_02179188);
     if (r != 0) {
         func_0217814C(r);
         func_02178138(10);

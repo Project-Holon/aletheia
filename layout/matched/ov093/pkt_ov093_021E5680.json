@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E5680",
-    "func_021E56D4"
+    "HAND_WAZA_HealingWishSetPosEffect",
+    "HAND_WAZA_GetWishHandlers"
+   ],
+   "addresses": [
+    "0x021E5680",
+    "0x021E56D4"
    ],
    "evidence": {
     "sole-ref": [

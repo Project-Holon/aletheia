@@ -14,8 +14,8 @@
  * symbols:
  *   TIME_ICON_Delete  0x0202F038  thumb
  *   TCBL_Destroy  0x02031140  arm
- *   func_0201C6EC  0x0201C6EC  thumb
- *   func_0201C4C0  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
  *
@@ -32,8 +32,8 @@ struct Rec;
 struct S02031140;
 extern void TIME_ICON_Delete(u8 *p);
 extern void TCBL_Destroy(struct S02031140 *p);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 
@@ -50,8 +50,8 @@ void func_021BDC70(u32 *a0)
     }
     i = 0x76;
     TCBL_Destroy((struct S02031140 *)a0[i]);
-    func_0201C6EC((struct PrintSys *)a0[i - 2]);
-    func_0201C4C0((struct PrintSys *)a0[i - 2]);
+    PRINTSYS_QUE_Clear((struct PrintSys *)a0[i - 2]);
+    PRINTSYS_QUE_Delete((struct PrintSys *)a0[i - 2]);
     MSGDATA_Delete((struct Rec *)a0[i - 3]);
     GF_FONT_Delete((void *)a0[i - 4]);
 }

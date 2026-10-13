@@ -1,5 +1,5 @@
 /*
- * function: func_021B985C
+ * function: BTL_SIDE_GetParty
  * address:  0x021B985C
  * packet:   pkt_021B985C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_021B985C(char *p, int i)
+int BTL_SIDE_GetParty(char *p, int i)
 {
     return *(int *)(p + i * 4 + 0x74);
 }

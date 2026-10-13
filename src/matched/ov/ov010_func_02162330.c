@@ -15,9 +15,9 @@
  *   Clears cover offsets 0x30..0x47; mask halfword offset 2 is initialized.
  *   No arbitrary-u32 domain claim: all primary arithmetic stays in range.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj12334.h"
 typedef unsigned short u16;
-extern void func_02082BCC(void *, int, int);
-void EVENT_FIELD_PROCLINK_ClearReturnResultSlotSub(char *p, unsigned i) { func_02082BCC(p+0x30+i*8,0,8); ((struct Obj12334 *)p)->f2 = ((struct Obj12334 *)p)->f2 & ~(1<<(i+5)); }
+extern void MI_CpuFill8(void *, int, int);
+void EVENT_FIELD_PROCLINK_ClearReturnResultSlotSub(char *p, unsigned i) { MI_CpuFill8(p+0x30+i*8,0,8); ((struct Obj12334 *)p)->f2 = ((struct Obj12334 *)p)->f2 & ~(1<<(i+5)); }

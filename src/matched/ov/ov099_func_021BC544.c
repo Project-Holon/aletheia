@@ -17,7 +17,7 @@
  *   func_021BAAB8  0x021BAAB8  thumb  ov099
  *   func_021BC090  0x021BC090  thumb  ov099
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039C68  0x02039C68  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *
  * Unit of the lead function plus three unlabelled tail-call stubs
  * (0x021BC5C0/5D4/5E8) that store 0x4b/0x4c/0x4d at +0x132c and tail-call it.
@@ -41,7 +41,7 @@ extern void func_021BC090(char *p);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *h, unsigned int a, unsigned int b);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *h, unsigned int a, unsigned int b);
 
 int func_021BC544(char *p, int v);
 
@@ -58,7 +58,7 @@ int func_021BC544(char *p, int v)
     } else {
         func_021BAAB8(p, 0x4c, 0);
         func_021BC090(p);
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1b, 0xa);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1b, 0xa);
         ((struct Obj06355 *)p)->f1CC = 0x49;
     }
     return v;

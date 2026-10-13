@@ -14,12 +14,12 @@
  *   func_02034AC4 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021BDDD8 0x021BDDD8 thumb ov203
  *   func_02045B38 0x02045B38 arm
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_02040588 0x02040588 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_021BE160 0x021BE160 thumb ov203
  *   func_021BDCC0 0x021BDCC0 thumb ov203
@@ -36,14 +36,14 @@ extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
-extern void func_02082BCC(void *, int, unsigned);
+extern void MI_CpuFill8(void *, int, unsigned);
 extern void *func_021BDDD8(unsigned, void *, unsigned);
 typedef unsigned int   u32;
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern unsigned func_0201C440(void *);
+extern unsigned PRINTSYS_QUE_Create(void *);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_020434DC(unsigned, unsigned);
+extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 struct Cfg;
 struct Ctx;
@@ -63,18 +63,18 @@ int func_021BDA40(void *manager, int unused, u8 *p)
     func_02034AC4((int)ov067_id);
     GFL_HEAP_CreateChildHeap(1, 0x6c, 0x130000);
     w = PROCSYS_AllocProcWork(manager, sizeof(Work), 0x6c);
-    func_02082BCC(w, 0, sizeof(Work));
+    MI_CpuFill8(w, 0, sizeof(Work));
     w->heap = heap;
     w->arg = p;
     w->view = func_021BDDD8(1, ((struct Obj06663 *)p)->f4, w->heap);
     w->msg = func_02045B38(0, 2, 0x41, w->heap);
-    w->str = (void *)func_0201C440((void *)w->heap);
+    w->str = (void *)PRINTSYS_QUE_Create((void *)w->heap);
     func_02040588(6, 0);
     func_02040588(4, 0);
     func_02040588(3, 0);
     func_02040588(2, 0);
     func_02040588(1, 0);
-    func_020434DC(0x10, 0);
+    BG_SYS_SetMainPlaneVisible(0x10, 0);
     BG_SYS_SetSubPlaneVisible(0x10, 0);
     w->model = func_021BE160(w->view, (struct Cfg *)p, w->heap);
     w->ctx = func_021BDCC0(*(int *)&((struct Obj06663 *)p)->f4, w->view, w->model, w->heap);

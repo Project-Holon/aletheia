@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_SmokeBall_AllowEscape
+ * function: HAND_ITEM_SmokeBall_AllowEscape
  * address: 0x021DF39C
  * packet: pkt_ov093_021DF39C
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 void BTLV_CORE_EventSetFlagIfAttacker(int a, int b, int c, int d);
-void BTL_HANDLER_ITEM_SmokeBall_AllowEscape(int a, int b, int c, int d);
+void HAND_ITEM_SmokeBall_AllowEscape(int a, int b, int c, int d);
 
-void BTL_HANDLER_ITEM_SmokeBall_AllowEscape(int a, int b, int c, int d)
+void HAND_ITEM_SmokeBall_AllowEscape(int a, int b, int c, int d)
 {
     BTLV_CORE_EventSetFlagIfAttacker(a, b, c, d);
 }

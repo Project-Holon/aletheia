@@ -17,7 +17,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_021BDD78 0x021BDD78 thumb ov204
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   init 0x021BFFCC data a2
  */
 #include "../include/Obj00550.h"
@@ -38,7 +38,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern unsigned func_021BDD78(char *p);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 int func_021BEBEC(char *p)
 {
     Init local;
@@ -66,7 +66,7 @@ int func_021BEBEC(char *p)
     for(i=0;i<3;i++){
         row=p+i*4;
         ((struct Obj06672 *)row)->f10A8=CLACT_CreateActor((void *)func_021BDD78(((struct Obj00550 *)p)->f14),(unsigned int)((struct Obj06672 *)row)->f10B4,(unsigned int)((struct Obj06672 *)row)->f10C0,(unsigned int)((struct Obj06672 *)row)->f10CC,(char *)&local+i*8,0,((struct Obj00550 *)p)->f0);
-        func_0204B3DC(((struct Obj06672 *)row)->f10A8,0);
+        CLACT_SetActorDrawEnable(((struct Obj06672 *)row)->f10A8,0);
     }
     return 1;
 }

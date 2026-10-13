@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GF_FONT_Create  0x0201D7EC  thumb
- *   func_0201C440  0x0201C440  thumb
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   FIELD_MSGBG_KeyWaitInit  0x021931F4  thumb
  *   d_021DDA50  0x021DDA50  data  ov021  a4
  *   TCBL_Create  0x0203101C  arm  arm9
@@ -32,7 +32,7 @@ struct GfFont;
 struct NitroFileHeader;
 struct Tcbl;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void FIELD_MSGBG_KeyWaitInit(u32 a);
 extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
@@ -46,7 +46,7 @@ u8 *FIELD_MSGBG_Create(u16 heap, u32 b)
     ((struct Obj01849 *)o)->f4 = 0xff;
     ((struct Obj01849 *)o)->f168 = b;
     ((struct Obj01849 *)o)->f8 = (u32)GF_FONT_Create(0x17, 0, 0, 0, ((struct Obj01849 *)o)->f0);
-    ((struct Obj01849 *)o)->fC = func_0201C440((void *)(((struct Obj01849 *)o)->f0));
+    ((struct Obj01849 *)o)->fC = PRINTSYS_QUE_Create((void *)(((struct Obj01849 *)o)->f0));
     ((struct Obj01849 *)o)->f164 = (u32)TCBL_Create(((struct Obj01849 *)o)->f0, ((struct Obj01849 *)o)->f0, 1, 4);
     FIELD_MSGBG_KeyWaitInit((u32)(o + 0x160));
     ((struct Obj01849 *)o)->f174 = ARC_UTIL_LoadMember(5, 0xc, 0, heap);

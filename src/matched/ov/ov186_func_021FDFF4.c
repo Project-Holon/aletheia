@@ -15,8 +15,8 @@
  *   func_021FE2F8 0x021FE2F8 thumb ov186
  *   func_021FE4D8 0x021FE4D8 thumb ov186
  *   func_021FE54C 0x021FE54C thumb ov186
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -28,8 +28,8 @@ extern int *func_021FD73C(int *p, int v);
 extern void func_021FD964(void *unused, int *state, u8 *p);
 extern int func_021FE2BC(u8 *p, const struct Pair *origin, u16 a, u16 b, u16 c, u16 d, int duration);
 extern void func_021FE4D8(int *p, int a, const int *values, int duration);
-extern void func_0204B3DC(struct Obj *,unsigned int);
-extern void func_0204B404(void *,ShortPair *,u16);
+extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
+extern void CLACT_AddActorSurfacePos(void *,ShortPair *,u16);
 extern int func_021FE2F8(char *p, int *out, int step);
 extern int func_021FE54C(char *p, int *out);
 void func_021FDFF4(int *obj,int *state,Motion *p)
@@ -43,14 +43,14 @@ void func_021FDFF4(int *obj,int *state,Motion *p)
         p->timer=0;
         for(i=0;i<6;i++) {
             func_021FE2BC((u8 *)p->record[i],(const struct Pair *)p,8,20,(i*0xFFFF)/6,(i*0xFFFF)/6+0x3333,16);
-            func_0204B3DC((struct Obj *)p->handles[i],1);
+            CLACT_SetActorDrawEnable((struct Obj *)p->handles[i],1);
         }
         *state=1;
     case 1:
         for(i=0;i<6;i++) {
             func_021FE2F8(p->record[i],p->positions[i],p->timer);
             pos.x=p->positions[i][0];pos.y=p->positions[i][1];
-            func_0204B404(p->handles[i],&pos,p->heap);
+            CLACT_AddActorSurfacePos(p->handles[i],&pos,p->heap);
         }
         if(p->timer++>16) *state=2;
         break;
@@ -66,7 +66,7 @@ void func_021FDFF4(int *obj,int *state,Motion *p)
         for(i=0;i<6;i++) {
             all&=func_021FE54C(p->record[i],p->positions[i]);
             pos2.x=p->positions[i][0];pos2.y=p->positions[i][1];
-            func_0204B404(p->handles[i],&pos2,p->heap);
+            CLACT_AddActorSurfacePos(p->handles[i],&pos2,p->heap);
         }
         if(all) *state=5;
         break;

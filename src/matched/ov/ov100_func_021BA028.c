@@ -12,7 +12,7 @@
  * symbols:
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_02041300 0x02041300 arm
@@ -37,7 +37,7 @@ struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02041300(int,int,int,int,u8,u8,u8);
@@ -45,7 +45,7 @@ extern void func_020409B4(u32 index);
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 void func_021BA028(char *a0) {
  BG_SYS_SetVramBanks((const struct DispVram *)d_021BB6F0);func_0203FC28((struct DispConfig *)d_021BB6B0);
- func_02043534(0);BG_SYS_SetSubVisiblePlanes(0);
+ BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);
  {struct BgTemplate t=d_021BB720;func_0203FCA0(0,&t,0);func_02041300(0,0,0,0,32,32,17);func_020409B4(0);}
  {struct BgTemplate t=d_021BB740;func_0203FCA0(1,&t,0);func_02041300(1,0,0,0,32,32,17);func_020409B4(1);}
  {struct BgTemplate t=d_021BB760;func_0203FCA0(4,&t,0);func_02041300(4,0,0,0,32,32,17);}

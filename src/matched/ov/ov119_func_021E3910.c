@@ -16,7 +16,7 @@
  *   func_021E3744 0x021E3744 thumb ov119
  *   func_021E3730 0x021E3730 thumb ov119
  *   func_021E3700 0x021E3700 thumb ov119
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  *   d_021E8144 0x021E8144 data ov119 a4
  */
 typedef unsigned long u32;
@@ -29,21 +29,21 @@ extern void func_021E38D8(int,int);
 extern void func_021E3744(int);
 extern void func_021E3730(int);
 extern void func_021E3700(int);
-extern const s16 d_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 extern u16 d_021E8144[];
 #define REG(a) (*(volatile u32 *)(a))
 void func_021E3910(int z,int index,u16 a,int b)
 {
     REG(0x04000444)=0;
     REG(0x04000440)=1;
-    func_0207D84C(d_020A1B38[(b>>4)*2],d_020A1B38[(b>>4)*2+1]);
+    func_0207D84C(FX_SinCosTable_[(b>>4)*2],FX_SinCosTable_[(b>>4)*2+1]);
     REG(0x04000444)=0;
-    func_0207D84C(d_020A1B38[(a>>4)*2],d_020A1B38[(a>>4)*2+1]);
+    func_0207D84C(FX_SinCosTable_[(a>>4)*2],FX_SinCosTable_[(a>>4)*2+1]);
     REG(0x04000470)=0;
     REG(0x04000470)=0;
     REG(0x04000470)=z;
-    func_0207D84C(d_020A1B38[(d_021E8144[0]>>4)*2],d_020A1B38[(d_021E8144[0]>>4)*2+1]);
-    func_0207D810(d_020A1B38[(d_021E8144[1]>>4)*2],d_020A1B38[(d_021E8144[1]>>4)*2+1]);
+    func_0207D84C(FX_SinCosTable_[(d_021E8144[0]>>4)*2],FX_SinCosTable_[(d_021E8144[0]>>4)*2+1]);
+    func_0207D810(FX_SinCosTable_[(d_021E8144[1]>>4)*2],FX_SinCosTable_[(d_021E8144[1]>>4)*2+1]);
     REG(0x0400046c)=0x266;
     REG(0x0400046c)=0x266;
     REG(0x0400046c)=0x266;

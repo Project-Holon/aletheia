@@ -31,7 +31,7 @@
  *   func_021BC3A4        0x021BC3A4  thumb
  *   func_0200CA1C        0x0200CA1C  thumb
  *   func_0200CA98        0x0200CA98  thumb
- *   tbl_020A1B38         0x020A1B38  data
+ *   FX_SinCosTable_         0x020A1B38  data
  *   _fflt                0x0209BDBC  arm
  *   _fdiv                0x0209CE10  arm
  *   _fgr                 0x0209BBB0  arm
@@ -74,7 +74,7 @@ struct Blk37;
 extern int func_021BC3A4(int *p);
 extern void *func_0200CA1C(void *a);
 extern void func_0200CA98(struct Blk37 *p, u16 id, u32 sel, u32 alt, u32 form);
-extern s16  tbl_020A1B38[];
+extern s16  FX_SinCosTable_[];
 
 #define W(o) (*(u32 *)(p + (o)))
 #define I(o) (*(int *)(p + (o)))
@@ -141,7 +141,7 @@ void ov208_func_021C6E98(void *a0, u8 *p, void *ctx)
                     W(0x698) = 1;
             }
         } else {
-            t = tbl_020A1B38[(I(0x6c0) >> 4) * 2] / 4096.0f;
+            t = FX_SinCosTable_[(I(0x6c0) >> 4) * 2] / 4096.0f;
             if (W(0xc) != 0) {
                 func_021C80CC(p + 0xc, 3, &a);
                 func_021C80CC(p + 0xc, 4, &b);

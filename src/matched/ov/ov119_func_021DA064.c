@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_021E12AC 0x021E12AC thumb ov119
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_021E1098 0x021E1098 thumb ov119
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 typedef unsigned char  u8;
 extern int func_021E12AC(char *p);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
 extern int TOUCHPANEL_GetTrg(void);
 extern void func_021E1098(char *p);
@@ -33,7 +33,7 @@ extern void func_021E4E64(int a, char *p, int b);
 void func_021DA064(char *p) {
     int v;
     if (func_021E12AC(p)) {
-        v=func_020362DC();
+        v=KEY_GetTrg();
         if(v) func_020355D8(0);
         if(!v) {
             v=TOUCHPANEL_GetTrg();

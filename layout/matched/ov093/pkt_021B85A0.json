@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9114",
+   "name": "BTL_MAIN_GetOwnsSlots",
    "address": "0x021B9114",
    "kind": "game",
    "region": "ov093",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9A5C",
+   "name": "BTL_MAIN_IsZero",
    "address": "0x021B9A5C",
    "kind": "game",
    "region": "ov093",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9B54",
+   "name": "BTL_SLOT_Add",
    "address": "0x021B9B54",
    "kind": "game",
    "region": "ov093",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9B94",
+   "name": "BTL_SLOT_GetCount",
    "address": "0x021B9B94",
    "kind": "game",
    "region": "ov093",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9BF0",
+   "name": "BTL_SLOT_GetPoke",
    "address": "0x021B9BF0",
    "kind": "game",
    "region": "ov093",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9C00",
+   "name": "BTL_SLOT_GetPokeParam",
    "address": "0x021B9C00",
    "kind": "game",
    "region": "ov093",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9F70",
+   "name": "BTL_MAIN_IsTrainerSlotNpc",
    "address": "0x021B9F70",
    "kind": "game",
    "region": "ov093",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA08C",
+   "name": "BTL_MAIN_GetField",
    "address": "0x021BA08C",
    "kind": "game",
    "region": "ov093",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA5D0",
+   "name": "BTL_MAIN_GetLimitTimeGame",
    "address": "0x021BA5D0",
    "kind": "game",
    "region": "ov093",

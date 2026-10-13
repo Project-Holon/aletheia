@@ -18,9 +18,9 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm  arm9
  *   func_02082D44  0x02082D44  arm  arm9
  *   func_020409B4  0x020409B4  arm
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_020414EC  0x020414EC  arm
@@ -83,19 +83,19 @@
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *   func_02155A90  0x02155A90  thumb  ov010
  *   func_02012138  0x02012138  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   func_02155A94  0x02155A94  thumb  ov010
  *   func_0200873C  0x0200873C  thumb
  *   CONFIG_GetButtonMode  0x02008428  thumb
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   func_0204BA00  0x0204BA00  arm
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_02012934  0x02012934  thumb
- *   func_0201AA1C  0x0201AA1C  thumb
+ *   POKEPARTY_GetNonEggCount  0x0201AA1C  thumb
  *   BUTTON_MAN_UpdateSlots  0x02051C88  arm
  *   sKindMenuMsgIds     0x021D3FE0  data  ov021  a4
  *   sKindMenuTouchRects     0x021D3FF4  data  ov021  a4
@@ -113,8 +113,8 @@
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B688  0x0204B688  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorObjMode  0x0204B688  arm
  *   sTopMenuActorPosX     0x021D3FC8  data  ov021  a1
  *   sTopMenuActorPosY     0x021D3FB0  data  ov021  a1
  *   sTopMenuActorAnim     0x021D3FA8  data  ov021  a1
@@ -133,10 +133,10 @@
  *   APP_TASKMENU_OpenMenu  0x02027778  thumb
  *   APP_TASKMENU_SetDisableKey  0x02027CD8  thumb
  *   APP_KEYCURSOR_Update  0x020286C4  thumb
- *   func_0201CE30  0x0201CE30  thumb
- *   func_0201CE48  0x0201CE48  thumb
- *   func_0201CE38  0x0201CE38  thumb
- *   func_0201CE5C  0x0201CE5C  thumb
+ *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb
+ *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb
  *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   func_02012FFC  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
@@ -152,7 +152,7 @@
  *   CLACT_VBlankSystem  0x0204A648  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0203F8F4  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   func_0201DD60  0x0201DD60  thumb
@@ -160,7 +160,7 @@
  *   sVramBank     0x021DDB14  data   ov021  a4
  *   sGraphicsMode     0x021D4090  data   ov021  a4
  *   func_0203FC28  0x0203FC28  arm
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   gClActorInitParam     0x020A1448  data   a4
  *   CLACT_InitSystem  0x0204A48C  arm
@@ -170,7 +170,7 @@
  *   func_02030734  0x02030734  arm
  *   TCBL_Create  0x0203101C  arm
  *   func_02028590  0x02028590  thumb
- *   func_0201C440  0x0201C440  thumb
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb
  *   func_020120F4  0x020120F4  thumb
  *   func_0207D63C  0x0207D63C  arm
@@ -189,8 +189,8 @@
  *   func_02155A8C  0x02155A8C  thumb  ov010
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
  *   TCBL_Destroy  0x02031140  arm
- *   func_0201C6EC  0x0201C6EC  thumb
- *   func_0201C4C0  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   APP_TASKMENU_WIN_Delete  0x02028148  thumb
  *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb
  *   func_02030EAC  0x02030EAC  arm
@@ -311,9 +311,9 @@ struct Bmp;
 struct TaskNode;
 
 extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *unit, u32 charRes, u32 plttRes, u32 cellRes, const ClactActorInit *init, u16 drawArea, u16 heapId);
-extern void func_0204B92C(struct ClactActor *actor, u32 flag);
-extern void func_0204B3DC(struct ClactActor *actor, u32 flag);
-extern void func_0204B688(struct ClactActor *actor, u32 mode);
+extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 flag);
+extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 flag);
+extern void CLACT_SetActorObjMode(struct ClactActor *actor, u32 mode);
 extern void CLACT_DeleteActor(struct ClactActor *actor);
 extern void CLACT_ReleasePalette(u32 res);
 extern void CLACT_ReleaseCharacter(u32 res);
@@ -324,15 +324,15 @@ extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(TaskMenuInit *init, struct Tas
 extern int APP_TASKMENU_SetDisableKey(struct TaskMenuWork *menu, int pos);
 extern void STRBUF_Delete(struct StrBuf *str);
 extern void APP_KEYCURSOR_Update(struct AppKeyCursor *cursor, struct PrintStream *stream, struct BmpWin *win);
-extern u32 func_0201CE30(struct PrintStream *stream);
-extern void func_0201CE48(struct PrintStream *stream);
-extern void func_0201CE38(struct PrintStream *stream);
-extern void func_0201CE5C(struct PrintStream *stream, s32 wait);
+extern u32 PRINTSYS_PrintStreamGetState(struct PrintStream *stream);
+extern void PRINTSYS_PrintStreamDelete(struct PrintStream *stream);
+extern void PRINTSYS_PrintStreamReleasePause(struct PrintStream *stream);
+extern void PRINTSYS_PrintStreamShortWait(struct PrintStream *stream, s32 wait);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_GetCont(void);
-extern void func_020061E4();
+extern void GFL_USE_PlaySeDefaultVolume();
 extern struct BmpWin *BMP_WIN_Create(u32 bgFrame, u32 posX, u32 posY, u32 width, u8 height, u8 palNo, u8 dir);
-extern struct Bmp *func_02045770(struct BmpWin *win);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void BMP_Clear(struct Bmp *bmp, u8 color);
 extern void GF_FONT_SetTextColor(u32 letter, u32 shadow, u32 back);
 extern signed char func_02012FFC(void);
@@ -356,13 +356,13 @@ extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
 extern void CLACT_VBlankSystem(void);
 extern void GFL_HEAP_CreateChildHeap(u32 parentHeap, u32 heapId, u32 size);
 extern void *PROCSYS_AllocProcWork(struct ProcWork *proc, u32 size, u32 heapId);
-extern void func_02082BCC(void *dest, u32 value, u32 size);
+extern void MI_CpuFill8(void *dest, u32 value, u32 size);
 extern void func_0203F8F4(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
 extern void func_0201DD60(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *vram);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void CLACT_InitSystem(const struct ClactSysInit *init, const struct DispVram *vram, u32 heapId);
 extern struct ClactUnit *CLACT_CreateUnit(int actorMax, u8 pri, u32 heapId);
@@ -370,7 +370,7 @@ extern u32 func_020056A0(void (*task)(void), void *work, u32 pri);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern struct Tcbl *TCBL_Create(u16 heapId, u16 tcbHeapId, u32 count, u32 workSize);
 extern struct AppKeyCursor *func_02028590(u32 palNo, u32 isWin, u32 isFrame, u32 heapId);
-extern struct PrintQue *func_0201C440(u32 heapId);
+extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GfFont *font, struct PrintQue *printQue, u16 heapId);
 extern void WIPE_SYS_Start(u32 pattern0, u32 pattern1, u32 pattern2, u32 color, u32 div, u32 sync, u32 heapId);
 extern struct GameSystem *func_02155A90(IrcBattleEntryWork *entry);
@@ -395,9 +395,9 @@ extern u32 func_020307B0(void *ptr);
 extern int APP_KEYCURSOR_Delete(struct AppKeyCursor *cursor);
 extern void TCBL_Destroy(struct Tcbl *tcbl);
 extern void func_020403F4(u32 frame);
-extern void func_0201C6EC(struct PrintQue *printQue);
-extern void func_0201C4C0(struct PrintQue *printQue);
-extern u32 func_020452E8(struct BmpWin *win);
+extern void PRINTSYS_QUE_Clear(struct PrintQue *printQue);
+extern void PRINTSYS_QUE_Delete(struct PrintQue *printQue);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void APP_TASKMENU_WIN_Delete(struct TaskMenuWin *win);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
 extern void func_02030EAC(struct TaskNode *task);
@@ -496,13 +496,13 @@ extern void func_0203FB44(u32 a, u32 b, u32 c);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern struct CommSys *func_02012138(const struct GameSystem *gameSys);
-extern u32 func_02026454(struct CommSys *comm);
+extern u32 GAME_COMM_GetKind(struct CommSys *comm);
 extern void GAME_COMM_RequestExitNoCallback(struct CommSys *comm);
 extern void *func_02155A94(IrcBattleEntryWork *entry);
 extern struct PartyInfo *func_0200873C(void *sys);
 extern int CONFIG_GetButtonMode(struct PartyInfo *info);
 extern void *func_02012934(const struct GameData *gameData);
-extern u32 func_0201AA1C(void *party);
+extern u32 POKEPARTY_GetNonEggCount(void *party);
 extern void *func_0200BAC8(void *saveData);
 extern u32 func_0200BBA8(void *data);
 extern s32 CLACT_RegisterCharacter(struct ArcHandle *arc, u32 a, u32 b, u32 c, u16 heapId);
@@ -720,7 +720,7 @@ void IRCBATTLEMENU_ClearMessageWindow(IrcBattleMenuWork *work)
 void IRCBATTLEMENU_DeleteMsgWin(IrcBattleMenuWork *work)
 {
     IRCBATTLEMENU_ClearMessageWindow(work);
-    func_020452E8(work->msgWin);
+    BMP_WIN_Delete(work->msgWin);
     work->msgWin = 0;
 }
 
@@ -741,14 +741,14 @@ void IRCBATTLEMENU_CreateButtonWindows(int count, u32 *msgIds, IrcBattleMenuWork
         if (work->menuWins[i] != 0) {
             BMP_WIN_ClearScreen(work->menuWins[i]);
             func_0201F7A8(work->menuWins[i], 2);
-            func_020452E8(work->menuWins[i]);
+            BMP_WIN_Delete(work->menuWins[i]);
         }
         work->menuWins[i] = 0;
     }
     for (i = 0; i < count; i++) {
         GF_FONT_SetTextColor(15, 2, 0);
         work->menuWins[i] = BMP_WIN_Create(7, (u8)descs[i].posX, (u8)descs[i].posY, (u8)descs[i].width, (u8)descs[i].height, 8, 0);
-        BMP_Clear(func_02045770(work->menuWins[i]), 0);
+        BMP_Clear(BMP_WIN_GetBmp(work->menuWins[i]), 0);
         func_02045CAC(work->msgData, msgIds[i], work->message);
         if (centerX != 0) {
             x = centerX[i] - (func_0201D304(work->message, work->font, 0) >> 1);
@@ -760,7 +760,7 @@ void IRCBATTLEMENU_CreateButtonWindows(int count, u32 *msgIds, IrcBattleMenuWork
         } else {
             y = 0;
         }
-        PRINTSYS_Print(func_02045770(work->menuWins[i]), x, y, work->message, work->font);
+        PRINTSYS_Print(BMP_WIN_GetBmp(work->menuWins[i]), x, y, work->message, work->font);
         BMP_WIN_TransferChars(work->menuWins[i]);
         BMP_WIN_MakeScreen(work->menuWins[i]);
     }
@@ -785,7 +785,7 @@ void IRCBATTLEMENU_DeleteButtonWindows(IrcBattleMenuWork *work)
             BMP_WIN_ClearScreen(work->menuWins[i]);
             func_02041B6C(5);
             func_0201F7A8(work->menuWins[i], 2);
-            func_020452E8(work->menuWins[i]);
+            BMP_WIN_Delete(work->menuWins[i]);
         }
         work->menuWins[i] = 0;
     }
@@ -912,7 +912,7 @@ void IRCBATTLEMENU_SeqWaitFadeEnd(IrcBattleMenuWork *work)
 {
     if (WIPE_SYS_EndCheck()) {
         if (work->mode != 0xC) {
-            if (func_02026454(func_02012138(func_02155A90(work->param))) == 0)
+            if (GAME_COMM_GetKind(func_02012138(func_02155A90(work->param))) == 0)
                 IRCBATTLEMENU_SetSeq(work, 0, 0x361);
         } else {
             IRCBATTLEMENU_SetSeq(work, 0, 0x365);
@@ -926,7 +926,7 @@ void IRCBATTLEMENU_SeqStartFadeOut(IrcBattleMenuWork *work)
     work->noAutoComm = 1;
     WIPE_SYS_Start(0, 0, 0, 0, 6, 1, work->heapId);
     if (work->mode != 0xC) {
-        if (func_02026454(func_02012138(func_02155A90(work->param))) != 0) {
+        if (GAME_COMM_GetKind(func_02012138(func_02155A90(work->param))) != 0) {
             GAME_COMM_RequestExitNoCallback(func_02012138(func_02155A90(work->param)));
         }
     }
@@ -973,7 +973,7 @@ void IRCBATTLEMENU_SeqPressTopButton(IrcBattleMenuWork *work)
     } else if (i == 7) {
         i = 3;
     }
-    func_0204B92C(work->menuActors[i], 1);
+    CLACT_SetActorAutoAnim(work->menuActors[i], 1);
     func_0204BA00(work->menuActors[i], &hook);
     CLACT_RestartActorAnim(work->menuActors[i]);
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleTop, 0x3BF);
@@ -997,39 +997,39 @@ int IRCBATTLEMENU_TouchTopMenu(u32 index, IrcBattleMenuWork *work)
     switch (index) {
     case 0:
     case 5:
-        func_020061E4(0x73B);
+        GFL_USE_PlaySeDefaultVolume(0x73B);
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressTopButton, 0x3DE);
         taken = 1;
         work->mode = 1;
         break;
     case 1:
     case 6:
-        if ((int)func_0201AA1C(func_02012934(work->gameData)) < 2) {
+        if ((int)POKEPARTY_GetNonEggCount(func_02012934(work->gameData)) < 2) {
             func_02045CAC(work->msgData, 0x2C, work->message);
             IRCBATTLEMENU_PrintMessage(work, 0);
             IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqWaitNotEnoughMsg, 0x3EA);
         } else {
-            func_020061E4(0x73B);
+            GFL_USE_PlaySeDefaultVolume(0x73B);
             work->mode = 6;
             IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressTopButton, 0x3F0);
             taken = 1;
         }
         break;
     case 2:
-        func_020061E4(0x73B);
+        GFL_USE_PlaySeDefaultVolume(0x73B);
         work->mode = 8;
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressTopButton, 0x3F6);
         taken = 1;
         break;
     case 3:
     case 7:
-        func_020061E4(0x73B);
+        GFL_USE_PlaySeDefaultVolume(0x73B);
         work->mode = 7;
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressTopButton, 0x3FD);
         taken = 1;
         break;
     case 4:
-        func_020061E4(0x73C);
+        GFL_USE_PlaySeDefaultVolume(0x73C);
         work->mode = 0xC;
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressTopButton, 0x404);
         break;
@@ -1090,7 +1090,7 @@ void IRCBATTLEMENU_SeqPressKindButton(IrcBattleMenuWork *work)
     hook.type = 0;
     hook.work = work;
     hook.callback = IRCBATTLEMENU_HookKindMenuPressed;
-    func_0204B92C(work->menuActors[i], 1);
+    CLACT_SetActorAutoAnim(work->menuActors[i], 1);
     func_0204BA00(work->menuActors[i], &hook);
     CLACT_RestartActorAnim(work->menuActors[i]);
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleKind, 0x471);
@@ -1115,7 +1115,7 @@ void IRCBATTLEMENU_SeqPressKindBack(IrcBattleMenuWork *work)
     hook.type = 0;
     hook.work = work;
     hook.callback = IRCBATTLEMENU_HookKindBackPressed;
-    func_0204B92C(work->menuActors[work->touchIndex], 1);
+    CLACT_SetActorAutoAnim(work->menuActors[work->touchIndex], 1);
     func_0204BA00(work->menuActors[work->touchIndex], &hook);
     CLACT_RestartActorAnim(work->menuActors[work->touchIndex]);
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleKindBack, 0x492);
@@ -1129,16 +1129,16 @@ int IRCBATTLEMENU_TouchKindMenu(u32 index, IrcBattleMenuWork *work)
     work->touchIndex = index;
     switch (index) {
     case 0:
-        func_020061E4(0x73B);
+        GFL_USE_PlaySeDefaultVolume(0x73B);
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressKindButton, 0x4A3);
         break;
     case 1:
-        func_020061E4(0x73B);
+        GFL_USE_PlaySeDefaultVolume(0x73B);
         work->mode = 5;
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressKindButton, 0x4A9);
         break;
     case 2:
-        func_020061E4(0x73C);
+        GFL_USE_PlaySeDefaultVolume(0x73C);
         work->mode = 0xC;
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressKindBack, 0x4AF);
         break;
@@ -1193,7 +1193,7 @@ void IRCBATTLEMENU_SeqPressPartyButton(IrcBattleMenuWork *work)
     hook.type = 0;
     hook.work = work;
     hook.callback = IRCBATTLEMENU_HookPartyMenuPressed;
-    func_0204B92C(work->menuActors[i], 1);
+    CLACT_SetActorAutoAnim(work->menuActors[i], 1);
     func_0204BA00(work->menuActors[i], &hook);
     CLACT_RestartActorAnim(work->menuActors[i]);
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleParty, 0x504);
@@ -1213,19 +1213,19 @@ int IRCBATTLEMENU_TouchPartyMenu(u32 index, IrcBattleMenuWork *work)
     work->touchIndex = index;
     switch (index) {
     case 1:
-        func_020061E4(0x73B);
+        GFL_USE_PlaySeDefaultVolume(0x73B);
         work->partyMode = 0;
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressPartyButton, 0x524);
         taken = 1;
         break;
     case 0:
-        func_020061E4(0x73B);
+        GFL_USE_PlaySeDefaultVolume(0x73B);
         taken = 1;
         work->partyMode = 1;
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressPartyButton, 0x52A);
         break;
     case 2:
-        func_020061E4(0x73C);
+        GFL_USE_PlaySeDefaultVolume(0x73C);
         work->partyMode = 2;
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressPartyButton, 0x530);
         break;
@@ -1291,7 +1291,7 @@ void IRCBATTLEMENU_SeqPressRuleButton(IrcBattleMenuWork *work)
     hook.type = 0;
     hook.work = work;
     hook.callback = IRCBATTLEMENU_HookRuleMenuPressed;
-    func_0204B92C(work->menuActors[i], 1);
+    CLACT_SetActorAutoAnim(work->menuActors[i], 1);
     func_0204BA00(work->menuActors[i], &hook);
     CLACT_RestartActorAnim(work->menuActors[i]);
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqIdleRule, 0x58F);
@@ -1305,31 +1305,31 @@ int IRCBATTLEMENU_TouchRuleMenu(u32 index, IrcBattleMenuWork *work)
     work->touchIndex = index;
     switch (index) {
     case 0:
-        func_020061E4(0x73B);
+        GFL_USE_PlaySeDefaultVolume(0x73B);
         taken = 1;
         work->mode = 1;
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressRuleButton, 0x5B1);
         break;
     case 1:
-        func_020061E4(0x73B);
+        GFL_USE_PlaySeDefaultVolume(0x73B);
         work->mode = 2;
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressRuleButton, 0x5B7);
         taken = 1;
         break;
     case 2:
-        func_020061E4(0x73B);
+        GFL_USE_PlaySeDefaultVolume(0x73B);
         work->mode = 3;
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressRuleButton, 0x5BD);
         taken = 1;
         break;
     case 3:
-        func_020061E4(0x73B);
+        GFL_USE_PlaySeDefaultVolume(0x73B);
         work->mode = 4;
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressRuleButton, 0x5C3);
         taken = 1;
         break;
     case 4:
-        func_020061E4(0x73C);
+        GFL_USE_PlaySeDefaultVolume(0x73C);
         work->mode = 0xC;
         IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqPressRuleButton, 0x5C9);
         break;
@@ -1385,9 +1385,9 @@ void IRCBATTLEMENU_CreateTopMenuActors(IrcBattleMenuWork *work)
         init.softPri = 0;
         init.bgPri = 1;
         work->menuActors[i] = CLACT_CreateActor(work->clactUnit, work->res[3], work->res[1], work->res[5], &init, 1, work->heapId);
-        func_0204B92C(work->menuActors[i], 0);
-        func_0204B3DC(work->menuActors[i], 1);
-        func_0204B688(work->menuActors[i], 1);
+        CLACT_SetActorAutoAnim(work->menuActors[i], 0);
+        CLACT_SetActorDrawEnable(work->menuActors[i], 1);
+        CLACT_SetActorObjMode(work->menuActors[i], 1);
     }
 }
 
@@ -1408,9 +1408,9 @@ void IRCBATTLEMENU_CreateKindMenuActors(IrcBattleMenuWork *work)
         init.softPri = 0;
         init.bgPri = 1;
         work->menuActors[i] = CLACT_CreateActor(work->clactUnit, work->res[3], work->res[1], work->res[5], &init, 1, work->heapId);
-        func_0204B92C(work->menuActors[i], 0);
-        func_0204B3DC(work->menuActors[i], 1);
-        func_0204B688(work->menuActors[i], 1);
+        CLACT_SetActorAutoAnim(work->menuActors[i], 0);
+        CLACT_SetActorDrawEnable(work->menuActors[i], 1);
+        CLACT_SetActorObjMode(work->menuActors[i], 1);
     }
 }
 
@@ -1434,9 +1434,9 @@ void IRCBATTLEMENU_CreateMainMenuActors(IrcBattleMenuWork *work)
         init.softPri = 0;
         init.bgPri = 1;
         work->menuActors[i] = CLACT_CreateActor(work->clactUnit, work->res[3], work->res[1], work->res[5], &init, 1, work->heapId);
-        func_0204B92C(work->menuActors[i], 0);
-        func_0204B3DC(work->menuActors[i], 1);
-        func_0204B688(work->menuActors[i], 1);
+        CLACT_SetActorAutoAnim(work->menuActors[i], 0);
+        CLACT_SetActorDrawEnable(work->menuActors[i], 1);
+        CLACT_SetActorObjMode(work->menuActors[i], 1);
     }
 }
 
@@ -1457,9 +1457,9 @@ void IRCBATTLEMENU_CreateSubMenuActors(IrcBattleMenuWork *work)
         init.softPri = 0;
         init.bgPri = 1;
         work->menuActors[i] = CLACT_CreateActor(work->clactUnit, work->res[3], work->res[1], work->res[5], &init, 1, work->heapId);
-        func_0204B92C(work->menuActors[i], 0);
-        func_0204B3DC(work->menuActors[i], 1);
-        func_0204B688(work->menuActors[i], 1);
+        CLACT_SetActorAutoAnim(work->menuActors[i], 0);
+        CLACT_SetActorDrawEnable(work->menuActors[i], 1);
+        CLACT_SetActorObjMode(work->menuActors[i], 1);
     }
 }
 
@@ -1537,20 +1537,20 @@ int IRCBATTLEMENU_IsMessageEnd(IrcBattleMenuWork *work)
     if (work->printStream != 0) {
         if (work->msgWin != 0)
             APP_KEYCURSOR_Update(work->keyCursor, work->printStream, work->msgWin);
-        switch (func_0201CE30(work->printStream)) {
+        switch (PRINTSYS_PrintStreamGetState(work->printStream)) {
         case 2:
-            func_0201CE48(work->printStream);
+            PRINTSYS_PrintStreamDelete(work->printStream);
             work->printStream = 0;
             break;
         case 1:
             if (TOUCHPANEL_GetTrg() != 0) {
-                func_020061E4(0x547);
-                func_0201CE38(work->printStream);
+                GFL_USE_PlaySeDefaultVolume(0x547);
+                PRINTSYS_PrintStreamReleasePause(work->printStream);
             }
             break;
         case 0:
             if (TOUCHPANEL_GetCont() != 0)
-                func_0201CE5C(work->printStream, 0);
+                PRINTSYS_PrintStreamShortWait(work->printStream, 0);
             break;
         }
         return 0;
@@ -1567,12 +1567,12 @@ void IRCBATTLEMENU_PrintMessage(IrcBattleMenuWork *work, u32 isInstant)
         work->msgWin = BMP_WIN_Create(5, 1, 3, 30, 4, 11, 1);
     }
     win = work->msgWin;
-    BMP_Clear(func_02045770(win), 15);
+    BMP_Clear(BMP_WIN_GetBmp(win), 15);
     GF_FONT_SetTextColor(1, 2, 15);
     if (isInstant == 0) {
         work->printStream = PRINTSYS_PrintStream(win, 0, 0, work->message, work->font, func_02012FFC(), work->tcbl, 2, work->heapId, 15);
     } else {
-        PRINTSYS_Print(func_02045770(win), 0, 0, work->message, work->font);
+        PRINTSYS_Print(BMP_WIN_GetBmp(win), 0, 0, work->message, work->font);
         work->printStream = 0;
     }
     func_0201F73C(win, 1, (u16)work->winFrameChar, 12);
@@ -1679,7 +1679,7 @@ int IRCBATTLEMENU_Init(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
 
     GFL_HEAP_CreateChildHeap(1, 0x1f, 0x18000);
     work = PROCSYS_AllocProcWork(proc, 0x308, 0x1f);
-    func_02082BCC(work, 0, 0x308);
+    MI_CpuFill8(work, 0, 0x308);
     work->heapId = 0x1f;
     func_0203F8F4(work->heapId);
     BMP_WIN_Init(work->heapId);
@@ -1689,7 +1689,7 @@ int IRCBATTLEMENU_Init(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
         DispSetup setup = sGraphicsMode;
         func_0203FC28((struct DispConfig *)(&setup));
     }
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     CLACT_InitSystem((const struct ClactSysInit *)gClActorInitParam, (const struct DispVram *)sVramBank, work->heapId);
     work->clactUnit = CLACT_CreateUnit(0x28, 0, work->heapId);
@@ -1700,7 +1700,7 @@ int IRCBATTLEMENU_Init(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
     work->subBgPlttCopy = func_02030734(work->heapId, 0x200, 0, (const char *)sIrcBattleMenuFileName, 0x82A);
     work->tcbl = TCBL_Create(work->heapId, work->heapId, 2, 0);
     work->keyCursor = func_02028590(0xf, 0, 1, work->heapId);
-    work->printQue = func_0201C440(work->heapId);
+    work->printQue = PRINTSYS_QUE_Create(work->heapId);
     work->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, work->font, work->printQue, work->heapId);
     IRCBATTLEMENU_LoadActorResources(work);
     IRCBATTLEMENU_CreateDecoration(work, 0x39, 0x9a, 0, 10);
@@ -1711,7 +1711,7 @@ int IRCBATTLEMENU_Init(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
     work->gameData = func_020120F4(func_02155A90((IrcBattleEntryWork *)work->param));
     func_0207D63C(0x04001050, 4, 1, 0xf, 4);
     GFL_NET_RestartWithDefaultTimeout(0, work->heapId);
-    func_02043534(0x13);
+    BG_SYS_SetMainVisiblePlanes(0x13);
     BG_SYS_SetSubVisiblePlanes(0x17);
     func_0207D63C(0x04000050, 0x10, 3, 9, 0xe);
     return 1;
@@ -1772,15 +1772,15 @@ int IRCBATTLEMENU_Exit(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
     func_020307B0(work->subBgPlttCopy);
     IRCBATTLEMENU_DeleteClact(work);
     if (work->printStream != 0) {
-        func_0201CE48(work->printStream);
+        PRINTSYS_PrintStreamDelete(work->printStream);
     }
     APP_KEYCURSOR_Delete(work->keyCursor);
     TCBL_Destroy(work->tcbl);
     func_020403F4(7);
-    func_0201C6EC(work->printQue);
-    func_0201C4C0(work->printQue);
+    PRINTSYS_QUE_Clear(work->printQue);
+    PRINTSYS_QUE_Delete(work->printQue);
     if (work->msgWin != 0) {
-        func_020452E8(work->msgWin);
+        BMP_WIN_Delete(work->msgWin);
     }
     if (work->yesNoMenu != 0) {
         APP_TASKMENU_CloseMenu(work->yesNoMenu);

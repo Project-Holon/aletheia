@@ -15,8 +15,8 @@
  *
  * symbols:
  *   _NatsukiPartyDeltas     0x0209E462  data
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   NATSUKI_Apply  0x0201B850  thumb
  *
  * for (i = 0; i < count(a0); i++) NATSUKI_Apply(entry(a0, i), &_NatsukiPartyDeltas,
@@ -36,15 +36,15 @@ typedef signed char s8;
 typedef unsigned int u32;
 
 extern const s8 _NatsukiPartyDeltas[];
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void NATSUKI_Apply(void *mon, const s8 *tbl, int a2, u32 a3);
 
 void NATSUKI_CalcParty(void *a0, int a1, int a2)
 {
     int i;
 
-    for (i = 0; i < (int)func_0201AA18(a0); i++) {
-        NATSUKI_Apply(func_0201AB28(a0, i), _NatsukiPartyDeltas, a1, a2);
+    for (i = 0; i < (int)POKEPARTY_GetCount(a0); i++) {
+        NATSUKI_Apply(POKEPARTY_GetMember(a0, i), _NatsukiPartyDeltas, a1, a2);
     }
 }

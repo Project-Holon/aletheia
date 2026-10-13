@@ -1,5 +1,5 @@
 /*
- * function: func_021E1E38
+ * function: HAND_WAZA_FocusEnergyGetHandlers
  * address: 0x021E1E38
  * packet: pkt_ov093_021E1E38
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E1C8C.c and filed here.
  *
  * symbols:
- *   d_021F24FC 0x021F24FC data ov093 a4
+ *   gFocusEnergyHandlers 0x021F24FC data ov093 a4
  */
 
-int *func_021E1E38(int *p);
-extern int d_021F24FC[];
+int *HAND_WAZA_FocusEnergyGetHandlers(int *p);
+extern int gFocusEnergyHandlers[];
 
-int *func_021E1E38(int *p)
+int *HAND_WAZA_FocusEnergyGetHandlers(int *p)
 {
     *p = 1;
-    return d_021F24FC;
+    return gFocusEnergyHandlers;
 }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *
  * Addresses are Black-image addresses.
@@ -21,11 +21,11 @@ typedef unsigned char  u8;
 struct Cfg;
 struct Descriptor;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(unsigned);
 
 void func_021CA4B4(char *p)
 {
     BMP_WIN_MakeScreen((struct Cfg *)p);
-    func_02041B6C(func_02045730((struct Descriptor *)p));
+    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)p));
 }

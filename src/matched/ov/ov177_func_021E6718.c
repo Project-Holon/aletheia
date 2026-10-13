@@ -17,6 +17,8 @@
  *   STRBUF_Create  0x020457B0  arm  arm9
  *   STRBUF_Delete  0x02045808  arm  arm9
  *   MSGDATA_ReadString  0x02045CAC  arm  arm9
+ *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
+ *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -47,11 +49,11 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void *STRBUF_Create(unsigned, u16);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -71,11 +73,11 @@ void func_021E6718(Work *w, unsigned a1, const Info *info, void *a3, int a4, voi
     for (i = 0; i < w->count; i++) {
         void *win;
         w->wins[i] = (void *)BMP_WIN_Create(5, d_021E8D36[i].a, d_021E8D36[i].b, d_021E8D36[i].c, d_021E8D36[i].d, 0xf, 1);
-        BMP_Clear(func_02045770(w->wins[i]), 0);
+        BMP_Clear(BMP_WIN_GetBmp(w->wins[i]), 0);
         win = w->wins[i];
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
-        func_020409B4(func_02045730(win));
+        func_020409B4(BMP_WIN_GetBgLayer(win));
         if (w->wins[i] != 0) {
             w->slots[i].win = w->wins[i];
             w->slots[i].shown = 0;
@@ -142,7 +144,7 @@ void func_021E6718(Work *w, unsigned a1, const Info *info, void *a3, int a4, voi
             break;
         }
         if (draw) {
-            PRINTSYS_PrintQueColor(a5, func_02045770(w->slots[j].win), 0, 0, s2, a4, color);
+            PRINTSYS_PrintQueColor(a5, BMP_WIN_GetBmp(w->slots[j].win), 0, 0, s2, a4, color);
             w->slots[j].shown = 1;
         }
     }

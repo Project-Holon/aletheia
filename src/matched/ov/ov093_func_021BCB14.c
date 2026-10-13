@@ -12,7 +12,7 @@
  * symbols:
  *   BTL_SERVER_FLOW_FindPendingActionByMove  0x021BCAAC  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
- *   func_021B9A24  0x021B9A24  thumb  ov093
+ *   BTL_MAIN_IsPokeSamePair  0x021B9A24  thumb  ov093
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   BTL_SERVER_FLOW_GetActionIndex  0x021BCB68  thumb  ov093
  */
@@ -24,7 +24,7 @@ typedef struct { u8 pad[0x782]; u8 n; u8 pad2[0x5d]; E e[4]; } S;
 
 extern E *BTL_SERVER_FLOW_FindPendingActionByMove(S *p, u8 x, u32 i);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern int func_021B9A24(u32 a, u32 b);
+extern int BTL_MAIN_IsPokeSamePair(u32 a, u32 b);
 extern int BTL_POKEPARAM_IsFainted(void *m);
 extern int BTL_SERVER_FLOW_GetActionIndex(S *p, E *cur);
 
@@ -32,7 +32,7 @@ E *BTL_SERVER_FLOW_FindPendingMoveActionForPoke(S *p, u8 x, u32 y)
 {
     E *e = BTL_SERVER_FLOW_FindPendingActionByMove(p, x, 0);
     while (e) {
-        if (func_021B9A24(y, BTL_POKEPARAM_GetPokeId(e->a)) && BTL_POKEPARAM_IsFainted(e->a) == 0)
+        if (BTL_MAIN_IsPokeSamePair(y, BTL_POKEPARAM_GetPokeId(e->a)) && BTL_POKEPARAM_IsFainted(e->a) == 0)
             return e;
         e = BTL_SERVER_FLOW_FindPendingActionByMove(p, x, (u8)(BTL_SERVER_FLOW_GetActionIndex(p, e) + 1));
     }

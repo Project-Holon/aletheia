@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0217A0D4  0x0217A0D4  arm  ov009
  *   func_02094B20  0x02094B20  arm
  *   func_0209477C  0x0209477C  arm
@@ -237,7 +237,7 @@ typedef struct {
     char *value;
 } DWCHttpLabelValue_0217956C;
 
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int func_0217A0D4(DWCHttp_0217956C *http, DWCHttpBuffer *buf, unsigned long size);
 extern u8 *func_02094B20(const u8 *s1, const u8 *s2);
 extern int func_0209477C(const u8 *s);
@@ -348,7 +348,7 @@ int func_0217956C(DWCHttp_0217956C *http, DWCHttpParam *param)
 {
     void *(*alloc)(unsigned long, long) = param->alloc;
 
-    func_02082BCC(http, 0, sizeof(DWCHttp_0217956C));
+    MI_CpuFill8(http, 0, sizeof(DWCHttp_0217956C));
     http->content_len = -1;
     http->receivedbody_len = -1;
     http->param = *param;
@@ -578,7 +578,7 @@ void func_021799E8(void *arg)
     func_0215AB10();
 
     if (http->ssl_enabled == 1) {
-        func_02082BCC(con, 0, sizeof(CPSSslConnection));
+        MI_CpuFill8(con, 0, sizeof(CPSSslConnection));
         con->auth_callback = func_0217A0C8;
         con->server_name = http->hostname;
         soc->con = con;
@@ -1029,7 +1029,7 @@ int func_0217A484(DWCHttp_0217A484 *http, int noparsebody)
     parse_result.entry = http->labelvalue;
     parse_result.len = 32;
     parse_result.index = 0;
-    func_02082BCC(http->labelvalue, 0, sizeof(http->labelvalue));
+    MI_CpuFill8(http->labelvalue, 0, sizeof(http->labelvalue));
 
     buffer = http->rep.buffer;
     httpbody_top = (char *)func_02094B20((const unsigned char *)buffer, (const unsigned char *)g_021A25D4);

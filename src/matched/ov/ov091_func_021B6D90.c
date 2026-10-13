@@ -38,7 +38,7 @@
  *   func_0207D63C  0x0207D63C  arm
  *   func_02040618  0x02040618  arm
  *   CLACT_InitSystem  0x0204A48C  arm
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   func_02061C30  0x02061C30  arm
  *   d_021BEC3C     0x021BEC3C  data  a4
@@ -93,7 +93,7 @@ extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0207D63C(u32 r, int a, int b, int c, int d);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void func_02061C30(void);
 
@@ -157,7 +157,7 @@ void POKELIST_SetupDisplay(u8 *p)
     func_02040618(1, 0, 0x80);
     b = gClActorInitParam;
     CLACT_InitSystem((const struct Cfg *)(&b), (u32)(&a), *(u16 *)p);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     func_02061C30();
 }

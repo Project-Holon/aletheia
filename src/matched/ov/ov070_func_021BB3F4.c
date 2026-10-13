@@ -19,7 +19,7 @@
  *   PALANM_CopyHwPaletteToSlot  0x020216D4  thumb
  *   func_0207D658  0x0207D658  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B3F4  0x0204B3F4  arm
+ *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
  */
 #include "../include/Obj00002.h"
 
@@ -39,7 +39,7 @@ extern int PALANM_RequestFade(int p, u16 mask, u16 col, s16 step, u8 b, u8 c, u1
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern u32 func_0204B3F4(struct Obj *p);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 
 void ITEMMENU_UpdateSideButtons(int p, int mode)
 {
@@ -68,7 +68,7 @@ void ITEMMENU_UpdateSideButtons(int p, int mode)
         PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)(((struct Obj00002 *)p)->f854), 2, 0, 0x200);
         PALANM_RequestFade(((struct Obj00002 *)p)->f854, 4, 0x23CF, 0, 8, 8, 0, func_020056BC());
         PALANM_RequestFade(((struct Obj00002 *)p)->f854, 1, 1, 0, 8, 8, 0, func_020056BC());
-        if (((struct Obj00002 *)p)->f10 == 4 && func_0204B3F4((struct Obj *)(((struct Obj00002 *)p)->f710)) == 0) {
+        if (((struct Obj00002 *)p)->f10 == 4 && CLACT_GetActorDrawEnable((struct Obj *)(((struct Obj00002 *)p)->f710)) == 0) {
             func_0207D658(0x04000050, 2, -8);
         } else {
             func_0207D658(0x04000050, 6, -8);

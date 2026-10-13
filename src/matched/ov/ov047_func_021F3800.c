@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb  arm9
  */
 typedef unsigned char u8;
@@ -22,5 +22,5 @@ extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
 extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern void func_02082BCC(void *,int,int);
-void FIELD_GIMMICK_BRIDGE_ResetSave(u32 a) { func_02082BCC(func_0200B3A4((struct Rec94 *)GAME_DATA_GetFieldSave(func_020120F4((const struct Ctx *)a)),31),0,4); }
+extern void MI_CpuFill8(void *,int,int);
+void FIELD_GIMMICK_BRIDGE_ResetSave(u32 a) { MI_CpuFill8(func_0200B3A4((struct Rec94 *)GAME_DATA_GetFieldSave(func_020120F4((const struct Ctx *)a)),31),0,4); }

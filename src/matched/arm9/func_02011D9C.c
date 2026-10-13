@@ -29,6 +29,7 @@
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *
  * ica_anime.c: scene bring-up.  Loads overlay 230, runs three checksum
  * probes over this family's own code (GAMESYSTEM_CallIfSet to GAMESYSTEM_LeakHeapPenalty,
@@ -80,7 +81,7 @@ extern u32   func_02188390(void (*a)(void), void (*b)(void), u32 c);
 extern void  func_02034A5C(s32 id);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void  func_02082BCC(void *p, u32 v, u32 size);
+extern void  MI_CpuFill8(void *p, u32 v, u32 size);
 extern struct G02146248 _GameSystemGlobal;
 struct Blk34;
 struct Ctx;
@@ -129,7 +130,7 @@ u32 GAMESYSTEM_ProcInit(void *a0, u32 a1, u32 a2)
     GFL_HEAP_CreateChildHeap(9, 5, 5 << 10);
     func_02034A5C((s32)ov230_id);
     p = PROCSYS_AllocProcWork(a0, size, 3);
-    func_02082BCC(p, 0, size);
+    MI_CpuFill8(p, 0, size);
     (*(void * *)&_GameSystemGlobal) = p;
     GAMESYSTEM_Setup(p, 3, a2);
     GAMESYSTEM_SetEvent(p, SCRCMD_NETWORK_CreateOv020Event(p, a2));

@@ -1,5 +1,5 @@
 /*
- * function: func_021D0644
+ * function: BTL_CLIENT_HasMoveWithAffinityVsTarget
  * address:  0x021D0644
  * packet:   pkt_ov093_021D0644
  * region:   ov093
@@ -16,7 +16,7 @@
  *   BTL_POKEPARAM_GetMoveId  0x021D54C0  thumb  ov093
  *   BTL_POKEPARAM_GetMovePPChecked  0x021D5584  thumb  ov093
  *   WAZA_TOOL_IsDamaging  0x0201C314  thumb
- *   func_021CF5B0  0x021CF5B0  thumb  ov093
+ *   BTL_CLIENT_IsMoveSelectionBlocked  0x021CF5B0  thumb  ov093
  *   WAZA_TOOL_GetType  0x0201C1C8  thumb
  *   BTL_CALC_GetTypeAffinityVsPair  0x021D799C  thumb  ov093
  */
@@ -31,11 +31,11 @@ struct UtilWork;
 extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 extern u8 BTL_POKEPARAM_GetMovePPChecked(struct UtilWork *p, u32 i);
 extern u32 WAZA_TOOL_IsDamaging(void *p);
-extern int func_021CF5B0(u8 *g, void *m, u32 move, void *out);
+extern int BTL_CLIENT_IsMoveSelectionBlocked(u8 *g, void *m, u32 move, void *out);
 extern u8 WAZA_TOOL_GetType(void *p);
 extern int BTL_CALC_GetTypeAffinityVsPair(int a, int b);
 
-int func_021D0644(void *g, void *m, void *a, int b)
+int BTL_CLIENT_HasMoveWithAffinityVsTarget(void *g, void *m, void *a, int b)
 {
     int x;
     u8 n;
@@ -48,7 +48,7 @@ int func_021D0644(void *g, void *m, void *a, int b)
         for (i = 0; i < n; i++) {
             q = BTL_POKEPARAM_GetMoveId(m, (u8)i);
             if (BTL_POKEPARAM_GetMovePPChecked(m, (u8)i) && WAZA_TOOL_IsDamaging((void *)q)
-                && func_021CF5B0(g, m, q, 0) == 0) {
+                && BTL_CLIENT_IsMoveSelectionBlocked(g, m, q, 0) == 0) {
                 if (BTL_CALC_GetTypeAffinityVsPair(WAZA_TOOL_GetType((void *)q), x) >= b)
                     return 1;
             }

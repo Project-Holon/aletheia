@@ -28,7 +28,7 @@
  *   VEC_Normalize  0x0207CCA4  arm
  *   func_0207CFB8  0x0207CFB8  arm
  *   FIELD_CAMERA_EnterMode  0x0218E124  thumb  ov021
- *   tbl_020A1B38   0x020A1B38  data  a2
+ *   FX_SinCosTable_   0x020A1B38  data  a2
  *   gFldSceneAreaCallbacks  0x021D8EF4  data  a4
  *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
  *   FIELD_CAMERA_SetEyeRaw  0x0218ECF4  thumb  ov021
@@ -94,7 +94,7 @@ void FLD_SCENEAREA_LOADER_ApplyStripFov(FldSceneArea *sceneArea, const FldSceneA
 extern char gFldSceneAreaLoaderFileName[];
 extern const int gFldSceneAreaArcIds[];
 extern const FldSceneAreaCallbacks gFldSceneAreaCallbacks;
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 /* 0x021DE000 is the "fld_scenearea_loader.c" file-name string; 0x81 is its line. */
 FldSceneAreaLoader *FLD_SCENEAREA_LOADER_Create(int heapId)
@@ -234,10 +234,10 @@ void FLD_SCENEAREA_LOADER_ApplySectorCamera(FldSceneArea *sceneArea, const FldSc
     playerOffset.y = 0;
     func_0207CA00(&playerOffset, &center, &playerOffset);
     VEC_Normalize(&playerOffset, &dir);
-    sinValue = tbl_020A1B38[(rec->shape.sector.angleIndex >> 4) * 2];
+    sinValue = FX_SinCosTable_[(rec->shape.sector.angleIndex >> 4) * 2];
     center.y = centerY;
     eye.y = FX_Mul(sinValue, rec->shape.sector.distance);
-    cosValue = tbl_020A1B38[(rec->shape.sector.angleIndex >> 4) * 2 + 1];
+    cosValue = FX_SinCosTable_[(rec->shape.sector.angleIndex >> 4) * 2 + 1];
     horizontal = FX_Mul(cosValue, rec->shape.sector.distance);
     eye.x = FX_Mul(dir.x, horizontal);
     eye.z = FX_Mul(dir.z, horizontal);

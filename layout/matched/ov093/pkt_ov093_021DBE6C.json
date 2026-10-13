@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DBE6C",
+   "name": "HAND_TOKUSEI_WeakArmor_LowerDefenseRaiseSpeed",
    "address": "0x021DBE6C",
    "kind": "game",
    "region": "ov093",

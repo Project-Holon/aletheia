@@ -28,8 +28,8 @@
  *   func_0200FB24  0x0200FB24  thumb
  *   GAMESYSTEM_SetFieldMapState  0x02012124  thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
@@ -75,8 +75,8 @@ void GAMESYSTEM_SetFieldMapState(struct Ctx *p, u32 v);
 struct Entry;
 struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
-unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
+void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, unsigned int lo, unsigned int hi);
+unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, unsigned int lo, unsigned int hi);
 void GFL_NET_SetLoginOption(u8 a0);
 u32 GFL_NET_IsParentAid(void);
 int GFL_NET_SYSTEM_GetConnectNum(void);
@@ -118,11 +118,11 @@ int UNION_ONESELF_ColosseumExitMain(u8 *w, u8 *obj, u8 *a2, u8 *state)
             (*state)++;
         break;
     case 4:
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x13, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x13, 0x14);
         (*state)++;
         break;
     case 5:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x13, 0x14) == 1) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x13, 0x14) == 1) {
             GFL_NET_SetLoginOption(0);
             (*state)++;
         }

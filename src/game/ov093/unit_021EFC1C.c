@@ -15,8 +15,8 @@
  * symbols:
  *   func_06898080  0x06898080  thumb
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
- *   func_021B9A24  0x021B9A24  thumb  ov093
- *   func_021B9940  0x021B9940  thumb  ov093
+ *   BTL_MAIN_IsPokeSamePair  0x021B9A24  thumb  ov093
+ *   BTL_SIDE_GetPokeById  0x021B9940  thumb  ov093
  *   BTL_POKEPARAM_HasMove  0x021D5750  thumb  ov093
  *   func_021EFCE4  0x021EFCE4  thumb  ov093
  *   BTLV_CORE_GetSlotLow  0x021E8AFC  thumb  ov093
@@ -39,8 +39,8 @@ typedef struct {
 typedef struct { u32 v; } Slot;
 
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern int func_021B9A24(u8 a, u8 b);
-extern u8 *func_021B9940(char *p, u8 i);
+extern int BTL_MAIN_IsPokeSamePair(u8 a, u8 b);
+extern u8 *BTL_SIDE_GetPokeById(char *p, u8 i);
 extern int BTL_POKEPARAM_HasMove(u8 *p, u16 id);
 void *func_021EFCE4(char *a, int b);
 extern u8 BTLV_CORE_GetSlotLow(Slot s);
@@ -61,8 +61,8 @@ int func_021EFC1C(S *a, char *x, void *m, u16 y)
     n = a->count;
     for (i = 0; i < n; i++) {
         c = a->id[i];
-        if (func_021B9A24(mon, c) == 0) {
-            if (BTL_POKEPARAM_HasMove(func_021B9940(x, c), y) != 0)
+        if (BTL_MAIN_IsPokeSamePair(mon, c) == 0) {
+            if (BTL_POKEPARAM_HasMove(BTL_SIDE_GetPokeById(x, c), y) != 0)
                 return 1;
         }
     }

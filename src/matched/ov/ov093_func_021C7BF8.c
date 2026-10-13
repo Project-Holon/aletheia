@@ -1,5 +1,5 @@
 /*
- * function: func_021C7BF8
+ * function: BTL_SERVER_FLOW_NotifyWeatherEffectEvent
  * address: 0x021C7BF8
  * packet: pkt_ov093_021C7BF8
  * region: ov093
@@ -17,4 +17,4 @@ typedef unsigned char u8;
 extern void BTL_EVENT_PushVarFrame(int);
 extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern void BTL_EVENT_PopVarFrame(int);
-void func_021C7BF8(u8 *p) { BTL_EVENT_PushVarFrame(13123); BTL_EVENT_DispatchEventChecked(p, 121); BTL_EVENT_PopVarFrame(13125); }
+void BTL_SERVER_FLOW_NotifyWeatherEffectEvent(u8 *p) { BTL_EVENT_PushVarFrame(13123); BTL_EVENT_DispatchEventChecked(p, 121); BTL_EVENT_PopVarFrame(13125); }

@@ -13,6 +13,7 @@
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   func_020307B0 0x020307B0 arm
  *   func_02030EAC 0x02030EAC arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj10589.h"
 #include "../include/Obj23436.h"
@@ -27,7 +28,7 @@ extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern u32 func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void func_021FF92C(void *task, Anim *a)
 {
     u8 *p;
@@ -59,7 +60,7 @@ void func_021FF92C(void *task, Anim *a)
         func_021FFAEC(((struct Obj10589 *)p)->fD0C, 128, a->y);
         break;
     case 3:
-        func_020061E4(0x55C);
+        GFL_USE_PlaySeDefaultVolume(0x55C);
         ((struct Obj23436 *)(a->p))->fE18 = 1;
         func_020307B0(a);
         func_02030EAC(task);

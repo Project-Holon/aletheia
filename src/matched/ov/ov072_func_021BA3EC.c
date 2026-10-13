@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  */
 
-unsigned int func_0203630C(void);
+unsigned int KEY_GetCont(void);
 
 void TOWNMAP_CursorGetHeldKeys(void)
 {
-    func_0203630C();
+    KEY_GetCont();
 }

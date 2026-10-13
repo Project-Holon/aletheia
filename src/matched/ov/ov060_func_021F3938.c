@@ -13,18 +13,18 @@
  * address exists only under ov045, a different overlay at the same address).
  *
  * symbols:
- *   func_02026454  0x02026454  thumb
- *   func_02026474  0x02026474  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
+ *   GAME_COMM_GetWork  0x02026474  thumb
  */
 
-extern unsigned int func_02026454(void *p);
+extern unsigned int GAME_COMM_GetKind(void *p);
 typedef unsigned int   u32;
-extern u32 func_02026474(void *obj);
+extern u32 GAME_COMM_GetWork(void *obj);
 
 void *GIMMICK60_GetIntrudeCommSys(void *p)
 {
-    if (func_02026454(p) == 2) {
-        return (void *)func_02026474(p);
+    if (GAME_COMM_GetKind(p) == 2) {
+        return (void *)GAME_COMM_GetWork(p);
     }
     return 0;
 }

@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  */
@@ -21,10 +21,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bank; struct CharBuf; struct Descriptor; struct Rec; struct Node; struct Blk37;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void BMP_WIN_ClearScreen(struct Descriptor *);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
-void func_02184360(char *p) { int i; for(i=0;i<3;i++) {BMP_Clear(func_02045770(*(void **)(p+i*4)),0);BMP_WIN_ClearScreen(*(struct Descriptor **)(p+i*4));func_020452E8(*(struct Descriptor **)(p+i*4));} MSGDATA_Delete(*(struct Rec * *)&((struct Obj14260 *)p)->fC);GF_FONT_Delete(((struct Obj14260 *)p)->f10); }
+void func_02184360(char *p) { int i; for(i=0;i<3;i++) {BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+i*4)),0);BMP_WIN_ClearScreen(*(struct Descriptor **)(p+i*4));BMP_WIN_Delete(*(struct Descriptor **)(p+i*4));} MSGDATA_Delete(*(struct Rec * *)&((struct Obj14260 *)p)->fC);GF_FONT_Delete(((struct Obj14260 *)p)->f10); }

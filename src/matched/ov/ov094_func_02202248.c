@@ -15,7 +15,7 @@
  *   func_022033F4 0x022033F4 thumb ov094
  *   func_02205E80 0x02205E80 thumb ov094
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -50,7 +50,7 @@ extern void func_0220255C(void *p);
 extern void func_022033F4(struct Main *m);
 extern void func_02205E80(char *);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -78,9 +78,9 @@ void func_02202248(char *p)
     func_022033F4((struct Main *)p);
     func_02205E80(p);
     ((struct Obj00083 *)p)->f228 = (void *)BMP_WIN_Create(6, 0, 4, 32, 12, 13, 1);
-    ((struct Obj00083 *)p)->f22C = func_02045770(((struct Obj00083 *)p)->f228);
+    ((struct Obj00083 *)p)->f22C = BMP_WIN_GetBmp(((struct Obj00083 *)p)->f228);
     ((struct Obj00083 *)p)->f230 = (void *)BMP_WIN_Create(6, 3, 22, 3, 2, 13, 1);
-    ((struct Obj00083 *)p)->f234 = func_02045770(((struct Obj00083 *)p)->f230);
+    ((struct Obj00083 *)p)->f234 = BMP_WIN_GetBmp(((struct Obj00083 *)p)->f230);
     BMP_Clear(((struct Obj00083 *)p)->f22C, 0);
     BMP_Clear(((struct Obj00083 *)p)->f234, 0);
     BMP_WIN_TransferChars(((struct Obj00083 *)p)->f228);

@@ -57,7 +57,7 @@
  *   func_02040618 0x02040618 arm
  *   func_020414AC 0x020414AC arm
  *   func_0204047C 0x0204047C arm
- *   func_0204B688 0x0204B688 arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  */
 typedef unsigned char u8;
@@ -71,7 +71,7 @@ extern int func_021BC3A4(int *p);
 extern void func_02040618(u32,u32,u32);
 extern void func_020414AC(u8);
 extern void func_0204047C(int,u16);
-extern void func_0204B688(struct Actor *,u32);
+extern void CLACT_SetActorObjMode(struct Actor *,u32);
 extern int GAME_DATA_CheckSaveFlag(int,int);
 struct S;
 extern void func_021C2C44(u16 *heap, struct S *st, int a2);
@@ -142,7 +142,7 @@ int func_021C270C(void *unused,int *seq,u16 *heap,u8 *p,int key)
         func_0204047C(4,3);
         func_021C2C44(heap,(struct S *)p,key);
         func_021C2E6C(heap,p,key,W(0x5c));
-        func_0204B688((struct Actor *)(*(u32 *)((p+W(0x5c)*4)+0x54)),1);
+        CLACT_SetActorObjMode((struct Actor *)(*(u32 *)((p+W(0x5c)*4)+0x54)),1);
         func_021C3218(heap,p,key);
         func_021C3280(heap,p,(struct Key *)key);
         func_021C3354(heap,p,key);

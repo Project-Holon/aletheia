@@ -36,7 +36,7 @@
  *   mbi_seg_header                   0x021F6E50  data
  *   _ZZ14MB_ReadSegmentP6FSFilePvmE18mbi_seg_header_twl  0x021F6D28  data
  *   _start_AutoloadDoneCallback      0x02004EA8  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02082D44  0x02082D44  arm
  *   OS_DisableInterrupts     0x02087988  arm
  *   MBi_IsStarted            0x021F6314  arm  ov107
@@ -216,7 +216,7 @@ extern int FS_CloseFile(FSFile *file);
 extern void MBi_ReadSegmentHeader(SegmentHeaderInfo_021F2F1C *p, u32_021F2F1C top, u32_021F2F1C bottom, int clean);
 extern void DC_FlushRange(void *startAddr, u32_021F2F1C nBytes);
 extern void _start_AutoloadDoneCallback(void);
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void func_02082D44(void *srcp, void *dstp, unsigned long size);
 extern unsigned long OS_DisableInterrupts(void);
 extern int MBi_IsStarted(void);
@@ -493,7 +493,7 @@ void func_021F34CC(SegmentHeaderInfo_021F34CC *p, u32_021F2F1C top, u32_021F2F1C
     if (top >= bottom)
         return;
     if (clean) {
-        func_02082BCC(p->dst + top, 0, bottom - top);
+        MI_CpuFill8(p->dst + top, 0, bottom - top);
         return;
     }
     func_02082D44(p->src + top, p->dst + top, bottom - top);

@@ -10,24 +10,24 @@
  * status: EXACT
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039C68 0x02039C68 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  */
 struct Entry;
 struct Link;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void func_02039C68(struct Link *,unsigned int,unsigned int);
-extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned int,unsigned int);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,unsigned int);
 int func_021B62AC(int *p)
 {
     if(p[30]) return 1;
     switch(p[17]) {
     case 0:
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),14,13);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),14,13);
         p[17]=1;
         break;
     case 1:
-        if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),14,13)) p[17]=2;
+        if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),14,13)) p[17]=2;
         break;
     case 2:
         p[17]=0;

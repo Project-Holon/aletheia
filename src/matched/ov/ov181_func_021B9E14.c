@@ -25,7 +25,7 @@
  *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   func_0204044C 0x0204044C arm
  *   func_021B9F9C 0x021B9F9C thumb ov181
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   func_0207D658 0x0207D658 arm
  *   d_021BAB50 0x021BAB50 data a4
  *   d_021BAB38 0x021BAB38 data a4
@@ -52,7 +52,7 @@ extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,Vec3 *,Vec3 *,Vec3
 extern void G3D_CAMERA_Reset(struct Light *);
 extern void func_0204044C(u32);
 extern void func_021B9F9C(u8 *p);
-extern void func_020434DC(u32,u32);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void func_0207D658(u32,int,int);
 extern const struct Setup d_021BAB50;
 extern const struct LightSet d_021BAB38;
@@ -83,6 +83,6 @@ void func_021B9E14(char *p) {
     AntiAlias(1);
     func_0204044C(2);
     func_021B9F9C((u8 *)(p+0x28));
-    func_020434DC(1,0);
+    BG_SYS_SetMainPlaneVisible(1,0);
     func_0207D658(0x04000050,1,-16);
 }

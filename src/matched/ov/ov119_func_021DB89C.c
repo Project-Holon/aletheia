@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_021DB7AC 0x021DB7AC thumb ov119
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  */
@@ -17,7 +17,7 @@ typedef short s16;
 typedef unsigned int   u32;
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 struct Obj;
-extern void func_0204B92C(struct Obj *,unsigned int),func_021DB7AC(char *,int,int);
+extern void CLACT_SetActorAutoAnim(struct Obj *,unsigned int),func_021DB7AC(char *,int,int);
 extern int TOUCHPANEL_GetCont(void);
 #define H(o) (*(s16 *)(p+(o)))
 #define I(o) (*(int *)(p+(o)))
@@ -29,7 +29,7 @@ void func_021DB89C(char *p)
         if(I(0x1088)) {
             if((unsigned)x>=64 && (unsigned)x<192 && (unsigned)y>=168 && (unsigned)y<188) {
                 int previous;
-                func_0204B92C((struct Obj *)I(0xf04),1);
+                CLACT_SetActorAutoAnim((struct Obj *)I(0xf04),1);
                 previous=H(0x1078);
                 H(0x107a)=(x-previous)*2;
                 H(0x1078)=x;

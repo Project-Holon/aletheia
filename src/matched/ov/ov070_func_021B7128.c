@@ -26,7 +26,7 @@
  *   ITEMMENU_TaskGiveItem  0x021B795C  thumb  ov070
  *   ITEMMENU_OpenActionMenu  0x021B832C  thumb  ov070
  *   ITEMMENU_ShowItemUseMessage  0x021BADB8  thumb  ov070
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   ITEMMENU_HandleActionMenuChoice  0x021B6EF8  thumb  ov070
  */
 
@@ -70,7 +70,7 @@ extern void ITEMMENU_TaskReturnToListAfterMessage(struct Obj *o);
 extern void ITEMMENU_TaskGiveItem(struct Obj *o);
 extern void ITEMMENU_OpenActionMenu(struct Obj *p);
 extern void ITEMMENU_ShowItemUseMessage(char *p, unsigned v);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void ITEMMENU_HandleActionMenuChoice(u8 *p);
 
 void ITEMMENU_TaskSelectItem(Obj *o)
@@ -108,7 +108,7 @@ void ITEMMENU_TaskSelectItem(Obj *o)
         ITEMMENU_OpenActionMenu((struct Obj *)o);
         ITEMMENU_ShowItemUseMessage((char *)o, o->f84C);
         ITEMMENU_ShowMessageDefault(o);
-        func_0204B92C(o->f6A8, 0);
+        CLACT_SetActorAutoAnim(o->f6A8, 0);
         ITEMMENU_SetTask((char *)o, (int)((void *)ITEMMENU_HandleActionMenuChoice));
     }
 }

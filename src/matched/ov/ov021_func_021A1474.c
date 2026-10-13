@@ -1,5 +1,5 @@
 /*
- * function: func_021A1474
+ * function: FIELD_SUBSCREEN_CheckBeaconViewRequest
  * address: 0x021A1474
  * packet: pkt_ov021_021A1474
  * region: ov021
@@ -17,6 +17,6 @@
 
 typedef struct { unsigned char pad[0x20]; void *f20; } Obj_021A1474;
 extern int func_021F2404(void *p);
-int func_021A1474(Obj_021A1474 *p);
+int FIELD_SUBSCREEN_CheckBeaconViewRequest(Obj_021A1474 *p);
 
-int func_021A1474(Obj_021A1474 *p) { return func_021F2404(p->f20); }
+int FIELD_SUBSCREEN_CheckBeaconViewRequest(Obj_021A1474 *p) { return func_021F2404(p->f20); }

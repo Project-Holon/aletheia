@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201C6B4  0x0201C6B4  thumb
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   func_021B8270  0x021B8270  thumb  ov071
  *   func_021B82F0  0x021B82F0  thumb  ov071
@@ -42,9 +42,9 @@ struct S020315D4;
 struct U16Vec;
 int MONOLITH_TOOL_MENU_Destroy(void *a, int unused, B *b, W *w)
 {
-    extern u32 func_0201C6B4(const struct PrintSys *p);
+    extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
     extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-    extern void func_0201CE48(struct Rec3 *p);
+    extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
     extern void STRBUF_Delete(struct U16Vec *vec);
     extern void func_021B8270(unsigned char *p);
     extern void func_021B82F0(void *p);
@@ -52,12 +52,12 @@ int MONOLITH_TOOL_MENU_Destroy(void *a, int unused, B *b, W *w)
     extern void func_021B833C(void);
     extern void func_020315D4(struct S020315D4 *p);
 
-    if (func_0201C6B4(b->f4->f8) == 0) {
+    if (PRINTSYS_QUE_IsFinished(b->f4->f8) == 0) {
         return 0;
     }
     BG_SYS_SetSubVisiblePlanes(8);
     if (w->f40 != 0) {
-        func_0201CE48(w->f40);
+        PRINTSYS_PrintStreamDelete(w->f40);
     }
     if (w->f44 != 0) {
         STRBUF_Delete(w->f44);

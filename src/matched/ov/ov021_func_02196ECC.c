@@ -11,7 +11,7 @@
  *
  * symbols:
  *   IRCBATTLEMENU_HookRuleMenuPressed  0x02196E70  thumb  ov021
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_ApplyActorAnimCommand  0x0204BA00  arm
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   IRCBATTLEMENU_SetSeq  0x02196034  thumb  ov021
@@ -29,7 +29,7 @@ typedef struct Obj { u32 x0; u32 x4; u32 x8; u8 pad[0x288]; void *objs[27]; u32 
 typedef struct { u16 x0; Obj *a; void (*cb)(); } Req;
 struct Actor;
 extern void IRCBATTLEMENU_HookRuleMenuPressed(u8 *p);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 struct Cmd;
 extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
 extern void CLACT_RestartActorAnim(struct Actor *a);
@@ -61,7 +61,7 @@ void IRCBATTLEMENU_SeqPressRuleButton(Obj *a)
     r.x0 = 0;
     r.a = a;
     r.cb = IRCBATTLEMENU_HookRuleMenuPressed;
-    func_0204B92C(a->objs[i], 1);
+    CLACT_SetActorAutoAnim(a->objs[i], 1);
     CLACT_ApplyActorAnimCommand(a->objs[i], (const struct Cmd *)(&r));
     CLACT_RestartActorAnim(a->objs[i]);
     IRCBATTLEMENU_SetSeq(a, IRCBATTLEMENU_SeqIdleRule, 0x58F);

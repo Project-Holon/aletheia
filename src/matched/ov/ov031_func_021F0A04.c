@@ -16,7 +16,7 @@
  *   func_02082D44  0x02082D44  arm
  *   func_02041B6C  0x02041B6C  arm
  *   PMS_DRAW_Copy  0x0202DD24  thumb
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_CopyPixels  0x02043814  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   UNION_CHAT_LOG_GetLine  0x021BBC2C  thumb  ov021
@@ -44,7 +44,7 @@ extern void func_02082D44(void *dst, const void *src, int n);
 extern void func_02041B6C(u32 bit);
 extern void PMS_DRAW_Copy(struct PmsDraw *p, u32 i, u32 j);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_CopyPixels(struct Bmp *dst, const struct Bmp *src);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern u8 *UNION_CHAT_LOG_GetLine(void *, int);
@@ -72,7 +72,7 @@ void UNION_SUBDISP_MoveChatLine(O *o, int a, int b, void *c, int d)
         return;
     }
     if (o->k[a] == 1 && o->k[b] == 1) {
-        BMP_CopyPixels((struct Bmp *)((u32)func_02045770((struct Descriptor *)o->h[a])), (const struct Bmp *)((u32)func_02045770((struct Descriptor *)o->h[b])));
+        BMP_CopyPixels((struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)o->h[a])), (const struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)o->h[b])));
         BMP_WIN_TransferChars((struct Descriptor *)o->h[b]);
         return;
     }

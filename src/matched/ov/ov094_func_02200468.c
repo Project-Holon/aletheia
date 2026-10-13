@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_022019F4  0x022019F4  thumb  ov094
- *   func_02015F2C  0x02015F2C  thumb
+ *   MCSS_SetAnimCallback  0x02015F2C  thumb
  *   func_02201894  0x02201894  thumb  ov094
  */
 typedef struct {
@@ -26,7 +26,7 @@ typedef struct {
 } Work;
 
 extern int func_022019F4(char *p, int key);
-extern void func_02015F2C(void *h, int idx, void (*fn)(int), int v);
+extern void MCSS_SetAnimCallback(void *h, int idx, void (*fn)(int), int v);
 extern void func_02201894(int i);
 
 void func_02200468(Work *w, int key)
@@ -37,5 +37,5 @@ void func_02200468(Work *w, int key)
         return;
     if (w->e[idx].h == 0)
         return;
-    func_02015F2C(w->e[idx].h, idx, func_02201894, 1);
+    MCSS_SetAnimCallback(w->e[idx].h, idx, func_02201894, 1);
 }

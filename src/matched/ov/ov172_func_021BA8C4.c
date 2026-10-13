@@ -17,6 +17,9 @@
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm  arm9
  *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
+ *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
+ *   BMP_WIN_Delete  0x020452E8  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -34,12 +37,12 @@ struct Descriptor;
 struct Obj;
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 a);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void CLACT_DeleteActor(struct Obj *p);
 struct Obj;
-extern void func_0204B3DC(struct Obj *a, unsigned int b);
+extern void CLACT_SetActorDrawEnable(struct Obj *a, unsigned int b);
 extern void func_020414EC(u32 a);
 extern void func_02040618(u32 a, u32 b, u32 c);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -59,17 +62,17 @@ void func_021BA8C4(u16 *a0, char *p)
     func_0201F7A8((void *)(((struct Obj01265 *)p)->f48), 0);
     r = ((struct Obj01265 *)p)->f48;
     BMP_WIN_ClearScreen((struct Descriptor *)r);
-    func_020409B4(func_02045730((struct Descriptor *)r));
-    func_020452E8((struct Descriptor *)(((struct Obj01265 *)p)->f48));
+    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)r));
+    BMP_WIN_Delete((struct Descriptor *)(((struct Obj01265 *)p)->f48));
     r = ((struct Obj01265 *)p)->f4C;
     BMP_WIN_ClearScreen((struct Descriptor *)r);
-    func_020409B4(func_02045730((struct Descriptor *)r));
-    func_020452E8((struct Descriptor *)(((struct Obj01265 *)p)->f4C));
+    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)r));
+    BMP_WIN_Delete((struct Descriptor *)(((struct Obj01265 *)p)->f4C));
     r = ((struct Obj01265 *)p)->f50;
     if (r != 0) {
         BMP_WIN_ClearScreen((struct Descriptor *)r);
-        func_020409B4(func_02045730((struct Descriptor *)r));
-        func_020452E8((struct Descriptor *)(((struct Obj01265 *)p)->f50));
+        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)r));
+        BMP_WIN_Delete((struct Descriptor *)(((struct Obj01265 *)p)->f50));
         ((struct Obj01265 *)p)->f50 = 0;
     }
     for (i = 0; i < 5; i++) {
@@ -80,9 +83,9 @@ void func_021BA8C4(u16 *a0, char *p)
     }
     CLACT_DeleteActor((struct Obj *)(((struct Obj01265 *)p)->f90));
     CLACT_DeleteActor((struct Obj *)(((struct Obj01265 *)p)->f8C));
-    func_0204B3DC((struct Obj *)((struct Obj01265 *)p)->f88, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj01265 *)p)->f88, 0);
     CLACT_DeleteActor((struct Obj *)(((struct Obj01265 *)p)->f88));
-    func_0204B3DC((struct Obj *)((struct Obj01265 *)p)->f84, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj01265 *)p)->f84, 0);
     CLACT_DeleteActor((struct Obj *)(((struct Obj01265 *)p)->f84));
     func_020414EC(0);
     func_020409B4(0);

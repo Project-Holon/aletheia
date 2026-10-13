@@ -1,5 +1,5 @@
 /*
- * function: func_021E541C
+ * function: HAND_WAZA_AddLuckyChant
  * address: 0x021E541C
  * packet: pkt_ov093_021E541C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E53E4.c and filed here.
  *
  * symbols:
- *   d_021F260C 0x021F260C data ov093 a4
+ *   gLuckyChantHandlers 0x021F260C data ov093 a4
  */
 
-int *func_021E541C(int *p);
-extern int d_021F260C[];
+int *HAND_WAZA_AddLuckyChant(int *p);
+extern int gLuckyChantHandlers[];
 
-int *func_021E541C(int *p)
+int *HAND_WAZA_AddLuckyChant(int *p)
 {
     *p = 1;
-    return d_021F260C;
+    return gLuckyChantHandlers;
 }

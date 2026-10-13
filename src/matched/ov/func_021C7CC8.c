@@ -1,5 +1,5 @@
 /*
- * function: func_021C7CC8
+ * function: BTL_SERVER_FLOW_GetPlayerSuperEffectiveCount
  * address:  0x021C7CC8
  * packet:   pkt_021C7CC8
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C7CC8   0x021C7CC8  thumb ov093
+ *   BTL_SERVER_FLOW_GetPlayerSuperEffectiveCount   0x021C7CC8  thumb ov093
  *
  * ldrh at #0x1f7e (pool constant)
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u16 func_021C7CC8(u8 *p)
+u16 BTL_SERVER_FLOW_GetPlayerSuperEffectiveCount(u8 *p)
 {
     return ((struct Obj18320 *)p)->f1F7E;
 }

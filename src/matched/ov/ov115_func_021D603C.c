@@ -10,7 +10,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021D4D38 0x021D4D38 thumb ov115
  *   func_021D5984 0x021D5984 thumb ov115
  *   func_021D6134 0x021D6134 thumb ov115
@@ -28,7 +28,7 @@ typedef enum { FALSE, TRUE } BOOL;
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern u8 *func_021D4D38(u16 heap, u32 mode, int a2);
 extern u8 *func_021D5984(u32 heap, u32 bank, u32 mode);
 extern void func_021D6134(void *a0, int a1, int a2);
@@ -41,7 +41,7 @@ int func_021D603C(void *ctx,int unused,u8 *q) {
     BOOL flag;
     GFL_HEAP_CreateChildHeap(1,121,0x18000);
     p=PROCSYS_AllocProcWork(ctx,32,121);
-    func_02082BCC(p,0,32);
+    MI_CpuFill8(p,0,32);
     *(u8 * *)&((struct Obj03766 *)p)->f10=q;
     ((struct Obj03766 *)p)->f14=121;
     if(((struct Obj03767 *)q)->f10==0) ((struct Obj03767 *)q)->f10=6;

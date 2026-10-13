@@ -24,7 +24,7 @@
  *   func_021EF508 0x021EF508 thumb
  *   func_021EBAF8 0x021EBAF8 thumb
  *   func_021E8FE8 0x021E8FE8 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021EBB1C 0x021EBB1C thumb ov170
  *   func_021E8F50 0x021E8F50 thumb
  *   func_021EBCB4 0x021EBCB4 thumb
@@ -51,7 +51,7 @@ extern void func_021ECB60(char *w, int i, int f);
 extern void func_021EF508(struct WinMgr *mgr);
 extern void func_021EBAF8(unsigned char *p, unsigned v, int i);
 extern int func_021E8FE8(unsigned char *p, int sel);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void func_021EBB1C(unsigned char *p, int i);
 extern int func_021E8F50(char *p, int v);
 extern void func_021EBCB4(unsigned char *p, int kind, int i);
@@ -104,17 +104,17 @@ int func_021E7A10(unsigned char *p)
         return func_021E8FC0((char *)p, (int)func_021E0190, 0x50);
     }
     case 1:
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_021EBB1C(p, 0x18);
         STATE(p) = 0xE;
         return func_021E8F50((char *)p, 6);
     case 2:
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_021EBCB4(p, 5, 0x18);
         STATE(p) = 0xE;
         return func_021E8F50((char *)p, 6);
     case 3:
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_021EBD78((char *)p, 1);
         STATE(p) = 0x2B;
         return 6;

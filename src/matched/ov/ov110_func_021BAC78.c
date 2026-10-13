@@ -15,7 +15,7 @@
  *   OS_DisableInterrupts 0x02087988 arm
  *   OS_RestoreInterrupts 0x0208799C arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorAutoAnimSpeed 0x0204B954 arm
  */
 typedef unsigned char u8;
@@ -26,7 +26,7 @@ struct Obj;
 extern int OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(int s);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
-extern void func_0204B92C(struct Obj *, u32);
+extern void CLACT_SetActorAutoAnim(struct Obj *, u32);
 struct Actor;
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
 struct Obj *func_021BAC78(char *p, u32 *r, short x, short y, u32 a, int mode)
@@ -50,7 +50,7 @@ struct Obj *func_021BAC78(char *p, u32 *r, short x, short y, u32 a, int mode)
     o = CLACT_CreateActor(*(void **)(p + 0x20), r[1], r[0], r[2], &pos, f, 42);
     OS_RestoreInterrupts(s);
     if (o) {
-        func_0204B92C(o, 1);
+        CLACT_SetActorAutoAnim(o, 1);
         CLACT_SetActorAutoAnimSpeed((struct Actor *)o, 1 << 12);
     }
     return o;

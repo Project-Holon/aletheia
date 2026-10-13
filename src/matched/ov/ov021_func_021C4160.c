@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0201ADD0  0x0201ADD0  thumb
+ *   POKE_PERSONAL_LoadDataDirect  0x0201ADD0  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   SODATEYA_AddMove  0x021C42F4  thumb  ov021
  *   sSodateyaSharedMoveSlotIds     0x021DA8F8  data  ov021  a4
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef struct { u16 x, y; } P;
 typedef struct { u32 v[4]; } T4;
 
-extern void func_0201ADD0(unsigned int a, int b, void *buf);
+extern void POKE_PERSONAL_LoadDataDirect(unsigned int a, int b, void *buf);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void SODATEYA_AddMove(u32 *p, u32 v);
 extern const T4 sSodateyaSharedMoveSlotIds;
@@ -43,7 +43,7 @@ void SODATEYA_AddSharedMoves(u32 *p, u32 *q)
     u32 mv;
     u32 v;
 
-    func_0201ADD0((u16)q[0], (u16)q[1], buf);
+    POKE_PERSONAL_LoadDataDirect((u16)q[0], (u16)q[1], buf);
     i = 0;
     goto test;
 body:

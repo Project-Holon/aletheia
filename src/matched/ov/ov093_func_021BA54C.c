@@ -1,5 +1,5 @@
 /*
- * function: func_021BA54C
+ * function: BTL_MAIN_JudgeResult
  * address:  0x021BA54C
  * packet:   pkt_ov093_021BA54C
  * region:   ov093
@@ -29,7 +29,7 @@ extern void *BTL_MAIN_GetCompetitor(void ***p);
 extern u32 BTL_CLIENT_SET_GetCount(u32 *p);
 extern int BTL_CLIENT_SET_JudgeResult(void *, int, unsigned int);
 
-int func_021BA54C(char *p)
+int BTL_MAIN_JudgeResult(char *p)
 {
     int v;
 

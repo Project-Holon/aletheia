@@ -22,9 +22,9 @@
  *   func_02045CAC  0x02045CAC  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   func_0209C0A4  0x0209C0A4  arm
- *   func_0201BD28  0x0201BD28  thumb
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
- *   func_02005F38  0x02005F38  thumb
+ *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
  *   func_021E95B4  0x021E95B4  thumb  ov093
  *   func_021E95C4  0x021E95C4  thumb  ov093
  *   func_021E95D4  0x021E95D4  thumb  ov093
@@ -122,7 +122,7 @@ extern void func_021EA6F4(void *p, u8 b, u16 c);
 extern void func_021E9624(u32 a);
 extern int func_021EA710(u32 *p);
 extern int func_021E95F4(u32 a);
-extern u32 func_0201BD28(u16 id, u32 field);
+extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern void func_021ED118(u8 *p, int a, int b, u32 c, u32 d, int e, u8 f);
 extern int func_021ED1B0(char *p);
 extern int func_021D59B4(u8 *p, int k);
@@ -142,7 +142,7 @@ extern int func_021F7EB4(void);
 extern void func_021F7CFC(u32 a, u16 b, u8 c, int d, int e);
 extern int func_021EA720(u32 *p);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u32 b);
-extern int func_02005F38(void);
+extern int GFL_USE_IsBgmPlaying(void);
 extern void func_021F7C0C(void);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
@@ -199,7 +199,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         break;
     case 6:
         if (func_021EA710((u32 *)p) && func_021E95F4(p->x180)) {
-            func_021ED118((u8 *)p->x17C, 0, 1, 1, func_0201BD28(1, 0x1B), 0, 0);
+            func_021ED118((u8 *)p->x17C, 0, 1, 1, WAZA_TOOL_GetParam(1, 0x1B), 0, 0);
             (*state)++;
         }
         break;
@@ -219,7 +219,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         break;
     case 9:
         if (func_021EA710((u32 *)p)) {
-            func_021ED118((u8 *)p->x17C, 1, 0, 0x2B, func_0201BD28(0x2B, 0x1B), 0, 0);
+            func_021ED118((u8 *)p->x17C, 1, 0, 0x2B, WAZA_TOOL_GetParam(0x2B, 0x1B), 0, 0);
             (*state)++;
         }
         break;
@@ -293,7 +293,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         }
         break;
     case 19:
-        if (!func_02005F38()) {
+        if (!GFL_USE_IsBgmPlaying()) {
             func_021F7C0C();
             MSGDATA_Delete((struct Rec *)w->heap);
             (*state)++;

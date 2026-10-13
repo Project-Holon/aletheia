@@ -1,5 +1,5 @@
 /*
- * function: func_021B9FAC
+ * function: BTL_MAIN_GetTrainerNameAndType
  * address: 0x021B9FAC
  * packet: pkt_ov093_021B9FAC
  * region: ov093
@@ -12,7 +12,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 func_021B9FAC(u8 *p, int i, u32 *out) {
+u32 BTL_MAIN_GetTrainerNameAndType(u8 *p, int i, u32 *out) {
     u32 q = (u32)p + (u32)i * 40;
     *out = ((struct Obj13281 *)q)->f28;
     return ((struct Obj13281 *)q)->f24;

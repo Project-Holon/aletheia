@@ -14,7 +14,7 @@
  *   func_021B7180 0x021B7180 thumb ov174
  *   func_021B71A0 0x021B71A0 thumb ov174
  *   func_020307B0 0x020307B0 arm
- *   func_0201C6B4 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_020056EC 0x020056EC thumb
  *   CLACT_StartActorAnim 0x0204B95C arm
@@ -36,7 +36,7 @@ extern unsigned int func_020307B0(void *p);
 typedef unsigned int   u32;
 struct Descriptor;
 struct PrintSys;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern unsigned func_020056EC(unsigned);
 struct Actor;
@@ -96,7 +96,7 @@ void func_021B6D3C(u8 *p,u8 *q)
         q[4]=q[4]==0?1:0;
         q[5]=q[5]==0?1:0;
     }
-    if(((struct Obj00185 *)q)->f14==1 && func_0201C6B4(((struct Obj00152 *)p)->f78)==1) {
+    if(((struct Obj00185 *)q)->f14==1 && PRINTSYS_QUE_IsFinished(((struct Obj00152 *)p)->f78)==1) {
         BMP_WIN_TransferChars(((struct Obj00185 *)q)->f18);
         ((struct Obj00185 *)q)->f14=0;
     }

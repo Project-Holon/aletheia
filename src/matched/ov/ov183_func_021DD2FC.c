@@ -10,12 +10,12 @@
  * status: EXACT
  * symbols:
  *   func_021FD860 0x021FD860 thumb ov186
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 #include "../include/Obj24577.h"
 extern void func_021FD860(int obj, int one, int *args);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 int func_021DD2FC(char *p, int a, int b)
 {
     int ok = ((unsigned int)(a - 0x20) <= 0x48) &
@@ -25,7 +25,7 @@ int func_021DD2FC(char *p, int a, int b)
         args[0] = a;
         args[1] = b;
         func_021FD860(((struct Obj24577 *)p)->f10, 1, args);
-        func_020061E4(0x703);
+        GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;
 }

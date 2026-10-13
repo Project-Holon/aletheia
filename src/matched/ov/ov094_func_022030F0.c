@@ -14,7 +14,7 @@
  *   d_0220AE98     0x0220AE98  data
  *   d_0220AEA4     0x0220AEA4  data
  *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_021F8168  0x021F8168  thumb  ov094
  *   PALANM_RequestFadeOverwrite  0x02021848  thumb
  *   func_02206B74  0x02206B74  thumb  ov094
@@ -22,7 +22,7 @@
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   BTL_POKEPARAM_IsTransformed  0x021D6D54  thumb  ov093
  *   func_02206140  0x02206140  thumb  ov094
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   func_02206BAC  0x02206BAC  thumb  ov094
  *   func_02206908  0x02206908  thumb  ov094
  *   func_02206B90  0x02206B90  thumb  ov094
@@ -85,7 +85,7 @@ extern void *const d_0220AE98[];
 extern void *const d_0220AEA4[];
 
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_021F8168(void);
 extern void PALANM_RequestFadeOverwrite(int a, int b, u16 c, int d, int e, int f, int g, void *h);
 extern void func_02206B74(char *p);
@@ -94,7 +94,7 @@ extern int TOUCHPANEL_HitTrg(const void *p);
 struct R5;
 extern int BTL_POKEPARAM_IsTransformed(struct R5 *p);
 extern int func_02206140(Main *m, const Desc *d, void *t, const u8 *k, int a, int b);
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 extern void func_02206BAC(char *p);
 extern int func_02206908(char *p, char *q, int i);
 extern void func_02206B90(char *p);
@@ -110,7 +110,7 @@ int func_022030F0(Main *m, u8 *key, int *out)
 
     if (m->b0 || PALANM_GetFadeRequestBits((const char *)m->f64) != 0 || m->b31)
         return 0;
-    if (func_020362DC() & 8)
+    if (KEY_GetTrg() & 8)
         func_021F8168();
     if (m->f70 != -1) {
         i = m->f70 & 0xFFFF7FFF;
@@ -141,7 +141,7 @@ int func_022030F0(Main *m, u8 *key, int *out)
         i = func_02206140(m, &sec_0220A380.da, d_0220AEA4[m->mode], d_0220A380, a, BTL_POKEPARAM_IsTransformed(m->f2a4[m->mode]));
     }
     if (i != -1) {
-        held = func_0203630C();
+        held = KEY_GetCont();
         if (m->b25a[i] == 0 && !(held & 0x200)) {
             if (m->b262[i] != 0)
                 func_02206BAC((char *)m);

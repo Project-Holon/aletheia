@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02178E4C 0x02178E4C thumb ov014
+ *   WIH_GetSysState 0x02178E4C thumb ov014
  *   WIH_FreeWork 0x02179158 thumb ov014
- *   func_02177704 0x02177704 thumb ov014
+ *   NET_WHPIPE_Destroy 0x02177704 thumb ov014
  */
 
-extern int func_02178E4C(void);
+extern int WIH_GetSysState(void);
 extern void WIH_FreeWork(void);
-extern void func_02177704(void);
-void NET_WHPIPE_TaskFinishEnd(void) { if (func_02178E4C() == 0) { WIH_FreeWork(); func_02177704(); } }
+extern void NET_WHPIPE_Destroy(void);
+void NET_WHPIPE_TaskFinishEnd(void) { if (WIH_GetSysState() == 0) { WIH_FreeWork(); NET_WHPIPE_Destroy(); } }

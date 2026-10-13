@@ -11,13 +11,13 @@
  *
  * symbols:
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   func_02026474  0x02026474  thumb
+ *   GAME_COMM_GetWork  0x02026474  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_IsSaving  0x02012E40  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
- *   func_02013D5C  0x02013D5C  thumb
+ *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
@@ -79,14 +79,14 @@ typedef struct {
 
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 struct Work;
-extern u32 func_02026474(void *obj);
+extern u32 GAME_COMM_GetWork(void *obj);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct BigObj;
 extern u8 GAME_DATA_IsSaving(const u8 *o);
-extern u32 func_02026454(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
-extern u32 func_02013D5C(u32 id);
+extern u32 ZONEDATA_IsZone117(u32 id);
 extern u32 func_0200FB24(void);
 extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
@@ -114,15 +114,15 @@ void INTRUDE_FIELD_Update(u8 *a0, int a1, int a2)
     int r;
 
     h = GAMESYSTEM_GetGameComm((const struct Ctx *)a1);
-    p = (Obj *)func_02026474((void *)h);
+    p = (Obj *)GAME_COMM_GetWork((void *)h);
     ctx = GAMESYSTEM_GetGameData((const struct Ctx *)a1);
     if (GAME_DATA_IsSaving(ctx) == 1)
         return;
     INTRUDE_FIELD_UpdateCommState((int)a0, (void *)a1, (void *)h, (void *)a2);
-    if (func_02026454((void *)h) != 2 || p == 0)
+    if (GAME_COMM_GetKind((void *)h) != 2 || p == 0)
         return;
     h = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(ctx));
-    if (p->f910 == 0 && func_02013D5C(h) == 1)
+    if (p->f910 == 0 && ZONEDATA_IsZone117(h) == 1)
         p->f910 = 1;
     INTRUDE_FIELD_AddAreaMaps(a0, a1, (u8 *)p);
     if (p->f8fd != 7 || func_0200FB24() != 0)

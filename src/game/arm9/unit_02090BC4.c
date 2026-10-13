@@ -1,7 +1,7 @@
 /*
  * file:     unit_02090BC4.c
  * unit:     yes
- * function: func_02090BC4, func_02090C40, func_02090CD4, func_02090D98, WM_SetLifeTime, func_02090E50, WMi_CheckInitializedAfterMeasure
+ * function: func_02090BC4, func_02090C40, WM_SetGameInfo, func_02090D98, WM_SetLifeTime, func_02090E50, WMi_CheckInitializedAfterMeasure
  * address:  0x02090BC4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -88,7 +88,7 @@ extern WMArm9Buf *WMi_GetSystemWork(void);
 extern WMErrCode WMi_SendCommandDirect(void *data, u32 length);
 WMErrCode func_02090BC4(WMCallbackFunc callback, u16 wepmode, const u16 *wepkey);
 WMErrCode func_02090C40(WMCallbackFunc callback, u16 wepmode, u16 wepkeyid, const u8 *wepkey);
-WMErrCode func_02090CD4(WMCallbackFunc callback, const u16 *userGameInfo, u16 userGameInfoSize, u32 ggid, u16 tgid, u8 attr);
+WMErrCode WM_SetGameInfo(WMCallbackFunc callback, const u16 *userGameInfo, u16 userGameInfoSize, u32 ggid, u16 tgid, u8 attr);
 WMErrCode func_02090D98(WMCallbackFunc callback, u16 flag);
 WMErrCode WM_SetLifeTime(WMCallbackFunc callback, u16 tableNumber, u16 camLifeTime, u16 frameLifeTime, u16 mpLifeTime);
 WMErrCode func_02090E50(WMCallbackFunc callback, u16 ccaMode, u16 edThreshold, u16 channel, u16 measureTime);
@@ -168,7 +168,7 @@ WMErrCode func_02090C40(WMCallbackFunc callback, u16 wepmode, u16 wepkeyid, cons
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  *           g_02153B00 is wm_etc.o's static tmpUserGameInfoBuf (u32[32])
  */
-WMErrCode func_02090CD4(WMCallbackFunc callback, const u16 *userGameInfo, u16 userGameInfoSize, u32 ggid, u16 tgid, u8 attr)
+WMErrCode WM_SetGameInfo(WMCallbackFunc callback, const u16 *userGameInfo, u16 userGameInfoSize, u32 ggid, u16 tgid, u8 attr)
 {
     WMErrCode result;
 

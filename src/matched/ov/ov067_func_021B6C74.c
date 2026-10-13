@@ -21,7 +21,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   STRBUF_Create  0x020457B0  arm
  *   d_021B9558     0x021B9558  data  a1
  */
@@ -32,7 +32,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 struct U16Vec;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern const char d_021B9558[];
 
@@ -45,7 +45,7 @@ u32 *MSGSEARCH_Create(u32 *src, u32 n, u16 heap)
     size = n * 4 + 8;
     o = func_02030734(heap, size, 0, d_021B9558, 0x40);
     i = 0;
-    func_02082BCC(o, 0, size);
+    MI_CpuFill8(o, 0, size);
     o[1] = n;
     for (i = 0; i < n; i++) {
         o[2 + i] = src[i];

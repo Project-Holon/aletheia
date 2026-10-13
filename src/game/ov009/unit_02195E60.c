@@ -1,7 +1,7 @@
 /*
  * file:     unit_02195E60.c
  * unit:     yes
- * function: func_02195E60, gt2SetUnrecognizedMessageCallback, gt2SetConnectionData, gt2GetConnectionData
+ * function: gt2GetSocketSOCKET, gt2SetUnrecognizedMessageCallback, gt2SetConnectionData, gt2GetConnectionData
  * address:  0x02195E60
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -14,7 +14,7 @@
  */
 #include "unit_02195B20_types.h"
 
-int func_02195E60(const GTI2Socket *socket);
+int gt2GetSocketSOCKET(const GTI2Socket *socket);
 void gt2SetUnrecognizedMessageCallback(GTI2Socket *socket, void *callback);
 void gt2SetConnectionData(GTI2Connection *connection, void *data);
 void *gt2GetConnectionData(const GTI2Connection *connection);
@@ -22,7 +22,7 @@ void *gt2GetConnectionData(const GTI2Connection *connection);
 /*
  * Operating system socket handle behind a socket object.
  */
-int func_02195E60(const GTI2Socket *socket)
+int gt2GetSocketSOCKET(const GTI2Socket *socket)
 {
     return socket->socket;
 }

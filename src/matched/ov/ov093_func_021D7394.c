@@ -11,7 +11,7 @@
  *
  * symbols:
  *   data_021F3CB0  0x021F3CB0  data
- *   func_021E03E8  0x021E03E8  thumb  ov093
+ *   HAND_WAZA_IsKeptOnSuspend  0x021E03E8  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -39,12 +39,12 @@ struct Node {
 };
 struct NodeList { u32 serial; struct Node *head; u32 used; struct Node *pool[0x84]; };
 extern struct NodeList data_021F3CB0;
-extern int func_021E03E8(void *n, u32 *q);
+extern int HAND_WAZA_IsKeptOnSuspend(void *n, u32 *q);
 
 void BTL_EVENT_SuspendPokeFactors(int kind)
 {
     struct Node *n;
     for (n = data_021F3CB0.head; n != 0; n = n->next) {
-        if (n->id == 0 && n->kind == kind && func_021E03E8(n, (u32 *)n->f1C) != 0) n->mark = 1;
+        if (n->id == 0 && n->kind == kind && HAND_WAZA_IsKeptOnSuspend(n, (u32 *)n->f1C) != 0) n->mark = 1;
     }
 }

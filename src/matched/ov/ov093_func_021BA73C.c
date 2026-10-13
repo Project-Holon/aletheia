@@ -1,5 +1,5 @@
 /*
- * function: func_021BA73C
+ * function: BTL_MAIN_RestartBattle
  * address:  0x021BA73C
  * packet:   pkt_ov093_021BA73C
  * region:   ov093
@@ -18,9 +18,9 @@
  *   BTL_MAIN_IsCommCompetitor  0x021B6818  thumb  ov093
  *   BTL_CALC_SetRngState  0x021D787C  thumb  ov093
  *   BTL_MAIN_InitClientParties  0x021B68D8  thumb  ov093
- *   func_021B9424  0x021B9424  thumb  ov093
+ *   BTL_SIDE_Clear  0x021B9424  thumb  ov093
  *   BTL_MAIN_IsClientUsed  0x021B8B9C  thumb  ov093
- *   func_021B9460  0x021B9460  thumb  ov093
+ *   BTL_SIDE_SetupClientParty  0x021B9460  thumb  ov093
  *   BTL_CLIENT_StartRemoteStep  0x021CD984  thumb  ov093
  *   func_021E9034  0x021E9034  thumb  ov093
  *   BTLV_CORE_ResetDisplay  0x021E8E28  thumb  ov093
@@ -40,9 +40,9 @@ extern void BTL_CALC_SetRngState(void *);
 extern void BTL_MAIN_InitClientParties(u8 *s, struct T *t);
 typedef unsigned int   u32;
 struct QA;
-extern void func_021B9424(char *p);
+extern void BTL_SIDE_Clear(char *p);
 extern int BTL_MAIN_IsClientUsed(unsigned char *p, unsigned char k);
-extern void func_021B9460(char *a, char *b, u8 c);
+extern void BTL_SIDE_SetupClientParty(char *a, char *b, u8 c);
 extern void BTL_CLIENT_StartRemoteStep(void *, int);
 typedef unsigned short u16;
 struct Scene;
@@ -52,7 +52,7 @@ extern struct Scene *BTLV_CORE_Create(void *a, void *b, u32 c, int d, u16 heap);
 extern void BTL_CLIENT_SetView(struct QA *p, u32 v);
 extern void BTL_SERVER_Restart(char *p);
 
-void func_021BA73C(char *p, int x)
+void BTL_MAIN_RestartBattle(char *p, int x)
 {
     unsigned int i;
     int t;
@@ -60,12 +60,12 @@ void func_021BA73C(char *p, int x)
     t = BTL_MAIN_IsCommCompetitor((unsigned int *)(*(int * *)&((struct Obj02131 *)p)->f0));
     BTL_CALC_SetRngState(p + 0x3f0);
     BTL_MAIN_InitClientParties((u8 *)p, ((struct Obj02131 *)p)->f0);
-    func_021B9424(p + 0xc8);
-    func_021B9424(p + 0x1b0);
+    BTL_SIDE_Clear(p + 0xc8);
+    BTL_SIDE_Clear(p + 0x1b0);
     for (i = 0; i < 4; i++) {
         if (BTL_MAIN_IsClientUsed((unsigned char *)p, i)) {
-            func_021B9460(p + 0x1b0, p, i);
-            func_021B9460(p + 0xc8, p, i);
+            BTL_SIDE_SetupClientParty(p + 0x1b0, p, i);
+            BTL_SIDE_SetupClientParty(p + 0xc8, p, i);
             BTL_CLIENT_StartRemoteStep(*(void **)(p + i * 4 + 0x10), x);
         }
     }

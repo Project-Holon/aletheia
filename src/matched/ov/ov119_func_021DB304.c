@@ -18,7 +18,7 @@
  *   d_021E8044 0x021E8044 data a1
  *   func_021E6FD4 0x021E6FD4 thumb ov119
  *   func_021DB1BC 0x021DB1BC thumb ov119
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DB2E8 0x021DB2E8 thumb ov119
  *   MSGDATA_ReadString 0x02045CAC arm
@@ -43,7 +43,7 @@ extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern int func_021E12AC(char *),TOUCHPANEL_HitTrg(const void *);
 extern void func_021E6FD4(char *,int,int);
 extern int func_021DB1BC(char *,int);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021D8E84(void *,int);
 extern void func_021DB2E8(void *);
 struct MsgBank;
@@ -64,14 +64,14 @@ void func_021DB304(char *p)
             ((struct Obj00001 *)p)->f800=(u32)index+1u;
             func_021E6FD4(p,d_021E8044[index].c,d_021E8044[index].a);
             if(func_021DB1BC(p,index)) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 *(volatile u32 *)0x04001000 &= 0xffff1fff;
                 func_021D8E84(p,(int)func_021DB2E8);
                 return;
             }
             MSGDATA_ReadString((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),0x34,(void *)(*(int *)&((struct Obj00001 *)p)->f738));
             func_021E0EF4(p,1,1,1,0x1d,4);
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
         }
         TOUCHBAR_Update(((struct Obj00001 *)p)->f9C0);
         if(TOUCHBAR_GetPressedButtonIdIfDone(*(u8 * *)&((struct Obj00001 *)p)->f9C0)==1) {

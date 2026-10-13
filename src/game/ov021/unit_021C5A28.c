@@ -22,11 +22,11 @@
  *   d_021F5580     0x021F5580  data  ov194  a4
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_0200C0F0  0x0200C0F0  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   NAMEIN_SETUP_CreateArgs  0x0216BFD4  thumb  ov010
@@ -154,9 +154,9 @@ extern void *FIELD_STATUS_CreateSubProcNoFadeEvent(char *gameSystem, int fieldMa
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern u32 func_0201AA18(void *a);
+extern u32 POKEPARTY_GetCount(void *a);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void *func_0200C0F0(void *a);
 extern u32 POKE_TOOL_GetPartyValue(void *a, u32 b, u32 c);
 extern int *NAMEIN_SETUP_CreateArgs(int a, int b, int c, int d, int e, int f, void *g);
@@ -225,7 +225,7 @@ int SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, in
     int species;
     int monForm;
 
-    if ((int)func_0201AA18(GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem))) <= partyIndex) {
+    if ((int)POKEPARTY_GetCount(GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem))) <= partyIndex) {
         partyIndex = 0;
     }
     task = (int)func_020122C0(gameSystem, 0, (void *)SCRCMD_NicknameEventMain, 0x18);
@@ -235,7 +235,7 @@ int SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, in
     work->result = result;
     work->mode = mode;
     saveData = GAMESYSTEM_GetGameData(work->gameSystem);
-    mon = func_0201AB28(GAME_DATA_GetMyParty(saveData), partyIndex);
+    mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(saveData), partyIndex);
     saveData = func_0200C0F0(GAME_DATA_GetSaveControl(saveData));
     species = POKE_TOOL_GetPartyValue(mon, 5, 0);
     monForm = POKE_TOOL_GetPartyValue(mon, 0x6f, 0) | (POKE_TOOL_GetPartyValue(mon, 0x6e, 0) << 8);

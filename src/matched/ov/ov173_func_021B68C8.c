@@ -12,7 +12,7 @@
  *   func_020260E0 0x020260E0 thumb
  *   func_02025DE8 0x02025DE8 thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021B817C 0x021B817C thumb ov173
  *   func_021B7F50 0x021B7F50 thumb ov173
  *   func_021B80EC 0x021B80EC thumb ov173
@@ -37,7 +37,7 @@ struct Sound;
 extern u8 func_020260E0(struct Sound *);
 extern int func_02025DE8(struct Sound *);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern int func_021B817C(char *p);
 extern int func_021B7F50(char *);
 extern int func_021B80EC(char *,u16);
@@ -58,32 +58,32 @@ int func_021B68C8(char *p)
     case 0:case 1:case 2:case 3:
         if(TOUCHPANEL_GetTrg()==0) {
             if(((struct Obj24153 *)(*(char * *)&((struct Obj00362 *)p)->f0))->f16+v < ((struct Obj00362 *)p)->f1B8) {
-                func_020061E4(0x54c);
+                GFL_USE_PlaySeDefaultVolume(0x54c);
                 return func_021B817C(p);
             }
         } else {
             if(((struct Obj24154 *)(*(char * *)&((struct Obj00362 *)p)->f0))->f16+v < ((struct Obj00362 *)p)->f1B8)
-                func_020061E4(0x54c);
+                GFL_USE_PlaySeDefaultVolume(0x54c);
         }
         break;
     case 4:case 5:break;
     case 6:case 8:
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         if(func_021B7F50(p)) return func_021B80EC(p,14);
         else return func_021B80A4(p,14);
     case -2:
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         func_021B7EB0(p,0);
         return func_021B80A4(p,14);
     case 7:
         if(func_021B7F50(p)) {
-            func_020061E4(0x54c);
+            GFL_USE_PlaySeDefaultVolume(0x54c);
             return func_021B80C4((u8 *)p,15);
         }
         break;
     case -8:
         if(((struct Obj24155 *)(*(char * *)&((struct Obj00362 *)p)->f0))->f16!=0) {
-            func_020061E4(0x54c);
+            GFL_USE_PlaySeDefaultVolume(0x54c);
             --((struct Obj24156 *)(*(char * *)&((struct Obj00362 *)p)->f0))->f16;
             func_021B71C4(p,func_021B7438((char **)p));
             func_021B70D8(p);

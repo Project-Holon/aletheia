@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_021FAC50  0x021FAC50  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
@@ -48,7 +48,7 @@ typedef struct {
 struct WinMgr;
 struct CharBuf;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_021FAC50(void *mgr, void *win, void *str, u32 x, u16 color, void *g);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -59,7 +59,7 @@ void func_021FB364(Menu *m, int page, int total)
     int i;
 
     for (i = 0; i < 5; i++) {
-        BMP_Clear(func_02045770(m->wins[i]), 0xA);
+        BMP_Clear(BMP_WIN_GetBmp(m->wins[i]), 0xA);
         if (i + page * 5 < total) {
             func_021FAC50(m->mgr, m->wins[i], m->items[page * 5 + i].str, 0, 0x3DC2, m->g);
         } else {

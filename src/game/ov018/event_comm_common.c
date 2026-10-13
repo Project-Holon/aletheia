@@ -13,13 +13,13 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020120F4  0x020120F4  thumb
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
  *   INTRUDE_COMM_TakeRequestResult  0x02175514  thumb  ov011
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   INTRUDE_COMM_SendAnswer  0x02173B9C  thumb  ov011
  *   INTRUDE_COMM_NextRequestToken  0x021753B8  thumb  ov011
  *   INTRUDE_COMM_SendReply  0x02173AE0  thumb  ov011
@@ -28,9 +28,9 @@
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02026454  0x02026454  thumb
- *   func_02026474  0x02026474  thumb
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
+ *   GAME_COMM_GetWork  0x02026474  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
@@ -40,7 +40,7 @@
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
  *   FIELD_MSGBG_CreateBottomSysWin  0x02190F64  thumb  ov021
  *   func_02029830  0x02029830  thumb
- *   func_02005F38  0x02005F38  thumb
+ *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
  *   func_02029620  0x02029620  thumb
  *   FIELD_MSGBG_SysWinMain  0x02190EF0  thumb  ov021
  *   FIELD_MSGBG_DeleteSysWin  0x02190E40  thumb  ov021
@@ -52,7 +52,7 @@
  *   func_020307B0  0x020307B0  arm
  *   GAME_DATA_GetIntrudeIdByte            0x0215841C  thumb  ov010
  *   func_02034714            0x02034714  arm
- *   func_02013D5C  0x02013D5C  thumb
+ *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   INTRUDE_COMM_HasResult  0x02175DA8  thumb  ov011
  *   INTRUDE_COMM_IsSessionAccepted  0x02175B8C  thumb  ov011
  *   func_0201EC64  0x0201EC64  thumb
@@ -82,7 +82,7 @@
  *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
  *   FIELD_MSGBG_CreateYesNoMenu 0x02190BE4 thumb ov021
  *   FIELD_MSGBG_YesNoMenuMain 0x02190C78 thumb ov021
- *   func_02026478 0x02026478 thumb
+ *   GAME_COMM_GetGameData 0x02026478 thumb
  *   SCRCMD_WORK_GetScriptWork 0x0215A5F4 thumb ov010
  *   SCRIPT_WORK_ReadWorkPointer 0x02159AE8 thumb ov010
  *   SCRIPT_SYS_CallEvent 0x0215897C thumb ov010
@@ -367,13 +367,13 @@ typedef struct EventCommItemSaleWork {
     int canceled;                   /* 0xA0: the player canceled the offer with B */
 } EventCommItemSaleWork;
 
-extern void func_02082BCC(void *dest, int value, int size);
+extern void MI_CpuFill8(void *dest, int value, int size);
 extern struct GameData *func_020120F4(struct GameSystem *gameSystem);
 extern void FLDMMDL_SetAcmd(struct FldMmdl *mmdl, int acmd);
-extern void func_020061E4(u32 seId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern int FLDMMDL_EndAcmd(struct FldMmdl *mmdl);
 extern int INTRUDE_COMM_TakeRequestResult(IntrudeCommSys *sys);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int INTRUDE_COMM_SendAnswer(int netId, int seq);
 extern void INTRUDE_COMM_NextRequestToken(IntrudeCommSys *sys);
 extern int INTRUDE_COMM_SendReply(IntrudeCommSys *sys, int netId, int requestActive, int seq);
@@ -382,9 +382,9 @@ extern u8 func_02012B58(struct GameData *gameData);
 extern IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *gameComm);
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, unsigned int workSize);
 extern void *func_020124E8(struct GameEvent *event);
-u32 func_02026454(struct GameComm *gameComm);
-IntrudeCommSys *func_02026474(struct GameComm *gameComm);
-extern struct GameSystem *func_020124E4(struct GameEvent *event);
+u32 GAME_COMM_GetKind(struct GameComm *gameComm);
+IntrudeCommSys *GAME_COMM_GetWork(struct GameComm *gameComm);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *child);
 u32 func_0200FB24(void);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
@@ -394,7 +394,7 @@ extern void *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 extern void *FIELD_MSGBG_CreateMsgData(void *fieldMsgbg, u32 arcDatId);
 extern void *FIELD_MSGBG_CreateBottomSysWin(void *fieldMsgbg, void *msgData);
 void *func_02029830(struct GameSystem *gameSystem, u32 soundId);
-int func_02005F38(void);
+int GFL_USE_IsBgmPlaying(void);
 void *func_02029620(struct GameSystem *gameSystem, u32 popMode, u32 fadeFrames);
 extern int FIELD_MSGBG_SysWinMain(void *printer);
 extern void FIELD_MSGBG_DeleteSysWin(void *printer);
@@ -406,7 +406,7 @@ extern u16 func_02012AC8(void *playerWork);
 extern u32 func_020307B0(void *memory);
 extern u8 GAME_DATA_GetIntrudeIdByte(struct GameData *gameData);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern u32 func_02013D5C(u32 zoneId);
+extern u32 ZONEDATA_IsZone117(u32 zoneId);
 extern int INTRUDE_COMM_HasResult(IntrudeSession *session);
 extern int INTRUDE_COMM_IsSessionAccepted(IntrudeSession *session);
 extern struct WordSet *func_0201EC64(u32 heapId);
@@ -435,7 +435,7 @@ extern void FIELD_MSGBG_MsgWinPrintStr(void *window, u16 x, u16 y, void *text);
 extern int FIELD_MSGBG_DeleteMenuFunc(void *menu);
 extern void *FIELD_MSGBG_CreateYesNoMenu(void *fieldMsgbg, u32 cursorPos);
 extern int FIELD_MSGBG_YesNoMenuMain(void *menu);
-extern struct GameData *func_02026478(struct GameComm *gameComm);
+extern struct GameData *GAME_COMM_GetGameData(struct GameComm *gameComm);
 extern void *SCRCMD_WORK_GetScriptWork(struct ScriptWork *scriptWork);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, struct ScriptWork *scriptWork);
 extern void SCRIPT_SYS_CallEvent(void *scriptSys, struct GameEvent *event);
@@ -766,7 +766,7 @@ int EVENT_COMM_COMMON_IsPrintFinished(EventCommMsgBox *msgBox)
 
 int EVENT_COMM_COMMON_IsKeyTrg(void)
 {
-    if (func_020362DC() & 0xf3) return 1;
+    if (KEY_GetTrg() & 0xf3) return 1;
     return 0;
 }
 
@@ -888,7 +888,7 @@ int EVENT_COMM_COMMON_GetPeerTalkStatus(IntrudeCommSys *sys, u8 netId)
 
     struct GameData *gameData;
 
-    gameData = func_02026478(sys->gameComm);
+    gameData = GAME_COMM_GetGameData(sys->gameComm);
     if (netId == func_02012B58(gameData)) {
         peer = &sys->localPeer;
     } else {
@@ -897,7 +897,7 @@ int EVENT_COMM_COMMON_GetPeerTalkStatus(IntrudeCommSys *sys, u8 netId)
     objCode = peer->objCode;
     switch (objCode) {
     case 0:
-        if (func_02008550(func_02012950(func_02026478(sys->gameComm), netId)) == 0) {
+        if (func_02008550(func_02012950(GAME_COMM_GetGameData(sys->gameComm), netId)) == 0) {
             return 3;
         }
         return 4;
@@ -946,7 +946,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(struct GameEvent *event, int *seq, void 
     struct FieldMap *fieldMap;
     int alone;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     gameData = func_020120F4(gameSystem);
     gameComm = func_02012138(gameSystem);
     fieldMap = func_0201210C(gameSystem);
@@ -973,7 +973,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(struct GameEvent *event, int *seq, void 
         work->msgData = FIELD_MSGBG_CreateMsgData(fieldMsgbg, 0x2D);
         work->window = FIELD_MSGBG_CreateBottomMsgWin(fieldMsgbg, work->msgData);
         work->wordSet = func_0201EC64(4);
-        func_020061E4(0x547);
+        GFL_USE_PlaySeDefaultVolume(0x547);
         if (sys == 0 || GAME_DATA_GetIntrudeIdByte(gameData) == func_02012B58(gameData)) {
             FIELD_MSGBG_MsgWinPrintMsg(work->window, 0, 0, 0x49);
             alone = 1;
@@ -1024,7 +1024,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(struct GameEvent *event, int *seq, void 
         }
         break;
     case 6:
-        if (func_020362DC() & 0xF3) {
+        if (KEY_GetTrg() & 0xF3) {
             func_0201ED04(work->wordSet);
             FIELD_MSGBG_DeleteMsgWin(work->window);
             MSGDATA_Delete(work->msgData);
@@ -1089,7 +1089,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateMissionInfoEvent(struct GameSystem *ga
 {
     struct GameEvent *event;
     event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_MissionInfoEventMain, 0x30);
-    func_02082BCC(func_020124E8(event), 0, 0x30);
+    MI_CpuFill8(func_020124E8(event), 0, 0x30);
     return event;
 }
 
@@ -1101,7 +1101,7 @@ int EVENT_COMM_COMMON_MissionInfoEventMain(struct GameEvent *event, int *seq, vo
     IntrudeCommSys *sys;
     struct GameEvent *next;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
     if (sys == 0 && *seq < 3) {
         *seq = 3;
@@ -1161,7 +1161,7 @@ int EVENT_COMM_COMMON_ReturnPalaceEventMain(struct GameEvent *event, int *seq, v
     IntrudeCommSys *sys;
     struct GameEvent *next;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     gameComm = func_02012138(gameSystem);
     gameData = func_020120F4(gameSystem);
     fieldMap = func_0201210C(gameSystem);
@@ -1181,7 +1181,7 @@ int EVENT_COMM_COMMON_ReturnPalaceEventMain(struct GameEvent *event, int *seq, v
         (*seq)++;
         break;
     case 1:
-        if (func_02013D5C(func_02012AC8(func_020120F8(gameSystem))) == 1) {
+        if (ZONEDATA_IsZone117(func_02012AC8(func_020120F8(gameSystem))) == 1) {
             GAME_EVENT_CallEvent(event, EVENT_COMM_COMMON_CreateMissionInfoEvent(gameSystem));
         }
         (*seq)++;
@@ -1245,7 +1245,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateTalkStartEvent(struct GameSystem *game
     struct GameEvent *event;
     event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_TalkStartEventMain, 0x10);
     param = func_020124E8(event);
-    func_02082BCC(param, 0, 0x10);
+    MI_CpuFill8(param, 0, 0x10);
     param->fieldMap = fieldMap;
     param->playerMmdl = playerMmdl;
     param->netId = netId;
@@ -1260,7 +1260,7 @@ int EVENT_COMM_COMMON_TalkStartEventMain(struct GameEvent *event, int *seq, void
     struct GameSystem *gameSystem;
     IntrudeCommSys *sys;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
     switch (*seq) {
     case 0:
@@ -1284,7 +1284,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateTalkEvent(struct GameSystem *gameSyste
     struct GameEvent *event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_TalkEventMain, 0x9c);
     EventCommCommonWork *work = func_020124E8(event);
 
-    func_02082BCC(work, 0, 0x9c);
+    MI_CpuFill8(work, 0, 0x9c);
     EVENT_COMM_COMMON_InitCommonWork(gameSystem, sys, work, fieldMap, playerMmdl, netId, heapId);
     INTRUDE_COMM_InitRequest(sys, netId);
     INTRUDE_COMM_ClearNotice(sys);
@@ -1298,7 +1298,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateTalkedStartEvent(struct GameSystem *ga
     struct GameEvent *event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_TalkedStartEventMain, 0x10);
     EventCommTalkParam *param = func_020124E8(event);
 
-    func_02082BCC(param, 0, 0x10);
+    MI_CpuFill8(param, 0, 0x10);
     param->fieldMap = fieldMap;
     param->playerMmdl = playerMmdl;
     param->netId = netId;
@@ -1311,7 +1311,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateTalkedStartEvent(struct GameSystem *ga
 int EVENT_COMM_COMMON_TalkedStartEventMain(struct GameEvent *event, int *seq, void *wk)
 {
     EventCommTalkParam *param = wk;
-    struct GameSystem *gameSystem = func_020124E4(event);
+    struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     IntrudeCommSys *sys;
 
     sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
@@ -1340,7 +1340,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateTalkedEvent(struct GameSystem *gameSys
     struct GameEvent *event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_TalkedEventMain, 0x9c);
     EventCommCommonWork *work = func_020124E8(event);
 
-    func_02082BCC(work, 0, 0x9c);
+    MI_CpuFill8(work, 0, 0x9c);
     EVENT_COMM_COMMON_InitCommonWork(gameSystem, sys, work, fieldMap, playerMmdl, netId, heapId);
     work->talkType = sys->receivedRequest.type;
     work->member = sys->receivedRequest.data;
@@ -1395,7 +1395,7 @@ int EVENT_COMM_COMMON_TalkEventMain(struct GameEvent *event, int *seq, void *wk)
     void *copy;
     int requestKind;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(func_020124E4(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(GAME_EVENT_GetGameSystem(event)));
     if (sys == 0) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 0) {
             return 0;
@@ -1515,7 +1515,7 @@ int EVENT_COMM_COMMON_TalkedEventMain(struct GameEvent *event, int *seq, void *w
     int acmd;
     int failed;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     gameComm = func_02012138(gameSystem);
     gameData = func_020120F4(gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
@@ -1748,7 +1748,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateMissionResultEvent(struct GameSystem *
     struct GameEvent *event = func_020122C0(gameSystem, 0, EVENT_COMM_COMMON_MissionResultEventMain, sizeof(EventCommMissionResultWork));
     EventCommMissionResultWork *work = func_020124E8(event);
 
-    func_02082BCC(work, 0, sizeof(EventCommMissionResultWork));
+    MI_CpuFill8(work, 0, sizeof(EventCommMissionResultWork));
     work->heapId = FIELDMAP_GetHeapId(fieldMap);
     work->showResult = showResult;
     return event;
@@ -1771,15 +1771,15 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
     u32 count;
     u32 reward;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     gameComm = func_02012138(gameSystem);
     gameData = func_020120F4(gameSystem);
     func_0201210C(gameSystem);
     switch (*seq) {
     case 0:
         sys = 0;
-        if (func_02026454(gameComm) == 2) {
-            sys = func_02026474(gameComm);
+        if (GAME_COMM_GetKind(gameComm) == 2) {
+            sys = GAME_COMM_GetWork(gameComm);
         }
         if (work->showResult == 0) {
             if (sys != 0 && func_0200FB24() == 0 && INTRUDE_COMM_HasResultReward(sys, &sys->session) == 1) {
@@ -1839,7 +1839,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
         }
         break;
     case 4:
-        if (func_02005F38() == 0) {
+        if (GFL_USE_IsBgmPlaying() == 0) {
             GAME_EVENT_CallEvent(event, func_02029620(gameSystem, 0, 6));
             myItem = func_0201292C(gameData);
             count = func_02007FB8(myItem, 0x23F, work->heapId);
@@ -1891,7 +1891,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
         *seq = 12;
         break;
     case 11:
-        if (func_02005F38() == 0) {
+        if (GFL_USE_IsBgmPlaying() == 0) {
             GAME_EVENT_CallEvent(event, func_02029620(gameSystem, 0, 6));
             *seq = 12;
         }
@@ -1914,7 +1914,7 @@ void EVENT_COMM_COMMON_ChangeTalkMsgEvent(struct GameEvent *event, EventCommComm
 int EVENT_COMM_COMMON_TalkMsgEventMain(struct GameEvent *event, int *seq, void *wk)
 {
     EventCommCommonWork *work = wk;
-    struct GameSystem *gameSystem = func_020124E4(event);
+    struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     struct GameData *gameData = func_020120F4(gameSystem);
     IntrudeCommSys *sys;
 
@@ -1965,7 +1965,7 @@ int EVENT_COMM_COMMON_TalkPowerGiftTargetEventMain(struct GameEvent *event, int 
     struct GameSystem *gameSystem;
     IntrudeCommSys *sys;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
     if (sys == 0 && *seq <= 1) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 0) {
@@ -2006,7 +2006,7 @@ int EVENT_COMM_COMMON_TalkPowerGiftTargetEventMain(struct GameEvent *event, int 
     case 4:
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 1) {
             EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sMissionAchieveMsgIdsC[work->common.msgIndex]);
-            func_020061E4(0x5E0);
+            GFL_USE_PlaySeDefaultVolume(0x5E0);
             (*seq)++;
         }
         break;
@@ -2038,7 +2038,7 @@ void EVENT_COMM_COMMON_ChangeTalkPowerGiftAsTargetEvent(struct GameEvent *event,
 int EVENT_COMM_COMMON_TalkPowerGiftAsTargetEventMain(struct GameEvent *event, int *seq, void *wk)
 {
     EventCommCommonWork *work = wk;
-    struct GameSystem *gameSystem = func_020124E4(event);
+    struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     IntrudeCommSys *sys;
 
     sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
@@ -2078,7 +2078,7 @@ void EVENT_COMM_COMMON_ChangeTalkedPowerGiftAsTargetEvent(struct GameEvent *even
 int EVENT_COMM_COMMON_TalkedPowerGiftAsTargetEventMain(struct GameEvent *event, int *seq, void *wk)
 {
     EventCommCommonWork *work = wk;
-    struct GameSystem *gameSystem = func_020124E4(event);
+    struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     IntrudeCommSys *sys;
 
     sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
@@ -2126,7 +2126,7 @@ int EVENT_COMM_COMMON_TalkedPowerGiftTargetEventMain(struct GameEvent *event, in
     IntrudeCommSys *sys;
     EventCommGPowerParam param;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
     switch (*seq) {
     case 0:
@@ -2181,7 +2181,7 @@ void EVENT_COMM_COMMON_ChangeTalkPowerShareTargetEvent(struct GameEvent *event, 
 int EVENT_COMM_COMMON_TalkPowerShareTargetEventMain(struct GameEvent *event, int *seq, void *wk)
 {
     EventCommCommonWork *work = wk;
-    struct GameSystem *gameSystem = func_020124E4(event);
+    struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     IntrudeCommSys *sys;
 
     sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
@@ -2226,7 +2226,7 @@ int EVENT_COMM_COMMON_TalkPowerShareAsTargetEventMain(struct GameEvent *event, i
     IntrudeCommSys *sys;
     EventCommGPowerParam param;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
     switch (*seq) {
     case 0:
@@ -2273,7 +2273,7 @@ int EVENT_COMM_COMMON_TalkedPowerShareAsTargetEventMain(struct GameEvent *event,
     struct GameSystem *gameSystem;
     IntrudeCommSys *sys;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
     if (sys == 0 && *seq <= 1) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 0) {
@@ -2308,7 +2308,7 @@ int EVENT_COMM_COMMON_TalkedPowerShareAsTargetEventMain(struct GameEvent *event,
     case 3:
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 1) {
             EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sTalkedPowerShareAchieveMsgIdsB[work->common.msgIndex]);
-            func_020061E4(0x5E0);
+            GFL_USE_PlaySeDefaultVolume(0x5E0);
             (*seq)++;
         }
         break;
@@ -2341,7 +2341,7 @@ void EVENT_COMM_COMMON_ChangeTalkedPowerShareTargetEvent(struct GameEvent *event
 int EVENT_COMM_COMMON_TalkedPowerShareTargetEventMain(struct GameEvent *event, int *seq, void *wk)
 {
     EventCommCommonWork *work = wk;
-    struct GameSystem *gameSystem = func_020124E4(event);
+    struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     IntrudeCommSys *sys;
 
     sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
@@ -2374,7 +2374,7 @@ void EVENT_COMM_COMMON_ChangeTalkBattleTargetEvent(struct GameEvent *event, Even
     struct GameSystem *gameSystem;
     EventCommBattleTalkWork *work;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_BattleRequestEventMain, sizeof(EventCommBattleTalkWork));
     work = func_020124E8(event);
     func_02082D44(src, work, sizeof(EventCommCommonWork));
@@ -2398,7 +2398,7 @@ int EVENT_COMM_COMMON_BattleRequestEventMain(struct GameEvent *event, int *seq, 
     IntrudeCommSys *sys;
     struct GameEvent *next;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     gameComm = func_02012138(gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (sys == 0) {
@@ -2431,7 +2431,7 @@ int EVENT_COMM_COMMON_BattleRequestEventMain(struct GameEvent *event, int *seq, 
                 *seq = 11;
                 break;
             default:
-                if ((func_020362DC() & 2) && INTRUDE_COMM_SendAnswer(sys->requestTarget, sys->sentRequestSeq) == 1) {
+                if ((KEY_GetTrg() & 2) && INTRUDE_COMM_SendAnswer(sys->requestTarget, sys->sentRequestSeq) == 1) {
                     INTRUDE_COMM_NextRequestToken(sys);
                     *seq = 12;
                 }
@@ -2462,7 +2462,7 @@ int EVENT_COMM_COMMON_BattleRequestEventMain(struct GameEvent *event, int *seq, 
     case 6:
         if (func_0215839C(sys, 1, work->common.peerSlot) == 1) {
             *seq = 7;
-        } else if ((func_020362DC() & 2) && INTRUDE_COMM_SendAnswer(sys->requestTarget, sys->sentRequestSeq) == 1) {
+        } else if ((KEY_GetTrg() & 2) && INTRUDE_COMM_SendAnswer(sys->requestTarget, sys->sentRequestSeq) == 1) {
             INTRUDE_COMM_NextRequestToken(sys);
             *seq = 12;
         }
@@ -2511,8 +2511,8 @@ int EVENT_COMM_COMMON_BattleRequestEventMain(struct GameEvent *event, int *seq, 
         break;
     case 15:
         EVENT_COMM_COMMON_ExitCommonWork(sys, &work->common);
-        if (func_02026454(gameComm) == 2 && func_02026474(gameComm) != 0) {
-            INTRUDE_COMM_SetLock(func_02026474(gameComm), 0);
+        if (GAME_COMM_GetKind(gameComm) == 2 && GAME_COMM_GetWork(gameComm) != 0) {
+            INTRUDE_COMM_SetLock(GAME_COMM_GetWork(gameComm), 0);
         }
         if (work->battleDone == 1) {
             next = EVENT_COMM_COMMON_CreateMissionResultEvent(gameSystem, work->battleDone);
@@ -2532,7 +2532,7 @@ void EVENT_COMM_COMMON_ChangeTalkBattleAsTargetEvent(struct GameEvent *event, Ev
     struct GameSystem *gameSystem;
     EventCommBattleTalkWork *work;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_BattleAnswerEventMain, sizeof(EventCommBattleTalkWork));
     work = func_020124E8(event);
     func_02082D44(src, work, sizeof(EventCommCommonWork));
@@ -2554,7 +2554,7 @@ int EVENT_COMM_COMMON_BattleAnswerEventMain(struct GameEvent *event, int *seq, v
     struct GameComm *gameComm;
     IntrudeCommSys *sys;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     gameComm = func_02012138(gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (sys == 0) {
@@ -2612,7 +2612,7 @@ int EVENT_COMM_COMMON_BattleAnswerEventMain(struct GameEvent *event, int *seq, v
     case 6:
         if (func_0215839C(sys, 1, work->common.peerSlot) == 1) {
             *seq = 7;
-        } else if (func_020362DC() & 2) {
+        } else if (KEY_GetTrg() & 2) {
             if (INTRUDE_COMM_SendAnswer(sys->requestTarget, sys->sentRequestSeq) == 1) {
                 INTRUDE_COMM_NextRequestToken(sys);
                 *seq = 13;
@@ -2671,8 +2671,8 @@ int EVENT_COMM_COMMON_BattleAnswerEventMain(struct GameEvent *event, int *seq, v
         break;
     case 16:
         EVENT_COMM_COMMON_ExitCommonWork(sys, &work->common);
-        if (func_02026454(gameComm) == 2 && func_02026474(gameComm) != 0) {
-            INTRUDE_COMM_SetLock(func_02026474(gameComm), 0);
+        if (GAME_COMM_GetKind(gameComm) == 2 && GAME_COMM_GetWork(gameComm) != 0) {
+            INTRUDE_COMM_SetLock(GAME_COMM_GetWork(gameComm), 0);
         }
         return 1;
     }
@@ -2684,7 +2684,7 @@ void EVENT_COMM_COMMON_ChangeTalkedBattleAsTargetEvent(struct GameEvent *event, 
     struct GameSystem *gameSystem;
     EventCommBattleTalkWork *work;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_BattleRequestEventMain, sizeof(EventCommBattleTalkWork));
     work = func_020124E8(event);
     func_02082D44(src, work, sizeof(EventCommCommonWork));
@@ -2700,7 +2700,7 @@ void EVENT_COMM_COMMON_ChangeTalkedBattleTargetEvent(struct GameEvent *event, Ev
     struct GameSystem *gameSystem;
     EventCommBattleTalkWork *work;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_BattleAnswerEventMain, sizeof(EventCommBattleTalkWork));
     work = func_020124E8(event);
     func_02082D44(src, work, sizeof(EventCommCommonWork));
@@ -2723,7 +2723,7 @@ int EVENT_COMM_COMMON_TalkSearchTargetEventMain(struct GameEvent *event, int *se
     EventCommCommonWork *work = wk;
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(func_020124E4(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
@@ -2765,7 +2765,7 @@ int EVENT_COMM_COMMON_TalkSearchAsTargetEventMain(struct GameEvent *event, int *
     EventCommCommonWork *work = wk;
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(func_020124E4(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
@@ -2805,7 +2805,7 @@ int EVENT_COMM_COMMON_TalkedSearchAsTargetEventMain(struct GameEvent *event, int
     struct GameComm *gameComm;
     IntrudeCommSys *sys;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     gameComm = func_02012138(gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     switch (*seq) {
@@ -2827,7 +2827,7 @@ int EVENT_COMM_COMMON_TalkedSearchAsTargetEventMain(struct GameEvent *event, int
     case 3:
         EVENT_COMM_COMMON_ExitCommonWork(sys, work);
         if (INTRUDE_COMM_GetWorkIfRunning(gameComm) != 0) {
-            func_020061E4(0x737);
+            GFL_USE_PlaySeDefaultVolume(0x737);
             GAME_EVENT_ChangeEvent(event, INTRUDE_SUBDISP_CreatePalaceWarpEvent(gameSystem));
             return 0;
         }
@@ -2849,7 +2849,7 @@ int EVENT_COMM_COMMON_TalkedSearchTargetEventMain(struct GameEvent *event, int *
     EventCommCommonWork *work = wk;
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(func_020124E4(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
@@ -2892,7 +2892,7 @@ int EVENT_COMM_COMMON_SearchFoundEventMain(struct GameEvent *event, int *seq, vo
     IntrudeCommSys *sys;
     int joinStatus;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
     if (sys == 0 && *seq <= 2 && *seq < 6) {
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, 4);
@@ -2931,7 +2931,7 @@ int EVENT_COMM_COMMON_SearchFoundEventMain(struct GameEvent *event, int *seq, vo
     case 4:
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 1) {
             EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sSearchFoundMsgIdsB[work->common.msgIndex]);
-            func_020061E4(0x5E0);
+            GFL_USE_PlaySeDefaultVolume(0x5E0);
             *seq = 6;
         }
         break;
@@ -2984,7 +2984,7 @@ int EVENT_COMM_COMMON_SupportMsgEventMain(struct GameEvent *event, int *seq, voi
     struct GameSystem *gameSystem;
     struct GameEvent *script;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
@@ -3025,7 +3025,7 @@ int EVENT_COMM_COMMON_TalkGreetingTargetEventMain(struct GameEvent *event, int *
     EventCommCommonWork *work = wk;
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(func_020124E4(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
@@ -3062,7 +3062,7 @@ int EVENT_COMM_COMMON_TalkGreetingAsTargetEventMain(struct GameEvent *event, int
     EventCommCommonWork *work = wk;
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(func_020124E4(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
@@ -3101,7 +3101,7 @@ int EVENT_COMM_COMMON_TalkedGreetingAsTargetEventMain(struct GameEvent *event, i
     struct GameSystem *gameSystem;
     IntrudeCommSys *sys;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
     switch (*seq) {
     case 0:
@@ -3122,7 +3122,7 @@ int EVENT_COMM_COMMON_TalkedGreetingAsTargetEventMain(struct GameEvent *event, i
     case 3:
         EVENT_COMM_COMMON_ExitCommonWork(sys, work);
         if (sys != 0) {
-            func_020061E4(0x737);
+            GFL_USE_PlaySeDefaultVolume(0x737);
             GAME_EVENT_ChangeEvent(event, INTRUDE_SUBDISP_CreatePalaceWarpEvent(gameSystem));
             return 0;
         }
@@ -3142,7 +3142,7 @@ int EVENT_COMM_COMMON_TalkedGreetingTargetEventMain(struct GameEvent *event, int
     EventCommCommonWork *work = wk;
     IntrudeCommSys *sys;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(func_020124E4(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         func_0201F02C(work->msgBox.wordSet, 0, work->myStatus);
@@ -3181,7 +3181,7 @@ int EVENT_COMM_COMMON_OfferEventMain(struct GameEvent *event, int *seq, void *wk
     struct GameSystem *gameSystem;
     struct FieldMap *fieldMap;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     fieldMap = func_0201210C(gameSystem);
     switch (*seq) {
     case 0:
@@ -3233,7 +3233,7 @@ int EVENT_COMM_COMMON_OfferAnswerEventMain(struct GameEvent *event, int *seq, vo
     IntrudeCommSys *sys;
     int msgId;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     gameComm = func_02012138(gameSystem);
     gameData = func_020120F4(gameSystem);
     func_0201210C(gameSystem);
@@ -3324,7 +3324,7 @@ int EVENT_COMM_COMMON_ItemSaleEventMain(struct GameEvent *event, int *seq, void 
     IntrudeCommSys *sys;
     IntrudeParamPair *sale;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     sys = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
     if (sys == 0 && *seq <= 4) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&work->common.msgBox) == 0) {
@@ -3364,7 +3364,7 @@ int EVENT_COMM_COMMON_ItemSaleEventMain(struct GameEvent *event, int *seq, void 
                 *seq = 7;
                 break;
             default:
-                if ((func_020362DC() & 2) && INTRUDE_COMM_SendAnswer(sys->requestTarget, sys->sentRequestSeq) == 1) {
+                if ((KEY_GetTrg() & 2) && INTRUDE_COMM_SendAnswer(sys->requestTarget, sys->sentRequestSeq) == 1) {
                     INTRUDE_COMM_NextRequestToken(sys);
                     work->canceled = 1;
                     *seq = 8;
@@ -3451,7 +3451,7 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(struct GameEvent *event, int *seq, v
     int refused;
     int answer;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     gameData = func_020120F4(gameSystem);
     gameComm = func_02012138(gameSystem);
     sale = &work->common.member.head.param;

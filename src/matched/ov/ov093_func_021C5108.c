@@ -12,11 +12,11 @@
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_SERVER_FLOW_DispatchPokeLeaveEvent 0x021C51D0 thumb ov093
  *   BTL_SERVER_FLOW_ReleaseBindingTarget 0x021BFF60 thumb ov093
- *   BTL_CALC_RemoveAbilityHandlers 0x021D8510 thumb ov093
- *   BTL_HANDLER_ITEM_RemoveUnforcedFactors 0x021DCF24 thumb ov093
- *   BTL_CALC_DisableAbilityHandlers 0x021D8538 thumb ov093
- *   BTL_HANDLER_ITEM_DisablePokeFactors 0x021DCFA4 thumb ov093
- *   func_021E0434 0x021E0434 thumb ov093
+ *   HAND_TOKUSEI_RemoveAbilityHandlers 0x021D8510 thumb ov093
+ *   HAND_ITEM_RemoveUnforcedFactors 0x021DCF24 thumb ov093
+ *   HAND_TOKUSEI_DisableAbilityHandlers 0x021D8538 thumb ov093
+ *   HAND_ITEM_DisablePokeFactors 0x021DCFA4 thumb ov093
+ *   HAND_WAZA_RemoveAllMoveHandlers 0x021E0434 thumb ov093
  *   BTL_SERVER_FLOW_InitFieldPokeIter 0x021BD2B4 thumb ov093
  *   BTL_SERVER_FLOW_SetFieldPokeIterRule 0x021BD338 thumb ov093
  *   BTL_SERVER_FLOW_NextFieldPokeIter 0x021BD34C thumb ov093
@@ -34,11 +34,11 @@ typedef unsigned int u32;
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_SERVER_FLOW_DispatchPokeLeaveEvent(u8 *, u8 *);
 extern void BTL_SERVER_FLOW_ReleaseBindingTarget(u8 *, u8 *, int);
-extern void BTL_CALC_RemoveAbilityHandlers(void *p);
-extern void BTL_HANDLER_ITEM_RemoveUnforcedFactors(u8 *);
-extern void BTL_CALC_DisableAbilityHandlers(void *p);
-extern void BTL_HANDLER_ITEM_DisablePokeFactors(void *p);
-extern void func_021E0434(u8 *);
+extern void HAND_TOKUSEI_RemoveAbilityHandlers(void *p);
+extern void HAND_ITEM_RemoveUnforcedFactors(u8 *);
+extern void HAND_TOKUSEI_DisableAbilityHandlers(void *p);
+extern void HAND_ITEM_DisablePokeFactors(void *p);
+extern void HAND_WAZA_RemoveAllMoveHandlers(u8 *);
 extern void BTL_SERVER_FLOW_InitFieldPokeIter(u8 *, u8 **);
 extern void BTL_SERVER_FLOW_SetFieldPokeIterRule(u8 *, u8 *);
 extern int BTL_SERVER_FLOW_NextFieldPokeIter(u8 *, u8 **, u8 **);
@@ -57,13 +57,13 @@ void BTL_SERVER_FLOW_ProcPokeLeaveField(u8 *p, u8 *a, int b)
     BTL_SERVER_FLOW_DispatchPokeLeaveEvent(p, a);
     BTL_SERVER_FLOW_ReleaseBindingTarget(p, a, 0);
     if (b == 0) {
-        BTL_CALC_RemoveAbilityHandlers(a);
-        BTL_HANDLER_ITEM_RemoveUnforcedFactors(a);
+        HAND_TOKUSEI_RemoveAbilityHandlers(a);
+        HAND_ITEM_RemoveUnforcedFactors(a);
     } else {
-        BTL_CALC_DisableAbilityHandlers(a);
-        BTL_HANDLER_ITEM_DisablePokeFactors(a);
+        HAND_TOKUSEI_DisableAbilityHandlers(a);
+        HAND_ITEM_DisablePokeFactors(a);
     }
-    func_021E0434(a);
+    HAND_WAZA_RemoveAllMoveHandlers(a);
     BTL_SERVER_FLOW_InitFieldPokeIter((u8 *)&it, (u8 **)p);
     BTL_SERVER_FLOW_SetFieldPokeIterRule((u8 *)&it, p);
     while (BTL_SERVER_FLOW_NextFieldPokeIter((u8 *)&it, (u8 **)p, &cur)) {

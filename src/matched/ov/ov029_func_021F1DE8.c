@@ -15,7 +15,7 @@
  *   func_020090F0  0x020090F0  thumb
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_CreateRenderer  0x0204B034  arm
- *   func_0204B258  0x0204B258  arm
+ *   CLACT_SetUnitRenderer  0x0204B258  arm
  *   C_GEAR_LoadSkin  0x021F1458  thumb  ov029
  *   C_GEAR_LoadSpriteResources  0x021F1574  thumb  ov029
  *   C_GEAR_CreateHudActors  0x021F1950  thumb  ov029
@@ -43,7 +43,7 @@ extern unsigned char func_02008550(const struct Sub0200852CObj *obj);
 extern unsigned char func_020090F0(const struct Sub020090B0Obj *obj);
 extern struct Bank *CLACT_CreateUnit(int count, unsigned char flag, u32 heapId);
 extern struct Obj *CLACT_CreateRenderer(unsigned char *a0, u32 a1, u32 heap);
-extern void func_0204B258(struct Bank *bank, void *p);
+extern void CLACT_SetUnitRenderer(struct Bank *bank, void *p);
 extern u32 C_GEAR_LoadSkin(unsigned char *p, int a, int b, int c);
 typedef unsigned char  u8;
 extern void C_GEAR_LoadSpriteResources(char *p, int idx);
@@ -67,7 +67,7 @@ void C_GEAR_LoadGraphics(char *p, int flag)
     z = 0;
     ((struct Obj00106 *)p)->f34 = (int)CLACT_CreateUnit(0x44, 0, ((struct Obj00106 *)p)->fC);
     ((struct Obj00106 *)p)->f38 = CLACT_CreateRenderer((unsigned char *)d_021F3214, 1, ((struct Obj00106 *)p)->fC);
-    func_0204B258((struct Bank *)(((struct Obj00106 *)p)->f34), ((struct Obj00106 *)p)->f38);
+    CLACT_SetUnitRenderer((struct Bank *)(((struct Obj00106 *)p)->f34), ((struct Obj00106 *)p)->f38);
     C_GEAR_LoadSkin((unsigned char *)p, ((struct Obj00106 *)p)->f459, ((struct Obj00106 *)p)->f458, 1);
     C_GEAR_LoadSpriteResources(p, ((struct Obj00106 *)p)->f459);
     C_GEAR_CreateHudActors(p);

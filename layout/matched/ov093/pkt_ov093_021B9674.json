@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B9674",
+   "name": "BTL_SIDE_DeletePokeParams",
    "address": "0x021B9674",
    "kind": "game",
    "region": "ov093",

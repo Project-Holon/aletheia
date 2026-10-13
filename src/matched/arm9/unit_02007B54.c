@@ -18,8 +18,8 @@
  *   MI_CpuCopy8    0x02082D44  arm
  *   PERAPVOICE_IsRecorded   0x02007B50  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *
  * The rest of "perapvoice.c", which src/matched/unit_02007AC8.c opens.  That
  * file names the object: its constructor allocates 0x3EC bytes and its clear
@@ -65,8 +65,8 @@ struct PerapVoice {
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
 extern u32 PERAPVOICE_IsRecorded(const struct PerapVoice *p);
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *a, u32 b, u32 c);
 
 void PERAPVOICE_ClearRecorded(struct PerapVoice *p);
@@ -141,10 +141,10 @@ void PERAPVOICE_Copy(struct PerapVoice *dest, const struct PerapVoice *src)
 void PERAPVOICE_ClearIfNoChatot(struct PerapVoice *p, void *a)
 {
     int i;
-    int n = func_0201AA18(a);
+    int n = POKEPARTY_GetCount(a);
 
     for (i = 0; i < n; i++) {
-        if (POKE_TOOL_GetPartyValue(func_0201AB28(a, i), 5, 0) == 0x1B9) {
+        if (POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(a, i), 5, 0) == 0x1B9) {
             return;
         }
     }

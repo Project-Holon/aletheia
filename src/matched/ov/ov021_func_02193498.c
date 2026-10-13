@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FIELD_G3D_MAPPER_GetTilePlane  0x021D14C4  thumb  ov021
  */
 
 typedef struct { int w[0x41]; } B104;
 
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 struct Map021D14C4;
 struct Plane021D14C4;
 struct VecFx32_021D14C4;
@@ -26,7 +26,7 @@ void FIELD_MSGBG_BlockQueryTwoPlane(B104 *dst, const int *src, void *c, int d, i
 {
     B104 buf;
 
-    func_02082BCC(&buf, 0, sizeof(buf));
+    MI_CpuFill8(&buf, 0, sizeof(buf));
     FIELD_G3D_MAPPER_GetTilePlane((struct Plane021D14C4 *)(&buf), 0, (struct Map021D14C4 *)((char *)src + src[2]), c, d, e);
     FIELD_G3D_MAPPER_GetTilePlane((struct Plane021D14C4 *)(&buf), 1, (struct Map021D14C4 *)((char *)src + src[3]), c, d, e);
     *dst = buf;

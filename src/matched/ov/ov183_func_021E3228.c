@@ -10,13 +10,13 @@
  * status:   EXACT
  * symbols:
  *   func_021FD860  0x021FD860  thumb  ov186
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 #include "../include/Obj24697.h"
 
 extern void func_021FD860(int obj, int one, int *args);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 int func_021E3228(char *p, int a, int b)
 {
@@ -29,7 +29,7 @@ int func_021E3228(char *p, int a, int b)
         args[0] = a;
         args[1] = b;
         func_021FD860(((struct Obj24697 *)p)->f34, 1, args);
-        func_020061E4(0x703);
+        GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;
 }

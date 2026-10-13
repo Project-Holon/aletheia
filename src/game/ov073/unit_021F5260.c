@@ -17,7 +17,7 @@
  *   FIELDMAP_GetEncEff 0x02189A08 thumb ov021
  *   ENCEFF_AllocWork 0x021CF52C thumb ov021
  *   func_020122C0 0x020122C0 thumb
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   ENCEFF_GetWork  0x021CF560  thumb  ov021
  *   FIELDMAP_GetFld3dCi  0x02189A00  thumb  ov021
  *   FLD3D_CI_StartNameSequence  0x021C1DCC  thumb  ov021
@@ -53,7 +53,7 @@ typedef struct EncEffNameCutInWork {
 
 typedef int (*GameEventMainFunc)(struct GameEvent *event, int *state);
 
-extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern struct EncEff *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
 extern struct Fld3dCi *FIELDMAP_GetFld3dCi(struct FieldMap *fieldMap);
@@ -301,7 +301,7 @@ int ENCEFF_NameCutInEventMain(struct GameEvent *event, int *state)
     EncEffNameCutInWork *work;
     struct GameEvent *child;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     work = ENCEFF_GetWork(FIELDMAP_GetEncEff(fieldMap));
     switch (*state) {

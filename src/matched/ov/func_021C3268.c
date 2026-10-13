@@ -10,6 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
+ *   BMP_WIN_Delete  0x020452E8  arm  arm9
  *   (none)
 
  * Clears +0x10 and releases the two handles at +8 and +0xC.
@@ -19,14 +21,14 @@
 
 struct Descriptor;
 struct PrintSys;
-extern void func_0201C6EC(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 typedef unsigned int   u32;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 void func_021C3268(void *unused, char *p, void *a2)
 {
     ((struct Obj09209 *)p)->f10 = 0;
-    func_0201C6EC((struct PrintSys *)(((struct Obj09209 *)p)->f8));
-    func_020452E8((struct Descriptor *)(((struct Obj09209 *)p)->fC));
+    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj09209 *)p)->f8));
+    BMP_WIN_Delete((struct Descriptor *)(((struct Obj09209 *)p)->fC));
 }
 

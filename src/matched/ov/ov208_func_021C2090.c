@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B3F4  0x0204B3F4  arm
+ *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
  */
 #include "../include/Obj00081.h"
 
@@ -21,11 +21,11 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct Obj;
-extern u32 func_0204B3F4(struct Obj *p);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 
 void func_021C2090(void *unused, u8 *p)
 {
-    if (func_0204B3F4((struct Obj *)(*(int *)&((struct Obj00081 *)p)->fC8)) == 0) {
+    if (CLACT_GetActorDrawEnable((struct Obj *)(*(int *)&((struct Obj00081 *)p)->fC8)) == 0) {
         if (*(int *)&((struct Obj00081 *)p)->f90 == 0) {
             p[0x414] = 1;
         } else {

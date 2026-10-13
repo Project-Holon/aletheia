@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK57_LoadModelScene
+ * function: SP_POKE_GIMMICK_LoadModelScene
  * address:  0x021F36C0
  * packet:   pkt_ov059_021F36C0
  * region:   ov059
@@ -36,7 +36,7 @@ extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(int a, int b, int c, u16 d, int e);
 extern char sSpPokeGimmickPairASetup[];
 
-void GIMMICK57_LoadModelScene(int a)
+void SP_POKE_GIMMICK_LoadModelScene(int a)
 {
     int i;
     int r5;

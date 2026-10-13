@@ -15,7 +15,7 @@
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_GetPlayerNetId  0x02158378  thumb  ov010
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   INTRUDE_SUBDISP_StartButtonBlink  0x0217F174  thumb  ov018
  *   INTRUDE_SUBDISP_StartTownBlink  0x0217F0C4  thumb  ov018
  *   INTRUDE_SUBDISP_CreateBrightFadeEvent  0x0217CEE8  thumb  ov018
@@ -43,7 +43,7 @@ void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
 int INTRUDE_COMM_GetPlayerNetId(void *);
-void func_020061E4(u32 a);
+void GFL_USE_PlaySeDefaultVolume(u32 a);
 void INTRUDE_SUBDISP_StartButtonBlink(u8 *p);
 void INTRUDE_SUBDISP_StartTownBlink(u8 *p);
 void *INTRUDE_SUBDISP_CreateBrightFadeEvent(void *p, int a, int b);
@@ -65,18 +65,18 @@ void *INTRUDE_SUBDISP_EventCheck(Ov018Menu *w, int b, int c)
         return 0;
     }
     if (w->f168 == 1 || (GAME_DATA_GetIntrudeCount(s2) == 0 && INTRUDE_COMM_GetWorkIfRunning((int)s1) == 0)) {
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         INTRUDE_SUBDISP_StartButtonBlink((u8 *)w);
         return INTRUDE_SUBDISP_CreateBrightFadeEvent(w->f0, (int)r, c);
     }
     switch (w->f112) {
     case 1:
-        func_020061E4(0x737);
+        GFL_USE_PlaySeDefaultVolume(0x737);
         INTRUDE_SUBDISP_StartTownBlink((u8 *)w);
         ret = INTRUDE_SUBDISP_CreateTownWarpEvent(w->f0, r, w->f110, 0);
         break;
     case 2:
-        func_020061E4(0x737);
+        GFL_USE_PlaySeDefaultVolume(0x737);
         ret = INTRUDE_SUBDISP_CreatePlayerWarpEvent(w->f0, r, INTRUDE_COMM_GetPlayerNetId(s1));
         break;
     }

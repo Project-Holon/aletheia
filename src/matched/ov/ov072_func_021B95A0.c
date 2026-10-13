@@ -14,7 +14,7 @@
  *   ov067_id       0x00000043  data
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_02045B38  0x02045B38  arm
  *   TOWNMAP_GRH_Create  0x021BB6E8  thumb  ov072
@@ -75,7 +75,7 @@ extern char ov067_id[];
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 struct Ctx;
 struct MsgBank;
@@ -125,7 +125,7 @@ int TOWNMAP_Create(void *a, void *b, Arg *c)
     func_02034AC4((u32)ov067_id);
     GFL_HEAP_CreateChildHeap(1, 0x44, 0x60000);
     o = PROCSYS_AllocProcWork(a, 0x144, 0x44);
-    func_02082BCC(o, 0, 0x144);
+    MI_CpuFill8(o, 0, 0x144);
     *(Arg * *)&((struct Obj00433 *)o)->f130 = c;
     flag = (*(Arg * *)&((struct Obj00433 *)o)->f130)->f0 == 2;
     ((struct Obj00433 *)o)->f124 = GF_FONT_Create(0x17, 0, 0, 0, 0x44);

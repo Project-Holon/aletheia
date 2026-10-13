@@ -78,8 +78,8 @@
  *   MI_CpuCopy8    0x02082D44  arm
  *   PERAPVOICE_IsRecorded   0x02007B50  thumb
  *   func_02017E1C  0x02017E1C  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_02020FE4  0x02020FE4  thumb
  *   func_02021288  0x02021288  thumb
@@ -301,8 +301,8 @@ extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *mon, u32 field, u32 arg);
 extern void POKE_TOOL_ClearBoxParam(struct BoxPokemon *mon);
 extern void POKE_TOOL_RecoverBoxAllPP(struct BoxPokemon *mon);
 extern u32 func_02017E1C(struct Pokemon *mon, u32 field, u32 arg);
-extern u32 func_0201AA18(struct PokeParty *party);
-extern struct Pokemon *func_0201AB28(struct PokeParty *party, u32 index);
+extern u32 POKEPARTY_GetCount(struct PokeParty *party);
+extern struct Pokemon *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
 extern struct MsgData *func_02045B38(u32 resident, u32 archiveId, u32 fileId, u32 heapId);
 extern void MSGDATA_Delete(struct MsgData *msg);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 index, u16 *dest, u32 maxLen);
@@ -1684,10 +1684,10 @@ void PERAPVOICE_Copy(struct PerapVoice *dest, const struct PerapVoice *src)
 void PERAPVOICE_ClearIfNoChatot(struct PerapVoice *voice, struct PokeParty *party)
 {
     int index;
-    int count = func_0201AA18(party);
+    int count = POKEPARTY_GetCount(party);
 
     for (index = 0; index < count; index++) {
-        if (func_02017E1C(func_0201AB28(party, index), MON_DATA_SPECIES, 0) == SPECIES_CHATOT) {
+        if (func_02017E1C(POKEPARTY_GetMember(party, index), MON_DATA_SPECIES, 0) == SPECIES_CHATOT) {
             return;
         }
     }

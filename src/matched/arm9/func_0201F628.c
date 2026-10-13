@@ -45,7 +45,7 @@
  *    remaining 86 bytes were three `str r5, [sp, #8]` palette stores and the
  *    top-of-function argument spill issued one slot late, and narrowing the
  *    first parameter moves all four.  The narrowing is real, not a trick --
- *    func_0201F73C hands this the result of func_02045730, which
+ *    func_0201F73C hands this the result of BMP_WIN_GetBgLayer, which
  *    src/matched/func_0201F7A8.c (the sibling that calls func_02041300
  *    directly) already declares as a narrow byte accessor, so the caller
  *    side agrees.  With u32 the value is a fresh full-word value in mwccarm's

@@ -16,12 +16,12 @@
  *   bytes, block locals for the two loads 74.
  * symbols:
  *   func_021FC4DC 0x021FC4DC thumb ov186
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_021FC4DC(u8 *p);
-extern void func_02082BCC(void *dstp, u8 data, u32 size);
+extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 void func_021F96AC(int *out, int *source, const int *ctx, int type)
 {
     out[7] = *(int *)(source[6] + 8);
@@ -29,13 +29,13 @@ void func_021F96AC(int *out, int *source, const int *ctx, int type)
     if (type == 1) {
         out[0] = ctx[2];
         *(int *)(*(int *)(source[6] + 8) + 0x17C4) = out[0];
-        func_02082BCC((void *)out[10], 0, 4);
+        MI_CpuFill8((void *)out[10], 0, 4);
     } else if (type == 6) {
         out[0] = 3;
         out[8] = ctx[5];
         out[9] = ctx[6];
         *(int *)(*(int *)(source[6] + 8) + 0x17C4) = 3;
-        func_02082BCC((void *)out[10], 0, 4);
+        MI_CpuFill8((void *)out[10], 0, 4);
     } else if (type == 2) {
         out[0] = *(int *)(*(int *)(source[6] + 8) + 0x17C4);
         out[1] = 1;

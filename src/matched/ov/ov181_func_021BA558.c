@@ -10,12 +10,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   func_021BA4AC 0x021BA4AC thumb ov181
  */
 #include "../include/Obj14412.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void func_021BA4AC(char *,u8 *,void *,int);
-void func_021BA558(char *p,u8 *q){if(q[9]==0)func_021BA4AC(p,q,func_02045770(*(struct Descriptor * *)&((struct Obj14412 *)p)->f2C4),192);else func_021BA4AC(p,q,func_02045770(*(struct Descriptor * *)&((struct Obj14412 *)p)->f2C4),194);}
+void func_021BA558(char *p,u8 *q){if(q[9]==0)func_021BA4AC(p,q,BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj14412 *)p)->f2C4),192);else func_021BA4AC(p,q,BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj14412 *)p)->f2C4),194);}

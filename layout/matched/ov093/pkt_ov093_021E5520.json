@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E5520",
+   "name": "HAND_WAZA_AddWideGuard",
    "address": "0x021E5520",
    "kind": "game",
    "region": "ov093",

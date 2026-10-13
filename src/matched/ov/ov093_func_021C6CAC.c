@@ -14,7 +14,7 @@
  *   12019 and 12032 are EXACT, so no line local. Also EXACT with --lang c.
  * symbols:
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
- *   func_0201BD28 0x0201BD28 thumb
+ *   WAZA_TOOL_GetParam 0x0201BD28 thumb
  *   WAZA_TOOL_GetCategory 0x0201C1BC thumb
  *   BTL_EVENT_PushVarFrame 0x021D74F8 thumb ov093
  *   BTL_EVENT_SetVarReadOnly 0x021D75EC thumb ov093
@@ -31,7 +31,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef enum { KIND_NONE, KIND_FIRST, KIND_SECOND } Kind;
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *);
-extern u32 func_0201BD28(u16, u32);
+extern u32 WAZA_TOOL_GetParam(u16, u32);
 extern u32 WAZA_TOOL_GetCategory(u16);
 extern void BTL_EVENT_PushVarFrame(int);
 extern void BTL_EVENT_SetVarReadOnly(int, u32);
@@ -48,12 +48,12 @@ int BTL_SERVER_FLOW_CalcMoveDrainRecoil(u8 *p, u8 *a, u16 b, int amount, int *ou
     u8 t, y, z, x;
     int kind;
     n = BTL_POKEPARAM_GetPokeId(a);
-    v = func_0201BD28(b, 30);
+    v = WAZA_TOOL_GetParam(b, 30);
     kind = 0;
     *out = kind;
     if (v) kind = KIND_FIRST;
     else {
-        v = func_0201BD28(b, 31);
+        v = WAZA_TOOL_GetParam(b, 31);
         if (v) kind = KIND_SECOND;
     }
     if (WAZA_TOOL_GetCategory(b) == 8) return 0;

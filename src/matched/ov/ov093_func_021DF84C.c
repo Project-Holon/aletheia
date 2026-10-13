@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetSpellTagHandlers
+ * function: HAND_ITEM_GetSpellTagHandlers
  * address: 0x021DF84C
  * packet: pkt_ov093_021DF84C
  * region: ov093
@@ -15,10 +15,10 @@
  *   gSpellTagHandlers 0x021F15BC data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetSpellTagHandlers(int *p);
+int *HAND_ITEM_GetSpellTagHandlers(int *p);
 extern int gSpellTagHandlers[];
 
-int *BTL_HANDLER_ITEM_GetSpellTagHandlers(int *p)
+int *HAND_ITEM_GetSpellTagHandlers(int *p)
 {
     *p = 1;
     return gSpellTagHandlers;

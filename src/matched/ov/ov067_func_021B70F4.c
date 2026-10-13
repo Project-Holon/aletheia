@@ -11,21 +11,21 @@
  *
  * symbols:
  *   YESNO_MENU_GetButtonPos  0x021B76C8  thumb  ov067
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   YESNO_MENU_CopyPalette  0x021B7718  thumb  ov067
  *   func_02040588  0x02040588  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_0201D304  0x0201D304  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_020355C4  0x020355C4  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  */
 
 typedef unsigned char u8;
@@ -64,11 +64,11 @@ typedef struct {
 } Pt;
 
 extern u8 YESNO_MENU_GetButtonPos(u32 a, u32 b, u32 c);
-extern void func_0204B404(int h, Pt *pt, u16 v);
+extern void CLACT_AddActorSurfacePos(int h, Pt *pt, u16 v);
 extern void YESNO_MENU_CopyPalette(int which, int idx, void *data);
 extern void func_02040588(unsigned char which, unsigned char enable);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct Cfg;
 struct CharBuf;
 struct PrintSys;
@@ -76,16 +76,16 @@ struct StrObj;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern u8 func_020355C4(void);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 struct Obj;
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 
 void YESNO_MENU_Start(struct S *s, u32 a1, u32 a2)
 {
@@ -100,38 +100,38 @@ void YESNO_MENU_Start(struct S *s, u32 a1, u32 a2)
     for (i = 0; i < 4; i++) {
         pt.x = YESNO_MENU_GetButtonPos(s->fC0, i, 0);
         pt.y = YESNO_MENU_GetButtonPos(s->fC0, i, 1);
-        func_0204B404(s->arrA0[i], &pt, s->f1C);
+        CLACT_AddActorSurfacePos(s->arrA0[i], &pt, s->f1C);
     }
     YESNO_MENU_CopyPalette(s->f10, s->f16, s->f22);
     YESNO_MENU_CopyPalette(s->f10, s->f17, s->f22);
     func_02040588(s->f14, 1);
-    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)s->f88)), 0);
-    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)s->f8c)), 0);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)s->f88)), 0);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)s->f8c)), 0);
     t = func_0201D304((struct StrObj *)a1, s->f8, 0);
-    PRINTSYS_PrintQueColor((void *)s->fC, (int)func_02045770((struct Descriptor *)s->f88), (s16)((u16)((0x100 - t) / 2)), (s16)0x10, a1, s->f8, 0x3c40);
+    PRINTSYS_PrintQueColor((void *)s->fC, (int)BMP_WIN_GetBmp((struct Descriptor *)s->f88), (s16)((u16)((0x100 - t) / 2)), (s16)0x10, a1, s->f8, 0x3c40);
     t = func_0201D304((struct StrObj *)a2, s->f8, 0);
-    PRINTSYS_PrintQueColor((void *)s->fC, (int)func_02045770((struct Descriptor *)s->f8c), (s16)((u16)((0x100 - t) / 2)), (s16)0x10, a2, s->f8, 0x3c40);
+    PRINTSYS_PrintQueColor((void *)s->fC, (int)BMP_WIN_GetBmp((struct Descriptor *)s->f8c), (s16)((u16)((0x100 - t) / 2)), (s16)0x10, a2, s->f8, 0x3c40);
     s->f90 = 0;
     s->f94 = 0;
     func_02040588(s->f18, 1);
-    if (s->f90 == 0 && func_0201C6C4((struct PrintSys *)s->fC, (void *)((int)func_02045770((struct Descriptor *)s->f88))) == 0) {
+    if (s->f90 == 0 && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)s->fC, (void *)((int)BMP_WIN_GetBmp((struct Descriptor *)s->f88))) == 0) {
         p = s->f88;
         BMP_WIN_TransferChars((struct Descriptor *)p);
         BMP_WIN_MakeScreen((struct Cfg *)p);
-        func_02041B6C(func_02045730((struct Descriptor *)p));
+        func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)p));
         s->f90 = 1;
     }
-    if (s->f94 == 0 && func_0201C6C4((struct PrintSys *)s->fC, (void *)((int)func_02045770((struct Descriptor *)s->f8c))) == 0) {
+    if (s->f94 == 0 && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)s->fC, (void *)((int)BMP_WIN_GetBmp((struct Descriptor *)s->f8c))) == 0) {
         p = s->f8c;
         BMP_WIN_TransferChars((struct Descriptor *)p);
         BMP_WIN_MakeScreen((struct Cfg *)p);
-        func_02041B6C(func_02045730((struct Descriptor *)p));
+        func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)p));
         s->f94 = 1;
     }
     if (func_020355C4() == 0) {
         for (i = 0; i < 4; i++) {
-            func_0204B3DC((struct Obj *)s->arrA0[i], 1);
-            func_0204B92C((struct Obj *)s->arrA0[i], 1);
+            CLACT_SetActorDrawEnable((struct Obj *)s->arrA0[i], 1);
+            CLACT_SetActorAutoAnim((struct Obj *)s->arrA0[i], 1);
         }
     }
 }

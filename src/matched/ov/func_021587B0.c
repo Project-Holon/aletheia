@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   SCRIPT_SYS_CreateScriptEvent  0x02158920  thumb  ov010
  *   func_020124E8  0x020124E8  thumb
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 struct Desc;
 extern struct Desc *SCRIPT_SYS_CreateScriptEvent(int a, int b, int c, int d, int e);
 extern void *func_020124E8(struct Obj *p);
@@ -42,7 +42,7 @@ t7 = a0 + 0;
 t5 = a1 + 0;
 t4 = a2 + 0;
 t6 = a3 + 0;
-    p = func_020124E4((struct Obj *)a0);
+    p = GAME_EVENT_GetGameSystem((struct Obj *)a0);
 loc_021587BE:
 a1 = 0;
     o4 = a1;

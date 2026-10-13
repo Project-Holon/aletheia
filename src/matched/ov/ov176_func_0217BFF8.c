@@ -23,7 +23,7 @@
  *   func_0217D290 0x0217D290 thumb ov176
  *   func_0200AE14 0x0200AE14 thumb
  *   func_0217D2BC 0x0217D2BC thumb ov176
- *   func_0201AA50 0x0201AA50 thumb
+ *   POKEPARTY_GetBattleReadyCount 0x0201AA50 thumb
  *   POKE_REGULATION_CheckParty 0x0201A090 thumb
  *   func_0217D194 0x0217D194 thumb ov176
  *   func_0217D174 0x0217D174 thumb ov176
@@ -67,7 +67,7 @@ extern int func_0217D2B0(u8 *);
 extern void func_0217D290(u8 *);
 extern void * func_0200AE14(void *);
 extern void func_0217D2BC(u8 *p, const void *q);
-extern u32 func_0201AA50(void *);
+extern u32 POKEPARTY_GetBattleReadyCount(void *);
 extern int POKE_REGULATION_CheckParty(void *,void *,u32 *);
 extern int func_0217D194(int *p);
 extern void func_0217D174(int *);
@@ -114,7 +114,7 @@ void func_0217BFF8(int *sys,u32 *state,u8 *p)
         u32 mask=0;
         void *v=func_0200AE14(((struct Obj00053 *)p)->f38);
         func_0217D2BC(p,((struct Obj00053 *)p)->f30);
-        if(func_0201AA50(((struct Obj00053 *)p)->f30)==0)*state=11;
+        if(POKEPARTY_GetBattleReadyCount(((struct Obj00053 *)p)->f30)==0)*state=11;
         else if(POKE_REGULATION_CheckParty(v,((struct Obj00053 *)p)->f30,&mask)==0)*state=13;
         else *state=10;
         break;

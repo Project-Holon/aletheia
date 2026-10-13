@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CLACT_CreateUnit 0x0204B100 arm
- *   func_0204B688 0x0204B688 arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  *   func_021C940C 0x021C940C thumb ov212
  *   func_021BEDB8 0x021BEDB8 thumb ov210
@@ -49,7 +49,7 @@ struct Obj021BF0DC {
 struct Actor;
 struct Bank;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 struct Obj;
 extern struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap);
@@ -94,8 +94,8 @@ void func_021BF0DC(struct Obj021BF0DC *p)
     func_021BEDF0((int)p, 12, 0);
     func_021BEDF0((int)p, 13, 0);
     func_021BEDF0((int)p, 14, 0);
-    func_0204B688(p->objs[13], 2);
-    func_0204B688(p->objs[14], 2);
+    CLACT_SetActorObjMode(p->objs[13], 2);
+    CLACT_SetActorObjMode(p->objs[14], 2);
     func_021BEE14((char *)p, 11, 1);
     func_021BEE14((char *)p, 12, 1);
 
@@ -120,6 +120,6 @@ void func_021BF0DC(struct Obj021BF0DC *p)
         func_021BEE14((char *)p, (int)i + 29, 1);
         p->objs[43 + i] = func_021C940C((u32)p->set, (const u8 *)(&t), 0x7B);
         func_021BEDF0((int)p, i + 43, 0);
-        func_0204B688(p->objs[43 + i], 2);
+        CLACT_SetActorObjMode(p->objs[43 + i], 2);
     }
 }

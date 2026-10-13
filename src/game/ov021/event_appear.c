@@ -46,7 +46,7 @@
  *   FLDEFF_KEMURI_Start  0x021AC528  thumb  ov021
  *   FIELD_TASK_CreatePlayerSpinLinear  0x021C71D4  thumb  ov021
  *   FIELD_TASK_CreatePlayerDrawOffsetTween  0x021C7858  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_CheckEndAcmd 0x0216D454 thumb ov010
  *   FLDMMDL_EndAcmd 0x0216D480 thumb ov010
  */
@@ -184,7 +184,7 @@ extern int FIELD_CAMERA_ANIME_Start(struct FieldCameraAnime *anime);
 extern void FIELD_CAMERA_ANIME_Restore(struct FieldCameraAnime *anime);
 extern void FIELD_CAMERA_ANIME_Delete(struct FieldCameraAnime *anime);
 extern void FLDEFF_KEMURI_Start(Mmdl *mmdl, struct FieldEffectCtrl *effectCtrl);
-extern void func_020061E4(u32 seId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 
 GameEvent *EVENT_APPEAR_CreatePlayerDrop(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
 GameEvent *EVENT_APPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int showSeasonScoreboard, int seasonShown, int seasonTarget);
@@ -630,7 +630,7 @@ int EVENT_APPEAR_RunDescendingSpin(GameEvent *event, int *seq, EventAppearWork *
     case EVENT_APPEAR_DESCENT_SMOKE:
         player = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
         FLDEFF_KEMURI_Start(player, FIELDMAP_GetEffect(work->fieldMap));
-        func_020061E4(EVENT_APPEAR_SE_DESCENT_END);
+        GFL_USE_PlaySeDefaultVolume(EVENT_APPEAR_SE_DESCENT_END);
         (*seq)++;
         break;
     case EVENT_APPEAR_DESCENT_RESTORE:

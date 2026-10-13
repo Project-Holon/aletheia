@@ -17,6 +17,7 @@
  *   BMP_MENULIST_DrawItems  0x0202055C  thumb
  *   BMP_MENULIST_DrawCursor  0x020206C0  thumb
  *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  */
 #include "../include/Obj08776.h"
 
@@ -33,7 +34,7 @@ struct Ctl {
 };
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *a);
+extern void *BMP_WIN_GetBmp(struct Descriptor *a);
 struct CharBuf;
 struct Obj;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -42,7 +43,7 @@ extern void BMP_MENULIST_DrawCursor(struct Obj *obj);
 
 void BMP_MENULIST_Redraw(u8 *p)
 {
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj08776 *)p)->fC)),
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj08776 *)p)->fC)),
                   ((struct Ctl *)p)->lo4);
     BMP_MENULIST_DrawItems((struct Obj *)p, ((struct Obj08776 *)p)->f40, 0, ((struct Obj08776 *)p)->f12, 1);
     BMP_MENULIST_DrawCursor((struct Obj *)p);

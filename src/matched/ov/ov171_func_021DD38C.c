@@ -13,7 +13,7 @@
  *   func_021DCBE8 0x021DCBE8 thumb ov171
  *   func_021DE080 0x021DE080 thumb ov171
  *   func_021DDFBC 0x021DDFBC thumb ov171
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  */
 #include "../include/Obj10659.h"
 extern void func_021DE76C(unsigned char *p, int mode);
@@ -23,14 +23,14 @@ typedef unsigned char  u8;
 extern void func_021DE080(u8 *p, int i, int value);
 extern void func_021DDFBC(u8 *p);
 typedef unsigned int   u32;
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 int func_021DD38C(char *p)
 {
     switch (((struct Obj10659 *)p)->fC70) {
     case 0:
         func_021DE76C((unsigned char *)p, 0);
         func_021DCBA4(p);
-        func_020434DC(2, 0);
+        BG_SYS_SetMainPlaneVisible(2, 0);
         ++((struct Obj10659 *)p)->fC70;
         break;
     case 1:

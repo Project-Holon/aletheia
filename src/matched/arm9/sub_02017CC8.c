@@ -18,8 +18,8 @@
  * symbols:
  *   func_02017E88  0x02017E88  thumb
  *   func_02019C54  0x02019C54  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
- *   func_0201AF6C  0x0201AF6C  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
+ *   POKE_PERSONAL_IsPlaceholderAbility  0x0201AF6C  thumb
  *   POKE_TOOL_CalcGender  0x02017F50  thumb
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  */
@@ -31,18 +31,18 @@ typedef unsigned int   u32;
 extern u32  func_02017E88(void *a0, u32 a1, u32 a2);
 extern u32  func_02019C54(void *a0, u16 a1);
 struct Personal;
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern u32  func_0201AF6C(u32 a0);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern u32  POKE_PERSONAL_IsPlaceholderAbility(u32 a0);
 extern u8 POKE_TOOL_CalcGender(u32 a, u16 b, u32 c);
 extern void POKE_TOOL_SetBoxValue(void *a0, u32 a1, u32 a2);
 
 void POKE_TOOL_UpdateGenderForSpecies(void *a0, void *a1, void *a2)
 {
     u32 v = func_02017E88(a0, 0x6f, 0);
-    u32 t = func_0201AE1C((const struct Personal *)func_02019C54(a1, v), 0x14);
-    u32 w = func_0201AE1C((const struct Personal *)func_02019C54(a2, v), 0x14);
+    u32 t = POKE_PERSONAL_GetParam((const struct Personal *)func_02019C54(a1, v), 0x14);
+    u32 w = POKE_PERSONAL_GetParam((const struct Personal *)func_02019C54(a2, v), 0x14);
 
-    if (func_0201AF6C(t) == 1 && w != 0xff) {
+    if (POKE_PERSONAL_IsPlaceholderAbility(t) == 1 && w != 0xff) {
         return;
     }
     POKE_TOOL_SetBoxValue(a0, 0x6e, POKE_TOOL_CalcGender((u32)a1, v, func_02017E88(a0, 0, 0)));

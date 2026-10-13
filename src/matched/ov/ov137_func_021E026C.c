@@ -9,14 +9,14 @@
  * status: EXACT*
  * extent: Two zero alignment bytes at 021E0302.
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_0201F73C 0x0201F73C thumb
  *   MSGDATA_ReadString 0x02045CAC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_0201EF40 0x0201EF40 thumb
  *   STRBUF_Create 0x020457B0 arm
@@ -32,7 +32,7 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *,int,int,int);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -40,7 +40,7 @@ extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 
 struct Cfg;
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -58,12 +58,12 @@ void func_021E026C(u8 *p,int message,unsigned value)
     func_0201F250(((struct Obj02871 *)s)->fC,((struct Obj02871 *)s)->f5C,text);
     STRBUF_Delete(text);
     func_0201F73C(window,2,1,14);
-    BMP_Clear(func_02045770(window),15);
+    BMP_Clear(BMP_WIN_GetBmp(window),15);
     owner=((struct Obj02871 *)s)->f58;
-    data=func_02045770(((struct Obj02871 *)s)->f28);
+    data=BMP_WIN_GetBmp(((struct Obj02871 *)s)->f28);
     PRINTSYS_PrintQueColor(owner,(u32)data,0,0,(u32)(((struct Obj02871 *)s)->f5C),(u32)(((struct Obj02871 *)s)->f4),1088);
     ((struct Obj02871 *)s)->f2C=1;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    func_02041B6C(func_02045730(window));
+    func_02041B6C(BMP_WIN_GetBgLayer(window));
 }

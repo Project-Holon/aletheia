@@ -14,7 +14,7 @@
  *   func_02041B6C    0x02041B6C  arm
  *   BMP_WIN_TransferChars            0x02045334  arm
  *   BMP_WIN_MakeScreen   0x02045374  arm
- *   func_02045730   0x02045730  arm
+ *   BMP_WIN_GetBgLayer   0x02045730  arm
  */
 #include "../include/Obj00127.h"
 #include "../include/Obj23566.h"
@@ -27,7 +27,7 @@ struct Descriptor;
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 void func_021C62BC(u8 *p)
 {
@@ -36,5 +36,5 @@ void func_021C62BC(u8 *p)
     q = ((struct Obj23567 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->fA8;
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
-    func_02041B6C(func_02045730(q));
+    func_02041B6C(BMP_WIN_GetBgLayer(q));
 }

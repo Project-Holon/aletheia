@@ -13,13 +13,13 @@
  * symbols:
  *   POKEPARTY_Init 0x0201A948 thumb
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   POKE_REGULATION_Load 0x0201A354 thumb
  *   func_0200AE14 0x0200AE14 thumb
  *   func_0200B1D4 0x0200B1D4 thumb
  *   func_0200B358 0x0200B358 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0201AC2C 0x0201AC2C thumb
+ *   POKEPARTY_Copy 0x0201AC2C thumb
  *   POKE_REGULATION_AdjustPartyLevels 0x0201A2A8 thumb
  *   func_020084F4 0x020084F4 thumb
  *   func_02008550 0x02008550 thumb
@@ -37,7 +37,7 @@ struct Party;
 struct Rec160;
 extern void POKEPARTY_Init(struct Party *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *, int, unsigned);
+extern void MI_CpuFill8(void *, int, unsigned);
 extern void *POKE_REGULATION_Load(int, int);
 extern void *func_0200AE14(void *);
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
@@ -45,7 +45,7 @@ extern void *func_0200B358(void *);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 struct Rec534;
 struct Sub0200852CObj;
-extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
+extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
 extern void POKE_REGULATION_AdjustPartyLevels(void *, void *);
 extern void *func_020084F4(void *);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
@@ -59,7 +59,7 @@ u8 *func_02212988(int unused, unsigned heap, u8 *p)
     POKEPARTY_Init(((struct Obj01078 *)p)->f30);
     POKEPARTY_Init(((struct Obj01078 *)p)->f34);
     out = func_02030734(heap, 0x24, 0, d_02213D04, 0x32f);
-    func_02082BCC(out, 0, 0x24);
+    MI_CpuFill8(out, 0, 0x24);
     if (((struct Obj01078 *)p)->f1C == 2 || ((struct Obj01078 *)p)->f1C == 3) {
         switch (((struct Obj01078 *)p)->f8) {
         case 0: id = 15; break;
@@ -79,11 +79,11 @@ u8 *func_02212988(int unused, unsigned heap, u8 *p)
     }
     ((struct Obj02537 *)out)->f1C = ((struct Obj01078 *)p)->f30;
     ((struct Obj02537 *)out)->f14 = ((struct Obj01078 *)p)->f4;
-    func_0201AC2C((const struct Rec534 *)(*(u8 * *)&((struct Obj01078 *)p)->f28 + 0xd4), ((struct Obj01078 *)p)->f38);
+    POKEPARTY_Copy((const struct Rec534 *)(*(u8 * *)&((struct Obj01078 *)p)->f28 + 0xd4), ((struct Obj01078 *)p)->f38);
     POKE_REGULATION_AdjustPartyLevels(((struct Obj02537 *)out)->f0, ((struct Obj01078 *)p)->f38);
     ((struct Obj02537 *)out)->f4 = ((struct Obj01078 *)p)->f38;
     row = *(u8 * *)&((struct Obj01078 *)p)->f2C;
-    func_0201AC2C((const struct Rec534 *)(row + 0xd4), ((struct Obj01078 *)p)->f3C);
+    POKEPARTY_Copy((const struct Rec534 *)(row + 0xd4), ((struct Obj01078 *)p)->f3C);
     POKE_REGULATION_AdjustPartyLevels(((struct Obj02537 *)out)->f0, ((struct Obj01078 *)p)->f3C);
     ((struct Obj02537 *)out)->f8 = func_020084F4(row);
     ((struct Obj02537 *)out)->f10 = ((struct Obj01078 *)p)->f3C;

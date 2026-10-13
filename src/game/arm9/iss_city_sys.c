@@ -31,6 +31,9 @@
  *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
  *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
  *   ARC_TOOL_LoadMemberRange  0x02048F88  arm
+ *   POKE_PERSONAL_Create  0x0201ADE4  thumb
+ *   POKE_PERSONAL_Delete  0x0201AE14  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  */
 struct Personal;
 struct PlayerWork;
@@ -80,9 +83,9 @@ struct IssCitySys {
     u8 currentUnit;         /* index into units, or ISS_CITY_UNIT_NONE */
 };
 
-extern void *func_0201ADE4(u32 species, int form, u32 heapId);
-extern u32 func_0201AE1C(const struct Personal *personal, u32 field);
-extern void func_0201AE14(void *personal);
+extern void *POKE_PERSONAL_Create(u32 species, int form, u32 heapId);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *personal, u32 field);
+extern void POKE_PERSONAL_Delete(void *personal);
 extern u32  POKE_TOOL_GetPartyValue(void *mon, u32 field, u32 index);
 extern void POKE_TOOL_SetPartyValue(void *mon, u32 field, u32 value);
 extern void POKE_TOOL_SetNature(void *mon, u32 nature);
@@ -170,10 +173,10 @@ void func_0202A994(u32 species, u32 form, int adjustFlags, u32 *personalityLow, 
     if (adjustFlags == 0)
         return;
 
-    personal = (u32)func_0201ADE4((u16)species, (u16)form, heapId);
+    personal = (u32)POKE_PERSONAL_Create((u16)species, (u16)form, heapId);
 
     if (genderAdjust != 0) {
-        *personalityLow = func_0201AE1C((const struct Personal *)personal, 0x14);
+        *personalityLow = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x14);
         if (genderAdjust == 1)
             *personalityLow = *personalityLow + 2;
         else
@@ -185,7 +188,7 @@ void func_0202A994(u32 species, u32 form, int adjustFlags, u32 *personalityLow, 
     else if (abilityAdjust == 2)
         *personalityLow |= (u32)1;
 
-    func_0201AE14((void *)personal);
+    POKE_PERSONAL_Delete((void *)personal);
 }
 
 

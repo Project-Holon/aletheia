@@ -12,6 +12,7 @@
  *   func_021FF4D0 0x021FF4D0 thumb ov135
  *   func_021F4E98 0x021F4E98 thumb ov135
  *   func_021FFBC8 0x021FFBC8 thumb ov135
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj06518.h"
 typedef unsigned int u32;
@@ -20,7 +21,7 @@ extern int func_021FF4D0(void *, void *, u32, u32);
 typedef unsigned char  u8;
 extern void func_021F4E98(u8 *p, u32 a, u32 b);
 extern void func_021FFBC8(u8 *p);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 int func_021FE60C(unsigned char *p)
 {
     if (((struct Obj06518 *)p)->fB56 == 0) {
@@ -31,7 +32,7 @@ int func_021FE60C(unsigned char *p)
             func_021FF318(p, 39, 1, 0, 0xf0f);
             func_021F4E98(p, 23, 1);
         } else {
-            func_020061E4(0x63f);
+            GFL_USE_PlaySeDefaultVolume(0x63f);
             ((struct Obj06518 *)p)->f12E8 = 0x76;
             func_021FF318(p, 13, 1, 0, 0xf0f);
             func_021F4E98(p, 23, 17);

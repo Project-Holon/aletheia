@@ -1,5 +1,5 @@
 /*
- * function: func_021E0354
+ * function: HAND_WAZA_CanAddMoveHandler
  * address:  0x021E0354
  * packet:   pkt_ov093_021E0354
  * region:   ov093
@@ -44,7 +44,7 @@ extern struct Node *BTL_EVENT_FindFactor(int id, int sub);
 struct QQ;
 extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 extern struct Node *BTL_EVENT_FindNextFactor(struct Node *n);
-int func_021E0354(int sub, int key, u8 *found)
+int HAND_WAZA_CanAddMoveHandler(int sub, int key, u8 *found)
 {
     struct Node *n;
     u32 i = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C9250
+ * function: BTL_SERVER_FLOW_ExecCmdChangeStatStage
  * address: 0x021C9250
  * packet: pkt_ov093_021C9250
  * region: ov093
@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: message pointer setup before the second for-loop avoids a duplicate guard (+4 bytes).
  * symbols:
- *   func_021B9934 0x021B9934 thumb ov093
+ *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   func_021C9374 0x021C9374 thumb ov093
  *   func_021C9384 0x021C9384 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
@@ -17,7 +17,7 @@
  *   BTL_SERVER_FLOW_PushAbilityPopupIn 0x021C5A1C thumb ov093
  *   BTL_SERVER_FLOW_PushAbilityPopupOut 0x021C5A34 thumb ov093
  *   BTL_SERVER_FLOW_TryChangeStatStage 0x021C3008 thumb ov093
- *   func_021C99A0 0x021C99A0 thumb ov093
+ *   BTL_SERVER_FLOW_PushMsgRecord 0x021C99A0 thumb ov093
  */
 #include "../include/Obj00003.h"
 typedef unsigned char u8;
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 enum Kind { K0, K1, K10=10 };
 typedef struct { u32 low:8,index:5,pad:10,flag:1,high:8; enum Kind kind; u32 value; s8 a; u8 b,c,count; u8 ids[8]; u8 msg[36]; } Ent;
 struct Msg;
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern int func_021C9374(void *, u8);
 extern int func_021C9384(void *, u8);
 extern int BTL_POKEPARAM_IsFainted(void *);
@@ -35,8 +35,8 @@ extern int func_021D5D14(s8 *p, int i, int sign);
 extern void BTL_SERVER_FLOW_PushAbilityPopupIn(u8 *p, u8 *a);
 extern void BTL_SERVER_FLOW_PushAbilityPopupOut(u8 *p, u8 *a);
 extern int BTL_SERVER_FLOW_TryChangeStatStage(u8 *, u8, u8 *, enum Kind, int, u8, u16, u32, int, u32);
-extern int func_021C99A0(void *w, const struct Msg *m);
-int func_021C9250(u8 *p, const Ent *e, u16 arg)
+extern int BTL_SERVER_FLOW_PushMsgRecord(void *w, const struct Msg *m);
+int BTL_SERVER_FLOW_ExecCmdChangeStatStage(u8 *p, const Ent *e, u16 arg)
 {
     u8 *a;
     int f;
@@ -44,12 +44,12 @@ int func_021C9250(u8 *p, const Ent *e, u16 arg)
     u32 i;
     u8 *b;
     const u8 *m;
-    a = func_021B9934(((struct Obj00003 *)p)->f8, (u8)e->index);
+    a = BTL_SIDE_GetPokeByIdThunk(((struct Obj00003 *)p)->f8, (u8)e->index);
     f = 0;
     result = 0;
     for (i = 0; i < e->count; i++) {
         if (func_021C9374(p + 0x1ab8, e->ids[i])) {
-            b = func_021B9934(((struct Obj00003 *)p)->f8, (u8)e->ids[i]);
+            b = BTL_SIDE_GetPokeByIdThunk(((struct Obj00003 *)p)->f8, (u8)e->ids[i]);
             if (!BTL_POKEPARAM_IsFainted(b)) {
                 if (func_021D5D14((s8 *)b, (u32)e->kind, e->a)) {
                     f = 1;
@@ -63,10 +63,10 @@ int func_021C9250(u8 *p, const Ent *e, u16 arg)
     m += 24;
     for (i = 0; i < e->count; i++) {
         if (func_021C9384(p + 0x1ab8, e->ids[i])) {
-            b = func_021B9934(((struct Obj00003 *)p)->f8, (u8)e->ids[i]);
+            b = BTL_SIDE_GetPokeByIdThunk(((struct Obj00003 *)p)->f8, (u8)e->ids[i]);
             if (!BTL_POKEPARAM_IsFainted(b)) {
                 if (BTL_SERVER_FLOW_TryChangeStatStage(p, e->index, b, e->kind, e->a, 31, arg, e->value, e->c, e->b == 0)) {
-                    func_021C99A0(p, (const struct Msg *)m);
+                    BTL_SERVER_FLOW_PushMsgRecord(p, (const struct Msg *)m);
                     result = 1;
                 }
             }

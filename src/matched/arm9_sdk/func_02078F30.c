@@ -13,6 +13,7 @@
  *   g_02150D20  0x02150D20  data
  *   func_0209125C  0x0209125C  thumb
  *   OS_IsRunOnTwl  0x02085D3C  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *
  * DRAFT: compiles the whole 252-byte range; verdict pending.
  */
@@ -28,7 +29,7 @@ struct S78F30 {
 
 extern struct S78F30 g_02150D20;
 
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern void func_02082D44(u32, void *, u32);
 extern u32  OS_IsRunOnTwl(void);
 extern void func_0209125C(u32 a, u32 b, u32 c, u32 d, u32 e);
@@ -43,7 +44,7 @@ int func_02078F30(u8 *a0, u32 a1, u32 a2, int a3)
     u32 v;
     u32 i;
 
-    func_02082BCC(buf, 0, 0x14);
+    MI_CpuFill8(buf, 0, 0x14);
     func_02082D44(g_02150D20.f18, tmp, g_02150D20.f1c);
 
     if (a3 == 0 && OS_IsRunOnTwl() != 0) {

@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_IsHpAtOrBelowFraction
+ * function: HAND_ITEM_IsHpAtOrBelowFraction
  * address:  0x021DDEA4
  * packet:   pkt_ov093_021DDEA4
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C7CF4  0x021C7CF4  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   BTL_CALC_DivideMaxHp  0x021D7B60  thumb  ov093
  */
@@ -19,16 +19,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_021C7CF4(int *p, int i);
+extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 extern u32 BTL_CALC_DivideMaxHp(void *p, u32 b);
 
-int BTL_HANDLER_ITEM_IsHpAtOrBelowFraction(void *a, int b, u32 n)
+int HAND_ITEM_IsHpAtOrBelowFraction(void *a, int b, u32 n)
 {
     void *m;
     u32 v;
 
-    m = func_021C7CF4(a, b);
+    m = BTL_SERVER_FLOW_GetPokeParam(a, b);
     if (func_021D59B4(m, 0x11) == 0x52 && n > 2)
         n >>= 1;
     if (n == 0)

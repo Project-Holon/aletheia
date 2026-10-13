@@ -14,7 +14,7 @@
  *   func_021EA808 0x021EA808 thumb
  *   func_020260F4 0x020260F4 thumb
  *   func_02025DE8 0x02025DE8 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021DD1C4 0x021DD1C4 thumb
  *   func_021E8FC0 0x021E8FC0 thumb
  *   func_021E1ACC 0x021E1ACC thumb
@@ -40,7 +40,7 @@ struct Struct_02025CD0;
 extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 extern int func_02025DE8(struct Sound *obj);
 extern u8 func_020260E0(struct Sound *obj);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void func_021DD1C4(char *p, int a);
 extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E1ACC(char *p);
@@ -72,11 +72,11 @@ int func_021E87A0(unsigned char *p)
     r = func_02025DE8(LIST(p));
     switch (r) {
     case 0:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DD1C4((char *)p, -1);
         return func_021E8FC0((char *)p, (int)func_021E1ACC, 0x61);
     case 5:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DD1C4((char *)p, 1);
         return func_021E8FC0((char *)p, (int)func_021E1A78, 0x61);
     case 1:
@@ -90,26 +90,26 @@ int func_021E87A0(unsigned char *p)
             func_021EE008((char *)p, 0, 0);
             return func_021EA798(p, 1);
         }
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021EE008((char *)p, r - 1, 1);
         break;
     case 6:
     case (unsigned)-2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return func_021E954C(p, 6, 9, func_021E8F50((char *)p, 0x62));
     case (unsigned)-3:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x61));
     case (unsigned)-8:
         if (func_020260E0(LIST(p)) == 1) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021DD1C4((char *)p, -1);
             return func_021E8FC0((char *)p, (int)func_021E1ACC, 0x61);
         }
         break;
     case (unsigned)-7:
         if (func_020260E0(LIST(p)) == 4) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021DD1C4((char *)p, 1);
             return func_021E8FC0((char *)p, (int)func_021E1A78, 0x61);
         }

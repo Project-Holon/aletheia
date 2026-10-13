@@ -10,7 +10,7 @@
  * follower: two zero padding bytes at 021D80D2.
  * symbols:
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -40,7 +40,7 @@ extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
@@ -67,9 +67,9 @@ void func_021D7FD0(char *p,void *r)
     func_0201F250(((struct Obj00131 *)p)->f10,((struct Obj00131 *)p)->f18,((struct Obj00131 *)p)->f20);
     if(!((struct Obj00131 *)p)->f84) ((struct Obj00131 *)p)->f84=(void *)BMP_WIN_Create(1,1,15,30,5,11,1);
     q=((struct Obj00131 *)p)->f84;
-    BMP_Clear(func_02045770(q),0);
+    BMP_Clear(BMP_WIN_GetBmp(q),0);
     GF_FONT_SetTextColor(15,2,0);
-    PRINTSYS_Print(func_02045770(q),5,5,((struct Obj00131 *)p)->f18,((struct Obj00131 *)p)->f14);
+    PRINTSYS_Print(BMP_WIN_GetBmp(q),5,5,((struct Obj00131 *)p)->f18,((struct Obj00131 *)p)->f14);
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
     func_02041B6C(1);

@@ -19,7 +19,7 @@
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
 typedef unsigned char u8;
@@ -32,7 +32,7 @@ extern signed char func_02012FFC(void);
 extern void *PRINTSYS_PrintStream(void *a0, u32 a1, u32 a2, void *a3, u32 a4, u32 a5, void *a6, u32 a7, u16 a8, u32 a9);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 void func_0220B928(char *p)
 {
@@ -44,5 +44,5 @@ void func_0220B928(char *p)
     d = *(void **)(p + 0x24);
     BMP_WIN_TransferChars(d);
     BMP_WIN_MakeScreen(d);
-    func_02041B6C(func_02045730(d));
+    func_02041B6C(BMP_WIN_GetBgLayer(d));
 }

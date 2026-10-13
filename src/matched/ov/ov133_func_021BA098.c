@@ -10,8 +10,8 @@
  * status: EXACT
  * symbols:
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 #include "../include/Obj00004.h"
 typedef unsigned char u8;
@@ -21,7 +21,7 @@ struct Actor;
 typedef struct {short x,y;} Pos;
 extern void CLACT_RestartActorAnim(struct Actor*);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021BA098(u8*p){Pos pos;pos.x=((struct Obj00004 *)p)->f1C;pos.y=*(int *)&((struct Obj00004 *)p)->f20;CLACT_RestartActorAnim(*(struct Actor* *)&((struct Obj00004 *)p)->f18B4);func_0204B3DC(*(void* *)&((struct Obj00004 *)p)->f18B4,1);func_0204B404(*(void* *)&((struct Obj00004 *)p)->f18B4,(const struct Vec2 *)(&pos),0);}
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+void func_021BA098(u8*p){Pos pos;pos.x=((struct Obj00004 *)p)->f1C;pos.y=*(int *)&((struct Obj00004 *)p)->f20;CLACT_RestartActorAnim(*(struct Actor* *)&((struct Obj00004 *)p)->f18B4);CLACT_SetActorDrawEnable(*(void* *)&((struct Obj00004 *)p)->f18B4,1);CLACT_AddActorSurfacePos(*(void* *)&((struct Obj00004 *)p)->f18B4,(const struct Vec2 *)(&pos),0);}

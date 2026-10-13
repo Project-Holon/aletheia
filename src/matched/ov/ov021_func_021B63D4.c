@@ -18,8 +18,8 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   SYMBOL_MAP_CreatePokeEventTask  0x02166C4C  thumb  ov010
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
@@ -41,8 +41,8 @@ extern u16 FIELDMAP_GetHeapId(u8 *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 extern void *SYMBOL_MAP_CreatePokeEventTask(void *a, void *b, void *c);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
@@ -62,9 +62,9 @@ u32 SCRCMD_POKEMON_FLD_StartEggHatch(void *a, void *b)
     t = GAMESYSTEM_GetGameData(pc);
     GAME_DATA_GetMyStatus(t);
     party = GAME_DATA_GetMyParty(t);
-    n = func_0201AA18(party);
+    n = POKEPARTY_GetCount(party);
     for (i = 0; i < n; i++) {
-        void *mon = func_0201AB28(party, i);
+        void *mon = POKEPARTY_GetMember(party, i);
         u32 x = POKE_TOOL_GetPartyValue(mon, 0x4c, 0);
         u32 y = POKE_TOOL_GetPartyValue(mon, 3, 0);
         u32 z = POKE_TOOL_GetPartyValue(mon, 9, 0);

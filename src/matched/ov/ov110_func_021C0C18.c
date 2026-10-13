@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   PMS_DRAW_Delete 0x0202DC08 thumb
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  */
 #include "../include/Obj22409.h"
 typedef unsigned char u8;
@@ -19,5 +19,5 @@ typedef unsigned int u32;
 struct Descriptor;
 struct Obj;
 extern void PMS_DRAW_Delete(struct Obj *p);
-extern u32 func_020452E8(struct Descriptor *d);
-void func_021C0C18(u8 *p) { int i; PMS_DRAW_Delete(((struct Obj22409 *)p)->f8C); for(i=0;i<4;i++) func_020452E8(*(void **)(p+0x6c+i*4)); }
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
+void func_021C0C18(u8 *p) { int i; PMS_DRAW_Delete(((struct Obj22409 *)p)->f8C); for(i=0;i<4;i++) BMP_WIN_Delete(*(void **)(p+0x6c+i*4)); }

@@ -16,7 +16,7 @@
  *   MSGDATA_CreateFromMemory 0x02045C44 arm
  *   func_02049B40 0x02049B40 arm
  *   TCBL_Create 0x0203101C arm
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  */
 #include "../include/Obj01257.h"
 #include "../include/Obj23182.h"
@@ -37,7 +37,7 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u32 func_0201C440(void *);
+extern u32 PRINTSYS_QUE_Create(void *);
 void func_021F92CC(u8 *p)
 {
     int zero;
@@ -53,5 +53,5 @@ void func_021F92CC(u8 *p)
     ((struct Obj01257 *)p)->fD8=zero;
     ((struct Obj01257 *)p)->fE0=zero;
     ((struct Obj01257 *)p)->fE4=zero;
-    ((struct Obj01257 *)p)->fE8=func_0201C440((void *)(u32)((struct Obj01257 *)p)->f0);
+    ((struct Obj01257 *)p)->fE8=PRINTSYS_QUE_Create((void *)(u32)((struct Obj01257 *)p)->f0);
 }

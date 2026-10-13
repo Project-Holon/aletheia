@@ -26,7 +26,7 @@
  *   func_021FEAC0  0x021FEAC0  thumb  ov094
  *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   func_021F6560  0x021F6560  thumb  ov094
- *   func_021BA1A8  0x021BA1A8  thumb  ov093
+ *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
  *   func_021F6B04  0x021F6B04  thumb  ov094
  *   func_0201493C  0x0201493C  thumb
  *   G3D_SYSTEM_SetLight  0x02046A94  arm
@@ -122,7 +122,7 @@ extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size,
 extern void *func_021FEAC0(int mode, void *a1, u16 a2);
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 extern void *func_021F6560(int, u8, u8, u16);
-extern int func_021BA1A8(char **p, int m);
+extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
 extern void *func_021F6B04(int unused, int group, u8 variant, u16 heap);
 extern void func_0201493C(u32 id, u32 a1, u32 a2, u32 a3, u32 b0, u16 *b1, u16 heap);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
@@ -167,7 +167,7 @@ void func_021F7544(Param *p, int arg, u16 heap)
     }
     d_0220AF20->h194 = func_021F6560(p->f0, tbl[p->f8].a13[p->fc], v, heap);
     if (d_0220AF20->param_battle != 0) {
-        d_0220AF20->h198 = func_021F6B04(func_021BA1A8(d_0220AF20->param_battle, 0x400), tbl[p->f8].a2[p->fc], v, heap);
+        d_0220AF20->h198 = func_021F6B04(BTL_MAIN_CheckSetupStatusFlag(d_0220AF20->param_battle, 0x400), tbl[p->f8].a2[p->fc], v, heap);
     } else {
         d_0220AF20->h198 = func_021F6B04(0, tbl[p->f8].a2[p->fc], v, heap);
     }
@@ -191,7 +191,7 @@ void func_021F7544(Param *p, int arg, u16 heap)
         d_0220AF20->slots[i] = -1;
     }
     if (d_0220AF20->param_battle != 0) {
-        if (func_021BA1A8(d_0220AF20->param_battle, 0x800)) {
+        if (BTL_MAIN_CheckSetupStatusFlag(d_0220AF20->param_battle, 0x800)) {
             d_0220AF20->f244 = 300;
         } else {
             d_0220AF20->f244 = 900;

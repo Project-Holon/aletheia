@@ -10,7 +10,7 @@
  * lever: shared fail label keeps one zero-return epilogue; id, chosen,
  * best declaration order fixes the spilled local slots.
  * symbols:
- *   d_021EFDB8 0x021EFDB8 data a2
+ *   gPledgeMoveIds 0x021EFDB8 data a2
  *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
  *   BTL_EVENT_HasClientReservedChoice 0x021D6E74 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
@@ -26,7 +26,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 *a; u32 b, c; u8 d0, flag; u16 pad; } E;
-extern const u16 d_021EFDB8[3];
+extern const u16 gPledgeMoveIds[3];
 struct UtilWork;
 extern int BTL_POKEPARAM_TestTurnFlag(struct UtilWork *p, u32 n);
 extern u32 BTL_EVENT_HasClientReservedChoice(u8 *p);
@@ -49,7 +49,7 @@ int BTL_SERVER_FLOW_ProcPledgeCombo(u8 *p, u8 *a, u16 key, u32 x)
     E *found[2];
     u32 v;
     for (i = 0; i < 3; i++) {
-        if (key == d_021EFDB8[i]) break;
+        if (key == gPledgeMoveIds[i]) break;
     }
     if (i == 3) goto fail;
     if (BTL_POKEPARAM_TestTurnFlag((struct UtilWork *)a, 10) != 0) goto fail;
@@ -57,8 +57,8 @@ int BTL_SERVER_FLOW_ProcPledgeCombo(u8 *p, u8 *a, u16 key, u32 x)
     n = 0;
     id = BTL_POKEPARAM_GetPokeId(a);
     for (i = 0; i < 3; i++) {
-        if (key != d_021EFDB8[i]) {
-            found[n] = BTL_SERVER_FLOW_FindPendingMoveActionForPoke(p, d_021EFDB8[i], id, x);
+        if (key != gPledgeMoveIds[i]) {
+            found[n] = BTL_SERVER_FLOW_FindPendingMoveActionForPoke(p, gPledgeMoveIds[i], id, x);
             if (found[n] != 0) {
                 n++;
                 if (n >= 2) break;

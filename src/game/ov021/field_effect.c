@@ -18,14 +18,14 @@
  *   func_020490F4  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02030734  0x02030734  arm
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   func_02013B38  0x02013B38  thumb
+ *   ZONEDATA_GetAreaId  0x02013B38  thumb
  *   COMM_PLAYER_SUPPORT_GetInfoCode  0x0202E83C  thumb
  *   FIELDMAP_GetAreaData  0x02188D58  thumb  ov021
- *   func_020140D8  0x020140D8  thumb
+ *   ZONEDATA_GetAreaInnerOuter  0x020140D8  thumb
  *   FIELDMAP_GetEffectBbdAct  0x02188C88  thumb  ov021
  *   BILLBOARD_ACT_GetBoard  0x02050080  arm
  *   func_0204EDBC  0x0204EDBC  arm
@@ -56,14 +56,14 @@ typedef struct PaletteResource {
 extern void *func_020490F4(u32 id, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern u32 func_020307B0(void *p);
-extern u32 func_02082BCC(void *p, int v, int n);
+extern u32 MI_CpuFill8(void *p, int v, int n);
 extern void *FIELDMAP_GetGameSystem(void *p);
 extern void *func_02030734(u32 a, u32 b, int c, const char *d, u16 e);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
-extern u32 func_02013B38(u32 id);
+extern u32 ZONEDATA_GetAreaId(u32 id);
 extern int COMM_PLAYER_SUPPORT_GetInfoCode(void *a0);
 extern u32 FIELDMAP_GetAreaData(u8 *p);
-extern u8 func_020140D8(void *p);
+extern u8 ZONEDATA_GetAreaInnerOuter(void *p);
 extern u32 FIELDMAP_GetEffectBbdAct(u8 *p);
 extern u32 BILLBOARD_ACT_GetBoard(u32 *p);
 extern void func_0204EDBC(u8 *dst, u8 val);
@@ -134,9 +134,9 @@ FieldEffectSys *FIELD_EFFECT_Create(void *fieldmap, int resourceCount, u16 heapI
     sys->heapId = heapId;
     sys->fieldmap = fieldmap;
     sys->arcHandle = (int)func_020490F4(0x4b, heapId);
-    func_02013B38(FIELDMAP_GetZoneId((u8 *)fieldmap));
+    ZONEDATA_GetAreaId(FIELDMAP_GetZoneId((u8 *)fieldmap));
     sys->modelBaseOffset = COMM_PLAYER_SUPPORT_GetInfoCode(FIELDMAP_GetGameSystem(fieldmap));
-    sys->modelBaseOffsetAlt = func_020140D8((void *)FIELDMAP_GetAreaData((u8 *)fieldmap));
+    sys->modelBaseOffsetAlt = ZONEDATA_GetAreaInnerOuter((void *)FIELDMAP_GetAreaData((u8 *)fieldmap));
     FIELD_EFFECT_InitResourceTable(sys);
     billboard = BILLBOARD_ACT_GetBoard((u32 *)FIELDMAP_GetEffectBbdAct((u8 *)sys->fieldmap));
     func_0204EDBC((u8 *)billboard, 0);
@@ -372,7 +372,7 @@ FieldEffectObj *FIELD_EFFECT_AddObjectToMgr(FieldEffectObjMgr *mgr, const FieldE
 
     do {
         if (obj->active == 0) {
-            func_02082BCC(obj, 0, sizeof(FieldEffectObj));
+            MI_CpuFill8(obj, 0, sizeof(FieldEffectObj));
             obj->active = 1;
             obj->funcs = *funcs;
             obj->mode = mode;

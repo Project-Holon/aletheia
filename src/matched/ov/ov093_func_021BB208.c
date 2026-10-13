@@ -15,8 +15,8 @@
  *   BTL_SERVER_SendCommand  0x021BB718  thumb  ov093
  *   BTL_SERVER_AreRepliesReady  0x021BB798  thumb  ov093
  *   BTL_SERVER_ClearReplies  0x021BB7D0  thumb  ov093
- *   func_021C84D8  0x021C84D8  thumb  ov093
- *   func_021B916C  0x021B916C  thumb  ov093
+ *   BTL_SERVER_FLOW_GetBattleResult  0x021C84D8  thumb  ov093
+ *   BTL_MAIN_SetOutcomeIfUnset  0x021B916C  thumb  ov093
  *   BTL_SERVER_SetHandler  0x021BABEC  thumb  ov093
  *   BTL_SERVER_StepSelectEnding  0x021BB280  thumb  ov093
  */
@@ -30,8 +30,8 @@ extern void BTL_SERVER_SendCommandData(u8 *p, int a, int b, int c);
 extern void BTL_SERVER_SendCommand(int a, int b);
 extern int BTL_SERVER_AreRepliesReady(u8 *);
 extern void BTL_SERVER_ClearReplies(const u8 *p);
-extern int func_021C84D8(u8 *p);
-extern void func_021B916C(u8 *p, u32 x);
+extern int BTL_SERVER_FLOW_GetBattleResult(u8 *p);
+extern void BTL_MAIN_SetOutcomeIfUnset(u8 *p, u32 x);
 extern void BTL_SERVER_SetHandler(int *p, void *f);
 extern int BTL_SERVER_StepSelectEnding(u8 *);
 
@@ -56,7 +56,7 @@ int BTL_SERVER_StepSendRecording(u8 *p, int *s)
     case 2:
         if (BTL_SERVER_AreRepliesReady(p) != 0) {
             BTL_SERVER_ClearReplies(p);
-            func_021B916C((u8 *)(((struct Obj13292 *)p)->fC), func_021C84D8((u8 *)(((struct Obj13292 *)p)->f44)));
+            BTL_MAIN_SetOutcomeIfUnset((u8 *)(((struct Obj13292 *)p)->fC), BTL_SERVER_FLOW_GetBattleResult((u8 *)(((struct Obj13292 *)p)->f44)));
             BTL_SERVER_SetHandler((int *)p, (void *)BTL_SERVER_StepSelectEnding);
         }
         break;

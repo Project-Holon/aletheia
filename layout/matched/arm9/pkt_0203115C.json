@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020311B8",
+   "name": "TCBL_AddTask",
    "address": "0x020311B8",
    "kind": "game",
    "region": "arm9",

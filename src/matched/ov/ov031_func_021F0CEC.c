@@ -16,7 +16,7 @@
  *   UNION_SUBDISP_SetKnobFromScroll  0x021F0CEC  thumb
  *   UNION_SUBDISP_GetScrollRange  0x021F0D40  thumb  ov031
  *   UNION_SUBDISP_GetKnobStep  0x021F0D58  thumb  ov031
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  */
 #include "../include/Obj20409.h"
 
@@ -35,7 +35,7 @@ extern int UNION_SUBDISP_GetScrollRange(B *);
 extern u32 UNION_SUBDISP_GetKnobStep(void *unused, u32 d);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void UNION_SUBDISP_SetKnobFromScroll(char *o, B *b)
 {
@@ -49,5 +49,5 @@ void UNION_SUBDISP_SetKnobFromScroll(char *o, B *b)
         b->n = b->a - 0x1B;
     t[1] = 0x9C - ((u32)((b->a - b->n) * c) >> 8);
     t[0] = 0xF4;
-    func_0204B404((struct Obj *)(((struct Obj20409 *)o)->f2C), (const struct Vec2 *)t, 1);
+    CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj20409 *)o)->f2C), (const struct Vec2 *)t, 1);
 }

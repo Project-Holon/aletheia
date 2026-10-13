@@ -12,10 +12,10 @@
  *   d_021C39A8 0x021C39A8 data a1
  *   d_021C3900 0x021C3900 data a1
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   TOUCHPANEL_HitPoint 0x02035D40 arm
  *   func_021BACDC 0x021BACDC thumb ov110
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021BAD14 0x021BAD14 thumb ov110
  *   func_021BF3A0 0x021BF3A0 thumb ov110
  *   func_021BF3D4 0x021BF3D4 thumb ov110
@@ -29,10 +29,10 @@ struct Ctx;
 extern const struct Box d_021C39A8;
 extern const struct Box d_021C3900[];
 extern int TOUCHPANEL_HitTrg(const void *p);
-extern u32 func_02035D20(u32 *, u32 *);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *, u32 *);
 extern u32 TOUCHPANEL_HitPoint(struct Ctx *, u32, u32);
 extern int func_021BACDC(u8 *p, int unused, unsigned n);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_021BAD14(u8 *, u32);
 extern int func_021BF3A0(u8 *, u8 *);
 extern int func_021BF3D4(u8 *, u8 *);
@@ -43,11 +43,11 @@ int func_021BEF4C(u8 *p)
     int outer, inner, stop;
     u16 index;
     if (TOUCHPANEL_HitTrg(d_021C3900) == 0) {
-        func_02035D20(&x, &y);
+        TOUCHPANEL_GetPointTrg(&x, &y);
         switch (func_021BACDC(*(u8 * *)&((struct Obj00493 *)p)->f14, x, y)) {
         case 0:
             p[106] = 1;
-            func_020061E4(1352);
+            GFL_USE_PlaySeDefaultVolume(1352);
             return 0;
         case 1:
             p[106] = 1;
@@ -61,7 +61,7 @@ int func_021BEF4C(u8 *p)
             break;
         }
     }
-    func_02035D20(&x, &y);
+    TOUCHPANEL_GetPointTrg(&x, &y);
     index = ((struct Obj00493 *)p)->f54 * 2;
     stop = 0;
     for (outer = 0; outer < 6; outer++) {

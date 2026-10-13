@@ -10,7 +10,7 @@
  * status:   EXACT*
  * symbols:
  *   func_0203F4CC  0x0203F4CC  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   _u32_div_f     0x0209C2B0  arm
  *   CLACT_GetActorAnimSeqCount  0x0204B918  arm
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
@@ -33,7 +33,7 @@ typedef struct {
 struct RtcTime;
 extern void func_0203F4CC(struct RtcTime *time);
 struct Obj;
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
 extern int OS_IsRunOnTwl(void);
@@ -54,15 +54,15 @@ void C_GEAR_UpdateClock(char *p)
     int v;
 
     func_0203F4CC((struct RtcTime *)(&t));
-    func_0204B3DC((struct Obj *)((struct Obj00811 *)p)->f12C, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00811 *)p)->f12C, 0);
 
     o = ((struct Obj00811 *)p)->f130;
     v = t.hour / 10;
     SetFrame(o, v);
     if (v == 0) {
-        func_0204B3DC((struct Obj *)o, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)o, 0);
     } else {
-        func_0204B3DC((struct Obj *)o, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)o, 1);
     }
 
     o = ((struct Obj00811 *)p)->f134;

@@ -174,7 +174,7 @@
    }
   },
   {
-   "name": "func_0216BAF4",
+   "name": "DWCi_GetGT2Connection",
    "address": "0x0216BAF4",
    "kind": "sdk",
    "region": "ov009",

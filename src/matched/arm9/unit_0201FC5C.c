@@ -10,9 +10,9 @@
  * status:   EXACT
  * function: BMP_MENU_DrawItems, BMP_MENU_DrawCursor, BMP_MENU_GetItemPixelPos
  * symbols:
- *   func_02045770   0x02045770  arm
+ *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
- *   func_0201C6FC   0x0201C6FC  thumb
+ *   PRINTSYS_PrintQue   0x0201C6FC  thumb
  *   BMP_CURSOR_Draw   0x02020D5C  thumb
  *   _s32_div_f      0x0209C0A4  arm
  *
@@ -20,7 +20,7 @@
  *   BMP_MENU_DrawItems  clear the window bitmap to 0xFF and print every item of
  *                  the xmax * ymax grid (column-major index j + i * ymax)
  *                  through the print-util inline (the BMP_CURSOR_Draw shape:
- *                  print via func_0201C6FC, then util->drawn = 1).
+ *                  print via PRINTSYS_PrintQue, then util->drawn = 1).
  *   BMP_MENU_DrawCursor  unless the cursor-display bitfield (+0x0B bits 4..5) is 1,
  *                  place the cursor at the pixel position of the current item.
  *   BMP_MENU_GetItemPixelPos  item index -> pixel position: column = pos / ymax, row =
@@ -96,17 +96,17 @@ typedef struct {
 
 struct CharBuf;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 struct Desc;
 struct Handle;
 struct PrintSys;
-extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
+extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void BMP_CURSOR_Draw(struct Desc *d, u32 x, u32 y, struct Handle *h, void *dst, u32 f);
 
 static inline void PrintUtil_Print(PrintUtil *util, void *que, s32 x, s32 y, const void *str, void *font)
 {
-    func_0201C6FC(que, (u32)func_02045770(util->cell), x, y, (void *)str, (u32)font);
+    PRINTSYS_PrintQue(que, (u32)BMP_WIN_GetBmp(util->cell), x, y, (void *)str, (u32)font);
     util->drawn = 1;
 }
 
@@ -117,7 +117,7 @@ void BMP_MENU_DrawItems(BmpMenu *m)
     u8 i, j;
     u8 x, step;
 
-    BMP_Clear(func_02045770(m->hdr.win), 0xFF);
+    BMP_Clear(BMP_WIN_GetBmp(m->hdr.win), 0xFF);
     x = m->px;
     step = m->width + m->xspc * 2;
     for (i = 0; i < m->hdr.xmax; i++) {

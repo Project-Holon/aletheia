@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201AE14 0x0201AE14 thumb
- *   func_0201ADE4 0x0201ADE4 thumb
- *   func_0201AE1C 0x0201AE1C thumb
+ *   POKE_PERSONAL_Delete 0x0201AE14 thumb
+ *   POKE_PERSONAL_Create 0x0201ADE4 thumb
+ *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
  *   func_021BB160 0x021BB160 thumb ov206
  *   func_021BA4F4 0x021BA4F4 thumb ov206
  *   func_021BB0FC 0x021BB0FC thumb ov206
@@ -22,10 +22,10 @@
 #include "../include/Obj00598.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_0201ADE4(u32 a, int b, u32 c);
+extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
 struct Personal;
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *p);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *p);
 extern void func_021BB160(char *p, int i);
 extern void func_021BA4F4(char *p);
 extern void func_021BB0FC(void *obj);
@@ -38,8 +38,8 @@ void func_021BA550(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a6)
     int x;
     u32 h;
     int y;
-    if (((struct Obj00598 *)p)->f26C != 0) func_0201AE14(((struct Obj00598 *)p)->f26C);
-    ((struct Obj00598 *)p)->f26C = func_0201ADE4(a1, a2, ((struct Obj00598 *)p)->f0);
+    if (((struct Obj00598 *)p)->f26C != 0) POKE_PERSONAL_Delete(((struct Obj00598 *)p)->f26C);
+    ((struct Obj00598 *)p)->f26C = POKE_PERSONAL_Create(a1, a2, ((struct Obj00598 *)p)->f0);
     if (((struct Obj00598 *)p)->fB4 != 0) ((struct Obj00598 *)p)->fB4 = 0; else ((struct Obj00598 *)p)->fB4 = 1;
     if (((struct Obj00598 *)p)->fE0 != 0) ((struct Obj00598 *)p)->fE0 = 0; else ((struct Obj00598 *)p)->fE0 = 1;
     if (((struct Obj00598 *)p)->f190 != 0) ((struct Obj00598 *)p)->f190 = 0; else ((struct Obj00598 *)p)->f190 = 1;
@@ -51,7 +51,7 @@ void func_021BA550(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a6)
     ((struct Obj00598 *)p)->f12 = a4;
     ((struct Obj00598 *)p)->f14 = a5;
     ((struct Obj00598 *)p)->f8 = a6;
-    h = (u16)func_0201AE1C(((struct Obj00598 *)p)->f26C, 0x20);
+    h = (u16)POKE_PERSONAL_GetParam(((struct Obj00598 *)p)->f26C, 0x20);
     if (((struct Obj00598 *)p)->fE >= h) ((struct Obj00598 *)p)->fE = 0;
     func_021BB0FC(p);
     func_021BBC38((struct S *)p);

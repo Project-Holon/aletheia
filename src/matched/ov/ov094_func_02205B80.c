@@ -8,14 +8,17 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   CLACT_SetUnitDrawEnable  0x0204B22C  arm  arm9
  */
 #include "../include/Obj21785.h"
 
 typedef unsigned int   u32;
 struct Bank;
-extern void func_0204B22C(struct Bank *bank, u32 mode);
+extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
 
 void func_02205B80(char *p, int a)
 {
-    func_0204B22C(((struct Obj21785 *)p)->f1C4, a);
+    CLACT_SetUnitDrawEnable(((struct Obj21785 *)p)->f1C4, a);
 }

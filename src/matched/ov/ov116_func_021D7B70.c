@@ -15,7 +15,7 @@
  *   func_021D7D0C 0x021D7D0C thumb ov116
  *   BMP_WIN_Create 0x020450F0 arm
  *   func_0201F73C 0x0201F73C thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -25,7 +25,7 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   STRBUF_Create 0x020457B0 arm
  *   TCBL_Create 0x0203101C arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  */
@@ -44,7 +44,7 @@ struct GfFont;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -54,7 +54,7 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *TCBL_Create(u32, u32, u32, u32);
-extern void func_020434DC(u32, u32);
+extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
 #define P(k) (*(void **)(p + (k)))
@@ -65,7 +65,7 @@ void func_021D7B70(u8 *p, u32 heap)
     func_021D7D0C(p, heap);
     P(0x97c) = (void *)BMP_WIN_Create(1, 1, 19, 30, 4, 12, 1);
     func_0201F73C(P(0x97c), 1, (u16)(((struct Obj10342 *)p)->f984), 13);
-    BMP_Clear(func_02045770(P(0x97c)), 15);
+    BMP_Clear(BMP_WIN_GetBmp(P(0x97c)), 15);
     BMP_WIN_MakeScreen(P(0x97c));
     BMP_WIN_TransferChars(P(0x97c));
     func_02041B6C(1);
@@ -76,7 +76,7 @@ void func_021D7B70(u8 *p, u32 heap)
     P(0x9a0) = STRBUF_Create(128, heap);
     P(0x9a8) = TCBL_Create(heap, heap, 1, 0);
     ((struct Obj10342 *)p)->f0 = 1;
-    func_020434DC(16, 1);
+    BG_SYS_SetMainPlaneVisible(16, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
     GFL_NET_RestartWithDefaultTimeout(1, heap);
 }

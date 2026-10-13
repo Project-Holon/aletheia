@@ -1,5 +1,5 @@
 /*
- * function: func_0215FBAC
+ * function: SOC_U32to4U8
  * address:  0x0215FBAC
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Writes a word big-endian into four bytes.
  */
 
-void func_0215FBAC(unsigned v, unsigned char *p)
+void SOC_U32to4U8(unsigned v, unsigned char *p)
 {
     p[0] = (unsigned char)(v >> 24);
     p[1] = (unsigned char)(v >> 16);

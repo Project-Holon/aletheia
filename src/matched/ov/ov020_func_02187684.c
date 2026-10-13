@@ -1,5 +1,5 @@
 /*
- * function: func_02187684
+ * function: EL_SCOREBOARD_DeleteLamp
  * address: 0x02187684
  * packet: pkt_ov020_02187684
  * region: ov020
@@ -13,4 +13,4 @@
  */
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_02187684(void *p) { func_020307B0(p); }
+void EL_SCOREBOARD_DeleteLamp(void *p) { func_020307B0(p); }

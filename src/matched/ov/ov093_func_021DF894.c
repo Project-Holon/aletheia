@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetDragonFangHandlers
+ * function: HAND_ITEM_GetDragonFangHandlers
  * address: 0x021DF894
  * packet: pkt_ov093_021DF894
  * region: ov093
@@ -15,10 +15,10 @@
  *   gDragonFangHandlers 0x021F15DC data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetDragonFangHandlers(int *p);
+int *HAND_ITEM_GetDragonFangHandlers(int *p);
 extern int gDragonFangHandlers[];
 
-int *BTL_HANDLER_ITEM_GetDragonFangHandlers(int *p)
+int *HAND_ITEM_GetDragonFangHandlers(int *p)
 {
     *p = 1;
     return gDragonFangHandlers;

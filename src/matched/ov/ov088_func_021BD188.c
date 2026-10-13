@@ -12,11 +12,11 @@
  * symbols:
  *   TCBL_Main  0x020310C4  arm
  *   APP_KEYCURSOR_Update  0x020286C4  thumb
- *   func_0201CE30  0x0201CE30  thumb
- *   func_020362DC  0x020362DC  arm
- *   func_020061E4  0x020061E4  thumb
- *   func_0201CE38  0x0201CE38  thumb
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb
+ *   KEY_GetTrg  0x020362DC  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
+ *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  */
 #include "../include/Obj00578.h"
 
@@ -27,31 +27,31 @@ struct Rec3;
 struct Tcbl;
 extern void TCBL_Main(struct Tcbl *p);
 extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
-extern u32 func_0201CE30(void *p);
-extern u32 func_020362DC(void);
-extern void func_020061E4(u32);
-extern void func_0201CE38(void *);
-extern void func_0201CE48(struct Rec3 *p);
+extern u32 PRINTSYS_PrintStreamGetState(void *p);
+extern u32 KEY_GetTrg(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
+extern void PRINTSYS_PrintStreamReleasePause(void *);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 
 int STARTMENU_SaveEraseUpdateMessage(char *p)
 {
     TCBL_Main(((struct Obj00578 *)p)->f18);
     APP_KEYCURSOR_Update(((struct Obj00578 *)p)->f24, ((struct Obj00578 *)p)->f14, ((struct Obj00578 *)p)->f1C);
-    switch (func_0201CE30(((struct Obj00578 *)p)->f14)) {
+    switch (PRINTSYS_PrintStreamGetState(((struct Obj00578 *)p)->f14)) {
     case 0:
         ((struct Obj00578 *)p)->f28 = 0;
         break;
     case 1:
         if (((struct Obj00578 *)p)->f28 == 0) {
-            if (func_020362DC() & 3) {
-                func_020061E4(0x547);
-                func_0201CE38(((struct Obj00578 *)p)->f14);
+            if (KEY_GetTrg() & 3) {
+                GFL_USE_PlaySeDefaultVolume(0x547);
+                PRINTSYS_PrintStreamReleasePause(((struct Obj00578 *)p)->f14);
                 ((struct Obj00578 *)p)->f28 = 1;
             }
         }
         break;
     case 2:
-        func_0201CE48(((struct Obj00578 *)p)->f14);
+        PRINTSYS_PrintStreamDelete(((struct Obj00578 *)p)->f14);
         ((struct Obj00578 *)p)->f28 = 0;
         return 0;
     }

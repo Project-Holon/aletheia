@@ -1,5 +1,5 @@
 /*
- * function: func_02164D74
+ * function: WCM_InitEx
  * address:  0x02164D74
  * packet:   pkt_ov009_02164D74
  * region:   ov009
@@ -104,7 +104,7 @@ extern long func_02087244(void);
 extern void func_02087208(void);
 extern void func_02087254(void *alarm);
 
-long func_02164D74(void *buf, long len, unsigned char deviceId)
+long WCM_InitEx(void *buf, long len, unsigned char deviceId)
 {
     long expectLen;
     unsigned long e;

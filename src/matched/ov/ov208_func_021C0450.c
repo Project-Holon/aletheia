@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   TOWNMAP_GRH_GetTownInfoValue  0x021BBB3C  thumb  ov072
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B688  0x0204B688  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorObjMode  0x0204B688  arm
  */
 
 typedef unsigned char  u8;
@@ -35,7 +35,7 @@ typedef struct {
     u8 f7;
 } ObjPos;
 
-extern void func_02082BCC(void *dst, int v, int n);
+extern void MI_CpuFill8(void *dst, int v, int n);
 struct Actor;
 struct Node;
 struct Obj;
@@ -43,11 +43,11 @@ extern unsigned short TOWNMAP_GRH_GetTownInfoValue(char *p, int a, int b);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *res, unsigned int a, unsigned int b, unsigned int c, const void *pos, u16 f, u16 heap);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorBgPriority(u32 obj, int v);
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
-extern void func_0204B3DC(struct Obj *obj, unsigned int on);
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorDrawEnable(struct Obj *obj, unsigned int on);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
 #define W(o) (*(u32 *)(p + (o)))
 
@@ -56,16 +56,16 @@ void ov208_func_021C0450(u16 *heap, u8 *p, int key)
     ObjPos pos;
     u8 i;
 
-    func_02082BCC(&pos, 0, sizeof(pos));
+    MI_CpuFill8(&pos, 0, sizeof(pos));
     for (i = 0; i < 0x3d; i++) {
         pos.x = TOWNMAP_GRH_GetTownInfoValue((char *)W(0x3c8), i, 0x19);
         pos.y = TOWNMAP_GRH_GetTownInfoValue((char *)W(0x3c8), i, 0x1a);
         *(u32 *)(p + i * 4 + 0xdc) = (u32)CLACT_CreateActor((void *)W(0), W(0xb0), W(0xb4), W(0xb8), &pos, 0, *heap);
         CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)(p + i * 4 + 0xdc)), TOWNMAP_GRH_GetTownInfoValue((char *)W(0x3c8), i, 0x18));
-        func_0204B92C((struct Obj *)*(u32 *)(p + i * 4 + 0xdc), 1);
+        CLACT_SetActorAutoAnim((struct Obj *)*(u32 *)(p + i * 4 + 0xdc), 1);
         CLACT_SetActorBgPriority(*(u32 *)(p + i * 4 + 0xdc), 2);
         CLACT_SetActorDrawPriority((struct Node *)(*(u32 *)(p + i * 4 + 0xdc)), 4);
-        func_0204B3DC((struct Obj *)*(u32 *)(p + i * 4 + 0xdc), 0);
-        func_0204B688((struct Actor *)(*(u32 *)(p + i * 4 + 0xdc)), 1);
+        CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(p + i * 4 + 0xdc), 0);
+        CLACT_SetActorObjMode((struct Actor *)(*(u32 *)(p + i * 4 + 0xdc)), 1);
     }
 }

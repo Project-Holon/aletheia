@@ -119,7 +119,7 @@ extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct Gam
                                        GameEventFunc func, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
 extern void func_02082C60(void *dst, int data, int size);
-extern void func_020061E4(u32 seId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 
 /* Map objects (ov010). */
 extern int FLDMMDL_SysSearchUseMmdl(struct MmdlSys *mmdlSys, struct Mmdl **mmdlOut, u32 *iterator);

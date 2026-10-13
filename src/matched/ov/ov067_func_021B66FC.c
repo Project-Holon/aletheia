@@ -15,7 +15,7 @@
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   func_0203FB44 0x0203FB44 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,12 +24,12 @@ extern void CLACT_ReleaseCellAnim(u32);
 extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleasePalette(u32);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
-extern void func_02082BCC(void *, u32, u32);
+extern void MI_CpuFill8(void *, u32, u32);
 void TOUCHBAR_FreeGfx(u32 *p)
 {
     CLACT_ReleaseCellAnim(p[2]);
     CLACT_ReleaseCharacter(p[1]);
     CLACT_ReleasePalette(p[0]);
     func_0203FB44(p[3], (u16)p[4], (u16)(p[4] >> 16));
-    func_02082BCC(p, 0, 0x14);
+    MI_CpuFill8(p, 0, 0x14);
 }

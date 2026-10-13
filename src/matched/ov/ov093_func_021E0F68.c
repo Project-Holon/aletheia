@@ -1,5 +1,5 @@
 /*
- * function: func_021E0F68
+ * function: HAND_WAZA_GetWorrySeedHandlers
  * address: 0x021E0F68
  * packet: pkt_ov093_021E0F68
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E0F50.c and filed here.
  *
  * symbols:
- *   d_021F2A48 0x021F2A48 data ov093 a4
+ *   gWorrySeedHandlers 0x021F2A48 data ov093 a4
  */
 
-int *func_021E0F68(int *p);
-extern int d_021F2A48[];
+int *HAND_WAZA_GetWorrySeedHandlers(int *p);
+extern int gWorrySeedHandlers[];
 
-int *func_021E0F68(int *p)
+int *HAND_WAZA_GetWorrySeedHandlers(int *p)
 {
     *p = 2;
-    return d_021F2A48;
+    return gWorrySeedHandlers;
 }

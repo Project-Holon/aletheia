@@ -9,8 +9,8 @@
  * status: EXACT
  * symbols:
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
- *   func_020362DC 0x020362DC arm
- *   func_020061E4 0x020061E4 thumb
+ *   KEY_GetTrg 0x020362DC arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_02017E88 0x02017E88 thumb
  *   P_STA_SKILL_SetCursor 0x021DB468 thumb ov131
  */
@@ -20,8 +20,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *P_STATUS_GetPokePara(u8 *);
-extern u32 func_020362DC(void);
-extern void func_020061E4(u32 a);
+extern u32 KEY_GetTrg(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern unsigned func_02017E88(void *,unsigned,unsigned);
 extern void P_STA_SKILL_SetCursor(u8 *,u8 *,u8,int);
 void P_STA_SKILL_StepCursor(u8 *a,u8 *b) {
@@ -30,8 +30,8 @@ void P_STA_SKILL_StepCursor(u8 *a,u8 *b) {
     unsigned v;
     p=P_STATUS_GetPokePara(a);
     i=b[41];
-    if(func_020362DC()==64) step=-1;else step=1;
-    func_020061E4(1352);
+    if(KEY_GetTrg()==64) step=-1;else step=1;
+    GFL_USE_PlaySeDefaultVolume(1352);
     do {
         i+=step;
         if(i<0) i=b[43]-1;

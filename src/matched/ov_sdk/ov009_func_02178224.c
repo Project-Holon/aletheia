@@ -12,7 +12,7 @@
  * sdk:      DWC_Auth_GetResult (libdwcauth.TWL.HYB.a(dwc_auth.o))
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02082D44  0x02082D44  arm
  *   g_021AB184     0x021AB184  data
  */
@@ -36,13 +36,13 @@ struct DWCAuthCtx {
 
 extern struct DWCAuthGlobal g_021AB184;
 
-extern void func_02082BCC(void *dst, int data, unsigned long size);
+extern void MI_CpuFill8(void *dst, int data, unsigned long size);
 extern void func_02082D44(void *src, void *dst, unsigned long size);
 
 void func_02178224(int *result)
 {
 	if (g_021AB184.ctx == 0)
-		func_02082BCC(result, 0, 0x1c4);
+		MI_CpuFill8(result, 0, 0x1c4);
 	func_02082D44(g_021AB184.ctx->result, result, 0x1c4);
 	if (result[0] < 20000 || result[0] >= 30000)
 		result[0] = 20998;

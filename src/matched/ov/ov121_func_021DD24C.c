@@ -24,7 +24,7 @@
  *   closed it; none is needed now.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021DBDF4 0x021DBDF4 thumb ov121
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_SetStringN 0x02045994 arm
@@ -172,7 +172,7 @@ extern u8 g0209DF0C;
 extern void *gMsgBank;
 
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void func_021DBDF4(void *out, const Record *src, void *p, u16 heap);
 struct Mon;
 struct MsgBank;
@@ -242,12 +242,12 @@ struct Out *func_021DD24C(Record *a, struct CtxB *b, void *c, u16 heap)
     u64 id64;
 
     out = func_02030734(heap, 0x148, 0, d_021DFBB0, 0xDD4);
-    func_02082BCC(out, 0, 0x148);
+    MI_CpuFill8(out, 0, 0x148);
     out->heap = heap;
     out->a = (struct Rec *)a;
     out->b = b;
     out->c = c;
-    func_02082BCC(&ctx, 0, 0x24);
+    MI_CpuFill8(&ctx, 0, 0x24);
     ctx.f0 = 0;
     ctx.f8 = b->fB8;
     ctx.fC = b->fBC;

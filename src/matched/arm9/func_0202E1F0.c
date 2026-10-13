@@ -21,13 +21,13 @@
  *   func_0201D528  0x0201D528  thumb
  *   func_0201D4BC  0x0201D4BC  thumb
  *   PMS_DRAW_PlaceDecoActor  0x0202E040  thumb
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   BMP_FillRect  0x02043AF4  arm
  *   STRBUF_Delete  0x02045808  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *
  * blink_palanm: set up a message's blink palette animation.  Copy the
@@ -93,7 +93,7 @@ extern u32   func_0201D4BC(void *s, u8 idx);
 struct Descriptor;
 extern void PMS_DRAW_PlaceDecoActor(void *h, struct Descriptor *cell, u32 b, u32 c, u32 n, const struct Pos *base);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *msg);
+extern void *BMP_WIN_GetBmp(struct Descriptor *msg);
 struct Cfg;
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -102,7 +102,7 @@ extern void  BMP_FillRect(u32 a, u32 b, s16 c, u32 d, u32 e, u8 f);
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void  func_02041B6C(u32 bg);
 
 void PMS_DRAW_PrintElem(BLINKWORK *wk, void *owner, u32 a2, struct Descriptor *a3,
@@ -133,8 +133,8 @@ void PMS_DRAW_PrintElem(BLINKWORK *wk, void *owner, u32 a2, struct Descriptor *a
         }
     }
     buf = PMSI_PARAM_ToStringWords((u16 *)param, heapID, n);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)wk->msg)), pal);
-    PRINTSYS_PrintQueColor(owner, (u32)func_02045770((struct Descriptor *)wk->msg), (s16)pos->x, (s16)pos->y, (u32)buf, a2, pri);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)wk->msg)), pal);
+    PRINTSYS_PrintQueColor(owner, (u32)BMP_WIN_GetBmp((struct Descriptor *)wk->msg), (s16)pos->x, (s16)pos->y, (u32)buf, a2, pri);
     wk->active = 1;
     for (i = 0; i < n; i++) {
         if (wk->blink[i] == 1) {
@@ -144,13 +144,13 @@ void PMS_DRAW_PrintElem(BLINKWORK *wk, void *owner, u32 a2, struct Descriptor *a
         } else if (mark[i] == 1) {
             u32 x = func_0201D528(buf, i, (void *)a2, 0);
             u32 y = func_0201D4BC(buf, i);
-            BMP_FillRect((u32)func_02045770((struct Descriptor *)a3), x, y << 4, 0x54, 0x10, pal);
+            BMP_FillRect((u32)BMP_WIN_GetBmp((struct Descriptor *)a3), x, y << 4, 0x54, 0x10, pal);
         }
     }
     STRBUF_Delete(buf);
     STRBUF_Delete(str);
     BMP_WIN_MakeScreen((struct Cfg *)wk->msg);
-    func_02041B6C(func_02045730((struct Descriptor *)wk->msg));
+    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)wk->msg));
     wk->drawn = 1;
     wk->ready = 1;
 }

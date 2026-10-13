@@ -13,7 +13,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02049B40 0x02049B40 arm
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_0201F5DC 0x0201F5DC thumb
@@ -35,7 +35,7 @@ struct CharBuf;
 struct Descriptor;
 struct Tcbl;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void *func_0201F5DC(void*,u32,u32,u32);
@@ -56,10 +56,10 @@ void func_021B9F24(void *unused, struct C *p)
     func_020307B0(pal);
     func_02049B40(0x17,5,0,0x180,0x20,p->heap);
     p->win0=(void *)BMP_WIN_Create(1,0,0,1,1,9,0);
-    BMP_Clear(func_02045770(p->win0),0);
+    BMP_Clear(BMP_WIN_GetBmp(p->win0),0);
     BMP_WIN_TransferChars(p->win0);
     p->win1=(void *)BMP_WIN_Create(1,1,0x13,0x1e,4,0xc,0);
-    BMP_Clear(func_02045770(p->win1),0xf);
+    BMP_Clear(BMP_WIN_GetBmp(p->win1),0xf);
     BMP_WIN_TransferChars(p->win1);
     p->font=func_0201F5DC((void*)1,0xa,0,p->heap);
     p->task=TCBL_Create(p->heap,p->heap,1,0);

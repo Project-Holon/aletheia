@@ -25,7 +25,7 @@
  *   PALANM_CopyHwPaletteToSlot  0x020216D4  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_020870D0 0x020870D0 arm
  *   func_021F86D4 0x021F86D4 thumb ov094
  *   func_02030DA8 0x02030DA8 arm
@@ -34,7 +34,7 @@
  *   d_0220ABE0 0x0220ABE0 data a4
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   func_02030EAC  0x02030EAC  arm
- *   func_0204B22C  0x0204B22C  arm
+ *   CLACT_SetUnitDrawEnable  0x0204B22C  arm
  *   _ll_udiv       0x0209C00C  arm
  *   d_0220ABB8  0x0220ABB8  data  a4
  *   d_0220AEF0     0x0220AEF0  data  ov094
@@ -58,6 +58,7 @@
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
  *   CLACT_DeleteUnit  0x0204B1CC  arm  arm9
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  */
 #include "../../matched/include/Obj13628.h"
 
@@ -211,15 +212,15 @@ extern void CLACT_ReleasePalette(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern u32 func_020307B0(void *p);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern u64 func_020870D0(void);
 extern void *func_021F86D4(void);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void func_02030EAC(struct Node *n);
-extern void func_0204B22C(struct Bank *bank, u32 mode);
+extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void *func_020056A0(void (*cb)(void *), void *ctx, int pri);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern u32 func_020407E8(u32 layer);
@@ -335,7 +336,7 @@ void func_02209318(Work *m, int a, int b)
                 pos.y = y;
                 pos.z = row[j];
                 m->e[i].h[j] = (u32)CLACT_CreateActor((void *)*(u32 *)((char *)m + off), m->obj40, m->obj48, m->obj44, &pos, 0, m->heap);
-                func_0204B92C((struct Obj *)m->e[i].h[j], 1);
+                CLACT_SetActorAutoAnim((struct Obj *)m->e[i].h[j], 1);
             }
         }
     }
@@ -392,7 +393,7 @@ void func_022094BC(u8 *p, int i, int a, int b)
             w->x64[i] = 0;
             func_02209540((struct Timer *)w, i);
         }
-        func_0204B22C((struct Bank *)w->h[i], a);
+        CLACT_SetUnitDrawEnable((struct Bank *)w->h[i], a);
     }
 }
 
@@ -436,24 +437,24 @@ void func_02209540(Timer *p, int idx)
         p->base[idx] = 13;
     CLACT_SetActorAnimSeq(p->d[idx].icon, icon + p->base[idx]);
     if (m10 == 0) {
-        func_0204B3DC(p->d[idx].m10, 0);
+        CLACT_SetActorDrawEnable(p->d[idx].m10, 0);
     } else {
-        func_0204B3DC(p->d[idx].m10, 1);
+        CLACT_SetActorDrawEnable(p->d[idx].m10, 1);
         CLACT_SetActorAnimSeq(p->d[idx].m10, m10 + 3 + p->base[idx]);
     }
     if (m10 == 0 && m1 == 0) {
-        func_0204B3DC(p->d[idx].m1, 0);
-        func_0204B3DC(p->d[idx].colon, 0);
+        CLACT_SetActorDrawEnable(p->d[idx].m1, 0);
+        CLACT_SetActorDrawEnable(p->d[idx].colon, 0);
     } else {
-        func_0204B3DC(p->d[idx].m1, 1);
-        func_0204B3DC(p->d[idx].colon, 1);
+        CLACT_SetActorDrawEnable(p->d[idx].m1, 1);
+        CLACT_SetActorDrawEnable(p->d[idx].colon, 1);
         CLACT_SetActorAnimSeq(p->d[idx].m1, m1 + 3 + p->base[idx]);
         CLACT_SetActorAnimSeq(p->d[idx].colon, p->base[idx] + 2);
     }
     if (m10 == 0 && m1 == 0 && s10 == 0) {
-        func_0204B3DC(p->d[idx].s10, 0);
+        CLACT_SetActorDrawEnable(p->d[idx].s10, 0);
     } else {
-        func_0204B3DC(p->d[idx].s10, 1);
+        CLACT_SetActorDrawEnable(p->d[idx].s10, 1);
         CLACT_SetActorAnimSeq(p->d[idx].s10, s10 + 3 + p->base[idx]);
     }
     CLACT_SetActorAnimSeq(p->d[idx].s1, s1 + 3 + p->base[idx]);

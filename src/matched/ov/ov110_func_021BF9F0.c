@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_021BFF60 0x021BFF60 thumb ov110
@@ -18,7 +18,7 @@
 #include "../include/Obj02166.h"
 typedef unsigned char u8;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
@@ -27,7 +27,7 @@ extern void func_021BFF7C(u8 *,unsigned,unsigned);
 extern unsigned func_021BF734(u8 *);
 void func_021BF9F0(u8 *p) {
     unsigned y,i,n;
-    BMP_Clear(func_02045770((struct Descriptor *)((struct Obj02166 *)p)->fC),0);
+    BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)((struct Obj02166 *)p)->fC),0);
     func_021BFF60(p);
     n=func_021BF734(*(u8 * *)&((struct Obj02166 *)p)->f4);
     if(n>16) n=16;

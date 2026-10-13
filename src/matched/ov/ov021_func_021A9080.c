@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  */
 
 typedef short s16;
@@ -30,13 +30,13 @@ typedef struct {
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void FIELD_MENU_PlaceCursor(S *s, s16 x, s16 y)
 {
     P v;
     v.x = x;
     v.y = y;
-    func_0204B404((struct Obj *)s->f124, (const struct Vec2 *)(&v), 0);
+    CLACT_AddActorSurfacePos((struct Obj *)s->f124, (const struct Vec2 *)(&v), 0);
     s->f134 = 0;
 }

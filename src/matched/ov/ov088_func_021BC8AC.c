@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   STARTMENU_ConfigPromptHighlightChoice  0x021BC870  thumb  ov088
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   d_021BD83C     0x021BD83C  data  a1
  */
@@ -26,9 +26,9 @@ typedef struct C12 {
 
 extern C12 d_021BD83C;
 
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void STARTMENU_ConfigPromptHighlightChoice(u8 *);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int TOUCHPANEL_HitTrg(const void *p);
 
 int STARTMENU_ConfigPromptReadInput(u8 *p)
@@ -38,18 +38,18 @@ int STARTMENU_ConfigPromptReadInput(u8 *p)
     int t;
     C12 s;
 
-    if ((func_020362DC() & 0x40) || (func_020362DC() & 0x80)) {
+    if ((KEY_GetTrg() & 0x40) || (KEY_GetTrg() & 0x80)) {
         if (p[0] == 0)
             p[0] = 1;
         else
             p[0] = 0;
         STARTMENU_ConfigPromptHighlightChoice(p);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
     }
-    k = func_020362DC();
+    k = KEY_GetTrg();
     r = 1;
     if (k & r) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         if (p[0] != 0)
             r = 2;
         return r;
@@ -57,7 +57,7 @@ int STARTMENU_ConfigPromptReadInput(u8 *p)
     s = d_021BD83C;
     t = TOUCHPANEL_HitTrg(&s);
     if (t != -1) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return t == 0 ? 1 : 2;
     }
     return 0;

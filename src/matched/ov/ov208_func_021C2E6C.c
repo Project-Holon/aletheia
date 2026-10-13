@@ -17,9 +17,9 @@
  *   func_021BC3A4 0x021BC3A4 thumb ov208
  *   func_021BC738 0x021BC738 thumb ov208
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   CLACT_CreateAffineActor 0x0204B324 arm
- *   func_0204B688 0x0204B688 arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
  *   POKEGRA_RegisterCgr 0x0202D81C thumb
  *   POKEGRA_RegisterPalette 0x0202D7D8 thumb
@@ -51,10 +51,10 @@ extern int POKEGRA_GetArcID(void);
 extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 extern void func_021BC738(struct Ov208Gfx *p, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(u32);
-extern void func_02082BCC(void *,u8,u32);
+extern void MI_CpuFill8(void *,u8,u32);
 struct Obj;
 extern struct Obj *CLACT_CreateAffineActor(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 void func_021C2E6C(u16 *heap,u8 *p,int key,u32 slot)
 {
     struct Desc desc;
@@ -72,10 +72,10 @@ void func_021C2E6C(u16 *heap,u8 *p,int key,u32 slot)
     *(u32 *)((u32)p+0x4c+slot*4)=POKEGRA_RegisterCellAnim(species,a,form,b,0,0,2,1,*heap);
     func_021BC738(((struct Obj00146 *)p)->fC8,arc,POKEGRA_GetPalArcIndex(POKEGRA_GetArcID(),species,a,form,b,0,0),*heap,3,32,(u16)(slot<<4),0);
     ARC_TOOL_DeleteHandle(arc);
-    func_02082BCC(&desc,0,24);
+    MI_CpuFill8(&desc,0,24);
     desc.x=128;desc.y=128;desc.z=0;desc.a=0;desc.b=0;desc.c=0;desc.d=0;
     desc.sx=4096;desc.sy=4096;desc.e=0;desc.f=2;
     *(u32 *)((u32)p+0x54+slot*4)=(u32)CLACT_CreateAffineActor(((struct Obj00146 *)p)->f0,*(u32 *)((u32)p+0x44+slot*4),*(u32 *)((u32)p+0x3c+slot*4),*(u32 *)((u32)p+0x4c+slot*4),(u32)(&desc),1,*heap);
-    func_0204B688((struct Actor *)(*(u32 *)((u32)p+0x54+slot*4)),0);
+    CLACT_SetActorObjMode((struct Actor *)(*(u32 *)((u32)p+0x54+slot*4)),0);
     ((struct Obj00146 *)p)->f60=0;
 }

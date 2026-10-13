@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm
- *   func_020061E4  0x020061E4  thumb
+ *   KEY_GetTrg  0x020362DC  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   BMP_MENU_MoveCursor  0x0201FAD0  thumb
  *
  * The menu's per-frame input step.  Field +0x33 is cleared first and holds
@@ -47,23 +47,23 @@ struct Obj {
     u8  last_dir;
 };
 
-extern u32  func_020362DC(void);
-extern void func_020061E4(u32 id);
+extern u32  KEY_GetTrg(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern int  BMP_MENU_MoveCursor(struct Obj *o, u32 dir, u32 sound);
 
 u32 BMP_MENU_ProcessInput(struct Obj *o)
 {
-    u32 keys = func_020362DC();
+    u32 keys = KEY_GetTrg();
     u32 one = 1;
 
     o->last_dir = 0;
 
     if (keys & one) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return o->arr[o->cursor].f4;
     }
     if (keys & o->cancel_mask) {
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return one - 3;
     }
     if (keys & 0x40) {

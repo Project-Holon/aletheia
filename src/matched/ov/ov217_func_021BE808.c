@@ -31,7 +31,7 @@
  *   func_021C1184 0x021C1184 thumb ov217
  *   func_021BF810 0x021BF810 thumb ov217
  *   func_021BF76C 0x021BF76C thumb ov217
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -62,7 +62,7 @@ extern void func_021C1184(u8 *h, u32 v);
 extern u32 func_021BF810(void *p);
 extern u8 *func_021BF76C(void *p);
 
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void func_021BE808(char *p)
 {
     int flag = 0;
@@ -105,5 +105,5 @@ void func_021BE808(char *p)
         func_021C1160(func_021BF76C(p));
         func_021C1184(func_021BF76C(p), 1);
     }
-    func_020061E4(0x548);
+    GFL_USE_PlaySeDefaultVolume(0x548);
 }

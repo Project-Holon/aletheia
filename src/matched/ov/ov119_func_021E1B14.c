@@ -16,10 +16,10 @@
  *   d_021E794C 0x021E794C data a4
  *   func_02017E1C 0x02017E1C thumb
  *   func_02049B40 0x02049B40 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   func_021D8ADC 0x021D8ADC thumb ov119
  *   func_021E1430 0x021E1430 thumb ov119
  *   func_021E1670 0x021E1670 thumb ov119
@@ -42,11 +42,11 @@ extern u32 func_02017E1C(void *,u32,u32);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 struct Cfg;
 struct Descriptor;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern int func_021D8ADC(char *p);
 extern void func_021E1430(void *,void *,int,int,int,int,char *);
 extern void func_021E1670(void *,void *,int,int,char *,int,int);
@@ -72,19 +72,19 @@ void func_021E1B14(char *p,int i,void *mon)
     old=p;
     old=old+0x5bc;
     index=i*4;
-    if(*(const int *)(old+index))func_020452E8((struct Descriptor *)(*(const int *)(old+index)));
+    if(*(const int *)(old+index))BMP_WIN_Delete((struct Descriptor *)(*(const int *)(old+index)));
     *(int *)(p+0x5bc+index)=(int)BMP_WIN_Create(3,(u8)(*(int *)((char *)&a+index)),1,14,20,14,0);
     GF_FONT_SetTextColor(15,2,0);
     {
-        void *window=func_02045770((struct Descriptor *)*(int *)(p+0x5bc+index));
+        void *window=BMP_WIN_GetBmp((struct Descriptor *)*(int *)(p+0x5bc+index));
         func_021E1430(mon,window,16,0,flag,func_021D8ADC(p),p);
     }
     if(flag==0) {
         char *items=p+0x5bc;
-        void *window=func_02045770((struct Descriptor *)*(int *)(items+index));
+        void *window=BMP_WIN_GetBmp((struct Descriptor *)*(int *)(items+index));
         func_021E1670(mon,window,80,0,p,0,func_021D8ADC(p));
         GF_FONT_SetTextColor(15,2,0);
-        func_021E15F8(mon,func_02045770((struct Descriptor *)*(int *)(items+index)),16,19,p);
+        func_021E15F8(mon,BMP_WIN_GetBmp((struct Descriptor *)*(int *)(items+index)),16,19,p);
         func_021E1778((int)mon,*(int *)(items+index),16,128,p);
         i++;
         func_021E0E68(p+0x8c4+i*20,mon,((struct Obj00001 *)p)->f9C4,*(int *)((char *)&b+index)+16,16,0,((struct Obj00001 *)p)->f5F4,*(int *)((char *)&c+index));

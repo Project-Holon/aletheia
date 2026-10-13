@@ -12,7 +12,7 @@
  * Seeds the two +0x30 bytes and releases the +0x2c block.
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *
  * Addresses are Black-image addresses.
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *a);
+extern void *BMP_WIN_GetBmp(struct Descriptor *a);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
@@ -33,5 +33,5 @@ void func_021B9E3C(void *p, char *q)
 {
     q[0x30] = 3;
     q[0x31] = 0x20;
-    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj10664 *)q)->f2C)), 0);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj10664 *)q)->f2C)), 0);
 }

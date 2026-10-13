@@ -12,12 +12,12 @@
  * symbols:
  *   BTL_MAIN_GetRule  0x021B8588  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
- *   func_021B8D8C  0x021B8D8C  thumb  ov093
- *   sub_0201BD28   0x0201BD28  thumb
+ *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
+ *   WAZA_TOOL_GetParam   0x0201BD28  thumb
  *   WAZA_TOOL_GetFlag   0x0201BEB8  thumb
  *   BTL_CALC_GetCurseTargetKind  0x021D80A8  thumb  ov093
  *   BTL_MAIN_GetEnemyLanePosFromWork  0x021B8C50  thumb  ov093
- *   func_021B8D38  0x021B8D38  thumb  ov093
+ *   BTL_MAIN_CollectLivingPokeIds  0x021B8D38  thumb  ov093
  *   BTL_MAIN_DecodeMessageCode  0x021B8778  thumb  ov093
  *   BTL_CALC_Random  0x021D78AC  thumb  ov093
  */
@@ -28,12 +28,12 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 struct Unk021B8CB0;
 extern u32 BTL_MAIN_GetRule(void **p);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern int func_021B8D8C(void *p, void *a, u32 b);
-extern u32 sub_0201BD28(u16 id, u32 field);
+extern int BTL_MAIN_GetTrainerSlotOfPoke(void *p, void *a, u32 b);
+extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern u32 WAZA_TOOL_GetFlag(u16 id, u32 bit);
 extern int BTL_CALC_GetCurseTargetKind(void *p);
 extern u8 BTL_MAIN_GetEnemyLanePosFromWork(char **p, u32 v, int k);
-extern u8 func_021B8D38(void *p, int a, int k, u8 *out);
+extern u8 BTL_MAIN_CollectLivingPokeIds(void *p, int a, int k, u8 *out);
 extern u8 BTL_MAIN_DecodeMessageCode(struct Unk021B8CB0 **p, int k, u8 *out);
 extern u32 BTL_CALC_Random(u32 range);
 
@@ -47,8 +47,8 @@ int BTL_CALC_DecideMoveTarget(void *p, int a, int m, u16 move)
     u8 n;
 
     mode = BTL_MAIN_GetRule(p);
-    t = func_021B8D8C(p, (void *)a, BTL_POKEPARAM_GetPokeId((u8 *)m));
-    kind = sub_0201BD28(move, 0x1B);
+    t = BTL_MAIN_GetTrainerSlotOfPoke(p, (void *)a, BTL_POKEPARAM_GetPokeId((u8 *)m));
+    kind = WAZA_TOOL_GetParam(move, 0x1B);
     if (move == 0xAE) kind = BTL_CALC_GetCurseTargetKind((void *)m);
 
     if (mode == 0) {
@@ -91,10 +91,10 @@ int BTL_CALC_DecideMoveTarget(void *p, int a, int m, u16 move)
         return 6;
     }
 
-    n = func_021B8D38(p, a, t, buf);
+    n = BTL_MAIN_CollectLivingPokeIds(p, a, t, buf);
     if (n) {
         n = BTL_CALC_Random(n);
-        return func_021B8D8C(p, (void *)a, buf[n]);
+        return BTL_MAIN_GetTrainerSlotOfPoke(p, (void *)a, buf[n]);
     }
     n = BTL_MAIN_DecodeMessageCode(p, t, buf);
     if (n) return buf[(u8)BTL_CALC_Random(n)];

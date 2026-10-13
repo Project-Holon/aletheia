@@ -46,7 +46,7 @@
  *   (5) a local for func_021DBF08's result puts that call before the idx*4 address work;
  *   (6) declaration order off, tab, idx, y, y2, y3 (one counter per loop), m, src, k, ry, rx
  *   gives the original spill slots for most locals; tab = p + 0x28 plain (no inline helper);
- *   (7) dy = 0 before func_02082BCC.
+ *   (7) dy = 0 before MI_CpuFill8.
  *   Residue (53 bytes): rx and x swapped (original x r4, rx r5; mine rx r4, x r5; decl order of
  *   x/rx did not move it, 2 compiles); index and ry slots swapped (original index sp+0x18, ry
  *   sp+0x1c); obj and the p+0xb88 base temp slots swapped (original obj sp+0x48, temp sp+0x44);
@@ -88,7 +88,7 @@
  *   func_021DC03C 0x021DC03C thumb ov121
  *   func_02041300 0x02041300 arm
  *   func_020413B0 0x020413B0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_CopyPixels 0x02043814 arm
@@ -97,11 +97,11 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -116,7 +116,7 @@ struct Descriptor;
 struct CharBuf;
 extern void func_02041300(u32,u16,u8,u8,u8,u8,u8);
 extern void func_020413B0(u32,u32,u32,u8,u8,u8);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 struct Bmp;
@@ -128,11 +128,11 @@ extern int CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern int CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern int func_021DBF04(int *p);
 extern void *func_021DBF08(void *);
 extern void *func_021DBF10(void *, u16);
@@ -198,7 +198,7 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
             } while (x < 12);
             y2++;
         } while (y2 < 7);
-        BMP_Clear(func_02045770(*(void **)(p + 0xb08 + idx * 4)), 0);
+        BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0xb08 + idx * 4)), 0);
         BMP_WIN_TransferChars(*(void **)(p + 0xb08 + idx * 4));
         return;
     }
@@ -215,7 +215,7 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
     } while (y3 < 7);
     func_020413B0(3, r.b[0], ry, 12, 7, (u8)func_021DC03C(tab + off));
     dsc = func_021DBF08(tab + off);
-    BMP_CopyPixels(dsc, func_02045770(*(void **)(p + 0xb08 + idx * 4)));
+    BMP_CopyPixels(dsc, BMP_WIN_GetBmp(*(void **)(p + 0xb08 + idx * 4)));
     BMP_WIN_TransferChars(*(void **)(p + 0xb08 + idx * 4));
     obj = func_021DBF10(tab + off, heap);
     if (func_021DC024(tab + off) != 1)
@@ -225,7 +225,7 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
     dx = 0;
     ARC_TOOL_DeleteHandle(obj);
     dy = 0;
-    func_02082BCC(&pos, 0, 8);
+    MI_CpuFill8(&pos, 0, 8);
     pos.y = r.h[3];
     pos.flag = 1;
     if (func_021DC024(tab + off) == 2) {
@@ -245,8 +245,8 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
     *(void **)(p + 0xb28 + idx * 4) = CLACT_CreateActor(*(void **)(p + 8), *(u32 *)(p + 0xb48 + idx * 4),
         func_021DC024(tab + off) == 1 ? *(u32 *)(p + 0xba8) : *(u32 *)(p + 0xb88 + idx * 4),
         *(u32 *)(p + 0xb68 + idx * 4), &pos, 0, *(u16 *)(p + 0x24));
-    func_0204B6F4(*(void **)(p + 0xb28 + idx * 4), (u8)func_021DBF70(tab + off), 0);
-    func_0204B3DC(*(void **)(p + 0xb28 + idx * 4), 1);
+    CLACT_SetActorPaletteOffset(*(void **)(p + 0xb28 + idx * 4), (u8)func_021DBF70(tab + off), 0);
+    CLACT_SetActorDrawEnable(*(void **)(p + 0xb28 + idx * 4), 1);
     if (*(u32 *)(p + 0xae0) && *(u16 *)(p + 0xade) == k) {
         cur.x = src->b[0] * 8 - 0x18;
         cur.y = d_021DF86F[index * 8] * 8 - 8;
@@ -256,7 +256,7 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
             else if (b == 0)
                 cur.x += 0x100;
         }
-        func_0204B404(*(void **)(p + 0xaf0), (const struct Vec2 *)(&cur), 0);
+        CLACT_AddActorSurfacePos(*(void **)(p + 0xaf0), (const struct Vec2 *)(&cur), 0);
     }
 }
 #pragma opt_lifetimes reset

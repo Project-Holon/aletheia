@@ -15,8 +15,8 @@
  *   func_021FE54C 0x021FE54C thumb ov186
  *   func_021FE3B4 0x021FE3B4 thumb ov186
  *   func_021FE3E4 0x021FE3E4 thumb ov186
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   d_02200AD0 0x02200AD0 data a4
  */
 typedef unsigned short u16;
@@ -33,7 +33,7 @@ struct Pair;
 extern int func_021FE3B4(u8 *p, const struct Pair *origin, u16 a, u16 b, int duration);
 extern int func_021FE3E4(char *p, int *out, int step);
 struct Obj;
-extern void func_0204B3DC(struct Obj *,unsigned int),func_0204B404(void *,const ShortPair *,u16);
+extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int),CLACT_AddActorSurfacePos(void *,const ShortPair *,u16);
 void func_021FDBF4(int unused,int *state,Motion *p)
 {
     ShortPair pos;
@@ -46,7 +46,7 @@ void func_021FDBF4(int unused,int *state,Motion *p)
         initial=d_02200AD0.third;
         for(i=0;i<6;i++) {
             p->positions[i]=initial;
-            func_0204B3DC(p->handles[i],1);
+            CLACT_SetActorDrawEnable(p->handles[i],1);
         }
         func_021FE444((int *)p->record[0],&p->positions[0],&d_02200AD0.second,0,36);
         for(i=1;i<6;i++) func_021FE4D8((int *)p->record[i],(int)&p->positions[i-1],(int *)&p->positions[i],0x3800-i*0xb33/2);
@@ -56,27 +56,27 @@ void func_021FDBF4(int unused,int *state,Motion *p)
         for(i=1;i<6;i++) p->done[i+1]=func_021FE54C((char *)p->record[i],(int *)(&p->positions[i]));
         for(i=0;i<6;i++) {
             pos.x=p->positions[i].x;pos.y=p->positions[i].y;
-            func_0204B404(p->handles[i],&pos,p->heap);
+            CLACT_AddActorSurfacePos(p->handles[i],&pos,p->heap);
         }
         p->timer++;
-        if(p->done[1]) {func_0204B3DC(p->handles[0],0);*state=2;}
+        if(p->done[1]) {CLACT_SetActorDrawEnable(p->handles[0],0);*state=2;}
         break;
     case 2:
         p->timer=0;
         for(i=6;i<12;i++) {
             func_021FE3B4((u8 *)p->record[i],(void *)&d_02200AD0.second,15,(i*0xffff-0x5fffa)/6,90);
-            func_0204B3DC(p->handles[i],1);
+            CLACT_SetActorDrawEnable(p->handles[i],1);
         }
         *state=3;
     case 3:
         for(i=6;i<12;i++) func_021FE3E4(p->record[i],(int *)(&p->positions[i]),p->timer);
         for(i=1;i<6;i++) {
             p->done[i+1]=func_021FE54C((char *)p->record[i],(int *)(&p->positions[i]));
-            if(p->done[i+1]) func_0204B3DC(p->handles[i],0);
+            if(p->done[i+1]) CLACT_SetActorDrawEnable(p->handles[i],0);
         }
         for(i=0;i<12;i++) {
             pos2.x=p->positions[i].x;pos2.y=p->positions[i].y;
-            func_0204B404(p->handles[i],&pos2,p->heap);
+            CLACT_AddActorSurfacePos(p->handles[i],&pos2,p->heap);
         }
         p->flag=1;
         p->timer++;

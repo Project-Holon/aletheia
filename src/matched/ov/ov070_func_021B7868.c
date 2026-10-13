@@ -13,9 +13,9 @@
  *   ITEMMENU_IsMessageFinished  0x021BADF0  thumb  ov070
  *   ITEMMENU_HandleQuantityInput  0x021B7DF4  thumb  ov070
  *   ITEMMENU_CheckTouchRelease  0x021B8DAC  thumb  ov070
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_020355D8  0x020355D8  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   ITEMMENU_HideQuantityWindows  0x021B7DD0  thumb  ov070
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   ITEMMENU_RegisterItemNameCounted  0x021B6204  thumb  ov070
@@ -46,11 +46,11 @@ struct MsgBank;
 extern int ITEMMENU_IsMessageFinished(int p);
 extern int ITEMMENU_HandleQuantityInput(Obj *o);
 extern int ITEMMENU_CheckTouchRelease(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 typedef unsigned char  u8;
 struct WordSet;
 extern void func_020355D8(u8 v);
-extern void func_020061E4(unsigned int id);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned int id);
 extern void ITEMMENU_HideQuantityWindows(u8 *p);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void ITEMMENU_RegisterItemNameCounted(u8 *p, int a, unsigned int b, int c, int d);
@@ -72,16 +72,16 @@ void ITEMMENU_TaskTossQuantityInput(Obj *o)
         return;
     r = ITEMMENU_CheckTouchRelease();
     if (r == -1) {
-        if (func_020362DC() & 1) {
+        if (KEY_GetTrg() & 1) {
             r = 0;
             func_020355D8(0);
-        } else if (func_020362DC() & 2) {
+        } else if (KEY_GetTrg() & 2) {
             func_020355D8(0);
             r = 1;
         }
     }
     if (r == 0) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         ITEMMENU_HideQuantityWindows((u8 *)o);
         MSGDATA_ReadString(o->f51C, 0x37, (void *)o->f524);
         ITEMMENU_RegisterItemNameCounted((u8 *)o, 0, o->f84C, o->f7F4 > 1, 0);
@@ -92,7 +92,7 @@ void ITEMMENU_TaskTossQuantityInput(Obj *o)
         return;
     }
     if (r == 1) {
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         ITEMMENU_StartSideButtonPress((int)o, 4, (int)((void *)ITEMMENU_TaskReopenListFromQuantity));
     }
 }

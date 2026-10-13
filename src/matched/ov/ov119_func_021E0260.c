@@ -9,12 +9,12 @@
  * status: EXACT
  * symbols:
  *   func_020307B0 0x020307B0 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj01536.h"
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 void func_021E0260(char *p)
 {
     int zero;
@@ -26,6 +26,6 @@ void func_021E0260(char *p)
     if (((struct Obj01536 *)p)->f620) func_020307B0(((struct Obj01536 *)p)->f620);
     if (((struct Obj01536 *)p)->f624) func_020307B0(((struct Obj01536 *)p)->f624);
     zero=0;
-    func_02082BCC(p+0x60c,zero,36);
+    MI_CpuFill8(p+0x60c,zero,36);
     p[0x11f7]=zero;
 }

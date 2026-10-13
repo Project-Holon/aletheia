@@ -1,5 +1,5 @@
 /*
- * function: func_021875F4
+ * function: EL_SCOREBOARD_CreateLamp
  * address:  0x021875F4
  * packet:   pkt_ov020_021875F4
  * region:   ov020
@@ -44,7 +44,7 @@ struct TexKey;
 extern int WAZA_OSHIE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, u32 a4, u16 a5, u16 a6, u16 a7, u16 heap, struct TexKey *out);
 extern int EL_SCOREBOARD_SourceFileName;
 
-int *func_021875F4(int a0, int a1, int a2, int a3, struct P e)
+int *EL_SCOREBOARD_CreateLamp(int a0, int a1, int a2, int a3, struct P e)
 {
     struct L l;
     int *p;

@@ -1,5 +1,5 @@
 /*
- * function: func_021CC8C0
+ * function: BTL_SERVER_FLOW_ReadSlotTableEntry
  * address:  0x021CC8C0
  * packet:   pkt_021CC8C0
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021CC8C0   0x021CC8C0  thumb ov093
+ *   BTL_SERVER_FLOW_ReadSlotTableEntry   0x021CC8C0  thumb ov093
  *
  * indexed load
  */
@@ -22,7 +22,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u32 func_021CC8C0(u32 *p, u32 i)
+u32 BTL_SERVER_FLOW_ReadSlotTableEntry(u32 *p, u32 i)
 {
     return p[i];
 }

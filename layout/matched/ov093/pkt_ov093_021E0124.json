@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E0124",
+   "name": "HAND_ITEM_GetDragonGemHandlers",
    "address": "0x021E0124",
    "kind": "game",
    "region": "ov093",

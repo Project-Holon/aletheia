@@ -15,7 +15,7 @@
  * request sits at the lower address.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   TOUCHBAR_Create  0x021B62E0  thumb  ov067
  *   OPTION_MENU_CreateButtonWindows  0x021BA6B8  thumb  ov068
  *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 typedef struct { u32 w[16]; } Tbl;
 typedef struct { u32 w[8]; } Req;
 
-extern void func_02082BCC(void *p, u32 a, u32 b);
+extern void MI_CpuFill8(void *p, u32 a, u32 b);
 extern u32  TOUCHBAR_Create(Req *r, u16 a);
 extern void OPTION_MENU_CreateButtonWindows(u8 *p, u32 arg);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
@@ -43,7 +43,7 @@ void OPTION_MENU_InitButtons(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 
     Tbl t;
     Req r;
 
-    func_02082BCC(p, 0, 0x44);
+    MI_CpuFill8(p, 0, 0x44);
     ((struct Obj02762 *)p)->fC = 3;
     ((struct Obj02762 *)p)->f0 = a2;
     ((struct Obj02762 *)p)->f14 = s1;
@@ -51,7 +51,7 @@ void OPTION_MENU_InitButtons(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 
     ((struct Obj02762 *)p)->f4 = a3;
     ((struct Obj02762 *)p)->f3C = s2;
     t = gOptionMenuReturnButtonCells;
-    func_02082BCC(&r, 0, 0x20);
+    MI_CpuFill8(&r, 0, 0x20);
     r.w[0] = (u32)&t;
     r.w[1] = 2;
     r.w[2] = a1;

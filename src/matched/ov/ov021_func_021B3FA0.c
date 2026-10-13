@@ -14,13 +14,13 @@
  *   d_021DE170    0x021DE170 data ov021 a4
  *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
 #include "../include/Obj00037.h"
@@ -49,13 +49,13 @@ struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *a);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 a);
 
 void SCRCMD_PROC_FLD_InitShopWindows(char *w)
@@ -75,24 +75,24 @@ void SCRCMD_PROC_FLD_InitShopWindows(char *w)
         ((u32 *)(w + 0x164))[i] = BMP_WIN_Create((u8)e->f0, e->f4, e->f5, e->f6, e->f7, (u8)e->f8, 1);
     }
     t = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0x14);
-    PRINTSYS_PrintColor((void *)((u32)func_02045770((struct Descriptor *)((struct Obj00037 *)w)->f164)), 0, 0, (void *)t, (void *)(((struct Obj00037 *)w)->f8), 0x3C4F);
+    PRINTSYS_PrintColor((void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00037 *)w)->f164)), 0, 0, (void *)t, (void *)(((struct Obj00037 *)w)->f8), 0x3C4F);
     STRBUF_Delete((struct U16Vec *)t);
     ((struct Obj00037 *)w)->f1A8 = ((struct Obj00037 *)w)->f16C;
     ((struct Obj00037 *)w)->f1AC = 0;
-    ((struct Obj00037 *)w)->f1B0 = func_0201C440((void *)(((struct Obj00037 *)w)->f4));
+    ((struct Obj00037 *)w)->f1B0 = PRINTSYS_QUE_Create((void *)(((struct Obj00037 *)w)->f4));
     if (((struct Obj00037 *)w)->f163 == 1) {
         bg = ((struct Obj00037 *)w)->f168;
         BMP_WIN_TransferChars((struct Descriptor *)bg);
         BMP_WIN_MakeScreen((struct Cfg *)bg);
-        func_020409B4(func_02045730((struct Descriptor *)bg));
+        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)bg));
     } else {
         bg = ((struct Obj00037 *)w)->f164;
         BMP_WIN_TransferChars((struct Descriptor *)bg);
         BMP_WIN_MakeScreen((struct Cfg *)bg);
-        func_020409B4(func_02045730((struct Descriptor *)bg));
+        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)bg));
         bg = ((struct Obj00037 *)w)->f168;
         BMP_WIN_TransferChars((struct Descriptor *)bg);
         BMP_WIN_MakeScreen((struct Cfg *)bg);
-        func_020409B4(func_02045730((struct Descriptor *)bg));
+        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)bg));
     }
 }

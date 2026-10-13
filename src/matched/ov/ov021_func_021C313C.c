@@ -10,15 +10,18 @@
  * status:   EXACT*
  *
  * Clears a 0x40-byte record and stores its owner (EXACT*: pad).
+ *
+ * symbols:
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 
 typedef unsigned int u32;
 
-extern void func_02082BCC(void *, unsigned, unsigned);
+extern void MI_CpuFill8(void *, unsigned, unsigned);
 
 void FLD3D_CI_InitEventWork(u32 a, u32 *p)
 {
-    func_02082BCC(p, 0, 0x40);
+    MI_CpuFill8(p, 0, 0x40);
     p[0] = a;
     p[14] = 0;
     p[15] = 0;

@@ -12,7 +12,7 @@
  * Per-frame step of the 0x18-byte record INTRUDE_FIELD_InitMmdlCopyAnime initialises.
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
@@ -46,7 +46,7 @@ typedef struct {
 extern const u8 INTRUDE_FIELD_gSpinAcmds[4];
 
 struct Ctx;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int FIELDMAP_IsReady(void *);
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
@@ -65,7 +65,7 @@ int INTRUDE_FIELD_StepPlayerSpin(Rec *r, void *a1)
     case 0:
         r->fA = 15;
         r->f8 = r->fA;
-        func_020061E4(0x738);
+        GFL_USE_PlaySeDefaultVolume(0x738);
         r->f10++;
         break;
     case 1:

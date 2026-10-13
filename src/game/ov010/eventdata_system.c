@@ -20,14 +20,14 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_020307B0  0x020307B0  arm
  *   FIELD_ENCOUNT_ST_LoadEncountData  0x0215E2B8  thumb  ov010
- *   func_02013ECC  0x02013ECC  thumb
+ *   ZONEDATA_GetEventDataId  0x02013ECC  thumb
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  *   ZONEDATA_InitLocation 0x020140F8 thumb
  *   ZONEDATA_SetExitLocation 0x02014110 thumb
  *   ZONEDATA_SetExitRailLocation 0x02014134 thumb
  *   ZONEDATA_SetExitLocationIdOnly  0x0201416C  thumb
- *   func_020143CC  0x020143CC  thumb
+ *   ZONEDATA_GetEventWorkAddress  0x020143CC  thumb
  *   EVENTDATA_SYSTEM_GetHiddenItemFlag  0x02164708  thumb  ov010
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   ZONEDATA_DirToRailKey 0x0201441C thumb
@@ -162,14 +162,14 @@ extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern int func_020307B0();
 extern int FIELD_ENCOUNT_ST_LoadEncountData(struct EncountData *encount, int a, int b, int n);
-extern unsigned func_02013ECC(unsigned);
+extern unsigned ZONEDATA_GetEventDataId(unsigned);
 extern unsigned ARC_TOOL_GetHandleMemberSize(struct ArcFile *, unsigned);
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *, unsigned, unsigned, unsigned, void *);
 extern void ZONEDATA_InitLocation(int p0);
 extern void ZONEDATA_SetExitLocation(int *, u16, s16, u16, int, unsigned, unsigned, unsigned);
 extern void ZONEDATA_SetExitRailLocation(int *, u16, s16, u16, int, u16, u16, s16);
 extern int ZONEDATA_SetExitLocationIdOnly(int a0, int a1, int a2, int a3);
-extern u32 func_020143CC(u32 a, u32 b);
+extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
 extern u16 EVENTDATA_SYSTEM_GetHiddenItemFlag(u16 id);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 extern u8 ZONEDATA_DirToRailKey(int m);
@@ -363,7 +363,7 @@ void EVENTDATA_SYSTEM_ReadEventFile(EventDataSystem *system, int zoneId)
     unsigned offset;
     const EventFileData *fileData;
 
-    fileId = func_02013ECC(zoneId);
+    fileId = ZONEDATA_GetEventDataId(zoneId);
     fileSize = ARC_TOOL_GetHandleMemberSize(system->eventArc, fileId);
     ARC_TOOL_ReadHandleMemberRange(system->eventArc, fileId, 0, fileSize, &system->fileSize);
     offset = 0;
@@ -662,7 +662,7 @@ struct EventRec *EVENTDATA_SYSTEM_SearchPosEvent(EventDataSystem *system, void *
             if (EVENTDATA_SYSTEM_IsPosEventGridHit(event, pos) != 0 && event->checkType == checkType) {
                 if (event->workId == 0)
                     return event;
-                workValue = *((u16 *)func_020143CC((u32)eventWork, event->workId));
+                workValue = *((u16 *)ZONEDATA_GetEventWorkAddress((u32)eventWork, event->workId));
                 if (workValue == event->workValue)
                     return event;
             }
@@ -686,7 +686,7 @@ struct EventRec *EVENTDATA_SYSTEM_SearchPosEventIgnoreHeight(EventDataSystem *sy
             if (EVENTDATA_SYSTEM_IsPosEventGridHitIgnoreHeight(event, pos) != 0 && event->checkType == checkType) {
                 if (event->workId == 0)
                     return event;
-                workValue = *((u16 *)func_020143CC((u32)eventWork, event->workId));
+                workValue = *((u16 *)ZONEDATA_GetEventWorkAddress((u32)eventWork, event->workId));
                 if (workValue == event->workValue)
                     return event;
             }
@@ -707,7 +707,7 @@ struct EventRec *EVENTDATA_SYSTEM_SearchAutoPosEvent(EventDataSystem *system, vo
             if (EVENTDATA_SYSTEM_IsPosEventGridHit(event, pos) != 0 && event->checkType == 6) {
                 if (event->workId == 0)
                     return event;
-                workValue = *((u16 *)func_020143CC((u32)eventWork, event->workId));
+                workValue = *((u16 *)ZONEDATA_GetEventWorkAddress((u32)eventWork, event->workId));
                 if (workValue == event->workValue)
                     return event;
             }
@@ -726,7 +726,7 @@ struct EventRec *EVENTDATA_SYSTEM_SearchRailPosEvent(EventDataSystem *system, vo
         count = system->posCount;
         for (i = 0; i < count; i++, event++) {
             if (EVENTDATA_SYSTEM_IsPosEventRailHit(event, location) != 0) {
-                workValue = *((u16 *)func_020143CC((u32)eventWork, event->workId));
+                workValue = *((u16 *)ZONEDATA_GetEventWorkAddress((u32)eventWork, event->workId));
                 if (workValue == event->workValue)
                     return event;
             }

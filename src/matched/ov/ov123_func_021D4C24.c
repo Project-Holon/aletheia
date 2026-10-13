@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 #include "../include/Obj05360.h"
@@ -19,6 +19,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 extern u16 CLACT_GetActorAnimSeq(struct Obj *);
-extern void func_0204B92C(struct Obj *,u32);
+extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
-void func_021D4C24(u8 *p, int v) { if(v!=CLACT_GetActorAnimSeq(*(struct Obj * *)&((struct Obj05360 *)p)->f2A0)) { func_0204B92C(*(struct Obj * *)&((struct Obj05360 *)p)->f2A0,1); CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj05360 *)p)->f2A0,v); } }
+void func_021D4C24(u8 *p, int v) { if(v!=CLACT_GetActorAnimSeq(*(struct Obj * *)&((struct Obj05360 *)p)->f2A0)) { CLACT_SetActorAutoAnim(*(struct Obj * *)&((struct Obj05360 *)p)->f2A0,1); CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj05360 *)p)->f2A0,v); } }

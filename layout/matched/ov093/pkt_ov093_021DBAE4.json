@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_TOKUSEI_GetMagnetPullHandlers",
+   "name": "HAND_TOKUSEI_GetMagnetPullHandlers",
    "address": "0x021DBAE4",
    "kind": "game",
    "region": "ov093",

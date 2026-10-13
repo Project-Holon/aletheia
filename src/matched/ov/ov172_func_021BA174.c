@@ -12,17 +12,17 @@
  * Zero-fills a byte buffer, then runs func_021B6A00 over it.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021B6A00  0x021B6A00  thumb  ov172
  *
  * Addresses are Black-image addresses.
  */
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern int func_021B6A00(void *a0, unsigned a1, void *a2);
 
 int func_021BA174(int unused, void *a, void *buf, unsigned n)
 {
-    func_02082BCC(buf, 0, n);
+    MI_CpuFill8(buf, 0, n);
     return func_021B6A00(a, n, buf);
 }

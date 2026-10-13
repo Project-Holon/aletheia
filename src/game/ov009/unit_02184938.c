@@ -76,7 +76,7 @@ extern void GSMD5_memcpy(unsigned char * output, unsigned char * input, unsigned
 extern void GSMD5Transform(unsigned int * state, unsigned char * block);
 extern void Encode(unsigned char * output, unsigned int * input, unsigned int len);
 extern void GSMD5_memset(unsigned char * output, int value, unsigned int len);
-extern void *func_02185848(void *p, int c, u32 n);
+extern void *GSMD5_memset_Alt(void *p, int c, u32 n);
 void func_02184938(struct GSMD5_CTX * context);
 void GSMD5Update(struct GSMD5_CTX * context, unsigned char * input, unsigned int inputLen);
 void func_02184A34(unsigned char * digest, struct GSMD5_CTX * context);
@@ -229,7 +229,7 @@ void func_02184AB4(u32 state[4], const u8 block[64])
     state[2] += c;
     state[3] += d;
 
-    func_02185848(x, 0, 64);
+    GSMD5_memset_Alt(x, 0, 64);
 }
 
 /*

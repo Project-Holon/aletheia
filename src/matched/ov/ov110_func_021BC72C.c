@@ -10,7 +10,7 @@
  * symbols:
  *   func_021BC578 0x021BC578 thumb ov110
  *   func_021BC69C 0x021BC69C thumb ov110
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -21,7 +21,7 @@ struct Obj;
 struct Vec2;
 extern void func_021BC578(const s16 *a, s16 *b);
 extern void func_021BC69C(u8 *p, int flag);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021BC72C(char *p, int i)
 {
     struct Pt t;
@@ -33,8 +33,8 @@ void func_021BC72C(char *p, int i)
         t.x = 0x80;
         t.y = 0x18;
     }
-    func_0204B404(*(void **)(p + 0x14), (const struct Vec2 *)(&t.x), 0);
+    CLACT_AddActorSurfacePos(*(void **)(p + 0x14), (const struct Vec2 *)(&t.x), 0);
     t.y += 0xC0;
-    func_0204B404(*(void **)(p + 0x18), (const struct Vec2 *)(&t.x), 1);
+    CLACT_AddActorSurfacePos(*(void **)(p + 0x18), (const struct Vec2 *)(&t.x), 1);
     func_021BC69C((u8 *)p, 1);
 }

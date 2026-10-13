@@ -18,7 +18,7 @@
  *   func_02040EBC 0x02040EBC arm
  *   func_0207D63C 0x0207D63C arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_022058F8 0x022058F8 thumb ov195
  *   func_02205A34 0x02205A34 thumb ov195
  *   func_022051FC 0x022051FC thumb ov195
@@ -72,7 +72,7 @@ extern void func_02040EBC(u32 a0, u32 a1);
 extern void func_0207D63C(int, int, int, int, int);
 struct GfFont;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern char *func_022058F8(u32 a, u32 b);
 extern void func_02205A34(void);
 extern void func_022051FC(int a, char *b);
@@ -95,7 +95,7 @@ void func_02204C24(App *a, Scene *s)
     s->f04 = func_022058F8(1, s->heap);
     func_02205A34();
     s->f08 = (u32)GF_FONT_Create(0x17, 0, 0, 0, s->heap);
-    s->f0c = (void *)func_0201C440((void *)s->heap);
+    s->f0c = (void *)PRINTSYS_QUE_Create((void *)s->heap);
     func_022051FC((int)a, (char *)s);
     s->f9c = 0;
     func_02205530((int)a, (char *)s);

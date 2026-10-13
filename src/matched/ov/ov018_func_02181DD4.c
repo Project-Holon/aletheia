@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
  *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb
@@ -43,7 +43,7 @@ typedef unsigned int   u32;
 struct Evt;
 struct Obj;
 struct WordSet;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, int a);
 int EVENT_COMM_COMMON_IsPrintFinished(Ov018Obj *p);
@@ -60,7 +60,7 @@ int EVENT_COMM_COMMON_SupportMsgEventMain(void *a, int *state, Ov018Obj *c)
     void *sub;
     void *w;
 
-    sub = func_020124E4(a);
+    sub = GAME_EVENT_GetGameSystem(a);
     switch (*state) {
     case 0:
         func_0201F02C(c->f00, 0, c->f30);

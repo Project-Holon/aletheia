@@ -11,7 +11,7 @@
  *   a scalar u16: original outgoing str word and callee ldrh preserve bits.
  * lever: reuse value for value*10/32, retaining the dying local's register.
  * symbols:
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  *   _u32_div_f 0x0209C2B0 arm
  *   _fflt 0x0209BDBC arm
  *   _fdiv 0x0209CE10 arm
@@ -25,12 +25,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Rgb555 { u16 r:5; u16 g:5; u16 b:5; u16 pad:1; };
-extern const short d_020A1B38[];
+extern const short FX_SinCosTable_[];
 extern void PALANM_BlendColors(u16 *,u16 *,u32,u8,u16);
 void func_021C2AA0(u8 *p)
 {
     u16 angle=(u16)((((struct Obj00115 *)p)->f1C<<16)/60u);
-    u8 value=(u8)(int)(16.0f+16.0f*((float)d_020A1B38[(angle>>4)*2]/4096.0f));
+    u8 value=(u8)(int)(16.0f+16.0f*((float)FX_SinCosTable_[(angle>>4)*2]/4096.0f));
     value=value*10/32;
     PALANM_BlendColors(*(u16 * *)&((struct Obj00115 *)p)->fC,*(u16 * *)&((struct Obj00115 *)p)->f8,p[0x10],value,((struct Obj00115 *)p)->f12);
     ((struct Obj00115 *)p)->f1C+=1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021770A8
+ * function: GFL_NET_DEVWIRELESS_OnShutdownDone
  * address: 0x021770A8
  * packet: pkt_ov014_021770A8
  * region: ov014
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 extern u8 *sDevWirelessWork;
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-int func_021770A8(void *arg)
+int GFL_NET_DEVWIRELESS_OnShutdownDone(void *arg)
 {
     if (*(void (**)(void *))(sDevWirelessWork+4) != 0)
         (*(void (**)(void *))(sDevWirelessWork+4))(arg);

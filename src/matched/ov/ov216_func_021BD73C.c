@@ -11,19 +11,19 @@
  *
  * symbols:
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  */
 #include "../include/Obj10950.h"
 
 typedef unsigned int u32;
 
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 
 int func_021BD73C(char *p)
 {
     unsigned char c;
-    if (TOUCHPANEL_GetTrg() != 0 || (func_020362DC() & 1) != 0)
+    if (TOUCHPANEL_GetTrg() != 0 || (KEY_GetTrg() & 1) != 0)
     {
         ((struct Obj10950 *)p)->f1 = 0;
         return 0;

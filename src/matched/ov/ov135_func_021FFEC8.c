@@ -14,7 +14,7 @@
  *   func_02200118 0x02200118 thumb ov135
  *   func_022000E4 0x022000E4 thumb ov135
  *   func_021F4EC8 0x021F4EC8 thumb ov135
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj00287.h"
 typedef unsigned char u8;
@@ -26,7 +26,7 @@ extern void func_02200118(void);
 extern void func_022000E4(char *p);
 extern void func_021F4EC8(u8 *);
 struct Obj;
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 int func_021FFEC8(u8 *p)
 {
     func_02200290(p);
@@ -35,7 +35,7 @@ int func_021FFEC8(u8 *p)
     func_02200118();
     if (((struct Obj00287 *)p)->f14 == 4 || ((struct Obj00287 *)p)->f14 == 5) ((struct Obj00287 *)p)->f12E4 = 1;
     func_022000E4((char *)p);
-    func_0204B3DC((struct Obj *)*(u32 *)&((struct Obj00287 *)p)->fD38, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)&((struct Obj00287 *)p)->fD38, 0);
     func_021F4EC8(p);
     return 0;
 }

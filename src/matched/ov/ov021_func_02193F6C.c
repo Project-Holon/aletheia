@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm  arm9
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -24,10 +24,10 @@ typedef struct E50 {
     u8  pad02[0x4E];
 } E50;
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 
 void FIELD_WFBC_PEOPLE_Clear(E50 *e)
 {
-    func_02082BCC(e, 0, 0x50);
+    MI_CpuFill8(e, 0, 0x50);
     e->f00 = 0;
 }

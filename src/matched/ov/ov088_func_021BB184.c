@@ -21,9 +21,9 @@
  *   CLACT_RegisterPalette  0x0204ABF0  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B92C  0x0204B92C  arm
- *   func_020434DC  0x020434DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   d_021BD688     0x021BD688  data  a4
@@ -60,9 +60,9 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 space, u16 heap);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B92C(struct Obj *, u32);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *, u32);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -95,13 +95,13 @@ void STARTMENU_CreateActors(int *p)
     ARC_TOOL_DeleteHandle(h);
     p[6] = (int)CLACT_CreateUnit(6, 0, 0xb);
     p[7] = (int)CLACT_CreateActor((void *)p[6], p[13], p[16], p[19], d_021BD5DC, 0, 0xb);
-    func_0204B3DC((void *)p[7], 0);
+    CLACT_SetActorDrawEnable((void *)p[7], 0);
     for (i = 1; i <= 4; i++) {
         p[7 + i] = (int)CLACT_CreateActor((void *)p[6], p[14], p[17], p[20], d_021BD5E4, 0, 0xb);
-        func_0204B92C((struct Obj *)p[7 + i], 1);
-        func_0204B3DC((void *)p[7 + i], 0);
+        CLACT_SetActorAutoAnim((struct Obj *)p[7 + i], 1);
+        CLACT_SetActorDrawEnable((void *)p[7 + i], 0);
     }
     p[12] = (int)CLACT_CreateActor((void *)p[6], p[15], p[18], p[21], d_021BD5D4, 0, 0xb);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }

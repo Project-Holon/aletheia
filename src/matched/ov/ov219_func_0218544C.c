@@ -76,7 +76,7 @@
 
  * symbols:
  *   STRBUF_Create 0x020457B0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   func_02184D30 0x02184D30 thumb ov219
@@ -92,7 +92,7 @@ typedef short s16;
 typedef unsigned int u32;
 struct U16Vec;struct Descriptor;struct CharBuf;struct MsgBank;struct Record;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
 extern void func_02184D30(char *,struct Record *,struct Descriptor *,void *,u8,u8);
@@ -106,7 +106,7 @@ void func_0218544C(char *p)
     u32 selected;
     if(*(u32 *)(p+0xC350)==0) {
         buffer=STRBUF_Create(1024,(u16)(*(u32 *)p));
-        BMP_Clear(func_02045770(*(struct Descriptor **)(p+0xC01C)),15);
+        BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+0xC01C)),15);
         MSGDATA_ReadString(*(struct MsgBank **)(p+0xC070),15,buffer);
         func_02184D30(p,(struct Record *)(p+0xC020),*(struct Descriptor **)(p+0xC01C),buffer,0,0);
         STRBUF_Delete(buffer);
@@ -115,7 +115,7 @@ void func_0218544C(char *p)
         if(func_0218532C(p,&selected)) {
             first=STRBUF_Create(64,(u16)(*(u32 *)p));
             second=STRBUF_Create(64,(u16)(*(u32 *)p));
-            BMP_Clear(func_02045770(*(struct Descriptor **)(p+0xC01C)),15);
+            BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+0xC01C)),15);
             func_02185C84(*(u16 *)(p+selected*48+66),*(u16 *)(p+selected*48+68),first,second,*(u32 *)p);
             if(*(u16 *)(p+selected*48+68)!=0)
                 func_02184D30(p,(struct Record *)(p+0xC020),*(struct Descriptor **)(p+0xC01C),second,0,16);

@@ -21,9 +21,9 @@
  *   func_02025FC8  0x02025FC8  thumb
  *   func_02025F60  0x02025F60  thumb
  *   func_02026010  0x02026010  thumb
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_020355D8  0x020355D8  arm
- *   func_0203633C  0x0203633C  arm
+ *   KEY_GetRepeat  0x0203633C  arm
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   func_020261C4  0x020261C4  thumb
  *   g_0209FB58  0x0209FB58  data
@@ -138,9 +138,9 @@ typedef enum { Z0 } E;
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_FreeMemory(void *p);
 extern void UI_SetInputMode(u8 v);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
-extern unsigned int func_0203633C(void);
+extern unsigned int KEY_GetRepeat(void);
 extern int TOUCHPANEL_HitTrg(const void *key);
 extern u8 *GAME_DATA_GetMyStatus(void *a0);
 extern struct U16Vec *STRBUF_Create(u32 a0, u32 a1);
@@ -304,16 +304,16 @@ int func_02025D2C(struct Cursor *obj)
         return func_02025FC8(obj);
     }
 
-    if (func_020362DC() & 0x40) {
+    if (KEY_GetTrg() & 0x40) {
         sel = func_02025F60(obj->entries, obj->cur, 0);
         dir = 0;
-    } else if (func_020362DC() & 0x80) {
+    } else if (KEY_GetTrg() & 0x80) {
         sel = func_02025F60(obj->entries, obj->cur, 1);
         dir = 1;
-    } else if (func_020362DC() & 0x20) {
+    } else if (KEY_GetTrg() & 0x20) {
         sel = func_02025F60(obj->entries, obj->cur, 2);
         dir = 2;
-    } else if (func_020362DC() & 0x10) {
+    } else if (KEY_GetTrg() & 0x10) {
         sel = func_02025F60(obj->entries, obj->cur, 3);
         dir = 3;
     } else {
@@ -323,11 +323,11 @@ int func_02025D2C(struct Cursor *obj)
     if (sel != 0xff) {
         return func_02026010(obj, dir, sel);
     }
-    if (func_020362DC() & 1) {
+    if (KEY_GetTrg() & 1) {
         func_020355D8(0);
         return obj->cur;
     }
-    if (func_020362DC() & 2) {
+    if (KEY_GetTrg() & 2) {
         dir = 0;
         func_020355D8(0);
         return dir - 2;
@@ -337,7 +337,7 @@ int func_02025D2C(struct Cursor *obj)
 
 
 /*
- * field_sound_system.c.  The secondary-pad twin of func_02025D2C: identical shape, but the four direction bits come from func_0203633C while the two action bits still come from func_020362DC.
+ * field_sound_system.c.  The secondary-pad twin of func_02025D2C: identical shape, but the four direction bits come from KEY_GetRepeat while the two action bits still come from KEY_GetTrg.
  *
  * func_02026010 takes three arguments; the third is the slot value
  * func_02025F60 returned, which reads at the call site as a leftover r2 but
@@ -357,16 +357,16 @@ int func_02025DE8(struct Cursor *obj)
         return func_02025FC8(obj);
     }
 
-    if (func_0203633C() & 0x40) {
+    if (KEY_GetRepeat() & 0x40) {
         sel = func_02025F60(obj->entries, obj->cur, 0);
         dir = 0;
-    } else if (func_0203633C() & 0x80) {
+    } else if (KEY_GetRepeat() & 0x80) {
         sel = func_02025F60(obj->entries, obj->cur, 1);
         dir = 1;
-    } else if (func_0203633C() & 0x20) {
+    } else if (KEY_GetRepeat() & 0x20) {
         sel = func_02025F60(obj->entries, obj->cur, 2);
         dir = 2;
-    } else if (func_0203633C() & 0x10) {
+    } else if (KEY_GetRepeat() & 0x10) {
         sel = func_02025F60(obj->entries, obj->cur, 3);
         dir = 3;
     } else {
@@ -376,11 +376,11 @@ int func_02025DE8(struct Cursor *obj)
     if (sel != 0xff) {
         return func_02026010(obj, dir, sel);
     }
-    if (func_020362DC() & 1) {
+    if (KEY_GetTrg() & 1) {
         func_020355D8(0);
         return obj->cur;
     }
-    if (func_020362DC() & 2) {
+    if (KEY_GetTrg() & 2) {
         dir = 0;
         func_020355D8(0);
         return dir - 2;
@@ -518,12 +518,12 @@ int func_02025FA4(struct Cursor *obj)
 int func_02025FC8(struct Cursor *obj)
 {
     if (obj->mode == 1) {
-        if (func_020362DC() & 0xf3) {
+        if (KEY_GetTrg() & 0xf3) {
             return func_02025FA4(obj);
         }
-    } else if (func_020362DC() & 0xf1) {
+    } else if (KEY_GetTrg() & 0xf1) {
         return func_02025FA4(obj);
-    } else if (func_020362DC() & 2) {
+    } else if (KEY_GetTrg() & 2) {
         func_02025FA4(obj);
         return -2;
     }

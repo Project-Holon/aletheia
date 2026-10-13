@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   TIME_ICON_Create 0x0202EE30 thumb
  *   GFL_NET_SetLoginOption 0x0203D7BC arm
  *   GFL_NET_SetAutoExit 0x0203D7B0 arm
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct Entry;
 struct Link;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u32 func_02039CB4(struct Link *p, u32 lo, u32 hi);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, u32 lo, u32 hi);
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern void GFL_NET_SetLoginOption(u8 a0);
 extern void GFL_NET_SetAutoExit(u8 a0);
@@ -36,7 +36,7 @@ int func_021DF6FC(u8 *p)
     void *ctx;
     ctx = GFL_NET_HANDLE_GetCurrentHandle();
     if (((struct Obj03305 *)p)->f18 == 0) {
-        if (func_02039CB4(ctx, 206, 40)) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange(ctx, 206, 40)) {
             ((struct Obj03305 *)p)->fDA8 = TIME_ICON_Create(((struct Obj03305 *)p)->fD98, ((struct Obj03305 *)p)->fCF0, 15, 16, 114);
             GFL_NET_SetLoginOption(0);
             GFL_NET_COMMAND_DeleteCommandTable(10240);

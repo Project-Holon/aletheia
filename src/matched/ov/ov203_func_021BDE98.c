@@ -14,7 +14,7 @@
  *   func_021BE0C4 0x021BE0C4 thumb ov203
  *   func_021BE02C 0x021BE02C thumb ov203
  *   func_0201DD68 0x0201DD68 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj10861.h"
@@ -24,7 +24,7 @@ extern void func_021BE12C(int *);
 extern void func_021BE0C4(char *);
 extern void func_021BE02C(void *);
 extern void func_0201DD68(void);
-extern void func_02082BCC(void *, unsigned, unsigned);
+extern void MI_CpuFill8(void *, unsigned, unsigned);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void func_021BDE98(char *ctx)
@@ -40,6 +40,6 @@ void func_021BDE98(char *ctx)
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xffff1fff;
     *(volatile unsigned *)0x04001000 &= 0xffff1fff;
-    func_02082BCC(ctx, 0, 24);
+    MI_CpuFill8(ctx, 0, 24);
     func_020307B0(ctx);
 }

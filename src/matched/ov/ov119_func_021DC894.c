@@ -32,7 +32,7 @@
  *   func_020056A0 0x020056A0 thumb
  *   func_021DC500 0x021DC500 thumb ov119
  *   func_021E30EC 0x021E30EC thumb ov119
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021E0B34 0x021E0B34 thumb ov119
  *   func_021E10D8 0x021E10D8 thumb ov119
@@ -55,7 +55,7 @@ extern char ov067_id[],ov114_id[],ov117_id[],ov118_id[];
 extern void BG_SYS_SetLcdSwap(unsigned int swap);
 extern void GFL_NET_SetAutoExit(u8 a0);
 extern void GFL_NET_SetLoginOption(u8 a0);
-extern void func_02043534(unsigned int planes);
+extern void BG_SYS_SetMainVisiblePlanes(unsigned int planes);
 extern void BG_SYS_SetSubVisiblePlanes(unsigned int planes);
 extern void GFL_NET_RestartWithDefaultTimeout(unsigned int a, unsigned int b);
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
@@ -108,10 +108,10 @@ int func_021DC894(int a,int b,char *q,char *p,int n)
     I(0xf84)=-1;I(0x109c)=-1;I(0xf7c)=-1;I(0xf80)=-1;I(0xf98)=-1;I(0xf94)=-1;
     func_021E30EC(p);
     if(((struct Obj04478 *)q)->f8==1) {
-        func_02043534(16);func_021D8E84(p,(int)func_021E0B34);((struct Obj04478 *)q)->f8=0;return 1;
+        BG_SYS_SetMainVisiblePlanes(16);func_021D8E84(p,(int)func_021E0B34);((struct Obj04478 *)q)->f8=0;return 1;
     }
     func_021E10D8(p);func_021E3FE4(p);
     if(I(0x118c)<4) {func_021DC494(p);func_021E3C20(p);GFL_NET_RestartWithDefaultTimeout(1,H(0x5f4));}
-    func_021E3208(p,0);func_02043534(0);BG_SYS_SetSubVisiblePlanes(0);func_021D8E84(p,(int)func_021DAC60);
+    func_021E3208(p,0);BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);func_021D8E84(p,(int)func_021DAC60);
     return 1;
 }

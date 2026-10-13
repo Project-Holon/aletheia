@@ -18,7 +18,7 @@
  *   gEntranceInEventTable     0x021D9BB0  data  ov021  a4
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_021A7E3C  0x021A7E3C  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   EVENT_FIELD_PROCLINK_IsHopDone  0x02161B1C  thumb  ov010
@@ -58,7 +58,7 @@ struct BgmInfo;
 extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
 extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, EntranceInEventFunc func, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
-extern void func_020061E4(u32 seId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern GameEvent *func_021A7E3C(EntranceParam *param);
 extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *child);
 extern int EVENT_FIELD_PROCLINK_IsHopDone(FieldMap *fieldMap);
@@ -145,7 +145,7 @@ u32 EVENT_ENTRANCE_IN_RunPlain(GameEvent *event, int *seq, EntranceInWork *work)
     case 0:
         EVENT_ENTRANCE_IN_ReplaceBgm(work);
         if (param->exitEffectId != ENTRANCE_EFFECT_NO_DOOR_SE)
-            func_020061E4(ENTRANCE_IN_SE_DOOR);
+            GFL_USE_PlaySeDefaultVolume(ENTRANCE_IN_SE_DOOR);
         EVENT_ENTRANCE_IN_CallFadeOut(work, event);
         (*seq)++;
         break;
@@ -189,7 +189,7 @@ u32 EVENT_ENTRANCE_IN_RunObjectAnime(GameEvent *event, int *seq, EntranceInWork 
     case 1:
         if (EVENT_FIELD_PROCLINK_IsAnimFlagSet(work->animHandle)) {
             if (param->exitEffectId != ENTRANCE_EFFECT_NO_DOOR_SE)
-                func_020061E4(ENTRANCE_IN_SE_DOOR);
+                GFL_USE_PlaySeDefaultVolume(ENTRANCE_IN_SE_DOOR);
             EVENT_ENTRANCE_IN_CallFadeOut(work, event);
             (*seq)++;
         }
@@ -263,7 +263,7 @@ u32 EVENT_ENTRANCE_IN_RunFadeSe(GameEvent *event, int *seq, EntranceInWork *work
     switch (*seq) {
     case 0:
         EVENT_ENTRANCE_IN_ReplaceBgm(work);
-        func_020061E4(ENTRANCE_IN_SE_FADE);
+        GFL_USE_PlaySeDefaultVolume(ENTRANCE_IN_SE_FADE);
         GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, fieldMap, 2, 0));
         (*seq)++;
         break;

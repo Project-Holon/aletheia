@@ -1,5 +1,5 @@
 /*
- * function: func_021C7474
+ * function: BTL_SERVER_FLOW_CalcDefenseStat
  * address: 0x021C7474
  * packet: pkt_ov093_021C7474
  * region: ov093
@@ -11,9 +11,9 @@
  *   no witness outside this caller (7474-r1.log). Verified blocker C copied
  *   from ov093_func_021C1E74.c, whose header records its EXACT compile:
  *   typedef unsigned short u16; typedef unsigned int u32;
- *   extern u32 sub_0201BD28(u16, u32);
- *   symbols: sub_0201BD28 0x0201BD28 thumb
- *   u32 WAZA_TOOL_GetDamageType(u16 id) { return sub_0201BD28(id, 2); }
+ *   extern u32 WAZA_TOOL_GetParam(u16, u32);
+ *   symbols: WAZA_TOOL_GetParam 0x0201BD28 thumb
+ *   u32 WAZA_TOOL_GetDamageType(u16 id) { return WAZA_TOOL_GetParam(id, 2); }
  * symbols:
  *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
  *   BTL_EVENT_PushVarFrame 0x021D74F8 thumb ov093
@@ -52,7 +52,7 @@ extern int BTL_POKEPARAM_HasType(void *, int);
 extern void BTL_EVENT_SetVarRanged(int, u32, u32, u32);
 extern u32 BTL_CALC_MulRatio(u32 a, u32 b);
 
-u16 func_021C7474(u8 *p, u8 *a, u8 *b, u8 *c, u32 flag)
+u16 BTL_SERVER_FLOW_CalcDefenseStat(u8 *p, u8 *a, u8 *b, u8 *c, u32 flag)
 {
     int k;
     u32 field;

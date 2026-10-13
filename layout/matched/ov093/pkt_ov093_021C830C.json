@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C830C",
+   "name": "BTL_SERVER_FLOW_TestStateFlagBit0",
    "address": "0x021C830C",
    "kind": "game",
    "region": "ov093",

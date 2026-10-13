@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_GetSandVeilHandlers
+ * function: HAND_TOKUSEI_GetSandVeilHandlers
  * address: 0x021D8A9C
  * packet: pkt_ov093_021D8A9C
  * region: ov093
@@ -15,10 +15,10 @@
  *   gSandVeilHandlers 0x021F09E0 data ov093 a4
  */
 
-int *BTL_CALC_GetSandVeilHandlers(int *p);
+int *HAND_TOKUSEI_GetSandVeilHandlers(int *p);
 extern int gSandVeilHandlers[];
 
-int *BTL_CALC_GetSandVeilHandlers(int *p)
+int *HAND_TOKUSEI_GetSandVeilHandlers(int *p)
 {
     *p = 2;
     return gSandVeilHandlers;

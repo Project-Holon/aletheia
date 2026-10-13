@@ -1,5 +1,5 @@
 /*
- * function: func_021E6B20
+ * function: HAND_WAZA_NaturePowerPickMove
  * address:  0x021E6B20
  * packet:   pkt_021B75A8
  * region:   ov093
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E6B20   0x021E6B20  thumb
+ *   HAND_WAZA_NaturePowerPickMove   0x021E6B20  thumb
  *   BTL_EVENT_GetVar   0x021D775C  thumb
- *   func_021C8174   0x021C8174  thumb
- *   func_021C8030   0x021C8030  thumb
+ *   BTL_SERVER_FLOW_GetFieldSituationType   0x021C8174  thumb
+ *   BTL_SERVER_FLOW_DecideMoveTarget   0x021C8030  thumb
  *   BTL_EVENT_OverwriteVar   0x021D76BC  thumb
  *
- * 16-case jump table on func_021C8174(a), gated on b == BTL_EVENT_GetVar(2);
+ * 16-case jump table on BTL_SERVER_FLOW_GetFieldSituationType(a), gated on b == BTL_EVENT_GetVar(2);
  * every value 0..15 is covered by eight bodies sitting at 6B66, 6B6A, 6B6E,
  * 6B72, 6B76, 6B7A, 6B7E, 6B82 -- that is the order they are written in
  * below.  Each body picks a script id (0x192 and 0x1aa come out of the pool
- * because they do not fit a movs); the id goes to func_021C8030 and to
- * BTL_EVENT_OverwriteVar(0x12,...), and func_021C8030's result to BTL_EVENT_OverwriteVar(0xd,...).
+ * because they do not fit a movs); the id goes to BTL_SERVER_FLOW_DecideMoveTarget and to
+ * BTL_EVENT_OverwriteVar(0x12,...), and BTL_SERVER_FLOW_DecideMoveTarget's result to BTL_EVENT_OverwriteVar(0xd,...).
  *
  * The `default:` label belongs on the case 4/14 group, not on a block of its
  * own: the `bhi` out-of-range arm of the table jumps to 6B6A, which is that
@@ -39,18 +39,18 @@ typedef signed short s16;
 typedef signed int s32;
 
 extern int BTL_EVENT_GetVar(int a);
-extern int func_021C8174(int *p);
-extern int func_021C8030(int a, int b, int c);
+extern int BTL_SERVER_FLOW_GetFieldSituationType(int *p);
+extern int BTL_SERVER_FLOW_DecideMoveTarget(int a, int b, int c);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E6B20(int x, int a, int b)
+void HAND_WAZA_NaturePowerPickMove(int x, int a, int b)
 {
     int v;
     int r;
 
     if (BTL_EVENT_GetVar(2) != b)
         return;
-    switch (func_021C8174((int *)a)) {
+    switch (BTL_SERVER_FLOW_GetFieldSituationType((int *)a)) {
     case 1: case 2: case 3: case 8: case 15:
         v = 0x59;
         break;
@@ -76,7 +76,7 @@ void func_021E6B20(int x, int a, int b)
         v = 0x3a;
         break;
     }
-    r = func_021C8030(a, b, v);
+    r = BTL_SERVER_FLOW_DecideMoveTarget(a, b, v);
     BTL_EVENT_OverwriteVar(0x12, v);
     BTL_EVENT_OverwriteVar(0xd, r);
 }

@@ -17,12 +17,12 @@
  *   d_0220A0C8     0x0220A0C8  data
  *   d_0220A0B0     0x0220A0B0  data
  *   d_0220A0E0     0x0220A0E0  data
- *   d_020A1B38     0x020A1B38  data  a2
+ *   FX_SinCosTable_     0x020A1B38  data  a2
  *   _ll_mul        0x0209C054  arm
  *   func_021F86A4  0x021F86A4  thumb  ov094
  *   func_021F6AA8  0x021F6AA8  thumb  ov094
- *   func_0200616C  0x0200616C  thumb
- *   func_020061F8  0x020061F8  thumb
+ *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb
  *   func_021FFD9C  0x021FFD9C  thumb  ov094
  *   func_021FF4C0  0x021FF4C0  thumb  ov094
  *   func_022018A8  0x022018A8  thumb  ov094
@@ -69,12 +69,12 @@ typedef struct {
 extern const Tab6 d_0220A0C8;
 extern const Tab6 d_0220A0B0;
 extern const Tab12 d_0220A0E0;
-extern const s16 d_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 
 extern int func_021F86A4(void);
 extern void func_021F6AA8(int p, int i, int j, int a, int b);
-extern void func_0200616C(void *arg, int i);
-extern void func_020061F8(int a);
+extern void GFL_USE_PlaySeInSlot(void *arg, int i);
+extern void GFL_USE_StopSeSlot(int a);
 extern int func_021FFD9C(char *p, int key);
 extern void func_021FF4C0(char *p, int key, int b, Vec *v, int d, int e, int f);
 extern void func_022018A8(char *p, Vec *out, int key);
@@ -111,16 +111,16 @@ void func_02201408(void *task, Work *w)
         w->step = (w->dir == 0) ? 0x16c : -0x16c;
         w->cnt = 0x3c;
         if (w->sound)
-            func_0200616C((void *)0x6ca, 2);
+            GFL_USE_PlaySeInSlot((void *)0x6ca, 2);
         w->state++;
         return;
     case 1:
         for (i = 0; i < 3; i++) {
             if (func_021FFD9C(w->p, keys.v[w->idx][i])) {
-                v.x = MUL(d_020A1B38[((u16)w->ang[i] >> 4) * 2], 0x5000);
+                v.x = MUL(FX_SinCosTable_[((u16)w->ang[i] >> 4) * 2], 0x5000);
                 v.y = 0x666;
                 v.z = (w->idx == 0) ? 0xc000 : -0xd000;
-                v.z += MUL(d_020A1B38[((u16)w->ang[i] >> 4) * 2 + 1], 0x5000);
+                v.z += MUL(FX_SinCosTable_[((u16)w->ang[i] >> 4) * 2 + 1], 0x5000);
                 func_021FF4C0(w->p, keys.v[w->idx][i], 0, &v, 0, 0, 0);
             }
             w->ang[i] += w->step;
@@ -147,8 +147,8 @@ void func_02201408(void *task, Work *w)
                 ((Slot *)w->p)[idx[i]].target = tgt.v[w->dir][w->idx][i];
         }
         if (w->sound) {
-            func_020061F8(2);
-            func_0200616C((void *)0x57a, 1);
+            GFL_USE_StopSeSlot(2);
+            GFL_USE_PlaySeInSlot((void *)0x57a, 1);
         }
         func_021F89BC(task);
         return;

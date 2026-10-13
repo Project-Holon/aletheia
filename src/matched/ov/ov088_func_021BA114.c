@@ -13,7 +13,7 @@
  *   func_02009448  0x02009448  thumb
  *   func_020092EC  0x020092EC  thumb
  *   func_0200C2F0  0x0200C2F0  thumb
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   STARTMENU_ClearGraphics  0x021BA9D4  thumb  ov088
@@ -40,7 +40,7 @@ extern u8 func_020092EC(const struct Sub02009210Obj *obj);
 struct Blk34;
 struct Menu;
 extern void func_0200C2F0(struct Blk34 *p, u32 i, u8 v);
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void STARTMENU_ClearGraphics(void);
@@ -63,7 +63,7 @@ int STARTMENU_StateSetup(int *p)
     if (func_020092EC((const struct Sub02009210Obj *)func_02009448((void *)p[0])) == 1)
         func_0200C2F0((struct Blk34 *)p[2], 2, 2);
     z = 0;
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(unsigned short *)0x04000050 = z;
     *(unsigned short *)0x04001050 = z;

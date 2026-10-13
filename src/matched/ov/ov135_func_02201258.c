@@ -15,7 +15,7 @@
  *   STRBUF_GetLength 0x020458F8 arm
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0217BC44 0x0217BC44 arm ov009
  */
 #include "../include/Obj06520.h"
@@ -30,7 +30,7 @@ extern u16 *STRBUF_GetChars(struct U16Vec *);
 extern u16 STRBUF_GetLength(struct U16Vec *);
 extern u16 STRBUF_GetEosChar(void);
 extern void STRBUF_Delete(struct U16Vec *);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern int func_0217BC44(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region);
 int func_02201258(u8 *p)
 {
@@ -40,7 +40,7 @@ int func_02201258(u8 *p)
     u16 c;
     s=STRBUF_Create(8,0x48);
     STRBUF_SetStringN((struct Strbuf *)s,(u16 *)(p+0x1F4),8);
-    func_02082BCC(p+0x1300,0,0x28);
+    MI_CpuFill8(p+0x1300,0,0x28);
     ((struct Obj06520 *)p)->f1324=0x48;
     text=STRBUF_GetChars(s);
     for(i=0;i<STRBUF_GetLength(s)+1;i++) {

@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetNeverMeltIceHandlers
+ * function: HAND_ITEM_GetNeverMeltIceHandlers
  * address: 0x021DF834
  * packet: pkt_ov093_021DF834
  * region: ov093
@@ -15,10 +15,10 @@
  *   gNeverMeltIceHandlers 0x021F15AC data a4
  */
 
-int *BTL_HANDLER_ITEM_GetNeverMeltIceHandlers(int *p);
+int *HAND_ITEM_GetNeverMeltIceHandlers(int *p);
 extern int gNeverMeltIceHandlers[];
 
-int *BTL_HANDLER_ITEM_GetNeverMeltIceHandlers(int *p)
+int *HAND_ITEM_GetNeverMeltIceHandlers(int *p)
 {
     *p = 1;
     return gNeverMeltIceHandlers;

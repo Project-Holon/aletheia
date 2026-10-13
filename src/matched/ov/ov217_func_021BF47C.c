@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021BF810 0x021BF810 thumb ov217
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *
  * Addresses are Black-image addresses.
  */
@@ -22,12 +22,12 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 extern u32 func_021BF810(void *p);
 struct Obj;
-extern void func_0204B3DC(struct Obj *a, unsigned int b);
+extern void CLACT_SetActorDrawEnable(struct Obj *a, unsigned int b);
 void func_021BF47C(char *p)
 {
     if (((struct Obj00021 *)p)->f3C8 == 0 || func_021BF810(p) == 0) {
-        func_0204B3DC((struct Obj *)((struct Obj00021 *)p)->f39C, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00021 *)p)->f39C, 0);
     } else {
-        func_0204B3DC((struct Obj *)((struct Obj00021 *)p)->f39C, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00021 *)p)->f39C, 1);
     }
 }

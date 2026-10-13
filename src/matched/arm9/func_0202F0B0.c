@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045770   0x02045770  arm
+ *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
  *   BMP_Blit   0x020439A0  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
@@ -27,7 +27,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct Bmp;
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -40,8 +40,8 @@ void TIME_ICON_Update(u8 *p)
         return;
 
     if (((struct Obj01310 *)p)->f13 == 0) {
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01310 *)p)->f8)), ((struct Obj01310 *)p)->f12);
-        BMP_Blit((struct Bmp *)(((struct Obj01310 *)p)->fC), (struct Bmp *)((u32)func_02045770((struct Descriptor *)((struct Obj01310 *)p)->f8)), 0,
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01310 *)p)->f8)), ((struct Obj01310 *)p)->f12);
+        BMP_Blit((struct Bmp *)(((struct Obj01310 *)p)->fC), (struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01310 *)p)->f8)), 0,
                       (u32)((struct Obj01310 *)p)->f15 << 4, 0, 0, 0x10, 0x10, 0);
         BMP_WIN_TransferChars((struct Descriptor *)((struct Obj01310 *)p)->f8);
 

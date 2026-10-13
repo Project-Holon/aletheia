@@ -12,7 +12,7 @@
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   SHINKA_CHECK_CheckEvolution  0x0201B2B0  thumb
@@ -53,7 +53,7 @@ extern const char d_02172978[];
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct BigObj;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern void *func_0201AB28(void *a, u32 b);
+extern void *POKEPARTY_GetMember(void *a, u32 b);
 extern u16 *GAME_DATA_GetMyPlayerWork(void *sv);
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
@@ -75,12 +75,12 @@ Rec *EVENT_FIELD_PROCLINK_CreateEvolutionParam(Ctx *c, int a1, int mode, const S
         t = GAME_DATA_GetMyParty(sv);
         if (src->f40 == 8) {
             c->f68 = 3;
-            k = func_0201AB28(t, src->f3c);
+            k = POKEPARTY_GetMember(t, src->f3c);
             x = GAME_DATA_GetSeason(sv);
             res = SHINKA_CHECK_CheckEvolution(t, k, 3, src->f44, x, &out, 4);
         } else {
             c->f68 = 4;
-            k = func_0201AB28(t, src->f3c);
+            k = POKEPARTY_GetMember(t, src->f3c);
             res = SHINKA_CHECK_CheckEvolution(t, k, 0, *GAME_DATA_GetMyPlayerWork(sv), GAME_DATA_GetSeason(sv), &out, 4);
         }
         r = func_02030734(4, 0x14, 0, d_02172978, 0x868);

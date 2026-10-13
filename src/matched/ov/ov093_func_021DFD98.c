@@ -1,5 +1,5 @@
 /*
- * function: func_021DFD98
+ * function: HAND_ITEM_GetCellBatteryHandlers
  * address: 0x021DFD98
  * packet: pkt_ov093_021DFD98
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DFCE8.c and filed here.
  *
  * symbols:
- *   d_021F174C 0x021F174C data ov093 a4
+ *   gHandItemCellBatteryHandlers 0x021F174C data ov093 a4
  */
 
-int *func_021DFD98(int *p);
-extern int d_021F174C[];
+int *HAND_ITEM_GetCellBatteryHandlers(int *p);
+extern int gHandItemCellBatteryHandlers[];
 
-int *func_021DFD98(int *p)
+int *HAND_ITEM_GetCellBatteryHandlers(int *p)
 {
     *p = 2;
-    return d_021F174C;
+    return gHandItemCellBatteryHandlers;
 }

@@ -10,9 +10,9 @@
  * status: EXACT
  * lever: Byte +99 is a one-bit field; selection bytes retain 255 and the signed touch result retains -1.
  * symbols:
- *   func_020362DC 0x020362DC arm
- *   func_0203633C 0x0203633C arm
- *   func_020061E4 0x020061E4 thumb
+ *   KEY_GetTrg 0x020362DC arm
+ *   KEY_GetRepeat 0x0203633C arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021C0C50 0x021C0C50 thumb ov110
  *   func_021C0D34 0x021C0D34 thumb ov110
  *   func_021C0EB0 0x021C0EB0 thumb ov110
@@ -23,9 +23,9 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 lo:1; u8 hi:7; } Flags;
-extern u32 func_020362DC(void);
-extern u32 func_0203633C(void);
-extern void func_020061E4(u32);
+extern u32 KEY_GetTrg(void);
+extern u32 KEY_GetRepeat(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_021C0C50(u8 *);
 extern void func_021C0D34(char *,int);
 extern int func_021C0EB0(char *);
@@ -39,7 +39,7 @@ int func_021C0F14(u8 *p)
     int hit;
     if(!((Flags *)(p+0x99))->lo) {
         active=0;
-        if(func_020362DC()&~2) active=1;
+        if(KEY_GetTrg()&~2) active=1;
         if(active && p[0x95]==255) {
             if(p[0x94]==255) p[0x95]=p[0x96];
             else if(p[0x96]<=p[0x94] && p[0x94]<p[0x96]+3) p[0x95]=p[0x94];
@@ -47,34 +47,34 @@ int func_021C0F14(u8 *p)
             p[0x94]=255;
             proceed=0;
             ((struct Obj00217 *)p)->fA8=0;
-            func_020061E4(1352);
+            GFL_USE_PlaySeDefaultVolume(1352);
             func_021C0C50(p);
         }
     }
     if(proceed && p[0x95]!=255 && !((Flags *)(p+0x99))->lo) {
-        if(func_020362DC()&1) {
+        if(KEY_GetTrg()&1) {
             result=1;
             proceed=0;
             ((struct Obj00217 *)p)->fA8=0;
-        } else if(func_0203633C()&64) {
+        } else if(KEY_GetRepeat()&64) {
             if(p[0x95]!=0) {
                 p[0x94]=p[0x95];
                 p[0x95]--;
                 if(p[0x95]+1==p[0x96]) p[0x96]--;
                 func_021C0D34((char *)p,0);
                 func_021C0C50(p);
-                func_020061E4(1352);
+                GFL_USE_PlaySeDefaultVolume(1352);
             }
             proceed=0;
             ((struct Obj00217 *)p)->fA8=0;
-        } else if(func_0203633C()&128) {
+        } else if(KEY_GetRepeat()&128) {
             if(p[0x95]<p[0x98]-1) {
                 p[0x94]=p[0x95];
                 p[0x95]++;
                 if(p[0x95]==p[0x96]+3) p[0x96]++;
                 func_021C0D34((char *)p,0);
                 func_021C0C50(p);
-                func_020061E4(1352);
+                GFL_USE_PlaySeDefaultVolume(1352);
             }
             proceed=0;
             ((struct Obj00217 *)p)->fA8=0;
@@ -84,7 +84,7 @@ int func_021C0F14(u8 *p)
         if(((Flags *)(p+0x99))->lo) {
             if(func_021C0EB0((char *)p)) {
                 func_021C0C50(p);
-                func_020061E4(1352);
+                GFL_USE_PlaySeDefaultVolume(1352);
             }
             ((struct Obj00217 *)p)->fA8=1;
         } else {
@@ -104,7 +104,7 @@ int func_021C0F14(u8 *p)
                         p[0x95]=255;
                         func_021C0C50(p);
                     }
-                    func_020061E4(1352);
+                    GFL_USE_PlaySeDefaultVolume(1352);
                     ((struct Obj00217 *)p)->fA8=1;
                 }
             }

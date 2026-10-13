@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_HANDLER_ITEM_GetWhiteHerbHandlers",
+   "name": "HAND_ITEM_GetWhiteHerbHandlers",
    "address": "0x021DE21C",
    "kind": "game",
    "region": "ov093",

@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_TOKUSEI_SolarPower_BoostSpecialAttackInSun",
-    "BTL_TOKUSEI_GetSolarPowerHandlers"
+    "HAND_TOKUSEI_SolarPower_BoostSpecialAttackInSun",
+    "HAND_TOKUSEI_GetSolarPowerHandlers"
    ],
    "addresses": [
     "0x021D9934",

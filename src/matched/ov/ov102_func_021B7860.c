@@ -9,7 +9,7 @@
  * status: EXACT
  * volatile: 0x021B787A and 0x021B7884 read display registers for update.
  * symbols:
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * BG_SYS_ClearGraphicsMemory 0x0204335C arm
  * func_0204363C 0x0204363C arm
  * BG_SYS_ResetSubDisplay 0x0204361C arm
@@ -20,7 +20,7 @@
  * d_021B8B2C 0x021B8B2C data a4
  */
 #include "../include/Obj22140.h"
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void func_0204363C(unsigned);
 extern void BG_SYS_ResetSubDisplay(void);
@@ -31,7 +31,7 @@ extern void func_021B78FC(unsigned,void *);
 extern unsigned func_020056A0(void (*)(unsigned,void *),void *,unsigned);
 extern unsigned d_021B8B2C[];
 void func_021B7860(char *p,unsigned b) {
- func_02082BCC(p,0,0x94);
+ MI_CpuFill8(p,0,0x94);
  *(volatile unsigned short *)0x04000050=0;
  *(volatile unsigned short *)0x04001050=0;
  *(volatile unsigned *)0x04000000 &= ~0xe000;

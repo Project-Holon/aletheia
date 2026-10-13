@@ -12,7 +12,7 @@
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorVisible  0x0204BA20  arm
  *   C_GEAR_SetPaintModeIcon  0x021F1910  thumb  ov029
  *   C_GEAR_UpdateClock  0x021F1F80  thumb  ov029
@@ -40,7 +40,7 @@ extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern int OS_IsRunOnTwl(void);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 struct Actor;
 extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
 extern void C_GEAR_SetPaintModeIcon(char *p, int on);
@@ -72,7 +72,7 @@ void C_GEAR_CreateHudActors(char *p)
         q = (int *)(p + i * 4);
         q[0x4b] = (int)CLACT_CreateActor((void *)((struct Obj00811 *)p)->f34, ((struct Obj00811 *)p)->f2C, ((struct Obj00811 *)p)->f28,
                                 ((struct Obj00811 *)p)->f30, &s, 0, ((struct Obj00811 *)p)->fC);
-        func_0204B3DC((struct Obj *)q[0x4b], 0);
+        CLACT_SetActorDrawEnable((struct Obj *)q[0x4b], 0);
         CLACT_SetActorVisible((struct Actor *)q[0x4b], 0);
     }
     C_GEAR_SetPaintModeIcon(p, 0);
@@ -85,7 +85,7 @@ void C_GEAR_CreateHudActors(char *p)
         q = (int *)(p + j * 4);
         q[0x56] = (int)CLACT_CreateActor((void *)((struct Obj00811 *)p)->f34, ((struct Obj00811 *)p)->f2C, ((struct Obj00811 *)p)->f28,
                                 ((struct Obj00811 *)p)->f30, &s, 0, ((struct Obj00811 *)p)->fC);
-        func_0204B3DC((struct Obj *)q[0x56], 0);
+        CLACT_SetActorDrawEnable((struct Obj *)q[0x56], 0);
         CLACT_SetActorVisible((struct Actor *)q[0x56], 0);
     }
     C_GEAR_UpdateClock(p);

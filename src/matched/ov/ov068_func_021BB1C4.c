@@ -13,7 +13,7 @@
  * body never reads.
  *
  * symbols:
- *   func_0201C6B4  0x0201C6B4  thumb
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   OPTION_MENU_ReadInput  0x021BA03C  thumb  ov068
  *   OPTION_MENU_GetButtonChoice  0x021BA65C  thumb  ov068
  *   OPTION_MENU_UpdateList  0x021BA7C0  thumb  ov068
@@ -56,7 +56,7 @@ struct Big;
 struct Ctx;
 struct PrintSys;
 struct Sub020071E4Ctrl;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void OPTION_MENU_ReadInput(int *p);
 extern int  OPTION_MENU_GetButtonChoice(u8 *p, int *out);
 extern void OPTION_MENU_UpdateList(u8 *p, void *a1, void *a2, void *a3, void *a4);
@@ -93,7 +93,7 @@ void OPTION_MENU_StateMain(void *a, u32 *st, u8 *w)
     int k;
     int r;
 
-    if (func_0201C6B4((const struct PrintSys *)(((struct Obj09875 *)w)->f258)) == 0)
+    if (PRINTSYS_QUE_IsFinished((const struct PrintSys *)(((struct Obj09875 *)w)->f258)) == 0)
         return;
     switch (*st) {
     case 0:

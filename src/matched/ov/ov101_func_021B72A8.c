@@ -10,7 +10,7 @@
  * symbols:
  * APP_TASKMENU_WIN_Delete 0x02028148 thumb
  * func_02045B38 0x02045B38 arm
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * func_02045EC0 0x02045EC0 arm
  * APP_TASKMENU_WIN_Create 0x02027FEC thumb
  * STRBUF_Delete 0x02045808 arm
@@ -26,7 +26,7 @@ struct Rec;
 struct U16Vec;
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -37,7 +37,7 @@ void func_021B72A8(unsigned *p,unsigned b) {
  if(b==p[21]) return;
  APP_TASKMENU_WIN_Delete((u8 *)p[0]);
  q=(unsigned int)func_02045B38(0,2,0x31,((struct Obj03228 *)p)->f58);
- func_02082BCC(&t,0,12);
+ MI_CpuFill8(&t,0,12);
  t.tag=0x39e3;
  t.data=(unsigned int)func_02045EC0((struct MsgBank *)q,b+8);
  t.flag=1;

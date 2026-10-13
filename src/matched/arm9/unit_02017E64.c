@@ -23,7 +23,7 @@
  *   POKE_TOOL_GetBoxValueRaw  0x02018E34  thumb
  *   POKE_TOOL_SetBoxValueRaw  0x02019388  thumb
  *   func_02019C54  0x02019C54  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *
  * Five of the eleven carry no label in the generated listing: the three eight
  * to twelve byte pool-word tail calls at 0x02017EAC, 0x02017F00 and
@@ -43,7 +43,7 @@
  * epilogue, while the switch puts the three bodies after the compare chain and
  * shares one `pop`, which is what the original does.  The `lsls`/`lsrs` pair
  * that truncates the call result is only emitted when the callee is declared
- * wider than `u8`, so func_0201AE1C returns a word and the source assigns it to
+ * wider than `u8`, so POKE_PERSONAL_GetParam returns a word and the source assigns it to
  * a byte local.
  */
 
@@ -64,7 +64,7 @@ extern void POKE_TOOL_EncodeBoxBlock(struct Sav *p);
 extern u32 POKE_TOOL_GetBoxValueRaw(struct Mon *p, u32 id, u32 v);
 extern void POKE_TOOL_SetBoxValueRaw(struct Mon *p, u32 id, u32 v);
 extern void *func_02019C54(u32 a, u32 b);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 
 u32 POKE_TOOL_IsBoxShiny(void *p);
 u32 POKE_TOOL_CheckShiny(u32 a, u32 b);
@@ -129,7 +129,7 @@ u8 POKE_TOOL_GetBoxGender(void *p)
 
 u8 POKE_TOOL_CalcGender(u32 a, u16 b, u32 c)
 {
-    u8 n = func_0201AE1C(func_02019C54(a, b), 0x14);
+    u8 n = POKE_PERSONAL_GetParam(func_02019C54(a, b), 0x14);
     u8 r;
 
     switch (n) {

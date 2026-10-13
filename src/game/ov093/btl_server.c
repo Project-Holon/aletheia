@@ -34,7 +34,7 @@
  *   BTL_REC_MakeResetPacket  0x021EE9A4  thumb  ov093
  *   BTL_MAIN_GetWinBgm  0x021B86DC  thumb  ov093
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   BTL_REC_LoadPacket  0x021EE9B4  thumb  ov093
  *   BTL_REC_NextRecord  0x021EE9E4  thumb  ov093
@@ -51,21 +51,21 @@
  *   BTL_ADAPTER_ResetCommand 0x021EEAD0 thumb ov093
  *   GAME_BEACON_SetPokeLevelUp 0x02027268 thumb
  *   GAME_BEACON_SetPokeCapture 0x020271DC thumb
- *   func_021B8DE4  0x021B8DE4  thumb  ov093
- *   func_021B8FF4  0x021B8FF4  thumb  ov093
- *   func_021B9114  0x021B9114  thumb  ov093
- *   func_021B9120  0x021B9120  thumb  ov093
- *   func_021B916C  0x021B916C  thumb  ov093
- *   func_021B917C  0x021B917C  thumb  ov093
- *   func_021B91E4  0x021B91E4  thumb  ov093
- *   func_021B9234  0x021B9234  thumb  ov093
- *   func_021B9920  0x021B9920  thumb  ov093
- *   func_021B9AEC  0x021B9AEC  thumb  ov093
- *   func_021B9B94  0x021B9B94  thumb  ov093
- *   func_021B9B98  0x021B9B98  thumb  ov093
- *   func_021BA1B4  0x021BA1B4  thumb  ov093
- *   func_021BA5D8  0x021BA5D8  thumb  ov093
- *   func_021BA618  0x021BA618  thumb  ov093
+ *   BTL_MAIN_GetSlotClientIdThunk  0x021B8DE4  thumb  ov093
+ *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
+ *   BTL_MAIN_GetOwnsSlots  0x021B9114  thumb  ov093
+ *   BTL_MAIN_StoreSlotNthResult  0x021B9120  thumb  ov093
+ *   BTL_MAIN_SetOutcomeIfUnset  0x021B916C  thumb  ov093
+ *   BTL_MAIN_JudgeResultThunk  0x021B917C  thumb  ov093
+ *   BTL_MAIN_AddBonusMoney  0x021B91E4  thumb  ov093
+ *   BTL_MAIN_SetDoubleMoney  0x021B9234  thumb  ov093
+ *   BTL_SIDE_GetClientPoke  0x021B9920  thumb  ov093
+ *   BTL_SIDE_GetSlotOfClient  0x021B9AEC  thumb  ov093
+ *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
+ *   BTL_SLOT_CountLiving  0x021B9B98  thumb  ov093
+ *   BTL_MAIN_TrainerRecordAdd  0x021BA1B4  thumb  ov093
+ *   BTL_MAIN_IsOwnWindowWaiting  0x021BA5D8  thumb  ov093
+ *   BTL_MAIN_CheckOwnWindowDone  0x021BA618  thumb  ov093
  *   BTL_SERVER_FLOW_Create  0x021BB968  thumb  ov093
  *   BTL_SERVER_FLOW_Reset  0x021BB9D0  thumb  ov093
  *   BTL_SERVER_FLOW_Destroy  0x021BBB48  thumb  ov093
@@ -80,7 +80,7 @@
  *   BTL_SERVER_FLOW_RunBagModeSetup  0x021BC390  thumb  ov093
  *   BTL_SERVER_FLOW_GetSlotTable  0x021BC550  thumb  ov093
  *   BTL_SERVER_FLOW_GetChosenSlot  0x021BC55C  thumb  ov093
- *   func_021C84D8  0x021C84D8  thumb  ov093
+ *   BTL_SERVER_FLOW_GetBattleResult  0x021C84D8  thumb  ov093
  */
 #include "btl_server_types.h"
 
@@ -103,7 +103,7 @@ extern u32 BTL_CALC_ActionGetKind(Action *);
 extern u8 *BTL_REC_MakeResetPacket(u8 *p, unsigned int *out);
 extern u16 BTL_MAIN_GetWinBgm(struct BtlMain *main);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void BTL_REC_LoadPacket(u8 *, void *, int);
 extern int BTL_REC_NextRecord(u8 *p, u32 *pos, u8 *a, u8 *b, u32 *dst);
@@ -120,21 +120,21 @@ extern int BTL_ADAPTER_Update(void *adapter);
 extern void BTL_ADAPTER_ResetCommand(void *adapter);
 extern void GAME_BEACON_SetPokeLevelUp(void *strBuf);
 extern void GAME_BEACON_SetPokeCapture(u16);
-u8 func_021B8DE4(struct BtlMain *main, int clientId);
-u8 func_021B8FF4(struct BtlMain *main);
-u8 func_021B9114(struct BtlMain *main);
-void func_021B9120(struct BtlMain *main, u8 n);
-void func_021B916C(struct BtlMain *main,u32 x);
-int func_021B917C(struct BtlMain *main);
-void func_021B91E4(struct BtlMain *main, int add);
-void func_021B9234(struct BtlMain *main);
-u8 *func_021B9920(void *p, u32 i, u8 j);
-void *func_021B9AEC(void *partyTable, int clientId);
-u8 func_021B9B94(void *party);
-u8 func_021B9B98(void *party);
-void func_021BA1B4(struct BtlMain *main, int i);
-int func_021BA5D8(struct BtlMain *main);
-int func_021BA618(struct BtlMain *main);
+u8 BTL_MAIN_GetSlotClientIdThunk(struct BtlMain *main, int clientId);
+u8 BTL_MAIN_GetOwnClientId(struct BtlMain *main);
+u8 BTL_MAIN_GetOwnsSlots(struct BtlMain *main);
+void BTL_MAIN_StoreSlotNthResult(struct BtlMain *main, u8 n);
+void BTL_MAIN_SetOutcomeIfUnset(struct BtlMain *main,u32 x);
+int BTL_MAIN_JudgeResultThunk(struct BtlMain *main);
+void BTL_MAIN_AddBonusMoney(struct BtlMain *main, int add);
+void BTL_MAIN_SetDoubleMoney(struct BtlMain *main);
+u8 *BTL_SIDE_GetClientPoke(void *p, u32 i, u8 j);
+void *BTL_SIDE_GetSlotOfClient(void *partyTable, int clientId);
+u8 BTL_SLOT_GetCount(void *party);
+u8 BTL_SLOT_CountLiving(void *party);
+void BTL_MAIN_TrainerRecordAdd(struct BtlMain *main, int i);
+int BTL_MAIN_IsOwnWindowWaiting(struct BtlMain *main);
+int BTL_MAIN_CheckOwnWindowDone(struct BtlMain *main);
 BtlServer *BTL_SERVER_Create(struct BtlMain *main, BtlServerRngState *rngState, void *partyTable, int flowParam, u16 heapId);
 void BTL_SERVER_SetClientAdapter(BtlServer *server, void *adapter, u8 clientId, u8 battleSlots);
 void BTL_SERVER_CreateClientAdapter(BtlServer *server, int unused, int netId, int clientId, u8 battleSlots);
@@ -204,7 +204,7 @@ int BTL_SERVER_FLOW_RunEscapeFromLead(void *flow);
 int BTL_SERVER_FLOW_RunBagModeSetup(void *flow);
 BtlWordPair *BTL_SERVER_FLOW_GetSlotTable(void *flow);
 u8 BTL_SERVER_FLOW_GetChosenSlot(void *flow);
-int func_021C84D8(void *flow);
+int BTL_SERVER_FLOW_GetBattleResult(void *flow);
 extern u8 d_021F3A60[];
 
 
@@ -237,7 +237,7 @@ void BTL_SERVER_SetClientAdapter(BtlServer *server, void *adapter, u8 clientId, 
 {
     void *party;
     BtlServerClient *client;
-    party = func_021B9AEC(server->partyTable, clientId);
+    party = BTL_SIDE_GetSlotOfClient(server->partyTable, clientId);
     client = &server->clients[clientId];
     BTL_SERVER_SetClientAdapterSlot(client, clientId, adapter, 1);
     BTL_SERVER_SetClientParty(client, party, battleSlots);
@@ -249,7 +249,7 @@ void BTL_SERVER_CreateClientAdapter(BtlServer *server, int unused, int netId, in
     void *adapter;
     BtlServerClient *client;
 
-    party = func_021B9AEC(server->partyTable, clientId);
+    party = BTL_SIDE_GetSlotOfClient(server->partyTable, clientId);
     adapter = BTL_ADAPTER_Create(netId, clientId, 1, server->heapId);
     client = &server->clients[clientId];
     BTL_SERVER_SetClientAdapterSlot(client, clientId, adapter, 0);
@@ -260,7 +260,7 @@ void BTL_SERVER_SetClientWithoutAdapter(BtlServer *server, u8 clientId, u8 battl
 {
     void *party;
     BtlServerClient *client;
-    party = func_021B9AEC(server->partyTable, clientId);
+    party = BTL_SIDE_GetSlotOfClient(server->partyTable, clientId);
     client = &server->clients[clientId];
     BTL_SERVER_SetClientAdapterSlot(client, clientId, 0, 0);
     BTL_SERVER_SetClientParty(client, party, battleSlots);
@@ -385,11 +385,11 @@ int BTL_SERVER_StepSelectCommands(BtlServer *server, int *step)
     case 3:
         if (BTL_SERVER_AreRepliesReady(server)) {
             BTL_SERVER_ClearReplies(server);
-            if (func_021BA5D8(server->main)) {
+            if (BTL_MAIN_IsOwnWindowWaiting(server->main)) {
                 BTL_SERVER_SetHandler(server, BTL_SERVER_StepSendRecording);
                 break;
             }
-            if (func_021BA618(server->main)) {
+            if (BTL_MAIN_CheckOwnWindowDone(server->main)) {
                 BTL_SERVER_SetHandler(server, BTL_SERVER_StepSelectEnding);
                 break;
             }
@@ -444,11 +444,11 @@ int BTL_SERVER_StepSelectCommands(BtlServer *server, int *step)
                 BTL_SERVER_SetHandler(server, BTL_SERVER_StepRequestPokeReplace);
                 break;
             case 6:
-                func_021B9120(server->main, BTL_SERVER_FLOW_GetChosenSlot(server->flow));
+                BTL_MAIN_StoreSlotNthResult(server->main, BTL_SERVER_FLOW_GetChosenSlot(server->flow));
                 BTL_SERVER_SetHandler(server, BTL_SERVER_StepSelectEnding);
                 return 0;
             case 4:
-                func_021B916C(server->main, func_021C84D8(server->flow));
+                BTL_MAIN_SetOutcomeIfUnset(server->main, BTL_SERVER_FLOW_GetBattleResult(server->flow));
                 BTL_SERVER_SetHandler(server, BTL_SERVER_StepSelectEnding);
                 return 0;
             case 5:
@@ -475,7 +475,7 @@ int BTL_SERVER_StepShiftPrompt(BtlServer *server, int *step)
         break;
     case 1:
         if (BTL_SERVER_AreRepliesReady(server) != 0) {
-            u8 clientId = func_021B8FF4(server->main);
+            u8 clientId = BTL_MAIN_GetOwnClientId(server->main);
             int *buf;
             BTL_SERVER_ClearReplies(server);
             if (*(u8 *)BTL_ADAPTER_GetSendBuffer(server->clients[clientId].adapter, 0) == 0) {
@@ -523,7 +523,7 @@ int BTL_SERVER_StepRequestPokeChange(BtlServer *server, int *step)
     case 2:
         if (BTL_SERVER_AreRepliesReady(server)) {
             BTL_SERVER_ClearReplies(server);
-            if (func_021BA618(server->main)) {
+            if (BTL_MAIN_CheckOwnWindowDone(server->main)) {
                 BTL_SERVER_SetHandler(server, BTL_SERVER_StepSelectEnding);
                 break;
             }
@@ -563,7 +563,7 @@ int BTL_SERVER_StepRequestPokeChange(BtlServer *server, int *step)
                 *step = 5;
                 break;
             case 4:
-                func_021B916C(server->main, func_021C84D8(server->flow));
+                BTL_MAIN_SetOutcomeIfUnset(server->main, BTL_SERVER_FLOW_GetBattleResult(server->flow));
                 BTL_SERVER_SetHandler(server, BTL_SERVER_StepSelectEnding);
                 break;
             case 5:
@@ -583,10 +583,10 @@ int BTL_SERVER_CheckShiftPromptNeeded(BtlServer *server)
     unsigned i;
     if (BTL_MAIN_CheckShiftModePrompt(server->main) != 0 && server->changeCount != 0) {
         for (i = 0; i < server->changeCount; i++) {
-            if (func_021B8DE4(server->main, server->changeClients[i]) == 0)
+            if (BTL_MAIN_GetSlotClientIdThunk(server->main, server->changeClients[i]) == 0)
                 return 0;
         }
-        if (func_021B9B98(func_021B9AEC(server->partyTable, func_021B8FF4(server->main))) < 2)
+        if (BTL_SLOT_CountLiving(BTL_SIDE_GetSlotOfClient(server->partyTable, BTL_MAIN_GetOwnClientId(server->main))) < 2)
             return 0;
         return 1;
     }
@@ -600,7 +600,7 @@ u32 BTL_SERVER_GetShiftPromptMon(BtlServer *server)
     if (BTL_SERVER_IsClientSlotUsed(client) != 0) {
         action = BTL_ADAPTER_GetSendBuffer(client->adapter, 0);
         if (BTL_CALC_ActionGetKind(action) == 3) {
-            u8 *party = func_021B9920(server->partyTable, 1, action->small.move);
+            u8 *party = BTL_SIDE_GetClientPoke(server->partyTable, 1, action->small.move);
             return BTL_POKEPARAM_GetPokeId(party);
         }
     }
@@ -617,7 +617,7 @@ int BTL_SERVER_StepRequestPokeReplace(BtlServer *server, int *step)
     case 1:
         if (BTL_SERVER_AreRepliesReady(server)) {
             BTL_SERVER_ClearReplies(server);
-            if (func_021BA618(server->main)) {
+            if (BTL_MAIN_CheckOwnWindowDone(server->main)) {
                 BTL_SERVER_SetHandler(server, BTL_SERVER_StepSelectEnding);
             } else {
                 BTL_SERVER_CollectReplies(server);
@@ -655,7 +655,7 @@ int BTL_SERVER_StepRequestPokeReplace(BtlServer *server, int *step)
             case 3: *step = 4; break;
             case 2: BTL_SERVER_SetHandler(server, BTL_SERVER_StepRequestPokeChange); break;
             case 4:
-                func_021B916C(server->main, func_021C84D8(server->flow));
+                BTL_MAIN_SetOutcomeIfUnset(server->main, BTL_SERVER_FLOW_GetBattleResult(server->flow));
                 BTL_SERVER_SetHandler(server, BTL_SERVER_StepSelectEnding);
                 break;
             case 5: return 1;
@@ -688,7 +688,7 @@ int BTL_SERVER_StepSendRecording(BtlServer *server, int *step)
     case 2:
         if (BTL_SERVER_AreRepliesReady(server) != 0) {
             BTL_SERVER_ClearReplies(server);
-            func_021B916C(server->main, func_021C84D8(server->flow));
+            BTL_MAIN_SetOutcomeIfUnset(server->main, BTL_SERVER_FLOW_GetBattleResult(server->flow));
             BTL_SERVER_SetHandler(server, BTL_SERVER_StepSelectEnding);
         }
         break;
@@ -698,9 +698,9 @@ int BTL_SERVER_StepSendRecording(BtlServer *server, int *step)
 
 int BTL_SERVER_StepSelectEnding(BtlServer *server, int *step)
 {
-    int result = func_021B917C(server->main);
+    int result = BTL_MAIN_JudgeResultThunk(server->main);
     server->result.result = result;
-    server->result.playerClientId = func_021B8FF4(server->main);
+    server->result.playerClientId = BTL_MAIN_GetOwnClientId(server->main);
     switch (BTL_MAIN_GetCompetitor(server->main)) {
     case 1:
         BTL_SERVER_SetHandler(server, BTL_SERVER_StepSendTrainerResult);
@@ -735,8 +735,8 @@ int BTL_SERVER_StepWaitEnd(BtlServer *server, int *step)
     switch (*step) {
     case 0: {
         int finished = 0;
-        if (func_021B9114(server->main) == 0) {
-            if ((func_020362DC() & 3) != 0 || TOUCHPANEL_GetTrg() != 0) finished = 1;
+        if (BTL_MAIN_GetOwnsSlots(server->main) == 0) {
+            if ((KEY_GetTrg() & 3) != 0 || TOUCHPANEL_GetTrg() != 0) finished = 1;
         } else {
             finished = 1;
         }
@@ -1052,7 +1052,7 @@ void BTL_SERVER_SetClientAdapterSlot(BtlServerClient *client, int clientId, void
     client->adapterBorrowed = adapterBorrowed;
 }
 
-void BTL_SERVER_SetClientParty(BtlServerClient *client, void *party, u8 battleSlots) { client->party = party; client->partyCount = func_021B9B94(party); client->battleSlots = battleSlots; }
+void BTL_SERVER_SetClientParty(BtlServerClient *client, void *party, u8 battleSlots) { client->party = party; client->partyCount = BTL_SLOT_GetCount(party); client->battleSlots = battleSlots; }
 
 BtlServerClient *BTL_SERVER_GetClientChecked(BtlServer *server, unsigned int index) { if (index < 4 && server->clients[index].clientId != 255) return &server->clients[index]; return 0; }
 
@@ -1086,25 +1086,25 @@ void BTL_SERVER_NotifyLevelUp(BtlServer *server, u32 *pokeParam) {
  */
 void BTL_SERVER_NotifyCapture(BtlServer *server, u32 *pokeParam) {
     GAME_BEACON_SetPokeCapture(POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetMon(pokeParam),5,0));
-    func_021BA1B4(server->main,7);
-    func_021BA1B4(server->main,0x54);
+    BTL_MAIN_TrainerRecordAdd(server->main,7);
+    BTL_MAIN_TrainerRecordAdd(server->main,0x54);
 }
 
 void BTL_SERVER_AddMainCounter(BtlServer *server, int amount)
 {
-    func_021B91E4(server->main, amount);
+    BTL_MAIN_AddBonusMoney(server->main, amount);
 }
 
 /*
  * overlays, with no outside branch; the pool relocation has no witness.
  * All bytes correct.
  *
- * UNBLOCKED: func_021B9234 is now an EXACT entry in layout/matched/ov093;
+ * UNBLOCKED: BTL_MAIN_SetDoubleMoney is now an EXACT entry in layout/matched/ov093;
  * the call site resolves as matched, verdict promoted to EXACT.
  */
 void BTL_SERVER_FinishMainCounter(BtlServer *server)
 {
-    func_021B9234(server->main);
+    BTL_MAIN_SetDoubleMoney(server->main);
 }
 
 void BTL_SERVER_ClearPokeChangeRequests(BtlServer *server) { server->changeCount = 0; server->changeLock = 0; }

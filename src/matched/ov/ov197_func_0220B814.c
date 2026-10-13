@@ -11,7 +11,7 @@
  * symbols:
  *   STRBUF_Create 0x020457B0 arm
  *   func_02020FB4 0x02020FB4 thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  */
@@ -24,7 +24,7 @@ struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02020FB4(void *,unsigned,unsigned);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short);
 extern void STRBUF_Delete(struct U16Vec *vec);
 typedef struct { unsigned short entry[36][2]; } Row;
@@ -38,7 +38,7 @@ void func_0220B814(char *p,int n)
     row=(Row *)(p+0x150);
     func_02020FB4(buf,row[index].entry[n][0],((struct Obj25007 *)(*(char * *)&((struct Obj04597 *)p)->f0))->fC);
     owner=((struct Obj04597 *)p)->f18;
-    PRINTSYS_PrintQueColor(owner,(unsigned)func_02045770(((struct Obj04597 *)p)->f130),4,0,(unsigned)buf,((struct Obj25008 *)(*(char * *)&((struct Obj04597 *)p)->f0))->f4,0x3c40);
+    PRINTSYS_PrintQueColor(owner,(unsigned)BMP_WIN_GetBmp(((struct Obj04597 *)p)->f130),4,0,(unsigned)buf,((struct Obj25008 *)(*(char * *)&((struct Obj04597 *)p)->f0))->f4,0x3c40);
     ((struct Obj04597 *)p)->f134=1;
     STRBUF_Delete(buf);
 }

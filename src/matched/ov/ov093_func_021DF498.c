@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetSmoothRockHandlers
+ * function: HAND_ITEM_GetSmoothRockHandlers
  * address: 0x021DF498
  * packet: pkt_ov093_021DF498
  * region: ov093
@@ -15,10 +15,10 @@
  *   gSmoothRockHandlers 0x021F1464 data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetSmoothRockHandlers(int *p);
+int *HAND_ITEM_GetSmoothRockHandlers(int *p);
 extern int gSmoothRockHandlers[];
 
-int *BTL_HANDLER_ITEM_GetSmoothRockHandlers(int *p)
+int *HAND_ITEM_GetSmoothRockHandlers(int *p)
 {
     *p = 1;
     return gSmoothRockHandlers;

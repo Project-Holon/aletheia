@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_CALC_InnerFocusPreventFlinch",
+   "name": "HAND_TOKUSEI_InnerFocusPreventFlinch",
    "address": "0x021D8684",
    "kind": "game",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_CALC_StallMoveLast",
+   "name": "HAND_TOKUSEI_StallMoveLast",
    "address": "0x021D88B8",
    "kind": "game",
    "region": "ov093",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ABILITY_MoldBreakerSetIgnoreAbilities",
+   "name": "HAND_TOKUSEI_MoldBreakerSetIgnoreAbilities",
    "address": "0x021D91E4",
    "kind": "game",
    "region": "ov093",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_TOKUSEI_ParalysisGuard_CheckAdd",
+   "name": "HAND_TOKUSEI_ParalysisGuard_CheckAdd",
    "address": "0x021D93D8",
    "kind": "game",
    "region": "ov093",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "BTL_TOKUSEI_SleepGuard_BlockOwnerEvent0E",
+   "name": "HAND_TOKUSEI_SleepGuard_BlockOwnerEvent0E",
    "address": "0x021D9460",
    "kind": "game",
    "region": "ov093",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_TOKUSEI_FreezeGuard_CheckAdd",
+   "name": "HAND_TOKUSEI_FreezeGuard_CheckAdd",
    "address": "0x021D9484",
    "kind": "game",
    "region": "ov093",
@@ -79,7 +79,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "BTL_TOKUSEI_PoisonGuard_CheckAdd",
+   "name": "HAND_TOKUSEI_PoisonGuard_CheckAdd",
    "address": "0x021D94C4",
    "kind": "game",
    "region": "ov093",
@@ -91,7 +91,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "BTL_TOKUSEI_BurnGuard_CheckAdd",
+   "name": "HAND_TOKUSEI_BurnGuard_CheckAdd",
    "address": "0x021D9504",
    "kind": "game",
    "region": "ov093",
@@ -103,7 +103,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "BTL_TOKUSEI_ConfusionGuard_CheckAdd",
+   "name": "HAND_TOKUSEI_ConfusionGuard_CheckAdd",
    "address": "0x021D9544",
    "kind": "game",
    "region": "ov093",
@@ -115,7 +115,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "BTL_TOKUSEI_InfatuationGuard_CheckAdd",
+   "name": "HAND_TOKUSEI_InfatuationGuard_CheckAdd",
    "address": "0x021D9598",
    "kind": "game",
    "region": "ov093",
@@ -127,7 +127,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "BTL_TOKUSEI_StatLossGuard_BlockTargetedA",
+   "name": "HAND_TOKUSEI_StatLossGuard_BlockTargetedA",
    "address": "0x021D99C8",
    "kind": "game",
    "region": "ov093",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_TOKUSEI_StatLossGuard_BlockTargetedB",
+   "name": "HAND_TOKUSEI_StatLossGuard_BlockTargetedB",
    "address": "0x021D99E0",
    "kind": "game",
    "region": "ov093",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_TOKUSEI_Simple_SetOwnerFlag",
+   "name": "HAND_TOKUSEI_Simple_SetOwnerFlag",
    "address": "0x021D9A44",
    "kind": "game",
    "region": "ov093",
@@ -199,7 +199,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ABILITY_UnawareIgnoreAccuracyStage",
+   "name": "HAND_TOKUSEI_UnawareIgnoreAccuracyStage",
    "address": "0x021DA808",
    "kind": "game",
    "region": "ov093",
@@ -211,7 +211,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ABILITY_UnawareIgnoreEvasionStage",
+   "name": "HAND_TOKUSEI_UnawareIgnoreEvasionStage",
    "address": "0x021DA820",
    "kind": "game",
    "region": "ov093",
@@ -223,7 +223,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ABILITY_DampRemoveSkipCheckForOwner",
+   "name": "HAND_TOKUSEI_DampRemoveSkipCheckForOwner",
    "address": "0x021DAEAC",
    "kind": "game",
    "region": "ov093",
@@ -235,7 +235,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_TOKUSEI_LiquidOoze_RemoveFactorOnEventA3",
+   "name": "HAND_TOKUSEI_LiquidOoze_RemoveFactorOnEventA3",
    "address": "0x021DB62C",
    "kind": "game",
    "region": "ov093",
@@ -247,7 +247,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_TOKUSEI_Klutz_RemoveSkipCheck",
+   "name": "HAND_TOKUSEI_Klutz_RemoveSkipCheck",
    "address": "0x021DB6E4",
    "kind": "game",
    "region": "ov093",
@@ -259,7 +259,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_TOKUSEI_MagicGuard_ClearEffectFlag",
+   "name": "HAND_TOKUSEI_MagicGuard_ClearEffectFlag",
    "address": "0x021DB9B8",
    "kind": "game",
    "region": "ov093",
@@ -271,7 +271,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DBF84",
+   "name": "HAND_TOKUSEI_SheerForce_BlockAttackerSideEffect",
    "address": "0x021DBF84",
    "kind": "game",
    "region": "ov093",
@@ -283,7 +283,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ABILITY_InfiltratorDisableSkip",
+   "name": "HAND_TOKUSEI_InfiltratorDisableSkip",
    "address": "0x021DC864",
    "kind": "game",
    "region": "ov093",
@@ -295,7 +295,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ITEM_WeakenDamageFire",
+   "name": "HAND_ITEM_WeakenDamageFire",
    "address": "0x021DDAC4",
    "kind": "game",
    "region": "ov093",
@@ -307,7 +307,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ITEM_WeakenDamageWater",
+   "name": "HAND_ITEM_WeakenDamageWater",
    "address": "0x021DDAE4",
    "kind": "game",
    "region": "ov093",
@@ -319,7 +319,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ITEM_WeakenDamageElectric",
+   "name": "HAND_ITEM_WeakenDamageElectric",
    "address": "0x021DDB04",
    "kind": "game",
    "region": "ov093",
@@ -331,7 +331,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ITEM_WeakenDamageGrass",
+   "name": "HAND_ITEM_WeakenDamageGrass",
    "address": "0x021DDB24",
    "kind": "game",
    "region": "ov093",
@@ -343,7 +343,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ITEM_WeakenDamageIce",
+   "name": "HAND_ITEM_WeakenDamageIce",
    "address": "0x021DDB44",
    "kind": "game",
    "region": "ov093",
@@ -355,7 +355,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ITEM_WeakenDamageFighting",
+   "name": "HAND_ITEM_WeakenDamageFighting",
    "address": "0x021DDB64",
    "kind": "game",
    "region": "ov093",
@@ -367,7 +367,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ITEM_WeakenDamagePoison",
+   "name": "HAND_ITEM_WeakenDamagePoison",
    "address": "0x021DDB84",
    "kind": "game",
    "region": "ov093",
@@ -379,7 +379,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ITEM_WeakenDamageGround",
+   "name": "HAND_ITEM_WeakenDamageGround",
    "address": "0x021DDBA4",
    "kind": "game",
    "region": "ov093",
@@ -391,7 +391,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ITEM_WeakenDamageFlying",
+   "name": "HAND_ITEM_WeakenDamageFlying",
    "address": "0x021DDBC4",
    "kind": "game",
    "region": "ov093",
@@ -403,7 +403,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ITEM_WeakenDamagePsychic",
+   "name": "HAND_ITEM_WeakenDamagePsychic",
    "address": "0x021DDBE4",
    "kind": "game",
    "region": "ov093",
@@ -415,7 +415,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ITEM_WeakenDamageBug",
+   "name": "HAND_ITEM_WeakenDamageBug",
    "address": "0x021DDC04",
    "kind": "game",
    "region": "ov093",
@@ -427,7 +427,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ITEM_WeakenDamageRock",
+   "name": "HAND_ITEM_WeakenDamageRock",
    "address": "0x021DDC24",
    "kind": "game",
    "region": "ov093",
@@ -439,7 +439,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_HANDLER_ITEM_KasibBerryWeakenGhostHit",
+   "name": "HAND_ITEM_KasibBerryWeakenGhostHit",
    "address": "0x021DDC44",
    "kind": "game",
    "region": "ov093",
@@ -451,7 +451,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_HANDLER_ITEM_HabanBerryWeakenDragonHit",
+   "name": "HAND_ITEM_HabanBerryWeakenDragonHit",
    "address": "0x021DDC64",
    "kind": "game",
    "region": "ov093",
@@ -463,7 +463,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_HANDLER_ITEM_ColburBerryWeakenDarkHit",
+   "name": "HAND_ITEM_ColburBerryWeakenDarkHit",
    "address": "0x021DDC84",
    "kind": "game",
    "region": "ov093",
@@ -475,7 +475,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_HANDLER_ITEM_BabiriBerryWeakenSteelHit",
+   "name": "HAND_ITEM_BabiriBerryWeakenSteelHit",
    "address": "0x021DDCA4",
    "kind": "game",
    "region": "ov093",
@@ -487,7 +487,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_HANDLER_ITEM_ChilanBerryWeakenNormalHit",
+   "name": "HAND_ITEM_ChilanBerryWeakenNormalHit",
    "address": "0x021DDCC4",
    "kind": "game",
    "region": "ov093",
@@ -499,7 +499,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_HANDLER_ITEM_LaggingTailMoveLast",
+   "name": "HAND_ITEM_LaggingTailMoveLast",
    "address": "0x021DE4A0",
    "kind": "game",
    "region": "ov093",

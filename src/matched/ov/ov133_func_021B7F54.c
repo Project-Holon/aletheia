@@ -20,7 +20,7 @@
  *   func_021F4ED4 0x021F4ED4 thumb ov112
  *   func_021F4EC4 0x021F4EC4 thumb ov112
  *   func_021F4EB4 0x021F4EB4 thumb ov112
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   _fflt 0x0209BDBC arm
  *   _fdiv 0x0209CE10 arm
  *   _ffix 0x0209C494 arm
@@ -45,7 +45,7 @@ extern int func_021B8B78(unsigned char *p, unsigned int id);
 extern int func_021F4B24(u8 *);
 extern void func_021BA21C(u8 *p, const u8 *src);
 extern void func_021BA254(char *p, int v);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_021F4EE8(int,int,int);
 extern void func_021F4E8C(int,int,Vec *);
 extern void func_021F4ED4(u32 unused, u32 p, u16 v);
@@ -71,7 +71,7 @@ void func_021B7F54(u8 *p,int sound)
         if(func_021F4B24(sprite)==1)v.z=0x1a000;
         if(func_021B8B78(p,((struct Obj00004 *)p)->f34)==0){((struct Obj00004 *)p)->f40=3;((struct Obj00004 *)p)->f44=pos.x;((struct Obj00004 *)p)->f48=pos.y;}
         func_021BA254((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38),((struct Obj00004 *)p)->f34);
-        if(old!=((struct Obj00004 *)p)->f34 && sound==1)func_020061E4(0x627);
+        if(old!=((struct Obj00004 *)p)->f34 && sound==1)GFL_USE_PlaySeDefaultVolume(0x627);
     }else{
         ((struct Obj00004 *)p)->f34=10;pos.x=((struct Obj00004 *)p)->f1C;pos.y=*(int *)&((struct Obj00004 *)p)->f20;
         func_021F4EE8(*(int *)&((struct Obj00004 *)p)->f1884,(int)sprite,rotation);

@@ -12,7 +12,7 @@
  *   MTX_Rot22_       0x0207AD64  thumb
  *   MTX_ScaleApply22 0x0207AD70  arm
  *   FX_Inv    0x0207C778  arm
- *   tbl_020A1B38     0x020A1B38  data
+ *   FX_SinCosTable_     0x020A1B38  data
  *
  * Scaled 2x2 rotation: convert the angle to a 16-bit turn fraction (mode 1:
  * (ang * 0xFFFF) >> 8; mode 2: degrees, (ang * 0xFFFF) / 360, the umull by
@@ -36,7 +36,7 @@ typedef signed short  s16;
 
 struct Mtx22 { s32 m[4]; };
 
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern void MTX_Rot22_(struct Mtx22 *mtx, s32 sinVal, s32 cosVal);
 extern void MTX_ScaleApply22(const struct Mtx22 *src, struct Mtx22 *dst, s32 x, s32 y);
 extern long FX_Inv(long v);
@@ -48,6 +48,6 @@ void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const 
     else if (mode == 2)
         ang = (u16)((ang * 0xFFFF) / 360);
 
-    MTX_Rot22_(mtx, tbl_020A1B38[((s32)ang >> 4) * 2], tbl_020A1B38[((s32)ang >> 4) * 2 + 1]);
+    MTX_Rot22_(mtx, FX_SinCosTable_[((s32)ang >> 4) * 2], FX_SinCosTable_[((s32)ang >> 4) * 2 + 1]);
     MTX_ScaleApply22(mtx, mtx, FX_Inv((long int)v1), FX_Inv((long int)v2));
 }

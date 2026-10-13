@@ -9,7 +9,7 @@
  * status: EXACT
  * volatile: hardware 021F6336,6342,634E,6358,6362,636E,6392.
  * symbols:
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 extern const u16 d_021F71A4[];
 typedef unsigned int   u32;
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(u16,int,int,int,int);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
@@ -32,7 +32,7 @@ static inline void SetPriority(int priority)
 void func_021F6328(void)
 {
     unsigned i;
-    func_020434DC(1,1);
+    BG_SYS_SetMainPlaneVisible(1,1);
     SetPriority(0);
     *(volatile u16 *)0x04000060=(u16)((*(volatile u16 *)0x04000060 & ~0x3002)|2);
     *(volatile u16 *)0x04000060 &= ~0x3010;

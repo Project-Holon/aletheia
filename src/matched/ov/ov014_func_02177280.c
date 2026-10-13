@@ -1,5 +1,5 @@
 /*
- * function: func_02177280
+ * function: NET_WHPIPE_Create
  * address:  0x02177280
  * packet:   pkt_ov014_02177280
  * region:   ov014
@@ -33,7 +33,7 @@ extern u16 func_0208F1B4(void);
 extern int func_021790E4(u32 heap, int a, int b);
 extern void func_02178E1C(u32 v);
 
-int func_02177280(int a, int b, u32 c, int d)
+int NET_WHPIPE_Create(int a, int b, u32 c, int d)
 {
     u8 *st;
     u8 *w;

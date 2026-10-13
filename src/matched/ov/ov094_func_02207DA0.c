@@ -16,8 +16,8 @@
  *   func_0220793C  0x0220793C  thumb  ov094
  *   func_0220868C  0x0220868C  thumb  ov094
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   func_0204B404  0x0204B404  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 
 typedef unsigned int u32;
@@ -48,9 +48,9 @@ struct Actor;
 struct PtS;
 typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
 void func_02207DA0(void *obj, S *q, int n)
 {
@@ -69,8 +69,8 @@ void func_02207DA0(void *obj, S *q, int n)
         func_0220793C((char *)q);
         CLACT_GetActorSurfacePos(q->f8, (struct PtS *)v, 0);
         v[0] = v[0] - (s16)(0x30 - q->f78);
-        func_0204B404(q->fc, (const struct Vec2 *)v, 0);
-        func_0204B3DC(q->fc, 1);
+        CLACT_AddActorSurfacePos(q->fc, (const struct Vec2 *)v, 0);
+        CLACT_SetActorDrawEnable(q->fc, 1);
         func_0220868C(obj, q, q->f78);
     }
 }

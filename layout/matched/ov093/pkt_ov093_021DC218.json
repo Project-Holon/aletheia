@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DC218",
+   "name": "HAND_TOKUSEI_ToxicBoost_BoostPhysicalPower",
    "address": "0x021DC218",
    "kind": "game",
    "region": "ov093",

@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_LaggingTailMoveLast
+ * function: HAND_ITEM_LaggingTailMoveLast
  * address:  0x021DE4A0
  * packet:   pkt_021D8684
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   BTL_HANDLER_ITEM_LaggingTailMoveLast   0x021DE4A0  thumb
+ *   HAND_ITEM_LaggingTailMoveLast   0x021DE4A0  thumb
  *   BTL_EVENT_OverwriteVar   0x021D76BC  thumb
  *   BTL_EVENT_GetVar   0x021D775C  thumb
  * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #2; adds r4, r2, #0; bl BTL_EVENT_GetVar; cmp r4, r0; bne loc_021DE4B6; movs r0, #0x11; movs r1, #0; bl BTL_EVENT_OverwriteVar; pop {r4, pc}.
@@ -24,7 +24,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021DE4A0  shape F1: gate on BTL_EVENT_GetVar(2) */
-void BTL_HANDLER_ITEM_LaggingTailMoveLast(int a, int b, int c)
+void HAND_ITEM_LaggingTailMoveLast(int a, int b, int c)
 {
     if (c == BTL_EVENT_GetVar(2))
         BTL_EVENT_OverwriteVar(0x11, 0);

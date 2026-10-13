@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   d_021DDDB8     0x021DDDB8  data
  *   d_021DDDA0     0x021DDDA0  data
  *   d_021DDDAC     0x021DDDAC  data
@@ -26,11 +26,11 @@ typedef unsigned int   u32;
 extern char d_021DDDB8[];
 extern char d_021DDDA0[];
 extern char d_021DDDAC[];
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 
 void FIELD_RAIL_LOADER_InitSetting(u8 *p)
 {
-    func_02082BCC(p, 0, 0x30);
+    MI_CpuFill8(p, 0, 0x30);
     ((struct Obj05014 *)p)->f8 = 0x14;
     ((struct Obj05014 *)p)->fA = 3;
     ((struct Obj05014 *)p)->fC = 3;

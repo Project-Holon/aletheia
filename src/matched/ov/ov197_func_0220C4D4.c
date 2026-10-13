@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 
 struct Obj;
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 typedef unsigned int   u32;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_0220C4D4(int a, int b)
 {
-    func_0204B3DC((struct Obj *)a, 1);
-    func_0204B404((struct Obj *)a, (const struct Vec2 *)b, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)a, 1);
+    CLACT_AddActorSurfacePos((struct Obj *)a, (const struct Vec2 *)b, 1);
 }

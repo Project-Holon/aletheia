@@ -16,13 +16,13 @@
  *   TIME_ICON_Delete  0x0202F038  thumb
  *   func_020307B0  0x020307B0  arm
  *   IRCBATTLEMENU_DeleteClact  0x021974A0  thumb  ov021
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
  *   TCBL_Destroy  0x02031140  arm
  *   func_020403F4  0x020403F4  arm
- *   func_0201C6EC  0x0201C6EC  thumb
- *   func_0201C4C0  0x0201C4C0  thumb
- *   func_020452E8  0x020452E8  arm
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   APP_TASKMENU_CloseMenu  0x02027858  thumb
  *   APP_TASKMENU_WIN_Delete  0x02028148  thumb
  *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb
@@ -56,13 +56,13 @@ struct TaskMenuState;
 extern void TIME_ICON_Delete(u8 *p);
 extern u32 func_020307B0(void *p);
 extern void IRCBATTLEMENU_DeleteClact(struct Obj *o);
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern int APP_KEYCURSOR_Delete(int a0);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern void func_020403F4(u32);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
-extern u32 func_020452E8(struct Descriptor *d);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
@@ -91,15 +91,15 @@ int IRCBATTLEMENU_Exit(u32 a, u32 b, u8 *c, u32 *d)
     func_020307B0((void *)d[0xBC]);
     IRCBATTLEMENU_DeleteClact((struct Obj *)d);
     if (d[0xAD] != 0) {
-        func_0201CE48((struct Rec3 *)d[0xAD]);
+        PRINTSYS_PrintStreamDelete((struct Rec3 *)d[0xAD]);
     }
     APP_KEYCURSOR_Delete(d[0xAA]);
     TCBL_Destroy((struct S02031140 *)d[0xAE]);
     func_020403F4(7);
-    func_0201C6EC((struct PrintSys *)d[0xAF]);
-    func_0201C4C0((struct PrintSys *)d[0xAF]);
+    PRINTSYS_QUE_Clear((struct PrintSys *)d[0xAF]);
+    PRINTSYS_QUE_Delete((struct PrintSys *)d[0xAF]);
     if (d[0xAC] != 0) {
-        func_020452E8((struct Descriptor *)d[0xAC]);
+        BMP_WIN_Delete((struct Descriptor *)d[0xAC]);
     }
     if (d[0xB0] != 0) {
         APP_TASKMENU_CloseMenu((struct TaskMenu *)d[0xB0]);

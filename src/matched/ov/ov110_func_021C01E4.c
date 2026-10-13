@@ -16,6 +16,8 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x43 data
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  */
 #include "../include/Obj06394.h"
 extern void func_021C05B0(char *p);
@@ -24,8 +26,8 @@ struct Rec;
 struct S020314B8;
 struct S020315D4;
 extern void func_0203133C(struct S020314B8 *p);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
@@ -36,8 +38,8 @@ extern char ov067_id[];
 int func_021C01E4(void *p, int a, int b, char *q) {
     func_021C05B0(q);
     func_0203133C(((struct Obj06394 *)q)->fAC);
-    func_0201C6EC(((struct Obj06394 *)q)->f5C);
-    func_0201C4C0(((struct Obj06394 *)q)->f5C);
+    PRINTSYS_QUE_Clear(((struct Obj06394 *)q)->f5C);
+    PRINTSYS_QUE_Delete(((struct Obj06394 *)q)->f5C);
     MSGDATA_Delete(((struct Obj06394 *)q)->f60);
     GF_FONT_Delete(((struct Obj06394 *)q)->f58);
     func_020315D4(p);

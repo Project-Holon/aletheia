@@ -1,5 +1,5 @@
 /*
- * function: BTL_ITEM_GetWeakenDamagePoisonHandlers
+ * function: HAND_ITEM_GetWeakenDamagePoisonHandlers
  * address: 0x021DDB78
  * packet: pkt_ov093_021DDB78
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int gBtlItemWeakenDamagePoisonHandlers[];
-int *BTL_ITEM_GetWeakenDamagePoisonHandlers(int *p);
+int *HAND_ITEM_GetWeakenDamagePoisonHandlers(int *p);
 
-int *BTL_ITEM_GetWeakenDamagePoisonHandlers(int *p)
+int *HAND_ITEM_GetWeakenDamagePoisonHandlers(int *p)
 {
     *p = 2;
     return gBtlItemWeakenDamagePoisonHandlers;

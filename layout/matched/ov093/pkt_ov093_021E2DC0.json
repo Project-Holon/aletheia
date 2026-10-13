@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E2DC0",
-    "func_021E2E1C"
+    "HAND_WAZA_PunishmentOnWazaPower",
+    "HAND_WAZA_AddFuryCutter"
+   ],
+   "addresses": [
+    "0x021E2DC0",
+    "0x021E2E1C"
    ],
    "evidence": {
     "sole-ref": [

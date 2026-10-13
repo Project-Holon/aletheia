@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FIELD_MSGBG_TalkWinMain  0x02191388  thumb  ov021
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   FIELD_MSGBG_CreateYesNoMenu  0x02190BE4  thumb  ov021
  *   FIELD_MSGBG_YesNoMenuMain  0x02190C78  thumb  ov021
  *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 
 struct Handle;
 extern u32 FIELD_MSGBG_TalkWinMain(u32 *a);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern u32 *FIELD_MSGBG_CreateYesNoMenu(u16 *a, u32 b);
 extern int FIELD_MSGBG_YesNoMenuMain(struct Handle *h);
 extern int FIELD_MSGBG_DeleteMenuFunc(void *a);
@@ -44,7 +44,7 @@ int FIELD_WFBC_DATA_LOCAL_UpdateTalkMessage(char *p)
         ((struct Obj00128 *)p)->f52 = ((struct Obj00128 *)p)->f52 + 1;
         break;
     case 1:
-        if ((func_020362DC() & 0xf3) == 0)
+        if ((KEY_GetTrg() & 0xf3) == 0)
             break;
         if (((struct Obj00128 *)p)->f55 == 0)
             ((struct Obj00128 *)p)->f52 = 4;

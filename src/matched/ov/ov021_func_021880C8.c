@@ -18,7 +18,7 @@
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   FIELDMAP_InitBgSystem  0x02188D5C  thumb
  *   CLACT_InitSystem  0x0204A48C  arm
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   GF_FONT_ResetTextColor  0x0201DD60  thumb
@@ -34,8 +34,8 @@
  *   func_02030CBC  0x02030CBC  arm
  *   FIELD_TASK_MANAGER_Create  0x021C6D10  thumb
  *   FLD_VREQ_Create  0x021D317C  thumb
- *   func_02013CC8  0x02013CC8  thumb
- *   func_02013CE0  0x02013CE0  thumb
+ *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
+ *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   func_02035660  0x02035660  arm
  */
@@ -57,7 +57,7 @@ extern void FIELDMAP_InitBgSystem(u16 *p);
 struct BigObj;
 struct Cfg;
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 struct Ctx;
 extern void BMP_WIN_Init(u16 heapId);
@@ -75,8 +75,8 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern u8 *FIELD_TASK_MANAGER_Create(int n, int heap);
 extern void *FLD_VREQ_Create(u32 heap);
-extern u32 func_02013CC8(u32 id);
-extern u32 func_02013CE0(u32 id);
+extern u32 ZONEDATA_IsZone1A6(u32 id);
+extern u32 ZONEDATA_IsZone96Pair(u32 id);
 extern int func_02034AC4(int id);
 extern void func_02035660(u32 a);
 
@@ -87,7 +87,7 @@ int FIELDMAP_SeqInitSystem(int unused, u8 *p)
     BG_SYS_SetVramBanks((const struct DispVram *)sVramBankSetup);
     FIELDMAP_InitBgSystem((u16 *)p);
     CLACT_InitSystem((const struct Cfg *)sClactSetup, (u32)sVramBankSetup, 0x89);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     BMP_WIN_Init(heap);
     GF_FONT_ResetTextColor();
@@ -99,7 +99,7 @@ int FIELDMAP_SeqInitSystem(int unused, u8 *p)
     ((struct Obj01489 *)p)->f110 = func_02030CBC(0x20, ((struct Obj01489 *)p)->f114);
     *(u8 * *)&((struct Obj01489 *)p)->f134 = FIELD_TASK_MANAGER_Create(0xA, ((struct Obj01489 *)p)->f0);
     ((struct Obj01489 *)p)->f14C = FLD_VREQ_Create(((struct Obj01489 *)p)->f0);
-    func_02034AC4((func_02013CC8(((struct Obj01489 *)p)->fD0) == 1 || func_02013CE0(((struct Obj01489 *)p)->fD0) == 1) ? (int)abs_id_19 : (int)abs_id_18);
+    func_02034AC4((ZONEDATA_IsZone1A6(((struct Obj01489 *)p)->fD0) == 1 || ZONEDATA_IsZone96Pair(((struct Obj01489 *)p)->fD0) == 1) ? (int)abs_id_19 : (int)abs_id_18);
     func_02035660(0x1E);
     return 1;
 }

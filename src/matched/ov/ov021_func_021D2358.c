@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELDMAP_GetFog  0x02188C64  thumb  ov021
  *   FIELD_TASK_CreatePlayerSpinEaseIn  0x021C7260  thumb  ov021
  *   FIELD_TASK_CreatePlayerSpinLinear  0x021C71D4  thumb  ov021
@@ -28,7 +28,7 @@
 typedef unsigned int u32;
 
 extern u32 FIELDMAP_GetTaskManager(unsigned char *p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern u32 FIELDMAP_GetFog(unsigned char *p);
 typedef unsigned short u16;
 struct Evt;
@@ -51,7 +51,7 @@ int FLDEFF_RIPPLE_WarpToSpecialLocationTask(u32 a, int *seq, int *w)
     s = FIELDMAP_GetTaskManager((unsigned char *)w[1]);
     switch (*seq) {
     case 0:
-        func_020061E4(0x63C);
+        GFL_USE_PlaySeDefaultVolume(0x63C);
         w[3] = 0x18;
         if (w[2]) {
             r6 = FIELDMAP_GetFog((unsigned char *)w[1]);

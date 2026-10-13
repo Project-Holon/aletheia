@@ -15,7 +15,7 @@
  *   func_02008730 0x02008730 thumb
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   func_02008510 0x02008510 thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02008550 0x02008550 thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
@@ -53,7 +53,7 @@ struct Sub020097BCObj;
 extern struct Sub0200852CObj *func_02008730(void *sys);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void *func_02008510(void *a, int tag);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *, u8);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
@@ -88,12 +88,12 @@ void func_021BAEDC(char *p)
         return;
     GF_FONT_SetDefaultTextColor();
     temp = func_02008510(a, 33);
-    BMP_Clear(func_02045770(*(struct Descriptor **)(p + 0x194)), 255);
+    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0x194)), 255);
     if (func_02008550((const struct Sub0200852CObj *)a) == 0)
         GF_FONT_SetTextColor(5, 6, 0);
     else
         GF_FONT_SetTextColor(3, 4, 0);
-    PRINTSYS_Print(func_02045770(*(struct Descriptor **)(p + 0x194)), 32, 0, temp, *(void **)(p + 0xe8));
+    PRINTSYS_Print(BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0x194)), 32, 0, temp, *(void **)(p + 0xe8));
     STRBUF_Delete(temp);
     kind = func_021BDD48((int)p, *(struct S **)(p + 8));
     other = func_021BDD54((int)p, *(struct S **)(p + 8));
@@ -112,7 +112,7 @@ void func_021BAEDC(char *p)
     } else {
         MSGDATA_ReadString(*(struct MsgBank **)(p + 0xe0), n, *(void **)(p + 0xf0));
     }
-    PRINTSYS_Print(func_02045770(*(struct Descriptor **)(p + 0x194)), 102, 0, *(void **)(p + 0xf0), *(void **)(p + 0xe8));
+    PRINTSYS_Print(BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0x194)), 102, 0, *(void **)(p + 0xf0), *(void **)(p + 0xe8));
     func_021BE4BC(p + 0x898, 1, 2, 1, kind, other, 48);
     if (func_021C27E0(*(struct S **)(p + 8))) icon = 15;
     else icon = 11;

@@ -20,10 +20,10 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021B9F10 0x021B9F10 thumb ov222
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_0204047C 0x0204047C arm
  *   func_020056A0 0x020056A0 thumb
  *   func_021B98FC 0x021B98FC thumb ov222
@@ -63,11 +63,11 @@ struct Obj;
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void*,int,u32);
+extern void MI_CpuFill8(void*,int,u32);
 extern void *func_021B9F10(u32,u32);
 struct GfFont;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern u32 func_0201C440(void*);
+extern u32 PRINTSYS_QUE_Create(void*);
 extern void func_0204047C(int,u16);
 extern void *func_020056A0(u32,void*,u32);
 extern void func_021B98FC(void);
@@ -101,12 +101,12 @@ int func_021B95A0(void *owner,void *unused,void *input)
  GFL_HEAP_CreateChildHeap((u32)((void*)1),131,0x30000);
  p=PROCSYS_AllocProcWork(owner,88,131);
  i=BG_MODE0;
- func_02082BCC(p,i,88);
+ MI_CpuFill8(p,i,88);
  *(u16*)p=131;
  *(void**)(p+4)=input;
  *(void**)(p+8)=func_021B9F10(1,*(u16*)p);
  *(void**)(p+12)=GF_FONT_Create(23,0,0,0,*(u16*)p);
- *(u32*)(p+16)=func_0201C440((void*)*(u16*)p);
+ *(u32*)(p+16)=PRINTSYS_QUE_Create((void*)*(u16*)p);
  func_0204047C(1,1);func_0204047C(2,0);
  *(void**)(p+20)=func_020056A0((u32)func_021B98FC,p,1);
  func_021B9900(p);func_021B9964((struct Obj *)p);func_021B9C1C(p);func_021B9CE4(p);

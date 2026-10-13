@@ -1,5 +1,5 @@
 /*
- * function: BTL_ITEM_GetWeakenDamageFireHandlers
+ * function: HAND_ITEM_GetWeakenDamageFireHandlers
  * address: 0x021DDAB8
  * packet: pkt_ov093_021DDAB8
  * region: ov093
@@ -15,10 +15,10 @@
  *   gBtlItemWeakenDamageFireHandlers 0x021F175C data ov093 a4
  */
 
-int *BTL_ITEM_GetWeakenDamageFireHandlers(int *p);
+int *HAND_ITEM_GetWeakenDamageFireHandlers(int *p);
 extern int gBtlItemWeakenDamageFireHandlers[];
 
-int *BTL_ITEM_GetWeakenDamageFireHandlers(int *p)
+int *HAND_ITEM_GetWeakenDamageFireHandlers(int *p)
 {
     *p = 2;
     return gBtlItemWeakenDamageFireHandlers;

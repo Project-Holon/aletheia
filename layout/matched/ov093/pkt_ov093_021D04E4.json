@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D04E4",
+   "name": "BTL_CLIENT_FindMemberWithAbility",
    "address": "0x021D04E4",
    "kind": "game",
    "region": "ov093",

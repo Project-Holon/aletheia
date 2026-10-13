@@ -11,17 +11,17 @@
  * symbols:
  *   BSUBWAY_RECORD_LIST_ShowRecordDetails 0x021B9FF0 thumb ov069
  *   BSUBWAY_RECORD_LIST_PlaceCursorActor 0x021B9FC8 thumb ov069
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 #include "../include/Obj13149.h"
 struct Rec;
 extern void BSUBWAY_RECORD_LIST_ShowRecordDetails(char *p, struct Rec *tbl, int idx);
 extern void BSUBWAY_RECORD_LIST_PlaceCursorActor(char *p, int i);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void BSUBWAY_RECORD_LIST_CursorCallbackMovedAlt(char *p, int i)
 {
     BSUBWAY_RECORD_LIST_ShowRecordDetails(p, ((struct Obj13149 *)p)->f8, (int)((unsigned)i + (unsigned)((struct Obj13149 *)p)->f160 * 10u));
     BSUBWAY_RECORD_LIST_PlaceCursorActor(p, i);
-    func_020061E4(0x548);
+    GFL_USE_PlaySeDefaultVolume(0x548);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_HANDLER_ITEM_AddBerryJuice",
+   "name": "HAND_ITEM_AddBerryJuice",
    "address": "0x021DD570",
    "kind": "game",
    "region": "ov093",

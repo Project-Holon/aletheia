@@ -12,7 +12,7 @@
  *   func_021FD15C 0x021FD15C thumb ov186
  *   func_021E0774 0x021E0774 thumb ov183
  *   func_021E0808 0x021E0808 thumb ov183
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   func_021FD820 0x021FD820 thumb ov186
  *   func_021FBDA4 0x021FBDA4 thumb ov186
  *   func_021FC0C8 0x021FC0C8 thumb ov186
@@ -23,7 +23,7 @@ struct PrintSys;
 struct S020315D4;
 extern void func_021E0774(char *p);
 extern void func_021E0808(char *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void func_021FD820(char *r5);
 extern void func_021FBDA4(int a, unsigned mode);
 extern void func_021FC0C8(char *p, unsigned i);
@@ -33,7 +33,7 @@ int func_021E05C4(void *a, int unused, int *q, void **p)
     func_021FD15C((void *)((int)p[2]), q[2]);
     func_021E0774(p[1]);
     func_021E0808(p[0]);
-    func_0201C4C0(p[3]);
+    PRINTSYS_QUE_Delete(p[3]);
     func_021FD820(p[5]);
     func_021FBDA4(q[2], 29);
     func_021FC0C8((char *)q[2], 6);

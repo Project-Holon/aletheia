@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02026478 0x02026478 thumb
+ *   GAME_COMM_GetGameData 0x02026478 thumb
  *   INTRUDE_COMM_IsLinked 0x021736D8 thumb ov011
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
@@ -39,7 +39,7 @@
  *   EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline  0x02162008  thumb ov010
  *   func_020127A4  0x020127A4  thumb
  *   func_02012AC8  0x02012AC8  thumb
- *   func_02013D9C  0x02013D9C  thumb
+ *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   func_02012B4C  0x02012B4C  thumb
@@ -76,7 +76,7 @@
  *   GAME_DATA_SetSlotFlag  0x02012BA4  thumb
  *   GAME_COMM_PushPlayerMessage  0x020266D4  thumb
  *   GAME_COMM_UpdatePlayerStatus  0x020264B4  thumb
- *   func_02013D5C  0x02013D5C  thumb
+ *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   ZONEDATA_IsSameMatrixGroup  0x02013E90  thumb
  *   COMM_PLAYER_CheckOccupy  0x021677E4  thumb  ov010
  *   COMM_PLAYER_GetObjCode  0x02167810  thumb  ov010
@@ -163,7 +163,7 @@ typedef struct IntrudeProfileData {
     u8  valid;
 } IntrudeProfileData;
 
-u32 func_02026478(void *obj);
+u32 GAME_COMM_GetGameData(void *obj);
 int INTRUDE_COMM_IsLinked(void);
 GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 int GFL_NET_SendToHandle(GFLNetHandle *handle, u32 command, u32 size, const void *data);
@@ -189,7 +189,7 @@ void EVENT_FIELD_PROCLINK_SetReturnSlotDefaultIfOffline(u8 *p, int v);
 void EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline(u8 *p, u16 v);
 void *func_020127A4(struct SaveBlock *p);
 u16 func_02012AC8(const struct Rec44 *p);
-unsigned int func_02013D9C(unsigned int id);
+unsigned int ZONEDATA_IsZoneGroup118To120(unsigned int id);
 extern u32 GFL_NET_IsParentAid(void);
 extern int GFL_NET_GetNegotiationNum(void);
 extern void func_02012B4C(struct BigObj *p, u8 v);
@@ -226,7 +226,7 @@ void *func_020127AC(struct SaveBlock *p, unsigned int idx);
 void GAME_DATA_SetSlotFlag(struct BigObj *p, int i, u8 v);
 void GAME_COMM_PushPlayerMessage(u32 a, u32 b);
 void GAME_COMM_UpdatePlayerStatus(struct GameComm *gameComm, int netId, u16 zoneId, u8 intrudeId, u32 statusCode, int flag);
-extern u32 func_02013D5C(u32 id);
+extern u32 ZONEDATA_IsZone117(u32 id);
 extern u32 ZONEDATA_IsSameMatrixGroup(u32 a, u32 b);
 extern int COMM_PLAYER_CheckOccupy(struct CommPlayerWork *commPlayer, int netId);
 extern u16 COMM_PLAYER_GetObjCode(struct CommPlayerWork *commPlayer, int netId);
@@ -370,7 +370,7 @@ extern u16 gIntrudeCommValidProfileCodes[];
 
 int INTRUDE_COMM_SendTally(IntrudeCommSys *work)
 {
-    func_02026478(work->gameComm);
+    GAME_COMM_GetGameData(work->gameComm);
     if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
     }
@@ -458,7 +458,7 @@ void INTRUDE_COMM_RecvSupportMode(int netId, int size, int *mode, IntrudeCommSys
     int gameData;
     int support;
     int supportState;
-    gameData = func_02026478(work->gameComm);
+    gameData = GAME_COMM_GetGameData(work->gameComm);
     support = GAME_DATA_GetPmsWork(gameData);
     if (work->peerMask & (1 << netId)) {
         if (FIELD_STATUS_GetSeasonDispFlag(func_02012B38((const struct BigObj *)gameData)) == 1) {
@@ -489,7 +489,7 @@ int INTRUDE_COMM_SendSupportMode(int unused, int netId, int mode, ...)
 
 void INTRUDE_COMM_RecvProfile(int netId, int size, void *profile, IntrudeCommSys *work)
 {
-    func_02026478(work->gameComm);
+    GAME_COMM_GetGameData(work->gameComm);
     if ((work->peerMask & (1 << netId)) && work->profilePending == 0) {
         func_02082D44(profile, &work->profile, 0x14);
         work->profilePending = 1;
@@ -565,7 +565,7 @@ void INTRUDE_COMM_RecvUnionInfo(int netId, int size, void *info, IntrudeCommSys 
 {
     int gameData;
     int unionInfo;
-    gameData = func_02026478(work->gameComm);
+    gameData = GAME_COMM_GetGameData(work->gameComm);
     unionInfo = (int)func_020127D0((u8 *)gameData, 0);
     FIELD_WFBC_DATA_LOCAL_Sanitize(info, GAME_DATA_GetMyStatusByNetId((void *)gameData, netId));
     func_02082D44(info, (void *)unionInfo, 0x1E8);
@@ -677,9 +677,9 @@ int INTRUDE_COMM_SendSymbolPage(IntrudeCommSys *work, int netId)
 void INTRUDE_COMM_RecvAreaNotice(int netId, int size, int data, IntrudeCommSys *work)
 {
     int gameData;
-    gameData = func_02026478(work->gameComm);
+    gameData = GAME_COMM_GetGameData(work->gameComm);
     if (netId != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) && work->localPeer.intrudeId == netId) {
-        if (func_02013D9C(func_02012AC8(func_020127A4((struct SaveBlock *)gameData))) != 0) {
+        if (ZONEDATA_IsZoneGroup118To120(func_02012AC8(func_020127A4((struct SaveBlock *)gameData))) != 0) {
             work->areaNoticeSeen = 1;
         }
     }
@@ -710,7 +710,7 @@ void func_02174978(IntrudeCommSys *work)
     int gameData;
     int connected;
     void *profileSys;
-    gameData = func_02026478(work->gameComm);
+    gameData = GAME_COMM_GetGameData(work->gameComm);
     if (GFL_NET_IsParentAid() == 1) {
         connected = GFL_NET_GetNegotiationNum();
         if (connected > work->memberCount) {
@@ -763,7 +763,7 @@ void func_02174978(IntrudeCommSys *work)
 void INTRUDE_COMM_UpdateSeasonState(IntrudeCommSys *work)
 {
     int mode;
-    mode = FIELD_STATUS_GetSeasonDispFlag((struct Sub02014444Obj *)func_02012B38((const struct BigObj *)func_02026478(work->gameComm)));
+    mode = FIELD_STATUS_GetSeasonDispFlag((struct Sub02014444Obj *)func_02012B38((const struct BigObj *)GAME_COMM_GetGameData(work->gameComm)));
     switch (mode) {
     case 0:
         if (work->localPeer.state == 2) {
@@ -846,7 +846,7 @@ void INTRUDE_COMM_UpdatePendingNotices(IntrudeCommSys *work)
 
 
 /*
- * func_02026478 returns the argument consumed by GAME_DATA_GetSecondUnionInfo.
+ * GAME_COMM_GetGameData returns the argument consumed by GAME_DATA_GetSecondUnionInfo.
  */
 void INTRUDE_COMM_UpdateUnionInfoAndReturnSlots(IntrudeCommSys *work)
 {
@@ -854,7 +854,7 @@ void INTRUDE_COMM_UpdateUnionInfoAndReturnSlots(IntrudeCommSys *work)
     int pending[2];
     unsigned char i;
     int gameData;
-    gameData = func_02026478(work->gameComm);
+    gameData = GAME_COMM_GetGameData(work->gameComm);
     if (work->unionInfoRequestMask != 0) {
         if (INTRUDE_COMM_SendUnionInfo(work, work->unionInfoRequestMask, (void *)GAME_DATA_GetSecondUnionInfo((void *)gameData)) == 1) {
             work->unionInfoRequestMask = 0;
@@ -878,7 +878,7 @@ void INTRUDE_COMM_UpdateUnionInfoAndReturnSlots(IntrudeCommSys *work)
 
 
 /*
- * The guard's ldrb lands in r1 because func_02026478's result is live in r0:
+ * The guard's ldrb lands in r1 because GAME_COMM_GetGameData's result is live in r0:
  * it is GAME_DATA_GetSecondUnionInfo's argument (the r0 at that call is never re-set).
  */
 void INTRUDE_COMM_UpdatePageRequests(IntrudeCommSys *work)
@@ -886,7 +886,7 @@ void INTRUDE_COMM_UpdatePageRequests(IntrudeCommSys *work)
     unsigned char i;
     IntrudePageRequest *requests;
     int gameData;
-    gameData = func_02026478(work->gameComm);
+    gameData = GAME_COMM_GetGameData(work->gameComm);
     if (work->unionInfoRequestMask != 0) {
         if (INTRUDE_COMM_SendUnionInfo(work, work->unionInfoRequestMask, (void *)GAME_DATA_GetSecondUnionInfo((void *)gameData)) == 1) {
             work->unionInfoRequestMask = 0;
@@ -918,7 +918,7 @@ void INTRUDE_COMM_BuildSymbolPage(IntrudeCommSys *work, const IntrudePageRequest
     int netId;
     u8 count[4];
     page = &work->ownSymbolPage;
-    symbolMap = func_0200E0B0(GAME_DATA_GetSaveControl((struct Big *)func_02026478(work->gameComm)));
+    symbolMap = func_0200E0B0(GAME_DATA_GetSaveControl((struct Big *)GAME_COMM_GetGameData(work->gameComm)));
     func_0216749C(symbolMap, page->entries, 0x14, request->page, count);
     page->count = count[0];
     page->levelSmall = func_021673C4(symbolMap);
@@ -959,7 +959,7 @@ void INTRUDE_COMM_SetState(IntrudeCommSys *work, int state)
 void INTRUDE_COMM_RefreshSelfRecord(IntrudeCommSys *work)
 {
     int gameData;
-    gameData = func_02026478(work->gameComm);
+    gameData = GAME_COMM_GetGameData(work->gameComm);
     func_02082D44(func_02012944((void *)gameData), work->ownMyStatus, MYSTATUS_GetSize());
     func_02082D44(GAME_DATA_GetLastBattleRecSlot((void *)gameData), work->lastBattleRecSlot, 0x10);
     INTRUDE_COMM_UpdateSelfRecord(work);
@@ -978,7 +978,7 @@ void INTRUDE_COMM_ApplyPlayerBeacon(IntrudeCommSys *work, int netId, IntrudeStat
     int gameData;
     int status;
     int changed;
-    gameData = func_02026478(work->gameComm);
+    gameData = GAME_COMM_GetGameData(work->gameComm);
     changed = 0;
     status = (int)func_02012950((struct Sub24 *)gameData, netId);
     if (work->peerMask & (1 << netId)) {
@@ -1028,7 +1028,7 @@ void INTRUDE_COMM_StorePlayerRecord(IntrudeCommSys *work, int netId, const Intru
 void INTRUDE_COMM_UpdatePlayerObjects(IntrudeCommSys *work)
 {
     u8 i;
-    if (GAME_DATA_IsSaving((const u8 *)func_02026478(work->gameComm)) == 1) {
+    if (GAME_DATA_IsSaving((const u8 *)GAME_COMM_GetGameData(work->gameComm)) == 1) {
         return;
     }
     if (work->suspended == 1) {
@@ -1054,11 +1054,11 @@ static inline int ShouldHidePeer(IntrudePeer *peer, IntrudePeer *self)
     if (peer->package.dir != 0 && peer->package.dir != 1) {
         return 1;
     }
-    if (func_02013D5C(peer->zoneId) == 1 && func_02013D5C(self->zoneId) == 1) {
+    if (ZONEDATA_IsZone117(peer->zoneId) == 1 && ZONEDATA_IsZone117(self->zoneId) == 1) {
         return 0;
     }
     if (peer->intrudeId == self->intrudeId) {
-        if (func_02013D9C(peer->zoneId) == 1 && func_02013D9C(self->zoneId) == 1) {
+        if (ZONEDATA_IsZoneGroup118To120(peer->zoneId) == 1 && ZONEDATA_IsZoneGroup118To120(self->zoneId) == 1) {
             if (peer->symbolMapFlag == self->symbolMapFlag) {
                 return 0;
             }
@@ -1085,7 +1085,7 @@ void INTRUDE_COMM_UpdatePlayerObject(IntrudeCommSys *work, int netId)
         peer->package.vanish = ShouldHidePeer(peer, self);
     }
     if (COMM_PLAYER_CheckOccupy(work->commPlayer, netId) == 1) {
-        objCode = INTRUDE_COMM_GetPlayerObjCode(peer, GAME_DATA_GetMyStatusByNetId((void *)func_02026478(work->gameComm), netId));
+        objCode = INTRUDE_COMM_GetPlayerObjCode(peer, GAME_DATA_GetMyStatusByNetId((void *)GAME_COMM_GetGameData(work->gameComm), netId));
         if (objCode != COMM_PLAYER_GetObjCode(work->commPlayer, netId)) {
             COMM_PLAYER_Del(work->commPlayer, netId);
             if (peer->objCode != 0) {
@@ -1136,7 +1136,7 @@ int INTRUDE_COMM_GetRelativeSlot(IntrudeCommSys *work, int netId)
 {
     int slot;
     if (netId >= work->memberCount) return 0;
-    slot = netId - func_02012B58((const struct BigObj *)func_02026478(work->gameComm));
+    slot = netId - func_02012B58((const struct BigObj *)GAME_COMM_GetGameData(work->gameComm));
     if (slot < 0) slot += work->memberCount;
     return slot;
 }
@@ -1161,7 +1161,7 @@ void INTRUDE_COMM_AdjustRemotePosition(IntrudeCommSys *work, u16 zoneId, int sel
     case 2:
         break;
     case 0:
-        if (func_02013D5C(zoneId) != 0) {
+        if (ZONEDATA_IsZone117(zoneId) != 0) {
             x = peer->package.pos.x % 0x400000;
             slot = INTRUDE_COMM_GetRelativeSlot(work, peer->intrudeId);
             count = work->memberCount;
@@ -1187,7 +1187,7 @@ void INTRUDE_COMM_AdjustAllRemotePositions(IntrudeCommSys *work, int selfX)
     int ownNetId;
     int i;
     IntrudePeer *peer;
-    ownNetId = func_02012B58((const struct BigObj *)func_02026478(work->gameComm));
+    ownNetId = func_02012B58((const struct BigObj *)GAME_COMM_GetGameData(work->gameComm));
     self = &work->localPeer;
     i = 0;
     peers = work->peers;
@@ -1210,7 +1210,7 @@ int INTRUDE_COMM_UpdateSelfRecord(IntrudeCommSys *work)
     int changed;
     int lidClosed;
     IntrudePeer *self;
-    gameData = func_02026478(work->gameComm);
+    gameData = GAME_COMM_GetGameData(work->gameComm);
     zoneId = func_02012AC8(func_020127A4((struct SaveBlock *)gameData));
     self = &work->localPeer;
     changed = COMM_PLAYER_UpdateMyPackage(work->commPlayer, self);
@@ -1605,7 +1605,7 @@ void INTRUDE_COMM_UpdateSession(IntrudeCommSys *work, IntrudeSession *session)
                     session->resultReported = 1;
                 }
             } else if (session->timeLimitSet == 1 && INTRUDE_COMM_GetSessionElapsed(session) > session->request.amount) {
-                gameData = func_02026478(work->gameComm);
+                gameData = GAME_COMM_GetGameData(work->gameComm);
                 if (session->result.confirmed == 0) {
                     INTRUDE_COMM_PromoteRequestToResult(work, session, func_02012B58((const struct BigObj *)gameData));
                 }

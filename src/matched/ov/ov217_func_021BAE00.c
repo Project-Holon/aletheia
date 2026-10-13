@@ -23,19 +23,19 @@
  *   func_021BC580 0x021BC580 thumb ov217
  *   func_021BC06C 0x021BC06C thumb ov217
  *   func_021BC428 0x021BC428 thumb ov217
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *p);
 extern int TOUCHPANEL_HitCont(const void *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *,u32 *);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void *func_021C09B8(void *);
 extern u32 func_021BC6D0(void *);
 extern void func_021BBAD0(u32);
@@ -53,14 +53,14 @@ extern int func_021BC428(void *);
 /* Narrow selection parameters follow the caller's explicit lsls/lsrs #24 pairs. */
 void func_021BAE00(u8 *p)
 {
-    u32 keys=func_020362DC();
+    u32 keys=KEY_GetTrg();
     int sel=TOUCHPANEL_HitTrg(p+0x64);
     int flag;
     u32 a,b;
     flag=TOUCHPANEL_HitTrg(func_021C09B8(*(void **)p));
     TOUCHPANEL_GetPointCont(&a,&b);
     if(func_021BC6D0(p)!=0 || flag==0) {
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021BBAD0((u32)p);
         func_021BB934(p,1);
         func_021BB91C(p);
@@ -68,7 +68,7 @@ void func_021BAE00(u8 *p)
         return;
     }
     if(keys&2) {
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021BBAD0((u32)p);
         func_021BB934(p,0);
         func_021BB91C(p);
@@ -87,7 +87,7 @@ void func_021BAE00(u8 *p)
             if(func_021BC6F4((u32)p,(u8)sel)==1) {
                 func_021BBAA4((u32)p,sel);
                 func_021BC6EC(p,p[0x32]);
-                func_020061E4(0x54c);
+                GFL_USE_PlaySeDefaultVolume(0x54c);
                 func_021BC580((char *)p,2);
                 func_021BC06C((char *)p);
                 func_021BC128((u32)p);

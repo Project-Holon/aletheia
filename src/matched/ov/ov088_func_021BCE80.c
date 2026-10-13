@@ -12,7 +12,7 @@
  * symbols:
  *   STARTMENU_SaveEraseUpdateMessage  0x021BD188  thumb  ov088
  *   TIME_ICON_Create  0x0202EE30  thumb
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *   func_02005654  0x02005654  thumb
  *   STARTMENU_SaveEraseUpdateTimeIcon  0x021BCE70  thumb  ov088
@@ -46,7 +46,7 @@ struct Sub02007084Ctrl;
 struct Sub020071E4Ctrl;
 struct Sub020072A4Ctrl;
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern int func_02005654(int a, int b);
 extern void STARTMENU_SaveEraseUpdateTimeIcon(void);
@@ -68,7 +68,7 @@ void STARTMENU_SaveEraseStepErase(u8 *p, int *a1)
 
     if (STARTMENU_SaveEraseUpdateMessage((char *)p) == 0) {
         d_021BDA20 = TIME_ICON_Create(0, ((struct Obj00578 *)p)->f1C, 0xf, 0x10, 0x81);
-        func_020409B4(func_02045730(((struct Obj00578 *)p)->f1C));
+        func_020409B4(BMP_WIN_GetBgLayer(((struct Obj00578 *)p)->f1C));
         func_02005654((int)STARTMENU_SaveEraseUpdateTimeIcon, 0);
         r = func_020070A4();
         func_02034AC4((u32)ov228_id);

@@ -17,14 +17,14 @@
  *   func_021BC580 0x021BC580 thumb ov217
  *   func_021BB934 0x021BB934 thumb ov217
  *   func_021BC6D0 0x021BC6D0 thumb ov217
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 typedef unsigned int u32;
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021BB91C(void *p);
 extern void func_021BB910(unsigned char *a0, u32 a1);
 extern u32 func_021BBA00(u32 a0, u32 a1);
@@ -36,7 +36,7 @@ extern u32 func_021BC6D0(void *p);
 
 void func_021BB2B4(char *p)
 {
-    u32 keys = func_020362DC();
+    u32 keys = KEY_GetTrg();
     int st = TOUCHPANEL_HitTrg(p + 0x58);
     if ((keys & 0x40) || (keys & 0x80) || (keys & 0x20) || (keys & 0x10) || (keys & 1)) {
         func_021BB91C(p);
@@ -56,7 +56,7 @@ void func_021BB2B4(char *p)
         func_021BBA00((u32)p, 1);
         func_021BC5A8((u8 *)p, 3);
         func_021BC580(p, 5);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021BB91C(p);
         func_021BB910((unsigned char *)p, 11);
         func_021BB910((unsigned char *)p, 2);

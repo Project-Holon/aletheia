@@ -1,5 +1,5 @@
 /*
- * function: func_021C80AC
+ * function: BTL_SERVER_FLOW_AreAllOtherActionsDone
  * address:  0x021C80AC
  * packet:   pkt_ov093_021C80AC
  * region:   ov093
@@ -18,7 +18,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 
-int func_021C80AC(u8 *p, int key)
+int BTL_SERVER_FLOW_AreAllOtherActionsDone(u8 *p, int key)
 {
     u32 i;
     u32 total;

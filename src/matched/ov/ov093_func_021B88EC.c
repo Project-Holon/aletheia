@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B99F0  0x021B99F0  thumb  ov093
+ *   BTL_MAIN_IsBackRowPos  0x021B99F0  thumb  ov093
  *   BTL_MAIN_GetEnemyLanePosFromWork  0x021B8C50  thumb  ov093
  *   BTL_MAIN_GetEnemyLanePos  0x021B8C20  thumb  ov093
  *   BTL_MAIN_GetOwnLanePos  0x021B8C38  thumb  ov093
@@ -19,14 +19,14 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u32 func_021B99F0(u32 x);
+extern u32 BTL_MAIN_IsBackRowPos(u32 x);
 extern u8 BTL_MAIN_GetEnemyLanePosFromWork(char **p, u32 v, int k);
 extern u8 BTL_MAIN_GetEnemyLanePos(int kind, u32 flags, u32 v);
 extern u8 BTL_MAIN_GetOwnLanePos(u32 flags, u32 v);
 
 u8 BTL_MAIN_ExpandPosTriple(void *p, u32 k, u32 v, u8 *out)
 {
-    u8 b = func_021B99F0(v);
+    u8 b = BTL_MAIN_IsBackRowPos(v);
     u8 x;
 
     switch (k) {

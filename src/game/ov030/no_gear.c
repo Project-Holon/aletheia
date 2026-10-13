@@ -1,7 +1,7 @@
 /*
  * file:     no_gear.c
  * unit:     yes
- * function: func_021EFEC0, NO_GEAR_SetStepFunc, NO_GEAR_LoadGraphics, NO_GEAR_SetupBackgrounds, NO_GEAR_Init, NO_GEAR_ReleaseGraphics, NO_GEAR_Step, NO_GEAR_Create, NO_GEAR_Update
+ * function: func_021EFEC0, NO_GEAR_SetStepFunc, NO_GEAR_LoadGraphics, NO_GEAR_SetupBackgrounds, NO_GEAR_Init, NO_GEAR_ReleaseGraphics, NO_GEAR_Step, NO_GEAR_Create, NO_GEAR_Update, func_021F0118
  * address:  0x021EFEC0
  * region:   ov030
  * compiler: dsi/1.1p1
@@ -39,6 +39,8 @@
  *   str_021F01C0   0x021F01C0  data   ov030  a1
  *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   WIH_DWC_PollStatus 0x0201058C thumb
+ *   NO_GEAR_ReleaseGraphics  0x021F007C  thumb  ov030
+ *   func_020307B0  0x020307B0  arm
  */
 #include "../ov021/field_subscreen_types.h"
 
@@ -113,7 +115,12 @@ extern struct BgTemplate gNoGearBgTemplateMain;
 extern struct BgTemplate gNoGearBgTemplateMid;
 extern struct BgTemplate gNoGearBgTemplateBack;
 extern char str_021F01C0[];
-
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct NoGearWork;
+extern void NO_GEAR_ReleaseGraphics(struct NoGearWork *work);
+extern u32 func_020307B0(void *block);
+#define REG_DB_BLDCNT_SUB  (*(volatile u16 *)0x04001050)
 
 void func_021EFEC0(void (**slot)(NoGearWork *), void (*stepFunc)(NoGearWork *))
 {
@@ -249,4 +256,12 @@ void NO_GEAR_Update(NoGearWork *work)
 
 void NO_GEAR_Hook(void)
 {
+}
+
+/* Frees the BG resources of the panel, clears the sub screen blend, frees the work. */
+void func_021F0118(struct NoGearWork *work)
+{
+    NO_GEAR_ReleaseGraphics(work);
+    REG_DB_BLDCNT_SUB = 0;
+    func_020307B0(work);
 }

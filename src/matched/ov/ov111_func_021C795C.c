@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201C4C0  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
  *
  * Addresses are Black-image addresses.
@@ -24,12 +24,12 @@ typedef struct {
 } Work;
 
 struct PrintSys;
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 
 void func_021C795C(Work *p)
 {
-    func_0201C4C0(p->f14);
+    PRINTSYS_QUE_Delete(p->f14);
     GF_FONT_Delete(p->f4);
 }

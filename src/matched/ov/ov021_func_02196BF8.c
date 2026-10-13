@@ -15,7 +15,7 @@
  *   IRCBATTLEMENU_SetSeq  0x02196034  thumb  ov021
  *   IRCBATTLEMENU_SeqPressKindButton  0x02196B28  thumb  ov021
  *   IRCBATTLEMENU_SeqPressKindBack  0x02196B94  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -30,7 +30,7 @@ extern void IRCBATTLEMENU_SetSeq(u8 *p, void *fn, u32 n);
 struct Obj;
 extern void IRCBATTLEMENU_SeqPressKindButton(struct Obj *a);
 extern void IRCBATTLEMENU_SeqPressKindBack(struct Obj *a);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 int IRCBATTLEMENU_TouchKindMenu(u32 v, u8 *p)
 {
@@ -39,16 +39,16 @@ int IRCBATTLEMENU_TouchKindMenu(u32 v, u8 *p)
     ((struct Obj09493 *)p)->f300 = v;
     switch (v) {
     case 0:
-        func_020061E4(0x73B);
+        GFL_USE_PlaySeDefaultVolume(0x73B);
         IRCBATTLEMENU_SetSeq(p, IRCBATTLEMENU_SeqPressKindButton, 0x4A3);
         break;
     case 1:
-        func_020061E4(0x73B);
+        GFL_USE_PlaySeDefaultVolume(0x73B);
         ((struct Obj09493 *)p)->f8 = 5;
         IRCBATTLEMENU_SetSeq(p, IRCBATTLEMENU_SeqPressKindButton, 0x4A9);
         break;
     case 2:
-        func_020061E4(0x73C);
+        GFL_USE_PlaySeDefaultVolume(0x73C);
         ((struct Obj09493 *)p)->f8 = 0xC;
         IRCBATTLEMENU_SetSeq(p, IRCBATTLEMENU_SeqPressKindBack, 0x4AF);
         break;

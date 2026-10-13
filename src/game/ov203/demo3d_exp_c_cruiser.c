@@ -23,13 +23,13 @@
  *   func_021BDF30 0x021BDF30 thumb ov203
  *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
  *   UI_SCENE_CreateActor 0x021B629C thumb ov067
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021C3D5C 0x021C3D5C data a1
  *   d_021C3BD0 0x021C3BD0 data a2
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 #include "../../matched/include/Obj04607.h"
 #include "../../matched/include/Obj14600.h"
@@ -55,11 +55,11 @@ extern int func_021BE620(char *p);
 extern int func_021BDF30(char *p);
 extern void UI_SCENE_LoadActorGfx(Out *, In *, int, unsigned short);
 extern int UI_SCENE_CreateActor(Out *, int, unsigned char, unsigned char, unsigned char, unsigned short);
-extern void func_0204B3DC(struct Obj *, unsigned);
-extern void func_0204B92C(struct Obj *, unsigned);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned);
+extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
-extern void func_0204B404(struct Obj *, const struct Vec2 *, unsigned);
+extern void CLACT_AddActorSurfacePos(struct Obj *, const struct Vec2 *, unsigned);
 void func_021BF9D0(unsigned short heap);
 void func_021BFA20(char *p);
 void func_021BFAE4(char *p);
@@ -101,8 +101,8 @@ void func_021BFA20(char *p)
     config.b1e = 1;
     UI_SCENE_LoadActorGfx((Out *)(a + 4), &config, resource, *(unsigned short *)p);
     *(int *)(a + 0x14) = UI_SCENE_CreateActor((Out *)(a + 4), resource, d_021C3BD0[*a].x, d_021C3BD0[*a].y, 0, *(unsigned short *)p);
-    func_0204B3DC(*(struct Obj **)(a + 0x14), 1);
-    func_0204B92C(*(struct Obj **)(a + 0x14), 1);
+    CLACT_SetActorDrawEnable(*(struct Obj **)(a + 0x14), 1);
+    CLACT_SetActorAutoAnim(*(struct Obj **)(a + 0x14), 1);
     func_02040588(6, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
 }
@@ -112,9 +112,9 @@ void func_021BFAE4(char *p)
     unsigned char *a = *(unsigned char * *)&((struct Obj14600 *)p)->f10;
     int progress = func_021BE620(((struct Obj14600 *)p)->f8) >> 12;
     if (*a < 54 && *a * 100 <= progress) {
-        func_0204B404(*(struct Obj * *)&((struct Obj04607 *)a)->f14, d_021C3BD0 + *a, 1);
+        CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct Obj04607 *)a)->f14, d_021C3BD0 + *a, 1);
         ++*a;
         if (*(volatile unsigned char *)&((struct Obj04607 *)a)->f0 == 54)
-            func_0204B3DC(*(struct Obj * *)&((struct Obj04607 *)a)->f14, 0);
+            CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj04607 *)a)->f14, 0);
     }
 }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   MONOLITH_TOOL_SLOT_SELECT_InitBackgrounds  0x021B7880  thumb  ov071
  *   MONOLITH_TOOL_SLOT_SELECT_LoadGraphics  0x021B78F4  thumb  ov071
  *   MONOLITH_TOOL_SLOT_SELECT_InitMsgWindow  0x021B7924  thumb  ov071
@@ -30,7 +30,7 @@ typedef unsigned int u32;
 
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void MONOLITH_TOOL_SLOT_SELECT_InitBackgrounds(void);
 extern void MONOLITH_TOOL_SLOT_SELECT_LoadGraphics(void *p, void **q);
 extern void MONOLITH_TOOL_SLOT_SELECT_InitMsgWindow(void **p, void **q);
@@ -49,7 +49,7 @@ int MONOLITH_TOOL_SLOT_SELECT_Init(void *ctx, int *st, int *w)
     switch (st[0]) {
     case 0:
         m = PROCSYS_AllocProcWork(ctx, 0x84, 0x61);
-        func_02082BCC(m, 0, 0x84);
+        MI_CpuFill8(m, 0, 0x84);
         m[0x82] = 0;
         MONOLITH_TOOL_SLOT_SELECT_InitBackgrounds();
         MONOLITH_TOOL_SLOT_SELECT_LoadGraphics(w, (void *)w[1]);

@@ -10,6 +10,8 @@
  * status:   EXACT
  *
  * symbols:
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -19,13 +21,13 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Obj;
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_0220E7CC(u8 *p, u32 b)
 {
-    func_0204B3DC((struct Obj *)p, 1);
-    func_0204B404((struct Obj *)p, (const struct Vec2 *)b, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)p, 1);
+    CLACT_AddActorSurfacePos((struct Obj *)p, (const struct Vec2 *)b, 1);
 }
 

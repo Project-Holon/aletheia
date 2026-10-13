@@ -11,10 +11,10 @@
  *
  * symbols:
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
- *   func_02045770  0x02045770  arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_0201C6B4  0x0201C6B4  thumb
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  */
 
 typedef unsigned char u8;
@@ -59,10 +59,10 @@ typedef struct Slot {
 struct Descriptor;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void *func_02045770(struct Descriptor *p);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 
 int REPORT_EVENT_UpdateMessageQueue(Work *w)
 {
@@ -72,9 +72,9 @@ int REPORT_EVENT_UpdateMessageQueue(Work *w)
     PRINTSYS_QUE_Main(w->f18->f14);
     t = w->f18->f14;
     s = (Slot *)&w->f18->f08;
-    if (s->f04 != 0 && func_0201C6C4(t, func_02045770(s->f00)) == 0) {
+    if (s->f04 != 0 && PRINTSYS_QUE_IsExistTarget(t, BMP_WIN_GetBmp(s->f00)) == 0) {
         BMP_WIN_TransferChars(s->f00);
         s->f04 = 0;
     }
-    return func_0201C6B4(w->f18->f14);
+    return PRINTSYS_QUE_IsFinished(w->f18->f14);
 }

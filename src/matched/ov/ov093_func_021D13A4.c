@@ -1,5 +1,5 @@
 /*
- * function: func_021D13A4
+ * function: BTL_CLIENT_GetOutcomeForClient
  * address:  0x021D13A4
  * packet:   pkt_ov093_021D13A4
  * region:   ov093
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_ADAPTER_GetRecvData  0x021EEC20  thumb  ov093
- *   func_021B902C  0x021B902C  thumb  ov093
+ *   BTL_MAIN_IsSameTeamClient  0x021B902C  thumb  ov093
  */
 #include "../include/Obj00066.h"
 
@@ -28,20 +28,20 @@ typedef struct {
 } BattleSeq;
 
 extern int BTL_ADAPTER_GetRecvData(int, u16 **);
-extern int func_021B902C(int a, int b);
+extern int BTL_MAIN_IsSameTeamClient(int a, int b);
 
-int func_021D13A4(BattleSeq *s)
+int BTL_CLIENT_GetOutcomeForClient(BattleSeq *s)
 {
     u16 *q;
 
     BTL_ADAPTER_GetRecvData(((struct Obj00066 *)s)->f50, &q);
     switch (q[1]) {
     case 0:
-        if (func_021B902C((u8)q[0], (u8)s->unk1A6) == 0)
+        if (BTL_MAIN_IsSameTeamClient((u8)q[0], (u8)s->unk1A6) == 0)
             return 1;
         break;
     case 1:
-        if (func_021B902C((u8)q[0], (u8)s->unk1A6) == 0)
+        if (BTL_MAIN_IsSameTeamClient((u8)q[0], (u8)s->unk1A6) == 0)
             return 0;
         break;
     }

@@ -1,5 +1,5 @@
 /*
- * function: BTL_ITEM_GetRaiseRandomStatHandlers
+ * function: HAND_ITEM_GetRaiseRandomStatHandlers
  * address: 0x021DD980
  * packet: pkt_ov093_021DD980
  * region: ov093
@@ -15,13 +15,13 @@
  *   gBtlItemRaiseRandomStatHandlers 0x021F1DBC data ov093 a4
  */
 
-int *BTL_ITEM_GetRaiseRandomStatHandlers(int *p);
+int *HAND_ITEM_GetRaiseRandomStatHandlers(int *p);
 extern int gBtlItemRaiseRandomStatHandlers[];
 
 /*
  * extent: two bytes of zero alignment padding after the return.
  */
-int *BTL_ITEM_GetRaiseRandomStatHandlers(int *p)
+int *HAND_ITEM_GetRaiseRandomStatHandlers(int *p)
 {
     *p = 5;
     return gBtlItemRaiseRandomStatHandlers;

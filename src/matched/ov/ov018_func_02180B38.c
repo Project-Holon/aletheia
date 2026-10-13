@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb ov010
@@ -35,7 +35,7 @@ typedef unsigned int   u32;
 struct Ctx;
 struct Obj;
 struct WordSet;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Ctx;
 unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *x);
@@ -50,7 +50,7 @@ void EVENT_COMM_COMMON_ExitCommonWork(void *m, u8 *obj);
 
 int EVENT_COMM_COMMON_TalkPowerGiftAsTargetEventMain(int x, int *st, u8 *obj)
 {
-    int v = (int)func_020124E4((struct Obj *)x);
+    int v = (int)GAME_EVENT_GetGameSystem((struct Obj *)x);
     void *m;
 
     m = (void *)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((const struct Ctx *)v));

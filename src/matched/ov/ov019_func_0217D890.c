@@ -18,8 +18,8 @@
  *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb  ov019
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
  *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
  *   UNION_ONESELF_SetFieldBusy  0x0217BAF0  thumb  ov019
@@ -58,8 +58,8 @@ extern u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *a, u32 b, u32 c);
-extern u32 func_02039CB4(struct Link *a, u32 b, u32 c);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a, u32 b, u32 c);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a, u32 b, u32 c);
 extern void UNION_MAIN_RequestScene(u8 *a, int b, int c);
 extern int UNION_MAIN_IsScenePending(u8 *a);
 extern void UNION_ONESELF_SetFieldBusy(char *p, int x, unsigned int v);
@@ -85,12 +85,12 @@ int UNION_ONESELF_ColosseumEnterChildMain(u8 *a, Obj *b, u8 *c, u8 *d)
         break;
     case 2:
         if (b->b1 == 0)
-            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xb, 0x14);
+            GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xb, 0x14);
         (*d)++;
         break;
     case 3:
         if (b->b1 == 0) {
-            if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xb, 0x14) == 1)
+            if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xb, 0x14) == 1)
                 (*d)++;
         } else {
             (*d)++;

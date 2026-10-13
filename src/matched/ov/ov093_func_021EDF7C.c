@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B98AC  0x021B98AC  thumb  ov093
+ *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021EDE54  0x021EDE54  thumb  ov093
@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 *func_021B98AC(char *const *q, u8 b);
+extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 extern int func_021D59B4(u8 *p, int k);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void func_021EDE54(u8 *p);
@@ -35,7 +35,7 @@ void func_021EDF7C(u8 *p, u8 b)
     u16 h;
     u8 t;
 
-    r = (u8 *)func_021B98AC(*(char *const * *)&((struct Obj21617 *)(*(u8 * *)&((struct Obj05234 *)p)->f0))->f138, b);
+    r = (u8 *)BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj21617 *)(*(u8 * *)&((struct Obj05234 *)p)->f0))->f138, b);
     h = func_021D59B4(r, 0x10);
     t = BTL_POKEPARAM_GetPokeId(r);
     if (h != ((struct Obj05234 *)p)->f8 || t != p[0xc]) {

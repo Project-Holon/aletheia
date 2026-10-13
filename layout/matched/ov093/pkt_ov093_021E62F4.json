@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E62F4",
-    "func_021E6348",
-    "func_021E634C"
+    "HAND_WAZA_BounceOnChargeTurn",
+    "HAND_WAZA_BounceNoOp",
+    "HAND_WAZA_AddDive"
+   ],
+   "addresses": [
+    "0x021E62F4",
+    "0x021E6348",
+    "0x021E634C"
    ],
    "evidence": {
     "sole-ref": [

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E1668",
-    "func_021E1778"
+    "HAND_WAZA_StockpileOnMoveEffect",
+    "HAND_WAZA_AddSpitUp"
+   ],
+   "addresses": [
+    "0x021E1668",
+    "0x021E1778"
    ],
    "evidence": {
     "sole-ref": [

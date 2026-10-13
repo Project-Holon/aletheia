@@ -12,7 +12,7 @@
  * symbols:
  *   GAMESYSTEM_IsCommBlocked  0x02012144  thumb
  *   GAMESYSTEM_SetCommBlocked  0x0201213C  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
@@ -38,7 +38,7 @@ struct Comm;
 struct Ctx;
 extern u8 GAMESYSTEM_IsCommBlocked(const struct Ctx *p);
 extern void GAMESYSTEM_SetCommBlocked(struct Ctx *p, u32 v);
-extern u32 func_02026454(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 struct IcaAnime;
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
@@ -50,7 +50,7 @@ int EVENT_FIELD_PROCLINK_CommExitEventMain(void *a0, int *state, Obj *o)
     case 0:
         o->f20 = GAMESYSTEM_IsCommBlocked(o->f00);
         GAMESYSTEM_SetCommBlocked(o->f00, 1);
-        if (func_02026454(o->f04) == 0) {
+        if (GAME_COMM_GetKind(o->f04) == 0) {
             *state = *state + 2;
         } else {
             GAME_COMM_RequestExitNoCallback(o->f04);
@@ -58,7 +58,7 @@ int EVENT_FIELD_PROCLINK_CommExitEventMain(void *a0, int *state, Obj *o)
         }
         break;
     case 1:
-        if (func_02026454(o->f04) == 0)
+        if (GAME_COMM_GetKind(o->f04) == 0)
             *state = *state + 1;
         break;
     case 2:

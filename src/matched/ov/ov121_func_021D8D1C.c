@@ -16,8 +16,8 @@
  *   func_021DAB50 0x021DAB50 thumb ov121
  *   func_021D9254 0x021D9254 thumb ov121
  *   CLACT_SetActorSurfacePosAxis 0x0204B49C arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_020061E4 0x020061E4 thumb
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   _u32_div_f 0x0209C2B0 arm
  */
 #include "../include/Obj00498.h"
@@ -33,8 +33,8 @@ extern void func_021D694C(u16 *p, int mode);
 extern void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
 extern void func_021D9254(char *p, int n);
 extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_020061E4(u32 a);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void func_021D8D1C(u8 *p)
 {
     s16 y;
@@ -75,9 +75,9 @@ void func_021D8D1C(u8 *p)
     case 4:
         y=((214-((struct Obj00498 *)p)->f128)*((struct Obj00498 *)p)->f18)/60u-96;
         CLACT_SetActorSurfacePosAxis(((struct Obj00498 *)p)->f4,y,0,1);
-        if(y>=-48 && y<=192) func_0204B3DC(((struct Obj00498 *)p)->f4,1);
+        if(y>=-48 && y<=192) CLACT_SetActorDrawEnable(((struct Obj00498 *)p)->f4,1);
         if((((struct Obj00498 *)p)->f18)++>=60) {
-            func_020061E4(1649);
+            GFL_USE_PlaySeDefaultVolume(1649);
             func_021D9254(((struct Obj00498 *)p)->f28,0);
             ((struct Obj00498 *)p)->f18=0;
             ((struct Obj00498 *)p)->f20=5;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D1960
+ * function: BTL_CLIENT_StepShowBlackoutMessages
  * address:  0x021D1960
  * packet:   pkt_ov093_021D1960
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9244  0x021B9244  thumb  ov093
+ *   BTL_MAIN_CalcPenaltyMoney  0x021B9244  thumb  ov093
  *   func_021EAF18  0x021EAF18  thumb  ov093
  *   func_021EAF50  0x021EAF50  thumb  ov093
  *   func_021EA614  0x021EA614  thumb  ov093
@@ -29,7 +29,7 @@ typedef struct {
     u8 unk1A6;            /* 0x1A6 */
 } BattleSeq;
 
-extern u32 func_021B9244(char *p);
+extern u32 BTL_MAIN_CalcPenaltyMoney(char *p);
 struct L;
 extern void func_021EAF18(struct L *p, int kind, int id);
 struct H;
@@ -37,7 +37,7 @@ extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021EA614(char *p, struct H *h);
 extern int func_021EA710(u32 *p);
 
-int func_021D1960(BattleSeq *s, int *state)
+int BTL_CLIENT_StepShowBlackoutMessages(BattleSeq *s, int *state)
 {
     int a;
 
@@ -50,7 +50,7 @@ int func_021D1960(BattleSeq *s, int *state)
         break;
     case 1:
         if (func_021EA710(s->msgWin) != 0) {
-            a = func_021B9244(s->battle);
+            a = BTL_MAIN_CalcPenaltyMoney(s->battle);
             if (a != 0) {
                 func_021EAF18((struct L *)s->msg, 1, 0x37);
                 func_021EAF50((struct L *)s->msg, s->unk1A6);

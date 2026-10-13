@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201C6B4  0x0201C6B4  thumb
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   TOUCHPANEL_HitCont  0x02035BA4  arm
  *   FRAME_LIST_StartFlick  0x021B8EA0  thumb  ov067
  *   FRAME_LIST_StartJump  0x021B8DF0  thumb  ov067
@@ -53,7 +53,7 @@ struct S {
 };
 
 struct PrintSys;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern int TOUCHPANEL_HitCont(const void *p);
 extern int FRAME_LIST_StartFlick(struct S *s);
 extern int FRAME_LIST_StartJump(struct S *s, int a1);
@@ -62,7 +62,7 @@ int FRAME_LIST_StepRowDrag(struct S *s)
 {
     int r;
 
-    if (func_0201C6B4((const struct PrintSys *)s->f34) == 0)
+    if (PRINTSYS_QUE_IsFinished((const struct PrintSys *)s->f34) == 0)
         return 1;
     r = TOUCHPANEL_HitCont(s->f2c);
     switch (s->f84) {

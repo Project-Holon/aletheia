@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   tbl_020A1B38   0x020A1B38  data
+ *   FX_SinCosTable_   0x020A1B38  data
  *   MTX_Identity33_  0x0207ADC4  arm
  *   MTX_RotX33_      0x0207AF00  thumb
  *   MTX_RotY33_      0x0207AF1C  thumb
@@ -48,7 +48,7 @@ struct Mtx33 {
     int m[9];
 };
 
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 extern void MTX_Identity33_(struct Mtx33 *m);
 extern void MTX_RotX33_(struct Mtx33 *m, s16 sinv, s16 cosv);
@@ -65,13 +65,13 @@ void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, struct Mtx33 *dst)
     MTX_Identity33_(dst);
 
     i = ax >> 4;
-    MTX_RotX33_(dst, tbl_020A1B38[2 * i], tbl_020A1B38[2 * i + 1]);
+    MTX_RotX33_(dst, FX_SinCosTable_[2 * i], FX_SinCosTable_[2 * i + 1]);
 
     i = ay >> 4;
-    MTX_RotY33_(&tmp, tbl_020A1B38[2 * i], tbl_020A1B38[2 * i + 1]);
+    MTX_RotY33_(&tmp, FX_SinCosTable_[2 * i], FX_SinCosTable_[2 * i + 1]);
     MTX_Concat33(dst, &tmp, dst);
 
     i = az >> 4;
-    MTX_RotZ33_(&tmp, tbl_020A1B38[2 * i], tbl_020A1B38[2 * i + 1]);
+    MTX_RotZ33_(&tmp, FX_SinCosTable_[2 * i], FX_SinCosTable_[2 * i + 1]);
     MTX_Concat33(dst, &tmp, dst);
 }

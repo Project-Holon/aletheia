@@ -1,5 +1,5 @@
 /*
- * function: func_021E21E8
+ * function: HAND_WAZA_ThrashGetHandlers
  * address: 0x021E21E8
  * packet: pkt_ov093_021E21E8
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E2188.c and filed here.
  *
  * symbols:
- *   d_021F2C90 0x021F2C90 data ov093 a4
+ *   gThrashHandlers 0x021F2C90 data ov093 a4
  */
 
-int *func_021E21E8(int *p);
-extern int d_021F2C90[];
+int *HAND_WAZA_ThrashGetHandlers(int *p);
+extern int gThrashHandlers[];
 
-int *func_021E21E8(int *p)
+int *HAND_WAZA_ThrashGetHandlers(int *p)
 {
     *p = 3;
-    return d_021F2C90;
+    return gThrashHandlers;
 }

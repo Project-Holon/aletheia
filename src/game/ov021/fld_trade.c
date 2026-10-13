@@ -30,18 +30,18 @@
  *   POKE_TOOL_AdjustPersonalRnd  0x0201862C  thumb
  *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
- *   func_0201ADE4  0x0201ADE4  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
- *   func_0201AE14  0x0201AE14  thumb
+ *   POKE_PERSONAL_Create  0x0201ADE4  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
+ *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_0202F190  0x0202F190  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   FIELD_STATUS_CreateSubProcEvent  0x020146F8  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   func_0201AB48  0x0201AB48  thumb
+ *   POKEPARTY_SetMember  0x0201AB48  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200CFA0  0x0200CFA0  thumb
  *   func_0200CDE0  0x0200CDE0  thumb
@@ -151,18 +151,18 @@ extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 POKE_TOOL_AdjustPersonalRnd(u32 id, u16 species, u16 formNo, u8 gender, u8 a4, int a5);
 extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void POKE_TOOL_SetPartyValue(void *mon, u32 field, u32 v);
-extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *p);
+extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void func_0202F190(void *mon, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void POKE_TOOL_RecalcParam(void *mon);
 extern u32 POKE_TOOL_GetPartyValue(void *obj, u32 key, u32 off);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void *FIELD_STATUS_CreateSubProcEvent(char *a0, int a1, int a2, int a3, int a4);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
-extern void func_0201AB48(struct Party *p, u32 idx, const struct PartyMon *src);
+extern void POKEPARTY_SetMember(struct Party *p, u32 idx, const struct PartyMon *src);
 extern void *func_0200CA1C(void *p);
 extern void func_0200CFA0(struct Blk37 *p, void *m);
 extern void func_0200CDE0(struct Blk37 *p, void *m);
@@ -262,11 +262,11 @@ void FLD_TRADE_BuildPokemon(void *gameData, u16 heapId, void *mon, FldTradeData 
     POKE_TOOL_SetPartyValue(mon, 0x49, data->iv[3]);
     POKE_TOOL_SetPartyValue(mon, 0x4A, data->iv[4]);
     POKE_TOOL_SetPartyValue(mon, 0x4B, data->iv[5]);
-    personal = (u32)func_0201ADE4((u16)data->species, (u16)data->formNo, heapId);
-    ability[0] = func_0201AE1C((const struct Personal *)personal, 0x1A);
-    ability[1] = func_0201AE1C((const struct Personal *)personal, 0x1B);
-    ability[2] = func_0201AE1C((const struct Personal *)personal, 0x1C);
-    func_0201AE14((void *)personal);
+    personal = (u32)POKE_PERSONAL_Create((u16)data->species, (u16)data->formNo, heapId);
+    ability[0] = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x1A);
+    ability[1] = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x1B);
+    ability[2] = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x1C);
+    POKE_PERSONAL_Delete((void *)personal);
     switch (data->abilitySlot) {
     case 0:
         break;
@@ -352,7 +352,7 @@ int FLD_TRADE_EventMain(void *event, u32 *seq, FldTradeEvent *work)
     void *gameData = work->gameData;
     void *party = work->party;
     void *fieldmap = GAMESYSTEM_GetFieldMap(gsys);
-    void *sentMon = func_0201AB28(party, work->partyIndex);
+    void *sentMon = POKEPARTY_GetMember(party, work->partyIndex);
     FldTradeHolder *holder;
     void *demoFieldmap;
     void *zukan;
@@ -380,7 +380,7 @@ int FLD_TRADE_EventMain(void *event, u32 *seq, FldTradeEvent *work)
         *seq = 2;
         break;
     case 2:
-        func_0201AB48(party, work->partyIndex, work->holder->mon);
+        POKEPARTY_SetMember(party, work->partyIndex, work->holder->mon);
         zukan = func_0200CA1C(gameData);
         func_0200CFA0(zukan, work->holder->mon);
         func_0200CDE0(zukan, work->holder->mon);

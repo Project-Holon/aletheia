@@ -28,7 +28,7 @@
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   func_02013C60  0x02013C60  thumb
+ *   ZONEDATA_IsPalaceEnabled  0x02013C60  thumb
  *   FIELD_PLAYER_GetFormCode  0x021A3098  thumb  ov021
  *   FLDMMDL_LoadObjCodeParam  0x0216E2E8  thumb  ov010
  *   FIELD_PLAYER_GetNowGridPos  0x021A35FC  thumb  ov021
@@ -104,7 +104,7 @@ extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
-extern u32 func_02013C60(u32 id);
+extern u32 ZONEDATA_IsPalaceEnabled(u32 id);
 extern u32 FIELD_PLAYER_GetFormCode(u8 *p);
 struct Record;
 extern void FLDMMDL_LoadObjCodeParam(const char *ctx, u32 id, struct Record *out);
@@ -154,7 +154,7 @@ int FIELD_CheckPlayerPositionFree(u32 a)
     x = FIELDMAP_GetMmdlSys((void *)y);
     o = FIELDMAP_GetFieldPlayer((void *)y);
     id = FIELDMAP_GetZoneId(y);
-    if ((int)func_02013C60((u16)id) == 0) {
+    if ((int)ZONEDATA_IsPalaceEnabled((u16)id) == 0) {
         return 0;
     }
     if ((u32)(FIELD_PLAYER_GetFormCode(o) - 2) <= 1) {

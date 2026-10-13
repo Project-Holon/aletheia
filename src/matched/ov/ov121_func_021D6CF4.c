@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02030734 0x02030734 arm
  *   PARTICLE_CreateSystemDefault 0x02050C04 arm
  *   d_021DFB80 0x021DFB80 data ov121 a1
  */
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -22,7 +22,7 @@ extern const char d_021DFB80[];
 void func_021D6CF4(int *p, int heap)
 {
     void *v;
-    func_02082BCC(p, 0, 16);
+    MI_CpuFill8(p, 0, 16);
     p[3] = 1;
     v = func_02030734(heap, 0x4800, 0, d_021DFB80, 0x482);
     p[2] = (int)v;

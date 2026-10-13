@@ -19,7 +19,7 @@
  *   func_021BF6F0 0x021BF6F0 thumb ov110
  *   func_021BC5BC 0x021BC5BC thumb ov110
  *   func_021BC484 0x021BC484 thumb ov110
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Delete 0x02045808 arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
@@ -43,7 +43,7 @@ struct Strbuf;
 struct Vec2;
 extern int func_021BC490(struct Cursor *p, struct Strbuf *out);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_021BC58C(void *,Pair *);
@@ -66,7 +66,7 @@ int func_021BC340(Obj *p,void *desc,u8 bank)
         switch(func_021BC490((struct Cursor *)p->parser,str)) {
         case 0:
             GF_FONT_SetTextColor(1,2,15);
-            PRINTSYS_Print(func_02045770(desc),x,y,str,(void *)font);
+            PRINTSYS_Print(BMP_WIN_GetBmp(desc),x,y,str,(void *)font);
             x+=func_0201D304(str,font,0);
             break;
         case 1: {

@@ -15,13 +15,14 @@
  *   func_021B9C58 0x021B9C58 thumb ov223
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj00738.h"
 extern void func_021B9C58(char *);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern void func_021B9A8C(char *p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021B9D4C(char *);
 struct Main;
 extern void func_021BA2B4(struct Main *p);

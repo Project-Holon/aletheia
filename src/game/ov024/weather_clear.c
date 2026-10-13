@@ -1,7 +1,7 @@
 /*
  * file:     weather_clear.c
  * unit:     yes
- * function: WEATHER_CLEAR_Begin, func_021EE788, func_021EE7F0, func_021EE838, func_021EE83C, WEATHER_CLEAR_EndFade, func_021EE874
+ * function: WEATHER_CLEAR_Begin, WEATHER_CLEAR_BeginParticles, WEATHER_CLEAR_BeginPlain, WEATHER_CLEAR_Run, WEATHER_CLEAR_EndParticles, WEATHER_CLEAR_EndFade, WEATHER_CLEAR_EndFinish
  * address:  0x021EE740
  * region:   ov024
  * compiler: dsi/1.1p1
@@ -50,7 +50,7 @@ int WEATHER_CLEAR_Begin(WeatherTaskSys *task, int variant, int heapId)
 }
 
 /* Stage fade in: fades fog and light in once, then waits until both are done. */
-int func_021EE788(WeatherTaskSys *task, int variant, int heapId)
+int WEATHER_CLEAR_BeginParticles(WeatherTaskSys *task, int variant, int heapId)
 {
     WeatherZoneFogWork *work = WEATHER_TASK_GetWorkBuffer(task);
     int endOffset;
@@ -72,7 +72,7 @@ int func_021EE788(WeatherTaskSys *task, int variant, int heapId)
 }
 
 /* Stage begin without fade: sets fog and light at once. */
-int func_021EE7F0(WeatherTaskSys *task, int variant, int heapId)
+int WEATHER_CLEAR_BeginPlain(WeatherTaskSys *task, int variant, int heapId)
 {
     int endOffset;
 
@@ -88,17 +88,17 @@ int func_021EE7F0(WeatherTaskSys *task, int variant, int heapId)
 
 /*
  * Unlabelled 4-byte Thumb leaf (`movs r0,#0; bx lr`), emitted as a data word
- * by disasm.py because it saves no lr. Sits alone between func_021EE7F0 and
- * func_021EE83C, extent 4.
+ * by disasm.py because it saves no lr. Sits alone between WEATHER_CLEAR_BeginPlain and
+ * WEATHER_CLEAR_EndParticles, extent 4.
  */
 /* Stage run: nothing to do per frame. */
-int func_021EE838(WeatherTaskSys *task, int variant, int heapId)
+int WEATHER_CLEAR_Run(WeatherTaskSys *task, int variant, int heapId)
 {
     return 0;
 }
 
 /* Stage end: fades the fog out. */
-int func_021EE83C(WeatherTaskSys *task, int variant, int heapId)
+int WEATHER_CLEAR_EndParticles(WeatherTaskSys *task, int variant, int heapId)
 {
     if (WEATHER_TASK_CheckZoneFogA(task)) {
         WEATHER_TASK_ChangeFogOffset(task, 0x7FFF, 0x50, variant);
@@ -116,7 +116,7 @@ int WEATHER_CLEAR_EndFade(WeatherTaskSys *task, int variant, int heapId)
 }
 
 /* Stage end finish: releases the fog and the light. */
-int func_021EE874(WeatherTaskSys *task, int variant, int heapId)
+int WEATHER_CLEAR_EndFinish(WeatherTaskSys *task, int variant, int heapId)
 {
     if (WEATHER_TASK_CheckZoneFogA(task)) {
         WEATHER_TASK_DisableFog(task, variant);

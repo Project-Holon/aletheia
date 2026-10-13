@@ -14,9 +14,9 @@
  *   func_021BC3C0  0x021BC3C0  thumb
  *   func_021BC3A4  0x021BC3A4  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0201ADE4  0x0201ADE4  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
- *   func_0201AE14  0x0201AE14  thumb
+ *   POKE_PERSONAL_Create  0x0201ADE4  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
+ *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  *   func_0200CC20  0x0200CC20  thumb
  *   func_0200CC40  0x0200CC40  thumb
  *   func_0200D144  0x0200D144  thumb
@@ -39,9 +39,9 @@ extern u16 func_021BC3C0(int key);
 struct Personal;
 extern int func_021BC3A4(int *p);
 extern void *func_0200CA1C(void *a);
-extern void *func_0201ADE4(u32 a, int b, u32 c);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *p);
+extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *p);
 extern u16 func_0200CC20(u32 id);
 extern void func_0200CC40(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
 extern u32 func_0200D144(u8 *p, u16 id, u32 sel, u32 alt, u32 form);
@@ -53,7 +53,7 @@ void ov208_func_021C53F4(u16 *heap, int key, u8 *out, u16 *count, u16 *groups, u
   Ov208Shiny2 shinies = data_021C87FC;
   u16 species = func_021BC3C0(key);
   void *pd = func_0200CA1C((void *)func_021BC3A4((int *)key));
-  u32 h = (u32)func_0201ADE4(species, 0, *heap);
+  u32 h = (u32)POKE_PERSONAL_Create(species, 0, *heap);
   u32 ratio;
   u32 forms;
   u32 curGender;
@@ -70,9 +70,9 @@ void ov208_func_021C53F4(u16 *heap, int key, u8 *out, u16 *count, u16 *groups, u
   u16 prev;
   u32 t;
   u32 i;
-  func_0201AE1C((const struct Personal *)h, 0x20);
-  ratio = func_0201AE1C((const struct Personal *)h, 0x14);
-  func_0201AE14((void *)h);
+  POKE_PERSONAL_GetParam((const struct Personal *)h, 0x20);
+  ratio = POKE_PERSONAL_GetParam((const struct Personal *)h, 0x14);
+  POKE_PERSONAL_Delete((void *)h);
   forms = func_0200CC20(species);
   func_0200CC40(pd, species, &curGender, &curShiny, &curForm, *heap);
   cur = 0;

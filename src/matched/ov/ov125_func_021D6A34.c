@@ -11,7 +11,7 @@
  *   func_021D85C0 0x021D85C0 arm ov125
  *   func_021D6B40 0x021D6B40 thumb ov125
  *   func_021D6FB0 0x021D6FB0 thumb ov125
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj01060.h"
 typedef unsigned char u8;
@@ -19,7 +19,7 @@ typedef int (*Callback)(void *, void *);
 extern unsigned func_021D85C0(void);
 extern int func_021D6B40(u8 *p, int *done);
 extern int func_021D6FB0(char *);
-extern void func_02082BCC(void *, int, unsigned);
+extern void MI_CpuFill8(void *, int, unsigned);
 int func_021D6A34(char *p)
 {
     int result;
@@ -56,7 +56,7 @@ int func_021D6A34(char *p)
                     (*(Callback *)(p + 0x3f0))(((struct Obj01060 *)p)->f148, p + 0x164);
                     *(Callback *)&((struct Obj01060 *)p)->f3F0 = 0;
                 }
-                func_02082BCC(p + 0x3f0, 0, 16);
+                MI_CpuFill8(p + 0x3f0, 0, 16);
                 ((struct Obj01060 *)p)->f3DC = 0x55f4;
             }
         }

@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov015/unit_02179824.c and filed here.
  *
  * symbols:
- *   func_021799F0 0x021799F0 thumb
+ *   IRCNET_IsRunning 0x021799F0 thumb
  */
 
 unsigned char func_02179898(void);
-unsigned char func_021799F0(void);
+unsigned char IRCNET_IsRunning(void);
 
 unsigned char func_02179898(void)
 {
-    return func_021799F0();
+    return IRCNET_IsRunning();
 }

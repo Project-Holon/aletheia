@@ -14,11 +14,11 @@
  * symbols:
  *   BMP_WIN_Create   0x020450F0  arm
  *   APP_TASKMENU_DrawWinFrame  0x020282D8  thumb
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor   0x0201C724  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *
  * Build the o->count BG layers of a multi-row menu, one per iteration: the
@@ -72,11 +72,11 @@ extern u32   BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d,
                           u8 slot);
 extern void  APP_TASKMENU_DrawWinFrame(u32 bg, struct Cfg *c, u32 d);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *bg);
+extern void *BMP_WIN_GetBmp(struct Descriptor *bg);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void  BMP_WIN_TransferChars(struct Descriptor *bg);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void  func_02041B6C(u32 bit);
 
 void APP_TASKMENU_CreateWindows(struct Obj *o, struct Cfg *cfg)
@@ -102,11 +102,11 @@ void APP_TASKMENU_CreateWindows(struct Obj *o, struct Cfg *cfg)
         APP_TASKMENU_DrawWinFrame(o->layers[i], cfg, o->rows[i].f08);
         rows = o->rows;
         row = &rows[i];
-        PRINTSYS_PrintQueColor((void *)cfg->f14, (u32)func_02045770((struct Descriptor *)o->layers[i]), 0xa, 6,
+        PRINTSYS_PrintQueColor((void *)cfg->f14, (u32)BMP_WIN_GetBmp((struct Descriptor *)o->layers[i]), 0xa, 6,
                      rows[i].f00, cfg->f10, row->f04);
         bg = o->layers[i];
         BMP_WIN_TransferChars((struct Descriptor *)bg);
         BMP_WIN_MakeScreen((struct Cfg *)bg);
-        func_02041B6C(func_02045730((struct Descriptor *)bg));
+        func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)bg));
     }
 }

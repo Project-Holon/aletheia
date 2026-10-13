@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021B6380  0x021B6380  thumb  ov179
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
@@ -27,7 +27,7 @@
  *   func_0207EB78 0x0207EB78 arm
  *   func_0207ECF0 0x0207ECF0 arm
  *   func_020307B0 0x020307B0 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   d_021B6B00 0x021B6B00 data a4
  *   d_021B68E4  0x021B68E4  data  a4
  *   func_020056A0  0x020056A0  thumb
@@ -52,7 +52,7 @@ typedef unsigned char  u8;
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern int func_021B6380(char *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
@@ -64,7 +64,7 @@ extern void *func_02030734(unsigned int,unsigned int,int,const char *,unsigned s
 extern void func_0207EB78(void *,int,int);
 extern void func_0207ECF0(void *,int,int);
 extern unsigned int func_020307B0(void *p);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern int func_020056A0(void *, int *, int);
 extern void func_02030EAC(struct Node *n);
 int func_021B6100(struct Obj0203159C *p, u32 b, u32 c);
@@ -87,7 +87,7 @@ int func_021B6100(struct Obj0203159C *p, u32 b, u32 c)
 
     GFL_HEAP_CreateChildHeap(1, 0x7f, 0x80000);
     r = PROCSYS_AllocProcWork(p, (u32)((void *)0x605c), 0x7f);
-    func_02082BCC(r, 0, 0x605c);
+    MI_CpuFill8(r, 0, 0x605c);
     ((struct Obj14383 *)r)->f0 = c;
     *(u32 *)(r + 0x605c - 4) = 0;
     return 1;
@@ -127,13 +127,13 @@ void func_021B616C(char *unused)
  func_0207D59C((void *)0x04000030,&m,0,0,0,0);
  p=func_02030734(0x807F,0x18000,1,(const char *)d_021B6B00,0x5B);
  func_0207EB78(p,0,0x18000);func_0207ECF0(p,0,0x18000);func_020307B0(p);
- func_020434DC(0x13,0);func_020434DC(0xC,1);
+ BG_SYS_SetMainPlaneVisible(0x13,0);BG_SYS_SetMainPlaneVisible(0xC,1);
 }
 
 
 void func_021B6220(void)
 {
-    func_020434DC(12, 0);
+    BG_SYS_SetMainPlaneVisible(12, 0);
 }
 
 

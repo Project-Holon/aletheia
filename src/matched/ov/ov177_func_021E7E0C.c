@@ -7,19 +7,24 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
+ *
+ * symbols:
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb  arm9
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  */
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 typedef unsigned int   u32;
 struct Obj;
-extern void func_020061F8(int i);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void GFL_USE_StopSeSlot(int i);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 void func_021E7E0C(void **p, int on)
 {
     if (on == 1) {
-        func_020061E4(0x80D);
+        GFL_USE_PlaySeDefaultVolume(0x80D);
     } else {
-        func_020061F8(2);
+        GFL_USE_StopSeSlot(2);
     }
-    func_0204B3DC(p[0], on);
-    func_0204B3DC(p[1], on);
+    CLACT_SetActorDrawEnable(p[0], on);
+    CLACT_SetActorDrawEnable(p[1], on);
 }

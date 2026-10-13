@@ -22,7 +22,7 @@
  *   file_020A745C  0x020A745C  data
  *   unit_020355C4  0x020355C4  arm
  *   func_020355D8 0x020355D8 arm
- *   tbl_020A1B38   0x020A1B38  data
+ *   FX_SinCosTable_   0x020A1B38  data
  *   Table_0209F724   0x0209F724  data
  *   func_0201EC64    0x0201EC64  thumb
  *   func_0201ED04    0x0201ED04  thumb
@@ -158,7 +158,7 @@ int PMS_WORD_SplitWordId(u32 word, u32 *wordGroup, u32 *wordIndex);
 void *PMS_WORD_GetSaveData(struct WinPanel020071CCCtrl *ctrl);
 
 extern u8 file_020A745C[];
-extern const s16 tbl_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 extern u16 Table_0209F724[];
 extern u16 g_0209F724[];
 extern u8 g_0209F71C[];
@@ -400,7 +400,7 @@ void PMSI_PARAM_MakeSineTable(s16 *table, u32 count, u16 step, int amplitude)
     phase = 0;
     i = 0;
     while (i < count) {
-        s64 sinValue = (s64)tbl_020A1B38[(phase >> 4) * 2];
+        s64 sinValue = (s64)FX_SinCosTable_[(phase >> 4) * 2];
         s64 scaled = sinValue * (s64)amplitude;
 
         table[i] = (s16)((int)((scaled + 0x800) >> 12) >> 12);

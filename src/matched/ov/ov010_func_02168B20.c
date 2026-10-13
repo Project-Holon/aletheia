@@ -14,7 +14,7 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetSubscreen  0x02188CCC  thumb ov021
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   GAMESYSTEM_SetAlwaysNetFlag  0x02012158  thumb
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
@@ -30,7 +30,7 @@ struct Comm;
 struct IcaAnime;
 extern u32 FIELDMAP_GetSubscreen(u8 *p);
 extern unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *);
-extern u32 func_02026454(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 extern void GAMESYSTEM_SetAlwaysNetFlag(char *p, unsigned int v);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
@@ -47,12 +47,12 @@ int FLD_BTL_INST_TOOL_CommResetEventMain(int a, int *b, int *c)
     State t = (State)*b;
     switch (t) {
     case 0:
-        if (func_02026454((void *)y) != 0)
+        if (GAME_COMM_GetKind((void *)y) != 0)
             GAME_COMM_RequestExitNoCallback((struct Comm *)y);
         (*b)++;
         break;
     case 1:
-        if (func_02026454((void *)y) != 0)
+        if (GAME_COMM_GetKind((void *)y) != 0)
             break;
         GAMESYSTEM_SetAlwaysNetFlag((char *)s, 0);
         (*b)++;

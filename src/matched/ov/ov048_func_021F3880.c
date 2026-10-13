@@ -16,7 +16,7 @@
  *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
  *   FLD_EXP_OBJ_GetModelObject  0x021BE4C4  thumb  ov021
  *   func_020120F4  0x020120F4  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GIMMICK_OBJ_ELBOARD_Create  0x021F4698  thumb  ov048
  */
 
@@ -47,7 +47,7 @@ extern int FIELDMAP_GetExpObj(int *p);
 extern void *FIELDMAP_AllocCommonWork(unsigned char *p, int id, int a, int b);
 extern void *FLD_EXP_OBJ_GetModelObject(int a, int b, int c);
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void *GIMMICK_OBJ_ELBOARD_Create(unsigned char *p);
 
 Obj *FIELD_GIMMICK_GATE_CreateWork(int a)
@@ -61,7 +61,7 @@ Obj *FIELD_GIMMICK_GATE_CreateWork(int a)
     r5 = FIELDMAP_GetHeapId((u8 *)a);
     r7 = FIELDMAP_GetExpObj((int *)a);
     o = FIELDMAP_AllocCommonWork((unsigned char *)a, 0, r5, 0x68);
-    func_02082BCC(o, 0, 0x68);
+    MI_CpuFill8(o, 0, 0x68);
     o->f00 = r5;
     o->f04 = a;
     v = (int)FIELDMAP_GetGameSystem((void *)a);

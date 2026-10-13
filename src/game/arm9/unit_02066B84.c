@@ -1,7 +1,7 @@
 /*
  * file:     unit_02066B84.c
  * unit:     yes
- * function: func_02066B84, CARD_SetPulledOutCallback, func_02066DFC, func_02066E10, func_02066E20, func_02066E30, func_02067080, func_02067340, func_0206775C, func_02067998
+ * function: func_02066B84, OAMREND_SetZOffsetEnabled, func_02066DFC, func_02066E10, func_02066E20, func_02066E30, func_02067080, func_02067340, func_0206775C, func_02067998
  * address:  0x02066B84
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -112,7 +112,7 @@ typedef struct SpriteParams {
 
 typedef void (*UVFlipCorrectFunc)(fx32 *pU0, fx32 *pV0, fx32 *pU1, fx32 *pV1, BOOL bFlipH, BOOL bFlipV);
 
-struct UVFlipState { UVFlipCorrectFunc pFunc; fx32 f04; u32 f08; };
+struct UVFlipState { UVFlipCorrectFunc pFunc; fx32 zOffset; u32 zOffsetEnabled; };
 
 typedef s16            fx16;
 
@@ -174,8 +174,8 @@ extern void func_0207D8E0(const void *m);
 extern u32 func_02067B50(const struct G2dOamState *p);
 extern u32 func_02067B64(const struct G2dOamState *p);
 void func_02066B84(const GXOamAttr *pOam, const NNSG2dImageAttr *pTexImageAttr, u32 texBaseAddr, u32 pltBaseAddr, SpriteParams *pResult);
-void CARD_SetPulledOutCallback(u32 callback);
-void CTRDGi_CallbackForSetPhi(void);
+void OAMREND_SetZOffsetEnabled(u32 enabled);
+void OAMREND_ResetZOffset(void);
 void func_02066E10(fx32 step);
 int func_02066E20(void);
 void func_02066E30(int x, int y, int z, const GXOamAttr *oam, u32 a4, u32 a5, u32 a6);
@@ -418,18 +418,18 @@ void func_02066B84(const GXOamAttr *pOam, const NNSG2dImageAttr *pTexImageAttr, 
 
 
 
-void CARD_SetPulledOutCallback(u32 callback)
+void OAMREND_SetZOffsetEnabled(u32 enabled)
 {
-    g_02148B2C.f08 = callback;
+    g_02148B2C.zOffsetEnabled = enabled;
 }
 
 
 
 
 
-void CTRDGi_CallbackForSetPhi(void)
+void OAMREND_ResetZOffset(void)
 {
-    g_02148B2C.f04 = 0;
+    g_02148B2C.zOffset = 0;
 }
 
 
@@ -636,10 +636,10 @@ void func_02066E30(int x, int y, int z, const GXOamAttr *oam, u32 a4, u32 a5, u3
         w = *(u16 *)((u8 *)tbl_020A17F0 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2);
         h = *(u16 *)((u8 *)tbl_020A17D8 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2);
         G3_Translate((x + (w >> 1)) << 12, (y + (h >> 1)) << 12,
-                     g_02148B2C.f08 ? g_02148B2C.f04 + (z << 12) : z << 12);
+                     g_02148B2C.zOffsetEnabled ? g_02148B2C.zOffset + (z << 12) : z << 12);
     } else {
         G3_Translate(x << 12, y << 12,
-                     g_02148B2C.f08 ? g_02148B2C.f04 + (z << 12) : z << 12);
+                     g_02148B2C.zOffsetEnabled ? g_02148B2C.zOffset + (z << 12) : z << 12);
     }
     G3_Scale(uv[4] << 12, uv[5] << 12, FX32_ONE);
     G3_Begin(1);
@@ -652,8 +652,8 @@ void func_02066E30(int x, int y, int z, const GXOamAttr *oam, u32 a4, u32 a5, u3
     G3_TexCoord(uv[0], uv[1]);
     G3_Vtx10(0, 0, 0);
     G3_End();
-    if (g_02148B2C.f08)
-        g_02148B2C.f04 += g_020A8218;
+    if (g_02148B2C.zOffsetEnabled)
+        g_02148B2C.zOffset += g_020A8218;
 }
 
 

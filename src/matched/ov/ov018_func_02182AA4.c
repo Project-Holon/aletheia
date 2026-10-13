@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
@@ -51,7 +51,7 @@ typedef unsigned short u16;
 struct Evt;
 struct Obj;
 struct Ctx;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *p);
 typedef unsigned int   u32;
 struct Desc;
@@ -74,7 +74,7 @@ int EVENT_COMM_COMMON_MsgScriptEventMain(void *a, int *state, Ov018Outer *c)
     int v;
     void *w;
 
-    sub = func_020124E4(a);
+    sub = GAME_EVENT_GetGameSystem(a);
     v = INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(sub)));
     switch (*state) {
     case 0:

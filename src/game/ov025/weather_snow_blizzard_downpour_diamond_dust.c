@@ -1,7 +1,7 @@
 /*
  * file:     weather_snow_blizzard_downpour_diamond_dust.c
  * unit:     yes
- * function: func_021EE740, WEATHER_SNOW_BeginParticles, WEATHER_SNOW_BeginPlain, WEATHER_SNOW_Run, WEATHER_SNOW_EndParticles, WEATHER_SNOW_EndFade, WEATHER_SNOW_EndFinish, WEATHER_SNOW_UpdateParticle, WEATHER_SNOW_SpawnParticles, WEATHER_BLIZZARD_Begin, WEATHER_BLIZZARD_BeginParticles, WEATHER_BLIZZARD_BeginPlain, WEATHER_BLIZZARD_Run, WEATHER_BLIZZARD_EndParticles, WEATHER_BLIZZARD_EndFade, WEATHER_BLIZZARD_EndFinish, WEATHER_BLIZZARD_UpdateParticle, WEATHER_BLIZZARD_SpawnParticles, WEATHER_BLIZZARD_ScrollFogLayer, WEATHER_DOWNPOUR_Begin, WEATHER_DOWNPOUR_BeginParticles, WEATHER_DOWNPOUR_BeginPlain, WEATHER_DOWNPOUR_Run, WEATHER_DOWNPOUR_EndParticles, WEATHER_DOWNPOUR_EndFade, WEATHER_DOWNPOUR_EndFinish, WEATHER_DOWNPOUR_UpdateParticle, WEATHER_DOWNPOUR_SpawnParticles, WEATHER_DIAMOND_DUST_Begin, WEATHER_DIAMOND_DUST_BeginParticles, WEATHER_DIAMOND_DUST_BeginPlain, WEATHER_DIAMOND_DUST_Run, WEATHER_DIAMOND_DUST_EndParticles, WEATHER_DIAMOND_DUST_EndFade, WEATHER_DIAMOND_DUST_EndFinish, WEATHER_DIAMOND_DUST_UpdateParticle, WEATHER_DIAMOND_DUST_SpawnParticles
+ * function: WEATHER_SNOW_Begin, WEATHER_SNOW_BeginParticles, WEATHER_SNOW_BeginPlain, WEATHER_SNOW_Run, WEATHER_SNOW_EndParticles, WEATHER_SNOW_EndFade, WEATHER_SNOW_EndFinish, WEATHER_SNOW_UpdateParticle, WEATHER_SNOW_SpawnParticles, WEATHER_BLIZZARD_Begin, WEATHER_BLIZZARD_BeginParticles, WEATHER_BLIZZARD_BeginPlain, WEATHER_BLIZZARD_Run, WEATHER_BLIZZARD_EndParticles, WEATHER_BLIZZARD_EndFade, WEATHER_BLIZZARD_EndFinish, WEATHER_BLIZZARD_UpdateParticle, WEATHER_BLIZZARD_SpawnParticles, WEATHER_BLIZZARD_ScrollFogLayer, WEATHER_DOWNPOUR_Begin, WEATHER_DOWNPOUR_BeginParticles, WEATHER_DOWNPOUR_BeginPlain, WEATHER_DOWNPOUR_Run, WEATHER_DOWNPOUR_EndParticles, WEATHER_DOWNPOUR_EndFade, WEATHER_DOWNPOUR_EndFinish, WEATHER_DOWNPOUR_UpdateParticle, WEATHER_DOWNPOUR_SpawnParticles, WEATHER_DIAMOND_DUST_Begin, WEATHER_DIAMOND_DUST_BeginParticles, WEATHER_DIAMOND_DUST_BeginPlain, WEATHER_DIAMOND_DUST_Run, WEATHER_DIAMOND_DUST_EndParticles, WEATHER_DIAMOND_DUST_EndFade, WEATHER_DIAMOND_DUST_EndFinish, WEATHER_DIAMOND_DUST_UpdateParticle, WEATHER_DIAMOND_DUST_SpawnParticles
  * address:  0x021EE740
  * region:   ov025
  * compiler: dsi/1.1p1
@@ -48,7 +48,7 @@
  *   gBlizzardWindSpeedX  0x021EF770  data  ov025  a4
  *   WEATHER_TASK_StopSe 0x021A25CC thumb ov021
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   gBlizzardWindSpeedY     0x021EF780  data   a4
  *   WEATHER_TASK_SetBillboardParam0C 0x021A2190 thumb ov021
  *   WEATHER_TASK_SetBillboardParam10 0x021A21A0 thumb ov021
@@ -68,7 +68,7 @@ extern const s8 gBlizzardFogScrollStepY[];
 /* ---- Snow ---- */
 
 /* Snow, stage begin: slow spawner, fog and light fade parameters. */
-int func_021EE740(WeatherTaskSys *task, int variant, int heapId)
+int WEATHER_SNOW_Begin(WeatherTaskSys *task, int variant, int heapId)
 {
     WeatherSnowWork *work = WEATHER_TASK_GetWorkBuffer(task);
 
@@ -418,7 +418,7 @@ void WEATHER_BLIZZARD_UpdateParticle(WeatherParticle *particle)
                 flake->speedY = flake->speedY - 1;
             }
         }
-        func_0204B404(actor, &pos, 0);
+        CLACT_AddActorSurfacePos(actor, &pos, 0);
         break;
     case WEATHER_BLIZZARD_FLAKE_REMOVE:
         WEATHER_TASK_RemoveParticle(particle);
@@ -470,7 +470,7 @@ void WEATHER_BLIZZARD_SpawnParticles(WeatherTaskSys *task, s32 count, u16 heapId
         flake->accelX = gBlizzardWindSpeedX[windIndex];
         pos.x = -func_020056EC(0x18);
         pos.y = func_020056EC(0xA8) - 0x20;
-        func_0204B404(actor, &pos, 0);
+        CLACT_AddActorSurfacePos(actor, &pos, 0);
     }
 }
 

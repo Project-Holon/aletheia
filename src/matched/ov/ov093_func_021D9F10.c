@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D9ADC.c and filed here.
  *
  * symbols:
- *   d_021F0828 0x021F0828 data ov093 a4
+ *   gRoughSkinHandlers 0x021F0828 data ov093 a4
  */
 
 int *HAND_TOKUSEI_AddRoughSkin(int *p);
-extern int d_021F0828[];
+extern int gRoughSkinHandlers[];
 
 int *HAND_TOKUSEI_AddRoughSkin(int *p)
 {
     *p = 1;
-    return d_021F0828;
+    return gRoughSkinHandlers;
 }

@@ -18,7 +18,7 @@
  *
  * symbols:
  *   sGimmick43LiftHeights     0x021F4490  data  a4
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
@@ -43,7 +43,7 @@
  *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
  *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
  *   FIELD_CAMERA_RestartDelay  0x0218F05C  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GIMMICK43_IsLiftArrived  0x021F3ECC  thumb  ov043
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
@@ -80,7 +80,7 @@ extern E sGimmick43LiftHeights[];
 struct Ctx;
 struct Obj;
 struct Rec;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 struct Big;
 struct Ctx;
@@ -113,7 +113,7 @@ extern int GIMMICK43_UpdateCameraShake(u8 *s);
 extern void FIELD_CAMERA_EndDelay(u8 *a);
 extern u32 FIELD_CAMERA_IsDelayEnabled(u8 *a);
 extern void FIELD_CAMERA_RestartDelay(unsigned char *a);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int GIMMICK43_IsLiftArrived(int *p);
 extern int FLD_EXP_OBJ_GetModelStatus(char *p, unsigned i, int j);
 extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
@@ -152,7 +152,7 @@ int GIMMICK43_LiftEventMain(void *a, int *b)
     void *e;
     int c;
 
-    t = func_020124E4(a);
+    t = GAME_EVENT_GetGameSystem(a);
     s = GAMESYSTEM_GetFieldMap(t);
     r = (void *)FIELDMAP_GetExpObj(s);
     w = FIELDMAP_GetCommonWork(s, 1);
@@ -193,7 +193,7 @@ int GIMMICK43_LiftEventMain(void *a, int *b)
         if (FIELD_CAMERA_IsDelayEnabled((u8 *)h) != 0) {
             break;
         }
-        func_020061E4((int)0x6ca);
+        GFL_USE_PlaySeDefaultVolume((int)0x6ca);
         (*b)++;
     case 4:
         if (w[6] == 0) {
@@ -202,7 +202,7 @@ int GIMMICK43_LiftEventMain(void *a, int *b)
         if (GIMMICK43_IsLiftArrived(w)) {
             w[1] = w[2];
             GIMMICK43_StartCameraShake((u8)w[0], w[3], 0, (u32)h, (u8 *)(w + 8));
-            func_020061E4((int)0x6cb);
+            GFL_USE_PlaySeDefaultVolume((int)0x6cb);
             (*b)++;
         }
         ((int *)FLD_EXP_OBJ_GetModelStatus(r, (int)0, (u16)w[0]))[1] = w[1];

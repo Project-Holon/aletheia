@@ -25,7 +25,7 @@
  *   POKE_TOOL_GetLevelMinExp 0x02018544 thumb
  *   func_02018584 0x02018584 thumb
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
- *   sub_0201BD28 0x0201BD28 thumb
+ *   WAZA_TOOL_GetParam 0x0201BD28 thumb
  *   WAZA_TOOL_IsAlwaysHit 0x0201C1F4 thumb
  * 020276C4's matched legacy C has unused a1/a2/a3 parameters; this caller
  * and the callee body use only a0, so its declaration here has one argument.
@@ -50,7 +50,7 @@ extern int func_020276C4(int a0);
 extern u32 POKE_TOOL_GetLevelMinExp(void *);
 extern u32 func_02018584(u16,u16,u16);
 extern u8 WAZA_TOOL_GetMaxPP(u16,u32);
-extern u32 sub_0201BD28(u16,u32);
+extern u32 WAZA_TOOL_GetParam(u16,u32);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16);
 void func_022107A8(void *unused,void *mon,struct Summary *p)
 {
@@ -97,10 +97,10 @@ void func_022107A8(void *unused,void *mon,struct Summary *p)
         move->pp=func_02017E1C(p->mon,i+0x3a,0);
         move->up=func_02017E1C(p->mon,i+0x3e,0);
         move->up=WAZA_TOOL_GetMaxPP(move->id,move->up);
-        move->kind=sub_0201BD28(move->id,0);
-        move->power=sub_0201BD28(move->id,2);
+        move->kind=WAZA_TOOL_GetParam(move->id,0);
+        move->power=WAZA_TOOL_GetParam(move->id,2);
         if(WAZA_TOOL_IsAlwaysHit(move->id)==1) move->type=0;
-        else move->type=sub_0201BD28(move->id,4);
-        move->accuracy=sub_0201BD28(move->id,3);
+        else move->type=WAZA_TOOL_GetParam(move->id,4);
+        move->accuracy=WAZA_TOOL_GetParam(move->id,3);
     }
 }

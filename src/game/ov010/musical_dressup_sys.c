@@ -23,8 +23,8 @@
  *   func_02034A5C  0x02034A5C  arm
  *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   func_0200FB24  0x0200FB24  thumb
  *   func_0200FBB0  0x0200FBB0  thumb
  *   GFL_NET_ERR_ShowSimpleScreen  0x0200F83C  thumb
@@ -78,7 +78,7 @@
  *   GAME_EVENT_Change  0x0201232C  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0201A920  0x0201A920  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
  *   GAME_BEACON_SEARCH_SetNamedEvent  0x0216576C  thumb  ov010
  *   func_021F685C  0x021F685C  thumb  ov112
@@ -89,7 +89,7 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
@@ -582,8 +582,8 @@ extern int func_02034AC4(s32 overlayId);
 extern void func_02034A5C(s32 overlayId);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
 extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void func_02039C68(struct NetHandle *handle, u32 timing, u32 range);
-extern u32 func_02039CB4(struct NetHandle *handle, u32 timing, u32 range);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct NetHandle *handle, u32 timing, u32 range);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct NetHandle *handle, u32 timing, u32 range);
 extern u32 func_0200FB24(void);
 extern u32 func_0200FBB0(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
@@ -622,13 +622,13 @@ extern struct GameEvent *func_020122C0(void *gameSys, void *a, void *proc, u32 s
 extern void GAME_EVENT_Change(void *event, void *proc, u32 size);
 extern void *func_020124E8(struct GameEvent *event);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
-extern void *func_0201A920(u32 heapId);
+extern void *POKEPARTY_Create(u32 heapId);
 extern void GFL_USE_FadeInBgmFull(u32 frames);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *GAMESYSTEM_GetGameComm(void *gameSys);
 extern void *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *GAME_DATA_GetMyParty(void *gameData);
-extern void *func_0201AB28(void *party, u32 index);
+extern void *POKEPARTY_GetMember(void *party, u32 index);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, void *value);
 extern void GAME_BEACON_SEARCH_SetNamedEvent(void *strbuf);
 extern void STRBUF_Delete(void *strbuf);
@@ -916,11 +916,11 @@ int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work)
     case 7:
         func_02034AC4((u32)ov093_id);
         GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0x6e, 12);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x6e, 12);
         (*step)++;
         break;
     case 8:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x6e, 12))
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x6e, 12))
             (*step)++;
         if (func_0200FB24()) {
             if (func_0200FBB0() == 1)
@@ -973,7 +973,7 @@ int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work)
         BTL_SETUP_AllocRecordBuffer(work->setup, 1);
         work->savedBgm = GFL_USE_GetBgmNo();
         GFL_USE_CancelChangeAndStopBgm();
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 10, 12);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 10, 12);
         (*step)++;
         break;
     case 10:
@@ -986,7 +986,7 @@ int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work)
                 func_0200FA84();
             func_02034A5C((u32)ov093_id);
             *step = 20;
-        } else if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 10, 12)) {
+        } else if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 10, 12)) {
             if (GFL_NET_IsParentAid())
                 GFL_USE_CancelChangeAndPlayBgm(0x48B, 0xFFFF);
             else
@@ -1049,12 +1049,12 @@ int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work)
         break;
     case 17:
         if (GFL_NET_GetRunState() && func_0200FB24() == 0)
-            func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0xdc, 12);
+            GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xdc, 12);
         (*step)++;
         break;
     case 18:
         if (GFL_NET_GetRunState() && func_0200FB24() == 0) {
-            if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0xdc, 12) == 0)
+            if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xdc, 12) == 0)
                 break;
             work->waitFrames = 0;
             (*step)++;
@@ -1133,8 +1133,8 @@ struct GameEvent *func_021559E4(void *gameSys, int unused, struct GameEvent *eve
     task->gameData = GAMESYSTEM_GetGameData(gameSys);
     task->gameSys = gameSys;
     for (i = 0; i < 4; i++)
-        task->linkParties[i] = func_0201A920(4);
-    task->ownParty = func_0201A920(4);
+        task->linkParties[i] = POKEPARTY_Create(4);
+    task->ownParty = POKEPARTY_Create(4);
     return event;
 }
 
@@ -1214,7 +1214,7 @@ struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIn
     work->aborted = 0;
     work->program = 0;
     nickname = STRBUF_Create(11, 4);
-    work->ownMon = func_0201AB28(GAME_DATA_GetMyParty(work->gameData), partyIndex);
+    work->ownMon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(work->gameData), partyIndex);
     POKE_TOOL_GetPartyValue(work->ownMon, 0x73, nickname);
     GAME_BEACON_SEARCH_SetNamedEvent(nickname);
     STRBUF_Delete(nickname);

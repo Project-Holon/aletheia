@@ -10,7 +10,7 @@
  * lever: SDK g3x.h shading enum and boolean inline bodies preserve the hardware mask sequence; pool word at 021BCE04 is BFFF0000.
  * volatile: hardware 04000008 and 04000060 read/write at 021BCD78-021BCDBA; 04000580 write at 021BCDD8.
  * symbols:
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
@@ -25,7 +25,7 @@ static inline void AntiAlias(int enable) {if(enable)REG60=(u16)((REG60 & ~0x3000
 static inline void AlphaTest(int enable,int ref) {if(enable){REG60=(u16)((REG60 & ~0x3000)|4);*(volatile u16 *)0x04000340=(u16)ref;}else REG60&=(u16)~0x3004;}
 static inline void AlphaBlend(int enable) {if(enable)REG60=(u16)((REG60 & ~0x3000)|8);else REG60&=(u16)~0x3008;}
 static inline void EdgeMarking(int enable) {if(enable)REG60=(u16)((REG60 & ~0x3000)|0x20);else REG60&=(u16)~0x3020;}
-extern void func_020434DC(unsigned,unsigned);
+extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned);
 extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(u16,int,int,int,int);
 typedef unsigned int   u32;
@@ -35,7 +35,7 @@ extern const u16 d_021C8164[][4];
 void func_021BCD68(void)
 {
     unsigned i;
-    func_020434DC(1,1);
+    BG_SYS_SetMainPlaneVisible(1,1);
     *(volatile u16 *)0x04000008=(*(volatile u16 *)0x04000008 & ~3)|1;
     SetShading(ShadeHighlight);
     AntiAlias(0);

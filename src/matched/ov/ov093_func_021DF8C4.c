@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetOddIncenseHandlers
+ * function: HAND_ITEM_GetOddIncenseHandlers
  * address: 0x021DF8C4
  * packet: pkt_ov093_021DF8C4
  * region: ov093
@@ -15,10 +15,10 @@
  *   gOddIncenseHandlers 0x021F155C data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetOddIncenseHandlers(int *p);
+int *HAND_ITEM_GetOddIncenseHandlers(int *p);
 extern int gOddIncenseHandlers[];
 
-int *BTL_HANDLER_ITEM_GetOddIncenseHandlers(int *p)
+int *HAND_ITEM_GetOddIncenseHandlers(int *p)
 {
     *p = 1;
     return gOddIncenseHandlers;

@@ -13,7 +13,7 @@
  *   func_021BA874 0x021BA874 thumb ov099
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039C68 0x02039C68 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  */
 #include "../include/Obj00008.h"
 typedef unsigned short u16;
@@ -25,7 +25,7 @@ extern void func_021BAAB8(char *, int, int);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, unsigned int lo, unsigned int hi);
 int func_021BD584(char *p, int v)
 {
     int t;
@@ -36,7 +36,7 @@ int func_021BD584(char *p, int v)
         func_021BAAB8(p, 0x77, 0);
         ((struct Obj00008 *)p)->f1CC = 0x6f;
     } else {
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1b, 10);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1b, 10);
         ((struct Obj00008 *)p)->f1CC = 0x49;
     }
     return v;

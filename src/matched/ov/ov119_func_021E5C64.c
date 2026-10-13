@@ -17,7 +17,7 @@
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -42,7 +42,7 @@ extern void GF_FONT_SetTextColor(u32, u32, u32);
 struct MsgBank;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -62,7 +62,7 @@ void func_021E5C64(char *p)
     for (i = 0; i < 26; i++) {
         *(void **)(p + i * 4 + 0x750) = (void *)BMP_WIN_Create(6, (u8)d_021E81D4[i].x, (u8)d_021E81D4[i].y, 2, 2, 14, 0);
         MSGDATA_ReadString((struct MsgBank *)(((struct Obj01055 *)p)->f720), i + 0x35, (void *)(*(int *)&((struct Obj01055 *)p)->f730));
-        PRINTSYS_Print(func_02045770(*(void **)(p + i * 4 + 0x750)), 0, 0, ((struct Obj01055 *)p)->f730, ((struct Obj01055 *)p)->f728);
+        PRINTSYS_Print(BMP_WIN_GetBmp(*(void **)(p + i * 4 + 0x750)), 0, 0, ((struct Obj01055 *)p)->f730, ((struct Obj01055 *)p)->f728);
         BMP_WIN_MakeScreen(*(void **)(p + i * 4 + 0x750));
         BMP_WIN_TransferChars(*(void **)(p + i * 4 + 0x750));
     }

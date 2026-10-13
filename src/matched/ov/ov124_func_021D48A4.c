@@ -13,6 +13,7 @@
  *   func_021D4940 0x021D4940 thumb ov124
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   GAMESYSTEM_IsNetOffBySleep 0x02012204 thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj00122.h"
 #include "../include/Obj22992.h"
@@ -24,7 +25,7 @@ extern void func_021D4940(char *,int);
 typedef unsigned int   u32;
 struct Ctx;
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *p);
 void func_021D48A4(char *p)
 {
@@ -36,7 +37,7 @@ void func_021D48A4(char *p)
             (((struct Obj00122 *)p)->f18)--;
             func_021D4940(p,((struct Obj00122 *)p)->f18);
             APP_TASKMENU_WIN_SetDecide(((struct Obj00122 *)p)->f38,1);
-            func_020061E4(0x54c);
+            GFL_USE_PlaySeDefaultVolume(0x54c);
         }
         break;
     case 1:
@@ -44,13 +45,13 @@ void func_021D48A4(char *p)
             (((struct Obj00122 *)p)->f18)++;
             func_021D4940(p,((struct Obj00122 *)p)->f18);
             APP_TASKMENU_WIN_SetDecide(((struct Obj00122 *)p)->f3C,1);
-            func_020061E4(0x54c);
+            GFL_USE_PlaySeDefaultVolume(0x54c);
         }
         break;
     case 2:
         APP_TASKMENU_WIN_SetDecide(((struct Obj00122 *)p)->f40,1);
         *(int *)&((struct Obj00122 *)p)->f10 = 2;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         break;
     }
     if (GAMESYSTEM_IsNetOffBySleep(((struct Obj22992 *)(*(char * *)&((struct Obj00122 *)p)->f4))->f4) == 1) {

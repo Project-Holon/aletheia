@@ -11,6 +11,7 @@
  *
  * symbols:
  *   FIELDMAP_GetCamera  0x02188C58  thumb
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 
 typedef unsigned char  u8;
@@ -20,12 +21,12 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_02082BCC(void *dst, int val, u32 size);
+extern void MI_CpuFill8(void *dst, int val, u32 size);
 extern void *FIELDMAP_GetCamera(void *p);
 
 void FIELD_CAMERA_ANIME_Init(u32 *o, void *a)
 {
-    func_02082BCC(o, 0, 0x20);
+    MI_CpuFill8(o, 0, 0x20);
     o[0] = (u32)a;
     o[1] = (u32)FIELDMAP_GetCamera(a);
     o[2] = 0;

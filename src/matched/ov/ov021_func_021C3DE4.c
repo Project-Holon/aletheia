@@ -9,28 +9,28 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0201ADE4  0x0201ADE4  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
- *   func_0201AE14  0x0201AE14  thumb
+ *   POKE_PERSONAL_Create  0x0201ADE4  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
+ *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  */
 
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern void *func_0201ADE4(u32 a, int b, u32 heap);
+extern void *POKE_PERSONAL_Create(u32 a, int b, u32 heap);
 struct Personal;
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *p);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *p);
 
 void SODATEYA_SetAbilityFromSlot(u32 *a, u32 *p, u32 heap)
 {
     u32 s[3];
-    u32 x = (u32)func_0201ADE4((u16)p[0], (u16)p[1], heap);
+    u32 x = (u32)POKE_PERSONAL_Create((u16)p[0], (u16)p[1], heap);
 
-    s[0] = func_0201AE1C((const struct Personal *)x, 0x1a);
-    s[1] = func_0201AE1C((const struct Personal *)x, 0x1b);
-    s[2] = func_0201AE1C((const struct Personal *)x, 0x1c);
-    func_0201AE14((void *)x);
+    s[0] = POKE_PERSONAL_GetParam((const struct Personal *)x, 0x1a);
+    s[1] = POKE_PERSONAL_GetParam((const struct Personal *)x, 0x1b);
+    s[2] = POKE_PERSONAL_GetParam((const struct Personal *)x, 0x1c);
+    POKE_PERSONAL_Delete((void *)x);
     if (p[0x13] < 2) {
         p[4] = s[p[0x13]];
         if (p[4] == 0)

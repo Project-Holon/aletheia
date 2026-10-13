@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetDampRockHandlers
+ * function: HAND_ITEM_GetDampRockHandlers
  * address: 0x021DF4C8
  * packet: pkt_ov093_021DF4C8
  * region: ov093
@@ -15,10 +15,10 @@
  *   gDampRockHandlers 0x021F1514 data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetDampRockHandlers(int *p);
+int *HAND_ITEM_GetDampRockHandlers(int *p);
 extern int gDampRockHandlers[];
 
-int *BTL_HANDLER_ITEM_GetDampRockHandlers(int *p)
+int *HAND_ITEM_GetDampRockHandlers(int *p)
 {
     *p = 1;
     return gDampRockHandlers;

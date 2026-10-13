@@ -1,5 +1,5 @@
 /*
- * function: func_021B9A40
+ * function: BTL_MAIN_IsPokeIdInSecondPair
  * address: 0x021B9A40
  * packet: pkt_ov093_021B9A40
  * region: ov093
@@ -11,7 +11,7 @@
  * lever: enum result preserves zero-first arms before u8 return narrowing.
  */
 typedef enum { FALSE = 0, TRUE = 1 } BOOL;
-unsigned char func_021B9A40(unsigned int x)
+unsigned char BTL_MAIN_IsPokeIdInSecondPair(unsigned int x)
 {
     BOOL result;
     if (x < 12) result = FALSE;

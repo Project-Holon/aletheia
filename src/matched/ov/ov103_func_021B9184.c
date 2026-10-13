@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
- *   func_0204B6F4 0x0204B6F4 arm
+ *   MI_CpuFill8 0x02082BCC arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  */
 #include "../include/Obj13740.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
-extern void func_02082BCC(void *,int,int);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-void func_021B9184(u8 *p, struct Obj *q, int v, u8 w) { func_02082BCC(p,0,0x2c); *(struct Obj * *)&((struct Obj13740 *)p)->f0=q; ((struct Obj13740 *)p)->f4=w; func_0204B6F4(q,(u8)v,1); }
+extern void MI_CpuFill8(void *,int,int);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
+void func_021B9184(u8 *p, struct Obj *q, int v, u8 w) { MI_CpuFill8(p,0,0x2c); *(struct Obj * *)&((struct Obj13740 *)p)->f0=q; ((struct Obj13740 *)p)->f4=w; CLACT_SetActorPaletteOffset(q,(u8)v,1); }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E1314",
+   "name": "HAND_WAZA_AddTrap",
    "address": "0x021E1314",
    "kind": "game",
    "region": "ov093",

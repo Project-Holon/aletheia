@@ -28,12 +28,12 @@
  *   RINGTONE_SYS_Start  0x02029F54  thumb
  *   RINGTONE_SYS_Stop  0x02029F60  thumb
  *   GFL_USE_GetSeSlot  0x02006148  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   SCRCMD_FindRegisteredEntry  0x021D21C0  thumb ov021
  *   SCRCMD_IsRegisteredEntryEnabled  0x021D21E0  thumb ov021
- *   func_020061F0  0x020061F0  thumb
+ *   GFL_USE_PlaySeWithVolume  0x020061F0  thumb
  *   GFL_USE_SetSeSlotVolume  0x020062BC  thumb
- *   func_020061F8  0x020061F8  thumb
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb
  *   sTable_0209FDD0  0x0209FDD0  data
  *   NNS_SndArcGetSeqInfo  0x02074324  arm
  *   NNS_SndArcGetFileAddress  0x0207466C  arm
@@ -123,10 +123,10 @@ extern void RINGTONE_SYS_Stop(void *p);
 extern int SCRCMD_FindRegisteredEntry(u32 id);
 extern int SCRCMD_IsRegisteredEntryEnabled(u32 id);
 extern int GFL_USE_GetSeSlot(u32 a0);
-extern void func_020061E4(u32 id);
-extern void func_020061F0(u32 id, u32 who);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
+extern void GFL_USE_PlaySeWithVolume(u32 id, u32 who);
 extern void GFL_USE_SetSeSlotVolume(int i, u32 level);
-extern void func_020061F8(int i);
+extern void GFL_USE_StopSeSlot(int i);
 extern SoundEventRecord *NNS_SndArcGetSeqInfo(int index);
 extern u32 NNS_SndArcGetFileAddress(u32 idx);
 extern SoundGroupRecord *NNS_SndArcGetBankInfo(int index);
@@ -353,7 +353,7 @@ void FIELD_SOUND_SYSTEM_ClaimSlot(FieldSoundSystem *s, u32 soundId)
     u32 slotIndex;
 
     if (SCRCMD_FindRegisteredEntry(soundId) == 0) {
-        func_020061E4(soundId);
+        GFL_USE_PlaySeDefaultVolume(soundId);
         return;
     }
     if (SCRCMD_IsRegisteredEntryEnabled(soundId) != 0) {
@@ -362,7 +362,7 @@ void FIELD_SOUND_SYSTEM_ClaimSlot(FieldSoundSystem *s, u32 soundId)
         s->slotOwner[slotIndex] = 0xFFFF;
     }
     if (s->pauseMask == 0) {
-        func_020061E4(soundId);
+        GFL_USE_PlaySeDefaultVolume(soundId);
     }
 }
 
@@ -372,7 +372,7 @@ void FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(FieldSoundSystem *s, u32 soundId, u32
     u32 slotIndex;
 
     if (SCRCMD_FindRegisteredEntry(soundId) == 0) {
-        func_020061E4(soundId);
+        GFL_USE_PlaySeDefaultVolume(soundId);
         return;
     }
     if (SCRCMD_IsRegisteredEntryEnabled(soundId) != 0) {
@@ -381,7 +381,7 @@ void FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(FieldSoundSystem *s, u32 soundId, u32
         s->slotOwner[slotIndex] = owner;
     }
     if (s->pauseMask == 0) {
-        func_020061F0(soundId, owner);
+        GFL_USE_PlaySeWithVolume(soundId, owner);
     }
 }
 
@@ -408,7 +408,7 @@ void FIELD_SOUND_SYSTEM_ReleaseSlot(FieldSoundSystem *s, int soundId)
 
     slotNumber = GFL_USE_GetSeSlot(soundId);
     if (SCRCMD_FindRegisteredEntry(soundId) == 0) {
-        func_020061F8(slotNumber);
+        GFL_USE_StopSeSlot(slotNumber);
         return;
     }
     if (SCRCMD_IsRegisteredEntryEnabled(soundId) != 0) {
@@ -417,7 +417,7 @@ void FIELD_SOUND_SYSTEM_ReleaseSlot(FieldSoundSystem *s, int soundId)
             s->slotOwner[slotNumber - 1] = 0xffff;
         }
     }
-    func_020061F8(slotNumber);
+    GFL_USE_StopSeSlot(slotNumber);
 }
 
 /* Adds bits to the pause set; on the first bit, stops the sounds in both slots. */
@@ -428,7 +428,7 @@ void FIELD_SOUND_SYSTEM_PauseSlots(FieldSoundSystem *s, u32 bits)
     if (s->pauseMask == 0) {
         for (i = 0; i < 2; i++) {
             if (s->slotSoundId[i] != 0xffff) {
-                func_020061F8(i + 1);
+                GFL_USE_StopSeSlot(i + 1);
             }
         }
     }
@@ -451,9 +451,9 @@ void FIELD_SOUND_SYSTEM_ResumeSlots(FieldSoundSystem *s, u32 bits)
     for (i = 0; i < 2; i++) {
         if (s->slotSoundId[i] != 0xffff) {
             if (s->slotOwner[i] == 0xffff)
-                func_020061E4(s->slotSoundId[i]);
+                GFL_USE_PlaySeDefaultVolume(s->slotSoundId[i]);
             else
-                func_020061F0(s->slotSoundId[i], s->slotOwner[i]);
+                GFL_USE_PlaySeWithVolume(s->slotSoundId[i], s->slotOwner[i]);
         }
     }
 }

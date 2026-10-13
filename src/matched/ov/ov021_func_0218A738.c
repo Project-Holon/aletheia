@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
- *   func_02014474  0x02014474  thumb
+ *   FIELD_STATUS_SetProcAction  0x02014474  thumb
  *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  *   SCRIPT_SYS_CreateSceneChangeEvent  0x02158B00  thumb  ov010
  * Addresses are Black-image addresses.
@@ -37,7 +37,7 @@ struct Ctx738 {
 struct BigObj;
 struct Sub02014444Obj;
 extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
-extern void func_02014474(struct Sub02014444Obj *o, u16 v);
+extern void FIELD_STATUS_SetProcAction(struct Sub02014444Obj *o, u16 v);
 struct Desc;
 extern struct Desc *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
 extern void *SCRIPT_SYS_CreateSceneChangeEvent(void *a, u32 b);
@@ -47,7 +47,7 @@ int FIELD_EVENT_CHECK_StartPendingScript(struct Ctx738 *c)
     int r;
 
     if (c->f26 != 0) {
-        func_02014474(GAME_DATA_GetMoveModelSys(c->f8), 0);
+        FIELD_STATUS_SetProcAction(GAME_DATA_GetMoveModelSys(c->f8), 0);
         return (int)SCRIPT_SYS_CreateScriptEventSimple((int)c->f4, c->f26, 0, c->f0);
     }
     r = (int)SCRIPT_SYS_CreateSceneChangeEvent(c->f4, c->f0);

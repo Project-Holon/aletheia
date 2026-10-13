@@ -14,9 +14,9 @@
  *   func_021F1EAC 0x021F1EAC thumb
  *   func_021F0FC8 0x021F0FC8 thumb
  *   func_021F0ED0 0x021F0ED0 thumb
- *   func_020311B8 0x020311B8 arm
+ *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GAME_BEACON_ACCESSOR_GetActionNo 0x02165E24 thumb ov010
  *   GAME_BEACON_ACCESSOR_GetActionViewVariant 0x02165FC0 thumb ov010
  */
@@ -31,10 +31,10 @@ typedef unsigned int u32;
 extern void func_021F1EAC(void *task, u8 *s);
 extern void func_021F0FC8(char *p, u8 *q, int r);
 extern void func_021F0ED0(char *q, int a);
-extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
+extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
 extern void *TCBL_GetWork(struct S02030FB4 *p);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern int GAME_BEACON_ACCESSOR_GetActionNo(int a0);
 extern u8 GAME_BEACON_ACCESSOR_GetActionViewVariant(u32 type);
 
@@ -43,9 +43,9 @@ void func_021F1E40(char *p, char *q, void *x, int flag)
     void *t;
     u8 *r;
 
-    t = func_020311B8(((struct Obj20436 *)p)->fA0, (void *)func_021F1EAC, 0x18, 0);
+    t = TCBL_AddTask(((struct Obj20436 *)p)->fA0, (void *)func_021F1EAC, 0x18, 0);
     r = TCBL_GetWork(t);
-    func_02082BCC(r, 0, 0x18);
+    MI_CpuFill8(r, 0, 0x18);
     *(char * *)&((struct Obj05121 *)r)->f10 = p;
     *(char * *)&((struct Obj05121 *)r)->f8 = q;
     r[1] = 0x5a;

@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  */
 struct Descriptor;
 typedef unsigned int   u32;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 void UNION_SUBDISP_DeleteLineWindows(char *p)
 {
     int i;
     for (i = 0; i < 3; i++) {
-        func_020452E8(*(void **)(p + 0x4c + i * 4));
+        BMP_WIN_Delete(*(void **)(p + 0x4c + i * 4));
     }
 }

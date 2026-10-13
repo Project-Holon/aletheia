@@ -16,7 +16,7 @@
  *   func_020260E4 0x020260E4 thumb
  *   func_021EE038 0x021EE038 thumb
  *   func_0202136C 0x0202136C thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021EBB28 0x021EBB28 thumb
  *   func_021DD25C 0x021DD25C thumb
  *   func_021DD2B4 0x021DD2B4 thumb
@@ -56,7 +56,7 @@ struct Sound;
 extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EE038(char *p, int a, int b, int c);
 extern unsigned func_0202136C(unsigned short v);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void func_021EBB28(char *p, int b);
 extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern void func_021DD2B4(int a, int b, int c, int d, int e);
@@ -94,7 +94,7 @@ int func_021E6A60(unsigned char *p)
         func_020260E4(OBJ(p), p[0x16]);
         func_021EE038((char *)p, 0, 1, 1);
         if (func_0202136C(ITEM(p)) == 1 && from != p[0x16]) {
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
             func_021EBB28((char *)p, 0x18);
             STATE(p) = 0x44;
             return 6;
@@ -131,7 +131,7 @@ int func_021E6A60(unsigned char *p)
         func_021EBFA8(WORK(p), 10, 1);
         func_021EC000(WORK(p), 10, 1);
         func_021ED1C8(WORK(p));
-        func_020061E4(0x666);
+        GFL_USE_PlaySeDefaultVolume(0x666);
         return func_021E8FC0((char *)p, (int)func_021E122C, 0x43);
     }
 }

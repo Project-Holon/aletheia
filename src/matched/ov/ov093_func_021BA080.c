@@ -1,5 +1,5 @@
 /*
- * function: func_021BA080
+ * function: BTL_MAIN_UpdateCommPlayerSupport
  * address:  0x021BA080
  * packet:   pkt_021BA080
  * region:   ov093
@@ -19,7 +19,7 @@
 
 char *COMM_PLAYER_SUPPORT_GetCurrent(char *p);
 
-void func_021BA080(char **p)
+void BTL_MAIN_UpdateCommPlayerSupport(char **p)
 {
     COMM_PLAYER_SUPPORT_GetCurrent((char *)(((struct Obj20998 *)(*p))->f70));
 }

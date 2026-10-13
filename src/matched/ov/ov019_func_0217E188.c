@@ -29,7 +29,7 @@
  *   UNION_MSG_SetupRegulationWindow  0x0217F640  thumb  ov019
  *   UNION_MSG_CheckRegulationPrintEnd  0x0217F794  thumb  ov019
  *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb  ov019
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   UNION_MSG_DeleteRegulationWindow  0x0217F7B8  thumb  ov019
  */
 
@@ -82,7 +82,7 @@ extern int UNION_ONESELF_GetRegulationFlag(int id);
 extern void UNION_MSG_SetupRegulationWindow(struct Self *self, u32 a1, u32 mask, int mode, int msg);
 extern u32 UNION_MSG_CheckRegulationPrintEnd(char *p, u32 a);
 extern void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void UNION_MSG_DeleteRegulationWindow(char *p);
 
 int UNION_ONESELF_ColosseumPartySelectMain(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
@@ -170,7 +170,7 @@ int UNION_ONESELF_ColosseumPartySelectMain(Ctx *ctx, Obj *obj, u8 *a2, u8 *state
         }
         break;
     case 6:
-        if (func_020362DC() & 3) {
+        if (KEY_GetTrg() & 3) {
             UNION_MSG_DeleteRegulationWindow((char *)ctx);
             if (obj->f6e == 0) {
                 *state = 0;

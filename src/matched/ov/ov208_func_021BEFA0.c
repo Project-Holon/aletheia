@@ -21,11 +21,11 @@
  *
  * symbols:
  *   func_021BC3B4  0x021BC3B4  thumb  ov208
- *   func_02035D20  0x02035D20  arm
- *   func_0204B3F4  0x0204B3F4  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
+ *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
  *   ov208_func_021BF280  0x021BF280  thumb  ov208
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_020355D8  0x020355D8  arm
  *   func_021BDC48  0x021BDC48  thumb  ov208
  */
@@ -58,11 +58,11 @@ struct S {
 
 extern int func_021BC3B4(int *p);
 struct Obj;
-extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern u32 func_0204B3F4(struct Obj *p);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern void ov208_func_021BF280(void *first, char *q, void *third, int next);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_020355D8(u8 v);
 extern void func_021BDC48(int p, u32 on);
 
@@ -79,12 +79,12 @@ int func_021BEFA0(void *a0, struct S *st, int *obj)
 
     sc = func_021BC3B4(obj);
     res = 0;
-    if (st->cur == 6 && func_02035D20(&x, &y) != 0) {
+    if (st->cur == 6 && TOUCHPANEL_GetPointTrg(&x, &y) != 0) {
         for (i = 0; i < 6; i++) {
             e = (struct E *)((u8 *)st + i * 0x14);
             c = (u8 *)e;
             k = 0x20;
-            if (func_0204B3F4((struct Obj *)e->h1c) != 0
+            if (CLACT_GetActorDrawEnable((struct Obj *)e->h1c) != 0
                 && (u32)c[k] <= x && x < (u32)c[k] + c[k + 2]
                 && (u32)c[k + 1] <= y && y < (u32)c[k + 1] + c[k + 3]) {
                 if (st->prev == i) break;
@@ -99,7 +99,7 @@ int func_021BEFA0(void *a0, struct S *st, int *obj)
         *(u32 *)((u8 *)st + st->cur * 0x14 + 0x2c) = 1;
         e = (struct E *)((u8 *)st + st->cur * 0x14);
         CLACT_SetActorAnimSeq((struct Obj *)e->h1c, e->f26);
-        func_020061E4(0x54a);
+        GFL_USE_PlaySeDefaultVolume(0x54a);
         func_020355D8(1);
         func_021BDC48(sc, 0);
     }

@@ -22,7 +22,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0204047C 0x0204047C arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0207D518 0x0207D518 arm
@@ -40,7 +40,7 @@
  *   FADE_Start 0x0204E720 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_021B9940 0x021B9940 thumb ov224
  *   func_021B9820 0x021B9820 thumb ov224
@@ -62,10 +62,10 @@ extern const struct Entry d_021B9C04[];
 extern struct Assets d_021B9D40[];
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,u32,u32);
-extern void func_02082BCC(void *,u32,u32);
+extern void MI_CpuFill8(void *,u32,u32);
 extern void *func_021B9940(u32,u32);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
-extern u32 func_0201C440(void *);
+extern u32 PRINTSYS_QUE_Create(void *);
 extern void func_0204047C(int,u16);
 extern void *func_020056A0(u32,u32,u32);
 extern void func_021B9820(void);
@@ -99,11 +99,11 @@ int func_021B95A0(struct Obj0203159C *proc,void *unused,void **args)
  void *arc;
  GFL_HEAP_CreateChildHeap((u32)((void *)1),0x88,0x30000);
  p=PROCSYS_AllocProcWork(proc,0x18,0x88);
- func_02082BCC(p,0,0x18);
+ MI_CpuFill8(p,0,0x18);
  p->heap=0x88; p->args=args;
  p->screen=func_021B9940(1,p->heap);
  p->font=GF_FONT_Create(23,0,0,0,p->heap);
- p->string=func_0201C440((void *)(u32)p->heap);
+ p->string=PRINTSYS_QUE_Create((void *)(u32)p->heap);
  func_0204047C(1,1); func_0204047C(2,0);
  p->task=func_020056A0((u32)func_021B9820,(u32)p,1);
  func_021B9824((u16 *)p);

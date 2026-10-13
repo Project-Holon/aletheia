@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   gUnk_020A7F3C  0x020A7F3C  data
+ *   g_ClactTables  0x020A7F3C  data
  *   sub_020643C4   0x020643C4  arm
  *
  * A dispatch thunk and the first two of the three handlers its table row
@@ -50,14 +50,14 @@ struct Obj {
 
 typedef void (*DispatchFn)(struct Obj *o, u32 arg);
 
-extern DispatchFn const gUnk_020A7F3C[];
+extern DispatchFn const g_ClactTables[];
 
 struct MultiCellAnim;
 extern void sub_020643C4(struct MultiCellAnim *mca, u32 value);
 
 void CLACT_UpdateAnim(struct Obj *o, u32 arg)
 {
-    gUnk_020A7F3C[o->type](o, arg);
+    g_ClactTables[o->type](o, arg);
 }
 
 void CLACT_UpdateCellAnim(struct Obj *o, u32 arg)

@@ -16,6 +16,7 @@
  * symbols:
  *   SAVE_CONTROL_MainSave  0x02007168  thumb
  *   WIH_DWC_ResumeTimers  0x02010444  thumb
+ *   GFL_USE_IsLoaderBusy  0x02005C64  thumb
  */
 #include "../include/Obj11252.h"
 
@@ -25,7 +26,7 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef signed char s8;
 
-extern int  func_02005C64(void);
+extern int  GFL_USE_IsLoaderBusy(void);
 struct Sub02007168;
 extern u32 SAVE_CONTROL_MainSave(struct Sub02007168 *p);
 extern int func_020351A0(u32 v);
@@ -35,7 +36,7 @@ int GAME_DATA_SaveMain(u8 *p)
 {
     int r;
 
-    if (func_02005C64() == 1) {
+    if (GFL_USE_IsLoaderBusy() == 1) {
         return 0;
     }
     r = SAVE_CONTROL_MainSave((struct Sub02007168 *)(((struct Obj11252 *)p)->f0));

@@ -85,8 +85,8 @@
  *   func_02034A5C 0x02034A5C arm
  *   func_02007F1C 0x02007F1C thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
- *   func_02005F38 0x02005F38 thumb
- *   func_020362DC 0x020362DC arm
+ *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
@@ -126,8 +126,8 @@ extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern u32 func_02007F1C(u8 *, u16, u16, u16);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u16);
-extern int func_02005F38(void);
-extern u32 func_020362DC(void);
+extern int GFL_USE_IsBgmPlaying(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void FADE_Start(u32, int, int, int);
 extern int FADE_IsActive(void);
@@ -196,7 +196,7 @@ int func_021B6578(struct P *p)
         if (func_021B6A3C(p->object)) (p->state)++;
         break;
     case 8:
-        if (!func_02005F38()) {
+        if (!GFL_USE_IsBgmPlaying()) {
             func_021F7C0C(); GFL_USE_CancelChangeAndPlayBgm(0x47c, 0xffff);
             (p->state)++;
         }
@@ -208,7 +208,7 @@ int func_021B6578(struct P *p)
         }
         break;
     case 10:
-        if (((u32)func_020362DC() & 3) || TOUCHPANEL_GetTrg() || --p->timer == 0) {
+        if (((u32)KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg() || --p->timer == 0) {
             FADE_Start(3, 0, 16, 2);
             (p->state)++;
         }

@@ -15,11 +15,11 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   PROCSYS_Create 0x02031324 arm
  *   d_02FFFC3C 0x02FFFC3C data a4
- *   func_0201AB28 0x0201AB28 thumb
- *   func_0201A98C 0x0201A98C thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
+ *   POKEPARTY_Add 0x0201A98C thumb
  *   PLIST_COMM_End 0x021B6108 thumb ov090
  *   func_02034A5C 0x02034A5C arm
  *   ov090_id 0x0000005A data
@@ -45,15 +45,15 @@
  *   ov90_id 0x0000005A data a1
  *   func_02012944   0x02012944  thumb
  *   func_0200CA1C   0x0200CA1C  thumb
- *   func_0201AA18   0x0201AA18  thumb
+ *   POKEPARTY_GetCount   0x0201AA18  thumb
  *   func_0200CA38   0x0200CA38  thumb
  *   func_021E5B1C  0x021E5B1C  thumb  ov178
  *   ov067_id 0x00000043 data a1
  *   ov114_id 0x00000072 data a1
  *   ov175_id 0x000000AF data a1
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039C68 0x02039C68 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   func_021D9DC8 0x021D9DC8 thumb ov175
  *   func_021DC200 0x021DC200 thumb ov175
  *   func_021DC240 0x021DC240 thumb ov175
@@ -133,10 +133,10 @@ typedef unsigned int   u32_021E5A90;
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32_021E5440 size, u32_021E5440 heap);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void *PROCSYS_Create(int a0);
-extern void *func_0201AB28(void *,unsigned);
-extern u32_021E54CC func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern void *POKEPARTY_GetMember(void *,unsigned);
+extern u32_021E54CC POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern void PLIST_COMM_End(void *);
 extern void func_02034A5C(s32 handle);
 extern void func_0203133C(struct S020314B8 *p);
@@ -156,12 +156,12 @@ extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void PLIST_COMM_Start(u8 *);
 extern u8 *func_02012944(void *p);
 extern void *func_0200CA1C(void *a);
-extern unsigned int func_0201AA18(void *p);
+extern unsigned int POKEPARTY_GetCount(void *p);
 extern u32 func_0200CA38(struct Blk37 *p);
 extern void func_021E5B1C(int *p, void *c);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void func_02039C68(struct Link *,unsigned int,unsigned int);
-extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned int,unsigned int);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,unsigned int);
 extern char *func_021D9DC8(u32_021E58F4,void *,u32_021E58F4,u16);
 extern u32_021E58F4 func_021DC200(char *,u32_021E58F4),func_021DC240(char *,u32_021E58F4);
 extern void func_021D9EA0(u8 *p);
@@ -199,7 +199,7 @@ int func_021E5440(void *handle,int unused,char *q)
  char *p;
  GFL_HEAP_CreateChildHeap(1,0x58,0x30000);
  p=PROCSYS_AllocProcWork(handle,0xFC,0x58);
- func_02082BCC(p,0,0xFC);
+ MI_CpuFill8(p,0,0xFC);
  *(Copy *)(p+0xD4)=*(Copy *)q;
  ((struct Obj04565 *)p)->fF8=0x58;
  ((struct Obj04565 *)p)->fD0=PROCSYS_Create(((struct Obj04565 *)p)->fF8);
@@ -219,7 +219,7 @@ int func_021E54CC(void *handle,int unused,char *q,char *p)
  unsigned char i;
  for(i=0;i<6;i++) {
  unsigned n=*(unsigned char *)(p+i+0x51);
- if(n!=0)func_0201A98C(((struct Obj14379 *)q)->f1C,func_0201AB28(((struct Obj14379 *)q)->f4,n-1));
+ if(n!=0)POKEPARTY_Add(((struct Obj14379 *)q)->f1C,POKEPARTY_GetMember(((struct Obj14379 *)q)->f4,n-1));
  }
  PLIST_COMM_End(p+8);func_02034A5C((unsigned)ov090_id);
  func_0203133C(((struct Obj24455 *)p)->fD0);func_020315D4(handle);func_020306F0(0x58);
@@ -375,7 +375,7 @@ void func_021E57E0(int *r5, int *r6, char *r4)
     ((struct Obj01763 *)r4)->f4 = (int)func_0200873C((void *)a);
     ((struct Obj01763 *)r4)->fC = 1;
     ((struct Obj01763 *)r4)->fD = 1;
-    ((struct Obj01763 *)r4)->fE = func_0201AA18((void *)r6[1]);
+    ((struct Obj01763 *)r4)->fE = POKEPARTY_GetCount((void *)r6[1]);
     ((struct Obj01763 *)r4)->fF = 0;
     ((struct Obj01763 *)r4)->f10 = 0;
     ((struct Obj01763 *)r4)->f11 = 0;
@@ -398,7 +398,7 @@ int func_021E5838(struct Obj0203159C *a, int b, int *p)
     int h;
     GFL_HEAP_CreateChildHeap(1, 0x58, 0x10000);
     h = (int)PROCSYS_AllocProcWork(a, 4, 0x58);
-    func_02082BCC((void *)h, 0, 4);
+    MI_CpuFill8((void *)h, 0, 4);
     p[2] = 0;
     switch (p[1]) {
     case 0:
@@ -465,20 +465,20 @@ int func_021E58F4(char **out,u32_021E58F4 *ctx,u32_021E58F4 *state)
         }
     }
     switch(*state) {
-    case 0:func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),16,36);++*state;break;
-    case 1:if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),16,36))++*state;break;
+    case 0:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),16,36);++*state;break;
+    case 1:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),16,36))++*state;break;
     case 2:func_02034AC4((int)ov067_id);func_02034AC4((int)ov114_id);func_02034AC4((int)ov175_id);
         *out=func_021D9DC8(ctx[5],**(void ** *)&((struct Obj02890 *)ctx)->f0,0,88);++*state;break;
-    case 3:func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),17,36);++*state;break;
-    case 4:if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),17,36))++*state;break;
+    case 3:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),17,36);++*state;break;
+    case 4:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),17,36))++*state;break;
     case 5:if(func_021DC200(*out,ctx[3]))++*state;break;
     case 6:if(func_021DC240(*out,ctx[4]))++*state;break;
-    case 7:func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),18,36);++*state;break;
-    case 8:if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),18,36))++*state;break;
+    case 7:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),18,36);++*state;break;
+    case 8:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),18,36))++*state;break;
     case 9:func_021D9EA0((u8 *)((u32_021E58F4)*out));*out=0;
         func_02034A5C((int)ov175_id);func_02034A5C((int)ov114_id);func_02034A5C((int)ov067_id);++*state;break;
-    case 10:func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),19,36);++*state;break;
-    case 11:if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),19,36))return 1;break;
+    case 10:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),19,36);++*state;break;
+    case 11:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),19,36))return 1;break;
     }
     return 0;
 }
@@ -509,8 +509,8 @@ unsigned func_021E5A90(void **d,unsigned *c,unsigned *state)
  if(func_0200FB24()!=0){GFL_NET_ERR_RequestScreen();c[2]=2;return 1;}
  switch(*state) {
  case 0:++*state;break;
- case 1:func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x11,0x1F);++*state;break;
- case 2:if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x11,0x1F)!=0)++*state;break;
+ case 1:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x11,0x1F);++*state;break;
+ case 2:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x11,0x1F)!=0)++*state;break;
  case 3:if(func_0217E258((int)(*d),c[3])!=0)++*state;break;
  case 4:if(func_0217E298(*d,(const void *)c[4])!=0)++*state;break;
  case 5:return 1;

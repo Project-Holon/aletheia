@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   BUTTON_MAN_Delete 0x02051C6C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj13728.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BUTTON_MAN_Delete(void *);
-extern void func_02082BCC(void *, int, u32);
-void func_021B85F4(u8 *p) { int i; for(i=0;i<((struct Obj13728 *)p)->f2C;i++)func_020452E8(*(void **)(p+4+i*4)); BUTTON_MAN_Delete(((struct Obj13728 *)p)->f0); func_02082BCC(p,0,60); }
+extern void MI_CpuFill8(void *, int, u32);
+void func_021B85F4(u8 *p) { int i; for(i=0;i<((struct Obj13728 *)p)->f2C;i++)BMP_WIN_Delete(*(void **)(p+4+i*4)); BUTTON_MAN_Delete(((struct Obj13728 *)p)->f0); MI_CpuFill8(p,0,60); }

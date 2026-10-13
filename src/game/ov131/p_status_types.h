@@ -29,7 +29,7 @@ typedef struct StaSpriteRes {
     unsigned int word[9];
 } StaSpriteRes;
 
-/* Offset passed to the actor move function func_0204B404. */
+/* Offset passed to the actor move function CLACT_AddActorSurfacePos. */
 typedef struct StaOamPoint {
     short x, y;
 } StaOamPoint;

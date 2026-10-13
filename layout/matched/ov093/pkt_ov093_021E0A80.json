@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E0A80",
-    "func_021E0B5C"
+    "HAND_WAZA_SketchLearnTargetMove",
+    "HAND_WAZA_GetFollowMeHandlers"
+   ],
+   "addresses": [
+    "0x021E0A80",
+    "0x021E0B5C"
    ],
    "evidence": {
     "sole-ref": [

@@ -15,7 +15,7 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   func_020120F4  0x020120F4  thumb
  *   FIELD_PLAYER_StartFormChange  0x021A2F48  thumb  ov021
@@ -34,7 +34,7 @@
  *   FIELDMAP_GetWeather  0x02188C6C  thumb  ov021
  *   WEATHER_GetWeatherId  0x021A1BF4  thumb  ov021
  *   FIELDMAP_GetVReq  0x02188E30  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLD_VREQ_SetMainBlendAlphaEv  0x021D3288  thumb  ov021
  *   FLD_VREQ_SetMainBlendAlpha  0x021D325C  thumb  ov021
  *   FLD_VREQ_SetBgVisible  0x021D3244  thumb  ov021
@@ -123,7 +123,7 @@ typedef struct BgPoint {
 
 extern void *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(void *task);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
 extern void *func_020120F4(void *gameSys);
 extern void FIELD_PLAYER_StartFormChange(void *player, u32 a1);
@@ -142,7 +142,7 @@ extern u32 *FLDMMDL_SysResumeMove(void *c);
 extern void *FIELDMAP_GetWeather(void *fieldMap);
 extern u16 WEATHER_GetWeatherId(void *weatherTask);
 extern void *FIELDMAP_GetVReq(void *fieldMap);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void FLD_VREQ_SetMainBlendAlphaEv(void *a, int b, int c);
 extern void FLD_VREQ_SetMainBlendAlpha(void *p, u32 a, u32 b, u32 c, u32 d);
 extern void FLD_VREQ_SetBgVisible(void *p, int i, u8 v);
@@ -333,7 +333,7 @@ void *SWEET_SCENT_CreateEvent(void *gameSys, void *fieldMap, u8 partyIdx)
 
     task = func_020122C0(gameSys, 0, SWEET_SCENT_EventMain, sizeof(SweetScentWork));
     w = func_020124E8(task);
-    func_02082BCC(w, 0, sizeof(SweetScentWork));
+    MI_CpuFill8(w, 0, sizeof(SweetScentWork));
     w->partyIdx = partyIdx;
     w->gameSys = gameSys;
     w->fieldMap = fieldMap;
@@ -436,7 +436,7 @@ int SWEET_SCENT_FadeMain(void *task, int *state, SweetScentFade *fade)
     switch (*state) {
     case 0:
         SWEET_SCENT_FadeSetup(fade);
-        func_020061E4(0x683);
+        GFL_USE_PlaySeDefaultVolume(0x683);
         *state = *state + 1;
         break;
     case 1:

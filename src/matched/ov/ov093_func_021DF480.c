@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetIcyRockHandlers
+ * function: HAND_ITEM_GetIcyRockHandlers
  * address: 0x021DF480
  * packet: pkt_ov093_021DF480
  * region: ov093
@@ -15,10 +15,10 @@
  *   gIcyRockHandlers 0x021F145C data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetIcyRockHandlers(int *p);
+int *HAND_ITEM_GetIcyRockHandlers(int *p);
 extern int gIcyRockHandlers[];
 
-int *BTL_HANDLER_ITEM_GetIcyRockHandlers(int *p)
+int *HAND_ITEM_GetIcyRockHandlers(int *p)
 {
     *p = 1;
     return gIcyRockHandlers;

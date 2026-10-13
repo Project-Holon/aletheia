@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_TruantToggleLoafing
+ * function: HAND_TOKUSEI_TruantToggleLoafing
  * address: 0x021DAD2C
  * packet: pkt_ov093_021DAD2C
  * region: ov093
@@ -14,4 +14,4 @@
  */
 extern int BTL_EVENT_GetVar(int);
 extern int BTL_EVENT_OverwriteVar(int,unsigned int);
-void BTL_ABILITY_TruantToggleLoafing(int a, int b, int c, int *d) { if (c == BTL_EVENT_GetVar(2)) { if (*d != 0) { d[1] = BTL_EVENT_OverwriteVar(34,19); *d = 0; } else *d = 1; } }
+void HAND_TOKUSEI_TruantToggleLoafing(int a, int b, int c, int *d) { if (c == BTL_EVENT_GetVar(2)) { if (*d != 0) { d[1] = BTL_EVENT_OverwriteVar(34,19); *d = 0; } else *d = 1; } }

@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *
  * Eight-way dispatch turning a small selector into a one-hot plane mask for
  * one of the two 2D engines: selectors 0..3 go to the engine-A visible-plane
- * toggle at func_020434DC with masks 1/2/4/8 and selectors 4..7 to the
+ * toggle at BG_SYS_SetMainPlaneVisible with masks 1/2/4/8 and selectors 4..7 to the
  * engine-B toggle at BG_SYS_SetSubPlaneVisible with the same four.  The on/off flag is
  * the second parameter and is forwarded untouched in r1, which is why no
  * argument setup other than the mask appears in any arm.  The ARM form
@@ -26,23 +26,23 @@
 
 typedef unsigned int u32;
 
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
 void sub_02040588(unsigned char which, unsigned char enable)
 {
     switch (which) {
     case 0:
-        func_020434DC(1, enable);
+        BG_SYS_SetMainPlaneVisible(1, enable);
         break;
     case 1:
-        func_020434DC(2, enable);
+        BG_SYS_SetMainPlaneVisible(2, enable);
         break;
     case 2:
-        func_020434DC(4, enable);
+        BG_SYS_SetMainPlaneVisible(4, enable);
         break;
     case 3:
-        func_020434DC(8, enable);
+        BG_SYS_SetMainPlaneVisible(8, enable);
         break;
     case 4:
         BG_SYS_SetSubPlaneVisible(1, enable);

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0201C6C4 0x0201C6C4 thumb
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_OAM_UploadChars 0x020257D0 thumb
  *   TCBL_DeleteTask 0x02031194 arm
  */
@@ -20,14 +20,14 @@
 typedef unsigned int u32;
 struct Obj;
 struct PrintSys;
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_OAM_UploadChars(struct Obj *o);
 struct TcblNode;
 extern void TCBL_DeleteTask(struct TcblNode *n);
 void func_021F21F8(void *task, char *q)
 {
     int *r;
-    if (func_0201C6C4((struct PrintSys *)(((struct Obj20455 *)(*(char * *)&((struct Obj07638 *)q)->f8))->fB4), (void *)((*(u32 **)(q + 4))[1])) == 0) {
+    if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)(((struct Obj20455 *)(*(char * *)&((struct Obj07638 *)q)->f8))->fB4), (void *)((*(u32 **)(q + 4))[1])) == 0) {
         BMP_OAM_UploadChars((struct Obj *)(**(u32 * *)&((struct Obj07638 *)q)->f4));
         r = *(int * *)&((struct Obj07638 *)q)->fC;
         if (r != 0)

@@ -8,12 +8,15 @@
  * isa: thumb
  * status: EXACT
  * lever: Repeated inline absolute-value expressions preserve each signed test.
+ *
+ * symbols:
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj22230.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 static inline int magnitude(int x) { return x<0 ? -x : x; }
 int func_021B86A0(u8 *p) {
  int diff; int result; int sound; u16 n;
@@ -28,5 +31,5 @@ int func_021B86A0(u8 *p) {
    if(magnitude(diff)<200) {sound=0x64d;result=5;} else {sound=0x64e;result=6;}
   }
  }
- func_020061E4(sound); return result;
+ GFL_USE_PlaySeDefaultVolume(sound); return result;
 }

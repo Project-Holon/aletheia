@@ -86,16 +86,6 @@ typedef struct PlistPlate {
 } PlistPlate;
 typedef char PlistPlate_SizeCheck[(sizeof(PlistPlate) == 0x44) ? 1 : -1];
 
-/* Start of the regulation record (Regulation in poke_regulation.c): the fields the
-   eligibility check reads, beyond what PokelistRegulation names. */
-typedef struct PlistPlateRules {
-    u8 pad00[3];
-    u8 maxPartySize;                 /* 0x03 */
-    u8 pad04[4];
-    u8 allowSameSpecies;             /* 0x08 */
-    u8 allowSameItem;                /* 0x09 */
-} PlistPlateRules;
-
 /* Screen rectangle in pixels. */
 typedef struct PlistPlateRect {
     u8 top;
@@ -103,10 +93,6 @@ typedef struct PlistPlateRect {
     u8 left;
     u8 right;
 } PlistPlateRect;
-
-/* The hp count-up in PokelistWork: the step added each frame is the s8 at 0x11E
-   (still padding in pokelist_types.h; the shown start value at 0x11C is cursorState there). */
-#define PLIST_PLATE_HP_STEP(work) ((work)->hpStep)
 
 /* Position pair for a plate or an actor. */
 typedef struct PlistPlatePos {

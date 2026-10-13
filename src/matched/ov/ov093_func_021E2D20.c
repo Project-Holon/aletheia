@@ -1,5 +1,5 @@
 /*
- * function: func_021E2D20
+ * function: HAND_WAZA_PresentOnWazaPower
  * address:  0x021E2D20
  * packet:   pkt_ov093_021E2D20
  * region:   ov093
@@ -21,7 +21,7 @@ extern int BTL_EVENT_GetVar(int key);
 extern u32 BTL_CALC_Random(u32 range);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E2D20(int u, int a, int b)
+void HAND_WAZA_PresentOnWazaPower(int u, int a, int b)
 {
     int x;
     u32 r;

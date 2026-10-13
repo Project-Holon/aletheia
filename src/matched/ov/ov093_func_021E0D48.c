@@ -1,5 +1,5 @@
 /*
- * function: func_021E0D48
+ * function: HAND_WAZA_GetHazeHandlers
  * address: 0x021E0D48
  * packet: pkt_ov093_021E0D48
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E0C8C.c and filed here.
  *
  * symbols:
- *   d_021F2594 0x021F2594 data ov093 a4
+ *   gHazeHandlers 0x021F2594 data ov093 a4
  */
 
-int *func_021E0D48(int *p);
-extern int d_021F2594[];
+int *HAND_WAZA_GetHazeHandlers(int *p);
+extern int gHazeHandlers[];
 
-int *func_021E0D48(int *p)
+int *HAND_WAZA_GetHazeHandlers(int *p)
 {
     *p = 1;
-    return d_021F2594;
+    return gHazeHandlers;
 }

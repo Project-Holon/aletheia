@@ -17,7 +17,7 @@
  *   FIELD_G3D_MAPPER_LayoutLayers  0x0218D570  thumb ov021
  *   FIELD_G3D_MAPPER_ApplyLayout  0x0218D7A8  thumb ov021
  *   FIELD_G3D_MAP_WaitLoad  0x0216932C  thumb ov010
- *   sub_0207C768   0x0207C768  arm
+ *   FX_Div   0x0207C768  arm
  */
 #include "../include/Obj00806.h"
 
@@ -37,7 +37,7 @@ struct Cell;
 struct Obj;
 extern int FIELD_G3D_MAPPER_ApplyLayout(struct Obj *p, struct Cell *nc);
 extern int FIELD_G3D_MAP_WaitLoad(int a0);
-extern u32 sub_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 
 void FIELD_G3D_MAPPER_UpdateBlocking(char *p)
 {
@@ -67,7 +67,7 @@ void FIELD_G3D_MAPPER_UpdateBlocking(char *p)
     FIELD_G3D_MAPPER_ApplyLayout((struct Obj *)p, ((struct Obj00806 *)p)->f28);
     for (i = 0; i < ((struct Obj00806 *)p)->f2E; i++)
         FIELD_G3D_MAP_WaitLoad(*(int *)(*(char * *)&((struct Obj00806 *)p)->f24 + i * 0x28));
-    a = sub_0207C768(((struct Obj00806 *)p)->f34, ((struct Obj00806 *)p)->f4);
-    b = sub_0207C768(((struct Obj00806 *)p)->f3C, ((struct Obj00806 *)p)->f4);
+    a = FX_Div(((struct Obj00806 *)p)->f34, ((struct Obj00806 *)p)->f4);
+    b = FX_Div(((struct Obj00806 *)p)->f3C, ((struct Obj00806 *)p)->f4);
     ((struct Obj00806 *)p)->f30 = (a >> 12) + (b >> 12) * ((struct Obj00806 *)p)->f14;
 }

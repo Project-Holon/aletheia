@@ -13,8 +13,8 @@
  *   func_02040588  0x02040588  arm
  *   SHORTCUT_MENU_FreeList  0x021C5424  thumb  ov021
  *   CLACT_DeleteActor  0x0204B3B4  arm
- *   func_0201C6EC  0x0201C6EC  thumb
- *   func_0201C4C0  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   CLACT_ReleasePalette  0x0204ADA4  arm
@@ -37,8 +37,8 @@ struct Obj;
 struct PrintSys;
 struct Rec;
 extern void CLACT_DeleteActor(struct Obj *p);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void CLACT_ReleasePalette(u32 i);
@@ -59,8 +59,8 @@ void SHORTCUT_MENU_Delete(int *a)
     for (i = 0; i < 3; i++) {
         CLACT_DeleteActor((struct Obj *)a[0x58 / 4 + i]);
     }
-    func_0201C6EC((struct PrintSys *)a[0x6c / 4]);
-    func_0201C4C0((struct PrintSys *)a[0x6c / 4]);
+    PRINTSYS_QUE_Clear((struct PrintSys *)a[0x6c / 4]);
+    PRINTSYS_QUE_Delete((struct PrintSys *)a[0x6c / 4]);
     GF_FONT_Delete((void *)a[0x68 / 4]);
     MSGDATA_Delete((struct Rec *)a[0x64 / 4]);
     CLACT_ReleasePalette(((struct Obj00020 *)a)->f50);

@@ -13,7 +13,7 @@
  *           a1/sys between r5 and r6.
  *
  * symbols:
- *   func_020124E4 0x020124E4 thumb
+ *   GAME_EVENT_GetGameSystem 0x020124E4 thumb
  *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
  *   FIELDMAP_GetExpObj 0x02188D2C thumb ov021
  *   FIELDMAP_GetCommonWork 0x021897BC thumb
@@ -25,7 +25,7 @@
  *   FLD_EXP_OBJ_SetAnimePaused 0x021BE6B0 thumb ov021
  *   FLD_EXP_OBJ_SetAnimeFrame 0x021BE6CC thumb ov021
  *   FLD_EXP_OBJ_IsAnimeStopped 0x021BE6BC thumb ov021
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 
 typedef unsigned char u8;
@@ -38,7 +38,7 @@ typedef struct {
 
 struct Ctx;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetExpObj(int *p);
 extern u8 *FIELDMAP_GetCommonWork(void *p, int idx);
@@ -51,7 +51,7 @@ extern void FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, int j, int k, int flag);
 extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 int GIMMICK38_EventBumpClosedDoor(int a0, int *a1)
 {
@@ -63,7 +63,7 @@ int GIMMICK38_EventBumpClosedDoor(int a0, int *a1)
     void *o;
     Vec *v;
 
-    sys = GAMESYSTEM_GetFieldMap(func_020124E4((void *)a0));
+    sys = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem((void *)a0));
     h = (char *)FIELDMAP_GetExpObj(sys);
     s = FIELDMAP_GetCommonWork(sys, 1);
     FIELDMAP_GetFieldPlayer(sys);
@@ -82,7 +82,7 @@ int GIMMICK38_EventBumpClosedDoor(int a0, int *a1)
         FLD_EXP_OBJ_SetAnimeEnabled(h, 0, 0x21, k, 1);
         FLD_EXP_OBJ_SetAnimePaused(o, 0);
         FLD_EXP_OBJ_SetAnimeFrame((int)h, 0, 0x21, k, 0);
-        func_020061E4(0x6C5);
+        GFL_USE_PlaySeDefaultVolume(0x6C5);
         *a1 = *a1 + 1;
         break;
     case 1:

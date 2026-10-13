@@ -12,7 +12,7 @@
  * The ov046 token is dropped from sGimmick46HopHeights (contested hint).
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
@@ -20,7 +20,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
  *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
@@ -32,7 +32,7 @@ typedef unsigned char u8;
 struct Big;
 struct Ctx;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetExpObj(int *);
 extern int *FIELDMAP_GetCommonWork(char *, int);
@@ -42,7 +42,7 @@ extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 struct VecFx32;
@@ -58,13 +58,13 @@ int GIMMICK46_HopEventProc(u32 a, int *b)
     void *c;
     int v[3];
 
-    x = GAMESYSTEM_GetFieldMap(func_020124E4((void *)a));
+    x = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem((void *)a));
     FIELDMAP_GetExpObj(x);
     w = FIELDMAP_GetCommonWork(x, 1) + 3;
     GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((void *)FIELDMAP_GetGameSystem(x))), 10);
     switch (*b) {
     case 0:
-        func_020061E4(0x55e);
+        GFL_USE_PlaySeDefaultVolume(0x55e);
         (*b)++;
         break;
     case 1:
@@ -75,7 +75,7 @@ int GIMMICK46_HopEventProc(u32 a, int *b)
         FIELD_PLAYER_SetPos(c, v);
         ((u8 *)w)[3] = ((u8 *)w)[3] + 1;
         if (((u8 *)w)[3] >= 8) {
-            func_020061E4(0x6d3);
+            GFL_USE_PlaySeDefaultVolume(0x6d3);
             return r;
         }
         break;

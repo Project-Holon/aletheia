@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_MENULIST_DrawItems  0x0202055C  thumb
  *   BMP_MENULIST_ShiftWindow  0x02020CA0  thumb
@@ -48,7 +48,7 @@ struct Obj {
 };
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_MENULIST_DrawItems(struct Obj *o, u32 a, u32 b, u32 c, u32 d);
@@ -59,7 +59,7 @@ void BMP_MENULIST_ScrollRows(struct Obj *obj, int n, u32 flag)
     u8 step;
 
     if (n >= (int)obj->rows) {
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)obj->unk0C)), obj->f18lo);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)obj->unk0C)), obj->f18lo);
         BMP_MENULIST_DrawItems(obj, obj->f40, 0, obj->rows, 1);
         return;
     }

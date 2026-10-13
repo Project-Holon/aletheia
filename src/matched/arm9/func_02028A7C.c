@@ -21,10 +21,11 @@
  *
  * symbols:
  *   GFL_USE_GetSeSlot  0x02006148  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   SCRCMD_FindRegisteredEntry  0x021D21C0  thumb ov021
  *   SCRCMD_IsRegisteredEntryEnabled  0x021D21E0  thumb ov021
  *   GFL_USE_SetSeSlotVolume  0x020062BC  thumb
+ *   GFL_USE_PlaySeWithVolume  0x020061F0  thumb
  *
  * The overlay callee 0x021D21C0 is attested through the label class
  * with the ov021 region hint on the symbols line.
@@ -48,8 +49,8 @@ struct SoundSys2 {
 extern int SCRCMD_FindRegisteredEntry(u32 id);
 extern int SCRCMD_IsRegisteredEntryEnabled(u32 id);
 extern int GFL_USE_GetSeSlot(u32 a0);
-extern void func_020061E4(u32 id);
-extern void func_020061F0(u32 id, u32 who);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
+extern void GFL_USE_PlaySeWithVolume(u32 id, u32 who);
 extern void GFL_USE_SetSeSlotVolume(int i, u32 level);
 
 void FIELD_SOUND_SYSTEM_ClaimSlot(struct SoundSys2 *s, u32 id)
@@ -57,7 +58,7 @@ void FIELD_SOUND_SYSTEM_ClaimSlot(struct SoundSys2 *s, u32 id)
     u32 n;
 
     if (SCRCMD_FindRegisteredEntry(id) == 0) {
-        func_020061E4(id);
+        GFL_USE_PlaySeDefaultVolume(id);
         return;
     }
     if (SCRCMD_IsRegisteredEntryEnabled(id) != 0) {
@@ -66,6 +67,6 @@ void FIELD_SOUND_SYSTEM_ClaimSlot(struct SoundSys2 *s, u32 id)
         s->owner[n] = 0xFFFF;
     }
     if (s->unkB4 == 0) {
-        func_020061E4(id);
+        GFL_USE_PlaySeDefaultVolume(id);
     }
 }

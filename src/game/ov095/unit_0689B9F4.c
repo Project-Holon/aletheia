@@ -10,12 +10,12 @@
  * status: EXACT
  * lever: inline Slot-to-Word reinterpretation preserves the extra aggregate home word; passing the aggregate directly differed only at the four frame bytes.
  * symbols:
- *   func_021C7D44  0x021C7D44  thumb
- *   func_021C8010  0x021C8010  thumb
- *   func_021C8838  0x021C8838  thumb
- *   func_021C8860  0x021C8860  thumb
- *   func_021C88A4  0x021C88A4  thumb
- *   func_021C88C8  0x021C88C8  thumb
+ *   BTL_SERVER_FLOW_GetPosTableEntryForPoke  0x021C7D44  thumb
+ *   BTL_SERVER_FLOW_GetPokeViewPos  0x021C8010  thumb
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb
  *   func_021D59B4  0x021D59B4  thumb
  *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb
  *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb
@@ -32,14 +32,14 @@ typedef struct { u32 kind:3, rest:29; } Slot;
 typedef struct { u32 flags; u16 hp; u8 c, bits; u16 msg; u8 id, slot; u8 data[1]; } Rec;
 extern Slot BTL_POKEPARAM_GetSickContRaw(void *, int);
 extern u16 BTLV_CORE_GetSlotValue(Word);
-extern int func_021C7D44(char *p, u8 i);
+extern int BTL_SERVER_FLOW_GetPosTableEntryForPoke(char *p, u8 i);
 extern int BTL_CALC_DivideMaxHpMin1(void *, u32);
 extern int func_021D59B4(void *, int);
-extern Rec *func_021C88A4(void *, int, int);
-extern void func_021C8838(void *, int, int);
-extern void func_021C8860(void *, u32);
-extern int func_021C8010(void *, int);
-extern void func_021C88C8(void *, void *);
+extern Rec *BTL_SERVER_FLOW_AllocCmdRecord(void *, int, int);
+extern void BTL_SERVER_FLOW_InitMsgRecord(void *, int, int);
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(void *, u32);
+extern int BTL_SERVER_FLOW_GetPokeViewPos(void *, int);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *, void *);
 static inline u16 decode(Slot s)
 {
     return BTLV_CORE_GetSlotValue(*(Word *)&s);
@@ -52,29 +52,29 @@ void func_0689B9F4(void *a, void *b, int c)
     Rec *r;
     int msg;
     id = (u8)decode(BTL_POKEPARAM_GetSickContRaw(b, 0x12));
-    x = func_021C7D44(a, id);
+    x = BTL_SERVER_FLOW_GetPosTableEntryForPoke(a, id);
     if (x == 0x1f) return;
     hp = BTL_CALC_DivideMaxHpMin1(b, 8);
     max = func_021D59B4(b, 0xd);
     if (hp > max) hp = max;
-    r = func_021C88A4(a, 7, c);
+    r = BTL_SERVER_FLOW_AllocCmdRecord(a, 7, c);
     r->c = c;
     r->hp = hp;
     msg = 0x262;
-    func_021C8838(r->data, 2, msg);
-    func_021C8860(r->data, c);
+    BTL_SERVER_FLOW_InitMsgRecord(r->data, 2, msg);
+    BTL_SERVER_FLOW_AppendMsgRecordArg(r->data, c);
     r->bits |= 2;
     msg += 0x13;
     r->msg = msg;
     r->id = id;
-    r->slot = func_021C8010(a, c);
-    func_021C88C8(a, r);
+    r->slot = BTL_SERVER_FLOW_GetPokeViewPos(a, c);
+    BTL_SERVER_FLOW_CommitCmdRecord(a, r);
     if (x != 0x1f) {
-        r = func_021C88A4(a, 6, c);
+        r = BTL_SERVER_FLOW_AllocCmdRecord(a, 6, c);
         r->flags |= 0x1000000;
         r->c = x;
         r->bits = c;
         r->hp = hp;
-        func_021C88C8(a, r);
+        BTL_SERVER_FLOW_CommitCmdRecord(a, r);
     }
 }

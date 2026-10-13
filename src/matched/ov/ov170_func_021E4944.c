@@ -13,10 +13,11 @@
  *   func_021EE3E4 0x021EE3E4 thumb ov170
  *   func_021EE038 0x021EE038 thumb ov170
  *   func_021EBC58 0x021EBC58 thumb ov170
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj00000.h"
 #include "../include/Obj23901.h"
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern void func_021DD530(unsigned char *);
 extern void func_021EA1E8(char *p);
 typedef unsigned char  u8;
@@ -27,7 +28,7 @@ extern void func_021EE038(char *, int, int, int);
 extern void func_021EBC58(unsigned char *, int, int, int);
 int func_021E4944(unsigned char *p)
 {
-    func_020061E4(0x667);
+    GFL_USE_PlaySeDefaultVolume(0x667);
     func_021DD530(p);
     func_021EA1E8((char *)p);
     func_020260E4(((struct Obj23901 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f70, 0x24);

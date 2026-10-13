@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3F4 0x0204B3F4 arm
+ *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct Obj; extern u32 func_0204B3F4(struct Obj *);
-u32 func_021BD8F4(char *p,u32 idx) {return func_0204B3F4(*(struct Obj **)(p+idx*4+0xa74));}
+struct Obj; extern u32 CLACT_GetActorDrawEnable(struct Obj *);
+u32 func_021BD8F4(char *p,u32 idx) {return CLACT_GetActorDrawEnable(*(struct Obj **)(p+idx*4+0xa74));}

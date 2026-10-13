@@ -12,6 +12,10 @@
  * The table parameter is `__restrict`: with it the scheduler hoists the y
  * load above the x store in cases 2..5 (e[1] vs pos.x) but not in cases 0/1
  * (e[0] vs pos.x, same offset), which is the original's mixed schedule.
+ *
+ * symbols:
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -31,9 +35,9 @@ typedef struct {
     u8 *f274;
 } W;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_022064CC(W *p, u8 (* __restrict tab)[4], s8 (*rows)[12])
 {
@@ -72,10 +76,10 @@ void func_022064CC(W *p, u8 (* __restrict tab)[4], s8 (*rows)[12])
                 pos.y = e[1];
                 break;
             }
-            func_0204B3DC(p->slots[i].h, *p->f274);
-            func_0204B404(p->slots[i].h, (const struct Vec2 *)(&pos), 1);
+            CLACT_SetActorDrawEnable(p->slots[i].h, *p->f274);
+            CLACT_AddActorSurfacePos(p->slots[i].h, (const struct Vec2 *)(&pos), 1);
         } else {
-            func_0204B3DC(p->slots[i].h, 0);
+            CLACT_SetActorDrawEnable(p->slots[i].h, 0);
         }
     }
 }

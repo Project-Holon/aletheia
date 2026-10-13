@@ -10,7 +10,7 @@
  * extent: two-byte zero alignment at 0x021F427E; next code at 0x021F4280.
  * symbols:
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02049B40 0x02049B40 arm
  *   STRBUF_Create 0x020457B0 arm
@@ -40,7 +40,7 @@ struct MsgBank;
 struct Rec;
 struct U16Vec;
 struct WordSet;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
@@ -67,8 +67,8 @@ void func_021F40F4(u8 *p)
     void *b;
     ((struct Obj00669 *)p)->f54=(void *)BMP_WIN_Create(1,24,22,8,2,10,1);
     ((struct Obj00669 *)p)->f58=(void *)BMP_WIN_Create(1,1,1,30,2,10,1);
-    BMP_Clear(func_02045770(((struct Obj00669 *)p)->f54),0);
-    BMP_Clear(func_02045770(((struct Obj00669 *)p)->f58),0);
+    BMP_Clear(BMP_WIN_GetBmp(((struct Obj00669 *)p)->f54),0);
+    BMP_Clear(BMP_WIN_GetBmp(((struct Obj00669 *)p)->f58),0);
     ((struct Obj00669 *)p)->f5C=GF_FONT_Create(23,3,0,0,((struct Obj00669 *)p)->f0);
     ((struct Obj00669 *)p)->f60=GF_FONT_Create(23,0,0,0,((struct Obj00669 *)p)->f0);
     func_02049B40(23,5,0,320,32,((struct Obj00669 *)p)->f0);
@@ -80,14 +80,14 @@ void func_021F40F4(u8 *p)
     func_0201EFA4(t,1,(*(Input * *)&((struct Obj00669 *)p)->f4)->b,2,2,1);
     func_0201EFA4(t,2,(*(Input * *)&((struct Obj00669 *)p)->f4)->c,2,2,1);
     func_0201F250(t,buf,b);
-    PRINTSYS_PrintColor(func_02045770(((struct Obj00669 *)p)->f54),0,0,buf,((struct Obj00669 *)p)->f5C,3424);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(((struct Obj00669 *)p)->f54),0,0,buf,((struct Obj00669 *)p)->f5C,3424);
     STRBUF_Delete(buf);
     STRBUF_Delete(b);
     func_0201ED04(t);
     MSGDATA_Delete(f);
     buf=STRBUF_Create(37,((struct Obj00669 *)p)->f0);
     STRBUF_SetString(buf,(const u16 *)(*(u8 * *)&((struct Obj00669 *)p)->f4+356));
-    PRINTSYS_PrintColor(func_02045770(((struct Obj00669 *)p)->f58),0,0,buf,((struct Obj00669 *)p)->f60,15424);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(((struct Obj00669 *)p)->f58),0,0,buf,((struct Obj00669 *)p)->f60,15424);
     STRBUF_Delete(buf);
     BMP_WIN_TransferChars(((struct Obj00669 *)p)->f54);
     BMP_WIN_MakeScreen(((struct Obj00669 *)p)->f54);

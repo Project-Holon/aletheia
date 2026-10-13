@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0203633C  0x0203633C  arm
+ *   KEY_GetRepeat  0x0203633C  arm
  */
 
 typedef struct {
@@ -18,7 +18,7 @@ typedef struct {
     int f3520;
 } T_021F0FE0;
 
-extern unsigned int func_0203633C(void);
+extern unsigned int KEY_GetRepeat(void);
 
 void UNION_SUBDISP_PageScrollByButtons(int a0, T_021F0FE0 *p)
 {
@@ -35,11 +35,11 @@ void UNION_SUBDISP_PageScrollByButtons(int a0, T_021F0FE0 *p)
     lo = v - 0x1D;
     if (lo < 2)
         lo = 2;
-    if (func_0203633C() & 0x200) {
+    if (KEY_GetRepeat() & 0x200) {
         t -= 3;
         if (t < lo)
             t = lo;
-    } else if (func_0203633C() & 0x100) {
+    } else if (KEY_GetRepeat() & 0x100) {
         t += 3;
         if (t > v)
             t = v;

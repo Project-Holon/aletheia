@@ -15,7 +15,7 @@
  * symbols:
  *   func_021E5F24 0x021E5F24 thumb ov177
  *   func_021E62CC 0x021E62CC thumb ov177
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021E88B0 0x021E88B0 thumb ov177
  *   func_021E89D0  0x021E89D0  thumb  ov177
  *   func_021E8A00  0x021E8A00  thumb  ov177
@@ -98,7 +98,7 @@ typedef struct {
 
 extern void func_021E5F24(char *,int,void *,void *,int,u16);
 extern void func_021E62CC(char *p, int mode, void *mgr, void *print, int font, u32 a5);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern void *func_021E88B0(Menu *, u8, u8, u8, u8, int);
 extern void func_021E89D0(int);
 extern int func_021E8A00(int);
@@ -183,7 +183,7 @@ void func_0217DEDC(char *p, int mode)
     Menu rec;
     int layout, x, y, width, height;
     if (*(int *)&((struct Obj00348 *)p)->fC == 0) {
-        func_02082BCC(&rec, 0, 0x30);
+        MI_CpuFill8(&rec, 0, 0x30);
         rec.f00 = *(u32 *)&((struct Obj00348 *)p)->f0;
         rec.f04 = *(u32 *)&((struct Obj00348 *)p)->f1C;
         rec.f08 = *(u32 *)&((struct Obj00348 *)p)->f24;
@@ -252,7 +252,7 @@ void func_0217E000(int *p)
 void *func_0217E00C(int unused, int heap)
 {
     char *p = func_02030734(heap, 0x1020, 0, d_0217E634, 0x8E);
-    func_02082BCC(p, 0, 0x1020);
+    MI_CpuFill8(p, 0, 0x1020);
     ((struct Obj24433 *)p)->f4 = heap;
     if (GFL_NET_GetRunState())
         GFL_NET_COMMAND_AddCommandTable(0x1F00, (u32)d_0217E544, 4, (u32)p);
@@ -392,7 +392,7 @@ int func_0217E2F8(u8 *p,const void *q) {int v;v=((struct Obj14370 *)p)->f1014;if
 void func_0217E318(char *p, unsigned value)
 {
     Config config;
-    func_02082BCC(&config, 0, 0x7C);
+    MI_CpuFill8(&config, 0, 0x7C);
     config.a = 0x30;
     config.c = 0x160;
     config.value = value;

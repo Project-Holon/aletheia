@@ -13,6 +13,7 @@
  *   _ll_udiv    0x0209C00C  arm
  *   d_0220ABB8  0x0220ABB8  data  a4
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -33,7 +34,7 @@ extern const Pair d_0220ABB8;
 extern u64 func_020870D0(void);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
 void func_02209540(Timer *p, int idx)
 {
@@ -55,24 +56,24 @@ void func_02209540(Timer *p, int idx)
         p->base[idx] = 13;
     CLACT_SetActorAnimSeq(p->d[idx].icon, icon + p->base[idx]);
     if (m10 == 0) {
-        func_0204B3DC(p->d[idx].m10, 0);
+        CLACT_SetActorDrawEnable(p->d[idx].m10, 0);
     } else {
-        func_0204B3DC(p->d[idx].m10, 1);
+        CLACT_SetActorDrawEnable(p->d[idx].m10, 1);
         CLACT_SetActorAnimSeq(p->d[idx].m10, m10 + 3 + p->base[idx]);
     }
     if (m10 == 0 && m1 == 0) {
-        func_0204B3DC(p->d[idx].m1, 0);
-        func_0204B3DC(p->d[idx].colon, 0);
+        CLACT_SetActorDrawEnable(p->d[idx].m1, 0);
+        CLACT_SetActorDrawEnable(p->d[idx].colon, 0);
     } else {
-        func_0204B3DC(p->d[idx].m1, 1);
-        func_0204B3DC(p->d[idx].colon, 1);
+        CLACT_SetActorDrawEnable(p->d[idx].m1, 1);
+        CLACT_SetActorDrawEnable(p->d[idx].colon, 1);
         CLACT_SetActorAnimSeq(p->d[idx].m1, m1 + 3 + p->base[idx]);
         CLACT_SetActorAnimSeq(p->d[idx].colon, p->base[idx] + 2);
     }
     if (m10 == 0 && m1 == 0 && s10 == 0) {
-        func_0204B3DC(p->d[idx].s10, 0);
+        CLACT_SetActorDrawEnable(p->d[idx].s10, 0);
     } else {
-        func_0204B3DC(p->d[idx].s10, 1);
+        CLACT_SetActorDrawEnable(p->d[idx].s10, 1);
         CLACT_SetActorAnimSeq(p->d[idx].s10, s10 + 3 + p->base[idx]);
     }
     CLACT_SetActorAnimSeq(p->d[idx].s1, s1 + 3 + p->base[idx]);

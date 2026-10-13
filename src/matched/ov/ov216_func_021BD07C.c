@@ -12,7 +12,7 @@
  *   func_021BDA54 0x021BDA54 thumb ov216
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   d_021BDD8A 0x021BDD8A data a2
  */
@@ -28,7 +28,7 @@ typedef unsigned short u16;
 extern void func_021BDA54(char *owner, char *record, u32 b, u16 c, u32 d, u16 f);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(unsigned int);
 void func_021BD07C(void *p,void **q,int v,short a,unsigned char b,unsigned char c,unsigned char d,unsigned char e)
 {
@@ -36,5 +36,5 @@ void func_021BD07C(void *p,void **q,int v,short a,unsigned char b,unsigned char 
     BMP_FillRect(q[1],(short)(a*8),0,(unsigned short)(c*8),(unsigned short)(d*8),d_021BDD8A[e].b);
     func_021BDA54(p,(char *)q,b,0,v,d_021BDD8A[e].a);
     x=q[0];
-    BMP_WIN_TransferChars(x); BMP_WIN_MakeScreen(x); func_020409B4(func_02045730(x));
+    BMP_WIN_TransferChars(x); BMP_WIN_MakeScreen(x); func_020409B4(BMP_WIN_GetBgLayer(x));
 }

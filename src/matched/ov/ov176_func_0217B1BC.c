@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0217B984 0x0217B984 thumb ov176
  *   func_0217BAF4 0x0217BAF4 thumb ov176
  *   func_0217BB3C 0x0217BB3C thumb ov176
@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 typedef unsigned u32;
 typedef struct {u32 w[10];} Init;
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern u8 *func_0217B984(Init *,u32);
 extern void func_0217BAF4(int *);
 extern int func_0217BB3C(int *);
@@ -34,7 +34,7 @@ void func_0217B1BC(int *a,int *state,int *p)
     Init config;
     switch(*state) {
     case 0:
-        func_02082BCC(&config,0,40);
+        MI_CpuFill8(&config,0,40);
         config.w[1]=p[2];
         config.w[2]=p[3];
         config.w[3]=p[5];

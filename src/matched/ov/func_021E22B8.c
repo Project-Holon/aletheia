@@ -11,6 +11,7 @@
  *
  * symbols:
  *   func_021E8F60  0x021E8F60  thumb  ov170
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb  arm9
  *
  * candidate func_021E22B8: guard then dispatch
  */
@@ -19,11 +20,11 @@
 
 typedef unsigned int   u32;
 struct PrintSys;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern int func_021E8F60(void *p, int a);
 int func_021E22B8(int p)
 {
-    if (func_0201C6B4((const struct PrintSys *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x8c))) == 0)
+    if (PRINTSYS_QUE_IsFinished((const struct PrintSys *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x8c))) == 0)
         return 0xc;
     func_021E8F60((void *)p, *(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0xA198));
 }

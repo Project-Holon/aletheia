@@ -10,8 +10,8 @@
  * status: EXACT
  * note: 2026-10-05 wave P14 C10: EXACT first compile. Callees all void except func_020351A0 (int, result unused); no older draft existed.
  * symbols:
- * func_0201C6EC 0x0201C6EC thumb
- * func_0201C4C0 0x0201C4C0 thumb
+ * PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ * PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  * TIME_ICON_Delete 0x0202F038 thumb
  * func_02030DA4 0x02030DA4 arm
  * func_020307B0 0x020307B0 arm
@@ -37,8 +37,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct PrintSys;
 struct S020315D4;
-extern void func_0201C6EC(struct PrintSys *);
-extern void func_0201C4C0(struct PrintSys *);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void TIME_ICON_Delete(u8 *);
 extern void func_02030DA4(void *);
 extern u32 func_020307B0(void *p);
@@ -63,8 +63,8 @@ extern void func_021E073C(char *);
 extern void func_021DF83C(char *);
 int func_021DE960(struct S020315D4 *a, int b, int c, u8 *p)
 {
-    func_0201C6EC(*(struct PrintSys **)(p + 0xD38));
-    func_0201C4C0(*(struct PrintSys **)(p + 0xD38));
+    PRINTSYS_QUE_Clear(*(struct PrintSys **)(p + 0xD38));
+    PRINTSYS_QUE_Delete(*(struct PrintSys **)(p + 0xD38));
     if (*(u8 **)(p + 0xDA8) != 0) TIME_ICON_Delete(*(u8 **)(p + 0xDA8));
     func_021E0E1C(p);
     func_021E0F54(p);

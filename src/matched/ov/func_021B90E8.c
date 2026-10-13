@@ -1,5 +1,5 @@
 /*
- * function: func_021B90E8
+ * function: BTL_MAIN_GetMyItem
  * address:  0x021B90E8
  * packet:   pkt_021B90E8
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B90E8   0x021B90E8  thumb ov093
+ *   BTL_MAIN_GetMyItem   0x021B90E8  thumb ov093
  *
  * double deref: *(u32*)(*p + 0x60)
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u32 func_021B90E8(void **p)
+u32 BTL_MAIN_GetMyItem(void **p)
 {
     return ((struct Obj18134 *)((u8 *)*p))->f60;
 }

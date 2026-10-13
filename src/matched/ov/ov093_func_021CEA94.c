@@ -1,5 +1,5 @@
 /*
- * function: func_021CEA94
+ * function: BTL_CLIENT_StepSelectMove
  * address: 0x021CEA94
  * packet: pkt_ov093_021CEA94
  * region: ov093
@@ -20,23 +20,23 @@
  * on each path to a use. The branch to state 4 has no uninitialized outputs.
  * symbols:
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
- *   func_021CF524 0x021CF524 thumb ov093
+ *   BTL_CLIENT_SetStruggleIfNoMoves 0x021CF524 thumb ov093
  *   BTL_CLIENT_SetSubFn 0x021CE150 thumb ov093
- *   func_021CF220 0x021CF220 thumb ov093
- *   func_021CE3C8 0x021CE3C8 thumb ov093
- *   func_021CE4D0 0x021CE4D0 thumb ov093
- *   func_021CED4C 0x021CED4C thumb ov093
- *   func_021CECB4 0x021CECB4 thumb ov093
+ *   BTL_CLIENT_StepAdvanceSlot 0x021CF220 thumb ov093
+ *   BTL_CLIENT_StepAutoSelectActions 0x021CE3C8 thumb ov093
+ *   BTL_CLIENT_StepSelectAction 0x021CE4D0 thumb ov093
+ *   BTL_CLIENT_StepMoveHighlight 0x021CED4C thumb ov093
+ *   BTL_CLIENT_BuildMoveUsableTable 0x021CECB4 thumb ov093
  *   func_021E97BC 0x021E97BC thumb ov093
  *   func_021E9808 0x021E9808 thumb ov093
  *   BTL_CLIENT_PollTimeLimitAndSetSub 0x021CE0BC thumb ov093
  *   func_021E98AC 0x021E98AC thumb ov093
  *   func_021E98B4 0x021E98B4 thumb ov093
  *   BTL_CALC_ActionGetKind 0x021D8454 thumb ov093
- *   func_021B9AB0 0x021B9AB0 thumb ov093
+ *   BTL_SLOT_GetRotateSrcIndex 0x021B9AB0 thumb ov093
  *   BTL_ACTION_GetFightSlotFlag 0x021D832C thumb ov093
  *   BTL_POKEPARAM_FindMoveSlot 0x021D5778 thumb ov093
- *   func_021CF5B0 0x021CF5B0 thumb ov093
+ *   BTL_CLIENT_IsMoveSelectionBlocked 0x021CF5B0 thumb ov093
  *   func_021EAF78 0x021EAF78 thumb ov093
  *   BTL_CLIENT_ShowMessage 0x021CE3B4 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
@@ -58,24 +58,24 @@ typedef struct { u32 kind:4; u32 sub:3; u32 id:16; u32 rest:9; } Record;
 struct Unk021D82D0;
 struct UtilWork;
 extern u32 BTL_MAIN_GetRule(void **p);
-extern u32 func_021CF524(u32, void *, u32);
+extern u32 BTL_CLIENT_SetStruggleIfNoMoves(u32, void *, u32);
 extern void BTL_CLIENT_SetSubFn(u8 *p, void *q);
-extern u32 func_021CF220(u8 *, int *);
-extern int func_021CE3C8(u8 *, int *);
-extern int func_021CE4D0(u8 *, u32 *);
-extern u32 func_021CED4C(u8 *, int *);
-extern void func_021CECB4(u8 *, void *);
+extern u32 BTL_CLIENT_StepAdvanceSlot(u8 *, int *);
+extern int BTL_CLIENT_StepAutoSelectActions(u8 *, int *);
+extern int BTL_CLIENT_StepSelectAction(u8 *, u32 *);
+extern u32 BTL_CLIENT_StepMoveHighlight(u8 *, int *);
+extern void BTL_CLIENT_BuildMoveUsableTable(u8 *, void *);
 extern void func_021E97BC(char *p, u8 *a, int b);
 extern void func_021E9808(char *p, u32 *q, int c);
 extern int BTL_CLIENT_PollTimeLimitAndSetSub(u8 *p, void *q);
 extern void func_021E98AC(void *);
 extern u32 func_021E98B4(void *);
 extern u32 BTL_CALC_ActionGetKind(u32 *);
-extern int func_021B9AB0(int);
+extern int BTL_SLOT_GetRotateSrcIndex(int);
 struct Unk021D82FC;
 extern u32 BTL_ACTION_GetFightSlotFlag(struct Unk021D82FC *p);
 extern u8 BTL_POKEPARAM_FindMoveSlot(struct UtilWork *p, u16 id);
-extern int func_021CF5B0(u8 *g, void *m, u32 move, void *out);
+extern int BTL_CLIENT_IsMoveSelectionBlocked(u8 *g, void *m, u32 move, void *out);
 extern void func_021EAF78(u8 *, u8);
 extern void BTL_CLIENT_ShowMessage(u8 *p, void *q);
 extern int BTL_POKEPARAM_IsFainted(void *);
@@ -89,7 +89,7 @@ extern int func_021E98E8(char *p);
 extern int func_021EA710(u32 *p);
 extern void func_021E9858(char *p);
 
-int func_021CEA94(u8 *p, u32 *state)
+int BTL_CLIENT_StepSelectMove(u8 *p, u32 *state)
 {
     void *m;
     u32 slot, k;
@@ -98,11 +98,11 @@ int func_021CEA94(u8 *p, u32 *state)
     switch (*state) {
     case 0:
         if (BTL_MAIN_GetRule(((struct Obj00434 *)p)->f0) != 3) {
-            if (func_021CF524((u32)p, ((struct Obj00434 *)p)->f8, *(u32 *)&((struct Obj00434 *)p)->fC))
-                BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CF220));
+            if (BTL_CLIENT_SetStruggleIfNoMoves((u32)p, ((struct Obj00434 *)p)->f8, *(u32 *)&((struct Obj00434 *)p)->fC))
+                BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
             else *state = 1;
         } else {
-            func_021CECB4(p, p + 0xa4);
+            BTL_CLIENT_BuildMoveUsableTable(p, p + 0xa4);
             *state = 2;
         }
         break;
@@ -115,14 +115,14 @@ int func_021CEA94(u8 *p, u32 *state)
         *state = 3;
         break;
     case 3:
-        if (BTL_CLIENT_PollTimeLimitAndSetSub(p, (void *)((u32)func_021CE3C8))) {
+        if (BTL_CLIENT_PollTimeLimitAndSetSub(p, (void *)((u32)BTL_CLIENT_StepAutoSelectActions))) {
             func_021E98AC(((struct Obj00434 *)p)->f54);
             return 0;
         }
         if (func_021E98B4(((struct Obj00434 *)p)->f54)) {
             k = BTL_CALC_ActionGetKind(*(u32 * *)&((struct Obj00434 *)p)->fC);
-            if (k == 0) BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CE4D0));
-            else if (k == 5) BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CF220));
+            if (k == 0) BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepSelectAction));
+            else if (k == 5) BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
             else {
                 m = ((struct Obj00434 *)p)->f8;
                 record = *(u32 * *)&((struct Obj00434 *)p)->fC;
@@ -130,18 +130,18 @@ int func_021CEA94(u8 *p, u32 *state)
                 slot = p[0x11d];
                 if (BTL_MAIN_GetRule(((struct Obj00434 *)p)->f0) == 3) {
                     sub = (u8)((Record *)(p + 0xbc))->sub;
-                    slot = func_021B9AB0(sub);
+                    slot = BTL_SLOT_GetRotateSrcIndex(sub);
                     m = *(void **)((u32)p + slot * 8U + 0xa4U);
                 }
                 if (BTL_ACTION_GetFightSlotFlag((struct Unk021D82FC *)record)) {
                     p[0x1b0] = slot;
                     p[0x1b1] = BTL_POKEPARAM_FindMoveSlot(m, (u16)((Record *)record)->id);
                     if (p[0x1b1] != 4) {
-                        BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CED4C));
+                        BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepMoveHighlight));
                         return 0;
                     }
                 }
-                if (func_021CF5B0(p, m, (u16)((Record *)record)->id, p + 0x58)) {
+                if (BTL_CLIENT_IsMoveSelectionBlocked(p, m, (u16)((Record *)record)->id, p + 0x58)) {
                     func_021EAF78(p + 0x58, 0xff);
                     BTL_CLIENT_ShowMessage(p, p + 0x58);
                     *state = 7;
@@ -161,19 +161,19 @@ int func_021CEA94(u8 *p, u32 *state)
         break;
     case 4:
         if (BTL_CALC_IsMultiFighterRule(BTL_MAIN_GetRule(((struct Obj00434 *)p)->f0))) *state = 5;
-        else BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CF220));
+        else BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
         break;
     case 5:
         func_021E98BC(((struct Obj00434 *)p)->f54, (u8 *)(*(u32 *)&((struct Obj00434 *)p)->f8), *(u32 *)&((struct Obj00434 *)p)->fC);
         *state = 6;
         break;
     case 6:
-        if (BTL_CLIENT_PollTimeLimitAndSetSub(p, (void *)((u32)func_021CE3C8))) {
+        if (BTL_CLIENT_PollTimeLimitAndSetSub(p, (void *)((u32)BTL_CLIENT_StepAutoSelectActions))) {
             func_021E9920(((struct Obj00434 *)p)->f54);
             return 0;
         }
         k = func_021E98E8(((struct Obj00434 *)p)->f54);
-        if (k == 1) BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CF220));
+        if (k == 1) BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
         else if (k == 2) *state = 1;
         break;
     case 7:

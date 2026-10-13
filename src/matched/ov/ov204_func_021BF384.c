@@ -38,7 +38,7 @@
  * lever: u16 heap local places its word home at sp+8; u32 swaps it with
  * the entry pointer at sp+12, leaving seven differing concrete bytes.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   func_02045CAC 0x02045CAC arm
  *   BMP_MENUWORK_AddStrItem 0x0201F898 thumb
@@ -47,7 +47,7 @@
  *   func_02020CF8 0x02020CF8 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   func_0201F73C 0x0201F73C thumb
  *   func_02020D10 0x02020D10 thumb
@@ -68,7 +68,7 @@ typedef struct {
     u32 f24;
     void *f28,*f2c,*f30;
 } Config;
-extern void *func_02082BCC(void *,int,u32);
+extern void *MI_CpuFill8(void *,int,u32);
 extern void *BMP_MENUWORK_Create(u32,u32);
 struct Cfg;
 struct Descriptor;
@@ -83,7 +83,7 @@ extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
 extern void func_02020CF8(struct Obj *p, int heap);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void func_0201F73C(void *,int,int,int);
 extern void func_02020D10(u8 *p, u32 v);
@@ -97,13 +97,13 @@ void func_021BF384(char *p,u32 *entries,u32 count,int flag)
     state=p+36;
     heap=*(u16 *)p;
     obj=*(void **)(p+56);
-    func_02082BCC(state,0,12);
+    MI_CpuFill8(state,0,12);
     *(void **)(state+4)=BMP_MENUWORK_Create(count,heap);
     for(i=0;i<count;i++){
         func_02045CAC(*(void **)(p+12),*(u32 *)((char *)entries+i*8),*(void **)(p+60));
         BMP_MENUWORK_AddStrItem((struct Slot *)((char *)*(void **)(state+4)+i*8),*(u32 *)(p+60),*(u32 *)((char *)entries+i*8+4),heap);
     }
-    func_02082BCC(&config,0,52);
+    MI_CpuFill8(&config,0,52);
     config.arr=*(void **)(state+4);config.obj=obj;
     config.count=count;config.rows=5;config.f14=0;config.f15=16;config.f16=0;
     config.f17lo=2;config.f17hi=1;config.f18lo=15;config.f18hi=2;
@@ -112,7 +112,7 @@ void func_021BF384(char *p,u32 *entries,u32 count,int flag)
     config.f28=func_021BF374(p,(int)obj);config.f2c=*(void **)(p+4);config.f30=*(void **)(p+16);
     *(void **)state=BMP_MENULIST_Create((struct Src *)(&config),0,0,heap);
     func_02020CF8(*(void **)state,(u32)heap);
-    BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4((u8)func_02045730(obj));
+    BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4((u8)BMP_WIN_GetBgLayer(obj));
     func_0201F73C(obj,1,7,9);
     if(flag)func_02020D10(*(void **)state,0);
     else func_02020D10(*(void **)state,1);

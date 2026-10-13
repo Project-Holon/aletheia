@@ -29,8 +29,8 @@
  *   OS_GetOwnerInfo  0x02087C88  arm
  *   GAME_DATA_GetMyPlayerWork    0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId    0x02012AC8  thumb
- *   func_02013CC8    0x02013CC8  thumb
- *   func_02013CE0    0x02013CE0  thumb
+ *   ZONEDATA_IsZone1A6    0x02013CC8  thumb
+ *   ZONEDATA_IsZone96Pair    0x02013CE0  thumb
  *   GAME_DATA_GetSpecialLocation    0x02012894  thumb
  *   SYMBOL_MAP_ResolveZoneId    0x02166C7C  thumb
  *   func_02008534    0x02008534  thumb
@@ -119,8 +119,8 @@ extern void  OS_GetOwnerInfo(OSOwnerInfo *info);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 struct Rec0200E6FC;
-extern u32 func_02013CC8(u32 id);
-extern u32 func_02013CE0(u32 id);
+extern u32 ZONEDATA_IsZone1A6(u32 id);
+extern u32 ZONEDATA_IsZone96Pair(u32 id);
 extern struct Rec1C *GAME_DATA_GetSpecialLocation(const struct BigObj *p);
 extern u32   SYMBOL_MAP_ResolveZoneId(void *sys, u16 m);
 extern u16 func_02008534(const struct Sub0200852CObj *obj);
@@ -165,7 +165,7 @@ void GAME_BEACON_BuildMyInfo(struct Rec *o, void *sys)
 
     o->b00 = 0xff;
     o->mode = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(sys));
-    if ((int)func_02013CC8((u16)o->mode) == 1 || (int)func_02013CE0((u16)o->mode) == 1) {
+    if ((int)ZONEDATA_IsZone1A6((u16)o->mode) == 1 || (int)ZONEDATA_IsZone96Pair((u16)o->mode) == 1) {
         o->mode = ((struct Obj15760 *)((u8 *)GAME_DATA_GetSpecialLocation(sys)))->f4;
     }
     o->f08hi = SYMBOL_MAP_ResolveZoneId(sys, o->mode);

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021BC32C  0x021BC32C  thumb  ov208
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021BC3A8  0x021BC3A8  thumb  ov208
  *   func_021BC3AC  0x021BC3AC  thumb  ov208
  *   func_021BC3B0  0x021BC3B0  thumb  ov208
@@ -57,7 +57,7 @@ struct S {
 
 struct Ov208Buf;
 extern void *func_021BC32C(struct Ov208Buf *p, u32 size, u32 heap);
-extern void func_02082BCC(void *dst, int v, u32 n);
+extern void MI_CpuFill8(void *dst, int v, u32 n);
 extern int func_021BC3A8(int *p);
 extern int func_021BC3AC(int *p);
 extern int func_021BC3B0(int *p);
@@ -76,7 +76,7 @@ u32 func_021C2560(void *a0, u32 a1, u16 *desc, u32 a3, int *obj)
     u8 i;
 
     st = func_021BC32C(a0, 0xd4, *desc);
-    func_02082BCC(st, 0, 0xd4);
+    MI_CpuFill8(st, 0, 0xd4);
     i = 0;
     st->f0 = ov208_func_021BCF4C(func_021BC3A8(obj));
     st->f4 = func_021BC3AC(obj);

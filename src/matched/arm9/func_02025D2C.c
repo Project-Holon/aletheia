@@ -14,7 +14,7 @@
  *   func_02025FC8  0x02025FC8  thumb
  *   func_02025F60  0x02025F60  thumb
  *   func_02026010  0x02026010  thumb
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_020355D8  0x020355D8  arm
  *
  * field_sound_system.c.  The primary-pad poll: with no pending selection, read the four direction bits of the button word and hand the matching entry to func_02026010; B answers the current slot and A answers -2.
@@ -45,8 +45,8 @@ extern int  func_02025EA4(struct Sound *obj, int *out);
 extern int func_02025FC8(u8 *a0);
 extern u32  func_02025F60(const u8 *ptr, u32 idx, u32 type);
 extern int func_02026010(struct Sound *obj, u32 dir, int sel);
-extern u32  func_020362DC(void);
-extern u32  func_020362DC(void);
+extern u32  KEY_GetTrg(void);
+extern u32  KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
 
 int func_02025D2C(struct Sound *obj)
@@ -62,16 +62,16 @@ int func_02025D2C(struct Sound *obj)
         return func_02025FC8((u8 *)obj);
     }
 
-    if (func_020362DC() & 0x40) {
+    if (KEY_GetTrg() & 0x40) {
         sel = func_02025F60(obj->entries, obj->field_D, 0);
         dir = 0;
-    } else if (func_020362DC() & 0x80) {
+    } else if (KEY_GetTrg() & 0x80) {
         sel = func_02025F60(obj->entries, obj->field_D, 1);
         dir = 1;
-    } else if (func_020362DC() & 0x20) {
+    } else if (KEY_GetTrg() & 0x20) {
         sel = func_02025F60(obj->entries, obj->field_D, 2);
         dir = 2;
-    } else if (func_020362DC() & 0x10) {
+    } else if (KEY_GetTrg() & 0x10) {
         sel = func_02025F60(obj->entries, obj->field_D, 3);
         dir = 3;
     } else {
@@ -81,11 +81,11 @@ int func_02025D2C(struct Sound *obj)
     if (sel != 0xff) {
         return func_02026010(obj, dir, sel);
     }
-    if (func_020362DC() & 1) {
+    if (KEY_GetTrg() & 1) {
         func_020355D8(0);
         return obj->field_D;
     }
-    if (func_020362DC() & 2) {
+    if (KEY_GetTrg() & 2) {
         dir = 0;
         func_020355D8(0);
         return dir - 2;

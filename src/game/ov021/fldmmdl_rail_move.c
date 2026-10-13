@@ -62,7 +62,7 @@
  *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
  *   FLDMMDL_InitMoveCmdWork  0x0216D6BC  thumb  ov010
  *   FLDMMDL_GetMoveCmdWork  0x0216D6D4  thumb  ov010
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
  *   d_021DDD94     0x021DDD94  data
  *   FLDMMDL_RAIL_GetNextLocation  0x0219E2F4  thumb  ov021
@@ -198,7 +198,7 @@ extern u8 FIELD_RAIL_WORK_IsMoving(void *railWork);
 extern void FLDMMDL_SetPos();
 extern void *FLDMMDL_InitMoveCmdWork(Mmdl *mmdl, int size, int arg);
 extern void *FLDMMDL_GetMoveCmdWork(Mmdl *mmdl);
-extern void func_020061E4(u32 seNo);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, VecFx32 *offset);
 
 int FLDMMDL_RAIL_MOVE_InitMove(Mmdl *mmdl);
@@ -759,7 +759,7 @@ void FLDMMDL_RAIL_MOVE_AcJumpSetSe(Mmdl *mmdl, u32 dir, u32 speed, u8 frames, u1
     FLDMMDL_SetDrawStatus(mmdl, drawStatus);
     FLDMMDL_IncAcmdSeq(mmdl);
     if (seNo) {
-        func_020061E4(seNo);
+        GFL_USE_PlaySeDefaultVolume(seNo);
     }
 }
 
@@ -821,7 +821,7 @@ int FLDMMDL_RAIL_MOVE_AcJump1(Mmdl *mmdl)
     FLDMMDL_MOVE_UpdateOldGridPos(mmdl);
     FLDMMDL_SetDrawStatus(mmdl, _DRAW_STA_STOP);
     FLDMMDL_IncAcmdSeq(mmdl);
-    func_020061E4(_SE_RAIL_LAND);
+    GFL_USE_PlaySeDefaultVolume(_SE_RAIL_LAND);
     return 1;
 }
 

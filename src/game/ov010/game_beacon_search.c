@@ -20,8 +20,8 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02012138  0x02012138  thumb
  *   func_02030734  0x02030734  arm
- *   func_0202647C  0x0202647C  thumb
- *   func_0202648C  0x0202648C  thumb
+ *   GAME_COMM_GetLastKind  0x0202647C  thumb
+ *   GAME_COMM_GetCounter  0x0202648C  thumb
  *   GAME_BEACON_SEARCH_FileName     0x021729BC  data  ov010  a1
  *   func_02030B50  0x02030B50  arm
  *   GFL_NET_StartSession  0x0203CBAC  arm
@@ -45,7 +45,7 @@
  *   MI_CpuCopy8    0x02082D44  arm
  *   GAME_COMM_RequestExit  0x0202640C  thumb
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_02177BF4  0x02177BF4  thumb  ov014
+ *   NET_WHPIPE_ReleaseEntry  0x02177BF4  thumb  ov014
  *   func_02010498  0x02010498  thumb
  *   GFL_NET_EndDeviceWrapper  0x0203D0FC  arm
  *   GFL_NET_GetScanResultMac  0x0203CF3C  arm
@@ -61,7 +61,7 @@
  *   func_02008530  0x02008530  thumb
  *   GAMESYSTEM_CanStartAutoComm  0x02012164  thumb
  *   GFL_NET_GetRunState  0x0203CD98  arm
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_Start  0x020263D8  thumb
  *   GAME_BEACON_IsSpecialPokemon  0x0202708C  thumb
  *   GAME_BEACON_CheckActionPriority   0x02027060  thumb
@@ -218,8 +218,8 @@ extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct GameComm *func_02012138(const struct GameSystem *gameSystem);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_0202647C(struct GameComm *gameComm);
-extern u32 func_0202648C(struct GameComm *gameComm);
+extern u32 GAME_COMM_GetLastKind(struct GameComm *gameComm);
+extern u32 GAME_COMM_GetCounter(struct GameComm *gameComm);
 extern void func_02030B50(u32 heapId);
 extern void GFL_NET_StartSession(const struct NetInitParam *init, void (*callback)(void *work), void *work);
 extern u8 *func_02010360(int index, u32 heapId);
@@ -241,7 +241,7 @@ extern int INTRUDE_COMM_IsListedId(u16 zoneId);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void GAME_COMM_RequestExit(struct GameComm *gameComm, void (*callback)(void *work, int cancel), void *work);
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
-extern void func_02177BF4(u32 index);
+extern void NET_WHPIPE_ReleaseEntry(u32 index);
 extern void func_02010498(void);
 extern void GFL_NET_EndDeviceWrapper(int mode);
 extern u8 *GFL_NET_GetScanResultMac(u32 index);
@@ -257,7 +257,7 @@ extern struct MyStatus *func_02012944(struct GameData *gameData);
 extern u32 func_02008530(const struct MyStatus *myStatus);
 extern u32 GAMESYSTEM_CanStartAutoComm(const struct GameSystem *gameSystem);
 extern int GFL_NET_GetRunState(void);
-extern u32 func_02026454(struct GameComm *gameComm);
+extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 extern void GAME_COMM_Start(struct GameComm *gameComm, u32 kind, void *work);
 extern int GAME_BEACON_IsSpecialPokemon(u32 monsNo);
 extern u32 GAME_BEACON_CheckActionPriority(u32 action);
@@ -463,7 +463,7 @@ GameBeaconSearchWork *GAME_BEACON_SEARCH_Init(void *unused, struct GameSystem *g
 
     work->gameData = gameData;
     work->lastZoneId = 0x1ab;
-    if (func_0202647C(gameComm) == 2 && func_0202648C(gameComm) == 5) {
+    if (GAME_COMM_GetLastKind(gameComm) == 2 && GAME_COMM_GetCounter(gameComm) == 5) {
         GAME_BEACON_SEARCH_SetStartDelay(work);
     }
     return work;
@@ -567,7 +567,7 @@ void GAME_BEACON_SEARCH_Update(void *unused, struct GameSystem *gameSystem, Game
                 }
             }
             MI_CpuFill8(&work->target, 0, sizeof(GameBeaconSearchTarget));
-            func_02177BF4(index);
+            NET_WHPIPE_ReleaseEntry(index);
         } else {
             target->beaconType = 0;
         }
@@ -595,7 +595,7 @@ GameBeaconSearchTarget *GAME_BEACON_SEARCH_PollScanResult(GameBeaconSearchWork *
         beacon = GAME_BEACON_SEARCH_PickBestScanResult(work, index);
         if (beacon != 0) {
             if (beacon->header.busy != 0) {
-                func_02177BF4(*index);
+                NET_WHPIPE_ReleaseEntry(*index);
             } else if (beacon->header.kind == 1) {
                 i = 0;
                 MI_CpuFill8(target, 0, sizeof(GameBeaconSearchTarget));
@@ -608,7 +608,7 @@ GameBeaconSearchTarget *GAME_BEACON_SEARCH_PollScanResult(GameBeaconSearchWork *
                 }
             } else if (beacon->header.kind == 2) {
                 GAME_BEACON_ReceiveInfo(&beacon->info);
-                func_02177BF4(*index);
+                NET_WHPIPE_ReleaseEntry(*index);
             }
         }
     }
@@ -645,7 +645,7 @@ GameBeaconSearchBeacon *GAME_BEACON_SEARCH_PickBestScanResult(GameBeaconSearchWo
                 best = i;
             }
         } else {
-            func_02177BF4(i);
+            NET_WHPIPE_ReleaseEntry(i);
         }
     }
     if (best != -1) {
@@ -738,7 +738,7 @@ void GAME_BEACON_SEARCH_StartConnectEvent(void *arg, int cancel)
     gameComm = func_02012138(gameSystem);
     func_020307B0(request);
     if (cancel == 0 && GAMESYSTEM_CanStartAutoComm(gameSystem) == 1 && GAME_COMM_GetNotifyFlag(gameComm) == 0
-        && GFL_NET_GetRunState() == 0 && func_02026454(gameComm) == 0) {
+        && GFL_NET_GetRunState() == 0 && GAME_COMM_GetKind(gameComm) == 0) {
         event = func_02030734(5, sizeof(GameBeaconConnectEvent), 1, GAME_BEACON_SEARCH_FileName, 0x287);
         event->gameSystem = gameSystem;
         event->gameComm = func_02012138(gameSystem);

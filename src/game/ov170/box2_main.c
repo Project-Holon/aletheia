@@ -18,7 +18,7 @@
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414EC 0x020414EC arm
  *   func_02040B94 0x02040B94 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021EF7FC 0x021EF7FC data
  *   d_021EF82C 0x021EF82C data
@@ -54,10 +54,10 @@
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_0201EC64 0x0201EC64 thumb
- *   func_0201C450 0x0201C450 thumb
+ *   PRINTSYS_QUE_CreateEx 0x0201C450 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   func_0201ED04 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MSGDATA_Delete 0x02045C04 arm
@@ -83,8 +83,8 @@
  *   func_021EDF5C  0x021EDF5C  thumb  ov170
  *   func_021EB85C  0x021EB85C  thumb  ov170
  *   func_021EF738  0x021EF738  thumb  ov170
- *   func_0201AA18 0x0201AA18 thumb
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_02017E88 0x02017E88 thumb
  *   func_02007A18 0x02007A18 thumb
@@ -93,8 +93,8 @@
  *   POKE_TOOL_CreateFromBoxParam 0x0201747C thumb
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_020075B0 0x020075B0 thumb
- *   func_0201AB48 0x0201AB48 thumb
- *   func_0201A98C 0x0201A98C thumb
+ *   POKEPARTY_SetMember 0x0201AB48 thumb
+ *   POKEPARTY_Add 0x0201A98C thumb
  *   func_021EDB34 0x021EDB34 thumb ov170
  *   func_0200752C 0x0200752C thumb
  *   func_02007664 0x02007664 thumb
@@ -174,7 +174,7 @@
  *   ov194_id 0x000000C2 data a1
  *   func_02007898 0x02007898 thumb
  *   NAMEIN_SETUP_FreeArgs 0x0216C0C0 thumb ov010
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_020260E4 0x020260E4 thumb
  *   BGWINFRM_IsMoving 0x0202CE40 thumb
  *   TOUCHPANEL_GetCont 0x02035C38 arm
@@ -220,6 +220,8 @@
  *   PALANM_Create  0x02021518  thumb  arm9
  *   PALANM_AllocSlotBuffers  0x0202155C  thumb  arm9
  *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb  arm9
+ *   POKEPARTY_RemoveMember  0x0201A9C8  thumb  arm9
+ *   POKEPARTY_SwapMembers  0x0201AB8C  thumb  arm9
  */
 #include "box2_types.h"
 #include "../../matched/include/Obj18439.h"
@@ -523,7 +525,7 @@ extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u32 i);
 extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void func_020403F4(unsigned);
 extern void func_0203F9B4(void);
@@ -553,10 +555,10 @@ extern void func_0207D63C(int, int, int, int, int);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
-extern void *func_0201C450(unsigned short,unsigned);
+extern void *PRINTSYS_QUE_CreateEx(unsigned short,unsigned);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern unsigned int func_0201ED04(struct WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -584,22 +586,22 @@ extern void func_021EDF5C(unsigned char *p);
 extern void func_021EB85C(unsigned char *p, int i);
 extern void func_021EF738(struct WinMgr *mgr);
 extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
-extern unsigned func_0201AA18(void *p);
-extern void *func_0201AB28(void *party, unsigned i);
+extern unsigned POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *party, unsigned i);
 extern unsigned POKE_TOOL_GetPartyValue(void *p, unsigned id, unsigned v);
 extern unsigned func_02017E88(void *p, unsigned id, unsigned v);
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 extern int POKE_TOOL_Dummy(void *p);
 extern void func_02007664(void *save, u32 box, u32 slot);
-extern u32 func_0201A9C8(struct Party *p, s32 idx);
+extern u32 POKEPARTY_RemoveMember(struct Party *p, s32 idx);
 extern void func_021EDAB0(char *p, int i);
 extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 extern void *POKE_TOOL_GetBoxParam(void *);
 extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
-extern void func_0201AB48(struct Party *p, u32 idx, const struct PartyMon *src);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern u32 func_0201AB8C(struct Party *p, u32 i, u32 j, u32 heap);
+extern void POKEPARTY_SetMember(struct Party *p, u32 idx, const struct PartyMon *src);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_SwapMembers(struct Party *p, u32 i, u32 j, u32 heap);
 extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
 extern void func_021EDB34(char *p, int a);
 extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
@@ -677,7 +679,7 @@ extern void func_021EF57C(struct WinMgr *mgr);
 extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
 extern int func_021EF770(struct WinMgr *mgr);
 extern void func_021EF75C(struct WinMgr *mgr);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern int func_021EF45C(struct WinMgr *mgr);
 extern int func_021EF248(void);
 extern void func_021EF3D8(struct WinMgr *mgr);
@@ -873,7 +875,7 @@ void func_021DC9E0(u8 *a0)
     func_0203FCA0(6, &t6, 0);
     func_020414EC(6);
     func_02040B94(6, 0x20, 0, 0x4C);
-    func_020434DC(0xF, 1);
+    BG_SYS_SetMainPlaneVisible(0xF, 1);
     BG_SYS_SetSubPlaneVisible(7, 1);
 }
 
@@ -885,7 +887,7 @@ void func_021DC9E0(u8 *a0)
 
 void func_021DCB48(void *p)
 {
-    func_020434DC(15, 0);
+    BG_SYS_SetMainPlaneVisible(15, 0);
     BG_SYS_SetSubPlaneVisible(7, 0);
     func_020403F4(6);
     func_020403F4(5);
@@ -1023,7 +1025,7 @@ void func_021DCE14(char *p)
     PTR(p,0x78) = GF_FONT_Create(0x17,0,1,0,0x4c);
     PTR(p,0x7c) = GF_FONT_Create(0x17,3,0,0,0x4c);
     PTR(p,0x84) = func_0201EC64(0x4c);
-    PTR(p,0x8c) = func_0201C450(0x800,0x4c);
+    PTR(p,0x8c) = PRINTSYS_QUE_CreateEx(0x800,0x4c);
     PTR(p,0x88) = STRBUF_Create(0x400,0x4c);
 }
 
@@ -1083,7 +1085,7 @@ void func_021DCE14(char *p)
 void func_021DCE80(char *p)
 {
     STRBUF_Delete(PTR(p,0x88));
-    func_0201C4C0(PTR(p,0x8c));
+    PRINTSYS_QUE_Delete(PTR(p,0x8c));
     func_0201ED04(PTR(p,0x84));
     GF_FONT_Delete(PTR(p,0x7c));
     GF_FONT_Delete(PTR(p,0x78));
@@ -1445,8 +1447,8 @@ unsigned func_021DD25C(void ***p, unsigned short a, unsigned short box, unsigned
     if (a >= 0x1E) {
         if (a >= 0x1E)
             a -= 0x1E;
-        if ((int)func_0201AA18((*p)[2]) > a)
-            return POKE_TOOL_GetPartyValue(func_0201AB28((*p)[2], a), id, v);
+        if ((int)POKEPARTY_GetCount((*p)[2]) > a)
+            return POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((*p)[2], a), id, v);
     } else if (a != 0xFF) {
         void *m = func_02007A18((*p)[1], box, a);
         if (m != 0)
@@ -1483,8 +1485,8 @@ int func_021DD2D0(void ***p, int a, unsigned b)
     if (a == 0xFF || b >= 0x1E) {
         if (b >= 0x1E)
             b -= 0x1E;
-        if (func_0201AA18((*p)[2]) > b)
-            return POKE_TOOL_Dummy(func_0201AB28((*p)[2], b));
+        if (POKEPARTY_GetCount((*p)[2]) > b)
+            return POKE_TOOL_Dummy(POKEPARTY_GetMember((*p)[2], b));
     } else if (b != 0xFF) {
         return (int)func_02007A18((*p)[1], a, b);
     }
@@ -1508,7 +1510,7 @@ void func_021DD314(char **p, int a, unsigned b)
     if (b < 0x1eU)
         func_02007664((void *)(((struct Obj18443 *)(*p))->f4), a, b);
     else
-        func_0201A9C8((struct Party *)(((struct Obj18444 *)(*p))->f8), b - 0x1eU);
+        POKEPARTY_RemoveMember((struct Party *)(((struct Obj18444 *)(*p))->f8), b - 0x1eU);
 }
 
 
@@ -1525,8 +1527,8 @@ void func_021DD330(unsigned char *p,unsigned short *q,unsigned short *t)
     if (q[0] == 0x24) box=p[0x17]; else box=p[0x14];
     m=POKE_TOOL_CreateFromBoxParam((struct Mon *)func_021DD2D0((void ***)p,box,q[2]),0x804c);
     slot=t[2]-30;
-    func_020075B0((*(void ***)p)[1],box,q[2],POKE_TOOL_GetBoxParam(func_0201AB28((*(void ***)p)[2],slot)));
-    func_0201AB48((*(void ***)p)[2],slot,m);
+    func_020075B0((*(void ***)p)[1],box,q[2],POKE_TOOL_GetBoxParam(POKEPARTY_GetMember((*(void ***)p)[2],slot)));
+    POKEPARTY_SetMember((*(void ***)p)[2],slot,m);
     func_020307B0(m);
     func_021EDAB0((char *)p,box);
 }
@@ -1541,7 +1543,7 @@ void func_021DD39C(unsigned char *p, unsigned short *q)
 {
     void *m;
     m = POKE_TOOL_CreateFromBoxParam((struct Mon *)func_021DD2D0((void ***)p,p[0x17],q[2]),0x804c);
-    func_0201A98C((*(void ***)p)[2],m);
+    POKEPARTY_Add((*(void ***)p)[2],m);
     func_021DD314((char **)p,p[0x17],q[2]);
     func_020307B0(m);
     func_021EDAB0((char *)p,p[0x17]);
@@ -1559,7 +1561,7 @@ void func_021DD39C(unsigned char *p, unsigned short *q)
  */
 void func_021DD3DC(char *p, unsigned char *a)
 {
-    int x = (int)POKE_TOOL_GetBoxParam(func_0201AB28(*(void **)(*(int *)&((BoxTask *)p)->f0 + 8),
+    int x = (int)POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(*(void **)(*(int *)&((BoxTask *)p)->f0 + 8),
                                         ((struct Obj09221 *)a)->f4 - 0x1e));
     func_020075B0((void *)(*(int *)(*(int *)&((BoxTask *)p)->f0 + 4)), ((BoxTask *)p)->f14,
                   ((struct Obj09221 *)a)->f2, (const struct Sub020075B0Entry *)x);
@@ -1579,7 +1581,7 @@ void func_021DD3DC(char *p, unsigned char *a)
  */
 void func_021DD414(char **p, char *q)
 {
-    func_0201AB8C((struct Party *)(((struct Obj18446 *)(*p))->f8), ((struct Obj12149 *)q)->f4 - 0x1e,
+    POKEPARTY_SwapMembers((struct Party *)(((struct Obj18446 *)(*p))->f8), ((struct Obj12149 *)q)->f4 - 0x1e,
                   ((struct Obj12149 *)q)->f2 - 0x1e, 0x4c);
 }
 
@@ -1596,8 +1598,8 @@ void func_021DD414(char **p, char *q)
 void func_021DD42C(int *p, unsigned char *a)
 {
     unsigned i = ((struct Obj18447 *)a)->f4 - 0x1e;
-    while (i < func_0201AA18(*(void **)(*p + 8)) - 1) {
-        func_0201AB8C((struct Party *)(*(int *)(*p + 8)), i, i + 1, 0x4c);
+    while (i < POKEPARTY_GetCount(*(void **)(*p + 8)) - 1) {
+        POKEPARTY_SwapMembers((struct Party *)(*(int *)(*p + 8)), i, i + 1, 0x4c);
         i++;
     }
 }
@@ -1636,7 +1638,7 @@ void func_021DD4B8(unsigned char *p,unsigned a,unsigned b)
     void *m;
     unsigned box;
     box=func_021DD684(p,b);
-    m=func_0201AB28((*(void ***)p)[2],a-30);
+    m=POKEPARTY_GetMember((*(void ***)p)[2],a-30);
     if(POKE_TOOL_GetPartyValue(m,5,0)==492){
         POKE_TOOL_ChangeForm(m,0);
         func_021DD8A8((void **)p,a);
@@ -1661,7 +1663,7 @@ void func_021DD530(unsigned char *p)
     unsigned short n;
     if (m->a == 0xFF)
         return;
-    n = func_0201AA18(((void **)((BoxTask *)p)->f0)[2]);
+    n = POKEPARTY_GetCount(((void **)((BoxTask *)p)->f0)[2]);
     if (m->b >= 0x24) {
         if (m->a < 0x1E)
             func_021DD464(p, p[0x17], m->a, m->b - 0x24);
@@ -1739,9 +1741,9 @@ int func_021DD684(unsigned char *p, unsigned i)
 int func_021DD694(void ***p, unsigned skip)
 {
     unsigned i;
-    for (i = 0; i < func_0201AA18((*p)[2]); i++) {
+    for (i = 0; i < POKEPARTY_GetCount((*p)[2]); i++) {
         if (i != skip) {
-            void *m = func_0201AB28((*p)[2], i);
+            void *m = POKEPARTY_GetMember((*p)[2], i);
             if (POKE_TOOL_GetPartyValue(m, 0x4C, 0) == 0 && POKE_TOOL_GetPartyValue(m, 0xA0, 0) != 0)
                 return 1;
         }
@@ -1881,7 +1883,7 @@ void func_021DD8A8(void **pp, u32 idx)
 
     if (idx < 0x1e)
         return;
-    h = func_0201AB28(((struct Obj18451 *)((char *)*pp))->f8, idx - 0x1e);
+    h = POKEPARTY_GetMember(((struct Obj18451 *)((char *)*pp))->f8, idx - 0x1e);
     v = POKE_TOOL_DecodePartyParam(h);
     POKE_TOOL_RecalcParam(h);
     POKE_TOOL_EncodePartyParam(h, v);
@@ -2078,7 +2080,7 @@ int func_021DDC00(unsigned char *p, unsigned a, unsigned b)
                 RESULT(p) = 3;
                 return 0;
             }
-            if (func_0202136C(POKE_TOOL_GetPartyValue(func_0201AB28((void *)SYS(p)[2], a - 0x1E), 6, 0)) == 1) {
+            if (func_0202136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)SYS(p)[2], a - 0x1E), 6, 0)) == 1) {
                 RESULT(p) = 2;
                 return 0;
             }
@@ -2113,12 +2115,12 @@ int func_021DDC00(unsigned char *p, unsigned a, unsigned b)
                 return 0;
             }
         }
-        if (b < 0x1E && func_0202136C(POKE_TOOL_GetPartyValue(func_0201AB28((void *)SYS(p)[2], a - 0x1E), 6, 0)) == 1) {
+        if (b < 0x1E && func_0202136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)SYS(p)[2], a - 0x1E), 6, 0)) == 1) {
             RESULT(p) = 2;
             return 0;
         }
     } else if (b >= 0x1E && m != 0) {
-        if (func_0202136C(POKE_TOOL_GetPartyValue(func_0201AB28((void *)SYS(p)[2], b - 0x1E), 6, 0)) == 1) {
+        if (func_0202136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)SYS(p)[2], b - 0x1E), 6, 0)) == 1) {
             RESULT(p) = 2;
             return 0;
         }
@@ -2151,7 +2153,7 @@ int func_021DDE20(unsigned char *p,unsigned a,unsigned b)
         return result;
     if (!func_021DD694((void ***)p,a-30))
         return result;
-    if (func_0202136C((unsigned short)POKE_TOOL_GetPartyValue(func_0201AB28((*(void ***)p)[2],a-30),6,0)) != 1)
+    if (func_0202136C((unsigned short)POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((*(void ***)p)[2],a-30),6,0)) != 1)
         result = 1;
     return result;
 }
@@ -2366,7 +2368,7 @@ int func_021DE158(unsigned char *p, unsigned a, unsigned b)
     }
     m->a = a;
     m->b = b;
-    n = func_0201AA18(((void **)((BoxTask *)p)->f0)[2]);
+    n = POKEPARTY_GetCount(((void **)((BoxTask *)p)->f0)[2]);
     if (b >= 0x24) {
         m->e[0].id = 0x24;
         m->e[0].slot = b;
@@ -2504,7 +2506,7 @@ void func_021DE428(unsigned char *p, unsigned a, unsigned b)
     }
     m->a = a;
     m->b = b;
-    n = func_0201AA18(((void **)((BoxTask *)p)->f0)[2]);
+    n = POKEPARTY_GetCount(((void **)((BoxTask *)p)->f0)[2]);
     if (b < 0x1E) {
         unsigned k = a - 0x1E;
         for (i = k + 1; i < n; i++) {
@@ -2582,7 +2584,7 @@ void func_021DE530(unsigned char *p, int a, int b)
     } else {
         ((struct Obj01418 *)o)->fAC = a;
         ((struct Obj01418 *)o)->fB0 = b;
-        func_021DE120((char *)p, a, func_0201AA18(((struct Obj23845 *)(*(char * *)&((BoxTask *)p)->f0))->f8) + 0x1E);
+        func_021DE120((char *)p, a, POKEPARTY_GetCount(((struct Obj23845 *)(*(char * *)&((BoxTask *)p)->f0))->f8) + 0x1E);
     }
 }
 
@@ -3554,7 +3556,7 @@ int func_021DF288(char *p)
     } else {
         r->mon = (*(void ***)p)[2];
         r->kind = 1;
-        r->count = func_0201AA18((*(void ***)p)[2]);
+        r->count = POKEPARTY_GetCount((*(void ***)p)[2]);
         r->slot = ((BoxTask *)p)->f16 - 30;
     }
     mode = 0;
@@ -3686,7 +3688,7 @@ int func_021DF484(unsigned char *p)
                 r = func_021DF254(p, *(int *)(WORK(p) + 0xA180), *(int *)(WORK(p) + 0xA184));
                 if (r == 0xFF || func_021DE158(p, p[0x16], r) == 0) {
                     func_021EF75C(MGR(p));
-                    func_020061E4(0x669);
+                    GFL_USE_PlaySeDefaultVolume(0x669);
                     b->state = 0xE;
                     break;
                 }
@@ -3719,7 +3721,7 @@ int func_021DF484(unsigned char *p)
                 p[0x17] = 0xFF;
                 p[0x1A] = 2;
                 func_021EF3D8(MGR(p));
-                func_020061E4(0x669);
+                GFL_USE_PlaySeDefaultVolume(0x669);
                 func_021ECB20((char *)p, 1, 0);
                 func_021ED888(WORK(p), 1);
                 func_021EE364((char **)p, 6, p[0x16]);
@@ -3732,11 +3734,11 @@ int func_021DF484(unsigned char *p)
             if (b->timer == 0) {
                 int dir = func_021EF1B4();
                 if (dir == 0) {
-                    func_020061E4(0x548);
+                    GFL_USE_PlaySeDefaultVolume(0x548);
                     func_021DD16C(p, 0);
                     b->state = 6;
                 } else if (dir == 1) {
-                    func_020061E4(0x548);
+                    GFL_USE_PlaySeDefaultVolume(0x548);
                     func_021DD16C(p, 1);
                     b->state = 7;
                 }
@@ -3747,16 +3749,16 @@ int func_021DF484(unsigned char *p)
                         if (func_021EF770(MGR(p)) == 1) {
                             func_021EF75C(MGR(p));
                             func_021DD090((Sys *)p, 0xA);
-                            func_020061E4(0x54C);
-                            func_020061E4(0x669);
+                            GFL_USE_PlaySeDefaultVolume(0x54C);
+                            GFL_USE_PlaySeDefaultVolume(0x669);
                             *(unsigned char *)(WORK(p) + 0xA171) = 1;
                             b->state = 0xB;
                         }
                         if (func_021EF45C(MGR(p)) == 1) {
                             func_021EF3A0(MGR(p));
                             func_021DD090((Sys *)p, 0xB);
-                            func_020061E4(0x54C);
-                            func_020061E4(0x669);
+                            GFL_USE_PlaySeDefaultVolume(0x54C);
+                            GFL_USE_PlaySeDefaultVolume(0x669);
                             *(unsigned char *)(WORK(p) + 0xA171) = 1;
                             b->state = 0xD;
                         }
@@ -3768,12 +3770,12 @@ int func_021DF484(unsigned char *p)
             if (func_021EF770(MGR(p)) == 1) {
                 int dir = func_021EF1C4();
                 if (dir == 0) {
-                    func_020061E4(0x548);
+                    GFL_USE_PlaySeDefaultVolume(0x548);
                     func_021DD1C4((char *)p, -1);
                     b->state = 8;
                     b->timer = 0;
                 } else if (dir == 1) {
-                    func_020061E4(0x548);
+                    GFL_USE_PlaySeDefaultVolume(0x548);
                     func_021DD1C4((char *)p, 1);
                     b->state = 9;
                     b->timer = 0;
@@ -3791,7 +3793,7 @@ int func_021DF484(unsigned char *p)
         break;
     case 2:
         if (func_021DD930(p) == 0) {
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 3;
         }
         break;
@@ -3841,7 +3843,7 @@ int func_021DF484(unsigned char *p)
             func_021EC5A0((char **)p, 1);
             func_021EF680(WORK(p));
             func_021EF68C(WORK(p));
-            func_020061E4(0x669);
+            GFL_USE_PlaySeDefaultVolume(0x669);
             b->state = 0xC;
         }
         if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
@@ -3859,7 +3861,7 @@ int func_021DF484(unsigned char *p)
             func_021DD1E8((char *)p);
             func_021EF69C(WORK(p));
             func_021EF670(WORK(p));
-            func_020061E4(0x669);
+            GFL_USE_PlaySeDefaultVolume(0x669);
             b->state = 0xA;
         }
         if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
@@ -3882,7 +3884,7 @@ int func_021DF484(unsigned char *p)
         if (func_021E01E0((char *)p) == 0) {
             func_021EF35C(MGR(p));
             func_021EF36C(MGR(p));
-            func_020061E4(0x669);
+            GFL_USE_PlaySeDefaultVolume(0x669);
             b->state = 0xF;
         }
         break;
@@ -3927,7 +3929,7 @@ int func_021DFA30(unsigned char *p)
                 if (p[0x16] >= 0x1E && (r == 0xFF || func_021DE158(p, p[0x16], r) == 0)) {
                     func_021EF75C(MGR(p));
                     func_021EE008((char *)p, 0, 0);
-                    func_020061E4(0x669);
+                    GFL_USE_PlaySeDefaultVolume(0x669);
                     b->state = 0xE;
                     break;
                 }
@@ -3971,7 +3973,7 @@ int func_021DFA30(unsigned char *p)
             if (p[0x16] != func_021EF180(x, y)) {
                 p[0x19] = p[0x14];
                 func_021DD1E8((char *)p);
-                func_020061E4(0x669);
+                GFL_USE_PlaySeDefaultVolume(0x669);
                 func_021EE364((char **)p, 4, p[0x16]);
                 func_021EE038((char *)p, 2, 1, 2);
                 *(int *)(WORK(p) + 0xA168) = p[0x16];
@@ -3981,11 +3983,11 @@ int func_021DFA30(unsigned char *p)
         if (b->timer == 0) {
             int dir = func_021EF1B4();
             if (dir == 0) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021DD16C(p, 0);
                 b->state = 6;
             } else if (dir == 1) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021DD16C(p, 1);
                 b->state = 7;
             }
@@ -3996,16 +3998,16 @@ int func_021DFA30(unsigned char *p)
                     if (func_021EF770(MGR(p)) == 1) {
                         func_021EF75C(MGR(p));
                         func_021DD090((Sys *)p, 0xA);
-                        func_020061E4(0x54C);
-                        func_020061E4(0x669);
+                        GFL_USE_PlaySeDefaultVolume(0x54C);
+                        GFL_USE_PlaySeDefaultVolume(0x669);
                         *(unsigned char *)(WORK(p) + 0xA171) = 1;
                         b->state = 0xB;
                     }
                     if (func_021EF45C(MGR(p)) == 1) {
                         func_021EF3A0(MGR(p));
                         func_021DD090((Sys *)p, 0xB);
-                        func_020061E4(0x54C);
-                        func_020061E4(0x669);
+                        GFL_USE_PlaySeDefaultVolume(0x54C);
+                        GFL_USE_PlaySeDefaultVolume(0x669);
                         *(unsigned char *)(WORK(p) + 0xA171) = 1;
                         b->state = 0xD;
                     }
@@ -4017,12 +4019,12 @@ int func_021DFA30(unsigned char *p)
         if (func_021EF770(MGR(p)) == 1) {
             int dir = func_021EF1C4();
             if (dir == 0) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021DD1C4((char *)p, -1);
                 b->state = 8;
                 b->timer = 0;
             } else if (dir == 1) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021DD1C4((char *)p, 1);
                 b->state = 9;
                 b->timer = 0;
@@ -4047,7 +4049,7 @@ int func_021DFA30(unsigned char *p)
         break;
     case 2:
         if (func_021DD930(p) == 0) {
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 3;
         }
         break;
@@ -4097,7 +4099,7 @@ int func_021DFA30(unsigned char *p)
             func_021EC5A0((char **)p, 1);
             func_021EF680(WORK(p));
             func_021EF68C(WORK(p));
-            func_020061E4(0x669);
+            GFL_USE_PlaySeDefaultVolume(0x669);
             b->state = 0xC;
         }
         if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
@@ -4117,7 +4119,7 @@ int func_021DFA30(unsigned char *p)
             func_021DD1E8((char *)p);
             func_021EF69C(WORK(p));
             func_021EF670(WORK(p));
-            func_020061E4(0x669);
+            GFL_USE_PlaySeDefaultVolume(0x669);
             b->state = 0xA;
         }
         if (TOUCHPANEL_GetPointCont(&x, &y) == 1)
@@ -4127,7 +4129,7 @@ int func_021DFA30(unsigned char *p)
         if (func_021E01E0((char *)p) == 0) {
             func_021EF35C(MGR(p));
             func_021EF36C(MGR(p));
-            func_020061E4(0x669);
+            GFL_USE_PlaySeDefaultVolume(0x669);
             b->state = 0xF;
         }
         break;

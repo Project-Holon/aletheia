@@ -18,7 +18,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02007698 0x02007698 thumb
  *   func_020076A4 0x020076A4 thumb
  *   func_020078C4 0x020078C4 thumb
@@ -32,7 +32,7 @@ typedef enum { B0=0, B8=8, B16=16 } Bound;
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern unsigned func_02007698(void *);
 extern u8 func_020076A4(void *);
 typedef unsigned int   u32;
@@ -46,7 +46,7 @@ int func_021DC860(void *manager, int unused, void **context)
     u16 i;
     GFL_HEAP_CreateChildHeap(1,75,0x10000);
     p = PROCSYS_AllocProcWork(manager,0x30,75);
-    func_02082BCC(p,0,0x30);
+    MI_CpuFill8(p,0,0x30);
     *(void ** *)&((struct Obj01948 *)p)->f0 = context;
     p[0x14] = func_02007698(context[1]);
     p[0x15] = func_020076A4((*(void ***)p)[1]);

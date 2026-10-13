@@ -1,7 +1,7 @@
 /*
  * file:     net_whpipe.c
  * unit:     yes
- * function: func_0217721C, func_0217723C, func_0217725C, func_02177264, func_0217726C, func_02177274, func_0217727C, func_02177280, func_02177310, func_0217731C, func_021773E0, func_02177494, func_02177560, func_0217758C, func_021775AC, func_021775BC, func_02177614, func_02177660, func_021776C4, func_02177704, func_0217771C, func_02177744, func_0217778C, func_021777FC, func_02177888, func_0217796C, func_021779F4, func_02177A34, func_02177A74, func_02177A94, func_02177AA8, func_02177ACC, func_02177AEC, func_02177B0C, func_02177B2C, func_02177B58, func_02177B80, func_02177BAC, func_02177BCC, func_02177BF4, func_02177BFC
+ * function: GFL_NET_DEVWIRELESS_GetSignalLevel, GFL_NET_DEVWIRELESS_GetLastErrorCode, GFL_NET_DEVWIRELESS_SetWatchDisconnect, GFL_NET_DEVWIRELESS_SetAcceptChild, GFL_NET_DEVWIRELESS_StartAutoSearch, GFL_NET_DEVWIRELESS_StartJoinLock, NET_WHPIPE_SetTask, NET_WHPIPE_Create, NET_WHPIPE_SetEventCallback, NET_WHPIPE_IsBeaconAcceptable, NET_WHPIPE_StoreScannedEntry, NET_WHPIPE_CheckBeaconFlags, NET_WHPIPE_ClearEntries, NET_WHPIPE_ResetState, NET_WHPIPE_ForwardEvent, NET_WHPIPE_StartScan, NET_WHPIPE_TaskBeginFinalize, NET_WHPIPE_TaskWaitFinalize, NET_WHPIPE_RequestFinalize, NET_WHPIPE_Destroy, NET_WHPIPE_NotifyEntryAcceptable, NET_WHPIPE_TickEntryAges, NET_WHPIPE_PublishBeacon, NET_WHPIPE_RefreshBeacon, NET_WHPIPE_UpdateState, NET_WHPIPE_Update, NET_WHPIPE_IsConnected, NET_WHPIPE_IsAidConnected, NET_WHPIPE_GetConnectedNum, NET_WHPIPE_IsCreated, NET_WHPIPE_IsIdle, NET_WHPIPE_GetChildBitmap, NET_WHPIPE_IsDisconnectDetected, NET_WHPIPE_SetWatchDisconnect, NET_WHPIPE_GetEntryBeaconData, NET_WHPIPE_GetEntryBssid, NET_WHPIPE_GetEntryBeaconKind, NET_WHPIPE_ReleaseEntrySlot, NET_WHPIPE_ReleaseAllEntrySlots, NET_WHPIPE_ReleaseEntry, NET_WHPIPE_GetEntryBeacon
  * address:  0x0217721C
  * region:   ov014
  * compiler: dsi/1.1p1
@@ -30,9 +30,9 @@
  *   func_0203F1FC  0x0203F1FC  arm
  *   func_0203EFC8  0x0203EFC8  arm
  *   func_02082D44  0x02082D44  arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   DWCi_MOV_WH_SetReceiver  0x0217933C  thumb  ov014
- *   func_02178E4C  0x02178E4C  thumb  ov014
+ *   WIH_GetSysState  0x02178E4C  thumb  ov014
  *   DWCi_MOV_WH_StartScan  0x021785B4  thumb  ov014
  *   func_02179498  0x02179498  thumb  ov014
  *   DWCi_MOV_WH_StateInEndKeyShare  0x0217945C  thumb  ov014
@@ -71,9 +71,9 @@ extern void func_02178E1C(u32 v);
 u16 func_0203F1FC(const u8 *src, u32 len);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void func_02082D44(void *src, void *dst, int n);
-extern void func_02082BCC(void *, u32, u32);
+extern void MI_CpuFill8(void *, u32, u32);
 extern void DWCi_MOV_WH_SetReceiver(void *cb);
-extern int func_02178E4C(void);
+extern int WIH_GetSysState(void);
 extern int DWCi_MOV_WH_StartScan(u32 a, u16 *b, u32 c);
 extern int func_02179498(void);
 extern void DWCi_MOV_WH_StateInEndKeyShare(void);
@@ -355,7 +355,7 @@ void NET_WHPIPE_ClearEntries(void)
 
     for (i = 0; i < WHPIPE_ENTRY_MAX; i++)
         work->entryAge[i] = 0;
-    func_02082BCC(work->entry, 0, 0xC00);
+    MI_CpuFill8(work->entry, 0, 0xC00);
 }
 
 
@@ -393,7 +393,7 @@ int NET_WHPIPE_StartScan(int clearEntries)
         NET_WHPIPE_ClearEntries();
     DWCi_MOV_WH_SetReceiver(NET_WHPIPE_ForwardEvent);
     work->running = 1;
-    if (func_02178E4C() == 1 && DWCi_MOV_WH_StartScan((u32)NET_WHPIPE_StoreScannedEntry, 0, 0) != 0)
+    if (WIH_GetSysState() == 1 && DWCi_MOV_WH_StartScan((u32)NET_WHPIPE_StoreScannedEntry, 0, 0) != 0)
         return 1;
     return 0;
 }
@@ -401,11 +401,11 @@ int NET_WHPIPE_StartScan(int clearEntries)
 
 void NET_WHPIPE_TaskBeginFinalize(WhPipeWork *work)
 {
-    if (func_02178E4C() == 1 && func_02179498() != 0) {
+    if (WIH_GetSysState() == 1 && func_02179498() != 0) {
         work->shutdownCountdown = 0xFF;
         NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskWaitFinalize);
     }
-    if (func_02178E4C() == 9) {
+    if (WIH_GetSysState() == 9) {
         work->shutdownCountdown = 0xFF;
         NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskWaitFinalize);
     }
@@ -415,11 +415,11 @@ void NET_WHPIPE_TaskBeginFinalize(WhPipeWork *work)
 void NET_WHPIPE_TaskWaitFinalize(WhPipeWork *work)
 {
     work->shutdownCountdown--;
-    if (func_02178E4C() == 0 || func_02178E4C() == 1) {
+    if (WIH_GetSysState() == 0 || WIH_GetSysState() == 1) {
         NET_WHPIPE_SetTask(g_pWhPipeWork, 0);
         return;
     }
-    if (func_02178E4C() == 9) {
+    if (WIH_GetSysState() == 9) {
         DWCi_MOV_WH_StateInEndKeyShare();
         NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskBeginFinalize);
         return;
@@ -552,7 +552,7 @@ void NET_WHPIPE_RefreshBeacon(void)
 /* Reacts to the WH state each frame: refreshes the beacon, watches the tick for a link drop, and finishes shutdowns. */
 void NET_WHPIPE_UpdateState(u32 tick)
 {
-    int mode = func_02178E4C();
+    int mode = WIH_GetSysState();
     WhPipeWork *work = g_pWhPipeWork;
 
     if (NET_WHPIPE_IsDisconnectDetected() == 0)
@@ -625,7 +625,7 @@ int NET_WHPIPE_IsConnected(void)
         return 0;
     if (WIH_GetOwnAid() == 0 && NET_WHPIPE_GetChildBitmap() == 0)
         return 0;
-    if (func_02178E4C() == 4 || func_02178E4C() == 5)
+    if (WIH_GetSysState() == 4 || WIH_GetSysState() == 5)
         return 1;
     return 0;
 }
@@ -635,7 +635,7 @@ int NET_WHPIPE_IsAidConnected(u16 aid)
 {
     if (g_pWhPipeWork == 0)
         return 0;
-    if (func_02178E4C() != 4 && func_02178E4C() != 5)
+    if (WIH_GetSysState() != 4 && WIH_GetSysState() != 5)
         return 0;
     if (func_02178E38() & (1 << aid))
         return 1;
@@ -658,7 +658,7 @@ int NET_WHPIPE_IsWorkAllocated(void)
 
 
 /* 1 when there is no pipe or the WH state is 1 (idle). */
-int NET_WHPIPE_IsIdle(void) { if (g_pWhPipeWork != 0) { if (func_02178E4C() == 1) return 1; return 0; } return 1; }
+int NET_WHPIPE_IsIdle(void) { if (g_pWhPipeWork != 0) { if (WIH_GetSysState() == 1) return 1; return 0; } return 1; }
 
 
 /* Bitmap of connected aids without the parent bit. */

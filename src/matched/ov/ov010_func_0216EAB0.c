@@ -26,7 +26,7 @@
  *   EVENT_BATTLE_CreateEncounterTask  0x0216E818  thumb  ov010
  *   sub_0200E740   0x0200E740  thumb
  *   GAME_EVENT_GetWork   0x020124E8  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   sub_0200E788   0x0200E788  thumb
  *   sub_0200E74C   0x0200E74C  thumb
@@ -53,7 +53,7 @@ extern void *GAME_DATA_GetSaveBlock43(void **p);
 extern int EVENT_BATTLE_CreateEncounterTask(int a0, int a1, int a2, int a3, int a4, int a5, int a6);
 extern u32   sub_0200E740(const void *obj, u32 idx);
 extern void *GAME_EVENT_GetWork(struct Obj *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32   POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32   sub_0200E788(const void *obj, u32 a, u32 b);
 extern u32   sub_0200E74C(const void *obj, u32 idx);
@@ -81,7 +81,7 @@ void *EVENT_BATTLE_CreateEncounterTaskWithMon(void *a0, u32 a1, u32 a2, u32 a3, 
     data = GAME_DATA_GetSaveBlock43(GAMESYSTEM_GetGameData(a0));
     task = (void *)EVENT_BATTLE_CreateEncounterTask((int)a0, a1, a2, a3, a4, a5, a6);
     if (sub_0200E740(data, idx) != 0) {
-        mon = func_0201AB28(*(void **)(*(u8 **)((u8 *)GAME_EVENT_GetWork(task) + 8) + 0x28), 0);
+        mon = POKEPARTY_GetMember(*(void **)(*(u8 **)((u8 *)GAME_EVENT_GetWork(task) + 8) + 0x28), 0);
         old = POKE_TOOL_GetPartyValue(mon, 5, 0);
         species = sub_0200E788(data, idx, 0x15);
         level = sub_0200E74C(data, idx);

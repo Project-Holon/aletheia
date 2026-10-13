@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
@@ -24,7 +24,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -38,7 +38,7 @@ extern void func_021B80BC(void *, u8 *);
 extern void *func_020056A0(void (*)(void *, u8 *), void *, int);
 extern const u8 d_021B94F4[];
 void func_021B7FF8(u8 *p, void *a, u32 b) {
- func_02082BCC(p,0,0x28);
+ MI_CpuFill8(p,0,0x28);
  *(volatile unsigned short *)0x04000050=0;
  *(volatile unsigned short *)0x04001050=0;
  *(volatile unsigned *)0x04000000 &= ~0xe000;

@@ -534,7 +534,7 @@ void *func_0209138C(u32 heap);
 void func_020913A4(u32 heap);
 u32 func_020913BC(void *resSet);
 void *func_020913D0(u32 heap);
-void ghiFreeTempBuffer(u32 heap);
+void CRT_Free(u32 heap);
 void *func_020913FC(u32 a0, u32 a1);
 void *func_0209146C(u32 a0, u32 a1);
 int func_0209149C(void);
@@ -876,7 +876,7 @@ void *func_020913D0(u32 heap)
 
 
 
-void ghiFreeTempBuffer(u32 heap)
+void CRT_Free(u32 heap)
 {
     if (heap) {
         func_020913A4(heap);

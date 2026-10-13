@@ -10,10 +10,10 @@
  * status: EXACT*
  * Two bytes zero alignment padding follow the compiled function.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   MYSTATUS_Create 0x0200846C thumb
  */
 #include "../include/Obj22619.h"
-extern void func_02082BCC(void *,int,unsigned int);
+extern void MI_CpuFill8(void *,int,unsigned int);
 extern void *MYSTATUS_Create(int);
-void func_021D6B50(unsigned char *a,int b) { func_02082BCC(a,0,0x21c); ((struct Obj22619 *)a)->f218=MYSTATUS_Create(b); }
+void func_021D6B50(unsigned char *a,int b) { MI_CpuFill8(a,0,0x21c); ((struct Obj22619 *)a)->f218=MYSTATUS_Create(b); }

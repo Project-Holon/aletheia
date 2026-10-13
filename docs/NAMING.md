@@ -194,9 +194,20 @@ file decides their module prefix).
 | Function | `MODULE_VerbObject` | `BTL_CALC_GetDamage` |
 | Type | PascalCase, module word first | `BtlPokeParam` |
 
-Open: ability and item handlers in ov093 still use several module prefixes
-(BTL_ABILITY_, BTL_TOKUSEI_, HAND_TOKUSEI_, BTL_CALC_; BTL_HANDLER_ITEM_ and
-BTL_ITEM_). One prefix per group is still to be chosen.
+Battle handler prefixes (ov093, settled): ability handlers `HAND_TOKUSEI_`,
+item handlers `HAND_ITEM_`, move handlers `HAND_WAZA_`. A handler is the
+callback a battle event factor registers for one ability, item or move
+(`HAND_WAZA_MagnitudeOnWazaStart`). The shared event variable keys are one enum,
+`BtlEventVarKey`, in `hand_common_types.h`.
+
+File names (rule used by the file-rename pass): the original file name when the
+`__FILE__` anchors or the SDK object tables give it; otherwise a descriptive
+snake_case name from the module prefix and role (`hand_waza.c`, `btl_client.c`).
+Files of SDK and vendor objects keep their object name (`os_irqtable.c`,
+`dwc_match.c`); a generic object name that clashes inside one overlay gets the
+library word in front (`dwcutil_main.c`). No `unit_XXXXXXXX.c` name stays when
+the evidence names the file; groups that tools/renamefile.py cannot merge are
+numbered `<name>_<n>.c` in address order.
 
 ## How to apply
 

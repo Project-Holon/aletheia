@@ -13,6 +13,9 @@
  *   BMP_MENU_Delete  0x0201F9E8  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   BMP_MENUWORK_Delete  0x0201F868  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
+ *   BMP_WIN_Delete  0x020452E8  arm
  */
 #include "../include/Obj02993.h"
 
@@ -20,25 +23,25 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 struct PrintSys;
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 func_020307B0(void *p);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 BMP_MENUWORK_Delete(void *p);
 struct Descriptor;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 struct Obj;
 extern void BMP_MENU_Delete(struct Obj *o, u8 *out);
 
 void BMP_MENU_DeleteYesNo(u8 *o)
 {
-    func_0201C6EC((struct PrintSys *)(((struct Obj02993 *)o)->f18));
-    func_0201C4C0((struct PrintSys *)(((struct Obj02993 *)o)->f18));
+    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj02993 *)o)->f18));
+    PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj02993 *)o)->f18));
     func_020307B0(((struct Obj02993 *)o)->f14);
     func_0201F7A8(((struct Obj02993 *)o)->f4, 0);
     GF_FONT_Delete(((struct Obj02993 *)o)->f1C);
     BMP_MENUWORK_Delete(((struct Obj02993 *)o)->f0);
-    func_020452E8(((struct Obj02993 *)o)->f4);
+    BMP_WIN_Delete(((struct Obj02993 *)o)->f4);
     BMP_MENU_Delete((struct Obj *)o, 0);
 }

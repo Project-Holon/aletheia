@@ -20,15 +20,15 @@
  *   func_021D824C 0x021D824C thumb ov120
  *   func_021D7220 0x021D7220 thumb ov120
  *   func_020355C4 0x020355C4 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_021D69F4 0x021D69F4 thumb ov120
  *   func_020355D8 0x020355D8 arm
- *   func_0203633C 0x0203633C arm
+ *   KEY_GetRepeat 0x0203633C arm
  *   func_021D5284 0x021D5284 thumb ov120
  *   func_021D5230 0x021D5230 thumb ov120
  *   func_021D7020 0x021D7020 thumb ov120
  *   func_021D70C8 0x021D70C8 thumb ov120
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021D733C 0x021D733C thumb ov120
  *   func_021D6A9C 0x021D6A9C thumb ov120
  *   func_021D5318 0x021D5318 thumb ov120
@@ -84,15 +84,15 @@ extern void func_021D7260(u8 *p, void *q);
 extern void func_021D824C(char *p);
 extern void func_021D7220(u8 *p, void *q);
 extern u8 func_020355C4(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_021D69F4(u8 *p, void *q, u32 n);
 extern void func_020355D8(u8 v);
-extern u32 func_0203633C(void);
+extern u32 KEY_GetRepeat(void);
 extern int func_021D5284(u8 *p);
 extern int func_021D5230(u8 *p);
 extern void func_021D7020(u8 *p);
 extern void func_021D70C8(u8 *p, int flag);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern void func_021D733C(u8 *p, int index, int count);
 extern int func_021D6A9C(u8 *p, u32 n);
 extern void func_021D5318(u8 *p);
@@ -141,12 +141,12 @@ void func_021D5334(Ctx *p)
     }
     if (r != 0)
         return;
-    if (func_020355C4() == 1 && func_020362DC() != 0) {
+    if (func_020355C4() == 1 && KEY_GetTrg() != 0) {
         func_021D69F4(p->f3C, 0, p->f164);
         func_020355D8(0);
         return;
     }
-    if (func_0203633C() == 0x100) {
+    if (KEY_GetRepeat() == 0x100) {
         acc = 0;
         for (i = 0; i < 3; i++) {
             r = func_021D5284((u8 *)p);
@@ -165,7 +165,7 @@ void func_021D5334(Ctx *p)
             }
         }
     }
-    if (func_0203633C() == 0x200) {
+    if (KEY_GetRepeat() == 0x200) {
         acc = 0;
         for (i = 0; i < 3; i++) {
             r = func_021D5230((u8 *)p);
@@ -184,26 +184,26 @@ void func_021D5334(Ctx *p)
             }
         }
     }
-    if (func_0203633C() == 0x40)
+    if (KEY_GetRepeat() == 0x40)
         acc = func_021D5230((u8 *)p);
-    if (func_0203633C() == 0x80)
+    if (KEY_GetRepeat() == 0x80)
         acc = func_021D5284((u8 *)p);
     if (acc != 0) {
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021D733C(p->f3C, p->f158 + p->f164 - 6, p->f150);
         func_021D69F4(p->f3C, 0, p->f164);
         return;
     }
-    if (func_020362DC() == 1) {
-        func_020061E4(0x54C);
+    if (KEY_GetTrg() == 1) {
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         func_021D6A9C(p->f3C, p->f164);
         p->f148 = p->f158 + p->f164 - 6;
         func_021D5318((u8 *)p);
         func_021D4244((int *)p, (int)func_021D51D4, 0x760);
         return;
     }
-    if (func_020362DC() == 8) {
-        func_020061E4(0x54C);
+    if (KEY_GetTrg() == 8) {
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         APP_TASKMENU_WIN_SetDecide(p->f34, 1);
         func_021D4244((int *)p, (int)func_021D52D4, 0x766);
         return;
@@ -211,7 +211,7 @@ void func_021D5334(Ctx *p)
     sel = TOUCHPANEL_HitTrg(d_021D88D8);
     switch (sel) {
     case 3:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         APP_TASKMENU_WIN_SetDecide(p->f34, 1);
         func_021D4244((int *)p, (int)func_021D52D4, 0x770);
         return;
@@ -229,7 +229,7 @@ void func_021D5334(Ctx *p)
         p->f148 = p->f158 + p->f164 - 6;
         func_021D6E70(p->f3C, &p->f150, sel);
         func_021D733C(p->f3C, p->f158 + p->f164 - 6, p->f150);
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         func_021D5318((u8 *)p);
         func_021D4244((int *)p, (int)func_021D51D4, 0x78B);
         return;
@@ -243,7 +243,7 @@ void func_021D5334(Ctx *p)
             func_021D82A8(p->f40, p->f2C, r - 2);
             func_021D72A0(p->f3C, p->f2C, p->f158 - 2);
             func_021D6D10(p->f3C, p->f2C, p->f158 - 2);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
         }
     }
     return;

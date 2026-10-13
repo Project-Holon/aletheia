@@ -39,7 +39,7 @@
  *   G3D_SYSTEM_DrawObjectCulling    0x02047AC8  arm
  *   g_DefaultProjectionMtx       0x02148B54  data
  *   SCREENTEX_CameraState       0x02148BCC  data
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_02048AE8  0x02048AE8  arm
  *   func_02048B0C  0x02048B0C  arm
  *   func_02048B30  0x02048B30  arm
@@ -60,7 +60,7 @@
  *   func_02030DA8  0x02030DA8  arm
  *   func_02030EAC  0x02030EAC  arm
  *   func_02034A5C  0x02034A5C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02034714  0x02034714  arm
  *   func_020084F8  0x020084F8  thumb
  *   func_02008550  0x02008550  thumb
@@ -267,7 +267,7 @@ extern void func_0206DB80(void);
 extern void func_0207ADC4(MtxFx33 *mtx);
 extern void FIELD_EFFECT_GetObjectPos(void *task, G3dObjectTransform *transform);
 extern int G3D_SYSTEM_DrawObjectCulling(void *object, G3dObjectTransform *transform);
-void func_020061E4(u32 seId);
+void GFL_USE_PlaySeDefaultVolume(u32 seId);
 void func_02048AE8(void *g3dCamera, VecFx32 *out);
 void func_02048B0C(void *g3dCamera, VecFx32 *out);
 void func_02048B30(void *g3dCamera, VecFx32 *out);
@@ -287,7 +287,7 @@ int func_02034AC4(s32 overlayId);
 struct Tcb *func_02030DA8(struct TcbList *list, TcbFunc fn, void *work, int priority);
 void func_02030EAC(struct Tcb *tcb);
 void func_02034A5C(int overlayId);
-void func_02082BCC(void *p, int v, int n);
+void MI_CpuFill8(void *p, int v, int n);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 u32 func_020084F8(void *myStatus, u16 *dst, u32 size);
 u8 func_02008550(void *myStatus);
@@ -455,7 +455,7 @@ void FLDEFF_GYOE_PlaySe(int type)
     case 3:
         return;
     }
-    func_020061E4(seId);
+    GFL_USE_PlaySeDefaultVolume(seId);
 }
 
 /* Rotates src by the inverse of the camera's orientation. */
@@ -612,7 +612,7 @@ void FIELD_SUBPROC_End(FieldSubproc *proc)
     if (proc->overlayId != -1) {
         func_02034A5C(proc->overlayId);
     }
-    func_02082BCC(proc, 0, 0x18);
+    MI_CpuFill8(proc, 0, 0x18);
 }
 
 void *FIELD_SUBPROC_GetWork(const FieldSubproc *proc)

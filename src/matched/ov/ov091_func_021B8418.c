@@ -17,7 +17,7 @@
  *   PLIST_MENU_ButtonWinSetActive  0x021BBE5C  thumb  ov091
  *   POKELIST_MoveCursorToPlate  0x021B8F68  thumb  ov091
  *   PLIST_PLATE_SetSelected  0x021BAFA0  thumb  ov091
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 
 typedef unsigned char u8;
@@ -29,7 +29,7 @@ extern void PLIST_MENU_ButtonWinSetActive(int h, int f);
 extern void POKELIST_MoveCursorToPlate(u8 *p, int v);
 extern void PLIST_PLATE_SetSelected(u8 *a, u8 *s, int k);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 #define W(o) (*(int *)(p + (o)))
 
@@ -50,7 +50,7 @@ void POKELIST_RefreshCursor(u8 *p)
             PLIST_MENU_ButtonWinSetActive(*(int *)(p + (u8)(W(0x2c) - 6) * 4 + 0x108), 1);
         }
     } else {
-        func_0204B3DC((struct Obj *)W(0x1d8), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)W(0x1d8), 0);
         if (W(0x2c) <= 5) {
             if (p[0xc] == 3) {
                 PLIST_PLATE_SetSelected(p, (u8 *)(*(int *)(p + W(0x2c) * 4 + 0x160)), 1);
@@ -61,10 +61,10 @@ void POKELIST_RefreshCursor(u8 *p)
             PLIST_MENU_ButtonWinSetActive(*(int *)(p + (u8)(W(0x2c) - 6) * 4 + 0x108), 0);
         }
     }
-    func_0204B3DC((struct Obj *)W(0x1e4), W(0x14));
+    CLACT_SetActorDrawEnable((struct Obj *)W(0x1e4), W(0x14));
     if (POKELIST_IsItemMode((u32)p) == 1 || POKELIST_HasBackButton(p) == 0) {
-        func_0204B3DC((struct Obj *)W(0x1e0), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)W(0x1e0), 0);
     } else {
-        func_0204B3DC((struct Obj *)W(0x1e0), 1);
+        CLACT_SetActorDrawEnable((struct Obj *)W(0x1e0), 1);
     }
 }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C7CF4  0x021C7CF4  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_EVENT_GetClientReservedChoice  0x021D6E50  thumb  ov093
  *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
  *   func_021E8384  0x021E8384  thumb  ov093
@@ -21,7 +21,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int key);
 struct QQ;
-extern void *func_021C7CF4(int *p, int i);
+extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int BTL_EVENT_GetClientReservedChoice(u8 *p, u8 *id, u16 *value);
 extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 extern int func_021E8384(u32 x, u32 y);
@@ -35,7 +35,7 @@ void func_021E83CC(void *a, void *b, int c, int *d)
     u8 k;
 
     if (c == BTL_EVENT_GetVar(3)) {
-        if (BTL_EVENT_GetClientReservedChoice(func_021C7CF4(b, c), &x, &y) != 0) {
+        if (BTL_EVENT_GetClientReservedChoice(BTL_SERVER_FLOW_GetPokeParam(b, c), &x, &y) != 0) {
             r = func_021E8384(BTL_EVENT_GetFactorKey(a), y);
             k = BTL_EVENT_GetVar(0x16);
             if (r != 0) {

@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetSeaIncenseHandlers
+ * function: HAND_ITEM_GetSeaIncenseHandlers
  * address: 0x021DF8F4
  * packet: pkt_ov093_021DF8F4
  * region: ov093
@@ -15,10 +15,10 @@
  *   gSeaIncenseHandlers 0x021F1544 data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetSeaIncenseHandlers(int *p);
+int *HAND_ITEM_GetSeaIncenseHandlers(int *p);
 extern int gSeaIncenseHandlers[];
 
-int *BTL_HANDLER_ITEM_GetSeaIncenseHandlers(int *p)
+int *HAND_ITEM_GetSeaIncenseHandlers(int *p)
 {
     *p = 1;
     return gSeaIncenseHandlers;

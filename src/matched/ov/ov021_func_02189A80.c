@@ -11,11 +11,11 @@
  *
  * symbols:
  *   FIELD_CAMERA_GetViewPitchPtr  0x0218ED3C  thumb  ov021
- *   d_020A1B38     0x020A1B38  data  a2
+ *   FX_SinCosTable_     0x020A1B38  data  a2
  */
 #include "../include/Obj19508.h"
 
-extern short d_020A1B38[];
+extern short FX_SinCosTable_[];
 typedef unsigned char  u8;
 extern u8 *FIELD_CAMERA_GetViewPitchPtr(u8 *p);
 
@@ -23,7 +23,7 @@ int FIELDMAP_CalcCameraPitchScale(char *p)
 {
     unsigned short *q = (short unsigned int *)FIELD_CAMERA_GetViewPitchPtr(((struct Obj19508 *)p)->f10);
     int i = (*q >> 4) * 2 + 1;
-    int s = d_020A1B38[i];
+    int s = FX_SinCosTable_[i];
     long long v;
     int r;
 

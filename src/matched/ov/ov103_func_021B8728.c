@@ -18,7 +18,7 @@
  *   func_021B8D9C 0x021B8D9C thumb ov103
  *   func_021B91B4 0x021B91B4 thumb ov103
  *   func_021B8138 0x021B8138 thumb ov103
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021B8338 0x021B8338 thumb ov103
  *   func_021B8828 0x021B8828 thumb ov103
  *   func_021B7954 0x021B7954 thumb ov103
@@ -43,7 +43,7 @@ extern void func_021B8358(u8 *);
 extern int func_021B8D9C(u32 *,u32 *);
 extern int func_021B91B4(u8 *,u32 *);
 extern void func_021B8138(u8 *,void *,int,int,short);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_021B8338(u32,u32);
 extern void func_021B8828(u8 *,u16 *),func_021B8364(u8 *,u16 *),func_021B8A44(u8 *,u16 *);
 extern u8 *func_021B7954(u8 *);
@@ -71,7 +71,7 @@ void func_021B8728(u8 *p,u16 *state)
             if(func_021B8D9C(d_021B926C,(u32 *)&point)) {
                 if(func_021B91B4(p+off,d_021B926C)) {
                     func_021B8138(p+0x184,p+0x174,3,0,0);
-                    func_020061E4(0x654);
+                    GFL_USE_PlaySeDefaultVolume(0x654);
                     func_021B8338((u32)p,(u32)func_021B8828);
                 }
                 if(off) {}

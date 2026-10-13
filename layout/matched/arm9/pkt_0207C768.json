@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0207C768",
+   "name": "FX_Div",
    "address": "0x0207C768",
    "kind": "game",
    "region": "arm9",

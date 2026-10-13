@@ -1,5 +1,5 @@
 /*
- * function: func_021BA648
+ * function: BTL_MAIN_CopyClientParty
  * address: 0x021BA648
  * packet: pkt_ov093_021BA648
  * region: ov093
@@ -9,19 +9,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA710 0x021BA710 thumb ov093
+ *   BTL_MAIN_GetRelativeClientIndex 0x021BA710 thumb ov093
+ *   POKEPARTY_Copy  0x0201AC2C  thumb  arm9
  */
 #include "../include/Obj13286.h"
 
 typedef unsigned char u8;
-extern u8 func_021BA710(int, int);
+extern u8 BTL_MAIN_GetRelativeClientIndex(int, int);
 struct Rec534;
-extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
-void func_021BA648(char *p, u8 k, void *dst)
+extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
+void BTL_MAIN_CopyClientParty(char *p, u8 k, void *dst)
 {
  int i;
  void *q;
- i = func_021BA710(((struct Obj13286 *)p)->f46C, k);
+ i = BTL_MAIN_GetRelativeClientIndex(((struct Obj13286 *)p)->f46C, k);
  q = *(void **)(*(char * *)&((struct Obj13286 *)p)->f0 + i * 4 + 0x24);
- if (q != 0) func_0201AC2C(dst, q);
+ if (q != 0) POKEPARTY_Copy(dst, q);
 }

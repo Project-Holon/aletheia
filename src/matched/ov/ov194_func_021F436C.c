@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0201C6C4 0x0201C6C4 thumb
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_OAM_UploadChars 0x020257D0 thumb
  */
 #include "../include/Obj06641.h"
-struct Obj;extern int func_0201C6C4(int,int);extern void BMP_OAM_UploadChars(struct Obj *);
-void func_021F436C(unsigned char *p){if(((struct Obj06641 *)p)->f34){if(func_0201C6C4(((struct Obj06641 *)p)->f38,((struct Obj06641 *)p)->f30)==0){BMP_OAM_UploadChars(*(struct Obj * *)&((struct Obj06641 *)p)->f2C);((struct Obj06641 *)p)->f34=0;}}}
+struct Obj;extern int PRINTSYS_QUE_IsExistTarget(int,int);extern void BMP_OAM_UploadChars(struct Obj *);
+void func_021F436C(unsigned char *p){if(((struct Obj06641 *)p)->f34){if(PRINTSYS_QUE_IsExistTarget(((struct Obj06641 *)p)->f38,((struct Obj06641 *)p)->f30)==0){BMP_OAM_UploadChars(*(struct Obj * *)&((struct Obj06641 *)p)->f2C);((struct Obj06641 *)p)->f34=0;}}}

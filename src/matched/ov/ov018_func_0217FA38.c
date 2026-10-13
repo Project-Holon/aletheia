@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
@@ -20,7 +20,7 @@
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
- *   func_02013D5C  0x02013D5C  thumb
+ *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   EVENT_COMM_COMMON_CreateMissionInfoEvent  0x0217F938  thumb  ov018
  */
 
@@ -32,7 +32,7 @@ struct BigObj;
 struct Ctx;
 struct Evt;
 struct Obj;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
@@ -44,7 +44,7 @@ void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 u8 *GAMESYSTEM_GetMyPlayerWork(const struct Ctx *p);
 struct Rec44;
 u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
-u32 func_02013D5C(u32 id);
+u32 ZONEDATA_IsZone117(u32 id);
 void *EVENT_COMM_COMMON_CreateMissionInfoEvent(void *);
 
 int EVENT_COMM_COMMON_ReturnPalaceEventMain(void *a, int *state)
@@ -56,7 +56,7 @@ int EVENT_COMM_COMMON_ReturnPalaceEventMain(void *a, int *state)
     u8 *w;
     void *r;
 
-    s = func_020124E4(a);
+    s = GAME_EVENT_GetGameSystem(a);
     h = GAMESYSTEM_GetGameComm(s);
     p2 = GAMESYSTEM_GetGameData(s);
     p3 = GAMESYSTEM_GetFieldMap(s);
@@ -76,7 +76,7 @@ int EVENT_COMM_COMMON_ReturnPalaceEventMain(void *a, int *state)
         (*state)++;
         break;
     case 1:
-        if (func_02013D5C(GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAMESYSTEM_GetMyPlayerWork(s))) == 1) {
+        if (ZONEDATA_IsZone117(GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAMESYSTEM_GetMyPlayerWork(s))) == 1) {
             GAME_EVENT_CallEvent(a, EVENT_COMM_COMMON_CreateMissionInfoEvent(s));
         }
         (*state)++;

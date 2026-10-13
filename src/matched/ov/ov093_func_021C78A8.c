@@ -1,5 +1,5 @@
 /*
- * function: func_021C78A8
+ * function: BTL_SERVER_FLOW_NotifyMoveRankEffectEvent
  * address:  0x021C78A8
  * packet:   pkt_ov093_021C78A8
  * region:   ov093
@@ -25,7 +25,7 @@ extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
 extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern void BTL_EVENT_PopVarFrame(int line);
 
-void func_021C78A8(u8 *p, u8 *a, u32 b, u32 c, u32 d)
+void BTL_SERVER_FLOW_NotifyMoveRankEffectEvent(u8 *p, u8 *a, u32 b, u32 c, u32 d)
 {
     BTL_EVENT_PushVarFrame(12868);
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(a));

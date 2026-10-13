@@ -11,7 +11,7 @@
  *   has a shared label. Keep lower test as <18 and nest the upper test in else.
  * symbols:
  *   _u32_div_f 0x0209C2B0 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 #include "../include/Obj13802.h"
 typedef unsigned char u8;
@@ -20,7 +20,7 @@ typedef struct { s16 x,y; } Vec2;
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021BFDB0(u8 *p,unsigned a,unsigned n) {
     Vec2 pos;
     s16 lo,hi;
@@ -40,5 +40,5 @@ void func_021BFDB0(u8 *p,unsigned a,unsigned n) {
     goto apply;
 low: pos.y=18;
 apply:
-    func_0204B404(((struct Obj13802 *)p)->f1C,(const struct Vec2 *)(&pos),0);
+    CLACT_AddActorSurfacePos(((struct Obj13802 *)p)->f1C,(const struct Vec2 *)(&pos),0);
 }

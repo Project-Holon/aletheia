@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
  */
 
@@ -24,7 +24,7 @@ typedef struct {
     u8  f37;
 } Blk;
 
-extern u32 func_02026478(void *obj);
+extern u32 GAME_COMM_GetGameData(void *obj);
 struct BigObj;
 extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 
@@ -34,7 +34,7 @@ int INTRUDE_COMM_GetResultCount(void *p, u8 *a1)
     int sv;
     int i;
 
-    sv = func_02026478(((void **)p)[1]);
+    sv = GAME_COMM_GetGameData(((void **)p)[1]);
     b = (Blk *)((char *)p + 0x258);
     if (b->f37 == 1) {
         return 0;

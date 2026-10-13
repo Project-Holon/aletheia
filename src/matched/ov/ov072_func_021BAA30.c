@@ -12,7 +12,7 @@
  * symbols:
  *   TOWNMAP_TownGetField  0x021BA774  thumb  ov072
  *   TOWNMAP_TownSetFrame  0x021BADBC  thumb  ov072
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 
 typedef unsigned char u8;
@@ -33,7 +33,7 @@ typedef struct {
 extern int TOWNMAP_TownGetField(char *p, int i);
 extern void TOWNMAP_TownSetFrame(char *p, int v);
 struct Obj;
-extern void func_0204B3DC(struct Obj *obj, unsigned int on);
+extern void CLACT_SetActorDrawEnable(struct Obj *obj, unsigned int on);
 
 void TOWNMAP_TownSetShown(W *p, int a)
 {
@@ -41,13 +41,13 @@ void TOWNMAP_TownSetShown(W *p, int a)
         return;
     }
     if (p->f40 != 0) {
-        func_0204B3DC((struct Obj *)p->obj, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)p->obj, 0);
         return;
     }
     if (TOWNMAP_TownGetField((char *)p, 11) == 4 || TOWNMAP_TownGetField((char *)p, 11) == 5) {
         TOWNMAP_TownSetFrame((char *)p, p->f30);
-        func_0204B3DC((struct Obj *)p->obj, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->obj, 1);
     } else {
-        func_0204B3DC((struct Obj *)p->obj, a);
+        CLACT_SetActorDrawEnable((struct Obj *)p->obj, a);
     }
 }

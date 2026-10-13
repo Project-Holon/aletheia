@@ -15,7 +15,7 @@
  *   GFL_NET_GetMaxConnectNum  0x0203D680  arm
  *   GFL_NET_SYSTEM_GetSendSize  0x02037258  arm
  *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_NET_RING_BUFF_Init  0x0203640C  arm
  *   GFL_NET_SYSTEM_InitRecvState  0x02037234  arm
  *   GFL_NET_SYSTEM_SetDebugByte  0x02037224  arm
@@ -56,7 +56,7 @@ extern u8 str_020A7A20[];
 extern u32 GFL_NET_GetMaxConnectNum(void);
 extern u32 GFL_NET_SYSTEM_GetSendSize(void);
 extern u32 GFL_NET_GetChildSendSize(void);
-extern void func_02082BCC(u8 *p, u32 v, u32 n);
+extern void MI_CpuFill8(u8 *p, u32 v, u32 n);
 struct Rec;
 extern void GFL_NET_RING_BUFF_Init(struct Rec *p, u32 a, int b);
 extern void GFL_NET_SYSTEM_InitRecvState(u8 *p);
@@ -74,25 +74,25 @@ void GFL_NET_SYSTEM_ResetBuffers(void)
     n2 = GFL_NET_SYSTEM_GetSendSize();
     n3 = GFL_NET_GetChildSendSize();
 
-    func_02082BCC(_pNetSys->f10, 0, _pNetSys->f1E0 * n1);
+    MI_CpuFill8(_pNetSys->f10, 0, _pNetSys->f1E0 * n1);
     for (i = 0; i < n1; i++) {
         GFL_NET_RING_BUFF_Init((struct Rec *)((u8 *)_pNetSys + 0x4c + i * 16),
               (u32)(_pNetSys->f10 + i * _pNetSys->f1E0), _pNetSys->f1E0);
         ((u8 *)_pNetSys)[0x1d7 + i] = 0;
     }
 
-    func_02082BCC(_pNetSys->f0C, 0, n2 + n2);
+    MI_CpuFill8(_pNetSys->f0C, 0, n2 + n2);
     GFL_NET_RING_BUFF_Init((struct Rec *)((u8 *)_pNetSys + 0x3c), (u32)_pNetSys->f0C, (u32)n2 << 1);
     for (i = 0; i < n2; i++)
         _pNetSys->f08[i] = 0;
 
-    func_02082BCC((u8 *)_pNetSys->f04, 0, n3 * 16 - n3);
+    MI_CpuFill8((u8 *)_pNetSys->f04, 0, n3 * 16 - n3);
     GFL_NET_RING_BUFF_Init((struct Rec *)((u8 *)_pNetSys + 0x1c), (u32)((u8 *)_pNetSys->f04), ((u32)n3 << 4) - n3);
     *(u8 *)_pNetSys->f00 = 0xff;
     for (i = 1; i < n3; i++)
         ((u8 *)_pNetSys->f00)[i] = 0;
 
-    func_02082BCC(_pNetSys->f14, 0, _pNetSys->f1E0 + _pNetSys->f1E0 * 2);
+    MI_CpuFill8(_pNetSys->f14, 0, _pNetSys->f1E0 + _pNetSys->f1E0 * 2);
     GFL_NET_RING_BUFF_Init((struct Rec *)((u8 *)_pNetSys + 0x2c), (u32)_pNetSys->f14,
                   _pNetSys->f1E0 * 3);
     for (i = 0; i < 8; i++) {

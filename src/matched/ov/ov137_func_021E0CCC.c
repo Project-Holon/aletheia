@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 int func_021E0CCC(int *p)
 {
     int *q = (int *)p[4];
     q[21] -= p[3];
     if (p[2] == 0 && q[21] <= 0x68000) {
         p[2] = 1;
-        func_020061E4(0x725);
+        GFL_USE_PlaySeDefaultVolume(0x725);
     }
     if (q[21] <= 0x20000) {
         q[21] = 0x20000;

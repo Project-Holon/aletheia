@@ -1,5 +1,5 @@
 /*
- * function: func_021C5840
+ * function: BTL_SERVER_FLOW_PushEffectivenessMessageList
  * address: 0x021C5840
  * packet: pkt_ov093_021C5840
  * region: ov093
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_SERVER_CMD_PushVariable(void *, u8, ...);
-void func_021C5840(u8 *p, u32 count, int *v, u8 **a, int flag)
+void BTL_SERVER_FLOW_PushEffectivenessMessageList(u8 *p, u32 count, int *v, u8 **a, int flag)
 {
     u8 low = 0;
     u8 high = 0;

@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetSilverPowderHandlers
+ * function: HAND_ITEM_GetSilverPowderHandlers
  * address: 0x021DF6EC
  * packet: pkt_ov093_021DF6EC
  * region: ov093
@@ -15,10 +15,10 @@
  *   gSilverPowderHandlers 0x021F14F4 data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetSilverPowderHandlers(int *p);
+int *HAND_ITEM_GetSilverPowderHandlers(int *p);
 extern int gSilverPowderHandlers[];
 
-int *BTL_HANDLER_ITEM_GetSilverPowderHandlers(int *p)
+int *HAND_ITEM_GetSilverPowderHandlers(int *p)
 {
     *p = 1;
     return gSilverPowderHandlers;

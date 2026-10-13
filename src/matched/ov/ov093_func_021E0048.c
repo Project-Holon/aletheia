@@ -1,5 +1,5 @@
 /*
- * function: func_021E0048
+ * function: HAND_ITEM_GetFlyingGemHandlers
  * address: 0x021E0048
  * packet: pkt_ov093_021E0048
  * region: ov093
@@ -12,16 +12,16 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DFCE8.c and filed here.
  *
  * symbols:
- *   d_021F1A24 0x021F1A24 data ov093 a4
+ *   gHandItemFlyingGemHandlers 0x021F1A24 data ov093 a4
  */
 
-int *func_021E0048(int *p);
+int *HAND_ITEM_GetFlyingGemHandlers(int *p);
 
-/* 021E0054  stack-arg wrapper: func_021E0284(a, b, c, d, 0x2) */
-extern int d_021F1A24[];
+/* 021E0054  stack-arg wrapper: HAND_ITEM_GemMovePower(a, b, c, d, 0x2) */
+extern int gHandItemFlyingGemHandlers[];
 
-int *func_021E0048(int *p)
+int *HAND_ITEM_GetFlyingGemHandlers(int *p)
 {
     *p = 3;
-    return d_021F1A24;
+    return gHandItemFlyingGemHandlers;
 }

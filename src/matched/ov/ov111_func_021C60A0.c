@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201C4C0  0x0201C4C0  thumb
- *   func_020452E8  0x020452E8  arm
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *
  * Addresses are Black-image addresses.
@@ -29,18 +29,18 @@ typedef struct {
 
 struct Descriptor;
 struct PrintSys;
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 typedef unsigned int   u32;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
 
 void func_021C60A0(Work *p)
 {
     u16 i;
 
-    func_0201C4C0(p->f32CC);
+    PRINTSYS_QUE_Delete(p->f32CC);
     for (i = 0; i < 8; i++) {
-        func_020452E8(p->bg[i]);
+        BMP_WIN_Delete(p->bg[i]);
     }
     BMP_WIN_Exit();
 }

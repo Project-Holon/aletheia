@@ -16,11 +16,11 @@
  *   func_021BBB18 0x021BBB18 thumb ov093
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   func_021BBB28 0x021BBB28 thumb ov093
- *   func_02082BCC 0x02082BCC arm
- *   func_021C7C18 0x021C7C18 thumb ov093
- *   func_021C8588 0x021C8588 thumb ov093
+ *   MI_CpuFill8 0x02082BCC arm
+ *   BTL_SERVER_FLOW_ClearEffectivenessRecord 0x021C7C18 thumb ov093
+ *   BTL_SERVER_FLOW_ResetFrameStack 0x021C8588 thumb ov093
  *   BTL_CLIENT_SET_Clear 0x021D8230 thumb ov093
- *   func_021CC8C8 0x021CC8C8 thumb ov093
+ *   BTL_SERVER_FLOW_ResetHandExBuffer 0x021CC8C8 thumb ov093
  *   BTL_SERVER_FLOW_ClearPendingCounter 0x021C5474 thumb ov093
  *   func_021BBB38 0x021BBB38 thumb ov093
  */
@@ -35,11 +35,11 @@ extern void func_021BBB08(void *);
 extern void func_021BBB18(void *);
 extern u32 BTL_MAIN_GetRule(void **p);
 extern void func_021BBB28(void *, void *, void *, u32);
-extern void func_02082BCC(void *, int, u32);
-extern void func_021C7C18(void *);
-extern void func_021C8588(unsigned char *p);
+extern void MI_CpuFill8(void *, int, u32);
+extern void BTL_SERVER_FLOW_ClearEffectivenessRecord(void *);
+extern void BTL_SERVER_FLOW_ResetFrameStack(unsigned char *p);
 extern void BTL_CLIENT_SET_Clear(u8 *p);
-extern void func_021CC8C8(u32 *p);
+extern void BTL_SERVER_FLOW_ResetHandExBuffer(u32 *p);
 extern void *BTL_SERVER_FLOW_ClearPendingCounter(char *p);
 extern void func_021BBB38(void *);
 void BTL_SERVER_FLOW_InitState(u8 *p)
@@ -49,14 +49,14 @@ void BTL_SERVER_FLOW_InitState(u8 *p)
     func_021BBB08(p + 0x1c);
     func_021BBB18(p + 0x3e0);
     func_021BBB28(p + 0x1ab8, ((struct Obj02133 *)p)->f4, ((struct Obj02133 *)p)->f8, BTL_MAIN_GetRule(((struct Obj02133 *)p)->f4));
-    func_02082BCC(p + 0x7a9, 0, 0x18);
-    func_02082BCC(p + 0x7c1, 0, 0x18);
-    func_02082BCC(p + 0x7d9, 0, 4);
-    func_02082BCC(p + 0x4d4, 0, 0x2a0);
-    func_021C7C18(p + 0x1f7c);
-    func_021C8588(p);
+    MI_CpuFill8(p + 0x7a9, 0, 0x18);
+    MI_CpuFill8(p + 0x7c1, 0, 0x18);
+    MI_CpuFill8(p + 0x7d9, 0, 4);
+    MI_CpuFill8(p + 0x4d4, 0, 0x2a0);
+    BTL_SERVER_FLOW_ClearEffectivenessRecord(p + 0x1f7c);
+    BTL_SERVER_FLOW_ResetFrameStack(p);
     BTL_CLIENT_SET_Clear(p + 0x4b8);
-    func_021CC8C8((u32 *)(p + 0x1d74));
+    BTL_SERVER_FLOW_ResetHandExBuffer((u32 *)(p + 0x1d74));
     func_021BBB38(BTL_SERVER_FLOW_ClearPendingCounter((char *)(p + 0x1b50)));
     p[0x786] = 0;
     p[0x787] = 0;

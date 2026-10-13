@@ -22,7 +22,7 @@
  *   func_02088150  0x02088150  arm
  *   func_02082D44  0x02082D44  arm
  *   func_02004632  0x02004632  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8_Alt  0x02082BCC  arm
  *   func_02088118  0x02088118  arm
  */
 typedef unsigned long long u64;
@@ -83,7 +83,7 @@ extern u16 SVC_GetCRC16(u32_02087FBC start, const void *data, u32_02087FBC size)
 extern void MI_CpuCopy8(const void *src, void *dest, u32_02087FBC size);
 extern void func_02082D44(u32_0208806C bus, u32_0208806C p, u32_0208806C n);
 extern u32_0208806C  func_02004632(u32_0208806C a, u32_0208806C p, u32_0208806C n);
-extern void func_02082BCC(u32_0208806C p, u32_0208806C c, u32_0208806C n);
+extern void MI_CpuFill8_Alt(u32_0208806C p, u32_0208806C c, u32_0208806C n);
 void func_02088118(void);
 u64 func_0208812C(void);
 asm int OS_IsValidDeliverArg(void);
@@ -195,7 +195,7 @@ int func_0208806C(void)
     *(u16 *)(base[2] + 0x10) = func_02004632(0xffff, base[2], 0x300);
 
     if (old != *(u16 *)(base[2] + 0x10)) {
-        func_02082BCC(base[2], 0, 0x300);
+        MI_CpuFill8_Alt(base[2], 0, 0x300);
         func_02088118();
         return 0;
     }

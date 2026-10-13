@@ -15,15 +15,15 @@
  *   24 B). The caller passes a 0x38 B input record and heap.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021DA1BC 0x021DA1BC thumb ov121
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Clone 0x02045874 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_0204B404 0x0204B404 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   d_021DFBA0 0x021DFBA0 data a4
  *   d_021DF7C0 0x021DF7C0 data a4
  *   d_021DF76C 0x021DF76C data a4
@@ -89,7 +89,7 @@ extern const struct Tbl d_021DF7C0;
 extern struct E d_021DF76C[];
 extern struct E d_021DF770[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void *func_021DA1BC(void *,const char *,u32,u16,u8,u32,u32,int,u16);
 struct MsgBank;
 struct Obj;
@@ -98,10 +98,10 @@ struct Vec2;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 struct Out *func_021DA4DC(const struct In *in, u16 heap)
 {
     struct Tbl t;
@@ -110,7 +110,7 @@ struct Out *func_021DA4DC(const struct In *in, u16 heap)
     u8 c;
     u16 w;
     struct Out *out = func_02030734(heap, 0x64, 0, d_021DFBA0, 0x4e7);
-    func_02082BCC(out, 0, 0x64);
+    MI_CpuFill8(out, 0, 0x64);
     out->fC = in->f20;
     out->f4 = (u32)in->fC_;
     out->f26 = in->f26;
@@ -145,9 +145,9 @@ struct Out *func_021DA4DC(const struct In *in, u16 heap)
         if (t.r[i].h) STRBUF_Delete(t.r[i].h);
     pt.x = d_021DF76C[out->f8].a;
     pt.y = d_021DF770[out->f8].a + in->f2c * 8;
-    func_0204B404((void *)out->f4, (const struct Vec2 *)(&pt), 0);
-    func_0204B3DC((void *)out->f4, 1);
+    CLACT_AddActorSurfacePos((void *)out->f4, (const struct Vec2 *)(&pt), 0);
+    CLACT_SetActorDrawEnable((void *)out->f4, 1);
     CLACT_SetActorAnimSeq((void *)out->f4, out->f30);
-    func_0204B92C((void *)out->f4, 1);
+    CLACT_SetActorAutoAnim((void *)out->f4, 1);
     return out;
 }

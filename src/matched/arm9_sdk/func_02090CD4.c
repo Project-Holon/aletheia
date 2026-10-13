@@ -1,5 +1,5 @@
 /*
- * function: func_02090CD4
+ * function: WM_SetGameInfo
  * address:  0x02090CD4
  * packet:   pkt_02090CD4
  * region:   arm9
@@ -70,7 +70,7 @@ extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
 extern u32 g_02153B00[32];
 #define tmpUserGameInfoBuf g_02153B00
 
-WMErrCode func_02090CD4(WMCallbackFunc callback, const u16 *userGameInfo, u16 userGameInfoSize, u32 ggid, u16 tgid, u8 attr)
+WMErrCode WM_SetGameInfo(WMCallbackFunc callback, const u16 *userGameInfo, u16 userGameInfoSize, u32 ggid, u16 tgid, u8 attr)
 {
     WMErrCode result;
 

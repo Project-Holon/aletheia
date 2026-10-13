@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B91E4  0x021B91E4  thumb  ov093
+ *   BTL_MAIN_AddBonusMoney  0x021B91E4  thumb  ov093
  *
  * blocker: target 0x021B91E4 is unlabelled in ov093 and in all 11 overlapping
  * overlays, with no outside branch; the pool relocation has no witness.
  * All bytes correct.
  
  *
- * UNBLOCKED: func_021B91E4 is now an EXACT entry in layout/matched/ov093;
+ * UNBLOCKED: BTL_MAIN_AddBonusMoney is now an EXACT entry in layout/matched/ov093;
  * the call site resolves as matched, verdict promoted to EXACT.
 */
 
-void func_021B91E4(void *p, int add);
+void BTL_MAIN_AddBonusMoney(void *p, int add);
 
 void BTL_SERVER_AddMainCounter(int *p, int add)
 {
-    func_021B91E4((void *)p[3], add);
+    BTL_MAIN_AddBonusMoney((void *)p[3], add);
 }

@@ -22,7 +22,7 @@
  *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
  *   NNS_G3dGetMdlSet  0x0206E954  arm
  *   func_02047250  0x02047250  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02069C74  0x02069C74  arm
  *   func_02069E88  0x02069E88  arm
  *   _s32_div_f  0x0209C0A4  arm
@@ -67,7 +67,7 @@
  *   ENTRANCE_CAMERA_Delete  0x021BDCB8  thumb  ov021
  *   func_021A7B10  0x021A7B10  thumb  ov021
  *   FIELD_SOUND_SYSTEM_PostZoneBgmReplace  0x02029D44  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
@@ -326,7 +326,7 @@ extern NNSG3dResAnm *NNS_G3dGetAnmByIdx(void *file, u32 idx);
 extern void *G3D_SYSTEM_GetResourceFile(void *resource);
 extern ModelSetRes *NNS_G3dGetMdlSet(void *file);
 extern TexRes *func_02047250(void *resource);
-extern void func_02082BCC(void *p, u32 value, u32 size);
+extern void MI_CpuFill8(void *p, u32 value, u32 size);
 extern void func_02069C74(NNSG3dAnmObj *anmObj, NNSG3dResAnm *pResAnm, u32 pResMdl, u32 pResTex);
 extern void func_02069E88(void *renderObj, NNSG3dAnmObj *anmObj);
 extern int G3D_SYSTEM_GetResourceSize(void);
@@ -362,7 +362,7 @@ extern void ENTRANCE_CAMERA_Restore(void *entrance);
 extern int FIELD_CAMERA_ReloadSetting(void *camera);
 extern void ENTRANCE_CAMERA_Delete(void *entrance);
 extern void FIELD_SOUND_SYSTEM_PostZoneBgmReplace(void *bgmInfo, void *gameData, u16 zoneId, u8 flag);
-extern void func_020061E4(u32 seId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern u16 FIELD_PLAYER_GetDirDisp(void *player);
 extern void FIELD_PLAYER_GetPos(void *player, VecFx32 *out);
 extern u32 FIELDMAP_GetMoveKind(void *fieldMap);
@@ -597,7 +597,7 @@ u32 FIELD_GROUND_ANIME_AnmEntryBind(GroundAnmEntry *entry, u32 fileRes, u32 texR
         texRes = (u32)func_02047250((void *)texRes);
     else
         texRes = 0;
-    func_02082BCC(entry->anmObj, 0, 0x80);
+    MI_CpuFill8(entry->anmObj, 0, 0x80);
     func_02069C74(entry->anmObj, entry->pResAnm, pResMdl, texRes);
     func_02069E88((void *)renderObj, entry->anmObj);
     entry->flags.word = (entry->flags.word & ~1) | 1;
@@ -1285,7 +1285,7 @@ int func_021A7F38(void *task, int *state, GroundAnimeWork *work)
         break;
     case GROUND_B_ENTER_EVENT:
         if (func_021A834C(work) != 0) {
-            func_020061E4(SE_GROUND_ANIME_DOOR);
+            GFL_USE_PlaySeDefaultVolume(SE_GROUND_ANIME_DOOR);
         }
         func_021A8324(task, work);
         *state = func_021A81EC(work);
@@ -1418,7 +1418,7 @@ void func_021A8278(GroundAnimeWork *work)
     if (func_021A8268(work)) {
         FIELD_BUILDMODEL_PlayNodeSlot(work->buildModel, 0, 0);
         if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(work->buildModel, &seId)) {
-            func_020061E4(seId);
+            GFL_USE_PlaySeDefaultVolume(seId);
         }
     }
 }
@@ -1430,7 +1430,7 @@ void func_021A82A8(GroundAnimeWork *work)
     if (func_021A8268(work)) {
         FIELD_BUILDMODEL_PlayNodeSlot(work->buildModel, 1, 0);
         if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(work->buildModel, &seId)) {
-            func_020061E4(seId);
+            GFL_USE_PlaySeDefaultVolume(seId);
         }
     }
 }

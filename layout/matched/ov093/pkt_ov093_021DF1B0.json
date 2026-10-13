@@ -18,13 +18,13 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_HANDLER_ITEM_StickyBarb_TurnEndDamage",
-    "BTL_HANDLER_ITEM_GetPowerWeightHandlers",
-    "BTL_HANDLER_ITEM_GetPowerBracerHandlers",
-    "BTL_HANDLER_ITEM_GetPowerBeltHandlers",
-    "BTL_HANDLER_ITEM_GetPowerLensHandlers",
-    "BTL_HANDLER_ITEM_GetPowerBandHandlers",
-    "BTL_HANDLER_ITEM_GetPowerAnkletHandlers"
+    "HAND_ITEM_StickyBarb_TurnEndDamage",
+    "HAND_ITEM_GetPowerWeightHandlers",
+    "HAND_ITEM_GetPowerBracerHandlers",
+    "HAND_ITEM_GetPowerBeltHandlers",
+    "HAND_ITEM_GetPowerLensHandlers",
+    "HAND_ITEM_GetPowerBandHandlers",
+    "HAND_ITEM_GetPowerAnkletHandlers"
    ],
    "addresses": [
     "0x021DF1B0",

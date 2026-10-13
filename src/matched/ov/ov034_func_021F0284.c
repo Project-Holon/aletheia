@@ -11,7 +11,7 @@
  * lever: inline print_record binds owner before the bitmap getter; named one
  * remains live across the repeated blocks and pins their distinct spill slots.
  * symbols:
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_0201EC64 0x0201EC64 thumb
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
@@ -23,7 +23,7 @@
  *   func_0201EFA4 0x0201EFA4 thumb
  *   GAMESYSTEM_GetMyPlayerWork 0x020120F8 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
- *   func_02013E4C 0x02013E4C thumb
+ *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
  *   func_0201F158 0x0201F158 thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   func_0200C258 0x0200C258 thumb
@@ -44,7 +44,7 @@
  *   func_020086E8 0x020086E8 thumb
  *   func_0201ED04 0x0201ED04 thumb
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02045B38 0x02045B38 arm
  *   STRBUF_Create 0x020457B0 arm
@@ -62,10 +62,10 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 struct Big;
 struct BigObj;
 struct Blk34;
@@ -99,7 +99,7 @@ extern int func_0208890C(struct RTCTime *time);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u8 *GAMESYSTEM_GetMyPlayerWork(const struct Ctx *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
-extern u32 func_02013E4C(u32);
+extern u32 ZONEDATA_GetPlaceNameId(u32);
 extern void func_0201F158(struct WordSet *p, u32 i, u32 v);
 extern void *GAME_DATA_GetMiscSave(int *p);
 extern u32 func_0200C258(struct Blk34 *p);
@@ -127,7 +127,7 @@ extern const u8 d_021F0A70[];
 static inline void print_record(u8 *p,u32 index,void *dst,void *s,u32 y,u16 color,u32 one)
 {
     u32 owner=((struct Obj09806 *)p)->f8;
-    PRINTSYS_PrintQueColor((void *)owner,(u32)func_02045770((struct Descriptor *)*(u32 *)(p+12+index*8)),0,y,(u32)dst,(u32)(((struct Obj09806 *)p)->f4C),color);
+    PRINTSYS_PrintQueColor((void *)owner,(u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)(p+12+index*8)),0,y,(u32)dst,(u32)(((struct Obj09806 *)p)->f4C),color);
     p[16+index*8]=one;
     STRBUF_Delete(s);
 }
@@ -136,12 +136,12 @@ void REPORT_InitWindows(u8 *p)
     u32 i,one=1;
     void *bank,*ws,*dst,*ctx,*ctrl,*s0,*s1,*s2,*s3,*s4,*s5,*s6,*s7,*time,*t;
     u32 date[4],clock[3];
-    ((struct Obj00166 *)p)->f8=func_0201C440((void *)(((struct Obj00166 *)p)->f12C));
+    ((struct Obj00166 *)p)->f8=PRINTSYS_QUE_Create((void *)(((struct Obj00166 *)p)->f12C));
     for(i=0;i<8;i++) {
         const u8 *r=d_021F0A70+i*6;
         u8 *entry=p+i*8;
         ((struct Obj13076 *)entry)->fC=BMP_WIN_Create(r[0],r[1],r[2],r[3],r[4],r[5],one);
-        BMP_Clear(func_02045770((struct Descriptor *)((struct Obj13076 *)entry)->fC),0);
+        BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)((struct Obj13076 *)entry)->fC),0);
     }
     ((struct Obj00166 *)p)->f4C=GF_FONT_Create(23,0,0,0,((struct Obj00166 *)p)->f12C);
     bank=func_02045B38(0,2,168,((struct Obj00166 *)p)->f12C);
@@ -167,7 +167,7 @@ void REPORT_InitWindows(u8 *p)
     func_0201F250(ws,dst,s2);
     print_record(p,2,dst,s2,0,0x3DC0,one);
     s3=func_02045EC0(bank,3);
-    func_0201F158(ws,0,func_02013E4C(GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAMESYSTEM_GetMyPlayerWork(((struct Obj00166 *)p)->f0))));
+    func_0201F158(ws,0,ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAMESYSTEM_GetMyPlayerWork(((struct Obj00166 *)p)->f0))));
     func_0201F250(ws,dst,s3);
     print_record(p,3,dst,s3,0,0x3DC0,one);
     s4=func_02045EC0(bank,4);

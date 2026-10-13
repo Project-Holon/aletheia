@@ -19,7 +19,7 @@
  *   g_021A2470     0x021A2470  data
  *   g_021AB1A4     0x021AB1A4  data
  *   g_021AB208     0x021AB208  data
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02082D44  0x02082D44  arm
  *   func_020870D0  0x020870D0  arm
  *   func_02177EE8  0x02177EE8  arm  ov009
@@ -30,7 +30,7 @@
 #include "../../matched/include/G_DWCAuthParam.h"
 
 extern void func_02177EC8(int v);
-extern void func_02082BCC(void *dst, int data, unsigned long size);
+extern void MI_CpuFill8(void *dst, int data, unsigned long size);
 extern void func_02082D44(void *src, void *dst, unsigned long size);
 extern unsigned long long func_020870D0(void);
 extern int func_02177EE8(struct DWCAuthParam *param, void *http);
@@ -76,7 +76,7 @@ void func_02178CE0(void)
 	g_021AB1A4.s_finished = 0;
 	g_021AB1A4.state = 0;
 	g_021AB1A4.returnCode = 0;
-	func_02082BCC(g_021AB208, 0, 0x1c50);
+	MI_CpuFill8(g_021AB208, 0, 0x1c50);
 }
 
 

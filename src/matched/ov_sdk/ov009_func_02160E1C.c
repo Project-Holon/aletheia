@@ -14,7 +14,7 @@
  * symbols:
  *   func_02160E0C  0x02160E0C  arm  ov009
  *   func_02160DB4  0x02160DB4  arm  ov009
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02082D44  0x02082D44  arm
  *
  * The offset `pairlist_len + 8 + sessionID_len` needs a local of its own
@@ -40,7 +40,7 @@ typedef struct CPSSslConnection {
 
 extern int func_02160E0C(unsigned char major, unsigned char minor);
 extern int func_02160DB4(int a0, int a1, int a2);
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
 
 static void func_02160E1C(CPSSslConnection *con, unsigned char *s)
@@ -65,7 +65,7 @@ static void func_02160E1C(CPSSslConnection *con, unsigned char *s)
     if (random_len >= 0x20) {
         func_02082D44(s + offset, con->random, 0x20);
     } else {
-        func_02082BCC(con->random, 0, 0x20 - random_len);
+        MI_CpuFill8(con->random, 0, 0x20 - random_len);
         func_02082D44(s + offset, con->random + 0x20 - random_len, random_len);
     }
     con->state = 1;

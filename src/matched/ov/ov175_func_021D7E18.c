@@ -20,7 +20,7 @@
  *   func_021E8AB8  0x021E8AB8  thumb  ov177
  *   func_021E8844  0x021E8844  thumb  ov177
  *   func_021E7E0C  0x021E7E0C  thumb  ov177
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_02009EC8  0x02009EC8  thumb
  *   func_0200AE14  0x0200AE14  thumb
  *   func_0200B078  0x0200B078  thumb
@@ -28,8 +28,8 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   POKE_REGULATION_CheckParty  0x0201A090  thumb
  *   POKE_REGULATION_GetDataSize  0x0201A918  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   PMSI_PARAM_InitSentence  0x020242A4  thumb
  *   PMSI_PARAM_IsValid  0x020245D4  thumb
  *   func_02025BEC  0x02025BEC  thumb
@@ -172,7 +172,7 @@ extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void DWC_CloseAllConnectionsHard(void);
 
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 typedef signed int     s32;
 struct Big;
 struct Reg2;
@@ -187,8 +187,8 @@ extern u32 func_0200FB24(void);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask);
 extern int POKE_REGULATION_GetDataSize(void);
-extern unsigned int func_0201AA18(void *list);
-extern void *func_0201AB28(void *p, u32 idx);
+extern unsigned int POKEPARTY_GetCount(void *list);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void PMSI_PARAM_InitSentence(void *obj, u32 id);
 extern u32 PMSI_PARAM_IsValid(struct T *p, u32 a1);
 extern u32 func_02025BEC(u32 a, u32 b, u32 c);
@@ -269,8 +269,8 @@ static inline void TouchParty(u8 *rec, u8 *buf)
     {
         void *p = rec + 0xd4;
 
-        for (i = 0; i < (int)func_0201AA18(p); i++)
-            func_0201AB28(p, i);
+        for (i = 0; i < (int)POKEPARTY_GetCount(p); i++)
+            POKEPARTY_GetMember(p, i);
     }
 }
 
@@ -651,7 +651,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         break;
     case 0x1f:
         func_021E7E0C((void **)obj->f28, 0);
-        func_020061E4(0x63a);
+        GFL_USE_PlaySeDefaultVolume(0x63a);
         func_021E8738((int *)obj->f2c, obj->f14, 0x57, 1);
         *state = 0x35;
         func_021E8AB4(sys, 0x20);

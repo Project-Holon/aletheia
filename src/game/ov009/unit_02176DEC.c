@@ -54,7 +54,7 @@
  *   DWCs_GetSendState                0x02177788  arm
  *   DWCs_Send                        0x021777c0  arm
  *   func_02176B80  0x02176B80  arm  ov009
- *   func_0216BAF4  0x0216BAF4  arm  ov009
+ *   DWCi_GetGT2Connection  0x0216BAF4  arm  ov009
  *   func_02176C00  0x02176C00  arm  ov009
  *   gt2Send        0x02195CC0  arm  ov009
  *   func_02176CF8  0x02176CF8  arm  ov009

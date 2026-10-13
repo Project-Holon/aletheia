@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E3A78",
+   "name": "HAND_WAZA_EndureBraceUp",
    "address": "0x021E3A78",
    "kind": "game",
    "region": "ov093",

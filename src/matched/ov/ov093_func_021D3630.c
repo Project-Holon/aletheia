@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8D8C  0x021B8D8C  thumb  ov093
+ *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
  *   func_021EA768  0x021EA768  thumb  ov093
  *   func_021EA778  0x021EA778  thumb  ov093
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021B8D8C(void *p, void *a, u32 b);
+extern int BTL_MAIN_GetTrainerSlotOfPoke(void *p, void *a, u32 b);
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern void func_021EA768(u32 *p, u32 a2, u32 a3);
 extern int func_021EA778(u32 *p, u32 a2);
@@ -29,7 +29,7 @@ int BTL_CLIENT_CmdShowStatusPanel(u32 *a, int *b, u32 *c)
 {
     int s;
 
-    s = func_021B8D8C((void *)a[0], (void *)a[1], (u8)c[0]);
+    s = BTL_MAIN_GetTrainerSlotOfPoke((void *)a[0], (void *)a[1], (u8)c[0]);
     switch (*b) {
     case 0:
         if (BTL_CLIENT_IsMainStepActive((u8 *)a) != 0) {

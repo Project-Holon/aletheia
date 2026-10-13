@@ -11,7 +11,7 @@
  *   func_0207F7A0 0x0207F7A0 arm
  *   func_02030734 0x02030734 arm
  *   d_021E81C0 0x021E81C0 data ov119 a4
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021E380C 0x021E380C thumb ov119
  *   func_021E37D8 0x021E37D8 thumb ov119
  *   func_020862F0 0x020862F0 arm
@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021E81C0[];
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void func_021E380C(u16 *p, unsigned char *src, int a2);
 typedef unsigned char  u8;
 extern void func_021E37D8(u16 *p, u8 *src, int k, int a3);
@@ -42,7 +42,7 @@ void func_021E3838(char *p, int count)
     func_0207F7A0();
     v = func_02030734(((struct Obj10376 *)p)->f5F4, 0x200, 1, d_021E81C0, 0x510);
     for (i = 0; i < count; i++) {
-        func_02082BCC(v, 0, 0x200);
+        MI_CpuFill8(v, 0, 0x200);
         if (i == 0)
             func_021E380C((u16 *)v, (unsigned char *)(p + 0x5B6), 2);
         else

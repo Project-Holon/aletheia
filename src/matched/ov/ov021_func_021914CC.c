@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BMP_WIN_TransferChars  0x02045334  arm  arm9
- *   func_02045770  0x02045770  arm  arm9
+ *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  *   FIELD_MSGBG_AnimateCursor  0x021928C0  thumb  ov021
  *   FIELD_MSGBG_KeyWaitGetAuto  0x0219320C  thumb  ov021
  *   TALKMSGWIN_GetBmpWin  0x02194990  thumb  ov021
@@ -35,7 +35,7 @@ typedef struct S {
 extern u8 FIELD_MSGBG_KeyWaitGetAuto(u8 *p);
 extern u32 TALKMSGWIN_GetBmpWin(u32 a, u32 b);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *a);
+extern void *BMP_WIN_GetBmp(struct Descriptor *a);
 struct Cur;
 extern void FIELD_MSGBG_AnimateCursor(struct Cur *c, u32 win, u32 col);
 extern void BMP_WIN_TransferChars(struct Descriptor *a);
@@ -46,7 +46,7 @@ void FIELD_MSGBG_TalkWinDrawCursor(S *s)
 
     if (FIELD_MSGBG_KeyWaitGetAuto(s->f14 + 0x160) == 0) {
         x = TALKMSGWIN_GetBmpWin(s->f08, s->f01);
-        FIELD_MSGBG_AnimateCursor((struct Cur *)s->sub, (u32)func_02045770((struct Descriptor *)x), 0xF);
+        FIELD_MSGBG_AnimateCursor((struct Cur *)s->sub, (u32)BMP_WIN_GetBmp((struct Descriptor *)x), 0xF);
         BMP_WIN_TransferChars((struct Descriptor *)x);
     }
 }

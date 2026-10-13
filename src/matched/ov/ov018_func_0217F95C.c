@@ -9,7 +9,7 @@
  * isa:      thumb
  * status: EXACT
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   EVENT_COMM_COMMON_InitMsgBox  0x0217F2B4  thumb  ov018
@@ -28,7 +28,7 @@ struct Desc;
 typedef unsigned int   u32;
 struct Ctx;
 struct Obj;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
 void EVENT_COMM_COMMON_InitMsgBox(void *a0, void *a1);
@@ -46,7 +46,7 @@ int EVENT_COMM_COMMON_MissionInfoEventMain(void *a0, int *state, void *a2)
     u8 *w;
     struct Desc *r;
 
-    h = func_020124E4(a0);
+    h = GAME_EVENT_GetGameSystem(a0);
     w = (u8 *)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(h));
     if (w == 0 && *state < 3) {
         *state = 3;

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   INTRUDE_COMM_IsLinked  0x021736D8  thumb ov011
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
@@ -19,7 +19,7 @@
 
 typedef unsigned short u16;
 
-unsigned int func_02026478(void *obj);
+unsigned int GAME_COMM_GetGameData(void *obj);
 void *GAME_DATA_GetLastBattleRecSlot(void *p);
 int INTRUDE_COMM_IsLinked(void);
 typedef unsigned int   u32;
@@ -31,7 +31,7 @@ int INTRUDE_CMD_SendProfile(int *a)
 {
     int r;
 
-    r = (int)GAME_DATA_GetLastBattleRecSlot((void *)func_02026478((void *)a[1]));
+    r = (int)GAME_DATA_GetLastBattleRecSlot((void *)GAME_COMM_GetGameData((void *)a[1]));
     if (INTRUDE_COMM_IsLinked() == 0) {
         return 0;
     }

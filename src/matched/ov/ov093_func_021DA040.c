@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D9ADC.c and filed here.
  *
  * symbols:
- *   d_021F0818 0x021F0818 data ov093 a4
+ *   gForecastHandlerEntries 0x021F0818 data ov093 a4
  */
 
 int *HAND_TOKUSEI_AddForecast(int *p);
-extern int d_021F0818[];
+extern int gForecastHandlerEntries[];
 
 int *HAND_TOKUSEI_AddForecast(int *p)
 {
     *p = 1;
-    return d_021F0818;
+    return gForecastHandlerEntries;
 }

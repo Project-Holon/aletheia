@@ -1,5 +1,5 @@
 /*
- * function: func_021D2490
+ * function: BTL_CLIENT_StepStartWeather
  * address:  0x021D2490
  * packet:   pkt_ov093_021D2490
  * region:   ov093
@@ -16,7 +16,7 @@
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
  *   func_021EA678  0x021EA678  thumb  ov093
  *   func_021EA710  0x021EA710  thumb  ov093
- *   d_021EFFAE     0x021EFFAE  data   ov093  a2
+ *   gWeatherEffects     0x021EFFAE  data   ov093  a2
  */
 #include "../include/Obj10019.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -29,9 +29,9 @@ extern void func_021F7998(u32 a);
 extern int func_021F7EB4(void);
 extern void func_021EA678(char *p, u16 k, int *c);
 extern int func_021EA710(u32 *p);
-extern Pair16 d_021EFFAE[5];
+extern Pair16 gWeatherEffects[5];
 
-int func_021D2490(u8 *p, int *st, u32 *c)
+int BTL_CLIENT_StepStartWeather(u8 *p, int *st, u32 *c)
 {
     u8 id = c[0];
 
@@ -41,12 +41,12 @@ int func_021D2490(u8 *p, int *st, u32 *c)
         if (BTL_CLIENT_IsMainStepActive(p))
             return 1;
         if (id < 5)
-            func_021F7998(d_021EFFAE[id].b);
+            func_021F7998(gWeatherEffects[id].b);
         (*st)++;
         break;
     case 1:
         if (!func_021F7EB4()) {
-            func_021EA678(((struct Obj10019 *)p)->f54, d_021EFFAE[id].a, 0);
+            func_021EA678(((struct Obj10019 *)p)->f54, gWeatherEffects[id].a, 0);
             (*st)++;
         }
         break;

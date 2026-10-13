@@ -13,7 +13,7 @@
  *   func_021EF1FC 0x021EF1FC thumb
  *   func_020307B0 0x020307B0 arm
  *   func_021DD1C4 0x021DD1C4 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021E8FC0 0x021E8FC0 thumb
  *   func_021E19D4 0x021E19D4 thumb
  *   func_021E1A78 0x021E1A78 thumb
@@ -34,7 +34,7 @@ extern int func_021EF1FC(unsigned *a, unsigned *b);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern void func_021DD1C4(char *p, int a);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E19D4(char *p);
 extern int func_021E1A78(char *p);
@@ -67,7 +67,7 @@ int func_021E24EC(unsigned char *p)
         if (y < old) {
             s->dir = 1;
             func_021DD1C4((char *)p, 1);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             if (STATE(p) == 0x15)
                 return func_021E8FC0((char *)p, (int)func_021E19D4, 0xF);
             return func_021E8FC0((char *)p, (int)func_021E1A78, 0xF);
@@ -75,7 +75,7 @@ int func_021E24EC(unsigned char *p)
         if (y > old) {
             s->dir = -1;
             func_021DD1C4((char *)p, -1);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             if (STATE(p) == 0x15)
                 return func_021E8FC0((char *)p, (int)func_021E1A28, 0xF);
             return func_021E8FC0((char *)p, (int)func_021E1ACC, 0xF);
@@ -85,14 +85,14 @@ int func_021E24EC(unsigned char *p)
         s->left--;
         if (s->dir == 1) {
             func_021DD1C4((char *)p, 1);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             if (STATE(p) == 0x15)
                 return func_021E8FC0((char *)p, (int)func_021E19D4, 0xF);
             return func_021E8FC0((char *)p, (int)func_021E1A78, 0xF);
         }
         if (s->dir == -1) {
             func_021DD1C4((char *)p, -1);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             if (STATE(p) == 0x15)
                 return func_021E8FC0((char *)p, (int)func_021E1A28, 0xF);
             return func_021E8FC0((char *)p, (int)func_021E1ACC, 0xF);

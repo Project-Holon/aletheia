@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E4154",
-    "func_021E4214"
+    "HAND_WAZA_BellyDrumMaximizeAttack",
+    "HAND_WAZA_GetFeintHandlers"
+   ],
+   "addresses": [
+    "0x021E4154",
+    "0x021E4214"
    ],
    "evidence": {
     "sole-ref": [

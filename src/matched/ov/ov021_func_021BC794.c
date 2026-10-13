@@ -12,6 +12,7 @@
  * symbols:
  *   FIELD_PLACE_NAME_GetHeapId  0x021BD090  thumb  ov021
  *   CLACT_CreateUnit  0x0204B100  arm  arm9
+ *   CLACT_SetUnitDrawEnable  0x0204B22C  arm  arm9
  */
 
 typedef struct {
@@ -25,10 +26,10 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Bank;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void func_0204B22C(struct Bank *bank, u32 mode);
+extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
 
 void FIELD_PLACE_NAME_CreateClactUnit(Obj *p)
 {
     p->f34 = CLACT_CreateUnit(0x1E, 1, FIELD_PLACE_NAME_GetHeapId((unsigned char *)p));
-    func_0204B22C(p->f34, 1);
+    CLACT_SetUnitDrawEnable(p->f34, 1);
 }

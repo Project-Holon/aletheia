@@ -15,8 +15,8 @@
  *
  * symbols:
  *   BTL_MSG_SetPokeName  0x021EED00  thumb  ov093
- *   func_021B8DDC  0x021B8DDC  thumb  ov093
- *   func_021B8CE8  0x021B8CE8  thumb  ov093
+ *   BTL_MAIN_PokeIdToClientIdThunk  0x021B8DDC  thumb  ov093
+ *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093
  *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
@@ -45,8 +45,8 @@ typedef struct {
 } D;
 
 extern void BTL_MSG_SetPokeName(u8 a, u32 b);
-extern u8 func_021B8DDC(u32 x);
-extern int func_021B8CE8(int a, int b, int c);
+extern u8 BTL_MAIN_PokeIdToClientIdThunk(u32 x);
+extern int BTL_MAIN_IsOpposingPos(int a, int b, int c);
 extern void *BTL_MAIN_GetCompetitor(void ***p);
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -64,8 +64,8 @@ void BTL_MSG_BuildMoveEffectC(u32 a, int b, u32 *p)
     BTL_MSG_SetPokeName(p[0], 0);
     id = p[0];
     if (gBtlMsgState.f58 == 0 &&
-        func_021B8CE8((int)gBtlMsgState.f0, (u8)gBtlMsgState.f54,
-                      func_021B8DDC(id))) {
+        BTL_MAIN_IsOpposingPos((int)gBtlMsgState.f0, (u8)gBtlMsgState.f54,
+                      BTL_MAIN_PokeIdToClientIdThunk(id))) {
         if (BTL_MAIN_GetCompetitor(gBtlMsgState.f0) == 0 || BTL_MAIN_GetCompetitor(gBtlMsgState.f0) == (void *)4)
             k = 1;
         else

@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_ABILITY_ScrappyIgnoreGhostImmunity",
-    "BTL_ABILITY_GetScrappyHandlers"
+    "HAND_TOKUSEI_ScrappyIgnoreGhostImmunity",
+    "HAND_TOKUSEI_GetScrappyHandlers"
    ],
    "addresses": [
     "0x021DAB48",

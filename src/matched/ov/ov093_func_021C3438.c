@@ -32,13 +32,13 @@
  *   func_021C3660 0x021C3660 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
- *   func_021BF324 0x021BF324 thumb ov093
+ *   BTL_SERVER_FLOW_CheckNoGuardHit 0x021BF324 thumb ov093
  *   BTL_SERVER_FLOW_QuerySemiInvulnerableHit 0x021C6948 thumb ov093
  *   BTL_SERVER_FLOW_CheckAllyMoveAutoHit 0x021BFA00 thumb ov093
  *   BTL_SERVER_FLOW_PushMoveBlockedMessage 0x021C572C thumb ov093
- *   func_021CC8B8 0x021CC8B8 thumb ov093
+ *   BTL_SERVER_FLOW_GetSlotTableEntry 0x021CC8B8 thumb ov093
  *   BTL_SERVER_FLOW_PushActionFailedMessage 0x021C5774 thumb ov093
- *   func_021CC8D8 0x021CC8D8 thumb ov093
+ *   BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
  *   BTL_SERVER_FLOW_CheckOneHitKoHit 0x021C6A9C thumb ov093
  *   SODATEYA_MonKnowsMove 0x021C3670 thumb ov093
  *   BTL_CALC_SummarizeTypeAffinity 0x021D7AD4 thumb ov093
@@ -53,8 +53,8 @@
  *   BTL_SERVER_FLOW_ProcDamageEndEvents 0x021C4218 thumb ov093
  *   BTL_SERVER_FLOW_RunMoveDamageEndEvent 0x021C1C88 thumb ov093
  *   BTL_SERVER_FLOW_ProcFaintedPoke 0x021C4F64 thumb ov093
- *   func_021C88E4 0x021C88E4 thumb ov093
- *   func_021CC95C 0x021CC95C thumb ov093
+ *   BTL_SERVER_FLOW_GetLockState 0x021C88E4 thumb ov093
+ *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
  */
 #include "../include/Obj21086.h"
 typedef unsigned char u8;
@@ -65,13 +65,13 @@ extern int func_021D59B4(u8 *p, int k);
 extern u32 func_021C3660(void *, u32);
 extern int BTL_POKEPARAM_IsFainted(void *);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern int func_021BF324(u8 *, u8 *, u8 *);
+extern int BTL_SERVER_FLOW_CheckNoGuardHit(u8 *, u8 *, u8 *);
 extern int BTL_SERVER_FLOW_QuerySemiInvulnerableHit(u8 *, u8 *, u8 *, u32);
 extern int BTL_SERVER_FLOW_CheckAllyMoveAutoHit(u8 *, u8 *, u8 *, void *);
 extern void BTL_SERVER_FLOW_PushMoveBlockedMessage(u8 *, u8 *, u32);
-extern u32 func_021CC8B8(u32 *, u32);
+extern u32 BTL_SERVER_FLOW_GetSlotTableEntry(u32 *, u32);
 extern void BTL_SERVER_FLOW_PushActionFailedMessage(u8 *, u8 *);
-extern u32 func_021CC8D8(void *, int);
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *, int);
 extern int BTL_SERVER_FLOW_CheckOneHitKoHit(u8 *, u8 *, u8 *, u16);
 extern u8 SODATEYA_MonKnowsMove(u8 *, u8);
 extern int BTL_CALC_SummarizeTypeAffinity(int);
@@ -86,8 +86,8 @@ extern void BTL_SERVER_FLOW_RecordDamageHit(u8 *p, u8 b, u8 *x, u8 *c, u8 *q, u1
 extern void BTL_SERVER_FLOW_ProcDamageEndEvents(u8 *, u8 *, u8 *, u8 *, u32, u32, u32, u32);
 extern void BTL_SERVER_FLOW_RunMoveDamageEndEvent(u8 *, u8 *, u32, u8 *, u32);
 extern int BTL_SERVER_FLOW_ProcFaintedPoke(u8 *, u8 *);
-extern int func_021C88E4(u8 *);
-extern void func_021CC95C(u32 *p, u32 v, int line);
+extern int BTL_SERVER_FLOW_GetLockState(u8 *);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 
 void BTL_SERVER_FLOW_ProcMoveOhko(u8 *p, u16 *q, u8 *a, u8 *out)
 {
@@ -110,7 +110,7 @@ void BTL_SERVER_FLOW_ProcMoveOhko(u8 *p, u16 *q, u8 *a, u8 *out)
         if (b == 0) break;
         if (BTL_POKEPARAM_IsFainted(b)) continue;
         id = BTL_POKEPARAM_GetPokeId(b);
-        if (!func_021BF324(p, a, b)) {
+        if (!BTL_SERVER_FLOW_CheckNoGuardHit(p, a, b)) {
             if (BTL_SERVER_FLOW_QuerySemiInvulnerableHit(p, a, b, *q)) {
                 BTL_SERVER_FLOW_PushMoveBlockedMessage(p, b, *q);
                 continue;
@@ -124,12 +124,12 @@ void BTL_SERVER_FLOW_ProcMoveOhko(u8 *p, u16 *q, u8 *a, u8 *out)
             BTL_SERVER_FLOW_PushActionFailedMessage(p, b);
             continue;
         }
-        item = func_021CC8B8((u32 *)(p + 0x1f88), id);
+        item = BTL_SERVER_FLOW_GetSlotTableEntry((u32 *)(p + 0x1f88), id);
         if (item == 0) {
             BTL_SERVER_FLOW_PushActionFailedMessage(p, b);
             continue;
         }
-        lock = func_021CC8D8(p + 0x1d74, 0x216b);
+        lock = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 0x216b);
         if (BTL_SERVER_FLOW_CheckOneHitKoHit(p, a, b, *q)) {
             tag = SODATEYA_MonKnowsMove(p + 0x1ab8, BTL_POKEPARAM_GetPokeId(a));
             half = func_021D59B4(b, 13);
@@ -156,9 +156,9 @@ void BTL_SERVER_FLOW_ProcMoveOhko(u8 *p, u16 *q, u8 *a, u8 *out)
             BTL_SERVER_FLOW_ProcDamageEndEvents(p, a, b, (u8 *)q, item, half, 0, event1);
             if (event2 || event1) BTL_SERVER_FLOW_RunMoveDamageEndEvent(p, a, (u32)out, (u8 *)q, 0);
             BTL_SERVER_FLOW_ProcFaintedPoke(p, b);
-        } else if (!func_021C88E4(p)) {
+        } else if (!BTL_SERVER_FLOW_GetLockState(p)) {
             BTL_SERVER_FLOW_PushMoveBlockedMessage(p, b, *q);
         }
-        func_021CC95C((u32 *)(p + 0x1d74), lock, 0x219c);
+        BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), lock, 0x219c);
     }
 }

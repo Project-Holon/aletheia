@@ -1,5 +1,5 @@
 /*
- * function: func_021E050C
+ * function: HAND_WAZA_GetCamouflageHandlers
  * address: 0x021E050C
  * packet: pkt_ov093_021E050C
  * region: ov093
@@ -12,17 +12,17 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E0284.c and filed here.
  *
  * symbols:
- *   d_021F2414 0x021F2414 data ov093 a4
+ *   gHandWazaCamouflageHandlers 0x021F2414 data ov093 a4
  */
 
-int *func_021E050C(int *p);
-extern int d_021F2414[];
+int *HAND_WAZA_GetCamouflageHandlers(int *p);
+extern int gHandWazaCamouflageHandlers[];
 
 /*
  * extent: 021E05C2 alignment padding.
  */
-int *func_021E050C(int *p)
+int *HAND_WAZA_GetCamouflageHandlers(int *p)
 {
     *p = 1;
-    return d_021F2414;
+    return gHandWazaCamouflageHandlers;
 }

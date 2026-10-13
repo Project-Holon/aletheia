@@ -14,10 +14,10 @@
  *   BTL_SERVER_FLOW_QueryWeatherPokeEvent  0x021C3C10  thumb  ov093
  *   BTL_SERVER_FLOW_TryChangeWeather  0x021C3B68  thumb  ov093
  *   BTL_SERVER_FLOW_PushMsgStdFailed  0x021C5718  thumb  ov093
- *   func_021CC8D8  0x021CC8D8  thumb  ov093
+ *   BTL_SERVER_FLOW_BeginHandExScope  0x021CC8D8  thumb  ov093
  *   BTL_SERVER_FLOW_DispatchPokeMoveEvent  0x021C3CCC  thumb  ov093
- *   func_021C88E4  0x021C88E4  thumb  ov093
- *   func_021CC95C  0x021CC95C  thumb  ov093
+ *   BTL_SERVER_FLOW_GetLockState  0x021C88E4  thumb  ov093
+ *   BTL_SERVER_FLOW_EndHandExScope  0x021CC95C  thumb  ov093
  */
 #include "../include/Obj13330.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -29,10 +29,10 @@ extern u32 WAZA_TOOL_GetWeather(int id);
 extern u8 BTL_SERVER_FLOW_QueryWeatherPokeEvent(u8 *p, int k, u8 *a);
 extern int BTL_SERVER_FLOW_TryChangeWeather(u8 *p, int k, u8 v);
 extern void BTL_SERVER_FLOW_PushMsgStdFailed(u8 *p, u8 *b, int c);
-extern u32 func_021CC8D8(void *lock, int line);
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *lock, int line);
 extern void BTL_SERVER_FLOW_DispatchPokeMoveEvent(u8 *p, u8 *b, int c);
-extern int func_021C88E4(u8 *p);
-extern void func_021CC95C(u32 *p, u32 v, int line);
+extern int BTL_SERVER_FLOW_GetLockState(u8 *p);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 
 void BTL_SERVER_FLOW_ProcMoveWeather(u8 *p, u16 *a, u8 *b)
 {
@@ -49,10 +49,10 @@ void BTL_SERVER_FLOW_ProcMoveWeather(u8 *p, u16 *a, u8 *b)
     } else {
         u32 s;
         int e;
-        s = func_021CC8D8(p + 0x1d74, 0x22c8);
+        s = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 0x22c8);
         BTL_SERVER_FLOW_DispatchPokeMoveEvent(p, b, *a);
-        e = (func_021C88E4(p) == 2);
-        func_021CC95C((u32 *)(p + 0x1d74), s, 0x22cc);
+        e = (BTL_SERVER_FLOW_GetLockState(p) == 2);
+        BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), s, 0x22cc);
         if (e) {
             Q *q = *(Q * *)&((struct Obj13330 *)p)->f4A8;
             if (!q->f)

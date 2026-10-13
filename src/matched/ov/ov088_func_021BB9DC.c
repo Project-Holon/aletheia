@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_0200C308  0x0200C308  thumb
  */
 #include "../include/Obj03675.h"
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Blk34;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern u8 func_0200C308(struct Blk34 *p, u32 i);
 
 void STARTMENU_ShowRowActors(char *p, int flag)
@@ -28,25 +28,25 @@ void STARTMENU_ShowRowActors(char *p, int flag)
     unsigned i;
     if (flag == 0) {
         for (i = 0; i <= 5; i++)
-            func_0204B3DC(*(void **)(p + 0x1c + i * 4), flag);
+            CLACT_SetActorDrawEnable(*(void **)(p + 0x1c + i * 4), flag);
         return;
     }
-    func_0204B3DC(((struct Obj03675 *)p)->f1C, 1);
+    CLACT_SetActorDrawEnable(((struct Obj03675 *)p)->f1C, 1);
     for (i = 0; i < 8; i++) {
         u8 c = *(u8 *)(p + 0x120 + i);
         if (c == 8)
             return;
         if (c == 3) {
             if (func_0200C308(((struct Obj03675 *)p)->f8, 1) == 1)
-                func_0204B3DC(((struct Obj03675 *)p)->f24, 1);
+                CLACT_SetActorDrawEnable(((struct Obj03675 *)p)->f24, 1);
         } else if (c == 4) {
             if (func_0200C308(((struct Obj03675 *)p)->f8, 2) == 1)
-                func_0204B3DC(((struct Obj03675 *)p)->f28, 1);
+                CLACT_SetActorDrawEnable(((struct Obj03675 *)p)->f28, 1);
         } else if (c == 7) {
             if (func_0200C308(((struct Obj03675 *)p)->f8, 3) == 1)
-                func_0204B3DC(((struct Obj03675 *)p)->f2C, 1);
+                CLACT_SetActorDrawEnable(((struct Obj03675 *)p)->f2C, 1);
         } else if (c == 5) {
-            func_0204B3DC(((struct Obj03675 *)p)->f30, 1);
+            CLACT_SetActorDrawEnable(((struct Obj03675 *)p)->f30, 1);
         }
     }
 }

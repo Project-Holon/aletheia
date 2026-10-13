@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   WIPE_SUB_ShutterInit  0x02023964  thumb
  *
  * The constructor of the wipe task whose per-frame step is WIPE_SUB_ShutterMain:
@@ -47,7 +47,7 @@ struct Task {
 };
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_02082BCC(void *p, u32 v, u32 n);
+extern void  MI_CpuFill8(void *p, u32 v, u32 n);
 typedef unsigned char  u8;
 struct Desc;
 extern void WIPE_SUB_ShutterInit(u8 *w, struct Desc *d, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
@@ -55,7 +55,7 @@ extern void WIPE_SUB_ShutterInit(u8 *w, struct Desc *d, u32 a2, u32 a3, u32 a4, 
 void WIPE_SUB_ShutterStart(struct Task *t, u32 a1)
 {
     t->obj = func_02030734((u16)t->f20, 0x334, 0, (const char *)0x020A7450, 0x1354);
-    func_02082BCC(t->obj, 0, 0x334);
+    MI_CpuFill8(t->obj, 0, 0x334);
     WIPE_SUB_ShutterInit(t->obj, (struct Desc *)a1, t->f04, t->f08, t->f10, t->f18, t->f1c,
                   t->f20);
     t->phase = t->phase + 1;

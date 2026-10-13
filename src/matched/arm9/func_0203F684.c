@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   tbl_020A1B38   0x020A1B38  data
+ *   FX_SinCosTable_   0x020A1B38  data
  *
  * Fixed-point sine lookup: 4096-entry table at 0x020A1B38 (a flat signed
  * halfword array of interleaved pairs), indexed by (x mod 360) scaled to
@@ -40,9 +40,9 @@
 typedef short s16;
 typedef int   s32;
 
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 short func_0203F684(unsigned short x)
 {
-    return tbl_020A1B38[2 * ((((x % 360) * 0xFFFF) / 360) >> 4)];
+    return FX_SinCosTable_[2 * ((((x % 360) * 0xFFFF) / 360) >> 4)];
 }

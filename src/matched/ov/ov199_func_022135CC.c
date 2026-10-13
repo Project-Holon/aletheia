@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  */
 typedef unsigned int   u32;
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 void func_022135CC(unsigned char *p, unsigned char *a, unsigned char *b)
 {
     int i, index, j, count;
@@ -27,7 +27,7 @@ void func_022135CC(unsigned char *p, unsigned char *a, unsigned char *b)
                 index = (i & 2) + 1;
             else
                 index = i & 2;
-            count = func_0201AA18(*(void **)(p + 0x24 + index * 4));
+            count = POKEPARTY_GetCount(*(void **)(p + 0x24 + index * 4));
             for (j = 0; j < count; j++) {
                 if (p[0xc8 + index * 6 + j] != 2)
                     (*a)++;
@@ -37,7 +37,7 @@ void func_022135CC(unsigned char *p, unsigned char *a, unsigned char *b)
                 index = i & 2;
             else
                 index = (i & 2) + 1;
-            count = func_0201AA18(*(void **)(p + 0x24 + index * 4));
+            count = POKEPARTY_GetCount(*(void **)(p + 0x24 + index * 4));
             for (j = 0; j < count; j++) {
                 if (p[0xc8 + index * 6 + j] != 2)
                     (*b)++;

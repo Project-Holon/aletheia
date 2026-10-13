@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9B94  0x021B9B94  thumb  ov093
- *   func_021B9C00  0x021B9C00  thumb  ov093
+ *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
+ *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   gBtlCalcDefeatMoneyScales     0x021F042D  data  ov093  a1
  */
@@ -25,20 +25,20 @@ typedef signed int s32;
 
 struct Q1;
 struct S2;
-u8 func_021B9B94(struct Q1 *p);
-extern u8 *func_021B9C00(struct S2 *p, u32 i);
+u8 BTL_SLOT_GetCount(struct Q1 *p);
+extern u8 *BTL_SLOT_GetPokeParam(struct S2 *p, u32 i);
 extern int func_021D59B4(u8 *p, int k);
 extern u8 gBtlCalcDefeatMoneyScales[];
 
 u32 BTL_CALC_CalcDefeatMoneyLoss(u32 a, void *b)
 {
-    u32 n = func_021B9B94(b);
+    u32 n = BTL_SLOT_GetCount(b);
     u32 m = 1;
     u32 i;
     u32 v;
 
     for (i = 0; i < n; i++) {
-        v = func_021D59B4(func_021B9C00(b, (u8)i), 0xf);
+        v = func_021D59B4(BTL_SLOT_GetPokeParam(b, (u8)i), 0xf);
         if (v > m)
             m = v;
     }

@@ -12,14 +12,15 @@
  * Clears the block 0x50 bytes into the module block.
  *
  * symbols:
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
 
  */
 
 extern int func_02175F3C(void);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 
 void func_0217601C(void)
 {
-    func_02082BCC((void *)(func_02175F3C() + 0x50), 0, 0x504);
+    MI_CpuFill8((void *)(func_02175F3C() + 0x50), 0, 0x504);
 }
 

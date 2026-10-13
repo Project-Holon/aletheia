@@ -1,5 +1,5 @@
 /*
- * function: func_021C8838
+ * function: BTL_SERVER_FLOW_InitMsgRecord
  * address:  0x021C8838
  * packet:   pkt_ov093_021C8838
  * region:   ov093
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Named by the parked ov093 files (BTL_HANDLER_ITEM_DestinyKnot_Infatuate / BTL_HANDLER_ITEM_RockyHelmetDamageReaction /
+ * Named by the parked ov093 files (HAND_ITEM_DestinyKnot_Infatuate / HAND_ITEM_RockyHelmetDamageReaction /
  * func_021E7388).  Low byte of the +2 halfword <- (u8)a; +0 halfword <- b;
  * then bits 8..14 of the +2 halfword are cleared.  `(u8)(u16)a` and the
  * `(int)` cast before `~0x7F00` are both load-bearing: the first gives the
@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-void func_021C8838(void *p, int a, int b)
+void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b)
 {
     u16 *h = (u16 *)((u8 *)p + 2);
     u8 av = (u8)(u16)a;

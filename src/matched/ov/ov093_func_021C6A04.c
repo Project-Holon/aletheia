@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0201BD28  0x0201BD28  thumb
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
@@ -26,7 +26,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 struct Q { u16 h0; u8 pad[6]; u32 w8; };
 
-extern u32 sub_0201BD28(u16 id, u32 field);
+extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern void BTL_EVENT_PushVarFrame(int line);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
@@ -40,7 +40,7 @@ extern u32 BTL_CALC_MulRatio(u32 a, u32 b);
 int BTL_SERVER_FLOW_CalcAccuracyRatio(u8 *p, u8 *a, u8 *b, struct Q *q)
 {
     int x, y;
-    u32 t = sub_0201BD28(q->h0, 4);
+    u32 t = WAZA_TOOL_GetParam(q->h0, 4);
     BTL_EVENT_PushVarFrame(0x2E2F);
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(a));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(b));

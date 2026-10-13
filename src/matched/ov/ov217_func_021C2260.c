@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  */
 #include "../include/Obj26021.h"
 typedef unsigned char u8;
@@ -18,12 +21,12 @@ typedef unsigned int u32;
 typedef signed int s32;
 
 struct Obj;
-extern void func_0204B3DC(struct Obj *a, unsigned int b);
+extern void CLACT_SetActorDrawEnable(struct Obj *a, unsigned int b);
 
 void func_021C2260(void *p)
 {
     s32 i;
     s32 n = ((struct Obj26021 *)p)->f298;
     for (i = 0; i < n; i++)
-        func_0204B3DC((struct Obj *)*(u32 *)((char *)p + 0x3c + i * 0x18), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)((char *)p + 0x3c + i * 0x18), 0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E546C
+ * function: HAND_WAZA_SpikesOnUncategorizedMoveNoTarget
  * address:  0x021E546C
  * packet:   pkt_ov093_021E546C
  * region:   ov093
@@ -14,19 +14,19 @@
  *
  * symbols:
  *   BTLV_CORE_MakeSlotKind1Empty  0x021E89C0  thumb  ov093
- *   func_021B9A50  0x021B9A50  thumb  ov093
- *   func_021E556C  0x021E556C  thumb  ov093
+ *   BTL_MAIN_IsPokeIdInFirstPair  0x021B9A50  thumb  ov093
+ *   HAND_WAZA_AddSideEffect  0x021E556C  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef struct Word { u32 v; } Word;
 
 extern Word BTLV_CORE_MakeSlotKind1Empty(void);
-extern unsigned char func_021B9A50(unsigned int x);
-extern void func_021E556C(int a, int b, int c, int d, int e, int f, Word g, int h);
+extern unsigned char BTL_MAIN_IsPokeIdInFirstPair(unsigned int x);
+extern void HAND_WAZA_AddSideEffect(int a, int b, int c, int d, int e, int f, Word g, int h);
 
-void func_021E546C(int a, int b, int c, int d)
+void HAND_WAZA_SpikesOnUncategorizedMoveNoTarget(int a, int b, int c, int d)
 {
     Word t = BTLV_CORE_MakeSlotKind1Empty();
-    int e = func_021B9A50(c);
-    func_021E556C(a, b, c, d, e, 6, t, 0x94);
+    int e = BTL_MAIN_IsPokeIdInFirstPair(c);
+    HAND_WAZA_AddSideEffect(a, b, c, d, e, 6, t, 0x94);
 }

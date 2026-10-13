@@ -16,7 +16,7 @@
  *   func_021D6F0C  0x021D6F0C  thumb
  *   BTL_EVENT_SetFactorWork  0x021D70DC  thumb
  *   g_0689E7E0 0x0689E7E0 data a4
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   d_0689D780 0x0689D780 data ov095 a4
  */
 typedef unsigned char u8;
@@ -33,7 +33,7 @@ typedef struct { int key; int (*fn)(u32 *); u32 lim; } T;
 
 typedef struct { u32 x; } S;
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void *func_021D6F0C(int id, u16 key, int pri, u32 sub_pri, u8 sub, u32 f8, u16 f16);
 extern void BTL_EVENT_SetFactorWork(void *p, int i, u32 v);
 void func_06898BFC(void);
@@ -43,7 +43,7 @@ extern const T d_0689D780[14];
 
 void func_06898BFC(void)
 {
-    func_02082BCC(g_0689E7E0, 0, 448);
+    MI_CpuFill8(g_0689E7E0, 0, 448);
 }
 
 void *func_06898C10(u8 a, int b, S c)

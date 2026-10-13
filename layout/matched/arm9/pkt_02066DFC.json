@@ -7,11 +7,11 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "CTRDGi_CallbackForSetPhi",
+   "name": "OAMREND_ResetZOffset",
    "address": "0x02066DFC",
-   "kind": "sdk",
+   "kind": "game",
    "region": "arm9",
-   "source": "src/matched/arm9_sdk/CTRDGi_CallbackForSetPhi.c",
+   "source": "src/matched/arm9/OAMREND_ResetZOffset.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

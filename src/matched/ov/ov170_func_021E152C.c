@@ -19,7 +19,7 @@
  *   func_021E00C4 0x021E00C4 thumb
  *   func_021E0128 0x021E0128 thumb
  *   func_021DEB08 0x021DEB08 thumb ov170
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021ED108 0x021ED108 thumb
  *   func_021EBFA8 0x021EBFA8 thumb
  *   func_021EBFEC 0x021EBFEC thumb
@@ -40,7 +40,7 @@ extern void func_021DEA4C(char *p, int a, int b);
 extern int func_021E00C4(char *p);
 extern int func_021E0128(char *p);
 extern int func_021DEB08(unsigned char *p);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void func_021ED108(char *p, int on);
 extern void func_021EBFA8(char *p, int i, int v);
 typedef unsigned int   u32;
@@ -80,7 +80,7 @@ int func_021E152C(unsigned char *p)
         break;
     case 4:
         if (func_021DEB08(p) == 0) {
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 5;
         }
         break;

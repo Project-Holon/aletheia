@@ -22,8 +22,8 @@
  *   WEATHER_TASK_GetParticleWork  0x021A2630  thumb  ov021
  *   WEATHER_TASK_GetParticleActor  0x021A2638  thumb  ov021
  *   WEATHER_TASK_SetParticlePosWrapped  0x021A2654  thumb  ov021
- *   d_021EEB68     0x021EEB68  data  a4
- *   d_021EEB48     0x021EEB48  data  ov027  a4
+ *   gSandstormGustSpeedY     0x021EEB68  data  a4
+ *   gSandstormGustSpeedX     0x021EEB48  data  ov027  a4
  */
 
 typedef unsigned short u16;
@@ -37,8 +37,8 @@ extern void *WEATHER_TASK_AddParticle(void *p, int a1);
 extern unsigned char *WEATHER_TASK_GetParticleWork(unsigned char *o);
 extern unsigned int WEATHER_TASK_GetParticleActor(unsigned char *o);
 extern void WEATHER_TASK_SetParticlePosWrapped(int obj, unsigned short *src);
-extern const int d_021EEB68[];
-extern const int d_021EEB48[];
+extern const int gSandstormGustSpeedY[];
+extern const int gSandstormGustSpeedX[];
 
 void WEATHER_SANDSTORM_SpawnParticles(int a, int n, int idx)
 {
@@ -64,10 +64,10 @@ void WEATHER_SANDSTORM_SpawnParticles(int a, int n, int idx)
         e[0] = 0;
         e[1] = func_020056EC(20) + 15;
         s = 3 - (e[1] - 15) / 6;
-        e[2] = (s + 1) * d_021EEB68[k];
-        e[4] = (s + 1) * d_021EEB48[k];
+        e[2] = (s + 1) * gSandstormGustSpeedY[k];
+        e[4] = (s + 1) * gSandstormGustSpeedX[k];
         e[3] = 0;
-        e[5] = d_021EEB48[k];
+        e[5] = gSandstormGustSpeedX[k];
         if (func_020056EC(1000) == 777) {
             s = 4;
             e[2] = e[2] + e[2] / 2;

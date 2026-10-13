@@ -15,11 +15,11 @@
  *   BUTTON_MAN_CallHandlerById  0x02051B0C  arm
  *   BGWINFRM_SetFrameData  0x0202CAC4  thumb
  *   BGWINFRM_PutBmpWin  0x0202CEBC  thumb
- *   func_02045748  0x02045748  arm
- *   func_02045750  0x02045750  arm
- *   func_02045758  0x02045758  arm
- *   func_02045760  0x02045760  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetDispWidth  0x02045748  arm
+ *   BMP_WIN_GetDispHeight  0x02045750  arm
+ *   BMP_WIN_GetPosX  0x02045758  arm
+ *   BMP_WIN_GetPosY  0x02045760  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   func_02082A90  0x02082A90  arm
  */
@@ -52,11 +52,11 @@ extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src);
 extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
 struct Bmp;
 struct Descriptor;
-extern u8 func_02045748(struct Descriptor *p);
-extern u8 func_02045750(struct Descriptor *p);
-extern u8 func_02045758(struct Descriptor *p);
-extern u8 func_02045760(struct Descriptor *p);
-extern void *func_02045770(struct Descriptor *p);
+extern u8 BMP_WIN_GetDispWidth(struct Descriptor *p);
+extern u8 BMP_WIN_GetDispHeight(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_02082A90(const void *src, void *dst, u32 size);
 
@@ -80,11 +80,11 @@ void FRAME_LIST_UploadRowTiles(struct S *s, u32 a1, u32 a2)
     BGWINFRM_SetFrameData(s->f3c, a2, map);
     BGWINFRM_PutBmpWin(s->f3c, a2, res);
     stride = s->f4;
-    w = func_02045748(res);
-    h = func_02045750(res);
-    x0 = func_02045758(res);
-    y0 = func_02045760(res);
-    gfx = BMP_GetPixels(func_02045770(res));
+    w = BMP_WIN_GetDispWidth(res);
+    h = BMP_WIN_GetDispHeight(res);
+    x0 = BMP_WIN_GetPosX(res);
+    y0 = BMP_WIN_GetPosY(res);
+    gfx = BMP_GetPixels(BMP_WIN_GetBmp(res));
     for (i = 0; i < h; i++) {
         for (j = 0; j < w; j++) {
             func_02082A90((u8 *)vram + (map[x0 + j + (i + y0) * stride] & 0x3ff) * 32,

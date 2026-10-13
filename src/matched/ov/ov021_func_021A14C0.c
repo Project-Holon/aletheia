@@ -1,5 +1,5 @@
 /*
- * function: func_021A14C0
+ * function: FIELD_SUBSCREEN_UpdateDowsingNoTransition
  * address: 0x021A14C0
  * packet: pkt_ov021_021A14C0
  * region: ov021
@@ -17,6 +17,6 @@
 
 typedef struct { unsigned char pad[0x20]; void *f20; } Obj_021A14C0;
 extern int DOWSING_UpdateDisplay(void *p);
-int func_021A14C0(Obj_021A14C0 *p);
+int FIELD_SUBSCREEN_UpdateDowsingNoTransition(Obj_021A14C0 *p);
 
-int func_021A14C0(Obj_021A14C0 *p) { return DOWSING_UpdateDisplay(p->f20); }
+int FIELD_SUBSCREEN_UpdateDowsingNoTransition(Obj_021A14C0 *p) { return DOWSING_UpdateDisplay(p->f20); }

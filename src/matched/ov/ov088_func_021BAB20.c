@@ -13,21 +13,21 @@
  * an unlabelled leaf (no lr save) that disasm.py did not label.
  *
  * symbols:
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   func_020403F4  0x020403F4  arm
  *   func_0203F9B4  0x0203F9B4  arm
  */
 
 typedef unsigned int   u32;
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void func_020403F4(u32 i);
 extern void func_0203F9B4(void);
 
 void STARTMENU_TeardownBackgrounds(void)
 {
-    func_020434DC(0xf, 0);
+    BG_SYS_SetMainPlaneVisible(0xf, 0);
     BG_SYS_SetSubPlaneVisible(7, 0);
     func_020403F4(6);
     func_020403F4(5);

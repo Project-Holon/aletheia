@@ -11,7 +11,7 @@
  * closed:   blocking arm9 callees labelled and matched by seeds_3 (2026-09-28)
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   STRBUF_SetString  0x02045924  arm
@@ -71,7 +71,7 @@ struct Descriptor;
 struct Obj0202DC98;
 struct PmsDraw;
 struct Strbuf;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
@@ -90,9 +90,9 @@ void func_021C60CC(Work *p, void **bg, const Info *info)
     void *s;
 
     for (i = 0; i < 5; i++) {
-        BMP_Clear(func_02045770(bg[i]), 0);
+        BMP_Clear(BMP_WIN_GetBmp(bg[i]), 0);
         if (i != 3 || (i == 3 && info->f4_2)) {
-            PRINTSYS_Print(func_02045770(bg[i]), 0, 0, p->f322C[i], p->f31FC);
+            PRINTSYS_Print(BMP_WIN_GetBmp(bg[i]), 0, 0, p->f322C[i], p->f31FC);
         }
     }
     s = p->f3214;

@@ -12,7 +12,7 @@
  * symbols:
  *   APP_KEYCURSOR_Update  0x020286C4  thumb
  *   func_02028484  0x02028484  thumb
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  */
 
 typedef unsigned char  u8;
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Blk;
 extern s32 func_02028484(struct Blk *blk, void *h);
 struct Rec3;
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 
 typedef struct {
     char pad00[0x190];
@@ -45,7 +45,7 @@ int func_021BA928(W *w)
         }
         r = func_02028484((struct Blk *)w->f26c, w->f1bc);
         if (r != 0 && w->f1bc != 0) {
-            func_0201CE48(w->f1bc);
+            PRINTSYS_PrintStreamDelete(w->f1bc);
             w->f1bc = 0;
         }
     }

@@ -1,7 +1,7 @@
 /*
  * file:     colosseum_tool.c
  * unit:     yes
- * function: COLOSSEUM_CheckAllEntered, COLOSSEUM_CheckAllTrainerCardsReceived, COLOSSEUM_IsPositionsReceived, COLOSSEUM_ClearPositionsReceived, COLOSSEUM_GetStandPosIndex, COLOSSEUM_CheckAllFinished, COLOSSEUM_IsAnyFinished, COLOSSEUM_IsOnCounterPos, func_0217FF78
+ * function: COLOSSEUM_CheckAllEntered, COLOSSEUM_CheckAllTrainerCardsReceived, COLOSSEUM_IsPositionsReceived, COLOSSEUM_ClearPositionsReceived, COLOSSEUM_GetStandPosIndex, COLOSSEUM_CheckAllFinished, COLOSSEUM_IsAnyFinished, COLOSSEUM_IsOnCounterPos, COLOSSEUM_UpdateCommPlayers
  * address:  0x0217FDC8
  * region:   ov019
  * compiler: dsi/1.1p1
@@ -352,7 +352,7 @@ int COLOSSEUM_IsOnCounterPos(void *a)
 /* Copies the packages that arrived for the other (up to four) colosseum
  * players into the comm player: adds a player not yet present, otherwise
  * updates its package. */
-void func_0217FF78(ColosseumWork *work)
+void COLOSSEUM_UpdateCommPlayers(ColosseumWork *work)
 {
     int ownNetId;
     int netId;

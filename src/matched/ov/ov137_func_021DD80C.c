@@ -15,7 +15,7 @@
  *   UNION_APP_Close 0x02184114 thumb ov022
  *   UNION_APP_GetMemberCount 0x021841A4 thumb ov022
  *   UNION_APP_Open 0x02184134 thumb ov022
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021DE4B4 0x021DE4B4 thumb ov137
  *   func_021DD93C 0x021DD93C thumb ov137
  */
@@ -33,7 +33,7 @@ extern void *func_021DCF50(u8 *p);
 extern int UNION_APP_Close(unsigned char *p);
 extern int UNION_APP_GetMemberCount(unsigned char *p);
 extern void UNION_APP_Open(u8 *p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021DE4B4(char *,int,int);
 extern void func_021DD93C(char *,int);
 void func_021DD80C(char *p) {
@@ -43,27 +43,27 @@ void func_021DD80C(char *p) {
             q=*(char * *)&((struct Obj06534 *)p)->f10;
             if (((struct Obj08211 *)q)->f2C==func_021DE354(p) && ((struct Obj08211 *)q)->f30==0) {
                 if (UNION_APP_Close(func_021DCF50((u8 *)p))) {
-                    func_020061E4(0x54c);
+                    GFL_USE_PlaySeDefaultVolume(0x54c);
                     func_021DE4B4(p,3,0);
                     func_021DD93C(p,22);
                 }
-            } else func_020061E4(0x548);
+            } else GFL_USE_PlaySeDefaultVolume(0x548);
         }
     } else if (func_021DE7F4()&2) {
         if (GFL_NET_SYSTEM_GetCurrentAid()!=0) {
             if (((struct Obj23713 *)(*(char * *)&((struct Obj06534 *)p)->f10))->f28==0) {
                 func_021DE4B4(p,4,0);
                 func_021DD93C(p,4);
-            } else func_020061E4(0x548);
+            } else GFL_USE_PlaySeDefaultVolume(0x548);
         } else {
             q=*(char * *)&((struct Obj06534 *)p)->f10;
             if (((struct Obj08211 *)q)->f2C==UNION_APP_GetMemberCount(func_021DCF50((u8 *)p)) && ((struct Obj08211 *)q)->f30==0) {
                 if (UNION_APP_Close(func_021DCF50((u8 *)p))) {
                     func_021DE4B4(p,4,0);
                     func_021DD93C(p,4);
-                    func_020061E4(0x551);
+                    GFL_USE_PlaySeDefaultVolume(0x551);
                 }
-            } else func_020061E4(0x548);
+            } else GFL_USE_PlaySeDefaultVolume(0x548);
         }
     } else {
         if (((struct Obj06534 *)p)->f4808==0 && GFL_NET_SYSTEM_GetCurrentAid()==0 &&

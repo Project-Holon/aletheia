@@ -13,7 +13,7 @@
  *   func_02030734  0x02030734  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   EVENT_POKE_STATUS_MoveSelectEvent  0x0215A370  thumb  ov010
@@ -28,7 +28,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 typedef unsigned int   u32;
 struct BigObj;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 struct Desc;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
@@ -45,7 +45,7 @@ int EVENT_POKE_STATUS_CreateMoveSelectEvent(int a, int b, int c, int d, int e, i
 
     ((struct Obj03073 *)p)->f0 = (int)t12;
     p[0xc] = 1;
-    p[0xe] = func_0201AA18(t12);
+    p[0xe] = POKEPARTY_GetCount(t12);
     p[0xf] = c;
     p[0x10] = 1;
     ((struct Obj03073 *)p)->f14 = g;

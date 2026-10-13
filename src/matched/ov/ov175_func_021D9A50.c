@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200BAC8 0x0200BAC8 thumb
  *   func_0200BAF4 0x0200BAF4 thumb
@@ -20,7 +20,7 @@
 #include "../include/Obj00013.h"
 #include "../include/Obj24310.h"
 #include "../include/Obj24311.h"
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200BAC8(void *);
@@ -33,7 +33,7 @@ extern u32 func_020307B0(void *p);
 void func_021D9A50(char *dest, char *ctx)
 {
     void *records;
-    func_02082BCC(dest, 0, 212);
+    MI_CpuFill8(dest, 0, 212);
     records = func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj24311 *)(*(char * *)&((struct Obj00013 *)ctx)->f104))->f8)), 87);
     func_02082D44(records, dest + 212, POKE_REGULATION_GetDataSize(POKEPARTY_Init(dest + 212)));
     func_020307B0(records);

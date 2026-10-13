@@ -29,6 +29,7 @@
  *
  * symbols:
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  */
 
 typedef unsigned int u32;
@@ -37,7 +38,7 @@ struct Personal;
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern void *func_02019C54(u32 a, u32 b);
 extern u32 func_02019C7C(void *h);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 
 void POKE_TOOL_UpdateAbilityForSpecies(int a0, int a1, int a2)
@@ -55,5 +56,5 @@ void POKE_TOOL_UpdateAbilityForSpecies(int a0, int a1, int a2)
     } else if (func_02019C7C((void *)v) == 2 && (r7 & mask) != 0) {
         r6 = 0x1b;
     }
-    POKE_TOOL_SetBoxValue((void *)a0, 0xa, func_0201AE1C((const struct Personal *)v, r6));
+    POKE_TOOL_SetBoxValue((void *)a0, 0xa, POKE_PERSONAL_GetParam((const struct Personal *)v, r6));
 }

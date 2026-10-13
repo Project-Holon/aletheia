@@ -11,7 +11,7 @@
  * volatile: WININ 0x04000048 and WINOUT 0x0400004A read-modify-written by the SDK inlines G2_SetWnd0InsidePlane/G2_SetWndOutsidePlane; WIN0H/WIN0V/BLDCNT hardware registers
  * symbols:
  *   func_0207D658  0x0207D658  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_020355D8  0x020355D8  arm
  */
@@ -23,7 +23,7 @@ typedef int BOOL;
 
 extern void func_0207D658(u32 addr, int plane, int brightness);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void func_02041B6C(u32 bit);
 extern void func_020355D8(int a);
 
@@ -75,8 +75,8 @@ void POKELIST_EnterMenuPhase(u8 *p)
     G2_SetWnd0InsidePlane(0x1f, 0);
     G2_SetWndOutsidePlane(0x1f, 1);
     W(0x10) = 1;
-    func_0204B3DC((struct Obj *)W(0x1e4), 0);
-    func_0204B3DC((struct Obj *)W(0x1e0), 0);
+    CLACT_SetActorDrawEnable((struct Obj *)W(0x1e4), 0);
+    CLACT_SetActorDrawEnable((struct Obj *)W(0x1e0), 0);
     func_02041B6C(0);
     func_020355D8(W(8));
 }

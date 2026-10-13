@@ -10,19 +10,19 @@
  * lever: the index re-read after the 021D6064 call is volatile (the original reloads it; a plain
  *   read is CSE'd into a callee-saved register); the B688 arm skips the shared 020061E4 call via goto.
  * symbols:
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   P_STA_SKILL_SetCursor 0x021DB468 thumb ov131
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   P_STA_SKILL_SetSlotAnim 0x021DBA78 thumb ov131
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   P_STA_SKILL_SetNewMoveHeld 0x021DB614 thumb ov131
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  *   func_02017E88 0x02017E88 thumb
  *   func_0202F72C 0x0202F72C thumb
  *   P_STA_SKILL_ShowCantForgetMsg 0x021DB688 thumb ov131
  *   P_STA_SKILL_GetSlotPos 0x021DBA54 thumb ov131
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   P_STA_SKILL_StepCursor 0x021DB3F0 thumb ov131
  */
@@ -35,14 +35,14 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Point { s16 x,y; };
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void P_STA_SKILL_SetCursor(u8 *,u8 *,u8,int);
 struct Actor;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void P_STA_SKILL_SetSlotAnim(u8 *,int);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void P_STA_SKILL_SetNewMoveHeld(void *a, u8 *b, int c);
 extern void *P_STATUS_GetPokePara(u8 *);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
@@ -50,7 +50,7 @@ extern u32 func_0202F72C(void *,u16,u16);
 extern void P_STA_SKILL_ShowCantForgetMsg(u8 *,u8 *,int);
 extern void P_STA_SKILL_GetSlotPos(unsigned char *p, unsigned short *o);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void P_STA_SKILL_StepCursor(u8 *,u8 *);
 int P_STA_SKILL_HandleKeysForget(u8 *a,u8 *p)
@@ -58,14 +58,14 @@ int P_STA_SKILL_HandleKeysForget(u8 *a,u8 *p)
     struct Point pt;
     u32 r;
     u8 t;
-    if(a[0x1c]==1 && func_020362DC()!=0) {
+    if(a[0x1c]==1 && KEY_GetTrg()!=0) {
         a[0x1c]=0;
         if(((struct Obj00026 *)p)->f18==0) {
             p[0x2a]=5;
             P_STA_SKILL_SetCursor(a,p,p[0x29],0);
         }
     }
-    if(func_020362DC()==2) {
+    if(KEY_GetTrg()==2) {
         if(((struct Obj00026 *)p)->f18==0) {
             a[0x1c]=0;
             ((struct Obj00132 *)a)->f54=1;
@@ -73,23 +73,23 @@ int P_STA_SKILL_HandleKeysForget(u8 *a,u8 *p)
             ((struct Obj00132 *)a)->f50=2;
             CLACT_SetActorAnimSeq(((struct Obj00132 *)a)->f194,9);
             ((struct Obj00132 *)a)->f1A0=((struct Obj00132 *)a)->f194;
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             return 1;
         } else {
             a[0x1c]=0;
             P_STA_SKILL_SetSlotAnim(p+0xb0+p[0x2a]*0x18,0);
             P_STA_SKILL_SetCursor(a,p,p[0x29],0);
-            func_0204B3DC(((struct Obj00026 *)p)->f9C,0);
+            CLACT_SetActorDrawEnable(((struct Obj00026 *)p)->f9C,0);
             p[0x29]=p[0x2a];
             p[0x2a]=5;
             ((struct Obj00026 *)p)->f18=0;
             P_STA_SKILL_SetCursor(a,p,p[0x29],0);
             CLACT_SetActorAnimSeq(((struct Obj00132 *)a)->f194,9);
             P_STA_SKILL_SetNewMoveHeld(a,p,0);
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
         }
     } else if(((struct Obj00026 *)p)->f18!=0) {
-        if(func_020362DC()==1) {
+        if(KEY_GetTrg()==1) {
             a[0x1c]=0;
             ((struct Obj00132 *)a)->f54=1;
             (*(u8 **)(a+8))[0x11]=p[0x2a];
@@ -97,9 +97,9 @@ int P_STA_SKILL_HandleKeysForget(u8 *a,u8 *p)
             ((struct Obj00026 *)p)->f20=1;
             ((struct Obj00026 *)p)->f24=1;
             *(int *)&((struct Obj00132 *)a)->f1A0=0;
-            func_020061E4(0x54c);
+            GFL_USE_PlaySeDefaultVolume(0x54c);
         }
-    } else if(func_020362DC()==1) {
+    } else if(KEY_GetTrg()==1) {
         a[0x1c]=0;
         if(p[0x29]<4) {
             r=func_0202F72C(((struct Obj23165 *)((*(u8 * *)&((struct Obj00132 *)a)->f8)))->f8,func_02017E88(P_STATUS_GetPokePara(a),*(volatile u8 *)&((struct Obj00026 *)p)->f29+0x36,0),((struct Obj00132 *)a)->f0);
@@ -118,8 +118,8 @@ int P_STA_SKILL_HandleKeysForget(u8 *a,u8 *p)
                     p[0x29]=4;
                     P_STA_SKILL_SetCursor(a,p,p[0x29],0);
                     P_STA_SKILL_GetSlotPos(p+0xb0+p[0x2a]*0x18,(short unsigned int *)(&pt));
-                    func_0204B404(((struct Obj00026 *)p)->f9C,(const struct Vec2 *)(&pt),0);
-                    func_0204B3DC(((struct Obj00026 *)p)->f9C,1);
+                    CLACT_AddActorSurfacePos(((struct Obj00026 *)p)->f9C,(const struct Vec2 *)(&pt),0);
+                    CLACT_SetActorDrawEnable(((struct Obj00026 *)p)->f9C,1);
                     CLACT_RestartActorAnim(((struct Obj00026 *)p)->f9C);
                     P_STA_SKILL_SetNewMoveHeld(a,p,1);
                 }
@@ -133,11 +133,11 @@ int P_STA_SKILL_HandleKeysForget(u8 *a,u8 *p)
             ((struct Obj00026 *)p)->f20=1;
             *(int *)&((struct Obj00132 *)a)->f1A0=0;
         }
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
 done:
         return 1;
     } else {
-        if(func_020362DC()==0x40 || func_020362DC()==0x80) {
+        if(KEY_GetTrg()==0x40 || KEY_GetTrg()==0x80) {
             P_STA_SKILL_StepCursor(a,p);
             return 1;
         }

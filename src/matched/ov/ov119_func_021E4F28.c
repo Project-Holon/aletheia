@@ -13,7 +13,7 @@
  *   func_021DF6B4 0x021DF6B4 thumb ov119
  *   func_020355C4 0x020355C4 arm
  *   CLACT_SetActorDrawPriority 0x0204B800 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 #include "../include/Obj05334.h"
 #include "../include/Obj08071.h"
@@ -27,7 +27,7 @@ extern void CLACT_SetActorDrawPriority(int, u8);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021E4F28(char *p)
 {
     char *q;
@@ -61,12 +61,12 @@ void func_021E4F28(char *p)
                 q = p + row * 20 + j * 4;
                 CLACT_SetActorDrawPriority(((struct Obj08071 *)q)->fAC0, 0x1c - i);
             }
-            func_0204B404((struct Obj *)(((struct Obj08071 *)q)->fAC0), (const struct Vec2 *)(&b), 1);
+            CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj08071 *)q)->fAC0), (const struct Vec2 *)(&b), 1);
             if (*(u8 *)(p + row * 5 + j + 0xebc)) {
                 *(Pt *)(q + 0xdcc) = a;
             }
             b.y = ty + 3;
-            func_0204B404((struct Obj *)(((struct Obj08071 *)q)->fBB0), (const struct Vec2 *)(&b), 1);
+            CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj08071 *)q)->fBB0), (const struct Vec2 *)(&b), 1);
         }
         y++;
     }

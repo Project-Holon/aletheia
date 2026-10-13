@@ -12,7 +12,7 @@
  * symbols:
  *   sub_02030734   0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
- *   sub_0207C768   0x0207C768  arm
+ *   FX_Div   0x0207C768  arm
  *   func_021F896C  0x021F896C  thumb  ov094
  *   func_021F918C  0x021F918C  thumb  ov094
  *   d_0220AE7C     0x0220AE7C  data   ov094  a1
@@ -55,7 +55,7 @@ typedef struct {
 extern const char d_0220AE7C[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *owner, void *fn, void *p, u32 a3);
-extern u32 sub_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern void func_021F918C(const VecFx32 *a, const VecFx32 *b, VecFx32 *out, fx32 div);
 
@@ -94,9 +94,9 @@ void func_0220074C(Work *w, int i, int kind, VecFx32 *p, VecFx32 *q, int n,
     case 3:
         o->f4c *= 2;
     case 2:
-        o->step.x = sub_0207C768(q->x, FX_INT_TO_FX32(n));
-        o->step.y = sub_0207C768(q->y, FX_INT_TO_FX32(n));
-        o->step.z = sub_0207C768(q->z, FX_INT_TO_FX32(n));
+        o->step.x = FX_Div(q->x, FX_INT_TO_FX32(n));
+        o->step.y = FX_Div(q->y, FX_INT_TO_FX32(n));
+        o->step.z = FX_Div(q->z, FX_INT_TO_FX32(n));
         if ((i & 1) && flip) {
             o->step.x *= -1;
             o->step.z *= -1;

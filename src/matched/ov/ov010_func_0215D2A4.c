@@ -15,7 +15,7 @@
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200CA38  0x0200CA38  thumb
  *   func_02030734  0x02030734  arm
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   SCRCMD_SODATEYA_RunPartyMenuEvent  0x0215D1E4  thumb  ov010
@@ -67,7 +67,7 @@ struct Blk37;
 extern void *func_0200CA1C(void *a);
 extern u32 func_0200CA38(struct Blk37 *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern int SCRCMD_SODATEYA_RunPartyMenuEvent(void *, u32 *, Ctx *);
@@ -91,7 +91,7 @@ void *SCRCMD_SODATEYA_Create(void *a, u32 b, u32 c)
     y->f04 = x->f0c;
     y->f08 = (u32)r7;
     y->f0c = 1;
-    y->f0e = func_0201AA18(v);
+    y->f0e = POKEPARTY_GetCount(v);
     y->f0d = 0;
     y->f10 = 0;
     y->f0f = 0;

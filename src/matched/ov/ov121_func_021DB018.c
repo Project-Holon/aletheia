@@ -28,10 +28,10 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   func_021DCF54 0x021DCF54 thumb ov121
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorFlip 0x0204B604 arm
  *   func_02040588 0x02040588 arm
  *   data_021DF86E 0x021DF86E data a1
@@ -107,10 +107,10 @@ extern s32 CLACT_RegisterPaletteEx(void *, u32, u32, u32, u16, u16, u16);
 extern s32 CLACT_RegisterCellAnim(void *, u32, u32, u32);
 extern s32 CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
 extern void func_021DCF54(char *, void *, int, int, u8, u16);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern struct Obj *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
-extern void func_0204B3DC(struct Obj *, u32);
-extern void func_0204B92C(struct Obj *, u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *, u32);
+extern void CLACT_SetActorAutoAnim(struct Obj *, u32);
 extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 extern void func_02040588(unsigned char which, unsigned char enable);
 #pragma opt_dead_assignments off
@@ -167,7 +167,7 @@ void func_021DB018(u8 *p, u16 heap)
     func_021DCF54((char *)p + 0xBAE, arc, 0, 0, 1, heap);
     func_021DCF54((char *)p + 0xC0E, arc, 0, 2, 3, heap);
     ARC_TOOL_DeleteHandle(arc);
-    func_02082BCC(&t, 0, 8);
+    MI_CpuFill8(&t, 0, 8);
     *(u16 *)(t.b) = 0;
     *(u16 *)(t.b + 2) = 24;
     t.b[7] = 1;
@@ -178,7 +178,7 @@ void func_021DB018(u8 *p, u16 heap)
         *(u16 *)(t.b + 4) = 2;
         o = CLACT_CreateActor(*(void **)(p + 8), *(u32 *)(p + 0xAB4 + 0x48), *(u32 *)(p + 0xAB4 + 0x50), *(u32 *)(p + 0xAB4 + 0x4C), &t, 0, heap);
         *(struct Obj **)(p + 0xAB4 + 0x3C) = o;
-        func_0204B3DC(o, 0);
+        CLACT_SetActorDrawEnable(o, 0);
     }
     t.b[6] = 0;
     k = 0;
@@ -197,8 +197,8 @@ void func_021DB018(u8 *p, u16 heap)
         q = p + j * 4;
         o = CLACT_CreateActor(*(void **)(p + 8), *(u32 *)(p + 0xAB4 + 0x48), *(u32 *)(p + 0xAB4 + 0x50), *(u32 *)(p + 0xAB4 + 0x4C), &t, k, heap);
         *(struct Obj **)(q + 0xAB4 + 0x40) = o;
-        func_0204B92C(*(struct Obj **)(q + 0xAB4 + 0x40), 1);
-        func_0204B3DC(*(struct Obj **)(q + 0xAB4 + 0x40), k);
+        CLACT_SetActorAutoAnim(*(struct Obj **)(q + 0xAB4 + 0x40), 1);
+        CLACT_SetActorDrawEnable(*(struct Obj **)(q + 0xAB4 + 0x40), k);
         if (j == 0) CLACT_SetActorFlip((struct Actor *)(*(struct Obj **)(q + 0xAB4 + 0x40)), 1, 1);
         else CLACT_SetActorFlip((struct Actor *)(*(struct Obj **)(q + 0xAB4 + 0x40)), 1, 0);
     }

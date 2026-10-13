@@ -9,8 +9,8 @@
  * status: EXACT
  * lever: Declare flag before base to place their spills at the original stack offsets.
  * symbols:
- *   func_021BF324 0x021BF324 thumb ov093
- *   func_021C69B8 0x021C69B8 thumb ov093
+ *   BTL_SERVER_FLOW_CheckNoGuardHit 0x021BF324 thumb ov093
+ *   BTL_SERVER_FLOW_CheckSureHit 0x021C69B8 thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_SERVER_FLOW_CalcAccuracyRatio 0x021C6A04 thumb ov093
  *   BTL_EVENT_PushVarFrame 0x021D74F8 thumb ov093
@@ -27,7 +27,7 @@
  *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
  *   BTL_CALC_ApplyAccuracyStage 0x021D7908 thumb ov093
  *   BTL_CALC_MulRatio 0x021D7B10 thumb ov093
- *   func_021B911C 0x021B911C thumb ov093
+ *   BTL_MAIN_ReturnZero 0x021B911C thumb ov093
  *   BTL_CALC_Random 0x021D78AC thumb ov093
  */
 #include "../include/Obj07752.h"
@@ -36,8 +36,8 @@ typedef signed char s8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Q { u16 h0; u8 pad[6]; u32 w8; };
-extern int func_021BF324(u8 *, u8 *, u8 *);
-extern int func_021C69B8(u8 *, u8 *, u32, u16);
+extern int BTL_SERVER_FLOW_CheckNoGuardHit(u8 *, u8 *, u8 *);
+extern int BTL_SERVER_FLOW_CheckSureHit(u8 *, u8 *, u32, u16);
 struct Unk021D62A8;
 struct UtilWork;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
@@ -56,7 +56,7 @@ extern void BTL_EVENT_PopVarFrame(int);
 extern int BTL_POKEPARAM_TestTurnFlag(struct UtilWork *p, u32 n);
 extern unsigned char BTL_CALC_ApplyAccuracyStage(int a, int i);
 extern u32 BTL_CALC_MulRatio(u32, u32);
-extern int func_021B911C(void *, int);
+extern int BTL_MAIN_ReturnZero(void *, int);
 extern u32 BTL_CALC_Random(u32);
 int BTL_SERVER_FLOW_RollMoveAccuracy(u8 *p, u8 *a, u8 *b, struct Q *q)
 {
@@ -66,8 +66,8 @@ int BTL_SERVER_FLOW_RollMoveAccuracy(u8 *p, u8 *a, u8 *b, struct Q *q)
     u32 scale;
     int v;
     u32 chance;
-    if (func_021BF324(p, a, b)) return 1;
-    if (func_021C69B8(p, a, (u32)b, q->h0)) return 1;
+    if (BTL_SERVER_FLOW_CheckNoGuardHit(p, a, b)) return 1;
+    if (BTL_SERVER_FLOW_CheckSureHit(p, a, (u32)b, q->h0)) return 1;
     if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)b, 32)) return 1;
     base = BTL_SERVER_FLOW_CalcAccuracyRatio(p, a, b, q);
     BTL_EVENT_PushVarFrame(5014);
@@ -90,7 +90,7 @@ int BTL_SERVER_FLOW_RollMoveAccuracy(u8 *p, u8 *a, u8 *b, struct Q *q)
     if (v > 12) v = 12;
     chance = BTL_CALC_MulRatio(BTL_CALC_ApplyAccuracyStage((u8)base, (u8)(s8)v), scale);
     if (chance > 100) chance = 100;
-    if (func_021B911C(((struct Obj07752 *)p)->f4, 6)) chance = 100;
+    if (BTL_MAIN_ReturnZero(((struct Obj07752 *)p)->f4, 6)) chance = 100;
     if (BTL_CALC_Random(100) < (u8)chance) return 1;
     return 0;
 }

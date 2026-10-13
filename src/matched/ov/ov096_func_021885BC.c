@@ -14,7 +14,7 @@
  *   BTL_POKEPARAM_GetMovePPChecked 0x021D5584 thumb ov093
  *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
  *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
- *   func_021B9A6C 0x021B9A6C thumb ov093
+ *   BTL_MAIN_IsPosInTable 0x021B9A6C thumb ov093
  *   func_0218A494 0x0218A494 thumb ov096
  *   func_0218A528 0x0218A528 thumb ov096
  *   func_0218A384 0x0218A384 thumb ov096
@@ -34,7 +34,7 @@ extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 struct QG;
 struct ScriptVm;
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
-extern int func_021B9A6C(int, u32);
+extern int BTL_MAIN_IsPosInTable(int, u32);
 extern void *func_0218A494(u8 *);
 extern void func_0218A528(u8 *);
 extern int func_0218A384(Obj *, int, int);
@@ -56,7 +56,7 @@ void func_021885BC(int a, Obj *b)
             }
             b->state++;
         case 1:
-            if (b->mode == 2 && b->move != 0 && func_021B9A6C(b->side, b->opp) == 0 && func_0218A384(b, b->move, 11) == 0) {
+            if (b->mode == 2 && b->move != 0 && BTL_MAIN_IsPosInTable(b->side, b->opp) == 0 && func_0218A384(b, b->move, 11) == 0) {
                 b->move = 0;
                 func_02011290((struct ScriptVm *)a);
                 func_0218A528((u8 *)b);

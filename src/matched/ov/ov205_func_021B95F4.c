@@ -12,17 +12,17 @@
  * volatile: DISPCNT 0x04000000 read at 021B9650 and written at 021B965A.
  * symbols:
  *   init 0x021B9E50 data a2
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_021B9874 0x021B9874 thumb ov205
  *   GPOWER_GetSpecialPowerId 0x020111E8 thumb
  *   func_0207E468 0x0207E468 arm
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021B99E4 0x021B99E4 thumb ov205
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   func_021B9A68 0x021B9A68 thumb ov205
@@ -34,7 +34,7 @@
  *   func_021B9B78 0x021B9B78 thumb ov205
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   TIME_ICON_Delete 0x0202F038 thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_021B9928 0x021B9928 thumb ov205
  *   func_02028484 0x02028484 thumb
@@ -52,17 +52,17 @@ struct Cfg;
 struct CharBuf;
 struct Descriptor;
 struct Tcbl;
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_021B9874(char *,const char *);
 extern u32 GPOWER_GetSpecialPowerId(void);
 extern void func_0207E468(void *,u32,u32);
 extern void FADE_Start(u32,int,int,int);
 extern int FADE_IsActive(void);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_021B99E4(char *,u32,u32,u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern int GAME_DATA_SaveStart(int);
 extern void func_021B9A68(char *);
@@ -74,7 +74,7 @@ extern u8 *TIME_ICON_CreateNode(u32 a, void *b, u8 c, u8 d, u16 e);
 extern void func_021B9B78(char *);
 extern int GAME_DATA_SaveMain(u8 *p);
 extern void TIME_ICON_Delete(u8 *p);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_021B9928(char *);
 typedef signed int     s32;
@@ -89,7 +89,7 @@ int func_021B95F4(void *unused,State *state,const char *context,char *p)
     void *obj;
     enum { M3=3,M12=12 } mode;
     local=init;
-    func_020362DC();
+    KEY_GetTrg();
     switch(*state){
     case 0:func_021B9874(p,context);(*state)++;break;
     case 1:
@@ -106,8 +106,8 @@ int func_021B95F4(void *unused,State *state,const char *context,char *p)
     case 3:
         if(((struct Obj00419 *)p)->f40!=0){ (*state)++; break; }
         {
-            func_020061E4(0x54c);func_021B99E4(p,3,0,0);
-            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(func_02045730(obj));
+            GFL_USE_PlaySeDefaultVolume(0x54c);func_021B99E4(p,3,0,0);
+            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
             ((struct Obj00419 *)p)->f44=4;*state=13;GAME_DATA_SaveStart(*(int *)&((struct Obj00419 *)p)->f4);
         }
         break;
@@ -137,11 +137,11 @@ int func_021B95F4(void *unused,State *state,const char *context,char *p)
         TIME_ICON_Delete(((struct Obj00419 *)p)->f30);
         if(((struct Obj00419 *)p)->f40==0 && ((struct Obj00419 *)p)->f34!=0){
             func_021B99E4(p,4,0,0);
-            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(func_02045730(obj));
-            ((struct Obj00419 *)p)->f44=8;*state=13;func_020061E4(0x558);
+            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
+            ((struct Obj00419 *)p)->f44=8;*state=13;GFL_USE_PlaySeDefaultVolume(0x558);
         }else{
             func_021B99E4(p,5,0,0);
-            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(func_02045730(obj));
+            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
             ((struct Obj00419 *)p)->f44=8;*state=13;
         }
         break;
@@ -153,7 +153,7 @@ int func_021B95F4(void *unused,State *state,const char *context,char *p)
         else { FADE_Start(12,0,16,0); }
         (*state)++;break;
     case 10:
-        if(!FADE_IsActive()){BMP_Clear(func_02045770(((struct Obj00419 *)p)->f1C),15);(*state)++;}
+        if(!FADE_IsActive()){BMP_Clear(BMP_WIN_GetBmp(((struct Obj00419 *)p)->f1C),15);(*state)++;}
         break;
     case 11:func_021B9928(p);(*state)++;break;
     case 12:return 1;

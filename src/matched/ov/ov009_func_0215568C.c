@@ -24,7 +24,7 @@
  *   func_02034714  0x02034714  arm
  *   DWC_RAP_FreeRecvBuffers  0x02156C60  thumb  ov009
  *   func_0216CA04  0x0216CA04  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02094530  0x02094530  arm
  *   func_0203F004  0x0203F004  arm
  *   DWC_RAP_AllocRecvBuffer  0x02156C00  thumb  ov009
@@ -71,7 +71,7 @@ typedef unsigned int   u32;
 void func_02034714(const char *expr, u32 line, const char *file);
 void DWC_RAP_FreeRecvBuffers(void);
 u8 func_0216CA04(u8 keyID, char *keyString, char *valueSrc);
-void func_02082BCC(void *p, int v, int n);
+void MI_CpuFill8(void *p, int v, int n);
 u32 func_02094530(char *dst, u32 n, ...);
 u32 func_0203F004(const u8 *s);
 void DWC_RAP_AllocRecvBuffer(u32 a);
@@ -102,7 +102,7 @@ int DWC_RAP_StartMatchWithKey(void *a0, int n, int a2)
     DWC_RAP_FreeRecvBuffers();
     if (func_0216CA04(0, d_021A1C74, a0) == 0)
         func_02034714(d_021A1C5C, 0, d_021A1C5C);
-    func_02082BCC(_pRapWork->name, 0, 0x80);
+    MI_CpuFill8(_pRapWork->name, 0, 0x80);
     func_02094530(_pRapWork->name, (u32)d_021A1974, d_021A1C74, a0);
     if ((int)func_0203F004((const u8 *)_pRapWork->name) >= 0x80)
         func_02034714(d_021A1C5C, 0, d_021A1C5C);

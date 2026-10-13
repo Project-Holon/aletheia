@@ -1,5 +1,5 @@
 /*
- * function: func_021A1518
+ * function: FIELD_SUBSCREEN_IsReportReady
  * address:  0x021A1518
  * packet:   pkt_ov021_021A1518
  * region:   ov021
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 extern int REPORT_IsReady(int *p);
 
-int func_021A1518(u32 *p)
+int FIELD_SUBSCREEN_IsReportReady(u32 *p)
 {
     return REPORT_IsReady((int *)p[8]);
 }

@@ -21,27 +21,27 @@
  *   func_021D7B38  0x021D7B38  thumb  ov120
  *   func_021D7A74  0x021D7A74  thumb  ov120
  *   func_021D8648  0x021D8648  thumb  ov120
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_STATE_WifiDisconnect  0x0203C554  arm
  *   func_020355D8  0x020355D8  arm
  *   GFL_NET_STATE_GetWifiState  0x0203C3EC  arm
  *   GFL_NET_SetAutoExit  0x0203D7B0  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 #include "../include/Obj05343.h"
 
 typedef unsigned int u32;
 
 extern int func_021D7C10(char *p);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_021D8638(unsigned char *p);
 extern int GFL_NET_GetRunState(void);
 typedef unsigned char  u8;
 extern void GFL_NET_STATE_WifiDisconnect(u32 a);
 extern void func_020355D8(u8 v);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021D4244(int *p, int v, int a2);
 extern int GFL_NET_STATE_GetWifiState(void);
 extern void GFL_NET_SetAutoExit(u8 a0);
@@ -53,16 +53,16 @@ extern void func_021D8648(u8 *p);
 void func_021D4988(int *a)
 {
     func_021D7C10((char *)(((struct Obj05343 *)a)->f40));
-    if (func_020362DC() == 2) {
+    if (KEY_GetTrg() == 2) {
         func_021D8638((unsigned char *)(((struct Obj05343 *)a)->f40));
         if (GFL_NET_GetRunState() != 0)
             GFL_NET_STATE_WifiDisconnect(1);
         func_020355D8(0);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021D4244(a, 0x021D4FF5, 0x360);
     }
     if (GFL_NET_GetRunState() == 0) {
-        if (func_020362DC() != 1)
+        if (KEY_GetTrg() != 1)
             return;
     } else {
         if (GFL_NET_STATE_GetWifiState() != 1)

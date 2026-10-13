@@ -16,7 +16,7 @@
  *   BMP_WIN_Create   0x020450F0  arm
  *   APP_TASKMENU_DrawWinFrame  0x020282D8  thumb
  *   sub_0201D304   0x0201D304  thumb
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor   0x0201C724  thumb
  *   g_020A74E0     0x020A74E0  data
  *
@@ -83,7 +83,7 @@ extern void  MI_CpuFill8(void *p, u8 v, u32 n);
 extern u32   BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void  APP_TASKMENU_DrawWinFrame(u32 bg, struct Cfg *c, u32 d);
 extern u32 sub_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void  PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 struct Obj *APP_TASKMENU_WIN_CreateCore(struct Cfg *cfg, struct Src *src, u16 a2, u16 a3,
@@ -108,7 +108,7 @@ struct Obj *APP_TASKMENU_WIN_CreateCore(struct Cfg *cfg, struct Src *src, u16 a2
         w = (u8)(((a4 << 3) - sub_0201D304((void *)src->f00, cfg->f10, 0)
                   - 0x10) >> 1);
     }
-    PRINTSYS_PrintQueColor((void *)cfg->f14, (u32)func_02045770((void *)o->f00),
+    PRINTSYS_PrintQueColor((void *)cfg->f14, (u32)BMP_WIN_GetBmp((void *)o->f00),
                  (s16)(w + 8), 6, src->f00, cfg->f10, src->f04);
     o->f1c = 0x3545;
     o->f1e = 0x7B2C;

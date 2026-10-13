@@ -17,7 +17,7 @@
  *   OPTION_MENU_GetInputPoint  0x021BA194  thumb  ov068
  *   func_02040804  0x02040804  arm
  *   OPTION_MENU_DrawList  0x021BAA0C  thumb  ov068
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   OPTION_MENU_GetRowAtTouch  0x021BAD38  thumb  ov068
  *   OPTION_MENU_SelectChoiceAtTouch  0x021BAC70  thumb  ov068
  *   OPTION_MENU_RestartScreenBlink  0x021B9964  thumb  ov068
@@ -42,7 +42,7 @@ extern int OPTION_MENU_GetInputCommand(const int *p);
 extern void OPTION_MENU_GetInputPoint(const u8 *p, int which, int *out);
 extern u32 func_02040804(u32 layer);
 extern void OPTION_MENU_DrawList(u8 *p, int flag);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern int  OPTION_MENU_GetRowAtTouch(u8 *p, int *pos);
 extern void OPTION_MENU_SelectChoiceAtTouch(u8 *p, void *b);
 extern void OPTION_MENU_RestartScreenBlink(char *p);
@@ -79,7 +79,7 @@ void OPTION_MENU_UpdateList(u8 *p, void *a1, void *a2, void *a3, void *a4)
         ((struct Obj00103 *)p)->f38 = 0;
         ((struct Obj00103 *)p)->f4 = ((struct Obj00103 *)p)->f4 == 0 ? 6 : ((struct Obj00103 *)p)->f4 - 1;
         ((struct Obj00103 *)p)->f50 = 1;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         OPTION_MENU_DrawList(p, 1);
         OPTION_MENU_RestartScreenBlink(a3);
         break;
@@ -93,7 +93,7 @@ void OPTION_MENU_UpdateList(u8 *p, void *a1, void *a2, void *a3, void *a4)
         else
             (((struct Obj00103 *)p)->f4)++;
         ((struct Obj00103 *)p)->f50 = 1;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         OPTION_MENU_DrawList(p, 1);
         OPTION_MENU_RestartScreenBlink(a3);
         break;
@@ -111,25 +111,25 @@ void OPTION_MENU_UpdateList(u8 *p, void *a1, void *a2, void *a3, void *a4)
         break;
     case 6:
         if (((struct Obj00103 *)p)->f4 < 5) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             OPTION_MENU_StepSelectedSetting(p, 1);
             OPTION_MENU_DrawList(p, 1);
             OPTION_MENU_RestartScreenBlink(a3);
         } else if (((struct Obj00103 *)p)->f4 == 5) {
             (((struct Obj00103 *)p)->f4)++;
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             ((struct Obj00103 *)p)->f4 = ((struct Obj00103 *)p)->f4 > 6 ? 6 : (((struct Obj00103 *)p)->f4 < 0 ? 0 : ((struct Obj00103 *)p)->f4);
         }
         break;
     case 7:
         if (((struct Obj00103 *)p)->f4 < 5) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             OPTION_MENU_StepSelectedSetting(p, -1);
             OPTION_MENU_DrawList(p, 1);
             OPTION_MENU_RestartScreenBlink(a3);
         } else if (((struct Obj00103 *)p)->f4 == 6) {
             (((struct Obj00103 *)p)->f4)--;
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             ((struct Obj00103 *)p)->f4 = ((struct Obj00103 *)p)->f4 > 6 ? 6 : (((struct Obj00103 *)p)->f4 < 0 ? 0 : ((struct Obj00103 *)p)->f4);
         }
         break;

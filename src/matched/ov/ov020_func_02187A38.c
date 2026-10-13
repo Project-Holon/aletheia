@@ -1,5 +1,5 @@
 /*
- * function: func_02187A38
+ * function: EL_SCOREBOARD_UpdateFadeShared
  * address:  0x02187A38
  * packet:   pkt_ov020_02187A38
  * region:   ov020
@@ -37,7 +37,7 @@ void func_0207D63C(u32 addr, int plane1, int plane2, int ev1, int ev2);
 typedef unsigned short u16;
 void func_0207D534(volatile u16 *reg, int brightness);
 
-void func_02187A38(const char *o, int st)
+void EL_SCOREBOARD_UpdateFadeShared(const char *o, int st)
 {
     int v;
 

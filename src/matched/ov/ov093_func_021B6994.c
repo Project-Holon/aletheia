@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  */
 
 typedef unsigned char u8;
@@ -26,7 +26,7 @@ struct S {
     void *f24[4];
 };
 
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 
 int BTL_MAIN_GetPositionsPerClient(struct S **pp, u32 b)
 {
@@ -48,7 +48,7 @@ int BTL_MAIN_GetPositionsPerClient(struct S **pp, u32 b)
             return 1;
         }
         q = p->f24[(u8)((b + 2) & 3)];
-        if (q != 0 && (int)func_0201AA18(q) > 0) {
+        if (q != 0 && (int)POKEPARTY_GetCount(q) > 0) {
             return 1;
         }
         return 2;

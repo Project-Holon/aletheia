@@ -1,5 +1,5 @@
 /*
- * function: func_021B9AF8
+ * function: BTL_SIDE_GetSlotOfClientThunk
  * address:  0x021B9AF8
  * packet:   pkt_021B9AF8
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT* (extent 12, compiled 10, trailing padding)
  */
 
-char *func_021B9AF8(char *p, int i)
+char *BTL_SIDE_GetSlotOfClientThunk(char *p, int i)
 {
     return p + 4 + i * 0x1c;
 }

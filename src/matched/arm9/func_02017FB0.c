@@ -13,7 +13,7 @@
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   func_02017E88  0x02017E88  thumb
  *   POKE_TOOL_CalcBoxLevel  0x02018438  thumb
- *   func_0201ADD0  0x0201ADD0  thumb
+ *   POKE_PERSONAL_LoadDataDirect  0x0201ADD0  thumb
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   POKE_TOOL_AddBoxMove  0x02018094  thumb
  *   POKE_TOOL_PushBoxMove  0x020180FC  thumb
@@ -44,7 +44,7 @@ struct Sav;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32  func_02017E88(void *p, u32 id, u32 v);
 extern u32  POKE_TOOL_CalcBoxLevel(void *p);
-extern void func_0201ADD0(u32 species, int form, void *dest);
+extern void POKE_PERSONAL_LoadDataDirect(u32 species, int form, void *dest);
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_AddBoxMove(void *p, u32 move);
 extern void POKE_TOOL_PushBoxMove(void *p, u16 move);
@@ -75,7 +75,7 @@ u32 POKE_TOOL_SetBoxDefaultMoves(void *p)
     species = func_02017E88(p, 5, 0);
     form = func_02017E88(p, 0x6f, 0);
     level = POKE_TOOL_CalcBoxLevel(p);
-    func_0201ADD0(species, (u16)form, gLevelUpMoveBuf);
+    POKE_PERSONAL_LoadDataDirect(species, (u16)form, gLevelUpMoveBuf);
 
     for (i = 0; i < 4; i++) {
         POKE_TOOL_SetBoxValue(p, 0x36 + i, 0);

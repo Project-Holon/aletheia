@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
- *   func_02005F38 0x02005F38 thumb
+ *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
@@ -22,7 +22,7 @@
 #include "../include/Obj24944.h"
 
 extern int GFL_USE_IsBgmFading(void);
-extern int func_02005F38(void);
+extern int GFL_USE_IsBgmPlaying(void);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void GFL_USE_SetBgmPlayerParam(void *p);
@@ -46,7 +46,7 @@ void func_02204DE0(char *a, char *b)
         }
         break;
     case 2:
-        if (func_02005F38() == 0)
+        if (GFL_USE_IsBgmPlaying() == 0)
             ((struct Obj03902 *)b)->f30 = 0;
         break;
     case 3:
@@ -67,11 +67,11 @@ void func_02204DE0(char *a, char *b)
             ((struct Obj03902 *)b)->f30 = 8;
         break;
     case 8:
-        if (func_02005F38() == 0)
+        if (GFL_USE_IsBgmPlaying() == 0)
             func_02204F40((int)a, (int *)b);
         break;
     case 9:
-        if (func_02005F38() == 0)
+        if (GFL_USE_IsBgmPlaying() == 0)
             func_02204F40((int)a, (int *)b);
         break;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021876B0
+ * function: EL_SCOREBOARD_AnimateLampPalette
  * address: 0x021876B0
  * packet: pkt_ov020_021876B0
  * region: ov020
@@ -18,7 +18,7 @@ extern int EL_SCOREBOARD_LampPaletteColors[];
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
-void func_021876B0(Pair *p, int tick)
+void EL_SCOREBOARD_AnimateLampPalette(Pair *p, int tick)
 {
     func_02061CA4((void *)1, (u32)(p->base + (u16)p->index * 8), EL_SCOREBOARD_LampPaletteColors[(tick & 31) / 8], 8);
 }

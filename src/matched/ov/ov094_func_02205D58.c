@@ -13,6 +13,8 @@
  *   d_0220A392  0x0220A392  data  ov094  a2
  *   CLACT_CreateActor  0x0204B294  arm  arm9
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
  */
 #include "../include/Obj06327.h"
 
@@ -26,8 +28,8 @@ extern const u16 d_0220A392[];
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
 void func_02205D58(char *p, int mode)
@@ -56,8 +58,8 @@ void func_02205D58(char *p, int mode)
     row = p + mode * 0x48;
     for (; i < 6; i++) {
         slots[i].h = CLACT_CreateActor((void *)((struct Obj06327 *)p)->f118, ((struct Obj06327 *)p)->f104, ((struct Obj06327 *)p)->f108, ((struct Obj06327 *)p)->f10C, d_0220A392, 1, ((struct Obj06327 *)p)->f240);
-        func_0204B404(slots[i].h, (const struct Vec2 *)(&pos), 1);
-        func_0204B92C(slots[i].h, 1);
+        CLACT_AddActorSurfacePos(slots[i].h, (const struct Vec2 *)(&pos), 1);
+        CLACT_SetActorAutoAnim(slots[i].h, 1);
         CLACT_SetActorAnimSeq(slots[i].h, add + *(u8 *)(row + i * 12 + 0x75));
         pos.x += (s16)step;
     }

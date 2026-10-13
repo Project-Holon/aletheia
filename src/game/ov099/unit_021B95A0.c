@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021BA810  0x021BA810  thumb  ov099
  *   func_021BA81C  0x021BA81C  thumb  ov099
  *   func_021C47A0  0x021C47A0  thumb  ov127
@@ -30,8 +30,8 @@
  *   func_021C5994  0x021C5994  thumb  ov127
  *   func_021C5A60  0x021C5A60  thumb  ov127
  *   func_021C571C  0x021C571C  thumb  ov127
- *   func_0203630C  0x0203630C  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetCont  0x0203630C  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_021C49A4  0x021C49A4  thumb  ov127
  *   func_021C4AC4  0x021C4AC4  thumb  ov127
  *   func_021C4864  0x021C4864  thumb  ov127
@@ -72,8 +72,8 @@
  *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   CLACT_SetActorPos 0x0204B528 arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
@@ -448,7 +448,7 @@ typedef struct {
     s16 f8;
 } S_021BA538;
 
-extern void func_02082BCC(void *p, u32_021B95A0 v, u32_021B95A0 n);
+extern void MI_CpuFill8(void *p, u32_021B95A0 v, u32_021B95A0 n);
 extern WH func_021BA810(int i);
 extern u32_021B95A0 func_021BA81C(int i);
 extern void *func_021C47A0(u32_021B95A0 w, u32_021B95A0 h, u32_021B95A0 heap);
@@ -465,8 +465,8 @@ extern void func_021C48E8(u8 *p);
 extern void func_021C5994(void *p, void *q);
 extern void func_021C5A60(char *p, void *q);
 extern void func_021C571C(u8 *p);
-extern u32_021B95A0 func_0203630C(void);
-extern u32_021B95A0 func_020362DC(void);
+extern u32_021B95A0 KEY_GetCont(void);
+extern u32_021B95A0 KEY_GetTrg(void);
 extern int func_021C49A4(u8 *p, unsigned int i);
 extern Pos func_021C4AC4(void *v);
 extern u32_021B9800 func_021C4864(u8 *p, u16 x, u16 y);
@@ -506,8 +506,8 @@ extern void CLACT_ReleaseCharacter(u32_021B9EA0 i);
 extern void CLACT_ReleasePalette(u32_021B9EA0 i);
 extern void CLACT_ReleaseCellAnim(u32_021B9EA0 i);
 extern struct Obj_021B9EB8 *CLACT_CreateActor(void *a, unsigned int b, unsigned int c, unsigned int d, const void *e, u16 f, u16 g);
-extern void func_0204B3DC(struct Obj_021B9EB8 *p, unsigned int v);
-extern void func_0204B92C(struct Obj_021B9EB8 *a, u32_021B9EB8 b);
+extern void CLACT_SetActorDrawEnable(struct Obj_021B9EB8 *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj_021B9EB8 *a, u32_021B9EB8 b);
 extern void CLACT_DeleteActor(struct Obj_021B9EB8 *p);
 extern void CLACT_SetActorPos(void *,Pos_021B9EB8 *);
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32_021B9F90 val);
@@ -608,7 +608,7 @@ void func_021B95A0(char *p, int heap, u32_021B95A0 x2, u32_021B95A0 x3, u32_021B
 {
     WH t;
     u32_021B95A0 n = 0;
-    func_02082BCC(p, 0, 0x5A0);
+    MI_CpuFill8(p, 0, 0x5A0);
     if (a4 != 0) n = (a4 - 1) >> 3;
     *(u32_021B95A0 *)(p + 0x14) = a6;
     *(u32_021B95A0 *)(p + 4) = heap;
@@ -645,7 +645,7 @@ void func_021B9670(char *p)
     func_021C47E4((u8 *)(((Ov099Work *)p)->f588));
     func_021B9DD4(p + 0x14);
     func_021B9E08(((Ov099Work *)p)->f10);
-    func_02082BCC(p, 0, 0x5a0);
+    MI_CpuFill8(p, 0, 0x5a0);
 }
 
 
@@ -680,10 +680,10 @@ u32_021B95A0 func_021B96D0(char *p)
         func_021B97CC(p);
         if (func_021B9FDC((Work *)p) == 1) {
             func_021B9F48((u8 *)p);
-            if (func_0203630C() & 0x80)
+            if (KEY_GetCont() & 0x80)
                 return 1;
         }
-        if (func_020362DC() & 1) {
+        if (KEY_GetTrg() & 1) {
             if (func_021B97F4((W_021B95A0 *)p) != 0)
                 return 2;
             if (func_021B9BC4((Work_021B9BC4 *)p) == 1)
@@ -706,7 +706,7 @@ int func_021B9788(int a, int *b)
     int *r;
 
     c = func_021C49A4((u8 *)b[0], 6);
-    if (func_020362DC() & 1) {
+    if (KEY_GetTrg() & 1) {
         r = func_021B9CF8((char *)a, (u32_021B9CF8 *)b, c);
         if (r != 0) {
             if (func_021BA1FC((S *)r) == 1)
@@ -895,7 +895,7 @@ void func_021B9A34(Obj_021B9A34 *p)
 {
     func_021C5704(p->f4);
     func_021C4948(p->f0);
-    func_02082BCC(p, 0, sizeof(Obj_021B9A34));
+    MI_CpuFill8(p, 0, sizeof(Obj_021B9A34));
 }
 
 
@@ -1368,10 +1368,10 @@ void func_021B9EB8(Obj_021B9EB8 *o, int a)
     r.d = 0xfe;
     r.e = 3;
     o->f18 = (u32_021B9EB8)(struct Obj *)CLACT_CreateActor((void *)o->f0, o->f8, o->fc, o->f10, &r, 0, a);
-    func_0204B3DC((struct Obj_021B9EB8 *)o->f14, 0);
-    func_0204B3DC((struct Obj_021B9EB8 *)o->f18, 0);
-    func_0204B92C((struct Obj_021B9EB8 *)o->f14, 1);
-    func_0204B92C((struct Obj_021B9EB8 *)o->f18, 1);
+    CLACT_SetActorDrawEnable((struct Obj_021B9EB8 *)o->f14, 0);
+    CLACT_SetActorDrawEnable((struct Obj_021B9EB8 *)o->f18, 0);
+    CLACT_SetActorAutoAnim((struct Obj_021B9EB8 *)o->f14, 1);
+    CLACT_SetActorAutoAnim((struct Obj_021B9EB8 *)o->f18, 1);
 }
 
 
@@ -1392,7 +1392,7 @@ void func_021B9F34(S_021B9EB8 *s)
 
 
 
-void func_021B9F48(u8 *p) { Pos_021B9EB8 b; Pos_021B9EB8 a; func_021BA0F8((W_021BA0F8 *)p,(u16 *)&b); b.x+=8; b.y+=32; a.x=b.x; a.y=b.y; CLACT_SetActorPos(((Ov099Work *)p)->f28,&a); func_0204B3DC(((Ov099Work *)p)->f28,1); }
+void func_021B9F48(u8 *p) { Pos_021B9EB8 b; Pos_021B9EB8 a; func_021BA0F8((W_021BA0F8 *)p,(u16 *)&b); b.x+=8; b.y+=32; a.x=b.x; a.y=b.y; CLACT_SetActorPos(((Ov099Work *)p)->f28,&a); CLACT_SetActorDrawEnable(((Ov099Work *)p)->f28,1); }
 
 
 
@@ -1402,7 +1402,7 @@ void func_021B9F48(u8 *p) { Pos_021B9EB8 b; Pos_021B9EB8 a; func_021BA0F8((W_021
 
 void func_021B9F84(S_021B9F84 *s)
 {
-    func_0204B3DC((struct Obj_021B9EB8 *)s->f28, 0);
+    CLACT_SetActorDrawEnable((struct Obj_021B9EB8 *)s->f28, 0);
 }
 
 
@@ -1419,7 +1419,7 @@ void func_021B9F90(Obj_021B9F84 *o, Pos pos, int c)
     t.y = pos.y;
     CLACT_SetActorPos(o->f2c, (Pos_021B9EB8 *)((const struct Pt *)(&t)));
     CLACT_SetActorDrawPriority(o->f2c, (unsigned char)c);
-    func_0204B3DC((struct Obj_021B9EB8 *)o->f2c, 1);
+    CLACT_SetActorDrawEnable((struct Obj_021B9EB8 *)o->f2c, 1);
 }
 
 
@@ -1433,7 +1433,7 @@ void func_021B9F90(Obj_021B9F84 *o, Pos pos, int c)
  */
 void func_021B9FD0(void *p)
 {
-    func_0204B3DC((struct Obj_021B9EB8 *)((struct Obj *)((struct Obj22013 *)p)->f2C), 0);
+    CLACT_SetActorDrawEnable((struct Obj_021B9EB8 *)((struct Obj *)((struct Obj22013 *)p)->f2C), 0);
 }
 
 
@@ -1658,7 +1658,7 @@ void func_021BA2D4(void *w, S_021BA2D4 *s)
  *
  *   typedef unsigned long u32;
  *   typedef signed short s16;
- *   extern const s16 d_020A1B38[];   (0x020A1B38 data a2)
+ *   extern const s16 FX_SinCosTable_[];   (0x020A1B38 data a2)
  *   int func_0203F5FC(u32 a)
  *   {
  *       int t;
@@ -1666,7 +1666,7 @@ void func_021BA2D4(void *w, S_021BA2D4 *s)
  *           return 0;
  *       }
  *       t = (int)(a * 65535) / 360;
- *       return d_020A1B38[(t >> 4) * 2];
+ *       return FX_SinCosTable_[(t >> 4) * 2];
  *   }
  */
 void func_021BA36C(void *w, S_021BA36C *s)
@@ -1709,30 +1709,30 @@ int func_021BA418(W_021BA418 *w, S_021BA418 *s)
     if (w->fc == 1) {
         return 0;
     }
-    t = func_0203630C();
+    t = KEY_GetCont();
     k = 2;
     if (t & 2) {
         k = 3;
     }
-    if (func_0203630C() & 0x40) {
+    if (KEY_GetCont() & 0x40) {
         if (a == 0) {
             func_021BA594((char *)w, k, a, b);
         } else {
             func_021BA594((char *)w, 1, 0, b);
         }
-    } else if (func_0203630C() & 0x80) {
+    } else if (KEY_GetCont() & 0x80) {
         if (a == 1) {
             func_021BA594((char *)w, k, a, b);
         } else {
             func_021BA594((char *)w, 1, 1, b);
         }
-    } else if (func_0203630C() & 0x20) {
+    } else if (KEY_GetCont() & 0x20) {
         if (a == 2) {
             func_021BA594((char *)w, k, a, b);
         } else {
             func_021BA594((char *)w, 1, 2, b);
         }
-    } else if (func_0203630C() & 0x10) {
+    } else if (KEY_GetCont() & 0x10) {
         if (a == 3) {
             func_021BA594((char *)w, k, a, b);
         } else {

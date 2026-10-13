@@ -13,12 +13,12 @@
  *
  * symbols:
  *   PM_VOICE_Play  0x02006984  thumb
- *   func_02006CAC  0x02006CAC  thumb
+ *   PM_VOICE_GetPerapVoiceSave  0x02006CAC  thumb
  *   SND_MIC_Init  0x02006CBC  thumb
- *   func_02006D44  0x02006D44  thumb
- *   func_02006D64  0x02006D64  thumb
- *   func_02006D94  0x02006D94  thumb
- *   func_02006DD8  0x02006DD8  thumb
+ *   SND_MIC_Exit  0x02006D44  thumb
+ *   SND_MIC_AddElapsed  0x02006D64  thumb
+ *   SND_MIC_IsLimitReached  0x02006D94  thumb
+ *   SND_MIC_StartRecording  0x02006DD8  thumb
  *   SND_MIC_StoreRecording  0x02006E18  thumb
  *   func_02007B50  0x02007B50  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -108,24 +108,24 @@ extern void *SND_MIC_Init(u32);
 extern void *GFL_USE_GetMainTaskList(void *);
 extern void *FIELD_MSGBG_GetSysWinBmpWin(void **p);
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
-extern void func_02006D64(u32);
-extern u32 func_02006D94(void);
+extern void SND_MIC_AddElapsed(u32);
+extern u32 SND_MIC_IsLimitReached(void);
 extern void TIME_ICON_Delete(u8 *p);
 extern u8 *FIELD_SOUND_SYSTEM_StartPushTask(u8 *p, u32 a);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
-extern u32 func_02006DD8(void *a, u32 b);
+extern u32 SND_MIC_StartRecording(void *a, u32 b);
 extern void EVENT_PERAP_RECORD_OnRecorded(void *unused, int *done);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void FIELD_MSGBG_SysWinPrintStr(struct P *p, u32 b, u16 c, u32 d);
-extern void func_02006D44(void);
+extern void SND_MIC_Exit(void);
 extern void func_02034FB8(u32);
 extern void *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(void *a, u32 b, u32 c);
 extern void SND_MIC_StoreRecording(void *);
 extern int EVENT_PERAP_RECORD_HopPokeIcon(u8 *w);
-extern void func_02006CAC(void **out);
+extern void PM_VOICE_GetPerapVoiceSave(void **out);
 extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern u32 PM_VOICE_IsActive(u32 i);
 extern void EVENT_PERAP_RECORD_Cleanup(Work *);
@@ -188,8 +188,8 @@ int EVENT_PERAP_RECORD_Main(void *proc, int *seq, Work *w)
         }
         break;
     case 5:
-        func_02006D64(2);
-        if (func_02006D94() == 1) {
+        SND_MIC_AddElapsed(2);
+        if (SND_MIC_IsLimitReached() == 1) {
             TIME_ICON_Delete(w->x34);
             FIELD_MSGBG_ClearSysWin(w->x20);
             FIELD_MSGBG_SysWinPrintMsg(w->x20, 0, 0, 1);
@@ -199,7 +199,7 @@ int EVENT_PERAP_RECORD_Main(void *proc, int *seq, Work *w)
         break;
     case 6:
         if (FIELD_MSGBG_SysWinMain(w->x20) == 1) {
-            if (func_02006DD8(EVENT_PERAP_RECORD_OnRecorded, (u32)(&w->x54)) == 0) {
+            if (SND_MIC_StartRecording(EVENT_PERAP_RECORD_OnRecorded, (u32)(&w->x54)) == 0) {
                 *seq = 7;
             } else {
                 a = func_02045EC0(w->x18, 3);
@@ -208,7 +208,7 @@ int EVENT_PERAP_RECORD_Main(void *proc, int *seq, Work *w)
                 STRBUF_Delete(a);
                 FIELD_MSGBG_ClearSysWin(w->x20);
                 FIELD_MSGBG_SysWinPrintStr(w->x20, 0, 0, (u32)w->x2C);
-                func_02006D44();
+                SND_MIC_Exit();
                 func_02034FB8(8);
                 GAME_EVENT_CallEvent(proc, FIELD_SOUND_SYSTEM_StartPopAndWaitTask(w->x04, 0, 30));
                 *seq = 12;
@@ -218,7 +218,7 @@ int EVENT_PERAP_RECORD_Main(void *proc, int *seq, Work *w)
     case 7:
         if (w->x54 == 1) {
             SND_MIC_StoreRecording(w->x00);
-            func_02006D44();
+            SND_MIC_Exit();
             func_02034FB8(8);
             GAME_EVENT_CallEvent(proc, FIELD_SOUND_SYSTEM_StartPopAndWaitTask(w->x04, 0, 30));
             *seq = 8;
@@ -241,7 +241,7 @@ int EVENT_PERAP_RECORD_Main(void *proc, int *seq, Work *w)
         }
         break;
     case 10:
-        func_02006CAC((void **)(&buf));
+        PM_VOICE_GetPerapVoiceSave((void **)(&buf));
         w->x50 = (void *)PM_VOICE_Play(0x1B9, 0, 64, 0, 0, 0, 0, (u32)(&buf));
         *seq = 11;
         break;

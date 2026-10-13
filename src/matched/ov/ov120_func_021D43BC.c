@@ -15,7 +15,7 @@
  *   func_021D7E9C 0x021D7E9C thumb ov120
  *   func_021D7EB0 0x021D7EB0 thumb ov120
  *   func_021D6B84 0x021D6B84 thumb ov120
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 #include "../include/Obj01150.h"
 typedef unsigned int   u32;
@@ -27,7 +27,7 @@ extern void func_021D7E88(char *p, int i);
 extern void func_021D7E9C(char *p, int i);
 extern void func_021D7EB0(char *p, int i);
 extern void func_021D6B84(u8 *p, u32 n);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 int func_021D43BC(int n, char *p) {
     int result=0;
     switch(n) {
@@ -38,6 +38,6 @@ int func_021D43BC(int n, char *p) {
     case 4:func_021D437C(-1,p);result=4;func_021D7EB0((char *)(((struct Obj01150 *)p)->f40),((struct Obj01150 *)p)->f140);break;
     case 5:func_021D437C(1,p);result=4;func_021D7EB0((char *)(((struct Obj01150 *)p)->f40),((struct Obj01150 *)p)->f140);break;
     }
-    if(n>=0 && n<=5) {func_020061E4(0x548);func_021D6B84((u8 *)(((struct Obj01150 *)p)->f3C),n);}
+    if(n>=0 && n<=5) {GFL_USE_PlaySeDefaultVolume(0x548);func_021D6B84((u8 *)(((struct Obj01150 *)p)->f3C),n);}
     return result;
 }

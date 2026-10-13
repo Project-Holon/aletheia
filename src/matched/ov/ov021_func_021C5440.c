@@ -20,6 +20,7 @@
  *   BMP_MENULIST_GetPos  0x020202FC  thumb  arm9
  *   BMP_MENULIST_GetRowY  0x02020324  thumb  arm9
  *   BMP_MENULIST_GetAttr  0x02020350  thumb  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 
 typedef unsigned char u8;
@@ -42,7 +43,7 @@ struct Obj;
 extern u32 BMP_MENULIST_GetAttr(struct Obj *obj, u32 what);
 extern int SHORTCUT_MENU_DeleteList(u32 a, u32 b, u32 c);
 extern void SHORTCUT_MENU_CreateList(char *p, u16 a, u16 b, u32 heap);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void BMP_MENULIST_GetPos(struct Obj *obj, u16 *a, u16 *b);
 extern u16 BMP_MENULIST_GetRowY(struct Obj *obj, u32 n);
 extern void SHORTCUT_MENU_SetActorsY(S *p, int v);
@@ -59,7 +60,7 @@ void SHORTCUT_MENU_OnKeyUp(S *p, int mode, u32 c, u32 *done)
         SHORTCUT_MENU_CreateList((char *)p, (c - 1) - (n - 1), n - 1, p->h34);
         if (p->f24 == 1)
             p->f40 = 1;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         *done = 1;
     } else if (p->f40 == 1 && p->f24 == 1) {
         BMP_MENULIST_GetPos(p->msg, 0, &tmp);

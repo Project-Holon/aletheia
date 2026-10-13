@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   PLIST_DEMO_CheckItemUsable  0x021BDD78  thumb  ov091
  */
 #include "../include/Obj20908.h"
@@ -25,18 +25,18 @@ typedef struct {
     int *f;
 } P;
 
-extern u32 func_0201AA18(void *);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern int PLIST_DEMO_CheckItemUsable(void *a, u32 id, int slot, u32 heap);
 
 int PLIST_MENU_FindItemTarget(P *p)
 {
     u8 n;
     u8 i;
-    n = func_0201AA18((void *)*p->f);
+    n = POKEPARTY_GetCount((void *)*p->f);
     for (i = 0; i < n; i++) {
         int **q = &p->f;
-        int e = (int)func_0201AB28((void *)*p->f, i);
+        int e = (int)POKEPARTY_GetMember((void *)*p->f, i);
         if (PLIST_DEMO_CheckItemUsable((void *)e, ((struct Obj20908 *)((char *)*q))->f44, 0, p->id) == 1)
             return i;
     }

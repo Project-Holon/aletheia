@@ -12,12 +12,12 @@
  * symbols:
  *   d_021E8DBC 0x021E8DBC data a1
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0207D63C 0x0207D63C arm
  *   func_021E7CF0 0x021E7CF0 thumb ov177
  *   func_021E6718 0x021E6718 thumb ov177
  *   func_021E72FC 0x021E72FC thumb ov177
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_021E7464 0x021E7464 thumb ov177
  *   func_020413B0 0x020413B0 arm
  *   func_020409B4 0x020409B4 arm
@@ -41,12 +41,12 @@ extern const char d_021E8DBC[];
 struct Obj;
 struct Vec2;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern void func_0207D63C(void *, int, int, int, int);
 extern u32 func_021E7CF0(void *, u16, u16);
 extern void func_021E6718(Work *, u32, const Info *, void *, int, void *, void *, void *, int, u16);
 extern void func_021E72FC(u8 *, u32, u32, u16);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_021E7464(char *, char *, u32, void *, u16);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32);
@@ -60,7 +60,7 @@ Work *func_021E5C20(const Info *info, u32 a1, void *a2, int owner,
     Point pos;
     size = 0x229 + 0x1b;
     w = func_02030734(heap, size, 0, d_021E8DBC, 0x229);
-    func_02082BCC(w, 0, size);
+    MI_CpuFill8(w, 0, size);
     w->c230 = 5;
     w->c231 = 15;
     w->c232 = 3;
@@ -74,7 +74,7 @@ Work *func_021E5C20(const Info *info, u32 a1, void *a2, int owner,
     func_021E72FC((u8 *)w, info->f8, owner, heap);
     pos.x = 0x120;
     pos.y = 0x44;
-    func_0204B404(w->f188, (const struct Vec2 *)(&pos), 1);
+    CLACT_AddActorSurfacePos(w->f188, (const struct Vec2 *)(&pos), 1);
     func_021E7464((char *)w, (char *)info, owner, table, heap);
     func_020413B0(6, 0, 0, 0x20, 6, 1);
     func_020413B0(6, 0, 6, 0x20, 18, kind + 3);

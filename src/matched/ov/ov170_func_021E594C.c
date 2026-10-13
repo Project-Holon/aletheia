@@ -21,7 +21,7 @@
  *   func_021EC768 0x021EC768 thumb
  *   func_021EE3E4 0x021EE3E4 thumb
  *   func_021E0778 0x021E0778 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021ED6E4 0x021ED6E4 thumb
  *   func_021EBBC8 0x021EBBC8 thumb
  *   func_021EBC58 0x021EBC58 thumb
@@ -50,7 +50,7 @@ extern void func_021ECB84(char *w, unsigned i);
 extern void func_021EC768(char *p, unsigned i, int flag);
 extern void func_021EE3E4(char **p, unsigned idx);
 extern int func_021E0778(unsigned char *p);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void func_021ED6E4(char **p, int v);
 extern void func_021EBBC8(unsigned char *p, unsigned kind, int i);
 extern void func_021EBC58(unsigned char *p, int sel, int kind, int i);
@@ -90,14 +90,14 @@ int func_021E594C(unsigned char *p)
             STEP(p)++;
             return func_021E8FC0((char *)p, (int)func_021E0778, 0x34);
         case 1:
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
             func_021ED6E4((char **)p, 0);
             func_021EBBC8(p, 6, 0x18);
             STATE(p) = 0x33;
             STEP(p) = 0;
             return 6;
         case 2:
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
             func_021ED6E4((char **)p, 0);
             func_021EBC58(p, 0, 5, 0x18);
             STATE(p) = 0x33;
@@ -106,7 +106,7 @@ int func_021E594C(unsigned char *p)
         }
         break;
     case 2:
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         func_021EF3A0(MGR(p));
         STEP(p)++;
         return func_021E8FC0((char *)p, (int)func_021E01B0, 0x34);

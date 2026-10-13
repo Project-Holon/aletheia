@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B8D8C  0x021B8D8C  thumb  ov093
+ *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
  *   func_021EA788  0x021EA788  thumb  ov093
  *   func_021EA798  0x021EA798  thumb  ov093
  */
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021B8D8C(void *p, void *a, u32 b);
+extern int BTL_MAIN_GetTrainerSlotOfPoke(void *p, void *a, u32 b);
 extern void func_021EA788(u32 *p, u32 a2);
 extern int func_021EA798(u32 *p, u32 a2);
 
@@ -27,7 +27,7 @@ int BTL_CLIENT_CmdHideStatusPanel(u32 *a, int *b, u32 *c)
 {
     int s;
 
-    s = func_021B8D8C((void *)a[0], (void *)a[1], (u8)c[0]);
+    s = BTL_MAIN_GetTrainerSlotOfPoke((void *)a[0], (void *)a[1], (u8)c[0]);
     switch (*b) {
     case 0:
         func_021EA788((u32 *)a[0x15], s);

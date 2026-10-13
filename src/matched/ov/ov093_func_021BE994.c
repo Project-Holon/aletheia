@@ -16,19 +16,19 @@
  * 021BC568 and retains the same word ABI. Struct/union locals used a
  * 12-byte frame and separate 4019 pool; scalar uses original 4-byte frame.
  * symbols:
- *   func_021CC8D8 0x021CC8D8 thumb ov093
- *   func_021CC95C 0x021CC95C thumb ov093
+ *   BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
+ *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
  *   BTL_SERVER_FLOW_DispatchMoveEndEvent 0x021BE9D0 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_021CC8D8(void *,int);
-extern void func_021CC95C(u32 *p, u32 v, int line);
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *,int);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 extern void BTL_SERVER_FLOW_DispatchMoveEndEvent(u8 *,u8 *,u32,u32);
 void BTL_SERVER_FLOW_NotifyMoveEnd(u8 *p,u8 *a,u32 c,u32 d)
 {
     u32 old;
-    old=func_021CC8D8(p+0x1d74,4017);
+    old=BTL_SERVER_FLOW_BeginHandExScope(p+0x1d74,4017);
     BTL_SERVER_FLOW_DispatchMoveEndEvent(p,a,c,d);
-    func_021CC95C((u32 *)(p+0x1d74),old,4019);
+    BTL_SERVER_FLOW_EndHandExScope((u32 *)(p+0x1d74),old,4019);
 }

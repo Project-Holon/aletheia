@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -23,7 +23,7 @@
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
@@ -39,7 +39,7 @@ void func_021DCE48(char *p,char *q)
         for(i=0;i<12;i++) {
             slot=p+i*4;
             if(((struct Obj02893 *)slot)->f80) {
-                func_0204B3DC(((struct Obj02893 *)slot)->f80,0);
+                CLACT_SetActorDrawEnable(((struct Obj02893 *)slot)->f80,0);
                 CLACT_DeleteActor(((struct Obj02893 *)slot)->f80);
                 *(int *)&((struct Obj02893 *)slot)->f80=0;
             }

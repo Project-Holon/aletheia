@@ -13,7 +13,7 @@
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   TCBL_Create 0x0203101C arm
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  */
 #include "../include/Obj05377.h"
 typedef unsigned char u8;
@@ -26,7 +26,7 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *TCBL_Create(unsigned,unsigned,unsigned,unsigned);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 void func_021C692C(u8 *p, int heap)
 {
     GF_FONT_SetDefaultTextColor();
@@ -35,5 +35,5 @@ void func_021C692C(u8 *p, int heap)
     ((struct Obj05377 *)p)->f17C=GF_FONT_Create(23,0,0,0,heap);
     ((struct Obj05377 *)p)->f28=TCBL_Create(heap,heap,3,256);
     ((struct Obj05377 *)p)->f2C=0;
-    ((struct Obj05377 *)p)->f34=(void *)func_0201C440((void *)heap);
+    ((struct Obj05377 *)p)->f34=(void *)PRINTSYS_QUE_Create((void *)heap);
 }

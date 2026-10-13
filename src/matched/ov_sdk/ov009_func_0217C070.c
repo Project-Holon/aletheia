@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02059F54  0x02059F54  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   g_021ACEF4     0x021ACEF4  data
  *
  * One-time allocation of the 0x1C5C-byte control block through the caller's
@@ -23,7 +23,7 @@
 typedef void *(*Alloc)(int, int);
 
 extern void func_02059F54(int a, int b);
-extern void func_02082BCC(void *p, int c, int n);
+extern void MI_CpuFill8(void *p, int c, int n);
 extern char g_021ACEF4[];
 
 int func_0217C070(Alloc alloc, int size)
@@ -42,7 +42,7 @@ int func_0217C070(Alloc alloc, int size)
         return 0;
     }
 
-    func_02082BCC(p, 0, 0x1C5C);
+    MI_CpuFill8(p, 0, 0x1C5C);
 
     *(Alloc *)(*(char **)g_021ACEF4) = alloc;
     *(int *)(*(char **)g_021ACEF4 + 4) = size;

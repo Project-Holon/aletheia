@@ -33,7 +33,7 @@
  *   ITEMMENU_DrawMoveInfo  0x021B9850  thumb  ov070
  *   ITEMMENU_TaskSelectItemFlash  0x021B8B7C  thumb  ov070
  *   ITEMMENU_ToggleRegisteredItem  0x021B8134  thumb  ov070
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   ITEMMENU_SwitchPocketCursor  0x021B6288  thumb  ov070
  *   ITEMMENU_RefreshInputGuard  0x021B80BC  thumb  ov070
  *   d_021BB984     0x021BB984  data  a4
@@ -84,7 +84,7 @@ extern void ITEMMENU_MoveSlot(void *o, int a, int b);
 extern void ITEMMENU_DrawMoveInfo(char *p);
 extern void ITEMMENU_TaskSelectItemFlash(int p);
 extern int ITEMMENU_ToggleRegisteredItem(struct Obj *o, int k);
-extern void func_020061E4(unsigned int se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned int se);
 extern void ITEMMENU_SwitchPocketCursor(struct Obj *o, int a, int b);
 extern void ITEMMENU_RefreshInputGuard(void *p);
 
@@ -180,7 +180,7 @@ void ITEMMENU_HandleTouchTarget(u32 idx, int flag, Obj *o)
     if (tab != -1) {
         v = o->f80C;
         o->f80C = tab;
-        func_020061E4(0x7D9);
+        GFL_USE_PlaySeDefaultVolume(0x7D9);
         ITEMMENU_SwitchPocketCursor(o, v, o->f80C);
         ITEMMENU_RefreshInputGuard(o);
         ITEMMENU_SetCursorActive(o, 0);

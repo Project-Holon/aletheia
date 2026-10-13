@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020362DC                0x020362DC  arm
+ *   KEY_GetTrg                0x020362DC  arm
  *   func_021E8738                0x021E8738  thumb  ov177
  *   func_021E8844                0x021E8844  thumb  ov177
  *   func_021D6550                0x021D6550  thumb
@@ -27,7 +27,7 @@
 
 typedef unsigned long u32;
 
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_021E8738(int *p, int a, int b, int c);
 extern int func_021E8844(const int *p);
 extern void func_021D6550(u32 *obj, int kind);
@@ -46,7 +46,7 @@ int func_021D6854(char *obj, int trigger, int go)
 
     switch (((struct Obj00171 *)obj)->fE4) {
     case 0:
-        if (trigger != 0 && (func_020362DC() & 2))
+        if (trigger != 0 && (KEY_GetTrg() & 2))
             ((struct Obj00171 *)obj)->fE4 = ((struct Obj00171 *)obj)->fE4 + 1;
         else return 0;
         break;

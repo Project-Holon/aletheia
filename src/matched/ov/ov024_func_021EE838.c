@@ -1,5 +1,5 @@
 /*
- * function: func_021EE838
+ * function: WEATHER_CLEAR_Run
  * address:  0x021EE838
  * packet:   pkt_021EE838
  * region:   ov024
@@ -11,13 +11,13 @@
  *
  * Unlabelled 4-byte Thumb leaf (`movs r0,#0; bx lr`), emitted as a data word
  * by disasm.py because it saves no lr. Sits alone between func_021EE82x and
- * func_021EE83C, extent 4.
+ * WEATHER_CLEAR_EndParticles, extent 4.
  *
  * symbols:
- *   func_021EE838  0x021EE838  thumb
+ *   WEATHER_CLEAR_Run  0x021EE838  thumb
  */
 
-int func_021EE838(void)
+int WEATHER_CLEAR_Run(void)
 {
     return 0;
 }

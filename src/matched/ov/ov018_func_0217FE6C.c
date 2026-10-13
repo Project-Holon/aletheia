@@ -15,7 +15,7 @@
  * follow-up task starters.
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb
@@ -84,7 +84,7 @@ typedef struct {
 extern char str_02183B30[];
 
 struct Obj;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 struct Ctx;
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
@@ -120,7 +120,7 @@ int EVENT_COMM_COMMON_TalkEventMain(void *a, int *state, Outer *c)
     int kind;
     Bits *b;
 
-    v = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(func_020124E4(a))));
+    v = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(a))));
     if (v == 0) {
         if (EVENT_COMM_COMMON_IsPrintFinished(&c->obj) == 0) {
             return 0;

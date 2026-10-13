@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02013B44  0x02013B44  thumb
+ *   ZONEDATA_GetMatrixId  0x02013B44  thumb
  *
  * "Do these two zones share a region?": both ids are reduced through
- * func_02013B44, the accessor for record +0x04, and the two results compared.
+ * ZONEDATA_GetMatrixId, the accessor for record +0x04, and the two results compared.
  * The +0x04 lane is therefore a grouping key rather than a per-zone index,
  * which agrees with the data: 238 distinct values over 427 records.
  *
@@ -36,12 +36,12 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02013B44(u32 id);
+extern u32 ZONEDATA_GetMatrixId(u32 id);
 
 u32 ZONEDATA_IsSameMatrixGroup(u32 a, u32 b)
 {
-    u32 ga = func_02013B44(a);
-    u32 gb = func_02013B44(b);
+    u32 ga = ZONEDATA_GetMatrixId(a);
+    u32 gb = ZONEDATA_GetMatrixId(b);
 
     if (ga == gb)
         return 1;

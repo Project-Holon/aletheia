@@ -1,5 +1,5 @@
 /*
- * function: func_021CC0F8
+ * function: BTL_SERVER_FLOW_ItemEffectBoostCritRate
  * address:  0x021CC0F8
  * packet:   pkt_ov093_021CC0F8
  * region:   ov093
@@ -32,7 +32,7 @@ extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 extern int BTL_POKEPARAM_AddCritStage(struct S *p, int n);
 extern void BTL_SERVER_CMD_PushVariable(void *w, u8 id, ...);
 
-int func_021CC0F8(char *p, void *m, int c, int n)
+int BTL_SERVER_FLOW_ItemEffectBoostCritRate(char *p, void *m, int c, int n)
 {
     int flag;
 

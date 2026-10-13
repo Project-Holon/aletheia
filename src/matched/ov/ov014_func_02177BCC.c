@@ -1,5 +1,5 @@
 /*
- * function: func_02177BCC
+ * function: NET_WHPIPE_ReleaseAllEntrySlots
  * address: 0x02177BCC
  * packet: pkt_ov014_02177BCC
  * region: ov014
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 *d_021797A4;
-void func_02177BCC(void)
+void NET_WHPIPE_ReleaseAllEntrySlots(void)
 {
     u8 *p;
     int i;

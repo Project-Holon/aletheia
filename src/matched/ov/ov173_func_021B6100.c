@@ -10,7 +10,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   TCBL_Create 0x0203101C arm
  *   func_021B63AC 0x021B63AC thumb ov173
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 struct GfFont;
 struct Tcbl;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
@@ -38,7 +38,7 @@ int func_021B6100(struct Obj0203159C *obj, int unused, u8 *input)
     u8 *p;
     GFL_HEAP_CreateChildHeap(1,79,0x50000);
     p=PROCSYS_AllocProcWork(obj,0x228,79);
-    func_02082BCC(p,0,0x228);
+    MI_CpuFill8(p,0,0x228);
     *(u8 * *)&((struct Obj06563 *)p)->f0=input;
     ((struct Obj06563 *)p)->f60=(u32)GF_FONT_Create(23,0,0,0,79);
     ((struct Obj06563 *)p)->f64=(u32)TCBL_Create(79,79,32,32);

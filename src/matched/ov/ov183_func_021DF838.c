@@ -48,10 +48,10 @@
  *   }
  * checks: 1 full callee reads 3 args, 64-bit return; 2 no filed twin; 3 int base/long index unchanged (2/2); 4 named base and second declaration order close DIFF (2/2); 5 fresh idiom/neighbour reread, no stack-object residue. Both reorder variants consumed.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  */
-extern void func_02082BCC(void *, int, unsigned int);
+extern void MI_CpuFill8(void *, int, unsigned int);
 typedef unsigned char  u8;
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 void func_021DF838(int p, char *out)
@@ -61,7 +61,7 @@ void func_021DF838(int p, char *out)
     void *base;
     int special, n = 0;
     unsigned int count;
-    func_02082BCC(out, 0, 0x48);
+    MI_CpuFill8(out, 0, 0x48);
     base = (void *)(p + 0x80);
     switch ((int)BATTLE_REC_GetHeaderParam(base, 3, 0)) {
     case 16: case 17: case 18: case 19: case 22:

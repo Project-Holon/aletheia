@@ -21,8 +21,8 @@
  *   FIELD_G3D_MAPPER_Delete  0x0218CA4C  thumb
  *   FIELDMAP_DeleteG3dResources  0x021890C8  thumb
  *   FIELDMAP_ExitBgSystem  0x02188E38  thumb
- *   func_02013CC8  0x02013CC8  thumb
- *   func_02013CE0  0x02013CE0  thumb
+ *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
+ *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  *   abs_id_13  0x00000013  data
  *   abs_id_12  0x00000012  data
  * Addresses are Black-image addresses.
@@ -50,8 +50,8 @@ extern void FIELD_TASK_MANAGER_Delete(u32 a);
 extern int FIELD_G3D_MAPPER_Delete(void *a);
 extern void FIELDMAP_DeleteG3dResources(void *a);
 extern void FIELDMAP_ExitBgSystem(void *a);
-extern u32 func_02013CC8(u32 a);
-extern u32 func_02013CE0(u32 a);
+extern u32 ZONEDATA_IsZone1A6(u32 a);
+extern u32 ZONEDATA_IsZone96Pair(u32 a);
 
 u32 FIELDMAP_SeqExitSystem(void *a, u8 *b)
 {
@@ -66,7 +66,7 @@ u32 FIELDMAP_SeqExitSystem(void *a, u8 *b)
     CLACT_ExitSystem();
     BMP_WIN_Exit();
     FIELDMAP_ExitBgSystem(b);
-    if (func_02013CC8(((struct Obj03103 *)b)->fD0) == 1 || func_02013CE0(((struct Obj03103 *)b)->fD0) == 1)
+    if (ZONEDATA_IsZone1A6(((struct Obj03103 *)b)->fD0) == 1 || ZONEDATA_IsZone96Pair(((struct Obj03103 *)b)->fD0) == 1)
         func_02034A5C((s32)abs_id_13);
     else
         func_02034A5C((s32)abs_id_12);

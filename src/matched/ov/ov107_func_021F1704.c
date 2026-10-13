@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   TIME_ICON_Delete  0x0202F038  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Create  0x020457B0  arm
@@ -54,10 +54,10 @@ struct MsgBank;
 struct Rec3;
 struct U16Vec;
 struct WordSet;
-void func_0201CE48(struct Rec3 *p);
+void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 void TIME_ICON_Delete(u8 *p);
 void STRBUF_Delete(struct U16Vec *vec);
-void *func_02045770(struct Descriptor *p);
+void *BMP_WIN_GetBmp(struct Descriptor *p);
 void BMP_Clear(struct CharBuf *buf, u8 value);
 void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -72,7 +72,7 @@ void func_021F1704(Ov107Ctx *p, int a, int b)
     void *s;
 
     if (p->f18 != 0) {
-        func_0201CE48(p->f18);
+        PRINTSYS_PrintStreamDelete(p->f18);
         p->f18 = 0;
     }
     if (p->f5C != 0) {
@@ -85,7 +85,7 @@ void func_021F1704(Ov107Ctx *p, int a, int b)
         STRBUF_Delete(p->f20);
         p->f20 = 0;
     }
-    BMP_Clear(func_02045770(p->f10), 0xF);
+    BMP_Clear(BMP_WIN_GetBmp(p->f10), 0xF);
     p->f20 = func_02045EC0(p->f1C, a);
     if (p->f24 != 0) {
         s = STRBUF_Create(0x17B, p->f00);

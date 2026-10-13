@@ -13,10 +13,10 @@
  *   VM_Jump  0x020113B0  thumb
  *   func_0218A308  0x0218A308  thumb  ov096
  *   func_0218A390  0x0218A390  thumb  ov096
- *   func_021B8DE4  0x021B8DE4  thumb  ov093
- *   func_021B9AF8  0x021B9AF8  thumb  ov093
- *   func_021B99B8  0x021B99B8  thumb  ov093
- *   func_021B9B94  0x021B9B94  thumb  ov093
+ *   BTL_MAIN_GetSlotClientIdThunk  0x021B8DE4  thumb  ov093
+ *   BTL_SIDE_GetSlotOfClientThunk  0x021B9AF8  thumb  ov093
+ *   BTL_MAIN_GetPositionsPerClientThunk  0x021B99B8  thumb  ov093
+ *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *
@@ -39,11 +39,11 @@ struct Cur;
 extern void VM_Jump(struct Cur *c, u32 v);
 extern u8 *func_0218A308(void *, u32);
 extern u32 func_0218A390(u8 *a, u8 *b, u8 *c, int d);
-extern u8 func_021B8DE4(char *p, int i);
-extern char *func_021B9AF8(char *p, int i);
-extern int func_021B99B8(void *pp, unsigned int b);
+extern u8 BTL_MAIN_GetSlotClientIdThunk(char *p, int i);
+extern char *BTL_SIDE_GetSlotOfClientThunk(char *p, int i);
+extern int BTL_MAIN_GetPositionsPerClientThunk(void *pp, unsigned int b);
 struct Q1;
-extern u8 func_021B9B94(struct Q1 *p);
+extern u8 BTL_SLOT_GetCount(struct Q1 *p);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int BTL_POKEPARAM_IsFainted(void *);
 
@@ -56,11 +56,11 @@ int func_02189AC0(struct Cursor *a, Obj *b) {
     u32 base;
     c = VM_GetU32(a);
     x = VM_GetU32(a);
-    r4 = func_021B8DE4((char *)b->fb0, b->f94);
-    r7 = func_021B9AF8(b->fb8, r4);
-    r4 = func_021B99B8((void *)b->fb0, r4);
+    r4 = BTL_MAIN_GetSlotClientIdThunk((char *)b->fb0, b->f94);
+    r7 = BTL_SIDE_GetSlotOfClientThunk(b->fb8, r4);
+    r4 = BTL_MAIN_GetPositionsPerClientThunk((void *)b->fb0, r4);
     base = func_0218A390((u8 *)((int)b), b->fbc, b->fc0, c);
-    for (; r4 < func_021B9B94((struct Q1 *)r7); r4++) {
+    for (; r4 < BTL_SLOT_GetCount((struct Q1 *)r7); r4++) {
         r6 = func_0218A308(r7, (u8)r4);
         BTL_POKEPARAM_GetPokeId(r6);
         if (BTL_POKEPARAM_IsFainted(r6) == 0) {

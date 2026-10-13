@@ -15,7 +15,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Copy  0x02045838  arm
  *   d_02172A60     0x02172A60  data  ov010  a1
@@ -25,7 +25,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src);
@@ -34,7 +34,7 @@ extern char d_02172A60[];
 int *NAMEIN_SETUP_CreateArgs(unsigned short a0, int a1, short a2, short a3, int s0, int s1, int s2)
 {
     int *p = (int *)func_02030734(a0, 0x2c, 0, d_02172A60, 0x37);
-    func_02082BCC(p, 0, 0x2c);
+    MI_CpuFill8(p, 0, 0x2c);
     p[0] = a1;
     p[6] = s0;
     ((struct Obj03544 *)p)->f4 = a2;

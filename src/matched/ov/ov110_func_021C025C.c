@@ -32,11 +32,11 @@
  *   func_02034AC4 0x02034AC4 arm
  *   func_021C0490 0x021C0490 thumb ov110
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_02045770 0x02045770 arm
- *   func_0201C6C4 0x0201C6C4 thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_021C1154 0x021C1154 thumb ov110
  *   func_021C0C38 0x021C0C38 thumb ov110
@@ -71,11 +71,11 @@ extern int func_021C15B4(int *,u8 *);
 extern int func_02034AC4(s32 handle);
 extern void func_021C0490(u8 *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void *func_02045770(struct Descriptor *p);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
 extern void func_021C1154(char *p);
 extern void func_021C0C38(u8 *);
@@ -156,11 +156,11 @@ int func_021C025C(void *unused,int *q,void *unused2,u8 *p)
     }
     PRINTSYS_QUE_Main(*(void **)(p+0x5c));
     if(*(u32 *)(p+0x4c)) {
-        if(!func_0201C6C4((struct PrintSys *)(*(u32 *)(p+0x5c)),func_02045770(*(void **)(p+0x48)))) {
+        if(!PRINTSYS_QUE_IsExistTarget((struct PrintSys *)(*(u32 *)(p+0x5c)),BMP_WIN_GetBmp(*(void **)(p+0x48)))) {
             window=*(void **)(p+0x48);
             BMP_WIN_TransferChars(window);
             BMP_WIN_MakeScreen(window);
-            func_02041B6C(func_02045730(window));
+            func_02041B6C(BMP_WIN_GetBgLayer(window));
             *(u32 *)(p+0x4c)=0;
         }
     }

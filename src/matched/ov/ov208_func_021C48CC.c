@@ -12,7 +12,7 @@
  * symbols:
  *   ARC_UTIL_UploadPaletteFromArchive  0x02049B90  arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_02045B38  0x02045B38  arm
@@ -49,7 +49,7 @@ struct Ov208WinTbl {
 extern void ARC_UTIL_UploadPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 struct CharBuf;
 struct MsgBank;
 struct U16Vec;
@@ -78,13 +78,13 @@ void ov208_func_021C48CC(u16 *heap, struct Ov208Menu *p, int key)
     for (i = 0; i < 5; i++) {
         p->win[i] = BMP_WIN_Create(t.d[i][0], t.d[i][1], t.d[i][2], t.d[i][3], t.d[i][4],
                                   t.d[i][5], t.d[i][6]);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->win[i])), 0);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->win[i])), 0);
         BMP_WIN_TransferChars((struct Descriptor *)p->win[i]);
     }
     p->msg = (u32)func_02045B38(0, 2, 0xea, *heap);
     p->msg2 = (u32)func_02045B38(0, 2, 0xf4, *heap);
     p->arc = ARC_UTIL_LoadMemberWithSize(0x62, 0, 0, *heap, &size);
-    bmp = (u32)func_02045770((struct Descriptor *)p->win[2]);
+    bmp = (u32)BMP_WIN_GetBmp((struct Descriptor *)p->win[2]);
     s = (u32)func_02045EC0((struct MsgBank *)p->msg, 0xb8);
     PRINTSYS_PrintQueColor((void *)p->print[2], bmp, 0, 1, s, p->f4, 0x3c40);
     STRBUF_Delete((struct U16Vec *)s);

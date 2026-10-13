@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_GetGutsHandlers
+ * function: HAND_TOKUSEI_GetGutsHandlers
  * address: 0x021D8D34
  * packet: pkt_ov093_021D8D34
  * region: ov093
@@ -15,10 +15,10 @@
  *   gGutsHandlers 0x021F0638 data ov093 a4
  */
 
-int *BTL_CALC_GetGutsHandlers(int *p);
+int *HAND_TOKUSEI_GetGutsHandlers(int *p);
 extern int gGutsHandlers[];
 
-int *BTL_CALC_GetGutsHandlers(int *p)
+int *HAND_TOKUSEI_GetGutsHandlers(int *p)
 {
     *p = 1;
     return gGutsHandlers;

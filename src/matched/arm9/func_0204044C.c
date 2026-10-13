@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *
  * Set the two low bits of DISPCNT (0x04000008) to the incoming mode, after
- * asking func_020434DC for the display to be brought up in mode 1.  The
+ * asking BG_SYS_SetMainPlaneVisible for the display to be brought up in mode 1.  The
  * register is a cast constant, not a relocation: its address is the pool
  * word at the end of this function.
  *
@@ -25,11 +25,11 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
 void func_0204044C(u32 mode)
 {
-    func_020434DC(1, 1);
+    BG_SYS_SetMainPlaneVisible(1, 1);
     *(volatile u16 *)0x04000008 =
         (*(volatile u16 *)0x04000008 & ~3) | mode;
 }

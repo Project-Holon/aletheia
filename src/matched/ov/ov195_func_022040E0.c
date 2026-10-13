@@ -14,7 +14,7 @@
  * symbols:
  *   PROCSYS_Main 0x02031330 arm
  *   PROCSYS_Push 0x02031348 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_0200873C 0x0200873C thumb
  *   func_02008DF0 0x02008DF0 thumb
  *   func_0200CA1C 0x0200CA1C thumb
@@ -26,7 +26,7 @@
  *   func_02017E1C 0x02017E1C thumb
  *   func_020181F4 0x020181F4 thumb
  *   POKE_TOOL_GetLevelUpMove 0x02018328 thumb
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   PALANM_Create 0x02021518 thumb
  *   PALANM_Delete 0x02021540 thumb
@@ -44,11 +44,11 @@
  *   func_02034A5C 0x02034A5C arm
  *   func_020355C4 0x020355C4 arm
  *   func_020355D8 0x020355D8 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   YESNO_MENU_Create 0x021B6DC0 thumb ov067
  *   YESNO_MENU_Delete 0x021B709C thumb ov067
  *   YESNO_MENU_Start 0x021B70F4 thumb ov067
@@ -121,7 +121,7 @@ typedef unsigned int u32;
 extern u32 PROCSYS_Main(void *);
 /* Original explicitly prepares all four registers, despite the current forwarding own source. */
 extern void PROCSYS_Push(void *,int,void *,void *);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 struct Anim;
 struct App;
 struct Big;
@@ -146,7 +146,7 @@ extern void POKE_TOOL_ChangeSpecies(void *,u32);
 extern u32 func_02017E1C(void *,u32,u32);
 extern void func_020181F4(void *,u16,u32);
 extern u16 POKE_TOOL_GetLevelUpMove(void *,u32 *,u32);
-extern u32 func_0201AA18(void *);
+extern u32 POKEPARTY_GetCount(void *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void *PALANM_Create(u32);
 extern u32 PALANM_Delete(void *a0);
@@ -165,10 +165,10 @@ extern int func_02034AC4(int);
 extern void func_02034A5C(int);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u32);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32),FADE_Start(u32,int,int,int);
 extern int FADE_IsActive(void);
-extern void func_02082BCC(void *,u32,u32);
+extern void MI_CpuFill8(void *,u32,u32);
 extern void *YESNO_MENU_Create(u16,u32,u32,u32,u8,u32,u32,u32,u32);
 extern void YESNO_MENU_Delete(u8 *p);
 extern void YESNO_MENU_Start(struct S *s, u32 a1, u32 a2);
@@ -251,19 +251,19 @@ int func_022040E0(int unused0,int unused1,char *a,char *s)
     case 4:func_02205384(s,W(0x78),0,0,2,W(0x10),4,0);W(0x28)=5;break;
     case 5:if(func_022053E8(s)&&func_0220546C(s)){func_022054E8((int)a,(int *)s,0);W(0x28)=6;func_02206044(P(0x104));}break;
     case 6:if(func_0220604C(P(0x104))){W(0x28)=7;func_02204ED0((int)a,(int *)s);}break;
-    case 7:if(!func_02204EF0((int)a,(int *)s)){W(0x28)=8;func_02206050(P(0x104));func_0220882C(P(0x108));func_020061E4(0x7dc);W(0x10c)=1;W(0x2c)=0;}break;
+    case 7:if(!func_02204EF0((int)a,(int *)s)){W(0x28)=8;func_02206050(P(0x104));func_0220882C(P(0x108));GFL_USE_PlaySeDefaultVolume(0x7dc);W(0x10c)=1;W(0x2c)=0;}break;
     case 8:
-        keys=func_020362DC();
+        keys=KEY_GetTrg();
         if(func_0220606C(P(0x104))){if(W(0x24))W(0x28)=13;else W(0x28)=9;break;}
         if(func_02206070(P(0x104)))func_02204F00((int)a,s);
         if(func_02206074(P(0x104)))func_02204F24((int)a,(int *)s);
-        if(func_02206058(P(0x104))){func_02208844(P(0x108));if(!W(0x110)){func_020061E4(0x7df);W(0x10c)=0;W(0x110)=1;}}
+        if(func_02206058(P(0x104))){func_02208844(P(0x108));if(!W(0x110)){GFL_USE_PlaySeDefaultVolume(0x7df);W(0x10c)=0;W(0x110)=1;}}
         if(func_02208850(P(0x108)))func_0220605C(P(0x104));
         if(func_02208860(P(0x108))){func_02206064(P(0x104));if(!W(0x114)){if(!W(0x24))W(0x10c)=1;W(0x114)=1;}}
         if(W(0x10c)){
-            if(!W(0x118)&&W(0x2c)>=90){if(func_02204F68((int)a,(int *)s)){func_020061E4(0x7dd);W(0x118)=1;}}
-            else if(W(0x2c)==0x212||W(0x2c)==0x249||W(0x2c)==0x280||W(0x2c)==0x2b7)func_020061E4(0x7de);
-            else if(W(0x2c)==0x2e4)func_020061E4(0x7e0);
+            if(!W(0x118)&&W(0x2c)>=90){if(func_02204F68((int)a,(int *)s)){GFL_USE_PlaySeDefaultVolume(0x7dd);W(0x118)=1;}}
+            else if(W(0x2c)==0x212||W(0x2c)==0x249||W(0x2c)==0x280||W(0x2c)==0x2b7)GFL_USE_PlaySeDefaultVolume(0x7de);
+            else if(W(0x2c)==0x2e4)GFL_USE_PlaySeDefaultVolume(0x7e0);
             W(0x2c)++;
         }
         if(A(0x10)&&func_02204F68((int)a,(int *)s)&&!W(0x24)&&(keys&2)&&func_02206078(P(0x104))){W(0x24)=1;func_020355D8(0);func_02208814(P(0x108));}break;
@@ -295,7 +295,7 @@ int func_022040E0(int unused0,int unused1,char *a,char *s)
         func_02204D5C((int)a,(int *)s);W(0x28)=24;
         v=GAME_DATA_GetSaveControl((void *)A(0));
         ((u8 *)P(0x100))[0xc]=1;*(u32 *)((char *)P(0x100)+8)=A(0);*(u32 *)((char *)P(0x100)+0x24)=0;*(u32 *)P(0x100)=A(4);
-        *(void **)((char *)P(0x100)+4)=func_0200873C(v);((u8 *)P(0x100))[0xe]=func_0201AA18((void *)A(4));((u8 *)P(0x100))[0xf]=AB(0xa);*(u16 *)((char *)P(0x100)+0x14)=H(0x1c);
+        *(void **)((char *)P(0x100)+4)=func_0200873C(v);((u8 *)P(0x100))[0xe]=POKEPARTY_GetCount((void *)A(4));((u8 *)P(0x100))[0xf]=AB(0xa);*(u16 *)((char *)P(0x100)+0x14)=H(0x1c);
         ((u8 *)P(0x100))[0xd]=2;((u8 *)P(0x100))[0x10]=1;*(u32 *)((char *)P(0x100)+0x20)=0;
         func_02034AC4((int)ov131_id);PROCSYS_Push(P(0x11c),-1,gPokeStatusProcData,P(0x100));break;
     case 24:if(tick!=1)W(0x28)=25;else return 0;break;
@@ -306,7 +306,7 @@ int func_022040E0(int unused0,int unused1,char *a,char *s)
         if(FADE_IsActive())break;
         W(0x28)=28;YESNO_MENU_Delete(P(0x9c));W(0x9c)=0;func_02205A84((int)P(4));B(0xac)=func_020355C4()==0;
         P(0xa4)=func_02030734(H(0),func_02030CB0(8),0,(char *)d_02208F40,0x548);
-        func_02082BCC(P(0xa4),0,func_02030CB0(8));P(0xa0)=func_02030CBC(8,P(0xa4));P(0xa8)=PALANM_Create(H(0));PALANM_SetAutoTransfer(P(0xa8),1);
+        MI_CpuFill8(P(0xa4),0,func_02030CB0(8));P(0xa0)=func_02030CBC(8,P(0xa4));P(0xa8)=PALANM_Create(H(0));PALANM_SetAutoTransfer(P(0xa8),1);
         PALANM_AllocSlotBuffers(P(0xa8),1,0x1e0,H(0));PALANM_AllocSlotBuffers(P(0xa8),3,0x1e0,H(0));
         W(0xb0)=A(0);W(0xb4)=A(4);W(0xbc)=W(8);H(0xc0)=H(0);B(0xcf)=4;B(0xfc)=0;B(0xd0)=AB(0xa);H(0xd6)=H(0x1c);W(0xc4)=0;P(0xf4)=s+0xac;W(0xd8)=W(0xa0);W(0xdc)=W(0xa8);W(0xf0)=1;
         func_02034AC4((int)ov196_id);func_02034AC4((int)ov198_id);func_0220F3E8((u8 *)(s+0xb0));FADE_Start(2,16,0,0);break;

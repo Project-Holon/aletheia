@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021770EC",
-    "func_021770F8",
-    "func_021770FC",
-    "func_02177100"
+    "GFL_NET_DEVWIRELESS_ClearScanList",
+    "GFL_NET_DEVWIRELESS_UnusedSlot7",
+    "GFL_NET_DEVWIRELESS_UnusedSlot8",
+    "GFL_NET_DEVWIRELESS_UnusedSlot9"
+   ],
+   "addresses": [
+    "0x021770EC",
+    "0x021770F8",
+    "0x021770FC",
+    "0x02177100"
    ]
   }
  ]

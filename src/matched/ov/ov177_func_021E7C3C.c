@@ -10,20 +10,20 @@
  * symbols:
  *   func_021E7CF0 0x021E7CF0 thumb ov177
  *   func_021E5978 0x021E5978 thumb ov177
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   CLACT_CreateActor 0x0204B294 arm
  */
 #include "../include/Obj03326.h"
 extern unsigned func_021E7CF0(unsigned,unsigned,unsigned);
 extern int func_021E5978(int *p, int i);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void *CLACT_CreateActor(void *,int,int,int,short *,int,unsigned);
 void func_021E7C3C(char *p,char *q,void *x,void *data,unsigned heap)
 {
  unsigned i,n;
  short b[4];
  n=func_021E7CF0(*(unsigned *)&((struct Obj03326 *)q)->f30,((struct Obj03326 *)q)->f28,((struct Obj03326 *)q)->f2C);
- func_02082BCC(b,0,8);
+ MI_CpuFill8(b,0,8);
  b[0]=0x100;b[1]=0x10;
  for(i=0;i<n;i++) {
  int a,c,d;

@@ -18,7 +18,7 @@
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
- *   tbl_020A1B38   0x020A1B38  data  a2
+ *   FX_SinCosTable_   0x020A1B38  data  a2
  *   FIELD_G3DOBJ_DeleteObject  0x021C6628  thumb  ov021
  *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
  *   d_021DE038  0x021DE038  data
@@ -124,7 +124,7 @@ void FLDEFF_KEMURI_Init(FieldEffectObj *obj, FldeffKemuriWork *work);
 void FLDEFF_KEMURI_Exit(FieldEffectObj *obj, FldeffKemuriWork *work);
 void FLDEFF_KEMURI_Update(FieldEffectObj *obj, FldeffKemuriWork *work);
 void FLDEFF_KEMURI_Draw(void);
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern char d_021DE038[];
 extern FieldEffectObjFuncs gFldeffKemuriObjFuncs;
 
@@ -221,8 +221,8 @@ void FLDEFF_KEMURI_StartFacing(Mmdl *mmdl, FieldEffectSys *sys)
     FLDMMDL_GetPos(mmdl, &pos);
     pos.y += FLDEFF_KEMURI_RAISE;
     dirIndex = (dirIndex >> 4) * 2;
-    pos.z += (s32)(((long long)tbl_020A1B38[dirIndex + 1] * FLDEFF_KEMURI_FORWARD + 0x800) >> 12);
-    pos.x += (s32)(((long long)tbl_020A1B38[dirIndex] * FLDEFF_KEMURI_FORWARD + 0x800) >> 12);
+    pos.z += (s32)(((long long)FX_SinCosTable_[dirIndex + 1] * FLDEFF_KEMURI_FORWARD + 0x800) >> 12);
+    pos.x += (s32)(((long long)FX_SinCosTable_[dirIndex] * FLDEFF_KEMURI_FORWARD + 0x800) >> 12);
     param.kemuri = FIELD_EFFECT_GetResource(sys, FLDEFF_ID_KEMURI);
     param.pos = pos;
     FIELD_EFFECT_AddObject(sys, &gFldeffKemuriObjFuncs, 0, 0, &param, 0);

@@ -11,14 +11,14 @@
  * extent: 376-byte lead,20-byte reset871C,4-byte getter8730; no tail data.
  * lever: 3-byte table rows unify index array and count field relocations.
  * symbols:
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021B8734 0x021B8734 thumb ov105
  *   d_021B8984 0x021B8984 data a1
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021B8734(u16 *,int,u8,u8,u8,u16,u16);
 typedef struct { u8 index[2]; u8 count; } Row;
 extern const Row d_021B8984[];
@@ -35,7 +35,7 @@ void func_021B85A4(u8 *p)
             else { W(0x4c)=1; W(0x50)=0; }
             return;
         }
-        if(!W(0x48)) func_020061E4(2000+H(0x56));
+        if(!W(0x48)) GFL_USE_PlaySeDefaultVolume(2000+H(0x56));
         for(i=0;i<d_021B8984[H(0x56)].count;++i) {
             int index=d_021B8984[H(0x56)].index[i];
             func_021B8734((u16 *)(p+0x28)+index,(u16)W(0x48),40,8,index,0x7fff,((u16 *)(p+8))[index]);
@@ -46,7 +46,7 @@ void func_021B85A4(u8 *p)
         if(W(0x48)++>=60) { W(0x48)=0; W(0x58)=2; }
         break;
     case 2:
-        if(!W(0x48)) func_020061E4(1998+H(0x56));
+        if(!W(0x48)) GFL_USE_PlaySeDefaultVolume(1998+H(0x56));
         for(i=0;i<d_021B8984[H(0x56)-1].count;++i) {
             int index=d_021B8984[H(0x56)-1].index[i];
             func_021B8734((u16 *)(p+0x28)+index,(u16)W(0x48),40,8,index,((u16 *)(p+8))[index],0x7fff);

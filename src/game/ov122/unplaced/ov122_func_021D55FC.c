@@ -16,8 +16,8 @@
  *   func_021D4AD4 0x021D4AD4 thumb ov122
  *   TCBL_Destroy 0x02031140 arm
  *   func_020403F4 0x020403F4 arm
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
@@ -25,10 +25,10 @@
  *   func_02030EAC 0x02030EAC arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   func_0201ED04 0x0201ED04 thumb
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   BMP_WIN_Exit 0x020450C8 arm
  *   func_0203F9B4 0x0203F9B4 arm
@@ -55,8 +55,8 @@ struct TaskMenuState;
 struct WordSet;
 extern void TCBL_Destroy(struct S02031140 *p);
 extern void func_020403F4(u32 i);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
@@ -64,10 +64,10 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern void func_02030EAC(struct Node *n);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
@@ -82,8 +82,8 @@ int func_021D55FC(void *a, void *b, char *out, char *p)
     ((struct Obj22936 *)out)->f20 = ((struct Obj00911 *)p)->f8;
     TCBL_Destroy(((struct Obj00911 *)p)->f31C);
     func_020403F4(5);
-    func_0201C6EC(((struct Obj00911 *)p)->f320);
-    func_0201C4C0(((struct Obj00911 *)p)->f320);
+    PRINTSYS_QUE_Clear(((struct Obj00911 *)p)->f320);
+    PRINTSYS_QUE_Delete(((struct Obj00911 *)p)->f320);
     for (i = 0; i < 3; i++) CLACT_DeleteActor(*(void **)(p + i * 4 + 0x390));
     CLACT_DeleteActor(((struct Obj00911 *)p)->f39C);
     CLACT_DeleteActor(((struct Obj00911 *)p)->f3A0);
@@ -94,13 +94,13 @@ int func_021D55FC(void *a, void *b, char *out, char *p)
     func_02030EAC(((struct Obj00911 *)p)->f310);
     CLACT_DeleteUnit(((struct Obj00911 *)p)->f30C);
     CLACT_ExitSystem();
-    if (((struct Obj00911 *)p)->f318) func_0201CE48(((struct Obj00911 *)p)->f318);
+    if (((struct Obj00911 *)p)->f318) PRINTSYS_PrintStreamDelete(((struct Obj00911 *)p)->f318);
     func_0201ED04(((struct Obj00911 *)p)->f48);
     if (((struct Obj00911 *)p)->f324) {
         APP_TASKMENU_CloseMenu(((struct Obj00911 *)p)->f324);
         ((struct Obj00911 *)p)->f324 = 0;
     }
-    if (((struct Obj00911 *)p)->f314) func_020452E8(((struct Obj00911 *)p)->f314);
+    if (((struct Obj00911 *)p)->f314) BMP_WIN_Delete(((struct Obj00911 *)p)->f314);
     APP_TASKMENU_RES_Delete(((struct Obj00911 *)p)->f340);
     BMP_WIN_Exit();
     func_0203F9B4();

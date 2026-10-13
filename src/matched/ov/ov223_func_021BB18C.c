@@ -22,7 +22,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_0201ED04 0x0201ED04 thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_0201D304 0x0201D304 thumb
  *   func_0201D42C 0x0201D42C thumb
@@ -53,7 +53,7 @@ extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *);
 extern u32 func_0201ED04(struct WordSet *p);
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *, u8);
 extern unsigned func_0201D304(struct StrObj *, unsigned, unsigned);
 extern unsigned func_0201D42C(struct StrObj *, void *);
@@ -81,14 +81,14 @@ void func_021BB18C(char *p, int idx)
     func_0201F250(words, buf, text);
     STRBUF_Delete((struct U16Vec *)text);
     func_0201ED04(words);
-    BMP_Clear((struct CharBuf *)func_02045770(desc), 0);
+    BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp(desc), 0);
     func_0201D304(buf, *(unsigned *)(p + 0x18), 0);
     height = func_0201D42C(buf, *(void **)(p + 0x18));
-    BMP_GetWidth(func_02045770(desc));
-    h = BMP_GetHeight(func_02045770(desc));
+    BMP_GetWidth(BMP_WIN_GetBmp(desc));
+    h = BMP_GetHeight(BMP_WIN_GetBmp(desc));
     if (h > height)
         x = ((int)h - height) / 2;
-    PRINTSYS_PrintQueColor(*(void **)(p + 0x1C), (unsigned)func_02045770(desc), 0, (s16)x, (unsigned)buf, *(unsigned *)(p + 0x18), 0x3C40);
+    PRINTSYS_PrintQueColor(*(void **)(p + 0x1C), (unsigned)BMP_WIN_GetBmp(desc), 0, (s16)x, (unsigned)buf, *(unsigned *)(p + 0x18), 0x3C40);
     STRBUF_Delete((struct U16Vec *)buf);
     *flag = 0;
     func_021BAF48(p);

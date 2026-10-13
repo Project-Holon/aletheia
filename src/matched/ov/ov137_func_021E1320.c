@@ -13,7 +13,7 @@
  *   func_021DFEA0 0x021DFEA0 thumb ov137
  *   func_021DFEAC 0x021DFEAC thumb ov137
  *   func_021DFEB8 0x021DFEB8 thumb ov137
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 typedef unsigned short u16;
 typedef struct { u16 state, flag; int count; } State;
@@ -22,14 +22,14 @@ typedef unsigned char  u8;
 extern void func_021DFEA0(u8 *p);
 extern void func_021DFEAC(u8 *p);
 extern void func_021DFEB8(u8 *p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void func_021E1320(void *task, State *p)
 {
     switch (p->state) {
     case 0: break;
     case 1:
         func_021DFEA0(task);
-        func_020061E4(1832);
+        GFL_USE_PlaySeDefaultVolume(1832);
         p->count = 0;
         p->state++;
     case 2:

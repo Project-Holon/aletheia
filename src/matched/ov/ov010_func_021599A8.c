@@ -18,8 +18,8 @@
  *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   GAME_DATA_SaveMain  0x02012DD0  thumb
  *   FIELD_SUBSCREEN_GetMode  0x021A0F90  thumb  ov021
- *   func_021A153C  0x021A153C  thumb  ov021
- *   func_021A1548  0x021A1548  thumb  ov021
+ *   FIELD_SUBSCREEN_IsReportSaveAnimDone  0x021A153C  thumb  ov021
+ *   FIELD_SUBSCREEN_StopReportSaveAnim  0x021A1548  thumb  ov021
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   SCRIPT_WORK_GetReturnScriptId  0x021590FC  thumb  ov010
  *   FIELD_SAVEANIME_Stop  0x021D11D8  thumb
@@ -40,8 +40,8 @@ extern int FIELDMAP_GetSubscreen(void *);
 extern u8 GAME_DATA_IsSaving(const u8 *o);
 extern int GAME_DATA_SaveMain(u8 *p);
 extern u32 FIELD_SUBSCREEN_GetMode(u8 *p);
-extern int func_021A153C(u32 *p);
-extern void func_021A1548(u32 *p);
+extern int FIELD_SUBSCREEN_IsReportSaveAnimDone(u32 *p);
+extern void FIELD_SUBSCREEN_StopReportSaveAnim(u32 *p);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern u32 SCRIPT_WORK_GetReturnScriptId(void *p);
 extern void FIELD_SAVEANIME_Stop(int);
@@ -58,7 +58,7 @@ int SCRIPT_WORK_WaitReportSave(int a, int b)
     if (GAME_DATA_IsSaving(s4) == 0) {
         ret = 1;
         if (FIELD_SUBSCREEN_GetMode((u8 *)h) == 7) {
-            if (func_021A153C((u32 *)h) == 0)
+            if (FIELD_SUBSCREEN_IsReportSaveAnimDone((u32 *)h) == 0)
                 ret = 0;
         }
     } else {
@@ -75,7 +75,7 @@ int SCRIPT_WORK_WaitReportSave(int a, int b)
             *SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b) = 0;
             ret = 1;
             if (FIELD_SUBSCREEN_GetMode((u8 *)h) == 7)
-                func_021A1548((u32 *)h);
+                FIELD_SUBSCREEN_StopReportSaveAnim((u32 *)h);
             break;
         }
     }

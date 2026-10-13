@@ -16,9 +16,9 @@
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
- *   func_020311B8 0x020311B8 arm
+ *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
@@ -26,9 +26,9 @@
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   TCBL_DeleteTask 0x02031194 arm
  *   BRIGHTNESS_Set 0x02023F60 thumb
- *   sub_020311B8 0x020311B8 arm
+ *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
- *   sub_0207C768 0x0207C768 arm
+ *   FX_Div 0x0207C768 arm
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -51,13 +51,13 @@
  *   func_0201F5DC 0x0201F5DC thumb
  *   func_02049B40 0x02049B40 arm
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_0201DD68 0x0201DD68 thumb
  *   func_0201F7A8 0x0201F7A8 thumb
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_0201F614 0x0201F614 thumb
  *   func_02040588 0x02040588 arm
  *   GAME_VERSION_Code 0x0209DF08 data a1
@@ -157,18 +157,18 @@ typedef struct {int kind;unsigned time;int values[8];} Record;
 extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
-extern struct TcblNode *func_020311B8(struct Tcbl *,void (*)(struct TcblNode *,void *),unsigned,unsigned);
+extern struct TcblNode *TCBL_AddTask(struct Tcbl *,void (*)(struct TcblNode *,void *),unsigned,unsigned);
 extern void *TCBL_GetWork(struct S02030FB4 *);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_SetBgmPlayerParam(void *);
 extern int GFL_USE_PushBgm(void),GFL_USE_PopBgm(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void TCBL_DeleteTask(struct TcblNode *);
 extern void BRIGHTNESS_Set(u32 a0, u32 a1, u32 mask);
-extern struct TcblNode *sub_020311B8(struct Tcbl *,void (*)(struct TcblNode *,void *),u32,u32);
+extern struct TcblNode *TCBL_AddTask(struct Tcbl *,void (*)(struct TcblNode *,void *),u32,u32);
 extern void *TCBL_GetWork(struct S02030FB4 *);
-extern u32 sub_0207C768(u32,u32);
+extern u32 FX_Div(u32,u32);
 extern void func_021BDF74(char *p, unsigned i, unsigned short val);
 extern void func_021BDF88(char *p, int a, int b);
 extern void TCBL_DeleteTask(struct TcblNode *);
@@ -188,13 +188,13 @@ extern void sub_02040588(unsigned char which, unsigned char enable);
 extern void func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_0201F5DC(void *,unsigned,unsigned,unsigned);
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern unsigned BMP_WIN_Create(unsigned,unsigned,unsigned,unsigned,unsigned char,unsigned char,unsigned char);
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201DD68(void);
 extern void func_0201F7A8(void *,unsigned);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_0201F614(int a, u32 x);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
@@ -279,8 +279,8 @@ void func_021BEE8C(char *p,int channel,int start,int end,unsigned mode)
 {
     Task_021BEE1C *t;
     int flag=0;
-    t=TCBL_GetWork((struct S02030FB4 *)func_020311B8(*(struct Tcbl * *)&((struct Obj03917 *)p)->f20,(void (*)(struct TcblNode *,void *))func_021BEEF8,24,0));
-    func_02082BCC(t,0,24);
+    t=TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(*(struct Tcbl * *)&((struct Obj03917 *)p)->f20,(void (*)(struct TcblNode *,void *))func_021BEEF8,24,0));
+    MI_CpuFill8(t,0,24);
     t->owner=p;t->mode=mode;
     if(mode==3)flag=1;
     t->a=flag;
@@ -334,8 +334,8 @@ void func_021BEFC4(struct Owner *owner,int mask,int kind,int start,int end,int d
     struct Work *work;
     float a,b,c;
     int final;
-    work=TCBL_GetWork((struct S02030FB4 *)sub_020311B8(owner->manager,(void (*)(struct TcblNode *, void *))func_021BF0B4,0x28,0));
-    func_02082BCC(work,0,0x28);
+    work=TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(owner->manager,(void (*)(struct TcblNode *, void *))func_021BF0B4,0x28,0));
+    MI_CpuFill8(work,0,0x28);
     work->owner=owner;
     work->mask=mask;
     work->kind=kind;
@@ -351,7 +351,7 @@ void func_021BEFC4(struct Owner *owner,int mask,int kind,int start,int end,int d
     if(end>0) c=0.5f+(float)(end<<12);
     else c=(float)(end<<12)-0.5f;
     final=(int)c;
-    work->step=sub_0207C768(final-work->current,(int)b);
+    work->step=FX_Div(final-work->current,(int)b);
     if(counter != 0) (*counter)++;
     BRIGHTNESS_Set((short)work->start,work->kind,work->mask);
 }
@@ -389,8 +389,8 @@ void func_021BF128(char *p,int unused,int *s)
 void func_021BF168(char *p,unsigned char index,signed char a,signed char b,signed char c,int start,int end)
 {
     Task_021BF168 *t;
-    t=TCBL_GetWork((struct S02030FB4 *)func_020311B8(*(struct Tcbl * *)&((struct Obj03917 *)p)->f20,(void (*)(struct TcblNode *,void *))func_021BF1CC,32,1));
-    func_02082BCC(t,0,32);
+    t=TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(*(struct Tcbl * *)&((struct Obj03917 *)p)->f20,(void (*)(struct TcblNode *,void *))func_021BF1CC,32,1));
+    MI_CpuFill8(t,0,32);
     t->owner=p;t->a=a;t->b=b;t->c=c;t->index=index;t->mask=63;t->start=start;t->end=end;
     func_021BEFC4((struct Owner *)p,t->index,t->mask,a,b,start,&t->count);
 }
@@ -458,7 +458,7 @@ void func_021BF290(int a, int b, int *s)
 
 void func_021BF2DC(char *p,int a,int b,int c,unsigned char d,unsigned char e,unsigned char f,unsigned char g)
 {
-    func_021BF404(p,TCBL_GetWork((struct S02030FB4 *)func_020311B8(*(struct Tcbl * *)&((struct Obj03917 *)p)->f20,(void (*)(struct TcblNode *,void *))func_021BF320,0x28,1)),a,b,c,d,e,f,g);
+    func_021BF404(p,TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(*(struct Tcbl * *)&((struct Obj03917 *)p)->f20,(void (*)(struct TcblNode *,void *))func_021BF320,0x28,1)),a,b,c,d,e,f,g);
 }
 
 
@@ -511,12 +511,12 @@ void func_021BF320(struct TcblNode *task, struct Context_021BF290 *ctx)
 
 void func_021BF404(char *p,Work_021BF290 *out,int a,int b,int c,unsigned char d,unsigned char e,unsigned char f,unsigned char g)
 {
-    func_02082BCC(out,0,0x28);
+    MI_CpuFill8(out,0,0x28);
     out->a=a;out->c=c;out->ctx=p;out->b=b;
     out->text=func_0201F5DC((void *)1,0,1,((struct Obj14596 *)p)->f2);
     func_02049B40(23,5,0,32,32,((struct Obj14596 *)p)->f2);
     out->window=(void *)BMP_WIN_Create(1,d,e,f,g,1,0);
-    BMP_Clear(func_02045770(out->window),15);
+    BMP_Clear(BMP_WIN_GetBmp(out->window),15);
 }
 
 
@@ -530,10 +530,10 @@ void func_021BF404(char *p,Work_021BF290 *out,int a,int b,int c,unsigned char d,
  */
 void func_021BF470(char *p)
 {
-    if(*(void **)(p+0x20)) func_0201CE48(*(void **)(p+0x20));
+    if(*(void **)(p+0x20)) PRINTSYS_PrintStreamDelete(*(void **)(p+0x20));
     STRBUF_Delete(*(void **)(p+0x24));func_0201DD68();
-    func_0201F7A8(*(void **)(p+0x1C),1);func_020452E8(*(void **)(p+0x1C));
-    func_0201F614(1,*(int *)(p+0x18));func_02082BCC(p,0,0x28);
+    func_0201F7A8(*(void **)(p+0x1C),1);BMP_WIN_Delete(*(void **)(p+0x1C));
+    func_0201F614(1,*(int *)(p+0x18));MI_CpuFill8(p,0,0x28);
     func_0204047C(1,1);func_0204047C(0,0);func_02040588(1,0);
 }
 
@@ -560,7 +560,7 @@ void func_021BF4C4(char *p,int unused,int *record)
 
 void func_021BF510(char *p,int a,int b,int c,int d,int e,int f)
 {
-    func_021BF710(p,TCBL_GetWork((struct S02030FB4 *)func_020311B8(*(struct Tcbl * *)&((struct Obj03917 *)p)->f20,(void (*)(struct TcblNode *,void *))func_021BF550,0x2C,1)),a,b,c,d,e,f);
+    func_021BF710(p,TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(*(struct Tcbl * *)&((struct Obj03917 *)p)->f20,(void (*)(struct TcblNode *,void *))func_021BF550,0x2C,1)),a,b,c,d,e,f);
 }
 
 
@@ -592,7 +592,7 @@ void func_021BF550(struct TcblNode *task,struct Context_021BF470 *ctx)
         ctx->blend=0;
         if(ctx->fadein>0) a=0.5f+(float)(ctx->fadein<<12);
         else a=(float)(ctx->fadein<<12)-0.5f;
-        ctx->step=sub_0207C768(0x10000,(int)a);
+        ctx->step=FX_Div(0x10000,(int)a);
         func_0204047C(1,0);
         func_0204047C(0,1);
         func_0207D63C(0x04000050,2,1,0,16);
@@ -617,7 +617,7 @@ void func_021BF550(struct TcblNode *task,struct Context_021BF470 *ctx)
             ctx->blend=0;
             if(ctx->fadeout>0) a=0.5f+(float)(ctx->fadeout<<12);
             else a=(float)(ctx->fadeout<<12)-0.5f;
-            ctx->step=sub_0207C768(0x10000,(int)a);
+            ctx->step=FX_Div(0x10000,(int)a);
             ctx->state++;
         }
         break;
@@ -648,7 +648,7 @@ void func_021BF550(struct TcblNode *task,struct Context_021BF470 *ctx)
 
 void func_021BF710(char *p,Work_021BF470 *out,int a,int b,int c,int d,int e,int f)
 {
-    func_02082BCC(out,0,0x2C);
+    MI_CpuFill8(out,0,0x2C);
     out->ctx=p;out->c=d;out->a=a;out->d=c;out->b=b;out->e=e;out->f=f;
     func_02049658((void *)(((struct Obj03917 *)p)->f28),out->b,1,0,0,1,((struct Obj03917 *)p)->f2);
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 #include "../include/Obj07202.h"
 
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02082BCC();
+extern int MI_CpuFill8();
 
 void EVENT_FIELD_PROCLINK_ClearReturnPendingSlot(int a0)
 {
@@ -30,7 +30,7 @@ t4 = a0 + 0;
 a0 = a0 + 0x28;
 a1 = 0;
 a2 = 8;
-    a0 = func_02082BCC(a0, a1, a2);
+    a0 = MI_CpuFill8(a0, a1, a2);
 loc_02162366:
 a1 = ((struct Obj07202 *)t4)->f2;
 a0 = 0x10;

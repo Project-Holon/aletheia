@@ -18,7 +18,7 @@
  *   FIELDMAP_GetHeapId  0x02188C84  thumb
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0207CA00  0x0207CA00  arm
  *   d_021DDA38  0x021DDA38  data  ov021  a4
  *   FIELDMAP_GetCamera  0x02188C58  thumb
@@ -111,7 +111,7 @@ FieldCamera *FIELD_CAMERA_ANIME_GetCamera(FieldCameraAnime *anime);
 FieldCameraAnimeData *FIELD_CAMERA_ANIME_GetData(FieldCameraAnime *anime);
 
 extern u32 FIELDMAP_GetMoveKind(FieldMap *fieldMap);
-extern void func_02082BCC(void *dst, int value, u32 size);
+extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
 extern void *func_02030734(u16 heapId, u32 size, u32 flag, const char *file, u32 line);
 extern u32 func_020307B0(void *mem);
@@ -198,7 +198,7 @@ void FIELD_CAMERA_ANIME_Free(FieldCameraAnime *anime)
 
 void FIELD_CAMERA_ANIME_Init(FieldCameraAnime *anime, FieldMap *fieldMap)
 {
-    func_02082BCC(anime, 0, sizeof(FieldCameraAnime));
+    MI_CpuFill8(anime, 0, sizeof(FieldCameraAnime));
     anime->fieldMap = fieldMap;
     anime->camera = FIELDMAP_GetCamera(fieldMap);
     anime->data = 0;

@@ -11,11 +11,11 @@
  * symbols:
  *   g_pWhPipeWork     0x021797A4  data  ov014  a4
  *   NET_WHPIPE_StartJoinLock  0x021780E4  thumb  ov014
- *   func_0217758C  0x0217758C  thumb  ov014
- *   func_02177560  0x02177560  thumb  ov014
+ *   NET_WHPIPE_ResetState  0x0217758C  thumb  ov014
+ *   NET_WHPIPE_ClearEntries  0x02177560  thumb  ov014
  *   DWCi_MOV_WH_SetReceiver  0x0217933C  thumb  ov014
- *   func_0217727C  0x0217727C  thumb
- *   func_021775AC  0x021775AC  thumb  ov014
+ *   NET_WHPIPE_SetTask  0x0217727C  thumb
+ *   NET_WHPIPE_ForwardEvent  0x021775AC  thumb  ov014
  *   NET_WHPIPE_TaskChildScanStart  0x02177FF0  thumb
  */
 
@@ -24,11 +24,11 @@ typedef unsigned int u32;
 
 extern u8 *g_pWhPipeWork;
 void NET_WHPIPE_StartJoinLock(int a);
-void func_0217758C(u8 *p);
-void func_02177560(void);
+void NET_WHPIPE_ResetState(u8 *p);
+void NET_WHPIPE_ClearEntries(void);
 void DWCi_MOV_WH_SetReceiver(void *fn);
-void func_0217727C(u32 *p, u32 v);
-int func_021775AC(int a, int b, int c);
+void NET_WHPIPE_SetTask(u32 *p, u32 v);
+int NET_WHPIPE_ForwardEvent(int a, int b, int c);
 void NET_WHPIPE_TaskChildScanStart(u8 *a);
 
 int NET_WHPIPE_StartAutoSearch(void)
@@ -37,10 +37,10 @@ int NET_WHPIPE_StartAutoSearch(void)
     if (p == 0)
         return 0;
     NET_WHPIPE_StartJoinLock(0);
-    func_0217758C(p);
-    func_02177560();
-    DWCi_MOV_WH_SetReceiver(func_021775AC);
+    NET_WHPIPE_ResetState(p);
+    NET_WHPIPE_ClearEntries();
+    DWCi_MOV_WH_SetReceiver(NET_WHPIPE_ForwardEvent);
     p[0xCE8] = 1;
-    func_0217727C((u32 *)g_pWhPipeWork, (u32)NET_WHPIPE_TaskChildScanStart);
+    NET_WHPIPE_SetTask((u32 *)g_pWhPipeWork, (u32)NET_WHPIPE_TaskChildScanStart);
     return 1;
 }

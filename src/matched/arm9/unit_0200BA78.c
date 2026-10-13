@@ -42,6 +42,11 @@
  *   pBattleRec  0x0214616C  data
  *   BattleRecModeTable  0x0209DDCC  data
  *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
+ *   POKEPARTY_InitEx  0x0201A954  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  */
 
 typedef unsigned char  u8;
@@ -70,11 +75,11 @@ extern void  BATTLE_REC_Decode(void *a, u32 b, u32 c);
 extern void *func_020271CC(void *a, u32 id);
 struct Sav;
 extern void POKE_TOOL_ClearBoxParam(struct Sav *ent);
-extern struct Party *func_0201A920(u32 heap);
-extern void func_0201A954(struct Party *p, s32 capacity);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern u32   func_0201AA18(void *list);
-extern void *func_0201AB28(void *list, u32 i);
+extern struct Party *POKEPARTY_Create(u32 heap);
+extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
+extern u32   POKEPARTY_GetCount(void *list);
+extern void *POKEPARTY_GetMember(void *list, u32 i);
 extern void *POKE_TOOL_GetBoxParam(void *a);
 extern u32   func_02017E88(void *e, u32 a, u32 b);
 extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);

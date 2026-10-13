@@ -12,7 +12,7 @@
  * sdk:      DWC_Http_ParseResult (libdwcauth.TWL.HYB.a dwc_http.o)
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02094B20  0x02094B20  arm
  *   func_0209477C  0x0209477C  arm
  *   func_0217A344  0x0217A344  arm  ov009
@@ -56,7 +56,7 @@ typedef struct DWCHttp {
     DWCHttpLabelValue labelvalue[32];
 } DWCHttp;
 
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern unsigned char *func_02094B20(const unsigned char *s1, const unsigned char *s2);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -90,7 +90,7 @@ int func_0217A484(DWCHttp *http, int noparsebody)
     parse_result.entry = http->labelvalue;
     parse_result.len = 32;
     parse_result.index = 0;
-    func_02082BCC(http->labelvalue, 0, sizeof(http->labelvalue));
+    MI_CpuFill8(http->labelvalue, 0, sizeof(http->labelvalue));
 
     buffer = http->rep.buffer;
     httpbody_top = (char *)func_02094B20((const unsigned char *)buffer, (const unsigned char *)g_021A25D4);

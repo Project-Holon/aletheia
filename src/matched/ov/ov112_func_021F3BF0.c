@@ -15,7 +15,7 @@
  *   func_021F51B0 0x021F51B0 thumb ov112
  *   func_021F4948 0x021F4948 thumb ov112
  *   func_021F3ED0 0x021F3ED0 thumb ov112
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
  */
@@ -29,7 +29,7 @@ extern void func_021F7120(char *p);
 extern void func_021F51B0(int a);
 extern void func_021F4948(u8 *);
 extern void func_021F3ED0(u8 *);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 func_020307B0(void *p);
 void func_021F3BF0(u8 *p)
@@ -40,8 +40,8 @@ void func_021F3BF0(u8 *p)
     func_021F7120(((struct Obj03246 *)p)->f2C);
     func_021F51B0(((struct Obj03246 *)p)->f20);
     func_021F4948(*(u8 * *)&((struct Obj03246 *)p)->f24);
-    func_020452E8(((struct Obj03246 *)p)->f58);
-    func_020452E8(((struct Obj03246 *)p)->f54);
+    BMP_WIN_Delete(((struct Obj03246 *)p)->f58);
+    BMP_WIN_Delete(((struct Obj03246 *)p)->f54);
     GF_FONT_Delete(((struct Obj03246 *)p)->f60);
     GF_FONT_Delete(((struct Obj03246 *)p)->f5C);
     func_021F3ED0(p);

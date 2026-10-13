@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetIceBodyHandlers
+ * function: HAND_TOKUSEI_GetIceBodyHandlers
  * address: 0x021D9858
  * packet: pkt_ov093_021D9858
  * region: ov093
@@ -15,10 +15,10 @@
  *   gIceBodyHandlers 0x021F05C0 data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetIceBodyHandlers(int *p);
+int *HAND_TOKUSEI_GetIceBodyHandlers(int *p);
 extern int gIceBodyHandlers[];
 
-int *BTL_TOKUSEI_GetIceBodyHandlers(int *p)
+int *HAND_TOKUSEI_GetIceBodyHandlers(int *p)
 {
     *p = 1;
     return gIceBodyHandlers;

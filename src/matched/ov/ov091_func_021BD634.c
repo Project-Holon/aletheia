@@ -15,7 +15,7 @@
  *   func_0201EC64 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201EFA4 0x0201EFA4 thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_0201F250 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
@@ -23,13 +23,13 @@
  *   func_0201ED04 0x0201ED04 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   POKELIST_ForceSelectionEnd 0x021BA4F8 thumb ov091
- *   func_0201C6C4 0x0201C6C4 thumb
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_02061CA4 0x02061CA4 arm
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -43,12 +43,12 @@ struct CharBuf;
 struct StrObj;
 struct PrintSys;
 struct Cfg;
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern struct U16Vec *STRBUF_Create(u32,u32);
 extern struct WordSet *func_0201EC64(u32);
 extern void *func_02045EC0(struct MsgBank *,u32);
 extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void func_0201F250(struct WordSet *,void *,void *);
 extern u32 func_0201D304(struct StrObj *,u32,u32);
@@ -56,10 +56,10 @@ extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 
 extern u32 func_0201ED04(struct WordSet *p);
 extern void STRBUF_Delete(struct U16Vec *);
 extern void POKELIST_ForceSelectionEnd(u8 *);
-extern u32 func_0201C6C4(struct PrintSys *,void *);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *,void *);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
-extern u8 func_02045730(struct Descriptor *);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(u32);
 extern int func_02061CA4(void *,u32,u32,int);
 #define P(k) (*(void **)(p+(k)))
@@ -97,10 +97,10 @@ void PLIST_BATTLE_UpdateTimer(u8 *p)
             func_0201EFA4(words,0,minute,2,1,1);
             func_0201EFA4(words,1,second,2,2,1);
         }
-        BMP_Clear(func_02045770(P(0x200)),0);
+        BMP_Clear(BMP_WIN_GetBmp(P(0x200)),0);
         func_0201F250(words,buf,text);
         width=func_0201D304((struct StrObj *)buf,W(0x138),0);
-        PRINTSYS_PrintQueColor(P(0x140),(u32)func_02045770(P(0x200)),(s16)(36-width),4,(u32)buf,W(0x138),0x3c40);
+        PRINTSYS_PrintQueColor(P(0x140),(u32)BMP_WIN_GetBmp(P(0x200)),(s16)(36-width),4,(u32)buf,W(0x138),0x3c40);
         func_0201ED04(words);
         STRBUF_Delete(buf);
         STRBUF_Delete(text);
@@ -109,25 +109,25 @@ void PLIST_BATTLE_UpdateTimer(u8 *p)
     }
     if(T==0) POKELIST_ForceSelectionEnd(p);
     if(W(0x208)==1) {
-        if(func_0201C6C4(P(0x140),func_02045770(P(0x200)))==0) {
+        if(PRINTSYS_QUE_IsExistTarget(P(0x140),BMP_WIN_GetBmp(P(0x200)))==0) {
             W(0x208)=0;
             window=P(0x200);
             BMP_WIN_TransferChars(window);
             BMP_WIN_MakeScreen((struct Cfg *)window);
-            func_02041B6C(func_02045730(window));
+            func_02041B6C(BMP_WIN_GetBgLayer(window));
         }
     }
     if(W(0x204)==1) {
-        if(func_0201C6C4(P(0x140),func_02045770(P(0x1fc)))==0) {
+        if(PRINTSYS_QUE_IsExistTarget(P(0x140),BMP_WIN_GetBmp(P(0x1fc)))==0) {
             W(0x204)=0;
             window=P(0x1fc);
             BMP_WIN_TransferChars(window);
             BMP_WIN_MakeScreen((struct Cfg *)window);
-            func_02041B6C(func_02045730(window));
+            func_02041B6C(BMP_WIN_GetBgLayer(window));
         }
     }
     if(T<=10) {
-        amount=(d_020A1B38[(((H(0x24e)<<16)/60)>>4)*2+1]+4096)*32/8192;
+        amount=(FX_SinCosTable_[(((H(0x24e)<<16)/60)>>4)*2+1]+4096)*32/8192;
         for(i=0;i<16;i++) {
             color=*(u16 *)(p+(u32)i*2+0x20e);
             green=(color&0x3e0)>>5;

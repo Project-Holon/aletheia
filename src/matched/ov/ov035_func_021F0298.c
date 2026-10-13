@@ -12,7 +12,7 @@
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
  *   BMP_WIN_SetDispHeight 0x02045790 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_0201F7A8 0x0201F7A8 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -34,7 +34,7 @@ struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void BMP_WIN_SetDispHeight(struct Descriptor *p, u8 v);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -48,10 +48,10 @@ void C_GEAR_POWER_ONOFF_ResetAndPrintMessage(char *p, int a1, int a2, int a3)
     int r7 = (int)func_02045EC0((struct MsgBank *)(((struct Obj09808 *)p)->f38), a2);
 
     BMP_WIN_SetDispHeight((struct Descriptor *)a1, a3);
-    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)a1)), 15);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)a1)), 15);
     func_0201F7A8((void *)a1, 2);
     BMP_WIN_MakeScreen((struct Cfg *)a1);
-    PRINTSYS_Print((void *)((int)func_02045770((struct Descriptor *)a1)), 0, 0, (void *)r7, (void *)(((struct Obj09808 *)p)->f34));
+    PRINTSYS_Print((void *)((int)BMP_WIN_GetBmp((struct Descriptor *)a1)), 0, 0, (void *)r7, (void *)(((struct Obj09808 *)p)->f34));
     func_0201F79C((void *)a1, 0, ((struct Obj09808 *)p)->f14, 2);
     BMP_WIN_TransferChars((struct Descriptor *)a1);
     STRBUF_Delete((struct U16Vec *)r7);

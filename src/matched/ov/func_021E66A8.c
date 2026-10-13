@@ -1,5 +1,5 @@
 /*
- * function: func_021E66A8
+ * function: HAND_WAZA_StruggleSetFlag4B
  * address:  0x021E66A8
  * packet:   pkt_021E5F18
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E66A8   0x021E66A8  thumb
+ *   HAND_WAZA_StruggleSetFlag4B   0x021E66A8  thumb
  *   BTL_EVENT_OverwriteVar   0x021D76BC  thumb
  *   BTL_EVENT_GetVar   0x021D775C  thumb
  * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #2; adds r4, r2, #0; bl BTL_EVENT_GetVar; cmp r4, r0; bne loc_021E66BE; movs r0, #0x4b; movs r1, #1; bl BTL_EVENT_OverwriteVar; pop {r4, pc}.
@@ -24,7 +24,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021E66A8  shape F1: gate on BTL_EVENT_GetVar(2) */
-void func_021E66A8(int a, int b, int c)
+void HAND_WAZA_StruggleSetFlag4B(int a, int b, int c)
 {
     if (c == BTL_EVENT_GetVar(2))
         BTL_EVENT_OverwriteVar(0x4b, 1);

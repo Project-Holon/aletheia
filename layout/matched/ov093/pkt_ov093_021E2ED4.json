@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E2ED4",
-    "func_021E2F3C"
+    "HAND_WAZA_LowKickOnWazaPower",
+    "HAND_WAZA_AddWeatherBall"
+   ],
+   "addresses": [
+    "0x021E2ED4",
+    "0x021E2F3C"
    ],
    "evidence": {
     "sole-ref": [

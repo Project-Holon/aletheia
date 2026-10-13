@@ -1,5 +1,5 @@
 /*
- * function: func_021CC9A4
+ * function: BTL_SERVER_FLOW_IsHandExScopeInterrupted
  * address:  0x021CC9A4
  * packet:   pkt_021B75A8
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021CC9A4   0x021CC9A4  thumb ov093
+ *   BTL_SERVER_FLOW_IsHandExScopeInterrupted   0x021CC9A4  thumb ov093
  *
  * Bit 29 of the word at *p, extracted as lsls #2 / lsrs #31.
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u32 func_021CC9A4(u32 *p)
+u32 BTL_SERVER_FLOW_IsHandExScopeInterrupted(u32 *p)
 {
     return (((struct Obj18356 *)p)->f0 << 2) >> 31;
 }

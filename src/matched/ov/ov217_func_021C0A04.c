@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021C0AF8  0x021C0AF8  thumb  ov217
  *   func_021C0B8C  0x021C0B8C  thumb  ov217
  *   func_021C0BB4  0x021C0BB4  thumb  ov217
@@ -24,7 +24,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_02082BCC(void *dst, int val, u32 n);
+extern void MI_CpuFill8(void *dst, int val, u32 n);
 extern void func_021C0AF8(void *p);
 extern void func_021C0B8C(void *p);
 extern void func_021C0BB4(void *p);
@@ -33,7 +33,7 @@ extern void func_021C0CF0(void *p);
 
 void func_021C0A04(u8 *p)
 {
-    func_02082BCC(p, 0, 0x40);
+    MI_CpuFill8(p, 0, 0x40);
     ((struct Obj00791 *)p)->f30 = 0;
     ((struct Obj00791 *)p)->f34 = 0;
     func_021C0AF8(p);

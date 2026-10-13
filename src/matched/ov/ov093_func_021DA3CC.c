@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DA32C.c and filed here.
  *
  * symbols:
- *   d_021F0970 0x021F0970 data ov093 a4
+ *   gDownloadHandlers 0x021F0970 data ov093 a4
  */
 
-extern int d_021F0970[];
+extern int gDownloadHandlers[];
 int *HAND_TOKUSEI_AddDownload(int *p);
 
 int *HAND_TOKUSEI_AddDownload(int *p)
 {
     *p = 2;
-    return d_021F0970;
+    return gDownloadHandlers;
 }

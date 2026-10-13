@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_02034714 0x02034714 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   func_02045EC0 0x02045EC0 arm
@@ -32,7 +32,7 @@ struct MsgBank;
 struct R;
 struct U16Vec;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02082BCC(void *,u32,u32);
+extern void MI_CpuFill8(void *,u32,u32);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 struct TaskMenu;
 struct TaskMenuTmpl;
@@ -50,7 +50,7 @@ void func_021F4BF8(u8 *p,int b,int unused,int a,int c,u8 flag)
     ((struct Obj02489 *)p)->fE04=APP_TASKMENU_RES_Create((u8)c,(u8)a,((struct Obj02489 *)p)->fFA0,((struct Obj02489 *)p)->fFAC,0x48);
     items=data_02202BC8;
     on=0;
-    func_02082BCC(&menu,0,20);
+    MI_CpuFill8(&menu,0,20);
     items.item[0].text=func_02045EC0(((struct Obj02489 *)p)->fB6C,63);
     items.item[1].text=func_02045EC0(((struct Obj02489 *)p)->fB6C,64);
     menu.heap=0x48;

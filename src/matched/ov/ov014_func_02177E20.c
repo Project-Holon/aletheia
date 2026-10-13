@@ -11,9 +11,9 @@
  * symbols:
  *   g_pWhPipeWork     0x021797A4  data  ov014  a4
  *   GFL_NET_GetInitParam  0x0203D798  arm
- *   func_02178E4C  0x02178E4C  thumb  ov014
+ *   WIH_GetSysState  0x02178E4C  thumb  ov014
  *   DWCi_MOV_WH_EndScan  0x021788FC  thumb  ov014
- *   func_0217727C  0x0217727C  thumb
+ *   NET_WHPIPE_SetTask  0x0217727C  thumb
  *   NET_WHPIPE_TaskConnectChild  0x02177DB0  thumb
  *   func_02082D44  0x02082D44  arm
  */
@@ -24,9 +24,9 @@ typedef unsigned int u32;
 
 extern u8 *g_pWhPipeWork;
 void *GFL_NET_GetInitParam(void);
-int func_02178E4C(void);
+int WIH_GetSysState(void);
 int DWCi_MOV_WH_EndScan(void);
-void func_0217727C(u32 *p, u32 v);
+void NET_WHPIPE_SetTask(u32 *p, u32 v);
 void NET_WHPIPE_TaskConnectChild(void);
 void func_02082D44(void *d, void *s, u32 n);
 
@@ -35,11 +35,11 @@ int NET_WHPIPE_StartChild(u32 a, u8 *b, u32 c, u32 d)
     GFL_NET_GetInitParam();
     if (*(u32 *)g_pWhPipeWork != 0)
         return 0;
-    if (func_02178E4C() == 2) {
+    if (WIH_GetSysState() == 2) {
         g_pWhPipeWork[0xCE9] = 0;
         DWCi_MOV_WH_EndScan();
     }
-    func_0217727C((u32 *)g_pWhPipeWork, (u32)NET_WHPIPE_TaskConnectChild);
+    NET_WHPIPE_SetTask((u32 *)g_pWhPipeWork, (u32)NET_WHPIPE_TaskConnectChild);
     if (b != 0)
         func_02082D44(b, g_pWhPipeWork + 0xCDE, 6);
     else

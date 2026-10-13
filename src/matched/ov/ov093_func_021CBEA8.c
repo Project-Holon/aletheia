@@ -1,5 +1,5 @@
 /*
- * function: func_021CBEA8
+ * function: BTL_SERVER_FLOW_RollCriticalCapture
  * address:  0x021CBEA8
  * packet:   pkt_ov093_021CBEA8
  * region:   ov093
@@ -25,7 +25,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern u32 BTL_MAIN_GetZukanSeenCount(char **p);
 extern u32 BTL_CALC_Random(u32 range);
 
-int func_021CBEA8(u8 *p, int x)
+int BTL_SERVER_FLOW_RollCriticalCapture(u8 *p, int x)
 {
     u32 v = BTL_MAIN_GetZukanSeenCount(*(char ** *)&((struct Obj09980 *)p)->f4);
     int k;

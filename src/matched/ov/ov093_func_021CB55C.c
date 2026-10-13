@@ -1,5 +1,5 @@
 /*
- * function: func_021CB55C
+ * function: BTL_SERVER_FLOW_CalcLevelScaledExp
  * address: 0x021CB55C
  * packet: pkt_ov093_021CB55C
  * region: ov093
@@ -29,7 +29,7 @@ typedef signed short s16;
 typedef signed int s32;
 extern int func_0207C7B4(int x);
 extern u32 BTL_POKEPARAM_GetMaxLevelExp(u8 *p);
-u32 func_021CB55C(void *p, u32 a, u16 b, u16 c)
+u32 BTL_SERVER_FLOW_CalcLevelScaledExp(void *p, u32 a, u16 b, u16 c)
 {
   int tmp;
   u32 tmp1;

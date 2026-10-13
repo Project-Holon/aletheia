@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02040DA8  0x02040DA8  arm
  *   func_020403F4  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   func_0203F9B4  0x0203F9B4  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   gOptionMenuBgLayers     0x021BB614  data  ov068  a4
  */
 
@@ -24,13 +24,13 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 struct Descriptor;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
 extern void func_02040DA8(u32 a, u32 b, u32 c);
 extern void func_020403F4(u32 a);
 extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
-extern void func_02082BCC(void *p, u32 a, u32 b);
+extern void MI_CpuFill8(void *p, u32 a, u32 b);
 extern u32 gOptionMenuBgLayers[][10];
 
 void OPTION_MENU_ExitGfx(u32 *p)
@@ -39,7 +39,7 @@ void OPTION_MENU_ExitGfx(u32 *p)
 
     for (i = 0; i < 19; i++) {
         if (p[i] != 0) {
-            func_020452E8((struct Descriptor *)p[i]);
+            BMP_WIN_Delete((struct Descriptor *)p[i]);
         }
     }
     func_020307B0((void *)p[21]);
@@ -51,5 +51,5 @@ void OPTION_MENU_ExitGfx(u32 *p)
     }
     BMP_WIN_Exit();
     func_0203F9B4();
-    func_02082BCC(p, 0, 0x7c);
+    MI_CpuFill8(p, 0, 0x7c);
 }

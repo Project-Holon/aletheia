@@ -10,8 +10,8 @@
  * status: EXACT
  * symbols:
  *   TOWNMAP_GRH_ExitTextBox 0x021BB42C thumb ov072
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 extern void TOWNMAP_GRH_ExitTextBox(void **p);
-extern void func_02082BCC(void *p,int v,int n);
-void TOWNMAP_GRH_ExitLabel(void *p) { TOWNMAP_GRH_ExitTextBox(p); func_02082BCC(p,0,0x20); }
+extern void MI_CpuFill8(void *p,int v,int n);
+void TOWNMAP_GRH_ExitLabel(void *p) { TOWNMAP_GRH_ExitTextBox(p); MI_CpuFill8(p,0,0x20); }

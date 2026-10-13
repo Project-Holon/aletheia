@@ -15,7 +15,7 @@
  *   FIELD_PLACE_NAME_CreateBmpWin  0x021BD01C  thumb  ov021
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *   func_0204047C  0x0204047C  arm
  *   func_02040588  0x02040588  arm
@@ -29,7 +29,7 @@ struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern unsigned char func_02045730(struct Descriptor *d);
+extern unsigned char BMP_WIN_GetBgLayer(struct Descriptor *d);
 extern void func_020409B4(unsigned int index);
 typedef unsigned int   u32;
 extern void func_0204047C(int idx, unsigned short val);
@@ -46,7 +46,7 @@ void FIELD_PLACE_NAME_SetupWindow(int *p)
     r4 = p[9];
     BMP_WIN_TransferChars((struct Descriptor *)r4);
     BMP_WIN_MakeScreen((struct Cfg *)r4);
-    func_020409B4(func_02045730((struct Descriptor *)r4));
+    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)r4));
     func_0204047C(3, 1);
     func_02040588(3, 0);
     func_0207D63C(0x04000050, 8, 0x11, 0x10, 4);

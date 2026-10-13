@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_021C8A50 0x021C8A50 thumb ov128
@@ -26,7 +26,7 @@ struct BigObj;
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 struct CharBuf;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_021C8A50(char *p, int unused);
@@ -35,7 +35,7 @@ extern void func_021C8B90(char *p, char *q, int unused, int i, u16 h);
 void func_021C8904(char *p,char *q,void *r,void *s,int t,char *table,int page,u16 heap) {
  int i;int offset;void *base;int found;char *row;void *v;
  base=(void *)GAME_DATA_GetWifiList(((struct Obj23090 *)q)->f4);
- v=func_02045770(**(void ** *)&((struct Obj05381 *)p)->f8);
+ v=BMP_WIN_GetBmp(**(void ** *)&((struct Obj05381 *)p)->f8);
  found=0;
  BMP_Clear(v,0);
  func_021C8A50(p,(int)r);

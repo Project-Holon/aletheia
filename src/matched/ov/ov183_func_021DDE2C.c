@@ -12,7 +12,7 @@
  *   func_021FB964 0x021FB964 thumb ov186
  *   func_021FC20C 0x021FC20C thumb ov186
  *   func_021FC214 0x021FC214 thumb ov186
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FC124 0x021FC124 thumb ov186
  *   func_021FB378 0x021FB378 thumb ov186
  *   func_021FC6A4 0x021FC6A4 thumb ov186
@@ -35,7 +35,7 @@ extern void func_021FBE54(char *,unsigned,unsigned);
 extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
-extern void *func_02082BCC(void *,int,unsigned);
+extern void *MI_CpuFill8(void *,int,unsigned);
 extern int func_021FC124(int,int,struct Triple *);
 extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
 extern void *func_021FC6A4(unsigned short plane, unsigned a, unsigned short b, unsigned short c, unsigned char d, unsigned char e, void *owner, unsigned short heap);
@@ -54,7 +54,7 @@ void func_021DDE2C(char *p,char *q)
  func_021FB964((void *)(*(int *)&((struct Obj00632 *)q)->f8),9,((struct Obj00631 *)p)->f7C);
  first=func_021FC20C(*(char * *)&((struct Obj00632 *)q)->f8);
  second=func_021FC214(*(char * *)&((struct Obj00632 *)q)->f8);
- func_02082BCC(&pos,0,8);
+ MI_CpuFill8(&pos,0,8);
  pos.x=0x50;pos.y=0xa8;pos.z=0;pos.a=1;
  func_021FC124(*(int *)&((struct Obj00632 *)q)->f8,6,&triple);
  ((struct Obj00631 *)p)->f20=func_021FB378(&pos,4,0x60,1,*(int *)&((struct Obj00632 *)q)->f4,*(int *)&((struct Obj00631 *)p)->f0,first,second,&triple,((struct Obj00631 *)p)->f7C);

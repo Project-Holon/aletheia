@@ -1,5 +1,5 @@
 /*
- * function: func_021D1CF4
+ * function: BTL_CLIENT_StepSendOutMon
  * address: 0x021D1CF4
  * packet: pkt_ov093_021D1CF4
  * region: ov093
@@ -12,12 +12,12 @@
  * helper includes that tail. Factoring it outside the conditional merges
  * the initialisation call too early and loses 16 bytes.
  * symbols:
- *   func_021B9920 0x021B9920 thumb ov093
+ *   BTL_SIDE_GetClientPoke 0x021B9920 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
- *   func_021B8CE8 0x021B8CE8 thumb ov093
- *   func_021D1DF4 0x021D1DF4 thumb ov093
+ *   BTL_MAIN_IsOpposingPos 0x021B8CE8 thumb ov093
+ *   BTL_CLIENT_PickSendOutMessageId 0x021D1DF4 thumb ov093
  *   func_021EAF18 0x021EAF18 thumb ov093
- *   func_021B9F70 0x021B9F70 thumb ov093
+ *   BTL_MAIN_IsTrainerSlotNpc 0x021B9F70 thumb ov093
  *   func_021EAF50 0x021EAF50 thumb ov093
  *   func_021EA614 0x021EA614 thumb ov093
  *   func_021EA710 0x021EA710 thumb ov093
@@ -31,13 +31,13 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct S;
-extern u8 *func_021B9920(void *p, u32 i, u8 j);
+extern u8 *BTL_SIDE_GetClientPoke(void *p, u32 i, u8 j);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern int func_021B8CE8(int a, int b, int c);
-extern int func_021D1DF4(void *);
+extern int BTL_MAIN_IsOpposingPos(int a, int b, int c);
+extern int BTL_CLIENT_PickSendOutMessageId(void *);
 struct L;
 extern void func_021EAF18(struct L *p, int kind, int id);
-extern int func_021B9F70(u8 *p, int i);
+extern int BTL_MAIN_IsTrainerSlotNpc(u8 *p, int i);
 struct H;
 struct L;
 extern void func_021EAF50(struct L *p, u32 val);
@@ -54,7 +54,7 @@ static inline void message(u8 *p, int code, u32 value, u32 id)
     func_021EAF50((struct L *)(p + 0x58), id);
     func_021EA614(((struct Obj21146 *)p)->f54, (struct H *)(p + 0x58));
 }
-int func_021D1CF4(u8 *p, int *state, const u32 *params)
+int BTL_CLIENT_StepSendOutMon(u8 *p, int *state, const u32 *params)
 {
     u8 a = params[0];
     u8 b = params[1];
@@ -63,16 +63,16 @@ int func_021D1CF4(u8 *p, int *state, const u32 *params)
     switch (*state) {
     case 0:
         if (flag != 0) {
-            id = BTL_POKEPARAM_GetPokeId(func_021B9920(((struct Obj01691 *)p)->f4, a, b));
-            if (func_021B8CE8((int)(((struct Obj01691 *)p)->f0), p[0x1A6], a) == 0) {
+            id = BTL_POKEPARAM_GetPokeId(BTL_SIDE_GetClientPoke(((struct Obj01691 *)p)->f4, a, b));
+            if (BTL_MAIN_IsOpposingPos((int)(((struct Obj01691 *)p)->f0), p[0x1A6], a) == 0) {
                 if (p[0x1A6] == a) {
-                    func_021EAF18((struct L *)(p + 0x58), 1, func_021D1DF4(p));
+                    func_021EAF18((struct L *)(p + 0x58), 1, BTL_CLIENT_PickSendOutMessageId(p));
                     func_021EAF50((struct L *)(p + 0x58), id);
                     func_021EA614(((struct Obj01691 *)p)->f54, (struct H *)(p + 0x58));
                 } else {
                     message(p, 0x11, a, id);
                 }
-            } else if (func_021B9F70(((struct Obj01691 *)p)->f0, a) != 0) {
+            } else if (BTL_MAIN_IsTrainerSlotNpc(((struct Obj01691 *)p)->f0, a) != 0) {
                 message(p, 0xE, a, id);
             } else {
                 message(p, 0x11, a, id);

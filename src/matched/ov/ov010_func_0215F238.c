@@ -12,7 +12,7 @@
  * symbols:
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   GAMESYSTEM_SetCommBlocked  0x0201213C  thumb
  *   SCRIPT_WORK_SetCheckFlag  0x02159144  thumb  ov010
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Comm;
 struct Ctx;
-extern u32 func_02026454(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 extern void GAMESYSTEM_SetCommBlocked(struct Ctx *p, u32 v);
 extern void SCRIPT_WORK_SetCheckFlag(int v);
@@ -37,7 +37,7 @@ int SCRCMD_NETWORK_CmdRequestCommExit(void *a, void *b)
 
     t = SCRCMD_WORK_GetGameSystem(b);
     s = (void *)GAMESYSTEM_GetGameComm(t);
-    switch (func_02026454(s)) {
+    switch (GAME_COMM_GetKind(s)) {
     case 1:
     case 2:
     case 5:

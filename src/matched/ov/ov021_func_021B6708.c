@@ -18,7 +18,7 @@
  *   SCRCMD_POKEMON_FLD_FindBoxedLegend  0x021B6850  thumb  ov021
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *   func_02030734  0x02030734  arm
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02082D44  0x02082D44  arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_0202136C  0x0202136C  thumb
@@ -33,7 +33,7 @@
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   func_02007A18  0x02007A18  thumb
  *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb
- *   func_0201AB48  0x0201AB48  thumb
+ *   POKEPARTY_SetMember  0x0201AB48  thumb
  *   POKE_TOOL_Dummy  0x020185F0  thumb
  *   func_020075B0  0x020075B0  thumb
  *   sScrcmdPokemonFldFileName     0x021DE270  data   ov021  a1
@@ -60,7 +60,7 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern int SCRCMD_POKEMON_FLD_FindBoxedLegend(u32 a, u16 b, u16 *c, u16 *d);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void func_02082D44(void *src, void *dst, u32 n);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern u32 func_0202136C(u16 v);
@@ -76,7 +76,7 @@ extern void POKE_TOOL_RecalcParam(void *mon);
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 struct Mon;
 extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
-extern void func_0201AB48(struct Party *p, u32 idx, const struct PartyMon *src);
+extern void POKEPARTY_SetMember(struct Party *p, u32 idx, const struct PartyMon *src);
 extern void *POKE_TOOL_Dummy(void *mon);
 extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
 extern u8 sScrcmdPokemonFldFileName[];
@@ -104,7 +104,7 @@ void SCRCMD_POKEMON_FLD_SwapPartyMonWithBoxedLegend(u32 a, int idx)
     save = (void *)GAME_DATA_GetBoxManager(sv);
     mon = func_02030734(heap, POKE_TOOL_GetPartyParamSize(), 1, (const char *)sScrcmdPokemonFldFileName, 0x4c7);
     sz = POKE_TOOL_GetPartyParamSize();
-    func_02082D44(func_0201AB28(party, idx), mon, sz);
+    func_02082D44(POKEPARTY_GetMember(party, idx), mon, sz);
     if (func_0202136C(POKE_TOOL_GetPartyValue(mon, 6, 0)) == 1) {
         o = func_02008FEC(sv);
         buf = MAIL_Create(SCRCMD_WORK_GetHeapId((void *)a));
@@ -124,7 +124,7 @@ void SCRCMD_POKEMON_FLD_SwapPartyMonWithBoxedLegend(u32 a, int idx)
         POKE_TOOL_RecalcParam(mon);
     }
     m = POKE_TOOL_CreateFromBoxParam((struct Mon *)func_02007A18(save, pos[1], pos[0]), heap);
-    func_0201AB48(party, idx, m);
+    POKEPARTY_SetMember(party, idx, m);
     func_020307B0(m);
     func_020075B0(save, pos[1], pos[0], POKE_TOOL_Dummy(mon));
     func_020307B0(mon);

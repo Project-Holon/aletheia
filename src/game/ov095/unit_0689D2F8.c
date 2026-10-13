@@ -13,12 +13,12 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021B9AB0  0x021B9AB0  thumb
+ *   BTL_SLOT_GetRotateSrcIndex  0x021B9AB0  thumb
  *   func_021B9AC8  0x021B9AC8  thumb
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb
  *   func_0689D544 0x0689D544 thumb ov095
- *   func_021B9934  0x021B9934  thumb
+ *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb
  *   func_021B9A24  0x021B9A24  thumb
  *   BTL_POKEPARAM_AddFoughtPoke  0x021D6DCC  thumb
  */
@@ -30,13 +30,13 @@ typedef struct { u8 a, b, c; } Rec;
 
 typedef struct { Rec r[6]; u8 idx[6]; } T;
 
-extern int func_021B9AB0(int);
+extern int BTL_SLOT_GetRotateSrcIndex(int);
 extern int func_021B9AC8(int);
 extern int BTL_POKEPARAM_IsFainted(int);
 extern int BTL_POKEPARAM_GetPokeId(int);
 extern void func_0689D544(T *, int);
 extern int func_021B9A24(int, int);
-extern int func_021B9934(int, int);
+extern int BTL_SIDE_GetPokeByIdThunk(int, int);
 extern int BTL_POKEPARAM_AddFoughtPoke(int, int);
 void func_0689D2F8(T *p, int b);
 void func_0689D320(T *p, int b, int c, int d);
@@ -92,7 +92,7 @@ void func_0689D338(T *p, u32 size, u32 category, int key, int extra)
     for (i = 0; i < 6; i++) {
         if (category == p->r[i].b) idx[n++] = i;
     }
-    first = func_021B9AB0(size);
+    first = BTL_SLOT_GetRotateSrcIndex(size);
     second = func_021B9AC8(size);
     tr = p->r[idx[0]];
     p->r[idx[first]] = p->r[idx[second]];
@@ -120,7 +120,7 @@ void func_0689D448(T *a, int b, int c)
             continue;
         if (func_021B9A24(q->c, k) != 0)
             continue;
-        BTL_POKEPARAM_AddFoughtPoke(func_021B9934(c, q->c), k);
-        BTL_POKEPARAM_AddFoughtPoke(func_021B9934(c, k), q->c);
+        BTL_POKEPARAM_AddFoughtPoke(BTL_SIDE_GetPokeByIdThunk(c, q->c), k);
+        BTL_POKEPARAM_AddFoughtPoke(BTL_SIDE_GetPokeByIdThunk(c, k), q->c);
     }
 }

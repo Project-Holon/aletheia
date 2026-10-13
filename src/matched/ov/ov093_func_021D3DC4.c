@@ -11,7 +11,7 @@
  *
  * symbols:
  *   d_021EFF74  0x021EFF74  data  a1
- *   func_021B9B94  0x021B9B94  thumb  ov093
+ *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   BTL_CALC_GetMonParamWithHeap  0x021D805C  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 extern u8 d_021EFF74[];
 struct Q1;
 struct Unk021D62A8;
-extern u8 func_021B9B94(struct Q1 *p);
+extern u8 BTL_SLOT_GetCount(struct Q1 *p);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern u32 BTL_CALC_GetMonParamWithHeap(void *p, u32 n);
 extern int func_021D59B4(u8 *p, int k);
@@ -44,7 +44,7 @@ u32 func_021D3DC4(u8 *a, void *b, void *c)
     u32 off;
     u8 *t;
 
-    lim = func_021B9B94(c);
+    lim = BTL_SLOT_GetCount(c);
     if (BTL_POKEPARAM_HasSick(b, 0x13) != 0)
         return 0;
     for (i = 0; i < 4; i++) {

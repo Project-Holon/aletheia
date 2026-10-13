@@ -18,7 +18,7 @@
  *   func_02034A5C  0x02034A5C  arm
  *   func_02034AC4  0x02034AC4  arm
  *   GFL_NET_DEVWIFI_GetDeviceTable  0x0215536C  thumb  ov009
- *   func_02177020  0x02177020  thumb  ov014
+ *   GFL_NET_DEVWIRELESS_GetDeviceTable  0x02177020  thumb  ov014
  *   func_021798D4  0x021798D4  thumb  ov015
  *   ov_id_0A       0x0000000A  data
  *   ov_id_0B       0x0000000B  data
@@ -62,7 +62,7 @@ typedef signed int     s32;
 extern void func_02034A5C(s32 handle);
 extern int func_02034AC4(s32 handle);
 extern void *GFL_NET_DEVWIFI_GetDeviceTable(void);
-extern void *func_02177020(void);
+extern void *GFL_NET_DEVWIRELESS_GetDeviceTable(void);
 extern void *func_021798D4(void);
 
 extern u8 ov_id_0A[];
@@ -98,7 +98,7 @@ int func_0200F17C(u32 sel)
     case 0:
     case 5:
         func_02034AC4((u32)ov_id_0E);
-        return (int)func_02177020();
+        return (int)GFL_NET_DEVWIRELESS_GetDeviceTable();
     case 3:
     case 4:
         func_02034AC4((u32)ov_id_0F);

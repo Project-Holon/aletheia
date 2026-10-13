@@ -15,7 +15,7 @@
  * see docs/idioms/a-duplicated-pool-word-is-a-second-extern-name-for-the-same-address.md.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020120F4  0x020120F4  thumb
  *   func_02012964  0x02012964  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -65,7 +65,7 @@ typedef struct {
 extern struct Tmpl d_02183AF0;
 extern struct Tmpl g_02183AF0;
 
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 struct BigObj;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
@@ -92,7 +92,7 @@ void INTRUDE_FIELD_InitMmdlCopyAnime(Rec *r, void *a1, void *a2, void *a3, u16 i
     int x;
     int y;
 
-    func_02082BCC(r, 0, 0x18);
+    MI_CpuFill8(r, 0, 0x18);
     r->f0 = a1;
     r->f4 = a2;
     r->fC = id;

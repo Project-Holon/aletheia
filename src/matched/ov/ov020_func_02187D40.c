@@ -1,5 +1,5 @@
 /*
- * function: func_02187D40
+ * function: EL_SCOREBOARD_GetFadeInDuration
  * address: 0x02187D40
  * packet: pkt_ov020_02187D40
  * region: ov020
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02187D20 0x02187D20 thumb ov020
+ *   EL_SCOREBOARD_GetMode 0x02187D20 thumb ov020
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_02187D20(char *);
-int func_02187D40(char *p)
+extern u32 EL_SCOREBOARD_GetMode(char *);
+int EL_SCOREBOARD_GetFadeInDuration(char *p)
 {
-    if (func_02187D20(p) == 1) return 30;
+    if (EL_SCOREBOARD_GetMode(p) == 1) return 30;
     return 10;
 }

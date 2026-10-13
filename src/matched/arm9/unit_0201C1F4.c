@@ -18,7 +18,7 @@
  * it: the slot search, the "cache full, reuse the last slot" fixup, the
  * ARC_TOOL_ReadMember load and the not-yet-built fallback to 0x02146534 are written
  * out again in each.  The duplication is in the source, not an inlining
- * decision: sub_0201BD28 is a real function with eight callers, and the
+ * decision: WAZA_TOOL_GetParam is a real function with eight callers, and the
  * bodies here reach the record directly instead of going through its
  * 32 case getter.
  *

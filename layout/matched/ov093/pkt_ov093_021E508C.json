@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E508C",
-    "func_021E5170"
+    "HAND_WAZA_PowerSplitOnUncategorizedMove",
+    "HAND_WAZA_AddGuardSplit"
+   ],
+   "addresses": [
+    "0x021E508C",
+    "0x021E5170"
    ],
    "evidence": {
     "sole-ref": [

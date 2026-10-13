@@ -22,12 +22,12 @@
  *   func_02048AD0 0x02048AD0 arm
  *   func_020498F4 0x020498F4 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   _ffix 0x0209C494 arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Create 0x020457B0 arm
  *   func_02017E88 0x02017E88 thumb
  *   func_02030734 0x02030734 arm
@@ -37,7 +37,7 @@
  *   MCSS_SetOfsPosition 0x02015C78 thumb
  *   MCSS_SetOfsScale 0x02015D30 thumb
  *   func_02048AFC 0x02048AFC arm
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  *   d_021DC234 0x021DC234 data a4
  *   d_021DC228 0x021DC228 data a4
  *   d_021DC198 0x021DC198 data a4
@@ -50,7 +50,7 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_02049F34 0x02049F34 arm
  *   func_02049DB4 0x02049DB4 arm
@@ -63,7 +63,7 @@
  *   d_021DC18C 0x021DC18C data a4
  *   d_021DC1BC 0x021DC1BC data a4
  *   POKEPARTY_SetSlotFlag 0x0201ACDC thumb
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   MCSS_ResetAnmStopFlag 0x02015E4C thumb
  *   d_021DC1D4 0x021DC1D4 data a4
  *   MCSS_SetPosition 0x02015C48 thumb
@@ -100,6 +100,9 @@
  *   POKEPARTY_GetSlotFlag  0x0201ACC4  thumb  arm9
  *   POKERUS_IsBoxInfected  0x0201B268  thumb  arm9
  *   POKERUS_IsBoxCured  0x0201B28C  thumb  arm9
+ *   POKE_PERSONAL_Create  0x0201ADE4  thumb  arm9
+ *   POKE_PERSONAL_Delete  0x0201AE14  thumb  arm9
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb  arm9
  */
 
 #include "p_status_types.h"
@@ -231,13 +234,13 @@ extern u32 func_020275E4(void);
 extern int func_02027720(int ballId);
 extern int func_0202772C(int ballId);
 extern struct Actor *CLACT_CreateActor(void *unit, unsigned int chrRes, unsigned int plttRes, unsigned int cellRes, const void *pos, u16 space, u16 heapId);
-extern void func_0204B3DC(struct Actor *actor, u32 enable);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
 extern void CLACT_DeleteActor(struct Actor *actor);
 extern u32 func_02017E88(void *mon, int paramId, void *out);
 extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 index);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void PRINTSYS_PrintQueColor(void *printQue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, void *font, u16 color);
-extern struct Bmp *func_02045770(struct BmpWin *win);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -247,13 +250,13 @@ extern void MCSS_SetOfsPosition(void *mcss, const VecFx32 *src);
 extern void MCSS_SetOfsScale(void *mcss, const VecFx32 *src);
 extern void func_02048AFC(void *camera, const VecFx32 *pos);
 extern int POKEPARTY_GetSlotFlag(void *party, u32 pos);
-extern struct PokePersonal *func_0201ADE4(u32 species, int form, u32 heapId);
-extern u32 func_0201AE1C(const struct PokePersonal *personal, u32 field);
-extern void func_0201AE14(struct PokePersonal *personal);
+extern struct PokePersonal *POKE_PERSONAL_Create(u32 species, int form, u32 heapId);
+extern u32 POKE_PERSONAL_GetParam(const struct PokePersonal *personal, u32 field);
+extern void POKE_PERSONAL_Delete(struct PokePersonal *personal);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 func_02045730(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void func_02041B6C(u32 flag);
 extern void *func_02049F34(u32 arcId, u32 fileId, u32 out, u32 heapId);
 extern void *func_02049DB4(u32 arcId, u32 fileId, u32 a, u32 out, u16 heapId);
@@ -265,7 +268,7 @@ extern u32 POKE_TOOL_GetStatusCondition(struct PokemonParam *pp);
 extern int func_020276C4(struct PokemonParam *pp);
 extern u32 POKERUS_IsBoxInfected(struct BoxPokemon *mon);
 extern void POKEPARTY_SetSlotFlag(void *party, u32 pos, u32 showFront);
-extern u32 func_020452E8(struct BmpWin *win);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct WordSet *func_0201EC64(u32 heapId);
 extern void func_0201EE0C(struct WordSet *wordSet, u32 index, const struct Strbuf *src, u32 a, u32 b, u32 c);
 extern u32 func_0201ED04(struct WordSet *wordSet);
@@ -318,7 +321,7 @@ void P_STA_SUB_SetPetOffset(PStatusWork *wk, PStaSubWork *work, int radius);
 void P_STA_SUB_ApplyMcssOffset(PStatusWork *wk, PStaSubWork *work, VecFx32 *baseOfs);
 void P_STA_SUB_GetSpeciesAdjust(PStatusWork *wk, PStaSubWork *work, VecFx32 *extraOfs, VecFx32 *frontScale);
 extern const char P_STA_SUB_FileName[];
-extern const s16 d_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 extern const VecFx32 d_021DC234;
 extern const VecFx32 d_021DC228;
 extern const VecFx32 d_021DC198;
@@ -385,7 +388,7 @@ void P_STA_SUB_Main(PStatusWork *wk, PStaSubWork *work) {
             u16 angle;
             cameraPos.x = frame * 0x19000 / 10 - 0x42000;
             angle = (work->flipFrame << 15) / 10;
-            ofsPos.y = d_020A1B38[(angle >> 4) * 2] << 5;
+            ofsPos.y = FX_SinCosTable_[(angle >> 4) * 2] << 5;
             if (work->isStaticSprite == 1) ofsPos.y = 0;
             P_STA_SUB_SetPetOffset(wk, work, ofsPos.y);
         }
@@ -442,7 +445,7 @@ void P_STA_SUB_CreateObjects(PStatusWork *wk, PStaSubWork *work) {
     pos[3].bgPriority = 1;
     pos[3].animSeq = 0;
     work->ballObj = CLACT_CreateActor(wk->clunit, wk->objRes[14], wk->objRes[1], wk->objRes[27], &pos[3], 0, wk->heapId);
-    func_0204B3DC(work->ballObj, 0);
+    CLACT_SetActorDrawEnable(work->ballObj, 0);
     pos[2].y = 128;
     pos[2].drawPriority = 10;
     pos[2].bgPriority = 1;
@@ -450,7 +453,7 @@ void P_STA_SUB_CreateObjects(PStatusWork *wk, PStaSubWork *work) {
         pos[2].x = d_021DC158[i];
         pos[2].animSeq = d_021DC160[i];
         work->iconObj[i] = CLACT_CreateActor(wk->clunit, wk->objRes[15], wk->objRes[2], wk->objRes[28], &pos[2], 0, wk->heapId);
-        func_0204B3DC(work->iconObj[i], 1);
+        CLACT_SetActorDrawEnable(work->iconObj[i], 1);
     }
     pos[1].x = 236;
     pos[1].y = 26;
@@ -458,14 +461,14 @@ void P_STA_SUB_CreateObjects(PStatusWork *wk, PStaSubWork *work) {
     pos[1].bgPriority = 1;
     pos[1].animSeq = 0;
     work->pokerusObj = CLACT_CreateActor(wk->clunit, wk->objRes[22], wk->objRes[9], wk->objRes[34], &pos[1], 0, wk->heapId);
-    func_0204B3DC(work->pokerusObj, 0);
+    CLACT_SetActorDrawEnable(work->pokerusObj, 0);
     pos[0].x = 241;
     pos[0].y = 31;
     pos[0].drawPriority = 10;
     pos[0].bgPriority = 1;
     pos[0].animSeq = 0;
     work->conditionObj = CLACT_CreateActor(wk->clunit, wk->objRes[23], wk->objRes[10], wk->objRes[35], &pos[0], 0, wk->heapId);
-    func_0204B3DC(work->conditionObj, 0);
+    CLACT_SetActorDrawEnable(work->conditionObj, 0);
 }
 
 void P_STA_SUB_DeleteObjects(PStatusWork *wk, PStaSubWork *work) {
@@ -484,10 +487,10 @@ void P_STA_SUB_InitWindows(PStatusWork *wk, PStaSubWork *work) {
     if (wk->isEgg == 0) {
         species = func_02017E88(mon, 5, 0);
         form = func_02017E88(mon, 111, 0);
-        personal = func_0201ADE4((unsigned short)species, (unsigned short)form, wk->heapId);
-        if (func_0201AE1C(personal, 16) == 1) work->isStaticSprite = 1; else work->isStaticSprite = 0;
-        work->personalAttr38 = func_0201AE1C(personal, 38);
-        func_0201AE14(personal);
+        personal = POKE_PERSONAL_Create((unsigned short)species, (unsigned short)form, wk->heapId);
+        if (POKE_PERSONAL_GetParam(personal, 16) == 1) work->isStaticSprite = 1; else work->isStaticSprite = 0;
+        work->personalAttr38 = POKE_PERSONAL_GetParam(personal, 38);
+        POKE_PERSONAL_Delete(personal);
     } else {
         work->isStaticSprite = 0;
         work->personalAttr38 = 0;
@@ -525,11 +528,11 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
     win = work->nameWin;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(func_02045730(win));
+    func_02041B6C(BMP_WIN_GetBgLayer(win));
     win = work->itemWin;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(func_02045730(win));
+    func_02041B6C(BMP_WIN_GetBgLayer(win));
     ballId = func_02017E88(mon, 0x98, 0);
     ballArc = func_020275E4();
     ballBuf = func_02049F34(ballArc, func_02027720(ballId), (u32)&ballPltt, wk->heapId);
@@ -539,17 +542,17 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
     ballBuf = func_02049DB4(ballArc, func_0202772C(ballId), 0, (u32)&ballChr, wk->heapId);
     CLACT_TransferCharacter((int)wk->objRes[14], ballChr);
     func_020307B0(ballBuf);
-    func_0204B3DC(work->ballObj, 1);
+    CLACT_SetActorDrawEnable(work->ballObj, 1);
     marks = func_02017E88(mon, 11, 0);
     for (i = 0, markBit = 1; i < STA_SUB_ICON_MARK_COUNT; markBit = (u8)(markBit << 1), i++) {
         if (marks & markBit) CLACT_SetActorAnimSeq(work->iconObj[i], i * 2 + 1);
         else CLACT_SetActorAnimSeq(work->iconObj[i], i * 2);
     }
-    if (POKERUS_IsBoxCured(mon) == 1) func_0204B3DC(work->iconObj[STA_SUB_ICON_POKERUS_CURED], 1);
-    else func_0204B3DC(work->iconObj[STA_SUB_ICON_POKERUS_CURED], 0);
+    if (POKERUS_IsBoxCured(mon) == 1) CLACT_SetActorDrawEnable(work->iconObj[STA_SUB_ICON_POKERUS_CURED], 1);
+    else CLACT_SetActorDrawEnable(work->iconObj[STA_SUB_ICON_POKERUS_CURED], 0);
     if (POKE_TOOL_IsBoxShiny(mon) == 1 && wk->isEgg == 0)
-        func_0204B3DC(work->iconObj[STA_SUB_ICON_SHINY], 1);
-    else func_0204B3DC(work->iconObj[STA_SUB_ICON_SHINY], 0);
+        CLACT_SetActorDrawEnable(work->iconObj[STA_SUB_ICON_SHINY], 1);
+    else CLACT_SetActorDrawEnable(work->iconObj[STA_SUB_ICON_SHINY], 0);
     if (work->showFront == 1) {
         VecFx32 cameraPos = d_021DC204;
         VecFx32 scale = d_021DC21C;
@@ -575,12 +578,12 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
     }
     if ((u8)POKE_TOOL_GetStatusCondition(pp) != 0) {
         CLACT_SetActorAnimSeq(work->conditionObj, func_020276C4(pp));
-        func_0204B3DC(work->conditionObj, 1);
-        func_0204B3DC(work->pokerusObj, 0);
+        CLACT_SetActorDrawEnable(work->conditionObj, 1);
+        CLACT_SetActorDrawEnable(work->pokerusObj, 0);
     } else {
-        func_0204B3DC(work->conditionObj, 0);
-        if (POKERUS_IsBoxInfected(mon) == 1) func_0204B3DC(work->pokerusObj, 1);
-        else func_0204B3DC(work->pokerusObj, 0);
+        CLACT_SetActorDrawEnable(work->conditionObj, 0);
+        if (POKERUS_IsBoxInfected(mon) == 1) CLACT_SetActorDrawEnable(work->pokerusObj, 1);
+        else CLACT_SetActorDrawEnable(work->pokerusObj, 0);
     }
     {
         VecFx32 zero = {0, 0, 0};
@@ -600,14 +603,14 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
 void P_STA_SUB_FreeWindows(PStatusWork *wk, PStaSubWork *work) {
     PStatusParam *param = wk->param;
     if (param->ppt == 1) POKEPARTY_SetSlotFlag(param->ppd, wk->dispPos, work->showFront);
-    func_020452E8(work->itemWin);
-    func_020452E8(work->nameWin);
+    BMP_WIN_Delete(work->itemWin);
+    BMP_WIN_Delete(work->nameWin);
 }
 
 void P_STA_SUB_HideSprite(PStatusWork *wk, PStaSubWork *work)
 {
     P_STA_SUB_DeleteMcss(wk, work);
-    func_0204B3DC(work->ballObj, 0);
+    CLACT_SetActorDrawEnable(work->ballObj, 0);
 }
 
 void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
@@ -621,17 +624,17 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
     func_0201EE0C(wordSet, 0, name, 0, 1, 2);
     text = func_02045EC0(wk->msgData, 0);
     func_0201F250(wordSet, buf, text);
-    PRINTSYS_PrintQueColor(wk->printQue, func_02045770(work->nameWin), 25, 1, buf, wk->font, 1088);
+    PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->nameWin), 25, 1, buf, wk->font, 1088);
     STRBUF_Delete(name); STRBUF_Delete(text); STRBUF_Delete(buf); func_0201ED04(wordSet);
     if (wk->isEgg == 0 && func_02017E88(mon, 173, 0) == 1) {
         u32 gender = func_02017E88(mon, 110, 0);
         if (gender == 0) {
             buf = func_02045EC0(wk->msgData, 1);
-            PRINTSYS_PrintQueColor(wk->printQue, func_02045770(work->nameWin), 89, 1, buf, wk->font, 5312);
+            PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->nameWin), 89, 1, buf, wk->font, 5312);
             STRBUF_Delete(buf);
         } else if (gender == 1) {
             buf = func_02045EC0(wk->msgData, 2);
-            PRINTSYS_PrintQueColor(wk->printQue, func_02045770(work->nameWin), 89, 1, buf, wk->font, 3200);
+            PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->nameWin), 89, 1, buf, wk->font, 3200);
             STRBUF_Delete(buf);
         }
     }
@@ -641,11 +644,11 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
         func_0201EFA4(wordSet, 0, POKE_TOOL_CalcBoxLevel(mon), 3, 0, 1);
         levelText = func_02045EC0(wk->msgData, 3);
         func_0201F250(wordSet, buf, levelText);
-        PRINTSYS_PrintQueColor(wk->printQue, func_02045770(work->nameWin), 9, 17, buf, wk->font, 1088);
+        PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->nameWin), 9, 17, buf, wk->font, 1088);
         STRBUF_Delete(levelText); STRBUF_Delete(buf); func_0201ED04(wordSet);
     }
     buf = func_02045EC0(wk->msgData, 4);
-    PRINTSYS_PrintQueColor(wk->printQue, func_02045770(work->itemWin), 10, 1, buf, wk->font, 1088);
+    PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->itemWin), 10, 1, buf, wk->font, 1088);
     STRBUF_Delete(buf);
     {
         struct Strbuf *itemText;
@@ -653,7 +656,7 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
         func_0201EF40(wordSet, 0, func_02017E88(mon, 6, 0));
         itemText = func_02045EC0(wk->msgData, 5);
         func_0201F250(wordSet, buf, itemText);
-        PRINTSYS_PrintQueColor(wk->printQue, func_02045770(work->itemWin), 6, 17, buf, wk->font, 1088);
+        PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->itemWin), 6, 17, buf, wk->font, 1088);
         STRBUF_Delete(itemText); STRBUF_Delete(buf); func_0201ED04(wordSet);
     }
 }
@@ -738,7 +741,7 @@ int P_STA_SUB_PetWiggle(PStatusWork *wk, PStaSubWork *work)
     u8 speed;
     float f;
     if (work->isStaticSprite == 0) {
-        sample = d_020A1B38[((u16)((work->petFrame << 15) / 15) >> 4) * 2];
+        sample = FX_SinCosTable_[((u16)((work->petFrame << 15) / 15) >> 4) * 2];
         friendLevel = wk->friendship >> 6;
         if (friendLevel) f = 0.5f + (float)(friendLevel << 12);
         else f = (float)(friendLevel << 12) - 0.5f;
@@ -792,7 +795,7 @@ int P_STA_SUB_PetHop(PStatusWork *wk, PStaSubWork *work) {
     unsigned friendLevel;
     float f;
     if (work->isStaticSprite == 0) {
-        sample = d_020A1B38[((unsigned short)((work->petFrame << 15) / 20) >> 4) * 2];
+        sample = FX_SinCosTable_[((unsigned short)((work->petFrame << 15) / 20) >> 4) * 2];
         friendLevel = wk->friendship >> 6;
         if (friendLevel) f = 0.5f + (float)(friendLevel << 12); else f = (float)(friendLevel << 12) - 0.5f;
         ofsPos.y = (sample << 5) + (int)f;
@@ -821,7 +824,7 @@ int P_STA_SUB_PetRise(PStatusWork *wk, PStaSubWork *work, int isRising)
         if (lapAverage > 20) lapAverage = 20;
         delta = 20 - lapAverage;
         work->petHeightTarget = 2048 + (6144 * delta) / 10;
-        ofsPos.y += d_020A1B38[((u32)((work->petFrame * 546) >> 4)) * 2] * 4;
+        ofsPos.y += FX_SinCosTable_[((u32)((work->petFrame * 546) >> 4)) * 2] * 4;
         ++work->petFrame;
         if (work->petFrame > 120) work->petFrame = 0;
     } else work->petHeightTarget = 0;
@@ -1014,7 +1017,7 @@ void P_STA_SUB_UpdateLapFrames(PStatusWork *wk, PStaSubWork *work, int lapDone)
  *   scheduler effect of the pre-allocation instruction count before group 2
  *   (a no-arg call inserted earlier shifts it; a band of 5 positions swaps).
  *   MCSS_TOOL_SetAnimeStopCallback is declared void(void *): its body only forwards to
- *   func_02015F2C, and an int return adds one result copy per call, which
+ *   MCSS_SetAnimCallback, and an int return adds one result copy per call, which
  *   put the second store inside the band. ov195 declares it the same way.
  */
 void P_STA_SUB_CreateMcss(PStatusWork *wk, PStaSubWork *work, void *mon)

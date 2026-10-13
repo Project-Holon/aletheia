@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FLDMMDL_GetDirMove  0x0216D608  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELD_PLAYER_NOGRID_ForcedSlide  0x021A6908  thumb
  */
 
@@ -24,13 +24,13 @@ typedef struct {
 
 extern u16 FLDMMDL_GetDirMove(int a);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int FIELD_PLAYER_NOGRID_ForcedSlide(S *a, int b, int c);
 
 int FIELD_PLAYER_NOGRID_ForcedSlideWarnDir3(S *a, int b, int c)
 {
     if (FLDMMDL_GetDirMove(a->f1c) == 3) {
-        func_020061E4(0x55e);
+        GFL_USE_PlaySeDefaultVolume(0x55e);
     }
     return FIELD_PLAYER_NOGRID_ForcedSlide(a, b, c);
 }

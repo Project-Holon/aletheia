@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   d_021B9558     0x021B9558  data  a1
@@ -32,7 +32,7 @@ typedef unsigned int u32;
 #include "msgsearch_types.h"
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u16 heapId);
 extern void STRBUF_Delete(struct StrBuf *str);
 extern void ENV_SetResourceSet(void *p);
@@ -57,7 +57,7 @@ MsgSearch *MSGSEARCH_Create(struct MsgBank **banks, u32 bankCount, u16 heapId)
     size = bankCount * sizeof(struct MsgBank *) + MSGSEARCH_HEADER_SIZE;
     search = func_02030734(heapId, size, 0, d_021B9558, 0x40);
     i = 0;
-    func_02082BCC(search, 0, size);
+    MI_CpuFill8(search, 0, size);
     search->bankCount = bankCount;
     for (i = 0; i < bankCount; i++) {
         search->bank[i] = banks[i];

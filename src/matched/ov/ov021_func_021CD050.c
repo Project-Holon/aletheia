@@ -13,8 +13,8 @@
  *   PARTY_SELECT_LIST_CreateListWindow  0x021CD004  thumb  ov021
  *   FIELD_MSGBG_ClearMsgWin  0x02190788  thumb  ov021
  *   STRBUF_Create  0x020457B0  arm
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201EFA4  0x0201EFA4  thumb
@@ -47,8 +47,8 @@ struct WordSet;
 extern void FIELD_MSGBG_ClearMsgWin(u8 *p);
 struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -74,9 +74,9 @@ void PARTY_SELECT_LIST_PrintPartyNames(Obj *p, void *party)
     FIELD_MSGBG_ClearMsgWin((u8 *)p->fB4);
     buf1 = STRBUF_Create(0x40, p->heap);
     buf2 = STRBUF_Create(0x40, p->heap);
-    n = func_0201AA18(party);
+    n = POKEPARTY_GetCount(party);
     for (i = 0; i < n; i++) {
-        mon = func_0201AB28(party, i);
+        mon = POKEPARTY_GetMember(party, i);
         if (POKE_TOOL_GetPartyValue(mon, 0x4c, 0) != 0) {
             continue;
         }

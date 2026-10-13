@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_HANDLER_TOKUSEI_AddHeavyMetal",
+   "name": "HAND_TOKUSEI_AddHeavyMetal",
    "address": "0x021DCBDC",
    "kind": "game",
    "region": "ov093",

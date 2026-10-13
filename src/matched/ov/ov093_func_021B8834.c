@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_MAIN_GetEnemyLanePosFromWork  0x021B8C50  thumb  ov093
- *   func_021B8CB0  0x021B8CB0  thumb  ov093
+ *   BTL_MAIN_MapPosForRule  0x021B8CB0  thumb  ov093
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -19,7 +19,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 struct Unk021B8CB0;
 extern u8 BTL_MAIN_GetEnemyLanePosFromWork(char **p, u32 v, int k);
-extern u8 func_021B8CB0(struct Unk021B8CB0 **p, u8 x);
+extern u8 BTL_MAIN_MapPosForRule(struct Unk021B8CB0 **p, u8 x);
 
 u8 BTL_MAIN_ExpandPosDouble(void *p, u32 k, u8 v, u8 *out)
 {
@@ -37,11 +37,11 @@ u8 BTL_MAIN_ExpandPosDouble(void *p, u32 k, u8 v, u8 *out)
     case 2:
         out[0] = BTL_MAIN_GetEnemyLanePosFromWork(p, v, 0);
         out[1] = BTL_MAIN_GetEnemyLanePosFromWork(p, v, 1);
-        out[2] = func_021B8CB0(p, v);
+        out[2] = BTL_MAIN_MapPosForRule(p, v);
         return 3;
     case 3:
         out[0] = v;
-        out[1] = func_021B8CB0(p, v);
+        out[1] = BTL_MAIN_MapPosForRule(p, v);
         if (out[0] > out[1]) {
             t = out[0];
             out[0] = out[1];
@@ -50,11 +50,11 @@ u8 BTL_MAIN_ExpandPosDouble(void *p, u32 k, u8 v, u8 *out)
         return 2;
     case 4:
     case 9:
-        out[0] = func_021B8CB0(p, v);
+        out[0] = BTL_MAIN_MapPosForRule(p, v);
         return 1;
     case 7:
         out[0] = v;
-        out[1] = func_021B8CB0(p, v);
+        out[1] = BTL_MAIN_MapPosForRule(p, v);
         return 2;
     case 5:
     case 8:

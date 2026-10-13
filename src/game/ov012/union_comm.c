@@ -27,7 +27,7 @@
  *   func_0200FB24 0x0200FB24 thumb
  *   func_0200FBA0 0x0200FBA0 thumb
  *   GFL_NET_GetRunState  0x0203CD98  arm
- *   func_0217778C  0x0217778C  thumb  ov014
+ *   NET_WHPIPE_PublishBeacon  0x0217778C  thumb  ov014
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   func_02080D24  0x02080D24  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
@@ -36,15 +36,15 @@
  *   COMM_PLAYER_Update  0x02167590  thumb  ov010
  *   COMM_PLAYER_UpdateMyPackage  0x0216786C  thumb  ov010
  *   COLOSSEUM_SendPackage  0x02174C90  thumb  ov012
- *   func_0217FF78  0x0217FF78  thumb  ov019
+ *   COLOSSEUM_UpdateCommPlayers  0x0217FF78  thumb  ov019
  *   COLOSSEUM_FlushChoiceReplies  0x02175110  thumb  ov012
  *   COLOSSEUM_UpdateReadyState  0x02175144  thumb  ov012
  *   GFL_NET_GetScanResult 0x0203CF10 arm
  *   GFL_NET_GetScanResultMac 0x0203CF3C arm
- *   func_02177BF4 0x02177BF4 thumb ov014
+ *   NET_WHPIPE_ReleaseEntry 0x02177BF4 thumb ov014
  *   memcmp            0x0203EFC8  arm
  *   MI_CpuCopy8       0x02082D44  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02087C6C  0x02087C6C  arm
  *   func_020084F8  0x020084F8  thumb
  *   func_02008554  0x02008554  thumb
@@ -61,14 +61,14 @@
  *   func_020056EC 0x020056EC thumb
  *   GFL_NET_SetGameKind  0x0203D5AC  arm
  *   func_02012138  0x02012138  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   func_02034714  0x02034714  arm
  *   func_02012944  0x02012944  thumb
  *   GAME_COMM_Start  0x020263D8  thumb
  *   GAME_BEACON_SEARCH_SetFieldEvent  0x021653C4  thumb  ov010
  *   sUnionMainAssertText     0x02175610  data   ov012  a1
  *   sUnionMainFile     0x02175614  data   ov012  a1
- *   func_02026474  0x02026474  thumb
+ *   GAME_COMM_GetWork  0x02026474  thumb
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   func_0201212C  0x0201212C  thumb
  *   GAME_EVENT_IsRunning  0x020123C4  thumb
@@ -80,7 +80,7 @@
  *   FIELDMAP_IsReady 0x02188BE8 thumb ov021
  *   FIELDMAP_CTRL_GRID_SetBusy  0x021A2E44  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   func_02013CC8  0x02013CC8  thumb
+ *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
  *   UNION_CHARA_RefreshParentMarks  0x0217B440  thumb  ov019
  *   COMM_PLAYER_Resume  0x021676E4  thumb  ov010
  *   COMM_PLAYER_Suspend  0x02167688  thumb  ov010
@@ -165,7 +165,7 @@ extern int GFL_NET_Exit(void (*exitCallback)(UnionRoomWork *work));
 extern u32 func_0200FB24(void);
 extern void func_0200FBA0(void);
 extern int GFL_NET_GetRunState(void);
-extern void func_0217778C(void);
+extern void NET_WHPIPE_PublishBeacon(void);
 extern u32 GFL_NET_IsParentAid(void);
 extern int func_02080D24(u8 bits);
 extern int GFL_NET_GetNegotiationNum(void);
@@ -174,15 +174,15 @@ extern int UNION_MAIN_IsScenePending(UnionRoomWork *work);
 extern void COMM_PLAYER_Update(struct GameSystem *gameSystem, void *commPlayer);
 extern int COMM_PLAYER_UpdateMyPackage(void *commPlayer, CommPlayerPackage *package);
 extern u32 COLOSSEUM_SendPackage(const CommPlayerPackage *package);
-extern void func_0217FF78(ColosseumWork *colosseum);
+extern void COLOSSEUM_UpdateCommPlayers(ColosseumWork *colosseum);
 extern void COLOSSEUM_FlushChoiceReplies(ColosseumWork *colosseum);
 extern void COLOSSEUM_UpdateReadyState(ColosseumWork *colosseum);
 extern UnionBeacon *GFL_NET_GetScanResult(int index);
 extern const u8 *GFL_NET_GetScanResultMac(int index);
-extern void func_02177BF4(u32 index);
+extern void NET_WHPIPE_ReleaseEntry(u32 index);
 extern int memcmp(const void *lhs, const void *rhs, int size);
 extern void MI_CpuCopy8(const void *src, void *dst, int size);
-extern void func_02082BCC(void *dst, int value, int size);
+extern void MI_CpuFill8(void *dst, int value, int size);
 extern void func_02087C6C(void *mac);
 extern u32 func_020084F8(const struct MyStatus *status, u16 *dest, u32 size);
 extern u8 func_02008554(const struct MyStatus *status);
@@ -199,12 +199,12 @@ extern void COLOSSEUM_Delete(ColosseumWork *colosseum, struct GameSystem *gameSy
 extern u32 func_020056EC(u32 range);
 extern void GFL_NET_SetGameKind(int gameKind, int option);
 extern struct GameComm *func_02012138(struct GameSystem *gameSystem);
-extern unsigned int func_02026454(struct GameComm *gameComm);
+extern unsigned int GAME_COMM_GetKind(struct GameComm *gameComm);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern struct MyStatus *func_02012944(struct GameData *gameData);
 extern void GAME_COMM_Start(struct GameComm *gameComm, u32 kind, void *parentWork);
 extern void GAME_BEACON_SEARCH_SetFieldEvent(void);
-extern void *func_02026474(struct GameComm *gameComm);
+extern void *GAME_COMM_GetWork(struct GameComm *gameComm);
 extern struct GameSystem *FIELDMAP_GetGameSystem(void *fieldMap);
 extern u8 func_0201212C(struct GameSystem *gameSystem);
 extern int GAME_EVENT_IsRunning(struct GameSystem *gameSystem);
@@ -216,7 +216,7 @@ extern void *func_0201210C(struct GameSystem *gameSystem);
 extern int FIELDMAP_IsReady(void *fieldMap);
 extern void FIELDMAP_CTRL_GRID_SetBusy(void *fieldMap, unsigned int enable);
 extern u16 FIELDMAP_GetZoneId(void *fieldMap);
-extern u32 func_02013CC8(u32 zoneId);
+extern u32 ZONEDATA_IsZone1A6(u32 zoneId);
 extern void UNION_CHARA_RefreshParentMarks(UnionRoomWork *work, struct GameData *gameData, void *fieldMap);
 extern void COMM_PLAYER_Resume(void *commPlayer);
 extern void COMM_PLAYER_Suspend(void *commPlayer);
@@ -509,7 +509,7 @@ void UNION_COMM_Update(int *seq, UnionParentWork *parent, UnionRoomWork *work)
         return;
     }
     if (work->beaconChanged == 1) {
-        func_0217778C();
+        NET_WHPIPE_PublishBeacon();
         work->beaconChanged = 0;
     }
     UNION_COMM_UpdateBeaconScan(work);
@@ -594,7 +594,7 @@ void UNION_COMM_UpdateColosseum(UnionRoomWork *work)
                     }
                 }
             }
-            func_0217FF78(work->colosseum);
+            COLOSSEUM_UpdateCommPlayers(work->colosseum);
         }
         COLOSSEUM_FlushChoiceReplies(work->colosseum);
         COLOSSEUM_UpdateReadyState(work->colosseum);
@@ -612,7 +612,7 @@ void UNION_COMM_UpdateBeaconScan(UnionRoomWork *work)
         if (beacon) {
             mac = GFL_NET_GetScanResultMac(i);
             if (mac) UNION_COMM_StoreBeacon(work, beacon, mac);
-            func_02177BF4(i);
+            NET_WHPIPE_ReleaseEntry(i);
         }
     }
 }
@@ -677,7 +677,7 @@ UnionBeacon *UNION_COMM_GetBeacon(UnionRoomWork *work) { UNION_COMM_BuildBeacon(
 void UNION_COMM_BuildBeacon(UnionRoomWork *work, UnionBeacon *beacon)
 {
     UnionMySituation *situation = &work->mySituation;
-    func_02082BCC(beacon, 0, sizeof(UnionBeacon));
+    MI_CpuFill8(beacon, 0, sizeof(UnionBeacon));
     if (situation->connect.connectPc != 0) {
         if (GFL_NET_IsParentAid() == 1)
             func_02087C6C(beacon->mac);
@@ -733,7 +733,7 @@ void UNION_COMM_ConnectEndCallback(void) {}
 
 void UNION_COMM_ClearBeaconPcs(UnionRoomWork *work)
 {
-    func_02082BCC(work->beaconPc, 0, sizeof(work->beaconPc));
+    MI_CpuFill8(work->beaconPc, 0, sizeof(work->beaconPc));
 }
 
 void UNION_COMM_ReleaseWorks(UnionRoomWork *work)
@@ -791,7 +791,7 @@ void UNION_COMM_InitSituation(UnionRoomWork *work)
 {
     UnionMySituation *situation;
     situation = &work->mySituation;
-    func_02082BCC(situation, 0, sizeof(UnionMySituation));
+    MI_CpuFill8(situation, 0, sizeof(UnionMySituation));
     situation->chatCount = func_020056EC(0xffff);
     situation->chatType = 1;
     situation->playCategory = 2;
@@ -808,7 +808,7 @@ void UNION_COMM_ClearPartnerSelects(UnionConnectInfo *connect)
 void UNION_COMM_InitConnectInfo(UnionRoomWork *work, UnionConnectInfo *connect)
 {
     UnionMember *self;
-    func_02082BCC(connect, 0, sizeof(UnionConnectInfo));
+    MI_CpuFill8(connect, 0, sizeof(UnionConnectInfo));
     UNION_COMM_ClearPartnerSelects(connect);
     self = &connect->group.member[0];
     func_02087C6C(self->mac);
@@ -854,7 +854,7 @@ void UNION_COMM_RemoveMember(UnionConnectInfo *connect, const u8 *mac)
     member = connect->group.member;
     for (; i < UNION_MEMBER_MAX; i++) {
         if (member[i].valid == 1 && memcmp(mac, member[i].mac, 6) == 0) {
-            func_02082BCC(&member[i], 0, sizeof(UnionMember));
+            MI_CpuFill8(&member[i], 0, sizeof(UnionMember));
             return;
         }
     }
@@ -870,9 +870,9 @@ void UNION_COMM_InitChatLog(UnionChatLog *log)
     int i;
     int empty;
 
-    func_02082BCC(log, 0, sizeof(UnionChatLog));
+    MI_CpuFill8(log, 0, sizeof(UnionChatLog));
     for (i = 0; i < UNION_CHAT_LOG_MAX; i++) {
-        func_02082BCC(log->entry[i].senderMac, 0xff, 6);
+        MI_CpuFill8(log->entry[i].senderMac, 0xff, 6);
     }
     empty = -1;
     log->newestIndex = empty;
@@ -931,7 +931,7 @@ void UNION_MAIN_StartComm(struct GameSystem *gameSystem)
 
     gameComm = func_02012138(gameSystem);
     gameData = func_020120F4(gameSystem);
-    if (func_02026454(gameComm) != 0) {
+    if (GAME_COMM_GetKind(gameComm) != 0) {
         func_02034714(sUnionMainAssertText, 0, sUnionMainAssertText);
     }
     parent = func_02030734(5, sizeof(UnionParentWork), 1, sUnionMainFile, 0x37);
@@ -948,10 +948,10 @@ void UNION_MAIN_UpdateField(struct GameComm *gameComm, void *fieldMap)
     UnionRoomWork *work;
     u8 status;
 
-    if (func_02026454(gameComm) != 3) {
+    if (GAME_COMM_GetKind(gameComm) != 3) {
         return;
     }
-    work = func_02026474(gameComm);
+    work = GAME_COMM_GetWork(gameComm);
     if (work == 0) {
         func_02034714(sUnionMainAssertText, 0, sUnionMainAssertText);
     }
@@ -1000,7 +1000,7 @@ void UNION_MAIN_FieldCreateCallback(void *gameSystem, UnionRoomWork *work, void 
     if (work->fieldBusy == 1) {
         FIELDMAP_CTRL_GRID_SetBusy(fieldMap, 1);
     }
-    if (func_02013CC8(FIELDMAP_GetZoneId(fieldMap)) == 1) {
+    if (ZONEDATA_IsZone1A6(FIELDMAP_GetZoneId(fieldMap)) == 1) {
         UNION_CHARA_RefreshParentMarks(work, func_020120F4(work->parent->gameSystem), fieldMap);
     }
     if (colosseum != 0 && colosseum->startFlag == 1) {
@@ -1046,7 +1046,7 @@ u8 UNION_MAIN_GetAppealNo(UnionRoomWork *work)
 
 int UNION_MAIN_IsIdle(struct GameSystem *gameSystem)
 {
-    UnionRoomWork *work = func_02026474(func_02012138(gameSystem));
+    UnionRoomWork *work = GAME_COMM_GetWork(func_02012138(gameSystem));
     if (work == 0) return 0;
     if ((work->mySituation.playCategory == 0
          || work->mySituation.playCategory == UNION_PLAY_CATEGORY_COLOSSEUM)
@@ -1104,7 +1104,7 @@ void UNION_COMMAND_RecvPartnerMac(u32 netId, int size, const void *data, UnionRo
 int UNION_COMMAND_SendMyMac(void)
 {
     UnionMacPacket packet;
-    func_02082BCC(&packet, 0, sizeof(UnionMacPacket));
+    MI_CpuFill8(&packet, 0, sizeof(UnionMacPacket));
     func_02087C6C(packet.mac);
     packet.enabled = 1;
     return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x1403, sizeof(UnionMacPacket), &packet);
@@ -1334,7 +1334,7 @@ void UNION_COMMAND_RecvAppJoinData(int netId, int size, const void *data, UnionR
 void UNION_COMMAND_SendAppJoinData(u32 sendMask, const UnionAppData *src)
 {
     UnionAppMessage message;
-    func_02082BCC(&message, 0, sizeof(UnionAppMessage));
+    MI_CpuFill8(&message, 0, sizeof(UnionAppMessage));
     message.data = *src;
     func_02087C6C(message.mac);
     GFL_NET_SendDataMask(GFL_NET_HANDLE_GetCurrentHandle(), sendMask, 0x1411, sizeof(UnionAppMessage), &message, 1, 0, 0);
@@ -1369,7 +1369,7 @@ void UNION_COMMAND_RecvAppLeaveData(int netId, int size, const void *data, Union
 void UNION_COMMAND_SendAppLeaveData(u32 sendMask, const UnionAppData *src)
 {
     UnionAppMessage message;
-    func_02082BCC(&message, 0, sizeof(UnionAppMessage));
+    MI_CpuFill8(&message, 0, sizeof(UnionAppMessage));
     message.data = *src;
     func_02087C6C(message.mac);
     GFL_NET_SendDataMask(GFL_NET_HANDLE_GetCurrentHandle(), sendMask, 0x1413, sizeof(UnionAppMessage), &message, 1, 0, 0);

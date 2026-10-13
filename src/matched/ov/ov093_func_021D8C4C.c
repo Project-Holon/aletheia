@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_GetBlazeHandlers
+ * function: HAND_TOKUSEI_GetBlazeHandlers
  * address: 0x021D8C4C
  * packet: pkt_ov093_021D8C4C
  * region: ov093
@@ -15,10 +15,10 @@
  *   gBlazeHandlers 0x021F06B0 data ov093 a4
  */
 
-int *BTL_CALC_GetBlazeHandlers(int *p);
+int *HAND_TOKUSEI_GetBlazeHandlers(int *p);
 extern int gBlazeHandlers[];
 
-int *BTL_CALC_GetBlazeHandlers(int *p)
+int *HAND_TOKUSEI_GetBlazeHandlers(int *p)
 {
     *p = 1;
     return gBlazeHandlers;

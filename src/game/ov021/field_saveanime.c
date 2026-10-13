@@ -43,15 +43,15 @@
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   func_0206DF3C  0x0206DF3C  arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_02040588  0x02040588  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_02045768  0x02045768  arm
+ *   BMP_WIN_GetCharOffset  0x02045768  arm
  *   BMP_Blit  0x020439A0  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   BMP_GetByteSize  0x020437EC  arm
@@ -122,15 +122,15 @@ extern void func_0207CAE8(const V *a, const V *b, V *c);
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern void func_0206DF3C(V *a, int *x, int *y);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *a);
+extern void *BMP_WIN_GetBmp(struct Descriptor *a);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_02040588(u32 which, u32 enable);
 extern void func_02041B6C(u32 bit);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern u16 func_02045768(struct Descriptor *p);
+extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
@@ -260,14 +260,14 @@ void FIELD_SAVEANIME_CreateWindow(FieldSaveAnime *work)
         y = 0x18;
     }
     work->bmpWin = (struct Descriptor *)BMP_WIN_Create(_SAVEANIME_BG_FRAME, (u8)x, (u8)y, 5, (u32)5, (u32)9, (u32)1);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770(work->bmpWin)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp(work->bmpWin)), 0);
     BMP_WIN_TransferChars(work->bmpWin);
     FIELD_SAVEANIME_DrawFrame(work, 0);
 }
 
 u32 FIELD_SAVEANIME_DeleteWindow(FieldSaveAnime *work)
 {
-    func_020452E8(work->bmpWin);
+    BMP_WIN_Delete(work->bmpWin);
     work->bmpWin = 0;
     return 0;
 }
@@ -289,8 +289,8 @@ int FIELD_SAVEANIME_HideWindow(FieldSaveAnime *work)
 /* Copies icon frame `frame` into the window and transfers its characters. */
 void FIELD_SAVEANIME_DrawFrame(FieldSaveAnime *work, u32 frame)
 {
-    u32 charBase = func_02045768(work->bmpWin);
-    u32 bmp = (u32)func_02045770(work->bmpWin);
+    u32 charBase = BMP_WIN_GetCharOffset(work->bmpWin);
+    u32 bmp = (u32)BMP_WIN_GetBmp(work->bmpWin);
     u32 chars;
     u32 size;
 

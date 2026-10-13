@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetGripClawHandlers
+ * function: HAND_ITEM_GetGripClawHandlers
  * address: 0x021DED1C
  * packet: pkt_ov093_021DED1C
  * region: ov093
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F1384 0x021F1384 data a4
+ *   gGripClawHandlers 0x021F1384 data a4
  */
-extern int d_021F1384;
-int *BTL_HANDLER_ITEM_GetGripClawHandlers(int *p) { *p=1; return &d_021F1384; }
+extern int gGripClawHandlers;
+int *HAND_ITEM_GetGripClawHandlers(int *p) { *p=1; return &gGripClawHandlers; }

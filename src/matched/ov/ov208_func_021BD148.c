@@ -15,7 +15,7 @@
  *
  * symbols:
  *   func_02030734        0x02030734  arm
- *   func_02082BCC        0x02082BCC  arm
+ *   MI_CpuFill8        0x02082BCC  arm
  *   ov208_func_021BD444  0x021BD444  thumb
  *   func_021BD634        0x021BD634  thumb
  *   data_021C8DD8        0x021C8DD8  data
@@ -76,7 +76,7 @@ struct Ov208ActSet {
 };
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void ov208_func_021BD444(struct Ov208Bg *p, u32 channel, u32 objChannel, u32 palOfs,
                                 u32 kind, u8 pal, u8 objPal, u32 skip, u32 heap);
 extern void func_021BD634(struct Ov208ActObj *p, u32 owner, struct Ov208Bg *res,
@@ -94,7 +94,7 @@ struct Ov208ActSet *ov208_func_021BD148(struct Ov208ActList *list, u32 heap)
     palOfs = 0;
     size = list->count * sizeof(struct Ov208ActObj) + 0x28;
     set = func_02030734(heap, size, 0, data_021C8DD8, 0x107);
-    func_02082BCC(set, 0, size);
+    MI_CpuFill8(set, 0, size);
     set->count = list->count;
     set->f8 = 0;
     set->fc = 1;

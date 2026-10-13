@@ -19,8 +19,8 @@
  *   _ffix 0x0209C494 arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B6F4 0x0204B6F4 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -35,8 +35,8 @@ extern float _fflt(int);
 extern int _ffix(float);
 extern float _fadd(float, float), _fsub(float, float);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 static inline int convert(int v)
 {
     float f;
@@ -60,6 +60,6 @@ void func_021B8DA4(Particle *p, const Point *a, const Point *b, int color, u32 l
     p->counter = 0;
     p->lifetime = lifetime;
     p->ey = ey;
-    func_0204B3DC(p->object, 1);
-    func_0204B6F4(p->object, (u8)color, 1);
+    CLACT_SetActorDrawEnable(p->object, 1);
+    CLACT_SetActorPaletteOffset(p->object, (u8)color, 1);
 }

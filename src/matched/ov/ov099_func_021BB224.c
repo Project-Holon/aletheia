@@ -14,10 +14,10 @@
  *   func_021BB42C  0x021BB42C  thumb  ov099
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   TCBL_Destroy  0x02031140  arm
- *   func_0201C6EC  0x0201C6EC  thumb
- *   func_0201C4C0  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  */
 #include "../include/Obj01706.h"
 
@@ -29,10 +29,10 @@ extern void func_021BB4D0(char *p);
 extern void func_021BB42C(void *p);
 extern int APP_KEYCURSOR_Delete(int a0);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void TCBL_Destroy(struct S02031140 *p);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 
 void func_021BB224(char *p)
 {
@@ -43,14 +43,14 @@ void func_021BB224(char *p)
     STRBUF_Delete(((struct Obj01706 *)p)->fF4);
     STRBUF_Delete(((struct Obj01706 *)p)->fFC);
     if (((struct Obj01706 *)p)->f1BC != 0) {
-        func_0201CE48(((struct Obj01706 *)p)->f1BC);
+        PRINTSYS_PrintStreamDelete(((struct Obj01706 *)p)->f1BC);
         ((struct Obj01706 *)p)->f1BC = 0;
     }
     STRBUF_Delete(((struct Obj01706 *)p)->fF0);
     TCBL_Destroy(((struct Obj01706 *)p)->f1C0);
-    func_0201C6EC(((struct Obj01706 *)p)->f1B8);
-    func_0201C6EC(((struct Obj01706 *)p)->f1B4);
-    func_0201C4C0(((struct Obj01706 *)p)->f1B8);
-    func_0201C4C0(((struct Obj01706 *)p)->f1B4);
+    PRINTSYS_QUE_Clear(((struct Obj01706 *)p)->f1B8);
+    PRINTSYS_QUE_Clear(((struct Obj01706 *)p)->f1B4);
+    PRINTSYS_QUE_Delete(((struct Obj01706 *)p)->f1B8);
+    PRINTSYS_QUE_Delete(((struct Obj01706 *)p)->f1B4);
     ((struct Obj01706 *)p)->f1B8 = 0;
 }

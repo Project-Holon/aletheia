@@ -12,9 +12,9 @@
  *
  * symbols:
  *   PRINTSYS_PrintStreamGetState   0x0201CE30  thumb
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   APP_KEYCURSOR_DrawMark  0x02028618  thumb
  *   APP_KEYCURSOR_Animate  0x0202865C  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
@@ -36,11 +36,11 @@ struct Ctx {
 };
 
 extern u32   PRINTSYS_PrintStreamGetState(void *p);
-extern u32   func_020362DC(void);
+extern u32   KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 struct Bmp;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void APP_KEYCURSOR_DrawMark(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
 extern void APP_KEYCURSOR_Animate(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -58,7 +58,7 @@ void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell)
         u32 r = 0;
 
         if (ctx->b0) {
-            r = func_020362DC() & 3;
+            r = KEY_GetTrg() & 3;
         }
         if (r == 0) {
             if (ctx->b1) {
@@ -67,14 +67,14 @@ void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell)
         }
         if (r != 0) {
             ctx->f06 = 1;
-            APP_KEYCURSOR_DrawMark(ctx, func_02045770(cell), ctx->f08);
+            APP_KEYCURSOR_DrawMark(ctx, BMP_WIN_GetBmp(cell), ctx->f08);
             BMP_WIN_TransferChars(cell);
             return;
         }
         if (ctx->f06 != 0) {
             return;
         }
-        APP_KEYCURSOR_Animate(ctx, func_02045770(cell), ctx->f08);
+        APP_KEYCURSOR_Animate(ctx, BMP_WIN_GetBmp(cell), ctx->f08);
         BMP_WIN_TransferChars(cell);
         return;
     }

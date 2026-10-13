@@ -14,7 +14,7 @@
  * out-of-range `bhi` reuses. The countdown is `-= 1` (re-reads the byte).
  *
  * symbols:
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   STARTMENU_ShowRowActors  0x021BB9DC  thumb  ov088
  *   func_020090E0  0x020090E0  thumb
  *   STARTMENU_BeginFadeIn  0x021BC080  thumb  ov088
@@ -25,11 +25,11 @@
  *   func_0202EB44  0x0202EB44  thumb
  *   STARTMENU_CloseInfoWindow  0x021BBE3C  thumb  ov088
  *   STARTMENU_HideMessageWindow  0x021BBF98  thumb  ov088
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   STARTMENU_OpenYesNoMenu  0x021BC024  thumb  ov088
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
- *   func_02045770  0x02045770  arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  */
 #include "../include/Obj00339.h"
@@ -40,7 +40,7 @@ typedef unsigned int u32;
 struct Descriptor;
 struct PrintSys;
 struct Sub020090B0Obj;
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void STARTMENU_ShowRowActors(char *, int);
 extern u8 func_020090E0(const struct Sub020090B0Obj *obj);
 extern int STARTMENU_BeginFadeIn(char *p, int v);
@@ -51,11 +51,11 @@ extern u32 BMP_MENU_ProcessYesNo(u8 *);
 extern int func_0202EB44(void);
 extern void STARTMENU_CloseInfoWindow(char *p);
 extern void STARTMENU_HideMessageWindow(char *p);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void STARTMENU_OpenYesNoMenu(char *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void *func_02045770(struct Descriptor *p);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
 int STARTMENU_StateConnectPrompt(char *p)
@@ -64,7 +64,7 @@ int STARTMENU_StateConnectPrompt(char *p)
     u32 r;
     switch (((struct Obj00339 *)p)->f12A) {
     case 0:
-        func_020434DC(6, 0);
+        BG_SYS_SetMainPlaneVisible(6, 0);
         STARTMENU_ShowRowActors(p, 0);
         if (func_020090E0(((struct Obj00339 *)p)->fC) == 0) {
             ((struct Obj00339 *)p)->f12C = 1;
@@ -117,7 +117,7 @@ int STARTMENU_StateConnectPrompt(char *p)
             ((struct Obj00339 *)p)->f12A = ((struct Obj00339 *)p)->f12A + 1;
         break;
     case 6:
-        if (func_020362DC() & 3) {
+        if (KEY_GetTrg() & 3) {
             ((struct Obj00339 *)p)->f12C = 1;
             ((struct Obj00339 *)p)->f12A = 4;
         }
@@ -144,7 +144,7 @@ int STARTMENU_StateConnectPrompt(char *p)
     }
     PRINTSYS_QUE_Main(((struct Obj00339 *)p)->f68);
     t = ((struct Obj00339 *)p)->f68;
-    if (((struct Obj00339 *)p)->fF4 != 0 && func_0201C6C4(t, func_02045770(((struct Obj00339 *)p)->fF0)) == 0) {
+    if (((struct Obj00339 *)p)->fF4 != 0 && PRINTSYS_QUE_IsExistTarget(t, BMP_WIN_GetBmp(((struct Obj00339 *)p)->fF0)) == 0) {
         BMP_WIN_TransferChars(((struct Obj00339 *)p)->fF0);
         ((struct Obj00339 *)p)->fF4 = 0;
     }

@@ -23,7 +23,7 @@
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  *   FLD_EXP_OBJ_SetModelCullDraw  0x021BE4A4  thumb  ov021
  *   func_0207AF1C  0x0207AF1C  thumb
- *   d_020A1B38     0x020A1B38  data  a2
+ *   FX_SinCosTable_     0x020A1B38  data  a2
  */
 
 typedef unsigned short u16;
@@ -35,7 +35,7 @@ typedef struct {
     int c;
 } V;
 
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 typedef unsigned char  u8;
 extern u16 FIELDMAP_GetHeapId(u8 *p);
@@ -59,8 +59,8 @@ void GIMMICK58_PlaceLaneTrains(void *unused, void *a, int i, int j)
     e->a = 0x1770000;
     e->b = 0x50000;
     e->c = 0x2100000;
-    x = d_020A1B38[0x800];
-    y = d_020A1B38[0x801];
+    x = FX_SinCosTable_[0x800];
+    y = FX_SinCosTable_[0x801];
     func_0207AF1C((char *)e + 0x18, x, y);
     FLD_EXP_OBJ_SetModelCullDraw(s, 0, i, 1);
 
@@ -75,8 +75,8 @@ void GIMMICK58_PlaceLaneTrains(void *unused, void *a, int i, int j)
     e->a = 0x1C60000;
     e->b = 0x50000;
     e->c = 0x20B0000;
-    x = d_020A1B38[0x1800];
-    y2 = d_020A1B38[0x1801];
+    x = FX_SinCosTable_[0x1800];
+    y2 = FX_SinCosTable_[0x1801];
     func_0207AF1C((char *)e + 0x18, x, y2);
     FLD_EXP_OBJ_SetModelCullDraw(s, 0, i + 2, 1);
 

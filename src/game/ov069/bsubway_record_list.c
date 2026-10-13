@@ -88,7 +88,7 @@
  *   CLACT_InitSystem  0x0204A48C  arm
  *   gClActorInitParam     0x020A1448  data  a4
  *   CLACT_CreateUnit  0x0204B100  arm
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterPalette  0x0204ABF0  arm
@@ -99,7 +99,7 @@
  *   func_0202761C  0x0202761C  thumb
  *   func_02027620  0x02027620  thumb
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   sActorTemplates  0x021BA6BC  data  a4
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleasePalette  0x0204ADA4  arm
@@ -108,33 +108,33 @@
  *   CLACT_ExitSystem  0x0204A5AC  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   sWindowTemplates  0x021BA874  data  a4
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   GF_FONT_Create  0x0201D7EC  thumb
- *   func_0201C440  0x0201C440  thumb
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   sInputStateFuncs 0x021BA860 data a4
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   func_0201C6B4  0x0201C6B4  thumb
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   func_02025D2C  0x02025D2C  thumb
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   func_02025CD0 0x02025CD0 thumb
  *   sCursorEntries 0x021BA71C data a4
  *   sCursorCallbacks 0x021BA5EC data a4
  *   func_02025D14 0x02025D14 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_0202616C 0x0202616C thumb
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F048  0x0201F048  thumb
  *   func_0201F094  0x0201F094  thumb
@@ -143,10 +143,10 @@
  *   PMSI_PARAM_ToString  0x0202435C  thumb
  *   func_02041B6C  0x02041B6C  arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   sTouchRects 0x021BA5FC data a4
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_020260E0 0x020260E0 thumb
  *   BSUBWAY_RECORD_LIST_DrawRowName  0x021BA520  thumb  ov069
  *   BGWINFRM_HideFrame  0x0202CC70  thumb
@@ -248,7 +248,7 @@ extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
 extern void CLACT_InitSystem(const struct ActorSystemConfig *cfg, const struct DispVram *vram, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
@@ -330,7 +330,7 @@ typedef struct CursorPos {
 typedef int (*InputStateFunc)(BsubwayRecordListWork *work);
 
 extern struct Actor *CLACT_CreateActor(struct Bank *bank, unsigned int charRes, unsigned int palRes, unsigned int cellRes, const ActorSetup *setup, unsigned short space, unsigned short heap);
-extern void func_0204B92C(struct Actor *actor, unsigned int enabled);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enabled);
 extern void CLACT_ReleaseCharacter(u32 res);
 extern void CLACT_ReleasePalette(u32 res);
 extern void CLACT_ReleaseCellAnim(u32 res);
@@ -338,29 +338,29 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Init(u16 heapId);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 height, u8 charBase, u8 palette);
-extern struct Bitmap *func_02045770(struct BmpWin *win);
+extern struct Bitmap *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void BMP_Clear(struct Bitmap *bitmap, u8 fill);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 func_02045730(struct BmpWin *win);
-extern u32 func_020452E8(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void BMP_WIN_Exit(void);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct PrintSys *func_0201C440(u32 heapId);
+extern struct PrintSys *PRINTSYS_QUE_Create(u32 heapId);
 extern void PRINTSYS_PrintQueColor(struct PrintSys *printSys, struct Bitmap *bitmap, u32 x, u32 y, struct Strbuf *text, struct GfFont *font, u16 color);
-extern void func_0201C4C0(struct PrintSys *printSys);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *printSys);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *printSys);
-extern u32 func_0201C6C4(struct PrintSys *printSys, struct Bitmap *bitmap);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *printSys, struct Bitmap *bitmap);
 extern u32 WIPE_SYS_EndCheck(void);
-extern u32 func_0201C6B4(const struct PrintSys *printSys);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *printSys);
 extern int func_02025D2C(struct CursorMove *cursor);
 extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
 extern struct CursorMove *func_02025CD0(const void *entries, const void *callbacks, void *work, u32 a3, u8 a4, u16 heapId);
 extern u32 func_02025D14(struct CursorMove *cursor);
-extern void func_020061E4(u32 seId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern const u8 *func_0202616C(struct CursorMove *cursor, unsigned int index);
-extern void func_0204B404(struct Actor *actor, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Actor *actor, const struct Vec2 *delta, u32 which);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 dispType, u32 codeType);
 extern void func_0201F048(struct WordSet *wordSet, u32 index, u32 trainerClass);
 extern void func_0201F094(struct WordSet *wordSet, u32 index, u32 trainerClass, u32 trainerIndex);
@@ -369,9 +369,9 @@ extern void STRBUF_SetStringN(struct Strbuf *dst, const u16 *src, u32 len);
 extern struct Strbuf *PMSI_PARAM_ToString(const BsubwayPmsData *pms, unsigned int heap);
 extern void func_02041B6C(u32);
 extern int TOUCHPANEL_HitTrg(const void *rects);
-extern unsigned func_020362DC(void);
+extern unsigned KEY_GetTrg(void);
 extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 animIndex);
-extern void func_0204B3DC(struct Actor *actor, unsigned int enabled);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int enabled);
 extern u8 func_020260E0(struct CursorMove *cursor);
 extern void BSUBWAY_RECORD_LIST_DrawRowName(BsubwayRecordListWork *work, int row, struct Strbuf *name, int isFemale);
 extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
@@ -586,7 +586,7 @@ void BSUBWAY_RECORD_LIST_SetupActors(BsubwayRecordListWork *work)
     CLACT_InitSystem(&gClActorInitParam, &sRecordListVramBanks, 0x80);
     work->actorBank = CLACT_CreateUnit(4, 1, 0x80);
     work->subActorBank = CLACT_CreateUnit(2, 1, 0x80);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     work->spriteRes[1] = CLACT_RegisterCharacter(work->arcHandle, 7, 1, 2, 0x80);
     work->spriteRes[0] = CLACT_RegisterPalette(work->arcHandle, 10, 2, 0, 0x80);
@@ -620,7 +620,7 @@ void BSUBWAY_RECORD_LIST_CreateActors(BsubwayRecordListWork *work)
         setup.bgPriority = 0;
         setup.animIndex = 0;
         work->actors[i] = CLACT_CreateActor(work->actorBank, work->spriteRes[sActorTemplates[i].charRes], work->spriteRes[sActorTemplates[i].palRes], work->spriteRes[sActorTemplates[i].cellRes], &setup, 0, 0x80);
-        func_0204B92C(work->actors[i], 1);
+        CLACT_SetActorAutoAnim(work->actors[i], 1);
     }
 }
 
@@ -652,15 +652,15 @@ void BSUBWAY_RECORD_LIST_CreateWindows(BsubwayRecordListWork *work)
     for (i = 0; i < 8; i++) {
         tmpl = sWindowTemplates[i];
         work->windows[BSUBWAY_RECORD_LIST_ENTRIES_PER_PAGE + i] = BMP_WIN_Create((u8)tmpl->layer, tmpl->x, tmpl->y, tmpl->width, tmpl->height, tmpl->charBase, 1);
-        BMP_Clear(func_02045770(work->windows[BSUBWAY_RECORD_LIST_ENTRIES_PER_PAGE + i]), 0);
+        BMP_Clear(BMP_WIN_GetBmp(work->windows[BSUBWAY_RECORD_LIST_ENTRIES_PER_PAGE + i]), 0);
         win = work->windows[BSUBWAY_RECORD_LIST_ENTRIES_PER_PAGE + i];
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
-        func_020409B4(func_02045730(win));
+        func_020409B4(BMP_WIN_GetBgLayer(win));
     }
     for (j = 0; j < 10; j++) {
         work->windows[j] = BMP_WIN_Create(1, 2, 1, 10, 2, 1, 1);
-        BMP_Clear(func_02045770(work->windows[j]), 4);
+        BMP_Clear(BMP_WIN_GetBmp(work->windows[j]), 4);
     }
 }
 
@@ -673,9 +673,9 @@ void BSUBWAY_RECORD_LIST_DeleteWindows(BsubwayRecordListWork *work)
     int i;
 
     for (i = 0; i < 10; i++)
-        func_020452E8(work->windows[i]);
+        BMP_WIN_Delete(work->windows[i]);
     for (i = 0; i < 8; i++)
-        func_020452E8(work->windows[BSUBWAY_RECORD_LIST_ENTRIES_PER_PAGE + i]);
+        BMP_WIN_Delete(work->windows[BSUBWAY_RECORD_LIST_ENTRIES_PER_PAGE + i]);
     BMP_WIN_Exit();
 }
 
@@ -687,27 +687,27 @@ void BSUBWAY_RECORD_LIST_InitText(BsubwayRecordListWork *work)
     struct PrintSys *printSys;
 
     work->font = GF_FONT_Create(0x17, 0, 0, 0, 0x80);
-    work->printSys = func_0201C440(0x80);
+    work->printSys = PRINTSYS_QUE_Create(0x80);
     for (i = 0; i < BSUBWAY_RECORD_LIST_WIN_COUNT; i++) {
         work->printJobs[i].window = work->windows[i];
         work->printJobs[i].isPending = 0;
     }
     printSys = work->printSys;
-    PRINTSYS_PrintQueColor(printSys, func_02045770(work->printJobs[BSUBWAY_RECORD_LIST_WIN_TITLE].window), 0, 0,
+    PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_TITLE].window), 0, 0,
                   work->messages[0], work->font, 0x3DC0);
     work->printJobs[BSUBWAY_RECORD_LIST_WIN_TITLE].isPending = 1;
     printSys = work->printSys;
-    PRINTSYS_PrintQueColor(printSys, func_02045770(work->printJobs[BSUBWAY_RECORD_LIST_WIN_LABEL_B].window), 0, 0,
+    PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_LABEL_B].window), 0, 0,
                   work->messages[3], work->font, 0x3DC0);
     work->printJobs[BSUBWAY_RECORD_LIST_WIN_LABEL_B].isPending = 1;
     printSys = work->printSys;
-    PRINTSYS_PrintQueColor(printSys, func_02045770(work->printJobs[BSUBWAY_RECORD_LIST_WIN_LABEL_C].window), 0, 0,
+    PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_LABEL_C].window), 0, 0,
                   work->messages[6], work->font, 0x3DC0);
     work->printJobs[BSUBWAY_RECORD_LIST_WIN_LABEL_C].isPending = 1;
 }
 
 
-void BSUBWAY_RECORD_LIST_ExitText(BsubwayRecordListWork *work) { func_0201C4C0(work->printSys); GF_FONT_Delete(work->font); }
+void BSUBWAY_RECORD_LIST_ExitText(BsubwayRecordListWork *work) { PRINTSYS_QUE_Delete(work->printSys); GF_FONT_Delete(work->font); }
 
 
 
@@ -720,7 +720,7 @@ void BSUBWAY_RECORD_LIST_UpdateText(BsubwayRecordListWork *work)
     for (i = 0; i < BSUBWAY_RECORD_LIST_WIN_COUNT; i++) {
         printSys = work->printSys;
         if (work->printJobs[i].isPending != 0) {
-            if (func_0201C6C4(printSys, func_02045770(work->printJobs[i].window)) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget(printSys, BMP_WIN_GetBmp(work->printJobs[i].window)) == 0) {
                 BMP_WIN_TransferChars(work->printJobs[i].window);
                 work->printJobs[i].isPending = 0;
             }
@@ -740,7 +740,7 @@ int BSUBWAY_RECORD_LIST_StateInput(BsubwayRecordListWork *work)
 {
     int result;
 
-    if (func_0201C6B4(work->printSys) == 0)
+    if (PRINTSYS_QUE_IsFinished(work->printSys) == 0)
         return 1;
     if (BSUBWAY_RECORD_LIST_PollTouchAndCancel(work) == -1) {
         result = func_02025D2C(work->cursorMove);
@@ -801,7 +801,7 @@ void BSUBWAY_RECORD_LIST_CursorCallbackMoved(BsubwayRecordListWork *work, int ro
 {
     BSUBWAY_RECORD_LIST_ShowRecordDetails(work, work->recordList->records, (int)((unsigned)row + (unsigned)work->page * 10u));
     BSUBWAY_RECORD_LIST_PlaceCursorActor(work, row);
-    func_020061E4(SE_CURSOR_MOVE);
+    GFL_USE_PlaySeDefaultVolume(SE_CURSOR_MOVE);
 }
 
 
@@ -810,7 +810,7 @@ void BSUBWAY_RECORD_LIST_CursorCallbackMovedAlt(BsubwayRecordListWork *work, int
 {
     BSUBWAY_RECORD_LIST_ShowRecordDetails(work, work->recordList->records, (int)((unsigned)row + (unsigned)work->page * 10u));
     BSUBWAY_RECORD_LIST_PlaceCursorActor(work, row);
-    func_020061E4(SE_CURSOR_MOVE);
+    GFL_USE_PlaySeDefaultVolume(SE_CURSOR_MOVE);
 }
 
 
@@ -822,7 +822,7 @@ void BSUBWAY_RECORD_LIST_PlaceCursorActor(BsubwayRecordListWork *work, int row)
     entry = func_0202616C(work->cursorMove, row);
     pos.x = entry[0];
     pos.y = entry[1];
-    func_0204B404(work->actors[BSUBWAY_RECORD_LIST_ACTOR_CURSOR], (const struct Vec2 *)(&pos), 0);
+    CLACT_AddActorSurfacePos(work->actors[BSUBWAY_RECORD_LIST_ACTOR_CURSOR], (const struct Vec2 *)(&pos), 0);
 }
 
 
@@ -849,46 +849,46 @@ void BSUBWAY_RECORD_LIST_ShowRecordDetails(BsubwayRecordListWork *work, BsubwayW
     func_0201EFA4(work->wordSet, 1, work->args->wordNumber1, 3, 0, 1);
     func_0201F048(work->wordSet, 2, trainerClass);
     func_0201F094(work->wordSet, 3, trainerClass, trainerIndex);
-    BMP_Clear(func_02045770(work->windows[BSUBWAY_RECORD_LIST_WIN_SUMMARY]), 0);
-    BMP_Clear(func_02045770(work->windows[BSUBWAY_RECORD_LIST_WIN_TRAINER_LINE]), 0);
-    BMP_Clear(func_02045770(work->windows[BSUBWAY_RECORD_LIST_WIN_NAME]), 0);
-    BMP_Clear(func_02045770(work->windows[BSUBWAY_RECORD_LIST_WIN_SCORE]), 0);
-    BMP_Clear(func_02045770(work->windows[BSUBWAY_RECORD_LIST_WIN_GREETING]), 0);
+    BMP_Clear(BMP_WIN_GetBmp(work->windows[BSUBWAY_RECORD_LIST_WIN_SUMMARY]), 0);
+    BMP_Clear(BMP_WIN_GetBmp(work->windows[BSUBWAY_RECORD_LIST_WIN_TRAINER_LINE]), 0);
+    BMP_Clear(BMP_WIN_GetBmp(work->windows[BSUBWAY_RECORD_LIST_WIN_NAME]), 0);
+    BMP_Clear(BMP_WIN_GetBmp(work->windows[BSUBWAY_RECORD_LIST_WIN_SCORE]), 0);
+    BMP_Clear(BMP_WIN_GetBmp(work->windows[BSUBWAY_RECORD_LIST_WIN_GREETING]), 0);
     if (index < work->entryCount) {
         nameLen = 8;
         /* stand-in: record->trainerName changes the bytes; the byte offset (index * 0x22) must be computed first. */
         STRBUF_SetStringN(nameStr, (const u16 *)((char *)records + offset), nameLen);
         printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, func_02045770(work->printJobs[BSUBWAY_RECORD_LIST_WIN_NAME].window), 0, 0, nameStr, work->font, 0x3DC0);
+        PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_NAME].window), 0, 0, nameStr, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_NAME].isPending = 1;
         func_0201F250(work->wordSet, work->textBuf, work->messages[1]);
         printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, func_02045770(work->printJobs[BSUBWAY_RECORD_LIST_WIN_SUMMARY].window), 0, 0, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
+        PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_SUMMARY].window), 0, 0, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_SUMMARY].isPending = 1;
         func_0201F250(work->wordSet, work->textBuf, work->messages[2]);
         printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, func_02045770(work->printJobs[BSUBWAY_RECORD_LIST_WIN_TRAINER_LINE].window), 0, 0, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
+        PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_TRAINER_LINE].window), 0, 0, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_TRAINER_LINE].isPending = 1;
         func_0201F250(work->wordSet, work->textBuf, work->messages[4]);
         printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, func_02045770(work->printJobs[BSUBWAY_RECORD_LIST_WIN_SCORE].window), 0, 0, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
+        PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_SCORE].window), 0, 0, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_SCORE].isPending = 1;
         func_0201F250(work->wordSet, work->textBuf, work->messages[5]);
         printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, func_02045770(work->printJobs[BSUBWAY_RECORD_LIST_WIN_SCORE].window), 0, 0x10, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
+        PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_SCORE].window), 0, 0x10, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_SCORE].isPending = 1;
         greetingStr = PMSI_PARAM_ToString(greeting, 0x80);
         printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, func_02045770(work->printJobs[BSUBWAY_RECORD_LIST_WIN_GREETING].window), 0, 0, greetingStr, work->font, 0x3DC0);
+        PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_GREETING].window), 0, 0, greetingStr, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_GREETING].isPending = 1;
         STRBUF_Delete(greetingStr);
     } else {
         win = work->windows[BSUBWAY_RECORD_LIST_WIN_NAME];
-        BMP_WIN_TransferChars(win); BMP_WIN_MakeScreen(win); func_02041B6C(func_02045730(win));
+        BMP_WIN_TransferChars(win); BMP_WIN_MakeScreen(win); func_02041B6C(BMP_WIN_GetBgLayer(win));
         win = work->windows[BSUBWAY_RECORD_LIST_WIN_SCORE];
-        BMP_WIN_TransferChars(win); BMP_WIN_MakeScreen(win); func_02041B6C(func_02045730(win));
+        BMP_WIN_TransferChars(win); BMP_WIN_MakeScreen(win); func_02041B6C(BMP_WIN_GetBgLayer(win));
         win = work->windows[BSUBWAY_RECORD_LIST_WIN_GREETING];
-        BMP_WIN_TransferChars(win); BMP_WIN_MakeScreen(win); func_02041B6C(func_02045730(win));
+        BMP_WIN_TransferChars(win); BMP_WIN_MakeScreen(win); func_02041B6C(BMP_WIN_GetBgLayer(win));
     }
     STRBUF_Delete(nameStr);
 }
@@ -899,8 +899,8 @@ int BSUBWAY_RECORD_LIST_PollTouchAndCancel(BsubwayRecordListWork *work)
     int touched;
 
     touched = TOUCHPANEL_HitTrg(sTouchRects);
-    if (func_020362DC() & KEY_B_BUTTON) {
-        func_020061E4(SE_CANCEL);
+    if (KEY_GetTrg() & KEY_B_BUTTON) {
+        GFL_USE_PlaySeDefaultVolume(SE_CANCEL);
         touched = 2;
     }
     BSUBWAY_RECORD_LIST_HandleAction(work, touched);
@@ -914,14 +914,14 @@ void BSUBWAY_RECORD_LIST_HandleAction(BsubwayRecordListWork *work, int action)
     switch (action) {
     case 0:
         if (BSUBWAY_RECORD_LIST_ChangePage(work, action) != 0) {
-            func_020061E4(SE_CURSOR_MOVE);
+            GFL_USE_PlaySeDefaultVolume(SE_CURSOR_MOVE);
             CLACT_SetActorAnimSeq(work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], ARROW_ANIM_PREV);
             BSUBWAY_RECORD_LIST_ShowPage(work, work->page);
         }
         break;
     case 1:
         if (BSUBWAY_RECORD_LIST_ChangePage(work, action) != 0) {
-            func_020061E4(SE_CURSOR_MOVE);
+            GFL_USE_PlaySeDefaultVolume(SE_CURSOR_MOVE);
             CLACT_SetActorAnimSeq(work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], ARROW_ANIM_NEXT);
             BSUBWAY_RECORD_LIST_ShowPage(work, work->page);
         }
@@ -947,17 +947,17 @@ void BSUBWAY_RECORD_LIST_InitPageCount(BsubwayRecordListWork *work)
 void BSUBWAY_RECORD_LIST_UpdateArrowVisibility(BsubwayRecordListWork *work, int page, int pageCount)
 {
     if (pageCount == 1) {
-        func_0204B3DC(work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], 0);
-        func_0204B3DC(work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], 0);
+        CLACT_SetActorDrawEnable(work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], 0);
+        CLACT_SetActorDrawEnable(work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], 0);
     } else if (page == 0) {
-        func_0204B3DC(work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], 0);
-        func_0204B3DC(work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], 1);
+        CLACT_SetActorDrawEnable(work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], 0);
+        CLACT_SetActorDrawEnable(work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], 1);
     } else if (page != 0 && page < pageCount - 1) {
-        func_0204B3DC(work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], 1);
-        func_0204B3DC(work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], 1);
+        CLACT_SetActorDrawEnable(work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], 1);
+        CLACT_SetActorDrawEnable(work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], 1);
     } else if (page == pageCount - 1) {
-        func_0204B3DC(work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], 1);
-        func_0204B3DC(work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], 0);
+        CLACT_SetActorDrawEnable(work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], 1);
+        CLACT_SetActorDrawEnable(work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], 0);
     }
 }
 
@@ -1034,12 +1034,12 @@ void BSUBWAY_RECORD_LIST_DrawPageRows(BsubwayRecordListWork *work)
 /* Draws the trainer name of one list row into its row window and shows the row frame. */
 void BSUBWAY_RECORD_LIST_DrawRowName(BsubwayRecordListWork *work, int row, struct Strbuf *name, int isFemale)
 {
-    BMP_Clear(func_02045770(work->windows[row]), 4);
+    BMP_Clear(BMP_WIN_GetBmp(work->windows[row]), 4);
     if (isFemale == 0)
-        PRINTSYS_PrintColor(func_02045770(work->windows[row]), 0, 0, name,
+        PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->windows[row]), 0, 0, name,
                       work->font, 0x3584);
     else
-        PRINTSYS_PrintColor(func_02045770(work->windows[row]), 0, 0, name,
+        PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->windows[row]), 0, 0, name,
                       work->font, 0x2D44);
     BMP_WIN_TransferChars(work->windows[row]);
     BGWINFRM_PutBmpWin(work->frameMgr, row, work->windows[row]);

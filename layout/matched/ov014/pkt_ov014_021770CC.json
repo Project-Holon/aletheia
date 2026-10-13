@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021770CC",
+   "name": "GFL_NET_DEVWIRELESS_Cleanup",
    "address": "0x021770CC",
    "kind": "game",
    "region": "ov014",

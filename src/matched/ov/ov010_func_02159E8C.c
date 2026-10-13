@@ -15,7 +15,7 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   COMM_PLAYER_SUPPORT_GetInfoCode  0x0202E83C  thumb
  *   INTRUDE_COMM_GetAreaOwnerVersion  0x0215843C  thumb  ov010
- *   func_020143CC  0x020143CC  thumb
+ *   ZONEDATA_GetEventWorkAddress  0x020143CC  thumb
  *   d_02170FB0  0x02170FB0  data
  */
 
@@ -37,7 +37,7 @@ struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int COMM_PLAYER_SUPPORT_GetInfoCode(void *a0);
 extern int INTRUDE_COMM_GetAreaOwnerVersion(void *p);
-extern u32 func_020143CC(u32 a, u32 b);
+extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
 extern Ent d_02170FB0[];
 
 void MAP_REPLACE_SetupFlags(u8 *out, int obj)
@@ -51,7 +51,7 @@ void MAP_REPLACE_SetupFlags(u8 *out, int obj)
     out[2] = (out[1] == 0) ? 0 : c + 1;
     for (i = 0; i < 10; i++) {
         Ent *e = &d_02170FB0[i];
-        u16 *p = (u16 *)func_020143CC(a, e->f02);
+        u16 *p = (u16 *)ZONEDATA_GetEventWorkAddress(a, e->f02);
         if (*p == e->f04)
             out[3 + i] = 1;
         else

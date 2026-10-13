@@ -1,7 +1,7 @@
 /*
  * file:     unit_0208EAC8.c
  * unit:     yes
- * function: func_0208EAC8, WM_SetPortCallback, func_0208EBE4, func_0208EC34, func_0208ECA4, func_0208ED70, func_0208EE60, func_0208EE9C, WM_GetDispersionBeaconPeriod, func_0208EFC4, func_0208F05C, func_0208F1B4
+ * function: WM_SetIndCallback, WM_SetPortCallback, func_0208EBE4, func_0208EC34, func_0208ECA4, func_0208ED70, func_0208EE60, func_0208EE9C, WM_GetDispersionBeaconPeriod, func_0208EFC4, func_0208F05C, func_0208F1B4
  * address:  0x0208EAC8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -194,7 +194,7 @@ extern BOOL OS_IsRunOnTwl(void);
 extern BOOL WMi_CheckEnableFlag(void);
 extern void RTC_Init(void);
 extern int RTC_GetTime(RTCTime *time);
-WMErrCode func_0208EAC8(WMCallbackFunc callback);
+WMErrCode WM_SetIndCallback(WMCallbackFunc callback);
 WMErrCode WM_SetPortCallback(u16 port, WMCallbackFunc callback, void *arg);
 WMErrCode func_0208EBE4(struct WMStatus *statusBuf);
 int func_0208EC34(void);
@@ -217,7 +217,7 @@ extern u32 g_020A872C;
  * sdk:      WM_SetIndCallback (libwm.TWL.HYB.a(wm_sync.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208EAC8(WMCallbackFunc callback)
+WMErrCode WM_SetIndCallback(WMCallbackFunc callback)
 {
     OSIntrMode e;
     WMErrCode result;

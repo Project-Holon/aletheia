@@ -1,7 +1,7 @@
 /*
  * file:     field_fk_sound_anime.c
  * unit:     yes
- * function: FIELD_FK_SOUND_ANIME_InitFrameSound, FIELD_FK_SOUND_ANIME_UpdateFrameSound, FIELD_FK_SOUND_ANIME_InitAmbientSoundA, FIELD_FK_SOUND_ANIME_ExitAmbientSoundA, FIELD_FK_SOUND_ANIME_UpdateAmbientSoundA, FIELD_FK_SOUND_ANIME_InitAmbientSoundB, FIELD_FK_SOUND_ANIME_ExitAmbientSoundB, FIELD_FK_SOUND_ANIME_UpdateAmbientSoundB, FIELD_FK_SOUND_ANIME_Create, FIELD_FK_SOUND_ANIME_Delete, FIELD_FK_SOUND_ANIME_Step, FIELD_FK_SOUND_ANIME_PlaySe
+ * function: FIELD_FK_SOUND_ANIME_InitFrameSound, FIELD_FK_SOUND_ANIME_UpdateFrameSound, FIELD_FK_SOUND_ANIME_InitAmbientSoundA, FIELD_FK_SOUND_ANIME_ExitAmbientSoundA, FIELD_FK_SOUND_ANIME_UpdateAmbientSoundA, FIELD_FK_SOUND_ANIME_InitAmbientSoundB, FIELD_FK_SOUND_ANIME_ExitAmbientSoundB, FIELD_FK_SOUND_ANIME_UpdateAmbientSoundB, FIELD_FK_SOUND_ANIME_Create, FIELD_FK_SOUND_ANIME_Delete, FIELD_FK_SOUND_ANIME_Step, FIELD_FK_SOUND_ANIME_PlaySe, FIELD_FK_SOUND_ANIME_StopSe
  * address:  0x021F3E94
  * region:   ov056
  * compiler: dsi/1.1p1
@@ -24,7 +24,7 @@
  *   FIELD_SOUND_SYSTEM_ClaimSlot  0x02028A7C  thumb
  *   gFkFrameSoundFrame  0x021F425C  data  ov056  a4
  *   func_0201296C  0x0201296C  thumb
- *   func_020143CC  0x020143CC  thumb
+ *   ZONEDATA_GetEventWorkAddress  0x020143CC  thumb
  *   FIELD_SOUND_SYSTEM_ReleaseSlot  0x02028B50  thumb
  *   func_02030734  0x02030734  arm
  *   ICA_ANIME_CreateStream  0x02011510  thumb
@@ -39,8 +39,10 @@
  *   ICA_ANIME_GetRotate  0x02011638  thumb
  *   FIELD_FK_SOUND_ANIME_StopSe  0x021F423C  thumb  ov056
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
+ *   GFL_USE_GetSeSlot  0x02006148  thumb
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb
  */
-#include "unit_021F36C0_types.h"
+#include "field_fk_demo_types.h"
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082D44(const void *src, void *dst, int size);
@@ -60,7 +62,10 @@ void FIELD_FK_SOUND_ANIME_UpdateAmbientSoundA(struct FieldSubproc *proc, struct 
 void FIELD_FK_SOUND_ANIME_InitAmbientSoundB(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work);
 void FIELD_FK_SOUND_ANIME_ExitAmbientSoundB(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work);
 void FIELD_FK_SOUND_ANIME_UpdateAmbientSoundB(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work);
-
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern int GFL_USE_GetSeSlot(u32 seId);
+extern void GFL_USE_StopSeSlot(int seSlot);
 
 /*
  * Init of the proc that plays a sound at listed frames of a building
@@ -131,7 +136,7 @@ void FIELD_FK_SOUND_ANIME_InitAmbientSoundA(struct FieldSubproc *proc, struct Fi
     gameData = func_020120F4(FIELDMAP_GetGameSystem(fieldMap));
     work->eventWork = func_0201296C(gameData);
     work->soundSys = func_02012A30(gameData);
-    work->stopVar = func_020143CC(work->eventWork, FK_AMBIENT_STOP_WORK_ID);
+    work->stopVar = ZONEDATA_GetEventWorkAddress(work->eventWork, FK_AMBIENT_STOP_WORK_ID);
     if (*work->stopVar == 0) {
         FIELD_SOUND_SYSTEM_ClaimSlot(work->soundSys, FK_SE_AMBIENT_A);
         work->stopped = 0;
@@ -168,7 +173,7 @@ void FIELD_FK_SOUND_ANIME_InitAmbientSoundB(struct FieldSubproc *proc, struct Fi
     gameData = func_020120F4(FIELDMAP_GetGameSystem(fieldMap));
     work->eventWork = func_0201296C(gameData);
     work->soundSys = func_02012A30(gameData);
-    work->stopVar = func_020143CC(work->eventWork, FK_AMBIENT_STOP_WORK_ID);
+    work->stopVar = ZONEDATA_GetEventWorkAddress(work->eventWork, FK_AMBIENT_STOP_WORK_ID);
     if (*work->stopVar == 0) {
         FIELD_SOUND_SYSTEM_ClaimSlot(work->soundSys, FK_SE_AMBIENT_B);
         work->stopped = 0;
@@ -280,5 +285,15 @@ void FIELD_FK_SOUND_ANIME_PlaySe(FkSoundAnime *sound, u32 channel)
 
     if (seId != FK_SOUND_NONE) {
         GFL_USE_PlaySeDefaultVolume(seId);
+    }
+}
+
+/* Stops the sound effect of a channel, if it has one (the stop twin of FIELD_FK_SOUND_ANIME_PlaySe). */
+void FIELD_FK_SOUND_ANIME_StopSe(FkSoundAnime *sound, u32 channel)
+{
+    u16 seId = sound->soundId[channel];
+
+    if (seId != 0xffff) {
+        GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(seId));
     }
 }

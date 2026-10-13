@@ -16,11 +16,11 @@
  * symbols:
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_CreateRenderer  0x0204B034  arm
- *   func_0204B258  0x0204B258  arm
+ *   CLACT_SetUnitRenderer  0x0204B258  arm
  *   WEATHER_TASK_Create  0x021A1DB4  thumb  ov021
  *   func_020056A0  0x020056A0  thumb
  *   g_WeatherSourceName     0x021DDE74  data
- *   d_021D8850     0x021D8850  data
+ *   gWeatherBillboardDescs     0x021D8850  data
  *   d_021D8840     0x021D8840  data
  *   func_02030734  0x02030734  arm
  *   FIELD_3DBG_CreateBillboard  0x021A15A4  thumb  ov021
@@ -60,7 +60,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern Field3dbgBillboard *FIELD_3DBG_CreateBillboard(const Field3dbgBillboardDesc *desc, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct TextureList *CLACT_CreateRenderer(const void *desc, u32 count, u32 heapId);
-extern void func_0204B258(struct Bank *bank, struct TextureList *list);
+extern void CLACT_SetUnitRenderer(struct Bank *bank, struct TextureList *list);
 extern struct WeatherTaskSys *WEATHER_TASK_Create(struct Bank *bank, u32 obj10, u32 obj14, u32 obj18, u32 obj1C, WeatherSys *sys, u32 weatherParam, u16 zoneId, u16 heapId);
 extern int func_020056A0(void (*cb)(int taskId, void *work), void *work, int priority);
 WeatherSys *WEATHER_Create(u32 obj10, u32 obj14, u32 obj18, u32 obj1C, u32 weatherParam, u16 zoneId, u16 heapId);
@@ -87,7 +87,7 @@ void WEATHER_TASK_RequestEnd(struct WeatherTaskSys *task, u32 isFadeOut, u32 fad
 void WEATHER_TASK_ForceEnd(struct WeatherTaskSys *task);
 int WEATHER_TASK_GetPhase(struct WeatherTaskSys *task);
 extern char g_WeatherSourceName[];
-extern Field3dbgBillboardDesc d_021D8850[];
+extern Field3dbgBillboardDesc gWeatherBillboardDescs[];
 extern u8 d_021D8840[];
 extern void (*const gWeatherTransitionHandlers[])(WeatherSys *sys, int frames);
 typedef struct WeatherEntry {
@@ -110,7 +110,7 @@ WeatherSys *WEATHER_Create(u32 obj10, u32 obj14, u32 obj18, u32 obj1C, u32 weath
     WeatherSys *sys = func_02030734(heapId, sizeof(WeatherSys), 1, g_WeatherSourceName, 0x158);
 
     for (i = 0; i < 2; i++) {
-        sys->billboards[i] = FIELD_3DBG_CreateBillboard(&d_021D8850[i], heapId);
+        sys->billboards[i] = FIELD_3DBG_CreateBillboard(&gWeatherBillboardDescs[i], heapId);
     }
     sys->mode = 0;
     sys->phase = 0;
@@ -120,7 +120,7 @@ WeatherSys *WEATHER_Create(u32 obj10, u32 obj14, u32 obj18, u32 obj1C, u32 weath
     sys->loadedOverlayId = -1;
     sys->textureBank = CLACT_CreateUnit(0x40, 8, heapId);
     sys->textureList = CLACT_CreateRenderer(d_021D8840, 1, heapId);
-    func_0204B258(sys->textureBank, sys->textureList);
+    CLACT_SetUnitRenderer(sys->textureBank, sys->textureList);
     for (j = 0; j < 2; j++) {
         sys->tasks[j] = WEATHER_TASK_Create(sys->textureBank, obj10, obj14, obj18, obj1C, sys, weatherParam, zoneId, heapId);
     }

@@ -12,7 +12,7 @@
  * symbols:
  *   func_02030EAC 0x02030EAC arm
  *   func_020307B0 0x020307B0 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0201DD68 0x0201DD68 thumb
  *   func_021B9BE8 0x021B9BE8 thumb ov224
  *   func_021B9B50 0x021B9B50 thumb ov224
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern u32 func_020307B0(void *p);
-extern void func_02082BCC(void *, u32, u32);
+extern void MI_CpuFill8(void *, u32, u32);
 extern void func_0201DD68(void);
 extern void func_021B9BE8(u32 *p);
 extern void func_021B9B50(char *p);
@@ -48,6 +48,6 @@ void func_021B99E8(char *p)
     G2S_BlendNone();
     GX_SetVisibleWnd(0);
     GXS_SetVisibleWnd(0);
-    func_02082BCC(p, 0, 16);
+    MI_CpuFill8(p, 0, 16);
     func_020307B0(p);
 }

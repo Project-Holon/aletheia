@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   PROCSYS_Create 0x02031324 arm
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   func_021DCB48 0x021DCB48 thumb ov134
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 typedef struct { u32 w[11]; } Args;
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern void *PROCSYS_Create(int a0);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
 extern void func_021DCB48(const Args *, void *, void *);
@@ -35,7 +35,7 @@ int func_021DC888(void *ctx, int unused, const Args *args)
 {
     u8 *p;
     p = PROCSYS_AllocProcWork(ctx, 0x100, 4);
-    func_02082BCC(p, 0, 0x100);
+    MI_CpuFill8(p, 0, 0x100);
     *(Args *)(p + 0xd0) = *args;
     ((struct Obj05411 *)p)->fFC = 4;
     ((struct Obj05411 *)p)->fCC = PROCSYS_Create(((struct Obj05411 *)p)->fFC);

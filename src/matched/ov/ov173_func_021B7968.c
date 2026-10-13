@@ -14,10 +14,10 @@
  * header that asks for the double assignment is superseded.
  *
  * symbols:
- *   func_0204B404 0x0204B404 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0201BD28 0x0201BD28 thumb
+ *   WAZA_TOOL_GetParam 0x0201BD28 thumb
  */
 #include "../include/Obj03857.h"
 #include "../include/Obj24182.h"
@@ -28,11 +28,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern u32 func_0201BD28(u16, u32);
+extern u32 WAZA_TOOL_GetParam(u16, u32);
 void func_021B7968(char *p)
 {
     u16 rect[2];
@@ -43,12 +43,12 @@ void func_021B7968(char *p)
     for (i = 0; i < 4; i++) {
         rect[0] = 0x2f;
         rect[1] = i * 24 + 0x50;
-        func_0204B404(*(void **)(p + i * 4 + 0x114), (const struct Vec2 *)rect, 1);
+        CLACT_AddActorSurfacePos(*(void **)(p + i * 4 + 0x114), (const struct Vec2 *)rect, 1);
         if (((struct Obj24182 *)(*(char * *)&((struct Obj03857 *)p)->f0))->f16 + i >= *(u8 *)(p + off)) {
-            func_0204B3DC(*(void **)(p + i * 4 + 0x114), 0);
+            CLACT_SetActorDrawEnable(*(void **)(p + i * 4 + 0x114), 0);
         } else {
-            value = func_0201BD28(*(u16 *)(*(char * *)&((struct Obj24183 *)(*(char * *)&((struct Obj03857 *)p)->f0))->f10 + (((struct Obj24184 *)(*(char * *)&((struct Obj03857 *)p)->f0))->f16 + i) * 2), 0);
-            func_0204B3DC(*(void **)(p + i * 4 + 0x114), 1);
+            value = WAZA_TOOL_GetParam(*(u16 *)(*(char * *)&((struct Obj24183 *)(*(char * *)&((struct Obj03857 *)p)->f0))->f10 + (((struct Obj24184 *)(*(char * *)&((struct Obj03857 *)p)->f0))->f16 + i) * 2), 0);
+            CLACT_SetActorDrawEnable(*(void **)(p + i * 4 + 0x114), 1);
             CLACT_SetActorAnimSeq(*(void **)(p + i * 4 + 0x114), value);
         }
     }

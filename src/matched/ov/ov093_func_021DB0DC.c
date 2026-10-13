@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_RunAwayCheckEscape
+ * function: HAND_TOKUSEI_RunAwayCheckEscape
  * address: 0x021DB0DC
  * packet: pkt_ov093_021DB0DC
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 void BTLV_CORE_EventSetFlagIfAttacker(int a, int b, int c, int d);
-void BTL_ABILITY_RunAwayCheckEscape(int a, int b, int c, int d);
+void HAND_TOKUSEI_RunAwayCheckEscape(int a, int b, int c, int d);
 
-void BTL_ABILITY_RunAwayCheckEscape(int a, int b, int c, int d)
+void HAND_TOKUSEI_RunAwayCheckEscape(int a, int b, int c, int d)
 {
     BTLV_CORE_EventSetFlagIfAttacker(a, b, c, d);
 }

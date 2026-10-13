@@ -11,7 +11,7 @@
  *
  * symbols:
  *   TOUCHPANEL_GetWork  0x02035750  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0208AB1C  0x0208AB1C  arm
  *   func_0208ABB8  0x0208ABB8  arm
  *   func_0208ADB4  0x0208ADB4  arm
@@ -89,7 +89,7 @@ struct Samp {
 };
 
 extern int TOUCHPANEL_GetWork(void);
-extern void func_02082BCC(void *dst, u32 val, u32 size);
+extern void MI_CpuFill8(void *dst, u32 val, u32 size);
 extern void func_0208AB1C(void);
 struct TPData;
 extern u32 func_0208ABB8(struct TPData *result);
@@ -110,7 +110,7 @@ void TOUCHPANEL_MainSys(struct Tp *ctx)
         return;
     }
     if ((s32)(*(u16 *)0x02FFFFA8 & 0x8000) >> 15 != 0) {
-        func_02082BCC(w, 0, 0x7c);
+        MI_CpuFill8(w, 0, 0x7c);
         return;
     }
     if (w->f74 == 0) {

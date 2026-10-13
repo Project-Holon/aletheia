@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E2004",
+   "name": "HAND_WAZA_LeechSeedSetSickCont",
    "address": "0x021E2004",
    "kind": "game",
    "region": "ov093",

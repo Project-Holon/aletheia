@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  *
- * func_02013E40 returns u16 (its body ends in ldrh); declaring it u32, or
+ * ZONEDATA_GetParentZoneId returns u16 (its body ends in ldrh); declaring it u32, or
  * keeping its result in a u32 local, hoists the spilled local's reload
  * above the final *outType store (4 bytes).
  *
  * symbols:
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   func_02013E40  0x02013E40  thumb
+ *   ZONEDATA_GetParentZoneId  0x02013E40  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb  ov021
  *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 typedef int BOOL;
 
 extern u16 FIELDMAP_GetZoneId(u8 *p);
-extern u16 func_02013E40(u32 a);
+extern u16 ZONEDATA_GetParentZoneId(u32 a);
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern u32 FIELD_PLAYER_GetNowAttribute(void **ctx);
@@ -50,7 +50,7 @@ void func_021CF5D8(int id, int kind, int flag, struct Obj00020 *pos, u32 *outTyp
     u32 type;
     u16 msg;
 
-    sp = func_02013E40(FIELDMAP_GetZoneId((u8 *)pos));
+    sp = ZONEDATA_GetParentZoneId(FIELDMAP_GetZoneId((u8 *)pos));
     switch (id) {
     case 0x23B:
         *outMsg = 0x469;

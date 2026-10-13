@@ -1,5 +1,5 @@
 /*
- * function: func_021BA5D8
+ * function: BTL_MAIN_IsOwnWindowWaiting
  * address:  0x021BA5D8
  * packet:   pkt_ov093_021BA5D8
  * region:   ov093
@@ -18,7 +18,7 @@
 typedef unsigned char  u8;
 extern int BTL_CLIENT_IsWindowWaiting(u8 *p);
 
-int func_021BA5D8(char *p)
+int BTL_MAIN_IsOwnWindowWaiting(char *p)
 {
     int *q = *(int * *)&((struct Obj07748 *)p)->f0;
     if (((struct Obj21016 *)q)->f23 == 0) {

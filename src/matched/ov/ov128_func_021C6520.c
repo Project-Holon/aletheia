@@ -10,7 +10,7 @@
  * lever: direct assignment from postincrement preserves the old count load;
  *   the two-byte tail at 021C658A is zero padding.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0201283C 0x0201283C thumb
  *   func_02009A1C 0x02009A1C thumb
  *   func_02009864 0x02009864 thumb
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 struct BigObj;
 extern u32 func_0201283C(const struct BigObj *p);
 struct Sub020097BCObj;
@@ -30,7 +30,7 @@ void func_021C6520(char *p)
 {
     int i;
     void *v;
-    func_02082BCC(p+16,0,72);
+    MI_CpuFill8(p+16,0,72);
     v=(void *)func_0201283C(((struct Obj03808 *)p)->f4);
     ((struct Obj03808 *)p)->f10=0;
     for(i=0;i<32;i++) {

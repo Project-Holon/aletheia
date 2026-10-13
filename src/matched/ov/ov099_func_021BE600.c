@@ -16,7 +16,7 @@
  *   func_021BEEBC 0x021BEEBC thumb ov099
  *   func_021C18C8 0x021C18C8 thumb ov099
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039C68 0x02039C68 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  *   GFL_USE_GetTargetBgmNo 0x02005C4C thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  */
@@ -37,7 +37,7 @@ extern void func_021C18C8(char *p, int kind, int value);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *, unsigned int, unsigned int);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
 extern u32 GFL_USE_GetTargetBgmNo(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 int func_021BE600(char *p, int ret)
@@ -50,10 +50,10 @@ int func_021BE600(char *p, int ret)
             func_021BEEBC(p);
             ((struct Obj03733 *)p)->f242 = ((struct Obj22045 *)(*(char * *)&((struct Obj03733 *)p)->f248))->f47;
             func_021C18C8(p, 4, 3);
-            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, 0xa);
+            GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, 0xa);
             ((struct Obj03733 *)p)->f1CC = 0xac;
         } else {
-            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x12, 0xa);
+            GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x12, 0xa);
             ((struct Obj03733 *)p)->f1CC = 0x93;
         }
     } else {

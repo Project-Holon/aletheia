@@ -10,7 +10,7 @@
  * symbols:
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   STRBUF_Create 0x020457B0 arm
@@ -31,7 +31,7 @@ struct U16Vec;
 struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -48,7 +48,7 @@ void func_0220C398(u8 *p,int slot,int index)
     func_0201EF8C(((struct Obj05523 *)p)->f1EA4,0,((struct Obj25134 *)elem)->f18);
     func_0201F250(((struct Obj05523 *)p)->f1EA4,(void *)buf,text);
     context=((struct Obj05523 *)p)->f1EAC;
-    surface=(u32)func_02045770(*(void **)(p+slot*8+0x1F70));
+    surface=(u32)BMP_WIN_GetBmp(*(void **)(p+slot*8+0x1F70));
     PRINTSYS_PrintQueColor((void *)context,surface,0,0,buf,((struct Obj25135 *)(*(char * *)&((struct Obj05523 *)p)->f0))->fC,0x3DC0);
     (p+slot*8)[0x1F74]=1;
     STRBUF_Delete(text);

@@ -19,7 +19,8 @@
  * symbols:
  *   func_021FFC8C 0x021FFC8C thumb ov135
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -28,13 +29,13 @@ extern void func_021FFC8C(u8 **p, u8 *q, int k, int n, int a4);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Obj;
-extern void func_0204B3DC(struct Obj *, unsigned int);
-extern void func_020061E4(u32 a);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void func_021FFB20(u8 *p, int count, int flag)
 {
     int i;
     int b, a;
-    if (count != 0 && flag == 1) func_020061E4(0x676);
+    if (count != 0 && flag == 1) GFL_USE_PlaySeDefaultVolume(0x676);
     a = 0xEA0;
     b = 0x32E;
     for (i = 0; i < 7; i++) {
@@ -42,9 +43,9 @@ void func_021FFB20(u8 *p, int count, int flag)
             func_021FFC8C((u8 **)(p + 0xE5C), *(void **)(p + a), i, *(u8 *)(p + i * 0x128 + b), *(u8 *)(p + i * 0x128 + 0x302));
             if (flag != 0) CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)(p + i * 4 + 0xD10)), i * 4 + 14);
             else CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)(p + i * 4 + 0xD10)), i * 4 + 17);
-            func_0204B3DC((struct Obj *)*(u32 *)(p + i * 4 + 0xD10), 1);
+            CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(p + i * 4 + 0xD10), 1);
         } else {
-            func_0204B3DC((struct Obj *)*(u32 *)(p + i * 4 + 0xD10), 0);
+            CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(p + i * 4 + 0xD10), 0);
         }
     }
 }

@@ -11,9 +11,9 @@
  * evidence: 020458F8 returns ldrh r0; this caller uses full-word r0+1 without narrowing.
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   func_02008510 0x02008510 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   STRBUF_GetChars 0x02045A90 arm
  *   STRBUF_GetLength 0x020458F8 arm
  *   STRBUF_GetEosChar 0x02045A98 arm
@@ -30,9 +30,9 @@ typedef unsigned int u32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, unsigned int, unsigned int);
 extern void *func_02008510(void *, int);
-extern void func_02082BCC(void *, u8, u32);
+extern void MI_CpuFill8(void *, u8, u32);
 struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
@@ -47,9 +47,9 @@ void func_021D46A4(u8 *p)
     u16 *chars;
     u32 i;
     void *value = ((struct Obj22824 *)(*(u8 * *)&((struct Obj05341 *)p)->f48))->f18;
-    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x22) != 0) {
+    if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x22) != 0) {
         str = func_02008510(value, 31);
-        func_02082BCC(p + 0x188, 0, 40);
+        MI_CpuFill8(p + 0x188, 0, 40);
         ((struct Obj05341 *)p)->f1AC = 31;
         chars = STRBUF_GetChars(str);
         for (i = 0; i < STRBUF_GetLength(str) + 1u; i++) {

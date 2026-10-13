@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetSandStreamHandlers
+ * function: HAND_TOKUSEI_GetSandStreamHandlers
  * address: 0x021D978C
  * packet: pkt_ov093_021D978C
  * region: ov093
@@ -15,10 +15,10 @@
  *   gSandStreamHandlers 0x021F08F0 data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetSandStreamHandlers(int *p);
+int *HAND_TOKUSEI_GetSandStreamHandlers(int *p);
 extern int gSandStreamHandlers[];
 
-int *BTL_TOKUSEI_GetSandStreamHandlers(int *p)
+int *HAND_TOKUSEI_GetSandStreamHandlers(int *p)
 {
     *p = 2;
     return gSandStreamHandlers;

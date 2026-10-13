@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_021B6910, func_021B694C, func_021B6988
+ * function: func_021B6910, func_021B694C, func_021B6988, IRC_COMPATIBLE_ProcExit
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
  *   func_021B6140  0x021B6140  thumb  ov098
@@ -69,6 +69,17 @@ void func_021B6988(int a, int b) {
     int r;
     int t;
     r = (int)func_02045EC0((struct MsgBank *)(((struct Obj07934 *)a)->f20), 1);
+    t = func_021B6140((void *)b);
+    func_0201EEF4(((struct Obj07934 *)a)->f30, 0, (void *)t);
+    func_0201F250((struct WordSet *)(*(int *)&((struct Obj07934 *)a)->f30), (void *)(((struct Obj07934 *)a)->f2C), (void *)r);
+    func_021B6B8C((char *)a, 0x50);
+    STRBUF_Delete((struct U16Vec *)r);
+}
+
+void IRC_COMPATIBLE_ProcExit(int a, int b) {
+    int r;
+    int t;
+    r = (int)func_02045EC0((struct MsgBank *)(((struct Obj07934 *)a)->f20), 2);
     t = func_021B6140((void *)b);
     func_0201EEF4(((struct Obj07934 *)a)->f30, 0, (void *)t);
     func_0201F250((struct WordSet *)(*(int *)&((struct Obj07934 *)a)->f30), (void *)(((struct Obj07934 *)a)->f2C), (void *)r);

@@ -213,8 +213,8 @@ u32 BTL_CALC_DivideMaxHp(struct BtlPokeParam *bpp, u32 divisor) { return (u32)fu
 
 /*
  * Maximum HP divided by the divisor, at least 1.
- * Recursive MATCH unblocker: named callee of the parked ov093 BTL_HANDLER_ITEM_RockyHelmetDamageReaction
- * (the `BTL_CALC_DivideMaxHpMin1(func_021C7CF4(b, k), (u8)BTL_HANDLER_ITEM_GetParam(a,2))` halfword).
+ * Recursive MATCH unblocker: named callee of the parked ov093 HAND_ITEM_RockyHelmetDamageReaction
+ * (the `BTL_CALC_DivideMaxHpMin1(BTL_SERVER_FLOW_GetPokeParam(b, k), (u8)HAND_ITEM_GetParam(a,2))` halfword).
  * Runs func_021D59B4(a, 0xe) through the unsigned divide entry 0x0209C2B0
  * (`_u32_div_f`, see docs/notes/unsigned-divide-entry-is-0209c2b0.c.txt) and
  * floors a zero quotient at 1.

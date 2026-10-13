@@ -15,7 +15,7 @@
  *   EVENT_RESEARCH_RADAR_CreateWordSet  0x021671DC  thumb  ov010
  *   EVENT_RESEARCH_RADAR_PrintReport  0x021671FC  thumb  ov010
  *   FIELD_MSGBG_IsMsgWinTransDone  0x0219077C  thumb  ov021
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   EVENT_RESEARCH_RADAR_CloseInfoWindow  0x021672B4  thumb  ov010
  *   EVENT_RESEARCH_RADAR_DeleteWordSet  0x021671EC  thumb  ov010
  *   EVENT_RESEARCH_RADAR_DeleteInfoWindow  0x021671CC  thumb  ov010
@@ -37,7 +37,7 @@ extern struct WordSet *EVENT_RESEARCH_RADAR_CreateWordSet(int a0);
 extern void EVENT_RESEARCH_RADAR_PrintReport(struct O *o);
 typedef unsigned char  u8;
 extern int FIELD_MSGBG_IsMsgWinTransDone(u8 *p);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int EVENT_RESEARCH_RADAR_CloseInfoWindow(int a0);
 extern int EVENT_RESEARCH_RADAR_DeleteWordSet(int a0);
 extern int EVENT_RESEARCH_RADAR_DeleteInfoWindow(int a0);
@@ -58,7 +58,7 @@ int EVENT_RESEARCH_RADAR_ReportTaskMain(void *a, int *st, struct O *o, int a3)
             *st = *st + 1;
         break;
     case 2:
-        if (func_020362DC() & 0xf3)
+        if (KEY_GetTrg() & 0xf3)
             *st = *st + 1;
         break;
     case 3:

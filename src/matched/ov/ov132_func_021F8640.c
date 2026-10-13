@@ -18,10 +18,10 @@
  *   func_021F9D08 0x021F9D08 thumb ov132
  *   func_021FAB58 0x021FAB58 thumb ov132
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   TCBL_Destroy 0x02031140 arm
  *   func_021FA64C 0x021FA64C thumb ov132
@@ -62,10 +62,10 @@ struct Rec;
 struct S02031140;
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern void func_021FA64C(char *);
@@ -99,10 +99,10 @@ void func_021F8640(char *p)
     func_021F9D08(p);
     func_021FAB58(((struct Obj00675 *)p)->fB0);
     if(((struct Obj00675 *)p)->fE0!=0)STRBUF_Delete(((struct Obj00675 *)p)->fE0);
-    func_0201C6EC(((struct Obj00675 *)p)->fE8);
-    func_0201C4C0(((struct Obj00675 *)p)->fE8);
+    PRINTSYS_QUE_Clear(((struct Obj00675 *)p)->fE8);
+    PRINTSYS_QUE_Delete(((struct Obj00675 *)p)->fE8);
     MSGDATA_Delete(((struct Obj00675 *)p)->fDC);
-    func_020452E8(((struct Obj00675 *)p)->fD0);
+    BMP_WIN_Delete(((struct Obj00675 *)p)->fD0);
     GF_FONT_Delete(((struct Obj00675 *)p)->fD4);
     TCBL_Destroy(((struct Obj00675 *)p)->fCC);
     func_021FA64C(*(char * *)&((struct Obj00675 *)p)->fA4);

@@ -9,11 +9,11 @@
  * status: EXACT
  * lever: explicit if/else field stores preserve one-first branch and shared store.
  * symbols:
- *   func_0201C6B4 0x0201C6B4 thumb
- *   func_0201C6EC 0x0201C6EC thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   WIPE_SYS_ExeEnd 0x020221B8 thumb
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   func_0220BD14 0x0220BD14 thumb ov197
  *   func_0220C448 0x0220C448 thumb ov197
  *   func_0220B1A0 0x0220B1A0 thumb ov197
@@ -36,11 +36,11 @@ struct PrintSys;
 struct Rec3;
 struct S02031140;
 struct Node;
-extern unsigned func_0201C6B4(const struct PrintSys *);
-extern void func_0201C6EC(struct PrintSys *);
+extern unsigned PRINTSYS_QUE_IsFinished(const struct PrintSys *);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern unsigned WIPE_SYS_EndCheck(void);
 extern void WIPE_SYS_ExeEnd(void);
-extern void func_0201CE48(struct Rec3 *);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *);
 extern void func_0220BD14(char *);
 extern void func_0220C448(char *);
 extern void func_0220B1A0(char *);
@@ -55,15 +55,15 @@ extern u32 func_020307B0(void *p);
 int func_0220D3B0(struct Node *task, char *p)
 {
     if (((struct Obj00846 *)p)->f5A0 == 1) {
-        if (func_0201C6B4(*(struct PrintSys * *)&((struct Obj00846 *)p)->f18) == 0) {
-            if (((struct Obj25091 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f24 == 1) func_0201C6EC(*(struct PrintSys * *)&((struct Obj00846 *)p)->f18);
+        if (PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj00846 *)p)->f18) == 0) {
+            if (((struct Obj25091 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f24 == 1) PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj00846 *)p)->f18);
             else return 0;
         }
         if (WIPE_SYS_EndCheck() == 0) {
             if (((struct Obj25092 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f24 == 1) WIPE_SYS_ExeEnd();
             else return 0;
         }
-        if (*(struct Rec3 * *)&((struct Obj00846 *)p)->f1C) func_0201CE48(*(struct Rec3 * *)&((struct Obj00846 *)p)->f1C);
+        if (*(struct Rec3 * *)&((struct Obj00846 *)p)->f1C) PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct Obj00846 *)p)->f1C);
         func_0220BD14(p);
         func_0220C448(p);
         func_0220B1A0(p);

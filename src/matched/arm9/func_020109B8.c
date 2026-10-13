@@ -15,6 +15,7 @@
  *
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  */
 #include "../include/Obj11241.h"
 
@@ -25,7 +26,7 @@ typedef unsigned int  u32;
 struct Entry;
 struct Link;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void func_02039C68(struct Link *h, u32 a, u32 b);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *h, u32 a, u32 b);
 extern void func_02010888(u8 *p, u32 v);
 extern void func_020109E0(u8 *p);
 
@@ -35,7 +36,7 @@ void func_020109B8(u8 *p)
 
     ((struct Obj11241 *)p)->f10 = (u32)v;
     if (v < 0) {
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x73, 8);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x73, 8);
         func_02010888(p, (u32)func_020109E0);
     }
 }

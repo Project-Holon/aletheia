@@ -20,7 +20,7 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C7CF4  0x021C7CF4  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   d_021F2404     0x021F2404  data  ov093  a1
@@ -32,7 +32,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int key);
-extern void *func_021C7CF4(int *p, int i);
+extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern const u8 d_021F2404[7];
@@ -47,7 +47,7 @@ void func_021E7080(int x, int a, int c)
     int t;
 
     if (c == BTL_EVENT_GetVar(3)) {
-        m = func_021C7CF4((int *)a, c);
+        m = BTL_SERVER_FLOW_GetPokeParam((int *)a, c);
         sum = 0;
         for (i = 0; i < 7; i++) {
             v = func_021D59B4(m, d_021F2404[i]) - 6;

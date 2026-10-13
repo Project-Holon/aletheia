@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CFE08",
+   "name": "BTL_CLIENT_ShouldSwitchVsWonderGuard",
    "address": "0x021CFE08",
    "kind": "game",
    "region": "ov093",

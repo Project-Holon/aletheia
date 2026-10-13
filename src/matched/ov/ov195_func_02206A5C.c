@@ -34,7 +34,7 @@
  *   _ll_mul 0x0209C054 arm
  *   FX_Sqrt 0x0207C7B4 arm
  *   func_0207C768 0x0207C768 arm
- *   d_020A1B38 0x020A1B38 data
+ *   FX_SinCosTable_ 0x020A1B38 data
  */
 
 typedef unsigned char u8;
@@ -53,7 +53,7 @@ static inline fx32 FX_Mul(fx32 a, fx32 b)
 }
 
 typedef struct SC { s16 s; s16 c; } SC;
-extern const SC d_020A1B38[];
+extern const SC FX_SinCosTable_[];
 extern int FX_Sqrt(int);
 struct Grid;
 extern u32 func_0207C768(u32 a, u32 b);
@@ -152,8 +152,8 @@ void func_02206A5C(Grid *p, u16 heap)
             t = (float)e->f54 / 4096.0f;
             s = 10.0f + 2.0f * (2.0f * (t * (10.0f * t) / 44.0f / 44.0f));
             e->f50 = FX_F32_TO_FX32(s);
-            e->f58 = FX_Mul(e->f50, d_020A1B38[e->f4c >> 4].c);
-            e->f60 = FX_Mul(e->f50, d_020A1B38[e->f4c >> 4].s);
+            e->f58 = FX_Mul(e->f50, FX_SinCosTable_[e->f4c >> 4].c);
+            e->f60 = FX_Mul(e->f50, FX_SinCosTable_[e->f4c >> 4].s);
             e->f5c = e->f54;
             dx = e->f58 - e->cur.x;
             dy = e->f5c - e->cur.y;

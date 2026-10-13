@@ -24,22 +24,22 @@
  *   func_02045B38  0x02045B38  arm
  *   func_02045CAC  0x02045CAC  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   STRBUF_Delete  0x02045808  arm
  *   func_02045EC0  0x02045EC0  arm
  *   FIELDMAP_GetSubscreen  0x02188CCC  thumb ov021
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   FIELD_SUBSCREEN_RequestMode  0x021A0F30  thumb  ov021
  *   FIELD_SUBSCREEN_IsIdle  0x021A0ED4  thumb  ov021
- *   func_021A1518  0x021A1518  thumb  ov021
- *   func_021A1524  0x021A1524  thumb  ov021
- *   func_021A1554  0x021A1554  thumb  ov021
- *   func_021A1530  0x021A1530  thumb  ov021
- *   func_021A1548  0x021A1548  thumb  ov021
- *   func_021A153C  0x021A153C  thumb  ov021
+ *   FIELD_SUBSCREEN_IsReportReady  0x021A1518  thumb  ov021
+ *   FIELD_SUBSCREEN_PrepareReportSave  0x021A1524  thumb  ov021
+ *   FIELD_SUBSCREEN_CheckReportSaveCounter  0x021A1554  thumb  ov021
+ *   FIELD_SUBSCREEN_StartReportSaveAnim  0x021A1530  thumb  ov021
+ *   FIELD_SUBSCREEN_StopReportSaveAnim  0x021A1548  thumb  ov021
+ *   FIELD_SUBSCREEN_IsReportSaveAnimDone  0x021A153C  thumb  ov021
  *   FIELD_SUBSCREEN_ResumeField  0x021A0FB4  thumb  ov021
  *   func_02028590  0x02028590  thumb
- *   func_0201C440  0x0201C440  thumb
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   func_020071F0  0x020071F0  thumb
  *   func_0201F7A8  0x0201F7A8  thumb
  *   func_02008DF0  0x02008DF0  thumb
@@ -48,7 +48,7 @@
  *   GAME_DATA_SaveStart  0x02012DAC  thumb
  *   GAME_DATA_SaveMain  0x02012DD0  thumb
  *   TIME_ICON_Delete  0x0202F038  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_0201EC64  0x0201EC64  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F250  0x0201F250  thumb
@@ -56,14 +56,14 @@
  *   GFL_USE_IsSeqPlaying  0x02006254  thumb
  *   TCBL_Create  0x0203101C  arm
  *   d_02172A50     0x02172A50  data
- *   func_0201C4C0  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
  *   TCBL_Destroy  0x02031140  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   func_0201F5BC  0x0201F5BC  thumb
  *   func_02049B40  0x02049B40  arm
- *   func_020452E8  0x020452E8  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_0201F73C  0x0201F73C  thumb
  *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
@@ -71,20 +71,20 @@
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_0201CE30  0x0201CE30  thumb
- *   func_0201CE5C  0x0201CE5C  thumb
- *   func_0201CE38  0x0201CE38  thumb
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb
+ *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb
+ *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   TCBL_Main  0x020310C4  arm
  *   APP_KEYCURSOR_Update  0x020286C4  thumb
- *   func_0201C6FC  0x0201C6FC  thumb
+ *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
- *   func_0201C6C4  0x0201C6C4  thumb
- *   func_0201C6B4  0x0201C6B4  thumb
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   FIELD_MSGBG_GetPrintQue  0x021904A8  thumb  ov021
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb
  *   APP_TASKMENU_RES_Delete   0x02027FD8  thumb
@@ -237,23 +237,23 @@ extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern MsgData *func_02045B38(u32 type, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(MsgData *msgData, u32 index, Strbuf *dest);
 extern void MSGDATA_Delete(MsgData *msgData);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void STRBUF_Delete(Strbuf *str);
 extern Strbuf *func_02045EC0(MsgData *msgData, u32 index);
 extern FieldCommLink *FIELDMAP_GetSubscreen(FieldMap *fieldMap);
 extern TrainerRecord *GAME_DATA_GetTrainerRecord(GameData *gameData);
 extern int FIELD_SUBSCREEN_RequestMode(FieldCommLink *link, u32 mode);
 extern int FIELD_SUBSCREEN_IsIdle(FieldCommLink *link);
-extern int func_021A1518(FieldCommLink *link);
-extern void func_021A1524(FieldCommLink *link);
-extern int func_021A1554(FieldCommLink *link);
-extern void func_021A1530(FieldCommLink *link);
-extern void func_021A1548(FieldCommLink *link);
-extern int func_021A153C(FieldCommLink *link);
+extern int FIELD_SUBSCREEN_IsReportReady(FieldCommLink *link);
+extern void FIELD_SUBSCREEN_PrepareReportSave(FieldCommLink *link);
+extern int FIELD_SUBSCREEN_CheckReportSaveCounter(FieldCommLink *link);
+extern void FIELD_SUBSCREEN_StartReportSaveAnim(FieldCommLink *link);
+extern void FIELD_SUBSCREEN_StopReportSaveAnim(FieldCommLink *link);
+extern int FIELD_SUBSCREEN_IsReportSaveAnimDone(FieldCommLink *link);
 extern void FIELD_SUBSCREEN_ResumeField(FieldCommLink *link, u32 heapId);
 extern TcblSystem *TCBL_Create(u16 heapId, u16 tag, u32 taskCount, u32 workSize);
 extern AppKeyCursor *func_02028590(u32 a0, u32 a1, u32 a2, u32 heapId);
-extern PrintQue *func_0201C440(u32 heapId);
+extern PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern int func_020071F0(SaveControl *saveControl);
 extern void func_0201F7A8(BmpWin *bmpWin, u32 kind);
 extern u32 func_02008DF0(TrainerRecord *record, int id);
@@ -262,20 +262,20 @@ extern TimeIcon *TIME_ICON_Create(TcblSystem *tcbl, BmpWin *bmpWin, u8 color, u8
 extern int GAME_DATA_SaveStart(GameData *gameData);
 extern int GAME_DATA_SaveMain(GameData *gameData);
 extern void TIME_ICON_Delete(TimeIcon *timeIcon);
-extern void func_020061E4(u32 seNo);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 extern WordSet *func_0201EC64(u32 heapId);
 extern void func_0201F02C(WordSet *wordSet, u32 index, MyStatus *myStatus);
 extern void func_0201F250(WordSet *wordSet, Strbuf *dest, Strbuf *src);
 extern void func_0201ED04(WordSet *wordSet);
 extern int GFL_USE_IsSeqPlaying(u32 seNo);
-extern void func_0201C4C0(PrintQue *printQue);
+extern void PRINTSYS_QUE_Delete(PrintQue *printQue);
 extern void APP_KEYCURSOR_Delete(AppKeyCursor *keyCursor);
 extern void TCBL_Destroy(TcblSystem *tcbl);
 extern BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u32 width, u8 height, u8 palette, u8 charOffset);
 extern void func_0201F5BC(u32 bgLayer, u32 charOffset, u32 palette, u32 type, u32 heapId);
 extern void func_02049B40(u32 arcId, u32 fileId, u32 palType, u32 offset, u32 size, u32 heapId);
-extern void func_020452E8(BmpWin *bmpWin);
-extern Bmp *func_02045770(BmpWin *bmpWin);
+extern void BMP_WIN_Delete(BmpWin *bmpWin);
+extern Bmp *BMP_WIN_GetBmp(BmpWin *bmpWin);
 extern void BMP_Clear(Bmp *bmp, u8 value);
 extern void func_0201F73C(BmpWin *bmpWin, int a1, int a2, int a3);
 extern u32 FIELD_MSGBG_GetFont(FieldMsgContext *msgContext);
@@ -283,20 +283,20 @@ extern signed char func_02012FFC(void);
 extern PrintStream *PRINTSYS_PrintStream(BmpWin *bmpWin, u32 x, u32 y, Strbuf *str, u32 font, u32 speed, TcblSystem *tcbl, u32 priority, u16 heapId, u32 clearColor);
 extern void BMP_WIN_TransferChars(BmpWin *bmpWin);
 extern void BMP_WIN_MakeScreen(BmpWin *bmpWin);
-extern u8 func_02045730(BmpWin *bmpWin);
+extern u8 BMP_WIN_GetBgLayer(BmpWin *bmpWin);
 extern void func_02041B6C(u32 bit);
-extern u32 func_0201CE30(PrintStream *stream);
-extern void func_0201CE5C(PrintStream *stream, int wait);
-extern void func_0201CE38(PrintStream *stream);
-extern void func_0201CE48(PrintStream *stream);
+extern u32 PRINTSYS_PrintStreamGetState(PrintStream *stream);
+extern void PRINTSYS_PrintStreamShortWait(PrintStream *stream, int wait);
+extern void PRINTSYS_PrintStreamReleasePause(PrintStream *stream);
+extern void PRINTSYS_PrintStreamDelete(PrintStream *stream);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_0203630C(void);
+extern u32 KEY_GetCont(void);
 extern void TCBL_Main(TcblSystem *tcbl);
 extern void APP_KEYCURSOR_Update(AppKeyCursor *keyCursor, PrintStream *stream, BmpWin *bmpWin);
-extern void func_0201C6FC(PrintQue *printQue, Bmp *bmp, u32 x, u32 y, Strbuf *str, u32 font);
+extern void PRINTSYS_PrintQue(PrintQue *printQue, Bmp *bmp, u32 x, u32 y, Strbuf *str, u32 font);
 extern void PRINTSYS_QUE_Main(PrintQue *printQue);
-extern u32 func_0201C6C4(PrintQue *printQue, Bmp *bmp);
-extern u32 func_0201C6B4(const PrintQue *printQue);
+extern u32 PRINTSYS_QUE_IsExistTarget(PrintQue *printQue, Bmp *bmp);
+extern u32 PRINTSYS_QUE_IsFinished(const PrintQue *printQue);
 extern u32 FIELD_MSGBG_GetPrintQue(FieldMsgContext *msgContext);
 extern TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heapId);
 extern void APP_TASKMENU_RES_Delete(TaskMenuRes *res);
@@ -355,13 +355,13 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
         break;
     case REPORT_EVENT_STATE_CREATE:
         if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(w->fieldMap)) == 1
-            && func_021A1518(FIELDMAP_GetSubscreen(w->fieldMap)) == 1) {
+            && FIELD_SUBSCREEN_IsReportReady(FIELDMAP_GetSubscreen(w->fieldMap)) == 1) {
             w->res = func_02030734(w->heapId, 0x50, 0, d_02172A50, 0x9F);
             w->res->msgData = func_02045B38(0, 3, 0x9E, w->heapId);
             w->res->message = STRBUF_Create(0x200, w->heapId);
             w->res->tcbl = TCBL_Create(w->heapId, w->heapId, 1, 4);
             w->res->keyCursor = func_02028590(0xF, 1, 1, w->heapId);
-            w->res->printQue = func_0201C440(w->heapId);
+            w->res->printQue = PRINTSYS_QUE_Create(w->heapId);
             w->res->waitFrames = 0;
             REPORT_EVENT_CreateMessageWindow(w);
             REPORT_EVENT_CreateMenuResources(w);
@@ -396,8 +396,8 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
         break;
     case REPORT_EVENT_STATE_PRINT_SAVING:
         func_02008DF0(GAME_DATA_GetTrainerRecord(func_020120F4(w->gameSystem)), 1);
-        func_021A1524(FIELDMAP_GetSubscreen(w->fieldMap));
-        if (func_021A1554(FIELDMAP_GetSubscreen(w->fieldMap)) == 1)
+        FIELD_SUBSCREEN_PrepareReportSave(FIELDMAP_GetSubscreen(w->fieldMap));
+        if (FIELD_SUBSCREEN_CheckReportSaveCounter(FIELDMAP_GetSubscreen(w->fieldMap)) == 1)
             REPORT_EVENT_QueueMessage(w, REPORT_EVENT_MSG_SAVING_FIRST);
         else
             REPORT_EVENT_QueueMessage(w, REPORT_EVENT_MSG_SAVING);
@@ -416,7 +416,7 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
     case REPORT_EVENT_STATE_START_SAVE:
         if (REPORT_EVENT_IsAvatarReady(w) != 0) {
             w->res->timeIcon = TIME_ICON_Create(func_020056BC(), w->res->window.bmpWin, 0xF, 0x10, w->heapId);
-            func_021A1530(FIELDMAP_GetSubscreen(w->fieldMap));
+            FIELD_SUBSCREEN_StartReportSaveAnim(FIELDMAP_GetSubscreen(w->fieldMap));
             REPORT_EVENT_StartSaveEffect(w);
             GAME_DATA_SaveStart(func_020120F4(w->gameSystem));
             *state = REPORT_EVENT_STATE_SAVE;
@@ -431,7 +431,7 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
             *state = REPORT_EVENT_STATE_SAVED;
             break;
         case 3:
-            func_021A1548(FIELDMAP_GetSubscreen(w->fieldMap));
+            FIELD_SUBSCREEN_StopReportSaveAnim(FIELDMAP_GetSubscreen(w->fieldMap));
             REPORT_EVENT_StopSaveEffect(w);
             REPORT_EVENT_EndAvatarAnim(w);
             REPORT_EVENT_PrintMessage(w, REPORT_EVENT_MSG_FAILED);
@@ -441,8 +441,8 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
         }
         break;
     case REPORT_EVENT_STATE_SAVED:
-        if (func_021A153C(FIELDMAP_GetSubscreen(w->fieldMap)) == 1) {
-            func_020061E4(0x558);
+        if (FIELD_SUBSCREEN_IsReportSaveAnimDone(FIELDMAP_GetSubscreen(w->fieldMap)) == 1) {
+            GFL_USE_PlaySeDefaultVolume(0x558);
             REPORT_EVENT_StopSaveEffect(w);
             REPORT_EVENT_EndAvatarAnim(w);
             wordSet = func_0201EC64(w->heapId);
@@ -474,11 +474,11 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
             *state = REPORT_EVENT_STATE_WAIT_KEY;
         break;
     case REPORT_EVENT_STATE_WAIT_KEY:
-        if (func_020362DC() & 3)
+        if (KEY_GetTrg() & 3)
             *state = REPORT_EVENT_STATE_FINISH_SAVED;
         break;
     case REPORT_EVENT_STATE_WAIT_KEY_TIMEOUT:
-        if (func_020362DC() & 3)
+        if (KEY_GetTrg() & 3)
             *state = REPORT_EVENT_STATE_FINISH_SAVED;
         if (w->res->waitFrames >= 150)
             *state = REPORT_EVENT_STATE_FINISH_SAVED;
@@ -509,7 +509,7 @@ void REPORT_EVENT_Free(ReportEventWork *w)
 {
     REPORT_EVENT_DeleteMenuResources(w);
     REPORT_EVENT_DeleteMessageWindow(w);
-    func_0201C4C0(w->res->printQue);
+    PRINTSYS_QUE_Delete(w->res->printQue);
     APP_KEYCURSOR_Delete(w->res->keyCursor);
     TCBL_Destroy(w->res->tcbl);
     STRBUF_Delete(w->res->message);
@@ -529,7 +529,7 @@ void REPORT_EVENT_CreateMessageWindow(ReportEventWork *w)
 
 void REPORT_EVENT_DeleteMessageWindow(ReportEventWork *w)
 {
-    func_020452E8(w->res->window.bmpWin);
+    BMP_WIN_Delete(w->res->window.bmpWin);
 }
 
 /* Reads message msgIndex into the text buffer and starts printing it. */
@@ -546,7 +546,7 @@ void REPORT_EVENT_StartPrintStream(ReportEventWork *w)
     u32 font;
     BmpWin *bmpWin;
 
-    BMP_Clear(func_02045770(w->res->window.bmpWin), 15);
+    BMP_Clear(BMP_WIN_GetBmp(w->res->window.bmpWin), 15);
     func_0201F73C(w->res->window.bmpWin, 2, 1, 13);
     res = w->res;
     font = FIELD_MSGBG_GetFont(w->msgContext);
@@ -555,29 +555,29 @@ void REPORT_EVENT_StartPrintStream(ReportEventWork *w)
     bmpWin = w->res->window.bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
-    func_02041B6C(func_02045730(bmpWin));
+    func_02041B6C(BMP_WIN_GetBgLayer(bmpWin));
 }
 
 /* Advances the print stream; A, B or a touch speeds it up and continues after a pause. Returns 0 once it has finished. */
 int REPORT_EVENT_UpdatePrintStream(ReportEventWork *w)
 {
-    switch (func_0201CE30(w->res->printStream)) {
+    switch (PRINTSYS_PrintStreamGetState(w->res->printStream)) {
     case 0:
-        if (TOUCHPANEL_GetTrg() == 1 || (func_0203630C() & 3) != 0)
-            func_0201CE5C(w->res->printStream, 0);
+        if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetCont() & 3) != 0)
+            PRINTSYS_PrintStreamShortWait(w->res->printStream, 0);
         w->res->printWait = 0;
         break;
     case 1:
         if (w->res->printWait == 0) {
-            if (TOUCHPANEL_GetTrg() == 1 || (func_020362DC() & 3) != 0) {
-                func_020061E4(0x547);
-                func_0201CE38(w->res->printStream);
+            if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3) != 0) {
+                GFL_USE_PlaySeDefaultVolume(0x547);
+                PRINTSYS_PrintStreamReleasePause(w->res->printStream);
                 w->res->printWait = 1;
             }
         }
         break;
     case 2:
-        func_0201CE48(w->res->printStream);
+        PRINTSYS_PrintStreamDelete(w->res->printStream);
         w->res->printWait = 0;
         return 0;
     }
@@ -605,19 +605,19 @@ void REPORT_EVENT_QueueMessage(ReportEventWork *w, u32 msgIndex)
     PrintQue *printQue;
     BmpWin *bmpWin;
 
-    BMP_Clear(func_02045770(w->res->window.bmpWin), 15);
+    BMP_Clear(BMP_WIN_GetBmp(w->res->window.bmpWin), 15);
     func_0201F73C(w->res->window.bmpWin, 2, 1, 13);
     message = func_02045EC0(w->res->msgData, msgIndex);
     font = FIELD_MSGBG_GetFont(w->msgContext);
     window = &w->res->window;
     printQue = w->res->printQue;
-    func_0201C6FC(printQue, func_02045770(window->bmpWin), 0, 0, message, font);
+    PRINTSYS_PrintQue(printQue, BMP_WIN_GetBmp(window->bmpWin), 0, 0, message, font);
     window->queuePending = 1;
     STRBUF_Delete(message);
     bmpWin = w->res->window.bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
-    func_02041B6C(func_02045730(bmpWin));
+    func_02041B6C(BMP_WIN_GetBgLayer(bmpWin));
 }
 
 /* Runs the print queue and transfers the window once its job is done. Returns the queue's finished flag. */
@@ -629,11 +629,11 @@ int REPORT_EVENT_UpdateMessageQueue(ReportEventWork *w)
     PRINTSYS_QUE_Main(w->res->printQue);
     printQue = w->res->printQue;
     window = &w->res->window;
-    if (window->queuePending != 0 && func_0201C6C4(printQue, func_02045770(window->bmpWin)) == 0) {
+    if (window->queuePending != 0 && PRINTSYS_QUE_IsExistTarget(printQue, BMP_WIN_GetBmp(window->bmpWin)) == 0) {
         BMP_WIN_TransferChars(window->bmpWin);
         window->queuePending = 0;
     }
-    return func_0201C6B4(w->res->printQue);
+    return PRINTSYS_QUE_IsFinished(w->res->printQue);
 }
 
 /* Loads the yes and no strings and creates the task menu resources. */

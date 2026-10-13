@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: struct window array avoids hoisting its base; initialize i before q.
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02200A7C 0x02200A7C thumb ov135
  *   d_022038FC 0x022038FC data a4
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u32 d_022038FC[][3];
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_02200A7C(void *p, void *bank, u32 b, u32 id, u32 fifth, void *out, u16 se);
@@ -42,7 +42,7 @@ void func_0220093C(Work *p)
     i = 0;
     q = p->queue;
     for (; i < 3; i++) {
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->win[i])), 1);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->win[i])), 1);
         func_02200A7C((void *)p->win[i], (void *)p->bank, 0, t[i], 0, q, 0x3dc1);
     }
 }

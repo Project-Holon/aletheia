@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_ABILITY_GetMoxieHandlers",
+   "name": "HAND_TOKUSEI_GetMoxieHandlers",
    "address": "0x021DC888",
    "kind": "game",
    "region": "ov093",

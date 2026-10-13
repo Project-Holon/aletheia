@@ -10,7 +10,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02030734 0x02030734 arm
  *   IRC_COMPATIBLE_StepRunnerInit 0x021B6BE4 thumb ov101
  *   func_020120F4 0x020120F4 thumb
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void IRC_COMPATIBLE_StepRunnerInit(u8 *,int);
 struct Ctx;
@@ -45,11 +45,11 @@ int IRC_COMPATIBLE_ProcInit(struct Obj0203159C *a,int b,int c)
     int handle;
     GFL_HEAP_CreateChildHeap(1,58,0x8000);
     p=PROCSYS_AllocProcWork(a,64,58);
-    func_02082BCC(p,0,64);
+    MI_CpuFill8(p,0,64);
     handle=0;
     ((struct Obj04421 *)p)->f10=c;
     ((struct Obj04421 *)p)->f3C=func_02030734(58,44,0,IRC_COMPATIBLE_SourceFileName,0x119);
-    func_02082BCC(((struct Obj04421 *)p)->f3C,0,44);
+    MI_CpuFill8(((struct Obj04421 *)p)->f3C,0,44);
     IRC_COMPATIBLE_StepRunnerInit(p+4,58);
     if(*(int *)((struct Obj04421 *)p)->f10) handle=(int)func_020120F4((const struct Ctx *)(*(int *)((struct Obj04421 *)p)->f10));
     ((struct Obj04421 *)p)->f0=func_021B6100(-1,handle,58,0);

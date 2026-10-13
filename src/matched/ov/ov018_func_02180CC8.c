@@ -13,7 +13,7 @@
  * the Ov018Obj at +0x10; state 2 pushes an ov083 child task.
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   func_0201F02C  0x0201F02C  thumb
@@ -80,7 +80,7 @@ struct Ctx;
 struct Evt;
 struct Obj;
 struct WordSet;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *);
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
@@ -104,7 +104,7 @@ int EVENT_COMM_COMMON_TalkedPowerGiftTargetEventMain(void *a, int *state, Outer 
     int v;
     Args args;
 
-    sub = func_020124E4(a);
+    sub = GAME_EVENT_GetGameSystem(a);
     v = INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(sub)));
     switch (*state) {
     case 0:

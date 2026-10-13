@@ -14,7 +14,7 @@
  *   PLACE_NAME_LETTER_GetWidth  0x021BD1EC  thumb  ov021
  *   PLACE_NAME_LETTER_Setup  0x021BD19C  thumb  ov021
  *   STRBUF_ToChars  0x02045A38  arm
- *   sub_0201DC6C   0x0201DC6C  thumb
+ *   GF_FONT_GetCharWidth   0x0201DC6C  thumb
  *   gPlaceNameLetterDefaultParam     0x021D9B88  data  a4
  *   _ffltu         0x0209BE04  arm
  *   _fflt          0x0209BDBC  arm
@@ -64,7 +64,7 @@ extern int PLACE_NAME_LETTER_Setup(u32 a, u32 b);
 struct U16Vec;
 extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
 struct Font;
-extern u32 sub_0201DC6C(struct Font *p, u16 ch);
+extern u32 GF_FONT_GetCharWidth(struct Font *p, u16 ch);
 
 void FIELD_PLACE_NAME_SpawnNextLetter(Obj *p)
 {
@@ -80,7 +80,7 @@ void FIELD_PLACE_NAME_SpawnNextLetter(Obj *p)
     prm.ch = buf[n];
     for (i = 0; i < n; i++) {
         if (p->fC8[i] == 0) {
-            prm.x += sub_0201DC6C((struct Font *)p->f18, 0x20);
+            prm.x += GF_FONT_GetCharWidth((struct Font *)p->f18, 0x20);
         } else {
             prm.x += PLACE_NAME_LETTER_GetWidth((u8 *)p->fC8[i]);
         }

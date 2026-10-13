@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  */
 
 typedef unsigned int u32;
 
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 
 void func_021F6A28(int *p)
 {
@@ -35,12 +35,12 @@ void func_021F6A28(int *p)
         b = s[0];
     }
     for (i = 0; i < 3; i++) {
-        if (func_0201AA18((void *)a) > i)
-            p[0xf8 / 4 + i] = (int)func_0201AB28((void *)a, i);
+        if (POKEPARTY_GetCount((void *)a) > i)
+            p[0xf8 / 4 + i] = (int)POKEPARTY_GetMember((void *)a, i);
         else
             p[0xf8 / 4 + i] = 0;
-        if (func_0201AA18((void *)b) > i)
-            p[0x104 / 4 + i] = (int)func_0201AB28((void *)b, i);
+        if (POKEPARTY_GetCount((void *)b) > i)
+            p[0x104 / 4 + i] = (int)POKEPARTY_GetMember((void *)b, i);
         else
             p[0x104 / 4 + i] = 0;
     }

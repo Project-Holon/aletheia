@@ -14,7 +14,7 @@
  *         truncations at 021F4594/459A and 021F45C4/45CA; u16 local alone
  *         folds them away. Matched callee's wide id receives the same bits.
  * symbols:
- *   func_020124E4 0x020124E4 thumb
+ *   GAME_EVENT_GetGameSystem 0x020124E4 thumb
  *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
  *   FIELDMAP_GetExpObj 0x02188D2C thumb ov021
  *   FIELDMAP_GetCommonWork 0x021897BC thumb ov021
@@ -40,7 +40,7 @@ typedef struct { int x, y, z; } V3;
 struct Big;
 struct Ctx;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetExpObj(int *p);
 extern int *FIELDMAP_GetCommonWork(char *p, int i);
@@ -68,7 +68,7 @@ int GIMMICK38_EventScripted(void *a, int *state)
     int i;
     Id id;
 
-    sys = (void *)GAMESYSTEM_GetFieldMap(func_020124E4(a));
+    sys = (void *)GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(a));
     h = (void *)FIELDMAP_GetExpObj(sys);
     s = (u8 *)FIELDMAP_GetCommonWork(sys, 1);
     GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((void *)FIELDMAP_GetGameSystem(sys))), 6);

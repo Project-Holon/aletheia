@@ -1,5 +1,5 @@
 /*
- * function: func_021A1590
+ * function: FIELD_SUBSCREEN_ExitPowerOnoff
  * address:  0x021A1590
  * packet:   pkt_ov021_021A1590
  * region:   ov021
@@ -25,7 +25,7 @@ extern unsigned char abs_id_23[];
 extern void C_GEAR_POWER_ONOFF_Delete(char *p);
 extern void func_02034A5C(int handle);
 
-void func_021A1590(u32 *p)
+void FIELD_SUBSCREEN_ExitPowerOnoff(u32 *p)
 {
     C_GEAR_POWER_ONOFF_Delete((char *)p[8]);
     func_02034A5C((int)abs_id_23);

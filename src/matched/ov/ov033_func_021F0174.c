@@ -18,13 +18,13 @@
  *   GAME_DATA_GetPlayerPosition 0x02012AA0 thumb
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetFieldWork 0x02012974 thumb
- *   func_02013E7C 0x02013E7C thumb
+ *   ZONEDATA_IsFieldMatrix 0x02013E7C thumb
  *   ZONEDATA_IsZoneGroup118To13C 0x02013D74 thumb
  *   GFL_USE_GetSeSlot 0x02006148 thumb
- *   func_0200616C 0x0200616C thumb
+ *   GFL_USE_PlaySeInSlot 0x0200616C thumb
  *   GFL_USE_SetSeSlotParams 0x02006268 thumb
  *   GFL_USE_IsSeSlotBusy 0x02006224 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   DOWSING_ResetSearch 0x021EFF40 thumb ov033
  *   DOWSING_IsTargetAvailable 0x021EFEEC thumb ov033
  *   DOWSING_FindNextTarget 0x021EFF48 thumb ov033
@@ -111,16 +111,16 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u32 GAME_DATA_GetFieldWork(const struct BigObj *p);
 extern int MAP_MATRIX_IsInRangeByPos(int a0, int a1, int a2);
 extern int MAP_MATRIX_GetZoneIdByPos(int a0, int a1, int a2);
-extern u32 func_02013E7C(u32 id);
+extern u32 ZONEDATA_IsFieldMatrix(u32 id);
 extern int ZONEDATA_IsZoneGroup118To13C(u32 key);
 extern void DOWSING_ResetSearch(char *p);
 extern int DOWSING_IsTargetAvailable(char *p, int *q);
 extern int DOWSING_FindNextTarget(void *p, Rec *out, int mode);
 extern int GFL_USE_GetSeSlot(u32 a0);
-extern void func_0200616C(void *arg, int i);
+extern void GFL_USE_PlaySeInSlot(void *arg, int i);
 extern void GFL_USE_SetSeSlotParams(int i, u32 a, u32 b, u32 c);
 extern int GFL_USE_IsSeSlotBusy(u32 a0);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void DOWSING_UpdateCloseButton(W *p);
 
 void DOWSING_Update(W *p, int on)
@@ -178,7 +178,7 @@ void DOWSING_Update(W *p, int on)
     flag = 0;
     if (MAP_MATRIX_IsInRangeByPos((int)map, pos->x, pos->z) == 1) {
         zone = MAP_MATRIX_GetZoneIdByPos((int)map, pos->x, pos->z);
-        flag = (int)func_02013E7C((u16)zone);
+        flag = (int)ZONEDATA_IsFieldMatrix((u16)zone);
     }
     if (p->f94 == 0) {
         p->f94 = 1;
@@ -238,7 +238,7 @@ void DOWSING_Update(W *p, int on)
                 z = e->h8;
             } else if (r[1].kind == 2) {
                 s = (s16 *)r[1].b;
-                if ((int)func_02013E7C((u16)s[3]) == 0)
+                if ((int)ZONEDATA_IsFieldMatrix((u16)s[3]) == 0)
                     continue;
                 if (flag == 0)
                     continue;
@@ -291,7 +291,7 @@ void DOWSING_Update(W *p, int on)
         }
         if (start) {
             p->f98 = GFL_USE_GetSeSlot(0x760);
-            func_0200616C((void *)0x760, p->f98);
+            GFL_USE_PlaySeInSlot((void *)0x760, p->f98);
             GFL_USE_SetSeSlotParams(p->f98, -1, 0x180, -1);
             p->hA0 = 6;
             p->fA4 = 1;
@@ -333,13 +333,13 @@ void DOWSING_Update(W *p, int on)
                 pan = -127;
             else if (pan > 127)
                 pan = 127;
-            func_0200616C((void *)0x760, h);
+            GFL_USE_PlaySeInSlot((void *)0x760, h);
             GFL_USE_SetSeSlotParams(h, -1, -1, pan);
             snd = 0;
         }
     }
     if (snd && p->f64 != p->f68)
-        func_020061E4(0x762);
+        GFL_USE_PlaySeDefaultVolume(0x762);
     p->f88 = gx;
     p->f8C = gy;
     p->f90 = gz;

@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201CE30  0x0201CE30  thumb
+ *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb
  *   APP_KEYCURSOR_Update  0x020286C4  thumb
- *   func_0201CE48  0x0201CE48  thumb
- *   func_020362DC  0x020362DC  arm
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
+ *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
- *   func_020061E4  0x020061E4  thumb
- *   func_0201CE38  0x0201CE38  thumb
- *   func_0203630C  0x0203630C  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
+ *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb
+ *   KEY_GetCont  0x0203630C  arm
  *   TOUCHPANEL_GetCont  0x02035C38  arm
- *   func_0201CE5C  0x0201CE5C  thumb
+ *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb
  */
 #include "../include/Obj00002.h"
 
@@ -29,42 +29,42 @@ typedef signed int     s32;
 struct Ctx;
 struct Rec;
 struct Rec3;
-extern u32 func_0201CE30(void *p);
+extern u32 PRINTSYS_PrintStreamGetState(void *p);
 extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
-extern void func_0201CE48(struct Rec3 *p);
-extern u32 func_020362DC(void);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_020061E4(u32 a);
-extern void func_0201CE38(void *p);
-extern unsigned int func_0203630C(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+extern void PRINTSYS_PrintStreamReleasePause(void *p);
+extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
-extern void func_0201CE5C(struct Rec *p, s32 v);
+extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
 
 int ITEMMENU_IsMessageFinished(int p)
 {
     int r;
 
     if (((struct Obj00002 *)p)->f510 != 0) {
-        r = func_0201CE30((void *)(((struct Obj00002 *)p)->f510));
+        r = PRINTSYS_PrintStreamGetState((void *)(((struct Obj00002 *)p)->f510));
         APP_KEYCURSOR_Update((struct Ctx *)(((struct Obj00002 *)p)->f518), (void *)(((struct Obj00002 *)p)->f510), (void *)(((struct Obj00002 *)p)->f4FC));
         switch (r) {
         case 2:
-            func_0201CE48((struct Rec3 *)(((struct Obj00002 *)p)->f510));
+            PRINTSYS_PrintStreamDelete((struct Rec3 *)(((struct Obj00002 *)p)->f510));
             ((struct Obj00002 *)p)->f510 = 0;
             ((struct Obj00002 *)p)->f514 = 0;
             break;
         case 1:
             if (((struct Obj00002 *)p)->f514 == 0) {
-                if ((func_020362DC() & 3) != 0 || TOUCHPANEL_GetTrg() != 0) {
-                    func_020061E4(0x547);
-                    func_0201CE38((void *)(((struct Obj00002 *)p)->f510));
+                if ((KEY_GetTrg() & 3) != 0 || TOUCHPANEL_GetTrg() != 0) {
+                    GFL_USE_PlaySeDefaultVolume(0x547);
+                    PRINTSYS_PrintStreamReleasePause((void *)(((struct Obj00002 *)p)->f510));
                     ((struct Obj00002 *)p)->f514 = 1;
                 }
             }
             break;
         case 0:
-            if ((func_0203630C() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
-                func_0201CE5C((struct Rec *)(((struct Obj00002 *)p)->f510), 0);
+            if ((KEY_GetCont() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
+                PRINTSYS_PrintStreamShortWait((struct Rec *)(((struct Obj00002 *)p)->f510), 0);
             }
             ((struct Obj00002 *)p)->f514 = 0;
             break;

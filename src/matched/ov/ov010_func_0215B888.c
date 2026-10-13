@@ -14,12 +14,12 @@
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AA14  0x0201AA14  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AA1C  0x0201AA1C  thumb
- *   func_0201AA50  0x0201AA50  thumb
- *   func_0201AA88  0x0201AA88  thumb
- *   func_0201AAD4  0x0201AAD4  thumb
+ *   POKEPARTY_GetCapacity  0x0201AA14  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetNonEggCount  0x0201AA1C  thumb
+ *   POKEPARTY_GetBattleReadyCount  0x0201AA50  thumb
+ *   POKEPARTY_GetEggCount  0x0201AA88  thumb
+ *   POKEPARTY_GetBadEggCount  0x0201AAD4  thumb
  */
 
 typedef unsigned char u8;
@@ -31,12 +31,12 @@ struct BigObj;
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern u32 func_0201AA14(void *p);
-extern u32 func_0201AA18(void *p);
-extern u32 func_0201AA1C(void *p);
-extern u32 func_0201AA50(void *p);
-extern u32 func_0201AA88(void *p);
-extern u32 func_0201AAD4(void *p);
+extern u32 POKEPARTY_GetCapacity(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
+extern u32 POKEPARTY_GetNonEggCount(void *p);
+extern u32 POKEPARTY_GetBattleReadyCount(void *p);
+extern u32 POKEPARTY_GetEggCount(void *p);
+extern u32 POKEPARTY_GetBadEggCount(void *p);
 
 int SCRCMD_PROC_GetPartyCount(void *a0, void *a1)
 {
@@ -47,23 +47,23 @@ int SCRCMD_PROC_GetPartyCount(void *a0, void *a1)
 
     switch (sel) {
     case 0:
-        r = func_0201AA18(h);
+        r = POKEPARTY_GetCount(h);
         break;
     case 1:
-        r = func_0201AA1C(h);
+        r = POKEPARTY_GetNonEggCount(h);
         break;
     case 2:
-        r = func_0201AA50(h);
+        r = POKEPARTY_GetBattleReadyCount(h);
         break;
     case 3:
-        r = func_0201AA88(h);
+        r = POKEPARTY_GetEggCount(h);
         break;
     case 4:
-        r = func_0201AAD4(h);
+        r = POKEPARTY_GetBadEggCount(h);
         break;
     case 5: {
-        int a = func_0201AA14(h);
-        int b = func_0201AA18(h);
+        int a = POKEPARTY_GetCapacity(h);
+        int b = POKEPARTY_GetCount(h);
         if (a < b) {
             r = 0;
         } else {

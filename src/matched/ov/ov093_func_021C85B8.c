@@ -1,5 +1,5 @@
 /*
- * function: func_021C85B8
+ * function: BTL_SERVER_FLOW_PopFrame
  * address: 0x021C85B8
  * packet: pkt_ov093_021C85B8
  * region: ov093
@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C85D4 0x021C85D4 thumb ov093
+ *   BTL_SERVER_FLOW_LoadFrame 0x021C85D4 thumb ov093
  */
 #include "../include/Obj00294.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021C85D4(u8 *, int, int);
-void func_021C85B8(u8 *p)
+extern void BTL_SERVER_FLOW_LoadFrame(u8 *, int, int);
+void BTL_SERVER_FLOW_PopFrame(u8 *p)
 {
     if (((struct Obj00294 *)p)->f1A64 != 0) {
         --((struct Obj00294 *)p)->f1A64;
-        func_021C85D4(p, ((struct Obj00294 *)p)->f1A64, 0);
+        BTL_SERVER_FLOW_LoadFrame(p, ((struct Obj00294 *)p)->f1A64, 0);
     }
 }

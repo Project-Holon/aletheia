@@ -1,5 +1,5 @@
 /*
- * function: func_021D1DF4
+ * function: BTL_CLIENT_PickSendOutMessageId
  * address:  0x021D1DF4
  * packet:   pkt_ov093_021D1DF4
  * region:   ov093
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   BTL_MAIN_GetRule  0x021B8588  thumb  ov093
- *   func_021B9064  0x021B9064  thumb  ov093
- *   func_021B9920  0x021B9920  thumb  ov093
+ *   BTL_MAIN_GetOpponentClient  0x021B9064  thumb  ov093
+ *   BTL_SIDE_GetClientPoke  0x021B9920  thumb  ov093
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   BTL_POKEPARAM_GetHpRatioFixed  0x021D5C44  thumb  ov093
  */
@@ -31,21 +31,21 @@ typedef struct {
 } BattleSeq;
 
 extern u32 BTL_MAIN_GetRule(void **p);
-extern u32 func_021B9064(u8 *p, int k, int x);
-extern u8 *func_021B9920(void *p, u32 i, u8 j);
+extern u32 BTL_MAIN_GetOpponentClient(u8 *p, int k, int x);
+extern u8 *BTL_SIDE_GetClientPoke(void *p, u32 i, u8 j);
 extern int BTL_POKEPARAM_IsFainted(void *p);
 struct Rat;
 extern int BTL_POKEPARAM_GetHpRatioFixed(struct Rat *p);
 
-int func_021D1DF4(BattleSeq *s)
+int BTL_CLIENT_PickSendOutMessageId(BattleSeq *s)
 {
     u8 *m;
     u8 t;
     int v;
 
     if (BTL_MAIN_GetRule(s->battle) == 0) {
-        t = func_021B9064(s->battle, s->unk1A6, 0);
-        m = func_021B9920(s->unk04, t, 0);
+        t = BTL_MAIN_GetOpponentClient(s->battle, s->unk1A6, 0);
+        m = BTL_SIDE_GetClientPoke(s->unk04, t, 0);
         if (BTL_POKEPARAM_IsFainted(m) != 0)
             return 0xb;
         v = BTL_POKEPARAM_GetHpRatioFixed((struct Rat *)m);

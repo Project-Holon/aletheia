@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   func_02012FFC 0x02012FFC thumb
@@ -29,7 +29,7 @@ typedef signed short   s16;
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern signed char func_02012FFC(void);
@@ -45,14 +45,14 @@ void func_021D4EF0(char *p, int n, int flag)
     if (((struct Obj02473 *)p)->f224 == 0)
         ((struct Obj02473 *)p)->f224 = (void *)BMP_WIN_Create(5, 1, 3, 30, (u8)n, 13, 1);
     obj = ((struct Obj02473 *)p)->f224;
-    BMP_Clear(func_02045770(obj), 15);
+    BMP_Clear(BMP_WIN_GetBmp(obj), 15);
     GF_FONT_SetTextColor(1, 2, 15);
     if (flag) {
         void *value;
         value = (void *)func_02012FFC();
         ((struct Obj02473 *)p)->f228 = PRINTSYS_PrintStream(obj, 0, 0, ((struct Obj02473 *)p)->f38, ((struct Obj02473 *)p)->f30, value, ((struct Obj02473 *)p)->f230, 2, ((struct Obj02473 *)p)->fC, 15);
     } else {
-        PRINTSYS_Print(func_02045770(obj), 0, 0, ((struct Obj02473 *)p)->f38, ((struct Obj02473 *)p)->f30);
+        PRINTSYS_Print(BMP_WIN_GetBmp(obj), 0, 0, ((struct Obj02473 *)p)->f38, ((struct Obj02473 *)p)->f30);
     }
     func_0201F73C(obj, 1, (u16)(((struct Obj02473 *)p)->f3C), 12);
     BMP_WIN_TransferChars(obj);

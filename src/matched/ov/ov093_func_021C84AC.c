@@ -1,5 +1,5 @@
 /*
- * function: func_021C84AC
+ * function: BTL_SERVER_FLOW_ProcHeldItemActivateWithResult
  * address: 0x021C84AC
  * packet: pkt_ov093_021C84AC
  * region: ov093
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 struct Flags { u8 low:5; u8 flag:1; u8 high:2; };
 extern int BTL_SERVER_FLOW_ProcHeldItemActivate(u8 *p, u8 *a);
-int func_021C84AC(u8 *p, u8 *a, u8 *out)
+int BTL_SERVER_FLOW_ProcHeldItemActivateWithResult(u8 *p, u8 *a, u8 *out)
 {
     int r;
     ((struct Flags *)(p + 0x78a))->flag = 0;

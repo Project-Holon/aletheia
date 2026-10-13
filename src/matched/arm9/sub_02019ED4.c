@@ -38,9 +38,9 @@
  *   python tools/match.py one --src src/matched/POKE_REGULATION_CheckPartyUsable.c \
  *       --func POKE_REGULATION_CheckPartyUsable --addr 0x02019ED4 --cc 1.1p1 --thumb
  * symbols:
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   POKE_REGULATION_CheckPokemon  0x02019DA4  thumb
  *   func_0200AE54  0x0200AE54  thumb
@@ -51,9 +51,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 extern void MI_CpuFill8(void *dst, u8 v, u32 n);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern int POKE_REGULATION_CheckPokemon(void *ctx, void *mon);
 struct Reg;
@@ -72,11 +72,11 @@ int POKE_REGULATION_CheckPartyUsable(void *ctx, void *q)
     int lim;
     int r;
 
-    n = func_0201AA18(q);
+    n = POKEPARTY_GetCount(q);
     cnt = n;
     MI_CpuFill8(pad, 0, 12);
     for (i = 0; i < n; i++) {
-        void *mon = func_0201AB28(q, i);
+        void *mon = POKEPARTY_GetMember(q, i);
 
         species[i] = (u16)func_02017E1C(mon, 5, 0);
         form[i] = (u16)func_02017E1C(mon, 0x9E, 0);

@@ -7,11 +7,11 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "DWC_IsValidFriendData",
+   "name": "WIH_HasBeaconBeenSent",
    "address": "0x02177C08",
-   "kind": "sdk",
+   "kind": "game",
    "region": "ov014",
-   "source": "src/matched/ov_sdk/ov014_func_02177C08.c",
+   "source": "src/matched/ov/ov014_func_02177C08.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

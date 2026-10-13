@@ -9,11 +9,11 @@
  * status: EXACT
  * symbols:
  *   BMP_WIN_SetPalette 0x02045798 arm
- *   func_02045730 0x02045730 arm
- *   func_02045758 0x02045758 arm
- *   func_02045760 0x02045760 arm
- *   func_02045748 0x02045748 arm
- *   func_02045750 0x02045750 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
+ *   BMP_WIN_GetPosX 0x02045758 arm
+ *   BMP_WIN_GetPosY 0x02045760 arm
+ *   BMP_WIN_GetDispWidth 0x02045748 arm
+ *   BMP_WIN_GetDispHeight 0x02045750 arm
  *   func_020413B0 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
  */
@@ -22,11 +22,11 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct Descriptor;
 extern void BMP_WIN_SetPalette(struct Descriptor *,u8);
-extern u8 func_02045730(struct Descriptor *);
-extern u8 func_02045758(struct Descriptor *);
-extern u8 func_02045760(struct Descriptor *);
-extern u8 func_02045748(struct Descriptor *);
-extern u8 func_02045750(struct Descriptor *);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
+extern u8 BMP_WIN_GetPosX(struct Descriptor *);
+extern u8 BMP_WIN_GetPosY(struct Descriptor *);
+extern u8 BMP_WIN_GetDispWidth(struct Descriptor *);
+extern u8 BMP_WIN_GetDispHeight(struct Descriptor *);
 extern void func_020413B0(u32,u8,u8,u8,u8,u8);
 extern void func_02041B6C(u32);
 void func_021C1038(u8 *p,u8 palette)
@@ -34,11 +34,11 @@ void func_021C1038(u8 *p,u8 palette)
     u32 layer;
     u8 x,y,width,height;
     BMP_WIN_SetPalette(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18,palette);
-    layer=func_02045730(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
-    x=func_02045758(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
-    y=func_02045760(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
-    width=func_02045748(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
-    height=func_02045750(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
+    layer=BMP_WIN_GetBgLayer(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
+    x=BMP_WIN_GetPosX(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
+    y=BMP_WIN_GetPosY(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
+    width=BMP_WIN_GetDispWidth(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
+    height=BMP_WIN_GetDispHeight(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
     func_020413B0(layer,x,y,width,height,palette);
-    if (((struct Obj03954 *)p)->f1C!=0) func_02041B6C(func_02045730(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18));
+    if (((struct Obj03954 *)p)->f1C!=0) func_02041B6C(BMP_WIN_GetBgLayer(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18));
 }

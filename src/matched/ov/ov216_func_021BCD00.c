@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_020061E4(u32 a);
-void func_021BCD00(int a){func_020061E4(a);}
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+void func_021BCD00(int a){GFL_USE_PlaySeDefaultVolume(a);}

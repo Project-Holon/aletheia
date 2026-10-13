@@ -70,8 +70,8 @@
  *   records 0x021BB0A4 data a4
  *   UI_SCENE_GetPhaseFrame 0x021B61FC thumb ov067
  *   UI_SCENE_AdvancePhaseFrame 0x021B6200 thumb ov067
- *   func_020061E4 0x020061E4 thumb
- *   func_0204B3DC 0x0204B3DC arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   FADE_Start 0x0204E720 arm
  *   d0 0x021BB0D4 data a4
  *   d1 0x021BB0E0 data ov213
@@ -80,8 +80,8 @@
  *   d4 0x021BB080 data ov213
  *   d5 0x021BB098 data a4
  *   FADE_IsActive 0x0204E804 arm
- *   func_0201AA18 0x0201AA18 thumb
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   zero 0x021BB08C data ov213
@@ -91,19 +91,19 @@
  *   func_02008500 0x02008500 thumb
  *   func_02008550 0x02008550 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_020452E8 0x020452E8 arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_Delete 0x020452E8 arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_021BA30C 0x021BA30C thumb ov213
  *   func_02008DF0 0x02008DF0 thumb
  *   GFL_NET_GetGameKind 0x0203D5D4 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_021BAC94 0x021BAC94 thumb ov213
  *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
  *   UI_SCENE_FreeActorGfx 0x021B6284 thumb ov067
@@ -145,7 +145,7 @@
  *   G3D_UTIL_RemoveUnit 0x020480E4 arm
  *   G3D_SYSTEM_LoopObjectAnimeFrame 0x02047910 arm
  *   d_021BB320 0x021BB320 data a4
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
@@ -322,38 +322,38 @@ extern void sound(int);
 extern int animate(char *,int,const struct Record *);
 extern u32 UI_SCENE_GetPhaseFrame(const unsigned char*);
 extern void UI_SCENE_AdvancePhaseFrame(unsigned char*);
-extern void func_020061E4(u32 a);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void FADE_Start(u32,int,int,int);
 extern int FADE_IsActive(void);
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void*,u32);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void*,u32);
 extern void CLACT_DeleteActor(struct Obj *p);
-extern void func_0204B3DC(struct Obj *p, unsigned int v),CLACT_SetActorBgPriority(void*,u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v),CLACT_SetActorBgPriority(void*,u32);
 extern void CLACT_ChangeActorAnimSeq(struct Obj *p, u16 v);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02008500(void *,void *);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_020452E8(struct Descriptor *d);
-extern void *func_02045770(struct Descriptor *p);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern void PRINTSYS_Print(void *x, s16_021B95A0 y, s16_021B95A0 z, void *s, void *w);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 void func_021BA30C();
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern u32 GFL_NET_GetGameKind(void);
-extern void func_0204B3DC(struct Obj *p, unsigned int v),func_0204B92C(void *,unsigned);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v),CLACT_SetActorAutoAnim(void *,unsigned);
 extern u32 func_021BAC94(char *p);
 extern void UI_SCENE_LoadActorGfx(Out *out, In *in, int unused, unsigned heap);
 extern void UI_SCENE_FreeActorGfx(unsigned int *p);
 extern void *UI_SCENE_CreateActor(void *,int,unsigned char,unsigned char,unsigned char,unsigned short);
-extern void func_0204B3DC(struct Obj *p, unsigned int v),CLACT_SetActorDrawPriority(void *,unsigned);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v),CLACT_SetActorDrawPriority(void *,unsigned);
 extern void func_0207D63C(void *,int,int,int,int),PARTICLE_InitManager(unsigned);
 extern void *G3D_UTIL_Create(unsigned,unsigned,unsigned);
 extern void G3D_UTIL_Delete(struct Rec *p);
@@ -382,7 +382,7 @@ extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 extern void G3D_UTIL_RemoveUnit(struct Ctx *,u32);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
-extern void func_020434DC(unsigned, unsigned);
+extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void G3X_SetFog(BOOL, int, int, int);
 extern void G3X_SetClearColor(unsigned short, int, int, int, BOOL);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
@@ -810,17 +810,17 @@ int func_021B9B0C(unsigned char *state,unsigned char *p)
     case 2:
         if(((struct Obj01295 *)p)->f49D0==15){
             index=((struct Obj01295 *)p)->f49CC!=0;
-            func_020061E4(func_021B98DC(2,((struct Obj25690 *)(*(unsigned char* *)&((struct Obj01295 *)p)->f4))->f50));
+            GFL_USE_PlaySeDefaultVolume(func_021B98DC(2,((struct Obj25690 *)(*(unsigned char* *)&((struct Obj01295 *)p)->f4))->f50));
             func_021BA68C((char *)(p+0x498c),index,0);
         }else if(((struct Obj01295 *)p)->f49D0==24){
             index=((struct Obj01295 *)p)->f49CC!=0;
-            func_0204B3DC(*(void**)((u32)p+(u32)index*4+0x499c),0);
+            CLACT_SetActorDrawEnable(*(void**)((u32)p+(u32)index*4+0x499c),0);
         }else if(((struct Obj01295 *)p)->f49D0==45){
             index=((struct Obj01295 *)p)->f49CC!=1;
             func_021BA68C((char *)(p+0x498c),index,1);
         }else if(((struct Obj01295 *)p)->f49D0==54){
             index=((struct Obj01295 *)p)->f49CC!=1;
-            func_0204B3DC(*(void**)((u32)p+(u32)index*4+0x499c),0);
+            CLACT_SetActorDrawEnable(*(void**)((u32)p+(u32)index*4+0x499c),0);
         }else if(((struct Obj01295 *)p)->f49D0==120)FADE_Start(3,0,16,-3);
         else if(((struct Obj01295 *)p)->f49D0==128)return 1;
         if(((struct Obj01295 *)p)->f49D0%180==0){
@@ -848,7 +848,7 @@ int func_021B9B0C(unsigned char *state,unsigned char *p)
 
 
 
-int func_021B9D4C(u8 *task,char *p) {if(((struct Obj14692 *)p)->f49CC==2){func_020061E4(func_021B98DC(4,((struct Obj25691 *)(*(char * *)&((struct Obj14692 *)p)->f4))->f50));UI_SCENE_SetNextScene(task,2);return 1;}func_021B9830(task,p);return 1;}
+int func_021B9D4C(u8 *task,char *p) {if(((struct Obj14692 *)p)->f49CC==2){GFL_USE_PlaySeDefaultVolume(func_021B98DC(4,((struct Obj25691 *)(*(char * *)&((struct Obj14692 *)p)->f4))->f50));UI_SCENE_SetNextScene(task,2);return 1;}func_021B9830(task,p);return 1;}
 
 
 
@@ -938,20 +938,20 @@ int func_021B9EB0(void *p,u32 x) {if(!p)return 13;switch(x){case 3:return 13;cas
 
 /*
  * lever: negative constant multiplication keeps Thumb shift/negate/add; unary negation is folded back into constant-minus-shift.
- * func_0201AA18 0x0201AA18 thumb
- * func_0201AB28 0x0201AB28 thumb
+ * POKEPARTY_GetCount 0x0201AA18 thumb
+ * POKEPARTY_GetMember 0x0201AB28 thumb
  * func_021B9E50 0x021B9E50 thumb ov213
  * func_021B9E80 0x021B9E80 thumb ov213
  * func_021B9EB0 0x021B9EB0 thumb ov213
  * func_021BA71C 0x021BA71C thumb ov213
- * func_0204B3DC 0x0204B3DC arm
+ * CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 void func_021B9EE4(struct C *p,void *owner,u8 kind,u8 index,void *a,void *parent,const u8 *types)
 {
     int i,x,y,frame;
     void *entry;
     p->kind=kind;p->index=index;p->owner=owner;
-    p->n=func_0201AA18(owner);
+    p->n=POKEPARTY_GetCount(owner);
     if(func_021B9E50(kind))p->count=6;else p->count=3;
     p->parent=parent;p->step=0;p->types=types;
     for(i=0;i<p->count;i++){
@@ -968,12 +968,12 @@ void func_021B9EE4(struct C *p,void *owner,u8 kind,u8 index,void *a,void *parent
             }
         }
         entry=0;
-        if(i<p->n)entry=func_0201AB28(owner,i);
+        if(i<p->n)entry=POKEPARTY_GetMember(owner,i);
         frame=func_021B9EB0(entry,types[i]);
         if(!func_021B9E80(kind)&&frame!=0xd)frame=0xa;
         p->obj[i]=func_021BA71C(a,x,y,(u16)frame);
-        if(func_021B9E80(kind))func_0204B3DC(p->obj[i],0);
-        else func_0204B3DC(p->obj[i],1);
+        if(func_021B9E80(kind))CLACT_SetActorDrawEnable(p->obj[i],0);
+        else CLACT_SetActorDrawEnable(p->obj[i],1);
     }
 }
 
@@ -994,7 +994,7 @@ void func_021BA034(struct C *p, u32 time)
     int x,y;
     struct V pos;
     if(i < p->count) {
-        if(i==0 && p->index==0) func_020061E4(func_021B98DC(0,0));
+        if(i==0 && p->index==0) GFL_USE_PlaySeDefaultVolume(func_021B98DC(0,0));
         if(func_021B9E50(p->kind)) {
             if(p->index==0){x=-0x400-(i<<11);y=-0x2500;}
             else if(p->index==1){x=(i<<11)+0x300;y=0x1300;}
@@ -1006,7 +1006,7 @@ void func_021BA034(struct C *p, u32 time)
         }
         pos=zero; pos.x=x; pos.y=y;
         func_021BA8F4(p->parent,(int)(&pos));
-        if(func_021B9E80(p->kind)) func_0204B3DC(p->obj[i],1);
+        if(func_021B9E80(p->kind)) CLACT_SetActorDrawEnable(p->obj[i],1);
         else func_021BA1C8((char *)p,p->owner,p->types,p->count-1-i);
     } else {
         for(i=0;i<p->count;i++) CLACT_SetActorBgPriority(p->obj[i],1);
@@ -1049,7 +1049,7 @@ void func_021BA1C0(char *p) {p[0x28]=1;}
 
 
 
-void func_021BA1C8(char *p,void *list,const u8 *flags,int index) {void *entry=0;int value;if(index<(int)func_0201AA18(list))entry=func_0201AB28(((struct Obj25696 *)p)->f0,index);value=func_021B9EB0(entry,flags[index]);CLACT_ChangeActorAnimSeq((struct Obj *)(*(u32 *)(p+12+index*4)),value);}
+void func_021BA1C8(char *p,void *list,const u8 *flags,int index) {void *entry=0;int value;if(index<(int)POKEPARTY_GetCount(list))entry=POKEPARTY_GetMember(((struct Obj25696 *)p)->f0,index);value=func_021B9EB0(entry,flags[index]);CLACT_ChangeActorAnimSeq((struct Obj *)(*(u32 *)(p+12+index*4)),value);}
 
 
 
@@ -1111,7 +1111,7 @@ void func_021BA2E0(char *a)
 
 
 
-void func_021BA2F0(u8 *p) {STRBUF_Delete((struct U16Vec *)(((struct Obj14694 *)p)->f18));func_021BA014(p+32);func_020452E8((struct Descriptor *)(((struct Obj14694 *)p)->f1C));}
+void func_021BA2F0(u8 *p) {STRBUF_Delete((struct U16Vec *)(((struct Obj14694 *)p)->f18));func_021BA014(p+32);BMP_WIN_Delete((struct Descriptor *)(((struct Obj14694 *)p)->f1C));}
 
 
 
@@ -1136,16 +1136,16 @@ void func_021BA330(void *p, int a)
     int z = 0;
     int q;
 
-    BMP_Clear(func_02045770((struct Descriptor *)(*(int *)((char *)p + 0x1c))), z);
+    BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)(*(int *)((char *)p + 0x1c))), z);
     if (*(int *)((char *)p + 0x14) == 0)
         GF_FONT_SetTextColor(5, 6, z);
     else
         GF_FONT_SetTextColor(3, 4, z);
-    PRINTSYS_Print(func_02045770((struct Descriptor *)(*(int *)((char *)p + 0x1c))), 1, 1, (void *)(*(int *)((char *)p + 0x18)), (void *)a);
+    PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)(*(int *)((char *)p + 0x1c))), 1, 1, (void *)(*(int *)((char *)p + 0x18)), (void *)a);
     q = *(int *)((char *)p + 0x1c);
     BMP_WIN_TransferChars((struct Descriptor *)q);
     BMP_WIN_MakeScreen((struct Cfg *)q);
-    func_02041B6C(func_02045730((struct Descriptor *)q));
+    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)q));
 }
 
 
@@ -1237,7 +1237,7 @@ void func_021BA5A0(Context *p,const void *owner,void *other,u16 a,u16 b,u8 kind)
         case 2:x=128;y=96;break;
         }
         p->objects[i]=func_021BA71C((void *)owner,x,y,7);
-        func_0204B3DC(p->objects[i],0);
+        CLACT_SetActorDrawEnable(p->objects[i],0);
     }
 }
 
@@ -1249,12 +1249,12 @@ void func_021BA624(char *p){int i;for(i=0;i<3;i++)CLACT_DeleteActor(*(void **)((
 
 
 
-void func_021BA650(char *p){func_021B9E50(((struct Obj04630 *)p)->f26);if(((struct Obj04630 *)p)->f24==30){func_0204B3DC(((struct Obj04630 *)p)->f10,1);func_0204B92C(((struct Obj04630 *)p)->f10,1);func_0204B3DC(((struct Obj04630 *)p)->f14,1);func_0204B92C(((struct Obj04630 *)p)->f14,1);}(((struct Obj04630 *)p)->f24)++;}
+void func_021BA650(char *p){func_021B9E50(((struct Obj04630 *)p)->f26);if(((struct Obj04630 *)p)->f24==30){CLACT_SetActorDrawEnable(((struct Obj04630 *)p)->f10,1);CLACT_SetActorAutoAnim(((struct Obj04630 *)p)->f10,1);CLACT_SetActorDrawEnable(((struct Obj04630 *)p)->f14,1);CLACT_SetActorAutoAnim(((struct Obj04630 *)p)->f14,1);}(((struct Obj04630 *)p)->f24)++;}
 
 
 
 
-void func_021BA68C(char *p,unsigned i,int kind){int n;switch(kind){case 0:n=7;break;case 1:n=8;break;case 2:n=9;break;}p+=24;func_0204B3DC(*(void **)((unsigned)p+i*4),1);func_0204B92C(*(void **)((unsigned)p+i*4),1);CLACT_ChangeActorAnimSeq(*(void **)((unsigned)p+i*4),n);}
+void func_021BA68C(char *p,unsigned i,int kind){int n;switch(kind){case 0:n=7;break;case 1:n=8;break;case 2:n=9;break;}p+=24;CLACT_SetActorDrawEnable(*(void **)((unsigned)p+i*4),1);CLACT_SetActorAutoAnim(*(void **)((unsigned)p+i*4),1);CLACT_ChangeActorAnimSeq(*(void **)((unsigned)p+i*4),n);}
 
 
 
@@ -1292,7 +1292,7 @@ void *func_021BA71C(char *p,int a,int b,unsigned short c){return UI_SCENE_Create
 
 
 
-void *func_021BA750(void *p,int kind,unsigned a){int x,y;void *v;if(kind==0){x=206;y=152;}else{x=50;y=40;}v=func_021BA71C(p,x,y,a);func_0204B3DC(v,0);CLACT_SetActorDrawPriority(v,1);return v;}
+void *func_021BA750(void *p,int kind,unsigned a){int x,y;void *v;if(kind==0){x=206;y=152;}else{x=50;y=40;}v=func_021BA71C(p,x,y,a);CLACT_SetActorDrawEnable(v,0);CLACT_SetActorDrawPriority(v,1);return v;}
 
 
 
@@ -1431,7 +1431,7 @@ void func_021BAA20(unsigned char *p)
         unsigned char *row;
         for(i=0;i<2;i++) {
             row=p+16*i;
-            for(j=0;j<(int)func_0201AA18(((struct Obj08421 *)row)->f0);j++) row[10+j]=0;
+            for(j=0;j<(int)POKEPARTY_GetCount(((struct Obj08421 *)row)->f0);j++) row[10+j]=0;
         }
         return;
     }
@@ -1440,14 +1440,14 @@ void func_021BAA20(unsigned char *p)
         int j;
         for(i=0;i<4;i++) {
             row=p+16*i;
-            for(j=0;j<(int)func_0201AA18(((struct Obj08421 *)row)->f0);j++) row[10+j]=0;
+            for(j=0;j<(int)POKEPARTY_GetCount(((struct Obj08421 *)row)->f0);j++) row[10+j]=0;
         }
     }
 }
 
 
 
-int func_021BAA8C(char *p) { void *q; u8 *flags; int i,n; q=((struct Obj25712 *)p)->f0; n=0; flags=(u8 *)p+10; for(i=0;i<(int)func_0201AA18(q);i++) if(flags[i]<=1) n++; return n; }
+int func_021BAA8C(char *p) { void *q; u8 *flags; int i,n; q=((struct Obj25712 *)p)->f0; n=0; flags=(u8 *)p+10; for(i=0;i<(int)POKEPARTY_GetCount(q);i++) if(flags[i]<=1) n++; return n; }
 
 
 
@@ -1474,7 +1474,7 @@ static inline void EdgeMarking(BOOL enable) { if (enable) REG3D = (unsigned shor
 void func_021BAABC(void)
 {
     unsigned i;
-    func_020434DC(1, 1);
+    BG_SYS_SetMainPlaneVisible(1, 1);
     *(volatile unsigned short *)0x04000008 = (unsigned short)((*(volatile unsigned short *)0x04000008 & ~3) | 1);
     Shading(SHADING1);
     AntiAlias(0);

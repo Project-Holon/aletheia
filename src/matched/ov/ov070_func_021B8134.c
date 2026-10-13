@@ -15,7 +15,7 @@
  *   func_0202E448  0x0202E448  thumb
  *   ITEMMENU_IsItemRegistered  0x021B83A0  thumb  ov070
  *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 
 typedef unsigned short u16;
@@ -36,7 +36,7 @@ typedef unsigned int   u32;
 extern u32 func_0202E448(u32 id);
 extern int ITEMMENU_IsItemRegistered(char *p, int value);
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
-extern void func_020061E4(unsigned int id);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned int id);
 
 int ITEMMENU_ToggleRegisteredItem(Obj *o, int k)
 {
@@ -55,7 +55,7 @@ int ITEMMENU_ToggleRegisteredItem(Obj *o, int k)
             GAME_DATA_SetSaveFlag(o->f000, v, 0);
         else
             GAME_DATA_SetSaveFlag(o->f000, v, 1);
-        func_020061E4(0x646);
+        GFL_USE_PlaySeDefaultVolume(0x646);
         o->f818 = 0xFFFF;
         return 1;
     }

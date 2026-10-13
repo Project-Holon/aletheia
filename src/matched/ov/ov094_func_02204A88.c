@@ -10,7 +10,7 @@
  * status:   EXACT*
  * symbols:
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   func_0220687C  0x0220687C  thumb  ov094
  */
 typedef short s16;
@@ -32,7 +32,7 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0220687C(char *p, void *q);
 
 void func_02204A88(int a0, Ctx *c)
@@ -41,10 +41,10 @@ void func_02204A88(int a0, Ctx *c)
 
     CLACT_GetActorSurfacePos(c->main->o210, (struct PtS *)v, 1);
     v[0] -= 8;
-    func_0204B404(c->main->o210, (const struct Vec2 *)v, 1);
+    CLACT_AddActorSurfacePos(c->main->o210, (const struct Vec2 *)v, 1);
     CLACT_GetActorSurfacePos(c->main->o214, (struct PtS *)v, 1);
     v[0] -= 8;
-    func_0204B404(c->main->o214, (const struct Vec2 *)v, 1);
+    CLACT_AddActorSurfacePos(c->main->o214, (const struct Vec2 *)v, 1);
     if (v[0] == 0xe0) {
         func_0220687C((char *)c->main, (void *)a0);
     }

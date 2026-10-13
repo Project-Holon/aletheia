@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0201C6B4 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   func_02025DE8 0x02025DE8 thumb
  *   func_020260E0 0x020260E0 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021C7648 0x021C7648 thumb
  *   func_021C7250 0x021C7250 thumb
  *   func_021C71D0 0x021C71D0 thumb
@@ -30,9 +30,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct PrintSys;
 struct Sound;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern int func_021C7648(u8 *p);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int func_021C7250(u8 *p, int v, int w);
 extern int func_021C71D0(u8 *p, int v, int w);
 extern void func_021C66A0(u8 *p, int i, u32 v);
@@ -45,31 +45,31 @@ int func_021C6C34(u8 *p)
     u32 k;
     u8 *r;
 
-    if (func_0201C6B4(((struct Obj23618 *)(*(u8 * *)&((struct Obj00412 *)p)->f8))->f1C4) == 0) {
+    if (PRINTSYS_QUE_IsFinished(((struct Obj23618 *)(*(u8 * *)&((struct Obj00412 *)p)->f8))->f1C4) == 0) {
         return 9;
     }
     switch (func_021C7648(p)) {
     case 0:
         if (((struct Obj00412 *)p)->f1C != 0) {
             ((struct Obj00412 *)p)->f1C -= 1;
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             return func_021C7250(p, 0, 0xB);
         }
         return 9;
     case 1:
         if (((struct Obj00412 *)p)->f1C != ((struct Obj23619 *)(*(u8 * *)&((struct Obj00412 *)p)->f8))->f2FE) {
             ((struct Obj00412 *)p)->f1C += 1;
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             return func_021C7250(p, 1, 0xB);
         }
         return 9;
     case 2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021C66A0(((struct Obj00412 *)p)->f8, 3, 9);
         ((struct Obj00412 *)p)->f28 = 10;
         return 0x18;
     case 3:
-        func_020061E4(0x556);
+        GFL_USE_PlaySeDefaultVolume(0x556);
         func_021C66A0(((struct Obj00412 *)p)->f8, 7, 8);
         ((struct Obj00412 *)p)->f28 = 10;
         return 0x19;
@@ -92,10 +92,10 @@ int func_021C6C34(u8 *p)
         }
         p[0x1E] = k;
         p[0x1F] = r[0x2E8];
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021C71D0(p, k, 0xC);
     case (u32)-2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021C66A0(((struct Obj00412 *)p)->f8, 3, 9);
         ((struct Obj00412 *)p)->f28 = 10;
         return 0x18;
@@ -103,7 +103,7 @@ int func_021C6C34(u8 *p)
         func_020260E0(((struct Obj23621 *)(*(u8 * *)&((struct Obj00412 *)p)->f8))->f294);
         if (((struct Obj00412 *)p)->f1C != ((struct Obj23622 *)(*(u8 * *)&((struct Obj00412 *)p)->f8))->f2FE) {
             ((struct Obj00412 *)p)->f1C += 1;
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             return func_021C7250(p, 1, 0xB);
         }
         break;
@@ -111,18 +111,18 @@ int func_021C6C34(u8 *p)
         func_020260E0(((struct Obj23623 *)(*(u8 * *)&((struct Obj00412 *)p)->f8))->f294);
         if (((struct Obj00412 *)p)->f1C != 0) {
             ((struct Obj00412 *)p)->f1C -= 1;
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             return func_021C7250(p, 0, 0xB);
         }
         break;
     case (u32)-3:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case (u32)-4:
         break;
     default:
         if (func_021C7738()) {
-            func_020061E4(0x556);
+            GFL_USE_PlaySeDefaultVolume(0x556);
             func_021C66A0(((struct Obj00412 *)p)->f8, 7, 8);
             ((struct Obj00412 *)p)->f28 = 10;
             return 0x19;

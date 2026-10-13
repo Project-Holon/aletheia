@@ -1,7 +1,7 @@
 /*
  * file:     unit_0217D3AC.c
  * unit:     yes
- * function: gsiLargeIntTimerEnter, gsiLargeIntTimerExit, gsiLargeIntCompare, gsiLargeIntStripLeadingZeroes, gsiLargeIntAdd, gsiLargeIntSub, gsiLargeIntMult, func_0217D8E0, gsiLargeIntDiv, gsiLargeIntSubDivide, func_0217DE94, gsLargeIntPowerMod, func_0217E504, gsiLargeIntInverseMod, gsLargeIntSetFromHexString, func_0217E934, gsLargeIntAddToMD5, gsLargeIntGetByteLength, gsiMemoryMalloc, gsiMemoryFree, gsiMemoryRealloc
+ * function: gsiLargeIntTimerEnter, gsiLargeIntTimerExit, gsiLargeIntCompare, gsiLargeIntStripLeadingZeroes, gsiLargeIntAdd, gsiLargeIntSub, gsiLargeIntMult, gsLargeIntDiv_Alt, gsiLargeIntDiv, gsiLargeIntSubDivide, gsLargeIntSquareMod_Alt, gsLargeIntPowerMod, gsiLargeIntMultM_Alt, gsiLargeIntInverseMod, gsLargeIntSetFromHexString, gsLargeIntReverseBytes_Alt, gsLargeIntAddToMD5, gsLargeIntGetByteLength, gsiMemoryMalloc, gsiMemoryFree, gsiMemoryRealloc
  * address:  0x0217D3AC
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -81,14 +81,14 @@ extern void GSMD5Update(struct GSMD5_CTX * context, unsigned char * input, unsig
 int gsiLargeIntCompare(const u32 *a, u32 n, const u32 *b, u32 m);
 int gsiLargeIntAdd(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, u32 *lenout, u32 maxlen);
 int gsiLargeIntSub(u32 *src1, u32 length1, u32 *src2, u32 length2, u32 *dest, u32 *lenout);
-gsi_bool func_0217D8E0(const gsLargeInt_t *src1, const gsLargeInt_t *divisor, gsLargeInt_t *dest, gsLargeInt_t *remainder);
+gsi_bool gsLargeIntDiv_Alt(const gsLargeInt_t *src1, const gsLargeInt_t *divisor, gsLargeInt_t *dest, gsLargeInt_t *remainder);
 int gsiLargeIntDiv(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLargeInt_t *dest, gsLargeInt_t *remainder);
-int func_0217DE94(const gsLargeInt_t *lint, gsLargeInt_t *mod, gsLargeInt_t *dest);
+int gsLargeIntSquareMod_Alt(const gsLargeInt_t *lint, gsLargeInt_t *mod, gsLargeInt_t *dest);
 int gsLargeIntPowerMod(gsLargeInt_t *b, gsLargeInt_t *p, gsLargeInt_t *m, gsLargeInt_t *dest);
-int func_0217E504(gsLargeInt_t *x, gsLargeInt_t *y, const gsLargeInt_t *m, unsigned int modPrime, gsLargeInt_t *dest);
+int gsiLargeIntMultM_Alt(gsLargeInt_t *x, gsLargeInt_t *y, const gsLargeInt_t *m, unsigned int modPrime, gsLargeInt_t *dest);
 int gsiLargeIntInverseMod(gsLargeInt_t *mod, unsigned int *dest);
 int gsLargeIntSetFromHexString(gsLargeInt_t *lint, char *hexstream);
-int func_0217E934(char *p);
+int gsLargeIntReverseBytes_Alt(char *p);
 void gsLargeIntAddToMD5(gsLargeInt_t * _lint, struct GSMD5_CTX * md5);
 unsigned int gsLargeIntGetByteLength(gsLargeInt_t * lint);
 extern struct GSLintTimer gTimers[9];
@@ -341,7 +341,7 @@ static int gsiLargeIntMult(unsigned int *data1, unsigned int length1,
 /*
  * sdk:      gsLargeIntDiv (gslargeint.o)
  */
-gsi_bool func_0217D8E0(const gsLargeInt_t *src1, const gsLargeInt_t *divisor, gsLargeInt_t *dest, gsLargeInt_t *remainder)
+gsi_bool gsLargeIntDiv_Alt(const gsLargeInt_t *src1, const gsLargeInt_t *divisor, gsLargeInt_t *dest, gsLargeInt_t *remainder)
 {
     return gsiLargeIntDiv((unsigned int *)src1->mData, src1->mLength, (gsLargeInt_t *)divisor, dest, remainder);
 }
@@ -548,7 +548,7 @@ static int gsiLargeIntSubDivide(unsigned int *src, unsigned int length,
  *
  * sdk:      gsLargeIntSquareMod (gslargeint.o)
  */
-int func_0217DE94(const gsLargeInt_t *lint, gsLargeInt_t *mod,
+int gsLargeIntSquareMod_Alt(const gsLargeInt_t *lint, gsLargeInt_t *mod,
                   gsLargeInt_t *dest)
 {
     int i;
@@ -732,7 +732,7 @@ int gsLargeIntPowerMod(gsLargeInt_t *b, gsLargeInt_t *p,
  *   is spelled (unsigned int *)temp + logB_r: &temp[logB_r] lets mwcc reuse
  *   the Compare pointer, which the image does not.
  */
-int func_0217E504(gsLargeInt_t *x, gsLargeInt_t *y,
+int gsiLargeIntMultM_Alt(gsLargeInt_t *x, gsLargeInt_t *y,
                   const gsLargeInt_t *m, unsigned int modPrime,
                   gsLargeInt_t *dest)
 {
@@ -866,7 +866,7 @@ int gsLargeIntSetFromHexString(gsLargeInt_t *lint, char *hexstream)
 /*
  * Reverses the n*4-byte payload that follows the count word, in place.
  */
-int func_0217E934(char *p)
+int gsLargeIntReverseBytes_Alt(char *p)
 {
     int n = *(int *)p;
     char *a = p + 4;

@@ -12,16 +12,16 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D9ADC.c and filed here.
  *
  * symbols:
- *   d_021F0808 0x021F0808 data ov093 a4
+ *   gMoldBreakerHandlerEntries 0x021F0808 data ov093 a4
  */
 
 int *HAND_TOKUSEI_AddMoldBreaker(int *p);
 
 /* 021DA120  shape F1: gate on BTL_EVENT_GetVar(2) */
-extern int d_021F0808[];
+extern int gMoldBreakerHandlerEntries[];
 
 int *HAND_TOKUSEI_AddMoldBreaker(int *p)
 {
     *p = 1;
-    return d_021F0808;
+    return gMoldBreakerHandlerEntries;
 }

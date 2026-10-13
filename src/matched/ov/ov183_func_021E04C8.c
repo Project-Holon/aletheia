@@ -13,13 +13,13 @@
  * of the first hit, or 3 when none (or when no point is available).
  *
  * symbols:
- *   func_02035D20  0x02035D20  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   g_021E3808     0x021E3808  data  ov183
  */
 typedef struct Rect { unsigned int x0, y0, x1, y1; } Rect;
 
 typedef unsigned int   u32;
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern Rect g_021E3808[];
 
 int func_021E04C8(void)
@@ -27,7 +27,7 @@ int func_021E04C8(void)
     unsigned int x, y;
     int i;
 
-    if (func_02035D20(&x, &y)) {
+    if (TOUCHPANEL_GetPointTrg(&x, &y)) {
         for (i = 0; i < 3; i++) {
             const Rect *r = &g_021E3808[i];
             if (x - r->x0 <= r->x1 - r->x0 && y - r->y0 <= r->y1 - r->y0) {

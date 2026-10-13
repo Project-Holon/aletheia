@@ -18,7 +18,7 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200CA38  0x0200CA38  thumb
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   EVENT_POKE_STATUS_PokeSelectEvent  0x0215A214  thumb  ov010
  *   d_021728CC  0x021728CC  data
  */
@@ -40,7 +40,7 @@ extern void *func_020124E8(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *func_0200CA1C(void *a);
 extern u32 func_0200CA38(struct Blk37 *p);
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 extern void EVENT_POKE_STATUS_PokeSelectEvent(void);
 extern const char d_021728CC[];
 
@@ -64,7 +64,7 @@ void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(int a, int b, int c)
     s[2] = (u32)h;
     ((u8 *)s)[0xc] = 1;
     ((u8 *)s)[0xd] = 1;
-    ((u8 *)s)[0xe] = func_0201AA18(l);
+    ((u8 *)s)[0xe] = POKEPARTY_GetCount(l);
     ((u8 *)s)[0x10] = 0;
     s[0x18 / 4] = func_0200CA38((struct Blk37 *)m);
     s[0x20 / 4] = 0;

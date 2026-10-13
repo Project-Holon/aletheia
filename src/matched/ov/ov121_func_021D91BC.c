@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021D6C58 0x021D6C58 thumb ov121
  *   CLACT_GetActorPos 0x0204B53C arm
  *   func_02005728 0x02005728 thumb
@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 typedef unsigned int   u32;
 extern void *func_021D6C58(u8 *p, int i);
 struct Actor;
@@ -30,7 +30,7 @@ void func_021D91BC(u8 *p,void *q,u16 h)
     int i;
     u8 *r;
     s16 xy[2];
-    func_02082BCC(p,0,296);
+    MI_CpuFill8(p,0,296);
     ((struct Obj06447 *)p)->f10=-819;
     ((struct Obj06447 *)p)->f118=q;
     ((struct Obj06447 *)p)->f14=-819;

@@ -1,5 +1,5 @@
 /*
- * function: func_021E15A4
+ * function: HAND_WAZA_AddLevelDamage
  * address: 0x021E15A4
  * packet: pkt_ov093_021E15A4
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E14E4.c and filed here.
  *
  * symbols:
- *   d_021F2554 0x021F2554 data ov093 a4
+ *   gLevelDamageHandlers 0x021F2554 data ov093 a4
  */
 
-int *func_021E15A4(int *p);
-extern int d_021F2554[];
+int *HAND_WAZA_AddLevelDamage(int *p);
+extern int gLevelDamageHandlers[];
 
-int *func_021E15A4(int *p)
+int *HAND_WAZA_AddLevelDamage(int *p)
 {
     *p = 1;
-    return d_021F2554;
+    return gLevelDamageHandlers;
 }

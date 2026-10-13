@@ -52,14 +52,14 @@
  *   d_021DA7F4     0x021DA7F4  data  ov021  a4
  *   func_020120F4  0x020120F4  thumb
  *   func_02012934  0x02012934  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02017EAC  0x02017EAC  thumb
  *   abs_id_4A      0x0000004A  data
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
  *   ENCEFF_GetScreenTexParam  0x021F54E0  thumb  ov075
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   func_0201210C  0x0201210C  thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
@@ -79,7 +79,7 @@
  *   FIELD_FOG_SetFlag  0x021A01A4  thumb  ov021
  *   func_02030830  0x02030830  arm
  *   FIELDMAP_SetDrawMode  0x021899F8  thumb  ov021
- *   func_02005C64  0x02005C64  thumb
+ *   GFL_USE_IsLoaderBusy  0x02005C64  thumb
  *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
  *   G3X_SetClearColor  0x0207DD24  arm
  *   FIELDMAP_GetLight  0x02188C60  thumb  ov021
@@ -101,15 +101,15 @@
  *   PARTICLE_StartEffectWithCallback  0x020515CC  arm
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *   func_02043658  0x02043658  arm
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   func_020124F0  0x020124F0  thumb
  *   BMP_Delete  0x020437AC  arm
- *   func_02006CAC  0x02006CAC  thumb
+ *   PM_VOICE_GetPerapVoiceSave  0x02006CAC  thumb
  *   PM_VOICE_Play  0x02006984  thumb
- *   func_02006650  0x02006650  thumb
- *   func_02006B20  0x02006B20  thumb
+ *   PM_VOICE_IsAnyActive  0x02006650  thumb
+ *   PM_VOICE_GetVolume  0x02006B20  thumb
  *   PM_VOICE_AddVolume  0x02006A8C  thumb
- *   func_020065D8  0x020065D8  thumb
+ *   PM_VOICE_StopAll  0x020065D8  thumb
  *   BMP_Create  0x02043678  arm
  *   func_02048A0C  0x02048A0C  arm
  *   func_02047388  0x02047388  arm
@@ -162,6 +162,8 @@
  *   PARTICLE_LoadArchiveMember  0x0205121C  arm  arm9
  *   PARTICLE_GetEffectCount  0x02051614  arm  arm9
  *   BUTTON_MAN_GetBlock  0x02051788  arm  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 #include "fld3d_ci_types.h"
 
@@ -210,13 +212,13 @@ extern void *func_020122C0(void *gameSystem, void *parent, void *func, u32 workS
 extern void *func_020124E8(void *event);
 void *func_020120F4(const void *p);
 void *func_02012934(const void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 u32 func_02017E1C(void *p, u32 id, u32 v);
 u32 func_02017EAC(void *p);
 int func_02034AC4(signed int id);
 void func_02034A5C(int id);
 int *ENCEFF_GetScreenTexParam(int a);
-extern void *func_020124E4(void *event);
+extern void *GAME_EVENT_GetGameSystem(void *event);
 extern void *func_0201210C(const void *p);
 extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
 extern void FLDMMDL_SysPauseMove(void *o);
@@ -236,7 +238,7 @@ extern u32 FIELDMAP_GetFog(u8 *p);
 extern int FIELD_FOG_SetFlag(u32 a, u32 b);
 extern void *func_02030830(u32 heapId);
 extern void FIELDMAP_SetDrawMode(u8 *p, u32 v);
-extern int func_02005C64(void);
+extern int GFL_USE_IsLoaderBusy(void);
 extern void FLDMMDL_SetDirDispCheckPause(int a0, int a1);
 extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
 extern u32 FIELDMAP_GetLight(u8 *p);
@@ -260,15 +262,15 @@ extern void func_0208068C(u32 a);
 extern void func_02030EAC(void *n);
 extern u8 func_020416D4(u32 layer);
 u32 func_02043658(void);
-extern void func_02043534(u32 a);
+extern void BG_SYS_SetMainVisiblePlanes(u32 a);
 extern void *func_020124F0(void *event);
 void BMP_Delete(void *bmp);
-void func_02006CAC(void **out);
+void PM_VOICE_GetPerapVoiceSave(void **out);
 unsigned int PM_VOICE_Play(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5, unsigned int a6, unsigned int a7);
-int func_02006650(void);
-s8 func_02006B20(u32 i);
+int PM_VOICE_IsAnyActive(void);
+s8 PM_VOICE_GetVolume(u32 i);
 void PM_VOICE_AddVolume(u32 idx, int delta);
-void func_020065D8(void);
+void PM_VOICE_StopAll(void);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern u32 func_02048A0C(void *gfxUnits, int index);
 extern u32 func_02047388(void *texBlock);
@@ -308,8 +310,8 @@ extern u32 GF_FONT_Delete(void *ptr);
 extern int WAZA_OSHIE_LoadTexPlttByName(void *texBlock, const char *texName, void *palette, const char *plttName, u32 text, u16 xOffset, u16 a6, u16 a7, u16 heap, void *texKey);
 extern u32 MSGDATA_Delete(void *rec);
 extern int func_020808F4(void);
-extern void func_02082BCC(void *, unsigned, unsigned);
-extern void func_020061E4(u32 a);
+extern void MI_CpuFill8(void *, unsigned, unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void FIELD_PLAYER_GRID_EVENT_RunStateTable(void *work, u16 *state);
 u32 FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(u8 *work, u32 direction);
 FldParticle *FLD_PARTICLE_Create(u32 heapId);
@@ -636,7 +638,7 @@ void *FLD3D_CI_StartPartyMemberSequence(void *gameSystem, Fld3dCi *ci, int party
     int personality;
     int attr4C;
 
-    mon = (int)func_0201AB28(func_02012934(func_020120F4(gameSystem)), partyPos);
+    mon = (int)POKEPARTY_GetMember(func_02012934(func_020120F4(gameSystem)), partyPos);
     species = func_02017E1C((void *)mon, 5, 0);
     form = func_02017E1C((void *)mon, 0x6f, 0);
     attr6E = func_02017E1C((void *)mon, 0x6e, 0);
@@ -698,7 +700,7 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
     Fld3dCiBgMode bgMode;
 
     ci = work->ci;
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     fieldMap = func_0201210C(gameSystem);
     switch (*state) {
     case 0:
@@ -759,7 +761,7 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
         (*state)++;
         break;
     case 6:
-        if (func_02005C64())
+        if (GFL_USE_IsLoaderBusy())
             break;
         (*state)++;
     case 7:
@@ -957,7 +959,7 @@ void FLD3D_CI_SetupSequence(void *event, Fld3dCi *ci, Fld3dCiSeq *seq, int seque
     if (seq->trackCCount != 0)
         ci->trackWatched[1] = 1;
     if (ci->extraTask != 0) {
-        object = (int)func_020124E4(event);
+        object = (int)GAME_EVENT_GetGameSystem(event);
         GAME_EVENT_CallEvent(event, func_020122C0((void *)object, event, (void *)(ci->extraTask), (int)0));
     }
 }
@@ -1155,7 +1157,7 @@ void FLD3D_CI_RestoreLayerPriorities(Fld3dCi *ci)
 
 void FLD3D_CI_RestoreVisiblePlanes(Fld3dCi *ci)
 {
-    func_02043534(ci->savedVisiblePlanes);
+    BG_SYS_SetMainVisiblePlanes(ci->savedVisiblePlanes);
 }
 
 /* Extra task of the pokemon cut-in: builds the pokemon icon texture, then frees its resources. */
@@ -1166,7 +1168,7 @@ int FLD3D_CI_PokemonExtraTask(void *event, int *state)
 
     parentWork = func_020124E8(func_020124F0(event));
     ci = parentWork->ci;
-    func_0201210C(func_020124E4(event));
+    func_0201210C(GAME_EVENT_GetGameSystem(event));
     switch (*state) {
     case 0:
         FLD3D_CI_LoadPokemonIconTexture(ci);
@@ -1196,7 +1198,7 @@ int FLD3D_CI_PokemonFinishStep(void *event, Fld3dCi *ci)
         (pokemon->cryDelay)--;
         if (pokemon->cryDelay == 0) {
             if (pokemon->species == 0x1b9) {
-                func_02006CAC((void **)voiceBuf);
+                PM_VOICE_GetPerapVoiceSave((void **)voiceBuf);
                 pokemon->cryHandle = PM_VOICE_Play(pokemon->species, pokemon->form, 0x40, 0, 0, 0, 0, (unsigned int)voiceBuf);
             } else {
                 pokemon->cryHandle = PM_VOICE_Play(pokemon->species, pokemon->form, 0x40, 0, 0, 0, 0, 0);
@@ -1207,14 +1209,14 @@ int FLD3D_CI_PokemonFinishStep(void *event, Fld3dCi *ci)
     }
     done = 0;
     if (pokemon->cryDelay == 0) {
-        if (func_02006650() == 0) {
+        if (PM_VOICE_IsAnyActive() == 0) {
             done = 1;
         } else if (pokemon->cryFadeWait != 0) {
             (pokemon->cryFadeWait)--;
-        } else if (func_02006B20(pokemon->cryHandle) > 0) {
+        } else if (PM_VOICE_GetVolume(pokemon->cryHandle) > 0) {
             PM_VOICE_AddVolume(pokemon->cryHandle, done - 16);
         } else {
-            func_020065D8();
+            PM_VOICE_StopAll();
             done = 1;
         }
     }
@@ -1296,7 +1298,7 @@ void FLD3D_CI_LoadPokemonIconTexture(Fld3dCi *ci)
 /* Fade task: fades the screen out. */
 int FLD3D_CI_FadeOutTask(void *event, int *state)
 {
-    func_0201210C(func_020124E4(event));
+    func_0201210C(GAME_EVENT_GetGameSystem(event));
     switch (*state) {
     case 0:
         FADE_Start(4, 0, 0x10, -1);
@@ -1315,7 +1317,7 @@ int FLD3D_CI_FadeOutTask(void *event, int *state)
  */
 int FLD3D_CI_FadeInTask(void *event, int *state)
 {
-    func_0201210C(func_020124E4(event));
+    func_0201210C(GAME_EVENT_GetGameSystem(event));
     switch (*state) {
     case 0:
         FADE_Start(4, 0x10, 0, -1);
@@ -1331,7 +1333,7 @@ int FLD3D_CI_FadeInTask(void *event, int *state)
 
 int FLD3D_CI_FadeInAltTask(void *event, u32 *state)
 {
-    func_0201210C(func_020124E4(event));
+    func_0201210C(GAME_EVENT_GetGameSystem(event));
     switch (state[0]) {
     case 0:
         FADE_Start(3, 0x10, 0, 0);
@@ -1434,7 +1436,7 @@ int FLD3D_CI_NameExtraTask(void *event, int *state)
     u32 plttFile;
 
     parentWork = func_020124E8(func_020124F0(event));
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     playerStatus = func_02012944(func_020120F4(gameSystem));
     ci = parentWork->ci;
     func_0201210C(gameSystem);
@@ -1640,7 +1642,7 @@ void FLD3D_CI_DarkenCapturedScreen(u32 unused)
  */
 void FLD3D_CI_InitEventWork(Fld3dCi *ci, Fld3dCiEventWork *work)
 {
-    func_02082BCC(work, 0, 0x40);
+    MI_CpuFill8(work, 0, 0x40);
     work->ci = ci;
     work->hideFieldObjects = 0;
     work->fadeVariant = 0;
@@ -1654,7 +1656,7 @@ void FLD3D_CI_PlayCueSound(Fld3dCi *ci)
 {
     Fld3dCiCue *cues = d_021DA720[ci->sequenceId];
     if (cues[ci->cueIndex].soundId != -1 && ci->frame == cues[ci->cueIndex].frame) {
-        func_020061E4(cues[ci->cueIndex].soundId);
+        GFL_USE_PlaySeDefaultVolume(cues[ci->cueIndex].soundId);
         (ci->cueIndex)++;
     }
 }

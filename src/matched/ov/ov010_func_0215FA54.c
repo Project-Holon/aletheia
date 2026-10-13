@@ -34,8 +34,8 @@
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
- *   func_02026454  0x02026454  thumb
- *   func_02026460  0x02026460  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
+ *   GAME_COMM_IsTransition  0x02026460  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
@@ -84,8 +84,8 @@ extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32 h, u32 v);
 extern void GFL_USE_FadeInBgmFull(u32 v);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
-extern u32 func_02026454(void *obj);
-extern u32 func_02026460(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
+extern u32 GAME_COMM_IsTransition(void *obj);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *sys, void *proc, u32 a, u32 b);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *sys, void *proc, u32 a, u32 b, u32 c, u32 d, u32 e);
@@ -160,9 +160,9 @@ int SCRCMD_NETWORK_WifiProcEventMain(void *evt, u32 *state, Work *w)
     case 9:
         if (w->f20 == 0) {
             if (w->f28 == 0) {
-                if (func_02026460(save))
+                if (GAME_COMM_IsTransition(save))
                     break;
-                if (func_02026454(save)) {
+                if (GAME_COMM_GetKind(save)) {
                     GAME_COMM_RequestExitNoCallback(save);
                     break;
                 }

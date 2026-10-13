@@ -1,5 +1,5 @@
 /*
- * function: func_021B99E0
+ * function: BTL_MAIN_GetPosTable
  * address:  0x021B99E0
  * packet:   pkt_ov093_021B99E0
  * region:   ov093
@@ -19,7 +19,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 struct Unk021EFD70 { u8 b[10]; };
 extern struct Unk021EFD70 data_021EFD70[];
 
-struct Unk021EFD70 *func_021B99E0(int i)
+struct Unk021EFD70 *BTL_MAIN_GetPosTable(int i)
 {
     return &data_021EFD70[i];
 }

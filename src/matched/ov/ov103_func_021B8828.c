@@ -25,6 +25,7 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02008530 0x02008530 thumb
  *   func_0200A9D4 0x0200A9D4 thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj03232.h"
 typedef unsigned char u8;
@@ -56,7 +57,7 @@ extern void *func_0200A8A0(void *);
 struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern int func_0200A9D4(struct T0200A9A4 *o, u32 v);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 #define CTX (*(u8 **)(p+0xb0c))
 void func_021B8828(u8 *p,u16 *state) {
  Block ref; Block cur;
@@ -87,7 +88,7 @@ void func_021B8828(u8 *p,u16 *state) {
   } break;
  case 5:
   if(((struct Obj03232 *)p)->f72E>=60) {
-   func_020061E4(0x64b);func_021B8138(p+0x184,p+0x174,5,0,0);
+   GFL_USE_PlaySeDefaultVolume(0x64b);func_021B8138(p+0x184,p+0x174,5,0,0);
    ((struct Obj03232 *)p)->f73C=0; *state=6;
   } break;
  case 6:

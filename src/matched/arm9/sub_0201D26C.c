@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0201DC6C  0x0201DC6C  thumb
+ *   GF_FONT_GetCharWidth  0x0201DC6C  thumb
  *
  * printsys.c: measures one line of a string object.  It sums the per-glyph
- * advance sub_0201DC6C returns plus a fixed inter-character spacing until it
+ * advance GF_FONT_GetCharWidth returns plus a fixed inter-character spacing until it
  * hits the line break 0xFFFE or the terminator 0xFFFF, steps over embedded
  * 0xF000 blocks (three header halfwords plus the payload count at +4), and,
  * when the fourth argument is non-NULL, writes back the cursor for the next
@@ -35,7 +35,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Font;
-extern u32 sub_0201DC6C(struct Font *p, u16 ch);
+extern u32 GF_FONT_GetCharWidth(struct Font *p, u16 ch);
 
 u32 sub_0201D26C(u16 *p, void *font, u32 spacing, u16 **next)
 {
@@ -45,7 +45,7 @@ u32 sub_0201D26C(u16 *p, void *font, u32 spacing, u16 **next)
     sum = 0;
     while ((c = *p) != 0xFFFF && c != 0xFFFE) {
         if (c != 0xF000) {
-            sum += spacing + sub_0201DC6C(font, c);
+            sum += spacing + GF_FONT_GetCharWidth(font, c);
             p++;
         } else {
             if (c == 0xF000) {

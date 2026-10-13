@@ -8,15 +8,20 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   POKE_PERSONAL_Create  0x0201ADE4  thumb
+ *   POKE_PERSONAL_Delete  0x0201AE14  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0201ADE4(u32 a, int b, u32 c);
+extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
 struct Personal;
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *p);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *p);
 
 void func_0202A994(u32 a, u32 b, int c, u32 *out, u16 d)
 {
@@ -27,10 +32,10 @@ void func_0202A994(u32 a, u32 b, int c, u32 *out, u16 d)
     if (c == 0)
         return;
 
-    v = (u32)func_0201ADE4((u16)a, (u16)b, d);
+    v = (u32)POKE_PERSONAL_Create((u16)a, (u16)b, d);
 
     if (t != 0) {
-        *out = func_0201AE1C((const struct Personal *)v, 0x14);
+        *out = POKE_PERSONAL_GetParam((const struct Personal *)v, 0x14);
         if (t == 1)
             *out = *out + 2;
         else
@@ -42,5 +47,5 @@ void func_0202A994(u32 a, u32 b, int c, u32 *out, u16 d)
     else if (u == 2)
         *out |= (u32)1;
 
-    func_0201AE14((void *)v);
+    POKE_PERSONAL_Delete((void *)v);
 }

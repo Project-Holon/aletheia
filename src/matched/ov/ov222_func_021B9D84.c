@@ -14,7 +14,7 @@
  *   in swapped registers (4 B).
  * symbols:
  *   func_02040618 0x02040618 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   d_021BA1D8 0x021BA1D8 data a2
  */
 typedef unsigned char u8;
@@ -25,7 +25,7 @@ extern void func_02040618(unsigned,unsigned,unsigned);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021B9D84(char*p)
 {
     Pt pos;
@@ -36,7 +36,7 @@ void func_021B9D84(char*p)
         t=(s16*)d_021BA1D8;
         pos.x=t[0];
         pos.y=t[1]-0x40;
-        func_0204B404(*(void**)(p+0x54),(const struct Vec2 *)(&pos),0);
+        CLACT_AddActorSurfacePos(*(void**)(p+0x54),(const struct Vec2 *)(&pos),0);
         *(u8*)(p+0x44)=0;
     }
 }

@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
- * evidence: unlabelled Thumb tail-call leaf (ldr r3,=func_02082BCC; bx r3) after
+ *   MI_CpuFill8 0x02082BCC arm
+ * evidence: unlabelled Thumb tail-call leaf (ldr r3,=MI_CpuFill8; bx r3) after
  * COLOSSEUM_SetupBattleInfo; called by the bl at 0x02174A94 in UNION_MAIN_StepColosseumPartyEntry.
  */
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 
 void COLOSSEUM_ClearBattleInfo(void *p)
 {
-    func_02082BCC(p, 0, 0x58);
+    MI_CpuFill8(p, 0, 0x58);
 }

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201C6B4 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   func_021EAB50 0x021EAB50 thumb ov170
  *   func_021EBF74 0x021EBF74 thumb ov170
  *   d_021EFA7C 0x021EFA7C data a4
@@ -18,13 +18,13 @@
 #include "../include/Obj23886.h"
 typedef unsigned int   u32;
 struct PrintSys;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void func_021EAB50(unsigned char *w);
 extern void func_021EBF74(char *);
 extern int (*const d_021EFA7C[])(char *);
 int func_021E1E34(char *p, int *state)
 {
-    if (!*(char * *)&((struct Obj03847 *)p)->f2C || !((struct Obj23885 *)(*(char * *)&((struct Obj03847 *)p)->f2C))->f8C || func_0201C6B4(((struct Obj23886 *)(*(char * *)&((struct Obj03847 *)p)->f2C))->f8C))
+    if (!*(char * *)&((struct Obj03847 *)p)->f2C || !((struct Obj23885 *)(*(char * *)&((struct Obj03847 *)p)->f2C))->f8C || PRINTSYS_QUE_IsFinished(((struct Obj23886 *)(*(char * *)&((struct Obj03847 *)p)->f2C))->f8C))
         *state = d_021EFA7C[*state](p);
     if (*state == 0x69)
         return 0;

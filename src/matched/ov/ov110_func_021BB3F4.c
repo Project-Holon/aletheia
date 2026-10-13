@@ -16,7 +16,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_0201D304 0x0201D304 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
@@ -43,7 +43,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
@@ -73,9 +73,9 @@ u8 *func_021BB3F4(u8 *p, u8 *q)
             GF_FONT_SetTextColor(3, 4, 15);
         }
         win = (void *)BMP_WIN_Create(1, (u8)x, (u8)y, 9, 2, 12, 1);
-        BMP_Clear(func_02045770(win), 15);
+        BMP_Clear(BMP_WIN_GetBmp(win), 15);
         width = 72 - func_0201D304(str, font, 0);
-        PRINTSYS_Print(func_02045770(win), width >> 1, 0, str, (void *)font);
+        PRINTSYS_Print(BMP_WIN_GetBmp(win), width >> 1, 0, str, (void *)font);
         BMP_WIN_MakeScreen(win);
         BMP_WIN_TransferChars(win);
         STRBUF_Delete(str);

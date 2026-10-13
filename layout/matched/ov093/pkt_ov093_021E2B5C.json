@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E2B5C",
-    "func_021E2BA8"
+    "HAND_WAZA_WakeUpSlapOnDamageEnd",
+    "HAND_WAZA_AddSmellingSalt"
+   ],
+   "addresses": [
+    "0x021E2B5C",
+    "0x021E2BA8"
    ],
    "evidence": {
     "sole-ref": [

@@ -10,10 +10,10 @@
  * symbols:
  *   func_021F9B9C 0x021F9B9C thumb ov186
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FD6D8 0x021FD6D8 thumb ov186
  *   func_021E1DA8 0x021E1DA8 thumb ov183
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_021FD12C 0x021FD12C thumb ov186
  *   func_021FD170 0x021FD170 thumb ov186
  *   func_021FD760 0x021FD760 thumb ov186
@@ -30,10 +30,10 @@ struct Obj24810;
 extern unsigned func_021F9B9C(struct Obj24810 *p);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern int *func_021FD6D8(int payload, int callback, u32 heap);
 extern void func_021E1DA8(int,int *,char *);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern void *func_021FD12C(int a, void *owner, u16 heap);
 extern void func_021FD170(char *p, char *q, void *text);
 extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
@@ -44,11 +44,11 @@ int func_021E1C80(struct Obj0203159C *obj,int unused,char *arg)
     int i;
     Pair pair;
     p=PROCSYS_AllocProcWork(obj,32,func_021F9B9C((struct Obj24810 *)(((struct Obj05482 *)arg)->fC)));
-    func_02082BCC(p,0,32);
+    MI_CpuFill8(p,0,32);
     *(char * *)&((struct Obj02232 *)p)->f18=arg;
     ((struct Obj02232 *)p)->f8=func_021F9B9C((struct Obj24810 *)(((struct Obj05482 *)arg)->fC));
     ((struct Obj02232 *)p)->f4=(int)func_021FD6D8((int)p,(int)func_021E1DA8,((struct Obj02232 *)p)->f8);
-    ((struct Obj02232 *)p)->f0=func_0201C440((void *)(((struct Obj02232 *)p)->f8));
+    ((struct Obj02232 *)p)->f0=PRINTSYS_QUE_Create((void *)(((struct Obj02232 *)p)->f8));
     ((struct Obj02232 *)p)->fC=(int)func_021FD12C(((struct Obj05482 *)arg)->f8,(void *)(((struct Obj02232 *)p)->f0),((struct Obj02232 *)p)->f8);
     func_021FD170((char *)(((struct Obj02232 *)p)->fC),(char *)(((struct Obj05482 *)arg)->f8),(void *)111);
     for (i=0;i<2;i++) *(int *)(p+i*4+0x10)=(int)func_021FD760(((struct Obj05482 *)arg)->f4,(char *)(((struct Obj05482 *)arg)->f8),i,((struct Obj02232 *)p)->f8);

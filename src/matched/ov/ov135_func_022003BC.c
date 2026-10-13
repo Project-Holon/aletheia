@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02202940 0x02202940 thumb ov135
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  */
 #include "../include/Obj08194.h"
 typedef unsigned char u8;
@@ -17,14 +17,14 @@ struct Obj;
 extern void func_02202940(struct Obj *p);
 struct Descriptor;
 typedef unsigned int   u32;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 void func_022003BC(u8 *p)
 {
     int i;
     func_02202940((struct Obj *)(p + 0xFA0));
-    func_020452E8(((struct Obj08194 *)p)->fDE0);
-    func_020452E8(((struct Obj08194 *)p)->fDD0);
-    func_020452E8(((struct Obj08194 *)p)->fD40);
-    for (i = 0; i < 3; i++) func_020452E8(*(void **)(p + i * 4 + 0xD50));
-    func_020452E8(((struct Obj08194 *)p)->fD48);
+    BMP_WIN_Delete(((struct Obj08194 *)p)->fDE0);
+    BMP_WIN_Delete(((struct Obj08194 *)p)->fDD0);
+    BMP_WIN_Delete(((struct Obj08194 *)p)->fD40);
+    for (i = 0; i < 3; i++) BMP_WIN_Delete(*(void **)(p + i * 4 + 0xD50));
+    BMP_WIN_Delete(((struct Obj08194 *)p)->fD48);
 }

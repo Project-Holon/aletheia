@@ -21,7 +21,7 @@
  *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb ov019
  *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb ov019
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb ov019
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  */
 
 typedef unsigned char u8;
@@ -44,7 +44,7 @@ u16 func_0217ED48(int i);
 void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
 int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
 u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
-u32 func_020362DC(void);
+u32 KEY_GetTrg(void);
 
 int UNION_ONESELF_TalkPlayingChildMain(void *ctx, Obj *obj, u8 *a2, u8 *state)
 {
@@ -83,7 +83,7 @@ int UNION_ONESELF_TalkPlayingChildMain(void *ctx, Obj *obj, u8 *a2, u8 *state)
         (*state)++;
         break;
     case 1:
-        if (UNION_MSG_CheckTalkPrintEnd(ctx) == 1 && (func_020362DC() & 0xf3))
+        if (UNION_MSG_CheckTalkPrintEnd(ctx) == 1 && (KEY_GetTrg() & 0xf3))
             return 1;
         break;
     }

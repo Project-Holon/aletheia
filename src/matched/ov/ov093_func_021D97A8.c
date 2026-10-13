@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetSnowWarningHandlers
+ * function: HAND_TOKUSEI_GetSnowWarningHandlers
  * address: 0x021D97A8
  * packet: pkt_ov093_021D97A8
  * region: ov093
@@ -15,10 +15,10 @@
  *   gSnowWarningHandlers 0x021F0900 data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetSnowWarningHandlers(int *p);
+int *HAND_TOKUSEI_GetSnowWarningHandlers(int *p);
 extern int gSnowWarningHandlers[];
 
-int *BTL_TOKUSEI_GetSnowWarningHandlers(int *p)
+int *HAND_TOKUSEI_GetSnowWarningHandlers(int *p)
 {
     *p = 2;
     return gSnowWarningHandlers;

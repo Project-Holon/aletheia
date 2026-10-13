@@ -13,7 +13,7 @@
  *   func_021B8E8C 0x021B8E8C thumb ov104
  *   func_021B8DA4 0x021B8DA4 thumb ov104
  *   func_021B8D20 0x021B8D20 thumb ov104
- *   g_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,7 +26,7 @@ extern u32 func_020056EC(u32);
 extern u32 func_021B8E8C(u8 *);
 extern void func_021B8DA4(u8 *,const Point *,const Point *,int,u32);
 extern void func_021B8D20(u8 *);
-extern const s16 g_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 #define W(o) (*(u32 *)(p+(o)))
 #define SHIFT(v,n) ((int)((u32)(v)<<(n)))
 static inline void initialize(Point *start,Point *end,int x,EndY endY)
@@ -71,8 +71,8 @@ void func_021B8AEC(u8 *p)
                 offset=i*44;
                 if(!func_021B8E8C(p+offset)) {
                     angle=(u16)func_020056EC(65535)>>4;
-                    end.x=SHIFT(g_020A1B38[angle*2],8)>>12;
-                    end.y=SHIFT(g_020A1B38[angle*2+1],8)>>12;
+                    end.x=SHIFT(FX_SinCosTable_[angle*2],8)>>12;
+                    end.y=SHIFT(FX_SinCosTable_[angle*2+1],8)>>12;
                     start.x=128;start.y=96;
                     life=func_020056EC(50)+110;
                     color=2;

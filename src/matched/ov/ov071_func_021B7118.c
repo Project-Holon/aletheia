@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   d_021BA804     0x021BA804  data  a4
  */
 
@@ -22,7 +22,7 @@ typedef struct { u16 a, b, c, d; } Rect;
 
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
-extern void func_0204B92C(struct Obj *, unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
 extern const Rect d_021BA804;
 
 struct Obj *func_021B7118(int *p, int x, int y, int w)
@@ -35,6 +35,6 @@ struct Obj *func_021B7118(int *p, int x, int y, int w)
     r.b = y;
     r.c = w;
     h = CLACT_CreateActor((void *)p[0x14 / 4], p[0x54 / 4], p[0x50 / 4], p[0x58 / 4], &r, 1, 0x61);
-    func_0204B92C(h, 1);
+    CLACT_SetActorAutoAnim(h, 1);
     return h;
 }

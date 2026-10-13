@@ -30,7 +30,7 @@
  *   d_021BC6FC 0x021BC6FC data a1
  *   d_021BC708 0x021BC708 data a1
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_0204047C 0x0204047C arm
  *   func_020056A0 0x020056A0 thumb
  *   func_021B9740 0x021B9740 thumb ov223
@@ -47,9 +47,9 @@
  *   func_021B9914 0x021B9914 thumb ov223
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021BB35C 0x021BB35C thumb ov223
  *   func_021BAC6C 0x021BAC6C thumb ov223
  *   func_021BABFC 0x021BABFC thumb ov223
@@ -103,17 +103,17 @@
  *   func_021BAB74 0x021BAB74 thumb ov223
  *   func_021B9848 0x021B9848 thumb ov223
  *   func_02030EAC 0x02030EAC arm
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   d_021BC960 0x021BC960 data a4
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
@@ -250,7 +250,7 @@ extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int func_02061CA4(void *, unsigned, unsigned, int);
 extern struct GfFont *GF_FONT_Create(int, int, int, int, unsigned);
-extern unsigned func_0201C440(void *);
+extern unsigned PRINTSYS_QUE_Create(void *);
 extern void func_0204047C(int, u16);
 extern void *func_020056A0(void (*)(void *, char *), void *, int);
 extern void func_021B9740(void *, char *);
@@ -267,9 +267,9 @@ extern void func_0207D63C(void *, unsigned, unsigned, unsigned, unsigned);
 extern void func_021B9914(char *p);
 extern void FADE_Start(unsigned, int, int, int);
 extern int FADE_IsActive(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_021BB35C(char *p);
 extern void func_021B98F4(char *p);
 extern void func_021BAC6C(unsigned char *);
@@ -314,16 +314,16 @@ extern void func_021BAEE0(char *p);
 extern void func_021BAB74(int *);
 extern void func_021B9848(int *);
 extern void func_02030EAC(struct Node *n);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(unsigned short,int,int,int,int);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_ResetSubDisplay(void);
@@ -750,7 +750,7 @@ int func_021BB9E0(char *p)
 {
     ((struct Obj00739 *)p)->f14 = func_021BC3F0(1, ((struct Obj00739 *)p)->f0);
     *(struct GfFont * *)&((struct Obj00739 *)p)->f18 = GF_FONT_Create(23, 0, 0, 0, ((struct Obj00739 *)p)->f0);
-    ((struct Obj00739 *)p)->f1C = func_0201C440((void *)(unsigned)((struct Obj00739 *)p)->f0);
+    ((struct Obj00739 *)p)->f1C = PRINTSYS_QUE_Create((void *)(unsigned)((struct Obj00739 *)p)->f0);
     func_0204047C(0, 2);
     func_0204047C(1, 3);
     func_0204047C(2, 1);
@@ -835,10 +835,10 @@ int func_021BBB28(char *p,u32 *state)
         break;
     case 3: ++*state;break;
     case 4:
-        if((func_020362DC()&3)!=0||TOUCHPANEL_GetTrg()!=0) {
-            if((func_020362DC()&3)!=0) ((struct Obj00792 *)p)->f8=0;
+        if((KEY_GetTrg()&3)!=0||TOUCHPANEL_GetTrg()!=0) {
+            if((KEY_GetTrg()&3)!=0) ((struct Obj00792 *)p)->f8=0;
             else ((struct Obj00792 *)p)->f8=1;
-            func_020061E4(1356);++*state;
+            GFL_USE_PlaySeDefaultVolume(1356);++*state;
         }
         break;
     case 5:
@@ -851,7 +851,7 @@ int func_021BBB28(char *p,u32 *state)
     case 7:
         if(((struct Obj00792 *)p)->f268!=0) {--((struct Obj00792 *)p)->f268;changed=1;}
         func_021B9914(p);
-        if(((struct Obj00792 *)p)->f50==180) func_020061E4(1956);
+        if(((struct Obj00792 *)p)->f50==180) GFL_USE_PlaySeDefaultVolume(1956);
         if(((struct Obj00792 *)p)->f50==199) {((struct Obj00792 *)p)->f10=0;return 5;}
         break;
     }
@@ -922,7 +922,7 @@ int func_021BBCF0(char *p)
 int func_021BBD74(char *p,unsigned *state)
 {
     if(((struct Obj00738 *)p)->f10>=16) func_021B9A8C(p);
-    if(((struct Obj00738 *)p)->f10==15) func_020061E4(1957);
+    if(((struct Obj00738 *)p)->f10==15) GFL_USE_PlaySeDefaultVolume(1957);
     func_021B9D4C(p); func_021BA2B4((struct Main *)p); func_021BB964(p);
     switch(*state) {
     case 0: FADE_Start(12,16,0,2); (*state)++; break;
@@ -952,29 +952,29 @@ int func_021BBDE0(char *p,u32 *state)
     case 3:
         if(((struct Obj00084 *)p)->f8==0){
             if(*(int *)&((struct Obj00084 *)p)->f228==4){dirty=1;*(int *)&((struct Obj00084 *)p)->f228=1;}
-            func_021BAA5C(p,1);func_020061E4(1352);func_021BAA84(p);
+            func_021BAA5C(p,1);GFL_USE_PlaySeDefaultVolume(1352);func_021BAA84(p);
             func_021B9C90(p,((struct Obj00084 *)p)->f228);func_021BA81C(p,((struct Obj00084 *)p)->f228);
             selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);
         }else{func_021BAA5C(p,0);func_021B9C90(p,4);func_021BA81C(p,4);func_021BB9A4((u8 *)p,(u8)3);dirty=1;}
         *state=4;break;
     case 4:
         if(((struct Obj00084 *)p)->f8==0){
-            if(func_020362DC()!=0){
+            if(KEY_GetTrg()!=0){
                 changed=0;
-                if(func_020362DC()&1){func_020061E4(1356);func_021BAA5C(p,0);*state=8;}
-                else if(func_020362DC()&32){if(*(int *)&((struct Obj00084 *)p)->f228>0){--*(int *)&((struct Obj00084 *)p)->f228;changed=1;}}
-                else if(func_020362DC()&16){if(*(int *)&((struct Obj00084 *)p)->f228<2){++*(int *)&((struct Obj00084 *)p)->f228;changed=1;}}
-                if(changed){func_020061E4(1352);func_021BAA84(p);func_021B9C90(p,((struct Obj00084 *)p)->f228);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);dirty=1;}
-            }else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice>=0&&choice<=2){if(*(int *)&((struct Obj00084 *)p)->f228!=choice)dirty=1;func_020061E4(1352);func_021BAA5C(p,0);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);((struct Obj00084 *)p)->f8=1;*state=5;}}
+                if(KEY_GetTrg()&1){GFL_USE_PlaySeDefaultVolume(1356);func_021BAA5C(p,0);*state=8;}
+                else if(KEY_GetTrg()&32){if(*(int *)&((struct Obj00084 *)p)->f228>0){--*(int *)&((struct Obj00084 *)p)->f228;changed=1;}}
+                else if(KEY_GetTrg()&16){if(*(int *)&((struct Obj00084 *)p)->f228<2){++*(int *)&((struct Obj00084 *)p)->f228;changed=1;}}
+                if(changed){GFL_USE_PlaySeDefaultVolume(1352);func_021BAA84(p);func_021B9C90(p,((struct Obj00084 *)p)->f228);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);dirty=1;}
+            }else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice>=0&&choice<=2){if(*(int *)&((struct Obj00084 *)p)->f228!=choice)dirty=1;GFL_USE_PlaySeDefaultVolume(1352);func_021BAA5C(p,0);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);((struct Obj00084 *)p)->f8=1;*state=5;}}
         }else{
-            if(func_020362DC()!=0){((struct Obj00084 *)p)->f8=0;*state=3;}
-            else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice>=0&&choice<=2){func_020061E4(1352);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);dirty=1;*state=5;}}
+            if(KEY_GetTrg()!=0){((struct Obj00084 *)p)->f8=0;*state=3;}
+            else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice>=0&&choice<=2){GFL_USE_PlaySeDefaultVolume(1352);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);dirty=1;*state=5;}}
         }break;
     case 5:func_021BB3BC(p);*state=6;break;
     case 6:
         func_021BB414(p);
-        if(func_020362DC()!=0){((struct Obj00084 *)p)->f8=0;if(func_020362DC()&1){func_020061E4(1356);func_021BB424(p);*state=7;}else{func_021BB404(p);func_02041B6C(3);*state=3;}}
-        else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice==3){func_020061E4(1356);func_021BB424(p);*state=7;}else if(choice>=0&&choice<=2&&*(int *)&((struct Obj00084 *)p)->f228!=choice){func_020061E4(1352);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);dirty=1;}}break;
+        if(KEY_GetTrg()!=0){((struct Obj00084 *)p)->f8=0;if(KEY_GetTrg()&1){GFL_USE_PlaySeDefaultVolume(1356);func_021BB424(p);*state=7;}else{func_021BB404(p);func_02041B6C(3);*state=3;}}
+        else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice==3){GFL_USE_PlaySeDefaultVolume(1356);func_021BB424(p);*state=7;}else if(choice>=0&&choice<=2&&*(int *)&((struct Obj00084 *)p)->f228!=choice){GFL_USE_PlaySeDefaultVolume(1352);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);dirty=1;}}break;
     case 7:func_021BB414(p);if(func_021BB440(p)){func_021BB404(p);func_02041B6C(3);*state=8;}break;
     case 8:func_021BAFC4(p,(u32)20);func_021B9AE4(p,*(int *)&((struct Obj00084 *)p)->f228,0);*state=9;break;
     case 9:func_021B9B80(p);if(func_021BB0B0(p)&&func_021B9B4C(p))*state=10;break;
@@ -982,7 +982,7 @@ int func_021BBDE0(char *p,u32 *state)
     case 11:func_021BB4E8(p);if(func_021BB4F8(p)){choice=func_021BB508((int *)p);func_021BB4D8(p);*(u32 *)&((struct Obj00084 *)p)->f8=func_020355C4();if(choice){((struct Obj00084 *)p)->f24|=8;func_021BB134(p);*state=14;}else{func_021BAFC4(p,(u32)19);*state=12;}}break;
     case 12:func_021B9AE4(p,*(int *)&((struct Obj00084 *)p)->f228,1);*state=13;break;
     case 13:func_021B9B80(p);if(func_021B9B4C(p))*state=3;break;
-    case 14:func_021B9C00(p,((struct Obj00084 *)p)->f228);func_020061E4(1976);*state=15;break;
+    case 14:func_021B9C00(p,((struct Obj00084 *)p)->f228);GFL_USE_PlaySeDefaultVolume(1976);*state=15;break;
     case 15:func_021B9C58(p);if(((struct Obj00084 *)p)->f4C==(int)*(const u16 *)((const u8 *)d_021BC794+((struct Obj00084 *)p)->f44*10)-2)*state=16;break;
     case 16:func_021B9C58(p);*(int *)&((struct Obj00084 *)p)->f10=0;return 10;
     }
@@ -1025,7 +1025,7 @@ int func_021BC2CC(char *p)
 int func_021BC30C(int *p)
 {
     func_021BB3AC(p); func_021BAEE0((char *)p); func_021BAB74(p); func_021B9848(p);
-    func_02030EAC((void *)p[8]); func_0201C6EC((struct PrintSys *)p[7]); func_0201C4C0((struct PrintSys *)p[7]);
+    func_02030EAC((void *)p[8]); PRINTSYS_QUE_Clear((struct PrintSys *)p[7]); PRINTSYS_QUE_Delete((struct PrintSys *)p[7]);
     GF_FONT_Delete((void *)p[6]); func_021BC498((unsigned *)p[5]);
     return 13;
 }
@@ -1060,7 +1060,7 @@ static inline void priority(int p)
 void func_021BC34C(void)
 {
     unsigned i;
-    func_020434DC(1,1);
+    BG_SYS_SetMainPlaneVisible(1,1);
     priority(0);
     shading(HIGHLIGHT);
     *(volatile unsigned short *)0x04000060=(unsigned short)((*(volatile unsigned short *)0x04000060 & ~0x3000)|16);
@@ -1080,7 +1080,7 @@ void func_021BC34C(void)
 void *func_021BC3F0(int a,int heap)
 {
     unsigned *p=func_02030734(heap,16,0,d_021BCB08,463);
-    func_02082BCC(p,0,16);
+    MI_CpuFill8(p,0,16);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;
@@ -1116,7 +1116,7 @@ void func_021BC498(unsigned *p)
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
-    func_02082BCC(p,0,16);
+    MI_CpuFill8(p,0,16);
     func_020307B0(p);
 }
 
@@ -1164,7 +1164,7 @@ void func_021BC538(void *unused, char *p)
 void func_021BC54C(void *p,int heap)
 {
     unsigned i;
-    func_02082BCC(p,0,4);
+    MI_CpuFill8(p,0,4);
     func_0203F8F4(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)d_021BC934);
@@ -1180,7 +1180,7 @@ void func_021BC54C(void *p,int heap)
 
 
 
-void func_021BC5AC(void *p){unsigned i;for(i=0;i<7;i++)func_020403F4((unsigned char)d_021BC9B0[i].id);BMP_WIN_Exit();func_0203F9B4();func_02082BCC(p,0,4);}
+void func_021BC5AC(void *p){unsigned i;for(i=0;i<7;i++)func_020403F4((unsigned char)d_021BC9B0[i].id);BMP_WIN_Exit();func_0203F9B4();MI_CpuFill8(p,0,4);}
 
 
 
@@ -1198,11 +1198,11 @@ void func_021BC5E8(void *a0){func_020419E4();}
 
 void func_021BC5F0(int *out, int a, int b)
 {
-    func_02082BCC(out, 0, 4);
+    MI_CpuFill8(out, 0, 4);
     CLACT_InitSystem((const struct Cfg *)(&d_021BC944), a, b);
     *out = (int)CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer((void *)*out);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
@@ -1214,7 +1214,7 @@ void func_021BC630(char *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj26103 *)p)->f0));
     CLACT_ExitSystem();
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
 }
 
 

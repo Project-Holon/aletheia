@@ -23,34 +23,34 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   func_02045B38 0x02045B38 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_0201C6B4 0x0201C6B4 thumb
- *   func_0203633C 0x0203633C arm
- *   func_020362DC 0x020362DC arm
- *   func_020061E4 0x020061E4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
+ *   KEY_GetRepeat 0x0203633C arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Create 0x020457B0 arm
  *   func_02017E88 0x02017E88 thumb
  *   func_02030734 0x02030734 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   func_02049EF4 0x02049EF4 arm
  *   func_020410D0 0x020410D0 arm
  *   func_02040AE0 0x02040AE0 arm
- *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_02041300 0x02041300 arm
  *   func_02041570 0x02041570 arm
  *   func_0201EC64 0x0201EC64 thumb
@@ -68,8 +68,8 @@
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   func_0201DD68 0x0201DD68 thumb
- *   func_0201C6C4 0x0201C6C4 thumb
- *   func_0200616C 0x0200616C thumb
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
+ *   GFL_USE_PlaySeInSlot 0x0200616C thumb
  *   P_STA_RIBBON_GetRibbonDescMsg 0x021DBF94 thumb ov131
  *   P_STA_RIBBON_InfoTable 0x021DC2F8 data a4
  *   P_STATUS_SetInputEnable 0x021D5A9C thumb ov131
@@ -237,29 +237,29 @@ extern int CLACT_RegisterCharacter(void *arc, u32 fileId, u32 a, u32 screen, u16
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void CLACT_ReleaseCharacter(u32 charRes);
 extern struct Actor *CLACT_CreateActor(void *unit, unsigned int chrRes, unsigned int plttRes, unsigned int cellRes, const void *pos, u16 space, u16 heapId);
-extern void func_0204B3DC(struct Actor *actor, u32 enable);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
 extern void CLACT_DeleteActor(struct Actor *actor);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 extern int TOUCHPANEL_HitTrg(const void *hitTable);
-extern u32 func_0201C6B4(const void *printQue);
-extern unsigned int func_0203633C(void);
-extern u32 func_020362DC(void);
-extern void func_020061E4(u32 seId);
+extern u32 PRINTSYS_QUE_IsFinished(const void *printQue);
+extern unsigned int KEY_GetRepeat(void);
+extern u32 KEY_GetTrg(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern u32 func_02017E88(void *pp, int paramId, void *buf);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void PRINTSYS_PrintQueColor(void *printQue, struct Bmp *bmp, u32 x, u32 y, void *str, void *font, u16 colors);
-extern struct Bmp *func_02045770(struct BmpWin *win);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern struct BmpWin *BMP_WIN_Create(u32 bgId, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slot);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 func_02045730(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void func_02041B6C(u32 bgId);
-extern u32 func_020452E8(struct BmpWin *win);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct WordSet *func_0201EC64(u32 heapId);
 extern u32 func_0201ED04(struct WordSet *ws);
 extern void func_0201EFA4(struct WordSet *ws, u32 index, u32 number, u32 digits, u32 dispType, u32 zeroPad);
@@ -268,8 +268,8 @@ extern int TOUCHPANEL_GetCont(void);
 extern void *func_02049EF4(void *arc, unsigned int fileId, unsigned int a, void **outData, unsigned short heapId);
 extern void func_020410D0(u32 bgId, u32 a, u32 b, u32 width, u8 height, u32 src, u8 c, u8 d, u8 e, u8 f);
 extern void func_02040AE0(u32 palIndex, const void *src, u32 size);
-extern void func_0204B6F4(struct Actor *actor, u32 animSeq, u32 flag);
-extern void func_0204B404(struct Actor *actor, const StaOamPoint *delta, u32 space);
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 animSeq, u32 flag);
+extern void CLACT_AddActorSurfacePos(struct Actor *actor, const StaOamPoint *delta, u32 space);
 extern void func_02041300(unsigned int bgId, int a, int b, int c, unsigned char d, unsigned char e, unsigned char f);
 extern void func_02041570(int bgId, u16 value);
 extern void *func_02049E74(void *arc, u32 fileId, u32 a, void **outData, u16 heapId);
@@ -280,8 +280,8 @@ extern void func_02082D44(const void *src, void *dst, u32 size);
 extern void GF_FONT_SetTextColor(u32 a, u32 b, u32 c);
 extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, void *str, void *font);
 extern void func_0201DD68(void);
-extern u32 func_0201C6C4(void *printQue, struct Bmp *bmp);
-extern void func_0200616C(u32 seId, int flag);
+extern u32 PRINTSYS_QUE_IsExistTarget(void *printQue, struct Bmp *bmp);
+extern void GFL_USE_PlaySeInSlot(u32 seId, int flag);
 extern unsigned int P_STA_RIBBON_GetRibbonDescMsg(int ribbonNo);
 void P_STATUS_SetInputEnable(PStatusWork *wk, int enable);
 void *P_STATUS_GetPokePara(PStatusWork *wk);
@@ -343,7 +343,7 @@ void P_STA_RIBBON_Main(PStatusWork *wk, PStaRibbonWork *work)
 {
     P_STA_RIBBON_UpdateInput(wk,work);
     if (work->isTextPending == 1) {
-        if (func_0201C6B4(wk->printQue) == 1) {
+        if (PRINTSYS_QUE_IsFinished(wk->printQue) == 1) {
             P_STA_RIBBON_HideDetail(wk,work);
             P_STA_RIBBON_ShowDetail(wk,work);
             work->isTextPending=0;
@@ -385,7 +385,7 @@ void P_STA_RIBBON_CreateObjects(PStatusWork *wk, PStaRibbonWork *work)
     u8 i;
     pos.x=0;pos.y=0;pos.drawPriority=10;pos.bgPriority=0;pos.animSeq=0;
     work->cursorObj=CLACT_CreateActor((void *)(u32)wk->clunit,wk->objRes[PSTATUS_RES_CHR_END],wk->objRes[PSTATUS_RES_PLTT_END],wk->objRes[PSTATUS_RES_CELL_END],&pos,0,wk->heapId);
-    func_0204B3DC(work->cursorObj,0);
+    CLACT_SetActorDrawEnable(work->cursorObj,0);
     desc.x=8;
     desc.plttRes=(u32)((void *)wk->objRes[STA_RIBBON_RES_ROW_PLTT]);
     desc.animSeq=0;
@@ -426,10 +426,10 @@ void P_STA_RIBBON_UpdateInput(PStatusWork *wk, PStaRibbonWork *work)
     if((u32)wk->isInputEnabled==1) {
         if(work->ownedCount==0) return;
         index=P_STA_RIBBON_GetTouchedRow(wk,work);
-        if(func_020362DC()!=1 && index==-1) return;
+        if(KEY_GetTrg()!=1 && index==-1) return;
         work->scrollSpeed=0;
         P_STATUS_SetInputEnable(wk,0);
-        if(func_020362DC()==1) {
+        if(KEY_GetTrg()==1) {
             P_STA_RIBBON_SnapCursorToScroll(wk,work);
             wk->inputType=STA_RIBBON_INPUT_KEYS;
         } else {
@@ -440,7 +440,7 @@ void P_STA_RIBBON_UpdateInput(PStatusWork *wk, PStaRibbonWork *work)
             P_STATUS_SetInputEnable(wk,0);
             wk->inputType=STA_RIBBON_INPUT_TOUCH;
         }
-        func_020061E4(STA_RIBBON_SE_SELECT);
+        GFL_USE_PlaySeDefaultVolume(STA_RIBBON_SE_SELECT);
         P_STA_RIBBON_FreeDetailWindows(wk,work);
         P_STA_RIBBON_PrintDetail(wk,work);
     } else {
@@ -453,21 +453,21 @@ int P_STA_RIBBON_UpdateKeys(PStatusWork *wk, PStaRibbonWork *work)
     u8 i,index,narrowDelta;
     s16 shortDelta;
     int position;
-    if(func_020362DC()==STA_RIBBON_KEY_B) {
+    if(KEY_GetTrg()==STA_RIBBON_KEY_B) {
         P_STATUS_SetInputEnable(wk,1);
         CLACT_SetActorAnimSeq(wk->buttonActor[STA_RIBBON_BUTTON_B],9);
-        func_0204B3DC(work->cursorObj,0);
+        CLACT_SetActorDrawEnable(work->cursorObj,0);
         work->selectedRow=255;
         work->selectedOwned=255;
         work->selectionChanged=1;
         P_STA_RIBBON_FreeDetailWindows(wk,work);
         P_STA_RIBBON_HideDetail(wk,work);
         wk->inputType=STA_RIBBON_INPUT_KEYS;
-        func_020061E4(STA_RIBBON_SE_CANCEL);
+        GFL_USE_PlaySeDefaultVolume(STA_RIBBON_SE_CANCEL);
         return 1;
     }
     if(wk->inputType==STA_RIBBON_INPUT_TOUCH) {
-        if(func_020362DC()==STA_RIBBON_KEY_A || func_020362DC()==STA_RIBBON_KEY_DOWN || func_020362DC()==STA_RIBBON_KEY_UP) {
+        if(KEY_GetTrg()==STA_RIBBON_KEY_A || KEY_GetTrg()==STA_RIBBON_KEY_DOWN || KEY_GetTrg()==STA_RIBBON_KEY_UP) {
             position=-16;
             work->scrollSpeed=0;
             work->isDragging=0;
@@ -477,11 +477,11 @@ int P_STA_RIBBON_UpdateKeys(PStatusWork *wk, PStaRibbonWork *work)
             if(position < -4 || position >144) P_STA_RIBBON_SnapCursorToScroll(wk,work);
             P_STA_RIBBON_FreeDetailWindows(wk,work);
             P_STA_RIBBON_PrintDetail(wk,work);
-            func_020061E4(STA_RIBBON_SE_CURSOR);
+            GFL_USE_PlaySeDefaultVolume(STA_RIBBON_SE_CURSOR);
             wk->inputType=STA_RIBBON_INPUT_KEYS;
             return 1;
         }
-    } else if(func_0203633C()==STA_RIBBON_KEY_DOWN) {
+    } else if(KEY_GetRepeat()==STA_RIBBON_KEY_DOWN) {
         index=work->selectedRow+1;
         if(index>=STA_RIBBON_ROW_COUNT) index-=STA_RIBBON_ROW_COUNT;
         if(work->rows[index].ownedIdx!=0xffff) {
@@ -494,10 +494,10 @@ int P_STA_RIBBON_UpdateKeys(PStatusWork *wk, PStaRibbonWork *work)
             P_STA_RIBBON_SelectRow(wk,work,work->selectedRow);
             P_STA_RIBBON_FreeDetailWindows(wk,work);
             P_STA_RIBBON_PrintDetail(wk,work);
-            func_020061E4(STA_RIBBON_SE_CURSOR);
+            GFL_USE_PlaySeDefaultVolume(STA_RIBBON_SE_CURSOR);
         }
         return 1;
-    } else if(func_0203633C()==STA_RIBBON_KEY_UP) {
+    } else if(KEY_GetRepeat()==STA_RIBBON_KEY_UP) {
         index=work->selectedRow;
         if(index==0) index=STA_RIBBON_ROW_COUNT-1;
         else index-=1;
@@ -511,7 +511,7 @@ int P_STA_RIBBON_UpdateKeys(PStatusWork *wk, PStaRibbonWork *work)
             P_STA_RIBBON_SelectRow(wk,work,work->selectedRow);
             P_STA_RIBBON_FreeDetailWindows(wk,work);
             P_STA_RIBBON_PrintDetail(wk,work);
-            func_020061E4(STA_RIBBON_SE_CURSOR);
+            GFL_USE_PlaySeDefaultVolume(STA_RIBBON_SE_CURSOR);
         }
         return 1;
     }
@@ -535,14 +535,14 @@ void P_STA_RIBBON_UpdateTouch(PStatusWork *wk, PStaRibbonWork *work)
     if((u32)wk->tpHit==7) {
         P_STATUS_SetInputEnable(wk,1);
         CLACT_SetActorAnimSeq(wk->buttonActor[STA_RIBBON_BUTTON_B],9);
-        func_0204B3DC(work->cursorObj,0);
+        CLACT_SetActorDrawEnable(work->cursorObj,0);
         work->selectedRow=255;
         work->selectedOwned=255;
         work->selectionChanged=1;
         wk->inputType=STA_RIBBON_INPUT_TOUCH;
         P_STA_RIBBON_FreeDetailWindows(wk,work);
         P_STA_RIBBON_HideDetail(wk,work);
-        func_020061E4(STA_RIBBON_SE_CANCEL);
+        GFL_USE_PlaySeDefaultVolume(STA_RIBBON_SE_CANCEL);
         return;
     }
     if(TOUCHPANEL_GetTrg()==1 && wk->tpX>8 && wk->tpX<144) {
@@ -553,7 +553,7 @@ void P_STA_RIBBON_UpdateTouch(PStatusWork *wk, PStaRibbonWork *work)
             work->selectedOwned=P_STA_RIBBON_GetRowOwnedIndex(work,(u8)index);
             work->isDragging=1;
             work->scrollSpeed=0;
-            func_0204B3DC(work->cursorObj,0);
+            CLACT_SetActorDrawEnable(work->cursorObj,0);
             P_STA_RIBBON_FreeDetailWindows(wk,work);
             P_STA_RIBBON_PrintDetail(wk,work);
         }
@@ -627,7 +627,7 @@ void P_STA_RIBBON_SelectRow(PStatusWork *wk, PStaRibbonWork *work, u8 row)
     StaOamPoint pt;
     pt.x=8;
     pt.y=P_STA_RIBBON_GetRowY(work,row);
-    func_0204B404(work->cursorObj,&pt,0);
+    CLACT_AddActorSurfacePos(work->cursorObj,&pt,0);
     work->selectedRow=row;
     work->selectionChanged=1;
     work->selectedOwned=P_STA_RIBBON_GetRowOwnedIndex(work,row);
@@ -703,11 +703,11 @@ void P_STA_RIBBON_Deactivate(PStatusWork *wk, PStaRibbonWork *work)
 {
     work->isActive=0;
     if(work->titleWin!=0) {
-        func_020452E8(work->titleWin);
+        BMP_WIN_Delete(work->titleWin);
         work->titleWin=0;
     }
     if(work->descWin!=0) {
-        func_020452E8(work->descWin);
+        BMP_WIN_Delete(work->descWin);
         work->descWin=0;
     }
 }
@@ -822,13 +822,13 @@ void P_STA_RIBBON_UpdateRows(PStatusWork *wk, PStaRibbonWork *work)
             }
         }
         row=STA_RIBBON_ROW_AT(work,i);
-        if(row->printPending==1 && func_0201C6C4(wk->printQue,row->bmp)==0) {
+        if(row->printPending==1 && PRINTSYS_QUE_IsExistTarget(wk->printQue,row->bmp)==0) {
             row->printPending=0;
             P_STA_OAM_TransferBitmap(row->actors);
         }
     }
     if(changed==1 && work->seCooldown==0) {
-        func_0200616C(STA_RIBBON_SE_SCROLL,1);
+        GFL_USE_PlaySeInSlot(STA_RIBBON_SE_SCROLL,1);
         work->seCooldown=3;
     }
     if(work->selectionChanged==1) {
@@ -888,10 +888,10 @@ void P_STA_RIBBON_PrintDetail(PStatusWork *wk, PStaRibbonWork *work)
     work->descWin=BMP_WIN_Create(4,1,16,30,4,14,1);
     ribbonNo=work->owned[work->selectedOwned].ribbonNo;
     text=func_02045EC0(work->msgBank,P_STA_RIBBON_GetRibbonInfo(ribbonNo,3));
-    PRINTSYS_PrintQueColor(wk->printQue,func_02045770(work->titleWin),1,1,text,wk->font,1088);
+    PRINTSYS_PrintQueColor(wk->printQue,BMP_WIN_GetBmp(work->titleWin),1,1,text,wk->font,1088);
     STRBUF_Delete(text);
     text=func_02045EC0(work->msgBank,P_STA_RIBBON_GetRibbonDescMsg(ribbonNo));
-    PRINTSYS_PrintQueColor(wk->printQue,func_02045770(work->descWin),1,1,text,wk->font,1088);
+    PRINTSYS_PrintQueColor(wk->printQue,BMP_WIN_GetBmp(work->descWin),1,1,text,wk->font,1088);
     STRBUF_Delete(text);
     work->isTextPending=1;
 }
@@ -914,11 +914,11 @@ void P_STA_RIBBON_ShowDetail(PStatusWork *wk, PStaRibbonWork *work)
     win=work->titleWin;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(func_02045730(win));
+    func_02041B6C(BMP_WIN_GetBgLayer(win));
     win=work->descWin;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(func_02045730(win));
+    func_02041B6C(BMP_WIN_GetBgLayer(win));
     archive=func_020490F4(78,wk->heapId);
     work->detailChrRes=CLACT_RegisterCharacter(archive,P_STA_RIBBON_GetRibbonInfo(ribbonNo,1),0,1,wk->heapId);
     ARC_TOOL_DeleteHandle(archive);
@@ -928,8 +928,8 @@ void P_STA_RIBBON_ShowDetail(PStatusWork *wk, PStaRibbonWork *work)
     pos.bgPriority=0;
     pos.animSeq=0;
     work->detailObj=CLACT_CreateActor((void *)(u32)wk->clunit,work->detailChrRes,wk->objRes[STA_RIBBON_RES_DETAIL_PLTT],wk->objRes[STA_RIBBON_RES_DETAIL_CELL],&pos,1,wk->heapId);
-    func_0204B6F4(work->detailObj,(u8)P_STA_RIBBON_GetRibbonInfo(ribbonNo,2),1);
-    func_0204B3DC(work->detailObj,1);
+    CLACT_SetActorPaletteOffset(work->detailObj,(u8)P_STA_RIBBON_GetRibbonInfo(ribbonNo,2),1);
+    CLACT_SetActorDrawEnable(work->detailObj,1);
     func_02040AE0(6,work->detailPal->data,work->detailPal->dataSize);
     func_02041B6C(6);
     work->isDetailShown=1;
@@ -938,11 +938,11 @@ void P_STA_RIBBON_ShowDetail(PStatusWork *wk, PStaRibbonWork *work)
 void P_STA_RIBBON_FreeDetailWindows(PStatusWork *wk, PStaRibbonWork *work)
 {
     if(work->titleWin!=0) {
-        func_020452E8(work->titleWin);
+        BMP_WIN_Delete(work->titleWin);
         work->titleWin=0;
     }
     if(work->descWin!=0) {
-        func_020452E8(work->descWin);
+        BMP_WIN_Delete(work->descWin);
         work->descWin=0;
     }
 }

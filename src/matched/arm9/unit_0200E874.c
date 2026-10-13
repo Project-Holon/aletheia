@@ -13,7 +13,7 @@
  * function: sub_0200E874, sub_0200E878
  *
  * symbols:
- *   func_02082BCC   0x02082BCC  arm
+ *   MI_CpuFill8   0x02082BCC  arm
  *
  * The twelve bytes after func_0200E7BC: two unlabelled leaves that save
  * nothing at all, so their bytes print as part of the same `.word` run as
@@ -26,7 +26,7 @@
 
 typedef unsigned int u32;
 
-extern void func_02082BCC(void *dst, int value, u32 size);
+extern void MI_CpuFill8(void *dst, int value, u32 size);
 
 int sub_0200E874(void)
 {
@@ -35,5 +35,5 @@ int sub_0200E874(void)
 
 void sub_0200E878(void *dst)
 {
-    func_02082BCC(dst, 0, 0x10);
+    MI_CpuFill8(dst, 0, 0x10);
 }

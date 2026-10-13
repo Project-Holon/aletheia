@@ -18,7 +18,7 @@
  *
  * symbols:
  *   func_0215EF48                  0x0215EF48  arm ov009
- *   func_0215FBAC                  0x0215FBAC  arm ov009
+ *   SOC_U32to4U8                  0x0215FBAC  arm ov009
  *   g_021A37BC                     0x021A37BC  data
  *   _ZZ13func_0217EFB8vE9aliases_0 0x021AD0F4  data
  *   _ZZ13func_0217EFB8vE9localhost_0 0x021AD0FC  data
@@ -35,7 +35,7 @@ struct SOCHostEnt {
 };
 
 extern unsigned long func_0215EF48(void);
-extern void func_0215FBAC(unsigned long adr_u32, unsigned char *adr_4u8);
+extern void SOC_U32to4U8(unsigned long adr_u32, unsigned char *adr_4u8);
 extern char g_021A37BC[];
 
 struct SOCHostEnt *func_0217EFB8(void)
@@ -51,7 +51,7 @@ struct SOCHostEnt *func_0217EFB8(void)
     localhost.length = 0;
     localhost.addrList = ipPtrs_1;
     ips_2[0] = 0;
-    func_0215FBAC(func_0215EF48(), (unsigned char *)ips_2);
+    SOC_U32to4U8(func_0215EF48(), (unsigned char *)ips_2);
     if (ips_2[0] == 0)
         return 0;
     ipPtrs_1[0] = (unsigned char *)ips_2;

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 struct Ctx;
 struct Evt;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *FIELDMAP_GetMmdlSys(u8 *p);
 extern void FLDMMDL_SysPauseMove(void *);
@@ -40,7 +40,7 @@ int EVENT_COMM_COMMON_OfferEventMain(void *a, int *state, int c)
     void *h;
     u8 *r;
 
-    h = func_020124E4(a);
+    h = GAME_EVENT_GetGameSystem(a);
     r = GAMESYSTEM_GetFieldMap(h);
     switch (*state) {
     case 0:

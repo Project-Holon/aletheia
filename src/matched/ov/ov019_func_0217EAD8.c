@@ -21,7 +21,7 @@
  *   TRCARD_SYS_CreateEditWork  0x0216F7F4  thumb  ov010
  *   func_0200855C  0x0200855C  thumb
  *   func_0201F02C  0x0201F02C  thumb
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  */
 #include "../include/Obj05956.h"
 
@@ -47,7 +47,7 @@ int UNION_MAIN_IsScenePending(u8 *w);
 void *TRCARD_SYS_CreateEditWork(int a, u8 *e, int b);
 u8 func_0200855C(const struct Sub0200852CObj *obj);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
-u32 func_020362DC(void);
+u32 KEY_GetTrg(void);
 
 int UNION_ONESELF_ColosseumTrainerCardMain(u8 *w, void *obj, u8 *a2, u8 *state)
 {
@@ -90,7 +90,7 @@ int UNION_ONESELF_ColosseumTrainerCardMain(u8 *w, void *obj, u8 *a2, u8 *state)
         (*state)++;
         break;
     case 1:
-        if (UNION_MSG_CheckTalkPrintEnd(w) == 1 && (func_020362DC() & 3)) {
+        if (UNION_MSG_CheckTalkPrintEnd(w) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_CloseAllWindows(w);
             (*(u8 **)(p + 0x134 + p[0x16c] * 4))[4] |= 0x20;
             q = TRCARD_SYS_CreateEditWork((*(Sys * *)&((struct Obj05956 *)w)->f0)->f8, *(u8 **)(p + 0x134 + p[0x16c] * 4), 0x41);

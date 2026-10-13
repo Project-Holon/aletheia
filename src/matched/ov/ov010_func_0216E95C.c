@@ -15,12 +15,12 @@
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   BTL_SETUP_Create  0x02013090  thumb
- *   func_0201A920  0x0201A920  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *   func_02030734  0x02030734  arm
  *   POKE_TOOL_SetupPartyParam  0x0201756C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   FIELD_ENCOUNT_SetFieldSituation  0x021AA304  thumb  ov021
  *   BTL_SETUP_SetupDemo  0x020135C0  thumb
  *   func_020307B0  0x020307B0  arm
@@ -66,12 +66,12 @@ struct Party;
 struct PartyMon;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *BTL_SETUP_Create(u32 heap);
-extern void *func_0201A920(u16 heap);
+extern void *POKEPARTY_Create(u16 heap);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void POKE_TOOL_SetupPartyParam(void *mon, u16 species, u16 level, u64 id);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 struct Info;
 extern void FIELD_ENCOUNT_SetFieldSituation(struct Info *out, void *a1, void *a2);
 extern void BTL_SETUP_SetupDemo(void *bs, void *ctx, void *p1, void *p2, Loc *loc, u32 heap);
@@ -98,21 +98,21 @@ void *EVENT_BATTLE_CreateCatchTutorial(void *sys, u32 arg, u32 heap)
     h = (heap & 0x7FFF) | 0x8000;
     ctx = GAMESYSTEM_GetGameData(sys);
     bs = BTL_SETUP_Create(heap);
-    party1 = func_0201A920(h);
-    party2 = func_0201A920(h);
+    party1 = POKEPARTY_Create(h);
+    party2 = POKEPARTY_Create(h);
     mon = func_02030734(h, POKE_TOOL_GetPartyParamSize(), 1, d_02172B54, 0x1DA);
     POKE_TOOL_SetupPartyParam(mon, 572, 7, 0);
     POKE_TOOL_SetPartyValue(mon, 0x36, 1);
     POKE_TOOL_SetPartyValue(mon, 0x37, 45);
     POKE_TOOL_SetPartyValue(mon, 0x38, 0);
     POKE_TOOL_SetPartyValue(mon, 0x39, 0);
-    func_0201A98C(party1, mon);
+    POKEPARTY_Add(party1, mon);
     POKE_TOOL_SetupPartyParam(mon, 504, 2, 0);
     POKE_TOOL_SetPartyValue(mon, 0x36, 33);
     POKE_TOOL_SetPartyValue(mon, 0x37, 43);
     POKE_TOOL_SetPartyValue(mon, 0x38, 0);
     POKE_TOOL_SetPartyValue(mon, 0x39, 0);
-    func_0201A98C(party2, mon);
+    POKEPARTY_Add(party2, mon);
     FIELD_ENCOUNT_SetFieldSituation((struct Info *)(&loc), ctx, (void *)arg);
     loc.f04 = 5;
     loc.f00 = 0;

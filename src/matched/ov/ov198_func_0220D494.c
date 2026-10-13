@@ -11,14 +11,14 @@
  *
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   STRBUF_Create 0x020457B0 arm
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
- *   func_02045738 0x02045738 arm
+ *   BMP_WIN_GetWidth 0x02045738 arm
  *
  * Near miss: the body is byte-for-byte right in shape; the residue is pure
  * register allocation / frame packing. The original keeps `handle` in r7
@@ -47,8 +47,8 @@ struct U16Vec;
 struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern u8 func_02045738(struct Descriptor *p);
-extern void *func_02045770(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -77,9 +77,9 @@ void func_0220D494(u8 *p, int slot, int a2, int a3)
     handle = *(void **)(tab + slot);
     text = func_02045EC0(P->f1EA0, 0x38);
     w1 = func_0201D304(text, P->hdr->font, 0);
-    x = ((func_02045738(handle) << 3) - w1) >> 1;
+    x = ((BMP_WIN_GetWidth(handle) << 3) - w1) >> 1;
     ctx1 = P->f1EAC;
-    PRINTSYS_PrintQueColor((void *)ctx1, (u32)func_02045770(*(void **)(tab + slot)), (s16)x, (s16)0, (u32)text, P->hdr->font, (u32)0x3DC0);
+    PRINTSYS_PrintQueColor((void *)ctx1, (u32)BMP_WIN_GetBmp(*(void **)(tab + slot)), (s16)x, (s16)0, (u32)text, P->hdr->font, (u32)0x3DC0);
     fl = p + 0x1F74;
     fl[slot] = 1;
     STRBUF_Delete(text);
@@ -89,7 +89,7 @@ void func_0220D494(u8 *p, int slot, int a2, int a3)
     func_0201F250(P->f1EA4, h2, text2);
     w2 = func_0201D304(h2, P->hdr->font, 0);
     ctx2 = P->f1EAC;
-    PRINTSYS_PrintQueColor((void *)ctx2, (u32)func_02045770(*(void **)(tab + slot)), (s16)(x - w2), (s16)0, (u32)h2, P->hdr->font, (u32)0x3DC0);
+    PRINTSYS_PrintQueColor((void *)ctx2, (u32)BMP_WIN_GetBmp(*(void **)(tab + slot)), (s16)(x - w2), (s16)0, (u32)h2, P->hdr->font, (u32)0x3DC0);
     fl[slot] = 1;
     STRBUF_Delete(text2);
     STRBUF_Delete(h2);
@@ -98,7 +98,7 @@ void func_0220D494(u8 *p, int slot, int a2, int a3)
     func_0201EFA4(P->f1EA4, 0, a3, 3, 0, 1);
     func_0201F250(P->f1EA4, h3, text3);
     ctx3 = P->f1EAC;
-    PRINTSYS_PrintQueColor((void *)ctx3, (u32)func_02045770(*(void **)(tab + slot)), (s16)(x + w1), (s16)0, (u32)h3, P->hdr->font, (u32)0x3DC0);
+    PRINTSYS_PrintQueColor((void *)ctx3, (u32)BMP_WIN_GetBmp(*(void **)(tab + slot)), (s16)(x + w1), (s16)0, (u32)h3, P->hdr->font, (u32)0x3DC0);
     fl[slot] = 1;
     STRBUF_Delete(text3);
     STRBUF_Delete(h3);

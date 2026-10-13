@@ -14,11 +14,11 @@
  *
  * symbols:
  *   BTL_MAIN_DecodeMessageCode  0x021B8778  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 typedef unsigned char u8;
 
-void func_02082BCC(void *p, int v, int n);
+void MI_CpuFill8(void *p, int v, int n);
 extern int BTL_MAIN_DecodeMessageCode(int, int, u8 *);
 void func_0689ACCC(void *p);
 void func_0689ACD8(u8 *p, int a, unsigned short b);
@@ -26,7 +26,7 @@ void func_0689ACD8(u8 *p, int a, unsigned short b);
 
 void func_0689ACCC(void *p)
 {
-    func_02082BCC(p, 0, 9);
+    MI_CpuFill8(p, 0, 9);
 }
 
 /*

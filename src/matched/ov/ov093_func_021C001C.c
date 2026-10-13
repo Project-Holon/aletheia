@@ -1,5 +1,5 @@
 /*
- * function: func_021C001C
+ * function: BTL_SERVER_FLOW_CheckMoveExecuteFail
  * address: 0x021C001C
  * packet: pkt_ov093_021C001C
  * region: ov093
@@ -75,7 +75,7 @@ extern void BTL_SERVER_FLOW_PushPokeEffectAnim(u8 *, u8 *, int);
 extern void BTL_SERVER_FLOW_CureMajorStatusWithMessage(u8 *, u8 *, int, int);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *);
 extern void BTL_SERVER_CMD_PushVariable(void *, u8, ...);
-int func_021C001C(u8 *p, u8 *a, u16 c, u16 d)
+int BTL_SERVER_FLOW_CheckMoveExecuteFail(u8 *p, u8 *a, u16 c, u16 d)
 {
     int mode;
     int changed = 0;

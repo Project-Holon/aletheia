@@ -17,6 +17,7 @@
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   GFL_USE_IsSeqPlaying  0x02006254  thumb  arm9
  *   PALANM_RequestFade  0x0202173C  thumb  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj00341.h"
 typedef unsigned char u8;
@@ -28,7 +29,7 @@ extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_02040618(u32, u32, u32);
 struct Bmp;
 extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int GFL_USE_IsSeqPlaying(u32 a);
 extern int func_021F86E0(void);
 extern void *func_021F86D4(void);
@@ -58,7 +59,7 @@ int func_021EDCA8(u8 *p)
         }
         func_02040618(p[0xb], 0, ((struct Obj00341 *)p)->f14 >> 12);
         func_02040618(p[0xb], 3, 0);
-        func_020061E4(0x573);
+        GFL_USE_PlaySeDefaultVolume(0x573);
         p[0xd]++;
         break;
     case 2:
@@ -91,7 +92,7 @@ int func_021EDCA8(u8 *p)
         pal = (void *)func_021F86E0();
         ctx = func_021F86D4();
         mask = 1 << (p[0xa] + 1);
-        func_020061E4(0x54d);
+        GFL_USE_PlaySeDefaultVolume(0x54d);
         PALANM_RequestFade(pal, 1, mask, 0, 16, 0, 0x7fff, ctx);
         p[0xd]++;
         break;

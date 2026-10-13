@@ -1,5 +1,5 @@
 /*
- * function: func_021E1354
+ * function: HAND_WAZA_TrapOnAddSickMessage
  * address:  0x021E1354
  * packet:   pkt_ov093_021E1354
  * region:   ov093
@@ -12,8 +12,8 @@
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
- *   func_021C8838  0x021C8838  thumb  ov093
- *   func_021C8860  0x021C8860  thumb  ov093
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -24,10 +24,10 @@ extern int BTL_EVENT_GetVar(int key);
 struct QQ;
 struct S;
 extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
-extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(struct S *p, u32 val);
+extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 val);
 
-void func_021E1354(void *a, void *unused, int id)
+void HAND_WAZA_TrapOnAddSickMessage(void *a, void *unused, int id)
 {
     void *p;
     u8 k;
@@ -64,7 +64,7 @@ void func_021E1354(void *a, void *unused, int id)
     default:
         return;
     }
-    func_021C8838(p, 2, v);
-    func_021C8860(p, k);
-    func_021C8860(p, id);
+    BTL_SERVER_FLOW_InitMsgRecord(p, 2, v);
+    BTL_SERVER_FLOW_AppendMsgRecordArg(p, k);
+    BTL_SERVER_FLOW_AppendMsgRecordArg(p, id);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021CF5B0
+ * function: BTL_CLIENT_IsMoveSelectionBlocked
  * address: 0x021CF5B0
  * packet: pkt_ov093_021CF5B0
  * region: ov093
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021CF89C 0x021CF89C thumb ov093
+ *   BTL_CLIENT_IsHeldItemEffective 0x021CF89C thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_POKEPARAM_GetSickContRaw 0x021D6314 thumb ov093
  *   BTLV_CORE_GetSlotValue 0x021E8B80 thumb ov093
@@ -33,7 +33,7 @@ struct L;
 struct QI;
 struct Unk021D62A8;
 struct UtilSlots;
-extern int func_021CF89C(u8 *p, void *q);
+extern int BTL_CLIENT_IsHeldItemEffective(u8 *p, void *q);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern Word BTL_POKEPARAM_GetSickContRaw(void *, int);
 extern u16 BTLV_CORE_GetSlotValue(Word);
@@ -48,13 +48,13 @@ extern u16 BTL_POKEPARAM_GetSickParam(struct UtilSlots *p, int i);
 extern int WAZA_TOOL_GetFlag(u32, int);
 extern void *func_021EFCE4(char *arg0, int arg1);
 extern int func_021EFC1C(int, int, void *, u32);
-int func_021CF5B0(u8 *g, void *m, u32 move, void *out)
+int BTL_CLIENT_IsMoveSelectionBlocked(u8 *g, void *m, u32 move, void *out)
 {
     u32 k;
     u32 k2;
     Word w;
     if (move == 0xa5) return 0;
-    if (func_021CF89C(g, m) && BTL_POKEPARAM_HasSick(m, 0x1b)) {
+    if (BTL_CLIENT_IsHeldItemEffective(g, m) && BTL_POKEPARAM_HasSick(m, 0x1b)) {
         w = BTL_POKEPARAM_GetSickContRaw(m, 0x1b);
         k = BTLV_CORE_GetSlotValue(w);
         if (BTL_POKEPARAM_HasMove(m, k) && k != move) {

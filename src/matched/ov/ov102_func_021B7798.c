@@ -12,7 +12,7 @@
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
  *   func_021B78EC 0x021B78EC thumb ov102
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_021B87FC 0x021B87FC thumb ov102
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_021B89F0 0x021B89F0 thumb ov102
@@ -27,7 +27,7 @@ extern void FADE_Start(u32, int, int, int);
 extern int FADE_IsActive(void);
 extern u32 func_021B78EC(void *, int);
 struct Obj;
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void func_021B87FC(int *);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u16);
 extern void func_021B89F0(u8 *);
@@ -45,7 +45,7 @@ int func_021B7798(void *unused, u32 *state, int unused2, char *p)
         break;
     case 2:
         if (FADE_IsActive() == 0) {
-            func_0204B92C((void *)func_021B78EC(p, 31), 1);
+            CLACT_SetActorAutoAnim((void *)func_021B78EC(p, 31), 1);
             func_021B87FC((int *)(p + 0xfc));
             GFL_USE_CancelChangeAndPlayBgm(0x52a, 0xffff);
             *state = 3;

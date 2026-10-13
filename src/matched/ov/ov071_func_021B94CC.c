@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201C6B4  0x0201C6B4  thumb
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   func_02030EAC  0x02030EAC  arm
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MONOLITH_TOOL_LIST_FreeEntryBitmaps  0x021B9A18  thumb  ov071
  *   func_021B71FC  0x021B71FC  thumb  ov071
@@ -40,10 +40,10 @@ struct Rec;
 struct Rec3;
 struct S020315D4;
 struct U16Vec;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void func_02030EAC(struct Node *n);
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void MONOLITH_TOOL_LIST_FreeEntryBitmaps(char *p);
 extern void func_021B71FC(void *a);
@@ -60,12 +60,12 @@ extern void func_020315D4(struct S020315D4 *p);
 
 int MONOLITH_TOOL_LIST_Exit(void *a, void *b, char *c, char *d)
 {
-    if (func_0201C6B4(((struct Obj20747 *)(*(char * *)&((struct Obj20746 *)c)->f4))->f8) == 0)
+    if (PRINTSYS_QUE_IsFinished(((struct Obj20747 *)(*(char * *)&((struct Obj20746 *)c)->f4))->f8) == 0)
         return 0;
     BG_SYS_SetSubVisiblePlanes(8);
     func_02030EAC(((struct Obj03177 *)d)->f0);
     if (((struct Obj03177 *)d)->f294 != 0)
-        func_0201CE48(((struct Obj03177 *)d)->f294);
+        PRINTSYS_PrintStreamDelete(((struct Obj03177 *)d)->f294);
     if (((struct Obj03177 *)d)->f290 != 0)
         STRBUF_Delete(((struct Obj03177 *)d)->f290);
     MONOLITH_TOOL_LIST_FreeEntryBitmaps(d);

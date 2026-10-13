@@ -18,9 +18,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_ABILITY_FriskShowOpponentItem",
-    "BTL_ABILITY_GetFriskHandlers",
-    "BTL_ABILITY_GetSturdyHandlers"
+    "HAND_TOKUSEI_FriskShowOpponentItem",
+    "HAND_TOKUSEI_GetFriskHandlers",
+    "HAND_TOKUSEI_GetSturdyHandlers"
    ],
    "addresses": [
     "0x021DA624",

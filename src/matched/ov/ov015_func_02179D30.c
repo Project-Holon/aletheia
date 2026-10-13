@@ -1,5 +1,5 @@
 /*
- * function: func_02179D30
+ * function: IRCNET_GetSenderFlag
  * address:  0x02179D30
  * packet:   pkt_02179D30
  * region:   ov015
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 
 extern u8 g_0217AB80[];
 
-u8 func_02179D30(void)
+u8 IRCNET_GetSenderFlag(void)
 {
     return g_0217AB80[0x1c];
 }

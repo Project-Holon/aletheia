@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *
@@ -78,7 +78,7 @@ struct Obj {
 #define COLOR(l, s, b) ((u16)((((l) & 0x1f) << 10) | (((s) & 0x1f) << 5) | ((b) & 0x1f)))
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *win);
+extern void *BMP_WIN_GetBmp(struct Descriptor *win);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void PRINTSYS_PrintColor(u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
 
@@ -90,22 +90,22 @@ void BMP_MENULIST_PrintItem(struct Obj *obj, const void *text, u32 x, u32 y, u32
         if (sel) {
             u32 a = obj->f2C;
             struct Target *t = obj->f28;
-            PRINTSYS_PrintQueColor((void *)a, (u32)func_02045770((struct Descriptor *)t->win), x, y, (u32)text, obj->f30,
+            PRINTSYS_PrintQueColor((void *)a, (u32)BMP_WIN_GetBmp((struct Descriptor *)t->win), x, y, (u32)text, obj->f30,
                           COLOR(obj->f34lo, obj->f35lo, obj->f34hi));
             t->dirty = 1;
         } else {
-            PRINTSYS_PrintColor((u32)func_02045770((struct Descriptor *)obj->f28->win), x, y, text, obj->f30,
+            PRINTSYS_PrintColor((u32)BMP_WIN_GetBmp((struct Descriptor *)obj->f28->win), x, y, text, obj->f30,
                           COLOR(obj->f34lo, obj->f35lo, obj->f34hi));
         }
     } else {
         if (sel) {
             u32 a = obj->f2C;
             struct Target *t = obj->f28;
-            PRINTSYS_PrintQueColor((void *)a, (u32)func_02045770((struct Descriptor *)t->win), x, y, (u32)text, obj->f30,
+            PRINTSYS_PrintQueColor((void *)a, (u32)BMP_WIN_GetBmp((struct Descriptor *)t->win), x, y, (u32)text, obj->f30,
                           COLOR(obj->f17hi, obj->f18hi, obj->f18lo));
             t->dirty = 1;
         } else {
-            PRINTSYS_PrintColor((u32)func_02045770((struct Descriptor *)obj->f28->win), x, y, text, obj->f30,
+            PRINTSYS_PrintColor((u32)BMP_WIN_GetBmp((struct Descriptor *)obj->f28->win), x, y, text, obj->f30,
                           COLOR(obj->f34lo, obj->f35lo, obj->f34hi));
         }
     }

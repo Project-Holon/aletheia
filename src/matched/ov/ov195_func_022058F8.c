@@ -13,7 +13,7 @@
  *   d_02208F50 0x02208F50 data a4
  *   d_02208CEC 0x02208CEC data a4
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
@@ -35,7 +35,7 @@ typedef unsigned int u32;
 extern u32 d_02208F50[];
 extern u32 d_02208CEC[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -54,7 +54,7 @@ char *func_022058F8(u32 a, u32 b)
 {
     char *p = func_02030734(b, 0x10, 0, (const char *)d_02208F50, 0x1df);
 
-    func_02082BCC(p, 0, 0x10);
+    MI_CpuFill8(p, 0, 0x10);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
     *(volatile u32 *)0x04000000 &= 0xffff1fff;

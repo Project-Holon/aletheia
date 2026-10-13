@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_GetIndirectGuardCause8Handlers
+ * function: HAND_TOKUSEI_GetIndirectGuardCause8Handlers
  * address: 0x021D9260
  * packet: pkt_ov093_021D9260
  * region: ov093
@@ -12,16 +12,16 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D9118.c and filed here.
  *
  * symbols:
- *   gIndirectGuardCause8HandlerTable 0x021F08A0 data ov093 a4
+ *   gIndirectGuardCause8Handlers 0x021F08A0 data ov093 a4
  */
 
-int *BTL_ABILITY_GetIndirectGuardCause8Handlers(int *p);
+int *HAND_TOKUSEI_GetIndirectGuardCause8Handlers(int *p);
 
-/* 021D926C  shifted 4-arg wrapper -> BTL_ABILITY_BlockIndirectDamage(..., 0x8) */
-extern int gIndirectGuardCause8HandlerTable[];
+/* 021D926C  shifted 4-arg wrapper -> HAND_TOKUSEI_BlockIndirectDamage(..., 0x8) */
+extern int gIndirectGuardCause8Handlers[];
 
-int *BTL_ABILITY_GetIndirectGuardCause8Handlers(int *p)
+int *HAND_TOKUSEI_GetIndirectGuardCause8Handlers(int *p)
 {
     *p = 2;
-    return gIndirectGuardCause8HandlerTable;
+    return gIndirectGuardCause8Handlers;
 }

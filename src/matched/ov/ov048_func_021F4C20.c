@@ -23,7 +23,7 @@
  *   FIELD_TASK_CreateCameraTargetTween  0x021C7AE4  thumb  ov021
  *   FIELD_TASK_MANAGER_AddTask  0x021C6DE0  thumb  ov021
  *   FIELD_TASK_MANAGER_IsEmpty  0x021C6E48  thumb  ov021
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  */
 
 typedef unsigned char  u8;
@@ -56,7 +56,7 @@ extern u32 FIELD_TASK_CreateCameraYawTween(u32 a, u16 b, u16 c);
 extern u32 FIELD_TASK_CreateCameraTargetTween(u32 a, u16 b, void *c);
 extern void FIELD_TASK_MANAGER_AddTask(u8 *p, u32 *a, u32 b);
 extern int FIELD_TASK_MANAGER_IsEmpty(u32 a);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 
 int GIMMICK_OBJ_ELBOARD_CameraEventMain(int a0, int *state, W *w)
 {
@@ -121,7 +121,7 @@ int GIMMICK_OBJ_ELBOARD_CameraEventMain(int a0, int *state, W *w)
             (*state)++;
         break;
     case 3:
-        v = func_020362DC();
+        v = KEY_GetTrg();
         if ((v & 0x20) || (v & 0x10) || (v & 0x80) || (v & 2))
             (*state)++;
         break;

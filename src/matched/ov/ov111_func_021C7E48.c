@@ -13,8 +13,8 @@
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   TOUCHPANEL_HitCont  0x02035BA4  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
- *   func_020362DC  0x020362DC  arm
- *   func_020061E4  0x020061E4  thumb
+ *   KEY_GetTrg  0x020362DC  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_021C7F2C  0x021C7F2C  thumb
  *   func_021C7CD0  0x021C7CD0  thumb
  *   func_021C842C  0x021C842C  thumb
@@ -101,8 +101,8 @@ typedef struct {
 extern int TOUCHPANEL_HitTrg(const void *rects);
 extern int TOUCHPANEL_HitCont(const void *rects);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-extern u32 func_020362DC(void);
-extern void func_020061E4(u32 a);
+extern u32 KEY_GetTrg(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021C7F2C(Work *p, int sel, int flag);
 extern void func_021C7CD0(Work *p, int a, int b, int x);
 extern void func_021C842C(Work *p, int idx);
@@ -124,16 +124,16 @@ int func_021C7E48(Work *p)
     b = TOUCHPANEL_HitTrg(d_021C8808);
     c = TOUCHPANEL_HitCont(d_021C8808);
     TOUCHPANEL_GetPointCont((u32 *)(&x), (u32 *)(&y));
-    if (func_020362DC() & 2) {
-        func_020061E4(0x551);
+    if (KEY_GetTrg() & 2) {
+        GFL_USE_PlaySeDefaultVolume(0x551);
         flag = 1;
         ret = 0x13;
-    } else if (func_020362DC() & 0x400) {
-        func_020061E4(0x551);
+    } else if (KEY_GetTrg() & 0x400) {
+        GFL_USE_PlaySeDefaultVolume(0x551);
         ret = 0x12;
-    } else if (func_020362DC() & 0x800) {
+    } else if (KEY_GetTrg() & 0x800) {
         ret = 0x11;
-    } else if (func_020362DC() & 1) {
+    } else if (KEY_GetTrg() & 1) {
         ret = 0x10;
     }
     func_021C7F2C(p, ret, flag);

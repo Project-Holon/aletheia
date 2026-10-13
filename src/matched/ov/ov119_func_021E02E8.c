@@ -18,14 +18,14 @@
  *   func_021E017C 0x021E017C thumb ov119
  *   func_021E01E0 0x021E01E0 thumb ov119
  *   func_021E0240 0x021E0240 thumb ov119
- *   func_0201AC2C 0x0201AC2C thumb
+ *   POKEPARTY_Copy 0x0201AC2C thumb
  *   GAME_DATA_GetPlayTime 0x02012FCC thumb
  *   func_020086F8 0x020086F8 thumb
  *   func_02007AEC 0x02007AEC thumb
  *   func_02007AF4 0x02007AF4 thumb
  *   GAME_DATA_GetBoxSave 0x02012F98 thumb
  *   func_02007B5C 0x02007B5C thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj00589.h"
 #include "../include/Obj22755.h"
@@ -52,10 +52,10 @@ extern u32 func_020307B0(void *p);
 extern void func_021E017C(void *,void *);
 extern void func_021E01E0(void *,void *);
 extern void func_021E0240(void **h, void *dst);
-extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
+extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
 extern void func_020086F8(struct PlayTime *p, const struct PlayTimeStamp *in);
 extern void func_02007B5C(struct PerapVoice *p);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 void func_021E02E8(char *p)
 {
     void *dest,*src;
@@ -80,7 +80,7 @@ void func_021E02E8(char *p)
     if(((struct Obj00589 *)p)->f618) func_021E01E0(((struct Obj00589 *)p)->f82C,((struct Obj00589 *)p)->f618);
     if(((struct Obj00589 *)p)->f61C) func_021E0240(((struct Obj00589 *)p)->f82C,((struct Obj00589 *)p)->f61C);
     if(((struct Obj00589 *)p)->f620) {
-        func_0201AC2C(((struct Obj00589 *)p)->f620,((struct Obj00589 *)p)->f838);
+        POKEPARTY_Copy(((struct Obj00589 *)p)->f620,((struct Obj00589 *)p)->f838);
         func_020086F8((void *)GAME_DATA_GetPlayTime((int)(((struct Obj00589 *)p)->f82C)),(const struct PlayTimeStamp *)(p+0x628));
         func_020307B0(((struct Obj00589 *)p)->f620);
         *(int *)&((struct Obj00589 *)p)->f620=0;
@@ -92,5 +92,5 @@ void func_021E02E8(char *p)
         func_020307B0(((struct Obj00589 *)p)->f624);
     }
     if(((struct Obj00589 *)p)->f62C) func_02007B5C((struct PerapVoice *)GAME_DATA_GetBoxSave(((struct Obj00589 *)p)->f82C));
-    func_02082BCC(p+0x60c,0,0x24);
+    MI_CpuFill8(p+0x60c,0,0x24);
 }

@@ -14,7 +14,7 @@
  *   MTX_MultVec43  0x0207BC08  arm
  *   func_021FE1B8  0x021FE1B8  thumb  ov094
  *   BUTTON_MAN_SetEmitterPos  0x02051838  arm
- *   d_020A1B38  0x020A1B38  data
+ *   FX_SinCosTable_  0x020A1B38  data
  *   _ll_mul  0x0209C054  arm
  *
  * The 5 and default arms are separate `else if` / `else` blocks with the
@@ -27,7 +27,7 @@
 typedef signed short s16;
 typedef unsigned short u16;
 typedef struct { int x, y, z; } VecFx32;
-extern const s16 d_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 extern int BUTTON_MAN_GetUserData(void *p);
 extern void MTX_MultVec43(const VecFx32 *a, const void *b, VecFx32 *out);
 extern void BUTTON_MAN_SetEmitterPos(void *p, const VecFx32 *v);
@@ -57,19 +57,19 @@ void func_021FD8CC(void *p, int active)
     s[15] += s[17];
     a = (s[14] >> 12) + 0xc000;
     b = (s[15] >> 12) + 0xc000;
-    v.x = d_020A1B38[(a >> 4) * 2];
+    v.x = FX_SinCosTable_[(a >> 4) * 2];
     v.x = MUL(v.x, s[12]);
     v.x += s[12];
     if (s[19] == 6) {
-        v.z = d_020A1B38[(b >> 4) * 2 + 1];
+        v.z = FX_SinCosTable_[(b >> 4) * 2 + 1];
         v.z = MUL(v.z, s[13]);
         v.y = 0;
     } else if (s[19] == 5) {
-        v.y = d_020A1B38[(b >> 4) * 2 + 1];
+        v.y = FX_SinCosTable_[(b >> 4) * 2 + 1];
         v.y = MUL(v.y, s[13]);
         v.z = 0;
     } else {
-        v.y = d_020A1B38[(a >> 4) * 2 + 1];
+        v.y = FX_SinCosTable_[(a >> 4) * 2 + 1];
         v.y = MUL(v.y, s[13]);
         v.z = 0;
     }

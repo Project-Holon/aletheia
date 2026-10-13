@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020061E4 0x020061E4 thumb
- *   func_02006238 0x02006238 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ *   GFL_USE_IsAnySeBusy 0x02006238 thumb
  */
 
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
-extern int func_02006238(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+extern int GFL_USE_IsAnySeBusy(void);
 
 int func_02205360(int a)
 {
     switch (a) {
     case 3:
-        func_020061E4(0x56b);
+        GFL_USE_PlaySeDefaultVolume(0x56b);
         break;
     case 5:
-        return func_02006238();
+        return GFL_USE_IsAnySeBusy();
     }
     return 0;
 }

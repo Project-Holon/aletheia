@@ -14,7 +14,7 @@
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AA1C  0x0201AA1C  thumb
+ *   POKEPARTY_GetNonEggCount  0x0201AA1C  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -27,10 +27,10 @@ struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct BigObj;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern u32 func_0201AA1C(void *);
+extern u32 POKEPARTY_GetNonEggCount(void *);
 
 u32 EVENT_RECOVERY_GetPartyBallCount(u32 a)
 {
-return func_0201AA1C(GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData((const struct Ctx *)a)));
+return POKEPARTY_GetNonEggCount(GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData((const struct Ctx *)a)));
 }
 

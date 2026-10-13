@@ -1,5 +1,5 @@
 /*
- * function: func_02177310
+ * function: NET_WHPIPE_SetEventCallback
  * address:  0x02177310
  * packet:   pkt_02177310
  * region:   ov014
@@ -14,7 +14,7 @@
 
 typedef unsigned int u32;
 
-void func_02177310(u32 v)
+void NET_WHPIPE_SetEventCallback(u32 v)
 {
     *(u32 *)(*(u32 *)0x021797A4 + 4) = v;
 }

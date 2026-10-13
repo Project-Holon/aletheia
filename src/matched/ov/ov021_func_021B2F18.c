@@ -13,7 +13,7 @@
  *   SCRCMD_SCREENEFFECTS_StepFadeTask 0x021B2F18 thumb
  *   BG_SYS_GetMainVisiblePlanes 0x02043658 arm
  *   FIELDMAP_SetBgMode 0x02188DA0 thumb ov021
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   FIELDMAP_ResetBgAffineShowMsg 0x02188DB0 thumb ov021
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
@@ -24,7 +24,7 @@
 
 extern unsigned int BG_SYS_GetMainVisiblePlanes(void);
 extern void FIELDMAP_SetBgMode(void);
-extern void func_02043534(unsigned int planes);
+extern void BG_SYS_SetMainVisiblePlanes(unsigned int planes);
 typedef unsigned char  u8;
 struct Node;
 extern void FIELDMAP_ResetBgAffineShowMsg(u8 *a);
@@ -57,7 +57,7 @@ void SCRCMD_SCREENEFFECTS_StepFadeTask(int p, int *q)
             z = 0;
             t = (void *)BG_SYS_GetMainVisiblePlanes();
             FIELDMAP_SetBgMode();
-            func_02043534((unsigned int)t);
+            BG_SYS_SetMainVisiblePlanes((unsigned int)t);
             FIELDMAP_ResetBgAffineShowMsg((u8 *)q[1]);
         } else {
             y = 0;

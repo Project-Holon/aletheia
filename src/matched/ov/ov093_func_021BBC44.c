@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C84E8  0x021C84E8  thumb  ov093
+ *   BTL_SERVER_FLOW_ClearSeenPokes  0x021C84E8  thumb  ov093
  *   func_021BBCC4  0x021BBCC4  thumb  ov093
  *   BTL_EVENT_ClearSuspendedFlags  0x021D6EE8  thumb  ov093
  *   BTL_SERVER_ClearPokeChangeRequests  0x021BB920  thumb  ov093
@@ -24,7 +24,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_021C84E8(u8 *p);
+extern void BTL_SERVER_FLOW_ClearSeenPokes(u8 *p);
 extern void func_021BBCC4(u8 *p);
 extern void BTL_EVENT_ClearSuspendedFlags(void);
 extern void BTL_SERVER_ClearPokeChangeRequests(u8 *p);
@@ -43,7 +43,7 @@ int BTL_SERVER_FLOW_StartTurn(u8 *p, int a)
     q[0] = 0;
     q[1] = 0;
     if (p[0x77c] == 0) {
-        func_021C84E8(p);
+        BTL_SERVER_FLOW_ClearSeenPokes(p);
         func_021BBCC4(p + 0x3e0);
         for (i = 0; i < 4; i++)
             p[i + 0x1fe8] = 0;

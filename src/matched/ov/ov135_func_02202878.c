@@ -9,7 +9,7 @@
  * status: EXACT*
  * tail: 022028C6..022028C8 zero alignment padding.
  * symbols:
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   func_02012FFC 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  */
@@ -17,14 +17,14 @@
 typedef unsigned char u8;
 typedef signed short s16;
 struct Rec3;
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern signed char func_02012FFC(void);
 extern void *PRINTSYS_PrintStream(void *, s16, s16, unsigned, unsigned, int, unsigned, unsigned, unsigned, unsigned);
 void func_02202878(void *a, unsigned b, unsigned c, int d, int e, u8 *p)
 {
     int v;
     if (((struct Obj04532 *)p)->f10) {
-        func_0201CE48(((struct Obj04532 *)p)->f10);
+        PRINTSYS_PrintStreamDelete(((struct Obj04532 *)p)->f10);
         ((struct Obj04532 *)p)->f10 = 0;
     }
     v = func_02012FFC();

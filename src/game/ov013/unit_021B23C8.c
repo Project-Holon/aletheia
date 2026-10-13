@@ -1,6 +1,6 @@
 /*
  * file:     unit_021B23C8.c
- * function: OS_InitIrqTable
+ * function: VCT_ResetPeerPool
  * address:  0x021B23C8
  * packet:   pkt_ov013_021B23C8
  * region:   ov013
@@ -17,7 +17,7 @@
 #include "vct_types.h"
 
 /* Empty the free and active peer lists of the peer pool. */
-void OS_InitIrqTable(void)
+void VCT_ResetPeerPool(void)
 {
     gVctPeerPool.activeHead = 0;
     gVctPeerPool.freePeers = 0;

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0207D534  0x0207D534  arm
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   func_0203F8F4  0x0203F8F4  arm
@@ -42,7 +42,7 @@ typedef unsigned int u32;
 struct GfFont;
 extern void func_0207D534(volatile u16 *reg, int brightness);
 typedef signed int     s32;
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 struct DispConfig;
 struct DispVram;
@@ -65,7 +65,7 @@ void STARTMENU_ConfigPromptSetupGraphics(char *p)
 {
     func_0207D534((volatile u16 *)0x0400006C, -16);
     func_0207D534((volatile u16 *)0x0400106C, -16);
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021BD8B8);
     func_0203F8F4(0x39);

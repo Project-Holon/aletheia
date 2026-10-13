@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   BUTTON_MAN_Create 0x02051B84 arm
  *   d_021C377C 0x021C377C data a4
@@ -20,7 +20,7 @@
  */
 #include "../include/Obj10212.h"
 typedef unsigned short u16;
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 typedef unsigned int   u32;
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 typedef unsigned char  u8;
@@ -34,7 +34,7 @@ extern void func_021C208C(char *);
 extern void func_021C2090(char *);
 void func_021C1A58(char *p, int a, int heap)
 {
-    func_02082BCC(p + 0x8b0, 0, 0xf4);
+    MI_CpuFill8(p + 0x8b0, 0, 0xf4);
     BG_SYS_SetSubPlaneVisible(7, 1);
     BG_SYS_SetSubPlaneVisible(8, 0);
     ((struct Obj10212 *)p)->f8C8 = BUTTON_MAN_Create((u8 *)d_021C377C, (int)func_021C1C9C, (int)p, heap);

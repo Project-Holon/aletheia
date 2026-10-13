@@ -12,7 +12,7 @@
  * symbols:
  *   ov208_func_021C6E30  0x021C6E30  thumb
  *   ov208_func_021C6D6C  0x021C6D6C  thumb
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  */
 
 typedef unsigned char  u8;
@@ -31,7 +31,7 @@ extern u16  ov208_func_021C6E30(void *a0, u8 *p, int a2, u16 skip, u16 stop);
 extern void ov208_func_021C6D6C(int n, int i, u8 *lo, u8 *mid, u8 *hi);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define H(o) (*(u16 *)(p + (o)))
@@ -48,7 +48,7 @@ int ov208_func_021C6D10(void *a0, u8 *p, int a2)
         ov208_func_021C6D6C((u16)(H(0x548) - 1), i, 0, &c.slot, 0);
         c.x = c.slot;
         c.y = 0x30;
-        func_0204B404((struct Obj *)W(0x5e8), (const struct Vec2 *)(&c.x), 0);
+        CLACT_AddActorSurfacePos((struct Obj *)W(0x5e8), (const struct Vec2 *)(&c.x), 0);
         moved = 1;
     }
     return moved;

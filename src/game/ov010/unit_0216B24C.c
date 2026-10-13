@@ -16,8 +16,8 @@
  *   func_020120F4 0x020120F4 thumb
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_02082BCC 0x02082BCC arm
- *   func_020124E4  0x020124E4  thumb
+ *   MI_CpuFill8 0x02082BCC arm
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   func_02012138  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_SendValueNow  0x02176850  thumb  ov011
@@ -30,7 +30,7 @@
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
  *   SYMBOL_MAP_GetSelectedCellTile  0x021665D0  thumb  ov010
  *   GAME_DATA_SetSymbolMapFlag  0x02012FA4  thumb
@@ -84,8 +84,8 @@
  *   SP_POKE_GIMMICK_StartWaitAnimeEnd 0x021F3B68 thumb ov059
  *   SP_POKE_GIMMICK_StartWaitAnimeProgress 0x021F3B40 thumb ov059
  *   func_02012934  0x02012934  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_0202F488  0x0202F488  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_0202F630  0x0202F630  thumb
@@ -137,8 +137,8 @@ typedef struct {
 extern void *func_020120F4(const struct GameSystem *gameSystem);
 extern struct GameEvent *func_020122C0(void *owner, void *parent, void *proc, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
-extern void func_02082BCC(void *dest, int value, int size);
-extern void *func_020124E4(struct GameEvent *event);
+extern void MI_CpuFill8(void *dest, int value, int size);
+extern void *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void *func_02012138(const struct GameSystem *gameSystem);
 extern u8 *INTRUDE_COMM_GetWorkIfRunning(void *gameComm);
 extern int INTRUDE_COMM_SendValueNow(u8 *intrudeComm, u8 requestType);
@@ -151,7 +151,7 @@ extern void *FLDMMDL_GetPosPtr(void *player);
 extern void *FIELDMAP_GetMmdlSys(void *fieldMap);
 extern void FLDMMDL_SysPauseMove(void *mmdlSys);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
-extern void func_020061E4(u32 seNo);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, void *fieldMap, u32 a, u32 b);
 extern int SYMBOL_MAP_GetSelectedCellTile(int gameSystem, int cellId);
 extern void GAME_DATA_SetSymbolMapFlag(void *gameData, unsigned char cellId);
@@ -196,8 +196,8 @@ extern void SP_POKE_GIMMICK_ShowAndPlay(void *gameSystem, int mode, FxVec3 *posi
 extern void *SP_POKE_GIMMICK_StartWaitAnimeEnd(void *gameSystem, u32 value);
 extern void *SP_POKE_GIMMICK_StartWaitAnimeProgress(void *gameSystem, u32 value);
 extern void *func_02012934(const struct GameData *gameData);
-extern u32 func_0201AA18(void *party);
-extern void *func_0201AB28(void *party, u32 index);
+extern u32 POKEPARTY_GetCount(void *party);
+extern void *POKEPARTY_GetMember(void *party, u32 index);
 extern int func_0202F488(void *mon, int kind);
 extern u32 func_02017E1C(void *mon, u32 paramId, u32 arg);
 extern void func_0202F630(void *mon, u32 kind);
@@ -238,7 +238,7 @@ struct GameEvent *FIELD_G3D_MAP_CreateIntrudeRequestEvent(struct GameSystem *gam
     func_020120F4(gameSystem);
     event = func_020122C0(gameSystem, 0, FIELD_G3D_MAP_IntrudeRequestEventMain, 8);
     work = func_020124E8(event);
-    func_02082BCC(work, 0, 8);
+    MI_CpuFill8(work, 0, 8);
     work->result = result;
     work->requestType = requestType;
     return event;
@@ -249,7 +249,7 @@ int FIELD_G3D_MAP_IntrudeRequestEventMain(struct GameEvent *event, int *state, I
     u8 *intrudeComm;
     u16 *result;
 
-    intrudeComm = INTRUDE_COMM_GetWorkIfRunning(func_02012138(func_020124E4(event)));
+    intrudeComm = INTRUDE_COMM_GetWorkIfRunning(func_02012138(GAME_EVENT_GetGameSystem(event)));
     if (intrudeComm == 0) {
         result = work->result;
         if (result != 0)
@@ -313,7 +313,7 @@ struct GameEvent *FIELD_G3D_MAP_CreateSymbolEntryEvent(struct GameSystem *gameSy
     gameData = func_020120F4(gameSystem);
     event = func_020122C0(gameSystem, 0, FIELD_G3D_MAP_SymbolEntryEventMain, 0x24);
     work = func_020124E8(event);
-    func_02082BCC(work, 0, 0x24);
+    MI_CpuFill8(work, 0, 0x24);
     work->position = *position;
     work->edge = edge;
     work->result = 0;
@@ -342,7 +342,7 @@ struct GameEvent *FIELD_G3D_MAP_StartSymbolEntry(struct GameSystem *gameSystem, 
  */
 int FIELD_G3D_MAP_SymbolEntryEventMain(struct GameEvent *event, u32 *state, SymbolEntryWork *work)
 {
-    void *gameSystem = func_020124E4(event);
+    void *gameSystem = GAME_EVENT_GetGameSystem(event);
     void *gameData;
     void *fieldMap;
 
@@ -370,7 +370,7 @@ int FIELD_G3D_MAP_SymbolEntryEventMain(struct GameEvent *event, u32 *state, Symb
         break;
     case 2:
         if (work->playSe != 0)
-            func_020061E4(1369);
+            GFL_USE_PlaySeDefaultVolume(1369);
         GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, fieldMap, 9, 0));
         (*state)++;
         break;
@@ -1031,11 +1031,11 @@ int FIELD_G3D_MAP_FindEventMonInParty(void *party, int species, int move, int ki
     int i;
     void *mon;
 
-    count = func_0201AA18(party);
+    count = POKEPARTY_GetCount(party);
     found = 0;
     *outIndex = 0;
     for (i = 0; i < count; i++) {
-        mon = func_0201AB28(party, i);
+        mon = POKEPARTY_GetMember(party, i);
         if (func_0202F488(mon, kind) == 0) {
             continue;
         }
@@ -1086,7 +1086,7 @@ int FIELD_G3D_MAP_CmdClearEventMonFlag(struct ScriptContext *ctx, struct ScrCmdW
     default:
         return 0;
     }
-    mon = func_0201AB28(party, partyIndex);
+    mon = POKEPARTY_GetMember(party, partyIndex);
     if (func_0202F488(mon, kind) == 0) {
         return 0;
     }

@@ -13,7 +13,7 @@
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
- *   func_02014460  0x02014460  thumb
+ *   FIELD_STATUS_GetContinueFlag  0x02014460  thumb
  */
 
 typedef unsigned char u8;
@@ -25,7 +25,7 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 struct Sub02014444Obj;
-extern u8 func_02014460(struct Sub02014444Obj *o);
+extern u8 FIELD_STATUS_GetContinueFlag(struct Sub02014444Obj *o);
 
 int SCRIPT_WORK_CmdGetContinueFlag(int a0, int a1)
 {
@@ -42,7 +42,7 @@ a0 = t5 + 0;
 loc_02159718:
     p = GAME_DATA_GetMoveModelSys((const struct BigObj *)v0);
 loc_0215971C:
-    a0 = func_02014460(p);
+    a0 = FIELD_STATUS_GetContinueFlag(p);
 loc_02159720:
 *q = a0;
 a0 = 0;

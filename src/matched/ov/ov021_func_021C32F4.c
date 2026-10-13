@@ -15,7 +15,7 @@
  *   GAME_BEACON_SEARCH_SetSymbolMapEnter  0x0216556C  thumb  ov010
  *   SODATEYA_ClearEggFlag  0x021C33E0  thumb  ov021
  *   SODATEYA_CreateEggMon  0x021C3898  thumb  ov021
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   func_0200BC20  0x0200BC20  thumb
  *   func_020307B0  0x020307B0  arm
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
@@ -41,7 +41,7 @@ extern void SODATEYA_ClearEggFlag(void *a);
 extern void SODATEYA_CreateEggMon(u32 *, u32);
 struct Party;
 struct PartyMon;
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 struct Obj11232;
 extern void func_0200BC20(struct Obj11232 *p);
 extern u32 func_020307B0(void *p);
@@ -59,7 +59,7 @@ void SODATEYA_ReceiveEgg(u32 *p, u32 b)
         GAME_BEACON_SEARCH_SetSymbolMapEnter();
         SODATEYA_ClearEggFlag((void *)p[1]);
         SODATEYA_CreateEggMon(p, m);
-        func_0201A98C((void *)b, (void *)m);
+        POKEPARTY_Add((void *)b, (void *)m);
         func_0200BC20((struct Obj11232 *)p[2]);
         func_020307B0((void *)m);
         w = (u32)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)p[1]));

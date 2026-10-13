@@ -15,8 +15,8 @@
  *   func_0200ADB8 0x0200ADB8 thumb
  *   func_02007664 0x02007664 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_0201AB28 0x0201AB28 thumb
- *   func_0201A9C8 0x0201A9C8 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
+ *   POKEPARTY_RemoveMember 0x0201A9C8 thumb
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetBoxSave 0x02012F98 thumb
  *   GAME_DATA_GetMyParty 0x02012934 thumb
@@ -48,8 +48,8 @@ extern void func_022026A0(u8 *p, u32 k);
 extern void func_0200ADB8(void *dest, const void *src, u32 a2);
 extern void func_02007664(void *, unsigned, unsigned);
 extern u32 func_020307B0(void *p);
-extern void *func_0201AB28(void *, unsigned);
-extern u32 func_0201A9C8(struct Party *p, s32 idx);
+extern void *POKEPARTY_GetMember(void *, unsigned);
+extern u32 POKEPARTY_RemoveMember(struct Party *p, s32 idx);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Sub02007AC8Entry;
 extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
@@ -68,9 +68,9 @@ void func_022021F8(u8 *p, int flag)
         func_02007664(((struct Obj23462 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->fC, ((struct Obj01260 *)p)->fC4, ((struct Obj01260 *)p)->fC6);
         func_020307B0(mon);
     } else {
-        mon = func_0201AB28(((struct Obj23463 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->f8, ((struct Obj01260 *)p)->fC6);
+        mon = POKEPARTY_GetMember(((struct Obj23463 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->f8, ((struct Obj01260 *)p)->fC6);
         if (flag) func_0200ADB8(((struct Obj23464 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->f0, mon, ((struct Obj01260 *)p)->fC4);
-        func_0201A9C8(((struct Obj23465 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->f8, ((struct Obj01260 *)p)->fC6);
+        POKEPARTY_RemoveMember(((struct Obj23465 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->f8, ((struct Obj01260 *)p)->fC6);
         save = GAMESYSTEM_GetGameData(((struct Obj23466 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->f40);
         box = GAME_DATA_GetBoxSave(save);
         func_02007C34(box, GAME_DATA_GetMyParty(save));

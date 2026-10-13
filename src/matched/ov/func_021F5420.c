@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_020355C4  0x020355C4  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_StopActorAnim  0x0204B974  arm
  *   _s32_div_f     0x0209C0A4  arm
@@ -72,14 +72,14 @@ typedef struct {
 extern const Pos tbl_02202D24[];
 extern const Pos tbl_02202C50[];
 
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 struct Obj;
-extern void func_0204B92C(struct Obj *, u32);
+extern void CLACT_SetActorAutoAnim(struct Obj *, u32);
 struct Actor;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u8 func_020355C4(void);
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern void CLACT_SetActorBgPriority(u32, int);
 extern void CLACT_StopActorAnim(struct Actor *a);
 extern void func_021F4EA0(u32, u16, u16);
@@ -89,16 +89,16 @@ void func_021F5420(Work *p)
     Local s;
     int i;
 
-    func_02082BCC(&s, 0, 8);
+    MI_CpuFill8(&s, 0, 8);
     s.a = tbl_02202D24[p->idx].x;
     s.b = tbl_02202D24[p->idx].y;
     p->sub.f34 = (u32)CLACT_CreateActor((void *)p->sub.f0, p->sub.f4, p->sub.f8, p->sub.fC, &s, 0, 0x48);
-    func_0204B92C((struct Obj *)p->sub.f34, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)p->sub.f34, 1);
     CLACT_SetActorAnimSeq((struct Obj *)p->sub.f34, 4);
     if (func_020355C4() == 1) {
-        func_0204B3DC((struct Obj *)p->sub.f34, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)p->sub.f34, 0);
     } else {
-        func_0204B3DC((struct Obj *)p->sub.f34, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->sub.f34, 1);
     }
     if (p->idx == 0x1f || p->idx <= 5) {
         CLACT_SetActorBgPriority(p->sub.f34, 0);
@@ -147,9 +147,9 @@ void func_021F5420(Work *p)
     s.e = 1;
     p->sub.f3C = (u32)CLACT_CreateActor((void *)p->sub.f0, p->sub.f28, p->sub.f8, p->sub.f30, &s, 0, 0x48);
     CLACT_SetActorAnimSeq((struct Obj *)p->sub.f3C, 0xc);
-    func_0204B92C((struct Obj *)p->sub.f3C, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)p->sub.f3C, 1);
     CLACT_StopActorAnim((struct Actor *)p->sub.f3C);
-    func_0204B3DC((struct Obj *)p->sub.f3C, 0);
-    func_0204B3DC((struct Obj *)p->fD38, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)p->sub.f3C, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)p->fD38, 1);
     func_021F4EA0(p->fD38, 0x37, 0xa8);
 }

@@ -15,9 +15,9 @@
  *   func_021F9E04 0x021F9E04 thumb ov132
  *   func_021F8044 0x021F8044 thumb ov112
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   _fflt 0x0209BDBC arm
  *   _ffltu 0x0209BE04 arm
  *   _fdiv 0x0209CE10 arm
@@ -39,9 +39,9 @@ extern u16 func_021F9E04(u8 *p);
 struct Vec2;
 extern void func_021F8044(void *unused, u32 *p, u32 *q);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_DeleteActor(struct Obj *p);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021F6D68(char *p)
 {
     Vec v;
@@ -59,7 +59,7 @@ void func_021F6D68(char *p)
         d.b=2;
         a=CLACT_CreateActor((void *)((struct Obj00771 *)p)->fA8,((struct Obj00771 *)p)->fB0,((struct Obj00771 *)p)->fAC,((struct Obj00771 *)p)->fB4,&d.x,0,((struct Obj00771 *)p)->f0);
         ((struct Obj00771 *)p)->fA4=a;
-        func_0204B3DC(a,1);
+        CLACT_SetActorDrawEnable(a,1);
     }
     if(((struct Obj00771 *)p)->f88==1) {
         if(func_021F9E18(*(char * *)&((struct Obj00771 *)p)->f4)==4) {
@@ -73,6 +73,6 @@ void func_021F6D68(char *p)
         func_021F8044(ctx,(u32 *)model,(u32 *)(&v));
         d.pos.x=(short)((float)v.x/4096.0f-(float)(unsigned)n);
         d.pos.y=(short)((float)v.y/4096.0f-32.0f);
-        func_0204B404(((struct Obj00771 *)p)->fA4,(const struct Vec2 *)(&d.pos),0);
+        CLACT_AddActorSurfacePos(((struct Obj00771 *)p)->fA4,(const struct Vec2 *)(&d.pos),0);
     }
 }

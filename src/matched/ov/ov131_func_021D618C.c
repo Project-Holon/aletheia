@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   P_STATUS_PrintMsg 0x021D614C thumb ov131
  */
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void P_STATUS_PrintMsg(unsigned char *,int,int,int,unsigned short,unsigned short);
 void P_STATUS_PrintMsgToWin(unsigned char *p,unsigned int a,int b,int c,unsigned short d,unsigned short e) {
- P_STATUS_PrintMsg(p,(int)func_02045770((struct Descriptor *)a),b,c,d,e);
+ P_STATUS_PrintMsg(p,(int)BMP_WIN_GetBmp((struct Descriptor *)a),b,c,d,e);
 }

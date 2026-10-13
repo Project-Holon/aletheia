@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_MagicBounceCounterMove
+ * function: HAND_TOKUSEI_MagicBounceCounterMove
  * address: 0x021DCAE0
  * packet: pkt_ov093_021DCAE0
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 void BTLV_CORE_EventCounterMove(int u, void *a, int b, int d);
-void BTL_ABILITY_MagicBounceCounterMove(int u, void *a, int b, int d);
+void HAND_TOKUSEI_MagicBounceCounterMove(int u, void *a, int b, int d);
 
-void BTL_ABILITY_MagicBounceCounterMove(int u, void *a, int b, int d)
+void HAND_TOKUSEI_MagicBounceCounterMove(int u, void *a, int b, int d)
 {
     BTLV_CORE_EventCounterMove(u, a, b, d);
 }

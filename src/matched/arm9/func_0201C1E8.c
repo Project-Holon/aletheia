@@ -12,11 +12,12 @@
  * Tail call with argument 2. Filed as the witness for ov094 func_021F7C2C.
  *
  * symbols:
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  */
 
-extern int func_0201BD28(int, int);
+extern int WAZA_TOOL_GetParam(int, int);
 
 int WAZA_TOOL_GetDamageType(int a)
 {
-    return func_0201BD28(a, 2);
+    return WAZA_TOOL_GetParam(a, 2);
 }

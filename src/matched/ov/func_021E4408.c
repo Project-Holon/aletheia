@@ -1,5 +1,5 @@
 /*
- * function: func_021E4408
+ * function: HAND_WAZA_RestCheckFail
  * address:  0x021E4408
  * packet:   pkt_021B75A8
  * region:   ov093
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E4408   0x021E4408  thumb ov093
+ *   HAND_WAZA_RestCheckFail   0x021E4408  thumb ov093
  *   BTL_EVENT_GetVar   0x021D775C  thumb ov093
  *   BTL_EVENT_OverwriteVar   0x021D76BC  thumb ov093
- *   func_021C7CF4   0x021C7CF4  thumb ov093
+ *   BTL_SERVER_FLOW_GetPokeParam   0x021C7CF4  thumb ov093
  *   BTL_POKEPARAM_HasSick   0x021D62C4  thumb ov093
  *   BTL_POKEPARAM_IsHpFull   0x021D5B48  thumb ov093
  *   func_021D59B4   0x021D59B4  thumb ov093
  *
  * Two-key gate on BTL_EVENT_GetVar(2) / BTL_EVENT_GetVar(0x22), then classify the
- * func_021C7CF4(b, c) record: the first matching predicate decides which
+ * BTL_SERVER_FLOW_GetPokeParam(b, c) record: the first matching predicate decides which
  * BTL_EVENT_OverwriteVar(0x22, code) event fires, and only the fall-through case
  * looks at the 16-bit func_021D59B4(u, 0x11) result.
  */
@@ -34,11 +34,11 @@ typedef signed int s32;
 int BTL_EVENT_GetVar(int a);
 struct Unk021D62A8;
 int BTL_EVENT_OverwriteVar(int key, u32 val);
-void *func_021C7CF4(int *p, int i);
+void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern int BTL_POKEPARAM_IsHpFull(u8 *p);
 extern int func_021D59B4(u8 *p, int k);
-void func_021E4408(void *a, int b, int c)
+void HAND_WAZA_RestCheckFail(void *a, int b, int c)
 {
     u16 v;
     void *u;
@@ -47,7 +47,7 @@ void func_021E4408(void *a, int b, int c)
         return;
     if (BTL_EVENT_GetVar(0x22) != 0)
         return;
-    u = func_021C7CF4((int *)b, c);
+    u = BTL_SERVER_FLOW_GetPokeParam((int *)b, c);
     if (BTL_POKEPARAM_HasSick(u, 2) != 0) {
         BTL_EVENT_OverwriteVar(0x22, 0x1a);
         return;

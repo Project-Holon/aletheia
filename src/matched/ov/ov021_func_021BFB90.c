@@ -25,7 +25,7 @@
  *   FIELD_TASK_MANAGER_IsEmpty  0x021C6E48  thumb  ov021
  *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
  *   FLDEFF_KEMURI_Start  0x021AC528  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 
 typedef struct { int x, y, z; } Vec;
@@ -49,7 +49,7 @@ extern int FIELD_TASK_MANAGER_IsEmpty(int);
 extern unsigned int FIELDMAP_GetEffect(u8 *p);
 extern void FLDEFF_KEMURI_Start(unsigned int a, unsigned int b);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 int EVENT_APPEAR_RunDescendingSpin(int task, int *state, int *q)
 {
@@ -96,7 +96,7 @@ int EVENT_APPEAR_RunDescendingSpin(int task, int *state, int *q)
     case 2:
         t = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer((struct Obj00020 *)obj));
         FLDEFF_KEMURI_Start((unsigned int)t, FIELDMAP_GetEffect((u8 *)q[1]));
-        func_020061E4(0x67B);
+        GFL_USE_PlaySeDefaultVolume(0x67B);
         (*state)++;
         break;
     case 3:

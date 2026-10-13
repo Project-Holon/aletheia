@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021C6FA0  0x021C6FA0  thumb  ov111
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_021C513C  0x021C513C  thumb  ov111
  *
  * Addresses are Black-image addresses.
@@ -65,7 +65,7 @@ typedef struct {
 } Work;
 
 extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021C513C(Work *p);
 
 int func_021C5484(Work *p, int hit)
@@ -74,14 +74,14 @@ int func_021C5484(Work *p, int hit)
     case 4:
         if (p->f3034 != 0) {
             func_021C6FA0(&p->anim, 4, 0x15, 1);
-            func_020061E4(0x649);
+            GFL_USE_PlaySeDefaultVolume(0x649);
             p->b32C6 = 3;
             return 8;
         }
         break;
     case 5:
         if (p->f3034 != 0) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021C6FA0(&p->anim, 5, 9 - p->b32F6 * 2, 1);
             p->b32F6 ^= 1;
         }
@@ -91,14 +91,14 @@ int func_021C5484(Work *p, int hit)
         break;
     case 10:
         if (p->h305C == 0) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             p->b32C6 = 9;
             return 8;
         }
         break;
     case 11:
         if (p->h305C == 1) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             p->b32C6 = 6;
             return 8;
         }

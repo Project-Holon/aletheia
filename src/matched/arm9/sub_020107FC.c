@@ -26,7 +26,7 @@
  *   GFL_NET_GetInitParam     0x0203D798  arm
  *   OS_GetMacAddress  0x02087C6C  arm
  *   GFL_NET_GetScanResult     0x0203CF10  arm
- *   func_02177B80     0x02177B80  thumb  ov014
+ *   NET_WHPIPE_GetEntryBeaconKind     0x02177B80  thumb  ov014
  *   sub_0202E8D8      0x0202E8D8  thumb
  *
  * wih_dwc.c: find the first of 16 slots whose ov014 state is 0x20 and whose
@@ -50,7 +50,7 @@ extern void *GFL_NET_GetInitParam(void);
 extern void OS_GetMacAddress(u8 *mac);
 typedef unsigned int   u32;
 extern u32 GFL_NET_GetScanResult(u32 a);
-extern u8 func_02177B80(int i);
+extern u8 NET_WHPIPE_GetEntryBeaconKind(int i);
 extern int sub_0202E8D8(char *a0, int a1, char *a2);
 
 int WIH_DWC_FindSlotByKey(void *key)
@@ -62,7 +62,7 @@ int WIH_DWC_FindSlotByKey(void *key)
         GFL_NET_GetInitParam();
         OS_GetMacAddress(mac);
         for (i = 0; i < 0x10; i++) {
-            if (func_02177B80(i) == 0x20 && sub_0202E8D8((void *)GFL_NET_GetScanResult(i), (int)key, (char *)mac) != 0) {
+            if (NET_WHPIPE_GetEntryBeaconKind(i) == 0x20 && sub_0202E8D8((void *)GFL_NET_GetScanResult(i), (int)key, (char *)mac) != 0) {
                 return i;
             }
         }

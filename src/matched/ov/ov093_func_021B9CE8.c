@@ -1,5 +1,5 @@
 /*
- * function: func_021B9CE8
+ * function: BTL_SLOT_GetFirstLiving
  * address: 0x021B9CE8
  * packet: pkt_ov093_021B9CE8
  * region: ov093
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int BTL_POKEPARAM_IsAbleToBattle(void *);
-void *func_021B9CE8(u8 *p) {
+void *BTL_SLOT_GetFirstLiving(u8 *p) {
     int i;
     for(i=0;i<p[24];i++) if(BTL_POKEPARAM_IsAbleToBattle(*(void **)((u32)p+(u32)i*4))) return *(void **)((u32)p+(u32)i*4);
     return 0;

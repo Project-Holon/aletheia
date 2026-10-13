@@ -12,7 +12,7 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02012138  0x02012138  thumb
  *   EVENT_FIELD_PROCLINK_StartCommProc  0x02161CDC  thumb  ov010
  *   EVENT_FIELD_PROCLINK_StartSeasonCommProc  0x02161D18  thumb  ov010
@@ -34,7 +34,7 @@ struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *p);
 extern void EVENT_FIELD_PROCLINK_StartCommProc(void *a, void *b, u8 c, u8 d);
@@ -49,7 +49,7 @@ void *EVENT_FIELD_PROCLINK_CreateCommExitEvent(void *p, void *a1, int kind, int 
 
     h = func_020122C0(p, a1, EVENT_FIELD_PROCLINK_CommExitEventMain, 0x24);
     n = func_020124E8(h);
-    func_02082BCC(n, 0, 0x24);
+    MI_CpuFill8(n, 0, 0x24);
     n->f00 = p;
     n->f04 = (void *)func_02012138(p);
     if (flag != 0)

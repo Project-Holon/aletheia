@@ -16,9 +16,9 @@
  *   POKELIST_IsItemMode  0x021B9A84  thumb  ov091
  *   func_02041300  0x02041300  arm
  *   PLIST_PLATE_GetLabelState  0x021BB43C  thumb  ov091
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0201AB28  0x0201AB28  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   POKELIST_ApplySelection  0x021B7CC4  thumb  ov091
  *   POKELIST_ConfirmBattleParty  0x021B892C  thumb  ov091
  *   PLIST_PLATE_SetSelected  0x021BAFA0  thumb  ov091
@@ -37,9 +37,9 @@ extern int POKELIST_IsItemMode(u32 p);
 extern void func_02041300(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u8 a6);
 extern int PLIST_PLATE_GetLabelState(int *p);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void *func_0201AB28(void *p, u32 idx);
-extern void func_020061E4(u32 id);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern void POKELIST_ApplySelection(u8 *p);
 extern void POKELIST_ConfirmBattleParty(u8 *p);
 extern void PLIST_PLATE_SetSelected(u8 *a, u8 *s, int k);
@@ -70,10 +70,10 @@ void POKELIST_HandleCommand(u8 *p)
     }
     switch (p[0xf]) {
     case 3:
-        func_0204B3DC((struct Obj *)W(0x1d8), 0);
-        W(0x38) = (int)func_0201AB28(*(void **)W(0x280), W(0x2c));
+        CLACT_SetActorDrawEnable((struct Obj *)W(0x1d8), 0);
+        W(0x38) = (int)POKEPARTY_GetMember(*(void **)W(0x280), W(0x2c));
         *(int *)(W(0x280) + 0x3c) = W(0x2c);
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         POKELIST_ApplySelection(p);
         return;
     case 0:
@@ -84,12 +84,12 @@ void POKELIST_HandleCommand(u8 *p)
         p[0xc] = 0x13;
         *(int *)(W(0x280) + 0x3c) = 6;
         *(int *)(W(0x280) + 0x40) = 0;
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         return;
     case 1:
         if (W(0x2c) <= 5) {
             PLIST_PLATE_SetSelected(p, (u8 *)(*(int *)(p + W(0x2c) * 4 + 0x160)), 0);
-            func_0204B3DC((struct Obj *)W(0x1d8), 0);
+            CLACT_SetActorDrawEnable((struct Obj *)W(0x1d8), 0);
         }
         if (POKELIST_IsItemMode((u32)p) == 1) {
             PLIST_MENU_ButtonWinSetActive(W(0x108), 0);
@@ -103,17 +103,17 @@ void POKELIST_HandleCommand(u8 *p)
         }
         *(int *)(W(0x280) + 0x3c) = 7;
         *(int *)(W(0x280) + 0x40) = 0;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return;
     case 2:
         if (W(0x2c) <= 5) {
             PLIST_PLATE_SetSelected(p, (u8 *)(*(int *)(p + W(0x2c) * 4 + 0x160)), 0);
-            func_0204B3DC((struct Obj *)W(0x1d8), 0);
+            CLACT_SetActorDrawEnable((struct Obj *)W(0x1d8), 0);
         }
         p[0xc] = 0x13;
         *(int *)(W(0x280) + 0x3c) = 8;
         *(int *)(W(0x280) + 0x40) = 0;
-        func_020061E4(0x556);
+        GFL_USE_PlaySeDefaultVolume(0x556);
         W(0x1e8) = W(0x1e4);
         CLACT_SetActorAnimSeq((struct Obj *)W(0x1e8), 8);
         return;

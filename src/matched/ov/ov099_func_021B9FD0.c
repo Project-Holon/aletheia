@@ -13,14 +13,14 @@
  *   ldr r0,[r0,#0x2c]; ldr r3,[pc,#4]; movs r1,#0; bx r3; .word 0x0204B3DC
  *
  * symbols:
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 #include "../include/Obj22013.h"
 
 struct Obj;
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 
 void func_021B9FD0(void *p)
 {
-    func_0204B3DC((struct Obj *)((struct Obj22013 *)p)->f2C, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj22013 *)p)->f2C, 0);
 }

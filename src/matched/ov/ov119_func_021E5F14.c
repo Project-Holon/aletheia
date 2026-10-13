@@ -11,7 +11,7 @@
  * initialization: ov067 UI_SCENE_LoadActorGfx reads only the seven words and bytes 1c..1e initialized below.
  * domain: call 021E1F20 loads side from the 0/1 slot initialized at 021E1E20/021E1E2C; call 021E2406 sets side=0 at 021E2400. Thus side*128+108 is 108 or 236.
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_020276B4 0x020276B4 thumb
  *   func_020276B8 0x020276B8 thumb
  *   func_020276BC 0x020276BC thumb
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 typedef struct { int f0; u32 f4; int f8,fC,f10,f14,f18; u8 b1c,b1d,b1e; } In;
 extern u32 POKERUS_IsInfected(void *);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern u32 func_020275E4(void);
 extern u32 func_020276B4(void);
 extern u32 func_020276B8(void);
@@ -44,8 +44,8 @@ void func_021E5F14(char *p, int side, int flag, void *mon)
     In in;
     u32 a = POKERUS_IsInfected(mon);
     if (((struct Obj06429 *)q)->f10) {
-        if (!a) func_0204B3DC((struct Obj *)((struct Obj06429 *)q)->f10,0);
-        else func_0204B3DC((struct Obj *)((struct Obj06429 *)q)->f10,1);
+        if (!a) CLACT_SetActorDrawEnable((struct Obj *)((struct Obj06429 *)q)->f10,0);
+        else CLACT_SetActorDrawEnable((struct Obj *)((struct Obj06429 *)q)->f10,1);
         return;
     }
     if (!a) {

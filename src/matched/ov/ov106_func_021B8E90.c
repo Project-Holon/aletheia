@@ -17,7 +17,7 @@
  * at 021B8FA6, followed solely by two zero alignment bytes.
  *
  * symbols:
- *   func_0203630C 0x0203630C arm
+ *   KEY_GetCont 0x0203630C arm
  *   func_0207CA00 0x0207CA00 arm
  *   _fflt 0x0209BDBC arm
  *   _ffix 0x0209C494 arm
@@ -33,7 +33,7 @@ typedef struct {
     u32 consumed;
     int flags;
 } State;
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 extern void func_0207CA00(const Vec *, const Vec *, Vec *);
 extern float _fflt(int);
 extern int _ffix(float);
@@ -51,7 +51,7 @@ int func_021B8E90(State *p, Pair *start, Pair *end, Vec *delta, int *count)
 {
     Vec a, b;
     int y;
-    if (!func_0203630C()) {
+    if (!KEY_GetCont()) {
         if (p->consumed < 1) {
             p->consumed = 1;
             if (start)

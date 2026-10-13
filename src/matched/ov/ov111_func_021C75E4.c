@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   d_021C8AA0  0x021C8AA0  data
  *
  * Addresses are Black-image addresses.
@@ -48,7 +48,7 @@ struct Obj;
 extern struct Obj *CLACT_CreateActor(void *res, unsigned int a, unsigned int b, unsigned int c, const void *pos, u16 f, u16 heap);
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern const ObjTemplate d_021C8AA0[36];
 
 void func_021C75E4(Work *p)
@@ -63,6 +63,6 @@ void func_021C75E4(Work *p)
         pos.f7 = 0;
         pos.pri = 0x24 - i;
         p->obj[i] = CLACT_CreateActor(p->res, (unsigned int)p->set[d_021C8AA0[i].cell], (unsigned int)p->set[d_021C8AA0[i].chr], (unsigned int)p->set[d_021C8AA0[i].anm], &pos, 0, 0x27);
-        func_0204B92C(p->obj[i], 1);
+        CLACT_SetActorAutoAnim(p->obj[i], 1);
     }
 }

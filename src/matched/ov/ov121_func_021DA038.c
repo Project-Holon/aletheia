@@ -10,11 +10,11 @@
  * lever: const source parameter and the original heap stack argument to 0201F878.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   d_021DFBA0 0x021DFBA0 data a1
  *   d_021DF78C 0x021DF78C data a4
@@ -34,14 +34,14 @@ struct Cfg;
 struct Descriptor;
 struct Obj;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 struct Slot;
 struct Src;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32);
 extern void *BMP_MENUWORK_Create(u32,u32);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
@@ -55,14 +55,14 @@ void *func_021DA038(const u8 *p,u16 heap)
     u32 i;
     Config cfg;
     out=func_02030734(heap,24,0,d_021DFBA0,0x2cb);
-    func_02082BCC(out,0,24);
+    MI_CpuFill8(out,0,24);
     ((struct Obj01731 *)out)->f4=((struct Obj01542 *)p)->f8;
     ((struct Obj01731 *)out)->f0=(void *)BMP_WIN_Create((u8)(((struct Obj01542 *)p)->f1C),(u16)19,(u16)((u8)(17-(u8)(((struct Obj01542 *)p)->f18*2))),(u8)12,(u8)(((struct Obj01542 *)p)->f18*2),((struct Obj01542 *)p)->f1E,1);
     func_0201F73C(((struct Obj01731 *)out)->f0,2,((struct Obj01542 *)p)->f22,(u8)(((struct Obj01542 *)p)->f20));
     q=((struct Obj01731 *)out)->f0;
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
-    func_020409B4(func_02045730(q));
+    func_020409B4(BMP_WIN_GetBgLayer(q));
     ((struct Obj01731 *)out)->f8=((struct Obj01731 *)out)->f0;
     out[12]=0;
     ((struct Obj01731 *)out)->f14=BMP_MENUWORK_Create(((struct Obj01542 *)p)->f18,heap);

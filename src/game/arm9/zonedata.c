@@ -1,7 +1,7 @@
 /*
  * file:     zonedata.c
  * unit:     yes
- * function: ZONEDATA_Init, ZONEDATA_Exit, func_02013A80, ZONEDATA_GetChangedZoneId, func_02013AD0, func_02013B10, func_02013B38, func_02013B44, func_02013B50, ZONEDATA_GetScriptArcId, ZONEDATA_GetMsgArcId, ZONEDATA_GetStartPos, ZONEDATA_GetStartRailPos, func_02013BA8, func_02013BBC, func_02013BD0, ZONEDATA_GetBgmId, ZONEDATA_GetWeatherId, func_02013C20, ZONEDATA_IsRingtoneEnabled, ZONEDATA_IsFlyEnabled, func_02013C50, func_02013C60, ZONEDATA_IsRailMap, ZONEDATA_HasSpecialKind, ZONEDATA_GetSpecialKind, func_02013CC8, func_02013CE0, func_02013D00, func_02013D20, func_02013D34, func_02013D5C, ZONEDATA_IsZoneGroup118To13C, func_02013D9C, func_02013DB8, ZONEDATA_IsZoneInTableDFC0, ZONEDATA_IsZoneInTableDFEC, func_02013DF0, func_02013E04, func_02013E40, func_02013E4C, func_02013E6C, func_02013E7C, ZONEDATA_IsSameMatrixGroup, ZONEDATA_GetEncountId, func_02013ECC, func_02013ED8, func_02013EEC, func_02013F2C, func_02013F6C, ZONEDATA_GetSecondSpecialKind, func_02013FD8, func_02013FFC, ZONEDATA_IsRawZoneF6, ZONEDATA_IsRawZoneF7, func_02014024, ZONEDATA_IsRawZoneGroup4CTo69, ZONEDATA_IsRawZone176Or17A, func_0201405C, func_02014068, ZONEDATA_CreateAreaData, func_020140B4, func_020140BC, func_020140C0, func_020140CC, func_020140D8, func_020140DC, func_020140E0, func_020140E4, ZONEDATA_IsSeasonArea, ZONEDATA_InitLocation, ZONEDATA_SetExitLocation, ZONEDATA_SetExitRailLocation, ZONEDATA_SetExitLocationIdOnly, ZONEDATA_SetDirectLocation, ZONEDATA_SetDirectRailLocation, ZONEDATA_GetLocationPosType, ZONEDATA_GetLocationVec, ZONEDATA_SetLocationVec, ZONEDATA_SetZoneStartLocation, ZONEDATA_SetGameStartLocation, ZONEDATA_ExitDirToDir, func_020142A4, ZONEDATA_CheckEventFlag, ZONEDATA_SetEventFlag, ZONEDATA_ResetEventFlag, ZONEDATA_ResetEventFlagRange, ZONEDATA_GetEventFlagAddress, func_020143CC, ZONEDATA_ClearEventWorkRange, ZONEDATA_ClearTimeFlags, ZONEDATA_PopTimeFlagsCleared, ZONEDATA_DirToRailKey, FIELD_STATUS_Create, FIELD_STATUS_Delete, func_0201444C, func_02014450, func_02014454, func_02014458, func_0201445C, func_02014460, FIELD_STATUS_SetFlashActive, func_02014468, func_0201446C, func_02014470, func_02014474, func_02014478, func_0201447C, FIELD_STATUS_GetSeasonDispFlag, FIELD_STATUS_FieldCloseEvent, FIELD_STATUS_CreateFieldCloseEvent, FIELD_STATUS_FieldCloseNoSoundWaitEvent, FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent, FIELD_STATUS_FieldOpenEvent, FIELD_STATUS_CreateFieldOpenEvent, FIELD_STATUS_CreateFieldOpenNoNotifyEvent, FIELD_STATUS_SubProcEvent, FIELD_STATUS_SubProcNoFadeEvent, FIELD_STATUS_CreateSubProcEvent, FIELD_STATUS_CreateSubProcNoFadeEvent, FIELD_STATUS_SubProcCallbackEvent, FIELD_STATUS_SubProcNoFadeCallbackEvent, FIELD_STATUS_CreateSubProcCallbackEvent, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent, func_02014878
+ * function: ZONEDATA_Init, ZONEDATA_Exit, func_02013A80, ZONEDATA_GetChangedZoneId, func_02013AD0, func_02013B10, ZONEDATA_GetAreaId, ZONEDATA_GetMatrixId, ZONEDATA_GetMapType, ZONEDATA_GetScriptArcId, ZONEDATA_GetMsgArcId, ZONEDATA_GetStartPos, ZONEDATA_GetStartRailPos, ZONEDATA_GetMapChangeType, ZONEDATA_GetCameraId, ZONEDATA_GetCameraAreaId, ZONEDATA_GetBgmId, ZONEDATA_GetWeatherId, ZONEDATA_IsBikeEnabled, ZONEDATA_IsRingtoneEnabled, ZONEDATA_IsFlyEnabled, ZONEDATA_IsWeatherEnabled, ZONEDATA_IsPalaceEnabled, ZONEDATA_IsRailMap, ZONEDATA_HasSpecialKind, ZONEDATA_GetSpecialKind, ZONEDATA_IsZone1A6, ZONEDATA_IsZone96Pair, ZONEDATA_IsZone4BPair, ZONEDATA_IsZone34, ZONEDATA_IsNoGameEventZone, ZONEDATA_IsZone117, ZONEDATA_IsZoneGroup118To13C, ZONEDATA_IsZoneGroup118To120, ZONEDATA_IsRawZoneGroup121To13C, ZONEDATA_IsZoneInTableDFC0, ZONEDATA_IsZoneInTableDFEC, ZONEDATA_IsZone4E, ZONEDATA_IsNormalFieldZone, ZONEDATA_GetParentZoneId, ZONEDATA_GetPlaceNameId, ZONEDATA_GetPlaceNameWindow, ZONEDATA_IsFieldMatrix, ZONEDATA_IsSameMatrixGroup, ZONEDATA_GetEncountId, ZONEDATA_GetEventDataId, ZONEDATA_GetFieldEffectSetId, ZONEDATA_GetFogId, ZONEDATA_GetLightId, ZONEDATA_GetFieldSkillMapEffect, ZONEDATA_GetSecondSpecialKind, ZONEDATA_GetExpObjSetId, ZONEDATA_IsZoneInTableDFB8, ZONEDATA_IsRawZoneF6, ZONEDATA_IsRawZoneF7, ZONEDATA_IsZoneInTableDFD2, ZONEDATA_IsRawZoneGroup4CTo69, ZONEDATA_IsRawZone176Or17A, ZONEDATA_GetMapSubType, ZONEDATA_IsParentZoneD6, ZONEDATA_CreateAreaData, ZONEDATA_DeleteAreaData, ZONEDATA_GetAreaTexSetId, ZONEDATA_GetAreaItaAnimeId, ZONEDATA_GetAreaItpAnimeId, ZONEDATA_GetAreaInnerOuter, ZONEDATA_GetAreaLightType, ZONEDATA_GetAreaEdgeMarkType, ZONEDATA_GetAreaBillboardColor, ZONEDATA_IsSeasonArea, ZONEDATA_InitLocation, ZONEDATA_SetExitLocation, ZONEDATA_SetExitRailLocation, ZONEDATA_SetExitLocationIdOnly, ZONEDATA_SetDirectLocation, ZONEDATA_SetDirectRailLocation, ZONEDATA_GetLocationPosType, ZONEDATA_GetLocationVec, ZONEDATA_SetLocationVec, ZONEDATA_SetZoneStartLocation, ZONEDATA_SetGameStartLocation, ZONEDATA_ExitDirToDir, ZONEDATA_DirToExitDir, ZONEDATA_CheckEventFlag, ZONEDATA_SetEventFlag, ZONEDATA_ResetEventFlag, ZONEDATA_ResetEventFlagRange, ZONEDATA_GetEventFlagAddress, ZONEDATA_GetEventWorkAddress, ZONEDATA_ClearEventWorkRange, ZONEDATA_ClearTimeFlags, ZONEDATA_PopTimeFlagsCleared, ZONEDATA_DirToRailKey, FIELD_STATUS_Create, FIELD_STATUS_Delete, FIELD_STATUS_GetMapMode, FIELD_STATUS_SetMapMode, FIELD_STATUS_SetFieldInitFlag, FIELD_STATUS_GetFieldInitFlag, FIELD_STATUS_SetContinueFlag, FIELD_STATUS_GetContinueFlag, FIELD_STATUS_SetFlashActive, FIELD_STATUS_IsFlashActive, FIELD_STATUS_SetMapEffectMask, FIELD_STATUS_GetMapEffectMask, FIELD_STATUS_SetProcAction, FIELD_STATUS_GetProcAction, FIELD_STATUS_SwapSeasonDispFlag, FIELD_STATUS_GetSeasonDispFlag, FIELD_STATUS_FieldCloseEvent, FIELD_STATUS_CreateFieldCloseEvent, FIELD_STATUS_FieldCloseNoSoundWaitEvent, FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent, FIELD_STATUS_FieldOpenEvent, FIELD_STATUS_CreateFieldOpenEvent, FIELD_STATUS_CreateFieldOpenNoNotifyEvent, FIELD_STATUS_SubProcEvent, FIELD_STATUS_SubProcNoFadeEvent, FIELD_STATUS_CreateSubProcEvent, FIELD_STATUS_CreateSubProcNoFadeEvent, FIELD_STATUS_SubProcCallbackEvent, FIELD_STATUS_SubProcNoFadeCallbackEvent, FIELD_STATUS_CreateSubProcCallbackEvent, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent, func_02014878
  * address:  0x020139B0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -26,7 +26,7 @@
  *   sub_0204944C      0x0204944C  arm
  *   _RailMapZoneTable  0x0209E010  data
  *   _ZoneSpecialKindTable  0x0209E026  data
- *   func_02013D9C  0x02013D9C  thumb
+ *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
  *   func_02013B10  0x02013B10  thumb
  *   d_0209DFC0     0x0209DFC0  data  a4
  *   d_0209DFEC     0x0209DFEC  data  a4
@@ -34,7 +34,7 @@
  *   d_0209DFD2     0x0209DFD2  data
  *   d_0209DFDC     0x0209DFDC  data
  *   ZONEDATA_IsZoneGroup118To13C  0x02013D74  thumb
- *   func_02013B44  0x02013B44  thumb
+ *   ZONEDATA_GetMatrixId  0x02013B44  thumb
  *   g_ZoneDataMgr  0x02146264  data
  *   _ZoneSecondSpecialKindTable  0x0209DFC8  data
  *   FILE_UTIL_LoadRange  0x02020E08  thumb
@@ -69,6 +69,7 @@
  *   FIELD_SOUND_SYSTEM_IsBusy  0x020289B8  thumb
  *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -263,7 +264,7 @@ extern void func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *handle);
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *handle, u32 member, u32 offset, u32 size, void *dst);
 extern void *FILE_UTIL_LoadRange(u32 arcId, u32 heapId, u32 offset, u32 size);
-extern u32 func_02082BCC(void *dst, u32 value, u32 size);
+extern u32 MI_CpuFill8(void *dst, u32 value, u32 size);
 extern struct FieldSoundSystem *func_02012A30(struct GameData *gameData);
 extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSystem);
 extern struct GameData *func_020120F4(struct GameSystem *gameSystem);
@@ -470,7 +471,7 @@ extern u8 ov131_id[];
  * a/0/8/1 sub-file 13, (0x52, 1) is a/0/8/2 sub-file 1 and (0x95, 0) is
  * a/1/4/9 sub-file 0, by the same id-to-name table as above.  Each size is
  * divided by four into a companion count field (+0x40 u16, +0x42 u8,
- * +0x43 u8), and func_02013EEC, func_02013F2C and func_02013F6C walk the
+ * +0x43 u8), and ZONEDATA_GetFogId, ZONEDATA_GetLightId and ZONEDATA_GetFieldSkillMapEffect walk the
  * matching pointer as an array of 4-byte { u16 key; u16 value } entries, so
  * all three are (zone id -> value) side tables, not part of the record.
  *
@@ -1231,7 +1232,7 @@ u32 ZONEDATA_IsZone117(u32 id)
 
 
 /*
- * zonedata.c: true when the zone id is in 0x121..0x13C or func_02013D9C
+ * zonedata.c: true when the zone id is in 0x121..0x13C or ZONEDATA_IsZoneGroup118To120
  * accepts it.  The image shares one `movs r0, #1` exit between the range
  * test and the callee test, which only one disjunction gives
  * (docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md).
@@ -1313,7 +1314,7 @@ u32 ZONEDATA_IsRawZoneGroup121To13C(u32 id)
 
 
 /*
- * Unlabelled Thumb leaf inside func_02013D9C's listing extent: a tail call
+ * Unlabelled Thumb leaf inside ZONEDATA_IsZoneGroup118To120's listing extent: a tail call
  * to func_02013B10 with a fixed table and count. Filed as the witness for
  * the ov021 and ov018 callers.
  */
@@ -1492,7 +1493,7 @@ u32 ZONEDATA_IsFieldMatrix(u32 id)
 
 /*
  * "Do these two zones share a region?": both ids are reduced through
- * func_02013B44, the accessor for record +0x04, and the two results compared.
+ * ZONEDATA_GetMatrixId, the accessor for record +0x04, and the two results compared.
  * The +0x04 lane is therefore a grouping key rather than a per-zone index,
  * which agrees with the data: 238 distinct values over 427 records.
  *
@@ -2453,7 +2454,7 @@ u32 ZONEDATA_GetEventWorkSize(void)
 
 u32 ZONEDATA_InitEventWork(struct EventWork *ev)
 {
-    return func_02082BCC(ev, 0, 0x3EA);
+    return MI_CpuFill8(ev, 0, 0x3EA);
 }
 
 
@@ -2624,7 +2625,7 @@ void ZONEDATA_ClearEventWorkRange(struct EventWork *ev, u32 firstWorkId, u32 end
 {
     u16 *first = ZONEDATA_GetEventWorkAddress(ev, firstWorkId);
 
-    func_02082BCC(first, 0, (endWorkId - firstWorkId) << 1);
+    MI_CpuFill8(first, 0, (endWorkId - firstWorkId) << 1);
 }
 
 

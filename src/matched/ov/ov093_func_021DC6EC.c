@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_GetSandForceHandlers
+ * function: HAND_TOKUSEI_GetSandForceHandlers
  * address: 0x021DC6EC
  * packet: pkt_ov093_021DC6EC
  * region: ov093
@@ -13,4 +13,4 @@
  *   gSandForceHandlers 0x021F0990 data a4
  */
 extern unsigned char gSandForceHandlers[];
-void *BTL_ABILITY_GetSandForceHandlers(int *p) { *p = 2; return gSandForceHandlers; }
+void *HAND_TOKUSEI_GetSandForceHandlers(int *p) { *p = 2; return gSandForceHandlers; }

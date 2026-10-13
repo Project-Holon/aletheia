@@ -16,8 +16,8 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02009210  0x02009210  thumb
  *   func_020090E0  0x020090E0  thumb
- *   func_02013D20  0x02013D20  thumb
- *   func_02013D00  0x02013D00  thumb
+ *   ZONEDATA_IsZone34  0x02013D20  thumb
+ *   ZONEDATA_IsZone4BPair  0x02013D00  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -32,8 +32,8 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u32 func_02009210(void);
 extern u32 func_020090E0(void);
-extern u32 func_02013D20(void);
-extern u32 func_02013D00(u32);
+extern u32 ZONEDATA_IsZone34(void);
+extern u32 ZONEDATA_IsZone4BPair(u32);
 
 u32 FIELD_SUBSCREEN_ResolveMode(u32 *p, u32 x)
 {
@@ -41,7 +41,7 @@ u32 FIELD_SUBSCREEN_ResolveMode(u32 *p, u32 x)
     if (x == 0) {
         a = (u32)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)p[5]));
         b = FIELDMAP_GetZoneId((u8 *)p[5]);
-        if (func_02013D20() != 0 || func_02013D00(b) != 0)
+        if (ZONEDATA_IsZone34() != 0 || ZONEDATA_IsZone4BPair(b) != 0)
             return 5;
         GAME_DATA_GetSaveControl((struct Big *)a);
         func_02009210();

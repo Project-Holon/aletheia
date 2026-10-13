@@ -17,7 +17,7 @@
  *   func_021E8FC0 0x021E8FC0 thumb
  *   func_021E066C 0x021E066C thumb
  *   func_020307B0 0x020307B0 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021EF36C 0x021EF36C thumb
  *   func_021E01B0 0x021E01B0 thumb
  *   func_021EA1C0 0x021EA1C0 thumb
@@ -47,7 +47,7 @@ extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E066C(char *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void func_021EF36C(struct WinMgr *mgr);
 extern int func_021E01B0(unsigned char *p);
 extern void func_021EA1C0(void *p);
@@ -85,7 +85,7 @@ int func_021E5C5C(unsigned char *p)
         return func_021E8FC0((char *)p, (int)func_021E066C, 0x36);
     case 1:
         func_020307B0(*(void **)(WORK(p) + 0x60));
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         func_021EF36C(MGR(p));
         STEP(p) = 2;
         return func_021E8FC0((char *)p, (int)func_021E01B0, 0x36);
@@ -94,7 +94,7 @@ int func_021E5C5C(unsigned char *p)
         STEP(p) = 6;
         return func_021E8FC0((char *)p, (int)func_021E087C, 0x36);
     case 3:
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         func_021EC000(WORK(p), 4, 0);
         func_021EF36C(MGR(p));
         STEP(p) = 7;

@@ -16,7 +16,7 @@
  *   func_02040DA8  0x02040DA8  arm
  *   func_020403F4  0x020403F4  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201C4C0  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
  * Addresses are Black-image addresses.
  */
@@ -56,7 +56,7 @@ extern void TCBL_Destroy(struct S02031140 *p);
 extern void func_02040DA8(u32 a, u32 b, u32 c);
 extern void func_020403F4(u32 i);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 
 void FIELD_MSGBG_Delete(Obj *o)
@@ -91,7 +91,7 @@ void FIELD_MSGBG_Delete(Obj *o)
         s++;
     } while (i < 4);
     if (o->f0c != 0) {
-        func_0201C4C0((struct PrintSys *)o->f0c);
+        PRINTSYS_QUE_Delete((struct PrintSys *)o->f0c);
     }
     if (o->f08 != 0) {
         GF_FONT_Delete((void *)o->f08);

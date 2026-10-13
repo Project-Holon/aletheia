@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_HANDLER_ITEM_MetalPowder_DoubleDefense",
-    "BTL_HANDLER_ITEM_GetQuickPowderHandlers"
+    "HAND_ITEM_MetalPowder_DoubleDefense",
+    "HAND_ITEM_GetQuickPowderHandlers"
    ],
    "addresses": [
     "0x021DE7E4",

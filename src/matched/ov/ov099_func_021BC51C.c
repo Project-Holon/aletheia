@@ -10,16 +10,16 @@
  * note: Two bytes of alignment padding follow at 0x021BC542.
  * symbols:
  *   func_021BA928 0x021BA928 thumb ov099
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  * prototype-evidence: r1 is forwarded unchanged from entry into BA928.
  */
 #include "../include/Obj00008.h"
 typedef unsigned int u32;
 extern int func_021BA928(void *, int);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 int func_021BC51C(char *p, int ret)
 {
     if (func_021BA928(p, ret) == 0) return ret;
-    if (func_020362DC() != 0) *(u32 *)&((struct Obj00008 *)p)->f1CC = 0x44;
+    if (KEY_GetTrg() != 0) *(u32 *)&((struct Obj00008 *)p)->f1CC = 0x44;
     return ret;
 }

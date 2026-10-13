@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DBBCC",
+   "name": "HAND_TOKUSEI_GetPickupHandlers",
    "address": "0x021DBBCC",
    "kind": "game",
    "region": "ov093",

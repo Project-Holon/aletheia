@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0207C768  0x0207C768  arm
+ *   FX_Div  0x0207C768  arm
  */
 typedef unsigned int u32;
 typedef int fx32;
@@ -19,7 +19,7 @@ typedef struct {
     fx32 x, y, z;
 } VecFx32;
 
-extern u32 sub_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 
 void func_021F918C(const VecFx32 *a, const VecFx32 *b, VecFx32 *out, fx32 div)
 {
@@ -29,17 +29,17 @@ void func_021F918C(const VecFx32 *a, const VecFx32 *b, VecFx32 *out, fx32 div)
     if (div == 0)
         div = 0x1000;
     if (b->x - a->x != 0) {
-        out->x = sub_0207C768(b->x - a->x, div);
+        out->x = FX_Div(b->x - a->x, div);
         if (out->x == 0)
             out->x = (b->x > a->x) ? 1 : -1;
     }
     if (b->y - a->y != 0) {
-        out->y = sub_0207C768(b->y - a->y, div);
+        out->y = FX_Div(b->y - a->y, div);
         if (out->y == 0)
             out->y = (b->y > a->y) ? 1 : -1;
     }
     if (b->z - a->z != 0) {
-        out->z = sub_0207C768(b->z - a->z, div);
+        out->z = FX_Div(b->z - a->z, div);
         if (out->z == 0)
         {
             if (b->z > a->z)

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02177B0C",
+   "name": "NET_WHPIPE_SetWatchDisconnect",
    "address": "0x02177B0C",
    "kind": "game",
    "region": "ov014",

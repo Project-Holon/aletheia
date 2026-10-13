@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 #include "../include/Obj05545.h"
 
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 void ov208_func_021C68D4(void *unused, u8 *p)
 {
@@ -34,10 +34,10 @@ void ov208_func_021C68D4(void *unused, u8 *p)
         break;
     }
     if (on) {
-        func_0204B3DC((struct Obj *)((struct Obj05545 *)p)->f668, 1);
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x668 + 0x28), 1);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj05545 *)p)->f668, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(p + 0x668 + 0x28), 1);
     } else {
-        func_0204B3DC((struct Obj *)((struct Obj05545 *)p)->f668, 0);
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x668 + 0x28), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj05545 *)p)->f668, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(p + 0x668 + 0x28), 0);
     }
 }

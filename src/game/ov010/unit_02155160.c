@@ -13,19 +13,19 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02019CA0  0x02019CA0  thumb
  *   func_0200BAC8  0x0200BAC8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
- *   func_0201AC2C  0x0201AC2C  thumb
+ *   POKEPARTY_Copy  0x0201AC2C  thumb
  *   func_020307B0  0x020307B0  arm
  *   POKE_TOOL_HealParty  0x0201BA34  thumb
- *   func_0201A9C8  0x0201A9C8  thumb
+ *   POKEPARTY_RemoveMember  0x0201A9C8  thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
@@ -83,19 +83,19 @@ typedef struct { u8 v[2]; } PositionRemap2;
 
 typedef struct { u8 v[4]; } PositionRemap4;
 
-extern u32 func_0201AA18(void *party);
-extern void *func_0201AB28(void *party, u32 index);
+extern u32 POKEPARTY_GetCount(void *party);
+extern void *POKEPARTY_GetMember(void *party, u32 index);
 extern void func_02019CA0(void *pokemon, u32 level);
 extern void *func_0200BAC8(void *saveControl);
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern u32 POKE_TOOL_GetPartyValue(void *pokemon, u32 paramId, u32 defaultValue);
-extern u32 func_0201A98C(struct Party *party, const struct Pokemon *pokemon);
+extern u32 POKEPARTY_Add(struct Party *party, const struct Pokemon *pokemon);
 extern void *func_0200BAF4(int battleBox, int heapId);
-extern void func_0201AC2C(const struct Party *src, struct Party *dst);
+extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
 extern u32 func_020307B0(void *memory);
 extern void POKE_TOOL_HealParty(void *party);
-extern u32 func_0201A9C8(struct Party *party, s32 index);
+extern u32 POKEPARTY_RemoveMember(struct Party *party, s32 index);
 extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct NetHandle *handle);
 extern struct PlayerStatus *GAME_DATA_GetPlayerStatus(struct GameData *gameData, u32 playerIndex);
@@ -120,8 +120,8 @@ void MUSICAL_EVENT_SetPartyLevel50(void *party)
 {
     int i;
 
-    for (i = 0; i < (int)func_0201AA18(party); i++)
-        func_02019CA0(func_0201AB28(party, i), 50);
+    for (i = 0; i < (int)POKEPARTY_GetCount(party); i++)
+        func_02019CA0(POKEPARTY_GetMember(party, i), 50);
 }
 
 
@@ -142,14 +142,14 @@ void MUSICAL_EVENT_BuildParty(int partySource, struct MusicalEventWork *work)
     battleBox = (int)func_0200BAC8(work->saveControl);
     if (partySource == 0) {
         ownParty = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(work->gameSystem));
-        for (i = 0; i < (int)func_0201AA18(ownParty); i++) {
-            member = func_0201AB28(ownParty, i);
+        for (i = 0; i < (int)POKEPARTY_GetCount(ownParty); i++) {
+            member = POKEPARTY_GetMember(ownParty, i);
             if (POKE_TOOL_GetPartyValue(member, 0x4c, 0) == 0)
-                func_0201A98C(work->party, member);
+                POKEPARTY_Add(work->party, member);
         }
     } else {
         boxParty = func_0200BAF4(battleBox, 4);
-        func_0201AC2C(boxParty, work->party);
+        POKEPARTY_Copy(boxParty, work->party);
         func_020307B0(boxParty);
     }
     POKE_TOOL_HealParty(work->party);
@@ -165,9 +165,9 @@ void MUSICAL_EVENT_TrimPartyToThree(void *party)
     int i;
     int count;
 
-    count = func_0201AA18(party);
+    count = POKEPARTY_GetCount(party);
     for (i = 3; i < count; i++)
-        func_0201A9C8(party, 3);
+        POKEPARTY_RemoveMember(party, 3);
 }
 
 

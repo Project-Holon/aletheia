@@ -25,7 +25,7 @@
  *   func_02085DBC  0x02085DBC  arm twl
  *   func_020885A0  0x020885A0  arm twl
  *   NWMi_ReceiveFifo9  0x02702740  arm twl
- *   func_02082BCC  0x02082BCC  arm twl
+ *   MI_CpuFill8  0x02082BCC  arm twl
  */
 
 typedef unsigned int u32;
@@ -58,7 +58,7 @@ extern void func_02085D94(void *, void *, u32);
 extern void func_02085DBC(void *, void *, u32);
 extern void func_020885A0(u32, void (*)(void));
 extern void NWMi_ReceiveFifo9(void);
-extern void func_02082BCC(void *, u32, u32);
+extern void MI_CpuFill8(void *, u32, u32);
 extern CamBuf *data_027341A4;
 extern u8 data_027341A0[];
 
@@ -106,7 +106,7 @@ u32 NWMi_InitCore(CamBuf *buf, u32 size, u32 mode) {
         func_02085DBC(data_027341A4->ctlA, data_027341A4->lines[i], 1);
     }
     func_020885A0(0x16, NWMi_ReceiveFifo9);
-    func_02082BCC(data_027341A4->state, 0, 0x154);
+    MI_CpuFill8(data_027341A4->state, 0, 0x154);
     data_027341A0[0] = 1;
     data_027341A4->ring->ready = 1;
     func_020862D4(data_027341A4, 0x22e0);

@@ -17,7 +17,7 @@
  *   func_021FB378 0x021FB378 thumb ov186
  *   func_021FC6A4 0x021FC6A4 thumb ov186
  *   func_021FC754 0x021FC754 thumb ov186
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj00730.h"
 #include "../include/Obj03329.h"
@@ -34,7 +34,7 @@ extern int func_021FC124(void *,int,Triple *);
 extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
 extern void *func_021FC6A4(u16,unsigned,u16,u16,u8,u8,void *,u16);
 extern void func_021FC754(char *,void *,void *,void *,u16);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 void func_021DCEE4(char *p,char *q)
 {
     int a,b;
@@ -47,7 +47,7 @@ void func_021DCEE4(char *p,char *q)
         if(((struct Obj00730 *)p)->fCC) {
             Desc d;
             Triple t;
-            func_02082BCC(&d,0,8);
+            MI_CpuFill8(&d,0,8);
             d.x=24;d.y=168;d.n=0;d.flag=1;
             func_021FC124(((struct Obj03329 *)q)->f10,6,&t);
             ((struct Obj00730 *)p)->f1C=func_021FB378(&d,4,96,1,((struct Obj03329 *)q)->f18,((struct Obj00730 *)p)->f0,a,b,&t,((struct Obj00730 *)p)->fB4);
@@ -56,7 +56,7 @@ void func_021DCEE4(char *p,char *q)
         } else {
             Desc d;
             Triple t;
-            func_02082BCC(&d,0,8);
+            MI_CpuFill8(&d,0,8);
             d.x=80;d.y=168;d.n=0;d.flag=1;
             func_021FC124(((struct Obj03329 *)q)->f10,6,&t);
             ((struct Obj00730 *)p)->f1C=func_021FB378(&d,4,96,1,((struct Obj03329 *)q)->f18,((struct Obj00730 *)p)->f0,a,b,&t,((struct Obj00730 *)p)->fB4);

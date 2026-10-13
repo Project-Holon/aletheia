@@ -1,5 +1,5 @@
 /*
- * function: func_021BA820
+ * function: BTL_MAIN_GetServerFlow
  * address:  0x021BA820
  * packet:   pkt_021BA820
  * region:   ov093
@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 struct Q5;
 u32 BTL_SERVER_GetFlow(struct Q5 *p);
 
-u32 func_021BA820(int *p)
+u32 BTL_MAIN_GetServerFlow(int *p)
 {
     return BTL_SERVER_GetFlow((struct Q5 *)p[2]);
 }

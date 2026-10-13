@@ -19,8 +19,8 @@
  *   SCRIPT_SYS_CallScriptEvent  0x02158780  thumb  ov010
  *   INTRUDE_COMM_HasUnlockFlags  0x02158590  thumb  ov010
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
- *   func_02026454  0x02026454  thumb
- *   func_02026484  0x02026484  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
+ *   GAME_COMM_ClearCounter  0x02026484  thumb
  *   INTRUDE_COMM_SetSuspended  0x0217574C  thumb  ov011
  *   INTRUDE_COMM_SetIntrudeId  0x02175710  thumb  ov011
  *   INTRUDE_COMM_AcceptSession  0x02175B4C  thumb  ov011
@@ -56,8 +56,8 @@ extern u16 FIELDMAP_GetHeapId(u8 *p);
 extern int SCRIPT_SYS_CallScriptEvent(void *p, u16 b, int c, int d, u16 e);
 extern int INTRUDE_COMM_HasUnlockFlags(void *p);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
-extern u32 func_02026454(void *obj);
-extern void func_02026484(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
+extern void GAME_COMM_ClearCounter(void *obj);
 extern void INTRUDE_COMM_SetSuspended(u8 *o, u32 v);
 extern void INTRUDE_COMM_SetIntrudeId(u8 *o, u32 v);
 extern void INTRUDE_COMM_AcceptSession(u8 *o, u8 *p);
@@ -101,9 +101,9 @@ int EVENT_MAPCHANGE_RunIntrudeSessionEvent(int a0, int *state, Ctx *c)
         break;
     case 1:
         if (INTRUDE_COMM_HasUnlockFlags((void *)c->f20) == 0) {
-            if (func_02026454((void *)h) != 0)
+            if (GAME_COMM_GetKind((void *)h) != 0)
                 break;
-            func_02026484((void *)h);
+            GAME_COMM_ClearCounter((void *)h);
         }
         if (c->f28 == 1 && INTRUDE_COMM_GetRequestState(h) != 3) {
             SCRIPT_SYS_CallScriptEvent((void *)a0, 0x279F, 0, 0, FIELDMAP_GetHeapId((u8 *)c->f24));

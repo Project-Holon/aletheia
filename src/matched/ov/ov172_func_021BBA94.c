@@ -27,8 +27,8 @@
  *   func_020498F4  0x020498F4  arm
  *   func_020409B4  0x020409B4  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   func_02041EE4  0x02041EE4  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
@@ -60,8 +60,8 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020409B4(u32 a);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(struct Obj *o, unsigned int k);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *o, unsigned int k);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern void CLACT_SetActorAnimSeq(struct Obj *, u16);
@@ -101,18 +101,18 @@ void func_021BBA94(void *a0, u8 *p)
         d.a = 0x20;
         row = p + i * 0x1c;
         *(u32 *)(row + 0x48) = (u32)MK(a0, p, 5, 1, 9, 1);
-        func_0204B3DC((struct Obj *)*(u32 *)(row + 0x48), 0);
-        func_0204B92C((struct Obj *)*(u32 *)(row + 0x48), 1);
+        CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(row + 0x48), 0);
+        CLACT_SetActorAutoAnim((struct Obj *)*(u32 *)(row + 0x48), 1);
         d.x = 0x12;
         d.z = 9;
         d.a = 0x10;
         *(u32 *)(row + 0x4c) = (u32)MK(a0, p, 5, 1, 9, 1);
-        func_0204B3DC((struct Obj *)*(u32 *)(row + 0x4c), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(row + 0x4c), 0);
         d.x = 0xc8;
         d.z = 0x12;
         d.a = 0x10;
         *(u32 *)(row + 0x50) = (u32)MK(a0, p, 5, 1, 9, 1);
-        func_0204B3DC((struct Obj *)*(u32 *)(row + 0x50), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(row + 0x50), 0);
     }
     d.x = 0xe0;
     d.y = 0xa8;
@@ -124,13 +124,13 @@ void func_021BBA94(void *a0, u8 *p)
     d.a = j;
     d.b = j;
     *(u32 *)(p + 0x400) = (u32)MK(a0, p, 6, 2, 10, 1);
-    func_0204B3DC((struct Obj *)*(u32 *)(p + 0x400), 1);
-    func_0204B92C((struct Obj *)*(u32 *)(p + 0x400), 1);
+    CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(p + 0x400), 1);
+    CLACT_SetActorAutoAnim((struct Obj *)*(u32 *)(p + 0x400), 1);
     d.x = 0xf8;
     d.y = 0x18;
     d.z = 0xc;
     *(u32 *)(p + 0x404) = (u32)MK(a0, p, 5, 1, 9, 1);
-    func_0204B3DC((struct Obj *)*(u32 *)(p + 0x404), 0);
+    CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(p + 0x404), 0);
     o1 = 0x14A;
     o1 += 0x9a;
     o2 = 0x14A;

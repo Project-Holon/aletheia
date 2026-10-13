@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E6F8C",
+   "name": "HAND_WAZA_AddAllStatBoostChance",
    "address": "0x021E6F8C",
    "kind": "game",
    "region": "ov093",

@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021C8838  0x021C8838  thumb
- *   func_021C8860  0x021C8860  thumb
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
  *   BTLV_CORE_GetSlotValue  0x021E8B80  thumb
  *   d_0689E21C   0x0689E21C  data  ov095  a4
@@ -33,9 +33,9 @@ typedef unsigned short u16;
 
 typedef struct Word { int v; } Word;
 
-extern void func_021C8838(void *, int, u16);
+extern void BTL_SERVER_FLOW_InitMsgRecord(void *, int, u16);
 extern int BTL_POKEPARAM_GetPokeId(void *);
-extern void func_021C8860(void *, int);
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(void *, int);
 extern int BTLV_CORE_GetSlotValue(Word);
 int func_0689C424(u32 key, int flag);
 int func_0689C464(int a, Word b, void *c, unsigned char d, void *e);
@@ -72,16 +72,16 @@ int func_0689C464(int a, Word b, void *c, unsigned char d, void *e)
         f = 0;
     k = func_0689C424(a, f);
     if (k >= 0) {
-        func_021C8838(e, 2, k);
-        func_021C8860(e, BTL_POKEPARAM_GetPokeId(c));
+        BTL_SERVER_FLOW_InitMsgRecord(e, 2, k);
+        BTL_SERVER_FLOW_AppendMsgRecordArg(e, BTL_POKEPARAM_GetPokeId(c));
         if (f != 0)
-            func_021C8860(e, d);
+            BTL_SERVER_FLOW_AppendMsgRecordArg(e, d);
         switch (a) {
         case 8:
-            func_021C8860(e, BTLV_CORE_GetSlotValue(b));
+            BTL_SERVER_FLOW_AppendMsgRecordArg(e, BTLV_CORE_GetSlotValue(b));
             break;
         case 0x12:
-            func_021C8860(e, 0x49);
+            BTL_SERVER_FLOW_AppendMsgRecordArg(e, 0x49);
             break;
         }
         return 1;

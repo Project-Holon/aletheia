@@ -1,5 +1,5 @@
 /*
- * function: func_021B9234
+ * function: BTL_MAIN_SetDoubleMoney
  * address:  0x021B9234
  * packet:   pkt_ov093_021B9234
  * region:   ov093
@@ -14,7 +14,7 @@
  * with pool word 0x473.  Sets bit 6 of the byte at p+0x473.
  */
 
-void func_021B9234(unsigned char *p)
+void BTL_MAIN_SetDoubleMoney(unsigned char *p)
 {
     p[0x473] |= 0x40;
 }

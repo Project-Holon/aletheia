@@ -22,6 +22,7 @@
  *   func_021B818C 0x021B818C thumb ov104
  *   func_021B817C 0x021B817C thumb ov104
  *   func_021B8528 0x021B8528 thumb ov104
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj05275.h"
 typedef unsigned char u8;
@@ -37,7 +38,7 @@ extern void func_021B8C3C(u8 *p, const void *a, int color);
 extern void func_021B8624(u8 *);
 extern int func_021B8614(u8 *);
 extern void func_021B7F1C(u8 *,void *,int,int,s16);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021B8384(u8 *,u16 *);
 extern void func_021B818C(u8 *);
 extern void func_021B817C(char *p, u32 v);
@@ -58,7 +59,7 @@ void func_021B829C(u8 *p,u16 *state) {
  if(func_021B8614(p+base)) {
   if(!((struct Obj05275 *)p)->f89C) {
    func_021B7F1C(p+0xcc,p+0xbc,1,0,0);
-   func_020061E4(0x654);
+   GFL_USE_PlaySeDefaultVolume(0x654);
    ((struct Obj05275 *)p)->f89C=1;
   }
   if(((struct Obj05275 *)p)->f89C) func_021B8384(p,(u16 *)(p+0x8a0));

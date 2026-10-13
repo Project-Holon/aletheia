@@ -16,7 +16,7 @@
  *   NET_WHPIPE_GetEntryKind  0x02178098  thumb ov014
  *   GFL_NET_GetScanResult  0x0203CF10  arm
  *   GAME_BEACON_SEARCH_SelectBetterEntry  0x02164F9C  thumb ov010
- *   func_02177BF4  0x02177BF4  thumb ov014
+ *   NET_WHPIPE_ReleaseEntry  0x02177BF4  thumb ov014
  *
  * Addresses are Black-image addresses.
  */
@@ -38,7 +38,7 @@ typedef struct Ent {
 extern u8 NET_WHPIPE_GetEntryKind(u8 i);
 extern u32 GFL_NET_GetScanResult(u32 a);
 extern Ent  *GAME_BEACON_SEARCH_SelectBetterEntry(Ent *a, Ent *b);
-extern void func_02177BF4(unsigned int idx);
+extern void NET_WHPIPE_ReleaseEntry(unsigned int idx);
 
 Ent *GAME_BEACON_SEARCH_PickBestScanResult(u8 *obj, int *out)
 {
@@ -66,7 +66,7 @@ Ent *GAME_BEACON_SEARCH_PickBestScanResult(u8 *obj, int *out)
                 best = i;
             }
         } else {
-            func_02177BF4(i);
+            NET_WHPIPE_ReleaseEntry(i);
         }
     }
     if (best != -1) {

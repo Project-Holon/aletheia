@@ -59,8 +59,8 @@
  *   SHORTCUT_MENU_RunPrint  0x021C5334  thumb  ov021
  *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  *   SCRIPT_SYS_GetEventScriptWork  0x021589D0  thumb  ov010
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   POKE_TOOL_HasRibbonData  0x0201897C  thumb
  *   MI_CpuFill8    0x02082BCC  arm
@@ -238,8 +238,8 @@ extern int FIELD_MSGBG_SetupBgSingle();
 extern int SHORTCUT_MENU_RunPrint(void *commObj);
 extern void *SCRIPT_SYS_CreateScriptEventSimple(struct GameSystem *gameSystem, int messageId, int a, int heapId);
 extern void *SCRIPT_SYS_GetEventScriptWork(void *msgWindow);
-extern u32 func_0201AA18(void *party);
-extern void *func_0201AB28(void *party, u32 index);
+extern u32 POKEPARTY_GetCount(void *party);
+extern void *POKEPARTY_GetMember(void *party, u32 index);
 extern u32 func_02017E1C(void *mon, u32 param, u32 value);
 extern u32 POKE_TOOL_HasRibbonData(void *mon);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
@@ -871,8 +871,8 @@ int EVENT_SHORTCUT_MENU_CheckPartyRibbon(ShortcutMenuWork *work)
     int i;
 
     party = func_02012934(func_020120F4(work->gameSystem));
-    for (i = 0; i < (int)func_0201AA18(party); i++) {
-        mon = func_0201AB28(party, i);
+    for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
+        mon = POKEPARTY_GetMember(party, i);
         if (func_02017E1C(mon, 0xA9, 0) != 0 && POKE_TOOL_HasRibbonData(mon) != 0)
             return 1;
     }

@@ -7,11 +7,11 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "DWCi_IsShutdownMatch",
+   "name": "NET_WHPIPE_IsWorkNotAllocated",
    "address": "0x021771E4",
-   "kind": "sdk",
+   "kind": "game",
    "region": "ov014",
-   "source": "src/matched/ov_sdk/ov014_func_021771E4.c",
+   "source": "src/matched/ov/ov014_func_021771E4.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

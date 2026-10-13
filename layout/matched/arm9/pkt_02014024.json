@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02014024",
+   "name": "ZONEDATA_IsZoneInTableDFD2",
    "address": "0x02014024",
    "kind": "game",
    "region": "arm9",

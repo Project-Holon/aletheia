@@ -1,5 +1,5 @@
 /*
- * function: func_021B8DC0
+ * function: BTL_MAIN_GetViewPosOfPoke
  * address: 0x021B8DC0
  * packet: pkt_ov093_021B8DC0
  * region: ov093
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021B8D8C 0x021B8D8C thumb ov093
- *   func_021B8E70 0x021B8E70 thumb ov093
+ *   BTL_MAIN_GetTrainerSlotOfPoke 0x021B8D8C thumb ov093
+ *   BTL_MAIN_GetViewPosOfSlot 0x021B8E70 thumb ov093
  */
-extern int func_021B8D8C(void *,void *,unsigned int);
-extern unsigned char func_021B8E70(unsigned char *,unsigned int);
-unsigned char func_021B8DC0(unsigned char *p,void *a,unsigned int b) { int k=func_021B8D8C(p,a,b); if(k!=6) return func_021B8E70(p,k); return 255; }
+extern int BTL_MAIN_GetTrainerSlotOfPoke(void *,void *,unsigned int);
+extern unsigned char BTL_MAIN_GetViewPosOfSlot(unsigned char *,unsigned int);
+unsigned char BTL_MAIN_GetViewPosOfPoke(unsigned char *p,void *a,unsigned int b) { int k=BTL_MAIN_GetTrainerSlotOfPoke(p,a,b); if(k!=6) return BTL_MAIN_GetViewPosOfSlot(p,k); return 255; }

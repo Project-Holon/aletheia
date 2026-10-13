@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3F4 0x0204B3F4 arm
- *   func_0203633C 0x0203633C arm
+ *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
+ *   KEY_GetRepeat 0x0203633C arm
  *   func_020355D8 0x020355D8 arm
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   d_021BBF14 0x021BBF14 data a4
  */
@@ -25,12 +25,12 @@ typedef unsigned int u32;
 struct Obj; struct Actor;
 struct Entry { u32 first; u16 normal,pad6; u8 left,right,top,bottom; u32 active,mask,sound,last; };
 extern const struct Entry d_021BBF14[];
-extern u32 func_0204B3F4(struct Obj *);
-extern u32 func_0203633C(void);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *);
+extern u32 KEY_GetRepeat(void);
 extern void func_020355D8(u8);
-extern u32 func_02035D20(u32 *,u32 *);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u32 CLACT_IsActorAnimActive(struct Actor *);
 void func_021BA508(char *p)
 {
@@ -41,15 +41,15 @@ void func_021BA508(char *p)
  case 0:
   found=0;
   for(i=0;i<2;i++) {
-   if(func_0204B3F4(*(struct Obj **)(p+i*4+0x38))) {
+   if(CLACT_GetActorDrawEnable(*(struct Obj **)(p+i*4+0x38))) {
     row=&d_021BBF14[i];
-    if(func_0203633C()&row->mask) {
+    if(KEY_GetRepeat()&row->mask) {
      ((struct Obj00367 *)p)->f40=i;
      func_020355D8(0);
      found=1;
      break;
     }
-    if(func_02035D20(&x,&y)) {
+    if(TOUCHPANEL_GetPointTrg(&x,&y)) {
      if(row->left<=x && x<=row->right && row->top<=y && y<=row->bottom) {
       ((struct Obj00367 *)p)->f40=i;
       found=1;
@@ -61,7 +61,7 @@ void func_021BA508(char *p)
   }
   if(found) {
    CLACT_SetActorAnimSeq(*(struct Obj **)(p+((struct Obj00367 *)p)->f40*4+0x38),d_021BBF14[*(u8 *)(p+0x40)].active);
-   if(d_021BBF14[*(u8 *)(p+0x40)].sound) func_020061E4(d_021BBF14[*(u8 *)(p+0x40)].sound);
+   if(d_021BBF14[*(u8 *)(p+0x40)].sound) GFL_USE_PlaySeDefaultVolume(d_021BBF14[*(u8 *)(p+0x40)].sound);
    ((struct Obj00367 *)p)->f44=1;
   }
   break;

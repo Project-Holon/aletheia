@@ -10,8 +10,8 @@
  * volatile: hardware BLDALPHA write at 021BEE46.
  * symbols:
  *   func_0207D63C 0x0207D63C arm
- *   func_0204B688 0x0204B688 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_GetActorObjMode 0x0204B6E4 arm
  */
 #include "../include/Obj14616.h"
@@ -19,8 +19,8 @@ extern void func_0207D63C(volatile void *, int, int, int, int);
 typedef unsigned int   u32;
 struct Actor;
 struct Obj;
-extern void func_0204B688(struct Actor *actor, u32 value);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 static inline void change_alpha(int a, int b)
 {
     *(volatile unsigned short *)0x04000052 = (unsigned short)(a | (b << 8));
@@ -32,15 +32,15 @@ int func_021BEDB8(char *p, unsigned *state, unsigned *q)
     switch (*state) {
     case 0:
         func_0207D63C((volatile void *)0x04000050, 0, 12, 0, 16);
-        func_0204B688(*(void **)(p + 0x10a8 + q[0] * 4), 1);
-        func_0204B3DC(*(void **)(p + 0x10a8 + q[0] * 4), 1);
+        CLACT_SetActorObjMode(*(void **)(p + 0x10a8 + q[0] * 4), 1);
+        CLACT_SetActorDrawEnable(*(void **)(p + 0x10a8 + q[0] * 4), 1);
         ++*state;
         break;
     case 16:
         for (i = 0; i < 3; i++) {
             char *row = p + i * 4;
             if (CLACT_GetActorObjMode(((struct Obj14616 *)row)->f10A8) == 1)
-                func_0204B688(((struct Obj14616 *)row)->f10A8, 0);
+                CLACT_SetActorObjMode(((struct Obj14616 *)row)->f10A8, 0);
         }
         *state = 0;
         return 1;

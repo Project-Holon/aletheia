@@ -9,20 +9,20 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Returns func_021BA20C of the handle at 0x1e4 of the global work block, or 0 when it is null.
+ * Returns BTL_MAIN_IsRecordAllowed of the handle at 0x1e4 of the global work block, or 0 when it is null.
  *
  * symbols:
  *   d_0220AF20  0x0220AF20  data  ov094
- *   func_021BA20C 0x021BA20C thumb ov093
+ *   BTL_MAIN_IsRecordAllowed 0x021BA20C thumb ov093
  */
 extern char *d_0220AF20;
-extern int func_021BA20C(char **p);
+extern int BTL_MAIN_IsRecordAllowed(char **p);
 
 int func_021F8914(void)
 {
     int r = 0;
     void *h = *(void **)(d_0220AF20 + 0x1e4);
     if (h != 0)
-        r = func_021BA20C(h);
+        r = BTL_MAIN_IsRecordAllowed(h);
     return r;
 }

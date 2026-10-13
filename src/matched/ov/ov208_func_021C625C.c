@@ -16,11 +16,11 @@
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B688  0x0204B688  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorObjMode  0x0204B688  arm
  */
 #include "../include/Obj00124.h"
 #include "../include/Obj03367.h"
@@ -46,14 +46,14 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *h);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *sys, unsigned int chr, unsigned int pal, unsigned int cell, const void *hdr, u16 a,
                                 u16 heap);
-extern void func_0204B92C(struct Obj *obj, u32 on);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *obj, u32 on);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 struct Actor;
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define RES(k) (*(u32 *)(p + (k) * 4 + 0x5c0))
@@ -78,7 +78,7 @@ void ov208_func_021C625C(u16 *heap, u8 *p, int key)
     W(0x5e0) = CLACT_RegisterCellAnim(h, 0x1d, 0x2e, *heap);
     ARC_TOOL_DeleteHandle(h);
     for (i = 0; i < 4; i++) {
-        func_02082BCC(&hdr[1], 0, 8);
+        MI_CpuFill8(&hdr[1], 0, 8);
         t = data_021C87A0[i];
         hdr[1].x = t[0];
         hdr[1].y = t[1];
@@ -86,9 +86,9 @@ void ov208_func_021C625C(u16 *heap, u8 *p, int key)
         hdr[1].a = t[3];
         hdr[1].b = t[4];
         *(u32 *)(p + i * 4 + 0x5e4) = (u32)CLACT_CreateActor((void *)W(0), RES(t[5]), RES(t[6]), RES(t[7]), &hdr[1], 0, *heap);
-        func_0204B92C((struct Obj *)*(u32 *)(p + i * 4 + 0x5e4), 1);
-        func_0204B3DC((struct Obj *)*(u32 *)(p + i * 4 + 0x5e4), 0);
-        func_0204B688((struct Actor *)(*(u32 *)(p + i * 4 + 0x5e4)), 1);
+        CLACT_SetActorAutoAnim((struct Obj *)*(u32 *)(p + i * 4 + 0x5e4), 1);
+        CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(p + i * 4 + 0x5e4), 0);
+        CLACT_SetActorObjMode((struct Actor *)(*(u32 *)(p + i * 4 + 0x5e4)), 1);
     }
     ((struct Obj00124 *)p)->f5F4 = 0x40;
     ((struct Obj00124 *)p)->f5F6 = 0x98;
@@ -151,7 +151,7 @@ void ov208_func_021C625C(u16 *heap, u8 *p, int key)
     ((struct Obj00124 *)p)->f68C = 0x0;
     ((struct Obj00124 *)p)->f690 = 0x0;
     for (i = 0; i < 4; i++) {
-        func_02082BCC(&hdr[0], 0, 8);
+        MI_CpuFill8(&hdr[0], 0, 8);
         e = p + i * 0x28;
         hdr[0].x = ((struct Obj03367 *)e)->f5F4;
         hdr[0].y = ((struct Obj03367 *)e)->f5F6;
@@ -160,8 +160,8 @@ void ov208_func_021C625C(u16 *heap, u8 *p, int key)
         hdr[0].b = 3;
         ((struct Obj03367 *)e)->f618 = (u32)CLACT_CreateActor((void *)W(0), RES(((struct Obj03367 *)e)->f5F8), RES(((struct Obj03367 *)e)->f5FC),
                                             RES(((struct Obj03367 *)e)->f600), &hdr[0], 0, *heap);
-        func_0204B92C((struct Obj *)((struct Obj03367 *)e)->f618, 1);
-        func_0204B688((struct Actor *)(((struct Obj03367 *)e)->f618), 1);
+        CLACT_SetActorAutoAnim((struct Obj *)((struct Obj03367 *)e)->f618, 1);
+        CLACT_SetActorObjMode((struct Actor *)(((struct Obj03367 *)e)->f618), 1);
     }
     W(0x694) = 5;
 }

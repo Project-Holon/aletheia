@@ -15,10 +15,10 @@
  * symbols:
  *   GFL_NET_EndDeviceWrapper  0x0203D0FC  arm
  *   GAME_BEACON_SEARCH_PickBestScanResult  0x02164E04  thumb ov010
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_NET_GetScanResultMac  0x0203CF3C  arm
  *   GAME_BEACON_ReceiveInfo  0x02026A60  thumb
- *   func_02177BF4  0x02177BF4  thumb ov014
+ *   NET_WHPIPE_ReleaseEntry  0x02177BF4  thumb ov014
  *
  * Addresses are Black-image addresses.
  */
@@ -39,11 +39,11 @@ typedef struct Ent {
 
 extern void  GFL_NET_EndDeviceWrapper(int a);
 extern Ent  *GAME_BEACON_SEARCH_PickBestScanResult(u8 *obj, int *out);
-extern void  func_02082BCC(void *dst, int v, int n);
+extern void  MI_CpuFill8(void *dst, int v, int n);
 extern void *GFL_NET_GetScanResultMac(u32 a);
 struct Req;
 extern int GAME_BEACON_ReceiveInfo(struct Req *r);
-extern void func_02177BF4(unsigned int idx);
+extern void NET_WHPIPE_ReleaseEntry(unsigned int idx);
 
 u8 *GAME_BEACON_SEARCH_PollScanResult(u8 *obj, int *arg)
 {
@@ -63,10 +63,10 @@ u8 *GAME_BEACON_SEARCH_PollScanResult(u8 *obj, int *arg)
         e = GAME_BEACON_SEARCH_PickBestScanResult(obj, arg);
         if (e != 0) {
             if (e->flag != 0) {
-                func_02177BF4(*arg);
+                NET_WHPIPE_ReleaseEntry(*arg);
             } else if (e->kind == 1) {
                 i = 0;
-                func_02082BCC(rec, 0, 9);
+                MI_CpuFill8(rec, 0, 9);
                 rec[0] = e->b0;
                 rec[1] = e->lo;
                 rec[2] = e->hi;
@@ -76,7 +76,7 @@ u8 *GAME_BEACON_SEARCH_PollScanResult(u8 *obj, int *arg)
                 }
             } else if (e->kind == 2) {
                 GAME_BEACON_ReceiveInfo((struct Req *)((u8 *)e + 8));
-                func_02177BF4(*arg);
+                NET_WHPIPE_ReleaseEntry(*arg);
             }
         }
     }

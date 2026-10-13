@@ -7,11 +7,11 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "DWCi_IsShutdownMatch",
+   "name": "BTL_EVENT_IsFactorKeyRegistered",
    "address": "0x068982AC",
-   "kind": "sdk",
+   "kind": "game",
    "region": "ov095",
-   "source": "src/matched/ov_sdk/ov095_func_068982AC.c",
+   "source": "src/matched/ov/ov095_func_068982AC.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

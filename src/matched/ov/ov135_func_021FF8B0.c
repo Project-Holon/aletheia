@@ -15,6 +15,7 @@
  *   func_021FF92C 0x021FF92C thumb ov135
  *   func_021FF914 0x021FF914 thumb ov135
  *   str_02203E44 0x02203E44 data a1
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj05419.h"
 typedef unsigned char u8;
@@ -29,7 +30,7 @@ struct S02030EE8;
 extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 extern void func_021FF92C(void *, Anim *);
 extern void func_021FF914(u32 *p, u32 v);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void func_021FF8B0(u8 *p)
 {
     Anim *a;
@@ -42,5 +43,5 @@ void func_021FF8B0(u8 *p)
     a->p = p;
     ((struct Obj05419 *)p)->fE18 = 0;
     func_021FF914((u32 *)a, 0);
-    func_020061E4(0x790);
+    GFL_USE_PlaySeDefaultVolume(0x790);
 }

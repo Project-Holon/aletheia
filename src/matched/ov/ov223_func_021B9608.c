@@ -12,7 +12,7 @@
  *   FADE_Start 0x0204E720 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   FADE_GetSpeed 0x0204E6E0 arm
  *   FADE_SetSpeed 0x0204E6F4 arm
  *   func_020355C4 0x020355C4 arm
@@ -27,7 +27,7 @@ extern void FADE_Start(u32,int,int,int);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,u32,u32);
+extern void MI_CpuFill8(void *,u32,u32);
 extern u32 FADE_GetSpeed(void);
 extern void FADE_SetSpeed(int);
 extern u8 func_020355C4(void);
@@ -37,7 +37,7 @@ int func_021B9608(void *a,int unused,void *c)
     FADE_Start(3,16,16,0);
     GFL_HEAP_CreateChildHeap(1,135,1<<20);
     p=PROCSYS_AllocProcWork(a,2168,135);
-    func_02082BCC(p,0,2168);
+    MI_CpuFill8(p,0,2168);
     ((struct Obj03961 *)p)->f0=135;
     ((struct Obj03961 *)p)->f4=c;
     ((struct Obj03961 *)p)->f874=FADE_GetSpeed();

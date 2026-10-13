@@ -14,7 +14,7 @@
  *   FIELD_PLAYER_GRID_StopTurnOrBlocked  0x021A5408  thumb  ov021
  *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb  ov021
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   FLDMMDL_MOVE_GetMapHeight  0x02163E58  thumb  ov010
@@ -40,7 +40,7 @@ extern int FLDMMDL_CheckPossibleAcmd(int a0);
 extern int FIELD_PLAYER_GRID_StopTurnOrBlocked(u8 *a);
 extern int FLDMMDL_ACMD_ConvertCodeByDir(int a, int b);
 extern void FLDMMDL_SetAcmd(u32 o, u32 a);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern int FLDMMDL_CheckEndAcmd(u32 o);
 struct Actor;
 struct VecFx32;
@@ -68,7 +68,7 @@ int FIELD_PLAYER_GRID_EVENT_BoulderDropEvent(u32 unused, int *st, u8 *p)
             break;
         FLDMMDL_SetAcmd(((struct Obj00235 *)p)->f1C, FLDMMDL_ACMD_ConvertCodeByDir(((struct Obj00235 *)p)->f4, 8));
         FLDMMDL_SetAcmd(((struct Obj00235 *)p)->f20, FLDMMDL_ACMD_ConvertCodeByDir(((struct Obj00235 *)p)->f4, 0x20));
-        func_020061E4(0x674);
+        GFL_USE_PlaySeDefaultVolume(0x674);
         (*st)++;
         break;
     case 1:
@@ -88,7 +88,7 @@ int FIELD_PLAYER_GRID_EVENT_BoulderDropEvent(u32 unused, int *st, u8 *p)
             ((struct Obj00235 *)p)->fC -= 26 << 12;
         FLDMMDL_SetStatusBitHeightGetOff((void *)(((struct Obj00235 *)p)->f1C), 1);
         FLDMMDL_SetStatusBitFellowHit((unsigned int *)(((struct Obj00235 *)p)->f1C), 0);
-        func_020061E4(0x675);
+        GFL_USE_PlaySeDefaultVolume(0x675);
         (*st)++;
         break;
     case 2:

@@ -11,10 +11,10 @@
  * matching: parenthesised byte-pointer plus page keeps the page load before the far-field add; a flat offset sum differs in two bytes.
  * Width: original narrows x to signed 16 bits before each 0201C724 call; s16 extern preserves those caller truncations despite owner u32 x.
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045738 0x02045738 arm
+ *   BMP_WIN_GetWidth 0x02045738 arm
  *   func_0201D304 0x0201D304 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -38,8 +38,8 @@ struct MsgBank;
 struct StrObj;
 struct U16Vec;
 struct WordSet;
-extern void *func_02045770(struct Descriptor *p);
-extern u8 func_02045738(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -52,7 +52,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 void func_0220B584(char *p)
 {
     void *handle=((struct Obj00314 *)p)->f118;
-    void *surface=func_02045770(handle);
+    void *surface=BMP_WIN_GetBmp(handle);
     void *text;
     u32 width;
     u32 x;
@@ -61,7 +61,7 @@ void func_0220B584(char *p)
     BMP_Clear(surface,0);
     text=func_02045EC0(((struct Obj00314 *)p)->fC,28);
     width=func_0201D304(text,((struct Obj24999 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0);
-    x=(func_02045738(handle)*8-width)/2;
+    x=(BMP_WIN_GetWidth(handle)*8-width)/2;
     PRINTSYS_PrintQueColor(((struct Obj00314 *)p)->f18,(u32)surface,(s16)x,(s16)4,(u32)text,((struct Obj25000 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0x3C40);
     STRBUF_Delete(text);
     text=func_02045EC0(((struct Obj00314 *)p)->fC,29);
@@ -74,7 +74,7 @@ void func_0220B584(char *p)
     func_0201F250(((struct Obj00314 *)p)->f10,((struct Obj00314 *)p)->f14,text);
     width=func_0201D304(((struct Obj00314 *)p)->f14,((struct Obj25002 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0);
     font=((struct Obj00314 *)p)->f18;
-    lastSurface=func_02045770(((struct Obj00314 *)p)->f118);
+    lastSurface=BMP_WIN_GetBmp(((struct Obj00314 *)p)->f118);
     PRINTSYS_PrintQueColor(font,(u32)lastSurface,(s16)(x-width),(s16)4,(u32)(((struct Obj00314 *)p)->f14),((struct Obj25003 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f4,0x3C40);
     ((u8 *)p)[0x11C]=1;
     STRBUF_Delete(text);

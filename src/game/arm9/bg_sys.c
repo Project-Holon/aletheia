@@ -29,7 +29,7 @@
  *   g_02146A44     0x02146A44  data
  *   g_020A7E5C     0x020A7E5C  data
  *   tbl_020A08B6   0x020A08B6  data a2
- *   tbl_020A1B38   0x020A1B38  data
+ *   FX_SinCosTable_   0x020A1B38  data
  *   func_020403F4  0x020403F4  arm
  *   AREAMAN_Delete  0x02033C9C  arm
  *   func_020307B0  0x020307B0  arm
@@ -46,7 +46,7 @@
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm
  *   BG_SYS_ClearSubPlanes  0x02043588  arm
  *   sub_020307B0   0x020307B0  arm
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   func_02042360  0x02042360  arm
  *   GFL_NET_SetIrcParams  0x0203D814  arm
@@ -58,7 +58,7 @@
  *   func_02082A60  0x02082A60  arm
  *   gUnk_02146A44  0x02146A44  data
  *   func_02040968  0x02040968  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02082AC0  0x02082AC0  arm
  *   func_020422D4  0x020422D4  arm
  *   MIi_CpuClear16 0x02082A48  arm
@@ -288,7 +288,7 @@ extern void sub_0208142C(void *ctx, void *buf, u32 n);
 extern void sub_020814C0(void *ctx, void *out);
 extern void sub_02082D44(void *in, void *out, u32 n);
 extern void func_02088788(void);
-extern void func_02082BCC(void *dst, u32 value, u32 size);
+extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern u32  func_02088944(struct RtcDate *date, struct RtcTime *time,
                           void (*done)(u32, struct RtcRequest *),
                           struct RtcRequest *arg);
@@ -312,7 +312,7 @@ extern void BG_SYS_ClearMainBgPlanes(void);
 extern void BG_SYS_ClearSubBgPlanes(void);
 extern void BG_SYS_ClearMainPlanes(u32 handle);
 extern void BG_SYS_ClearSubPlanes(u32 handle);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void func_02040618(u32 bgId, u32 which, u32 value);
 extern void func_02042360(struct Bg *p, u32 op, u32 value);
@@ -473,7 +473,7 @@ void sub_02043264(struct Bg *p, u32 op, u32 value);
 extern struct Mt *g_021469F8;
 extern char g_020A7E4C[];
 extern u16 tbl_020A08B6[];
-extern s16_0203F1FC tbl_020A1B38[];
+extern s16_0203F1FC FX_SinCosTable_[];
 extern struct Block g_021469FC;
 extern struct RtcDate g_02146A0C;
 extern struct RtcTime g_02146A1C;
@@ -817,7 +817,7 @@ u16 func_0203F388(u32 *seed)
 void func_0203F3B4(void)
 {
     func_02088788();
-    func_02082BCC(&g_021469FC, 0, 0x48);
+    MI_CpuFill8(&g_021469FC, 0, 0x48);
     g_021469FC.unk_00 = 0;
     g_021469FC.unk_04 = 0;
     g_021469FC.unk_08 = 0;
@@ -1104,7 +1104,7 @@ int func_0203F5FC(u32 x)
     if (x >= 360) {
         return 0;
     }
-    return tbl_020A1B38[2 * ((((s32)x * 0xFFFF) / 360) >> 4)];
+    return FX_SinCosTable_[2 * ((((s32)x * 0xFFFF) / 360) >> 4)];
 }
 
 
@@ -1120,7 +1120,7 @@ s16_0203F1FC func_0203F63C(u32 x)
     if (x >= 360) {
         return 0;
     }
-    return tbl_020A1B38[2 * ((((s32)x * 0xFFFF) / 360) >> 4) + 1];
+    return FX_SinCosTable_[2 * ((((s32)x * 0xFFFF) / 360) >> 4) + 1];
 }
 
 
@@ -1155,7 +1155,7 @@ s16_0203F1FC func_0203F63C(u32 x)
  */
 short func_0203F684(unsigned short x)
 {
-    return tbl_020A1B38[2 * ((((x % 360) * 0xFFFF) / 360) >> 4)];
+    return FX_SinCosTable_[2 * ((((x % 360) * 0xFFFF) / 360) >> 4)];
 }
 
 
@@ -1180,7 +1180,7 @@ short func_0203F684(unsigned short x)
  */
 s16_0203F1FC func_0203F6D8(s32 x)
 {
-    return tbl_020A1B38[2 * ((((x % 360) * 0xFFFF) / 360) >> 4) + 1];
+    return FX_SinCosTable_[2 * ((((x % 360) * 0xFFFF) / 360) >> 4) + 1];
 }
 
 
@@ -1322,7 +1322,7 @@ s32 func_0203F7C4(s32 ax, s32 ay, s32 bx, s32 by, s32 cx, s32 cy)
  * with two 0x1000-byte scratch buffers and three parallel eight-entry
  * tables at +0x170, +0x190 and +0x1b0.  Every access after the first goes
  * through a fresh load of the global, because each call in between may
- * write it; only the `func_02082BCC` argument is forwarded from the
+ * write it; only the `MI_CpuFill8` argument is forwarded from the
  * allocator's return value, since nothing has been called since the store.
  *
  * Verified with:
@@ -1334,7 +1334,7 @@ void func_0203F8F4(u16 heapId)
     s32 i;
 
     g_02146A44 = sub_02030734(heapId, 0x1d0, 0, g_020A7E5C, 134);
-    func_02082BCC(g_02146A44, 0, 0x1d0);
+    MI_CpuFill8(g_02146A44, 0, 0x1d0);
     g_02146A44->heapId = heapId;
     g_02146A44->unk_04 = 0;
     g_02146A44->unk_06 = 0;
@@ -2015,7 +2015,7 @@ void sub_020403F4(u32 i)
 
 /*
  * Set the two low bits of DISPCNT (0x04000008) to the incoming mode, after
- * asking func_020434DC for the display to be brought up in mode 1.  The
+ * asking BG_SYS_SetMainPlaneVisible for the display to be brought up in mode 1.  The
  * register is a cast constant, not a relocation: its address is the pool
  * word at the end of this function.
  *
@@ -2025,7 +2025,7 @@ void sub_020403F4(u32 i)
  */
 void func_0204044C(u32 mode)
 {
-    func_020434DC(1, 1);
+    BG_SYS_SetMainPlaneVisible(1, 1);
     *(volatile u16 *)0x04000008 =
         (*(volatile u16 *)0x04000008 & ~3) | mode;
 }
@@ -2093,7 +2093,7 @@ void func_0204047C(int idx, unsigned short val)
 /*
  * Eight-way dispatch turning a small selector into a one-hot plane mask for
  * one of the two 2D engines: selectors 0..3 go to the engine-A visible-plane
- * toggle at func_020434DC with masks 1/2/4/8 and selectors 4..7 to the
+ * toggle at BG_SYS_SetMainPlaneVisible with masks 1/2/4/8 and selectors 4..7 to the
  * engine-B toggle at BG_SYS_SetSubPlaneVisible with the same four.  The on/off flag is
  * the second parameter and is forwarded untouched in r1, which is why no
  * argument setup other than the mask appears in any arm.  The ARM form
@@ -2105,16 +2105,16 @@ void sub_02040588(unsigned char which, unsigned char enable)
 {
     switch (which) {
     case 0:
-        func_020434DC(1, enable);
+        BG_SYS_SetMainPlaneVisible(1, enable);
         break;
     case 1:
-        func_020434DC(2, enable);
+        BG_SYS_SetMainPlaneVisible(2, enable);
         break;
     case 2:
-        func_020434DC(4, enable);
+        BG_SYS_SetMainPlaneVisible(4, enable);
         break;
     case 3:
-        func_020434DC(8, enable);
+        BG_SYS_SetMainPlaneVisible(8, enable);
         break;
     case 4:
         BG_SYS_SetSubPlaneVisible(1, enable);
@@ -2514,7 +2514,7 @@ void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId)
     void *buf = sub_02030734((u16)((heapId & 0x7fff) | 0x8000), size, 0,
                              g_020A7E5C, 1362);
 
-    func_02082BCC(buf, 0, size);
+    MI_CpuFill8(buf, 0, size);
     func_020425B4(layer, buf, offset, size);
     func_020307B0(buf);
 }

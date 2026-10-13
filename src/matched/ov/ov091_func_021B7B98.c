@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_020409B4  0x020409B4  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   PLIST_MESSAGE_OpenWindow  0x021BB714  thumb  ov091
  *   PLIST_MESSAGE_PrintText  0x021BB7E8  thumb  ov091
  *   PLIST_BATTLE_RefreshOpponentMessage  0x021BD4EC  thumb  ov091
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 
 extern void func_020409B4(u32 index);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void PLIST_MESSAGE_OpenWindow(void *a, u32 *s, u32 k);
 extern void PLIST_MESSAGE_PrintText(u8 *a, u32 *s, u32 x);
 extern void PLIST_BATTLE_RefreshOpponentMessage(char *p);
@@ -46,7 +46,7 @@ void POKELIST_SetupModeScreen(u8 *p)
         break;
     case 1:
         PLIST_BATTLE_RefreshOpponentMessage((char *)p);
-        func_0204B3DC((struct Obj *)((struct Obj00009 *)p)->f1E0, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00009 *)p)->f1E0, 0);
         ((struct Obj00009 *)p)->f14 = 0;
         break;
     case 22:
@@ -87,7 +87,7 @@ void POKELIST_SetupModeScreen(u8 *p)
     case 21:
         PLIST_MESSAGE_OpenWindow(p, *(u32 * *)&((struct Obj00009 *)p)->f150, 0);
         PLIST_MESSAGE_PrintText(p, *(u32 * *)&((struct Obj00009 *)p)->f150, 0xa3);
-        func_0204B3DC((struct Obj *)((struct Obj00009 *)p)->f1E0, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00009 *)p)->f1E0, 0);
         ((struct Obj00009 *)p)->f14 = 0;
         break;
     }

@@ -15,7 +15,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   func_020124E8  0x020124E8  thumb
  *   EVENT_BSUBWAY_COMM_EventMain  0x02154310  thumb  ov007
@@ -32,7 +32,7 @@ void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 struct Comm;
-u32 func_02026454(void *obj);
+u32 GAME_COMM_GetKind(void *obj);
 void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 void *func_020124E8(struct Obj *p);
 u32 EVENT_BSUBWAY_COMM_EventMain(void *obj, u32 *mode, u32 *args);
@@ -48,7 +48,7 @@ void *EVENT_BSUBWAY_COMM_CreateEvent(void *p, int a, int b)
     obj[0] = a;
     obj[1] = (int)p;
     obj[3] = b;
-    if (func_02026454((void *)GAMESYSTEM_GetGameComm(p)))
+    if (GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm(p)))
         GAME_COMM_RequestExitNoCallback((struct Comm *)GAMESYSTEM_GetGameComm(p));
     return r7;
 }

@@ -1,7 +1,7 @@
 /*
  * file:     pm_voice.c
  * unit:     yes
- * function: GFL_USE_UpdateSound, GFL_USE_ClearSndHeap, GFL_USE_SetStereoOutput, GFL_USE_GetBgmHandle, GFL_USE_GetBgmNo, GFL_USE_GetTargetBgmNo, func_02005C64, func_02005C8C, GFL_USE_SetPlayersAudible, GFL_USE_SetPlayerVolumes, GFL_USE_IsSeqStartAllowed, GFL_USE_SetSeqStartFilter, GFL_USE_StopBgm, GFL_USE_CancelChangeAndStopBgm, GFL_USE_PlayBgm, GFL_USE_CancelChangeAndPlayBgm, GFL_USE_ChangeBgm, GFL_USE_PlayFanfare, GFL_USE_SetBgmPlayerParam, GFL_USE_FadeInBgmFull, func_02005E04, GFL_USE_FadeOutBgm, GFL_USE_IsBgmFading, GFL_USE_PushBgm, GFL_USE_PopBgm, GFL_USE_SetBgmAudibleTracks, GFL_USE_SetBgmTrackParams, GFL_USE_SetBgmTrackVolume, GFL_USE_IsBgmPlaying, GFL_USE_CancelChangeDefaultFade, GFL_USE_BeginBgmChange, GFL_USE_CancelBgmChange, GFL_USE_UpdateBgmChange, GFL_USE_InitSeSlots, GFL_USE_GetSeHandle, GFL_USE_GetSeSlot, func_0200616C, func_020061A4, func_020061E4, func_020061F0, func_020061F8, GFL_USE_StopAllSe, GFL_USE_IsSeSlotBusy, func_02006238, GFL_USE_IsSeqPlaying, GFL_USE_SetSeSlotParams, GFL_USE_SetSeSlotVolume, func_02006300, GFL_USE_StopLoaderThread, func_02006394, GFL_USE_StepBgmLoad, GFL_USE_InstallBgmBuffers, GFL_USE_ReplaceWaveData, GFL_USE_StartSeq, GFL_USE_StopSeqAndUnload, GFL_USE_ClearPreloadedBgmBuffers, PM_VOICE_Init, func_020065D8, PM_VOICE_StopFinished, func_02006650, PM_VOICE_AllocBuffers, PM_VOICE_FreeBuffers, PM_VOICE_SetMasterVolume, PM_VOICE_ResetMasterVolume, PM_VOICE_ScaleVolume, PM_VOICE_NextSlot, PM_VOICE_ResetParams, PM_VOICE_ClearSlot, PM_VOICE_LoadWave, PM_VOICE_StartChannels, PM_VOICE_Stop, PM_VOICE_Play, PM_VOICE_Prepare, PM_VOICE_Start, PM_VOICE_AddVolume, PM_VOICE_AddFrequency, func_02006B20, PM_VOICE_StopSlot, func_02006BD0, PM_VOICE_ReverseBytes, PM_VOICE_GetCryIndex, PM_VOICE_PrepareCry, func_02006CAC, SND_MIC_Init, SND_MIC_Exit, SND_MIC_AddElapsed, SND_MIC_IsLimitReached, func_02006DAC, func_02006DD8, SND_MIC_StoreRecording, SND_MIC_GetBufferAligned
+ * function: GFL_USE_UpdateSound, GFL_USE_ClearSndHeap, GFL_USE_SetStereoOutput, GFL_USE_GetBgmHandle, GFL_USE_GetBgmNo, GFL_USE_GetTargetBgmNo, GFL_USE_IsLoaderBusy, GFL_USE_IsCardIrqEnabled, GFL_USE_SetPlayersAudible, GFL_USE_SetPlayerVolumes, GFL_USE_IsSeqStartAllowed, GFL_USE_SetSeqStartFilter, GFL_USE_StopBgm, GFL_USE_CancelChangeAndStopBgm, GFL_USE_PlayBgm, GFL_USE_CancelChangeAndPlayBgm, GFL_USE_ChangeBgm, GFL_USE_PlayFanfare, GFL_USE_SetBgmPlayerParam, GFL_USE_FadeInBgmFull, func_02005E04, GFL_USE_FadeOutBgm, GFL_USE_IsBgmFading, GFL_USE_PushBgm, GFL_USE_PopBgm, GFL_USE_SetBgmAudibleTracks, GFL_USE_SetBgmTrackParams, GFL_USE_SetBgmTrackVolume, GFL_USE_IsBgmPlaying, GFL_USE_CancelChangeDefaultFade, GFL_USE_BeginBgmChange, GFL_USE_CancelBgmChange, GFL_USE_UpdateBgmChange, GFL_USE_InitSeSlots, GFL_USE_GetSeHandle, GFL_USE_GetSeSlot, GFL_USE_PlaySeInSlot, func_020061A4, GFL_USE_PlaySeDefaultVolume, GFL_USE_PlaySeWithVolume, GFL_USE_StopSeSlot, GFL_USE_StopAllSe, GFL_USE_IsSeSlotBusy, GFL_USE_IsAnySeBusy, GFL_USE_IsSeqPlaying, GFL_USE_SetSeSlotParams, GFL_USE_SetSeSlotVolume, func_02006300, GFL_USE_StopLoaderThread, func_02006394, GFL_USE_StepBgmLoad, GFL_USE_InstallBgmBuffers, GFL_USE_ReplaceWaveData, GFL_USE_StartSeq, GFL_USE_StopSeqAndUnload, GFL_USE_ClearPreloadedBgmBuffers, PM_VOICE_Init, PM_VOICE_StopAll, PM_VOICE_StopFinished, PM_VOICE_IsAnyActive, PM_VOICE_AllocBuffers, PM_VOICE_FreeBuffers, PM_VOICE_SetMasterVolume, PM_VOICE_ResetMasterVolume, PM_VOICE_ScaleVolume, PM_VOICE_NextSlot, PM_VOICE_ResetParams, PM_VOICE_ClearSlot, PM_VOICE_LoadWave, PM_VOICE_StartChannels, PM_VOICE_Stop, PM_VOICE_Play, PM_VOICE_Prepare, PM_VOICE_Start, PM_VOICE_AddVolume, PM_VOICE_AddFrequency, PM_VOICE_GetVolume, PM_VOICE_StopSlot, func_02006BD0, PM_VOICE_ReverseBytes, PM_VOICE_GetCryIndex, PM_VOICE_PrepareCry, PM_VOICE_GetPerapVoiceSave, SND_MIC_Init, SND_MIC_Exit, SND_MIC_AddElapsed, SND_MIC_IsLimitReached, func_02006DAC, SND_MIC_StartRecording, SND_MIC_StoreRecording, SND_MIC_GetBufferAligned
  * address:  0x02005BC0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -77,7 +77,7 @@
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *   func_020070A4  0x020070A4  thumb
  *   func_02007B44  0x02007B44  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0208BEF0  0x0208BEF0  arm
  *   func_0208BF38  0x0208BF38  arm
  *   func_0208B24C  0x0208B24C  arm
@@ -351,7 +351,7 @@ extern void  func_02007B68(void *dst, const void *src);
 extern void  ARC_TOOL_ReadMember(void *dst, u32 archiveId, u32 member);
 extern struct SaveData  *func_020070A4(void);
 extern struct SaveBlock *func_02007B44(struct SaveData *saveData);
-extern void  func_02082BCC(void *p, u32 value, u32 size);
+extern void  MI_CpuFill8(void *p, u32 value, u32 size);
 extern unsigned int func_0208BEF0(unsigned int on);
 extern unsigned int func_0208BF38(unsigned int gain);
 extern void  func_0208B24C(void);
@@ -1922,9 +1922,9 @@ void SND_MIC_Init(u16 heapId)
     void *sampleBuffer;
 
     mic = func_02030734(heapId, 0x28, 0, _SndMicFile, 0x59);
-    func_02082BCC(mic, 0, 0x28);
+    MI_CpuFill8(mic, 0, 0x28);
     sampleBuffer = func_02030734(heapId, 0x2014, 0, _SndMicFile, 0x5f);
-    func_02082BCC(sampleBuffer, 0, 0x2014);
+    MI_CpuFill8(sampleBuffer, 0, 0x2014);
     mic->sampleBuffer = sampleBuffer;
     func_0208BEF0(1);
     func_0208BF38(2);

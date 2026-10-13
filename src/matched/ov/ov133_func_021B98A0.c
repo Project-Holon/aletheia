@@ -13,7 +13,7 @@
  *   func_021B9A88 0x021B9A88 thumb ov133
  *   func_021B9AC0 0x021B9AC0 thumb ov133
  *   func_021B987C 0x021B987C thumb ov133
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_021B75E0 0x021B75E0 thumb ov133
  *   a1 0x021BA558 data a4
  *   b1 0x021BA560 data a4
@@ -35,7 +35,7 @@ extern void func_021B75E0(u8 *);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021B98A0(u8 *p)
 {
     Pair firstA,firstB,secondA,secondB;
@@ -53,6 +53,6 @@ void func_021B98A0(u8 *p)
     case 9: func_021B987C(p); return;
     }
     pos.x=((struct Obj00228 *)p)->f1C; pos.y=((struct Obj00228 *)p)->f20;
-    func_0204B404(((struct Obj00228 *)p)->f1854,(const struct Vec2 *)(&pos),0);
+    CLACT_AddActorSurfacePos(((struct Obj00228 *)p)->f1854,(const struct Vec2 *)(&pos),0);
     func_021B75E0(p);
 }

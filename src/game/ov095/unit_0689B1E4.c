@@ -12,7 +12,7 @@
  *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   BTL_MAIN_GetRule  0x021B8588  thumb
  *   func_021B8D8C  0x021B8D8C  thumb
- *   func_021B8E70  0x021B8E70  thumb
+ *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
  *   BTL_ACTION_SetFight  0x021D82D0  thumb
  *   func_02202DC4  0x02202DC4  thumb
@@ -31,7 +31,7 @@ typedef struct { u8 n, pad[2], d[16]; } St;
 extern const char *const d_0689E5D8[][15], *const d_0689E560[][15], *const d_0689E650[][15], *const d_0689E704[][15];
 extern u8 BTL_POKEPARAM_GetPokeId(void *);
 extern int func_021B8D8C(void *, void *, u32);
-extern u8 func_021B8E70(void *, u32);
+extern u8 BTL_MAIN_GetViewPosOfSlot(void *, u32);
 extern u32 BTL_MAIN_GetRule(void *);
 extern u32 WAZA_TOOL_GetFlag(u16, u32);
 extern int func_02202DC4(char *, const char *, int);
@@ -43,7 +43,7 @@ int func_0689B1E4(int *state, u8 *s)
     int mode, stop, idx;
     const char *q, *r;
     if (*state == 0) {
-    mode = func_021B8E70(((struct Obj01913 *)s)->fA0, func_021B8D8C(((struct Obj01913 *)s)->fA0, ((struct Obj01913 *)s)->fA4, BTL_POKEPARAM_GetPokeId(((struct Obj01913 *)s)->f6C)));
+    mode = BTL_MAIN_GetViewPosOfSlot(((struct Obj01913 *)s)->fA0, func_021B8D8C(((struct Obj01913 *)s)->fA0, ((struct Obj01913 *)s)->fA4, BTL_POKEPARAM_GetPokeId(((struct Obj01913 *)s)->f6C)));
     i = s[0x8a];
     row = (mode - 2) / 2;
     if (BTL_MAIN_GetRule(((struct Obj01913 *)s)->fA0) != 2) {

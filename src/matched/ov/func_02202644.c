@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *   func_02041B6C  0x02041B6C  arm
  *
@@ -26,7 +26,7 @@ typedef signed short s16;
 struct Descriptor;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 struct Descriptor;
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void func_02041B6C(u32 bit);
 
@@ -35,10 +35,10 @@ void func_02202644(u32 a, int kind)
     BMP_WIN_ClearScreen((struct Descriptor *)a);
     switch (kind) {
     case 0:
-        func_020409B4(func_02045730((struct Descriptor *)a));
+        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)a));
         break;
     case 1:
-        func_02041B6C(func_02045730((struct Descriptor *)a));
+        func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)a));
         break;
     }
 }

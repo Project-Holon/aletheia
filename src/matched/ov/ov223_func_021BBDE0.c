@@ -20,12 +20,12 @@
  *   func_021BB0B0 0x021BB0B0 thumb ov223
  *   func_021BA8BC 0x021BA8BC thumb ov223
  *   func_021BAA5C 0x021BAA5C thumb ov223
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021BAA84 0x021BAA84 thumb ov223
  *   func_021B9C90 0x021B9C90 thumb ov223
  *   func_021BA81C 0x021BA81C thumb ov223
  *   func_021BB9A4 0x021BB9A4 thumb ov223
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_021BB3BC 0x021BB3BC thumb ov223
@@ -68,12 +68,12 @@ extern void func_021BAFC4(char *p, int idx);
 extern void func_021BA878(char *);
 extern int func_021BB0B0(char *),func_021BA8BC(char *);
 extern void func_021BAA5C(char *,int);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_021BAA84(char *);
 extern void func_021B9C90(char *,u32);
 extern void func_021BA81C(char *,u32);
 extern void func_021BB9A4(unsigned char *p, int value);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern void func_021BB3BC(char *),func_021BB414(char *),func_021BB424(char *),func_021BB404(char *),func_02041B6C(u32);
@@ -108,29 +108,29 @@ int func_021BBDE0(char *p,u32 *state)
     case 3:
         if(((struct Obj00084 *)p)->f8==0){
             if(*(int *)&((struct Obj00084 *)p)->f228==4){dirty=1;*(int *)&((struct Obj00084 *)p)->f228=1;}
-            func_021BAA5C(p,1);func_020061E4(1352);func_021BAA84(p);
+            func_021BAA5C(p,1);GFL_USE_PlaySeDefaultVolume(1352);func_021BAA84(p);
             func_021B9C90(p,((struct Obj00084 *)p)->f228);func_021BA81C(p,((struct Obj00084 *)p)->f228);
             selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);
         }else{func_021BAA5C(p,0);func_021B9C90(p,4);func_021BA81C(p,4);func_021BB9A4((u8 *)p,(u8)3);dirty=1;}
         *state=4;break;
     case 4:
         if(((struct Obj00084 *)p)->f8==0){
-            if(func_020362DC()!=0){
+            if(KEY_GetTrg()!=0){
                 changed=0;
-                if(func_020362DC()&1){func_020061E4(1356);func_021BAA5C(p,0);*state=8;}
-                else if(func_020362DC()&32){if(*(int *)&((struct Obj00084 *)p)->f228>0){--*(int *)&((struct Obj00084 *)p)->f228;changed=1;}}
-                else if(func_020362DC()&16){if(*(int *)&((struct Obj00084 *)p)->f228<2){++*(int *)&((struct Obj00084 *)p)->f228;changed=1;}}
-                if(changed){func_020061E4(1352);func_021BAA84(p);func_021B9C90(p,((struct Obj00084 *)p)->f228);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);dirty=1;}
-            }else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice>=0&&choice<=2){if(*(int *)&((struct Obj00084 *)p)->f228!=choice)dirty=1;func_020061E4(1352);func_021BAA5C(p,0);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);((struct Obj00084 *)p)->f8=1;*state=5;}}
+                if(KEY_GetTrg()&1){GFL_USE_PlaySeDefaultVolume(1356);func_021BAA5C(p,0);*state=8;}
+                else if(KEY_GetTrg()&32){if(*(int *)&((struct Obj00084 *)p)->f228>0){--*(int *)&((struct Obj00084 *)p)->f228;changed=1;}}
+                else if(KEY_GetTrg()&16){if(*(int *)&((struct Obj00084 *)p)->f228<2){++*(int *)&((struct Obj00084 *)p)->f228;changed=1;}}
+                if(changed){GFL_USE_PlaySeDefaultVolume(1352);func_021BAA84(p);func_021B9C90(p,((struct Obj00084 *)p)->f228);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);dirty=1;}
+            }else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice>=0&&choice<=2){if(*(int *)&((struct Obj00084 *)p)->f228!=choice)dirty=1;GFL_USE_PlaySeDefaultVolume(1352);func_021BAA5C(p,0);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);((struct Obj00084 *)p)->f8=1;*state=5;}}
         }else{
-            if(func_020362DC()!=0){((struct Obj00084 *)p)->f8=0;*state=3;}
-            else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice>=0&&choice<=2){func_020061E4(1352);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);dirty=1;*state=5;}}
+            if(KEY_GetTrg()!=0){((struct Obj00084 *)p)->f8=0;*state=3;}
+            else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice>=0&&choice<=2){GFL_USE_PlaySeDefaultVolume(1352);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);dirty=1;*state=5;}}
         }break;
     case 5:func_021BB3BC(p);*state=6;break;
     case 6:
         func_021BB414(p);
-        if(func_020362DC()!=0){((struct Obj00084 *)p)->f8=0;if(func_020362DC()&1){func_020061E4(1356);func_021BB424(p);*state=7;}else{func_021BB404(p);func_02041B6C(3);*state=3;}}
-        else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice==3){func_020061E4(1356);func_021BB424(p);*state=7;}else if(choice>=0&&choice<=2&&*(int *)&((struct Obj00084 *)p)->f228!=choice){func_020061E4(1352);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);dirty=1;}}break;
+        if(KEY_GetTrg()!=0){((struct Obj00084 *)p)->f8=0;if(KEY_GetTrg()&1){GFL_USE_PlaySeDefaultVolume(1356);func_021BB424(p);*state=7;}else{func_021BB404(p);func_02041B6C(3);*state=3;}}
+        else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice==3){GFL_USE_PlaySeDefaultVolume(1356);func_021BB424(p);*state=7;}else if(choice>=0&&choice<=2&&*(int *)&((struct Obj00084 *)p)->f228!=choice){GFL_USE_PlaySeDefaultVolume(1352);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);dirty=1;}}break;
     case 7:func_021BB414(p);if(func_021BB440(p)){func_021BB404(p);func_02041B6C(3);*state=8;}break;
     case 8:func_021BAFC4(p,(u32)20);func_021B9AE4(p,*(int *)&((struct Obj00084 *)p)->f228,0);*state=9;break;
     case 9:func_021B9B80(p);if(func_021BB0B0(p)&&func_021B9B4C(p))*state=10;break;
@@ -138,7 +138,7 @@ int func_021BBDE0(char *p,u32 *state)
     case 11:func_021BB4E8(p);if(func_021BB4F8(p)){choice=func_021BB508((int *)p);func_021BB4D8(p);*(u32 *)&((struct Obj00084 *)p)->f8=func_020355C4();if(choice){((struct Obj00084 *)p)->f24|=8;func_021BB134(p);*state=14;}else{func_021BAFC4(p,(u32)19);*state=12;}}break;
     case 12:func_021B9AE4(p,*(int *)&((struct Obj00084 *)p)->f228,1);*state=13;break;
     case 13:func_021B9B80(p);if(func_021B9B4C(p))*state=3;break;
-    case 14:func_021B9C00(p,((struct Obj00084 *)p)->f228);func_020061E4(1976);*state=15;break;
+    case 14:func_021B9C00(p,((struct Obj00084 *)p)->f228);GFL_USE_PlaySeDefaultVolume(1976);*state=15;break;
     case 15:func_021B9C58(p);if(((struct Obj00084 *)p)->f4C==(int)*(const u16 *)((const u8 *)d_021BC794+((struct Obj00084 *)p)->f44*10)-2)*state=16;break;
     case 16:func_021B9C58(p);*(int *)&((struct Obj00084 *)p)->f10=0;return 10;
     }

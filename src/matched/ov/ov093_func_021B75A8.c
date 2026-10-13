@@ -13,7 +13,7 @@
  *   BTL_NET_IsLeaderKnown 0x021D4348 thumb ov093
  *   BTL_NET_IsLeader 0x021D4360 thumb ov093
  *   BTL_NET_GetLeaderValue 0x021D4378 thumb ov093
- *   func_021BA1A8 0x021BA1A8 thumb ov093
+ *   BTL_MAIN_CheckSetupStatusFlag 0x021BA1A8 thumb ov093
  *   BTL_NET_SendSetup 0x021D43B8 thumb ov093
  *   BTL_NET_GetSetup 0x021D440C thumb ov093
  */
@@ -33,7 +33,7 @@ extern int BTL_NET_SendEntry(u16 v);
 extern int BTL_NET_IsLeaderKnown(void);
 extern int BTL_NET_IsLeader(void);
 extern u8 BTL_NET_GetLeaderValue(void);
-extern int func_021BA1A8(char **p, int m);
+extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
 extern u32 BTL_NET_SendSetup(u32 a);
 extern int BTL_NET_GetSetup(void *);
 int BTL_MAIN_SeqSyncRules(u8 *p,u32 *state)
@@ -61,7 +61,7 @@ int BTL_MAIN_SeqSyncRules(u8 *p,u32 *state)
         ((struct Obj00966 *)p)->f420 = ((struct Obj20944 *)(*(u8 * *)&((struct Obj00966 *)p)->f0))->f86;
         ((struct Obj00966 *)p)->f422 = ((struct Obj20945 *)(*(u8 * *)&((struct Obj00966 *)p)->f0))->f74;
         ((struct Obj00966 *)p)->f424 = ((struct Obj20946 *)(*(u8 * *)&((struct Obj00966 *)p)->f0))->f76;
-        if (func_021BA1A8((char **)p,0x1000)) {
+        if (BTL_MAIN_CheckSetupStatusFlag((char **)p,0x1000)) {
             p[0x426] = ((struct Obj00966 *)p)->f43C;
             ((Nibbles *)(p + 0x427))->a = ((Bits *)(p + 0x473))->c;
         } else {

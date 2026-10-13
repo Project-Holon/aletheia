@@ -16,13 +16,13 @@
  *   MCSS_SetVanishFlag 0x02015EA0 thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021E2054 0x021E2054 thumb ov119
  *   func_021E35A0 0x021E35A0 thumb ov119
  *   func_021E1430 0x021E1430 thumb ov119
@@ -62,13 +62,13 @@ struct Cfg;
 struct Descriptor;
 struct MsgBank;
 struct Obj;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_02041B6C(u32);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void func_021E2054(char *,void *,int,int);
 extern void func_021E35A0(char *,int,int,void *,int);
 extern void func_021E1430(void *,void *,int,int,int,int,char *);
@@ -116,16 +116,16 @@ void func_021E219C(char *p,void *mon,int side,int flag)
     GF_FONT_SetTextColor(15,2,0);
     i=0;
     P(0x6b4)=(void *)BMP_WIN_Create(3,1,0,31,24,14,0);
-    func_021E1430(mon,func_02045770(P(0x6b4)),16,0,flag76,0,p);
+    func_021E1430(mon,BMP_WIN_GetBmp(P(0x6b4)),16,0,flag76,0,p);
     if(flag76==0) {
-        func_021E14DC(mon,func_02045770(P(0x6b4)),0,16,flag76,p);
-        func_021E1594(mon,func_02045770(P(0x6b4)),56,16,flag76,p);
-        func_021E15F8(mon,func_02045770(P(0x6b4)),96,i,p);
-        func_021E1670(mon,func_02045770(P(0x6b4)),80,i,p,i,i);
+        func_021E14DC(mon,BMP_WIN_GetBmp(P(0x6b4)),0,16,flag76,p);
+        func_021E1594(mon,BMP_WIN_GetBmp(P(0x6b4)),56,16,flag76,p);
+        func_021E15F8(mon,BMP_WIN_GetBmp(P(0x6b4)),96,i,p);
+        func_021E1670(mon,BMP_WIN_GetBmp(P(0x6b4)),80,i,p,i,i);
         func_021E1718((int)mon,(int)P(0x6b4),0,32,p);
         for(i=0;i<2;i++) {
             MSGDATA_ReadString(P(0x720),i+36,P(0x730));
-            PRINTSYS_Print(func_02045770(P(0x6b4)),0,i*16+0x88,P(0x730),P(0x728));
+            PRINTSYS_Print(BMP_WIN_GetBmp(P(0x6b4)),0,i*16+0x88,P(0x730),P(0x728));
         }
         func_021E17E8((int)mon,(int)P(0x6b4),56,32,p);
         func_021E1880((int)mon,(int)P(0x6b4),72,48,p);
@@ -138,7 +138,7 @@ void func_021E219C(char *p,void *mon,int side,int flag)
         func_021E5DFC(p,2,mon);
         func_021E0E68(p+0x8c4,mon,I(0x9c4),12,7,0,((struct Obj00001 *)p)->f5F4,12);
     } else {
-        if(P(0x960)) func_0204B3DC(P(0x960),i);
+        if(P(0x960)) CLACT_SetActorDrawEnable(P(0x960),i);
         func_021E1CC8(p);
         func_021E1CA8(p);
     }

@@ -16,7 +16,7 @@
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_SERVER_CMD_Push  0x021CD4B0  thumb  ov093
  *   BTL_SERVER_FLOW_PushMsgSetPoke  0x021C5D88  thumb  ov093
- *   func_021C5840  0x021C5840  thumb  ov093
+ *   BTL_SERVER_FLOW_PushEffectivenessMessageList  0x021C5840  thumb  ov093
  *   BTL_SERVER_FLOW_PushCriticalHitMessage  0x021C59C4  thumb  ov093
  *   BTL_POKEPARAM_DamageSubstitute  0x021D6D9C  thumb  ov093
  *   BTL_SERVER_FLOW_RemoveSubstitute  0x021C41C0  thumb  ov093
@@ -33,7 +33,7 @@ typedef struct { int a; u8 b; } S;
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 extern void BTL_SERVER_FLOW_PushMsgSetPoke(u8 *p, u8 *a, int b);
-extern void func_021C5840(u8 *p, u32 count, int *v, u8 **a, int flag);
+extern void BTL_SERVER_FLOW_PushEffectivenessMessageList(u8 *p, u32 count, int *v, u8 **a, int flag);
 extern void BTL_SERVER_FLOW_PushCriticalHitMessage(u8 *p, u32 n, u8 **a, u8 *b, int flag);
 extern int BTL_POKEPARAM_DamageSubstitute(u8 *c, u16 *d);
 extern void BTL_SERVER_FLOW_RemoveSubstitute(u8 *p, u8 *a);
@@ -48,7 +48,7 @@ u16 BTL_SERVER_FLOW_ProcSubstituteDamage(u8 *p, u32 q, u8 *c, u16 d, S s, u16 *e
     int m = BTL_POKEPARAM_GetPokeId(c);
     BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 0x54, m, sa, ev);
     BTL_SERVER_FLOW_PushMsgSetPoke(p, c, 0x317);
-    func_021C5840(p, 1, (int *)(&s), &c, 0);
+    BTL_SERVER_FLOW_PushEffectivenessMessageList(p, 1, (int *)(&s), &c, 0);
     BTL_SERVER_FLOW_PushCriticalHitMessage(p, 1, &c, &s.b, 0);
     if (BTL_POKEPARAM_DamageSubstitute(c, &d))
         BTL_SERVER_FLOW_RemoveSubstitute(p, c);

@@ -12,6 +12,7 @@
  * symbols:
  *   FIELD_EFFECT_ObjectTask  0x021AC134  thumb  ov021
  *   FIELD_EFFECT_InitObject  0x021AC140  thumb  ov021
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 
 typedef unsigned char  u8;
@@ -37,7 +38,7 @@ struct Obj {
 };
 struct Mgr { u32 count; u32 f4; Obj *objs; u32 heap; };
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void *func_02030DA8(u32 heap, void (*cb)(void), void *arg, u32 pri);
 extern void FIELD_EFFECT_ObjectTask(u32 a, u32 b);
 extern void FIELD_EFFECT_InitObject(Obj *o);
@@ -49,7 +50,7 @@ Obj *FIELD_EFFECT_AddObjectToMgr(Mgr *m, const ObjFuncs *funcs, const V3 *pos, u
 
     do {
         if (o->active == 0) {
-            func_02082BCC(o, 0, sizeof(Obj));
+            MI_CpuFill8(o, 0, sizeof(Obj));
             o->active = 1;
             o->funcs = *funcs;
             o->f4 = f4;

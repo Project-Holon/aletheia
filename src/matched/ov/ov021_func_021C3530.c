@@ -18,7 +18,7 @@
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_GetExpForLevel  0x02018584  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
- *   func_0201ADD0  0x0201ADD0  thumb
+ *   POKE_PERSONAL_LoadDataDirect  0x0201ADD0  thumb
  *   SODATEYA_AddExpSaturated  0x021C3510  thumb  ov021
  *   SODATEYA_LearnMove  0x021C360C  thumb  ov021
  */
@@ -32,7 +32,7 @@ extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_SetPartyValue(void *mon, u32 id, u32 v);
 extern u32 POKE_TOOL_GetExpForLevel(u16 a, u16 b, u16 c);
 extern void POKE_TOOL_RecalcParam(void *mon);
-extern void func_0201ADD0(unsigned int a, int b, void *buf);
+extern void POKE_PERSONAL_LoadDataDirect(unsigned int a, int b, void *buf);
 extern u32 SODATEYA_AddExpSaturated(u32, u32);
 extern void SODATEYA_LearnMove(void *a, u32 b);
 
@@ -62,7 +62,7 @@ void SODATEYA_GrantExp(void *mon, u32 b)
     POKE_TOOL_RecalcParam(mon);
     i = 0;
     newlv = POKE_TOOL_GetPartyValue(mon, 0x9e, 0);
-    func_0201ADD0((u16)species, (u16)form, buf);
+    POKE_PERSONAL_LoadDataDirect((u16)species, (u16)form, buf);
     goto test;
 body:
     e = a;

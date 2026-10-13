@@ -1,5 +1,5 @@
 /*
- * function: func_021D25C4
+ * function: BTL_CLIENT_StepPlayMonAnim
  * address:  0x021D25C4
  * packet:   pkt_ov093_021D25C4
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B8D8C  0x021B8D8C  thumb  ov093
+ *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
  *   BTL_MAIN_CheckSceneOff  0x021B8590  thumb  ov093
  *   func_021EA838  0x021EA838  thumb  ov093
@@ -19,15 +19,15 @@
 #include "../include/Obj06241.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern int func_021B8D8C(void *p, void *a, u32 b);
+extern int BTL_MAIN_GetTrainerSlotOfPoke(void *p, void *a, u32 b);
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern unsigned int BTL_MAIN_CheckSceneOff(unsigned char *p);
 extern void func_021EA838(u32 *p, u32 k);
 extern int func_021EA850(u32 *p, u32 k);
 
-int func_021D25C4(u8 *p, int *st, u32 *c)
+int BTL_CLIENT_StepPlayMonAnim(u8 *p, int *st, u32 *c)
 {
-    int t = func_021B8D8C(((struct Obj06241 *)p)->f0, ((struct Obj06241 *)p)->f4, (u8)(*c));
+    int t = BTL_MAIN_GetTrainerSlotOfPoke(((struct Obj06241 *)p)->f0, ((struct Obj06241 *)p)->f4, (u8)(*c));
 
     switch (*st) {
     case 0:

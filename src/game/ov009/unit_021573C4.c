@@ -95,7 +95,7 @@
  *   OS_YieldThread                   0x020858d8 arm
  *   func_0215A0CC            0x0215A0CC  arm  ov009
  *   g_021A8A64                       0x021a8a64 data
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02162968  0x02162968  arm  ov009
  *   _tcp_send_finack                 0x02159494 arm
  *   CPSi_SslShutdown                 0x02162dd8 arm
@@ -257,7 +257,7 @@ extern void func_020858D8(void);
 extern void func_02159404(struct _CPSSoc *soc, int flush);
 extern void OS_YieldThread(void);
 extern void func_0215A0CC(unsigned char *iphdr, unsigned char *tcphdr);
-extern void func_02082BCC(void *dst, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);
 extern unsigned long func_02162968(struct _CPSSoc *soc);
 extern void _tcp_send_finack(struct _CPSSoc *soc);
 extern void CPSi_SslShutdown(struct _CPSSoc *soc);
@@ -1395,7 +1395,7 @@ void func_0215B67C(void)
 
     dhcp_state = 0;
     g_021A826C.calm = 0;
-    func_02082BCC(&g_021A83E4, 0, sizeof(CPSSoc));
+    MI_CpuFill8(&g_021A83E4, 0, sizeof(CPSSoc));
     g_021A83E4.rcvbuf.size = sizeof(g_021A88E4);
     g_021A83E4.rcvbuf.data = g_021A88E4;
     g_021A83E4.sndbuf.size = sizeof(g_021A8764);
@@ -2287,7 +2287,7 @@ void func_0215AB10(void)
     *(char **)soc = cur;
     *(unsigned char *)(soc + 8) = 0;
     *(unsigned long *)(soc + 0x50) = 0;
-    func_02082BCC(soc + 0x70, 0, 0x30);
+    MI_CpuFill8(soc + 0x70, 0, 0x30);
     *(unsigned long *)(soc + 0x6c) = 0;
     *(unsigned long *)(soc + 0x44) = 0;
     *(unsigned char *)(soc + 0x33) = 0;

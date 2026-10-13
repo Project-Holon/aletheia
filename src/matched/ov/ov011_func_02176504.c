@@ -21,7 +21,7 @@
  *   BTL_SETUP_SetParty  0x02013128  thumb
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   GFL_NET_HANDLE_SetUserInfo  0x0203A424  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   func_02034AC4  0x02034AC4  arm
  *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
  *   PROCSYS_Push  0x02031348  arm
@@ -74,7 +74,7 @@ extern void BTL_SETUP_SetParty(void *p, void *src, int i);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void GFL_NET_HANDLE_SetUserInfo(char *p, int a, int b, int c);
 struct Link;
-extern u32 func_02039CB4(struct Link *a, u32 b, u32 c);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a, u32 b, u32 c);
 extern int func_02034AC4(int id);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
 extern void PROCSYS_Push(u32 a, int b, void *c, Work *w);
@@ -119,7 +119,7 @@ int INTRUDE_COMM_PartyProcMain(void *a0, int *state, Obj *obj, Work *work)
         (*state)++;
         break;
     case 2:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x15, 2) == 1) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x15, 2) == 1) {
             func_02034AC4((int)ov093_id);
             work->wFC = 1;
             GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
@@ -131,7 +131,7 @@ int INTRUDE_COMM_PartyProcMain(void *a0, int *state, Obj *obj, Work *work)
         (*state)++;
         break;
     case 4:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x16, 2) == 1) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x16, 2) == 1) {
             (*state)++;
         }
         break;

@@ -14,7 +14,7 @@
  * symbols:
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200B358 0x0200B358 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0200B1D4 0x0200B1D4 thumb
  *   func_021E88B0 0x021E88B0 thumb ov177
  */
@@ -35,7 +35,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200B358(void *);
 struct Rec160;
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern void *func_021E88B0(Menu *,u8,u8,u8,u32,int);
 static inline void selected(Menu *rec,void *base,int index)
 {
@@ -58,7 +58,7 @@ void func_0217B7D8(int *p, int index)
     u8 x,y,width;
     u32 height;
     base=func_0200B358((void *)GAME_DATA_GetSaveControl(((struct Obj01762 *)p)->f30));
-    func_02082BCC(&rec,0,48);
+    MI_CpuFill8(&rec,0,48);
     rec.f00=((struct Obj01762 *)p)->f20;
     rec.f04=((struct Obj01762 *)p)->f1C;
     rec.f08=((struct Obj01762 *)p)->f24;

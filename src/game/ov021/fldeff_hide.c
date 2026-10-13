@@ -36,7 +36,7 @@
  *   FIELD_G3DOBJ_DeleteObject  0x021C6628  thumb  ov021
  *   sHideFuncs     0x021DB93C  data  ov021  a4
  *   sHideEndSeIds     0x021DB934  data  a4
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_GetCheckInfo  0x0216E1A4  thumb  ov010
  *   FLDMMDL_CheckCheckInfo  0x0216E1C4  thumb  ov010
  *   FLDMMDL_MOVE_SetHideEffect  0x0219BF3C  thumb  ov021
@@ -129,7 +129,7 @@ extern int FIELD_G3DOBJ_IncAnimeFrame(FieldG3dObjSys *g3dObjSys, int objId, int 
 extern u32 FIELD_G3DOBJ_GetAnimeFrame(FieldG3dObjSys *g3dObjSys, u32 objId, u32 animeIndex);
 extern void FIELD_G3DOBJ_SetObjectTrans(FieldG3dObjSys *g3dObjSys, u32 objId, VecFx32 *pos);
 extern void FIELD_G3DOBJ_DrawObject(FieldG3dObjSys *g3dObjSys, u32 objId);
-extern void func_020061E4(u32 seId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern void FLDMMDL_GetCheckInfo(Mmdl *mmdl, MmdlCheckInfo *info);
 extern int FLDMMDL_CheckCheckInfo(Mmdl *mmdl, MmdlCheckInfo *info);
 extern void FLDMMDL_MOVE_SetHideEffect(Mmdl *mmdl, FieldEffectObj *effect);
@@ -231,7 +231,7 @@ void FLDEFF_HIDE_RequestEnd(FieldEffectObj *effect)
     if (effect != 0) {
         work = FIELD_EFFECT_GetObjectWork(effect);
         work->endRequested = 1;
-        func_020061E4(sHideEndSeIds[work->param.kind]);
+        GFL_USE_PlaySeDefaultVolume(sHideEndSeIds[work->param.kind]);
     }
 }
 

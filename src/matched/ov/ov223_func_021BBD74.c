@@ -14,6 +14,7 @@
  *   func_021B9A8C 0x021B9A8C thumb ov223
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj00738.h"
 extern void func_021B9C58(char *);
@@ -21,7 +22,7 @@ struct Main;
 extern void func_021B9A8C(char *p);
 typedef signed int     s32;
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021B9D4C(char *);
 extern void func_021BA2B4(struct Main *p);
 extern void func_021BB964(char *);
@@ -30,7 +31,7 @@ extern int FADE_IsActive(void);
 int func_021BBD74(char *p,unsigned *state)
 {
     if(((struct Obj00738 *)p)->f10>=16) func_021B9A8C(p);
-    if(((struct Obj00738 *)p)->f10==15) func_020061E4(1957);
+    if(((struct Obj00738 *)p)->f10==15) GFL_USE_PlaySeDefaultVolume(1957);
     func_021B9D4C(p); func_021BA2B4((struct Main *)p); func_021BB964(p);
     switch(*state) {
     case 0: FADE_Start(12,16,0,2); (*state)++; break;

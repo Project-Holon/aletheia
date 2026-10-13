@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   func_021EC08C 0x021EC08C thumb
  *   func_021EC768 0x021EC768 thumb
  *   func_021EC000 0x021EC000 thumb
@@ -18,7 +18,7 @@
  */
 
 typedef struct { short x; short y; } Pos;
-extern unsigned func_0201AA18(void *party);
+extern unsigned POKEPARTY_GetCount(void *party);
 extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern void func_021EC768(char *p, unsigned i, int flag);
 extern void func_021EC000(char *p, int i, int v);
@@ -26,7 +26,7 @@ extern const Pos d_021EFD4C[];
 
 void func_021EC5A0(char **p, int flag)
 {
-    unsigned n = func_0201AA18(((void **)p[0])[2]);
+    unsigned n = POKEPARTY_GetCount(((void **)p[0])[2]);
     unsigned i;
     for (i = 0; i < 6; i++) {
         int k = *(unsigned char *)(p[11] + i + 0x3DF0);

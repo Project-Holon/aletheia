@@ -15,7 +15,7 @@
  *   FLD_EXP_OBJ_SetModelHidden  0x021BE4B4  thumb  ov021
  *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 
 extern int FIELDMAP_GetExpObj(int *p);
@@ -24,7 +24,7 @@ extern void FLD_EXP_OBJ_SetModelHidden(char *p, int i, int j, int v);
 extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 void GIMMICK65_StartEffect(int a)
 {
@@ -39,7 +39,7 @@ void GIMMICK65_StartEffect(int a)
     for (i = 0; i < 2; i++)
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime((char *)s, 0, (int)0, (unsigned short)i), 0);
     if (w[1] != 0)
-        func_020061E4(0x7F7);
+        GFL_USE_PlaySeDefaultVolume(0x7F7);
     else
-        func_020061E4(0x7F8);
+        GFL_USE_PlaySeDefaultVolume(0x7F8);
 }

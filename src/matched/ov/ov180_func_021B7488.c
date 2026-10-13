@@ -11,12 +11,12 @@
  * symbols:
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 struct Obj;
-extern void CLACT_SetActorAnimFrame(struct Obj *,u32),CLACT_SetActorAnimSeq(struct Obj *,u16),func_0204B92C(struct Obj *,u32);
-void func_021B7488(u8 *p,int n,int v) { CLACT_SetActorAnimFrame(*(struct Obj **)(p+0x9048+n*4),0); CLACT_SetActorAnimSeq(*(struct Obj **)(p+0x9048+n*4),v); func_0204B92C(*(struct Obj **)(p+0x9048+n*4),1); }
+extern void CLACT_SetActorAnimFrame(struct Obj *,u32),CLACT_SetActorAnimSeq(struct Obj *,u16),CLACT_SetActorAutoAnim(struct Obj *,u32);
+void func_021B7488(u8 *p,int n,int v) { CLACT_SetActorAnimFrame(*(struct Obj **)(p+0x9048+n*4),0); CLACT_SetActorAnimSeq(*(struct Obj **)(p+0x9048+n*4),v); CLACT_SetActorAutoAnim(*(struct Obj **)(p+0x9048+n*4),1); }

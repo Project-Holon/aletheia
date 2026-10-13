@@ -11,7 +11,7 @@
  * symbols:
  *   g_020A799C    0x020A799C  data
  *   func_02030734 0x02030734  arm
- *   func_02082BCC 0x02082BCC  arm
+ *   MI_CpuFill8 0x02082BCC  arm
  */
 
 typedef unsigned char u8;
@@ -25,13 +25,13 @@ typedef struct {
 
 extern u8 g_020A799C[];
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern void func_02082BCC(void *dst, u32 val, u32 size);
+extern void MI_CpuFill8(void *dst, u32 val, u32 size);
 
 T *KEY_Create(u32 a)
 {
     T *p = (T *)func_02030734(a, 0x4c, 0, (const char *)g_020A799C, 0x44);
 
-    func_02082BCC(p, 0, 0x4c);
+    MI_CpuFill8(p, 0, 0x4c);
     p->f40 = 8;
     p->f44 = 0xf;
     return p;

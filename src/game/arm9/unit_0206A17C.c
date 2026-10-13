@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   sub_0207C768  0x0207C768  arm
+ *   FX_Div  0x0207C768  arm
  *   func_0206E62C  0x0206E62C  arm
  */
 #include "../../matched/include/Obj07044.h"
@@ -74,7 +74,7 @@ typedef struct {
     u16 tbl;
 } Ent;
 
-extern u32 sub_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 extern void *func_0206E62C(const ResDict *dict, const ResName *name);
 void *func_0206A17C(S *p);
 void func_0206A19C(ResMat *pMat, TexToMatIdx *pBindData, const ResTex *pTex, const TexData *pTexData);
@@ -162,7 +162,7 @@ static inline u32 GetTexKeyAddr(u32 key)
  * func_0206A2CC): for every material index in a tex-to-material bind record,
  * ORs the texture's TEXIMAGE_PARAM (plus the VRAM key address >> 3) into the
  * material and sets magW/magH to width/origWidth and height/origHeight as
- * fx32 (FX32_ONE fast path, else FX_Div = sub_0207C768).  The key comes from
+ * fx32 (FX32_ONE fast path, else FX_Div = FX_Div).  The key comes from
  * texInfo.vramKey (+8) or, for a 4x4-compressed texture (texfmt field
  * 0x1c000000 == 5 << 26), tex4x4Info.vramKey (+0x18).
  *
@@ -197,8 +197,8 @@ void func_0206A19C(ResMat *pMat, TexToMatIdx *pBindData, const ResTex *pTex, con
         matData->texImageParam |= pTexData->texImageParam + vramOffset;
         w = pTexData->extraParam & 0x7ff;
         h = (pTexData->extraParam & (0x7ff << 11)) >> 11;
-        matData->magW = (w == matData->origWidth) ? 0x1000 : sub_0207C768((fx32)(w << 12), (fx32)(matData->origWidth << 12));
-        matData->magH = (h == matData->origHeight) ? 0x1000 : sub_0207C768((fx32)(h << 12), (fx32)(matData->origHeight << 12));
+        matData->magW = (w == matData->origWidth) ? 0x1000 : FX_Div((fx32)(w << 12), (fx32)(matData->origWidth << 12));
+        matData->magH = (h == matData->origHeight) ? 0x1000 : FX_Div((fx32)(h << 12), (fx32)(matData->origHeight << 12));
     }
     pBindData->flag |= 1;
 }

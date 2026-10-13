@@ -28,7 +28,7 @@
  *   func_021BE43C 0x021BE43C thumb ov209
  *   func_020355C4 0x020355C4 arm
  *   func_020355D8 0x020355D8 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_0200CA70 0x0200CA70 thumb
  *   func_0200CA5C 0x0200CA5C thumb
  */
@@ -56,7 +56,7 @@ extern void func_021BE588(char *p);
 extern void func_021BE43C(char *p);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u32 func_0200CA70(struct Blk37 *p);
 extern void func_0200CA5C(struct Blk37 *p, u32 v);
 int func_021BCE98(struct Context *p)
@@ -86,36 +86,36 @@ int func_021BCE98(struct Context *p)
         switch(action){
         case 0:
             selected=FRAME_LIST_GetSelectedIndex(p->list);
-            if(func_021BD2F4((char *)p,selected)==1){func_020061E4(1356);return func_021BD340((char *)p,selected);}
+            if(func_021BD2F4((char *)p,selected)==1){GFL_USE_PlaySeDefaultVolume(1356);return func_021BD340((char *)p,selected);}
             func_020355D8(old);break;
         case 1:case 2:case 3:case 4:case 5:case 6:case 7:
             selected=action+FRAME_LIST_GetScrollPos(p->list)-1;
             if(func_021BD2F4((char *)p,selected)==1){
-                func_020061E4(1356);FRAME_LIST_SetCursor(p->list,action-1);return func_021BD340((char *)p,selected);
+                GFL_USE_PlaySeDefaultVolume(1356);FRAME_LIST_SetCursor(p->list,action-1);return func_021BD340((char *)p,selected);
             }break;
         case 8:
-            func_020061E4(1356);p->in->state=4;
+            GFL_USE_PlaySeDefaultVolume(1356);p->in->state=4;
             func_021BD314((char *)p,FRAME_LIST_GetSelectedIndex(p->list));return func_021BD2C4((char *)p,9,4,8);
         case 9:
-            func_020061E4(1356);
+            GFL_USE_PlaySeDefaultVolume(1356);
             if(func_0200CA70(p->in->save)==1)func_0200CA5C(p->in->save,0);else func_0200CA5C(p->in->save,1);
             p->in->state=2;
             func_021BD314((char *)p,FRAME_LIST_GetSelectedIndex(p->list));return func_021BD2C4((char *)p,8,5,8);
-        case 10:func_020061E4(1606);func_021BD354((char *)p);break;
+        case 10:GFL_USE_PlaySeDefaultVolume(1606);func_021BD354((char *)p);break;
         case 11:
-            func_020061E4(1366);p->in->state=1;
+            GFL_USE_PlaySeDefaultVolume(1366);p->in->state=1;
             func_021BD314((char *)p,FRAME_LIST_GetSelectedIndex(p->list));return func_021BD2C4((char *)p,4,8,8);
         case 12:
-            func_020061E4(1361);p->in->state=0;
+            GFL_USE_PlaySeDefaultVolume(1361);p->in->state=0;
             func_021BD314((char *)p,FRAME_LIST_GetSelectedIndex(p->list));return func_021BD2C4((char *)p,3,9,8);
         case 13:
-            func_020061E4(1361);p->in->state=0;
+            GFL_USE_PlaySeDefaultVolume(1361);p->in->state=0;
             func_021BD314((char *)p,FRAME_LIST_GetSelectedIndex(p->list));return func_021BD2C4((char *)p,3,9,8);
         }
         break;
     default:
         selected=FRAME_LIST_GetSelectedIndex(p->list);func_021BE5D4((char *)p,0);
-        if(func_021BD2F4((char *)p,selected)==1){func_020061E4(1356);return func_021BD340((char *)p,selected);}
+        if(func_021BD2F4((char *)p,selected)==1){GFL_USE_PlaySeDefaultVolume(1356);return func_021BD340((char *)p,selected);}
         break;
     }
     func_021BE588((char *)p);func_021BE43C((char *)p);return result;

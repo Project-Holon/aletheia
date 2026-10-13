@@ -25,8 +25,8 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   UNION_APP_Create  0x02183B60  thumb  ov022
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   UNION_COMMAND_SendAppQuitRequest  0x02173E1C  thumb  ov012
  *   UNION_APP_IsQuitAccepted  0x02183F84  thumb  ov022
  *   UNION_COMMAND_SendAppQuitCancel  0x02173EC8  thumb  ov012
@@ -120,8 +120,8 @@ extern u8 *UNION_APP_Create(u8 *a, int heap, int kind, struct Rec20 *src);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *a0, unsigned int a1, unsigned int a2);
-extern unsigned int func_02039CB4(struct Link *a0, unsigned int a1, unsigned int a2);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a0, unsigned int a1, unsigned int a2);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a0, unsigned int a1, unsigned int a2);
 extern u32 UNION_COMMAND_SendAppQuitRequest(void);
 extern u8 UNION_APP_IsQuitAccepted(u8 *p);
 extern int   UNION_COMMAND_SendAppQuitCancel(void);
@@ -179,11 +179,11 @@ int UNION_MAIN_StepGroupActivity(u32 a0, Self *self, u32 a2, u32 a3, void *obj, 
             (*state)++;
         break;
     case 3:
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 9, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 9, 0x14);
         (*state)++;
         break;
     case 4:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 9, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 9, 0x14) == 1)
             *state = 7;
         break;
     case 5:
@@ -220,12 +220,12 @@ int UNION_MAIN_StepGroupActivity(u32 a0, Self *self, u32 a2, u32 a3, void *obj, 
             }
         } else {
             UNION_COMM_SetGameKindByStatus(l->f0);
-            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 10, 0x14);
+            GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 10, 0x14);
             *state = 12;
         }
         break;
     case 12:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 10, 0x14) == 1) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 10, 0x14) == 1) {
             GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
             *state = 13;
         }

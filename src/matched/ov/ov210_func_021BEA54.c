@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BMP_Clear  0x02043B5C  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   func_021BCF00  0x021BCF00  thumb ov210
  *   func_021BE44C  0x021BE44C  thumb ov210
  *   func_021BE49C  0x021BE49C  thumb ov210
@@ -24,7 +24,7 @@ typedef unsigned int  u32;
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern unsigned short func_021BCF00(int a0, int a1);
 typedef unsigned short u16;
 extern void func_021BE44C(u8 *p, int slot, u32 message, int x, int y, u16 color, u32 mode);
@@ -34,8 +34,8 @@ void func_021BEA54(u8 *p)
 {
     u8 c;
 
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)&((struct Obj00222 *)p)->f1B4)), 0);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj00222 *)p)->f1BC)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((struct Obj00222 *)p)->f1B4)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00222 *)p)->f1BC)), 0);
     c = ((u8 *)*(u32 *)(*(u32 *)&((struct Obj00222 *)p)->f0 + 8))[3];
     if (c != 0xFF)
         func_021BE44C(p, 0xD, func_021BCF00((int)p, c), 0x30, 0, 0x3C40, 2);

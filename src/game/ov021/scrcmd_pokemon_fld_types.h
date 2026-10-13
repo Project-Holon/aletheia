@@ -71,6 +71,6 @@ typedef struct MysteryGiftKindHandlers {
     MysteryGiftMessageFn prepareFollowUpMessage; /* 0x14: second message, same contract */
 } MysteryGiftKindHandlers;
 
-extern const MysteryGiftKindHandlers d_021D9970[];
+extern const MysteryGiftKindHandlers sMysteryGiftKindHandlers[];
 
 #endif

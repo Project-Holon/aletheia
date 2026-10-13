@@ -12,13 +12,13 @@
  * symbols:
  *   BTL_MAIN_GetClientTrainerIndex  0x021B8BEC  thumb  ov093
  *   BTL_MAIN_InitClientParties  0x021B68D8  thumb  ov093
- *   func_021B9114  0x021B9114  thumb  ov093
+ *   BTL_MAIN_GetOwnsSlots  0x021B9114  thumb  ov093
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02007B44  0x02007B44  thumb
  *   func_02007B20  0x02007B20  thumb
  *   func_02007C20  0x02007C20  thumb
- *   func_021B997C  0x021B997C  thumb  ov093
- *   func_021BA710  0x021BA710  thumb  ov093
+ *   BTL_MAIN_GetClientVoiceFlag  0x021B997C  thumb  ov093
+ *   BTL_MAIN_GetRelativeClientIndex  0x021BA710  thumb  ov093
  */
 #include "../include/Obj03184.h"
 
@@ -42,14 +42,14 @@ extern u8 BTL_MAIN_GetClientTrainerIndex(u8 *s, u32 k, u8 n);
 extern void BTL_MAIN_InitClientParties(u8 *s, struct T *t);
 struct PerapVoice;
 struct Sub02007AC8Entry;
-extern u8 func_021B9114(u8 **p);
+extern u8 BTL_MAIN_GetOwnsSlots(u8 **p);
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02007AC8Entry *func_02007B44(void *sys);
 extern void *func_02007B20(u32 heap);
 extern void func_02007C20(struct PerapVoice *dest, const struct PerapVoice *src);
-extern int func_021B997C(u8 *p, unsigned int i);
-extern u8 func_021BA710(int a, int b);
+extern int BTL_MAIN_GetClientVoiceFlag(u8 *p, unsigned int i);
+extern u8 BTL_MAIN_GetRelativeClientIndex(int a, int b);
 
 void BTL_MAIN_SetupOwnClient(u8 *s, struct T *t)
 {
@@ -62,14 +62,14 @@ void BTL_MAIN_SetupOwnClient(u8 *s, struct T *t)
     s[0x46c] = k;
     s[0x46d] = BTL_MAIN_GetClientTrainerIndex(s, k, 0);
     BTL_MAIN_InitClientParties(s, t);
-    if (func_021B9114((u8 **)s) == 0) {
+    if (BTL_MAIN_GetOwnsSlots((u8 **)s) == 0) {
         v = (u32)func_02007B44(GAME_DATA_GetSaveControl((void *)t->f58));
         ((struct Obj03184 *)s)->f3E0 = (u32)func_02007B20(((struct Obj03184 *)s)->f468);
         func_02007C20((struct PerapVoice *)(((struct Obj03184 *)s)->f3E0), (const struct PerapVoice *)v);
-        (*(struct P * *)&((struct Obj03184 *)s)->f0)->f44[0] = func_021B997C(s, i);
+        (*(struct P * *)&((struct Obj03184 *)s)->f0)->f44[0] = BTL_MAIN_GetClientVoiceFlag(s, i);
     } else {
         for (i = 0; i < 4; i++) {
-            tmp[(int)func_021BA710(s[0x46c], (u8)i)] = (*(struct P * *)&((struct Obj03184 *)s)->f0)->f44[i];
+            tmp[(int)BTL_MAIN_GetRelativeClientIndex(s[0x46c], (u8)i)] = (*(struct P * *)&((struct Obj03184 *)s)->f0)->f44[i];
         }
         for (i = 0; i < 4; i++) {
             (*(struct P * *)&((struct Obj03184 *)s)->f0)->f44[i] = tmp[i];

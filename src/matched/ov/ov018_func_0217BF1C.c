@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
-void func_02082BCC(void *dst, int val, int size);
+void MI_CpuFill8(void *dst, int val, int size);
 
 void INTRUDE_FIELD_InitStartParam(void *p)
 {
-    func_02082BCC(p, 0, 0x10);
+    MI_CpuFill8(p, 0, 0x10);
 }

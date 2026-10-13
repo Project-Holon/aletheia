@@ -10,7 +10,7 @@
  * symbols:
  *   func_021C18C8 0x021C18C8 thumb ov099
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039C68 0x02039C68 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  */
 #include "../include/Obj13691.h"
 typedef unsigned char u8;
@@ -19,11 +19,11 @@ extern void func_021C18C8(char *, int, int);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *, u32, u32);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, u32, u32);
 int func_021BD6A0(char *p, int v)
 {
     func_021C18C8(p, 1, 2);
-    func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x19, 10);
+    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x19, 10);
     ((struct Obj13691 *)p)->f135C = 0;
     ((struct Obj13691 *)p)->f1CC = 0x9c;
     return v;

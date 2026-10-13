@@ -39,19 +39,19 @@
  *     }
  *   0x02161F68 ov010 thumb (overlay leaf, not filed while the arm9 leaf
  *     blocks), verified EXACT with `one --thumb --region ov010 --lang c99`:
- *     symbols: func_02082BCC 0x02082BCC arm
- *     extern void func_02082BCC(void *p, u32 v, u32 n);
- *     void EVENT_FIELD_PROCLINK_ClearReturnSlots(void *p) { func_02082BCC(p, 0, 0x48); }
+ *     symbols: MI_CpuFill8 0x02082BCC arm
+ *     extern void MI_CpuFill8(void *p, u32 v, u32 n);
+ *     void EVENT_FIELD_PROCLINK_ClearReturnSlots(void *p) { MI_CpuFill8(p, 0, 0x48); }
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
  *   func_02012B70  0x02012B70  thumb
  *   func_0200FBA0  0x0200FBA0  thumb
  *   func_020127A4  0x020127A4  thumb
  *   func_02012AC8  0x02012AC8  thumb
- *   func_02013D5C  0x02013D5C  thumb
+ *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   func_02012114  0x02012114  thumb
  *   func_0201210C  0x0201210C  thumb
  *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
@@ -90,14 +90,14 @@ struct Rec44;
 struct O;
 struct U16Vec;
 
-extern u32 func_02026478(void *obj);
+extern u32 GAME_COMM_GetGameData(void *obj);
 extern u8 GAME_DATA_IsSaving(const u8 *o);
 extern int GFL_NET_IsSessionNull(void);
 extern int func_02012B70(const struct BigObj *p);
 extern void func_0200FBA0(void);
 extern void *func_020127A4(struct SaveBlock *p);
 extern u16 func_02012AC8(const struct Rec44 *p);
-extern u32 func_02013D5C(u32 id);
+extern u32 ZONEDATA_IsZone117(u32 id);
 extern u32 func_02012114(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern int FIELDMAP_IsReady(void *a);
@@ -128,7 +128,7 @@ int INTRUDE_COMM_Destroy(int a0, void **o, u8 *s)
     int i;
 
     ctx = o[1];
-    h = func_02026478(ctx);
+    h = GAME_COMM_GetGameData(ctx);
     ok = 0;
     if (GAME_DATA_IsSaving((const u8 *)h) == 1) {
         return ok;
@@ -137,7 +137,7 @@ int INTRUDE_COMM_Destroy(int a0, void **o, u8 *s)
         if (func_02012B70((struct BigObj *)h) == 0) {
             func_0200FBA0();
             ok = 1;
-        } else if (func_02013D5C(func_02012AC8(func_020127A4((struct SaveBlock *)h))) == 1
+        } else if (ZONEDATA_IsZone117(func_02012AC8(func_020127A4((struct SaveBlock *)h))) == 1
                    && func_02012114(o[0]) == 1
                    && FIELDMAP_IsReady(func_0201210C(o[0])) == 1) {
             ok = 1;

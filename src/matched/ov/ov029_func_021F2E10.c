@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 #include "../include/Obj04309.h"
 
@@ -25,7 +25,7 @@ typedef struct {
 
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void func_0204B3DC(struct Obj *a, unsigned int b);
+extern void CLACT_SetActorDrawEnable(struct Obj *a, unsigned int b);
 
 void C_GEAR_CreateFadeFx(char *p, int *q)
 {
@@ -38,7 +38,7 @@ void C_GEAR_CreateFadeFx(char *p, int *q)
     s.e = 2;
     q[2] = (int)CLACT_CreateActor((void *)((struct Obj04309 *)p)->f34, ((struct Obj04309 *)p)->f2C, ((struct Obj04309 *)p)->f28,
                          ((struct Obj04309 *)p)->f30, &s, 0, ((struct Obj04309 *)p)->fC);
-    func_0204B3DC((struct Obj *)q[2], 0);
+    CLACT_SetActorDrawEnable((struct Obj *)q[2], 0);
     q[3] = ((struct Obj04309 *)p)->f210;
     q[4] = ((struct Obj04309 *)p)->f204;
 }

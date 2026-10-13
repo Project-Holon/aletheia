@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  */
 
 typedef unsigned char  u8;
@@ -20,11 +20,11 @@ typedef unsigned int   u32;
 
 struct BigObj;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern u32 func_0201AA18(void *);
+extern u32 POKEPARTY_GetCount(void *);
 
 int SCRCMD_POKEMON_FLD_CheckGiftMonCanReceive(void *a, void *b)
 {
-    if ((int)func_0201AA18(GAME_DATA_GetMyParty(b)) < 6) {
+    if ((int)POKEPARTY_GetCount(GAME_DATA_GetMyParty(b)) < 6) {
         return 1;
     }
     return 0;

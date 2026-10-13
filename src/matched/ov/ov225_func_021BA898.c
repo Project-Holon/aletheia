@@ -17,8 +17,8 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_021B9A08 0x021B9A08 thumb ov225
  *   func_021BA9D0 0x021BA9D0 thumb ov225
  *   d_021BBF8C 0x021BBF8C data ov225 a2
@@ -53,8 +53,8 @@ extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern u32 func_021B9A08(const u8 *p);
 extern void func_021BA9D0(char *);
 void func_021BA898(char *p)
@@ -71,16 +71,16 @@ void func_021BA898(char *p)
     q[1]=d_021BBF8C;
     parent=*(char * *)&((struct Obj00074 *)p)->f4;
     ((struct Obj00074 *)p)->f5C=CLACT_CreateActor((void *)func_021B9A08(((struct Obj14804 *)parent)->f8),((struct Obj00074 *)p)->f50,((struct Obj00074 *)p)->f54,((struct Obj00074 *)p)->f58,&q[1],1,((struct Obj14804 *)parent)->f4);
-    func_0204B3DC(((struct Obj00074 *)p)->f5C,0);
-    func_0204B92C(((struct Obj00074 *)p)->f5C,1);
+    CLACT_SetActorDrawEnable(((struct Obj00074 *)p)->f5C,0);
+    CLACT_SetActorAutoAnim(((struct Obj00074 *)p)->f5C,1);
     q[0]=d_021BBF94;
     for(i=0;i<8;i++) {
         char *loopparent;
         q[0].y=i*24-8;
         loopparent=*(char * *)&((struct Obj00074 *)p)->f4;
         *(void **)(p+i*4+0x60)=CLACT_CreateActor((void *)func_021B9A08(((struct Obj14805 *)loopparent)->f8),((struct Obj00074 *)p)->f50,((struct Obj00074 *)p)->f54,((struct Obj00074 *)p)->f58,&q[0],1,((struct Obj14805 *)loopparent)->f4);
-        func_0204B3DC(*(void **)(p+i*4+0x60),0);
-        func_0204B92C(*(void **)(p+i*4+0x60),1);
+        CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x60),0);
+        CLACT_SetActorAutoAnim(*(void **)(p+i*4+0x60),1);
     }
     func_021BA9D0(p);
 }

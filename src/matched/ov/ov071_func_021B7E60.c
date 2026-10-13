@@ -12,7 +12,7 @@
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0201296C  0x0201296C  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   func_021B8308  0x021B8308  thumb  ov071
@@ -47,7 +47,7 @@ int MONOLITH_TOOL_MENU_Create(struct Obj0203159C *a, int unused, C *c)
 {
     extern void *func_020120F4(const struct Ctx *p);
     extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-    extern void func_02082BCC(void *, int, int);
+    extern void MI_CpuFill8(void *, int, int);
     extern u32 func_0201296C(const struct BigObj *p);
     extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
     extern void func_021B8308(void);
@@ -58,7 +58,7 @@ int MONOLITH_TOOL_MENU_Create(struct Obj0203159C *a, int unused, C *c)
     void *h = func_020120F4(*(void **)c->q);
     W *w = PROCSYS_AllocProcWork(a, 0x48, 0x61);
 
-    func_02082BCC(w, 0, 0x48);
+    MI_CpuFill8(w, 0, 0x48);
     if (ZONEDATA_CheckEventFlag((void *)func_0201296C(h), 0x980) == 0) {
         w->f32 = 2;
     } else if (c->q->f3d == 1) {

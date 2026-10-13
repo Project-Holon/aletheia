@@ -17,7 +17,7 @@
  *   func_020307B0  0x020307B0  arm
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
@@ -49,7 +49,7 @@ struct GameData;
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern unsigned int func_020307B0(void *p);
 extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void FIELD_CAMERA_StopTargetTrace(struct FieldCamera *camera);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern unsigned short FIELDMAP_GetHeapId(FieldMap *fieldMap);
@@ -182,7 +182,7 @@ void ENTRANCE_CAMERA_FreeWork(void *work)
 
 void ENTRANCE_CAMERA_InitWork(EntranceCamera *work, FieldMap *fieldMap)
 {
-    func_02082BCC(work, 0, sizeof(EntranceCamera));
+    MI_CpuFill8(work, 0, sizeof(EntranceCamera));
     work->fieldMap = fieldMap;
     work->camera = FIELDMAP_GetCamera(fieldMap);
     work->isSetUp = 0;

@@ -17,11 +17,11 @@
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   func_02012934  0x02012934  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_021F675C  0x021F675C  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02030734  0x02030734  arm
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   SCRCMD_MUSICAL_TaskShowMusicalProc  0x0215DEF0  thumb  ov010
@@ -45,11 +45,11 @@ extern void *func_0201210C(const struct Ctx *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 extern void *GAME_DATA_GetSaveBlock2A(void *p);
 extern void *func_02012934(const struct BigObj *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 func_021F675C(void *, int);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void SCRIPT_SYS_CallEvent(void *, void *);
 extern int SCRCMD_MUSICAL_TaskShowMusicalProc(void *a, u32 *st, u32 *c);
@@ -67,10 +67,10 @@ int SCRCMD_MUSICAL_ShowPartyMonMusical(void *a, void *b)
     func_0201210C(h);
     f = SCRIPT_WORK_ReadWorkValue(a, b);
     g = (u32)GAME_DATA_GetSaveBlock2A(q);
-    k = func_021F675C(func_0201AB28(func_02012934(q), f), 4);
+    k = func_021F675C(POKEPARTY_GetMember(func_02012934(q), f), 4);
     r = func_020122C0(h, 0, (void *)SCRCMD_MUSICAL_TaskShowMusicalProc, 4);
     c = func_020124E8(r);
-    func_02082BCC(c, 0, 4);
+    MI_CpuFill8(c, 0, 4);
     c->p = func_02030734(4, 0xc, 1, d_02172914, 0xd7);
     c->p->f4 = k;
     c->p->f8 = g;

@@ -15,8 +15,8 @@
  * symbols:
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
- *   func_0204B92C  0x0204B92C  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -28,8 +28,8 @@ struct Actor;
 struct Obj;
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
 void func_021BB9E4(void *a0, char *a1)
 {
@@ -40,10 +40,10 @@ void func_021BB9E4(void *a0, char *a1)
     CLACT_RestartActorAnim(((struct Obj00024 *)a1)->f8C);
     CLACT_SetActorAnimFrame(((struct Obj00024 *)a1)->f84, 0);
     CLACT_SetActorAnimFrame(((struct Obj00024 *)a1)->f88, 0);
-    func_0204B92C(((struct Obj00024 *)a1)->f84, 0);
-    func_0204B92C(((struct Obj00024 *)a1)->f88, 0);
-    func_0204B3DC(((struct Obj00024 *)a1)->f84, 0);
-    func_0204B3DC(((struct Obj00024 *)a1)->f88, 0);
-    func_0204B3DC(((struct Obj00024 *)a1)->f8C, 0);
-    func_0204B3DC(((struct Obj00024 *)a1)->f90, 0);
+    CLACT_SetActorAutoAnim(((struct Obj00024 *)a1)->f84, 0);
+    CLACT_SetActorAutoAnim(((struct Obj00024 *)a1)->f88, 0);
+    CLACT_SetActorDrawEnable(((struct Obj00024 *)a1)->f84, 0);
+    CLACT_SetActorDrawEnable(((struct Obj00024 *)a1)->f88, 0);
+    CLACT_SetActorDrawEnable(((struct Obj00024 *)a1)->f8C, 0);
+    CLACT_SetActorDrawEnable(((struct Obj00024 *)a1)->f90, 0);
 }

@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021E58A4 0x021E58A4 thumb ov177
  *   func_02045B38 0x02045B38 arm
  *   func_0201EC74 0x0201EC74 thumb
@@ -22,7 +22,7 @@ typedef struct { int a,b,c,d,callback; Config config; unsigned short heap; } Req
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void func_021E58A4(int unused, int mode, unsigned color);
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -34,7 +34,7 @@ Request *func_0217D398(Config *p, int heap)
 {
     Request *r;
     r = func_02030734(heap, 0x38, 0, d_0217E61C, 0x9A);
-    func_02082BCC(r, 0, 0x38);
+    MI_CpuFill8(r, 0, 0x38);
     r->config = *p;
     r->heap = heap;
     func_021E58A4(r->config.v[4], 3, heap);

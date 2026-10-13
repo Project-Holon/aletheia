@@ -33,7 +33,7 @@
  *   func_021BDD48 0x021BDD48 thumb ov099
  *   func_021C18C8 0x021C18C8 thumb ov099
  *   func_021BA928 0x021BA928 thumb ov099
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_021BA8EC 0x021BA8EC thumb ov099
  *   GFL_NET_STATE_WifiDisconnect 0x0203C554 arm
  *   func_021BDD0C 0x021BDD0C thumb ov099
@@ -52,7 +52,7 @@ extern void func_021C18C8(char *,int,int);
 extern int func_021BA928(char *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_021BA8EC(char *);
 extern void GFL_NET_STATE_WifiDisconnect(u32 a);
 extern void func_021BDD0C(void *p, int on);
@@ -69,7 +69,7 @@ int func_021BFED0(char *p,int ret)
     if(func_021BDD48(p,*(void **)(p+8))!=1)func_021C18C8(p,1,2);
     if(!func_021BA928(p)){*(int *)(p+0x1e0)=30;return ret;}
     --*(int *)(p+0x1e0);
-    if((func_020362DC()&3)||!*(int *)(p+0x1e0)){
+    if((KEY_GetTrg()&3)||!*(int *)(p+0x1e0)){
         func_021BA8EC(p);
         GFL_NET_STATE_WifiDisconnect(1);
         func_021BDD0C(p,0);

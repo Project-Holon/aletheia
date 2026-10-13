@@ -1,7 +1,7 @@
 /*
  * file:     unit_02082A48.c
  * unit:     yes
- * function: func_02082A48, func_02082A60, func_02082A7C, func_02082A90, func_02082AA8, func_02082AC0, func_02082B0C, func_02082B44, func_02082B60, func_02082B7C, func_02082BA0, func_02082BCC, func_02082C60, func_02082D44, func_02082E74, MI_CpuCopy
+ * function: func_02082A48, func_02082A60, func_02082A7C, func_02082A90, func_02082AA8, func_02082AC0, func_02082B0C, func_02082B44, func_02082B60, func_02082B7C, func_02082BA0, MI_CpuFill8, func_02082C60, func_02082D44, func_02082E74, MI_CpuCopy
  * address:  0x02082A48
  * region:   arm9
  * compiler: dsi/1.1p1

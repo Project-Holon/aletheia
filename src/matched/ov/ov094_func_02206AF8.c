@@ -8,14 +8,17 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj13619.h"
 
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 void func_02206AF8(char *p)
 {
     if (((struct Obj13619 *)p)->f54 != 3 || ((struct Obj13619 *)p)->f58 == 6)
-        func_020061E4(0x555);
+        GFL_USE_PlaySeDefaultVolume(0x555);
 }

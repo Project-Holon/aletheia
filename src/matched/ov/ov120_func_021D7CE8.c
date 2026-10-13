@@ -9,7 +9,7 @@
  * status: EXACT*
  * follower: two zero padding bytes at 021D7D2E.
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned char  u8;
 struct CharBuf;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 typedef signed short   s16;
 typedef unsigned int   u32;
@@ -32,9 +32,9 @@ void func_021D7CE8(char *p,u16 n,int i)
 {
     void *q=*(void **)(p+0x38+4*i);
     if(q) {
-        BMP_Clear(func_02045770(q),0);
+        BMP_Clear(BMP_WIN_GetBmp(q),0);
         MSGDATA_ReadString(((struct Obj08081 *)p)->fC,n,(void *)(((struct Obj08081 *)p)->f18));
-        PRINTSYS_Print(func_02045770(q),2,2,(void *)(((struct Obj08081 *)p)->f18),(void *)(((struct Obj08081 *)p)->f14));
+        PRINTSYS_Print(BMP_WIN_GetBmp(q),2,2,(void *)(((struct Obj08081 *)p)->f18),(void *)(((struct Obj08081 *)p)->f14));
         BMP_WIN_TransferChars(q);
     }
 }

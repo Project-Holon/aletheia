@@ -18,7 +18,7 @@
  *   CLACT_RegisterPalette  0x0204ABF0  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   gClActorInitParam     0x020A1448  data  a4
@@ -51,7 +51,7 @@ extern int CLACT_RegisterPalette(void *, int, int, int, int);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern int CLACT_CreateActor(int, int, int, int, Local *, int, int);
 struct Obj;
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -72,7 +72,7 @@ void STARTMENU_SpritesInit(int *p, int heap)
     s.e = 0;
     s.d = 0;
     p[1] = CLACT_CreateActor(p[0], p[12], p[11], p[13], &s, 1, heap);
-    func_0204B92C((struct Obj *)p[1], 1);
+    CLACT_SetActorAutoAnim((struct Obj *)p[1], 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     ARC_TOOL_DeleteHandle(h);
 }

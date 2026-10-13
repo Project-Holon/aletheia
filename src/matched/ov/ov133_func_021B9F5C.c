@@ -19,14 +19,14 @@
  * symbols:
  *   func_020416D4 0x020416D4 arm
  *   CLACT_SetActorBgPriority 0x0204B84C arm
- *   func_0204B688 0x0204B688 arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0204B3F4 0x0204B3F4 arm
+ *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj06502.h"
 #include "../include/Obj10572.h"
@@ -40,14 +40,14 @@ extern u8 func_020416D4(u32);
 extern void CLACT_SetActorBgPriority(void *, u32);
 struct Actor;
 struct Obj;
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern u32 func_0203F0A8(void);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern u32 func_0204B3F4(struct Obj *p);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 void func_021B9F5C(u8 *p)
 {
     int a, b, delay, c, d;
@@ -62,13 +62,13 @@ void func_021B9F5C(u8 *p)
     for (i = 0; i < 8; i++) {
         q = p + i * 4;
         CLACT_SetActorBgPriority(((struct Obj06502 *)q)->f1890, func_020416D4(4));
-        func_0204B688(((struct Obj06502 *)q)->f1890, 0);
+        CLACT_SetActorObjMode(((struct Obj06502 *)q)->f1890, 0);
         t = p + i;
         if (*(u8 *)((u32)p+(u32)i+(u32)d) == 0) {
             pos.x = ((u64)func_0203F0A8() * 56) >> 32;
             if ((u32)(((u64)func_0203F0A8() * 2) >> 32) == 1) pos.x = 256 - pos.x;
             pos.y = ((u64)func_0203F0A8() * 192) >> 32;
-            func_0204B404(((struct Obj06502 *)q)->f1890, (const struct Vec2 *)(&pos), 1);
+            CLACT_AddActorSurfacePos(((struct Obj06502 *)q)->f1890, (const struct Vec2 *)(&pos), 1);
             if (pos.y > 90) CLACT_SetActorAnimSeq(((struct Obj06502 *)q)->f1890, ((u64)func_0203F0A8() * 2) >> 32);
             else CLACT_SetActorAnimSeq(((struct Obj06502 *)q)->f1890, (((u64)func_0203F0A8() * 2) >> 32) + 2);
             t[c] = (((u64)func_0203F0A8() * 200) >> 32) + delay;
@@ -76,7 +76,7 @@ void func_021B9F5C(u8 *p)
             t[b] = t[a] - 1;
         }
     }
-    if (func_0204B3F4(((struct Obj10572 *)p)->f18B4) == 1 && CLACT_IsActorAnimActive(((struct Obj10572 *)p)->f18B4) == 0) {
-        func_0204B3DC(((struct Obj10572 *)p)->f18B4, 0);
+    if (CLACT_GetActorDrawEnable(((struct Obj10572 *)p)->f18B4) == 1 && CLACT_IsActorAnimActive(((struct Obj10572 *)p)->f18B4) == 0) {
+        CLACT_SetActorDrawEnable(((struct Obj10572 *)p)->f18B4, 0);
     }
 }

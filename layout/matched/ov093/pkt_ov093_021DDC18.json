@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_ITEM_GetWeakenDamageRockHandlers",
+   "name": "HAND_ITEM_GetWeakenDamageRockHandlers",
    "address": "0x021DDC18",
    "kind": "game",
    "region": "ov093",

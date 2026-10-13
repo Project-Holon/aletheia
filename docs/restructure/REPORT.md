@@ -2,7 +2,7 @@
 
 Handoff for the next session. Goal of this phase: rebuild `src/game/` as the
 original source files (one `.c` per translation unit, TU). `src/matched/` stays the
-frozen per-function record. Renaming functions is a later, separate step.
+frozen per-function record. Function renaming ran in the cleanup phase after this restructure (docs/NAMING.md).
 
 ## Where it stands
 
@@ -12,10 +12,10 @@ TU split at a real boundary counts once as split):
 | Area | Whole | Percent |
 |---|---|---|
 | ARM9 | 439 / 440 | 99.8% |
-| Overlays | 1556 / 1559 | 99.8% |
+| Overlays | 1478 / 1481 | 99.8% |
 | twl | 48 / 48 | 100% |
 | ITCM | 4 / 4 | 100% |
-| **Total** | **2047 / 2051** | **99.8%** |
+| **Total** | **1969 / 1973** | **99.8%** |
 
 Round 17 drops the old 1816 estimate (the user, 2026-10-12: the estimate may
 move freely with evidence). The figure is now the file count itself.

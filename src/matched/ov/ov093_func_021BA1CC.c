@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1CC
+ * function: BTL_MAIN_TrainerRecordAddDelta
  * address: 0x021BA1CC
  * packet: pkt_ov093_021BA1CC
  * region: ov093
@@ -18,7 +18,7 @@
 typedef unsigned int u32;
 struct Sub02008C20Obj;
 extern u32 sub_02008DAC(struct Sub02008C20Obj *, int, u32);
-void func_021BA1CC(char **p, int i, u32 delta)
+void BTL_MAIN_TrainerRecordAddDelta(char **p, int i, u32 delta)
 {
     if (((struct Obj21001 *)(*p))->f23 == 0)
         sub_02008DAC(*(struct Sub02008C20Obj * *)&((struct Obj21002 *)(*p))->f6C, i, delta);

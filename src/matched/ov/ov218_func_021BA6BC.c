@@ -10,9 +10,9 @@
  * status: EXACT
  * symbols:
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 #include "../include/Obj03959.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef signed short s16;typedef unsigned int u32;
-struct Actor;struct Obj;typedef struct PtS{s16 x,y;} PtS;extern void CLACT_GetActorSurfacePos(struct Actor *,PtS *,u32);extern void func_0204B404(struct Obj *,const PtS *,u32);
-void func_021BA6BC(char *p,int y){PtS pos;void *o=((struct Obj03959 *)p)->f240;CLACT_GetActorSurfacePos(o,&pos,65535);pos.y=y;func_0204B404(o,&pos,65535);}
+struct Actor;struct Obj;typedef struct PtS{s16 x,y;} PtS;extern void CLACT_GetActorSurfacePos(struct Actor *,PtS *,u32);extern void CLACT_AddActorSurfacePos(struct Obj *,const PtS *,u32);
+void func_021BA6BC(char *p,int y){PtS pos;void *o=((struct Obj03959 *)p)->f240;CLACT_GetActorSurfacePos(o,&pos,65535);pos.y=y;CLACT_AddActorSurfacePos(o,&pos,65535);}

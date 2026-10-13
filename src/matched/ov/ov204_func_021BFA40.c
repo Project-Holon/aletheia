@@ -15,6 +15,7 @@
  *   G3D_SYSTEM_DisableObjectAnime 0x020477D4 arm
  *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
  *   func_021BFBC8 0x021BFBC8 thumb ov204
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj06676.h"
 
@@ -22,7 +23,7 @@ extern void func_0207D63C(void *, int, int, int, int);
 typedef unsigned int   u32;
 struct G3dSys;
 struct Owner;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 typedef unsigned char  u8;
 extern u32 func_02048A18(u8 *a0, int i);
 extern int G3D_SYSTEM_IncObjectAnimeFrame(void *, int, int);
@@ -36,7 +37,7 @@ int func_021BFA40(char *p)
     {
     case 0:
         func_0207D63C((void *)0x04000050, 1, 9, 0, 0);
-        func_020061E4(0x555);
+        GFL_USE_PlaySeDefaultVolume(0x555);
         ++((struct Obj06676 *)p)->f24;
     case 1:
     {

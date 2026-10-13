@@ -16,8 +16,8 @@
  *   CLACT_TransferCharacterPart 0x0204AA94 arm
  *   func_020307B0 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_0201BB5C 0x0201BB5C thumb
- *   func_0204B6F4 0x0204B6F4 arm
+ *   POKE_TOOL_CalcIconPalette 0x0201BB5C thumb
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  */
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -31,8 +31,8 @@ extern u16 CLACT_GetActorCharacterIndex(u8 *);
 extern void CLACT_TransferCharacterPart(int,void *,unsigned,int,int);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern unsigned func_0201BB5C(unsigned,unsigned,unsigned,unsigned);
-extern void func_0204B6F4(struct Obj *,unsigned,unsigned);
+extern unsigned POKE_TOOL_CalcIconPalette(unsigned,unsigned,unsigned,unsigned);
+extern void CLACT_SetActorPaletteOffset(struct Obj *,unsigned,unsigned);
 void func_021BE1B8(char *p, int index, unsigned species, u16 form, u16 half, int mode)
 {
     void *owner;
@@ -52,5 +52,5 @@ void func_021BE1B8(char *p, int index, unsigned species, u16 form, u16 half, int
     }
     func_020307B0(data);
     ARC_TOOL_DeleteHandle(owner);
-    func_0204B6F4(*slot,func_0201BB5C(species,form,saved,0),1);
+    CLACT_SetActorPaletteOffset(*slot,POKE_TOOL_CalcIconPalette(species,form,saved,0),1);
 }

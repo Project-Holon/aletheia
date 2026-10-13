@@ -18,17 +18,17 @@
  * CLACT_RegisterCharacter 0x0204A6C8 arm
  * CLACT_RegisterCellAnim 0x0204AF28 arm
  * ARC_TOOL_DeleteHandle 0x02049238 arm
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * func_021BA1E0 0x021BA1E0 thumb ov220
  * CLACT_CreateActor 0x0204B294 arm
  * CLACT_SetActorAnimSeq 0x0204B878 arm
- * func_0204B92C 0x0204B92C arm
- * func_0204B6F4 0x0204B6F4 arm
+ * CLACT_SetActorAutoAnim 0x0204B92C arm
+ * CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  * func_0201BC3C 0x0201BC3C thumb
  * POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  * func_0201BC40 0x0201BC40 thumb
  * func_0201BCB4 0x0201BCB4 thumb
- * func_0201BB5C 0x0201BB5C thumb
+ * POKE_TOOL_CalcIconPalette 0x0201BB5C thumb
  * coords3 0x021BA318 data a2
  * coords4 0x021BA328 data a2
  */
@@ -49,18 +49,18 @@ extern int CLACT_RegisterPaletteCompressed(void *, u32, u32, u32, u16);
 extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
 extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_02082BCC(void *, u32, u32);
+extern void MI_CpuFill8(void *, u32, u32);
 struct Obj;
 extern u32 func_021BA1E0(u8 *p);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern int func_0201BC3C(void);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32, u32, u32, u32);
-extern u32 func_0201BB5C(u32, u32, u32, u32);
+extern u32 POKE_TOOL_CalcIconPalette(u32, u32, u32, u32);
 void func_021B99DC(char *p)
 {
   const u8 *coords;
@@ -103,15 +103,15 @@ void func_021B99DC(char *p)
       res = p + i * 12;
       *((u32 *) (res + 0x1C)) = CLACT_RegisterCharacter(owner, POKE_TOOL_CalcGraphicIndex(species, form, gender, 0), 0, 0, *((u16 *) p));
       *((u32 *) (res + 0x24)) = CLACT_RegisterCellAnim(owner, func_0201BC40(), func_0201BCB4(), *((u16 *) p));
-      func_02082BCC(&param, 0, 8);
+      MI_CpuFill8(&param, 0, 8);
       param.x = *((const s16 *) (coords + i * 4));
       param.y = *((const s16 *) (coords + i * 4 + 2));
       slot = p + i * 4;
       actor = CLACT_CreateActor((void *)func_021BA1E0(*((void **) (p + 8))), *((u32 *) (res + 0x1C)), *((u32 *) (p + 0x20)), *((u32 *) (res + 0x24)), (const void *)((u32) (&param)), 0, *((u16 *) p));
       *((void **) (slot + 0x4C)) = actor;
       CLACT_SetActorAnimSeq(actor, 1);
-      func_0204B92C(*((void **) (slot + 0x4C)), 0);
-      func_0204B6F4(*((void **) (slot + 0x4C)), func_0201BB5C(species, form, gender, 0), 0);
+      CLACT_SetActorAutoAnim(*((void **) (slot + 0x4C)), 0);
+      CLACT_SetActorPaletteOffset(*((void **) (slot + 0x4C)), POKE_TOOL_CalcIconPalette(species, form, gender, 0), 0);
     }
     ARC_TOOL_DeleteHandle(owner);
   }

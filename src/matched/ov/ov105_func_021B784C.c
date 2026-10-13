@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
@@ -22,7 +22,7 @@
  */
 #include "../include/Obj22239.h"
 typedef unsigned char u8;
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 typedef unsigned int   u32;
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 struct DispVram;
@@ -36,7 +36,7 @@ extern void func_021B78E0(int a, unsigned char *p);
 extern void *func_020056A0(void (*)(void *),void *,int);
 extern const u8 d_021B89D8[];
 void func_021B784C(u8 *p,int a) {
- func_02082BCC(p,0,0xb0); BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks((const struct DispVram *)d_021B89D8);
+ MI_CpuFill8(p,0,0xb0); BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks((const struct DispVram *)d_021B89D8);
  func_0204363C(0); BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes();
  func_021B7A88((void **)(p+4),d_021B89D8,a); func_021B78F4((void **)p,a);
  ((struct Obj22239 *)p)->fAC=func_020056A0((void (*)(void *))func_021B78E0,p,0);

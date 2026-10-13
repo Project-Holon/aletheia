@@ -1,7 +1,7 @@
 /*
  * file:     mcss.c
  * unit:     yes
- * function: func_02014910, func_0201493C, func_02014A10, func_02014A20, func_02014A80, MCSS_Init, MCSS_Exit, MCSS_Main, MCSS_OpenHandle, MCSS_CloseHandle, MCSS_SetTaskSystem, MCSS_SetLoadHook, MCSS_ReloadResource, MCSS_Draw, MCSS_DrawShadow, MCSS_Add, MCSS_Del, MCSS_SetOrthoMode, MCSS_ResetOrthoMode, MCSS_SetOrthoBillboardFlag, MCSS_ResetOrthoBillboardFlag, MCSS_GetPosition, MCSS_SetPosition, MCSS_GetOfsPosition, MCSS_SetOfsPosition, MCSS_GetScale, MCSS_SetScale, MCSS_GetShadowScale, MCSS_SetShadowScale, MCSS_GetRotate, MCSS_SetRotate, MCSS_SetOfsScale, MCSS_GetDrawScale, MCSS_SetDrawScale, MCSS_SetShadowRotateX, MCSS_SetShadowRotateZ, MCSS_SetShadowOffset, MCSS_SetMepachiFlag, MCSS_ResetMepachiFlag, MCSS_FlipMepachiFlag, MCSS_GetAnmStopFlag, MCSS_SetAnmStopFlag, MCSS_SetAnmStopFlagAlways, MCSS_ResetAnmStopFlag, MCSS_ResetAnmStopFlagAlways, MCSS_GetVanishFlag, MCSS_SetVanishFlag, MCSS_ResetVanishFlag, MCSS_FlipVanishFlag, MCSS_GetAnimCtrl, MCSS_GetAnimSeqNum, MCSS_GetStopCellNum, MCSS_GetStopCellIndex, MCSS_GetSizeX, MCSS_GetSizeY, MCSS_GetOfsX, MCSS_GetOfsY, MCSS_GetStopCellFlags, func_02015F2C, MCSS_SetCellCallback, MCSS_SetPaletteFade, MCSS_GetAlpha, MCSS_SetAlpha, MCSS_SetShadowAlpha, MCSS_SetShadowVanishFlag, MCSS_CheckPaletteFade, MCSS_SetTextureTransAdrs, MCSS_SetPaletteTransAdrs, MCSS_SetAnimeIndex, MCSS_GetMosaic, MCSS_SetMosaic, MCSS_SetGlobalScale, MCSS_SetAnimeSpeed, MCSS_GetAnimSeqNumEx, MCSS_CreatePaletteTransTask, MCSS_CreatePaletteCopyTask, MCSS_RestartAnime, MCSS_RequestAnimeStopAtStart, MCSS_SetWorkFlag, MCSS_SetSysParam, MCSS_SetSysFlag, MCSS_LoadResource, MCSS_LoadResourceShared, MCSS_TransTextureTask, MCSS_TransPaletteTask, MCSS_InitAnimCtrl, MCSS_InitEdgeColor, MCSS_UpdatePaletteFade, MCSS_FreeResource, MCSS_DeleteTextureTask, MCSS_DeletePaletteTask, MCSS_ApplyMosaic, MCSS_MulVecMtx44, MCSS_TOOL_MakeAddWorkFromPP, MCSS_TOOL_MakeAddWorkFromPPP, MCSS_TOOL_MakeAddWorkFromParam, MCSS_TOOL_MakeAddWorkFromTrainer, MCSS_TOOL_AddPokeMcss, MCSS_TOOL_SetSpindaSpotHook, MCSS_TOOL_SpindaSpotHook, MCSS_TOOL_DrawSpindaSpots, MCSS_TOOL_SetAnimeStopCallback, MCSS_TOOL_AnimeStopCallback
+ * function: func_02014910, func_0201493C, func_02014A10, func_02014A20, func_02014A80, MCSS_Init, MCSS_Exit, MCSS_Main, MCSS_OpenHandle, MCSS_CloseHandle, MCSS_SetTaskSystem, MCSS_SetLoadHook, MCSS_ReloadResource, MCSS_Draw, MCSS_DrawShadow, MCSS_Add, MCSS_Del, MCSS_SetOrthoMode, MCSS_ResetOrthoMode, MCSS_SetOrthoBillboardFlag, MCSS_ResetOrthoBillboardFlag, MCSS_GetPosition, MCSS_SetPosition, MCSS_GetOfsPosition, MCSS_SetOfsPosition, MCSS_GetScale, MCSS_SetScale, MCSS_GetShadowScale, MCSS_SetShadowScale, MCSS_GetRotate, MCSS_SetRotate, MCSS_SetOfsScale, MCSS_GetDrawScale, MCSS_SetDrawScale, MCSS_SetShadowRotateX, MCSS_SetShadowRotateZ, MCSS_SetShadowOffset, MCSS_SetMepachiFlag, MCSS_ResetMepachiFlag, MCSS_FlipMepachiFlag, MCSS_GetAnmStopFlag, MCSS_SetAnmStopFlag, MCSS_SetAnmStopFlagAlways, MCSS_ResetAnmStopFlag, MCSS_ResetAnmStopFlagAlways, MCSS_GetVanishFlag, MCSS_SetVanishFlag, MCSS_ResetVanishFlag, MCSS_FlipVanishFlag, MCSS_GetAnimCtrl, MCSS_GetAnimSeqNum, MCSS_GetStopCellNum, MCSS_GetStopCellIndex, MCSS_GetSizeX, MCSS_GetSizeY, MCSS_GetOfsX, MCSS_GetOfsY, MCSS_GetStopCellFlags, MCSS_SetAnimCallback, MCSS_SetCellCallback, MCSS_SetPaletteFade, MCSS_GetAlpha, MCSS_SetAlpha, MCSS_SetShadowAlpha, MCSS_SetShadowVanishFlag, MCSS_CheckPaletteFade, MCSS_SetTextureTransAdrs, MCSS_SetPaletteTransAdrs, MCSS_SetAnimeIndex, MCSS_GetMosaic, MCSS_SetMosaic, MCSS_SetGlobalScale, MCSS_SetAnimeSpeed, MCSS_GetAnimSeqNumEx, MCSS_CreatePaletteTransTask, MCSS_CreatePaletteCopyTask, MCSS_RestartAnime, MCSS_RequestAnimeStopAtStart, MCSS_SetWorkFlag, MCSS_SetSysParam, MCSS_SetSysFlag, MCSS_LoadResource, MCSS_LoadResourceShared, MCSS_TransTextureTask, MCSS_TransPaletteTask, MCSS_InitAnimCtrl, MCSS_InitEdgeColor, MCSS_UpdatePaletteFade, MCSS_FreeResource, MCSS_DeleteTextureTask, MCSS_DeletePaletteTask, MCSS_ApplyMosaic, MCSS_MulVecMtx44, MCSS_TOOL_MakeAddWorkFromPP, MCSS_TOOL_MakeAddWorkFromPPP, MCSS_TOOL_MakeAddWorkFromParam, MCSS_TOOL_MakeAddWorkFromTrainer, MCSS_TOOL_AddPokeMcss, MCSS_TOOL_SetSpindaSpotHook, MCSS_TOOL_SpindaSpotHook, MCSS_TOOL_DrawSpindaSpots, MCSS_TOOL_SetAnimeStopCallback, MCSS_TOOL_AnimeStopCallback
  * address:  0x02014910
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,11 +13,11 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02013F2C  0x02013F2C  thumb
- *   func_02013B38  0x02013B38  thumb
+ *   ZONEDATA_GetLightId  0x02013F2C  thumb
+ *   ZONEDATA_GetAreaId  0x02013B38  thumb
  *   ZONEDATA_CreateAreaData  0x0201407C  thumb
- *   func_020140DC  0x020140DC  thumb
- *   func_020140B4  0x020140B4  thumb
+ *   ZONEDATA_GetAreaLightType  0x020140DC  thumb
+ *   ZONEDATA_DeleteAreaData  0x020140B4  thumb
  *   sub_020307B0   0x020307B0  arm
  *   sub_0209E054_Map  0x0209E054  data
  *   ARC_TOOL_GetMemberSize       0x020490A8  arm
@@ -48,7 +48,7 @@
  *   G3_RotX          0x0207D810  arm
  *   G3_RotZ          0x0207D888  arm
  *   G3_MultMtx44     0x0207D8FC  arm
- *   sub_0207C768     0x0207C768  arm
+ *   FX_Div     0x0207C768  arm
  *   g_renderStateDrawParams       0x02148B98  data
  *   SCREENTEX_ProjectionMatrix       0x02148B54  data
  *   SCREENTEX_CameraPositionOut       0x02148D8C  data
@@ -447,11 +447,11 @@ struct LightTableEntry {
 extern void *func_020122C0(void *owner, void *parent, void *callback, u32 workSize);
 extern void *func_020124E8(void *task);
 extern u32 func_02014878(u32 task, u32 *mode, u32 *taskWork);
-extern u32 func_02013F2C(u32 id);
-extern u32 func_02013B38(u32 id);
+extern u32 ZONEDATA_GetLightId(u32 id);
+extern u32 ZONEDATA_GetAreaId(u32 id);
 extern void *ZONEDATA_CreateAreaData(u16 heap, u32 zoneLightId, u32 season);
-extern u8 func_020140DC(void *p);
-extern u32 func_020140B4(void *a);
+extern u8 ZONEDATA_GetAreaLightType(void *p);
+extern u32 ZONEDATA_DeleteAreaData(void *a);
 extern u32 sub_020307B0(void *p);
 extern u32   ARC_TOOL_GetMemberSize(u32 archive, u32 member);
 extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heap);
@@ -482,7 +482,7 @@ extern void G3i_LookAt_(const VecFx32 *camPos, const VecFx32 *camUp,
 extern void G3_RotX(fx32 s, fx32 c);
 extern void G3_RotZ(fx32 s, fx32 c);
 extern void G3_MultMtx44(const MtxFx44 *m);
-extern u32 sub_0207C768(u32 value, u32 divisor);
+extern u32 FX_Div(u32 value, u32 divisor);
 extern void G3i_FrustumW_(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f,
                           fx32 scaleW, int draw, void *mtx);
 extern void MCSS_DeleteTextureTask(void *taskHandle);
@@ -589,7 +589,7 @@ u16 MCSS_GetSizeY(McssWork *work);
 s16 MCSS_GetOfsX(McssWork *work);
 s16 MCSS_GetOfsY(McssWork *work);
 u8 MCSS_GetStopCellFlags(McssWork *work);
-void sub_02015F2C(McssWork *work, u32 callback, u32 callbackWork);
+int MCSS_SetAnimCallback(McssWork *work, u32 callback, u32 callbackWork, u32 unusedArg);
 void MCSS_SetCellCallback(McssWork *work, unsigned flags, void *callback);
 void MCSS_SetPaletteFade(McssWork *work, u32 start, u32 end, s32 wait, u32 color);
 u8 MCSS_GetAlpha(McssWork *work);
@@ -672,7 +672,7 @@ void *func_02014910(void *anime, int slot, int config, int target)
 
 /*
  * The three-way fallback load of the 0x34-byte time-of-day table (member
- * 0x3e for an explicit id, 0x52 for the id func_02013F2C maps, else 0x3d
+ * 0x3e for an explicit id, 0x52 for the id ZONEDATA_GetLightId maps, else 0x3d
  * built through ZONEDATA_CreateAreaData), then func_02014A80 over it and a free.
  *
  * Closed in wave 13 by the declaration, not the body: the seventh
@@ -699,14 +699,14 @@ void func_0201493C(u32 zoneId, u32 hour, u32 minute, u32 lightTableId,
         table = func_02014A20(0x3e, func_02014A10(lightTableId), &count, (u16)((heapId & 0x7fff) | 0x8000));
     }
     if (table == 0) {
-        u32 mapped = func_02013F2C((u16)zoneId);
+        u32 mapped = ZONEDATA_GetLightId((u16)zoneId);
         if (mapped != 0xfffffff)
             table = func_02014A20(0x52, mapped, &count, (u16)((heapId & 0x7fff) | 0x8000));
     }
     if (table == 0) {
-        void *zoneLight = ZONEDATA_CreateAreaData((heapId & 0x7fff) | 0x8000, func_02013B38((u16)zoneId), season);
-        table = func_02014A20(0x3d, func_020140DC(zoneLight), &count, (u16)((heapId & 0x7fff) | 0x8000));
-        func_020140B4((void *)zoneLight);
+        void *zoneLight = ZONEDATA_CreateAreaData((heapId & 0x7fff) | 0x8000, ZONEDATA_GetAreaId((u16)zoneId), season);
+        table = func_02014A20(0x3d, ZONEDATA_GetAreaLightType(zoneLight), &count, (u16)((heapId & 0x7fff) | 0x8000));
+        ZONEDATA_DeleteAreaData((void *)zoneLight);
     }
     func_02014A80(table, count, minuteSeconds + hourSeconds, season, outColors);
     sub_020307B0(table);
@@ -1181,8 +1181,8 @@ void MCSS_Draw(McssSys *sys)
             MTX_Copy43To44_(&g_renderStateDrawParams, &viewMtx);
             MTX_Concat44(&viewMtx, &SCREENTEX_ProjectionMatrix, &viewMtx);
             MCSS_MulVecMtx44(&pos, &viewMtx, &pos, &projW);
-            pos.x = FX_MUL(sub_0207C768(pos.x, projW), 0x80000);
-            pos.y = FX_MUL(sub_0207C768(pos.y, projW), 0x60000);
+            pos.x = FX_MUL(FX_Div(pos.x, projW), 0x80000);
+            pos.y = FX_MUL(FX_Div(pos.y, projW), 0x60000);
             pos.z = -pos.z;
             transX = FX_F32_TO_FX32(pose.ofsX);
             transY = FX_F32_TO_FX32(-pose.ofsY);
@@ -2117,10 +2117,10 @@ u8 MCSS_GetStopCellFlags(McssWork *work)
  * labelled function; they are not matched here.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02015F2C.c \
- *       --func sub_02015F2C --addr 0x02015F2C --cc 1.1p1
+ *   python tools/match.py one --src src/matched/MCSS_SetAnimCallback.c \
+ *       --func MCSS_SetAnimCallback --addr 0x02015F2C --cc 1.1p1
  */
-void sub_02015F2C(McssWork *work, u32 callback, u32 callbackWork)
+int MCSS_SetAnimCallback(McssWork *work, u32 callback, u32 callbackWork, u32 unusedArg)
 {
     func_02063000((int)&work->animCtrl, 1, callback, callbackWork);
 }
@@ -3555,7 +3555,7 @@ void MCSS_TOOL_DrawSpindaSpots(u8 *pixels, u32 personality)
 }
 
 
-int MCSS_TOOL_SetAnimeStopCallback(McssWork *work){ int ret = func_02015F2C((int)work, (int)(work + 0), (int)0x20173C9, (int)1); return ret; }
+int MCSS_TOOL_SetAnimeStopCallback(McssWork *work){ int ret = MCSS_SetAnimCallback(work, (u32)(work + 0), (u32)0x20173C9, (u32)1); return ret; }
 
 
 /*

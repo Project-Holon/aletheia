@@ -1,5 +1,5 @@
 /*
- * function: func_02177BF4
+ * function: NET_WHPIPE_ReleaseEntry
  * address:  0x02177BF4
  * packet:   pkt_ov014_02177BF4
  * region:   ov014
@@ -9,18 +9,18 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled tail-call thunk (ldr r3,[pc]; bx r3) to func_02177BAC.
+ * Unlabelled tail-call thunk (ldr r3,[pc]; bx r3) to NET_WHPIPE_ReleaseEntrySlot.
  * Sole blocker of the GAME_BEACON_SEARCH_PickBestScanResult / GAME_BEACON_SEARCH_PollScanResult MATCHes (ov010).
  *
  * symbols:
- *   func_02177BAC  0x02177BAC  thumb ov014
+ *   NET_WHPIPE_ReleaseEntrySlot  0x02177BAC  thumb ov014
  *
  * Addresses are Black-image addresses.
  */
 
-extern void func_02177BAC(unsigned int idx);
+extern void NET_WHPIPE_ReleaseEntrySlot(unsigned int idx);
 
-void func_02177BF4(unsigned int idx)
+void NET_WHPIPE_ReleaseEntry(unsigned int idx)
 {
-    func_02177BAC(idx);
+    NET_WHPIPE_ReleaseEntrySlot(idx);
 }

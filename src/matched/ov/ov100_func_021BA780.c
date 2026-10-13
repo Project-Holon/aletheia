@@ -30,11 +30,11 @@
  *   CLACT_CreateUnit 0x0204B100 arm
  *   func_020056A0 0x020056A0 thumb
  *   func_021BA1C8 0x021BA1C8 thumb ov100
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   func_021B96EC 0x021B96EC thumb ov100
  *   func_021B974C 0x021B974C thumb ov100
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   func_02082D44 0x02082D44 arm
@@ -75,7 +75,7 @@ extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a
 extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern int func_020056A0(u32,u32,u32);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
@@ -83,7 +83,7 @@ extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void FADE_Start(u32,int,int,int);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_02082D44(const void *,void *,u32);
 extern u32 func_020307B0(void *p);
@@ -114,7 +114,7 @@ void func_021BA780(char *p) {
  CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)d_021BB6F0,((struct Obj00178 *)p)->f278);
  ((struct Obj00178 *)p)->f2B4=(int)CLACT_CreateUnit(40,0,((struct Obj00178 *)p)->f278);
  ((struct Obj00178 *)p)->f2B0=func_020056A0((u32)func_021BA1C8,(u32)p,0);
- ((struct Obj00178 *)p)->fCB8=func_0201C440((void *)(((struct Obj00178 *)p)->f278));
+ ((struct Obj00178 *)p)->fCB8=PRINTSYS_QUE_Create((void *)(((struct Obj00178 *)p)->f278));
  ((struct Obj00178 *)p)->fCC4=(int)APP_TASKMENU_RES_Create(6,9,((struct Obj00178 *)p)->f290,((struct Obj00178 *)p)->fCB8,((struct Obj00178 *)p)->f278);
  func_021B96EC(p);
  if(((struct Obj00178 *)p)->f24C!=5) {
@@ -122,7 +122,7 @@ void func_021BA780(char *p) {
  } else {
   func_021B974C((int)p,57,154,0,4);func_021B974C((int)p,198,154,1,5);func_021B974C((int)p,200,38,2,6);func_021B974C((int)p,55,38,3,7);func_021B974C((int)p,152,146,6,0);func_021B974C((int)p,103,146,7,1);func_021B974C((int)p,152,46,4,0);func_021B974C((int)p,103,46,5,1);
  }
- func_02043534((int)19);BG_SYS_SetSubVisiblePlanes((int)23);
+ BG_SYS_SetMainVisiblePlanes((int)19);BG_SYS_SetSubVisiblePlanes((int)23);
  ((struct Obj00178 *)p)->f242=((struct Obj00178 *)p)->f278;
  owner=func_020490F4(28,((struct Obj00178 *)p)->f242);
  raw=ARC_UTIL_LoadPaletteBlockFromHandle(owner,2,(u32)(&resource),((struct Obj00178 *)p)->f242);

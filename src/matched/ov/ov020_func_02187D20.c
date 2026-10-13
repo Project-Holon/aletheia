@@ -1,5 +1,5 @@
 /*
- * function: func_02187D20
+ * function: EL_SCOREBOARD_GetMode
  * address:  0x02187D20
  * packet:   pkt_02187D20
  * region:   ov020
@@ -13,7 +13,7 @@
 
 typedef unsigned int u32;
 
-u32 func_02187D20(char *p)
+u32 EL_SCOREBOARD_GetMode(char *p)
 {
     return ((struct Obj19482 *)p)->fC;
 }

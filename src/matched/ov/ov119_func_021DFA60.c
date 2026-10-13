@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020061E4   0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume   0x020061E4  thumb
  *   g_021E7844      0x021E7844  data  ov119
  *
  * Addresses are Black-image addresses.
@@ -27,7 +27,7 @@ typedef struct {
     Pair t[25];
 } Table;
 
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern const Table g_021E7844;
 
 void func_021DFA60(u32 key)
@@ -38,5 +38,5 @@ void func_021DFA60(u32 key)
     local = g_021E7844;
     for (i = 0; i < 25; i++)
         if (key == local.t[i].b)
-            func_020061E4(local.t[i].a);
+            GFL_USE_PlaySeDefaultVolume(local.t[i].a);
 }

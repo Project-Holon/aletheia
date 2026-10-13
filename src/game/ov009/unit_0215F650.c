@@ -1,7 +1,7 @@
 /*
  * file:     unit_0215F650.c
  * unit:     yes
- * function: SOC_GetHostByName, SOC_GetSockName, SOC_GetHostID, SOC_SetResolver, SOC_Fcntl, func_0215F8A4, FreeFunc_SOCL, SOC_Startup, SOC_Cleanup, SOC_InetNtoA, SOC_InetAtoN, SOC_InetNtoP, func_0215FBAC, SOC_Poll
+ * function: SOC_GetHostByName, SOC_GetSockName, SOC_GetHostID, SOC_SetResolver, SOC_Fcntl, func_0215F8A4, FreeFunc_SOCL, SOC_Startup, SOC_Cleanup, SOC_InetNtoA, SOC_InetAtoN, SOC_InetNtoP, SOC_U32to4U8_Alt, SOC_Poll
  * address:  0x0215F650
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -12,7 +12,7 @@
  *
  * symbols:
  *   func_0215EDD0  0x0215EDD0  arm  ov009
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0208CB10  0x0208CB10  arm
  *   g_021AA544     0x021AA544  data
  *   g_021AA4BC     0x021AA4BC  data
@@ -115,7 +115,7 @@ typedef struct {
 } PollFD;
 
 extern unsigned long func_0215EDD0(char *hostname);
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int func_0208CB10(char *destp, const char *srcp, int siz);
 extern unsigned long SOCL_GetHostID(void);
 extern int func_0215EEE0(unsigned long dns1, unsigned long dns2);
@@ -134,7 +134,7 @@ int SOC_Fcntl(Sock *s, int cmd, int flags);
 int SOC_Startup(const SOCConfig *config);
 int SOC_InetAtoN(char *cp, unsigned long *inp);
 char *SOC_InetNtoP(int af, void *src, char *dst, unsigned int len);
-void func_0215FBAC(unsigned addr32, unsigned char *addr4);
+void SOC_U32to4U8_Alt(unsigned addr32, unsigned char *addr4);
 int SOC_Poll(PollFD *fds, unsigned int nfds, long long timeout);
 extern SOCStatics g_021AA4BC;
 extern u32 g_021AA4BC_ip;
@@ -162,7 +162,7 @@ HostEnt *SOC_GetHostByName(const char *name)
 	if (ipAddr == 0) {
 		return 0;
 	}
-	func_02082BCC(g_021AA544, 0, 0x101);
+	MI_CpuFill8(g_021AA544, 0, 0x101);
 	func_0208CB10(g_021AA544, name, 0x101);
 	g_021AA4BC.hostent_name = g_021AA544;
 	g_021AA4BC.hostent_aliases = 0;
@@ -357,7 +357,7 @@ char *SOC_InetNtoP(int af, void *src, char *dst, unsigned int len)
 /*
  * Writes a word big-endian into four bytes.
  */
-void func_0215FBAC(unsigned addr32, unsigned char *addr4)
+void SOC_U32to4U8_Alt(unsigned addr32, unsigned char *addr4)
 {
     addr4[0] = (unsigned char)(addr32 >> 24);
     addr4[1] = (unsigned char)(addr32 >> 16);

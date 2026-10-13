@@ -11,7 +11,7 @@
  * symbols:
  * func_02030734 0x02030734 arm
  * func_020307B0 0x020307B0 arm
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * IRC_COMPATIBLE_SourceFileName 0x021B753C data a1
  */
 #include "../include/Obj05268.h"
@@ -20,13 +20,13 @@
 typedef unsigned short u16;
 extern char IRC_COMPATIBLE_SourceFileName[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
-extern void func_02082BCC(int,int,unsigned);
+extern void MI_CpuFill8(int,int,unsigned);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 int IRC_COMPATIBLE_MenuStepCreateArgs(unsigned a,int *p) {
  int q;
  q=(int)func_02030734(a,0x14,0,IRC_COMPATIBLE_SourceFileName,0x36e);
- func_02082BCC(q,0,0x14);
+ MI_CpuFill8(q,0,0x14);
  ((struct Obj05268 *)q)->f0=*(int *)p[4];
  ((struct Obj05268 *)q)->f4=p[0];
  ((struct Obj05268 *)q)->f10=p[15];

@@ -14,9 +14,9 @@
  *   PLIST_PLATE_GetHpBarColor  0x021BB554  thumb  ov091
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_0202D01C  0x0202D01C  thumb
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_FillRect  0x02043AF4  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 #include "../include/Obj03183.h"
 #include "../include/Obj20875.h"
@@ -32,10 +32,10 @@ extern u8 PLIST_PLATE_GetHpBarColor(u8 *s);
 extern u32 POKE_TOOL_GetPartyValue(void *obj, u32 key, u32 off);
 extern u8 func_0202D01C(u32 a, u32 b, u32 c);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 void PLIST_PLATE_DrawHpBar(u8 *a, u8 *s)
 {
@@ -51,7 +51,7 @@ void PLIST_PLATE_DrawHpBar(u8 *a, u8 *s)
         return;
     r = PLIST_PLATE_GetHpBarColor(s);
     h = func_0202D01C(((struct Obj03183 *)s)->f6, POKE_TOOL_GetPartyValue((void *)((struct Obj03183 *)s)->f0, 0xa1, 0), 0x30);
-    w = (u32)func_02045770((struct Descriptor *)((struct Obj03183 *)s)->f20);
+    w = (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj03183 *)s)->f20);
     if (r == 2 || r == 3) {
         x = 0xe;
         y = 0xf;
@@ -64,5 +64,5 @@ void PLIST_PLATE_DrawHpBar(u8 *a, u8 *s)
     }
     BMP_FillRect((struct Bmp *)w, 0x3d, 0x1b, h, 1, x);
     BMP_FillRect((struct Bmp *)w, 0x3d, 0x1c, h, 1, y);
-    func_0204B3DC((struct Obj *)((struct Obj03183 *)s)->f38, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj03183 *)s)->f38, 1);
 }

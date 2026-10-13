@@ -1,5 +1,5 @@
 /*
- * function: BTL_ITEM_GetWeakenDamageFlyingHandlers
+ * function: HAND_ITEM_GetWeakenDamageFlyingHandlers
  * address: 0x021DDBB8
  * packet: pkt_ov093_021DDBB8
  * region: ov093
@@ -15,12 +15,12 @@
  *   gBtlItemWeakenDamageFlyingHandlers 0x021F17DC data ov093 a4
  */
 
-int *BTL_ITEM_GetWeakenDamageFlyingHandlers(int *p);
+int *HAND_ITEM_GetWeakenDamageFlyingHandlers(int *p);
 
 /* 021DDBC4  shape F2: two stack constants (2, 0) */
 extern int gBtlItemWeakenDamageFlyingHandlers[];
 
-int *BTL_ITEM_GetWeakenDamageFlyingHandlers(int *p)
+int *HAND_ITEM_GetWeakenDamageFlyingHandlers(int *p)
 {
     *p = 2;
     return gBtlItemWeakenDamageFlyingHandlers;

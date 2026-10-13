@@ -10,7 +10,7 @@
  * symbols:
  *   func_021DE354 0x021DE354 thumb ov137
  *   func_021DE7F4 0x021DE7F4 thumb ov137
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021DD924 0x021DD924 thumb ov137
  *   BMP_MENU_ProcessYesNo 0x0201FEBC thumb
  *   func_021DCF50 0x021DCF50 thumb ov137
@@ -28,7 +28,7 @@ typedef unsigned char  u8;
 struct WordSet;
 extern int func_021DE354(void *p);
 extern unsigned func_021DE7F4(void);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021DD924(char *);
 extern u32 BMP_MENU_ProcessYesNo(u8 *p);
 extern void *func_021DCF50(u8 *p);
@@ -40,7 +40,7 @@ int func_021DDD80(char *p, int state) {
     char *q = *(char * *)&((struct Obj04538 *)p)->f10;
     unsigned result;
     if (((struct Obj14215 *)q)->f2C != func_021DE354(p) || ((struct Obj14215 *)q)->f30 != 0) {
-        if (func_021DE7F4() & 0xc3) func_020061E4(0x54c);
+        if (func_021DE7F4() & 0xc3) GFL_USE_PlaySeDefaultVolume(0x54c);
         func_021DD924(p);
         return state;
     }

@@ -12,7 +12,7 @@
  * note:     the unlabelled 2-instruction leaf at 0x02175FB4 (ldrb r0,[r0,#0x10]; bx lr) follows.
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetBattleRecSlotByNetId  0x021583CC  thumb  ov010
  *   GAME_DATA_GetMyStatusByNetId  0x021583EC  thumb  ov010
  *   func_0200855C  0x0200855C  thumb
@@ -38,7 +38,7 @@ typedef struct {
     u16 h[8];
 } Half8;
 
-extern u32 func_02026478(void *obj);
+extern u32 GAME_COMM_GetGameData(void *obj);
 extern int GAME_DATA_GetBattleRecSlotByNetId(void *a0, int a1);
 struct Sub0200852CObj;
 extern int GAME_DATA_GetMyStatusByNetId(void *a0, int a1);
@@ -56,7 +56,7 @@ void INTRUDE_COMM_SetMemberEntry(void *w, Ent *tbl, u32 arg, int idx)
     int u;
     u8 flag;
 
-    sv = func_02026478(((void **)w)[1]);
+    sv = GAME_COMM_GetGameData(((void **)w)[1]);
     e = (Ent *)((u8 *)tbl + idx * 0x28);
     if (e->f10 != 1) {
         src = (Half8 *)GAME_DATA_GetBattleRecSlotByNetId((void *)sv, idx);

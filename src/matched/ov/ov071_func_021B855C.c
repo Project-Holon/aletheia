@@ -16,8 +16,8 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   MONOLITH_TOOL_UpdateLabel  0x021B6F04  thumb  ov071
- *   func_02045770  0x02045770  arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_021B8798  0x021B8798  thumb  ov071
  */
@@ -46,8 +46,8 @@ int MONOLITH_TOOL_SUMMARY_Update(int a, int *p, C *c, unsigned char *d)
     extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
     extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
     extern int MONOLITH_TOOL_UpdateLabel(void **p, u8 *q);
-    extern void *func_02045770(struct Descriptor *p);
-    extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+    extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+    extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
     extern void BMP_WIN_TransferChars(struct Descriptor *d);
     extern void func_021B8798(C *, Q *, unsigned char *, int, unsigned);
     int r;
@@ -64,7 +64,7 @@ int MONOLITH_TOOL_SUMMARY_Update(int a, int *p, C *c, unsigned char *d)
         void *q = c->f4->f8;
         unsigned char *s = d + i * 8;
         if (s[0xc] != 0) {
-            if (func_0201C6C4(q, (void *)((unsigned)func_02045770(((struct Obj06187 *)s)->f8))) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget(q, (void *)((unsigned)BMP_WIN_GetBmp(((struct Obj06187 *)s)->f8))) == 0) {
                 BMP_WIN_TransferChars(((struct Obj06187 *)s)->f8);
                 s[0xc] = 0;
             }

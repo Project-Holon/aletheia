@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_GetSnowCloakHandlers
+ * function: HAND_TOKUSEI_GetSnowCloakHandlers
  * address: 0x021D8AE0
  * packet: pkt_ov093_021D8AE0
  * region: ov093
@@ -15,10 +15,10 @@
  *   gSnowCloakHandlers 0x021F09F0 data ov093 a4
  */
 
-int *BTL_CALC_GetSnowCloakHandlers(int *p);
+int *HAND_TOKUSEI_GetSnowCloakHandlers(int *p);
 extern int gSnowCloakHandlers[];
 
-int *BTL_CALC_GetSnowCloakHandlers(int *p)
+int *HAND_TOKUSEI_GetSnowCloakHandlers(int *p)
 {
     *p = 2;
     return gSnowCloakHandlers;

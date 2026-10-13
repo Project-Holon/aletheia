@@ -11,11 +11,11 @@
  * note 2026-10-05 (wD7 lane05): the entry spill order (b before a) follows the type of the
  *   fourth parameter: c as u16 closes it (as int the compiler spills a, b, c).
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *   STRBUF_Create  0x020457B0  arm
  *   func_021F4DBC  0x021F4DBC  thumb  ov194
@@ -25,9 +25,9 @@
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   STRBUF_ToChars  0x02045A38  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B92C  0x0204B92C  arm
- *   func_0204B404  0x0204B404  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_StartActorAnim  0x0204B95C  arm
  *   func_021F1FB4  0x021F1FB4  thumb  ov194
  */
@@ -36,7 +36,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 struct Actor;
 struct Cfg;
 struct Descriptor;
@@ -46,7 +46,7 @@ struct Vec2;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern int func_021F4DBC(int a, int b);
@@ -56,9 +56,9 @@ extern u16 STRBUF_GetLength(struct U16Vec *vec);
 extern u16 STRBUF_GetEosChar(void);
 extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_StartActorAnim(struct Actor *a);
 extern int func_021F1FB4(u8 *p);
 void func_021F1E28(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f)
@@ -67,7 +67,7 @@ void func_021F1E28(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f)
     int i;
     int h;
     int base;
-    func_02082BCC(p, 0, 0x94);
+    MI_CpuFill8(p, 0, 0x94);
     i = 0;
     *(int *)(p + 0x34) = c;
     *(u16 *)(p + 0x22) = b;
@@ -76,7 +76,7 @@ void func_021F1E28(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f)
     *(int *)(p + 0x40) = h;
     BMP_WIN_TransferChars((struct Descriptor *)h);
     BMP_WIN_MakeScreen((struct Cfg *)h);
-    func_020409B4(func_02045730((struct Descriptor *)h));
+    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     *(int *)(p + 0x2c) = *(int *)(p + 0x40);
     *(u8 *)(p + 0x30) = i;
     *(int *)(p + 0x3c) = (int)STRBUF_Create(0xe, f);
@@ -102,12 +102,12 @@ void func_021F1E28(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f)
     for (i = 0; i < 16; i++) {
         pos[0] = base + i * 14;
         CLACT_SetActorAnimSeq((struct Obj *)(*(int *)(p + i * 4 + 0x44)), 1);
-        func_0204B92C((struct Obj *)(*(int *)(p + i * 4 + 0x44)), 1);
-        func_0204B404((struct Obj *)(*(int *)(p + i * 4 + 0x44)), (const struct Vec2 *)pos, 0);
-        func_0204B3DC((struct Obj *)(*(int *)(p + i * 4 + 0x44)), 1);
+        CLACT_SetActorAutoAnim((struct Obj *)(*(int *)(p + i * 4 + 0x44)), 1);
+        CLACT_AddActorSurfacePos((struct Obj *)(*(int *)(p + i * 4 + 0x44)), (const struct Vec2 *)pos, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)(*(int *)(p + i * 4 + 0x44)), 1);
     }
     for (i = *(u16 *)(p + 0x22); i < 16; i++) {
-        func_0204B3DC((struct Obj *)(*(int *)(p + i * 4 + 0x44)), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)(*(int *)(p + i * 4 + 0x44)), 0);
     }
     CLACT_StartActorAnim((struct Actor *)(*(int *)(p + *(u16 *)(p + 0x1e) * 4 + 0x44)));
     *(int *)(p + 0x28) = 1;

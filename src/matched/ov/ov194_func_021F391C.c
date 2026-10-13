@@ -10,7 +10,7 @@
  * symbols:
  *   func_021F2614 0x021F2614 thumb ov194
  *   func_021F3364 0x021F3364 thumb ov194
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021F366C 0x021F366C thumb ov194
  *   func_021F2818 0x021F2818 thumb ov194
  *   func_021F1A1C 0x021F1A1C thumb ov194
@@ -19,7 +19,7 @@
 typedef struct {int left,top,right,bottom;} Rect;
 extern unsigned func_021F2614(char *,int *,unsigned short *);
 extern int func_021F3364(char *,int),func_021F2818(char *,int,int);
-extern void func_020061E4(unsigned),func_021F366C(char *,int,int);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned),func_021F366C(char *,int,int);
 struct Rect;
 extern void func_021F1A1C(char *p, int mode, const struct Rect *rect, int flag, int selected);
 void func_021F391C(char *p,int *input)
@@ -34,12 +34,12 @@ void func_021F391C(char *p,int *input)
     case 9:((struct Obj00117 *)p)->fE8=9;((struct Obj00117 *)p)->fE4=1;break;
     case 2:case 3:case 4:case 5:
         if(func_021F3364(p,code-2)){
-            func_020061E4(1611);((struct Obj00117 *)p)->fE4=2;((struct Obj00117 *)p)->fE8=6;
+            GFL_USE_PlaySeDefaultVolume(1611);((struct Obj00117 *)p)->fE4=2;((struct Obj00117 *)p)->fE8=6;
         }break;
     case 6:((struct Obj00117 *)p)->fE8=5;break;
     case 7:((struct Obj00117 *)p)->fE8=7;break;
     case 8:
-        func_020061E4(1356);((struct Obj00117 *)p)->fE8=8;
+        GFL_USE_PlaySeDefaultVolume(1356);((struct Obj00117 *)p)->fE8=8;
         func_021F366C(p,((struct Obj00117 *)p)->f104^1,((struct Obj00117 *)p)->f108);break;
     case 10:((struct Obj00117 *)p)->fE8=3;break;
     case 11:((struct Obj00117 *)p)->fE8=4;break;

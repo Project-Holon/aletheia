@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   TOUCHBAR_GetGfxWord  0x021B6730  thumb  ov067
  *   gTouchBarButtonLooks     0x021B942C  data  ov067  a4
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   TOUCHBAR_OnPressPlain  0x021B6A28  thumb  ov067
  *   TOUCHBAR_SetEnabledPlain  0x021B6A68  thumb  ov067
- *   func_021B6A44  0x021B6A44  thumb  ov067
+ *   TOUCHBAR_OnPressToggle  0x021B6A44  thumb  ov067
  *   TOUCHBAR_SetEnabledToggle  0x021B6A98  thumb  ov067
  */
 
@@ -72,15 +72,15 @@ typedef struct {
 
 extern Ent gTouchBarButtonLooks[];
 
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern int TOUCHBAR_GetGfxWord(void *p, int i);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *a, unsigned int b, unsigned int c, unsigned int d, const void *pos, u16 f, u16 g);
-extern void func_0204B92C(struct Obj *obj, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *obj, u32 v);
 struct S;
 extern void TOUCHBAR_OnPressPlain(u8 *p);
 extern void TOUCHBAR_SetEnabledPlain(struct S *p, u32 flag);
-extern void func_021B6A44(u8 *p);
+extern void TOUCHBAR_OnPressToggle(u8 *p);
 extern void TOUCHBAR_SetEnabledToggle(struct S *p, u32 flag);
 
 void TOUCHBAR_InitButton(Obj *p, u32 a1, void *a2, Src *src, u32 a4, u16 a5)
@@ -91,10 +91,10 @@ void TOUCHBAR_InitButton(Obj *p, u32 a1, void *a2, Src *src, u32 a4, u16 a5)
     u32 v2;
     int i;
 
-    func_02082BCC(p, 0, 0x38);
+    MI_CpuFill8(p, 0, 0x38);
     p->src = *src;
     p->f4 = 1;
-    func_02082BCC(&pos, 0, 8);
+    MI_CpuFill8(&pos, 0, 8);
     pos.x = src->x;
     pos.y = src->y;
     if (src->kind >= 7) {
@@ -118,14 +118,14 @@ void TOUCHBAR_InitButton(Obj *p, u32 a1, void *a2, Src *src, u32 a4, u16 a5)
     p->f8 = p->src.hE;
     pos.z = p->f8;
     p->f0 = (u32)CLACT_CreateActor((void *)a1, v0, v1, v2, &pos, a4, a5);
-    func_0204B92C((struct Obj *)p->f0, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)p->f0, 1);
     switch (p->f14) {
     case 0:
         p->fC = TOUCHBAR_OnPressPlain;
         p->f10 = TOUCHBAR_SetEnabledPlain;
         break;
     case 1:
-        p->fC = func_021B6A44;
+        p->fC = TOUCHBAR_OnPressToggle;
         p->f10 = TOUCHBAR_SetEnabledToggle;
         break;
     }

@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021B9934 0x021B9934 thumb ov093
+ *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   BTL_POKEPARAM_ConsumeHeldItem 0x021D6730 thumb ov093
  *   BTL_POKEPARAM_RecordMoveUse 0x021D6744 thumb ov093
  *   BTL_POKEPARAM_SetContFlag 0x021D5FE4 thumb ov093
@@ -31,9 +31,9 @@
  *   BTL_POKEPARAM_SetSubstituteHp 0x021D6D5C thumb ov093
  *   BTL_POKEPARAM_ClearSubstitute   0x021D6D70  thumb
  *   BTL_CLIENT_AddPoints 0x021CD9F4 thumb ov093
- *   func_021B9B10 0x021B9B10 thumb ov093
- *   func_021B9AEC 0x021B9AEC thumb ov093
- *   func_021B9D10 0x021B9D10 thumb ov093
+ *   BTL_MAIN_AddClientPoints 0x021B9B10 thumb ov093
+ *   BTL_SIDE_GetSlotOfClient 0x021B9AEC thumb ov093
+ *   BTL_SLOT_UpdateIllusion 0x021B9D10 thumb ov093
  *   BTL_POKEPARAM_ClearConsumedItem   0x021D6738  thumb
  *   BTL_POKEPARAM_CureSickBySource 0x021D6264 thumb ov093
  *   BTL_POKEPARAM_AddHitRecord 0x021D6848 thumb ov093
@@ -42,9 +42,9 @@
  *   func_021EFC78   0x021EFC78  thumb
  *   BTL_POKEPARAM_SetWeight 0x021D67D8 thumb ov093
  *   BTL_FIELD_GetCountdownByte 0x021EF9A8 thumb ov093
- *   func_021B9F84 0x021B9F84 thumb ov093
+ *   BTL_MAIN_GetTrainerItem 0x021B9F84 thumb ov093
  *   d_021EFF74  0x021EFF74  data  a1
- *   func_021B9B94  0x021B9B94  thumb  ov093
+ *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   func_021D805C  0x021D805C  thumb  ov093
  *   BTL_CALC_DivideMaxHp  0x021D7B60  thumb  ov093
@@ -59,7 +59,7 @@
  *   GFL_USE_SetPlayersAudible 0x02005CA4 thumb
  *   PM_VOICE_SetMasterVolume 0x02006734 thumb
  *   func_021F8B10 0x021F8B10 thumb ov094
- *   func_021B92A0 0x021B92A0 thumb ov093
+ *   BTL_MAIN_SetKeepBgm 0x021B92A0 thumb ov093
  *   func_021EAE14 0x021EAE14 thumb ov093
  *   gBtlNet 0x021F3B88 data ov093 a4
  *   gBtlNetSourceName 0x021F3A98 data ov093 a4
@@ -75,8 +75,8 @@
  *   func_02007B50  0x02007B50  thumb
  *   func_02007B00  0x02007B00  thumb
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   FIELD_GIMMICK_GATE_IsSaveBlockListOn   0x021F3A98  data
  *   STRBUF_GetEosChar  0x02045A98  arm
@@ -85,7 +85,7 @@
  *   STRBUF_GetChars   0x02045A90  arm
  *   sub_0201F41C   0x0201F41C  thumb
  *   GFL_NET_HANDLE_SetUserInfo 0x0203A424 arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   func_02082D44 0x02082D44 arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_02017E1C  0x02017E1C  thumb
@@ -225,7 +225,7 @@ typedef struct {
     u32 size : 24;
 } Hdr_021D4CB8;
 
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void BTL_POKEPARAM_ConsumeHeldItem(struct QK *p, u16 v);
 extern void BTL_POKEPARAM_RecordMoveUse(u8 *p, u8 a, int f, u8 b, u16 c, u16 d);
 extern void BTL_POKEPARAM_SetContFlag(u8 *, u32);
@@ -243,9 +243,9 @@ extern void BTL_POKEPARAM_PassEffects(struct BtlPokeParam *, struct BtlPokeParam
 extern void BTL_POKEPARAM_SetSubstituteHp(u8 *, u16);
 extern void BTL_POKEPARAM_ClearSubstitute(unsigned char *p);
 extern void BTL_CLIENT_AddPoints(u8 *p, u8 n);
-extern void func_021B9B10(u8 *, u8, int);
-extern char *func_021B9AEC(char *, int);
-extern void func_021B9D10(char *, struct Arr *, int);
+extern void BTL_MAIN_AddClientPoints(u8 *, u8, int);
+extern char *BTL_SIDE_GetSlotOfClient(char *, int);
+extern void BTL_SLOT_UpdateIllusion(char *, struct Arr *, int);
 extern void BTL_POKEPARAM_ClearConsumedItem(u8 *p);
 extern void BTL_POKEPARAM_CureSickBySource(struct UtilSlots *p, int v);
 extern void BTL_POKEPARAM_AddHitRecord(u8 *p, struct Rec *r);
@@ -253,8 +253,8 @@ extern void BTL_POKEPARAM_AdvanceTurn(u8 *);
 extern void BTL_EVENT_ClearClientReservedChoice(u8 *);
 extern void BTL_POKEPARAM_SetWeight(u8 *p, u32 n);
 extern u8 BTL_FIELD_GetCountdownByte(u32 *);
-extern u16 func_021B9F84(char *p, int i, unsigned int j);
-extern u8 func_021B9B94(struct Q1 *p);
+extern u16 BTL_MAIN_GetTrainerItem(char *p, int i, unsigned int j);
+extern u8 BTL_SLOT_GetCount(struct Q1 *p);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern u32 func_021D805C(void *p, u32 n);
 extern u32 BTL_CALC_DivideMaxHp(void *p, u32 b);
@@ -267,7 +267,7 @@ extern void GFL_USE_FadeOutBgm(u32);
 extern void GFL_USE_SetPlayersAudible(int,u32);
 extern void PM_VOICE_SetMasterVolume(u8);
 extern int func_021F8B10(void);
-extern void func_021B92A0(u8 *p);
+extern void BTL_MAIN_SetKeepBgm(u8 *p);
 extern int func_021EAE14(u32 *p);
 extern int POKE_REGULATION_GetDataSize(void);
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -379,7 +379,7 @@ extern const u32 data_021F040C[4];
 int func_021D3A20(u32 *a, int *b, u32 *c)
 {
     u8 *x;
-    x = func_021B9934((char *)a[1], (u8)c[0]);
+    x = BTL_SIDE_GetPokeByIdThunk((char *)a[1], (u8)c[0]);
     BTL_POKEPARAM_ConsumeHeldItem((struct QK *)x, c[1]);
     return 1;
 }
@@ -418,7 +418,7 @@ int func_021D3A20(u32 *a, int *b, u32 *c)
 int func_021D3A40(u32 *a, int *b, const u32 *c)
 {
     u8 *x;
-    x = func_021B9934((char *)a[1], (u8)c[0]);
+    x = BTL_SIDE_GetPokeByIdThunk((char *)a[1], (u8)c[0]);
     BTL_POKEPARAM_RecordMoveUse(x, c[1], c[2], c[3], c[4], c[5]);
     return 1;
 }
@@ -457,7 +457,7 @@ int func_021D3A40(u32 *a, int *b, const u32 *c)
 int func_021D3A7C(u32 *a, int *b, u32 *c)
 {
     u8 *x;
-    x = func_021B9934((char *)a[1], (u8)c[0]);
+    x = BTL_SIDE_GetPokeByIdThunk((char *)a[1], (u8)c[0]);
     BTL_POKEPARAM_SetContFlag(x, c[1]);
     return 1;
 }
@@ -496,7 +496,7 @@ int func_021D3A7C(u32 *a, int *b, u32 *c)
 int func_021D3A98(u32 *a, int *b, u32 *c)
 {
     u8 *x;
-    x = func_021B9934((char *)a[1], (u8)c[0]);
+    x = BTL_SIDE_GetPokeByIdThunk((char *)a[1], (u8)c[0]);
     BTL_POKEPARAM_ClearContFlag(x, c[1]);
     return 1;
 }
@@ -535,7 +535,7 @@ int func_021D3A98(u32 *a, int *b, u32 *c)
 int func_021D3AB4(u32 *a, int *b, u32 *c)
 {
     u8 *x;
-    x = func_021B9934((char *)a[1], (u8)c[0]);
+    x = BTL_SIDE_GetPokeByIdThunk((char *)a[1], (u8)c[0]);
     BTL_POKEPARAM_SetTurnFlag((struct BtlPokeParam *)x, c[1]);
     return 1;
 }
@@ -574,7 +574,7 @@ int func_021D3AB4(u32 *a, int *b, u32 *c)
 int func_021D3AD0(u32 *a, int *b, u32 *c)
 {
     u8 *x;
-    x = func_021B9934((char *)a[1], (u8)c[0]);
+    x = BTL_SIDE_GetPokeByIdThunk((char *)a[1], (u8)c[0]);
     BTL_POKEPARAM_ClearTurnFlag(x, c[1]);
     return 1;
 }
@@ -613,7 +613,7 @@ int func_021D3AD0(u32 *a, int *b, u32 *c)
 int func_021D3AEC(u32 *a, int *b, u32 *c)
 {
     u8 *x;
-    x = func_021B9934((char *)a[1], (u8)c[0]);
+    x = BTL_SIDE_GetPokeByIdThunk((char *)a[1], (u8)c[0]);
     BTL_POKEPARAM_SetAbility((struct QJ *)x, c[1]);
     return 1;
 }
@@ -652,7 +652,7 @@ int func_021D3AEC(u32 *a, int *b, u32 *c)
 int func_021D3B08(u32 *a, int *b, u32 *c)
 {
     u8 *x;
-    x = func_021B9934((char *)a[1], (u8)c[0]);
+    x = BTL_SIDE_GetPokeByIdThunk((char *)a[1], (u8)c[0]);
     BTL_POKEPARAM_SetItem((struct BtlPokeParam *)x, c[1]);
     return 1;
 }
@@ -691,7 +691,7 @@ int func_021D3B08(u32 *a, int *b, u32 *c)
 int func_021D3B28(u32 *a, int *b, const u32 *c)
 {
     u8 *x;
-    x = func_021B9934((char *)a[1], (u8)c[0]);
+    x = BTL_SIDE_GetPokeByIdThunk((char *)a[1], (u8)c[0]);
     BTL_POKEPARAM_ReplaceMove((struct BtlPokeParam *)x, c[1], c[4], c[2], c[3]);
     return 1;
 }
@@ -729,11 +729,11 @@ int func_021D3B28(u32 *a, int *b, const u32 *c)
 
 
 /*
- * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl func_021B9934; bl BTL_POKEPARAM_ResetEffectsOnSwitchOut; movs r0, #1; pop {r3, pc}.
+ * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl BTL_SIDE_GetPokeByIdThunk; bl BTL_POKEPARAM_ResetEffectsOnSwitchOut; movs r0, #1; pop {r3, pc}.
  */
 int func_021D3B5C(u8 *p, int b, u32 *q)
 {
-    BTL_POKEPARAM_ResetEffectsOnSwitchOut(func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)*q));
+    BTL_POKEPARAM_ResetEffectsOnSwitchOut(BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)*q));
     return 1;
 }
 
@@ -931,7 +931,7 @@ int func_021D3BB0(char *p, int unused, unsigned int *a)
  */
 int func_021D3BC0(char *p, int unused, unsigned int *a)
 {
-    u8 *obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
+    u8 *obj = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
     func_021D69A0(obj, a[1], a[2]);
     return 1;
 }
@@ -969,8 +969,8 @@ int func_021D3BC0(char *p, int unused, unsigned int *a)
 
 int func_021D3BE0(char *p, int unused, unsigned int *a)
 {
-    u8 *first = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
-    u8 *second = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[1]);
+    u8 *first = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
+    u8 *second = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[1]);
     BTL_POKEPARAM_PassEffects((struct BtlPokeParam *)second, (struct BtlPokeParam *)first);
     return 1;
 }
@@ -1008,7 +1008,7 @@ int func_021D3BE0(char *p, int unused, unsigned int *a)
 
 int func_021D3C0C(char *p, int unused, unsigned int *a)
 {
-    u8 *obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
+    u8 *obj = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
     BTL_POKEPARAM_SetSubstituteHp(obj, a[1]);
     return 1;
 }
@@ -1046,11 +1046,11 @@ int func_021D3C0C(char *p, int unused, unsigned int *a)
 
 
 /*
- * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl func_021B9934; bl BTL_POKEPARAM_ClearSubstitute; movs r0, #1; pop {r3, pc}.
+ * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl BTL_SIDE_GetPokeByIdThunk; bl BTL_POKEPARAM_ClearSubstitute; movs r0, #1; pop {r3, pc}.
  */
 int func_021D3C2C(u8 *p, int b, u32 *q)
 {
-    BTL_POKEPARAM_ClearSubstitute(func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)*q));
+    BTL_POKEPARAM_ClearSubstitute(BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)*q));
     return 1;
 }
 
@@ -1090,7 +1090,7 @@ int func_021D3C44(u8 *p, int unused, unsigned int *a)
     u8 index = a[0];
     u8 value = a[1];
     if (index == p[0x1a6]) BTL_CLIENT_AddPoints(p, value);
-    else func_021B9B10(*(u8 * *)&((struct BtlNetCtx *)p)->f00, index, value);
+    else BTL_MAIN_AddClientPoints(*(u8 * *)&((struct BtlNetCtx *)p)->f00, index, value);
     return 1;
 }
 
@@ -1128,8 +1128,8 @@ int func_021D3C44(u8 *p, int unused, unsigned int *a)
 int func_021D3C70(char *p, int unused, unsigned int *a)
 {
     u8 index = a[0];
-    struct Arr *obj = (struct Arr *)func_021B9AEC(*(char * *)&((struct BtlNetCtx *)p)->f04, index);
-    func_021B9D10(*(char * *)&((struct BtlNetCtx *)p)->f00, obj, index);
+    struct Arr *obj = (struct Arr *)BTL_SIDE_GetSlotOfClient(*(char * *)&((struct BtlNetCtx *)p)->f04, index);
+    BTL_SLOT_UpdateIllusion(*(char * *)&((struct BtlNetCtx *)p)->f00, obj, index);
     return 1;
 }
 
@@ -1166,11 +1166,11 @@ int func_021D3C70(char *p, int unused, unsigned int *a)
 
 
 /*
- * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl func_021B9934; bl BTL_POKEPARAM_ClearConsumedItem; movs r0, #1; pop {r3, pc}.
+ * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl BTL_SIDE_GetPokeByIdThunk; bl BTL_POKEPARAM_ClearConsumedItem; movs r0, #1; pop {r3, pc}.
  */
 int func_021D3C90(u8 *p, int b, u32 *q)
 {
-    BTL_POKEPARAM_ClearConsumedItem(func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)*q));
+    BTL_POKEPARAM_ClearConsumedItem(BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)*q));
     return 1;
 }
 
@@ -1207,7 +1207,7 @@ int func_021D3C90(u8 *p, int b, u32 *q)
 
 int func_021D3CA8(char *p, int unused, unsigned int *a)
 {
-    u8 *obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
+    u8 *obj = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
     BTL_POKEPARAM_CureSickBySource((struct UtilSlots *)obj, (u8)a[1]);
     return 1;
 }
@@ -1254,7 +1254,7 @@ int func_021D3CC8(char *p, int unused, const unsigned int *a)
     u8 *obj;
     u16 x, y;
     u8 z, w, v;
-    obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
+    obj = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
     x = a[4]; y = a[5]; z = a[3]; w = a[2]; v = a[1];
     r.a = x; r.b = y; r.c = z; r.d = v; r.e = w;
     BTL_POKEPARAM_AddHitRecord(obj, (struct Rec *)((struct HalfRec *)&r));
@@ -1294,7 +1294,7 @@ int func_021D3CC8(char *p, int unused, const unsigned int *a)
 
 int func_021D3CFC(char *p, int unused, unsigned int *a)
 {
-    u8 *obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
+    u8 *obj = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
     BTL_POKEPARAM_AdvanceTurn(obj);
     BTL_EVENT_ClearClientReservedChoice(obj);
     return 1;
@@ -1376,7 +1376,7 @@ int func_021D3D1C(u8 *p)
 int func_021D3D2C(char *p, int unused, unsigned int *a)
 {
     int index = a[1];
-    u8 *obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
+    u8 *obj = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
     BTL_POKEPARAM_SetStat(obj, index, a[2]);
     return 1;
 }
@@ -1414,7 +1414,7 @@ int func_021D3D2C(char *p, int unused, unsigned int *a)
 
 int func_021D3D50(char *p, int unused, unsigned int *a)
 {
-    u8 *obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
+    u8 *obj = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
     BTL_POKEPARAM_SetWeight(obj, (u16)a[1]);
     return 1;
 }
@@ -1604,7 +1604,7 @@ u8 func_021D3D90(u8 *p)
  */
 void func_021D3D9C(u8 *p) {
     u32 i;
-    for(i=0;i<4;i++) *(u16 *)(p+i*2+0xe8)=func_021B9F84(*(char * *)&((struct BtlNetCtx *)p)->f00,p[0x1a6],(u8)i);
+    for(i=0;i<4;i++) *(u16 *)(p+i*2+0xe8)=BTL_MAIN_GetTrainerItem(*(char * *)&((struct BtlNetCtx *)p)->f00,p[0x1a6],(u8)i);
 }
 
 
@@ -1648,7 +1648,7 @@ u32 func_021D3DC4(u8 *a, void *b, void *c)
     u32 off;
     u8 *t;
 
-    lim = func_021B9B94(c);
+    lim = BTL_SLOT_GetCount(c);
     if (BTL_POKEPARAM_HasSick(b, 0x13) != 0)
         return 0;
     for (i = 0; i < 4; i++) {
@@ -2313,7 +2313,7 @@ void func_021D3FDC(u8 *p, struct Q *q)
             GFL_USE_SetPlayersAudible(0,62);
             PM_VOICE_SetMasterVolume(0);
             func_021F8B10();
-            func_021B92A0((u8 *)(*(u32 *)p));
+            BTL_MAIN_SetKeepBgm((u8 *)(*(u32 *)p));
             break;
         case 0:
             if (q->target > 1) { --q->target; adjusted = 1; }

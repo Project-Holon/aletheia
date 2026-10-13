@@ -14,10 +14,10 @@
  *
  * symbols:
  *   func_021B9A40  0x021B9A40  thumb
- *   func_021C7CF4  0x021C7CF4  thumb
- *   func_021C8234  0x021C8234  thumb
- *   func_021C88A4  0x021C88A4  thumb
- *   func_021C88C8  0x021C88C8  thumb
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb
+ *   BTL_SERVER_FLOW_IsPokeGroundedById  0x021C8234  thumb
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb
  *   BTL_POKEPARAM_HasType  0x021D5814  thumb
  *   BTL_EVENT_GetVar  0x021D775C  thumb
  *   BTLV_CORE_MakeSlotKind1Empty  0x021E89C0  thumb
@@ -36,11 +36,11 @@ typedef struct { int v; } Id;
 extern int func_06898DE0(int a, u32 b);
 extern int BTL_EVENT_GetVar(int a);
 extern int func_021B9A40(int a);
-extern int func_021C8234(void *a, int b);
-extern int func_021C7CF4(void *a, int b);
+extern int BTL_SERVER_FLOW_IsPokeGroundedById(void *a, int b);
+extern int BTL_SERVER_FLOW_GetPokeParam(void *a, int b);
 extern int BTL_POKEPARAM_HasType(int a, int b);
-extern void *func_021C88A4();
-extern void func_021C88C8();
+extern void *BTL_SERVER_FLOW_AllocCmdRecord();
+extern void BTL_SERVER_FLOW_CommitCmdRecord();
 extern u32 func_021E8A58(void);
 extern u32 BTLV_CORE_MakeSlotKind1Empty(void);
 void *func_068996C8(u32 *p);
@@ -77,25 +77,25 @@ void func_068996D4(int a, void *p, int x)
     u32 *q;
 
     v = BTL_EVENT_GetVar(2);
-    if (x == func_021B9A40(v) && func_021C8234(p, v) == 0) {
-        if (BTL_POKEPARAM_HasType(func_021C7CF4(p, v), 3) != 0) {
-            t = func_021C88A4(p, 0x1a, v);
+    if (x == func_021B9A40(v) && BTL_SERVER_FLOW_IsPokeGroundedById(p, v) == 0) {
+        if (BTL_POKEPARAM_HasType(BTL_SERVER_FLOW_GetPokeParam(p, v), 3) != 0) {
+            t = BTL_SERVER_FLOW_AllocCmdRecord(p, 0x1a, v);
             t[7] = x;
             t[4] = 3;
             for (i = 1; i < 3; i++)
                 t[i + 4] = 0;
             if (t[4] > 1)
                 t[5] |= 0x80;
-            func_021C88C8(p, t);
+            BTL_SERVER_FLOW_CommitCmdRecord(p, t);
         } else {
-            q = func_021C88A4(p, 0xc, 0x1f);
+            q = BTL_SERVER_FLOW_AllocCmdRecord(p, 0xc, 0x1f);
             q[1] = 5;
             if ((u32)cmpid(a, x).v > 1)
                 q[2] = func_021E8A58();
             else
                 q[2] = BTLV_CORE_MakeSlotKind1Empty();
             *((u8 *)q + 0xf) = v;
-            func_021C88C8(p, q);
+            BTL_SERVER_FLOW_CommitCmdRecord(p, q);
         }
     }
 }

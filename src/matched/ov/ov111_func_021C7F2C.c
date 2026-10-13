@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_021C7B20  0x021C7B20  thumb
  *   func_021C7908  0x021C7908  thumb
  *   func_021C7EF8  0x021C7EF8  thumb
@@ -97,7 +97,7 @@ typedef struct {
 } Work;
 
 struct Obj;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021C7B20(Work *p, int mode, int idx);
 extern void func_021C7908(Work *p);
 extern int func_021C7EF8(int v);
@@ -125,7 +125,7 @@ void func_021C7F2C(Work *p, int sel, int flag)
         if (p->f17C[sel] == 0) {
             return;
         }
-        func_020061E4(0x65F);
+        GFL_USE_PlaySeDefaultVolume(0x65F);
         func_021C7B20(p, 0, sel);
         func_021C7908(p);
         p->f144 = 0;
@@ -144,27 +144,27 @@ void func_021C7F2C(Work *p, int sel, int flag)
             return;
         }
         idx = func_021C7EF8(p->f13C);
-        func_020061E4(0x65E);
+        GFL_USE_PlaySeDefaultVolume(0x65E);
         func_021C7B20(p, 1, (sel - 8 + idx) % 8);
         func_021C7908(p);
         return;
     case 16:
         p->state = 2;
         p->f110 = sel;
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         CLACT_SetActorAnimSeq(p->f4C, 0xC);
         return;
     case 17:
         func_021C8078(p);
         return;
     case 18:
-        func_020061E4(0x556);
+        GFL_USE_PlaySeDefaultVolume(0x556);
         p->state = 2;
         p->f110 = sel;
         CLACT_SetActorAnimSeq(p->f54, 8);
         return;
     case 19:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p->state = 2;
         p->f110 = sel;
         CLACT_SetActorAnimSeq(p->f50, 9);

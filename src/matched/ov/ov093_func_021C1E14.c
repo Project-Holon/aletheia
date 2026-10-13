@@ -10,31 +10,31 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CC8D8  0x021CC8D8  thumb  ov093
- *   func_021C78F4  0x021C78F4  thumb  ov093
+ *   BTL_SERVER_FLOW_BeginHandExScope  0x021CC8D8  thumb  ov093
+ *   BTL_SERVER_FLOW_CalcDrainHealAmount  0x021C78F4  thumb  ov093
  *   BTL_SERVER_FLOW_IsHpRecoverUnneeded  0x021C3370  thumb  ov093
  *   BTL_SERVER_FLOW_TryRecoverHp  0x021C334C  thumb  ov093
- *   func_021CC95C  0x021CC95C  thumb  ov093
+ *   BTL_SERVER_FLOW_EndHandExScope  0x021CC95C  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u32 func_021CC8D8(void *lock, int line);
-extern u16 func_021C78F4(u8 *p, u8 *a, u8 *b, u32 s);
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *lock, int line);
+extern u16 BTL_SERVER_FLOW_CalcDrainHealAmount(u8 *p, u8 *a, u8 *b, u32 s);
 extern int BTL_SERVER_FLOW_IsHpRecoverUnneeded(u8 *p, void *q);
 extern int BTL_SERVER_FLOW_TryRecoverHp(u8 *p, u8 *q, int a, int b);
-extern void func_021CC95C(u32 *p, u32 v, int line);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 
 int BTL_SERVER_FLOW_RecoverHpFromDrain(u8 *p, u8 *q, u32 a, u32 b)
 {
-    u32 s = func_021CC8D8(p + 0x1D74, 7154);
+    u32 s = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1D74, 7154);
     int r = 0;
-    u8 *t = (u8 *)func_021C78F4(p, q, (u8 *)a, b);
+    u8 *t = (u8 *)BTL_SERVER_FLOW_CalcDrainHealAmount(p, q, (u8 *)a, b);
     if (t) {
         if (BTL_SERVER_FLOW_IsHpRecoverUnneeded(p, q) == 0) {
             r = BTL_SERVER_FLOW_TryRecoverHp(p, q, (int)t, 1);
         }
     }
-    func_021CC95C((u32 *)(p + 0x1D74), s, 7168);
+    BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1D74), s, 7168);
     return r;
 }

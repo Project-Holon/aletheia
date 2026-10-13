@@ -17,7 +17,7 @@
  * (y, step 16), passed as a packed s16 pair.
  *
  * symbols:
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  */
 
 typedef unsigned char  u8;
@@ -41,7 +41,7 @@ struct Grid {
 
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void BMP_OAM_SetPos(struct Grid *g, s16 x, s16 y)
 {
@@ -52,7 +52,7 @@ void BMP_OAM_SetPos(struct Grid *g, s16 x, s16 y)
         for (j = 0; j < g->cols; j++) {
             pt.x = (s16)(x + (j << 5));
             pt.y = (s16)(y + (i << 4));
-            func_0204B404(g->a[j + i * g->cols], (const struct Vec2 *)(&pt), g->flags);
+            CLACT_AddActorSurfacePos(g->a[j + i * g->cols], (const struct Vec2 *)(&pt), g->flags);
         }
     }
 }

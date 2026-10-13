@@ -28,7 +28,7 @@
  *   func_0207A5C8  0x0207A5C8  arm
  *   func_021D5410  0x021D5410  arm  ov016
  *   func_02084F40  0x02084F40  arm
- *   func_02078C34  0x02078C34  arm
+ *   FS_ChangeDir  0x02078C34  arm
  *   func_021D4B60  0x021D4B60  arm  ov016
  *   g_021DE66C  0x021DE66C  data
  *   g_021DAA60  0x021DAA60  data
@@ -93,9 +93,8 @@ extern int func_0207A4B0(FSArchive *arc, u32 base, u32 fat, u32 fat_size, u32 fn
 extern u32 func_0207A5C8(FSArchive *arc, void *mem, u32 max_size);
 extern void *func_021D5410(long size, void *data, long dataSize);
 extern int func_02084F40(char *dst, const char *fmt, ...);
-extern int func_02078C34(const char *path);
+extern int FS_ChangeDir(const char *path);
 extern int func_021D4B60(void);
-extern void FS_ChangeDir(const char *path);
 extern void *FS_UnloadArchiveTables(FSArchive *arc);
 extern int FS_UnloadArchive(FSArchive *arc);
 extern void FS_ReleaseArchiveName(FSArchive *p_arc);
@@ -155,7 +154,7 @@ void func_021D486C(void)
     rs = func_0207A5C8(&g_021DE66C->archive, g_021DE66C->table, size);
     g_021DE66C->unused = func_021D5410(32, g_021DE66C->file, 4);
     func_02084F40(pass, "%s:/", g_021DAA60);
-    func_02078C34(pass);
+    FS_ChangeDir(pass);
 }
 
 

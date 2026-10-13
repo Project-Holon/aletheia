@@ -1,5 +1,5 @@
 /*
- * function: func_021EE970
+ * function: WEATHER_SANDSTORM_EndFinish
  * address: 0x021EE970
  * packet: pkt_ov027_021EE970
  * region: ov027
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 extern int *WEATHER_TASK_GetWorkBuffer(int *);
 extern void WEATHER_TASK_DisableFog(u32 *, int);
 extern void WEATHER_TASK_ResetLight(u32 *, int);
-int func_021EE970(u32 *a, int b)
+int WEATHER_SANDSTORM_EndFinish(u32 *a, int b)
 {
     WEATHER_TASK_GetWorkBuffer((int *)a);
     WEATHER_TASK_DisableFog(a, b);

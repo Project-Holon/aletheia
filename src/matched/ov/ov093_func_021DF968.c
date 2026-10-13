@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetLustrousOrbHandlers
+ * function: HAND_ITEM_GetLustrousOrbHandlers
  * address: 0x021DF968
  * packet: pkt_ov093_021DF968
  * region: ov093
@@ -15,13 +15,13 @@
  *   gLustrousOrbHandlers 0x021F141C data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetLustrousOrbHandlers(int *p);
+int *HAND_ITEM_GetLustrousOrbHandlers(int *p);
 extern int gLustrousOrbHandlers[];
 
 /*
  * sdk:      sciGetServiceUrl (libdwcgssc.TWL.HYB.a(sciinterface.o))
  */
-int *BTL_HANDLER_ITEM_GetLustrousOrbHandlers(int *p)
+int *HAND_ITEM_GetLustrousOrbHandlers(int *p)
 {
     *p = 1;
     return gLustrousOrbHandlers;

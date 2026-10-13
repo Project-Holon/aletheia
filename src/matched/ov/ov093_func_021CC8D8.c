@@ -1,5 +1,5 @@
 /*
- * function: func_021CC8D8
+ * function: BTL_SERVER_FLOW_BeginHandExScope
  * address:  0x021CC8D8
  * packet:   pkt_ov093_021CC8D8
  * region:   ov093
@@ -23,7 +23,7 @@ struct Lock {
     u32 f : 1;
     u32 g : 1;
 };
-struct Lock func_021CC8D8(struct Lock *p, int line)
+struct Lock BTL_SERVER_FLOW_BeginHandExScope(struct Lock *p, int line)
 {
     struct Lock old = *p;
     p->a = 0;

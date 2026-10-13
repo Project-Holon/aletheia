@@ -1,5 +1,5 @@
 /*
- * function: func_021EEA04
+ * function: WEATHER_FOG_Run
  * address:  0x021EEA04
  * packet:   pkt_021EEA04
  * region:   ov028
@@ -15,10 +15,10 @@
  * WEATHER_FOG_EndParticles.
  *
  * symbols:
- *   func_021EEA04  0x021EEA04  thumb
+ *   WEATHER_FOG_Run  0x021EEA04  thumb
  */
 
-int func_021EEA04(void)
+int WEATHER_FOG_Run(void)
 {
     return 0;
 }

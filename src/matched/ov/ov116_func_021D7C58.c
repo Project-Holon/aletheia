@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   func_0201ED04 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
@@ -16,8 +16,8 @@
  *   TCBL_Destroy 0x02031140 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_020452E8 0x020452E8 arm
- *   func_02082BCC 0x02082BCC arm
+ *   BMP_WIN_Delete 0x020452E8 arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021D7FC4 0x021D7FC4 thumb ov116
  *   func_021D81B4 0x021D81B4 thumb ov116
  *   func_021D82AC 0x021D82AC thumb ov116
@@ -30,7 +30,7 @@ struct Rec3;
 struct S02031140;
 struct U16Vec;
 struct WordSet;
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern unsigned int func_0201ED04(struct WordSet *p);
@@ -40,13 +40,13 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_021D7FC4(u8 *p);
 extern void func_021D81B4(u8 *p);
 extern void BMP_MENU_DeleteYesNo(u8 *o);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_021D82AC(void *);
 extern void func_0201DD68(void);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 void func_021D7C58(u8 *p) {
     if(((struct Obj01721 *)p)->f0!=0) {
-        if(((struct Obj01721 *)p)->f9A4) func_0201CE48(((struct Obj01721 *)p)->f9A4);
+        if(((struct Obj01721 *)p)->f9A4) PRINTSYS_PrintStreamDelete(((struct Obj01721 *)p)->f9A4);
         TCBL_Destroy(((struct Obj01721 *)p)->f9A8);
         MSGDATA_Delete(((struct Obj01721 *)p)->f990);
         func_0201ED04(((struct Obj01721 *)p)->f994);
@@ -59,9 +59,9 @@ void func_021D7C58(u8 *p) {
             BMP_MENU_DeleteYesNo(((struct Obj01721 *)p)->f980);
             ((struct Obj01721 *)p)->f980=0;
         }
-        func_020452E8(((struct Obj01721 *)p)->f97C);
+        BMP_WIN_Delete(((struct Obj01721 *)p)->f97C);
         func_021D82AC(((struct Obj01721 *)p)->f8);
         func_0201DD68();
-        func_02082BCC(p,0,0x9ac);
+        MI_CpuFill8(p,0,0x9ac);
     }
 }

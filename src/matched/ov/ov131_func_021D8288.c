@@ -17,7 +17,7 @@
  *   _u32_div_f 0x0209C2B0 arm
  *   _s32_div_f 0x0209C0A4 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Delete 0x02045808 arm
  *   STRBUF_Create 0x020457B0 arm
  *   d_021DC24C 0x021DC24C data
@@ -44,7 +44,7 @@ extern int func_0202F498(void *a0, int a1);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 POKE_TOOL_IsBoxOwnedByPlayer(void *, void *);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
@@ -119,7 +119,7 @@ void P_STA_INFO_DrawMemo(u8 *a, u8 *p, void *mon)
 
     if (isEgg == 0) {
         t = func_02045EC0(((struct Obj01547 *)p)->f38, v5c);
-        PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84, (u32)func_02045770(((struct Obj01547 *)p)->f34), (s16)1, (s16)1, (u32)t, (u32)(((struct Obj00112 *)a)->f80), 0x440);
+        PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84, (u32)BMP_WIN_GetBmp(((struct Obj01547 *)p)->f34), (s16)1, (s16)1, (u32)t, (u32)(((struct Obj00112 *)a)->f80), 0x440);
         STRBUF_Delete(t);
         y = 0x10;
     }
@@ -212,7 +212,7 @@ void P_STA_INFO_DrawMemo(u8 *a, u8 *p, void *mon)
     func_0201EE0C(ws, 8, s68, best, 1, 2);
     t = func_02045EC0(((struct Obj01547 *)p)->f38, msg);
     func_0201F250(ws, str, t);
-    PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84, (u32)func_02045770(((struct Obj01547 *)p)->f34), (s16)1, (s16)(y + 1), (u32)str, (u32)(((struct Obj00112 *)a)->f80), 0x440);
+    PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84, (u32)BMP_WIN_GetBmp(((struct Obj01547 *)p)->f34), (s16)1, (s16)(y + 1), (u32)str, (u32)(((struct Obj00112 *)a)->f80), 0x440);
     func_0201ED04(ws);
     y += sub_0201D2C8(str) << 4;
     STRBUF_Delete(s68);
@@ -239,7 +239,7 @@ void P_STA_INFO_DrawMemo(u8 *a, u8 *p, void *mon)
             }
         }
         t = func_02045EC0(((struct Obj01547 *)p)->f38, best * 5 + 0x35 + max % 5);
-        PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84, (u32)func_02045770(((struct Obj01547 *)p)->f34), (s16)1, (s16)(y + 1), (u32)t, (u32)(((struct Obj00112 *)a)->f80), 0x440);
+        PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84, (u32)BMP_WIN_GetBmp(((struct Obj01547 *)p)->f34), (s16)1, (s16)(y + 1), (u32)t, (u32)(((struct Obj00112 *)a)->f80), 0x440);
         STRBUF_Delete(t);
     } else {
         u32 id;
@@ -253,7 +253,7 @@ void P_STA_INFO_DrawMemo(u8 *a, u8 *p, void *mon)
             id = 0x5a;
         }
         t = func_02045EC0(((struct Obj01547 *)p)->f38, id);
-        PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84, (u32)func_02045770(((struct Obj01547 *)p)->f34), (s16)1, (s16)(y + 1), (u32)t, (u32)(((struct Obj00112 *)a)->f80), 0x440);
+        PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84, (u32)BMP_WIN_GetBmp(((struct Obj01547 *)p)->f34), (s16)1, (s16)(y + 1), (u32)t, (u32)(((struct Obj00112 *)a)->f80), 0x440);
         STRBUF_Delete(t);
     }
 }

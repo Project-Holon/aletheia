@@ -16,7 +16,7 @@
  *   func_021F4EC4 0x021F4EC4 thumb ov112
  *   func_021F4EB4 0x021F4EB4 thumb ov112
  *   func_021F4E6C 0x021F4E6C thumb ov112
- *   func_020061F8 0x020061F8 thumb
+ *   GFL_USE_StopSeSlot 0x020061F8 thumb
  */
 #include "../include/Obj04463.h"
 #include "../include/Obj22565.h"
@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 extern void func_021F4EC4(u32 unused, u32 p, s16 *a, s16 *b);
 extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
 extern void func_021F4E6C(u8 *p, u8 *e, u32 value);
-extern void func_020061F8(int);
+extern void GFL_USE_StopSeSlot(int);
 void func_021F7ECC(char *p,char *q)
 {
     Tail *t=(Tail *)(q+0xf0);
@@ -53,7 +53,7 @@ void func_021F7ECC(char *p,char *q)
         func_021F4E6C((u8 *)(((struct Obj04463 *)p)->f10),(u8 *)(*(int *)(q+0x84+t->index*4)),0);
         ((struct Obj22565 *)q)->f104=0;
         ((struct Obj04463 *)p)->f43C-=1;
-        if(((struct Obj04463 *)p)->f43C==0) func_020061F8(2);
+        if(((struct Obj04463 *)p)->f43C==0) GFL_USE_StopSeSlot(2);
     }
 }
 void func_021F7FA8(char *a0, char *a1)

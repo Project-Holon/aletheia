@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
@@ -49,7 +49,7 @@
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
@@ -266,7 +266,7 @@ typedef struct {
 typedef struct Flags { unsigned short doubled:1; unsigned short rest:15; } Flags;
 
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
-extern void func_02082BCC(void *, unsigned, unsigned);
+extern void MI_CpuFill8(void *, unsigned, unsigned);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0204363C(unsigned);
@@ -297,7 +297,7 @@ extern void func_020419E4(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(int);
@@ -431,7 +431,7 @@ extern u8 d_021C1860[];
 void *func_021BDDD8(unsigned swap, void *config, u8 heap)
 {
     unsigned char *ctx = func_02030734(heap, 24, 0, d_021C3CCC, 0x15a);
-    func_02082BCC(ctx, 0, 24);
+    MI_CpuFill8(ctx, 0, 24);
     ((struct Obj08374 *)ctx)->f14 = func_021BE938(config);
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
@@ -468,7 +468,7 @@ void func_021BDE98(char *ctx)
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xffff1fff;
     *(volatile unsigned *)0x04001000 &= 0xffff1fff;
-    func_02082BCC(ctx, 0, 24);
+    MI_CpuFill8(ctx, 0, 24);
     func_020307B0(ctx);
 }
 
@@ -533,7 +533,7 @@ void func_021BDFC0(void *ctx, unsigned heap)
     unsigned i = 0;
     const Descriptor *descriptor;
     unsigned layer;
-    func_02082BCC(ctx, 0, 4);
+    MI_CpuFill8(ctx, 0, 4);
     func_0203F8F4(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)d_021BFB50);
@@ -566,7 +566,7 @@ void func_021BE02C(void *ctx)
     }
     BMP_WIN_Exit();
     func_0203F9B4();
-    func_02082BCC(ctx, 0, 4);
+    MI_CpuFill8(ctx, 0, 4);
 }
 
 
@@ -600,11 +600,11 @@ void func_021BE07C(void *a0){func_020419E4();}
 
 void func_021BE084(unsigned char *p, int a, int b)
 {
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021BFB60, a, b);
     ((struct Obj14586 *)p)->f0 = CLACT_CreateUnit(0x20, 0, b);
     CLACT_SetUnitDefaultRenderer(((struct Obj14586 *)p)->f0);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
@@ -619,7 +619,7 @@ void func_021BE084(unsigned char *p, int a, int b)
 void func_021BE0C4(char *a)
 {
     CLACT_ExitSystem(CLACT_DeleteUnit((struct Bank *)(((struct Obj25312 *)a)->f0)));
-    func_02082BCC(a, 0, 4);
+    MI_CpuFill8(a, 0, 4);
 }
 
 

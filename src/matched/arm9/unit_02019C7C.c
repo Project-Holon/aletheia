@@ -29,7 +29,7 @@
  *   POKE_TOOL_GetExpForLevel  0x02018584  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   func_02019C54  0x02019C54  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  */
 
 typedef unsigned char  u8;
@@ -42,7 +42,7 @@ extern u32  POKE_TOOL_GetExpForLevel(u16 a, u16 b, u16 v);
 extern void POKE_TOOL_RecalcParam(void *p);
 struct Personal;
 extern void *func_02019C54(u32 a, u32 b);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 
 struct RecDC {
     u32 unk00[0x37];
@@ -50,7 +50,7 @@ struct RecDC {
 
 u32 func_02019C7C(void *h)
 {
-    if (func_0201AE1C(h, 0x1B) != 0) {
+    if (POKE_PERSONAL_GetParam(h, 0x1B) != 0) {
         return 2;
     }
     return 1;
@@ -58,7 +58,7 @@ u32 func_02019C7C(void *h)
 
 u32 func_02019C90(u16 a, u16 b, u32 k)
 {
-    return func_0201AE1C(func_02019C54(a, b), k);
+    return POKE_PERSONAL_GetParam(func_02019C54(a, b), k);
 }
 
 void func_02019CA0(void *p, u32 v)

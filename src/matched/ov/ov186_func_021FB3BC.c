@@ -11,9 +11,9 @@
  * lever: parameter a declared u16 (u8 also EXACT); a narrow parameter pins its home store to the front of the prologue, see docs/idioms/a-narrow-parameter-pins-its-home-store-to-the-front-of-the-prologue.md. 2026-10-05 wave P12 lane A5: the older draft (docs/notes/pkt_ov186_021FB3BC.c.txt) was only wrong here.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B688 0x0204B688 arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
  *   BMP_Create 0x02043678 arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   BMP_OAM_Create 0x020255A0 thumb
@@ -35,9 +35,9 @@ struct Obj;
 struct Param;
 struct Sys;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 struct Bmp;
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
@@ -53,13 +53,13 @@ Obj *func_021FB3BC(const Point *pt,void *data,u16 a,u32 b,u32 c,void *owner,void
     Obj *p;
     value=b;config=triple;
     p=func_02030734(heap,24,0,d_02200D1C,0xA3B);
-    func_02082BCC(p,0,24);
+    MI_CpuFill8(p,0,24);
     p->a=a;p->b=value;
     p->actor=CLACT_CreateActor((void *)c,config->y,config->z,config->x,pt,value,heap);
-    func_0204B688(p->actor,1);
+    CLACT_SetActorObjMode(p->actor,1);
     p->bmp=BMP_Create(p->a>>3,2,32,heap);
     PRINTSYS_PrintColor(p->bmp,1,0,data,font,0x3DA0);
-    func_02082BCC(&param,0,24);
+    MI_CpuFill8(&param,0,24);
     param.bmp=p->bmp;
     param.x=pt->x+32;param.y=pt->y-8;
     param.f8=config->z;param.f10=pt->f6-1;param.f12=value;

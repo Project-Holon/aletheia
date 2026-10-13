@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   STRBUF_Delete 0x02045808 arm
- *   func_0201AE14 0x0201AE14 thumb
+ *   POKE_PERSONAL_Delete 0x0201AE14 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
@@ -25,7 +25,7 @@ typedef struct S {
 struct Rec;
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201AE14(void *);
+extern void POKE_PERSONAL_Delete(void *);
 typedef unsigned int   u32;
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -35,7 +35,7 @@ void func_021BC008(S *p)
     for (i = 0; i < 16; i++)
         STRBUF_Delete(p->a[i]);
     if (p->x != 0)
-        func_0201AE14(p->x);
+        POKE_PERSONAL_Delete(p->x);
     for (i = 0; i < 35; i++) {
         switch (i) {
         case 1:

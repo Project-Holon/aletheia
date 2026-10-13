@@ -13,7 +13,7 @@
  *   reload scheduled differently (43 bytes).  CLACT_CreateActor takes the word in
  *   its u32 third slot, so no narrowing is visible anywhere.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BMP_Create 0x02043678 arm
  *   STRBUF_Create 0x020457B0 arm
  *   func_02045CAC 0x02045CAC arm
@@ -22,15 +22,15 @@
  *   func_0201D304 0x0201D304 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
- *   func_0201BB5C 0x0201BB5C thumb
+ *   POKE_TOOL_CalcIconPalette 0x0201BB5C thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_020490F4 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_0201BC40 0x0201BC40 thumb
  *   func_0201BCB4 0x0201BCB4 thumb
  */
@@ -40,7 +40,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef struct {void *text;u32 id:7,value:10,tag:8,seq:7;u16 number;u8 a,b,c,active,pad[2];} Item;
 typedef struct {s16 x,y;u16 z;u8 a,b;} Param;
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 struct Bmp;
 struct MsgBank;
 struct Obj;
@@ -63,13 +63,13 @@ extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
-extern u32 func_0201BB5C(u32,u32,u32,u32);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern u32 POKE_TOOL_CalcIconPalette(u32,u32,u32,u32);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 void func_021B87B0(u8 *p,const Item *item,void *sys,u32 first,u32 second,void *msg,u32 font,void *set,void *bg,s16 y1,s16 y2,u16 heap) {
  Param cfg; u32 member,mode1,mode2; void *arc; void *a,*b,*c,*text; int i,width; u32 token;
  i=0;
- func_02082BCC(p,0,32);
+ MI_CpuFill8(p,0,32);
  *(const Item **)p=item; *(void **)(p+28)=bg;
  *(void **)(p+4)=BMP_Create(32,3,32,heap);
  a=STRBUF_Create(32,heap); b=STRBUF_Create(32,heap);
@@ -95,7 +95,7 @@ void func_021B87B0(u8 *p,const Item *item,void *sys,u32 first,u32 second,void *m
  *(u32 *)(p+20)=CLACT_RegisterCharacter(arc,member,0,2,heap);
  *(u32 *)(p+24)=CLACT_RegisterCellAnim(arc,mode1,mode2,heap);
  ARC_TOOL_DeleteHandle(arc);
- func_02082BCC(&cfg,0,8);cfg.z=1;cfg.b=1;
+ MI_CpuFill8(&cfg,0,8);cfg.z=1;cfg.b=1;
  for(;i<2;i++) {
   u8 *q;
   cfg.x=232;
@@ -103,8 +103,8 @@ void func_021B87B0(u8 *p,const Item *item,void *sys,u32 first,u32 second,void *m
   *(s16 *)(p+16+i*2)=cfg.y;
   q=p+i*4;
   *(void **)(q+8)=CLACT_CreateActor(sys,*(u32 *)(p+20),token,*(u32 *)(p+24),&cfg,i,heap);
-  func_0204B6F4(*(void **)(q+8),func_0201BB5C(item->number,item->a,item->b,item->c),0);
-  if(cfg.y>-16 && cfg.y<208) func_0204B3DC(*(void **)(q+8),1);
-  else func_0204B3DC(*(void **)(q+8),0);
+  CLACT_SetActorPaletteOffset(*(void **)(q+8),POKE_TOOL_CalcIconPalette(item->number,item->a,item->b,item->c),0);
+  if(cfg.y>-16 && cfg.y<208) CLACT_SetActorDrawEnable(*(void **)(q+8),1);
+  else CLACT_SetActorDrawEnable(*(void **)(q+8),0);
  }
 }

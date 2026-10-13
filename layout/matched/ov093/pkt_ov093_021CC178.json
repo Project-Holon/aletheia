@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CC178",
+   "name": "BTL_SERVER_FLOW_ItemEffectRestoreMovePp",
    "address": "0x021CC178",
    "kind": "game",
    "region": "ov093",

@@ -11,7 +11,7 @@
  * symbols:
  *   func_02049B40 0x02049B40 arm
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_0201F5DC 0x0201F5DC thumb
@@ -28,7 +28,7 @@ typedef unsigned char u8;
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 struct CharBuf;
 struct MsgBank;
 struct Tcbl;
@@ -44,10 +44,10 @@ void func_021F6060(int unused,char *p)
 {
     func_02049B40(23,5,0,32,32,((struct Obj01296 *)p)->f0);
     ((struct Obj01296 *)p)->f5C=BMP_WIN_Create(1,0,0,1,1,1,0);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01296 *)p)->f5C)),0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01296 *)p)->f5C)),0);
     BMP_WIN_TransferChars((struct Descriptor *)((struct Obj01296 *)p)->f5C);
     ((struct Obj01296 *)p)->f58=BMP_WIN_Create(1,1,19,30,4,1,0);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01296 *)p)->f58)),15);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01296 *)p)->f58)),15);
     BMP_WIN_TransferChars((struct Descriptor *)((struct Obj01296 *)p)->f58);
     ((struct Obj01296 *)p)->f60=(u32)func_0201F5DC((void *)1,2,0,((struct Obj01296 *)p)->f0);
     ((struct Obj01296 *)p)->f64=(u32)func_02045B38(0,3,260,((struct Obj01296 *)p)->f0);

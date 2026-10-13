@@ -14,8 +14,8 @@
  *
  * symbols:
  *   func_0200B1F8   0x0200B1F8  thumb
- *   func_0201AA18   0x0201AA18  thumb
- *   func_0201AB28   0x0201AB28  thumb
+ *   POKEPARTY_GetCount   0x0201AA18  thumb
+ *   POKEPARTY_GetMember   0x0201AB28  thumb
  *   func_02017E1C   0x02017E1C  thumb
  *   func_0200B254   0x0200B254  thumb
  *   _BattleRecFileName  0x020A71C4  data
@@ -52,6 +52,9 @@
  *   GAME_DATA_PartSaveMain  0x02012E7C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
+ *   POKEPARTY_InitEx  0x0201A954  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -253,8 +256,8 @@ struct BeaconSave {
 
 extern void func_0200B1F8(struct RegulationParty *party);
 extern void func_0200B254(struct RegulationParty *party, int field, u8 slot, s32 value);
-extern u32 func_0201AA18(struct Party *party);
-extern struct PokeParam *func_0201AB28(struct Party *party, u32 index);
+extern u32 POKEPARTY_GetCount(struct Party *party);
+extern struct PokeParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 extern u32 func_02017E1C(struct PokeParam *mon, u32 param, u32 arg);
 extern u32 func_02017E88(struct BoxMon *mon, u32 param, u32 arg);
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
@@ -286,9 +289,9 @@ extern struct StrBuf *func_02045EC0(struct MsgData *msg, u32 msgIndex);
 extern void STRBUF_ToChars(struct StrBuf *str, u16 *out, u32 maxLen);
 extern void STRBUF_Delete(struct StrBuf *str);
 extern void POKE_TOOL_ClearBoxParam(struct BoxMon *mon);
-extern struct Party *func_0201A920(u32 heap);
-extern void func_0201A954(struct Party *party, s32 capacity);
-extern u32 func_0201A98C(struct Party *party, const struct PokeParam *mon);
+extern struct Party *POKEPARTY_Create(u32 heap);
+extern void POKEPARTY_InitEx(struct Party *party, s32 capacity);
+extern u32 POKEPARTY_Add(struct Party *party, const struct PokeParam *mon);
 extern struct BoxMon *POKE_TOOL_GetBoxParam(struct PokeParam *mon);
 extern struct PokeParam *POKE_TOOL_CreateFromBoxParam(struct BoxMon *mon, u32 heap);
 extern void INTRUDE_COMM_ResetOutcomes(struct IntrudeOccupy *occupy);
@@ -460,8 +463,8 @@ void func_0200B2A4(struct RegulationParty *dest, struct Party *party)
     int i;
 
     func_0200B1F8(dest);
-    for (i = 0; i < (int)func_0201AA18(party); i++) {
-        struct PokeParam *mon = func_0201AB28(party, i);
+    for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
+        struct PokeParam *mon = POKEPARTY_GetMember(party, i);
 
         if (func_02017E1C(mon, 0xa9, 0) != 0) {
             func_0200B254(dest, 0, i, func_02017E1C(mon, 5, 0));
@@ -1713,8 +1716,8 @@ struct Party *sub_0200BAF4(struct BoxMonGroup *box, int heap)
     struct Party *party;
     u32 i;
 
-    party = func_0201A920(heap);
-    func_0201A954(party, 6);
+    party = POKEPARTY_Create(heap);
+    POKEPARTY_InitEx(party, 6);
     for (i = 0; i < 6; i++) {
         void *mon = func_0200BBEC(box, 0, i);
         int exists = func_02017E88(mon, 0xa9, 0);
@@ -1724,7 +1727,7 @@ struct Party *sub_0200BAF4(struct BoxMonGroup *box, int heap)
             break;
         }
         mon = POKE_TOOL_CreateFromBoxParam(mon, (u16)tempHeap);
-        func_0201A98C(party, mon);
+        POKEPARTY_Add(party, mon);
         func_020307B0(mon);
     }
     return party;
@@ -1736,7 +1739,7 @@ struct Party *sub_0200BAF4(struct BoxMonGroup *box, int heap)
 
 /*
  * Clear the six Battle Box slots, then copy each party member in.  The bound
- * of the second loop is a call: func_0201AA18(party) is re-invoked at the bottom of
+ * of the second loop is a call: POKEPARTY_GetCount(party) is re-invoked at the bottom of
  * every iteration and its result compared against the counter (`cmp r5, r0`
  * right after the `bl`), and the entry test is the peeled copy of that same
  * call, which is exactly how mwcc lowers `for (i = 0; i < f(party); i++)`.
@@ -1749,8 +1752,8 @@ void func_0200BB58(struct BoxMonGroup *box, struct Party *party)
     for (i = 0; i < 6; i++)
         POKE_TOOL_ClearBoxParam(&box->mon[i]);
 
-    for (i = 0; i < (u32)func_0201AA18(party); i++)
-        func_0200BAD4(box, group, i, POKE_TOOL_GetBoxParam(func_0201AB28(party, i)));
+    for (i = 0; i < (u32)POKEPARTY_GetCount(party); i++)
+        func_0200BAD4(box, group, i, POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(party, i)));
 }
 
 

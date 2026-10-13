@@ -13,12 +13,12 @@
  *   d_0220AF20 0x0220AF20 data ov094 a4
  *   d_0220AC70 0x0220AC70 data a4
  *   d_0220AC78 0x0220AC78 data a4
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_021F7BEC 0x021F7BEC thumb ov094
  *   func_021F7998 0x021F7998 thumb ov094
  *   func_021F7EB4 0x021F7EB4 thumb ov094
- *   func_021BA1A8 0x021BA1A8 thumb ov093
+ *   BTL_MAIN_CheckSetupStatusFlag 0x021BA1A8 thumb ov093
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  */
@@ -27,12 +27,12 @@ typedef unsigned long long u64;
 extern char *d_0220AF20;
 extern u32 d_0220AC70[];
 extern u32 d_0220AC78[];
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void func_021F7BEC(void);
 extern void func_021F7998(u32);
 extern int func_021F7EB4(void);
-extern int func_021BA1A8(char **p, int m);
+extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
 extern u32 func_0203F0A8(void);
 #define WORD(k) (*(int *)(d_0220AF20 + (k)))
 
@@ -40,7 +40,7 @@ void func_021F903C(void)
 {
     int a, b;
     u32 n, value;
-    a = func_020362DC();
+    a = KEY_GetTrg();
     b = TOUCHPANEL_GetTrg();
     if (WORD(0x238) == 0)
         return;
@@ -59,7 +59,7 @@ void func_021F903C(void)
         WORD(0x23c) = 1;
     case 1:
         if (func_021F7EB4() == 0) {
-            if (WORD(0x238) == 3 && func_021BA1A8(*(void **)(d_0220AF20 + 0x1e4), 0x400)) {
+            if (WORD(0x238) == 3 && BTL_MAIN_CheckSetupStatusFlag(*(void **)(d_0220AF20 + 0x1e4), 0x400)) {
                 do {
                     n = (u32)(((u64)func_0203F0A8() * 2) >> 32);
                 } while (WORD(0x248) == n);

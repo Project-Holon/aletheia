@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  */
 
 typedef unsigned char  u8;
@@ -18,11 +18,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 
 int FLDMMDL_MOVECODE_IsBButtonPressed(void)
 {
-    if (func_020362DC() & 2) {
+    if (KEY_GetTrg() & 2) {
         return 1;
     }
     return 0;

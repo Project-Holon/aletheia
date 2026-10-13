@@ -55,11 +55,11 @@
  *   func_021B7604  0x021B7604  thumb  ov180
  *   func_021B756C  0x021B756C  thumb  ov180
  *   func_0204EA38 0x0204EA38 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   func_021B73B0 0x021B73B0 thumb ov180
  *   CLACT_CreateRenderer 0x0204B034 arm
  *   CLACT_SetRendererCulling 0x0204B0F4 arm
- *   func_0204B258 0x0204B258 arm
+ *   CLACT_SetUnitRenderer 0x0204B258 arm
  *   func_02008550 0x02008550 thumb
  *   POKEGRA_OpenTrainerHandle 0x0202DA04 thumb
  *   POKEGRA_RegisterTrainerCgr 0x0202DA48 thumb
@@ -169,11 +169,11 @@ extern void func_021B746C(int *, int, int);
 extern void func_021B7604(int *);
 extern void func_021B756C(char *p);
 extern u32 func_0204EA38(void);
-extern void func_020434DC(u32,u32);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void func_021B73B0(char *p);
 extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
 extern void CLACT_SetRendererCulling(struct Actor *a0, int a1);
-extern void func_0204B258(struct Bank *,void *);
+extern void CLACT_SetUnitRenderer(struct Bank *,void *);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern int POKEGRA_OpenTrainerHandle(int);
 extern u32 POKEGRA_RegisterTrainerCgr(u32,u32,u32,u32);
@@ -366,7 +366,7 @@ void func_021B7D44(int *p)
 /*
  * EXACT* tail: two zero alignment bytes after the function.
  */
-void func_021B7D5C(void *p) { if(func_0204EA38()==1) func_020434DC(16,0); else func_020434DC(16,1); func_021B73B0(p); }
+void func_021B7D5C(void *p) { if(func_0204EA38()==1) BG_SYS_SetMainPlaneVisible(16,0); else BG_SYS_SetMainPlaneVisible(16,1); func_021B73B0(p); }
 
 /*
  *   src/matched/arm9/unit_0204B22C.c defines CLACT_SetUnitRenderer but its function:
@@ -379,7 +379,7 @@ void func_021B7D5C(void *p) { if(func_0204EA38()==1) func_020434DC(16,0); else f
  *       u8 pad00[8]; void *f8; u8 pad0c[2];
  *       u8 source:4; u8 mode:4; u8 pad0f[9];
  *   };
- *   void func_0204B258(struct Bank *bank,void *p) {
+ *   void CLACT_SetUnitRenderer(struct Bank *bank,void *p) {
  *       bank->f8=p;
  *       bank->source=1;
  *   }
@@ -395,7 +395,7 @@ void func_021B7D80(char *p) {
     s=d_021B82B4;
     *(struct Actor **)(p+0x9118)=(struct Actor *)CLACT_CreateRenderer((u8 *)&s,2,141);
     CLACT_SetRendererCulling(*(struct Actor **)(p+0x9118),1);
-    func_0204B258(*(struct Bank **)(p+0x9044),*(void **)(p+0x9118));
+    CLACT_SetUnitRenderer(*(struct Bank **)(p+0x9044),*(void **)(p+0x9118));
     *(u32 *)(p+0x9064)=(u32)func_021B75A4(p,d_021B8204);
     *(u32 *)(p+0x9068)=(u32)func_021B75A4(p,((char *)&d_021B81EC));
     func_021B746C((int *)p,7,0); func_021B746C((int *)p,8,0);

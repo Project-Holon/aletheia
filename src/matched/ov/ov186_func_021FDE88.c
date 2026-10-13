@@ -10,9 +10,9 @@
  * symbols:
  *   func_021FE3B4 0x021FE3B4 thumb ov186
  *   func_021FE3E4 0x021FE3E4 thumb ov186
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B404 0x0204B404 arm
- *   func_020061E4 0x020061E4 thumb
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 typedef struct { int x,y; } Pair;
 typedef struct { short x,y; } ShortPair;
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Pair;
 extern int func_021FE3B4(u8 *p, const struct Pair *origin, u16 a, u16 b, int duration);
-extern void func_0204B3DC(struct Obj *,unsigned int);
-extern void func_0204B404(int,ShortPair *,unsigned short);
+extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
+extern void CLACT_AddActorSurfacePos(int,ShortPair *,unsigned short);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int func_021FE3E4(char *p, int *out, int step);
 void func_021FDE88(int unused,int *state,Motion *p)
 {
@@ -37,15 +37,15 @@ void func_021FDE88(int unused,int *state,Motion *p)
         p->timer=0;
         for(i=0;i<6;i++) {
             func_021FE3B4((u8 *)p->record[i],(const struct Pair *)p,15,(i*0xFFFF)/6,90);
-            func_0204B3DC((struct Obj *)p->handles[i],1);
+            CLACT_SetActorDrawEnable((struct Obj *)p->handles[i],1);
         }
-        func_020061E4(0x705);
+        GFL_USE_PlaySeDefaultVolume(0x705);
         *state=1;
     case 1:
         for(i=0;i<6;i++) {
             func_021FE3E4(p->record[i],(int *)(&full),p->timer);
             pos.x=full.x;pos.y=full.y;
-            func_0204B404(p->handles[i],&pos,p->heap);
+            CLACT_AddActorSurfacePos(p->handles[i],&pos,p->heap);
         }
         p->timer++;
         break;

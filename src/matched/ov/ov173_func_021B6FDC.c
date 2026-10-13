@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
@@ -27,10 +27,10 @@ typedef signed short s16;
 struct Cfg;
 struct Descriptor;
 struct WordSet;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 extern u8 WAZA_TOOL_GetMaxPP(u16,u32);
@@ -40,7 +40,7 @@ static inline void flush(void *win)
 {
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(func_02045730(win));
+    func_02041B6C(BMP_WIN_GetBgLayer(win));
 }
 void func_021B6FDC(char *p,u8 first,u8 row)
 {
@@ -50,14 +50,14 @@ void func_021B6FDC(char *p,u8 first,u8 row)
     y=row*24;
     index=first+row;
     if(index>=((struct Obj00837 *)p)->f1B8) return;
-    PRINTSYS_PrintColor(func_02045770(((struct Obj00837 *)p)->f30),0,y,*(void **)(*(char * *)&((struct Obj00837 *)p)->f58+index*8),((struct Obj00837 *)p)->f60,0x3c40);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(((struct Obj00837 *)p)->f30),0,y,*(void **)(*(char * *)&((struct Obj00837 *)p)->f58+index*8),((struct Obj00837 *)p)->f60,0x3c40);
     flush(((struct Obj00837 *)p)->f30);
-    PRINTSYS_PrintColor(func_02045770(((struct Obj00837 *)p)->f30),96,y,((struct Obj00837 *)p)->f50,((struct Obj00837 *)p)->f60,0x440);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(((struct Obj00837 *)p)->f30),96,y,((struct Obj00837 *)p)->f50,((struct Obj00837 *)p)->f60,0x440);
     flush(((struct Obj00837 *)p)->f30);
     value=WAZA_TOOL_GetMaxPP(*(u32 *)(*(char * *)&((struct Obj00837 *)p)->f58+index*8+4),0);
     func_0201EFA4(((struct Obj00837 *)p)->f48,0,value,2,1,1);
     func_0201EFA4(((struct Obj00837 *)p)->f48,1,value,2,0,1);
     func_0201F250(((struct Obj00837 *)p)->f48,((struct Obj00837 *)p)->f4C,((struct Obj00837 *)p)->f54);
-    PRINTSYS_PrintColor(func_02045770(((struct Obj00837 *)p)->f30),120,y,((struct Obj00837 *)p)->f4C,((struct Obj00837 *)p)->f60,0x440);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(((struct Obj00837 *)p)->f30),120,y,((struct Obj00837 *)p)->f4C,((struct Obj00837 *)p)->f60,0x440);
     flush(((struct Obj00837 *)p)->f30);
 }

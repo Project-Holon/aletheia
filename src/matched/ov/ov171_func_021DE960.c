@@ -15,14 +15,14 @@
  * symbols:
  *   func_021DE0E4  0x021DE0E4  thumb ov171
  *   func_021DE5F4  0x021DE5F4  thumb ov171
- *   func_02035D20  0x02035D20  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   func_0209C0A4  0x0209C0A4  arm
  */
 
 typedef unsigned short u16;
 typedef signed short s16;
 
-extern unsigned int func_02035D20(unsigned int *, unsigned int *);
+extern unsigned int TOUCHPANEL_GetPointTrg(unsigned int *, unsigned int *);
 extern int func_021DE5F4(char *);
 extern void func_021DE0E4(unsigned char *, int, s16 *, s16 *);
 extern int func_0209C0A4(int, int);
@@ -41,7 +41,7 @@ int func_021DE960(char *obj)
     unsigned int end;
     int i;
 
-    if (func_02035D20(&out1, &out2) == 0)
+    if (TOUCHPANEL_GetPointTrg(&out1, &out2) == 0)
         return 0xff;
 
     i = (s16)func_021DE5F4(obj);

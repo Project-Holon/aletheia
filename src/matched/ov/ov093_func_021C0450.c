@@ -18,9 +18,9 @@
  *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
  *   BTL_SERVER_FLOW_SetSickCont 0x021C5C1C thumb ov093
  *   BTL_SERVER_FLOW_PushPokeEffectAnim 0x021C5480 thumb ov093
- *   func_021CC8D8 0x021CC8D8 thumb ov093
+ *   BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
  *   BTL_SERVER_FLOW_DispatchMoveDoneEvent 0x021C6564 thumb ov093
- *   func_021CC95C 0x021CC95C thumb ov093
+ *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
  */
 #include "../include/Obj00003.h"
 typedef unsigned char u8;
@@ -37,9 +37,9 @@ extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 extern void BTL_SERVER_FLOW_SetSickCont(u8 *, u8 *, int, union Slot);
 extern void BTL_SERVER_FLOW_PushPokeEffectAnim(u8 *, u8 *, int);
-extern u32 func_021CC8D8(void *, int);
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *, int);
 extern void BTL_SERVER_FLOW_DispatchMoveDoneEvent(u8 *, u8 *, u32, u32);
-extern void func_021CC95C(u32 *p, u32 v, int line);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 void BTL_SERVER_FLOW_ProcMoveExecuteFail(u8 *p, u8 *q, u16 c, int k)
 {
     u32 old;
@@ -61,7 +61,7 @@ void BTL_SERVER_FLOW_ProcMoveExecuteFail(u8 *p, u8 *q, u16 c, int k)
         }
         }
     }
-    old = func_021CC8D8(p + 0x1d74, 5728);
+    old = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 5728);
     BTL_SERVER_FLOW_DispatchMoveDoneEvent(p, q, c, k);
-    func_021CC95C((u32 *)(p + 0x1d74), old, 5730);
+    BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), old, 5730);
 }

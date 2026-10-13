@@ -18,15 +18,15 @@
  *   GFL_USE_GetBgmNo  0x02005C44  thumb
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb
  *   func_02012138  0x02012138  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_SetAutoExit  0x0203D7B0  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GFL_NET_STATE_WifiDisconnect  0x0203C554  arm
@@ -47,8 +47,8 @@
  *   d_021546A0     0x021546A0  data   ov001  a4
  *   func_020124E8   0x020124E8  thumb
  *   GAME_COMM_RequestExitNoCallback   0x02026400  thumb
- *   func_0201A920   0x0201A920  thumb
- *   func_02082BCC   0x02082BCC  arm
+ *   POKEPARTY_Create   0x0201A920  thumb
+ *   MI_CpuFill8   0x02082BCC  arm
  *   MYSTATUS_GetSize   0x02008468  thumb
  *   func_02012944   0x02012944  thumb
  *   func_02082D44   0x02082D44  arm
@@ -147,15 +147,15 @@ extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_FadeOutBgm(u32 frames);
 extern struct GameComm *func_02012138(const struct GameSystem *gameSystem);
-extern u32 func_02026454(void *gameComm);
+extern u32 GAME_COMM_GetKind(void *gameComm);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent **newEvent);
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
 extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
 extern int   GFL_NET_GetRunState(void);
 extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void  func_02039C68(struct NetHandle *handle, u32 rangeStart, u32 rangeEnd);
-extern u32   func_02039CB4(struct NetHandle *handle, u32 rangeStart, u32 rangeEnd);
+extern void  GFL_NET_HANDLE_SetTimingSyncRange(struct NetHandle *handle, u32 rangeStart, u32 rangeEnd);
+extern u32   GFL_NET_HANDLE_IsTimingSyncRange(struct NetHandle *handle, u32 rangeStart, u32 rangeEnd);
 extern void GFL_NET_SetAutoExit(u8 enable);
 extern void GFL_NET_SetLoginOption(u8 option);
 extern void GFL_NET_STATE_WifiDisconnect(u32 a);
@@ -166,8 +166,8 @@ extern void GFL_USE_FadeInBgmFull(u32 frames);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
 void *func_020124E8(struct GameEvent *event);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
-struct Party *func_0201A920(u32 heapId);
-void func_02082BCC(void *dst, int value, int size);
+struct Party *POKEPARTY_Create(u32 heapId);
+void MI_CpuFill8(void *dst, int value, int size);
 int MYSTATUS_GetSize(void);
 u8 *func_02012944(void *gameData);
 void func_02082D44(u32 src, void *dst, u32 size);
@@ -201,7 +201,7 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
         (*seq)++;
         break;
     case 1:
-        if (func_02026454(func_02012138(gameSystem)) == 0) {
+        if (GAME_COMM_GetKind(func_02012138(gameSystem)) == 0) {
             GAME_EVENT_CallEvent(event, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, (int)fieldMap));
             (*seq)++;
         }
@@ -255,7 +255,7 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
             } else if (work->tradeParam.result == 1) {
                 *seq = 10;
             } else {
-                func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0xc);
+                GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0xc);
                 GFL_NET_SetAutoExit(0);
                 GFL_NET_SetLoginOption(0);
                 work->timeoutFrames = 100;
@@ -265,7 +265,7 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
         break;
     case 8:
         work->timeoutFrames--;
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0xc))
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0xc))
             *seq = 9;
         if (work->timeoutFrames < 0)
             *seq = 9;
@@ -335,19 +335,19 @@ void *EVENT_GTSNEGO_InitWork(void *event, void *gameSystem, int a, int startMode
 {
     GtsNegoEventWork *work;
 
-    if (func_02026454(func_02012138(gameSystem)))
+    if (GAME_COMM_GetKind(func_02012138(gameSystem)))
         GAME_COMM_RequestExitNoCallback(func_02012138(gameSystem));
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->startMode = startMode;
-    work->tradedParty = func_0201A920(4);
+    work->tradedParty = POKEPARTY_Create(4);
     work->tradeParam.party = work->tradedParty;
-    func_02082BCC(&work->dispParam, 0, 0x1b4);
+    MI_CpuFill8(&work->dispParam, 0, 0x1b4);
     work->dispParam.gameData = func_020120F4(gameSystem);
     work->dispParam.myStatusCopy = func_02030734(4, MYSTATUS_GetSize(), 1, d_021546A0, 0x123);
     work->dispParam.partnerStatusCopy = func_02030734(4, MYSTATUS_GetSize(), 1, d_021546A0, 0x124);
     func_02082D44((u32)func_02012944(func_020120F4(gameSystem)), work->dispParam.myStatusCopy, MYSTATUS_GetSize());
-    func_02082BCC(&work->login, 0, 0x28);
+    MI_CpuFill8(&work->login, 0, 0x28);
     work->login.gameData = func_020120F4(gameSystem);
     work->login.loginType = 0;
     work->login.loginOption = 1;

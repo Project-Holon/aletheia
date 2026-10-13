@@ -17,7 +17,7 @@
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   gPlaceNameLetterFileName     0x021DE368  data  a4
  *   BMP_Delete  0x020437AC  arm
  *   func_0209C494  0x0209C494  arm
@@ -71,7 +71,7 @@ extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, co
 extern u32 func_020307B0(void *p);
 extern void BMP_Clear(Bmp *bmp, u8 value);
 extern void STRBUF_Delete(Strbuf *strbuf);
-extern void func_02082BCC(void *dst, int value, int size);
+extern void MI_CpuFill8(void *dst, int value, int size);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern u16 STRBUF_GetEosChar(void);
 extern Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
@@ -224,7 +224,7 @@ u32 PLACE_NAME_LETTER_FreeWork(PlaceNameLetter *letter)
 
 void PLACE_NAME_LETTER_InitWork(PlaceNameLetter *letter)
 {
-    func_02082BCC(letter, 0, 0x4C);
+    MI_CpuFill8(letter, 0, 0x4C);
     letter->active = 0;
     letter->ch = STRBUF_GetEosChar();
 }

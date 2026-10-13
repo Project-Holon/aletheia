@@ -1,5 +1,5 @@
 /*
- * function: func_0217796C
+ * function: NET_WHPIPE_Update
  * address:  0x0217796C
  * packet:   pkt_0217796C
  * region:   ov014
@@ -10,9 +10,9 @@
  * status:   EXACT
  * symbols:
  *   g_pWhPipeWork     0x021797A4  data  a4
- *   func_02177888  0x02177888  thumb
+ *   NET_WHPIPE_UpdateState  0x02177888  thumb
  *   NET_WHPIPE_IsStateScanning  0x02177C1C  thumb
- *   func_02177744  0x02177744  thumb
+ *   NET_WHPIPE_TickEntryAges  0x02177744  thumb
  *   WIH_SetScanTimerPaused  0x02179664  thumb
  *   WIH_UpdateScanTimer  0x021793F8  thumb
  */
@@ -26,22 +26,22 @@ struct Head {
     void (*fn)(Head *);
 };
 
-void func_02177888(u32 a);
+void NET_WHPIPE_UpdateState(u32 a);
 int NET_WHPIPE_IsStateScanning(void);
-void func_02177744(void);
+void NET_WHPIPE_TickEntryAges(void);
 void WIH_SetScanTimerPaused(unsigned char v);
 void WIH_UpdateScanTimer(void);
 
-void func_0217796C(u32 arg)
+void NET_WHPIPE_Update(u32 arg)
 {
     Head *p = (Head *)*(u32 *)0x021797A4;
     if (p != 0 && p->fn != 0)
         p->fn(p);
     if (*(u32 *)0x021797A4 != 0)
-        func_02177888(arg);
+        NET_WHPIPE_UpdateState(arg);
     if (*(u32 *)0x021797A4 != 0) {
         if (NET_WHPIPE_IsStateScanning() != 0)
-            func_02177744();
+            NET_WHPIPE_TickEntryAges();
     }
     if (*(u32 *)0x021797A4 != 0) {
         if (*(u16 *)((u8 *)*(u32 *)0x021797A4 + 0xC6C) != 0) {

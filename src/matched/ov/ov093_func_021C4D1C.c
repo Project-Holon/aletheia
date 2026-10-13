@@ -17,11 +17,11 @@
  *   func_021C4E28 0x021C4E28 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_POKEPARAM_TestContFlag 0x021D5BDC thumb ov093
- *   func_021CC8D8 0x021CC8D8 thumb ov093
+ *   BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
  *   BTL_CALC_GetWeatherDamage 0x021D7BD4 thumb ov093
  *   BTL_SERVER_FLOW_CalcWeatherDamage 0x021C4E38 thumb ov093
  *   BTL_SERVER_FLOW_ApplyWeatherDamage 0x021C4EA4 thumb ov093
- *   func_021CC95C 0x021CC95C thumb ov093
+ *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
  *   BTL_SERVER_FLOW_ProcFaintedPoke 0x021C4F64 thumb ov093
  *   BTL_SERVER_FLOW_PushEffectAnim 0x021C70E4 thumb ov093
  *   BTL_SERVER_FLOW_ProcFaintRewards 0x021C5200 thumb ov093
@@ -39,11 +39,11 @@ extern u8 *func_021C4E28(void *);
 extern int BTL_POKEPARAM_IsFainted(void *);
 struct UtilWork;
 extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
-extern u32 func_021CC8D8(void *, int);
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *, int);
 extern int BTL_CALC_GetWeatherDamage(void *, int);
 extern int BTL_SERVER_FLOW_CalcWeatherDamage(u8 *, u8 *, u32, u32);
 extern void BTL_SERVER_FLOW_ApplyWeatherDamage(u8 *, u8 *, int, int);
-extern void func_021CC95C(u32 *p, u32 v, int line);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 extern int BTL_SERVER_FLOW_ProcFaintedPoke(u8 *, u8 *);
 extern void BTL_SERVER_FLOW_PushEffectAnim(u8 *p, int a, int b, int c, int e, u32 f);
 extern int BTL_SERVER_FLOW_ProcFaintRewards(u8 *);
@@ -70,13 +70,13 @@ int BTL_SERVER_FLOW_ProcWeatherTurnCheck(u8 *p, void *it)
         line += 12;
         do {
             if (!BTL_POKEPARAM_IsFainted(a) && !BTL_POKEPARAM_TestContFlag((struct UtilWork *)a, 5) && !BTL_POKEPARAM_TestContFlag((struct UtilWork *)a, 4)) {
-                lock = func_021CC8D8(p + 0x1d74, 0x26c6);
+                lock = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 0x26c6);
                 r = BTL_SERVER_FLOW_CalcWeatherDamage(p, a, mode, BTL_CALC_GetWeatherDamage(a, mode));
                 if (r) {
                     BTL_SERVER_FLOW_ApplyWeatherDamage(p, a, mode, r);
                     changed = 1;
                 }
-                func_021CC95C((u32 *)(p + 0x1d74), lock, line);
+                BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), lock, line);
                 BTL_SERVER_FLOW_ProcFaintedPoke(p, a);
             }
             a = func_021C4E28(it);

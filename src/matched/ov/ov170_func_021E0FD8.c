@@ -26,7 +26,7 @@
  *   func_021EC35C 0x021EC35C thumb
  *   func_021DEDCC 0x021DEDCC thumb
  *   func_021DEC98 0x021DEC98 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021EF1B4 0x021EF1B4 thumb
  *   func_021DD16C 0x021DD16C thumb
  *   func_021E0FB0 0x021E0FB0 thumb
@@ -59,7 +59,7 @@ extern int func_021DD210(unsigned char *p, unsigned a, unsigned b);
 extern void func_021EC35C(char **p, int box);
 extern int func_021DEDCC(char *p, int box);
 extern void func_021DEC98(char *p, void *a, int dir);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern int func_021EF1B4(void);
 extern void func_021DD16C(unsigned char *p, int dir);
 extern void func_021E0FB0(char *w, int x, int y);
@@ -127,11 +127,11 @@ int func_021E0FD8(unsigned char *p)
         if (b->timer == 0) {
             int dir = func_021EF1B4();
             if (dir == 0) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021DD16C(p, 0);
                 b->state = 3;
             } else if (dir == 1) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021DD16C(p, 1);
                 b->state = 4;
             }
@@ -162,7 +162,7 @@ int func_021E0FD8(unsigned char *p)
             b->state = 7;
     case 7:
         if (func_021DEAFC((int)p) == 0 && b->state == 7) {
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 8;
         }
         break;

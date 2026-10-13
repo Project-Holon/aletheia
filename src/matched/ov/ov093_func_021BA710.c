@@ -1,5 +1,5 @@
 /*
- * function: func_021BA710
+ * function: BTL_MAIN_GetRelativeClientIndex
  * address: 0x021BA710
  * packet: pkt_ov093_021BA710
  * region: ov093
@@ -11,7 +11,7 @@
  */
 
 typedef unsigned char u8;
-u8 func_021BA710(int a, int b)
+u8 BTL_MAIN_GetRelativeClientIndex(int a, int b)
 {
  u8 x;
  u8 y;

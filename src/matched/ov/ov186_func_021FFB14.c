@@ -10,10 +10,10 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FFB68 0x021FFB68 thumb ov186
  *   d_02200D8C 0x02200D8C data a1
  */
 #include "../include/Obj24873.h"
-extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned short);extern void func_02082BCC(void *,int,unsigned);extern void func_021FFB68(char *,int);extern const char d_02200D8C[];
-char *func_021FFB14(void *p,int f,unsigned heap) {char *q=func_02030734(heap,16,0,d_02200D8C,0x44f);func_02082BCC(q,0,16);((struct Obj24873 *)q)->f8=p;func_021FFB68(q,f);return q;}
+extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned short);extern void MI_CpuFill8(void *,int,unsigned);extern void func_021FFB68(char *,int);extern const char d_02200D8C[];
+char *func_021FFB14(void *p,int f,unsigned heap) {char *q=func_02030734(heap,16,0,d_02200D8C,0x44f);MI_CpuFill8(q,0,16);((struct Obj24873 *)q)->f8=p;func_021FFB68(q,f);return q;}

@@ -12,8 +12,8 @@
  * symbols:
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   FIELD_MSGBG_SubMsgWinMain  0x021919C8  thumb  ov021
- *   func_02045770  0x02045770  arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   TCBL_Main  0x020310C4  arm
  *   TALKMSGWIN_Update  0x0219470C  thumb  ov021
@@ -52,8 +52,8 @@ struct Tcbl;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern int FIELD_MSGBG_SubMsgWinMain(struct Q *q);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *a);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *a);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *a);
 extern void TCBL_Main(struct Tcbl *p);
 extern void TALKMSGWIN_Update(unsigned char *a);
@@ -80,7 +80,7 @@ void FIELD_MSGBG_Main(Obj *o)
         t = s->f0c;
         if (t != 0) {
             if (s->f20 != 0) {
-                if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)s->f1c))) == 0) {
+                if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)t, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)s->f1c))) == 0) {
                     BMP_WIN_TransferChars((struct Descriptor *)s->f1c);
                     s->f20 = 0;
                 }

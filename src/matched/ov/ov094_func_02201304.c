@@ -30,7 +30,7 @@
  *   func_021F86C4 0x021F86C4 thumb ov094
  *   func_021F9824 0x021F9824 thumb ov094
  *   MCSS_SetAnimeIndex 0x02016028 thumb
- *   func_02015F2C 0x02015F2C thumb
+ *   MCSS_SetAnimCallback 0x02015F2C thumb
  *   func_02201718 0x02201718 thumb ov094
  */
 #include "../include/Obj21725.h"
@@ -51,7 +51,7 @@ extern const u8 d_0220AE78[];
 extern int func_021F86C4(void);
 extern int func_021F9824(void *);
 extern void MCSS_SetAnimeIndex(void *, u32);
-extern void func_02015F2C(void *, u32, void (*)(int), int);
+extern void MCSS_SetAnimCallback(void *, u32, void (*)(int), int);
 extern void func_02201718(int);
 void func_02201304(void *task, int *q)
 {
@@ -87,7 +87,7 @@ void func_02201304(void *task, int *q)
         q[0]++;
         return;
     case 2:
-        func_02015F2C(*(void **)(e + off), i, func_02201718, 1);
+        MCSS_SetAnimCallback(*(void **)(e + off), i, func_02201718, 1);
         func_020307B0(q);
         func_02030EAC(task);
         *(int *)(p + off + 0x30) = 0;

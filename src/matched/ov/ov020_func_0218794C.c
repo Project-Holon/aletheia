@@ -1,5 +1,5 @@
 /*
- * function: func_0218794C
+ * function: EL_SCOREBOARD_LoadSeasonGraphics
  * address:  0x0218794C
  * packet:   pkt_ov020_0218794C
  * region:   ov020
@@ -37,7 +37,7 @@ int func_02062B30(void *file, void **out);
 void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
 void ARC_TOOL_DeleteHandle(void *x);
 
-void func_0218794C(int sel, int b)
+void EL_SCOREBOARD_LoadSeasonGraphics(int sel, int b)
 {
     int *l_c;
     int *l_8;

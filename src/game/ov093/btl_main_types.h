@@ -29,6 +29,7 @@ struct BtlServer;
 struct BtlField;
 struct PerapVoice;
 struct BtlMain;
+struct BtlPokeParam;
 
 /* One step function of a task: runs once per frame until it returns nonzero. */
 typedef int (*BtlStepFn)(u32 *step, void *arg);
@@ -58,26 +59,48 @@ struct BtlClientSet {
     u8 ids[4];
 };
 
-/* Trainer slot of the main object (0x28 bytes). */
+/*
+ * Trainer slot of the main object (0x28 bytes). Slot 0 holds the player
+ * (handle is the status object, trainerType is a gender flag); the other
+ * slots copy a BattleTrainerData and have no handle.
+ */
 struct BtlTrainerSlot {
     void *handle;
     void *name;
-    u16 hasData;
-    u16 reserved0A;
-    u8 info[0x1c];
+    u16 trainerType;
+    u16 trainerId;
+    int aiFlags;
+    u16 itemIds[4];
+    u8 winWord[8];
+    u8 loseWord[8];
+};
+
+/* Trainer record that a link partner relays to the other machine (0x6C bytes). */
+struct BtlTrainerPacket {
+    u32 trainerId;
+    u32 trainerType;
+    u32 aiFlags;
+    u16 itemIds[4];
+    u32 namePtrUnused;
+    u8 winWord[8];
+    u8 loseWord[8];
+    u16 nameChars[32];
+    int nameLength;
 };
 
 /* One entry of a side (0x1c bytes). */
 struct BtlSideSlot {
-    u8 data[0x1c];
+    struct BtlPokeParam *items[6];
+    u8 count;
+    u8 pad19[3];
 };
 
 /* One side of the battle (0xE8 bytes), initialized by the server module. */
 struct BtlSide {
     struct BtlMain *main;
     struct BtlSideSlot slots[4];
-    u32 slotWork[4];
-    void *entries[24];
+    struct Party *parties[4];
+    struct BtlPokeParam *pokeParams[24];
     u32 sideIndex;
 };
 
@@ -90,10 +113,10 @@ struct BtlMainFlagBits {
     u8 commLost : 1;
     u8 commLostHandled : 1;
     u8 noBattleAnim : 1;
-    u8 unusedBit3 : 1;
-    u8 unusedBit4 : 1;
+    u8 moneyLocked : 1;
+    u8 penaltyDone : 1;
     u8 keepBgm : 1;
-    u8 unusedBit6 : 1;
+    u8 doubleMoney : 1;
     u8 sleepHooksSet : 1;
 };
 

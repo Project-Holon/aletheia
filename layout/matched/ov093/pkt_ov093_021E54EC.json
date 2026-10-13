@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E54EC",
+   "name": "HAND_WAZA_StealthRockOnUncategorizedMoveNoTarget",
    "address": "0x021E54EC",
    "kind": "game",
    "region": "ov093",

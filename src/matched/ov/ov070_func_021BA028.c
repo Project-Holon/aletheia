@@ -11,8 +11,8 @@
  *
  * symbols:
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   ITEMMENU_MoveCursorToRow  0x021BA6A4  thumb  ov070
  */
 #include "../include/Obj00002.h"
@@ -27,9 +27,9 @@ typedef struct {
 
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 struct Obj;
-extern void func_0204B92C(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
 extern void ITEMMENU_MoveCursorToRow(char *);
 
 void ITEMMENU_CreateCursorActors(char *p)
@@ -45,8 +45,8 @@ void ITEMMENU_CreateCursorActors(char *p)
     r1.e = 2;
     r1.c = 0;
     *(int *)&((struct Obj00002 *)p)->f6A8 = (int)CLACT_CreateActor((void *)((struct Obj00002 *)p)->f69C, ((struct Obj00002 *)p)->f560, ((struct Obj00002 *)p)->f554, ((struct Obj00002 *)p)->f568, &r1, 0, ((struct Obj00002 *)p)->f544);
-    func_0204B3DC((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A8, 1);
-    func_0204B92C((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A8, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A8, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A8, 1);
     ITEMMENU_MoveCursorToRow(p);
     r2.a = 0x8c;
     r2.b = 0x30;
@@ -54,8 +54,8 @@ void ITEMMENU_CreateCursorActors(char *p)
     r2.e = 2;
     r2.c = 1;
     *(int *)&((struct Obj00002 *)p)->f6A4 = (int)CLACT_CreateActor((void *)((struct Obj00002 *)p)->f69C, ((struct Obj00002 *)p)->f560, ((struct Obj00002 *)p)->f554, ((struct Obj00002 *)p)->f568, &r2, 0, ((struct Obj00002 *)p)->f544);
-    func_0204B3DC((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A4, 1);
-    func_0204B92C((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A4, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A4, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A4, 1);
     for (i = 0; i < 8; i++) {
         r3.a = 0x8c;
         r3.b = i * 0x18;
@@ -66,7 +66,7 @@ void ITEMMENU_CreateCursorActors(char *p)
         r3.a -= 0x18;
         r3.c = 1;
         *(int *)(p + i * 4 + 0x674) = (int)CLACT_CreateActor((void *)((struct Obj00002 *)p)->f69C, ((struct Obj00002 *)p)->f578, ((struct Obj00002 *)p)->f574, ((struct Obj00002 *)p)->f57C, &r3, 0, ((struct Obj00002 *)p)->f544);
-        func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x634), 0);
-        func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x674), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + i * 4 + 0x634), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + i * 4 + 0x674), 0);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02195E60
+ * function: gt2GetSocketSOCKET
  * address:  0x02195E60
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * First word of the object, as a getter.
  */
 
-int func_02195E60(const int *p)
+int gt2GetSocketSOCKET(const int *p)
 {
     return *p;
 }

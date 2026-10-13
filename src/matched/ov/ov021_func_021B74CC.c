@@ -17,7 +17,7 @@
  *   func_0201F250  0x0201F250  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   FIELD_MSGBG_GetMsgWinBmpWin  0x021907C0  thumb  ov021
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  * Addresses are Black-image addresses.
  */
@@ -55,7 +55,7 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 FIELD_MSGBG_GetMsgWinBmpWin(u8 *p);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 
 void PDW_POSTMAN_PrintListWin(Obj *p)
@@ -73,5 +73,5 @@ void PDW_POSTMAN_PrintListWin(Obj *p)
         FIELD_MSGBG_MsgWinPrintStr(p->f0C, 0x6c, i * 14, p->f1C);
     }
     MSGDATA_Delete(msg);
-    func_020409B4(func_02045730((struct Descriptor *)FIELD_MSGBG_GetMsgWinBmpWin((u8 *)p->f0C)));
+    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)FIELD_MSGBG_GetMsgWinBmpWin((u8 *)p->f0C)));
 }

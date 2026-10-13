@@ -1,5 +1,5 @@
 /*
- * function: func_021C7BA8
+ * function: BTL_SERVER_FLOW_QueryAdjustedValueEvent
  * address:  0x021C7BA8
  * packet:   pkt_ov093_021C7BA8
  * region:   ov093
@@ -27,7 +27,7 @@ extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 
-void func_021C7BA8(u8 *p, u8 a, u32 b, u32 c, u32 *out)
+void BTL_SERVER_FLOW_QueryAdjustedValueEvent(u8 *p, u8 a, u32 b, u32 c, u32 *out)
 {
     BTL_EVENT_PushVarFrame(13102);
     BTL_EVENT_SetVarReadOnly(2, a);

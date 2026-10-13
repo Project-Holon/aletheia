@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02014024  0x02014024  thumb
+ *   ZONEDATA_IsZoneInTableDFD2  0x02014024  thumb
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
@@ -32,7 +32,7 @@ struct Sub02008C20Obj;
 extern int SCRIPT_WORK_ResetFieldParam(int a0);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
-extern int func_02014024(u32 a);
+extern int ZONEDATA_IsZoneInTableDFD2(u32 a);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 
 void SCRCMD_IncrementTrainerRecord(u32 a)
@@ -40,6 +40,6 @@ void SCRCMD_IncrementTrainerRecord(u32 a)
     R *p = (R *)SCRIPT_WORK_ResetFieldParam((int)SCRCMD_WORK_GetScriptWork((void *)a));
     u32 q = (u32)GAME_DATA_GetTrainerRecord(SCRCMD_WORK_GetGameData((void *)a));
 
-    if (func_02014024(FIELDMAP_GetZoneId((u8 *)p->f4)) != 0)
+    if (ZONEDATA_IsZoneInTableDFD2(FIELDMAP_GetZoneId((u8 *)p->f4)) != 0)
         func_02008DF0((struct Sub02008C20Obj *)q, 0x20);
 }

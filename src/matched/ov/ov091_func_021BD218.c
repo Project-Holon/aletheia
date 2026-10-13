@@ -13,14 +13,14 @@
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_020490F4 0x020490F4 arm
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
- *   func_0201BA68 0x0201BA68 thumb
+ *   POKE_TOOL_GetGraphicIndex 0x0201BA68 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_0202136C 0x0202136C thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -45,15 +45,15 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void *POKE_TOOL_GetBoxParam(void *p);
 struct Obj;
 struct WordSet;
-extern u32 func_0201BA68(void *mon);
+extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int POKE_TOOL_GetIconPalette(void *a0);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 struct Obj;
-extern void func_0204B92C(struct Obj *p,u32 v);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p,u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern u32 func_0202136C(u16);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u32 BMP_WIN_Create(int,u8,u8,int,u8,u8,u8);
@@ -86,24 +86,24 @@ u32 *PLIST_BATTLE_CreateMiniCell(u8 *p,void *mon,s16 x,u16 y)
     egg=POKE_TOOL_GetPartyValue(mon,0x4c,0);
     h=func_020490F4(7,((struct Obj02771 *)p)->f0);
     species=(int)POKE_TOOL_GetBoxParam(mon);
-    s[3]=CLACT_RegisterCharacter(h,func_0201BA68((void *)species),0,1,((struct Obj02771 *)p)->f0);
+    s[3]=CLACT_RegisterCharacter(h,POKE_TOOL_GetGraphicIndex((void *)species),0,1,((struct Obj02771 *)p)->f0);
     ARC_TOOL_DeleteHandle(h);
     frame=POKE_TOOL_GetIconPalette((void *)species);
     a.a=x+16;a.b=y+8;a.c=1;a.d=16;a.e=2;
     {
         int obj=(int)CLACT_CreateActor((void *)P(0x1ec),s[3],P(0x194),P(0x1d0),&a,1,((struct Obj02771 *)p)->f0);
         s[4]=obj;
-        func_0204B6F4((struct Obj *)obj,frame,1);
+        CLACT_SetActorPaletteOffset((struct Obj *)obj,frame,1);
     }
-    func_0204B92C((struct Obj *)s[4],1);
+    CLACT_SetActorAutoAnim((struct Obj *)s[4],1);
     gender=POKE_TOOL_GetPartyValue(mon,6,0);
     b.a=x+32;b.b=y+16;b.c=0;b.d=8;b.e=2;
     s[5]=(u32)CLACT_CreateActor((void *)P(0x1ec),P(0x1a8),P(0x184),P(0x1c4),&b,1,((struct Obj02771 *)p)->f0);
     if(gender!=0) {
-        func_0204B3DC((struct Obj *)s[5],1);
+        CLACT_SetActorDrawEnable((struct Obj *)s[5],1);
         if(func_0202136C(gender)==1) CLACT_SetActorAnimSeq((struct Obj *)s[5],1);
         else CLACT_SetActorAnimSeq((struct Obj *)s[5],0);
-    } else func_0204B3DC((struct Obj *)s[5],0);
+    } else CLACT_SetActorDrawEnable((struct Obj *)s[5],0);
     special=POKE_TOOL_GetPartyValue(mon,0x6e,0);
     rem=x%8;
     z=rem;

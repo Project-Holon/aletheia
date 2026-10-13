@@ -17,8 +17,8 @@
  *   func_02034AC4 0x02034AC4 arm
  *   func_021F9B9C 0x021F9B9C thumb ov186
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
- *   func_0201C440 0x0201C440 thumb
+ *   MI_CpuFill8 0x02082BCC arm
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_021FC4DC 0x021FC4DC thumb ov186
  *   BMP_OAM_CreateSys 0x02025538 thumb
  *   func_021FD760 0x021FD760 thumb ov186
@@ -31,7 +31,7 @@
  *   func_021FD820 0x021FD820 thumb ov186
  *   func_021FD15C 0x021FD15C thumb ov186
  *   BMP_OAM_DeleteSys 0x02025588 thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   func_020315D4 0x020315D4 arm
  *   func_02034A5C 0x02034A5C arm
  *   func_021FF88C 0x021FF88C thumb ov186
@@ -47,7 +47,7 @@
  *   func_021FD73C   0x021FD73C  thumb
  *   func_021FD744   0x021FD744  thumb
  *   func_021F9BA0   0x021F9BA0  thumb
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021FB4B4 0x021FB4B4 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
  *   func_021FD12C 0x021FD12C thumb ov186
@@ -56,7 +56,7 @@
  *   func_021FF648 0x021FF648 thumb ov186
  *   func_021FF72C 0x021FF72C thumb ov186
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021FEEC0  0x021FEEC0  thumb  ov186
  *   func_021FBDA4  0x021FBDA4  thumb  ov186
  *   func_021FC1F8  0x021FC1F8  thumb  ov186
@@ -124,8 +124,8 @@ typedef struct
 extern int func_02034AC4(s32 handle);
 extern unsigned func_021F9B9C(struct Obj24810 *p);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,unsigned);
-extern u32 func_0201C440(void *);
+extern void MI_CpuFill8(void *,int,unsigned);
+extern u32 PRINTSYS_QUE_Create(void *);
 extern u32 func_021FC4DC(u8 *p);
 extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
@@ -138,7 +138,7 @@ extern void func_021F89D0(int *,char *);
 extern void func_021FD820(char *);
 extern void func_021FD15C(void *,int);
 extern void BMP_OAM_DeleteSys(void *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_02034A5C(int);
 extern int func_021FF88C(char *);
@@ -154,7 +154,7 @@ extern int func_021FE7B0(int);
 extern int * func_021FD73C(int, void *);
 extern int func_021FD744(int);
 extern void func_021F9BA0(int);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(int,int,int *);
 extern void *func_021FD12C(int a, void *owner, u16 heap);
@@ -163,7 +163,7 @@ extern void func_021FF54C(char *p, int kind, const int *values);
 extern int func_021FF648(char *);
 extern int func_021FF72C(char *,int *);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021FEEC0(char *p, int mode, u32 value);
 extern void func_021FBDA4(int a, unsigned mode);
 extern void func_021FC1F8(int *p, int i);
@@ -200,10 +200,10 @@ int func_021F8480(void *obj,int b,char *q)
     int i;
     func_02034AC4((int)ov112_id);
     p=PROCSYS_AllocProcWork(obj,0x34,func_021F9B9C(((struct Obj06617 *)q)->f10));
-    func_02082BCC(p,0,0x34);
+    MI_CpuFill8(p,0,0x34);
     ((struct Obj02898 *)p)->f24=func_021F9B9C(((struct Obj06617 *)q)->f10);
     *(char * *)&((struct Obj02898 *)p)->f30=q;
-    ((struct Obj02898 *)p)->f20=func_0201C440((void *)(unsigned int)((struct Obj02898 *)p)->f24);
+    ((struct Obj02898 *)p)->f20=PRINTSYS_QUE_Create((void *)(unsigned int)((struct Obj02898 *)p)->f24);
     v=(void *)func_021FC4DC(((struct Obj06617 *)q)->f8);
     ((struct Obj02898 *)p)->f1C=BMP_OAM_CreateSys(((struct Obj02898 *)p)->f24,v);
     for (i=0;i<2;i++) *(void **)(p+i*4+0x14)=func_021FD760((unsigned int)v,(char *)(((struct Obj06617 *)q)->fC),i,((struct Obj02898 *)p)->f24);
@@ -229,7 +229,7 @@ int func_021F851C(int obj,int b,char *q,char *p)
         *(int *)&((struct Obj02233 *)p)->f10=0;
     }
     BMP_OAM_DeleteSys((void *)(((struct Obj02233 *)p)->f1C));
-    func_0201C4C0((struct PrintSys *)(((struct Obj02233 *)p)->f20));
+    PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj02233 *)p)->f20));
     func_020315D4((struct S020315D4 *)obj);
     func_02034A5C((int)ov112_id);
     return 1;
@@ -317,7 +317,7 @@ void func_021F8624(int a, int *state, char *p)
 void func_021F8670(int a,int b,char *p)
 {
     int x,y;
-    if (func_02035D20((u32 *)(&x),(u32 *)(&y))) {
+    if (TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y))) {
         if (func_021FB4B4((unsigned int *)(((struct Obj05483 *)p)->f4),x,y)) {
             int pair[2];
             pair[0]=x; pair[1]=y;
@@ -356,7 +356,7 @@ void func_021F86EC(int *task,unsigned *state,char *p)
     case 3:func_021FE784(**(int * *)&((struct Obj00548 *)p)->f30,4,3,0);*state=4;break;
     case 4:if(func_021FE7B0((int)(**(int ** *)&((struct Obj00548 *)p)->f30))) *state=5;break;
     case 5:
-        func_02082BCC(&cfg,0,8);
+        MI_CpuFill8(&cfg,0,8);
         cfg.a=((struct Obj00548 *)p)->f28;
         func_021FF54C(*(char * *)&((struct Obj24708 *)(*(char * *)&((struct Obj00548 *)p)->f30))->f14,0,(const int *)(&cfg));
         *(int *)&((struct Obj00548 *)p)->f2C=0;
@@ -372,9 +372,9 @@ void func_021F86EC(int *task,unsigned *state,char *p)
         break;
     case 8:
         if(TOUCHPANEL_GetTrg()) {
-            func_02035D20((u32 *)(&x),(u32 *)(&y));pair.x=x;pair.y=y;
+            TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y));pair.x=x;pair.y=y;
             func_021FD860(((struct Obj00548 *)p)->f18, 1, (int *)&pair);
-            func_020061E4(0x703);*state=9;
+            GFL_USE_PlaySeDefaultVolume(0x703);*state=9;
         }break;
     case 9:func_021FE784(**(int * *)&((struct Obj00548 *)p)->f30,2,3,1);*state=10;break;
     case 10:if(func_021FE7B0((int)(**(int ** *)&((struct Obj00548 *)p)->f30))) *state=11;break;
@@ -434,7 +434,7 @@ void func_021F891C(char *p, const char *q)
   func_021FBE54(*tmp1, 6, *((u16 *) (p + 36)));
   v0 = func_021FC20C(*((char **) (q + 12)));
   v1 = func_021FC214(*((char **) (q + 12)));
-  func_02082BCC(&cfg, 0, 8);
+  MI_CpuFill8(&cfg, 0, 8);
   cfg.y = 168;
   cfg.flag = 1;
   v = (void *)func_021FC4DC(*((void **) (q + 8)));

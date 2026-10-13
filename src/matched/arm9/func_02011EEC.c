@@ -11,7 +11,7 @@
  *
  * symbols:
  *   _GameSystemGlobal        0x02146248  data
- *   func_02082BCC     0x02082BCC  arm
+ *   MI_CpuFill8     0x02082BCC  arm
  *
  * The object at 0x02146248, seen through its +0x08 field: the pool words are
  * 0x02146250 (the address of +0x08, used both for the 0x14-byte clear and
@@ -49,11 +49,11 @@ struct S02146248 {
 };
 
 extern struct S02146248 _GameSystemGlobal;
-extern void func_02082BCC(void *dst, u32 val, u32 size);
+extern void MI_CpuFill8(void *dst, u32 val, u32 size);
 
 void *GAMESYSTEM_SetupInitWork(u32 a0, u16 a1, struct Rec12 *a2, int a3)
 {
-    func_02082BCC(&_GameSystemGlobal.f8, 0, 0x14);
+    MI_CpuFill8(&_GameSystemGlobal.f8, 0, 0x14);
     _GameSystemGlobal.f8 = a0;
     _GameSystemGlobal.f18 = a1;
     _GameSystemGlobal.rec = *a2;

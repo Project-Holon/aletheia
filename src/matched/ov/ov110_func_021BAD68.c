@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   d_021C3744 0x021C3744 data ov110 a4
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 typedef struct { u32 values[6]; } Table;
 extern const Table d_021C3744;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf;
 struct MsgBank;
 struct Rec;
@@ -44,11 +44,11 @@ void func_021BAD68(u8 *p,int index) {
     void *bank,*str;
     u8 *q;
     table=d_021C3744;
-    BMP_Clear(func_02045770((struct Descriptor *)((struct Obj22347 *)(*(u8 * *)&((struct Obj07999 *)p)->f0))->f6C),7);
+    BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)((struct Obj22347 *)(*(u8 * *)&((struct Obj07999 *)p)->f0))->f6C),7);
     bank=func_02045B38(0,2,146,42);
     str=func_02045EC0(bank,table.values[index]);
     q=*(u8 * *)&((struct Obj07999 *)p)->f0;
-    PRINTSYS_PrintQueColor(((struct Obj22348 *)(*(u8 * *)&((struct Obj07999 *)p)->f0))->f7C,(u32)func_02045770((struct Descriptor *)((struct Obj13777 *)q)->f6C),2,4,(u32)str,((struct Obj13777 *)q)->f80,0x39e7);
+    PRINTSYS_PrintQueColor(((struct Obj22348 *)(*(u8 * *)&((struct Obj07999 *)p)->f0))->f7C,(u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj13777 *)q)->f6C),2,4,(u32)str,((struct Obj13777 *)q)->f80,0x39e7);
     ((struct Obj22349 *)(*(u8 * *)&((struct Obj07999 *)p)->f0))->f70=1;
     STRBUF_Delete(str);
     MSGDATA_Delete(bank);

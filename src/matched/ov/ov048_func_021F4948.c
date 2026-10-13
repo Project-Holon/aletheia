@@ -23,7 +23,7 @@
  *   func_0201D304  0x0201D304  thumb
  *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
  *   G3D_SYSTEM_GetRenderTexRes  0x02047554  arm
- *   func_021875F4  0x021875F4  thumb  ov020
+ *   EL_SCOREBOARD_CreateLamp  0x021875F4  thumb  ov020
  *   MSGDATA_Delete  0x02045C04  arm
  *   G3D_SYSTEM_GetObjectAnime  0x02047790  arm
  *   G3D_SYSTEM_GetAnimeObj  0x02047674  arm
@@ -102,7 +102,7 @@ extern u32 func_020307B0(void *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern int G3D_SYSTEM_GetObjectRender(int *p);
 extern int G3D_SYSTEM_GetRenderTexRes(int *p);
-extern int func_021875F4(int a0, int a1, int a2, u32 a3, u16 e0, u16 e1, u16 e2);
+extern int EL_SCOREBOARD_CreateLamp(int a0, int a1, int a2, u32 a3, u16 e0, u16 e1, u16 e2);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern int G3D_SYSTEM_GetObjectAnime(int *p, int i);
 extern Img *G3D_SYSTEM_GetAnimeObj(u32 a);
@@ -134,7 +134,7 @@ R *GIMMICK_OBJ_ELBOARD_CreateLine(P *p, const Q *q, int c)
         str = (u32)func_02045EC0((struct MsgBank *)arc, q->f14);
     }
     width = func_0201D304((struct StrObj *)str, p->f14, 1);
-    r->fC = func_021875F4(G3D_SYSTEM_GetRenderTexRes((int *)G3D_SYSTEM_GetObjectRender((int *)p->f10)), q->f4, q->f8, str, p->b4 * 14, 1, p->h0);
+    r->fC = EL_SCOREBOARD_CreateLamp(G3D_SYSTEM_GetRenderTexRes((int *)G3D_SYSTEM_GetObjectRender((int *)p->f10)), q->f4, q->f8, str, p->b4 * 14, 1, p->h0);
     func_020307B0((void *)str);
     MSGDATA_Delete((struct Rec *)arc);
     w = G3D_SYSTEM_GetAnimeObj(G3D_SYSTEM_GetObjectAnime((int *)p->f10, q->h0))->f8->h4 << 12;

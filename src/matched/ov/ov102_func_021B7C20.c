@@ -8,31 +8,31 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * func_0201DD60 0x0201DD60 thumb
  * GF_FONT_Create 0x0201D7EC thumb
- * func_0201C440 0x0201C440 thumb
+ * PRINTSYS_QUE_Create 0x0201C440 thumb
  * func_02045B38 0x02045B38 arm
  * func_0201EC64 0x0201EC64 thumb
  * func_02049B40 0x02049B40 arm
  */
 typedef unsigned short u16;
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern void func_0201DD60(void);
 typedef unsigned int   u32;
 struct GfFont;
 struct MsgBank;
 struct WordSet;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 void func_021B7C20(unsigned *p,u16 heap) {
- func_02082BCC(p,0,0x10);
+ MI_CpuFill8(p,0,0x10);
  func_0201DD60();
  p[0]=(unsigned int)GF_FONT_Create(0x17,0,0,0,heap);
- p[2]=func_0201C440((void *)heap);
+ p[2]=PRINTSYS_QUE_Create((void *)heap);
  p[1]=(unsigned int)func_02045B38(0,2,0x31,heap);
  p[3]=(unsigned int)func_0201EC64(heap);
  func_02049B40(0x17,5,4,0,0x20,heap);

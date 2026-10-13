@@ -11,8 +11,8 @@
  *
  * symbols:
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   ITEMMENU_IsBrowseMode  0x021B811C  thumb  ov070
  *   d_021BBAA8     0x021BBAA8  data  ov070  a1
  *   d_021BBA6C     0x021BBA6C  data  a1
@@ -39,9 +39,9 @@ typedef struct {
 
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 struct Obj;
-extern void func_0204B92C(struct Obj *, unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
 extern int ITEMMENU_IsBrowseMode(u8 *p);
 extern const B5 d_021BBAA8;
 extern const B5 d_021BBA6C;
@@ -69,15 +69,15 @@ void ITEMMENU_CreateSideButtonActors(char *p)
             r.b += 4;
         }
         *(int *)(p + i * 4 + 0x710) = (int)CLACT_CreateActor((void *)((struct Obj01515 *)p)->f69C, ((struct Obj01515 *)p)->f564, ((struct Obj01515 *)p)->f55C, ((struct Obj01515 *)p)->f570, &r, 0, ((struct Obj01515 *)p)->f544);
-        func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x710), 1);
+        CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + i * 4 + 0x710), 1);
     }
-    func_0204B92C((struct Obj *)((struct Obj01515 *)p)->f710, 1);
-    func_0204B92C((struct Obj *)((struct Obj01515 *)p)->f714, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)((struct Obj01515 *)p)->f710, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)((struct Obj01515 *)p)->f714, 1);
     if (ITEMMENU_IsBrowseMode((u8 *)p) == 0) {
-        func_0204B3DC((struct Obj *)((struct Obj01515 *)p)->f718, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj01515 *)p)->f718, 0);
     }
     if (((struct Obj01515 *)p)->f10 == 2) {
-        func_0204B3DC((struct Obj *)((struct Obj01515 *)p)->f71C, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj01515 *)p)->f71C, 0);
     }
     t3 = d_021BBA68;
     t4 = d_021BBA64;
@@ -87,7 +87,7 @@ void ITEMMENU_CreateSideButtonActors(char *p)
         r.c = t3.v[i];
         r.e = 0;
         *(int *)(p + (u8)(i + 5) * 4 + 0x710) = (int)CLACT_CreateActor((void *)((struct Obj01515 *)p)->f69C, ((struct Obj01515 *)p)->f564, ((struct Obj01515 *)p)->f55C, ((struct Obj01515 *)p)->f570, &r, 0, ((struct Obj01515 *)p)->f544);
-        func_0204B92C((struct Obj *)*(int *)(p + (u8)(i + 5) * 4 + 0x710), 1);
-        func_0204B3DC((struct Obj *)*(int *)(p + (u8)(i + 5) * 4 + 0x710), 0);
+        CLACT_SetActorAutoAnim((struct Obj *)*(int *)(p + (u8)(i + 5) * 4 + 0x710), 1);
+        CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + (u8)(i + 5) * 4 + 0x710), 0);
     }
 }

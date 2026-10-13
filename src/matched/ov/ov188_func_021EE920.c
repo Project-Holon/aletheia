@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02019A50 0x02019A50 thumb
  *   func_02019C38 0x02019C38 thumb
  */
@@ -25,14 +25,14 @@ typedef struct { u16 a:1,b:1,c:1,mode:8,pad:5; } Flags;
 typedef struct { u32 a:5,b:5,c:5,d:5,e:5,f:5,g:1,h:1; } Packed;
 typedef struct { u8 a:1,b:2,c:5; } Byte;
 struct Mon { u32 seed; Flags flags; u16 check; u8 block[0x80]; };
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern void func_02019A50(u16 *,u32,u32);
 extern void *func_02019C38(struct Mon *,u32,u32);
 void func_021EE920(struct Mon *p,char *q)
 {
     char *a,*b,*c,*d;
     int i;
-    func_02082BCC(q,0,0x70);
+    MI_CpuFill8(q,0,0x70);
     if (!p->flags.a) {
         func_02019A50((u16 *)((char *)p+0x88),0x54,p->seed);
         func_02019A50((u16 *)p->block,0x80,p->check);

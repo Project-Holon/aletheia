@@ -23,11 +23,11 @@
  *   ZONEDATA_ResetEventFlag 0x0201433C thumb
  *   FIELD_ENCOUNT_ST_GetEffectEncount 0x0215E33C thumb ov010
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
- *   func_02013F6C  0x02013F6C  thumb
+ *   ZONEDATA_GetFieldSkillMapEffect  0x02013F6C  thumb
  *   FIELD_STATUS_SetFlashActive  0x02014464  thumb
  *   MOVE_POKEMON_MoveActiveEntries  0x0215E364  thumb ov010
  *   EVENTDATA_SYSTEM_RespawnHiddenItems  0x02164728  thumb ov010
- *   func_02013FFC  0x02013FFC  thumb
+ *   ZONEDATA_IsZoneInTableDFB8  0x02013FFC  thumb
  *   func_02008854  0x02008854  thumb
  *   func_02008988  0x02008988  thumb
  *   FIELD_ENCOUNT_ST_ResetGimmickState  0x0215E34C  thumb  ov010
@@ -51,11 +51,11 @@ extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
 extern void ZONEDATA_ResetEventFlag(char *, int);
 extern int FIELD_ENCOUNT_ST_GetEffectEncount(int a0);
 extern MmdlSys *GAME_DATA_GetMoveModelSys(const struct GameData *gameData);
-extern u32 func_02013F6C(u32 id);
+extern u32 ZONEDATA_GetFieldSkillMapEffect(u32 id);
 extern void FIELD_STATUS_SetFlashActive(MmdlSys *mmdlSys, u8 value);
 extern void MOVE_POKEMON_MoveActiveEntries(void *object);
 extern void  EVENTDATA_SYSTEM_RespawnHiddenItems(void *a);
-extern u32 func_02013FFC(u32 id);
+extern u32 ZONEDATA_IsZoneInTableDFB8(u32 id);
 extern struct Situation *func_02008854(struct SaveControl *saveControl);
 extern void func_02008988(struct Situation *situation, u16 value);
 extern int FIELD_ENCOUNT_ST_ResetGimmickState(int a0);
@@ -86,7 +86,7 @@ void func_021643E8(struct GameData *gameData, u32 zoneId)
 {
     MmdlSys *mmdlSys = GAME_DATA_GetMoveModelSys(gameData);
     void *eventWork;
-    if ((func_02013F6C(zoneId) & 3) == 0) {
+    if ((ZONEDATA_GetFieldSkillMapEffect(zoneId) & 3) == 0) {
         FIELD_STATUS_SetFlashActive(mmdlSys, 0);
     }
     MOVE_POKEMON_SetCommonArea((int)func_0200D418(GAME_DATA_GetSaveControl(gameData)), (int)zoneId);
@@ -94,7 +94,7 @@ void func_021643E8(struct GameData *gameData, u32 zoneId)
     eventWork = GAME_DATA_GetEventWork(gameData);
     ZONEDATA_ResetEventFlag(eventWork, 0x964);
     EVENTDATA_SYSTEM_RespawnHiddenItems(eventWork);
-    if (func_02013FFC(zoneId) == 0) {
+    if (ZONEDATA_IsZoneInTableDFB8(zoneId) == 0) {
         func_02008988(func_02008854(GAME_DATA_GetSaveControl(gameData)), 0);
     }
 }
@@ -162,7 +162,7 @@ int func_0216446C(int object, int unused)
 
 /*
  * Unlabelled leaf (saves no lr, so disasm.py prints it as .word data):
- * a tail call through a pool word, the sole blocker of ov020 func_02183DE4.
+ * a tail call through a pool word, the sole blocker of ov020 EVENT_MAPCHANGE_ContinueEvent.
  */
 void func_02164474(void *object, int unused)
 {

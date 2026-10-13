@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0xc.
  *
  * symbols:
- *   func_0201C6EC  0x0201C6EC  thumb
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -23,9 +23,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct PrintSys;
-extern void func_0201C6EC(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 
 void FIELD_MSGBG_ClearPrintQue(u8 *p)
 {
-    func_0201C6EC((struct PrintSys *)(((struct Obj17921 *)p)->fC));
+    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj17921 *)p)->fC));
 }

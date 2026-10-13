@@ -10,13 +10,16 @@
  * status:   EXACT
  *
  * Wait step: 1 on a key press, 2 on timeout, otherwise 0.
+ *
+ * symbols:
+ *   KEY_GetTrg  0x020362DC  arm  arm9
  */
 #include "../include/Obj07564.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 
 int FISHING_WaitBite(u8 *p, u32 lim)
 {
@@ -24,7 +27,7 @@ int FISHING_WaitBite(u8 *p, u32 lim)
 
     ((struct Obj07564 *)p)->f60 = n + 1;
     if (n < lim) {
-        if (func_020362DC() & 1) {
+        if (KEY_GetTrg() & 1) {
             ((struct Obj07564 *)p)->f60 = 0;
             return 1;
         }

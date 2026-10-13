@@ -14,7 +14,7 @@
  *   func_021D9434 0x021D9434 thumb ov119
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
- *   func_02039C68 0x02039C68 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   func_021E1024 0x021E1024 thumb ov119
  *   func_021E1030 0x021E1030 thumb ov119
@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 struct MsgBank;
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 struct Link;
-extern void func_02039C68(struct Link *,unsigned,unsigned);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned,unsigned);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E1024(void *);
 extern void func_021E1030(char *p);
@@ -41,7 +41,7 @@ void func_021DAFB8(char *p) {
   b=4;
   if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc00,1,(u32)(&b))) {
    MSGDATA_ReadString((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),136,(void *)(*(int *)&((struct Obj00001 *)p)->f738));func_021E1024(p);func_021E1030(p);
-   func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),26,8);func_021D8E84(p,(int)func_021DAF68);
+   GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),26,8);func_021D8E84(p,(int)func_021DAF68);
   }
  } else {((struct Obj22732 *)(*(char * *)&((struct Obj00001 *)p)->f8))->f8=3;func_021D8E84(p,(int)func_021D9434);}
 }

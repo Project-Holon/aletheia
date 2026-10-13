@@ -17,7 +17,7 @@
  * ov070_func_021BAB04 (MATCH, arm9 leaf blocker).
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201EFA4  0x0201EFA4  thumb
@@ -34,7 +34,7 @@ typedef short s16;
 typedef unsigned int u32;
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf;
 struct MsgBank;
 struct WordSet;
@@ -54,7 +54,7 @@ void ITEMMENU_PrintQuantityPrice(u8 *p, int val)
 
     win = (u32 *)(p + 0x754);
 
-    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)*win)), 5);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)*win)), 5);
     MSGDATA_ReadString((struct MsgBank *)(*(int *)&((struct Obj00002 *)p)->f51C), 0x83, (void *)(*(int *)&((struct Obj00002 *)p)->f524));
     func_0201EFA4((struct WordSet *)(*(int *)&((struct Obj00002 *)p)->f520), 0, val, 3, 0, 1);
     func_0201F250((struct WordSet *)(*(int *)&((struct Obj00002 *)p)->f520), (void *)(*(int *)&((struct Obj00002 *)p)->f528), (void *)(*(int *)&((struct Obj00002 *)p)->f524));
@@ -63,7 +63,7 @@ void ITEMMENU_PrintQuantityPrice(u8 *p, int val)
     if (((struct Obj00002 *)p)->f7EC == 2) {
         win2 = (u32 *)(p + 0x76C);
         v = ITEMMENU_GetSellTotal(((struct Obj00002 *)p)->f84C, ((struct Obj00002 *)p)->f7F4, ((struct Obj00002 *)p)->f544);
-        BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)*win2)), 5);
+        BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)*win2)), 5);
         MSGDATA_ReadString((struct MsgBank *)(*(int *)&((struct Obj00002 *)p)->f51C), 0x54, (void *)(*(int *)&((struct Obj00002 *)p)->f524));
         func_0201EFA4((struct WordSet *)(*(int *)&((struct Obj00002 *)p)->f520), 0, v, 7, 0, 1);
         func_0201F250((struct WordSet *)(*(int *)&((struct Obj00002 *)p)->f520), (void *)(*(int *)&((struct Obj00002 *)p)->f528), (void *)(*(int *)&((struct Obj00002 *)p)->f524));

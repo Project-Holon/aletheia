@@ -1,5 +1,5 @@
 /*
- * function: func_02187938
+ * function: EL_SCOREBOARD_TeardownSharedDisplay
  * address:  0x02187938
  * packet:   pkt_02187938
  * region:   ov020
@@ -10,6 +10,6 @@
  * status:   EXACT*
  */
 
-void func_02187938(char *p)
+void EL_SCOREBOARD_TeardownSharedDisplay(char *p)
 {
 }

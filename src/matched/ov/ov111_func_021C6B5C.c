@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 
 struct Descriptor;
 struct WordSet;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 struct StrObj;
@@ -52,5 +52,5 @@ void func_021C6B5C(Work *p, void *a, int x, int dx, int y, void *s, u32 n, u32 m
     func_0201EFA4(p->f3204, 0, n, 3, mode, 1);
     func_0201F250(p->f3204, (void *)((u32)s), p->f32A4);
     w = func_0201D304(s, (u32)p->f31FC, 0);
-    PRINTSYS_PrintColor(func_02045770(a), x - (w + dx), y, s, p->f31FC, d_021C8768[idx]);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->f31FC, d_021C8768[idx]);
 }

@@ -22,7 +22,7 @@
  *   POKELIST_UpdateMessagePhase  0x021B9750  thumb  ov091
  *   POKELIST_UpdateChoiceMenu  0x021B97D4  thumb  ov091
  *   PLIST_PLATE_StartHpAnim  0x021BB30C  thumb  ov091
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   PLIST_PLATE_StepHpAnim  0x021BB358  thumb  ov091
  *   PLIST_COMM_SendStatus  0x021B6184  thumb  ov090
  *   PLIST_MENU_ButtonWinOpen  0x021BBE44  thumb  ov091
@@ -62,7 +62,7 @@ extern void POKELIST_RunContextMenu(u8 *p);
 extern void POKELIST_UpdateMessagePhase(unsigned p);
 extern void POKELIST_UpdateChoiceMenu(u8 *p);
 extern void PLIST_PLATE_StartHpAnim(u8 *p, int s);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern int PLIST_PLATE_StepHpAnim(u8 *p, struct S *s);
 extern u32 PLIST_COMM_SendStatus(u8 *p, u8 b, u16 a);
 extern void PLIST_MENU_ButtonWinOpen(int x);
@@ -126,7 +126,7 @@ int POKELIST_UpdatePhase(u8 *p)
         PLIST_PLATE_StartHpAnim(p, *(int *)(p + W(0x2c) * 4 + 0x160));
         if (W(0x24) == 1) {
             W(0x24) = 0;
-            func_020061E4(0x56f);
+            GFL_USE_PlaySeDefaultVolume(0x56f);
         }
         p[0xc] = 0xb;
     case 11:

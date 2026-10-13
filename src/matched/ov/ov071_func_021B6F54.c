@@ -17,8 +17,8 @@
  * symbols:
  *   d_021BA844     0x021BA844  data  a2
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  */
 
 typedef unsigned char  u8;
@@ -40,9 +40,9 @@ extern struct H4 d_021BA844;
 
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 struct Obj;
-extern void func_0204B92C(struct Obj *, unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
 
 int func_021B6F54(struct P *p, u8 *q, int c, const int *d, int e)
 {
@@ -61,8 +61,8 @@ int func_021B6F54(struct P *p, u8 *q, int c, const int *d, int e)
     }
     r = (int)CLACT_CreateActor((void *)p->w[5], p->e[e].w[1], p->e[e].w[0], p->e[e].w[2], &s, flag, 0x61);
     if (m[c] == 0) {
-        func_0204B3DC((struct Obj *)r, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)r, 0);
     }
-    func_0204B92C((struct Obj *)r, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)r, 1);
     return r;
 }

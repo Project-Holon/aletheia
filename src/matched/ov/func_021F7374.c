@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021F7338  0x021F7338  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_0220262C  0x0220262C  thumb
  *   func_02007664  0x02007664  thumb
  *   func_020076D0  0x020076D0  thumb
@@ -43,7 +43,7 @@ typedef struct {
 } Obj;
 
 extern u32 func_021F7338(Obj *p, int kind);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void func_0220262C(u32 a, u32 b);
 struct Sub02007454Entry;
 extern void func_02007664(void *save, u32 box, u32 slot);
@@ -56,7 +56,7 @@ void func_021F7374(Obj *p)
     u32 e = func_021F7338(p, p->kind);
 
     if (p->box == 0xff) {
-        func_0220262C(e, (u32)func_0201AB28(p->ctx->party, p->slot));
+        func_0220262C(e, (u32)POKEPARTY_GetMember(p->ctx->party, p->slot));
     } else {
         u32 a;
         u32 b;

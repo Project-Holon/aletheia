@@ -1,5 +1,5 @@
 /*
- * function: func_02177B0C
+ * function: NET_WHPIPE_SetWatchDisconnect
  * address: 0x02177B0C
  * packet: pkt_ov014_02177B0C
  * region: ov014
@@ -17,10 +17,10 @@
 
 typedef unsigned char u8;
 typedef unsigned short u16;
-void func_02177B0C(u8 v);
+void NET_WHPIPE_SetWatchDisconnect(u8 v);
 extern u8 *g_pWhPipeWork;
 
-void func_02177B0C(u8 v)
+void NET_WHPIPE_SetWatchDisconnect(u8 v)
 {
     u8 *w = g_pWhPipeWork;
     if (w != 0) {

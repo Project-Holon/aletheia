@@ -101,7 +101,7 @@
  *   func_021FC20C 0x021FC20C thumb ov186
  *   func_021FC214 0x021FC214 thumb ov186
  *   func_021FC21C 0x021FC21C thumb ov186
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FC124 0x021FC124 thumb ov186
  *   func_021FB378 0x021FB378 thumb ov186
  *   STRBUF_Create 0x020457B0 arm
@@ -127,7 +127,7 @@ extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
 extern int func_021FC21C(char *);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern int func_021FC124(void *,int,Triple *);
 extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
 extern struct U16Vec *STRBUF_Create(u32,u32);
@@ -152,7 +152,7 @@ void func_021DE7C0(char *p,char *q)
     font=func_021FC20C(*(char **)(q+8));
     bank=func_021FC214(*(char **)(q+8));
     words=func_021FC21C(*(char **)(q+8));
-    func_02082BCC(&config,0,8);
+    MI_CpuFill8(&config,0,8);
     config.left=80; config.right=168; config.top=0; config.flag=1;
     func_021FC124(*(void **)(q+8),6,&triple);
     *(void **)(p+0xc)=func_021FB378(&config,4,96,1,*(int *)q,*(int *)p,font,bank,&triple,*(u16 *)(p+0x6c));

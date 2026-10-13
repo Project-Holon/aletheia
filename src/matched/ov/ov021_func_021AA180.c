@@ -17,7 +17,7 @@
  *   FIELD_ENCOUNT_SetupParam  0x021A9350  thumb  ov021
  *   FIELD_ENCOUNT_CalcEncountRate  0x021A94B0  thumb  ov021
  *   FIELD_ENCOUNT_RandRatePercent  0x021AA6E0  thumb  ov021
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   FIELD_ENCOUNT_CreateZoneWildMons  0x021A954C  thumb  ov021
  *   BTL_SETUP_Create  0x02013090  thumb
@@ -66,7 +66,7 @@ extern u16 WEATHER_GetWeatherId(u8 *p);
 extern void FIELD_ENCOUNT_SetupParam(struct Sel *s, void *a, int b, int c, u16 d);
 extern u32 FIELD_ENCOUNT_CalcEncountRate(struct Obj *o, u32 unused, u32 n);
 extern u32 FIELD_ENCOUNT_RandRatePercent(void);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern int FIELD_ENCOUNT_CreateZoneWildMons(void *a0, void *u, u16 id, void *slots);
 extern void *BTL_SETUP_Create(u32 heap);
@@ -97,7 +97,7 @@ struct Obj *FIELD_ENCOUNT_CheckFishingEncount(struct Ctx *ctx, int mode)
             return 0;
     }
     h = 0;
-    func_02082BCC(slots, 0, 0x28);
+    MI_CpuFill8(slots, 0, 0x28);
     if ((u32)FIELD_ENCOUNT_CreateZoneWildMons(ctx->f0C, &sel, FIELDMAP_GetZoneId(ctx->f00), slots) < sel.f15)
         return h;
     h = BTL_SETUP_Create(4);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_HANDLER_ITEM_MysticWaterBoostPower",
+   "name": "HAND_ITEM_MysticWaterBoostPower",
    "address": "0x021DF7B8",
    "kind": "game",
    "region": "ov093",

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021FA9C8 0x021FA9C8 thumb ov135
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 typedef signed char s8;
 struct WinMgr;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021FA9C8(u8 *p, int mode, int pos);

@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201C4C0  0x0201C4C0  thumb
- *   func_0201C6EC  0x0201C6EC  thumb
- *   func_020452E8  0x020452E8  arm
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
+ *   BMP_WIN_Delete  0x020452E8  arm
  */
 #include "../include/Obj12844.h"
 
@@ -21,17 +21,17 @@ typedef unsigned int u32;
 
 struct Descriptor;
 struct PrintSys;
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
-extern u32 func_020452E8(struct Descriptor *d);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 void SCRCMD_PROC_FLD_FreeShopWindows(u8 *w)
 {
     int i;
 
-    func_0201C6EC((struct PrintSys *)(((struct Obj12844 *)w)->f1B0));
-    func_0201C4C0((struct PrintSys *)(((struct Obj12844 *)w)->f1B0));
+    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj12844 *)w)->f1B0));
+    PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj12844 *)w)->f1B0));
     for (i = 0; i < 7; i++) {
-        func_020452E8((struct Descriptor *)(*(u32 *)(w + 0x164 + i * 4)));
+        BMP_WIN_Delete((struct Descriptor *)(*(u32 *)(w + 0x164 + i * 4)));
     }
 }

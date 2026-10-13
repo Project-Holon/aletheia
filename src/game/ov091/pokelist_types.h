@@ -56,14 +56,11 @@ typedef struct PokelistArg {
     u16 moveId;                       /* 0x46 */
     u8 moveSlot;                      /* 0x48 */
     u8 slotOrder[6];                  /* 0x49: selection order per party slot */
-    u8 pad4F[1];                      /* old plist_menu.c code indexes pad4F[1] for 0x50 */
+    u8 pad4F;
     u32 levelUpCursor;                /* 0x50 */
     u8 pad54[8];
     u16 mailSlot;                      /* 0x5C: mail table slot */
-    union {
-        u8 pad5E[1];                  /* old code indexes pad5E[1] for 0x5F */
-        u8 learnableFlags;            /* 0x5E: bit per party slot that can learn the move */
-    };
+    u8 learnableFlags;                /* 0x5E: bit per party slot that can learn the move */
     u8 season;                        /* 0x5F */
     u16 timeLeft;                     /* 0x60 */
     u8 pad62;
@@ -112,14 +109,11 @@ typedef struct PokelistWork {
     u8 waitFrames;                    /* 0x114 */
     u8 pad115[3];
     int selectionConfirmed;           /* 0x118 */
-    u16 cursorState;                  /* 0x11C */
+    u16 displayHp;                    /* 0x11C: HP shown before a heal */
     signed char hpStep;               /* 0x11E: hp count-up step */
     u8 pad11F;
     PokelistFn phaseCallback;         /* 0x120 */
-    union {
-        u8 pad124[0xC];
-        u16 levelUpMoveStat[6];       /* 0x124 */
-    };
+    u16 levelUpMoveStat[6];           /* 0x124: stats saved before a level up */
     int descriptor;                   /* 0x130 */
     void *msgBank;                    /* 0x134 */
     void *fontMain;                   /* 0x138 */
@@ -142,22 +136,17 @@ typedef struct PokelistWork {
     struct Obj *backButtonActor;              /* 0x1E0 */
     struct Obj *switchButtonActor;            /* 0x1E4 */
     struct Obj *pressedButtonActor;           /* 0x1E8 */
-    union {
-        u8 pad1EC[0x64];
-        struct {
-            void *actorSystem;            /* 0x1EC: owner of the party list actors */
-            int timerDigit[3];            /* 0x1F0 */
-            void *timerLabelWindow;       /* 0x1FC: "time left" caption */
-            void *timerValueWindow;       /* 0x200: minutes and seconds */
-            int timerLabelPrinting;       /* 0x204: caption print still running */
-            int timerValuePrinting;       /* 0x208: value print still running */
-            u8 timerShown;                /* 0x20C: copy of PokelistArg.timerExpired */
-            u8 shownSeconds;              /* 0x20D: time left shown in the value window */
-            u16 timerPalSrc[16];          /* 0x20E */
-            u16 timerPalDst[16];          /* 0x22E */
-            u16 timerPalPhase;            /* 0x24E: frame in the 60 frame pulse */
-        };
-    };
+    void *actorSystem;            /* 0x1EC: owner of the party list actors */
+    int timerDigit[3];            /* 0x1F0 */
+    void *timerLabelWindow;       /* 0x1FC: "time left" caption */
+    void *timerValueWindow;       /* 0x200: minutes and seconds */
+    int timerLabelPrinting;       /* 0x204: caption print still running */
+    int timerValuePrinting;       /* 0x208: value print still running */
+    u8 timerShown;                /* 0x20C: copy of PokelistArg.timerExpired */
+    u8 shownSeconds;              /* 0x20D: time left shown in the value window */
+    u16 timerPalSrc[16];          /* 0x20E */
+    u16 timerPalDst[16];          /* 0x22E */
+    u16 timerPalPhase;            /* 0x24E: frame in the 60 frame pulse */
     int touchDragState;               /* 0x250 */
     int taskMenu;                     /* 0x254 */
     int light;                        /* 0x258 */

@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT* (two bytes alignment padding)
  * symbols:
- *   func_021B9934 0x021B9934 thumb ov093
+ *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   BTL_POKEPARAM_RecordMoveUse 0x021D6744 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct UtilWork;
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void BTL_POKEPARAM_RecordMoveUse(u8 *p, u8 a, int f, u8 b, u16 c, u16 d);
 int func_021D3A40(u32 *a, int *b, const u32 *c)
 {
     u8 *x;
-    x = func_021B9934((char *)a[1], (u8)c[0]);
+    x = BTL_SIDE_GetPokeByIdThunk((char *)a[1], (u8)c[0]);
     BTL_POKEPARAM_RecordMoveUse(x, c[1], c[2], c[3], c[4], c[5]);
     return 1;
 }

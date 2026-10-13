@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   GFL_NET_SetAutoExit 0x0203D7B0 arm
  *   GFL_NET_SetLoginOption 0x0203D7BC arm
  *   GFL_NET_IsParentAid 0x0203D378 arm
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, unsigned int, unsigned int);
 typedef unsigned char  u8;
 extern void GFL_NET_SetAutoExit(u8 a0);
 extern int GFL_NET_SetLoginOption(int);
@@ -29,7 +29,7 @@ extern void func_021BAAB8(char *, int, int);
 int func_021BD6D0(char *p, int v)
 {
     int zero;
-    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x19, 10) == 0) return v;
+    if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x19, 10) == 0) return v;
     zero = 0;
     GFL_NET_SetAutoExit(0);
     if (GFL_NET_IsParentAid(GFL_NET_SetLoginOption(0)) != 0) {

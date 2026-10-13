@@ -9,7 +9,7 @@
  * status: EXACT*
  * lever: A named x load before the last halfword store preserves the interleaved copy.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FE2F8 0x021FE2F8 thumb ov186
  */
 #include "../include/Obj01284.h"
@@ -17,12 +17,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Pair{int x,y;} Pair;
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern int func_021FE2F8(char *,int *,int);
 int func_021FE2BC(u8 *p,const Pair *origin,u16 a,u16 b,u16 c,u16 d,int duration)
 {
     int x;
-    func_02082BCC(p,0,28);
+    MI_CpuFill8(p,0,28);
     ((struct Obj01284 *)p)->f10=a;
     ((struct Obj01284 *)p)->f12=b;
     ((struct Obj01284 *)p)->f14=c;

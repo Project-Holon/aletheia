@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_0208068C 0x0208068C arm
  *   func_02082AC0 0x02082AC0 arm
  *   func_02080B98 0x02080B98 arm
@@ -21,16 +21,16 @@
  *   func_021B9DB8 0x021B9DB8 thumb ov205
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_0201F7A8 0x0201F7A8 thumb
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_0201ED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_020403F4 0x020403F4 arm
@@ -42,7 +42,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef signed short   s16;
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_0208068C(u32);
 extern void func_02082AC0(u32,u32,u32);
 extern void func_02080B98(void);
@@ -62,16 +62,16 @@ extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slo
 extern void func_021B9DB8(char *p, u32 index, s16 x, s16 y);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201F7A8(void *,u32);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_0201ED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_020403F4(u32);
@@ -81,7 +81,7 @@ int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
 {
     u32 keys;
     void *obj;
-    keys=func_020362DC();
+    keys=KEY_GetTrg();
     switch(*state){
     case 0:
         func_0208068C(511);func_02082AC0(0,0x6800000,0xa4000);func_02080B98();
@@ -93,8 +93,8 @@ int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
         if(((struct Obj01293 *)p)->f4==0)func_021B9DB8(p,3,6,0);
         else func_021B9DB8(p,2,6,0);
         obj=((struct Obj01293 *)p)->f14;
-        BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(func_02045730(obj));
-        GFL_NET_RestartWithDefaultTimeout(1,((struct Obj01293 *)p)->f0);func_020434DC(16,1);
+        BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
+        GFL_NET_RestartWithDefaultTimeout(1,((struct Obj01293 *)p)->f0);BG_SYS_SetMainPlaneVisible(16,1);
         (*state)++;break;
     case 1:
         FADE_Start(3,16,0,0);*(u16 *)0x04000050=0;
@@ -106,10 +106,10 @@ int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
         if((keys&1)||(keys&2)){FADE_Start(3,0,16,0);(*state)++;}
         break;
     case 4:
-        if(!FADE_IsActive()){BMP_Clear(func_02045770(((struct Obj01293 *)p)->f14),0);(*state)++;}
+        if(!FADE_IsActive()){BMP_Clear(BMP_WIN_GetBmp(((struct Obj01293 *)p)->f14),0);(*state)++;}
         break;
     case 5:
-        func_0201F7A8(((struct Obj01293 *)p)->f14,0);func_020452E8(((struct Obj01293 *)p)->f14);
+        func_0201F7A8(((struct Obj01293 *)p)->f14,0);BMP_WIN_Delete(((struct Obj01293 *)p)->f14);
         func_0201ED04(((struct Obj01293 *)p)->f10);MSGDATA_Delete(((struct Obj01293 *)p)->fC);
         func_020403F4(0);GF_FONT_Delete(((struct Obj01293 *)p)->f18);func_021B9DAC();return 1;
     }

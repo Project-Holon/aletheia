@@ -1,6 +1,6 @@
 /*
  * file:     unit_021771E4.c
- * function: DWCi_IsShutdownMatch
+ * function: NET_WHPIPE_IsWorkNotAllocated
  * address:  0x021771E4
  * packet:   pkt_ov014_021771E4
  * region:   ov014
@@ -10,17 +10,17 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * sdk:      DWCi_IsShutdownMatch (libdwcmatch.TWL.HYB.thumb.a(dwc_match.o))
+ * sdk:      NET_WHPIPE_IsWorkNotAllocated (libdwcmatch.TWL.HYB.thumb.a(dwc_match.o))
  *
  * symbols:
- *   DWCi_GetMatchCnt  0x02177A94  thumb  ov014
+ *   NET_WHPIPE_IsWorkAllocated  0x02177A94  thumb  ov014
  */
 
-extern void *DWCi_GetMatchCnt(void);
+extern int NET_WHPIPE_IsWorkAllocated(void);
 
-int DWCi_IsShutdownMatch(void)
+int NET_WHPIPE_IsWorkNotAllocated(void)
 {
-    if (DWCi_GetMatchCnt() == 0)
+    if (NET_WHPIPE_IsWorkAllocated() == 0)
         return 1;
     return 0;
 }

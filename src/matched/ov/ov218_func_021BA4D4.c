@@ -11,9 +11,9 @@
  * prototype: original reads r0 at 021BA4F0 after 0204B294; extern retains that live return despite legacy void declaration.
  * symbols:
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  */
 #include "../include/Obj08448.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef signed short s16;typedef unsigned int u32;
-struct Obj;extern u32 CLACT_CreateActor(u32,u32,u32,u32,u32,u16,u16);extern void func_0204B92C(struct Obj *,u32);
-struct Obj *func_021BA4D4(u32 owner,char *p){struct Obj *r;r=(struct Obj *)CLACT_CreateActor(owner,((struct Obj08448 *)p)->f8,((struct Obj08448 *)p)->fC,((struct Obj08448 *)p)->f10,(u32)p,((struct Obj08448 *)p)->f16,122);func_0204B92C(r,1);return r;}
+struct Obj;extern u32 CLACT_CreateActor(u32,u32,u32,u32,u32,u16,u16);extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
+struct Obj *func_021BA4D4(u32 owner,char *p){struct Obj *r;r=(struct Obj *)CLACT_CreateActor(owner,((struct Obj08448 *)p)->f8,((struct Obj08448 *)p)->fC,((struct Obj08448 *)p)->f10,(u32)p,((struct Obj08448 *)p)->f16,122);CLACT_SetActorAutoAnim(r,1);return r;}

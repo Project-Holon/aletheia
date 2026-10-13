@@ -1,5 +1,5 @@
 /*
- * function: func_021E0C80
+ * function: HAND_WAZA_GetRefreshHandlers
  * address: 0x021E0C80
  * packet: pkt_ov093_021E0C80
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E0A80.c and filed here.
  *
  * symbols:
- *   d_021F2434 0x021F2434 data ov093 a4
+ *   gRefreshHandlers 0x021F2434 data ov093 a4
  */
 
-extern int d_021F2434[];
-int *func_021E0C80(int *p);
+extern int gRefreshHandlers[];
+int *HAND_WAZA_GetRefreshHandlers(int *p);
 
-int *func_021E0C80(int *p)
+int *HAND_WAZA_GetRefreshHandlers(int *p)
 {
     *p = 1;
-    return d_021F2434;
+    return gRefreshHandlers;
 }

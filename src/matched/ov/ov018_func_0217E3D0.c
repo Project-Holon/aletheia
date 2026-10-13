@@ -11,10 +11,10 @@
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
- *   func_02013D5C  0x02013D5C  thumb
+ *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   INTRUDE_FIELD_FindZonePos  0x0217BEA8  thumb  ov018
- *   func_0204B404  0x0204B404  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   INTRUDE_SUBDISP_SetTownCursor  0x0217F118  thumb  ov018
  *   d_021836A4     0x021836A4  data  a4
  *   d_02176AA0     0x02176AA0  data  a4
@@ -54,13 +54,13 @@ struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 typedef unsigned int   u32;
-extern u32 func_02013D5C(u32 id);
+extern u32 ZONEDATA_IsZone117(u32 id);
 extern Mon *INTRUDE_FIELD_FindZonePos(int a0);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
-extern void func_0204B3DC(struct Obj *a0, unsigned int a1);
+extern void CLACT_SetActorDrawEnable(struct Obj *a0, unsigned int a1);
 extern void INTRUDE_SUBDISP_SetTownCursor(Obj *p, int a1);
 extern const s8 d_021836A4[][2];
 extern const Ent d_02176AA0[];
@@ -77,7 +77,7 @@ void INTRUDE_SUBDISP_UpdateMyPlayerActor(Obj *p, int a1, u16 id)
 
     idx = GAME_DATA_GetExitMode(GAMESYSTEM_GetGameData((const struct Ctx *)p->f00));
     sel = 0xFF;
-    if (func_02013D5C(id) == 1) {
+    if (ZONEDATA_IsZone117(id) == 1) {
         pos[0] = d_021836A4[idx][0] + 0x80;
         pos[1] = d_021836A4[idx][1] + 0x4C;
         sel = 8;
@@ -108,8 +108,8 @@ void INTRUDE_SUBDISP_UpdateMyPlayerActor(Obj *p, int a1, u16 id)
         }
     }
     h = p->f98;
-    func_0204B404((struct Obj *)h, (const struct Vec2 *)pos, 0);
-    func_0204B3DC((struct Obj *)h, 1);
+    CLACT_AddActorSurfacePos((struct Obj *)h, (const struct Vec2 *)pos, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)h, 1);
     INTRUDE_SUBDISP_SetTownCursor(p, sel);
     p->slots[idx].id = id;
 }

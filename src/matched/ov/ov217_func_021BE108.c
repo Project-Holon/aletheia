@@ -14,8 +14,8 @@
  *   func_021BED10 0x021BED10 thumb ov217
  *   func_021C1184 0x021C1184 thumb ov217
  *   func_021C1178 0x021C1178 thumb ov217
- *   func_02006238 0x02006238 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_IsAnySeBusy 0x02006238 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021BF704 0x021BF704 thumb ov217
  *   func_021BF728 0x021BF728 thumb ov217
  *   func_021BFC60 0x021BFC60 thumb ov217
@@ -49,8 +49,8 @@ extern void func_021BED10(u8 *p, u32 mode);
 extern void func_021C1184(u8 *h, u32 v);
 extern void func_021C1178(u8 *h);
 
-extern int func_02006238(void);
-extern void func_020061E4(u32 a);
+extern int GFL_USE_IsAnySeBusy(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021BF704(void *p);
 extern void func_021BF728(void *p);
 extern void func_021BFC60(char *p);
@@ -92,12 +92,12 @@ void func_021BE108(char *p)
         func_021BE4E0(p);
         break;
     case 1:
-        if (func_02006238() == 0) {
+        if (GFL_USE_IsAnySeBusy() == 0) {
             if (((struct Obj00021 *)p)->f28 >= 0x3c) {
                 func_021BE4E0(p);
                 return;
             }
-            func_020061E4(0x76b);
+            GFL_USE_PlaySeDefaultVolume(0x76b);
         }
         break;
     case 2:
@@ -113,7 +113,7 @@ void func_021BE108(char *p)
         func_021BF3D8(p);
         func_021BF4AC(p);
         func_021BF47C(p);
-        func_020061E4(0x76c);
+        GFL_USE_PlaySeDefaultVolume(0x76c);
         func_021BE448(p);
         break;
     }

@@ -9,7 +9,10 @@
  * status: EXACT
  * symbols:
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
  */
 #include "../include/Obj06529.h"
 #include "../include/Obj23609.h"
@@ -18,21 +21,21 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Rec3;
-extern u32 func_0201CE30(void *p);
-extern void func_0201CE48(struct Rec3 *p);
+extern u32 PRINTSYS_PrintStreamGetState(void *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_020362DC(void);
-extern void func_020061E4(u32);
+extern u32 KEY_GetTrg(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 u32 func_021C6AF0(u8 *p)
 {
-    if (func_0201CE30(((struct Obj23609 *)(*(u8 * *)&((struct Obj06529 *)p)->f8))->f1C8) == 2) {
+    if (PRINTSYS_PrintStreamGetState(((struct Obj23609 *)(*(u8 * *)&((struct Obj06529 *)p)->f8))->f1C8) == 2) {
         if ((*(u8 **)(p + 8))[0x1dd] == 0) {
-            func_0201CE48(((struct Obj23610 *)(*(u8 * *)&((struct Obj06529 *)p)->f8))->f1C8);
+            PRINTSYS_PrintStreamDelete(((struct Obj23610 *)(*(u8 * *)&((struct Obj06529 *)p)->f8))->f1C8);
             return ((struct Obj06529 *)p)->f28;
         }
-        if (TOUCHPANEL_GetTrg() == 1 || (func_020362DC() & 3) != 0) {
-            func_0201CE48(((struct Obj23611 *)(*(u8 * *)&((struct Obj06529 *)p)->f8))->f1C8);
-            func_020061E4(1352);
+        if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3) != 0) {
+            PRINTSYS_PrintStreamDelete(((struct Obj23611 *)(*(u8 * *)&((struct Obj06529 *)p)->f8))->f1C8);
+            GFL_USE_PlaySeDefaultVolume(1352);
             return ((struct Obj06529 *)p)->f28;
         }
     }

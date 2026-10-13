@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02025DE8 0x02025DE8 thumb
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  *   func_020355C4 0x020355C4 arm
  *   func_020260F4 0x020260F4 thumb
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 struct Sound;
 struct Struct_02025CD0;
 extern int func_02025DE8(struct Sound *obj);
-extern unsigned func_020362DC(void);
+extern unsigned KEY_GetTrg(void);
 typedef unsigned char  u8;
 extern void func_020355D8(u8 v);
 extern u8 func_020355C4(void);
@@ -38,19 +38,19 @@ u32 func_021BFF68(int p)
 
     if (r != -1)
         return r;
-    k = func_020362DC();
+    k = KEY_GetTrg();
     if (k & 0x400) {
         func_020355D8(0);
         return 8;
     }
-    k = func_020362DC();
+    k = KEY_GetTrg();
     if (k & 0x800) {
         if (func_020355C4() == 1)
             func_020260F4((struct Struct_02025CD0 *)q[0xac], 1);
         func_020355D8(0);
         return 7;
     }
-    k = func_020362DC();
+    k = KEY_GetTrg();
     if (k & 8) {
         if (func_020355C4() == 1)
             func_020260F4((struct Struct_02025CD0 *)q[0xac], 1);
@@ -58,7 +58,7 @@ u32 func_021BFF68(int p)
         func_021C003C(p, 5);
         return 5;
     }
-    k = func_020362DC();
+    k = KEY_GetTrg();
     if (k & 4) {
         if (func_020355C4() == 1)
             func_020260F4((struct Struct_02025CD0 *)q[0xac], 1);
@@ -66,7 +66,7 @@ u32 func_021BFF68(int p)
         func_021C003C(p, 6);
         return 6;
     }
-    if (func_020362DC() != 0 && func_020355C4() == 1) {
+    if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
         func_020355D8(0);
         func_020260F4((struct Struct_02025CD0 *)q[0xac], 1);
         return -4;

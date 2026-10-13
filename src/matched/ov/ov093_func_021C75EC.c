@@ -1,5 +1,5 @@
 /*
- * function: func_021C75EC
+ * function: BTL_SERVER_FLOW_CalcTypeMatchMultiplier
  * address:  0x021C75EC
  * packet:   pkt_ov093_021C75EC
  * region:   ov093
@@ -33,7 +33,7 @@ extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 
-int func_021C75EC(u8 *p, u8 *a, int k)
+int BTL_SERVER_FLOW_CalcTypeMatchMultiplier(u8 *p, u8 *a, int k)
 {
     int f = BTL_POKEPARAM_HasType(a, k);
     u32 v = 0x1000;

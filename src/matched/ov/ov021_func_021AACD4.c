@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FIELD_G3D_MAPPER_GetFocusSlot  0x0218D168  thumb  ov021
  *   FIELD_G3D_MAPPER_CheckSlotReady  0x0218DBD4  thumb  ov021
  *   EFFECT_ENCOUNT_MakeSearchArea  0x021AABF4  thumb  ov021
@@ -71,7 +71,7 @@ struct Enc {
 };
 
 extern u32 FIELDMAP_GetG3dMapper(u8 *p);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern int FIELD_G3D_MAPPER_GetFocusSlot(char *p);
 extern int FIELD_G3D_MAPPER_CheckSlotReady(char *p, int i);
 struct Ctx;
@@ -97,7 +97,7 @@ void EFFECT_ENCOUNT_CollectCandidates(void **ctx, struct Enc *e)
     int k;
 
     m = FIELDMAP_GetG3dMapper(ctx[0]);
-    func_02082BCC(&e->count, 0, 0x5B0);
+    MI_CpuFill8(&e->count, 0, 0x5B0);
     v.y = 0;
     idx = FIELD_G3D_MAPPER_GetFocusSlot((char *)m);
     if (FIELD_G3D_MAPPER_CheckSlotReady((char *)m, idx) == 0)

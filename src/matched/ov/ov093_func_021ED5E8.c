@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B98AC  0x021B98AC  thumb  ov093
+ *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   func_021F7D80  0x021F7D80  thumb  ov094
  *   func_021F7E38  0x021F7E38  thumb  ov094
@@ -27,7 +27,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 struct S { char *w; u8 k; u8 pad[3]; u32 v; u32 c; u32 a; u8 *cnt; };
 
-extern u8 *func_021B98AC(char *const *q, u8 b);
+extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 extern void *BTL_POKEPARAM_GetMon(void *m);
 extern void func_021F7D80(void *a, int b);
 extern void func_021F7E38(void *a, int b);
@@ -43,7 +43,7 @@ void func_021ED5E8(u32 x, struct S *t)
 
     switch (t->c) {
     case 0:
-        r = BTL_POKEPARAM_GetMon(func_021B98AC(*(char *const * *)&((struct Obj21597 *)(t->w))->f138, t->k));
+        r = BTL_POKEPARAM_GetMon(BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj21597 *)(t->w))->f138, t->k));
         if (t->a == 0)
             func_021F7D80(r, t->v);
         else
@@ -54,7 +54,7 @@ void func_021ED5E8(u32 x, struct S *t)
     case 1:
         if (func_021F7EB4() == 0) {
             func_021F803C(((struct Obj21598 *)(t->w))->f134,
-                          func_021B98AC(*(char *const * *)&((struct Obj21599 *)(t->w))->f138, t->k), t->v);
+                          BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj21599 *)(t->w))->f138, t->k), t->v);
             (*t->cnt)--;
             TCBL_DeleteTask((struct TcblNode *)x);
         }

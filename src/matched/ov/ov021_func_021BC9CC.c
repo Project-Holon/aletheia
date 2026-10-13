@@ -11,7 +11,7 @@
  *
  * symbols:
  *   PLACE_NAME_LETTER_GetBmp  0x021BD1DC  thumb  ov021
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PLACE_NAME_LETTER_GetX  0x021BD1FC  thumb  ov021
  *   PLACE_NAME_LETTER_GetY  0x021BD204  thumb  ov021
  *   PLACE_NAME_LETTER_GetWidth  0x021BD1EC  thumb  ov021
@@ -25,7 +25,7 @@ typedef unsigned char u8;
 
 extern int PLACE_NAME_LETTER_GetBmp(u8 *a0);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern int PLACE_NAME_LETTER_GetX(int a);
 extern int PLACE_NAME_LETTER_GetY(int a);
 extern int PLACE_NAME_LETTER_GetWidth(u8 *a0);
@@ -43,7 +43,7 @@ void FIELD_PLACE_NAME_BlitNextLetter(char *p)
     r4 = *(int *)(p + 0xc8 + 4 * ((struct Obj01123 *)p)->f14A);
     if (r4 != 0) {
         a = PLACE_NAME_LETTER_GetBmp((u8 *)r4);
-        b = (int)func_02045770((struct Descriptor *)*(int *)&((struct Obj01123 *)p)->f24);
+        b = (int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)&((struct Obj01123 *)p)->f24);
         c = PLACE_NAME_LETTER_GetX(r4);
         d = PLACE_NAME_LETTER_GetY(r4) - 8;
         e = PLACE_NAME_LETTER_GetWidth((u8 *)r4);

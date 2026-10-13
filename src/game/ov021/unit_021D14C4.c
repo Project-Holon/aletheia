@@ -22,10 +22,10 @@
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02041B6C  0x02041B6C  arm
  *   d_021DB9A0     0x021DB9A0  data
@@ -85,19 +85,19 @@
  *   d_021DD608     0x021DD608  data  a4
  *   SCRIPT_WORK_SetCheckFlag  0x02159144  thumb  ov010
  *   SCRIPT_WORK_ResetCheckFlag  0x02159168  thumb  ov010
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02007B44  0x02007B44  thumb
  *   func_02012934  0x02012934  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   PM_VOICE_Play  0x02006984  thumb
- *   func_02006CAC  0x02006CAC  thumb
+ *   PM_VOICE_GetPerapVoiceSave  0x02006CAC  thumb
  *   SND_MIC_Init  0x02006CBC  thumb
- *   func_02006D44  0x02006D44  thumb
- *   func_02006D64  0x02006D64  thumb
- *   func_02006D94  0x02006D94  thumb
- *   func_02006DD8  0x02006DD8  thumb
+ *   SND_MIC_Exit  0x02006D44  thumb
+ *   SND_MIC_AddElapsed  0x02006D64  thumb
+ *   SND_MIC_IsLimitReached  0x02006D94  thumb
+ *   SND_MIC_StartRecording  0x02006DD8  thumb
  *   SND_MIC_StoreRecording  0x02006E18  thumb
  *   func_02007B50  0x02007B50  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -145,7 +145,7 @@
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   func_0201F548  0x0201F548  thumb
  *   ARC_UTIL_UploadPaletteFromArchive  0x02049B90  arm
  *   func_0201F73C  0x0201F73C  thumb
@@ -159,7 +159,7 @@
  *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
  *   FIELD_TASK_CreatePlayerDrawOffsetTween  0x021C7858  thumb  ov021
  *   FIELD_TASK_MANAGER_AddTask  0x021C6DE0  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   GFL_USE_IsSeSlotBusy  0x02006224  thumb
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
@@ -185,14 +185,14 @@
  *   POKEGRA_RegisterPalette  0x0202D7D8  thumb
  *   POKEGRA_RegisterCellAnim  0x0202D898  thumb
  *   d_021DD710     0x021DD710  data  a2
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   FIELD_G3D_MAP_CheckBeaconTrainerKey  0x0216BF9C  thumb  ov010
  *   func_02012844  0x02012844  thumb
  *   EVENTDATA_SYSTEM_GetNpcHeaders  0x02162740  thumb  ov010
  *   EVENTDATA_SYSTEM_GetNpcCount  0x02162744  thumb  ov010
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   func_02013C60  0x02013C60  thumb
+ *   ZONEDATA_IsPalaceEnabled  0x02013C60  thumb
  *   FIELD_PLAYER_GetFormCode  0x021A3098  thumb  ov021
  *   FLDMMDL_LoadObjCodeParam  0x0216E2E8  thumb  ov010
  *   FIELD_PLAYER_GetNowGridPos  0x021A35FC  thumb  ov021
@@ -220,7 +220,7 @@
  *   func_02008DAC  0x02008DAC  thumb
  *   func_02008DFC  0x02008DFC  thumb
  *   func_0201F02C  0x0201F02C  thumb
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_0201EE60  0x0201EE60  thumb
  *   func_0203F4CC  0x0203F4CC  arm
@@ -231,7 +231,7 @@
  *   func_0200C0F0  0x0200C0F0  thumb
  *   func_0200C234  0x0200C234  thumb
  *   d_021DD738     0x021DD738  data  ov021  a4
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
  *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
  *   FIELD_CAMERA_GetTraceTarget  0x0218EC5C  thumb  ov021
@@ -240,7 +240,7 @@
  *   FIELD_CAMERA_SetTraceTarget  0x0218EC30  thumb  ov021
  *   FIELD_CAMERA_RestartDelay  0x0218F05C  thumb  ov021
  *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
- *   d_020A1B38     0x020A1B38  data   a2
+ *   FX_SinCosTable_     0x020A1B38  data   a2
  *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
  *   SP_POKE_GIMMICK_StartSwapNpc  0x021F3CFC  thumb  ov059
  *   func_021F37B8  0x021F37B8  thumb  ov064
@@ -415,10 +415,10 @@ extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern void *FIELDMAP_GetCamera(void *p);
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *a);
+extern void *BMP_WIN_GetBmp(struct Descriptor *a);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u32 func_0207C768(u32 a, u32 b);
@@ -473,11 +473,11 @@ extern int FIELD_SUBSCREEN_RequestMode(u32 a, u32 b);
 extern u32 FIELDMAP_GetSubscreen(u8 *p);
 extern void SCRIPT_WORK_SetCheckFlag(int n);
 extern void SCRIPT_WORK_ResetCheckFlag(int n);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02007AC8Entry *func_02007B44(void *sys);
 extern void *func_02012934(const struct BigObj *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 FIELDMAP_GetMsgBg(u8 *p);
 extern int FIELD_MSGBG_CreateMsgData(u32 a, u32 b);
 extern struct Obj2 *FIELD_MSGBG_CreateBottomSysWin(struct Fx *a, u32 b);
@@ -494,21 +494,21 @@ extern void *SND_MIC_Init(u32);
 extern void *sub_020056BC(void *);
 extern void *FIELD_MSGBG_GetSysWinBmpWin(void **p);
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
-extern void func_02006D64(u32);
-extern u32 func_02006D94(void);
+extern void SND_MIC_AddElapsed(u32);
+extern u32 SND_MIC_IsLimitReached(void);
 extern void TIME_ICON_Delete(u8 *p);
 extern u8 *FIELD_SOUND_SYSTEM_StartPushTask(u8 *p, u32 a);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
-extern u32 func_02006DD8(void *a, u32 b);
+extern u32 SND_MIC_StartRecording(void *a, u32 b);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void FIELD_MSGBG_SysWinPrintStr(struct P *p, u32 b, u16 c, u32 d);
-extern void func_02006D44(void);
+extern void SND_MIC_Exit(void);
 extern void func_02034FB8(u32);
 extern void *func_02029620(void *a, u32 b, u32 c);
 extern void SND_MIC_StoreRecording(void *);
-extern void func_02006CAC(void **out);
+extern void PM_VOICE_GetPerapVoiceSave(void **out);
 extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern u32 sub_02006BD0(u32 i);
 extern u32 func_0201ED04(struct WordSet *p);
@@ -532,7 +532,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u8 func_0201F548(int i);
 extern void ARC_UTIL_UploadPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
@@ -544,7 +544,7 @@ extern struct Desc *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, i
 extern u32 FIELDMAP_GetTaskManager(unsigned char *p);
 extern int FIELD_TASK_CreatePlayerDrawOffsetTween(u32 a, u32 b, u32 c);
 extern void FIELD_TASK_MANAGER_AddTask(unsigned char *p, u32 *a, u32 b);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int GFL_USE_GetSeSlot(u32 a0);
 extern int GFL_USE_IsSeSlotBusy(u32 a0);
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
@@ -568,14 +568,14 @@ extern u32 func_020056EC(u32 a);
 extern u32 POKEGRA_RegisterCgr(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i, u32 heap);
 extern int POKEGRA_RegisterPalette(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, unsigned short a8, unsigned short a9);
 extern u32 POKEGRA_RegisterCellAnim(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 heap);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void *GAME_DATA_GetMiscSave(int *p);
 extern int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *a, int i, void *b);
 extern u32 func_02012844(const struct BigObj *p);
 extern u32 EVENTDATA_SYSTEM_GetNpcHeaders(u8 *p);
 extern u16 EVENTDATA_SYSTEM_GetNpcCount(u8 *p);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
-extern u32 func_02013C60(u32 id);
+extern u32 ZONEDATA_IsPalaceEnabled(u32 id);
 extern u32 FIELD_PLAYER_GetFormCode(u8 *p);
 extern void FLDMMDL_LoadObjCodeParam(const char *ctx, u32 id, struct Record *out);
 extern void FIELD_PLAYER_GetNowGridPos(unsigned char **p, u16 *a, u16 *b, u16 *c);
@@ -603,7 +603,7 @@ extern struct Sub02008C20Obj *func_02008C58(void *sys);
 extern u32 func_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta);
 extern u32 func_02008DFC(struct Sub02008C20Obj *obj, int i);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
 extern void func_0203F4CC(struct RtcTime *time);
@@ -611,7 +611,7 @@ extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void *func_0200C0F0(void *p);
 extern int func_0200C234(void *p);
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void FIELD_CAMERA_EndDelay(u8 *a);
 extern u32 FIELD_CAMERA_IsDelayEnabled(u8 *a);
 extern u32 FIELD_CAMERA_GetTraceTarget(u8 *p);
@@ -703,7 +703,7 @@ extern ClactInitParam d_021DD710;
 extern const CounterMsgEntry d_021DD774[];
 extern u32 d_021DD718[];
 extern u32 d_021DD738[];
-extern const s16 d_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 
 static inline fx32 FX_MUL(fx32 a, fx32 b)
 {
@@ -1142,13 +1142,13 @@ u32 EVENT_PERAP_RECORD_Create(void *gameSystem, void *fieldMap, u32 partySlot)
 
     task = (u32)func_020122C0(gameSystem, 0, EVENT_PERAP_RECORD_Main, sizeof(PerapRecordWork));
     work = func_020124E8((struct Obj *)task);
-    func_02082BCC(work, 0, sizeof(PerapRecordWork));
+    MI_CpuFill8(work, 0, sizeof(PerapRecordWork));
     work->gameSystem = gameSystem;
     work->gameData = func_020120F4(gameSystem);
     work->perapVoice = func_02007B44(GAME_DATA_GetSaveControl(work->gameData));
     work->fieldMap = fieldMap;
     work->fieldPlayer = FIELDMAP_GetFieldPlayer(fieldMap);
-    work->partyMon = func_0201AB28(func_02012934(work->gameData), partySlot);
+    work->partyMon = POKEPARTY_GetMember(func_02012934(work->gameData), partySlot);
     work->msgBg = (void *)FIELDMAP_GetMsgBg(work->fieldMap);
     work->partySlot = partySlot;
     work->recordDone = 0;
@@ -1215,8 +1215,8 @@ int EVENT_PERAP_RECORD_Main(void *event, int *seq, PerapRecordWork *w)
         }
         break;
     case 5:
-        func_02006D64(2);
-        if (func_02006D94() == 1) {
+        SND_MIC_AddElapsed(2);
+        if (SND_MIC_IsLimitReached() == 1) {
             TIME_ICON_Delete(w->timeIcon);
             FIELD_MSGBG_ClearSysWin(w->sysWin);
             FIELD_MSGBG_SysWinPrintMsg(w->sysWin, 0, 0, 1);
@@ -1226,7 +1226,7 @@ int EVENT_PERAP_RECORD_Main(void *event, int *seq, PerapRecordWork *w)
         break;
     case 6:
         if (FIELD_MSGBG_SysWinMain(w->sysWin) == 1) {
-            if (func_02006DD8(EVENT_PERAP_RECORD_OnRecorded, (u32)&w->recordDone) == 0) {
+            if (SND_MIC_StartRecording(EVENT_PERAP_RECORD_OnRecorded, (u32)&w->recordDone) == 0) {
                 *seq = 7;
             } else {
                 string = func_02045EC0(w->msgData, 3);
@@ -1235,7 +1235,7 @@ int EVENT_PERAP_RECORD_Main(void *event, int *seq, PerapRecordWork *w)
                 STRBUF_Delete(string);
                 FIELD_MSGBG_ClearSysWin(w->sysWin);
                 FIELD_MSGBG_SysWinPrintStr(w->sysWin, 0, 0, (u32)w->msgBuf);
-                func_02006D44();
+                SND_MIC_Exit();
                 func_02034FB8(8);
                 GAME_EVENT_CallEvent(event, func_02029620(w->gameSystem, 0, 30));
                 *seq = 12;
@@ -1245,7 +1245,7 @@ int EVENT_PERAP_RECORD_Main(void *event, int *seq, PerapRecordWork *w)
     case 7:
         if (w->recordDone == 1) {
             SND_MIC_StoreRecording(w->perapVoice);
-            func_02006D44();
+            SND_MIC_Exit();
             func_02034FB8(8);
             GAME_EVENT_CallEvent(event, func_02029620(w->gameSystem, 0, 30));
             *seq = 8;
@@ -1268,7 +1268,7 @@ int EVENT_PERAP_RECORD_Main(void *event, int *seq, PerapRecordWork *w)
         }
         break;
     case 10:
-        func_02006CAC((void **)&micBuf);
+        PM_VOICE_GetPerapVoiceSave((void **)&micBuf);
         w->voiceHandle = (void *)PM_VOICE_Play(0x1B9, 0, 64, 0, 0, 0, 0, (u32)(&micBuf));
         *seq = 11;
         break;
@@ -1361,7 +1361,7 @@ int EVENT_PERAP_RECORD_HopPokeIcon(PerapRecordWork *w)
     }
     CLACT_GetActorSurfacePos((struct Actor *)w->clactActor, (struct PtS *)&pt, 0);
     pt.y = pt.y - w->hopSpeed;
-    func_0204B404((struct Obj *)(w->clactActor), (const struct Vec2 *)(&pt), 0);
+    CLACT_AddActorSurfacePos((struct Obj *)(w->clactActor), (const struct Vec2 *)(&pt), 0);
     w->hopSpeed = w->hopSpeed - 1;
     return 1;
 }
@@ -1370,7 +1370,7 @@ void EVENT_PERAP_RECORD_SetupWindow(PerapRecordWork *w)
 {
     ARC_UTIL_UploadPaletteFromArchive(5, func_0201F548(0), 0, 0, 0, 0x20, 0x15);
     w->bmpWin = BMP_WIN_Create(1, 10, 3, 12, 12, 0, 1);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)w->bmpWin)), 0x11);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)w->bmpWin)), 0x11);
     BMP_WIN_TransferChars((struct Descriptor *)w->bmpWin);
     BMP_WIN_MakeScreen((struct Cfg *)w->bmpWin);
     func_0201F73C((void *)w->bmpWin, 1, 1, 0);
@@ -1381,7 +1381,7 @@ int EVENT_PERAP_RECORD_Cleanup(PerapRecordWork *work)
 {
     EVENT_PERAP_RECORD_DeletePokeIcon(work);
     func_0201F7A8((void *)work->bmpWin, 1);
-    return func_020452E8((struct Descriptor *)work->bmpWin);
+    return BMP_WIN_Delete((struct Descriptor *)work->bmpWin);
 }
 
 /*
@@ -1486,7 +1486,7 @@ int FLDEFF_RIPPLE_WarpToZoneStartTask(u32 event, int *seq, RippleWarpWork *w)
         if (w->waitFrames > 0) {
             break;
         }
-        func_020061E4(0x63C);
+        GFL_USE_PlaySeDefaultVolume(0x63C);
         (*seq)++;
         break;
     case 2:
@@ -1520,7 +1520,7 @@ int FLDEFF_RIPPLE_WarpToSpecialLocationTask(u32 event, int *seq, RippleWarpWork 
     effectMgr = FIELDMAP_GetTaskManager((unsigned char *)w->fieldWork);
     switch (*seq) {
     case 0:
-        func_020061E4(0x63C);
+        GFL_USE_PlaySeDefaultVolume(0x63C);
         w->waitFrames = 0x18;
         if (w->useSpin) {
             fogCtl = FIELDMAP_GetFog((unsigned char *)w->fieldWork);
@@ -1627,7 +1627,7 @@ int SCRCMD_ShowPokeIconWindow(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 void SCRCMD_POKE_ICON_InitWindow(PokeIconWork *p)
 {
     p->bmpWin = BMP_WIN_Create(1, 10, 3, 12, 12, 13, 1);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->bmpWin)), 17);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->bmpWin)), 17);
     BMP_WIN_TransferChars((struct Descriptor *)p->bmpWin);
     BMP_WIN_MakeScreen((struct Cfg *)p->bmpWin);
     func_0201F73C((void *)p->bmpWin, 1, 1, 13);
@@ -1678,14 +1678,14 @@ u32 SCRCMD_POKE_ICON_Task(u32 event, u32 *state, PokeIconWork *p)
 {
     switch (state[0]) {
     case 0:
-        if (func_020362DC() & 3) {
+        if (KEY_GetTrg() & 3) {
             SCRCMD_POKE_ICON_DeleteIcon(p);
             SCRCMD_POKE_ICON_ShowWindow(p);
             state[0]++;
         }
         break;
     case 1:
-        func_020452E8((struct Descriptor *)p->bmpWin);
+        BMP_WIN_Delete((struct Descriptor *)p->bmpWin);
         return 1;
     }
     return 0;
@@ -1748,7 +1748,7 @@ int FIELD_CheckPlayerPositionFree(u32 gameSystem)
     mapCtx = FIELDMAP_GetMmdlSys((void *)fieldWork);
     player = FIELDMAP_GetFieldPlayer((void *)fieldWork);
     mapId = FIELDMAP_GetZoneId(fieldWork);
-    if ((int)func_02013C60((u16)mapId) == 0) {
+    if ((int)ZONEDATA_IsPalaceEnabled((u16)mapId) == 0) {
         return 0;
     }
     if ((u32)(FIELD_PLAYER_GetFormCode(player) - 2) <= 1) {
@@ -1856,18 +1856,18 @@ int SCRCMD_ShowOrClearInfoWindow(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     if (func_02011330((struct Stream *)vm)) {
         msgData = (u32)func_02045B38(0, 2, 0x16, heapId);
         bmpWin = BMP_WIN_CreateAt(2, 1, 1, 0x1E, 10, 14, 0x40);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)bmpWin)), 0xF);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)bmpWin)), 0xF);
         BMP_WIN_TransferChars((struct Descriptor *)bmpWin);
         BMP_WIN_MakeScreen((struct Cfg *)bmpWin);
         func_0201F73C((void *)bmpWin, 0, 1, 0xD);
         msgBuf = (u32)STRBUF_Create(0xB4, heapId);
         func_02045CAC((struct MsgBank *)msgData, 3, (void *)msgBuf);
-        PRINTSYS_Print((void *)((u32)func_02045770((struct Descriptor *)bmpWin)), 0, 0, (void *)msgBuf, (void *)FIELD_MSGBG_GetFont(msgBg));
+        PRINTSYS_Print((void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)bmpWin)), 0, 0, (void *)msgBuf, (void *)FIELD_MSGBG_GetFont(msgBg));
         BMP_WIN_TransferChars((struct Descriptor *)bmpWin);
         func_02041B6C(2);
         STRBUF_Delete((struct U16Vec *)msgBuf);
         MSGDATA_Delete((struct Rec_021D1988 *)msgData);
-        func_020452E8((struct Descriptor *)bmpWin);
+        BMP_WIN_Delete((struct Descriptor *)bmpWin);
     } else {
         func_02041300(2, 0, 0, 0, 0x20, 0xC, 0x11);
         func_02041B6C(2);
@@ -1919,9 +1919,9 @@ int SCRCMD_GetNpcGreetingMessage(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     out = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     func_0201F02C((struct WordSet *)wordSet, 0, (void *)name);
     party = func_02012934(gameData);
-    n = func_0201AA18(party);
+    n = POKEPARTY_GetCount(party);
     for (i = 0; i < n; i++) {
-        mon = func_0201AB28(party, i);
+        mon = POKEPARTY_GetMember(party, i);
         if (func_02017E1C(mon, 0x4C, 0) == 0) {
             func_0201EE60((struct WordSet *)wordSet, 3, func_02017E1C(mon, 5, 0));
             break;
@@ -2035,7 +2035,7 @@ int FIELD_CAMERA_ShakeTask(void *task, int *state)
     int swingScale;
 
     done = 0;
-    o = func_0201210C(func_020124E4(task));
+    o = func_0201210C(GAME_EVENT_GetGameSystem(task));
     w = func_020124E8(task);
     h = FIELDMAP_GetCamera(o);
 
@@ -2086,7 +2086,7 @@ int FIELD_CAMERA_ShakeTask(void *task, int *state)
             Vec3 pos;
             Vec3 ofs;
             int ox, oy;
-            swingScale = d_020A1B38[(ang >> 4) * 2];
+            swingScale = FX_SinCosTable_[(ang >> 4) * 2];
             ox = w->x * swingScale;
             oy = w->y * swingScale;
             pos = *w->pos;

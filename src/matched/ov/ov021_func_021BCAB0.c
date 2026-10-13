@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FIELD_PLACE_NAME_GetZoneId  0x021BD118  thumb  ov021
- *   func_02013E4C  0x02013E4C  thumb
+ *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
  *   FIELD_PLACE_NAME_Cancel  0x021BC5BC  thumb  ov021
  *   FIELD_PLACE_NAME_UsesIntrudeTemplate  0x021BCB48  thumb  ov021
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
@@ -34,7 +34,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern u16 FIELD_PLACE_NAME_GetZoneId(u8 *p);
-extern unsigned int func_02013E4C(unsigned int id);
+extern unsigned int ZONEDATA_GetPlaceNameId(unsigned int id);
 extern int FIELD_PLACE_NAME_Cancel(u8 *a);
 extern int FIELD_PLACE_NAME_UsesIntrudeTemplate(int *p, int b);
 struct Ctx;
@@ -56,7 +56,7 @@ void FIELD_PLACE_NAME_LoadMessage(int *p)
     unsigned int r4;
 
     r6 = FIELD_PLACE_NAME_GetZoneId((u8 *)((int)p));
-    r4 = func_02013E4C((unsigned int)r6);
+    r4 = ZONEDATA_GetPlaceNameId((unsigned int)r6);
     if (r4 >= 0x75) {
         r4 = 0;
     }

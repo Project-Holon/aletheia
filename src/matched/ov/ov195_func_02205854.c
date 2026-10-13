@@ -11,7 +11,7 @@
  *
  * symbols:
  *   d_02208CCC 0x02208CCC data a4
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 #define REG_VIEWPORT   (*(volatile u32 *)0x04000580)
 
 extern u8 d_02208CCC[];
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void G3X_SetFog(int, int, int, int);
 extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
@@ -37,7 +37,7 @@ void func_02205854(void)
 {
     u32 i;
 
-    func_020434DC(1, 1);
+    BG_SYS_SetMainPlaneVisible(1, 1);
     REG_BG0CNT = REG_BG0CNT & ~3;
     REG_DISP3DCNT = (REG_DISP3DCNT & ~0x3002) | 2;
     REG_DISP3DCNT &= ~0x3010;

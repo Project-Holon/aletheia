@@ -17,7 +17,7 @@
  *   func_021FD15C 0x021FD15C thumb ov186
  *   func_021FD820 0x021FD820 thumb ov186
  *   BMP_OAM_DeleteSys 0x02025588 thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   func_020315D4 0x020315D4 arm
  */
 #include "../include/Obj00923.h"
@@ -36,7 +36,7 @@ extern void func_021FD714(void *);
 extern void func_021FD15C(void *, int);
 extern void func_021FD820(char *r5);
 extern void BMP_OAM_DeleteSys(void *);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void func_020315D4(struct S020315D4 *p);
 int func_021DEA30(void *a, int b, char *q, char *p)
 {
@@ -69,7 +69,7 @@ int func_021DEA30(void *a, int b, char *q, char *p)
     }
     for (i = 0; i < 2; i++) func_021FD820(*(void **)(p + 0x1C + i * 4));
     BMP_OAM_DeleteSys(((struct Obj00923 *)p)->f0);
-    func_0201C4C0(((struct Obj00923 *)p)->f14);
+    PRINTSYS_QUE_Delete(((struct Obj00923 *)p)->f14);
     func_020315D4(a);
     return 1;
 }

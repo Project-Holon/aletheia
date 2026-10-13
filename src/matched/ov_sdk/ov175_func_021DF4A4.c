@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02084F80  0x02084F80  arm
- *   func_02084FA8  0x02084FA8  arm
+ *   OS_VSNPrintf  0x02084FA8  arm
  *   g_021E3F68  0x021E3F68  data
  */
 
@@ -21,7 +21,7 @@ typedef char *va_list;
 #define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
 
 extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
-extern int func_02084FA8(char *s, unsigned int n, const char *format, void *arg);
+extern int OS_VSNPrintf(char *s, unsigned int n, const char *format, void *arg);
 extern char g_021E3F68[];
 
 void func_021DF4A4(int line, char *fmt, ...)
@@ -31,5 +31,5 @@ void func_021DF4A4(int line, char *fmt, ...)
 	va_list args;
 	str_len = func_02084F80(str_buf, 256, g_021E3F68, line);
 	va_start(args, fmt);
-	func_02084FA8(str_buf + str_len, 256 - str_len, fmt, args);
+	OS_VSNPrintf(str_buf + str_len, 256 - str_len, fmt, args);
 }

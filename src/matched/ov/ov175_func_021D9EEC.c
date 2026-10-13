@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *
  * Flush partner of func_021D9ED4: sends the byte the object kept at
  *     +0x14 to 0x02039CB4 with the tick/state and line 0x24.
@@ -23,10 +23,10 @@ typedef unsigned long u32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern unsigned int func_02039CB4(struct Link *tick, unsigned int value, unsigned int line);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *tick, unsigned int value, unsigned int line);
 
 int func_021D9EEC(char *obj)
 {
-    return func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), (unsigned char)((struct Obj24327 *)obj)->f14, 0x24);
+    return GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), (unsigned char)((struct Obj24327 *)obj)->f14, 0x24);
 }
 

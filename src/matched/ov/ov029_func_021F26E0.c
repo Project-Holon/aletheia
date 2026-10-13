@@ -38,7 +38,7 @@
  *   func_02028A70  0x02028A70  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   C_GEAR_FreeGraphics  0x021F1F24  thumb  ov029
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
 typedef unsigned int   u32;
@@ -65,7 +65,7 @@ extern u32 func_02012A30(const struct BigObj *p);
 extern void func_02028A70(struct SoundSys *sys);
 extern void ARC_TOOL_DeleteHandle(int a);
 extern void C_GEAR_FreeGraphics(char *p);
-extern void func_02082BCC(char *p, int a, int b);
+extern void MI_CpuFill8(char *p, int a, int b);
 
 void C_GEAR_Cleanup(char *p)
 {
@@ -92,5 +92,5 @@ void C_GEAR_Cleanup(char *p)
     ARC_TOOL_DeleteHandle(*(int *)(p + 0x24));
     C_GEAR_FreeGraphics(p);
     *(volatile unsigned short *)0x04001050 = 0;
-    func_02082BCC(p, 0, 0x468);
+    MI_CpuFill8(p, 0, 0x468);
 }

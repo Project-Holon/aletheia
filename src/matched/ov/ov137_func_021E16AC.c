@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_02082BCC(void *, int, unsigned);
+extern void MI_CpuFill8(void *, int, unsigned);
 char *func_021E16AC(char *p)
 {
-    func_02082BCC(p + 0xb8, 0, 32);
+    MI_CpuFill8(p + 0xb8, 0, 32);
     return p + 0xb8;
 }

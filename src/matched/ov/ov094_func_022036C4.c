@@ -18,7 +18,7 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_020409B4 0x020409B4 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_0204B22C 0x0204B22C arm
+ *   CLACT_SetUnitDrawEnable 0x0204B22C arm
  *   func_022044C0 0x022044C0 thumb ov094
  *   func_022045A8 0x022045A8 thumb ov094
  *   func_02204838 0x02204838 thumb ov094
@@ -66,7 +66,7 @@ struct Descriptor;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_020409B4(u32 index);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void func_0204B22C(struct Bank *bank, u32 mode);
+extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
 extern void func_022044C0(Main *, int, int, int, int);
 extern void func_022045A8(Main *, int, int);
 extern void func_02204838(Main *, int);
@@ -123,7 +123,7 @@ void func_022036C4(void *task, Ctx *c)
     default:
         if (c->main->st == 0) {
             BMP_WIN_TransferChars(c->main->obj228);
-            func_0204B22C(c->main->obj1f8, 1);
+            CLACT_SetUnitDrawEnable(c->main->obj1f8, 1);
             func_02204960(c->main, 5, 0x100, 0xc0, 2, 2, 2, 2);
             func_0220687C((char *)c->main, task);
         }

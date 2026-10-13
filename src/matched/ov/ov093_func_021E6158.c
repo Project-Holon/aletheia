@@ -1,5 +1,5 @@
 /*
- * function: func_021E6158
+ * function: HAND_WAZA_GetWeatherHealHandlers
  * address: 0x021E6158
  * packet: pkt_ov093_021E6158
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E5B78.c and filed here.
  *
  * symbols:
- *   d_021F240C 0x021F240C data ov093 a4
+ *   gWeatherHealHandlers 0x021F240C data ov093 a4
  */
 
-int *func_021E6158(int *p);
-extern int d_021F240C[];
+int *HAND_WAZA_GetWeatherHealHandlers(int *p);
+extern int gWeatherHealHandlers[];
 
-int *func_021E6158(int *p)
+int *HAND_WAZA_GetWeatherHealHandlers(int *p)
 {
     *p = 1;
-    return d_021F240C;
+    return gWeatherHealHandlers;
 }

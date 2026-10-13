@@ -1,5 +1,5 @@
 /*
- * function: func_021E1F70
+ * function: HAND_WAZA_ChargeExpireOnMoveEnd
  * address:  0x021E1F70
  * packet:   pkt_ov093_021E1F70
  * region:   ov093
@@ -20,7 +20,7 @@ extern int BTL_EVENT_GetVar(int key);
 struct Node;
 extern void BTL_EVENT_RemoveFactor(struct Node *n);
 
-void func_021E1F70(void *u, int a, int b, int *p)
+void HAND_WAZA_ChargeExpireOnMoveEnd(void *u, int a, int b, int *p)
 {
     if (b == BTL_EVENT_GetVar(2)) {
         if (*p == 2)

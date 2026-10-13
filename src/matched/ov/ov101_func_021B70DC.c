@@ -11,7 +11,7 @@
  * prototype: own 27F60 fixes layer/x/heap as u16; stack x/heap forward unchanged without truncation.
  * symbols:
  * func_02030734 0x02030734 arm
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * func_021B732C 0x021B732C thumb ov101
  * APP_TASKMENU_RES_Create 0x02027F60 thumb
  * func_020416D4 0x020416D4 arm
@@ -31,7 +31,7 @@ typedef enum { SIDE_ZERO, SIDE_ONE } Side;
 typedef struct { void *str; u16 color,pad; u32 flag; } Desc;
 extern char d_021B7550[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern void func_021B732C(int *p, unsigned b, int c, int unused, int unused2, u8 d, unsigned e);
 struct MsgBank;
 struct R;
@@ -53,7 +53,7 @@ void *func_021B70DC(u32 a,u32 b,u16 layer,u16 x,u8 y,u32 extra,u32 c,u32 d,u16 h
     void *bank;
     Side choice,first;
     p=func_02030734(heap,96,0,d_021B7550,125);
-    func_02082BCC(p,0,96);
+    MI_CpuFill8(p,0,96);
     ((struct Obj03227 *)p)->f3C=layer;
     ((struct Obj03227 *)p)->f44=side-1;
     ((struct Obj03227 *)p)->f48=side-1;
@@ -66,7 +66,7 @@ void *func_021B70DC(u32 a,u32 b,u16 layer,u16 x,u8 y,u32 extra,u32 c,u32 d,u16 h
     ((struct Obj03227 *)p)->f4=APP_TASKMENU_RES_Create(layer,x,c,d,heap);
     func_021B739C((unsigned int *)p,b,a,side,func_020416D4(layer),heap);
     bank=func_02045B38(0,2,49,heap);
-    func_02082BCC(&desc,0,12);
+    MI_CpuFill8(&desc,0,12);
     desc.color=0x39e3;
     desc.str=func_02045EC0(bank,8);
     desc.flag=1;

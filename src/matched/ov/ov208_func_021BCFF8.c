@@ -12,7 +12,7 @@
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   func_0203F9B4 0x0203F9B4 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   d_021C81B4 0x021C81B4 data a4
  */
 typedef unsigned char u8;
@@ -22,7 +22,7 @@ extern const struct Ov208Bg d_021C81B4[8];
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 void func_021BCFF8(void *p)
 {
     u32 i;
@@ -30,5 +30,5 @@ void func_021BCFF8(void *p)
         func_020403F4((u8)d_021C81B4[i].bg);
     BMP_WIN_Exit();
     func_0203F9B4();
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
 }

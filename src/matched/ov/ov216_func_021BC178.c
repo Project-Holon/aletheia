@@ -12,8 +12,8 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_0201ED04 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   TCBL_Destroy 0x02031140 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -25,8 +25,8 @@ extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern unsigned int func_0201ED04(struct WordSet *p);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_0201C6EC(struct PrintSys *);
-extern void func_0201C4C0(struct PrintSys *);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void TCBL_Destroy(struct S02031140 *);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -39,8 +39,8 @@ void func_021BC178(char *p)
     MSGDATA_Delete(*(struct Rec * *)&((struct Obj01437 *)p)->f130);
     func_0201ED04(*(struct WordSet * *)&((struct Obj01437 *)p)->f138);
     GF_FONT_Delete(((struct Obj01437 *)p)->f128);
-    func_0201C6EC(*(struct PrintSys * *)&((struct Obj01437 *)p)->f12C);
-    func_0201C4C0(*(struct PrintSys * *)&((struct Obj01437 *)p)->f12C);
+    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj01437 *)p)->f12C);
+    PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj01437 *)p)->f12C);
     GF_FONT_SetDefaultTextColor();
     TCBL_Destroy(*(struct S02031140 * *)&((struct Obj01437 *)p)->f18);
     ARC_TOOL_DeleteHandle(((struct Obj01437 *)p)->f54);

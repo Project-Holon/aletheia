@@ -12,7 +12,7 @@
  * symbols:
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
- *   func_0201444C  0x0201444C  thumb
+ *   FIELD_STATUS_GetMapMode  0x0201444C  thumb
  *   GAME_DATA_GetIntrudeIdByte  0x0215841C  thumb  ov010
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
@@ -31,7 +31,7 @@ struct Rec44;
 struct Sub02014444Obj;
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
-extern u32 func_0201444C(struct Sub02014444Obj *o);
+extern u32 FIELD_STATUS_GetMapMode(struct Sub02014444Obj *o);
 struct Sub0200852CObj;
 extern u8 GAME_DATA_GetIntrudeIdByte(void *p);
 extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
@@ -53,7 +53,7 @@ loc_02158514:
 a0 = t5 + 0;
     p = GAME_DATA_GetMoveModelSys((const struct BigObj *)a0);
 loc_0215851A:
-    a0 = func_0201444C(p);
+    a0 = FIELD_STATUS_GetMapMode(p);
 loc_0215851E:
     if (a0 == 1) goto loc_02158526;
 loc_02158522:

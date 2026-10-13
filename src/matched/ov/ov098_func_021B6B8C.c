@@ -13,7 +13,7 @@
  *   is declared here to return a pointer (str r0,[r5] after the bl); the arm9 definition
  *   src/matched/arm9/PRINTSYS_PrintStream.c declares it void and needs the return fixed.
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_02040588  0x02040588  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
@@ -32,7 +32,7 @@ struct Descriptor;
 struct CharBuf;
 struct Cfg;
 
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *, u8);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
@@ -45,7 +45,7 @@ extern void PRINTSYS_Print(void *, short, short, void *, void *);
 
 void func_021B6B8C(char *a, int b)
 {
-    BMP_Clear(func_02045770(*(struct Descriptor **)(a + 0x1c)), 0xc);
+    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(a + 0x1c)), 0xc);
     GF_FONT_SetTextColor(1, 9, 0xc);
     func_02040588(1, 1);
     if (b != 0) {
@@ -55,7 +55,7 @@ void func_021B6B8C(char *a, int b)
                                   *(u16 *)(a + 0x44), 0xc));
         *(char *)(a + 0x38) = 0;
     } else {
-        PRINTSYS_Print(func_02045770(*(struct Descriptor **)(a + 0x1c)), 0, 0,
+        PRINTSYS_Print(BMP_WIN_GetBmp(*(struct Descriptor **)(a + 0x1c)), 0, 0,
                       *(void **)(a + 0x2c), *(void **)(a + 0x24));
         BMP_WIN_MakeScreen(*(struct Cfg **)(a + 0x1c));
         func_020409B4(1);

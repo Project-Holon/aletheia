@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E6210",
+   "name": "HAND_WAZA_FlyChargeEndNoOp",
    "address": "0x021E6210",
    "kind": "game",
    "region": "ov093",

@@ -58,10 +58,10 @@
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetStepKind  0x021A3080  thumb  ov021
  *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
- *   func_02013D9C  0x02013D9C  thumb
+ *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
  *   BILLBOARD_ACT_GetEntryLastCommand  0x020508EC  arm
  *   FLDMMDL_CallDrawGetProc  0x0216D7A8  thumb  ov010
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   gMmdlDrawRestFrames  0x021D8548  data  ov021  a1
  *   FIELDMAP_GetCameraPitchScale  0x02189A78  thumb  ov021
  *   FLDMMDL_SysGetAreaId  0x0216D538  thumb  ov010
@@ -148,10 +148,10 @@ extern int FIELDMAP_IsFieldPlayerCreated(struct FieldMap *fieldMap);
 extern void *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern u32 FIELD_PLAYER_GetStepKind(void *obj);
 extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, VecFx32 *offset);
-extern u32 func_02013D9C(u32 zoneId);
+extern u32 ZONEDATA_IsZoneGroup118To120(u32 zoneId);
 extern int FLDMMDL_CallDrawGetProc(Mmdl *mmdl, unsigned int kind);
 extern u32 BILLBOARD_ACT_GetEntryLastCommand(struct BbActSys *sys, int entryIndex, u16 *outLastCommand);
-extern u32 func_02082BCC(void *p, u32 value, u32 size);
+extern u32 MI_CpuFill8(void *p, u32 value, u32 size);
 extern int FIELDMAP_GetCameraPitchScale(struct FieldMap *fieldMap);
 extern u32 FLDMMDL_SysGetAreaId(MmdlSys *sys);
 extern int FLDMMDL_CheckStatusBit(Mmdl *mmdl, int bits);
@@ -729,7 +729,7 @@ void FLDMMDL_DRAW_UpdateWalkOffset(Mmdl *mmdl, MmdlDrawWork *work, u8 dir)
     } else if (FLDMMDL_DRAW_CheckStepFrame(work, dir, param) == 0 && canBob != 0) {
         offset.y = offset.y + 0x1800;
     }
-    if (func_02013D9C(zoneId) != 0 && isPlayer == 0) {
+    if (ZONEDATA_IsZoneGroup118To120(zoneId) != 0 && isPlayer == 0) {
         gridMod = gridX % 3;
         if (gridMod == 0)
             offset.z = offset.z - 0x219a;
@@ -1018,7 +1018,7 @@ void FLDMMDL_DRAW_ResetBlactAnime(Mmdl *mmdl)
 /* Clears the direction state and sets the direction to 8 (none). */
 int FLDMMDL_DRAW_InitDirState(MmdlDirAnimeState *state)
 {
-    func_02082BCC(state, 0, 4);
+    MI_CpuFill8(state, 0, 4);
     state->dir = 8;
     return 8;
 }

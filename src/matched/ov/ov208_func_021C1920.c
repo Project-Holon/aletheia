@@ -14,7 +14,7 @@
  *   func_021BDBAC  0x021BDBAC  thumb  ov208
  *   func_021C0D3C  0x021C0D3C  thumb  ov208
  *   func_021C0D5C  0x021C0D5C  thumb  ov208
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_021C1D30  0x021C1D30  thumb  ov208
  *   func_021C2238  0x021C2238  thumb  ov208
  *   func_021BC3BC  0x021BC3BC  thumb  ov208
@@ -35,7 +35,7 @@ extern void func_021BDBAC(void *s, u32 on);
 extern void func_021C0D3C(int a, char *b, int c);
 extern u8 func_021C0D5C(void *unused, char *p, int unused2, u8 x, u8 y);
 struct Obj;
-extern void func_0204B3DC(struct Obj *obj, unsigned int on);
+extern void CLACT_SetActorDrawEnable(struct Obj *obj, unsigned int on);
 extern void func_021C1D30(u16 *heap, u8 *p, int key);
 extern void func_021C2238(u16 *heap, u8 *p, int key);
 extern u16  func_021BC3BC(char *p);
@@ -77,7 +77,7 @@ void func_021C1920(u16 *heap, u8 *p, int key, int mode)
                 } else {
                     p[0x79] = func_021C0D5C(heap, (char *)p, key, p[0x80], p[0x81]);
                     if (p[0x79] != 0xff)
-                        func_0204B3DC((struct Obj *)W(0xd0), 1);
+                        CLACT_SetActorDrawEnable((struct Obj *)W(0xd0), 1);
                 }
                 func_021C1D30(heap, p, key);
                 func_021C2238(heap, p, key);
@@ -114,8 +114,8 @@ void func_021C1920(u16 *heap, u8 *p, int key, int mode)
         if (mode == 0) {
             W(0x70) = 3;
             W(0x74) = 3;
-            func_0204B3DC((struct Obj *)W(0xcc), 0);
-            func_0204B3DC((struct Obj *)W(0xd0), 0);
+            CLACT_SetActorDrawEnable((struct Obj *)W(0xcc), 0);
+            CLACT_SetActorDrawEnable((struct Obj *)W(0xd0), 0);
             wide = func_021BC3BC((char *)key) > 1 ? 1 : 0;
             func_021BDAAC(s, 0, 1, wide);
             func_021BDC14(s, GAME_DATA_CheckSaveFlag(func_021BC3A4((int *)key), 0x12));

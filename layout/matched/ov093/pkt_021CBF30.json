@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CBF30",
+   "name": "BTL_SERVER_FLOW_ItemEffectCureSleep",
    "address": "0x021CBF30",
    "kind": "game",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CBF40",
+   "name": "BTL_SERVER_FLOW_ItemEffectCurePoison",
    "address": "0x021CBF40",
    "kind": "game",
    "region": "ov093",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CBF50",
+   "name": "BTL_SERVER_FLOW_ItemEffectCureBurn",
    "address": "0x021CBF50",
    "kind": "game",
    "region": "ov093",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CBF60",
+   "name": "BTL_SERVER_FLOW_ItemEffectCureFreeze",
    "address": "0x021CBF60",
    "kind": "game",
    "region": "ov093",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CBF70",
+   "name": "BTL_SERVER_FLOW_ItemEffectCureParalysis",
    "address": "0x021CBF70",
    "kind": "game",
    "region": "ov093",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CBF80",
+   "name": "BTL_SERVER_FLOW_ItemEffectCureConfusion",
    "address": "0x021CBF80",
    "kind": "game",
    "region": "ov093",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CBF90",
+   "name": "BTL_SERVER_FLOW_ItemEffectCureAllSickFull",
    "address": "0x021CBF90",
    "kind": "game",
    "region": "ov093",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CC098",
+   "name": "BTL_SERVER_FLOW_ItemEffectRaiseAttack",
    "address": "0x021CC098",
    "kind": "game",
    "region": "ov093",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CC0A8",
+   "name": "BTL_SERVER_FLOW_ItemEffectRaiseDefense",
    "address": "0x021CC0A8",
    "kind": "game",
    "region": "ov093",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CC0B8",
+   "name": "BTL_SERVER_FLOW_ItemEffectRaiseSpAttack",
    "address": "0x021CC0B8",
    "kind": "game",
    "region": "ov093",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CC0C8",
+   "name": "BTL_SERVER_FLOW_ItemEffectRaiseSpDefense",
    "address": "0x021CC0C8",
    "kind": "game",
    "region": "ov093",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CC0D8",
+   "name": "BTL_SERVER_FLOW_ItemEffectRaiseSpeed",
    "address": "0x021CC0D8",
    "kind": "game",
    "region": "ov093",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CC0E8",
+   "name": "BTL_SERVER_FLOW_ItemEffectRaiseAccuracy",
    "address": "0x021CC0E8",
    "kind": "game",
    "region": "ov093",

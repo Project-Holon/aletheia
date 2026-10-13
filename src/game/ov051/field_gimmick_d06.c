@@ -1,7 +1,7 @@
 /*
  * file:     field_gimmick_d06.c
  * unit:     yes
- * function: GIMMICK49_Init, FIELD_GIMMICK_D06_GetStonePositions, GIMMICK49_Exit, FIELD_GIMMICK_D06_FindPanelTable, FIELD_GIMMICK_D06_GetPanelPositions, FIELD_GIMMICK_D06_GetPanelCount, FIELD_GIMMICK_D06_Init, GIMMICK49_ExitExtra, FIELD_GIMMICK_D06_Update, FIELD_GIMMICK_D06_CheckPushStone, FIELD_GIMMICK_D06_CreateSlideEvent, FIELD_GIMMICK_D06_EventSlideStone, FIELD_GIMMICK_D06_EventStoneBlocked, FIELD_GIMMICK_D06_AddStone, FIELD_GIMMICK_D06_AttachStone, FIELD_GIMMICK_D06_ScanSlide, FIELD_GIMMICK_D06_GetSlideSteps, FIELD_GIMMICK_D06_IsStoneNextToPanel, FIELD_GIMMICK_D06_AddPanelPulse, FIELD_GIMMICK_D06_TriggerPanelPulse, FIELD_GIMMICK_D06_AddStoneMmdl, FIELD_GIMMICK_D06_GetWork
+ * function: GIMMICK51_Init, FIELD_GIMMICK_D06_GetStonePositions, GIMMICK51_Exit, FIELD_GIMMICK_D06_FindPanelTable, FIELD_GIMMICK_D06_GetPanelPositions, FIELD_GIMMICK_D06_GetPanelCount, FIELD_GIMMICK_D06_Init, GIMMICK51_ExitExtra, FIELD_GIMMICK_D06_Update, FIELD_GIMMICK_D06_CheckPushStone, FIELD_GIMMICK_D06_CreateSlideEvent, FIELD_GIMMICK_D06_EventSlideStone, FIELD_GIMMICK_D06_EventStoneBlocked, FIELD_GIMMICK_D06_AddStone, FIELD_GIMMICK_D06_AttachStone, FIELD_GIMMICK_D06_ScanSlide, FIELD_GIMMICK_D06_GetSlideSteps, FIELD_GIMMICK_D06_IsStoneNextToPanel, FIELD_GIMMICK_D06_AddPanelPulse, FIELD_GIMMICK_D06_TriggerPanelPulse, FIELD_GIMMICK_D06_AddStoneMmdl, FIELD_GIMMICK_D06_GetWork, FIELD_GIMMICK_D06_GetGimmickId
  * address:  0x021F36C0
  * region:   ov051
  * compiler: dsi/1.1p1
@@ -41,7 +41,7 @@
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb
  *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb
  *   FLDMMDL_SetAcmd  0x0216D410  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb
  *   FLDMMDL_EndAcmd  0x0216D480  thumb
  *   FLDEFF_D06DENKI_FollowFreezeLoop  0x021C909C  thumb
@@ -67,14 +67,14 @@
 #include "../ov021/fld_exp_obj_types.h"
 #include "field_gimmick_d06_types.h"
 
-const GimmickD06ZoneTable *GIMMICK49_Init(int zoneId);
+const GimmickD06ZoneTable *GIMMICK51_Init(int zoneId);
 const GimmickD06GridPos *FIELD_GIMMICK_D06_GetStonePositions(int zoneId);
-int GIMMICK49_Exit(int zoneId);
+int GIMMICK51_Exit(int zoneId);
 const GimmickD06ZoneTable *FIELD_GIMMICK_D06_FindPanelTable(int zoneId);
 const GimmickD06GridPos *FIELD_GIMMICK_D06_GetPanelPositions(int zoneId);
 int FIELD_GIMMICK_D06_GetPanelCount(int zoneId);
 void FIELD_GIMMICK_D06_Init(struct FieldMap *fieldMap);
-void GIMMICK49_ExitExtra(struct FieldMap *fieldMap);
+void GIMMICK51_ExitExtra(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_D06_Update(void);
 struct GameEvent *FIELD_GIMMICK_D06_CheckPushStone(struct FieldMap *fieldMap, int facingDir);
 struct GameEvent *FIELD_GIMMICK_D06_CreateSlideEvent(struct FieldMap *fieldMap, struct Mmdl *stone, int direction);
@@ -95,9 +95,10 @@ extern char gGimmickD06SourceFile[];
 /* The stone cells and the panel cells of the three zones. */
 extern const GimmickD06ZoneTable gGimmickD06StoneTable[GIMMICK_D06_ZONE_COUNT];
 extern const GimmickD06ZoneTable gGimmickD06PanelTable[GIMMICK_D06_ZONE_COUNT];
+#include "field_gimmick_d06_ids.h"
 
 /* The row of the stone table for a zone; the first row for an unknown zone. */
-const GimmickD06ZoneTable *GIMMICK49_Init(int zoneId)
+const GimmickD06ZoneTable *GIMMICK51_Init(int zoneId)
 {
     unsigned int i;
     const GimmickD06ZoneTable *table = gGimmickD06StoneTable;
@@ -109,16 +110,16 @@ const GimmickD06ZoneTable *GIMMICK49_Init(int zoneId)
 }
 
 /*
- * Two accessors over the result of GIMMICK49_Init: the cells and their count.
+ * Two accessors over the result of GIMMICK51_Init: the cells and their count.
  */
 const GimmickD06GridPos *FIELD_GIMMICK_D06_GetStonePositions(int zoneId)
 {
-    return GIMMICK49_Init(zoneId)->positions;
+    return GIMMICK51_Init(zoneId)->positions;
 }
 
-int GIMMICK49_Exit(int zoneId)
+int GIMMICK51_Exit(int zoneId)
 {
-    return GIMMICK49_Init(zoneId)->count;
+    return GIMMICK51_Init(zoneId)->count;
 }
 
 /* The row of the panel table for a zone; the first row for an unknown zone. */
@@ -183,7 +184,7 @@ void FIELD_GIMMICK_D06_Init(struct FieldMap *fieldMap)
     effectId = 0xb;
     FIELD_EFFECT_LoadResources(effects, &effectId, 1);
     if (save->placed == 0) {
-        count = GIMMICK49_Exit(work->zoneId);
+        count = GIMMICK51_Exit(work->zoneId);
         pos = FIELD_GIMMICK_D06_GetStonePositions(work->zoneId);
         i = 0;
         if (i < count)
@@ -216,7 +217,7 @@ void FIELD_GIMMICK_D06_Init(struct FieldMap *fieldMap)
 }
 
 /* Gimmick exit: free the work. */
-void GIMMICK49_ExitExtra(struct FieldMap *fieldMap)
+void GIMMICK51_ExitExtra(struct FieldMap *fieldMap)
 {
     struct GimmickWork *gimmickWork;
 
@@ -328,7 +329,7 @@ int FIELD_GIMMICK_D06_EventSlideStone(struct GameEvent *event, int *seq, void *w
     case 0:
         if (FLDMMDL_CheckPossibleAcmd(playerMmdl) == 1) {
             FLDMMDL_SetAcmd(playerMmdl, FLDMMDL_ACMD_ConvertCodeByDir(slide->direction, GIMMICK_D06_ACMD_PLAYER_BUMP));
-            func_020061E4(GIMMICK_D06_SE_PUSH_START);
+            GFL_USE_PlaySeDefaultVolume(GIMMICK_D06_SE_PUSH_START);
             *seq = *seq + 1;
         }
         break;
@@ -345,7 +346,7 @@ int FIELD_GIMMICK_D06_EventSlideStone(struct GameEvent *event, int *seq, void *w
                 FLDMMDL_SetAcmd(slide->slot->mmdl, FLDMMDL_ACMD_ConvertCodeByDir(slide->direction, acmdBase));
                 slide->stepsLeft = slide->stepsLeft - 1;
             } else {
-                func_020061E4(GIMMICK_D06_SE_SLIDE_END);
+                GFL_USE_PlaySeDefaultVolume(GIMMICK_D06_SE_SLIDE_END);
                 *seq = *seq + 1;
             }
         }
@@ -376,7 +377,7 @@ int FIELD_GIMMICK_D06_EventStoneBlocked(struct GameEvent *event, int *seq, void 
     case 0:
         if (FLDMMDL_CheckPossibleAcmd(playerMmdl) == 1) {
             FLDMMDL_SetAcmd(playerMmdl, FLDMMDL_ACMD_ConvertCodeByDir(slide->direction, GIMMICK_D06_ACMD_PLAYER_BUMP));
-            func_020061E4(GIMMICK_D06_SE_PUSH_BLOCKED);
+            GFL_USE_PlaySeDefaultVolume(GIMMICK_D06_SE_PUSH_BLOCKED);
             *seq = *seq + 1;
         }
     case 1:
@@ -534,4 +535,18 @@ GimmickD06Work *FIELD_GIMMICK_D06_GetWork(struct FieldMap *fieldMap)
     struct GimmickWork *gimmickWork = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
 
     return GIMMICK_WORK_GetSaveArea(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(FIELDMAP_GetZoneId(fieldMap)))->work;
+}
+
+/* The gimmick id of the zone (the id of its save area); the first one for an unknown zone. */
+int FIELD_GIMMICK_D06_GetGimmickId(int zoneId)
+{
+    switch (zoneId) {
+    case GIMMICK_D06_ZONE_R0101:
+        return GIMMICK_D06_GIMMICK_ID_R0101;
+    case GIMMICK_D06_ZONE_R0102:
+        return GIMMICK_D06_GIMMICK_ID_R0102;
+    case GIMMICK_D06_ZONE_R0103:
+        return GIMMICK_D06_GIMMICK_ID_R0103;
+    }
+    return GIMMICK_D06_GIMMICK_ID_R0101;
 }

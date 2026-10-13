@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   MSGDATA_ReadString 0x02045CAC arm
@@ -25,7 +25,7 @@ struct CharBuf;
 struct Descriptor;
 struct MsgBank;
 struct WordSet;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -34,7 +34,7 @@ extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, 
 extern void func_021CA4B4(char *p);
 void func_021C6ADC(u8 *p,u8 *q,unsigned v)
 {
-    BMP_Clear(func_02045770(((struct Obj05378 *)q)->f0),0);
+    BMP_Clear(BMP_WIN_GetBmp(((struct Obj05378 *)q)->f0),0);
     BMP_WIN_TransferChars(((struct Obj05378 *)q)->f0);
     MSGDATA_ReadString(((struct Obj00329 *)p)->f4,v,((struct Obj00329 *)p)->f18);
     func_0201F250(((struct Obj00329 *)p)->f0,((struct Obj00329 *)p)->f14,((struct Obj00329 *)p)->f18);

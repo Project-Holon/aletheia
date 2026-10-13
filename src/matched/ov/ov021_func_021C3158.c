@@ -14,6 +14,7 @@
  *
  * symbols:
  *   d_021DA720     0x021DA720  data  ov021
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj00576.h"
 
@@ -27,14 +28,14 @@ typedef struct {
 } Ent;
 
 extern Ent *d_021DA720[];
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 void FLD3D_CI_PlayCueSound(u8 *p)
 {
     Ent *t = d_021DA720[((struct Obj00576 *)p)->f66];
 
     if (t[((struct Obj00576 *)p)->f136].se != -1 && ((struct Obj00576 *)p)->f134 == t[((struct Obj00576 *)p)->f136].frame) {
-        func_020061E4(t[((struct Obj00576 *)p)->f136].se);
+        GFL_USE_PlaySeDefaultVolume(t[((struct Obj00576 *)p)->f136].se);
         (((struct Obj00576 *)p)->f136)++;
     }
 }

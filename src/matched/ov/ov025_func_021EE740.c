@@ -1,5 +1,5 @@
 /*
- * function: func_021EE740
+ * function: WEATHER_SNOW_Begin
  * address:  0x021EE740
  * packet:   pkt_ov025_021EE740
  * region:   ov025
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021EE740  0x021EE740  thumb  ov025
+ *   WEATHER_SNOW_Begin  0x021EE740  thumb  ov025
  *   WEATHER_SNOW_SpawnParticles  0x021EEA34  thumb  ov025
  *   WEATHER_TASK_GetWorkBuffer  0x021A21B8  thumb  ov021
  *   WEATHER_TASK_SetupSpawner  0x021A21F8  thumb  ov021
@@ -25,7 +25,7 @@ void WEATHER_TASK_InitFog(u32 *p, int a, int b, int c);
 void WEATHER_TASK_SaveCameraPos(u8 *p);
 void WEATHER_SNOW_SpawnParticles(int a, int n, int idx);
 
-int func_021EE740(int a, int b)
+int WEATHER_SNOW_Begin(int a, int b)
 {
     int *p = WEATHER_TASK_GetWorkBuffer((int *)a);
 

@@ -20,7 +20,7 @@
  *   d_021C600C 0x021C600C data a4
  *   d_021C6120 0x021C6120 data a1
  *   func_021C4CB4 0x021C4CB4 thumb ov127
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   d_021C6014 0x021C6014 data a4
  *   d_021C6010  0x021C6010  data  a1
  *   d_021C601C 0x021C601C data a4
@@ -76,7 +76,7 @@ extern void *func_02030734(u16,u32,int,const char *,u16);
 extern u32 func_020307B0(void *p);
 extern void func_02082D44(void *,const void *,u32);
 extern void func_021C4CB4(u8 *p);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 int func_021C4790(char *p);
 Grid *func_021C47A0(u32 w,u32 h,u32 heap);
 void func_021C47E4(u8 *p);
@@ -274,7 +274,7 @@ void func_021C4918(void *a,u16 *s) { u8 *p; s16 x,y;p=(u8 *)func_021C4A98((unsig
 
 
 
-void func_021C4948(void *p) { func_02082BCC(p,0,24); }
+void func_021C4948(void *p) { MI_CpuFill8(p,0,24); }
 
 
 

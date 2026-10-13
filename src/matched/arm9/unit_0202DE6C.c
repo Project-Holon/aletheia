@@ -13,8 +13,8 @@
  * function: sub_0202DE6C
  *
  * symbols:
- *   func_02045758  0x02045758  arm
- *   func_02045760  0x02045760  arm
+ *   BMP_WIN_GetPosX  0x02045758  arm
+ *   BMP_WIN_GetPosY  0x02045760  arm
  *
  * Turns a pair of grid coordinates into a pair of pixel coordinates and
  * writes them through the fifth argument, which arrives on the stack: the
@@ -44,12 +44,12 @@ struct Pos0202DE6C {
 
 typedef unsigned char  u8;
 struct Descriptor;
-extern u8 func_02045758(struct Descriptor *p);
-extern u8 func_02045760(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 
 void sub_0202DE6C(u32 a, u32 b, u32 c, const struct Pos0202DE6C *base,
                   struct Pos0202DE6C *out)
 {
-    out->x = base->x + (b + func_02045758((struct Descriptor *)a) * 8);
-    out->y = base->y + ((c << 4) + func_02045760((struct Descriptor *)a) * 8);
+    out->x = base->x + (b + BMP_WIN_GetPosX((struct Descriptor *)a) * 8);
+    out->y = base->y + ((c << 4) + BMP_WIN_GetPosY((struct Descriptor *)a) * 8);
 }

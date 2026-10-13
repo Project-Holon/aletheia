@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021A8268  0x021A8268  data  ov009  a4
+ *   _pRapHeap  0x021A8268  data  ov009  a4
  *   d_021A1C78  0x021A1C78  data  ov009  a1
  *   d_021A1C7C  0x021A1C7C  data  ov009  a1
  *   func_02034714  0x02034714  arm
@@ -35,7 +35,7 @@ typedef struct {
     u16 f20;
 } Obj;
 
-extern struct Obj *d_021A8268;
+extern struct Obj *_pRapHeap;
 extern char d_021A1C78[];
 extern char d_021A1C7C[];
 
@@ -45,12 +45,12 @@ extern void DWC_RAPCOMMON_ReleaseSubHeap(void);
 
 void DWC_RAPCOMMON_DestroySubHeap(void)
 {
-    if (d_021A8268 == 0) {
+    if (_pRapHeap == 0) {
         func_02034714(d_021A1C78, 0, d_021A1C78);
     }
-    if (d_021A8268->f14 != 0) {
+    if (_pRapHeap->f14 != 0) {
         GFL_NET_STATE_SetError(0, 0, 0, 0x3EE);
-        d_021A8268->f1C = 1;
+        _pRapHeap->f1C = 1;
         return;
     }
     DWC_RAPCOMMON_ReleaseSubHeap();

@@ -1,5 +1,5 @@
 /*
- * function: func_021E6A78
+ * function: HAND_WAZA_AddMetronome
  * address: 0x021E6A78
  * packet: pkt_ov093_021E6A78
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E69E8.c and filed here.
  *
  * symbols:
- *   d_021F28F8 0x021F28F8 data a4
+ *   gMetronomeWazaHandlers 0x021F28F8 data a4
  */
 
-int *func_021E6A78(int *p);
-extern int d_021F28F8[];
+int *HAND_WAZA_AddMetronome(int *p);
+extern int gMetronomeWazaHandlers[];
 
-int *func_021E6A78(int *p)
+int *HAND_WAZA_AddMetronome(int *p)
 {
     *p = 2;
-    return d_021F28F8;
+    return gMetronomeWazaHandlers;
 }

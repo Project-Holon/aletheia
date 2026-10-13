@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetBindingBandHandlers
+ * function: HAND_ITEM_GetBindingBandHandlers
  * address: 0x021DFCDC
  * packet: pkt_ov093_021DFCDC
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int gBtlHandlerItemBindingBandHandlers[];
-int *BTL_HANDLER_ITEM_GetBindingBandHandlers(int *p);
+int *HAND_ITEM_GetBindingBandHandlers(int *p);
 
-int *BTL_HANDLER_ITEM_GetBindingBandHandlers(int *p)
+int *HAND_ITEM_GetBindingBandHandlers(int *p)
 {
     *p = 1;
     return gBtlHandlerItemBindingBandHandlers;

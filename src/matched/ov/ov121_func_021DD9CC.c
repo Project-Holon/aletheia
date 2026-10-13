@@ -23,7 +23,7 @@
  *   CLACT_GetActorRotation 0x0204B5FC arm
  *   MYSTERY_ALBUM_PathAnimInit 0x021DE128 thumb ov121
  *   MYSTERY_ALBUM_PathAnimStep 0x021DE154 thumb ov121
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   PM_VOICE_IsActive 0x02006BD0 thumb
  *   MYSTERY_ALBUM_SetBlendMain 0x021DDC30 arm ov121
  *   MYSTERY_ALBUM_SetBlendSub 0x021DDC44 arm ov121
@@ -44,7 +44,7 @@ struct Actor;
 extern u16 CLACT_GetActorRotation(const struct Actor *actor);
 extern void MYSTERY_ALBUM_PathAnimInit(u8 *p, u16 b, int c, int d);
 extern int MYSTERY_ALBUM_PathAnimStep(void *,void *,void *);
-extern void func_0204B404(void *,const Point *,u16);
+extern void CLACT_AddActorSurfacePos(void *,const Point *,u16);
 extern u32 PM_VOICE_IsActive(u32 i);
 extern void MYSTERY_ALBUM_SetBlendMain(int,int);
 extern void MYSTERY_ALBUM_SetBlendSub(int,int);
@@ -89,7 +89,7 @@ void MYSTERY_ALBUM_StepIntro(char *p)
         done&=MYSTERY_ALBUM_PathAnimStep(p+0xec,&pt,xy);
         pt.x=xy[0];
         pt.y=xy[1];
-        func_0204B404(*(void **)(q+0x20),(Point *)&pt.x,*(u32 *)(q+0x98));
+        CLACT_AddActorSurfacePos(*(void **)(q+0x20),(Point *)&pt.x,*(u32 *)(q+0x98));
         if(!*(int *)(p+0xe0)) {
             if(PM_VOICE_IsActive(*(u32 *)(p+0xe8))) ok=0;
             done &= ok;

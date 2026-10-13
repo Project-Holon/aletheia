@@ -12,7 +12,7 @@
  *   BUTTON_MAN_Delete 0x02051C6C arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  */
 extern void BUTTON_MAN_Delete(void *);
 typedef unsigned int   u32;
@@ -20,7 +20,7 @@ struct Descriptor;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 extern void func_0201F7A8(void *desc, u32 kind);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 typedef struct {
     char pad00[0x10];
     void *f10[4];
@@ -39,7 +39,7 @@ void func_021D4730(Object *p)
             BMP_WIN_ClearScreen(p->f10[i]);
             func_02041B6C(5);
             func_0201F7A8(p->f10[i], 2);
-            func_020452E8(p->f10[i]);
+            BMP_WIN_Delete(p->f10[i]);
         }
         p->f10[i] = 0;
     }

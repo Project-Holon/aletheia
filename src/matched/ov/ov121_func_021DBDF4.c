@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BMP_Create 0x02043678 arm
  *   STRBUF_Create 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 typedef struct { u32 w[51]; } Record;
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 struct Bmp;
 struct MsgBank;
 struct StrObj;
@@ -43,7 +43,7 @@ void func_021DBDF4(char *out,const Record *src,char *p,u16 heap)
     int flags;
     void *text,*other;
     s16 x,y;
-    func_02082BCC(out,0,0xdc);
+    MI_CpuFill8(out,0,0xdc);
     if(src) {
         ((struct Obj10418 *)out)->f0=1;
         *(Record *)(out+4)=*src;

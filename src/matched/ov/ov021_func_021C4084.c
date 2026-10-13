@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0201ADD0  0x0201ADD0  thumb
+ *   POKE_PERSONAL_LoadDataDirect  0x0201ADD0  thumb
  *   SODATEYA_AddMove  0x021C42F4  thumb  ov021
  */
 
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 
 typedef struct { u16 x, y; } P;
 
-extern void func_0201ADD0(unsigned int species, int form, void *dest);
+extern void POKE_PERSONAL_LoadDataDirect(unsigned int species, int form, void *dest);
 extern void SODATEYA_AddMove(u32 *p, u32 v);
 
 void SODATEYA_AddLevelUpMoves(u32 *p)
@@ -29,7 +29,7 @@ void SODATEYA_AddLevelUpMoves(u32 *p)
     int end;
     u32 dy, lim, cx;
 
-    func_0201ADD0((u16)p[0], (u16)p[1], buf);
+    POKE_PERSONAL_LoadDataDirect((u16)p[0], (u16)p[1], buf);
     i = 0;
     goto test;
 body:

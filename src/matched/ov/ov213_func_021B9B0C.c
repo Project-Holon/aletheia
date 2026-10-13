@@ -19,9 +19,9 @@
  * func_021BA480 0x021BA480 thumb ov213
  * func_021BA9D0 0x021BA9D0 thumb ov213
  * func_021B98DC 0x021B98DC thumb ov213
- * func_020061E4 0x020061E4 thumb
+ * GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  * func_021BA68C 0x021BA68C thumb ov213
- * func_0204B3DC 0x0204B3DC arm
+ * CLACT_SetActorDrawEnable 0x0204B3DC arm
  * FADE_Start 0x0204E720 arm
  * func_021BA8E8 0x021BA8E8 thumb ov213
  * d0 0x021BB0D4 data a4
@@ -43,10 +43,10 @@ extern void func_021BA650(char *p);
 extern int func_021B9E50(u32);
 extern void func_021BA95C(unsigned char*,int),func_021BA81C(unsigned char*,u32),func_021BA480(void*);
 extern int func_021BA9D0(unsigned char*),func_021B98DC(int,int);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 struct Obj;
 extern void func_021BA68C(char *p, unsigned i, int kind);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void FADE_Start(u32,int,int,int);
 extern int func_021BA8E8(char *p, int b, int c);
 int func_021B9B0C(unsigned char *state,unsigned char *p)
@@ -70,17 +70,17 @@ int func_021B9B0C(unsigned char *state,unsigned char *p)
     case 2:
         if(((struct Obj01295 *)p)->f49D0==15){
             index=((struct Obj01295 *)p)->f49CC!=0;
-            func_020061E4(func_021B98DC(2,((struct Obj25690 *)(*(unsigned char* *)&((struct Obj01295 *)p)->f4))->f50));
+            GFL_USE_PlaySeDefaultVolume(func_021B98DC(2,((struct Obj25690 *)(*(unsigned char* *)&((struct Obj01295 *)p)->f4))->f50));
             func_021BA68C((char *)(p+0x498c),index,0);
         }else if(((struct Obj01295 *)p)->f49D0==24){
             index=((struct Obj01295 *)p)->f49CC!=0;
-            func_0204B3DC(*(void**)((u32)p+(u32)index*4+0x499c),0);
+            CLACT_SetActorDrawEnable(*(void**)((u32)p+(u32)index*4+0x499c),0);
         }else if(((struct Obj01295 *)p)->f49D0==45){
             index=((struct Obj01295 *)p)->f49CC!=1;
             func_021BA68C((char *)(p+0x498c),index,1);
         }else if(((struct Obj01295 *)p)->f49D0==54){
             index=((struct Obj01295 *)p)->f49CC!=1;
-            func_0204B3DC(*(void**)((u32)p+(u32)index*4+0x499c),0);
+            CLACT_SetActorDrawEnable(*(void**)((u32)p+(u32)index*4+0x499c),0);
         }else if(((struct Obj01295 *)p)->f49D0==120)FADE_Start(3,0,16,-3);
         else if(((struct Obj01295 *)p)->f49D0==128)return 1;
         if(((struct Obj01295 *)p)->f49D0%180==0){

@@ -1,5 +1,5 @@
 /*
- * function: func_021D34B0
+ * function: BTL_CLIENT_StepPlayEffectById
  * address: 0x021D34B0
  * packet: pkt_ov093_021D34B0
  * region: ov093
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern void func_021F7998(unsigned int);
 extern int func_021F7EB4(void);
-int func_021D34B0(char *p, int *state, unsigned int *q)
+int BTL_CLIENT_StepPlayEffectById(char *p, int *state, unsigned int *q)
 {
     if (*state == 0) {
         if (BTL_CLIENT_IsMainStepActive((u8 *)p) != 0) return 1;

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   G3D_SYSTEM_ResetDrawCounts  0x02047CE4  arm
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   FIELD_CAMERA_Main  0x0218E104  thumb  ov021
  *   FIELDMAP_CalcCameraPitchScale  0x02189A80  thumb  ov021
  *   FIELDMAP_DrawStart  0x02189084  thumb  ov021
@@ -21,7 +21,7 @@
 typedef unsigned short u16;
 
 void G3D_SYSTEM_ResetDrawCounts(void);
-unsigned int func_0203630C(void);
+unsigned int KEY_GetCont(void);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 void FIELD_CAMERA_Main(u8 *a, u32 b);
@@ -33,7 +33,7 @@ void FIELDMAP_UpdateCameraAndDraw(char *o)
     volatile u16 *r = (volatile u16 *)0x04000204;
 
     G3D_SYSTEM_ResetDrawCounts();
-    FIELD_CAMERA_Main((u8 *)(((struct Obj12555 *)o)->f10), (u16)func_0203630C());
+    FIELD_CAMERA_Main((u8 *)(((struct Obj12555 *)o)->f10), (u16)KEY_GetCont());
     ((struct Obj12555 *)o)->f100 = FIELDMAP_CalcCameraPitchScale(o);
     *r = *r & 0xFFFF7FFF;
     FIELDMAP_DrawStart((unsigned char *)o);

@@ -21,11 +21,11 @@
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   d_021E80C4 0x021E80C4 data a4
  *   func_020355D8 0x020355D8 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021E68F4 0x021E68F4 thumb ov119
  *   func_021DE754 0x021DE754 thumb ov119
  *   func_020355C4 0x020355C4 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_021DE208 0x021DE208 thumb ov119
  */
 #include "../include/Obj00251.h"
@@ -42,14 +42,14 @@ extern void func_021DD09C(char *p);
 extern void func_021D8E84(void *,int);
 extern void func_021DE9E8(void *);
 extern int TOUCHPANEL_HitTrg(const void *);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern u8 func_020355C4(void);
 extern const char d_021E80C4[];
 extern void func_020355D8(u8);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021E68F4(int,int);
 extern int func_021DE754(char *,int),func_021DE208(char *);
-static inline int poll(void) { int v=func_020362DC(); if(v)func_020355D8(0); return v; }
+static inline int poll(void) { int v=KEY_GetTrg(); if(v)func_020355D8(0); return v; }
 void func_021DEA24(char *p)
 {
     int idx,sentinel;
@@ -67,7 +67,7 @@ void func_021DEA24(char *p)
         idx=TOUCHPANEL_HitTrg(d_021E80C4);
         if(idx!=sentinel) {
             func_020355D8(1);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021E68F4((int)p,sentinel);
             if(func_021DE754(p,idx)) return;
         }
@@ -75,7 +75,7 @@ void func_021DEA24(char *p)
             ((struct Obj00251 *)p)->f10A0%=6;
             if(((struct Obj00251 *)p)->f10A0<0) ((struct Obj00251 *)p)->f10A0=0;
             func_021E68F4((int)p,((struct Obj00251 *)p)->f10A0);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             return;
         }
         if(poll()==1) {
@@ -83,7 +83,7 @@ void func_021DEA24(char *p)
         }
         if(func_021DE208(p)) {
             func_021E68F4((int)p,((struct Obj00251 *)p)->f10A0);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
         }
     }
 }

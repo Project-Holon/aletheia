@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm
- *   func_0203633C  0x0203633C  arm
- *   func_020061E4  0x020061E4  thumb
+ *   KEY_GetTrg  0x020362DC  arm
+ *   KEY_GetRepeat  0x0203633C  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   BMP_MENULIST_MoveCursor  0x02020970  thumb
  *
  * The per-frame key handler of the menu-cursor object built by
@@ -62,40 +62,40 @@ struct Obj {
     u8  f4A;
 };
 
-extern u32  func_020362DC(void);
-extern unsigned int func_0203633C(void);
-extern void func_020061E4(u32 id);
+extern u32  KEY_GetTrg(void);
+extern unsigned int KEY_GetRepeat(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern u32  BMP_MENULIST_MoveCursor(struct Obj *o, u8 a, u8 b, u8 c);
 
 s32 BMP_MENULIST_Main(struct Obj *o)
 {
-    u32 keys = func_020362DC();
+    u32 keys = KEY_GetTrg();
     u32 one = 1;
-    u32 held = func_0203633C();
+    u32 held = KEY_GetRepeat();
 
     o->f47 = 0;
 
     if (keys & one) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return o->arr[o->f40 + o->f42].f4;
     }
     if (o->f4A == 0) {
         u32 two = 2;
         if (keys & two) {
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             return two - 4;
         }
     }
     if (held & 0x40) {
         if (BMP_MENULIST_MoveCursor(o, 1, 1, 0) == 0) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             o->f47 = 1;
         }
         return -1;
     }
     if (held & 0x80) {
         if (BMP_MENULIST_MoveCursor(o, 1, 1, 1) == 0) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             o->f47 = 2;
         }
         return -1;
@@ -119,14 +119,14 @@ s32 BMP_MENULIST_Main(struct Obj *o)
         }
         if (h != 0) {
             if (BMP_MENULIST_MoveCursor(o, 1, (u8)o->f12, 0) == 0) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 o->f47 = 3;
             }
             return -1;
         }
         if (v != 0) {
             if (BMP_MENULIST_MoveCursor(o, 1, (u8)o->f12, 1) == 0) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 o->f47 = 4;
             }
             return -1;

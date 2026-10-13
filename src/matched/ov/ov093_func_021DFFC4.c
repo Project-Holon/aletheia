@@ -1,5 +1,5 @@
 /*
- * function: func_021DFFC4
+ * function: HAND_ITEM_GetFightingGemHandlers
  * address: 0x021DFFC4
  * packet: pkt_ov093_021DFFC4
  * region: ov093
@@ -12,16 +12,16 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DFCE8.c and filed here.
  *
  * symbols:
- *   d_021F194C 0x021F194C data ov093 a4
+ *   gHandItemFightingGemHandlers 0x021F194C data ov093 a4
  */
 
-int *func_021DFFC4(int *p);
+int *HAND_ITEM_GetFightingGemHandlers(int *p);
 
-/* 021DFFD0  stack-arg wrapper: func_021E0284(a, b, c, d, 0x1) */
-extern int d_021F194C[];
+/* 021DFFD0  stack-arg wrapper: HAND_ITEM_GemMovePower(a, b, c, d, 0x1) */
+extern int gHandItemFightingGemHandlers[];
 
-int *func_021DFFC4(int *p)
+int *HAND_ITEM_GetFightingGemHandlers(int *p)
 {
     *p = 3;
-    return d_021F194C;
+    return gHandItemFightingGemHandlers;
 }

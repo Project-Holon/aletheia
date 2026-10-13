@@ -14,6 +14,8 @@
  * symbols:
  *   CLACT_CreateActor  0x0204B294  arm  arm9
  *   CLACT_RestartActorAnim  0x0204B9A0  arm  arm9
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
  */
 #include "../include/Obj03254.h"
 #include "../include/Obj22665.h"
@@ -36,8 +38,8 @@ typedef struct {
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
-extern void func_0204B92C(struct Obj *, u32);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *, u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 struct Actor;
 extern void CLACT_RestartActorAnim(struct Actor *a);
 
@@ -57,8 +59,8 @@ void func_021D55AC(void *p)
                           ((struct Obj03254 *)p)->f88C,
                           ((struct Obj03254 *)p)->f8BC,
                           &s, 0, ((struct Obj03254 *)p)->f5F4);
-        func_0204B92C((struct Obj *)((struct Obj22667 *)((char *)((struct Obj03254 *)p)->fC))->fB0, 1);
-        func_0204B3DC((struct Obj *)((struct Obj22668 *)((char *)((struct Obj03254 *)p)->fC))->fB0, 1);
+        CLACT_SetActorAutoAnim((struct Obj *)((struct Obj22667 *)((char *)((struct Obj03254 *)p)->fC))->fB0, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj22668 *)((char *)((struct Obj03254 *)p)->fC))->fB0, 1);
     } else {
         CLACT_RestartActorAnim((struct Actor *)v);
     }

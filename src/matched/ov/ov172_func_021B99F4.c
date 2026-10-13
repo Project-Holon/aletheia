@@ -12,7 +12,7 @@
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0200616C 0x0200616C thumb
+ *   GFL_USE_PlaySeInSlot 0x0200616C thumb
  *   GFL_USE_SetSeSlotParams 0x02006268 thumb
  *   d_021C6F8F 0x021C6F8F data a1
  */
@@ -24,7 +24,7 @@ struct Obj;
 extern int TOUCHPANEL_HitTrg(const void *);
 extern int TOUCHPANEL_HitCont(const void *);
 extern void CLACT_SetActorAnimSeq(struct Obj *, u16);
-extern void func_0200616C(void *, int);
+extern void GFL_USE_PlaySeInSlot(void *, int);
 extern void GFL_USE_SetSeSlotParams(int i, u32 a, u32 b, u32 c);
 extern const u8 d_021C6F8F[];
 void func_021B99F4(void *unused, u8 *q)
@@ -63,7 +63,7 @@ void func_021B99F4(void *unused, u8 *q)
     if (changed == 1) {
         int angle;
         angle = (q[13] - 4) * 64;
-        func_0200616C((void *)1644, 1);
+        GFL_USE_PlaySeInSlot((void *)1644, 1);
         GFL_USE_SetSeSlotParams(1, -1, angle, -1);
     }
 }

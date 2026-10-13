@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_0200AE54   0x0200AE54  thumb
- *   func_0201AA18   0x0201AA18  thumb
- *   func_0201AB28   0x0201AB28  thumb
+ *   POKEPARTY_GetCount   0x0201AA18  thumb
+ *   POKEPARTY_GetMember   0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
  *   POKE_REGULATION_AdjustLevel   0x0201A26C  thumb
  *   POKE_REGULATION_CheckPokemon   0x02019DA4  thumb
@@ -26,8 +26,8 @@ typedef unsigned int   u32;
 
 struct Reg;
 extern u32 func_0200AE54(struct Reg *p, u32 id);
-extern u32 func_0201AA18(void *a1);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *a1);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_REGULATION_AdjustLevel(void *a0, u32 a1);
 extern int POKE_REGULATION_CheckPokemon(void *a0, void *a1);
@@ -66,9 +66,9 @@ int POKE_REGULATION_CheckOrder(void *a0, void *a1, u8 *a2, char *a3, u32 *a4)
         if (a2[i] == 0)
             continue;
         n = (u8)(a2[i] - 1);
-        if ((int)n >= (int)func_0201AA18(a1))
+        if ((int)n >= (int)POKEPARTY_GetCount(a1))
             continue;
-        p = func_0201AB28(a1, n);
+        p = POKEPARTY_GetMember(a1, n);
         v18 = POKE_TOOL_GetPartyValue(p, 5, 0);
         v6 = POKE_TOOL_GetPartyValue(p, 6, 0);
         v14 = (u32)POKE_REGULATION_AdjustLevel(a0, POKE_TOOL_GetPartyValue(p, 0x9e, 0));

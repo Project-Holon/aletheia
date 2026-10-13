@@ -1,5 +1,5 @@
 /*
- * function: func_021E5E70
+ * function: HAND_WAZA_GetMagnetRiseHandlers
  * address: 0x021E5E70
  * packet: pkt_ov093_021E5E70
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E5B78.c and filed here.
  *
  * symbols:
- *   d_021F2A38 0x021F2A38 data ov093 a4
+ *   gMagnetRiseHandlers 0x021F2A38 data ov093 a4
  */
 
-int *func_021E5E70(int *p);
-extern int d_021F2A38[];
+int *HAND_WAZA_GetMagnetRiseHandlers(int *p);
+extern int gMagnetRiseHandlers[];
 
-int *func_021E5E70(int *p)
+int *HAND_WAZA_GetMagnetRiseHandlers(int *p)
 {
     *p = 2;
-    return d_021F2A38;
+    return gMagnetRiseHandlers;
 }

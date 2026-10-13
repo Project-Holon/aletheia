@@ -1,5 +1,5 @@
 /*
- * function: func_0216BD04
+ * function: DWCi_HandleGPError
  * address:  0x0216BD04
  * packet:   pkt_ov009_0216BD04
  * region:   ov009
@@ -27,7 +27,7 @@ extern void func_0216A3B8(int error, int errorCode);
 extern void func_0216EB68(int error, int errorCode);
 extern void func_02168E50(int error, int errorCode);
 
-int func_0216BD04(int result)
+static int DWCi_HandleGPError(int result)
 {
     int errorCode;
     int dwcError;

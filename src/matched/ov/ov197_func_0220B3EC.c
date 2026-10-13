@@ -10,7 +10,7 @@
  * status: EXACT
  * Width: original narrows y to signed halfword before printer; corresponding extern keeps s16 despite owner u32.
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201EFA4 0x0201EFA4 thumb
@@ -19,6 +19,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   d_0220DA3C 0x0220DA3C data a4
+ *   BMP_WIN_GetWidth  0x02045738  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -29,8 +30,8 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern void *func_02045770(struct Descriptor *p);
-extern u8 func_02045738(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -52,7 +53,7 @@ void func_0220B3EC(char *p, u32 i, int id, int w, int unused, int y, int unused2
   u16 pad;
   u32 *tmp1;
   char *tmp2;
-  BMP_Clear(func_02045770(handle), 0);
+  BMP_Clear(BMP_WIN_GetBmp(handle), 0);
   page = ((u32) p) + (((u8 *) p)[0x533] * 0x90);
   if (((*((u16 *) ((page + (i * 4)) + 0x152))) != 0) && ((*((int *) ((*((char **) p)) + 8))) != 1))
   {
@@ -62,7 +63,7 @@ void func_0220B3EC(char *p, u32 i, int id, int w, int unused, int y, int unused2
     tmp2 = p + 0x14;
     func_0201F250(*((void **) (p + 0x10)), *((void **) tmp2), text);
     font = *((void **) (p + 0x18));
-    surface = func_02045770(*((void **) (windows + (w * 8))));
+    surface = BMP_WIN_GetBmp(*((void **) (windows + (w * 8))));
     tmp = p + 0x14;
     tmp1 = (u32 *) ((*((char **) p)) + 4);
     PRINTSYS_PrintQueColor(font, (u32)surface, (s16)0, (s16)y, (u32)(*((void **) tmp)), *tmp1, 0x3C40);

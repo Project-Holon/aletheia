@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02045768 0x02045768 arm
+ *   BMP_WIN_GetCharOffset 0x02045768 arm
  *   func_02041090 0x02041090 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  */
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Descriptor;
-extern u16 func_02045768(struct Descriptor *p);
+extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
 extern void func_02041090(u32 index,u32 a,u32 b,u32 c,u8 d,u8 e);
 extern void BMP_WIN_TransferChars(struct Descriptor *p);
 void func_021C3A24(u16 *heap,u8 *p,int key)
@@ -28,7 +28,7 @@ void func_021C3A24(u16 *heap,u8 *p,int key)
     u16 index;
     u16 col;
     int base;
-    tile=func_02045768(*(struct Descriptor * *)&((struct Obj06685 *)p)->f20);
+    tile=BMP_WIN_GetCharOffset(*(struct Descriptor * *)&((struct Obj06685 *)p)->f20);
     index=0;
     for(row=0;row<15;row++) {
         base=tile+row*31;

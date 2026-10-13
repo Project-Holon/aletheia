@@ -11,12 +11,12 @@
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   INTRUDE_SUBDISP_IsInfoActive  0x0217F1E8  thumb  ov018
- *   func_0204B3F4  0x0204B3F4  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   INTRUDE_SUBDISP_ClearInfoPanel  0x0217F214  thumb  ov018
  *   INTRUDE_SUBDISP_DrawInfoPanel  0x0217F240  thumb  ov018
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   _s32_div_f     0x0209C0A4  arm
  *   MIi_CpuCopy32  0x02082A90  arm
  */
@@ -49,14 +49,14 @@ struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern int INTRUDE_SUBDISP_IsInfoActive(u8 *p);
 struct Obj;
-extern unsigned int func_0204B3F4(struct Obj *p);
+extern unsigned int CLACT_GetActorDrawEnable(struct Obj *p);
 struct Obj;
-extern void func_0204B3DC(struct Obj *a0, unsigned int a1);
+extern void CLACT_SetActorDrawEnable(struct Obj *a0, unsigned int a1);
 extern void INTRUDE_SUBDISP_ClearInfoPanel(void);
 extern void INTRUDE_SUBDISP_DrawInfoPanel(u8 *p, int mode);
 extern void *GAME_DATA_GetLastBattleRecSlot(void *p);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void MIi_CpuCopy32(const void *src, void *dst, int size);
 
 void INTRUDE_SUBDISP_UpdateInfoIcon(Obj *p)
@@ -69,20 +69,20 @@ void INTRUDE_SUBDISP_UpdateInfoIcon(Obj *p)
 
     h = (int)GAMESYSTEM_GetGameData((const struct Ctx *)p->f00);
     if (INTRUDE_SUBDISP_IsInfoActive((u8 *)p) == 0) {
-        if (func_0204B3F4((struct Obj *)p->fAC) == 1) {
-            func_0204B3DC((struct Obj *)p->fAC, 0);
+        if (CLACT_GetActorDrawEnable((struct Obj *)p->fAC) == 1) {
+            CLACT_SetActorDrawEnable((struct Obj *)p->fAC, 0);
             INTRUDE_SUBDISP_ClearInfoPanel();
         }
         return;
     }
-    if (func_0204B3F4((struct Obj *)p->fAC) == 0) {
-        func_0204B3DC((struct Obj *)p->fAC, 1);
+    if (CLACT_GetActorDrawEnable((struct Obj *)p->fAC) == 0) {
+        CLACT_SetActorDrawEnable((struct Obj *)p->fAC, 1);
         INTRUDE_SUBDISP_DrawInfoPanel((u8 *)p, 1);
     }
     GAME_DATA_GetLastBattleRecSlot((void *)h);
     v = p->fE0;
     if (p->f10A != -1 && p->f10A != v && v <= 5 && p->fDC == 3) {
-        func_020061E4(0x550);
+        GFL_USE_PlaySeDefaultVolume(0x550);
     }
     if (p->f10A == v) {
         return;

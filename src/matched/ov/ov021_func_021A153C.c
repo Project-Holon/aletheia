@@ -1,5 +1,5 @@
 /*
- * function: func_021A153C
+ * function: FIELD_SUBSCREEN_IsReportSaveAnimDone
  * address:  0x021A153C
  * packet:   pkt_ov021_021A153C
  * region:   ov021
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 extern int REPORT_IsSaveAnimDone(char *p);
 
-int func_021A153C(u32 *p)
+int FIELD_SUBSCREEN_IsReportSaveAnimDone(u32 *p)
 {
     return REPORT_IsSaveAnimDone((char *)p[8]);
 }

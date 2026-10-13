@@ -1,5 +1,5 @@
 /*
- * function: func_021B8DE4
+ * function: BTL_MAIN_GetSlotClientIdThunk
  * address:  0x021B8DE4
  * packet:   pkt_021B8DE4
  * region:   ov093
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8CFC   0x021B8CFC  thumb ov093
- *   func_021B8DE4   0x021B8DE4  thumb ov093
+ *   BTL_MAIN_GetSlotClientId   0x021B8CFC  thumb ov093
+ *   BTL_MAIN_GetSlotClientIdThunk   0x021B8DE4  thumb ov093
  *
- * tail-call thunk to func_021B8CFC
+ * tail-call thunk to BTL_MAIN_GetSlotClientId
  */
 
 typedef unsigned char u8;
@@ -23,9 +23,9 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern unsigned char func_021B8CFC(char *p, int i);
+extern unsigned char BTL_MAIN_GetSlotClientId(char *p, int i);
 
-u8 func_021B8DE4(char *p, int i)
+u8 BTL_MAIN_GetSlotClientIdThunk(char *p, int i)
 {
-    return func_021B8CFC(p, i);
+    return BTL_MAIN_GetSlotClientId(p, i);
 }

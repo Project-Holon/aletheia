@@ -1,5 +1,5 @@
 /*
- * function: func_021CC95C
+ * function: BTL_SERVER_FLOW_EndHandExScope
  * address:  0x021CC95C
  * packet:   pkt_021CC95C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CC95C   0x021CC95C  thumb
+ *   BTL_SERVER_FLOW_EndHandExScope   0x021CC95C  thumb
  *
  * Stores the second argument (a u32) into the field at offset 0.
  */
@@ -23,5 +23,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021CC95C  str r1,[r0] */
-void func_021CC95C(u32 *p, u32 v, int line) { *p = v; }
+void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line) { *p = v; }
 

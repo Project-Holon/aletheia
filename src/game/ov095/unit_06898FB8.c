@@ -11,10 +11,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C8838  0x021C8838  thumb
- *   func_021C8860  0x021C8860  thumb
- *   func_021C88A4  0x021C88A4  thumb
- *   func_021C88C8  0x021C88C8  thumb
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb
  *   BTL_EVENT_GetVar  0x021D775C  thumb
  */
 
@@ -23,10 +23,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int a);
-extern u8 *func_021C88A4(int p, int n, u8 v);
-extern void func_021C8838(u8 *p, int n, int c);
-extern void func_021C8860(u8 *p, u8 v);
-extern void func_021C88C8(int p, u8 *q);
+extern u8 *BTL_SERVER_FLOW_AllocCmdRecord(int p, int n, u8 v);
+extern void BTL_SERVER_FLOW_InitMsgRecord(u8 *p, int n, int c);
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(u8 *p, u8 v);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(int p, u8 *q);
 
 void func_06898FB8(int a0, int p, int a2, int *s)
 {
@@ -35,10 +35,10 @@ void func_06898FB8(int a0, int p, int a2, int *s)
 
     if (*s != 0) {
         v = BTL_EVENT_GetVar(4);
-        t = func_021C88A4(p, 4, v);
-        func_021C8838(t + 4, 2, 0x347);
-        func_021C8860(t + 4, v);
-        func_021C88C8(p, t);
+        t = BTL_SERVER_FLOW_AllocCmdRecord(p, 4, v);
+        BTL_SERVER_FLOW_InitMsgRecord(t + 4, 2, 0x347);
+        BTL_SERVER_FLOW_AppendMsgRecordArg(t + 4, v);
+        BTL_SERVER_FLOW_CommitCmdRecord(p, t);
         *s = 0;
     }
 }

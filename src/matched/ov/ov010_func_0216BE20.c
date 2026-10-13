@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_0202F488  0x0202F488  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  */
@@ -20,8 +20,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern int func_0202F488(int a0, int a1);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
@@ -32,11 +32,11 @@ int FIELD_G3D_MAP_FindEventMonInParty(int a, int b, int e, int d, u16 *out)
     int i;
     void *obj;
 
-    n = func_0201AA18((void *)a);
+    n = POKEPARTY_GetCount((void *)a);
     found = 0;
     *out = 0;
     for (i = 0; i < n; i++) {
-        obj = func_0201AB28((void *)a, i);
+        obj = POKEPARTY_GetMember((void *)a, i);
         if (func_0202F488((int)obj, d) == 0) {
             continue;
         }

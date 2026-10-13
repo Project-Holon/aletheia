@@ -15,11 +15,11 @@
  * the 0x2000 flag through 0x0204B8C4.  Blocker target of func_021B8934.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_021B88F8  0x021B88F8  thumb  ov102
- *   func_0204B404  0x0204B404  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_02005728  0x02005728  thumb
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  * Addresses are Black-image addresses.
@@ -29,14 +29,14 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02082BCC(int a, int b, int c);
+extern void MI_CpuFill8(int a, int b, int c);
 extern void CLACT_SetActorAnimSeq(int p, int a);
 struct Obj;
 struct Vec2;
 extern void func_021B88F8(int *p);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int a);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int a);
 extern u32 func_02005728(u32 range);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 
@@ -44,13 +44,13 @@ void func_021B8810(int a0, int b, int c, int a3)
 {
     u16 tmp[2];
 
-    func_02082BCC(a0, 0, 0x1c);
+    MI_CpuFill8(a0, 0, 0x1c);
     ((struct Obj04424 *)a0)->f18 = b;
     CLACT_SetActorAnimSeq(((struct Obj04424 *)a0)->f18, c != 0 ? 0xd : 0xc);
     func_021B88F8((int *)a0);
     tmp[0] = (u16)((struct Obj04424 *)a0)->f8;
     tmp[1] = (u16)((struct Obj04424 *)a0)->fC;
-    func_0204B404((struct Obj *)(((struct Obj04424 *)a0)->f18), (const struct Vec2 *)tmp, 1);
-    func_0204B3DC((struct Obj *)((struct Obj04424 *)a0)->f18, 1);
+    CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj04424 *)a0)->f18), (const struct Vec2 *)tmp, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj04424 *)a0)->f18, 1);
     CLACT_SetActorAnimFrame((struct Obj *)(((struct Obj04424 *)a0)->f18), func_02005728(0x2000));
 }

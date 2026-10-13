@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
@@ -69,7 +69,7 @@ struct Ctx;
 struct Obj;
 struct S0201235C;
 struct WordSet;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
@@ -97,7 +97,7 @@ int EVENT_COMM_COMMON_OfferAnswerEventMain(void *a, int *state, Ov018Work *c)
     u8 *v;
     int idx;
 
-    sub = func_020124E4(a);
+    sub = GAME_EVENT_GetGameSystem(a);
     v = (u8 *)GAMESYSTEM_GetGameComm(sub);
     x = GAMESYSTEM_GetGameData(sub);
     GAMESYSTEM_GetFieldMap(sub);

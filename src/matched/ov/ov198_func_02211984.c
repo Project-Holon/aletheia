@@ -10,6 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj25288.h"
@@ -19,12 +20,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 
 void func_02211984(u8 **p, u32 b)
 {
     if (((struct Obj25288 *)(*p))->f40 == 1) {
-        func_020061E4(b);
+        GFL_USE_PlaySeDefaultVolume(b);
     }
 }
 

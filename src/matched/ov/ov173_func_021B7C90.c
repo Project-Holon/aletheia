@@ -13,7 +13,7 @@
  *   (37 B); the argument form keeps the def of row after the p+0x1C8 load, as the original does.
  * symbols:
  *   func_021B7EB0 0x021B7EB0 thumb ov173
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_020260E4 0x020260E4 thumb
  *   func_021B7438 0x021B7438 thumb ov173
  *   func_021B71C4 0x021B71C4 thumb ov173
@@ -27,7 +27,7 @@ typedef unsigned short u16;
 extern void func_021B7EB0(char *,int);
 extern u16 func_021B7438(char **);
 extern void func_021B71C4(char *,int);
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern void func_021B70D8(char *);
 extern void func_021B7F64(char *);
 extern void func_021B7FD0(u8 *,int);
@@ -41,13 +41,13 @@ void func_021B7C90(char *p,int row,int old)
     
     func_021B7EB0(p,0);
     if(row<=3) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         *(u16 *)(S(p)+0x14)=row;
         if(*(u16 *)(S(p)+0x16)+*(u16 *)(S(p)+0x14)<*(u8 *)(p+0x1B8)) func_021B71C4(p,func_021B7438((char **)p));
         else func_021B71C4(p,-2);
     } else if(row==6) {
         if(old==3 && *(u16 *)(S(p)+0x16)+4<*(u8 *)(p+0x1B8)) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             func_020260E4(*(void **)(p+0x1C8),row=3);
             (*(u16 *)(S(p)+0x16))++;
             func_021B70D8(p);
@@ -56,7 +56,7 @@ void func_021B7C90(char *p,int row,int old)
             func_021B7FD0((u8 *)p,1);
         } else if(old==0) {
             if(*(u16 *)(S(p)+0x16)!=0) {
-                func_020061E4(0x54C);
+                GFL_USE_PlaySeDefaultVolume(0x54C);
                 (*(u16 *)(S(p)+0x16))--;
                 func_021B70D8(p);
                 func_021B71C4(p,func_021B7438((char **)p));
@@ -69,6 +69,6 @@ void func_021B7C90(char *p,int row,int old)
             row=3;
             func_020260E4(*(void **)(p+0x1C8),3);
         }
-    } else func_020061E4(0x54C);
+    } else GFL_USE_PlaySeDefaultVolume(0x54C);
     func_021B7ADC((u8 *)p,(u8)row,3);
 }

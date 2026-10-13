@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0218774C  0x0218774C  thumb  ov020
+ *   EL_SCOREBOARD_StartOnField  0x0218774C  thumb  ov020
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  */
 #include "../include/Obj07553.h"
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Evt;
-extern void *func_0218774C(int a, int b, u8 c, u8 d);
+extern void *EL_SCOREBOARD_StartOnField(int a, int b, u8 c, u8 d);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
 int EVENT_FIELDMAP_CONTROL_RunSeasonFadeIn(u32 p0, int *st, u8 *q)
@@ -30,7 +30,7 @@ int EVENT_FIELDMAP_CONTROL_RunSeasonFadeIn(u32 p0, int *st, u8 *q)
 
     switch (*st) {
     case 0: {
-        u32 r = (u32)func_0218774C(a, b, q[0x20], q[0x21]);
+        u32 r = (u32)EL_SCOREBOARD_StartOnField(a, b, q[0x20], q[0x21]);
         GAME_EVENT_CallEvent((struct Evt *)p0, (struct Evt **)r);
         *st = *st + 1;
         break;

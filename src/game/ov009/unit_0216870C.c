@@ -58,7 +58,7 @@
  *   DWC_LoginIdToUserName            0x02059a44 arm
  *   gpProfileSearchA                 0x02185b10 arm
  *   DWCi_GPProfileSearchCallback     0x02169934 arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02168FF0  0x02168FF0  arm  ov009
  *   func_0216959C  0x0216959C  arm  ov009
  *   g_021A200C   0x021A200C  data
@@ -236,7 +236,7 @@ extern void DWC_LoginIdToUserName(DWCstAccUserData *userdata, DWCstAccFriendData
 extern int gpProfileSearchA(void **connection, char *nick, char *uniquenick, char *email,
                             char *firstname, char *lastname, int icquin, int blocking,
                             void (*callback)(void **, void *, void *), void *param);
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int func_02185D04(void **connection, int profile, char *reason);
 extern void DWCi_SetReverseBuddyFlag(DWCstAccFriendData *frienddata, int setflag);
 extern int gpAuthBuddyRequest(void **connection, int profile);
@@ -849,7 +849,7 @@ void func_02169568(void)
 void func_0216959C(void *friendData, int deleteIndex, int otherIndex)
 {
     if (stpFriendCnt == 0) return;
-    func_02082BCC((char *)friendData + deleteIndex * 0xc, 0, 0xc);
+    MI_CpuFill8((char *)friendData + deleteIndex * 0xc, 0, 0xc);
     if (stpFriendCnt->deleteCb == 0) return;
     stpFriendCnt->deleteCb(deleteIndex, otherIndex, stpFriendCnt->deleteParam);
 }

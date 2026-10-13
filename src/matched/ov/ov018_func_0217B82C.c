@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
@@ -42,7 +42,7 @@ typedef struct {
 struct Evt;
 struct Obj;
 struct Rec;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 typedef unsigned int   u32;
 struct Ctx;
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
@@ -74,7 +74,7 @@ int INTRUDE_FIELD_EventNotice(int a0, int *state, Work *w)
     void *obj;
     int hnd;
 
-    sys = (int)func_020124E4((struct Obj *)a0);
+    sys = (int)GAME_EVENT_GetGameSystem((struct Obj *)a0);
     obj = GAMESYSTEM_GetFieldMap((void *)sys);
     GAMESYSTEM_GetGameComm((const struct Ctx *)sys);
     switch (*state) {

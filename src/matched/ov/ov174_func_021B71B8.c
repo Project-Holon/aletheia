@@ -11,7 +11,7 @@
  * symbols:
  *   d_021B7380 0x021B7380 data ov174 a1
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -41,7 +41,7 @@ struct MsgBank;
 struct StrObj;
 struct U16Vec;
 struct WordSet;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -63,7 +63,7 @@ void func_021B71B8(u8 *p,u8 *q)
     void *ws;
     u8 *save;
     *(u32 *)(q+0x18)=BMP_WIN_Create(0,(u8)(d_021B7380[q[0]].x+2),(u8)(d_021B7380[q[0]].y+1),12,2,12,1);
-    BMP_Clear(func_02045770(*(void **)(q+0x18)),0);
+    BMP_Clear(BMP_WIN_GetBmp(*(void **)(q+0x18)),0);
     BMP_WIN_TransferChars(*(void **)(q+0x18));
     BMP_WIN_MakeScreen(*(void **)(q+0x18));
     func_020409B4(0);
@@ -79,11 +79,11 @@ void func_021B71B8(u8 *p,u8 *q)
         s=dst;
     }
     q[7]=func_0201D304(s,*(u32 *)(p+0x60),0);
-    PRINTSYS_PrintQueColor(*(void **)(p+0x78),(u32)func_02045770(*(void **)(q+0x18)),(s16)((96-q[7])/2+1),1,(u32)s,*(u32 *)(p+0x60),0x3c00);
-    PRINTSYS_PrintQueColor(*(void **)(p+0x78),(u32)func_02045770(*(void **)(q+0x18)),(s16)((96-q[7])/2-1),1,(u32)s,*(u32 *)(p+0x60),0x3c00);
-    PRINTSYS_PrintQueColor(*(void **)(p+0x78),(u32)func_02045770(*(void **)(q+0x18)),(s16)((96-q[7])/2),2,(u32)s,*(u32 *)(p+0x60),0x3c00);
-    PRINTSYS_PrintQueColor(*(void **)(p+0x78),(u32)func_02045770(*(void **)(q+0x18)),(s16)((96-q[7])/2),0,(u32)s,*(u32 *)(p+0x60),0x3c00);
-    PRINTSYS_PrintQueColor(*(void **)(p+0x78),(u32)func_02045770(*(void **)(q+0x18)),(s16)((96-q[7])/2),1,(u32)s,*(u32 *)(p+0x60),0x400);
+    PRINTSYS_PrintQueColor(*(void **)(p+0x78),(u32)BMP_WIN_GetBmp(*(void **)(q+0x18)),(s16)((96-q[7])/2+1),1,(u32)s,*(u32 *)(p+0x60),0x3c00);
+    PRINTSYS_PrintQueColor(*(void **)(p+0x78),(u32)BMP_WIN_GetBmp(*(void **)(q+0x18)),(s16)((96-q[7])/2-1),1,(u32)s,*(u32 *)(p+0x60),0x3c00);
+    PRINTSYS_PrintQueColor(*(void **)(p+0x78),(u32)BMP_WIN_GetBmp(*(void **)(q+0x18)),(s16)((96-q[7])/2),2,(u32)s,*(u32 *)(p+0x60),0x3c00);
+    PRINTSYS_PrintQueColor(*(void **)(p+0x78),(u32)BMP_WIN_GetBmp(*(void **)(q+0x18)),(s16)((96-q[7])/2),0,(u32)s,*(u32 *)(p+0x60),0x3c00);
+    PRINTSYS_PrintQueColor(*(void **)(p+0x78),(u32)BMP_WIN_GetBmp(*(void **)(q+0x18)),(s16)((96-q[7])/2),1,(u32)s,*(u32 *)(p+0x60),0x400);
     STRBUF_Delete(s);
     *(u32 *)(q+0x14)=1;
 }

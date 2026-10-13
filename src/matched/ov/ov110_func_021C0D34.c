@@ -15,7 +15,7 @@
  * asks for the double assignment is superseded.
  *
  * symbols:
- *   func_0204B3F4 0x0204B3F4 arm
+ *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_GetActorPosAxis 0x0204B560 arm
  *   CLACT_SetActorPosAxis 0x0204B550 arm
  */
@@ -24,13 +24,13 @@ typedef signed short   s16;
 typedef unsigned int   u32;
 struct Actor;
 struct Obj;
-extern u32 func_0204B3F4(struct Obj *p);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern s16 CLACT_GetActorPosAxis(const struct Actor *actor, u32 axis);
 extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
 void func_021C0D34(char *p,int force) {
     int n,index,y,a,b,t;
     short pos;
-    if(!func_0204B3F4(((struct Obj05300 *)p)->f8)) return;
+    if(!CLACT_GetActorDrawEnable(((struct Obj05300 *)p)->f8)) return;
     n=((struct Obj05300 *)p)->f98-2;
     index=((struct Obj05300 *)p)->f96;
     if(!force) {

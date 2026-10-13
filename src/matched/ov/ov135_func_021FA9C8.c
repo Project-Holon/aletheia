@@ -13,7 +13,7 @@
  *   BGWINFRM_GetFrameBuffer 0x0202CF84 thumb
  *   func_021F9260 0x021F9260 thumb ov135
  *   func_021FBEB8 0x021FBEB8 thumb ov135
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02045EC0 0x02045EC0 arm
  *   func_021FBFB0 0x021FBFB0 thumb ov135
  *   func_021FC014 0x021FC014 thumb ov135
@@ -32,7 +32,7 @@ extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 m
 extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
 extern void func_021F9260(void *, u32);
 extern void func_021FBEB8(void *, void *, void *, u32, void *);
-extern void func_02082BCC(void *, u32, u32);
+extern void MI_CpuFill8(void *, u32, u32);
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -52,7 +52,7 @@ void func_021FA9C8(u8 *p, int mode, int pos)
     BGWINFRM_GetFrameBuffer(((struct Obj01744 *)p)->f18, 0);
     func_021F9260(p, mode);
     func_021FBEB8(((struct Obj01744 *)p)->f18, ((struct Obj01744 *)p)->f20, (*(void ***)p)[14], 74, p + 124);
-    func_02082BCC(p + 96, 1, 26);
+    MI_CpuFill8(p + 96, 1, 26);
     g = p;
     g += 124;
     for (i = 0; i < 9; i++) {

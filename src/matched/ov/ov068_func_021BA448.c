@@ -9,7 +9,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * accepted 2026-10-05 by the user: case 8's ternary arm calls func_020061E4 under a second name
+ * accepted 2026-10-05 by the user: case 8's ternary arm calls GFL_USE_PlaySeDefaultVolume under a second name
  *   (func_020061E4_2, same address), a plausible original mistake (two declarations of one
  *   sound routine); with two symbols mwcc does not cross-jump the two calls.
  * final retry: Wave76 R17, four fixed-flag one compiles, no sweeps/permuter.
@@ -22,7 +22,7 @@
  *   Retain baseline 508/5, 27/28 relocs, exhausted this authorized retry.
  *   Need evidence-backed IR asymmetry of the two sound paths; invented sound
  *   aliases and old permuter searches remain prohibited/consumed.
- * checks:   1 arity from matched files (OPTION_MENU_GetListCursor (p) and OPTION_MENU_GetInputPoint (p, int, int *) from their ov068 matched files; ov067 021B63D0/6470/6448 (int) and 021B65A8 (int,int) from their callers; 020355C4/020355D8 from ov068_func_021BA03C, EXACT this lane); 2 no twin (no other ov068 handler with this case-8 sound pick); 3 sound id u16 (best, 5 bytes), int (4 bytes short, 245-byte shifted diff), flag/f10 store order in case 8, snd local, (u16) cast of the ternary: no gain; 4 cross-jump idioms read (a-labelled-function-and-the-unlabelled-store-and-return-address-leaf..., an-argument-bound-through-an-inline-wrapper...): a static inline sound helper tried, no gain; 5 re-listed docs/idioms (ls -t), nothing new fits; retry R1: 1 every other matched caller (ov064/065/067/068/069) declares func_020061E4 with one 32-bit parameter, so u16 here is only a lever; 2 ov068_func_021BA7C0 shares 021BA194/020355C4/D8/020061E4 but has no two-path sound call; 3 sound id int/unprototyped/u16 local/inline u16 return measured (above); 4 cross-jump idioms (a-shared-bl-b-tail..., a-call-before-a-goto..., a-flag-dispatch-four-bytes-short...) read: the if/else arm order they suggest does not unmerge it; 5 ls -t docs/idioms again, nothing new
+ * checks:   1 arity from matched files (OPTION_MENU_GetListCursor (p) and OPTION_MENU_GetInputPoint (p, int, int *) from their ov068 matched files; ov067 021B63D0/6470/6448 (int) and 021B65A8 (int,int) from their callers; 020355C4/020355D8 from ov068_func_021BA03C, EXACT this lane); 2 no twin (no other ov068 handler with this case-8 sound pick); 3 sound id u16 (best, 5 bytes), int (4 bytes short, 245-byte shifted diff), flag/f10 store order in case 8, snd local, (u16) cast of the ternary: no gain; 4 cross-jump idioms read (a-labelled-function-and-the-unlabelled-store-and-return-address-leaf..., an-argument-bound-through-an-inline-wrapper...): a static inline sound helper tried, no gain; 5 re-listed docs/idioms (ls -t), nothing new fits; retry R1: 1 every other matched caller (ov064/065/067/068/069) declares GFL_USE_PlaySeDefaultVolume with one 32-bit parameter, so u16 here is only a lever; 2 ov068_func_021BA7C0 shares 021BA194/020355C4/D8/020061E4 but has no two-path sound call; 3 sound id int/unprototyped/u16 local/inline u16 return measured (above); 4 cross-jump idioms (a-shared-bl-b-tail..., a-call-before-a-goto..., a-flag-dispatch-four-bytes-short...) read: the if/else arm order they suggest does not unmerge it; 5 ls -t docs/idioms again, nothing new
  * runs:     12 + 2x permuter (permuter on this draft and on the int-param draft, seed 7: no candidate beat either)
  *   wave75 R28: 5 one calls (3 iteration, 2 check-3), no sweeps/permuter.
  *   Renewed checks: 1 own files/callers re-derived all arities, including
@@ -35,8 +35,8 @@
  * residue:  508 vs 492 bytes of code (the extent's 492 plus the 16-byte pool at
  *   0x021BA634, which the listing labels as a phantom func_021BA634), 5 bytes differ, all in
  *   case 8. The image keeps two separate calls:
- *     cmp r0,#1; bne; ldr r0,=0x551; b; ldr r0,=0x54c; bl func_020061E4; b A55E
- *     A554: movs r0,#0; str r0,[r4,#0xc]; ldr r0,=0x54c; bl func_020061E4
+ *     cmp r0,#1; bne; ldr r0,=0x551; b; ldr r0,=0x54c; bl GFL_USE_PlaySeDefaultVolume; b A55E
+ *     A554: movs r0,#0; str r0,[r4,#0xc]; ldr r0,=0x54c; bl GFL_USE_PlaySeDefaultVolume
  *     A55E: movs r5,#1; b A56C
  *   This C cross-jumps the two bls: after the ternary it emits lsls/lsrs #16 and branches
  *   into the else-arm's bl. Every other byte (the switch table, case 3's rectangles, the
@@ -54,13 +54,13 @@
  *   every spelling gives one or the other. Pair, not merged (this draft's 5 bytes): u16
  *   param with the ternary, a u16 snd = ternary, a static inline u16 SndId(p) returning
  *   the ternary. No pair but the bl cross-jumped (504 bytes, 4 short): int or unprototyped
- *   `func_020061E4()`, a u16 snd set in if/else, the == 3 arm first, an early break out of
+ *   `GFL_USE_PlaySeDefaultVolume()`, a u16 snd set in if/else, the == 3 arm first, an early break out of
  *   the != 3 arm, nested if/else with a call per arm (then the 0x551 call jumps into case
  *   9's). u8 is impossible (0x551). a-flag-dispatch-four-bytes-short-is-the-front-end-
  *   tail-merging-the-arms.md describes this 1.1p1 merge (2.0/sp2 keeps both arms), but the
  *   flags are pinned, so it stays a DIFF.
  *   EXACT* found but NOT filed (needs the orchestrator's ruling): declare the callee
- *   `extern void func_020061E4(int id);` plus a second name for the same address,
+ *   `extern void GFL_USE_PlaySeDefaultVolume(int id);` plus a second name for the same address,
  *   `extern void func_020061E4_2(int id);` with the symbols line
  *   `func_020061E4_2  0x020061E4  thumb`, call the second name only in case 8's
  *   ternary arm, and drop the ov068 token from gOptionMenuConfirmRect (`data  a4`, then it resolves
@@ -71,7 +71,7 @@
  *   a-duplicated-pool-word-is-a-second-extern-name-for-the-same-address.md, but it
  *   invents a second name for one arm9 function, which no rule here sanctions.
  *
- * recoup 2026-10-05 (lane X5): 1 callee types re-read from matched definitions: 021BA190 int(const int*), 021BA9DC int, 021BA194 void(p,int,int*), 021B65A8 unsigned(u8*,unsigned), 020355C4 u8, 020355D8 void(u8), 02028218/0202822C void, 02012BE0 void; func_020061E4 is a veneer into arm9 020061A4 whose return is not used, so void stays; no void-return problem found. Calls and arities unchanged. 2 sound id as u32 (the width in matched callers): 504 bytes, 245 differ (cross-jumped bl). 3 declaration order: spill slots follow the draft already. 4 case 8 with flag and the stores written in each arm, fC==3 arm first: 508 bytes, 28 differ. 7 all six pragmas (opt_lifetimes, opt_propagation, opt_common_subs, opt_dead_assignments, scheduling, peephole, each off): all stay 508 / 5 differ. Residue unchanged: 5 bytes in case 8, the original keeps two un-merged bl func_020061E4 calls with no truncation pair. Only the second-name trick (EXACT*, see above) closes it. Idioms: a-flag-dispatch-four-bytes-short-is-the-front-end-tail-merging-the-arms.md (the 1.1p1 merge, no source lever).
+ * recoup 2026-10-05 (lane X5): 1 callee types re-read from matched definitions: 021BA190 int(const int*), 021BA9DC int, 021BA194 void(p,int,int*), 021B65A8 unsigned(u8*,unsigned), 020355C4 u8, 020355D8 void(u8), 02028218/0202822C void, 02012BE0 void; GFL_USE_PlaySeDefaultVolume is a veneer into arm9 020061A4 whose return is not used, so void stays; no void-return problem found. Calls and arities unchanged. 2 sound id as u32 (the width in matched callers): 504 bytes, 245 differ (cross-jumped bl). 3 declaration order: spill slots follow the draft already. 4 case 8 with flag and the stores written in each arm, fC==3 arm first: 508 bytes, 28 differ. 7 all six pragmas (opt_lifetimes, opt_propagation, opt_common_subs, opt_dead_assignments, scheduling, peephole, each off): all stay 508 / 5 differ. Residue unchanged: 5 bytes in case 8, the original keeps two un-merged bl GFL_USE_PlaySeDefaultVolume calls with no truncation pair. Only the second-name trick (EXACT*, see above) closes it. Idioms: a-flag-dispatch-four-bytes-short-is-the-front-end-tail-merging-the-arms.md (the 1.1p1 merge, no source lever).
  * recoup 2026-10-05 P29R7: case 8 respelled three ways, no lever beyond the second-name trick: if/else-if/else with 0x551 and 0x54c calls (504 bytes, 247 differ), fC==3 fixup then one ternary call through a local (508, 243 differ), flag and f10 stores before the arms (512, 259 differ). Baseline stays 508 / 5 differ. Callee types and pragmas not repeated (see X5 note).
  *
  *   G2L3 rounds 2 and 3 (24 compiles total): int param with result assigned in arm 2 or both arms
@@ -91,7 +91,7 @@
  *   OPTION_MENU_GetInputPoint  0x021BA194  thumb  ov068
  *   OPTION_MENU_IsPointInRect  0x021BB508  thumb  ov068
  *   func_02040588  0x02040588  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_020355C4  0x020355C4  arm
  *   func_020355D8  0x020355D8  arm
  *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb
@@ -130,7 +130,7 @@ extern int  OPTION_MENU_GetListCursor(void *p);
 extern void OPTION_MENU_GetInputPoint(const u8 *p, int which, int *out);
 extern int  OPTION_MENU_IsPointInRect(int *rect, void *b);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_020061E4_2(int id);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8 v);
@@ -170,7 +170,7 @@ void OPTION_MENU_UpdateButtons(W *p, void *obj, void *arg)
         OPTION_MENU_GetInputPoint(obj, 0, pt);
         if (OPTION_MENU_IsPointInRect(gOptionMenuConfirmRect, pt) && p->fC != 0) {
             func_02040588(4, 0);
-            func_020061E4(0x54c);
+            GFL_USE_PlaySeDefaultVolume(0x54c);
             p->fC = 0;
             p->f10 = 1;
             p->f40 = 1;
@@ -178,7 +178,7 @@ void OPTION_MENU_UpdateButtons(W *p, void *obj, void *arg)
                 func_020355D8(1);
         } else if (OPTION_MENU_IsPointInRect(gOptionMenuCancelRect, pt) && p->fC != 1) {
             func_02040588(4, 0);
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             p->fC = 1;
             p->f10 = 1;
             p->f40 = 1;
@@ -213,13 +213,13 @@ void OPTION_MENU_UpdateButtons(W *p, void *obj, void *arg)
             func_020061E4_2(p->fC == 1 ? 0x551 : 0x54c);
         } else {
             p->fC = 0;
-            func_020061E4(0x54c);
+            GFL_USE_PlaySeDefaultVolume(0x54c);
         }
         flag = 1;
         p->f10 = 1;
         break;
     case 9:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         flag = 1;
         p->fC = 1;
         p->f10 = 1;

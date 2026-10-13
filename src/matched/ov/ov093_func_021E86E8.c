@@ -12,7 +12,7 @@
  * symbols:
  *   BTLV_CORE_CheckPartySlotCondition  0x021E86C8  thumb  ov093
  *   BTLV_CORE_CheckPartySlotPair  0x021E869C  thumb  ov093
- *   func_021C7CF4  0x021C7CF4  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb  ov093
  *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
  *   func_021E8638  0x021E8638  thumb  ov093
@@ -22,7 +22,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 extern int BTLV_CORE_CheckPartySlotCondition(void *a, int b);
 extern int BTLV_CORE_CheckPartySlotPair(void *a, int b);
 struct QF;
-extern void *func_021C7CF4(int *p, int i);
+extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
 struct QI;
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
@@ -39,8 +39,8 @@ int BTLV_CORE_CheckEitherSlotPair(void *a, int b, int c)
         return 1;
     if (BTLV_CORE_CheckPartySlotPair(a, c) != 0)
         return 1;
-    x = func_021C7CF4(a, b);
-    y = func_021C7CF4(a, c);
+    x = BTL_SERVER_FLOW_GetPokeParam(a, b);
+    y = BTL_SERVER_FLOW_GetPokeParam(a, c);
     t = BTL_POKEPARAM_GetSpecies(x);
     h = (int)BTL_POKEPARAM_GetItem(y);
     if (func_021E8638(t, h) != 0)

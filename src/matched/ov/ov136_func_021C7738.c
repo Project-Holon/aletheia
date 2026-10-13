@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  */
 
 typedef unsigned int u32;
 
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 
 int func_021C7738(void)
 {
-    return (func_020362DC() & 0x400) ? 1 : 0;
+    return (KEY_GetTrg() & 0x400) ? 1 : 0;
 }

@@ -30,7 +30,7 @@
  *   ov208_func_021C08E8  0x021C08E8  thumb  ov208
  *   ov208_func_021C0B10  0x021C0B10  thumb  ov208
  *   ov208_func_021C1AD4  0x021C1AD4  thumb  ov208
- *   func_0204B688  0x0204B688  arm
+ *   CLACT_SetActorObjMode  0x0204B688  arm
  *   ov208_func_021C0C50  0x021C0C50  thumb  ov208
  *   ov208_func_021C0C8C  0x021C0C8C  thumb  ov208
  *   ov208_func_021BC758  0x021BC758  thumb  ov208
@@ -114,7 +114,7 @@ extern void ov208_func_021C08E8(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C0B10(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C1AD4(u16 *heap, u8 *p, int key);
 struct Actor;
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void ov208_func_021C0C50(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C0C8C(u16 *heap, u8 *p, int key, int on);
 extern void ov208_func_021BC758(u32 fade);
@@ -204,7 +204,7 @@ int ov208_func_021BF9B0(void *proc, int *seq, u16 *heap, u8 *p, int key)
         ov208_func_021C08E8(heap, p, key);
         ov208_func_021C0B10(heap, p, key);
         ov208_func_021C1AD4(heap, p, key);
-        func_0204B688((struct Actor *)(*(u32 *)(p + W(0x64) * 4 + 0x5c)), 1);
+        CLACT_SetActorObjMode((struct Actor *)(*(u32 *)(p + W(0x64) * 4 + 0x5c)), 1);
         ov208_func_021C0C50(heap, p, key);
         if (W(0x90) == 1)
             ov208_func_021C0C8C(heap, p, key, 1);

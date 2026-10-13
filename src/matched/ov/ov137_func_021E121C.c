@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   d_021E203C 0x021E203C data a4
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
@@ -21,7 +21,7 @@ typedef struct { int v[4]; } Table;
 struct Actor;
 extern const Table d_021E203C;
 struct Node;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 struct Obj;
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern u32 CLACT_IsActorAnimActive(struct Actor *);
@@ -37,7 +37,7 @@ void func_021E121C(void *task, int *p)
             p[1]--;
             if (p[1] <= 0) {
                 p[1] = 30;
-                func_020061E4(sounds.v[p[3]]);
+                GFL_USE_PlaySeDefaultVolume(sounds.v[p[3]]);
                 p[3]++;
             }
         }

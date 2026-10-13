@@ -20,11 +20,11 @@
  *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb
  *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb
  *   MAP_ATTR_IsRoughGround  0x021AB4B8  thumb
- *   func_02013C20  0x02013C20  thumb
- *   func_02013E04 0x02013E04 thumb
- *   func_02013C50 0x02013C50 thumb
+ *   ZONEDATA_IsBikeEnabled  0x02013C20  thumb
+ *   ZONEDATA_IsNormalFieldZone 0x02013E04 thumb
+ *   ZONEDATA_IsWeatherEnabled 0x02013C50 thumb
  *   FISHING_CheckFacingWater  0x021C5C64  thumb  ov021
- *   func_02013D20   0x02013D20  thumb
+ *   ZONEDATA_IsZone34   0x02013D20  thumb
  *   func_0201210C  0x0201210C  thumb
  *   func_02012138  0x02012138  thumb
  *   INTRUDE_COMM_IsSessionEndPending  0x0215870C  thumb ov010
@@ -66,7 +66,7 @@
  *   FLD_FACEUP_ResumeLipSync  0x021F558C  thumb
  *   FLD_FACEUP_Delete 0x021F5578 thumb ov082
  *   SCRIPT_WORK_ResetCheckFlag 0x02159168 thumb ov010
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FLD_FACEUP_StartClose  0x021F5550  thumb  ov082
  *   func_020120F4  0x020120F4  thumb
@@ -189,11 +189,11 @@ extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern void *FIELD_PLAYER_GetNowAttribute(struct FieldPlayer *fieldPlayer);
 extern void *MAP_ATTR_GetTerrainId(void *encountState);
 extern int MAP_ATTR_IsRoughGround(void *effect);
-extern u32 func_02013C20(u32 zoneId);
-extern u32 func_02013E04(u32 zoneId);
-extern u32 func_02013C50(u32 zoneId);
+extern u32 ZONEDATA_IsBikeEnabled(u32 zoneId);
+extern u32 ZONEDATA_IsNormalFieldZone(u32 zoneId);
+extern u32 ZONEDATA_IsWeatherEnabled(u32 zoneId);
 extern int FISHING_CheckFacingWater(struct GameData *gameData, struct FieldMap *fieldMap, u32 *out);
-extern u32 func_02013D20(u32 zoneId);
+extern u32 ZONEDATA_IsZone34(u32 zoneId);
 extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
 extern void *func_02012138(const struct GameSystem *gameSystem);
 extern int INTRUDE_COMM_IsSessionEndPending(void *gameComm, int frames);
@@ -230,7 +230,7 @@ extern void SCRIPT_SYS_CallEvent(struct ScriptSystem *scriptSystem, void *task);
 extern int FLD_FACEUP_ResumeLipSync(struct FieldMap *fieldMap);
 extern void FLD_FACEUP_Delete(struct FieldMap *fieldMap);
 extern void SCRIPT_WORK_ResetCheckFlag(int waitState);
-extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 extern struct GameEvent *FLD_FACEUP_StartClose(struct GameSystem *gameSystem);
 extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
@@ -318,7 +318,7 @@ int EVENTDATA_SYSTEM_CheckBicycleUsable(struct GameData *gameData, struct FieldM
         }
         return 0;
     }
-    if (func_02013C20(zoneId) == 0) {
+    if (ZONEDATA_IsBikeEnabled(zoneId) == 0) {
         return 0;
     }
     if (objectCode != 0) {
@@ -335,10 +335,10 @@ int EVENTDATA_SYSTEM_CheckWeatherZone(struct GameData *gameData, struct FieldMap
 {
     u16 zoneId = func_02012AC8(player);
 
-    if (!func_02013E04(zoneId)) {
+    if (!ZONEDATA_IsNormalFieldZone(zoneId)) {
         return 0;
     }
-    if (func_02013C50(zoneId)) {
+    if (ZONEDATA_IsWeatherEnabled(zoneId)) {
         return 1;
     }
     return 0;
@@ -347,7 +347,7 @@ int EVENTDATA_SYSTEM_CheckWeatherZone(struct GameData *gameData, struct FieldMap
 /* Field skill check: normal field zone (2-byte zero padding follows at 0x0216459A). */
 int EVENTDATA_SYSTEM_CheckNormalFieldZone(struct GameData *gameData, struct FieldMap *fieldMap, struct PlayerWork *player)
 {
-    return func_02013E04(func_02012AC8(player));
+    return ZONEDATA_IsNormalFieldZone(func_02012AC8(player));
 }
 
 /*
@@ -356,21 +356,21 @@ int EVENTDATA_SYSTEM_CheckNormalFieldZone(struct GameData *gameData, struct Fiel
  */
 int EVENTDATA_SYSTEM_CheckFrontTileUsable(struct GameData *gameData, struct FieldMap *fieldMap, struct PlayerWork *player)
 {
-    if (func_02013E04(func_02012AC8(player)) == 0) {
+    if (ZONEDATA_IsNormalFieldZone(func_02012AC8(player)) == 0) {
         return 0;
     }
     return FISHING_CheckFacingWater(gameData, fieldMap, 0);
 }
 
-/* Field skill check: normal field zone, except the zone of func_02013D20. */
+/* Field skill check: normal field zone, except the zone of ZONEDATA_IsZone34. */
 int EVENTDATA_SYSTEM_CheckNormalFieldZoneNotZone34(struct GameData *gameData, struct FieldMap *fieldMap, struct PlayerWork *player)
 {
     int zoneId = func_02012AC8(player);
 
-    if (func_02013D20(zoneId) != 0) {
+    if (ZONEDATA_IsZone34(zoneId) != 0) {
         return 0;
     }
-    return func_02013E04(zoneId);
+    return ZONEDATA_IsNormalFieldZone(zoneId);
 }
 
 /*
@@ -706,7 +706,7 @@ int FLD_FACEUP_Finish(FaceUpEndWork *work)
 /* Event: step 0 starts the face-up end request, step 1 releases it and the overlay. */
 int FLD_FACEUP_EndEvent(struct GameEvent *event, int *seq)
 {
-    struct GameSystem *gameSystem = func_020124E4(event);
+    struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
 
     switch (*seq) {
     case 0:

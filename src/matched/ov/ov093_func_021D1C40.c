@@ -1,5 +1,5 @@
 /*
- * function: func_021D1C40
+ * function: BTL_CLIENT_PickRecallMessageId
  * address:  0x021D1C40
  * packet:   pkt_ov093_021D1C40
  * region:   ov093
@@ -13,7 +13,7 @@
  *   BTL_MAIN_GetRule  0x021B8588  thumb  ov093
  *   BTL_MAIN_GetCommPos  0x021B86C0  thumb  ov093
  *   BTL_CLIENT_HasMonParamDropped  0x021CDEE8  thumb  ov093
- *   func_021B9F70  0x021B9F70  thumb  ov093
+ *   BTL_MAIN_IsTrainerSlotNpc  0x021B9F70  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -31,9 +31,9 @@ typedef struct {
 extern u32 BTL_MAIN_GetRule(void **p);
 extern u8 BTL_MAIN_GetCommPos(u8 **p);
 extern u32 BTL_CLIENT_HasMonParamDropped(u8 *p);
-extern int func_021B9F70(u8 *p, int i);
+extern int BTL_MAIN_IsTrainerSlotNpc(u8 *p, int i);
 
-int func_021D1C40(BattleSeq *s, u32 x, int *out)
+int BTL_CLIENT_PickRecallMessageId(BattleSeq *s, u32 x, int *out)
 {
     u32 v;
 
@@ -54,7 +54,7 @@ int func_021D1C40(BattleSeq *s, u32 x, int *out)
         return 0x1a;
     }
     *out = 1;
-    if (func_021B9F70(s->battle, x) != 0)
+    if (BTL_MAIN_IsTrainerSlotNpc(s->battle, x) != 0)
         return 0x1e;
     return 0x1f;
 }

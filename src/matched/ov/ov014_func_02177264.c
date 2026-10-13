@@ -1,5 +1,5 @@
 /*
- * function: func_02177264
+ * function: GFL_NET_DEVWIRELESS_SetAcceptChild
  * address: 0x02177264
  * packet: pkt_ov014_02177264
  * region: ov014
@@ -16,9 +16,9 @@
  */
 
 extern void NET_WHPIPE_SetAcceptChild(int a);
-void func_02177264(int a);
+void GFL_NET_DEVWIRELESS_SetAcceptChild(int a);
 
-void func_02177264(int a)
+void GFL_NET_DEVWIRELESS_SetAcceptChild(int a)
 {
     NET_WHPIPE_SetAcceptChild(a);
 }

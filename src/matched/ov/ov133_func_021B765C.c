@@ -142,7 +142,7 @@
  *   func_021F4ED4 0x021F4ED4 thumb ov112
  *   func_021F4EB4 0x021F4EB4 thumb ov112
  *   func_021F4E6C 0x021F4E6C thumb ov112
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BILLBOARD_SetElemPos 0x0204F638 arm
  *   BILLBOARD_SetElemScale 0x0204F684 arm
  *   BILLBOARD_SetElemVisible 0x0204F720 arm
@@ -175,7 +175,7 @@ extern void func_021F4E8C(int, int, Vec *);
 extern void func_021F4ED4(u32 unused, u32 p, u16 v);
 extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
 extern void func_021F4E6C(u8 *p, u8 *e, u32 value);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void BILLBOARD_SetElemPos(u8 *a0, int i, struct Trip *src);
 extern void BILLBOARD_SetElemScale(struct Manager0204F684 *mgr, int idx, const s16 *p12, const s16 *p14);
 extern void BILLBOARD_SetElemVisible(void *p, u32 idx, u32 *flag);
@@ -219,7 +219,7 @@ void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
     if (speed > 0x9C4 || speed < -0x9C4) {
         if (*(u16 *)(p + 0x18C2) == 0) {
             *(u16 *)(p + 0x18C2) = 30;
-            func_020061E4(0x624);
+            GFL_USE_PlaySeDefaultVolume(0x624);
         }
     }
     if (e == 0)

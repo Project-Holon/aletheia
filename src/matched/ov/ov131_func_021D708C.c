@@ -17,7 +17,7 @@
  *   The template initializes every base word; zero initializes v.
  * symbols:
  *   d_021DC1D4 0x021DC1D4 data a4
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  *   _ffltu 0x0209BE04 arm
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
@@ -34,7 +34,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {int x,y,z;} Vec;
 extern const Vec d_021DC1D4;
-extern const short d_020A1B38[];
+extern const short FX_SinCosTable_[];
 extern void P_STA_SUB_SetPetOffset(void *p, unsigned char *q, int radius);
 extern void MCSS_SetPosition(void *,u32 *);
 extern void MCSS_SetOfsPosition(void *p, u32 *src);
@@ -49,7 +49,7 @@ int P_STA_SUB_PetWiggle(u8 *p,u8 *q)
     u8 speed;
     float f;
     if(((struct Obj02188 *)q)->f10==0) {
-        sample=d_020A1B38[((u16)((((struct Obj02188 *)q)->f62<<15)/15)>>4)*2];
+        sample=FX_SinCosTable_[((u16)((((struct Obj02188 *)q)->f62<<15)/15)>>4)*2];
         n=((struct Obj14068 *)p)->f3C>>6;
         if(n) f=0.5f+(float)(n<<12);
         else f=(float)(n<<12)-0.5f;

@@ -14,23 +14,23 @@
  *
  * symbols:
  *   func_06899AF0  0x06899AF0  thumb
- *   func_021C7CF4  0x021C7CF4  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb  ov093
  *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
  *   func_021E8638  0x021E8638  thumb  ov093
- *   func_021C8168  0x021C8168  thumb  ov093
- *   func_021B8DDC  0x021B8DDC  thumb  ov093
+ *   BTL_SERVER_FLOW_GetCompetitor  0x021C8168  thumb  ov093
+ *   BTL_MAIN_PokeIdToClientIdThunk  0x021B8DDC  thumb  ov093
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021B9A24  0x021B9A24  thumb  ov093
+ *   BTL_MAIN_IsPokeSamePair  0x021B9A24  thumb  ov093
  *   WAZA_TOOL_GetCategory   0x0201C1BC  thumb
  *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
- *   func_021C8434  0x021C8434  thumb  ov093
+ *   BTL_SERVER_FLOW_PushMoveQueueWithPos  0x021C8434  thumb  ov093
  *   BTL_POKEPARAM_IsSemiInvulnerable  0x021D5C30  thumb  ov093
- *   func_021C88A4  0x021C88A4  thumb  ov093
- *   func_021C8838  0x021C8838  thumb  ov093
- *   func_021C8860  0x021C8860  thumb  ov093
- *   func_021C88C8  0x021C88C8  thumb  ov093
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  *   OS_GetConsoleType  0x02085CBC  arm
  *   GF_OVERLAY_Load  0x02034AC4  arm
  *   gBtlvCoreDsiOverlayLoaded  0x021F6380  data
@@ -108,7 +108,7 @@ typedef union BtlvSlot {
     struct { u32 kind : 3; u32 index : 6; u32 extra : 23; } indexOnly;
 } BtlvSlot;
 
-/* Event record from func_021C88A4: a 4-byte header, then a list. */
+/* Event record from BTL_SERVER_FLOW_AllocCmdRecord: a 4-byte header, then a list. */
 struct BtlvEventRec {
     u32 header;
     u8 list[];
@@ -130,23 +130,23 @@ struct BtlvCore {
     u8 padTail[2];
 };
 
-extern void *func_021C7CF4(int *p, int i);
+extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 extern int func_021E8638(int a, int b);
-extern int func_021C8168(void *p);
-extern u8 func_021B8DDC(u32 x);
+extern int BTL_SERVER_FLOW_GetCompetitor(void *p);
+extern u8 BTL_MAIN_PokeIdToClientIdThunk(u32 x);
 extern int BTL_EVENT_GetVar(int key);
-extern int func_021B9A24(u32 a, u32 b);
+extern int BTL_MAIN_IsPokeSamePair(u32 a, u32 b);
 extern u32 WAZA_TOOL_GetCategory(u16 move);
 extern u32 WAZA_TOOL_GetFlag(u16 id, u32 bit);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
-extern void func_021C8434(u8 *p, int a, int b);
+extern void BTL_SERVER_FLOW_PushMoveQueueWithPos(u8 *p, int a, int b);
 extern int BTL_POKEPARAM_IsSemiInvulnerable(struct UtilWork *p);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C8838(void *l, int a, int b);
-extern void func_021C8860(void *l, u32 v);
-extern void func_021C88C8(void *a, void *b);
+extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
+extern void BTL_SERVER_FLOW_InitMsgRecord(void *l, int a, int b);
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(void *l, u32 v);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 extern u32 OS_GetConsoleType(void);
 extern int GF_OVERLAY_Load(const void *overlayId);
 extern void GF_OVERLAY_Unload(const void *overlayId);
@@ -237,7 +237,7 @@ int BTLV_CORE_CheckPartySlotPair(void *party, int slot)
     int typeId;
     u16 level;
 
-    entry = func_021C7CF4(party, slot);
+    entry = BTL_SERVER_FLOW_GetPokeParam(party, slot);
     typeId = BTL_POKEPARAM_GetSpecies(entry);
     level = (int)BTL_POKEPARAM_GetItem(entry);
     if (func_021E8638(typeId, level) != 0)
@@ -255,8 +255,8 @@ int BTLV_CORE_CheckPartySlotCondition(void *party, int slot)
 {
     int result;
 
-    if (func_021C8168(party) == 0) {
-        result = func_021B8DDC(slot);
+    if (BTL_SERVER_FLOW_GetCompetitor(party) == 0) {
+        result = BTL_MAIN_PokeIdToClientIdThunk(slot);
         if (result == 1 || result == 1)
             return 1;
     }
@@ -275,8 +275,8 @@ int BTLV_CORE_CheckEitherSlotPair(void *party, int slotA, int slotB)
         return 1;
     if (BTLV_CORE_CheckPartySlotPair(party, slotB) != 0)
         return 1;
-    entryA = func_021C7CF4(party, slotA);
-    entryB = func_021C7CF4(party, slotB);
+    entryA = BTL_SERVER_FLOW_GetPokeParam(party, slotA);
+    entryB = BTL_SERVER_FLOW_GetPokeParam(party, slotB);
     typeId = BTL_POKEPARAM_GetSpecies(entryA);
     level = (int)BTL_POKEPARAM_GetItem(entryB);
     if (func_021E8638(typeId, level) != 0)
@@ -291,12 +291,12 @@ void BTLV_CORE_EventRedirectMove(int unusedArg0, void *eventCtx, int pokeId, int
     u16 moveId;
 
     attackerId = BTL_EVENT_GetVar(2);
-    if (func_021B9A24(attackerId, pokeId) == 0) {
+    if (BTL_MAIN_IsPokeSamePair(attackerId, pokeId) == 0) {
         moveId = BTL_EVENT_GetVar(0x12);
         if (WAZA_TOOL_GetCategory(moveId) == 0xb) {
             if (WAZA_TOOL_GetFlag(moveId, 4) != 0) {
                 if (BTL_EVENT_OverwriteVar(0x22, 0x19) != 0)
-                    func_021C8434(eventCtx, pokeId, attackerId);
+                    BTL_SERVER_FLOW_PushMoveQueueWithPos(eventCtx, pokeId, attackerId);
             }
         }
     }
@@ -312,13 +312,13 @@ void BTLV_CORE_EventCounterMove(int unusedArg0, void *eventCtx, int pokeId, int 
     flagBit = 4;
     if (pokeId == BTL_EVENT_GetVar(4)) {
         if (BTL_EVENT_GetVar(0x4e) == 0) {
-            if (BTL_POKEPARAM_IsSemiInvulnerable(func_021C7CF4(eventCtx, pokeId)) == 0) {
+            if (BTL_POKEPARAM_IsSemiInvulnerable(BTL_SERVER_FLOW_GetPokeParam(eventCtx, pokeId)) == 0) {
                 moveId = BTL_EVENT_GetVar(0x12);
                 if (WAZA_TOOL_GetFlag(moveId, flagBit) != 0) {
                     flagBit = 1;
                     if (BTL_EVENT_OverwriteVar(0x40, 1) != 0) {
                         defenderId = BTL_EVENT_GetVar(3);
-                        func_021C8434(eventCtx, pokeId, defenderId);
+                        BTL_SERVER_FLOW_PushMoveQueueWithPos(eventCtx, pokeId, defenderId);
                         BTL_EVENT_OverwriteVar(0x51, flagBit);
                     }
                 }
@@ -335,12 +335,12 @@ void BTLV_CORE_EventQueueMoveNotice(int unusedArg0, void *eventCtx, int pokeId, 
 
     listKind = 2;
     if (pokeId == BTL_EVENT_GetVar(2)) {
-        if (BTL_POKEPARAM_IsSemiInvulnerable(func_021C7CF4(eventCtx, pokeId)) == 0) {
-            rec = func_021C88A4(eventCtx, 4, pokeId);
-            func_021C8838(rec->list, listKind, 0x2fc);
-            func_021C8860(rec->list, pokeId);
-            func_021C8860(rec->list, BTL_EVENT_GetVar(0x12));
-            func_021C88C8(eventCtx, rec);
+        if (BTL_POKEPARAM_IsSemiInvulnerable(BTL_SERVER_FLOW_GetPokeParam(eventCtx, pokeId)) == 0) {
+            rec = BTL_SERVER_FLOW_AllocCmdRecord(eventCtx, 4, pokeId);
+            BTL_SERVER_FLOW_InitMsgRecord(rec->list, listKind, 0x2fc);
+            BTL_SERVER_FLOW_AppendMsgRecordArg(rec->list, pokeId);
+            BTL_SERVER_FLOW_AppendMsgRecordArg(rec->list, BTL_EVENT_GetVar(0x12));
+            BTL_SERVER_FLOW_CommitCmdRecord(eventCtx, rec);
         }
     }
 }
@@ -355,14 +355,14 @@ void BTLV_CORE_EventScaleDamage(int factor)
 
 void BTLV_CORE_EventSetFlagIfAttacker(int unusedArg0, int unusedArg1, int pokeId, int unusedArg2)
 {
-    if (func_021B9A24((u8)BTL_EVENT_GetVar(2), pokeId) != 0)
+    if (BTL_MAIN_IsPokeSamePair((u8)BTL_EVENT_GetVar(2), pokeId) != 0)
         BTL_EVENT_OverwriteVar(0x51, 1);
 }
 
 
 int BTLV_CORE_EventTrySetFlagIfAttacker(int unusedArg0, int unusedArg1, int pokeId)
 {
-    if (func_021B9A24((u8)BTL_EVENT_GetVar(2), pokeId) != 0) {
+    if (BTL_MAIN_IsPokeSamePair((u8)BTL_EVENT_GetVar(2), pokeId) != 0) {
         if (BTL_EVENT_OverwriteVar(0x51, 1) != 0)
             return 1;
     }
@@ -433,7 +433,7 @@ int BTLV_CORE_MakeSlotKind2(u32 index, u32 value)
 
 
 /*
- * Recursive MATCH unblocker: named callee of the parked ov093 BTL_HANDLER_ITEM_DestinyKnot_Infatuate
+ * Recursive MATCH unblocker: named callee of the parked ov093 HAND_ITEM_DestinyKnot_Infatuate
  * (+0080, `BTLV_CORE_MakeSlotKind3(c)` stored at record +8).  Packs a 3-bit constant
  * (3) with the low six bits of the argument shifted left by three, as a
  * bitfield union read back as a word; the empty frame is the compiler's

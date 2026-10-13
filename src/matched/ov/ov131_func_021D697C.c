@@ -12,6 +12,9 @@
  *   P_STA_SUB_PrintWindows 0x021D6D18 thumb ov131
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  *   POKEPARTY_GetSlotFlag  0x0201ACC4  thumb  arm9
+ *   POKE_PERSONAL_Create  0x0201ADE4  thumb  arm9
+ *   POKE_PERSONAL_Delete  0x0201AE14  thumb  arm9
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb  arm9
  */
 #include "../include/Obj00436.h"
 typedef unsigned int   u32;
@@ -20,9 +23,9 @@ struct Personal;
 extern void *P_STATUS_GetPokePara(unsigned char *p);
 extern int POKEPARTY_GetSlotFlag(void *p, u32 pos);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern void *func_0201ADE4(u32,int,u32);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *);
+extern void *POKE_PERSONAL_Create(u32,int,u32);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void P_STA_SUB_PrintWindows(u8 *p, u8 *q, void *mon);
 void P_STA_SUB_InitWindows(unsigned char *p,int *q) {
@@ -33,10 +36,10 @@ void P_STA_SUB_InitWindows(unsigned char *p,int *q) {
  if(*(int *)&((struct Obj00436 *)p)->f38==0) {
  a=func_02017E88(m,5,0);
  b=func_02017E88(m,111,0);
- t=func_0201ADE4((unsigned short)a,(unsigned short)b,((struct Obj00436 *)p)->f0);
- if(func_0201AE1C(t,16)==1) q[4]=1; else q[4]=0;
- q[5]=func_0201AE1C(t,38);
- func_0201AE14(t);
+ t=POKE_PERSONAL_Create((unsigned short)a,(unsigned short)b,((struct Obj00436 *)p)->f0);
+ if(POKE_PERSONAL_GetParam(t,16)==1) q[4]=1; else q[4]=0;
+ q[5]=POKE_PERSONAL_GetParam(t,38);
+ POKE_PERSONAL_Delete(t);
  } else {q[4]=0;q[5]=0;}
  q[6]=(int)BMP_WIN_Create(1,19,0,13,4,14,1);
  q[7]=(int)BMP_WIN_Create(1,19,17,13,4,14,1);

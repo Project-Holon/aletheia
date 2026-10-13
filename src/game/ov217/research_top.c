@@ -51,10 +51,10 @@
  *   func_021C09AC  0x021C09AC  thumb  ov217
  *   func_021C09D0 0x021C09D0 thumb ov217
  *   CLACT_DrawSystem 0x0204A600 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_021C09B8 0x021C09B8 thumb ov217
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021C09E0  0x021C09E0  thumb  ov217
  *   func_021C09EC  0x021C09EC  thumb  ov217
  *   func_021C0E4C  0x021C0E4C  thumb  ov217
@@ -101,7 +101,7 @@
  *   d_021C2ED0  0x021C2ED0  data  a4
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   d_021C2EFC 0x021C2EFC data a4
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   func_021C29C8  0x021C29C8  thumb  ov217
@@ -113,7 +113,7 @@
  *   func_02005654  0x02005654  thumb
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
- *   func_0203630C 0x0203630C arm
+ *   KEY_GetCont 0x0203630C arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200E394 0x0200E394 thumb
  *   func_0200E44C 0x0200E44C thumb
@@ -127,8 +127,8 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_0204162C 0x0204162C arm
  *   func_02041648  0x02041648  arm
- *   func_0204B404 0x0204B404 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   d_021C309E 0x021C309E data a1
  *   d_021C3094 0x021C3094 data a1
  *   d_021C30D0 0x021C30D0 data a1
@@ -216,7 +216,7 @@
  *   func_021C08C4  0x021C08C4  thumb  ov217
  *   func_021C0918 0x021C0918 thumb ov217
  *   func_021C093C 0x021C093C thumb ov217
- *   func_02006238  0x02006238  thumb
+ *   GFL_USE_IsAnySeBusy  0x02006238  thumb
  *   func_021C1184  0x021C1184  thumb  ov217
  *   func_021C1154  0x021C1154  thumb  ov217
  *   func_021C1178 0x021C1178 thumb ov217
@@ -299,7 +299,7 @@
  *   func_0201ED04  0x0201ED04  thumb
  *   func_021C10C8 0x021C10C8 thumb ov217
  *   func_021C10D8 0x021C10D8 thumb ov217
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0200E47C 0x0200E47C thumb
  *   func_0200E4B0 0x0200E4B0 thumb
  *   func_0200E4F8 0x0200E4F8 thumb
@@ -722,10 +722,10 @@ extern void sub_020409B4(u32);
 extern u32 func_021C09AC(void *);
 extern void func_021C09D0(unsigned);
 extern void CLACT_DrawSystem();
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern void * func_021C09B8(void *);
-extern u32 func_020061E4(u32 a);
+extern u32 GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int FADE_IsActive(void);
 extern void func_021C09E0(u32 a0);
 extern void func_021C09EC(u32 a0);
@@ -738,9 +738,9 @@ extern void func_021C09C4(u8 *p, u32 v);
 extern u8 GAME_BEACON_PopQuestionnaireUpdated(void);
 extern void func_021C1038(u8 *p, u8 palette);
 extern void func_021C09D8(u8 *p, u32 i);
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern u32 CLACT_SetActorAnimFrame();
-extern void func_0204B92C(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern void func_021C29F8(u8 *p, u32 b, u16 c);
@@ -786,7 +786,7 @@ extern int func_02005654(int a, int b);
 extern void func_0200566C(void);
 extern int TOUCHPANEL_HitCont(const void *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *,u32 *);
-extern u32 func_0203630C(void);
+extern u32 KEY_GetCont(void);
 extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern void *func_0200E394(void *a0);
 extern int func_0200E44C(int p0, int p1);
@@ -796,7 +796,7 @@ extern int _s32_div_f(int, int);
 extern void func_02041B6C(u32 layer);
 extern u32 func_0204162C(int channel);
 extern u32 func_02041648(u8 channel);
-extern void func_0204B404(struct Obj *p,const struct Vec2 *delta,u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p,const struct Vec2 *delta,u32 which);
 extern void func_021C0FF8(u8 *p, int visible);
 extern void func_02041EE4(unsigned layer,unsigned mode,unsigned value);
 extern u32 func_02040804(u32 layer);
@@ -856,7 +856,7 @@ extern void func_021C08D4(char *p);
 extern void func_021C08C4(u32 a0);
 extern void func_021C0918(u8 *a0);
 extern int func_021C093C(u8 *a0);
-extern int func_02006238(void);
+extern int GFL_USE_IsAnySeBusy(void);
 extern void func_021C1184(u8 *h, u32 v);
 extern void func_021C1154(u8 *h);
 extern void func_021C1178(u8 *h);
@@ -927,7 +927,7 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern u32 func_0201ED04(struct WordSet *p);
 extern u32 func_021C10C8(u32 a0);
 extern u32 func_021C10D8(void *a0);
-extern void func_02082BCC(u32, u32, u32);
+extern void MI_CpuFill8(u32, u32, u32);
 extern u32 func_0200E47C(u8 *p, int i);
 extern u32 func_0200E4B0(u8 *a0, u32 a1, u32 a2);
 extern int func_0200E4F8(int a0, int a1, int a2);
@@ -2065,26 +2065,26 @@ void func_021B9B98(char *p)
  */
 void func_021B9C54(char *p)
 {
-    u32 keys=func_020362DC();
+    u32 keys=KEY_GetTrg();
     int choice=TOUCHPANEL_HitTrg(p+44);
     int other=TOUCHPANEL_HitTrg(func_021C09B8(((struct ResearchObjC *)p)->f0));
     if(func_021BA4D4(p)!=0 || other==0) {
-        func_021BA1C0((u8 *)p,1);func_021BA1CC(p,2);func_021BA31C((u8 *)p);func_020061E4(1361);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);return;
+        func_021BA1C0((u8 *)p,1);func_021BA1CC(p,2);func_021BA31C((u8 *)p);GFL_USE_PlaySeDefaultVolume(1361);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);return;
     }
     if(keys&2) {
-        func_021BA1C0((u8 *)p,0);func_021BA1CC(p,2);func_021BA31C((u8 *)p);func_020061E4(1361);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);return;
+        func_021BA1C0((u8 *)p,0);func_021BA1CC(p,2);func_021BA31C((u8 *)p);GFL_USE_PlaySeDefaultVolume(1361);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);return;
     }
     if((keys&64)||(keys&128)||(keys&32)||(keys&16)||(keys&1)) {
         func_021BA284(*(int *)&((struct ResearchObjC *)p)->f28);func_021BA3E8(p,0);func_021BA150(p);func_021BA144((u8 *)p,2);return;
     }
     if(choice==0) {
         if(func_021BA3B4((u32)p,0)!=0) {
-            func_021BA1C0((u8 *)p,1);func_021BA1CC(p,0);func_021BA254((u32)p,0);func_021BA284(*(int *)&((struct ResearchObjC *)p)->f28);func_021BA40C((u8 *)p,0);func_021BA3E8(p,2);func_020061E4(1356);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);
-        } else func_020061E4(1367);
+            func_021BA1C0((u8 *)p,1);func_021BA1CC(p,0);func_021BA254((u32)p,0);func_021BA284(*(int *)&((struct ResearchObjC *)p)->f28);func_021BA40C((u8 *)p,0);func_021BA3E8(p,2);GFL_USE_PlaySeDefaultVolume(1356);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);
+        } else GFL_USE_PlaySeDefaultVolume(1367);
     } else if(choice==1) {
         if(func_021BA3B4((u32)p,1)!=0) {
-            func_021BA1C0((u8 *)p,1);func_021BA1CC(p,1);func_021BA254((u32)p,1);func_021BA284(*(int *)&((struct ResearchObjC *)p)->f28);func_021BA40C((u8 *)p,0);func_021BA3E8(p,2);func_020061E4(1356);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);
-        } else func_020061E4(1367);
+            func_021BA1C0((u8 *)p,1);func_021BA1CC(p,1);func_021BA254((u32)p,1);func_021BA284(*(int *)&((struct ResearchObjC *)p)->f28);func_021BA40C((u8 *)p,0);func_021BA3E8(p,2);GFL_USE_PlaySeDefaultVolume(1356);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);
+        } else GFL_USE_PlaySeDefaultVolume(1367);
     }
 }
 
@@ -2097,16 +2097,16 @@ void func_021B9C54(char *p)
 
 void func_021B9E44(char *p)
 {
-    u32 keys=func_020362DC();
+    u32 keys=KEY_GetTrg();
     int choice=TOUCHPANEL_HitTrg(p+44);
     int other=TOUCHPANEL_HitTrg(func_021C09B8(((struct ResearchObjC *)p)->f0));
     if(func_021BA4D4(p)!=0 || other==0) {
-        func_021BA1C0((u8 *)p,1);func_021BA1CC(p,2);func_021BA31C((u8 *)p);func_020061E4(1361);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);return;
+        func_021BA1C0((u8 *)p,1);func_021BA1CC(p,2);func_021BA31C((u8 *)p);GFL_USE_PlaySeDefaultVolume(1361);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);return;
     }
     if(keys&64)func_021BA1F8((u32)p);
     if(keys&128)func_021BA228((u32)p);
     if(keys&1) {
-        func_021BA1C0((u8 *)p,0);func_021BA40C((u8 *)p,0);func_021BA3E8(p,2);func_020061E4(1356);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);
+        func_021BA1C0((u8 *)p,0);func_021BA40C((u8 *)p,0);func_021BA3E8(p,2);GFL_USE_PlaySeDefaultVolume(1356);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);
         switch(((struct ResearchObjC *)p)->f28) {
         case 0:func_021BA1CC(p,0);return;
         case 1:func_021BA1CC(p,1);return;
@@ -2115,14 +2115,14 @@ void func_021B9E44(char *p)
     }
     if(choice==0) {
         if(func_021BA3B4((u32)p,0)!=0) {
-            func_021BA1C0((u8 *)p,1);func_021BA254((u32)p,0);func_021BA40C((u8 *)p,0);func_021BA3E8(p,2);func_020061E4(1356);func_021BA1CC(p,0);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);
-        } else func_020061E4(1367);
+            func_021BA1C0((u8 *)p,1);func_021BA254((u32)p,0);func_021BA40C((u8 *)p,0);func_021BA3E8(p,2);GFL_USE_PlaySeDefaultVolume(1356);func_021BA1CC(p,0);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);
+        } else GFL_USE_PlaySeDefaultVolume(1367);
     } else if(choice==1) {
         if(func_021BA3B4((u32)p,1)!=0) {
-            func_021BA1C0((u8 *)p,1);func_021BA254((u32)p,1);func_021BA40C((u8 *)p,0);func_021BA3E8(p,2);func_020061E4(1356);func_021BA1CC(p,1);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);
-        } else func_020061E4(1367);
+            func_021BA1C0((u8 *)p,1);func_021BA254((u32)p,1);func_021BA40C((u8 *)p,0);func_021BA3E8(p,2);GFL_USE_PlaySeDefaultVolume(1356);func_021BA1CC(p,1);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);
+        } else GFL_USE_PlaySeDefaultVolume(1367);
     } else if(keys&2) {
-        func_021BA31C((u8 *)p);func_020061E4(1361);func_021BA1CC(p,2);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);
+        func_021BA31C((u8 *)p);GFL_USE_PlaySeDefaultVolume(1361);func_021BA1CC(p,2);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);
     }
 }
 
@@ -2355,7 +2355,7 @@ void func_021BA1F8(u32 a0)
     func_021BA2BC(((struct ResearchObjC *)a0)->f28);
     func_021BA388((char *)a0, -1);
     func_021BA284(((struct ResearchObjC *)a0)->f28);
-    func_020061E4(1352);
+    GFL_USE_PlaySeDefaultVolume(1352);
     func_021BA3E8((char *)a0, 1);
 }
 
@@ -2369,7 +2369,7 @@ void func_021BA228(u32 a0)
     func_021BA2BC(((struct ResearchObjC *)a0)->f28);
     func_021BA388((char *)a0, 1);
     func_021BA284(((struct ResearchObjC *)a0)->f28);
-    func_020061E4(1352);
+    GFL_USE_PlaySeDefaultVolume(1352);
     func_021BA3E8((char *)a0, 1);
 }
 
@@ -2383,7 +2383,7 @@ void func_021BA254(u32 a0, u32 a1)
     func_021BA2BC(((struct ResearchObjC *)a0)->f28);
     func_021BA3B0((void *)a0, a1);
     func_021BA284(((struct ResearchObjC *)a0)->f28);
-    func_020061E4(1352);
+    GFL_USE_PlaySeDefaultVolume(1352);
     func_021BA3E8((char *)a0, 1);
 }
 
@@ -2463,8 +2463,8 @@ void func_021BA31C(u8 *a0)
 u32 func_021BA328(u32 a0)
 {
     u32 v1 = func_021BA3E0((void *)a0, 0);
-    func_0204B3DC((struct Obj *)v1, 1);
-    func_0204B92C((struct Obj *)v1, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)v1, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)v1, 1);
     CLACT_SetActorAutoAnimSpeed((struct Actor *)v1, 4096);
     return CLACT_SetActorAnimFrame(v1, 0);
 }
@@ -3267,7 +3267,7 @@ void func_021BAA48(char *p)
     third=func_021BA3D0(p,d_021C2EFC.third);
     fourth=func_021BA3D0(p,d_021C2EFC.fourth);
     *(unsigned *)&((struct ResearchObjC *)p)->f7C=(unsigned)CLACT_CreateActor((void *)first,second,third,fourth,&vec,d_021C2EFC.arg,((struct ResearchObjC *)p)->f4);
-    func_0204B3DC(*(struct Obj * *)&((struct ResearchObjC *)p)->f7C,0);
+    CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct ResearchObjC *)p)->f7C,0);
 }
 
 
@@ -3567,14 +3567,14 @@ void func_021BACA0(u8 *p)
 /* Narrow selection parameters follow the caller's explicit lsls/lsrs #24 pairs. */
 void func_021BAE00(u8 *p)
 {
-    u32 keys=func_020362DC();
+    u32 keys=KEY_GetTrg();
     int sel=TOUCHPANEL_HitTrg(p+0x64);
     int flag;
     u32 a,b;
     flag=TOUCHPANEL_HitTrg(func_021C09B8(*(void **)p));
     TOUCHPANEL_GetPointCont(&a,&b);
     if(func_021BC6D0(p)!=0 || flag==0) {
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021BBAD0((u32)p);
         func_021BB934(p,1);
         func_021BB91C(p);
@@ -3582,7 +3582,7 @@ void func_021BAE00(u8 *p)
         return;
     }
     if(keys&2) {
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021BBAD0((u32)p);
         func_021BB934(p,0);
         func_021BB91C(p);
@@ -3601,7 +3601,7 @@ void func_021BAE00(u8 *p)
             if(func_021BC6F4((u32)p,(u8)sel)==1) {
                 func_021BBAA4((u32)p,sel);
                 func_021BC6EC(p,p[0x32]);
-                func_020061E4(0x54c);
+                GFL_USE_PlaySeDefaultVolume(0x54c);
                 func_021BC580((char *)p,2);
                 func_021BC06C((char *)p);
                 func_021BC128((u32)p);
@@ -3629,8 +3629,8 @@ void func_021BAE00(u8 *p)
 
 void func_021BAF70(char *p)
 {
-    u32 trg = func_0203630C();
-    u32 keys = func_020362DC();
+    u32 trg = KEY_GetCont();
+    u32 keys = KEY_GetTrg();
     int sel = TOUCHPANEL_HitTrg(p + 0x64);
     int flag;
     u32 a;
@@ -3643,7 +3643,7 @@ void func_021BAF70(char *p)
         func_021BC608(p);
     }
     if (func_021BC6D0(p) != 0 || flag == 0) {
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021BBAD0((u32)p);
         func_021BB934((u8 *)p, (int)1);
         func_021BB91C(p);
@@ -3669,7 +3669,7 @@ void func_021BAF70(char *p)
     if (keys & 1) {
         func_021BC580(p, 2);
         func_021BC6EC(p, ((struct ResearchTop *)p)->f32);
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         func_021BB910((u8 *)p, (int)9);
         func_021BB91C(p);
         return;
@@ -3679,7 +3679,7 @@ void func_021BAF70(char *p)
             func_021BBAA4((u32)p, (u8)sel);
             func_021BC6EC(p, ((struct ResearchTop *)p)->f32);
             func_021BC580(p, 2);
-            func_020061E4(0x54c);
+            GFL_USE_PlaySeDefaultVolume(0x54c);
             func_021BC06C(p);
             func_021BB91C(p);
             func_021BB910((u8 *)p, (int)7);
@@ -3687,7 +3687,7 @@ void func_021BAF70(char *p)
         return;
     }
     if (keys & 2) {
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021BBAD0((u32)p);
         func_021BB934((u8 *)p, (int)0);
         func_021BB91C(p);
@@ -3788,7 +3788,7 @@ void func_021BB200(struct ResearchTop *p)
 
 void func_021BB2B4(char *p)
 {
-    u32 keys = func_020362DC();
+    u32 keys = KEY_GetTrg();
     int st = TOUCHPANEL_HitTrg(p + 0x58);
     if ((keys & 0x40) || (keys & 0x80) || (keys & 0x20) || (keys & 0x10) || (keys & 1)) {
         func_021BB91C(p);
@@ -3808,7 +3808,7 @@ void func_021BB2B4(char *p)
         func_021BBA00((u32)p, 1);
         func_021BC5A8((u8 *)p, 3);
         func_021BC580(p, 5);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021BB91C(p);
         func_021BB910((unsigned char *)p, 11);
         func_021BB910((unsigned char *)p, 2);
@@ -3822,7 +3822,7 @@ void func_021BB2B4(char *p)
 
 void func_021BB37C(char *p)
 {
-    u32 keys = func_020362DC();
+    u32 keys = KEY_GetTrg();
     int st = TOUCHPANEL_HitTrg(p + 0x58);
     if (keys & 0x40) {
         func_021BB9A0((u32)p);
@@ -3840,7 +3840,7 @@ void func_021BB37C(char *p)
             func_021BB910((unsigned char *)p, 12);
             break;
         case 1:
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             func_021BB91C(p);
             func_021BB910((unsigned char *)p, 11);
             func_021BB910((unsigned char *)p, 2);
@@ -3861,7 +3861,7 @@ void func_021BB37C(char *p)
         func_021BBA00((u32)p, 1);
         func_021BC5A8((u8 *)p, 3);
         func_021BC580(p, 5);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021BB91C(p);
         func_021BB910((unsigned char *)p, 11);
         func_021BB910((unsigned char *)p, 2);
@@ -3956,7 +3956,7 @@ void func_021BB5F4(u8 *p)
         func_021BBDF0((unsigned int)p, func_021BC6E4(p));
         func_021BC014(p);
         func_021BC72C(p, 3, (u8 *)1);
-        func_020061E4(1898);
+        GFL_USE_PlaySeDefaultVolume(1898);
         func_021BB990(p);
         break;
     case 1:
@@ -4286,7 +4286,7 @@ void func_021BB9A0(u32 a0)
     func_021BBD28(a0, ((struct ResearchTop *)a0)->f2C);
     func_021BBCFC((void *)a0, -1);
     func_021BBD18(a0, ((struct ResearchTop *)a0)->f2C);
-    func_020061E4(1352);
+    GFL_USE_PlaySeDefaultVolume(1352);
     func_021BC580((char *)a0, 4);
 }
 
@@ -4297,7 +4297,7 @@ void func_021BB9D0(u32 a0)
     func_021BBD28(a0, ((struct ResearchTop *)a0)->f2C);
     func_021BBCFC((void *)a0, 1);
     func_021BBD18(a0, ((struct ResearchTop *)a0)->f2C);
-    func_020061E4(1352);
+    GFL_USE_PlaySeDefaultVolume(1352);
     func_021BC580((char *)a0, 4);
 }
 
@@ -4308,7 +4308,7 @@ void func_021BBA00(u32 a0, u32 a1)
     func_021BBD28(a0, ((struct ResearchTop *)a0)->f2C);
     func_021BBD14((void *)a0, a1);
     func_021BBD18(a0, ((struct ResearchTop *)a0)->f2C);
-    func_020061E4(1352);
+    GFL_USE_PlaySeDefaultVolume(1352);
     func_021BC580((char *)a0, 4);
 }
 
@@ -4344,7 +4344,7 @@ void func_021BBAA4(u32 a0, u8 a1)
     func_021BBDAC((u8 *)a0);
     func_021BBD38((void *)a0, a1);
     func_021BBD68((u8 *)a0);
-    func_020061E4(1352);
+    GFL_USE_PlaySeDefaultVolume(1352);
     func_021BC580((char *)a0, 1);
 }
 
@@ -4822,14 +4822,14 @@ void func_021BC014(u8 *p)
     index=func_021BBC50(p);
     obj=(struct Obj *)func_021BC720(p,2);
     if(index==255) {
-        func_0204B3DC(obj,0);
+        CLACT_SetActorDrawEnable(obj,0);
         return;
     }
     point.x=func_021BBF28(p,(u8)index);
     point.y=func_021BBF3C(p,index)+10;
-    func_0204B404(obj,&point,0);
-    func_0204B92C(obj,1);
-    func_0204B3DC(obj,1);
+    CLACT_AddActorSurfacePos(obj,&point,0);
+    CLACT_SetActorAutoAnim(obj,1);
+    CLACT_SetActorDrawEnable(obj,1);
 }
 
 
@@ -4939,13 +4939,13 @@ void func_021BC168(u32 a0)
     u8 s[4];
     u32 v1 = func_021BC720((void *)a0, 0);
     if (func_021BC428((void *)a0) == 0) {
-    func_0204B3DC((struct Obj *)v1, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)v1, 0);
     return;
     }
     ((struct Obj00801 *)((u8*)s))->f0 = 248;
     *(u16 *)&((struct Obj00801 *)(((u8*)s)))->f2 = func_021BC1AC((void *)a0);
-    func_0204B404((struct Obj *)v1, (const struct Vec2 *)s, 0);
-    func_0204B3DC((struct Obj *)v1, 1);
+    CLACT_AddActorSurfacePos((struct Obj *)v1, (const struct Vec2 *)s, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)v1, 1);
 }
 
 
@@ -7114,7 +7114,7 @@ void func_021BCFD0(u8 *p)
         d=func_021BC708(p,q->f);
         dest=p+i*4;
         ((struct Obj14733 *)dest)->f120=(u32)CLACT_CreateActor((void *)a,b,c,d,&arg,q->g,((struct ResearchTop *)p)->f8);
-        func_0204B3DC((struct Obj *)((struct Obj14733 *)dest)->f120,0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj14733 *)dest)->f120,0);
     }
 }
 
@@ -7626,8 +7626,8 @@ void func_021BD588(void *p)
     Pos pos;
     pos.x = 0x80;
     pos.y = 0x60;
-    func_0204B404((struct Obj *)obj, (const struct Vec2 *)(&pos), 0);
-    func_0204B3DC((struct Obj *)obj, 1);
+    CLACT_AddActorSurfacePos((struct Obj *)obj, (const struct Vec2 *)(&pos), 0);
+    CLACT_SetActorDrawEnable((struct Obj *)obj, 1);
 }
 
 
@@ -7996,8 +7996,8 @@ void func_021BD89C(u8 *p)
     int hit;
     int sub;
 
-    func_0203630C();
-    keys = func_020362DC();
+    KEY_GetCont();
+    keys = KEY_GetTrg();
     hit = TOUCHPANEL_HitTrg(p + 0x2FE);
     sub = TOUCHPANEL_HitTrg(func_021C09B8(((struct ResearchObjB *)p)->f0));
     if (*(int *)&((struct ResearchObjB *)p)->f3C8 != 0 && ((struct ResearchObjB *)p)->f3D8 != 0 && *(int *)&((struct ResearchObjB *)p)->f3D4 != 0) {
@@ -8012,7 +8012,7 @@ void func_021BD89C(u8 *p)
     if (func_021BF758(p) != 0 || sub == 0) {
         func_021BE454(p, 1);
         func_021BEC00((u32 *)p);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021BE448(p);
         func_021BE498(p, 11);
         func_021BE498(p, 10);
@@ -8046,7 +8046,7 @@ void func_021BD89C(u8 *p)
             func_021BE498(p, 5);
             func_021BE498(p, 2);
         } else {
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
         }
     } else if (hit == 2) {
         if (*(int *)&((struct ResearchObjB *)p)->f3C8 == 0 && func_021BF810(p) != 0) {
@@ -8102,7 +8102,7 @@ void func_021BD89C(u8 *p)
     } else if (keys & 2) {
         func_021BE454(p, 0);
         func_021BEC00((u32 *)p);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021BE448(p);
         func_021BE498(p, 11);
         func_021BE498(p, 10);
@@ -8133,8 +8133,8 @@ void func_021BDC18(u8 *p)
     int hit;
     int sub;
 
-    func_0203630C();
-    keys = func_020362DC();
+    KEY_GetCont();
+    keys = KEY_GetTrg();
     hit = TOUCHPANEL_HitTrg(p + 0x2FE);
     sub = TOUCHPANEL_HitTrg(func_021C09B8(((struct ResearchObjB *)p)->f0));
     if (*(int *)&((struct ResearchObjB *)p)->f3C8 != 0 && ((struct ResearchObjB *)p)->f3D8 != 0 && *(int *)&((struct ResearchObjB *)p)->f3D4 != 0) {
@@ -8149,7 +8149,7 @@ void func_021BDC18(u8 *p)
     if (func_021BF758(p) != 0 || sub == 0) {
         func_021BE454(p, 1);
         func_021BEC00((u32 *)p);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021BE448(p);
         func_021BE498(p, 11);
         func_021BE498(p, 10);
@@ -8180,7 +8180,7 @@ void func_021BDC18(u8 *p)
             func_021BE498(p, 5);
             func_021BE498(p, 2);
         } else {
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
         }
     } else if (hit == 2) {
         if (*(int *)&((struct ResearchObjB *)p)->f3C8 == 0 && func_021BF810(p) != 0) {
@@ -8226,7 +8226,7 @@ void func_021BDC18(u8 *p)
     } else if (keys & 2) {
         func_021BE454(p, 0);
         func_021BEC00((u32 *)p);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021BE448(p);
         func_021BE498(p, 11);
         func_021BE498(p, 10);
@@ -8265,11 +8265,11 @@ void func_021BDF58(u8 *p)
         func_021BE4E0(p);
         break;
     case 1:
-        if (func_02006238() == 0) {
+        if (GFL_USE_IsAnySeBusy() == 0) {
             if (((struct ResearchObjB *)p)->f28 >= 0x78)
                 func_021BE4E0(p);
             else
-                func_020061E4(0x76B);
+                GFL_USE_PlaySeDefaultVolume(0x76B);
         }
         break;
     case 2:
@@ -8288,7 +8288,7 @@ void func_021BDF58(u8 *p)
         func_021BF47C((char *)p);
         if (((struct ResearchObjB *)p)->f3CC == 0)
             func_021BE934((char *)p);
-        func_020061E4(0x76C);
+        GFL_USE_PlaySeDefaultVolume(0x76C);
         func_021BE448(p);
         break;
     }
@@ -8437,12 +8437,12 @@ void func_021BE108(char *p)
         func_021BE4E0(p);
         break;
     case 1:
-        if (func_02006238() == 0) {
+        if (GFL_USE_IsAnySeBusy() == 0) {
             if (((struct ResearchObjB *)p)->f28 >= 0x3c) {
                 func_021BE4E0(p);
                 return;
             }
-            func_020061E4(0x76b);
+            GFL_USE_PlaySeDefaultVolume(0x76b);
         }
         break;
     case 2:
@@ -8458,7 +8458,7 @@ void func_021BE108(char *p)
         func_021BF3D8(p);
         func_021BF4AC(p);
         func_021BF47C(p);
-        func_020061E4(0x76c);
+        GFL_USE_PlaySeDefaultVolume(0x76c);
         func_021BE448(p);
         break;
     }
@@ -8504,12 +8504,12 @@ void func_021BE21C(char *p)
         func_021BE4E0(p);
         break;
     case 1:
-        if (func_02006238() == 0) {
+        if (GFL_USE_IsAnySeBusy() == 0) {
             if (((struct ResearchObjB *)p)->f28 >= 0x3c) {
                 func_021BE4E0(p);
                 return;
             }
-            func_020061E4(0x76b);
+            GFL_USE_PlaySeDefaultVolume(0x76b);
         }
         break;
     case 2:
@@ -8526,7 +8526,7 @@ void func_021BE21C(char *p)
         func_021BF3D8(p);
         func_021BF4AC(p);
         func_021BF47C(p);
-        func_020061E4(0x76c);
+        GFL_USE_PlaySeDefaultVolume(0x76c);
         func_021BE448(p);
         break;
     }
@@ -8965,7 +8965,7 @@ void func_021BE4E8(u8 *p)
     func_021BF4AC((char *)p);
     func_021BF594((char *)p,1);
     if (((struct ResearchObjB *)p)->f34==4) func_021BEBA4((u32)p);
-    func_020061E4(1352);
+    GFL_USE_PlaySeDefaultVolume(1352);
     func_021BEFF8(p);
 }
 
@@ -9003,7 +9003,7 @@ void func_021BE580(u8 *p)
     func_021BF4AC((char *)p);
     func_021BF594((char *)p,1);
     if (((struct ResearchObjB *)p)->f34==4) func_021BEBA4((u32)p);
-    func_020061E4(1352);
+    GFL_USE_PlaySeDefaultVolume(1352);
     func_021BEFF8(p);
 }
 
@@ -9022,7 +9022,7 @@ u32 func_021BE614(u32 a0, u32 a1)
 {
     func_021BE630((u8 *)a0, a1);
     func_021BF594((char *)a0, 1);
-    return func_020061E4(1352);
+    return GFL_USE_PlaySeDefaultVolume(1352);
 }
 
 
@@ -9094,7 +9094,7 @@ void func_021BE678(char *p)
     func_021BEF98(p);
     func_021BF47C(p);
     func_021BEAF8((u8 *)p);
-    func_020061E4(1352);
+    GFL_USE_PlaySeDefaultVolume(1352);
 }
 
 
@@ -9134,7 +9134,7 @@ void func_021BE704(char *p)
     func_021BEF98(p);
     func_021BF47C(p);
     func_021BEAF8((u8 *)p);
-    func_020061E4(1352);
+    GFL_USE_PlaySeDefaultVolume(1352);
 }
 
 
@@ -9150,7 +9150,7 @@ u32 func_021BE790(u32 a0)
     func_021BEA8C((u8 *)a0, 1);
     func_021BF15C((char *)a0);
     func_021BEEA4((char *)a0);
-    return func_020061E4(1352);
+    return GFL_USE_PlaySeDefaultVolume(1352);
 }
 
 
@@ -9165,7 +9165,7 @@ u32 func_021BE7B4(u32 a0)
     func_021BEA8C((u8 *)a0, -1);
     func_021BF15C((char *)a0);
     func_021BEEA4((char *)a0);
-    return func_020061E4(1352);
+    return GFL_USE_PlaySeDefaultVolume(1352);
 }
 
 
@@ -9247,7 +9247,7 @@ void func_021BE808(char *p)
         func_021C1160(func_021BF76C(p));
         func_021C1184(func_021BF76C(p), 1);
     }
-    func_020061E4(0x548);
+    GFL_USE_PlaySeDefaultVolume(0x548);
 }
 
 
@@ -9986,20 +9986,20 @@ void func_021BF3D8(char *p)
     a=(struct Obj *)func_021BFA08(p,0);
     b=(struct Obj *)func_021BFA08(p,1);
     if (((struct ResearchObjB *)p)->f3D0==1 || ((struct ResearchObjB *)p)->f34==2 || ((struct ResearchObjB *)p)->f34==4) {
-        func_0204B3DC(a,0);
-        func_0204B3DC(b,0);
+        CLACT_SetActorDrawEnable(a,0);
+        CLACT_SetActorDrawEnable(b,0);
         return;
     }
     pos.x=row->fields[0]+row->fields[4];
     pos.y=row->fields[1]+row->fields[5];
-    func_0204B404(a,&pos,0);
+    CLACT_AddActorSurfacePos(a,&pos,0);
     pos.x=row->fields[0]+row->fields[6];
     pos.y=row->fields[1]+row->fields[7];
-    func_0204B404(b,&pos,0);
-    func_0204B3DC(a,1);
-    func_0204B3DC(b,1);
-    func_0204B92C(a,1);
-    func_0204B92C(b,1);
+    CLACT_AddActorSurfacePos(b,&pos,0);
+    CLACT_SetActorDrawEnable(a,1);
+    CLACT_SetActorDrawEnable(b,1);
+    CLACT_SetActorAutoAnim(a,1);
+    CLACT_SetActorAutoAnim(b,1);
 }
 
 
@@ -10008,9 +10008,9 @@ void func_021BF3D8(char *p)
 void func_021BF47C(char *p)
 {
     if (((struct ResearchObjB *)p)->f3C8 == 0 || func_021BF810(p) == 0) {
-        func_0204B3DC((struct Obj *)((struct ResearchObjB *)p)->f39C, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct ResearchObjB *)p)->f39C, 0);
     } else {
-        func_0204B3DC((struct Obj *)((struct ResearchObjB *)p)->f39C, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct ResearchObjB *)p)->f39C, 1);
     }
 }
 
@@ -10026,18 +10026,18 @@ void func_021BF4AC(char *p)
     const u16 *table;
     obj=*(struct Obj * *)&((struct ResearchObjB *)p)->f3A0;
     table=d_021C3850;
-    if (((struct ResearchObjB *)p)->f3C8==0) { func_0204B3DC(obj,0); return; }
-    if (((struct ResearchObjB *)p)->f34!=2) { func_0204B3DC(obj,0); return; }
+    if (((struct ResearchObjB *)p)->f3C8==0) { CLACT_SetActorDrawEnable(obj,0); return; }
+    if (((struct ResearchObjB *)p)->f34!=2) { CLACT_SetActorDrawEnable(obj,0); return; }
     index=func_021BF910((u8 *)p);
-    if (func_021C11DC(func_021BF76C(p),index)==0) { func_0204B3DC(obj,0); return; }
-    if (index==0) { func_0204B3DC(obj,0); return; }
+    if (func_021C11DC(func_021BF76C(p),index)==0) { CLACT_SetActorDrawEnable(obj,0); return; }
+    if (index==0) { CLACT_SetActorDrawEnable(obj,0); return; }
     func_021C11FC(func_021BF76C(p),index,&x,&y);
 
     pos.x=x;
     pos.y=y;
-    func_0204B404(obj,&pos,table[12]);
-    func_0204B3DC(obj,1);
-    func_0204B92C(obj,1);
+    CLACT_AddActorSurfacePos(obj,&pos,table[12]);
+    CLACT_SetActorDrawEnable(obj,1);
+    CLACT_SetActorAutoAnim(obj,1);
     CLACT_SetActorAnimLoopCount((struct Actor *)obj,2);
 }
 
@@ -10830,13 +10830,13 @@ void func_021BFC28(char *p)
 
 
 /*
- * Tail-call veneer: forwards arg(s) (u32)(a0 + 56), 0, 640 to func_02082BCC.
+ * Tail-call veneer: forwards arg(s) (u32)(a0 + 56), 0, 640 to MI_CpuFill8.
  *
  * Addresses are Black-image addresses.
  */
 void func_021BFC50(u8 *a0)
 {
-    func_02082BCC((u32)(a0 + 56), 0, 640);
+    MI_CpuFill8((u32)(a0 + 56), 0, 640);
 }
 
 

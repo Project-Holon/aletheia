@@ -30,8 +30,8 @@
  *   CLACT_CreateAffineActor  0x0204B324  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
- *   func_0204B92C  0x0204B92C  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_ApplyActorAnimCommand  0x0204BA00  arm
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm  arm9
  *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
@@ -144,8 +144,8 @@ extern u32 func_020307B0(void *p);
 extern struct Obj *CLACT_CreateAffineActor(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
 extern void CLACT_DeleteActor(struct Obj *p);
 W *func_02209A7C(void *a0, u32 b, u16 heap);
@@ -209,8 +209,8 @@ int func_02209B60(P_02209B60 *p, u16 a, u16 b, u32 c, u32 e, u32 f)
     p->h = CLACT_CreateAffineActor(p->f0, p->fc, p->f10, p->f14, (u32)(&cfg), 1, p->f2c);
     CLACT_SetActorAnimSeq(p->h, 0);
     CLACT_SetActorAnimFrame(p->h, 0);
-    func_0204B92C(p->h, 1);
-    func_0204B3DC(p->h, 1);
+    CLACT_SetActorAutoAnim(p->h, 1);
+    CLACT_SetActorDrawEnable(p->h, 1);
     if (c != 0)
         p->f1c = c;
     else
@@ -282,7 +282,7 @@ void func_02209C30(P_02209C30 *p)
         CLACT_ApplyActorAnimCommand(p->h, (const struct Cmd *)(&m1));
         return;
     case 2:
-        func_0204B3DC(p->h, 0);
+        CLACT_SetActorDrawEnable(p->h, 0);
         p->f28 = 0;
         p->f18++;
         break;

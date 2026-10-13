@@ -18,7 +18,7 @@
  *   func_02082D44 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   func_02019D30 0x02019D30 thumb
- *   func_0201BB5C 0x0201BB5C thumb
+ *   POKE_TOOL_CalcIconPalette 0x0201BB5C thumb
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  */
 #include "../include/Obj03268.h"
@@ -41,7 +41,7 @@ extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern void func_02082D44(const void *, void *, u32);
 extern u32 func_020307B0(void *p);
 extern u32 func_02019D30(u32 a, u32 n);
-extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
+extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 void func_021D6AB8(u8 *p)
 {
@@ -76,7 +76,7 @@ void func_021D6AB8(u8 *p)
         if (species) {
             gender = ((struct Obj *)p)->records[n].f;
             form = (int)func_02019D30((u16)species,(u8)(((struct Obj *)p)->records[n].e));
-            value = func_0201BB5C(species,form,gender,0);
+            value = POKE_TOOL_CalcIconPalette(species,form,gender,0);
             id = POKE_TOOL_CalcGraphicIndex(species,form,gender,0);
             buf2 = ARC_TOOL_LoadHandleMember(h2,id,((struct Obj03268 *)p)->f43C4);
             func_02062A4C(buf2,(void **)(&out2));

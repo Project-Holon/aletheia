@@ -1,6 +1,6 @@
 /*
  * file:     unit_068982AC.c
- * function: DWCi_IsShutdownMatch
+ * function: BTL_EVENT_IsFactorKeyRegistered
  * address:  0x068982AC
  * packet:   pkt_ov095_068982AC
  * region:   ov095
@@ -10,17 +10,17 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * sdk:      DWCi_IsShutdownMatch (libdwcmatch.TWL.HYB.thumb.a(dwc_match.o))
+ * sdk:      BTL_EVENT_IsFactorKeyRegistered (libdwcmatch.TWL.HYB.thumb.a(dwc_match.o))
  *
  * symbols:
- *   DWCi_GetMatchCnt  0x068982C0  thumb  ov095
+ *   func_068982C0  0x068982C0  thumb  ov095
  */
 
-extern void *DWCi_GetMatchCnt(void);
+extern int func_068982C0(int a, int b);
 
-int DWCi_IsShutdownMatch(void)
+int BTL_EVENT_IsFactorKeyRegistered(int a, int b)
 {
-    if (DWCi_GetMatchCnt() == 0)
+    if (func_068982C0(a, b) == 0)
         return 1;
     return 0;
 }

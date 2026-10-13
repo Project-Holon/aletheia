@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_020414EC 0x020414EC arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj00002.h"
 
@@ -18,5 +18,5 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Obj;
 extern void func_020414EC(u32 i);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-void ITEMMENU_HideQuantityWindows(u8 *p) { func_020414EC(3); func_0204B3DC(((struct Obj00002 *)p)->f724,0); func_0204B3DC(((struct Obj00002 *)p)->f728,0); }
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+void ITEMMENU_HideQuantityWindows(u8 *p) { func_020414EC(3); CLACT_SetActorDrawEnable(((struct Obj00002 *)p)->f724,0); CLACT_SetActorDrawEnable(((struct Obj00002 *)p)->f728,0); }

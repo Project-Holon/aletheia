@@ -1,5 +1,5 @@
 /*
- * function: func_021C9A60
+ * function: BTL_SERVER_FLOW_ExecCmdChangeAbility
  * address: 0x021C9A60
  * packet: pkt_ov093_021C9A60
  * region: ov093
@@ -8,19 +8,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B9934 0x021B9934 thumb ov093
+ *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
  *   func_021C9BA8 0x021C9BA8 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
- *   func_021C99A0 0x021C99A0 thumb ov093
- *   func_021CC8D8 0x021CC8D8 thumb ov093
- *   func_021CC95C 0x021CC95C thumb ov093
- *   func_021C7B3C 0x021C7B3C thumb ov093
- *   func_021C7B7C 0x021C7B7C thumb ov093
- *   BTL_CALC_RemoveAbilityHandlers 0x021D8510 thumb ov093
+ *   BTL_SERVER_FLOW_PushMsgRecord 0x021C99A0 thumb ov093
+ *   BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
+ *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
+ *   BTL_SERVER_FLOW_NotifyAbilityChangeEvent 0x021C7B3C thumb ov093
+ *   BTL_SERVER_FLOW_NotifyAbilityChangedEvent 0x021C7B7C thumb ov093
+ *   HAND_TOKUSEI_RemoveAbilityHandlers 0x021D8510 thumb ov093
  *   BTL_POKEPARAM_SetAbility 0x021D66D0 thumb ov093
- *   BTL_CALC_AddAbilityHandlers 0x021D8484 thumb ov093
+ *   HAND_TOKUSEI_AddAbilityHandlers 0x021D8484 thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_SERVER_FLOW_ProcDamagedItemReaction 0x021C195C thumb ov093
  *   BTL_SERVER_FLOW_RecheckOpponentAbilityEffects 0x021C3FDC thumb ov093
@@ -30,54 +30,54 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 low:8,index:5,pad:10,flag:1,high:8; u16 value; u8 id,a; u8 pad8[4]; u8 msg[36]; } Ent;
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021C9BA8(u16);
 extern int BTL_POKEPARAM_IsFainted(void *);
 extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 struct Msg;
 struct Unk021D62A8;
-extern int func_021C99A0(void *w, const struct Msg *m);
-extern u32 func_021CC8D8(void *, int);
-extern void func_021CC95C(u32 *p, u32 v, int line);
-extern void func_021C7B3C(u8 *p, u32 a, u16 b, u16 c);
-extern void func_021C7B7C(u8 *p, unsigned int i);
-extern void BTL_CALC_RemoveAbilityHandlers(void *p);
+extern int BTL_SERVER_FLOW_PushMsgRecord(void *w, const struct Msg *m);
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *, int);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
+extern void BTL_SERVER_FLOW_NotifyAbilityChangeEvent(u8 *p, u32 a, u16 b, u16 c);
+extern void BTL_SERVER_FLOW_NotifyAbilityChangedEvent(u8 *p, unsigned int i);
+extern void HAND_TOKUSEI_RemoveAbilityHandlers(void *p);
 struct QJ;
 extern void BTL_POKEPARAM_SetAbility(struct QJ *p, u32 v);
-extern void *BTL_CALC_AddAbilityHandlers(void *);
+extern void *HAND_TOKUSEI_AddAbilityHandlers(void *);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern void BTL_SERVER_FLOW_ProcDamagedItemReaction(u8 *p, u8 *q, u32 n);
 extern void BTL_SERVER_FLOW_RecheckOpponentAbilityEffects(u8 *, u8 *);
-int func_021C9A60(u8 *p, const Ent *e)
+int BTL_SERVER_FLOW_ExecCmdChangeAbility(u8 *p, const Ent *e)
 {
     u8 *a;
     u16 x;
     int line;
     u32 s;
     u32 t;
-    a = func_021B9934(((struct Obj00003 *)p)->f8, e->id);
+    a = BTL_SIDE_GetPokeByIdThunk(((struct Obj00003 *)p)->f8, e->id);
     x = func_021D59B4(a, 16);
     if (func_021C9BA8(x)) return 0;
     if (BTL_POKEPARAM_IsFainted(a)) return 0;
     if (e->a || e->value != x) {
         if (e->flag) BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 87, (u8)e->index);
         BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 73, e->id, e->value);
-        func_021C99A0(p, (const struct Msg *)e->msg);
+        BTL_SERVER_FLOW_PushMsgRecord(p, (const struct Msg *)e->msg);
         line = 15561;
-        s = func_021CC8D8(p + 0x1d74, line);
-        func_021C7B3C(p, e->id, x, e->value);
-        func_021CC95C((u32 *)(p + 0x1d74), s, line + 2);
-        BTL_CALC_RemoveAbilityHandlers(a);
+        s = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, line);
+        BTL_SERVER_FLOW_NotifyAbilityChangeEvent(p, e->id, x, e->value);
+        BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), s, line + 2);
+        HAND_TOKUSEI_RemoveAbilityHandlers(a);
         BTL_POKEPARAM_SetAbility((struct QJ *)a, e->value);
         BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 29, e->id, e->value);
-        BTL_CALC_AddAbilityHandlers(a);
+        HAND_TOKUSEI_AddAbilityHandlers(a);
         BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 88, e->id);
         if (x != e->value) {
-            t = func_021CC8D8(p + 0x1d74, line + 16);
-            func_021C7B7C(p, e->id);
+            t = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, line + 16);
+            BTL_SERVER_FLOW_NotifyAbilityChangedEvent(p, e->id);
             line += 18;
-            func_021CC95C((u32 *)(p + 0x1d74), t, line);
+            BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), t, line);
         }
         if (e->flag) BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 88, (u8)e->index);
         if (!BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)a, 16)) {

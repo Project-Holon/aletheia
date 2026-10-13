@@ -13,13 +13,13 @@
  * saved zero is then materialised before the saved one. The trailing
  * halfword at 021F3BD6 is zero alignment padding.
  * symbols:
- *   func_020124E4 0x020124E4 thumb
+ *   GAME_EVENT_GetGameSystem 0x020124E4 thumb
  *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
  *   FIELDMAP_GetExpObj 0x02188D2C thumb ov021
  *   FLD_EXP_OBJ_GetAnimeFrame 0x021BE6E8 thumb ov021
  */
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 struct Ctx;
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetExpObj(int *p);
@@ -32,7 +32,7 @@ int GIMMICK64_IsArcPeakReached(void *p)
     int v;
     int s;
     int tmp;
-    s = FIELDMAP_GetExpObj(GAMESYSTEM_GetFieldMap(func_020124E4(p)));
+    s = FIELDMAP_GetExpObj(GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(p)));
     zero = 0;
     tmp = FLD_EXP_OBJ_GetAnimeFrame(s, zero, 1, zero);
     v = tmp;

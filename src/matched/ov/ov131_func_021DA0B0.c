@@ -19,7 +19,7 @@
  *   P_STA_SKILL_GetNatureStatColor 0x021DB6D0 thumb ov131
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
@@ -46,7 +46,7 @@ extern void P_STATUS_PrintWordSetMsgRightToWin(unsigned char *p, unsigned int a,
 extern int P_STA_SKILL_GetNatureStatColor(u32 a, u32 b, unsigned char c, u32 d);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -100,12 +100,12 @@ void P_STA_SKILL_PrintStats(u8 *a,u8 *p)
     value=POKE_TOOL_GetPartyValue(data,10,0);
     t1=func_02045B38(0,2,183,((struct Obj00112 *)a)->f0);
     str=func_02045EC0(t1,value);
-    PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84,(int)func_02045770(((struct Obj01061 *)p)->f78),5,17,(u32)str,*(int *)&((struct Obj00112 *)a)->f80,1088);
+    PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84,(int)BMP_WIN_GetBmp(((struct Obj01061 *)p)->f78),5,17,(u32)str,*(int *)&((struct Obj00112 *)a)->f80,1088);
     STRBUF_Delete(str);
     MSGDATA_Delete(t1);
     t2=func_02045B38(0,2,182,((struct Obj00112 *)a)->f0);
     str=func_02045EC0(t2,value);
-    PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84,(int)func_02045770(((struct Obj01061 *)p)->f78),65,one,(u32)str,*(int *)&((struct Obj00112 *)a)->f80,1088);
+    PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84,(int)BMP_WIN_GetBmp(((struct Obj01061 *)p)->f78),65,one,(u32)str,*(int *)&((struct Obj00112 *)a)->f80,1088);
     STRBUF_Delete(str);
     MSGDATA_Delete(t2);
     ((struct Obj01061 *)p)->f4=one;

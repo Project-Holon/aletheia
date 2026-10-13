@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetEvioliteHandlers
+ * function: HAND_ITEM_GetEvioliteHandlers
  * address: 0x021DFA7C
  * packet: pkt_ov093_021DFA7C
  * region: ov093
@@ -15,10 +15,10 @@
  *   gBtlHandlerItemEvioliteHandlers 0x021F14FC data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetEvioliteHandlers(int *p);
+int *HAND_ITEM_GetEvioliteHandlers(int *p);
 extern int gBtlHandlerItemEvioliteHandlers[];
 
-int *BTL_HANDLER_ITEM_GetEvioliteHandlers(int *p)
+int *HAND_ITEM_GetEvioliteHandlers(int *p)
 {
     *p = 1;
     return gBtlHandlerItemEvioliteHandlers;

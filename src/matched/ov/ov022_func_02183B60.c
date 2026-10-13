@@ -12,7 +12,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02087C6C  0x02087C6C  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
@@ -34,7 +34,7 @@ extern u8 sUnionAppFile[];
 
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, unsigned short line);
 extern u32 GFL_NET_IsParentAid(void);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void func_02087C6C(void *p);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -56,7 +56,7 @@ u8 *UNION_APP_Create(u8 *a, int heap, int kind, Rec20 *src)
     s[0] = kind;
     s[0x10] = 0xff;
     s[0x11] = 0xff;
-    func_02082BCC(buf, 0, 0x28);
+    MI_CpuFill8(buf, 0, 0x28);
     *(Rec20 *)buf = *src;
     func_02087C6C(buf + 0x20);
     UNION_APP_SetMemberEntry(s, a, GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())), buf);

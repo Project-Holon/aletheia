@@ -1,5 +1,5 @@
 /*
- * function: func_021DC5F8
+ * function: HAND_TOKUSEI_GetIndirectGuardCause2Handlers
  * address: 0x021DC5F8
  * packet: pkt_ov093_021DC5F8
  * region: ov093
@@ -15,10 +15,10 @@
  *   gIndirectGuardCause2Handlers 0x021F0940 data ov093 a4
  */
 
-int *func_021DC5F8(int *p);
+int *HAND_TOKUSEI_GetIndirectGuardCause2Handlers(int *p);
 extern int gIndirectGuardCause2Handlers[];
 
-int *func_021DC5F8(int *p)
+int *HAND_TOKUSEI_GetIndirectGuardCause2Handlers(int *p)
 {
     *p = 2;
     return gIndirectGuardCause2Handlers;

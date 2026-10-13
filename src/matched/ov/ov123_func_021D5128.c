@@ -16,7 +16,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0204363C 0x0204363C arm
  *   func_0207D534 0x0207D534 arm
  *   func_0207D46C 0x0207D46C arm
@@ -24,7 +24,7 @@
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -44,6 +44,7 @@
  *   d_021DAA20 0x021DAA20 data a1
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
  */
 #include "../include/Obj00590.h"
 #include "../include/Obj06459.h"
@@ -57,7 +58,7 @@ extern const char d_021DAA20[];
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,u8,u32);
+extern void MI_CpuFill8(void *,u8,u32);
 struct Bank;
 struct R;
 struct Tcbl;
@@ -71,7 +72,7 @@ struct DispConfig;
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_02043534(u32);
+extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 struct Cfg;
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
@@ -83,7 +84,7 @@ extern void func_021D4884(char *);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_02028590(u32,u32,u32,u32);
-extern u32 func_0201C440(void *);
+extern u32 PRINTSYS_QUE_Create(void *);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
@@ -99,7 +100,7 @@ int func_021D5128(void *a,int b,u8 *q)
     struct Config cfg;
     GFL_HEAP_CreateChildHeap(1,31,0x18000);
     p=PROCSYS_AllocProcWork(a,0x2b4,31);
-    func_02082BCC(p,0,0x2b4);
+    MI_CpuFill8(p,0,0x2b4);
     ((struct Obj00590 *)p)->fC=31;
     ((struct Obj00590 *)p)->f260=((struct Obj06459 *)q)->f4; ((struct Obj00590 *)p)->f264=((struct Obj06459 *)q)->f0;
     func_0204363C(1);
@@ -109,7 +110,7 @@ int func_021D5128(void *a,int b,u8 *q)
     func_0203F8F4(((struct Obj00590 *)p)->fC); BMP_WIN_Init(((struct Obj00590 *)p)->fC); func_0201DD60();
     BG_SYS_SetVramBanks((const struct DispVram *)d_021DA9F0);
     cfg=d_021DA680; func_0203FC28((struct DispConfig *)(&cfg));
-    func_02043534(0); BG_SYS_SetSubVisiblePlanes(0);
+    BG_SYS_SetMainVisiblePlanes(0); BG_SYS_SetSubVisiblePlanes(0);
     CLACT_InitSystem((const struct Cfg *)d_021DA658,(u32)d_021DA9F0,((struct Obj00590 *)p)->fC);
     ((struct Obj00590 *)p)->f2AC=CLACT_CreateUnit(40,0,((struct Obj00590 *)p)->fC);
     ((struct Obj00590 *)p)->f2B0=func_020056A0(func_021D5120,p,0);
@@ -118,7 +119,7 @@ int func_021D5128(void *a,int b,u8 *q)
     ((struct Obj00590 *)p)->f284=func_02030734(((struct Obj00590 *)p)->fC,0x200,0,d_021DAA20,0x5a7);
     ((struct Obj00590 *)p)->f230=TCBL_Create(((struct Obj00590 *)p)->fC,((struct Obj00590 *)p)->fC,3,0);
     ((struct Obj00590 *)p)->f22C=func_02028590(15,0,1,((struct Obj00590 *)p)->fC);
-    ((struct Obj00590 *)p)->f234=func_0201C440((void *)(u32)((struct Obj00590 *)p)->fC);
+    ((struct Obj00590 *)p)->f234=PRINTSYS_QUE_Create((void *)(u32)((struct Obj00590 *)p)->fC);
     ((struct Obj00590 *)p)->f254=APP_TASKMENU_RES_Create(5,9,((struct Obj00590 *)p)->f30,((struct Obj00590 *)p)->f234,((struct Obj00590 *)p)->fC);
     func_0207D63C((void *)0x04001050,4,1,15,4);
     color=0; if(((struct Obj06459 *)q)->f2C8) color=0x7fff;

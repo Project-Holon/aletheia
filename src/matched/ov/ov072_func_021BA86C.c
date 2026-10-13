@@ -14,7 +14,7 @@
  * parameter is u16 here (the caller truncates it before each bl).
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   TOWNMAP_GRH_GetTownInfoValue  0x021BBB3C  thumb  ov072
  *   SYMBOL_MAP_CheckEventFlag  0x02166CD0  thumb  ov010
  *   TOWNMAP_TownGetField  0x021BA774  thumb  ov072
@@ -49,7 +49,7 @@ typedef struct {
     int f40;
 } W;
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern unsigned short TOWNMAP_GRH_GetTownInfoValue(char *p, int a, int b);
 extern int SYMBOL_MAP_CheckEventFlag(void *a, u32 msg);
 extern int TOWNMAP_TownGetField(char *p, int i);
@@ -68,7 +68,7 @@ void TOWNMAP_TownInit(W *p, int a, int b, int c, int s0, int s1, int s2, void *s
     u32 r;
     int i;
 
-    func_02082BCC(p, 0, 0x44);
+    MI_CpuFill8(p, 0, 0x44);
     p->f34 = 0x1000;
     p->f4 = a;
     p->f8[0] = b;
@@ -122,7 +122,7 @@ void TOWNMAP_TownInit(W *p, int a, int b, int c, int s0, int s1, int s2, void *s
         break;
     }
     if (TOWNMAP_TownGetField((char *)p, 11) != 1) {
-        func_02082BCC(&pos, 0, 8);
+        MI_CpuFill8(&pos, 0, 8);
         pos.x = TOWNMAP_TownGetField((char *)p, 2);
         pos.y = TOWNMAP_TownGetField((char *)p, 3);
         p->obj = (int)CLACT_CreateActor((void *)c, s0, s2, s1, &pos, 0, s4);

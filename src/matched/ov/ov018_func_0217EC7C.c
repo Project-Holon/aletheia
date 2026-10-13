@@ -13,24 +13,24 @@
  *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_02035D20  0x02035D20  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   FIELD_SUBSCREEN_GetPanelResult  0x021A0F94  thumb  ov021
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
- *   func_0204B3F4  0x0204B3F4  arm
+ *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   INTRUDE_FIELD_FindZonePos  0x0217BEA8  thumb  ov018
  *   INTRUDE_SUBDISP_IsAlone  0x0217F284  thumb  ov018
  *   INTRUDE_SUBDISP_SetTouchRect  0x0217EC44  thumb  ov018
  *   INTRUDE_SUBDISP_IsInTouchRect  0x0217EC5C  thumb  ov018
  *   ZONEDATA_IsZoneInTableDFC0  0x02013DD0  thumb
- *   func_020061E4  0x020061E4  thumb
- *   func_02013D5C  0x02013D5C  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
+ *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   BMP_OAM_GetEnabled  0x020257C4  thumb
  *   d_02176AA0     0x02176AA0  data  a4
  *
  * blocker:  byte-correct; the two THM_CALLs to ZONEDATA_IsZoneInTableDFC0 (arm9) have no
  *           witness: 0x02013DD0 is an unlabelled arm9 leaf inside
- *           func_02013D9C's listing extent, called only from here. Verified
+ *           ZONEDATA_IsZoneGroup118To120's listing extent, called only from here. Verified
  *           EXACT (match.py one --region arm9 --thumb) as:
  *             extern const int d_0209DFC0[];   (0x0209DFC0 data a4)
  *             int ZONEDATA_IsZoneInTable(int a0, const int *a1, int a2);
@@ -96,18 +96,18 @@ extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern u32 FIELDMAP_GetSubscreen(u8 *p);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int FIELD_SUBSCREEN_GetPanelResult(u32 a);
 extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
-extern u32 func_0204B3F4(struct Obj *p);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern Mon *INTRUDE_FIELD_FindZonePos(int a0);
 extern int INTRUDE_SUBDISP_IsAlone(u8 *p);
 extern void INTRUDE_SUBDISP_SetTouchRect(int x, int y, int w, int h, Rect *r);
 extern int INTRUDE_SUBDISP_IsInTouchRect(u32 x, u32 y, Rect *r);
 extern int ZONEDATA_IsZoneInTableDFC0(int a0);
-extern void func_020061E4(u32 a);
-extern u32 func_02013D5C(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+extern u32 ZONEDATA_IsZone117(u32 id);
 extern int BMP_OAM_GetEnabled(const int *p);
 extern const Ent d_02176AA0[];
 
@@ -129,7 +129,7 @@ void INTRUDE_SUBDISP_UpdateTouch(Q *q, Obj *p, int id)
     x = FIELDMAP_GetSubscreen(GAMESYSTEM_GetFieldMap((const struct Ctx *)p->f00));
     GAMESYSTEM_GetGameComm((const struct Ctx *)p->f00);
     h = (int)GAMESYSTEM_GetGameData((const struct Ctx *)p->f00);
-    if (p->f112 != 0 || p->f106 == 1 || !func_02035D20(&tx, &ty) || FIELD_SUBSCREEN_GetPanelResult(x) != 0) {
+    if (p->f112 != 0 || p->f106 == 1 || !TOUCHPANEL_GetPointTrg(&tx, &ty) || FIELD_SUBSCREEN_GetPanelResult(x) != 0) {
         return;
     }
     sel = GAME_DATA_GetExitMode((const struct BigObj *)h);
@@ -141,7 +141,7 @@ void INTRUDE_SUBDISP_UpdateTouch(Q *q, Obj *p, int id)
             continue;
         }
         w = p->f8C[i];
-        if (func_0204B3F4((struct Obj *)w) != 1) {
+        if (CLACT_GetActorDrawEnable((struct Obj *)w) != 1) {
             continue;
         }
         CLACT_GetActorSurfacePos((struct Actor *)w, (struct PtS *)pt, 0);
@@ -172,7 +172,7 @@ void INTRUDE_SUBDISP_UpdateTouch(Q *q, Obj *p, int id)
             }
             a = e->a;
             if (id == a || id == e->b || (ZONEDATA_IsZoneInTableDFC0(id) == 1 && ZONEDATA_IsZoneInTableDFC0(a) == 1)) {
-                func_020061E4(0x557);
+                GFL_USE_PlaySeDefaultVolume(0x557);
                 return;
             }
             if (i == 7) {
@@ -193,8 +193,8 @@ void INTRUDE_SUBDISP_UpdateTouch(Q *q, Obj *p, int id)
     if (p->fD8 != GAME_DATA_GetExitMode((const struct BigObj *)h)) {
         INTRUDE_SUBDISP_SetTouchRect(0x80, 0x5C, 0x10, 0x10, &rect);
         if (INTRUDE_SUBDISP_IsInTouchRect(tx, ty, &rect) == 1) {
-            if (func_02013D5C(id) == 1) {
-                func_020061E4(0x557);
+            if (ZONEDATA_IsZone117(id) == 1) {
+                GFL_USE_PlaySeDefaultVolume(0x557);
                 return;
             }
             p->f110 = 0x117;

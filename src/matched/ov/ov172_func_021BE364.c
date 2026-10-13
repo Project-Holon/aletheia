@@ -12,7 +12,7 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02030734 0x02030734 arm
  *   GAME_DATA_Create 0x020124F4 thumb
- *   func_0203630C 0x0203630C arm
+ *   KEY_GetCont 0x0203630C arm
  *   func_021BD1AC 0x021BD1AC thumb ov172
  *   d_021C724C 0x021C724C data a4
  */
@@ -29,7 +29,7 @@ struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void *GAME_DATA_Create(u16 heap);
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 extern void func_021BD1AC(char *self);
 extern u8 d_021C724C[];
 int func_021BE364(struct Obj0203159C *obj,int unused,u8 *arg)
@@ -43,8 +43,8 @@ int func_021BE364(struct Obj0203159C *obj,int unused,u8 *arg)
         *(u8 * *)&((struct Obj03856 *)p)->f1F8=func_02030734(1,16,1,(const char *)d_021C724C,1357);
         **(u32 * *)&((struct Obj03856 *)p)->f1F8=(u32)GAME_DATA_Create(1);
         ((struct Obj24145 *)(*(u8 * *)&((struct Obj03856 *)p)->f1F8))->f4=0;
-        if (func_0203630C() & 0x100) ((struct Obj24146 *)(*(u8 * *)&((struct Obj03856 *)p)->f1F8))->f4=1;
-        if (func_0203630C() & 0x400) ((struct Obj24147 *)(*(u8 * *)&((struct Obj03856 *)p)->f1F8))->f4=2;
+        if (KEY_GetCont() & 0x100) ((struct Obj24146 *)(*(u8 * *)&((struct Obj03856 *)p)->f1F8))->f4=1;
+        if (KEY_GetCont() & 0x400) ((struct Obj24147 *)(*(u8 * *)&((struct Obj03856 *)p)->f1F8))->f4=2;
     } else *(u8 * *)&((struct Obj03856 *)p)->f1F8=arg;
     ((struct Obj03856 *)p)->f14=0;
     func_021BD1AC((char *)p);

@@ -10,25 +10,25 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02006650  0x02006650  thumb
- *   func_020065D8  0x020065D8  thumb
+ *   PM_VOICE_IsAnyActive  0x02006650  thumb
+ *   PM_VOICE_StopAll  0x020065D8  thumb
 
- * BLOCKED.  Unverifiable: func_020065D8 resolves only through the `matched` class and layout/matched/ov093 holds func_021B911C in two shards, which aborts every manifest load.
+ * BLOCKED.  Unverifiable: PM_VOICE_StopAll resolves only through the `matched` class and layout/matched/ov093 holds BTL_MAIN_ReturnZero in two shards, which aborts every manifest load.
  */
 #include "../include/Obj00146.h"
 
 
-extern int func_02006650(void);
-extern void func_020065D8(void);
+extern int PM_VOICE_IsAnyActive(void);
+extern void PM_VOICE_StopAll(void);
 
 void func_021C3480(int unused, char *p, int key)
 {
     int v;
 
     if (((struct Obj00146 *)p)->f68 != 0) {
-        v = func_02006650();
+        v = PM_VOICE_IsAnyActive();
         if (v != 0)
-            func_020065D8();
+            PM_VOICE_StopAll();
         ((struct Obj00146 *)p)->f68 = 0;
     }
     ((struct Obj00146 *)p)->f74 = 0;

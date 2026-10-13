@@ -26,7 +26,7 @@
  *   d_02180814     0x02180814  data  ov019 a4
  *   G3D_SYSTEM_FreeVramTexture 0x020470D0 arm
  *   func_02046EFC 0x02046EFC arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   G3D_SYSTEM_CreateRender  0x02047400  arm
  *   G3D_SYSTEM_CreateAnime  0x02047564  arm
  *   G3D_SYSTEM_CreateObject  0x0204767C  arm
@@ -195,7 +195,7 @@ extern void sub_02034714(const char *expr, u32 line, const char *file);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern int G3D_SYSTEM_FreeVramTexture(void *p);
 extern void func_02046EFC(void *p);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void *G3D_SYSTEM_CreateRender(void *a0, u32 n, void *a2);
 extern void *G3D_SYSTEM_CreateAnime(void *render, const void *resAnime, int index);
 extern void *G3D_SYSTEM_CreateObject(void *render, void **anime, int animeCount);
@@ -348,7 +348,7 @@ void UNION_EFF_AddAnimObj(UnionEffAnimGroup *anim, void *mmdl)
 
 void UNION_EFF_CreateAnimObj(UnionEffAnimGroup *anim, UnionEffObj *obj, void *mmdl, u16 serial)
 {
-    func_02082BCC(obj, 0, sizeof(UnionEffObj));
+    MI_CpuFill8(obj, 0, sizeof(UnionEffObj));
     obj->mmdl = mmdl;
     obj->serial = serial;
     obj->render = G3D_SYSTEM_CreateRender(anim->resModel, 0, anim->resModel);
@@ -362,7 +362,7 @@ void UNION_EFF_DeleteAnimObj(UnionEffObj *obj)
     G3D_SYSTEM_DeleteAnime(obj->anime);
     G3D_SYSTEM_DeleteObject(obj->object);
     G3D_SYSTEM_DeleteRender(obj->render);
-    func_02082BCC(obj, 0, sizeof(UnionEffObj));
+    MI_CpuFill8(obj, 0, sizeof(UnionEffObj));
 }
 
 void UNION_EFF_UpdateAnimObj(UnionEffObj *obj)
@@ -462,7 +462,7 @@ void UNION_EFF_AddIconObj(UnionEffIconGroup *icon, void *mmdl, u32 iconKind)
 void UNION_EFF_CreateIconObj(UnionEffIconGroup *icon, UnionEffObj *obj, void *mmdl, u16 serial, int iconKind)
 {
     void **resModel;
-    func_02082BCC(obj, 0, sizeof(UnionEffObj));
+    MI_CpuFill8(obj, 0, sizeof(UnionEffObj));
     obj->mmdl = mmdl;
     obj->serial = serial;
     if (iconKind == 0) {
@@ -478,7 +478,7 @@ void UNION_EFF_DeleteIconObj(UnionEffObj *obj)
 {
     G3D_SYSTEM_DeleteObject(obj->object);
     G3D_SYSTEM_DeleteRender(obj->render);
-    func_02082BCC(obj, 0, sizeof(UnionEffObj));
+    MI_CpuFill8(obj, 0, sizeof(UnionEffObj));
 }
 
 void UNION_EFF_UpdateIconObj(UnionEffObj *obj)

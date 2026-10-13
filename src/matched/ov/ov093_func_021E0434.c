@@ -1,5 +1,5 @@
 /*
- * function: func_021E0434
+ * function: HAND_WAZA_RemoveAllMoveHandlers
  * address:  0x021E0434
  * packet:   pkt_ov093_021E0434
  * region:   ov093
@@ -22,7 +22,7 @@ struct Node;
 extern struct Node *BTL_EVENT_FindFactor(int id, int sub);
 extern void BTL_EVENT_RemoveFactor(struct Node *n);
 
-void func_021E0434(u8 *p)
+void HAND_WAZA_RemoveAllMoveHandlers(u8 *p)
 {
     int n = BTL_POKEPARAM_GetPokeId(p);
     void *a;

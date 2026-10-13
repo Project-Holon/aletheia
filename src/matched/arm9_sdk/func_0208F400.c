@@ -1,5 +1,5 @@
 /*
- * function: func_0208F400
+ * function: WM_Reset
  * address:  0x0208F400
  * packet:   pkt_0208F400
  * region:   arm9
@@ -61,7 +61,7 @@ extern WMErrCode WMi_CheckIdle(void);
 extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
 
-WMErrCode func_0208F400(WMCallbackFunc callback)
+WMErrCode WM_Reset(WMCallbackFunc callback)
 {
     WMErrCode result;
 

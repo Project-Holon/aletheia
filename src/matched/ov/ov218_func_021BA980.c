@@ -9,7 +9,7 @@
  * status: EXACT
  * prototype: heap extern parameters widened where original forwards r5 without truncation; BG and flag callee parameters narrowed to u8 where A9AC-A9CE shows explicit shifts. 414AC visibly receives BG input despite its legacy asm void prototype.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
@@ -22,7 +22,7 @@
 typedef struct Record { unsigned bg; unsigned config[8]; unsigned type, enable; } Record;
 extern const unsigned d_021BAEAC[];
 extern const Record d_021BAF28[];
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void func_0203F8F4(unsigned);
 extern void BMP_WIN_Init(unsigned);
 typedef unsigned int   u32;
@@ -37,7 +37,7 @@ void func_021BA980(char *ctx, unsigned heap)
     unsigned i;
     const Record *record;
     unsigned bg;
-    func_02082BCC(ctx, 0, 4);
+    MI_CpuFill8(ctx, 0, 4);
     func_0203F8F4(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)d_021BAEAC);

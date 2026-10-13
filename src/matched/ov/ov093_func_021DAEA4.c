@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_DampRemoveSkipCheck
+ * function: HAND_TOKUSEI_DampRemoveSkipCheck
  * address: 0x021DAEA4
  * packet: pkt_ov093_021DAEA4
  * region: ov093
@@ -17,9 +17,9 @@
 
 typedef unsigned char u8;
 extern void BTL_EVENT_ClearFactorSkipCheck();
-void BTL_ABILITY_DampRemoveSkipCheck(u8 *p);
+void HAND_TOKUSEI_DampRemoveSkipCheck(u8 *p);
 
-void BTL_ABILITY_DampRemoveSkipCheck(u8 *p)
+void HAND_TOKUSEI_DampRemoveSkipCheck(u8 *p)
 {
     BTL_EVENT_ClearFactorSkipCheck(p);
 }

@@ -10,7 +10,7 @@
  * status: EXACT*
  * extent: trailing 2-byte alignment padding only.
  * symbols:
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  */
 #include "../include/Obj10402.h"
@@ -19,6 +19,6 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Descriptor;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
-void func_021D7C1C(char *p) { int i; char *q; for(i=0;i<12;i++) { q=(char *)((u32)p+(u32)i*4); if(((struct Obj10402 *)q)->f38) { func_020452E8(((struct Obj10402 *)q)->f38); ((struct Obj10402 *)q)->f38=0; } } GF_FONT_SetTextColor(1,2,0); }
+void func_021D7C1C(char *p) { int i; char *q; for(i=0;i<12;i++) { q=(char *)((u32)p+(u32)i*4); if(((struct Obj10402 *)q)->f38) { BMP_WIN_Delete(((struct Obj10402 *)q)->f38); ((struct Obj10402 *)q)->f38=0; } } GF_FONT_SetTextColor(1,2,0); }

@@ -1,5 +1,5 @@
 /*
- * function: func_02187CCC
+ * function: EL_SCOREBOARD_AdvanceState
  * address: 0x02187CCC
  * packet: pkt_ov020_02187CCC
  * region: ov020
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02187BBC 0x02187BBC thumb ov020
- *   func_02187C20 0x02187C20 thumb ov020
+ *   EL_SCOREBOARD_GetNextState 0x02187BBC thumb ov020
+ *   EL_SCOREBOARD_EnterState 0x02187C20 thumb ov020
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_02187BBC(char *, int);
-extern void func_02187C20(char *, int *, int);
-void func_02187CCC(char *p, int *s)
+extern int EL_SCOREBOARD_GetNextState(char *, int);
+extern void EL_SCOREBOARD_EnterState(char *, int *, int);
+void EL_SCOREBOARD_AdvanceState(char *p, int *s)
 {
     int st;
-    st = func_02187BBC(p, *s);
-    if (*s != st) func_02187C20(p, s, st);
+    st = EL_SCOREBOARD_GetNextState(p, *s);
+    if (*s != st) EL_SCOREBOARD_EnterState(p, s, st);
 }

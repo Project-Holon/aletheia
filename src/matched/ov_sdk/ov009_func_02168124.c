@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_021781DC  0x021781DC  arm  ov009
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02178224  0x02178224  arm  ov009
  *   func_02178144  0x02178144  arm  ov009
  *   func_02177EE8  0x02177EE8  arm  ov009
@@ -39,7 +39,7 @@ typedef struct {
 } NalCnt;
 
 extern int func_021781DC(void);
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 struct DWCAuthParam;
 extern void func_02178224(int *result);
 extern void func_02178144(void);
@@ -58,7 +58,7 @@ int func_02168124(void)
     case 0:
         return 2;
     case 0x15:
-        func_02082BCC(&result, 0, sizeof(result));
+        MI_CpuFill8(&result, 0, sizeof(result));
         func_02178224((int *)(&result));
         func_02178144();
         if (result.returncode == 20002) {

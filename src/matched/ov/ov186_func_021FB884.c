@@ -10,7 +10,7 @@
  * volatile: allocated fields +F4 and +F8 re-read after their stores at 021FB8B0 and 021FB8C0.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   func_0201EC74 0x0201EC74 thumb
@@ -20,7 +20,7 @@
 typedef struct Object {char pad[0xe8];void *a,*b,*c;volatile unsigned flag,mode;} Object;
 extern const char d_02200D3C[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned short);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 typedef unsigned int   u32;
 struct GfFont;
 struct MsgBank;
@@ -32,7 +32,7 @@ void *func_021FB884(unsigned mode,unsigned flag,unsigned heap)
 {
     Object *p;
     p=func_02030734(heap,0xfc,0,d_02200D3C,0x60);
-    func_02082BCC(p,0,0xfc);
+    MI_CpuFill8(p,0,0xfc);
     p->flag=flag;
     if(p->flag){p->mode=mode;if(p->mode==1)p->mode=0;}
     else p->mode=1;

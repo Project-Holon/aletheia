@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204B3F4  0x0204B3F4  arm
- *   func_02035D20  0x02035D20  arm
+ *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   func_020355D8  0x020355D8  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  */
 
 typedef unsigned char u8;
@@ -34,10 +34,10 @@ typedef struct S {
 } S;
 
 struct Obj;
-extern u32 func_0204B3F4(struct Obj *p);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void func_020355D8(u8 v);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 
 int TOUCHBAR_CheckButtonPressed(S *p)
 {
@@ -45,14 +45,14 @@ int TOUCHBAR_CheckButtonPressed(S *p)
     u32 y;
     int hit = 0;
 
-    if (func_0204B3F4((struct Obj *)p->f00) & p->f04) {
-        if (func_02035D20(&x, &y)) {
+    if (CLACT_GetActorDrawEnable((struct Obj *)p->f00) & p->f04) {
+        if (TOUCHPANEL_GetPointTrg(&x, &y)) {
             if (x - p->f1c <= 0x18 && y - p->f1e <= 0x18) {
                 hit = 1;
                 func_020355D8(1);
             }
         }
-        if (p->f30 != 0 && (func_020362DC() & p->f30)) {
+        if (p->f30 != 0 && (KEY_GetTrg() & p->f30)) {
             func_020355D8(0);
             hit = 1;
         }

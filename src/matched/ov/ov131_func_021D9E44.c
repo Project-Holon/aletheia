@@ -11,12 +11,12 @@
  *   func_02041570 0x02041570 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   func_02040AE0 0x02040AE0 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_020410D0 0x020410D0 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj00136.h"
 #include "../include/Obj04512.h"
@@ -29,12 +29,12 @@ struct Obj;
 extern void func_02041570(int channel, u16 val);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32);
 extern void func_02040AE0(u32 index, const void *src, u32 mode);
 extern void func_02041B6C(u32);
 extern void func_020410D0(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 void P_STA_SKILL_ApplyStatsScreen(u8 *a,u8 *p)
 {
     u8 i;
@@ -45,14 +45,14 @@ void P_STA_SKILL_ApplyStatsScreen(u8 *a,u8 *p)
         cell=*(void **)(p+0x5c+i*4);
         BMP_WIN_TransferChars(cell);
         BMP_WIN_MakeScreen(cell);
-        func_020409B4(func_02045730(cell));
+        func_020409B4(BMP_WIN_GetBgLayer(cell));
     }
     func_02040AE0(6,*(u8 * *)&((struct Obj04512 *)p)->f3C+12,*((u32 *)(*(u8 * *)&((struct Obj04512 *)p)->f3C+8)));
     func_02041B6C(6);
     func_020410D0(5,0,0,32,3,((struct Obj04512 *)p)->f4C+12,0,0,32,32);
     func_02041B6C(5);
-    func_0204B3DC(((struct Obj04512 *)p)->f90,1);
-    func_0204B3DC(((struct Obj04512 *)p)->f94,0);
-    func_0204B3DC(((struct Obj00136 *)a)->f198,0);
-    func_0204B3DC(((struct Obj00136 *)a)->f19C,0);
+    CLACT_SetActorDrawEnable(((struct Obj04512 *)p)->f90,1);
+    CLACT_SetActorDrawEnable(((struct Obj04512 *)p)->f94,0);
+    CLACT_SetActorDrawEnable(((struct Obj00136 *)a)->f198,0);
+    CLACT_SetActorDrawEnable(((struct Obj00136 *)a)->f19C,0);
 }

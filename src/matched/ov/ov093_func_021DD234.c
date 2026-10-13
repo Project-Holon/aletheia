@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_AddLeppaBerry
+ * function: HAND_ITEM_AddLeppaBerry
  * address: 0x021DD234
  * packet: pkt_ov093_021DD234
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DCAE8.c and filed here.
  *
  * symbols:
- *   gHandlerTableLeppaBerry 0x021F1E6C data ov093 a4
+ *   gLeppaBerryHandlers 0x021F1E6C data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_AddLeppaBerry(int *p);
-extern int gHandlerTableLeppaBerry[];
+int *HAND_ITEM_AddLeppaBerry(int *p);
+extern int gLeppaBerryHandlers[];
 
-int *BTL_HANDLER_ITEM_AddLeppaBerry(int *p)
+int *HAND_ITEM_AddLeppaBerry(int *p)
 {
     *p = 7;
-    return gHandlerTableLeppaBerry;
+    return gLeppaBerryHandlers;
 }

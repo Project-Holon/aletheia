@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DA3D8.c and filed here.
  *
  * symbols:
- *   d_021F09A0 0x021F09A0 data ov093 a4
+ *   gAnticipationHandlers 0x021F09A0 data ov093 a4
  */
 
-extern int d_021F09A0[];
+extern int gAnticipationHandlers[];
 int *HAND_TOKUSEI_AddAnticipation(int *p);
 
 int *HAND_TOKUSEI_AddAnticipation(int *p)
 {
     *p = 2;
-    return d_021F09A0;
+    return gAnticipationHandlers;
 }

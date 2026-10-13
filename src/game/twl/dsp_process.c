@@ -35,6 +35,7 @@
  *   MI_FreeWram  0x02730B04  arm
  *   PMi_InsertPostExitCallbackEx  0x0273156C  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm  arm9
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -117,7 +118,7 @@ extern DspProc *DSPi_ProcList;
 extern s32 func_0208CD94(const char *a, const char *b);
 extern s32 func_0208CC14(char *a, char *b);
 extern void func_02082AC0(u32 v, void *dst, u32 n);
-extern void func_02082BCC(void *p, s32 v, u32 n);
+extern void MI_CpuFill8(void *p, s32 v, u32 n);
 extern void func_0208CADC(void *dst, void *src);
 extern s32 func_02087988(void);
 extern void func_0208799C(s32);
@@ -375,7 +376,7 @@ s32 DSPi_MapAndLoadProcessImageCallback(DspProc *c, Hdr *h, Ent *e)
 void DSP_InitProcessContext(DspProc *o, void *src)
 {
     s32 i;
-    func_02082BCC(o, 0, 0x150);
+    MI_CpuFill8(o, 0, 0x150);
     o->next = 0;
     o->flags = 0;
     if (src == 0) {

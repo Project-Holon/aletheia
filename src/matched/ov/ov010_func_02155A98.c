@@ -30,7 +30,7 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
@@ -95,7 +95,7 @@ struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern void *func_0201AB28(void *list, u32 i);
+extern void *POKEPARTY_GetMember(void *list, u32 i);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void GAME_BEACON_SEARCH_SetNamedEvent(void *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -132,7 +132,7 @@ void *MUSICAL_EVENT_Create(void *a, void *b, u8 c, u32 d, struct Link *link)
     s->f50 = 0;
     s->f38 = 0;
     tmp = STRBUF_Create(11, 4);
-    s->f18 = func_0201AB28(GAME_DATA_GetMyParty(s->f04), c);
+    s->f18 = POKEPARTY_GetMember(GAME_DATA_GetMyParty(s->f04), c);
     POKE_TOOL_GetPartyValue(s->f18, 0x73, (u32)tmp);
     GAME_BEACON_SEARCH_SetNamedEvent(tmp);
     STRBUF_Delete(tmp);

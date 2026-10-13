@@ -11,7 +11,7 @@
  * symbols:
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  */
 #include "../include/Obj00811.h"
 
@@ -20,16 +20,16 @@ typedef unsigned int   u32;
 struct Actor;
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
 struct Obj;
-extern void func_0204B92C(struct Obj *, unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
 
 void C_GEAR_SetPaintModeIcon(char *p, int on)
 {
     if (on) {
         CLACT_SetActorAnimIndex(((struct Obj00811 *)p)->f150, 0);
         CLACT_SetActorAutoAnimSpeed((struct Actor *)(((struct Obj00811 *)p)->f150), 0x2000);
-        func_0204B92C((struct Obj *)((struct Obj00811 *)p)->f150, 1);
+        CLACT_SetActorAutoAnim((struct Obj *)((struct Obj00811 *)p)->f150, 1);
     } else {
-        func_0204B92C((struct Obj *)((struct Obj00811 *)p)->f150, 0);
+        CLACT_SetActorAutoAnim((struct Obj *)((struct Obj00811 *)p)->f150, 0);
         CLACT_SetActorAnimIndex(((struct Obj00811 *)p)->f150, 1);
     }
 }

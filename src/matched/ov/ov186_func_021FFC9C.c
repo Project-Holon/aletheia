@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_022000F0 0x022000F0 thumb ov186
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021FB4B4 0x021FB4B4 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
  *   func_021FCD0C 0x021FCD0C thumb ov186
@@ -35,7 +35,7 @@ typedef struct { int x,y; } Pair;
 extern int func_022000F0(char *);
 typedef unsigned char  u8;
 struct Work;
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(char *,u32,const Pair *);
 extern void func_021FCD0C(char *);
@@ -60,7 +60,7 @@ int func_021FFC9C(char *p)
             int x,y,held;
             Pair pair;
             ((struct Obj00221 *)p)->fC=func_022000F0(p);
-            held=func_02035D20((u32 *)(&x),(u32 *)(&y));
+            held=TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y));
             if (func_021FB4B4((unsigned int *)(((struct Obj00221 *)p)->f2C),x,y)&held) {
                 pair.x=x; pair.y=y;
                 func_021FD860(*(char * *)&((struct Obj00221 *)p)->f78,1,&pair);
@@ -75,7 +75,7 @@ int func_021FFC9C(char *p)
             Pair pair;
             func_021FCD0C(*(char * *)&((struct Obj00221 *)p)->f68);
             ((struct Obj00221 *)p)->f10=func_021FCDA8(*(char * *)&((struct Obj00221 *)p)->f68);
-            held=func_02035D20((u32 *)(&x),(u32 *)(&y));
+            held=TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y));
             if (func_021FB4B4((unsigned int *)(((struct Obj00221 *)p)->f2C),x,y)&held) {
                 pair.x=x; pair.y=y;
                 func_021FD860(*(char * *)&((struct Obj00221 *)p)->f78,1,&pair);

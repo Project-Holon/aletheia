@@ -15,7 +15,7 @@
  *   func_0201F5DC 0x0201F5DC thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_SetDispHeight 0x02045790 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -32,7 +32,7 @@ struct CharBuf;
 struct Descriptor;
 extern void BMP_WIN_SetDispHeight(struct Descriptor *p, u8 v);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 struct Cfg;
@@ -47,10 +47,10 @@ void C_GEAR_POWER_ONOFF_InitWindows(int *p, int a1)
     p[6] = BMP_WIN_Create(5, 1, 1, 0x1E, 6, 1, 1);
     p[7] = BMP_WIN_Create(5, 1, 0xD, 0x1E, 0xA, 1, 1);
     BMP_WIN_SetDispHeight((struct Descriptor *)p[6], 4);
-    BMP_Clear((struct CharBuf *)func_02045770((struct Descriptor *)p[6]), 0xF);
+    BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp((struct Descriptor *)p[6]), 0xF);
     BMP_WIN_TransferChars((struct Descriptor *)p[6]);
     BMP_WIN_MakeScreen((struct Cfg *)p[6]);
-    BMP_Clear((struct CharBuf *)func_02045770((struct Descriptor *)p[7]), 0xF);
+    BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp((struct Descriptor *)p[7]), 0xF);
     BMP_WIN_TransferChars((struct Descriptor *)p[7]);
     BMP_WIN_MakeScreen((struct Cfg *)p[7]);
     p[8] = TCBL_Create(a1, a1, 1, 4);

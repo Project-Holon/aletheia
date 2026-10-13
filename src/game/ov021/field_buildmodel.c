@@ -17,13 +17,13 @@
  *   func_02030734  0x02030734  arm
  *   gBuildModelFileName     0x021DD9CC  data  ov021  a4
  *   func_020307B0  0x020307B0  arm
- *   func_02013B38  0x02013B38  thumb
- *   func_020140D8  0x020140D8  thumb
+ *   ZONEDATA_GetAreaId  0x02013B38  thumb
+ *   ZONEDATA_GetAreaInnerOuter  0x020140D8  thumb
  *   func_020490F4  0x020490F4  arm
  *   func_0204961C  0x0204961C  arm
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   G3D_SYSTEM_CreateResourceArc  0x02046DB8  arm
  *   G3D_SYSTEM_TransVramTextureAndCut  0x020470A8  arm
  *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
@@ -58,7 +58,7 @@
  *   FIELD_G3D_MAP_GetPos  0x02169510  thumb
  *   func_0207C9D0  0x0207C9D0  arm
  *   func_0207AF1C  0x0207AF1C  thumb
- *   d_020A1B38     0x020A1B38  data   a2
+ *   FX_SinCosTable_     0x020A1B38  data   a2
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  *   gBuildModelKindTable     0x021D3D88  data   a2
  *   d_021D3D8A     0x021D3D8A  data   a2
@@ -257,11 +257,11 @@ typedef struct BuildModelMan {
 } BuildModelMan;
 
 
-extern u32 func_02082BCC(void *, int, u32);
+extern u32 MI_CpuFill8(void *, int, u32);
 extern void *func_02030734(u16, u32, u32, const void *, u32);
 extern u32 func_020307B0(void *);
-extern u32 func_02013B38(u32 id);
-extern u8 func_020140D8(struct Sub020140BCObj *p);
+extern u32 ZONEDATA_GetAreaId(u32 id);
+extern u8 ZONEDATA_GetAreaInnerOuter(struct Sub020140BCObj *p);
 extern void *func_020490F4(u32, u32);
 extern u16 func_0204961C(void *obj);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
@@ -395,7 +395,7 @@ extern const BuildModelKindTable gBuildModelAnimKindTable;
 extern unsigned char gBuildModelSeasonAnimSlot[];
 extern BuildModelAnimInit gBuildModelAnimInitTable[];
 extern struct BuildModelAnimOps gBuildModelAnimOpsTable[];
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern u8 gBuildModelKindTable[];
 extern u8 d_021D3D8A[];
 
@@ -476,8 +476,8 @@ void FIELD_BUILDMODEL_LoadArea(BuildModelMan *man, int areaId, int mapHeader, in
     int resourceId;
     int tileSetId;
 
-    member = FIELD_BUILDMODEL_GetArchiveMemberIndex(func_02013B38(areaId));
-    if (func_020140D8((struct Sub020140BCObj *)mapHeader)) {
+    member = FIELD_BUILDMODEL_GetArchiveMemberIndex(ZONEDATA_GetAreaId(areaId));
+    if (ZONEDATA_GetAreaInnerOuter((struct Sub020140BCObj *)mapHeader)) {
         archiveId = 0xE5;
         resourceId = 0xB0;
         tileSetId = 0x15;
@@ -650,7 +650,7 @@ void FIELD_BUILDMODEL_BuildTableIndex(BuildModelMan *man, int defaultId)
     u8 fill;
     int j;
 
-    func_02082BCC(man->tableToIndex, 0x80, BUILDMODEL_TABLE_ID_MAX);
+    MI_CpuFill8(man->tableToIndex, 0x80, BUILDMODEL_TABLE_ID_MAX);
     for (i = 0; i < man->modelCount; i++)
         man->tableToIndex[*((u16 *)FIELD_BUILDMODEL_GetModelDef(man, i))] = i;
     fill = man->tableToIndex[defaultId];
@@ -1363,7 +1363,7 @@ BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromEntry(BuildModelMan *man, BuildMo
     node->entry = entry;
     node->slot = 0xFFFF;
     facing = instance->facing >> 4;
-    func_0207AF1C(node->matrix, d_020A1B38[facing * 2], d_020A1B38[facing * 2 + 1]);
+    func_0207AF1C(node->matrix, FX_SinCosTable_[facing * 2], FX_SinCosTable_[facing * 2 + 1]);
     FIELD_G3D_MAP_GetPos((int)entry->object, &node->pos);
     func_0207C9D0(&node->pos, &instance->pos, &node->pos);
     FIELD_G3D_MAPPER_GetOriginOffset(man->fieldMap, &fieldOffset);

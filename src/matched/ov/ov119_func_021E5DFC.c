@@ -17,7 +17,7 @@
  * header that asks for the double assignment is superseded.
  *
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_02027694 0x02027694 thumb
  *   func_02027698 0x02027698 thumb
@@ -36,7 +36,7 @@ typedef struct { int f0; u32 f4; int f8,fC,f10,f14,f18; u8 b1c,b1d,b1e; } In;
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u32 func_0202136C(u16);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u32 func_020275E4(void);
 extern u32 func_02027694(void);
@@ -54,10 +54,10 @@ void func_021E5DFC(char *p, int side, void *mon)
     u32 species = POKE_TOOL_GetPartyValue(mon,6,0);
     if (func_0202136C(species)) flag = 1;
     if (((struct Obj06428 *)q)->f10) {
-        if (!species) func_0204B3DC((struct Obj *)((struct Obj06428 *)q)->f10,0);
+        if (!species) CLACT_SetActorDrawEnable((struct Obj *)((struct Obj06428 *)q)->f10,0);
         else {
             CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj06428 *)q)->f10),flag);
-            func_0204B3DC((struct Obj *)((struct Obj06428 *)q)->f10,1);
+            CLACT_SetActorDrawEnable((struct Obj *)((struct Obj06428 *)q)->f10,1);
         }
         return;
     }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E1EB8",
+   "name": "HAND_WAZA_ChargeStoreOnUse",
    "address": "0x021E1EB8",
    "kind": "game",
    "region": "ov093",

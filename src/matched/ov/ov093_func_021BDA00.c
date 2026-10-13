@@ -16,10 +16,10 @@
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   func_021BDB38 0x021BDB38 thumb ov093
  *   func_021BDB48 0x021BDB48 thumb ov093
- *   func_021CC8D8 0x021CC8D8 thumb ov093
+ *   BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
  *   BTL_SERVER_FLOW_DispatchMemberInBeginEvent 0x021BDBEC thumb ov093
- *   func_021C88E4 0x021C88E4 thumb ov093
- *   func_021CC95C 0x021CC95C thumb ov093
+ *   BTL_SERVER_FLOW_GetLockState 0x021C88E4 thumb ov093
+ *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
  *   func_021BDB58 0x021BDB58 thumb ov093
  *   func_021BDB68 0x021BDB68 thumb ov093
  *   BTL_SERVER_FLOW_DispatchPokeEntryEvent 0x021BDB88 thumb ov093
@@ -36,10 +36,10 @@ extern int BTL_SERVER_FLOW_NextFieldPokeIter(u8 *p, u8 **q, u8 **out);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void func_021BDB38(void *, u8 *);
 extern void func_021BDB48(void *, u8 *);
-extern u32 func_021CC8D8(void *, int);
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *, int);
 extern void BTL_SERVER_FLOW_DispatchMemberInBeginEvent(u8 *);
-extern int func_021C88E4(u8 *);
-extern void func_021CC95C(u32 *p, u32 v, int line);
+extern int BTL_SERVER_FLOW_GetLockState(u8 *);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 extern void func_021BDB58(void *);
 extern u8 *func_021BDB68(void *);
 extern void BTL_SERVER_FLOW_DispatchPokeEntryEvent(u8 *, u8 *);
@@ -63,22 +63,22 @@ int BTL_SERVER_FLOW_ProcAfterMemberIn(u8 *p)
         }
     }
     func_021BDB48(p + q, p);
-    lock = func_021CC8D8(p + 0x1d74, 3096);
+    lock = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 3096);
     BTL_SERVER_FLOW_DispatchMemberInBeginEvent(p);
-    if (func_021C88E4(p) != 0) result = 1;
-    func_021CC95C((u32 *)(p + 0x1d74), lock, 3102);
+    if (BTL_SERVER_FLOW_GetLockState(p) != 0) result = 1;
+    BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), lock, 3102);
     func_021BDB58(p + q);
     out = func_021BDB68(p + q);
     while (out != 0) {
-        lock = func_021CC8D8(p + 0x1d74, 3108);
+        lock = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 3108);
         BTL_SERVER_FLOW_DispatchPokeEntryEvent(p, out);
-        if (func_021C88E4(p) != 0) result = 1;
-        func_021CC95C((u32 *)(p + 0x1d74), lock, 3114);
+        if (BTL_SERVER_FLOW_GetLockState(p) != 0) result = 1;
+        BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), lock, 3114);
         out = func_021BDB78(p + q);
     }
-    lock = func_021CC8D8(p + 0x1d74, 3117);
+    lock = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 3117);
     BTL_SERVER_FLOW_DispatchMemberInEndEvent(p);
-    if (func_021C88E4(p) != 0) result = 1;
-    func_021CC95C((u32 *)(p + 0x1d74), lock, 3123);
+    if (BTL_SERVER_FLOW_GetLockState(p) != 0) result = 1;
+    BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), lock, 3123);
     return result;
 }

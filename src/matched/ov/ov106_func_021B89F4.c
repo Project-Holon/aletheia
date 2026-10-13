@@ -12,7 +12,7 @@
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   BMP_Delete 0x020437AC arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj10254.h"
 typedef unsigned char u8;
@@ -24,5 +24,5 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleaseCellAnim(u32);
 extern void BMP_Delete(struct Obj020437AC *);
-extern void func_02082BCC(void *,int,int);
-void func_021B89F4(u8 *p) { int i; for(i=0;i<2;i++) CLACT_DeleteActor(*(void **)(p+8+i*4)); CLACT_ReleaseCharacter(((struct Obj10254 *)p)->f14); CLACT_ReleaseCellAnim(((struct Obj10254 *)p)->f18); BMP_Delete(*(struct Obj020437AC * *)&((struct Obj10254 *)p)->f4); func_02082BCC(p,0,32); }
+extern void MI_CpuFill8(void *,int,int);
+void func_021B89F4(u8 *p) { int i; for(i=0;i<2;i++) CLACT_DeleteActor(*(void **)(p+8+i*4)); CLACT_ReleaseCharacter(((struct Obj10254 *)p)->f14); CLACT_ReleaseCellAnim(((struct Obj10254 *)p)->f18); BMP_Delete(*(struct Obj020437AC * *)&((struct Obj10254 *)p)->f4); MI_CpuFill8(p,0,32); }

@@ -23,9 +23,9 @@
  *   func_020355C4 0x020355C4 arm
  *   APP_TASKMENU_SetCursorActive 0x02027A08 thumb
  *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021D9EBC 0x021D9EBC thumb ov119
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021E2484 0x021E2484 thumb ov119
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DA158 0x021DA158 thumb ov119
@@ -49,7 +49,7 @@
  *   func_021DA1DC 0x021DA1DC thumb ov119
  *   func_021DA2F4 0x021DA2F4 thumb ov119
  *   func_021DBB6C 0x021DBB6C thumb ov119
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021E5EF8 0x021E5EF8 thumb ov119
  *   func_021E4174 0x021E4174 thumb ov119
  *   func_021E12F8 0x021E12F8 thumb ov119
@@ -67,10 +67,10 @@ extern int TOUCHPANEL_GetCont(void);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8),func_021D8C84(void *),TOUCHBAR_Update(struct S *);
 extern int TOUCHBAR_GetPressedButtonIdIfPressing(u8 *),TOUCHBAR_GetPressedButtonIdIfDone(u8 *);
-extern u32 APP_TASKMENU_SetCursorActive(struct TaskMenu *,u32),func_02035D20(u32 *,u32 *),APP_TASKMENU_IsFinish(struct TaskMenu *);
+extern u32 APP_TASKMENU_SetCursorActive(struct TaskMenu *,u32),TOUCHPANEL_GetPointTrg(u32 *,u32 *),APP_TASKMENU_IsFinish(struct TaskMenu *);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
 extern int func_021D9EBC(char *,int *,int *,int *,int *);
-extern void func_020061E4(u32),func_021E2484(char *,int),func_021D8E84(void *,int),func_021D8C0C(void *),func_021D8B54(void *);
+extern void GFL_USE_PlaySeDefaultVolume(u32),func_021E2484(char *,int),func_021D8E84(void *,int),func_021D8C0C(void *),func_021D8B54(void *);
 extern void *func_021D8DD0(void *a, int b, int c, char *p);
 extern int func_021DBD70(char *,int,int);
 extern int func_021D8AA8(void *);
@@ -80,7 +80,7 @@ extern int func_021DD2A8(char *);
 extern void func_021DF7AC(void *,int);
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_021DBB6C(char *);
-extern void func_0204B3DC(struct Obj *,u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 extern void func_021E5EF8(void *);
 extern void func_021E4174(char *p);
 extern void func_021E12F8(char *p);
@@ -113,7 +113,7 @@ void func_021DA318(char *p)
             changed=1;
             ((struct Obj04475 *)p)->f10A0=1U-((struct Obj04475 *)p)->f10A0;
         }
-        if(func_02035D20(&x,&y)==1) {
+        if(TOUCHPANEL_GetPointTrg(&x,&y)==1) {
             func_020355D8(1);
             APP_TASKMENU_SetCursorActive(P(0x64c),0);
             if(func_021D9EBC(p,(int *)(p+0xf98),(int *)(p+0xf94),&slot,&column)) {
@@ -121,7 +121,7 @@ void func_021DA318(char *p)
                 I(0xf74)=slot;
                 ((struct Obj04475 *)p)->fF54=x;
                 ((struct Obj04475 *)p)->fF58=y;
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 changed=1;
             } else if(y>=16 && y<144) active=1;
         }
@@ -133,7 +133,7 @@ void func_021DA318(char *p)
         func_021D8C0C(p);
         if(!active && !TOUCHPANEL_GetCont() && I(0xf34)) {
             if(I(0xf60) && I(0xf5c)) {
-                func_020061E4(0x72a);
+                GFL_USE_PlaySeDefaultVolume(0x72a);
                 choice=0;
                 active=1;
             } else func_021D8C84(p);
@@ -187,7 +187,7 @@ void func_021DA318(char *p)
         I(0xf94)=-1;
         if(keep) {
             func_021DBB6C(p);
-            func_0204B3DC(P(0xf04),1);
+            CLACT_SetActorDrawEnable(P(0xf04),1);
         }
         func_021E5EF8(p+0x950);
         func_021E5EF8(p+0x964);

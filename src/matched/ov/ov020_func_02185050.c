@@ -23,7 +23,7 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   ZONEDATA_SetDirectLocation  0x02014184  thumb
- *   func_020142A4  0x020142A4  thumb
+ *   ZONEDATA_DirToExitDir  0x020142A4  thumb
  *   EVENT_MAPCHANGE_EffectCEvent  0x02184B54  thumb  ov020
  *   EVENT_MAPCHANGE_InitWork  0x02184CEC  thumb  ov020
  */
@@ -38,7 +38,7 @@ struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 void ZONEDATA_SetDirectLocation(void *d, int a, s16 b, int c, int e, int f);
-u32 func_020142A4(u32 idx);
+u32 ZONEDATA_DirToExitDir(u32 idx);
 int EVENT_MAPCHANGE_EffectCEvent(int ctx, int *state, u8 *p);
 void EVENT_MAPCHANGE_InitWork(void **o, void *p);
 
@@ -48,7 +48,7 @@ void *EVENT_MAPCHANGE_CreateFixedExitTypeWarpEvent(void *p, int u, int b, const 
     char *r4 = func_020124E8(r0v);
 
     EVENT_MAPCHANGE_InitWork((void **)r4, p);
-    x = func_020142A4(x);
+    x = ZONEDATA_DirToExitDir(x);
     ZONEDATA_SetDirectLocation(r4 + 0x10, b, x, s[0], s[1], s[2]);
     *(int *)(r4 + 0x2c) = 5;
     *(int *)(r4 + 0x40) = 0;

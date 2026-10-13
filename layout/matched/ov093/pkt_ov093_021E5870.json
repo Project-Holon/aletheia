@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E5870",
-    "func_021E58CC"
+    "HAND_WAZA_GastroAcidSuppressAbility",
+    "HAND_WAZA_GetRolePlayHandlers"
+   ],
+   "addresses": [
+    "0x021E5870",
+    "0x021E58CC"
    ],
    "evidence": {
     "sole-ref": [

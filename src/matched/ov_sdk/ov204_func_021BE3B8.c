@@ -10,6 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   GFL_USE_IsBgmPlaying  0x02005F38  thumb  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -18,11 +19,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_02005F38(void);
+extern int GFL_USE_IsBgmPlaying(void);
 
 u32 func_021BE3B8(void)
 {
-    if (func_02005F38() != 0) {
+    if (GFL_USE_IsBgmPlaying() != 0) {
         return 1;
     }
     return 0;

@@ -11,7 +11,7 @@
  *
  * blocker:  byte-correct (MATCH*, 198 of 200 bytes, the rest is padding);
  *           the THM_CALL to ZONEDATA_IsZoneInTableDFC0 (arm9) has no witness: 0x02013DD0
- *           is an unlabelled arm9 leaf (the integrator's, inside func_02013D9C's
+ *           is an unlabelled arm9 leaf (the integrator's, inside ZONEDATA_IsZoneGroup118To120's
  *           listing extent; see unit_02013D9C.c's near-miss note). Verified
  *           C for it, per ov018_func_0217EC7C.c:
  *             int ZONEDATA_IsZoneInTableDFC0(int a0)
@@ -20,7 +20,7 @@
  * symbols:
  *   ZONEDATA_IsZoneInTableDFC0  0x02013DD0  thumb
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
- *   func_0201444C  0x0201444C  thumb
+ *   FIELD_STATUS_GetMapMode  0x0201444C  thumb
  *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
@@ -41,7 +41,7 @@ struct BigObj;
 struct Sub02014444Obj;
 int ZONEDATA_IsZoneInTableDFC0(int a0);
 void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
-u32 func_0201444C(struct Sub02014444Obj *o);
+u32 FIELD_STATUS_GetMapMode(struct Sub02014444Obj *o);
 u32 GAME_DATA_GetOccupyInfo(const struct BigObj *p);
 u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 u8 *GAME_DATA_GetSecondUnionInfo(void *p);
@@ -67,7 +67,7 @@ void EVENT_MAPCHANGE_AddWfbcMmdl(void *a, const short *p)
     if (ZONEDATA_IsZoneInTableDFC0((unsigned short)p[2]) == 0)
         return;
 
-    r6 = (int)func_0201444C(GAME_DATA_GetMoveModelSys((const struct BigObj *)a));
+    r6 = (int)FIELD_STATUS_GetMapMode(GAME_DATA_GetMoveModelSys((const struct BigObj *)a));
     sc = (int)GAME_DATA_GetOccupyInfo((const struct BigObj *)a);
     s8 = (int)GAME_DATA_GetEventWork((const struct BigObj *)a);
     if (r6 == 0)

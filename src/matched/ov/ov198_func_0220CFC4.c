@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_022110D4 0x022110D4 thumb ov198
@@ -29,7 +29,7 @@ struct Rec;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern int func_022110D4(u8 *, int);
@@ -45,7 +45,7 @@ void func_0220CFC4(char *p, int index)
     bank = func_02045B38(0, 2, 0xB7, ((struct Obj25164 *)(*(char * *)&((struct Obj06650 *)p)->f0))->f10);
     t = func_02045EC0(bank, ((struct Obj25165 *)elem)->f18);
     f = ((struct Obj06650 *)p)->f1EAC;
-    PRINTSYS_PrintQueColor(f, (u32)func_02045770(((struct Obj06650 *)p)->f1F80), 0, 0, (u32)t, ((struct Obj25166 *)(*(char * *)&((struct Obj06650 *)p)->f0))->fC, 0x2120);
+    PRINTSYS_PrintQueColor(f, (u32)BMP_WIN_GetBmp(((struct Obj06650 *)p)->f1F80), 0, 0, (u32)t, ((struct Obj25166 *)(*(char * *)&((struct Obj06650 *)p)->f0))->fC, 0x2120);
     ((struct Obj06650 *)p)->f1F84 = 1;
     STRBUF_Delete(t);
     MSGDATA_Delete(bank);

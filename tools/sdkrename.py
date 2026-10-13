@@ -84,6 +84,9 @@ SINGLE_FLAGS = {'OK', 'by_neighbour_object', 'by_order', 'NEAR',
                 'vendor_shorter_than_extent', 'WEAK_SMALL'}
 
 
+ACCEPT_DEFINED = False
+
+
 def rel(p):
     return os.path.relpath(p, ROOT).replace(os.sep, '/')
 
@@ -152,7 +155,18 @@ def manifest_names(manifests):
                 out[e['name']].add((e.get('region') or d.get('region'), int(str(e['address']), 16)))
             except (KeyError, ValueError):
                 pass
+            if fnaddr.is_unit(e):          # a unit's member names count too
+                for n, a in _unit_members(e):
+                    if a is not None:
+                        out[n].add((e.get('region') or d.get('region'), a))
     return out
+
+
+def _unit_members(e):
+    try:
+        return fnaddr._listed(e)
+    except Exception:
+        return []
 
 
 def sdk_names():
@@ -229,8 +243,21 @@ def defines(masked, name):
 
     The name must open its line or follow only a return type on it, so a call
     in a condition (`if (name(x)) {`) is not taken for a definition."""
-    return re.search(r'^[ 	]*(?:[A-Za-z_][A-Za-z0-9_ 	\*]*[ 	\*])?' + re.escape(name)
-                     + r'\s*\([^;{}]*\)\s*\{', masked, re.M) is not None
+    rx = re.compile(r'^[ 	]*(?:[A-Za-z_][A-Za-z0-9_ 	\*]*[ 	\*])?' + re.escape(name) + r'\s*\(', re.M)
+    for m in rx.finditer(masked):
+        depth, i = 1, m.end()                    # the parenthesis must close, then a body opens
+        while i < len(masked) and depth:
+            c = masked[i]
+            if c == '(':
+                depth += 1
+            elif c == ')':
+                depth -= 1
+            elif c in ';{}':
+                break
+            i += 1
+        if depth == 0 and re.match(r'\s*\{', masked[i:i + 40]):
+            return True
+    return False
 
 
 DECL_KW = ('return', 'typedef', 'static', 'else', 'goto', 'case', 'do')
@@ -455,11 +482,12 @@ def check_conflicts(rows, files, texts, manifests):
                 why.append('%s: symbols row at 0x%08X' % (rel(p), a))
             if hdr['function'] == [r['new']] and hdr['address'] not in (None, r['address']):
                 why.append('%s: defines it at 0x%08X' % (rel(p), hdr['address']))
-            elif (defines(masked, r['new']) and tgt not in man.get(r['new'], ())
+            elif (defines(masked, r['new']) and not ACCEPT_DEFINED and tgt not in man.get(r['new'], ())
                   and tgt not in sdk.get(r['new'], ())
-                  and not (hdr['function'] == [r['new']] and hdr['address'] == r['address'])):
+                  and not (hdr['function'] == [r['new']] and hdr['address'] == r['address'])
+                  and not (r['old'] in hdr['function'] and file_region(p, hdr) == r['region'])):
                 why.append('%s: defines a function of that name' % rel(p))
-            if non_function_use(masked, r['new']):
+            if non_function_use(masked, r['new']) and not (ACCEPT_DEFINED and a == r['address']):
                 why.append('%s: used as a type, variable or field' % rel(p))
         if why:
             bad[i] = sorted(set(why))
@@ -512,9 +540,13 @@ def main():
                     help='apply every row to every file (no address scoping of vendor-style old names)')
     ap.add_argument('--no-region-scope', action='store_true',
                     help='do not bind overlay-address and data rows to the files of their region')
+    ap.add_argument('--accept-defined', action='store_true',
+                    help='do not refuse a row because a file already defines the new name (the caller vouches that these definitions are the function at this address)')
     ap.add_argument('--local-ok', action='store_true',
                     help='let rows noted bind:local through when the name only exists at other addresses, and make them static')
     a = ap.parse_args()
+    global ACCEPT_DEFINED
+    ACCEPT_DEFINED = a.accept_defined
     if a.build_twl:
         build_twl(a.build_twl, a.out or 'sdkrename_map.tsv')
         return

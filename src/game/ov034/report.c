@@ -20,24 +20,24 @@
  *   REPORT_UpdateSaveAnim 0x021F09BC thumb ov034
  *   func_02030EAC 0x02030EAC arm
  *   func_020307B0 0x020307B0 arm
- *   func_0201C6B4 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   func_020120F4 0x020120F4 thumb
  *   func_02012934 0x02012934 thumb
- *   func_0201AA18 0x0201AA18 thumb
- *   func_0204B3DC 0x0204B3DC arm
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_02040588 0x02040588 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_02045770 0x02045770 arm
- *   func_0201C6C4 0x0201C6C4 thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200723C 0x0200723C thumb
  *   _s32_div_f    0x0209C2B0 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414EC 0x020414EC arm
  *   func_02040B94 0x02040B94 arm
@@ -52,7 +52,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_0201EC64 0x0201EC64 thumb
  *   func_02012944 0x02012944 thumb
@@ -62,7 +62,7 @@
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_020120F8 0x020120F8 thumb
  *   func_02012AC8 0x02012AC8 thumb
- *   func_02013E4C 0x02013E4C thumb
+ *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
  *   func_0201F158 0x0201F158 thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   func_0200C258 0x0200C258 thumb
@@ -93,12 +93,12 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   d_021F0A70 0x021F0A70 data a1
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_020452E8 0x020452E8 arm
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   BMP_WIN_Delete 0x020452E8 arm
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   CLACT_CreateUnit 0x0204B100 arm
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
- *   func_0201BA68 0x0201BA68 thumb
+ *   POKE_TOOL_GetGraphicIndex 0x0201BA68 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   func_0201BC3C 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
@@ -108,7 +108,7 @@
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
- *   func_0204B6F4 0x0204B6F4 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   sReportActorPositions    0x021F0A60 data a2
  *   CLACT_DeleteActor 0x0204B3B4 arm
@@ -184,22 +184,22 @@ extern struct Task *func_020056A0(void (*proc)(struct Task *, ReportWork *), Rep
 extern void REPORT_UpdateSaveAnim(struct Task *task, ReportWork *work);
 extern void func_02030EAC(struct Task *task);
 extern u32 func_020307B0(void *p);
-extern u32 func_0201C6B4(const struct PrintQue *printQue);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintQue *printQue);
 extern struct GameData *func_020120F4(const void *gameSystem);
 extern struct PartyHolder *func_02012934(const struct GameData *gameData);
-extern unsigned int func_0201AA18(struct PartyHolder *party);
-extern void func_0204B3DC(struct ClactActor *actor, unsigned int visible);
+extern unsigned int POKEPARTY_GetCount(struct PartyHolder *party);
+extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int visible);
 extern void func_02040588(unsigned char layer, unsigned char enable);
 extern void BMP_WIN_MakeScreen(struct BmpWin *bmpWin);
 extern void func_02041B6C(u32 bit);
 extern u32 PRINTSYS_QUE_Main(struct PrintQue *printQue);
-extern void *func_02045770(struct BmpWin *bmpWin);
-extern u32 func_0201C6C4(struct PrintQue *printQue, void *bitmap);
+extern void *BMP_WIN_GetBmp(struct BmpWin *bmpWin);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQue *printQue, void *bitmap);
 extern void BMP_WIN_TransferChars(struct BmpWin *bmpWin);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern void func_0200723C(struct SaveControl *saveControl, u32 *current, u32 *max);
 extern void BMP_WIN_ClearScreen(struct BmpWin *bmpWin);
-extern u8 func_02045730(struct BmpWin *bmpWin);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *bmpWin);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u32 i);
 extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
@@ -211,7 +211,7 @@ extern void func_02040EBC(u32 a0, u32 a1);
 extern void func_02049658(struct ArcHandle *, int, int, int, int, int, int);
 extern void func_020498F4(struct ArcHandle *, int, int, int, int, int, int);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *);
-extern struct PrintQue *func_0201C440(u32 heapId);
+extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern struct BmpWin *BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
@@ -229,7 +229,7 @@ extern int func_0208890C(struct RTCTime *time);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 i, u32 value, u32 digits, u32 padding, u32 numberType);
 extern u8 *func_020120F8(const void *gameSystem);
 extern u16 func_02012AC8(const u8 *playerState);
-extern u32 func_02013E4C(u32 zoneId);
+extern u32 ZONEDATA_GetPlaceNameId(u32 zoneId);
 extern void func_0201F158(struct WordSet *wordSet, u32 i, u32 msgId);
 extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern u32 func_0200C258(void *badgeData);
@@ -251,12 +251,12 @@ extern u32 func_020086E8(const struct PlayTime *playTime);
 extern u32 func_0201ED04(struct WordSet *wordSet);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 GF_FONT_Delete(struct GfFont *font);
-extern u32 func_020452E8(struct BmpWin *bmpWin);
-extern void func_0201C4C0(struct PrintQue *printQue);
+extern u32 BMP_WIN_Delete(struct BmpWin *bmpWin);
+extern void PRINTSYS_QUE_Delete(struct PrintQue *printQue);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern struct PartyMon *func_0201AB28(struct PartyHolder *party, u32 i);
+extern struct PartyMon *POKEPARTY_GetMember(struct PartyHolder *party, u32 i);
 extern void *POKE_TOOL_GetBoxParam(struct PartyMon *mon);
-extern u32 func_0201BA68(void *boxParam);
+extern u32 POKE_TOOL_GetGraphicIndex(void *boxParam);
 extern struct CharRes *CLACT_RegisterCharacter(struct ArcHandle *arc, u32 fileId, u32 compressed, u32 vramType, u16 heapId);
 extern int func_0201BC3C(void);
 extern struct PalRes *CLACT_RegisterPaletteCompressed(struct ArcHandle *arc, u32 fileId, u32 vramType, u32 palOffset, u16 heapId);
@@ -266,7 +266,7 @@ extern struct CellRes *CLACT_RegisterCellAnim(struct ArcHandle *arc, u32 cellFil
 extern struct PalRes *CLACT_RegisterPaletteEx(struct ArcHandle *arc, u32 fileId, u32 vramType, u32 count, u16 palOffset, u16 pad, u16 heapId);
 extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *unit, struct CharRes *charRes, struct PalRes *palRes, struct CellRes *cellRes, const Rect *position, unsigned short space, unsigned short heapId);
 extern int POKE_TOOL_GetIconPalette(void *boxParam);
-extern void func_0204B6F4(struct ClactActor *actor, u32 paletteIndex, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 paletteIndex, u32 flag);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void CLACT_DeleteActor(struct ClactActor *actor);
 extern void CLACT_ReleaseCharacter(struct CharRes *charRes);
@@ -330,10 +330,10 @@ void REPORT_ShowPartyIcons(ReportWork *work)
     unsigned int i;
     struct PartyHolder *party;
 
-    if (!(work->shownFlags & REPORT_SHOWN_ICONS) && func_0201C6B4(work->printQue) == 1) {
+    if (!(work->shownFlags & REPORT_SHOWN_ICONS) && PRINTSYS_QUE_IsFinished(work->printQue) == 1) {
         party = func_02012934(func_020120F4(work->gameSystem));
-        for (i = 0; i < func_0201AA18(party); i++)
-            func_0204B3DC(work->actors[i], 1);
+        for (i = 0; i < POKEPARTY_GetCount(party); i++)
+            CLACT_SetActorDrawEnable(work->actors[i], 1);
         work->shownFlags |= REPORT_SHOWN_ICONS;
     }
 }
@@ -350,7 +350,7 @@ void REPORT_UpdateWindows(ReportWork *work)
     unsigned int i;
     struct PrintQue *printQue;
 
-    if (!(work->shownFlags & REPORT_SHOWN_WINDOWS) && func_0201C6B4(work->printQue) == 1) {
+    if (!(work->shownFlags & REPORT_SHOWN_WINDOWS) && PRINTSYS_QUE_IsFinished(work->printQue) == 1) {
         func_02040588(4, 1);
         func_02040588(5, 1);
         func_02040588(6, 1);
@@ -363,7 +363,7 @@ void REPORT_UpdateWindows(ReportWork *work)
     for (i = 0; i < REPORT_WINDOW_COUNT; i++) {
         printQue = work->printQue;
         if (work->windows[i].printPending) {
-            if (func_0201C6C4(printQue, func_02045770(work->windows[i].bmpWin)) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget(printQue, BMP_WIN_GetBmp(work->windows[i].bmpWin)) == 0) {
                 BMP_WIN_TransferChars(work->windows[i].bmpWin);
                 work->windows[i].printPending = 0;
             }
@@ -414,9 +414,9 @@ void REPORT_StartSaveAnim(ReportWork *work)
     unsigned int i;
 
     BMP_WIN_ClearScreen(saveWindow);
-    func_02041B6C(func_02045730(saveWindow));
+    func_02041B6C(BMP_WIN_GetBgLayer(saveWindow));
     for (i = 6; i <= 15; i++)
-        func_0204B3DC(work->actors[i], 1);
+        CLACT_SetActorDrawEnable(work->actors[i], 1);
     work->saveAnimRunning = 1;
 }
 
@@ -504,7 +504,7 @@ void REPORT_LoadBgGraphics(int heapId)
 static inline void printRecordLine(ReportWork *work, u32 index, struct Strbuf *buf, struct Strbuf *msg, u32 y, u16 color, u32 pending)
 {
     struct PrintQue *printQue = work->printQue;
-    PRINTSYS_PrintQueColor(printQue, func_02045770(work->windows[index].bmpWin), 0, y, buf, work->font, color);
+    PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(work->windows[index].bmpWin), 0, y, buf, work->font, color);
     work->windows[index].printPending = pending;
     STRBUF_Delete(msg);
 }
@@ -526,11 +526,11 @@ void REPORT_InitWindows(ReportWork *work)
     struct PlayTime *currentPlayTime;
     struct RTCDate date;
     struct RTCTime clock;
-    work->printQue = func_0201C440(work->heapId);
+    work->printQue = PRINTSYS_QUE_Create(work->heapId);
     for (i = 0; i < REPORT_WINDOW_COUNT; i++) {
         const u8 *layout = d_021F0A70 + i * 6;
         work->windows[i].bmpWin = BMP_WIN_Create(layout[0], layout[1], layout[2], layout[3], layout[4], layout[5], one);
-        BMP_Clear(func_02045770(work->windows[i].bmpWin), 0);
+        BMP_Clear(BMP_WIN_GetBmp(work->windows[i].bmpWin), 0);
     }
     work->font = GF_FONT_Create(23, 0, 0, 0, work->heapId);
     msgBank = func_02045B38(0, 2, 168, work->heapId);
@@ -556,7 +556,7 @@ void REPORT_InitWindows(ReportWork *work)
     func_0201F250(wordSet, buf, msgTime);
     printRecordLine(work, 2, buf, msgTime, 0, 0x3DC0, one);
     msgLocation = func_02045EC0(msgBank, 3);
-    func_0201F158(wordSet, 0, func_02013E4C(func_02012AC8(func_020120F8(work->gameSystem))));
+    func_0201F158(wordSet, 0, ZONEDATA_GetPlaceNameId(func_02012AC8(func_020120F8(work->gameSystem))));
     func_0201F250(wordSet, buf, msgLocation);
     printRecordLine(work, 3, buf, msgLocation, 0, 0x3DC0, one);
     msgBadges = func_02045EC0(msgBank, 4);
@@ -596,8 +596,8 @@ void REPORT_ExitWindows(ReportWork *work)
     unsigned i;
     GF_FONT_Delete(work->font);
     for (i = 0; i < REPORT_WINDOW_COUNT; i++)
-        func_020452E8(work->windows[i].bmpWin);
-    func_0201C4C0(work->printQue);
+        BMP_WIN_Delete(work->windows[i].bmpWin);
+    PRINTSYS_QUE_Delete(work->printQue);
 }
 
 
@@ -612,11 +612,11 @@ void REPORT_InitActors(ReportWork *work)
     Rect position;
 
     party = func_02012934(func_020120F4(work->gameSystem));
-    partyCount = func_0201AA18(party);
+    partyCount = POKEPARTY_GetCount(party);
     work->unit = CLACT_CreateUnit(0x10, 0, work->heapId);
     arc = func_020490F4(7, work->heapId);
     for (i = 0; i < partyCount; i++)
-        work->partyCharRes[i] = CLACT_RegisterCharacter(arc, func_0201BA68(POKE_TOOL_GetBoxParam(func_0201AB28(party, i))), 0, 1,
+        work->partyCharRes[i] = CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex(POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(party, i))), 0, 1,
                                     work->heapId);
     work->partyPalRes = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 1, 0, work->heapId);
     cellFileId = func_0201BC40();
@@ -629,18 +629,18 @@ void REPORT_InitActors(ReportWork *work)
     ARC_TOOL_DeleteHandle(arc);
     position = sReportActorPositions[0];
     for (i = 0; i < partyCount; i++) {
-        mon = func_0201AB28(party, i);
+        mon = POKEPARTY_GetMember(party, i);
         work->actors[i] = CLACT_CreateActor(work->unit, work->partyCharRes[i], work->partyPalRes, work->partyCellRes, &position, 1,
                                     work->heapId);
-        func_0204B3DC(work->actors[i], 0);
+        CLACT_SetActorDrawEnable(work->actors[i], 0);
         position.x += 0x20;
-        func_0204B6F4(work->actors[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(mon)), 1);
+        CLACT_SetActorPaletteOffset(work->actors[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(mon)), 1);
     }
     position = sReportActorPositions[1];
     for (i = 6; i <= 15; i++) {
         work->actors[i] = CLACT_CreateActor(work->unit, work->barCharRes, work->barPalRes, work->barCellRes, &position, 1,
                                     work->heapId);
-        func_0204B3DC(work->actors[i], 0);
+        CLACT_SetActorDrawEnable(work->actors[i], 0);
         position.x += 0xC;
     }
     BG_SYS_SetSubPlaneVisible(0x10, 1);
@@ -653,7 +653,7 @@ void REPORT_ExitActors(ReportWork *work)
     struct PartyHolder *party;
 
     party = func_02012934(func_020120F4(work->gameSystem));
-    for (i = 0; i < func_0201AA18(party); i++) {
+    for (i = 0; i < POKEPARTY_GetCount(party); i++) {
         CLACT_DeleteActor(work->actors[i]);
         CLACT_ReleaseCharacter(work->partyCharRes[i]);
     }

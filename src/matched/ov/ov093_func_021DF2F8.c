@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetEarthPlateHandlers
+ * function: HAND_ITEM_GetEarthPlateHandlers
  * address: 0x021DF2F8
  * packet: pkt_ov093_021DF2F8
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DEFC4.c and filed here.
  *
  * symbols:
- *   d_021F14E4 0x021F14E4 data ov093 a4
+ *   gEarthPlateHandlers 0x021F14E4 data ov093 a4
  */
 
-extern int d_021F14E4[];
-int *BTL_HANDLER_ITEM_GetEarthPlateHandlers(int *p);
+extern int gEarthPlateHandlers[];
+int *HAND_ITEM_GetEarthPlateHandlers(int *p);
 
-int *BTL_HANDLER_ITEM_GetEarthPlateHandlers(int *p)
+int *HAND_ITEM_GetEarthPlateHandlers(int *p)
 {
     *p = 1;
-    return d_021F14E4;
+    return gEarthPlateHandlers;
 }

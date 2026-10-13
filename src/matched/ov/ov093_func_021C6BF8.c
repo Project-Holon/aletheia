@@ -14,9 +14,9 @@
  *   docs/idioms/a-colour-swap-no-source-form-fixes-can-be-opt-lifetimes-off.md.
  *   Source is unchanged from the old draft. Plain literals already (11952, 0x2c).
  *   Callees: BTL_POKEPARAM_GetCritStage returns u8, BTL_CALC_RollCriticalHit takes u8 (both matched);
- *   sub_0201BD28 and WAZA_TOOL_IsAlwaysCritical return u32 (matched arm9 units).
+ *   WAZA_TOOL_GetParam and WAZA_TOOL_IsAlwaysCritical return u32 (matched arm9 units).
  * symbols:
- *   sub_0201BD28  0x0201BD28  thumb
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   WAZA_TOOL_IsAlwaysCritical  0x0201C284  thumb
  *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
@@ -28,7 +28,7 @@
  *   BTL_EVENT_SetVar  0x021D75A8  thumb  ov093
  *   BTL_POKEPARAM_GetCritStage  0x021D5F14  thumb  ov093
  *   BTL_CALC_RollCriticalHit  0x021D7930  thumb  ov093
- *   func_021B911C  0x021B911C  thumb  ov093
+ *   BTL_MAIN_ReturnZero  0x021B911C  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -44,8 +44,8 @@ extern void BTL_EVENT_PopVarFrame(int line);
 extern void BTL_EVENT_SetVar(int key, u32 val);
 extern u8 BTL_POKEPARAM_GetCritStage(struct UtilWork *p);
 extern int BTL_CALC_RollCriticalHit(int i);
-extern int func_021B911C(int a, int b);
-extern u32 sub_0201BD28(u16 id, u32 field);
+extern int BTL_MAIN_ReturnZero(int a, int b);
+extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern u32 WAZA_TOOL_IsAlwaysCritical(u16 id);
 
 #pragma opt_lifetimes off
@@ -53,7 +53,7 @@ int BTL_SERVER_FLOW_CheckCriticalHit(u8 *p, u8 *a, u8 *b, u16 q)
 {
     int r, n;
     u16 h;
-    h = sub_0201BD28(q, 7);
+    h = WAZA_TOOL_GetParam(q, 7);
     h = h + BTL_POKEPARAM_GetCritStage((struct UtilWork *)a);
     BTL_EVENT_PushVarFrame(11952);
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(b));
@@ -70,7 +70,7 @@ int BTL_SERVER_FLOW_CheckCriticalHit(u8 *p, u8 *a, u8 *b, u16 q)
             if (n > 4) n = 4;
             r = BTL_CALC_RollCriticalHit((u8)((u16)n));
         }
-        if (func_021B911C(*(int *)(p + 4), 3)) r = 1;
+        if (BTL_MAIN_ReturnZero(*(int *)(p + 4), 3)) r = 1;
     }
     BTL_EVENT_PopVarFrame(11975);
     return r;

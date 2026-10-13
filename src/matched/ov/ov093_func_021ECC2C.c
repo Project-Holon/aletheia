@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B8FF4 0x021B8FF4 thumb ov093
+ *   BTL_MAIN_GetOwnClientId 0x021B8FF4 thumb ov093
  *   BTLV_SCU_GetBallStates 0x021EE104 thumb ov093
  *   func_021F823C 0x021F823C thumb ov094
  *   func_021F7EB4 0x021F7EB4 thumb ov094
  *   func_021F7998 0x021F7998 thumb ov094
  *   func_021F827C 0x021F827C thumb ov094
- *   func_021B8ED8 0x021B8ED8 thumb ov093
- *   func_021B98AC 0x021B98AC thumb ov093
+ *   BTL_MAIN_GetSlotFromViewPos 0x021B8ED8 thumb ov093
+ *   BTL_SIDE_GetPokeAtPos 0x021B98AC thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_POKEPARAM_GetDisplayMon 0x021D5864 thumb ov093
@@ -33,14 +33,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 func_021B8FF4(u8 *);
+extern u8 BTL_MAIN_GetOwnClientId(u8 *);
 extern void BTLV_SCU_GetBallStates(u8 *, u32 *, u32, u32, u32);
 extern void func_021F823C(u32 *);
 extern int func_021F7EB4(void);
 extern void func_021F7998(u32);
 extern int func_021F827C(u32);
-extern u8 func_021B8ED8(u8 *p, u8 k);
-extern u8 *func_021B98AC(char *const *q, u8 b);
+extern u8 BTL_MAIN_GetSlotFromViewPos(u8 *p, u8 k);
+extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int BTL_POKEPARAM_IsFainted(void *);
 struct Work;
@@ -64,7 +64,7 @@ int func_021ECC2C(u8 *p, int *state)
     u16 msg;
     switch (*state) {
     case 0:
-        b[22] = func_021B8FF4(*(u8 * *)&((struct Obj00027 *)p)->f134);
+        b[22] = BTL_MAIN_GetOwnClientId(*(u8 * *)&((struct Obj00027 *)p)->f134);
         BTLV_SCU_GetBallStates(p, buf, b[22], 4, 0);
         func_021F823C(buf);
         (*state)++;
@@ -81,10 +81,10 @@ int func_021ECC2C(u8 *p, int *state)
             b[16] = 4;
             b[17] = 6;
             b[21] = 0;
-            b[22] = func_021B8FF4(*(u8 * *)&((struct Obj00027 *)p)->f134);
+            b[22] = BTL_MAIN_GetOwnClientId(*(u8 * *)&((struct Obj00027 *)p)->f134);
             for (i = 0; i < 3U; i++) {
-                b[12 + i] = func_021B8ED8(*(u8 * *)&((struct Obj00027 *)p)->f134, b[15 + i]);
-                ((u8 **)b)[i] = (u8 *)func_021B98AC(*(char *const * *)&((struct Obj00027 *)p)->f138, b[12 + i]);
+                b[12 + i] = BTL_MAIN_GetSlotFromViewPos(*(u8 * *)&((struct Obj00027 *)p)->f134, b[15 + i]);
+                ((u8 **)b)[i] = (u8 *)BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj00027 *)p)->f138, b[12 + i]);
                 b[18 + i] = BTL_POKEPARAM_GetPokeId(((u8 **)b)[i]);
                 if (!BTL_POKEPARAM_IsFainted(((u8 **)b)[i])) b[21]++;
             }

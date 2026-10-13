@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   DELIVERY_IRC_Create 0x02157DD8 thumb ov010
  *   DELIVERY_IRC_Start 0x02157E34 thumb ov010
  *   GFL_NET_GetRunState 0x0203CD98 arm
@@ -30,7 +30,7 @@ typedef struct Descriptor {
     u8 pad[0x60];
     int enabled;
 } Descriptor;
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void *DELIVERY_IRC_Create(u8 *p);
 extern int DELIVERY_IRC_Start(void *);
 extern int GFL_NET_GetRunState(void);
@@ -44,7 +44,7 @@ void func_021DE830(void *a, int *state, char *p)
     Descriptor d;
     switch (*state) {
     case 0:
-        func_02082BCC(&d, 0, 0x7c);
+        MI_CpuFill8(&d, 0, 0x7c);
         d.kind = 9;
         d.size = 0x2d0;
         d.data = p + 0x7a4;

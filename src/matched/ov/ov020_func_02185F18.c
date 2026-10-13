@@ -10,12 +10,12 @@
  * status: EXACT*
  * symbols:
  *   GAME_DATA_GetStartLocation 0x0201284C thumb
- *   func_02013FEC 0x02013FEC thumb
+ *   ZONEDATA_IsZoneInTableDFDC 0x02013FEC thumb
  *   GAME_DATA_GetSpecialLocation 0x02012894 thumb
  */
 typedef struct { int f[7]; } S7;
 extern unsigned short *GAME_DATA_GetStartLocation(void *);
 typedef unsigned int   u32;
-extern u32 func_02013FEC(u32 id);
+extern u32 ZONEDATA_IsZoneInTableDFDC(u32 id);
 extern S7 *GAME_DATA_GetSpecialLocation(void *);
-void EVENT_MAPCHANGE_CopySpecialLocation(void *p,S7 *out) { if (func_02013FEC(GAME_DATA_GetStartLocation(p)[2])) *out=*GAME_DATA_GetSpecialLocation(p); }
+void EVENT_MAPCHANGE_CopySpecialLocation(void *p,S7 *out) { if (ZONEDATA_IsZoneInTableDFDC(GAME_DATA_GetStartLocation(p)[2])) *out=*GAME_DATA_GetSpecialLocation(p); }

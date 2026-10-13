@@ -13,7 +13,7 @@
  *   FRAME_LIST_Update  0x021B7AB0  thumb  ov067
  *   func_021C014C  0x021C014C  thumb  ov210
  *   func_020355C4  0x020355C4  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_021BE0E4  0x021BE0E4  thumb  ov210
  *   func_021BEDB8  0x021BEDB8  thumb  ov210
  *   func_021BE2F4  0x021BE2F4  thumb  ov210
@@ -32,7 +32,7 @@ struct S;
 extern int FRAME_LIST_Update(struct S *p);
 extern int func_021C014C(char *ctx);
 extern u8 func_020355C4(void);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern void func_021BE0E4(u8 *p, u32 v);
 extern void func_021BEDB8(int p, int i, int v);
 extern u32 func_021BE2F4(u8 *p, u32 a, u32 b, u32 c);
@@ -51,7 +51,7 @@ u32 func_021BD568(u8 *p)
         case 4:
         case 5:
             if (func_020355C4() == 0) {
-                func_020061E4(0x54c);
+                GFL_USE_PlaySeDefaultVolume(0x54c);
                 func_021BE0E4(p, r5);
             }
             break;
@@ -60,15 +60,15 @@ u32 func_021BD568(u8 *p)
     r5 = func_021C014C((char *)p);
     switch (r5) {
     case 0:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021BEDB8((int)p, 2, 9);
         return func_021BE2F4(p, 1, 2, 11);
     case 8:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021BEDB8((int)p, 2, 9);
         return func_021BE2F4(p, 1, 2, 11);
     case 9:
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         func_021BE110(p);
         break;
     case 1:
@@ -77,7 +77,7 @@ u32 func_021BD568(u8 *p)
     case 4:
     case 5:
     case 6:
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         func_021BE0E4(p, r5 - 1);
         break;
     }

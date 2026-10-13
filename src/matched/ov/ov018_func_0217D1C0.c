@@ -19,11 +19,11 @@
  *   INTRUDE_COMM_GetWorkIfRunning            0x02158344  thumb  ov010
  *   INTRUDE_SUBDISP_UpdateTownState            0x0217F008  thumb  ov018
  *   GAME_DATA_GetIntrudeCount            0x02012B70  thumb
- *   func_020061E4            0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume            0x020061E4  thumb
  *   TCBL_Main            0x020310C4  arm
  *   PRINTSYS_QUE_Main            0x0201C4E4  thumb
- *   func_02045770            0x02045770  arm
- *   func_0201C6C4            0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp            0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget            0x0201C6C4  thumb
  *   BMP_WIN_TransferChars            0x02045334  arm
  *   BMP_OAM_UploadChars            0x020257D0  thumb
  *   INTRUDE_SUBDISP_IsTownBlinking            0x0217F0FC  thumb  ov018
@@ -65,11 +65,11 @@ void GFL_NET_WM_ICON_EasyObjWindowOn(void);
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
 void INTRUDE_SUBDISP_UpdateTownState(char *p, char *q);
 int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
-void func_020061E4(u32 a);
+void GFL_USE_PlaySeDefaultVolume(u32 a);
 void TCBL_Main(struct Tcbl *p);
 u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-void *func_02045770(struct Descriptor *p);
-u32 func_0201C6C4(struct PrintSys *p, void *v);
+void *BMP_WIN_GetBmp(struct Descriptor *p);
+u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 void BMP_WIN_TransferChars(struct Descriptor *d);
 void BMP_OAM_UploadChars(struct Obj *o);
 int INTRUDE_SUBDISP_IsTownBlinking(u8 *w);
@@ -106,7 +106,7 @@ void INTRUDE_SUBDISP_Update(u8 *w, int b)
     }
     if (w[0x11E] < w[0xDA]) {
         if (GAME_DATA_GetIntrudeCount(s2) == 1) {
-            func_020061E4(0x699);
+            GFL_USE_PlaySeDefaultVolume(0x699);
         }
         w[0x11E] = w[0xDA];
     }
@@ -114,20 +114,20 @@ void INTRUDE_SUBDISP_Update(u8 *w, int b)
     PRINTSYS_QUE_Main(((struct Obj00399 *)w)->f28);
     h = ((struct Obj00399 *)w)->f28;
     if (w[0x48] != 0) {
-        if (func_0201C6C4(h, func_02045770(((struct Obj00399 *)w)->f44)) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget(h, BMP_WIN_GetBmp(((struct Obj00399 *)w)->f44)) == 0) {
             BMP_WIN_TransferChars(((struct Obj00399 *)w)->f44);
             w[0x48] = 0;
         }
     }
     h = ((struct Obj00399 *)w)->f28;
     if (w[0x50] != 0) {
-        if (func_0201C6C4(h, func_02045770(((struct Obj00399 *)w)->f4C)) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget(h, BMP_WIN_GetBmp(((struct Obj00399 *)w)->f4C)) == 0) {
             BMP_WIN_TransferChars(((struct Obj00399 *)w)->f4C);
             w[0x50] = 0;
         }
     }
     for (i = 0; i < 2; i++) {
-        if (func_0201C6C4(((struct Obj00399 *)w)->f28, *(void **)(w + 0xB4 + i * 4)) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget(((struct Obj00399 *)w)->f28, *(void **)(w + 0xB4 + i * 4)) == 0) {
             BMP_OAM_UploadChars(*(void **)(w + 0xC0 + i * 4));
         }
     }

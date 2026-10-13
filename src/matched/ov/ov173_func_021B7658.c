@@ -12,7 +12,7 @@
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021B820C 0x021B820C data a4
  *   d_021B8250 0x021B8250 data a4
@@ -26,7 +26,7 @@ extern u8 d_021B8250[];
 extern void CLACT_InitSystem(const struct Cfg *,u32,u32);
 extern struct Bank *CLACT_CreateUnit(int,u8,u32);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *);
-extern void func_020434DC(u32,u32);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 typedef enum { OFFSET=14 } Offset;
-void func_021B7658(u8 *p, void *a1) {Offset off;struct Bank *b;CLACT_InitSystem(&d_021B820C,(u32)d_021B8250,79);off=OFFSET;b=CLACT_CreateUnit(14,0,79);off+=242;*(struct Bank **)(p+off)=b;CLACT_SetUnitDefaultRenderer(b);func_020434DC(16,1);BG_SYS_SetSubPlaneVisible(16,1);}
+void func_021B7658(u8 *p, void *a1) {Offset off;struct Bank *b;CLACT_InitSystem(&d_021B820C,(u32)d_021B8250,79);off=OFFSET;b=CLACT_CreateUnit(14,0,79);off+=242;*(struct Bank **)(p+off)=b;CLACT_SetUnitDefaultRenderer(b);BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);}

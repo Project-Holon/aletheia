@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021877A8",
+   "name": "EL_SCOREBOARD_StartOnFieldWithCallback",
    "address": "0x021877A8",
    "kind": "game",
    "region": "ov020",

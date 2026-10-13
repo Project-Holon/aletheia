@@ -18,7 +18,7 @@
  *   func_021D4590 0x021D4590 thumb ov122
  *   func_021D45BC 0x021D45BC thumb ov122
  *   func_021D44BC 0x021D44BC thumb ov122
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   func_02041B6C 0x02041B6C arm
  *   data_021D5714 0x021D5714 data ov122 a4
@@ -46,7 +46,7 @@ extern void func_021D4CD8(int, int, int, int, void *);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_021D4590(u32 i, u32 p);
 extern int INTRUDE_COMM_CountEventPeers(void *p);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void func_021D45BC(u32 i, u32 p);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021D44BC(int, void *, Row *, const int *, const int *);
@@ -83,13 +83,13 @@ void func_021D4D98(char *p)
     if (((struct Obj00265 *)p)->f124 != mode) {
         switch (mode) {
         case 0:
-            func_0204B3DC(((struct Obj00265 *)p)->f3A4, 0);
+            CLACT_SetActorDrawEnable(((struct Obj00265 *)p)->f3A4, 0);
             func_021D45BC(10, (u32)p);
             MSGDATA_ReadString(((struct Obj00265 *)p)->f44, 0, ((struct Obj00265 *)p)->f54);
             func_021D44BC(0, p, &data_021D5840, data_021D5710, data_021D5714);
             break;
         case 1:
-            func_0204B3DC(((struct Obj00265 *)p)->f3A4, 0);
+            CLACT_SetActorDrawEnable(((struct Obj00265 *)p)->f3A4, 0);
             func_021D45BC(10, (u32)p);
             MSGDATA_ReadString(((struct Obj00265 *)p)->f44, 15, ((struct Obj00265 *)p)->f54);
             func_021D44BC(0, p, &data_021D5860, data_021D5710, data_021D5714);
@@ -97,7 +97,7 @@ void func_021D4D98(char *p)
         case 2:
             count = INTRUDE_COMM_CountEventPeers((void *)object);
             ((struct Obj00265 *)p)->f128 = count;
-            func_0204B3DC(((struct Obj00265 *)p)->f3A4, 0);
+            CLACT_SetActorDrawEnable(((struct Obj00265 *)p)->f3A4, 0);
             func_021D45BC(10, (u32)p);
             func_0201EFA4(((struct Obj00265 *)p)->f48, 0, count, 1, 0, 1);
             MSGDATA_ReadString(((struct Obj00265 *)p)->f44, 16, ((struct Obj00265 *)p)->f50);
@@ -109,7 +109,7 @@ void func_021D4D98(char *p)
             func_021D44BC(0, p, &data_021D5860, data_021D5710, data_021D5714);
             if (INTRUDE_COMM_GetRequesterStatus(object, *(int *)&((struct Obj00265 *)p)->f54)) {
                 func_021D44BC(10, p, &data_021D5850, 0, 0);
-                func_0204B3DC(((struct Obj00265 *)p)->f3A4, 1);
+                CLACT_SetActorDrawEnable(((struct Obj00265 *)p)->f3A4, 1);
             }
             break;
         }

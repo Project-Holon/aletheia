@@ -1,5 +1,5 @@
 /*
- * function: func_021CB214
+ * function: BTL_SERVER_FLOW_QueryInitialTargetEvent
  * address:  0x021CB214
  * packet:   pkt_ov093_021CB214
  * region:   ov093
@@ -30,7 +30,7 @@ extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 
-u8 func_021CB214(u8 *p, u8 *a, u8 *b)
+u8 BTL_SERVER_FLOW_QueryInitialTargetEvent(u8 *p, u8 *a, u8 *b)
 {
     u8 r;
     BTL_EVENT_PushVarFrame(631);

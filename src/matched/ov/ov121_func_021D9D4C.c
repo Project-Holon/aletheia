@@ -15,14 +15,14 @@
  *   Twin: ov121 func_021D9CA4.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   STRBUF_Create 0x020457B0 arm
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   TCBL_Create 0x0203101C arm
  *   func_02028470 0x02028470 thumb
@@ -35,14 +35,14 @@ typedef unsigned int u32;
 struct Descriptor; struct CharBuf; struct Cfg; struct Tcbl; struct U16Vec;
 extern const char d_021DFBA0[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u16 heapId);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_02028470(u8 *p, u32 v);
@@ -51,7 +51,7 @@ void *func_021D9D4C(int a, u8 b, void *c, void *d, u16 heap)
     u8 *p;
     struct Descriptor *q;
     p = func_02030734(heap, 0x40, 0, d_021DFBA0, 0x1ae);
-    func_02082BCC(p, 0, 0x40);
+    MI_CpuFill8(p, 0, 0x40);
     *(u16 *)(p + 0x18) = 15;
     *(void **)(p + 4) = d;
     *(void **)(p + 0x24) = c;
@@ -62,11 +62,11 @@ void *func_021D9D4C(int a, u8 b, void *c, void *d, u16 heap)
     *(struct Descriptor **)(p + 0x10) = q;
     *(struct Descriptor **)(p + 0x1c) = q;
     p[0x20] = 0;
-    BMP_Clear(func_02045770(*(struct Descriptor **)(p + 0x10)), *(u16 *)(p + 0x18));
+    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0x10)), *(u16 *)(p + 0x18));
     q = *(struct Descriptor **)(p + 0x10);
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen((struct Cfg *)q);
-    func_020409B4(func_02045730(q));
+    func_020409B4(BMP_WIN_GetBgLayer(q));
     *(struct Tcbl **)(p + 0xc) = TCBL_Create(heap, heap, 1, 32);
     return p;
 }

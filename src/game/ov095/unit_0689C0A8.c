@@ -13,8 +13,8 @@
  * Calls fixed bx-pc veneers 0689C0D4 -> 021D5440,
  * 0689C0E4 -> 021C88A4, 0689C0F4 -> 021C88C8.
  * symbols:
- *   func_021C88A4  0x021C88A4  thumb
- *   func_021C88C8  0x021C88C8  thumb
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
  *   func_0689C104 0x0689C104 thumb ov095
  */
@@ -22,15 +22,15 @@
 typedef unsigned char u8;
 extern void func_0689C104(void *, void *, u8);
 extern int BTL_POKEPARAM_GetPokeId(void *);
-extern void *func_021C88A4(void *, int, int);
-extern void func_021C88C8(void *, void *);
+extern void *BTL_SERVER_FLOW_AllocCmdRecord(void *, int, int);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *, void *);
 void func_0689C0A8(void *a, void *b)
 {
     int key;
     void *record;
     func_0689C104(a, b, 0);
     key = BTL_POKEPARAM_GetPokeId(b);
-    record = func_021C88A4(a, 0x13, key);
+    record = BTL_SERVER_FLOW_AllocCmdRecord(a, 0x13, key);
     ((struct Obj21902 *)((unsigned int)record))->f4 = key;
-    func_021C88C8(a, record);
+    BTL_SERVER_FLOW_CommitCmdRecord(a, record);
 }

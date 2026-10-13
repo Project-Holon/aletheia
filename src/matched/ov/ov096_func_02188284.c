@@ -23,9 +23,9 @@
  *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
  *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
- *   func_021B9A6C 0x021B9A6C thumb ov093
- *   func_021B8DE4 0x021B8DE4 thumb ov093
- *   func_021B8CE8 0x021B8CE8 thumb ov093
+ *   BTL_MAIN_IsPosInTable 0x021B9A6C thumb ov093
+ *   BTL_MAIN_GetSlotClientIdThunk 0x021B8DE4 thumb ov093
+ *   BTL_MAIN_IsOpposingPos 0x021B8CE8 thumb ov093
  *   func_020870D0 0x020870D0 arm
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
@@ -66,9 +66,9 @@ struct QG;
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 extern int BTL_POKEPARAM_IsFainted(void *p);
-extern int func_021B9A6C(int, u32);
-extern u8 func_021B8DE4(char *p, int i);
-extern int func_021B8CE8(int, int, int);
+extern int BTL_MAIN_IsPosInTable(int, u32);
+extern u8 BTL_MAIN_GetSlotClientIdThunk(char *p, int i);
+extern int BTL_MAIN_IsOpposingPos(int, int, int);
 extern u64 func_020870D0(void);
 extern u32 func_0203F0A8(void);
 inline static u32 draw_below(u32 n)
@@ -163,7 +163,7 @@ int func_02188284(int a, Obj *b)
         }
         b->s30[b->opp] = ids[draw_below(n)];
         b->h24[b->opp] = scores[0];
-        if (func_021B8CE8(b->fb0, func_021B8DE4((char *)b->fb0, b->side), func_021B8DE4((char *)b->fb0, b->opp)) == 0) {
+        if (BTL_MAIN_IsOpposingPos(b->fb0, BTL_MAIN_GetSlotClientIdThunk((char *)b->fb0, b->side), BTL_MAIN_GetSlotClientIdThunk((char *)b->fb0, b->opp)) == 0) {
             if (b->h24[b->opp] < 100)
                 b->h24[b->opp] = -1;
         }
@@ -190,7 +190,7 @@ int func_02188284(int a, Obj *b)
     if (func_0218A378(b, BTL_POKEPARAM_GetMoveId(b->fbc, b->slot), 27) == 1 && !(b->target & 1))
         b->target = b->side;
     v = BTL_POKEPARAM_GetMoveId(b->fbc, b->slot);
-    if (b->mode == 2 && func_021B9A6C(b->side, b->target) == 0 && func_0218A384(b, v, 11) == 0)
+    if (b->mode == 2 && BTL_MAIN_IsPosInTable(b->side, b->target) == 0 && func_0218A384(b, v, 11) == 0)
         b->target = (b->target & 1) + 2;
     return 0;
 }

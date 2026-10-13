@@ -18,7 +18,7 @@
  *   ITEMMENU_RemoveSelectedItems  0x021B7D20  thumb  ov070
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   func_0200C278  0x0200C278  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   ITEMMENU_PrintMoney  0x021BAFC4  thumb  ov070
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   ITEMMENU_RegisterItemNameCounted  0x021B6204  thumb  ov070
@@ -65,7 +65,7 @@ extern int ITEMMENU_GetSellTotal(int a, int b, unsigned int id);
 extern void ITEMMENU_RemoveSelectedItems(struct Obj *o, int x);
 extern void *GAME_DATA_GetMiscSave(int *p);
 extern u32 func_0200C278(struct Blk34 *p, u32 v);
-extern void func_020061E4(unsigned int id);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned int id);
 extern void ITEMMENU_PrintMoney(u8 *p);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void ITEMMENU_RegisterItemNameCounted(u8 *p, int a, unsigned int b, int c, int d);
@@ -94,7 +94,7 @@ void ITEMMENU_TaskSellConfirmInput(Obj *o)
         v = ITEMMENU_GetSellTotal(o->f84C, o->f7F4, o->f544);
         ITEMMENU_RemoveSelectedItems(o, o->f7F4);
         func_0200C278((struct Blk34 *)((unsigned int)GAME_DATA_GetMiscSave(o->f000)), v);
-        func_020061E4(0x655);
+        GFL_USE_PlaySeDefaultVolume(0x655);
         ITEMMENU_PrintMoney((u8 *)o);
         MSGDATA_ReadString(o->f51C, 0x50, (void *)o->f524);
         ITEMMENU_RegisterItemNameCounted((u8 *)o, 0, o->f84C, o->f7F4 > 1, 0);

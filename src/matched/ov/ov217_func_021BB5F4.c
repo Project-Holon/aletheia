@@ -17,7 +17,7 @@
  *   func_021BBDF0 0x021BBDF0 thumb ov217
  *   func_021BC014 0x021BC014 thumb ov217
  *   func_021BC72C 0x021BC72C thumb ov217
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021BB990 0x021BB990 thumb ov217
  *   func_021BC490 0x021BC490 thumb ov217
  *   func_021BC4A0 0x021BC4A0 thumb ov217
@@ -37,7 +37,7 @@ extern void func_021BBDF0(unsigned int object, unsigned int slot);
 extern void func_021BC014(u8 *);
 extern void func_021BC72C(u8 *, unsigned, u8 *);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021BB990(void *);
 extern void func_021BC490(void);
 extern int func_021BC4A0(void);
@@ -54,7 +54,7 @@ void func_021BB5F4(u8 *p)
         func_021BBDF0((unsigned int)p, func_021BC6E4(p));
         func_021BC014(p);
         func_021BC72C(p, 3, (u8 *)1);
-        func_020061E4(1898);
+        GFL_USE_PlaySeDefaultVolume(1898);
         func_021BB990(p);
         break;
     case 1:

@@ -18,7 +18,7 @@
  *   func_021F4EC4 0x021F4EC4 thumb ov112
  *   func_021F4EB4 0x021F4EB4 thumb ov112
  *   func_021F4EE8 0x021F4EE8 thumb ov112
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   _ffltu 0x0209BE04 arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -44,7 +44,7 @@ extern void func_021BA21C(u8 *p, const u8 *src);
 extern u8 *func_021BA228(u8 *p);
 extern void func_021F4EC4(u32 unused, u32 p, s16 *a, s16 *b);
 extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
-extern void func_021F4EE8(int,int,int),func_021B7A18(u8 *),func_020061E4(u32);
+extern void func_021F4EE8(int,int,int),func_021B7A18(u8 *),GFL_USE_PlaySeDefaultVolume(u32);
 void func_021B8140(u8 *p)
 {
     Vec scale=d_021BA5B8;
@@ -70,5 +70,5 @@ void func_021B8140(u8 *p)
     *(u32 *)&((struct Obj00004 *)p)->f44=v[0];*(u32 *)&((struct Obj00004 *)p)->f48=v[1];
     *(u32 *)&((struct Obj00004 *)p)->f3C=2;*(u8 * *)&((struct Obj00004 *)p)->f38=q;*(u32 *)&((struct Obj00004 *)p)->f40=1;
     ((struct Obj23312 *)data)->fC=1;
-    func_021B7A18(p);func_020061E4(0x625);
+    func_021B7A18(p);GFL_USE_PlaySeDefaultVolume(0x625);
 }

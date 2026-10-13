@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj14540.h"
 
 struct Obj;
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 
 void func_0220AFDC(char *p, void *v)
 {
@@ -24,7 +24,7 @@ void func_0220AFDC(char *p, void *v)
         unsigned int i;
         for (i = 0; i < 4; i++)
         {
-            func_0204B3DC(*(void **)(p + i * 4), (unsigned int)v);
+            CLACT_SetActorDrawEnable(*(void **)(p + i * 4), (unsigned int)v);
         }
         ((struct Obj14540 *)p)->f14 = v;
     }

@@ -10,7 +10,7 @@
  * lever: ov115 data hint is witnessed by this function loading ov115 via PROCSYS_Push; no hint remains MATCH.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   PROCSYS_Push 0x02031348 arm
  *   func_021F8E88 0x021F8E88 thumb ov135
  *   str_02203C34 0x02203C34 data a1
@@ -36,7 +36,7 @@ extern int func_021F8E88(void *dialog, u8 *p);
 typedef unsigned short u16;
 struct Ctx;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *p, u32 value, u32 size);
+extern void MI_CpuFill8(void *p, u32 value, u32 size);
 extern void *func_020120F4(const struct Ctx *p);
 extern void PROCSYS_Push(void *h, u32 id, const void *a, void *b);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
@@ -44,7 +44,7 @@ int func_021F8D10(u8 *p)
 {
     State *s;
     *(State * *)&((struct Obj03294 *)p)->f10DC = func_02030734(0x48, sizeof(State), 0, str_02203C34, 0x263);
-    func_02082BCC(*(State * *)&((struct Obj03294 *)p)->f10DC, 0, sizeof(State));
+    MI_CpuFill8(*(State * *)&((struct Obj03294 *)p)->f10DC, 0, sizeof(State));
     s = *(State * *)&((struct Obj03294 *)p)->f10DC;
     s->handle = func_020120F4(((struct Obj23401 *)(*(u8 * *)&((struct Obj03294 *)p)->f0))->f40);
     s->f4 = 0;

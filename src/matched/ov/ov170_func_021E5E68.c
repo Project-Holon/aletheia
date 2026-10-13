@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_021EA9F4 0x021EA9F4 thumb
  *   func_021EF170 0x021EF170 thumb
  *   func_020260F4 0x020260F4 thumb
  *   func_021DD25C 0x021DD25C thumb
- *   func_020061E4 0x020061E4 thumb
- *   func_02035D20 0x02035D20 arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021EF5E8 0x021EF5E8 thumb
  *   func_021DEFEC 0x021DEFEC thumb
  *   func_021EA1F4 0x021EA1F4 thumb
@@ -67,7 +67,7 @@ typedef struct {
 } Obj;
 
 struct WinMgr;
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int func_021EA9F4(Obj *p, int v);
 extern unsigned func_021EF170(void);
 typedef unsigned char  u8;
@@ -75,8 +75,8 @@ struct Sound;
 struct Struct_02025CD0;
 extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
-extern void func_020061E4(unsigned se);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int func_021EF5E8(struct WinMgr *mgr);
 extern void func_021DEFEC(char *p, int b);
 extern int func_021EA1F4(Obj *p, int i);
@@ -105,7 +105,7 @@ extern int func_021EA2DC(Obj *p, int i);
 int func_021E5E68(Obj *p)
 {
     unsigned r;
-    if (func_020362DC() & 4) {
+    if (KEY_GetTrg() & 4) {
         r = func_021EA9F4(p, 0x3F);
         if (p->lo == 1) {
             unsigned char v = func_020260E0(OBJ(p));
@@ -120,8 +120,8 @@ int func_021E5E68(Obj *p)
     if (r != -1) {
         func_020260F4(OBJ(p), 0);
         if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
-            func_020061E4(0x666);
-            func_02035D20((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+            GFL_USE_PlaySeDefaultVolume(0x666);
+            TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
             func_021DEFEC((char *)p, r);
             return func_021EA1F4(p, r);
         }
@@ -138,40 +138,40 @@ int func_021E5E68(Obj *p)
     r = func_021EEA48((char *)p);
     switch (r) {
     case 0x1E:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         func_021DF040((char *)p);
         return func_021E8F50((char *)p, 0x5D);
     case 0x1F:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DF0BC((unsigned char *)p);
         func_021EC000(p->work, 10, 0);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
         return func_021E9C94((char *)p, 1, 0x39);
     case 0x20:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DF0BC((unsigned char *)p);
         func_021EC000(p->work, 10, 0);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
         return func_021E9CE0((char *)p, 1, 0x39);
     case 0x21:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 10, func_021E8F50((char *)p, 0x1A));
     case 0x22:
-        func_020061E4(0x556);
+        GFL_USE_PlaySeDefaultVolume(0x556);
         p->top->h28 = 1;
         return func_021E954C(p, 7, 8, 0x10);
     case 0x23:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p->top->h28 = 0;
         return func_021E954C(p, 6, 9, 0x68);
     case 0x24:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         p->lo = 0;
         return func_021E949C((char *)p, 3, func_021E8F50((char *)p, 0x3F));
     case 0x25:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         if (*(unsigned short *)(p->work + 0xA16C) == 0) {
             p->b13 = 0;
             p->x24 = 0x25;
@@ -180,7 +180,7 @@ int func_021E5E68(Obj *p)
         return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x50));
     case 0x26: {
         unsigned char k;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         k = p->b16;
         func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
@@ -198,20 +198,20 @@ int func_021E5E68(Obj *p)
         return r;
     case -6:
         if (func_020260E0(OBJ(p)) == 0x1E) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021DF0BC((unsigned char *)p);
             return func_021E9C94((char *)p, 1, 0x39);
         }
         break;
     case -5:
         if (func_020260E0(OBJ(p)) == 0x1E) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021DF0BC((unsigned char *)p);
             return func_021E9CE0((char *)p, 1, 0x39);
         }
         break;
     case -4:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3: {
         unsigned char v = func_020260E0(OBJ(p));
@@ -219,11 +219,11 @@ int func_021E5E68(Obj *p)
             func_021DEFEC((char *)p, v);
         else if (v != 0x24 && v != 0x25 && v != 0x26)
             func_021DF040((char *)p);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x39));
     }
     case -2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
             unsigned char k = p->b16;
             func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
@@ -238,7 +238,7 @@ int func_021E5E68(Obj *p)
         break;
     default:
         if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             return func_021EA2DC(p, r);
         }
         break;

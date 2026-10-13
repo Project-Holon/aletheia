@@ -10,7 +10,7 @@
  * status: EXACT
  * lever: separate function-scope coordinate pairs retain the switch cases' stack slots.
  * symbols:
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021E24F8 0x021E24F8 thumb ov183
  *   func_021E2538 0x021E2538 thumb ov183
  *   func_021FD170 0x021FD170 thumb ov186
@@ -21,7 +21,7 @@
  *   func_021D76A8 0x021D76A8 thumb ov125
  *   func_021D76D8 0x021D76D8 thumb ov125
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021E2194 0x021E2194 thumb ov183
  */
@@ -39,7 +39,7 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef struct {u32 a,b;} Pair;
-extern u32 func_02035D20(u32 *,u32 *);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 extern int TOUCHPANEL_GetTrg(void);
 extern int func_021E24F8(char *,int,int),func_021E2538(char *,int,int);
 extern void func_021FD170(char *p, char *q, void *text);
@@ -48,7 +48,7 @@ extern int func_021FE7B0(int *);
 extern void func_021E24C4(char *,char *),func_021FD860(int,int,Pair *);
 extern void func_021D76A8(int,int,int);
 extern int func_021D76D8(char *p, int id);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int *func_021FD73C(int *p, int v);
 extern void func_021E2194(int *task, int *state, char *p);
 void func_021E21E0(int task,int *state,char *p) {
@@ -56,12 +56,12 @@ void func_021E21E0(int task,int *state,char *p) {
     u32 old; int result;
     switch(*state) {
     case 0:
-        if(func_02035D20(&x0,&y0)) {
+        if(TOUCHPANEL_GetPointTrg(&x0,&y0)) {
             if(func_021E24F8(p,x0,y0)) {func_021FD170((char *)(((struct Obj00683 *)p)->f4),(char *)(((struct Obj24654 *)(*(char * *)&((struct Obj00683 *)p)->f20))->fC),(void *)322);*state=1;}
             else if(func_021E2538(p,x0,y0))*state=10;
         } break;
     case 1:
-        if(func_02035D20(&x1,&y1)) {
+        if(TOUCHPANEL_GetPointTrg(&x1,&y1)) {
             if(func_021E24F8(p,x1,y1))*state=2;
             else if(func_021E2538(p,x1,y1))*state=10;
         } break;
@@ -87,8 +87,8 @@ void func_021E21E0(int task,int *state,char *p) {
         if(old>96) {func_021FD860(((struct Obj00683 *)p)->f14,0,0);func_021FD170((char *)(((struct Obj00683 *)p)->f4),(char *)(((struct Obj24665 *)(*(char * *)&((struct Obj00683 *)p)->f20))->fC),(void *)324);*state=9;}break;
     case 9:
         if(TOUCHPANEL_GetTrg()) {
-            func_02035D20(&x9,&y9);second.a=x9;second.b=y9;
-            func_021FD860(((struct Obj00683 *)p)->f18,1,&second);func_020061E4(0x703);*state=10;
+            TOUCHPANEL_GetPointTrg(&x9,&y9);second.a=x9;second.b=y9;
+            func_021FD860(((struct Obj00683 *)p)->f18,1,&second);GFL_USE_PlaySeDefaultVolume(0x703);*state=10;
         }break;
     case 10:func_021FD73C((int *)task,(int)func_021E2194);break;
     }

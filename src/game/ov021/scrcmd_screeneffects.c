@@ -28,7 +28,7 @@
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   VM_SetWait  0x020113D0  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
  *   FIELDMAP_GetScriptEffectBusy  0x02189A24  thumb  ov021
@@ -62,7 +62,7 @@
  *   d_021DE14C     0x021DE14C  data  a4
  *   BG_SYS_GetMainVisiblePlanes 0x02043658 arm
  *   FIELDMAP_SetBgMode 0x02188DA0 thumb ov021
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   FIELDMAP_ResetBgAffineShowMsg 0x02188DB0 thumb ov021
  *   func_02030EAC 0x02030EAC arm
  *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
@@ -112,7 +112,7 @@ extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern u16 VM_GetU16(struct ScriptVm *vm);
 extern void VM_SetWait(struct ScriptVm *vm, int (*waitFunc)(struct ScriptVm *vm, struct ScrcmdWork *cmdWork));
 extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
-extern void func_020061E4(u32 seNo);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 extern void FADE_Start(u32 screenMask, s32 startLevel, s32 endLevel, s32 speed);
 extern int FADE_IsActive(void);
 extern u32 FIELDMAP_GetScriptEffectBusy(struct FieldMap *fieldMap);
@@ -143,7 +143,7 @@ extern void func_02030DA8(u32 tcbSys, void (*func)(), void *work, u32 priority);
 extern void FIELDMAP_SetScriptEffectBusy(struct FieldMap *fieldMap, u32 busy);
 extern unsigned int BG_SYS_GetMainVisiblePlanes(void);
 extern void FIELDMAP_SetBgMode(void);
-extern void func_02043534(unsigned int planes);
+extern void BG_SYS_SetMainVisiblePlanes(unsigned int planes);
 extern void FIELDMAP_ResetBgAffineShowMsg(struct FieldMap *fieldMap);
 extern void func_02030EAC(struct Tcb *tcb);
 extern void *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
@@ -538,7 +538,7 @@ int SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotWithSe(struct ScriptVm *vm, struc
     if (node) {
         FIELD_BUILDMODEL_PlayNodeSlot(node, slot, 0);
         if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(node, &seNo)) {
-            func_020061E4(seNo);
+            GFL_USE_PlaySeDefaultVolume(seNo);
         }
     }
     return 0;
@@ -632,7 +632,7 @@ void SCRCMD_SCREENEFFECTS_StepFadeTask(struct Tcb *tcb, FadeEffectTask *task)
             endLevel = 0;
             visiblePlanes = BG_SYS_GetMainVisiblePlanes();
             FIELDMAP_SetBgMode();
-            func_02043534(visiblePlanes);
+            BG_SYS_SetMainVisiblePlanes(visiblePlanes);
             FIELDMAP_ResetBgAffineShowMsg(task->fieldMap);
         } else {
             startLevel = 0;

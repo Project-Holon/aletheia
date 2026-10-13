@@ -13,7 +13,7 @@
  *
  * symbols:
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   func_0209C0A4  0x0209C0A4  arm
  *   func_021B9AB8  0x021B9AB8  thumb  ov172
@@ -31,7 +31,7 @@ typedef short          s16;
 extern int func_0209C0A4(int a, u16 b);
 struct Bmp;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void func_021B9AB8(int a0, char *obj, void *dev, int a3, u8 s0, u8 s1, u8 s2, u8 s3);
@@ -50,7 +50,7 @@ void func_021B9E5C(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v)
     if (idx < 0)
         return;
     n = func_0209C0A4(idx * 0x7B, v);
-    dev = BMP_GetPixels(func_02045770(((struct Obj04553 *)obj)->f2C));
+    dev = BMP_GetPixels(BMP_WIN_GetBmp(((struct Obj04553 *)obj)->f2C));
     flag = 0;
     c = ((struct Obj04553 *)obj)->f30;
     if (c < n) {

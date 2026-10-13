@@ -28,7 +28,7 @@
  *   SAVE_CONTROL_GetWrittenSize 0x020071C0 thumb
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  */
@@ -41,7 +41,7 @@ struct ClactActor;
 extern u32 SAVE_CONTROL_GetWrittenSize(void *saveControl);
 extern void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 value);
 extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 value);
-extern void func_0204B92C(struct ClactActor *actor, u32 v);
+extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 v);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
 
@@ -59,7 +59,7 @@ void REPORT_UpdateSaveAnim(struct Task *task, ReportWork *work)
             work->pieceFrameDelay = 0;
             CLACT_SetActorAnimFrame(work->actors[work->barPiecesLit + 6], 0);
             CLACT_SetActorAnimSeq(work->actors[work->barPiecesLit + 6], 1);
-            func_0204B92C(work->actors[work->barPiecesLit + 6], 1);
+            CLACT_SetActorAutoAnim(work->actors[work->barPiecesLit + 6], 1);
             work->barPiecesLit++;
         }
         CLACT_DrawSystem();

@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetRoseIncenseHandlers
+ * function: HAND_ITEM_GetRoseIncenseHandlers
  * address: 0x021DF924
  * packet: pkt_ov093_021DF924
  * region: ov093
@@ -15,10 +15,10 @@
  *   gRoseIncenseHandlers 0x021F1414 data a4
  */
 
-int *BTL_HANDLER_ITEM_GetRoseIncenseHandlers(int *p);
+int *HAND_ITEM_GetRoseIncenseHandlers(int *p);
 extern int gRoseIncenseHandlers[];
 
-int *BTL_HANDLER_ITEM_GetRoseIncenseHandlers(int *p)
+int *HAND_ITEM_GetRoseIncenseHandlers(int *p)
 {
     *p = 1;
     return gRoseIncenseHandlers;

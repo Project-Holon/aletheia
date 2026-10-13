@@ -7,11 +7,11 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "CallbackForJpeg",
+   "name": "MYSTATUS_NameToStrbuf",
    "address": "0x02008500",
-   "kind": "sdk",
+   "kind": "game",
    "region": "arm9",
-   "source": "src/matched/arm9_sdk/CallbackForJpeg.c",
+   "source": "src/matched/arm9/MYSTATUS_NameToStrbuf.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

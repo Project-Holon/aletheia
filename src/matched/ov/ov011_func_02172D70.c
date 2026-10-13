@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
  *   EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline  0x02161F74  thumb  ov010
  *   func_0200FB24  0x0200FB24  thumb
@@ -94,7 +94,7 @@ typedef struct Work {
 } Work;
 
 struct BigObj;
-extern u32 func_02026478(void *obj);
+extern u32 GAME_COMM_GetGameData(void *obj);
 extern u8 *GAME_DATA_GetSecondUnionInfo(void *p);
 extern void EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline(int a0, int a1, int a2);
 struct Comm;
@@ -144,7 +144,7 @@ void func_02172D70(int *state, Param *p, Work *w)
     s32 base;
     s32 now;
 
-    sv = (void *)func_02026478(p->field04);
+    sv = (void *)GAME_COMM_GetGameData(p->field04);
     if (w != 0 && w->step >= 7) {
         EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline((int)((u8 *)w + 0x35c), (int)GAME_DATA_GetSecondUnionInfo(sv), w->field8fb);
     }

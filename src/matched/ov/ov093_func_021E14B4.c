@@ -1,5 +1,5 @@
 /*
- * function: func_021E14B4
+ * function: HAND_WAZA_AddDragonRage
  * address: 0x021E14B4
  * packet: pkt_ov093_021E14B4
  * region: ov093
@@ -12,16 +12,16 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E1478.c and filed here.
  *
  * symbols:
- *   d_021F26EC 0x021F26EC data ov093 a4
+ *   gDragonRageHandlers 0x021F26EC data ov093 a4
  */
 
-int *func_021E14B4(int *p);
+int *HAND_WAZA_AddDragonRage(int *p);
 
 /* 021E14C0  shape F1: gate on BTL_EVENT_GetVar(3) */
-extern int d_021F26EC[];
+extern int gDragonRageHandlers[];
 
-int *func_021E14B4(int *p)
+int *HAND_WAZA_AddDragonRage(int *p)
 {
     *p = 1;
-    return d_021F26EC;
+    return gDragonRageHandlers;
 }

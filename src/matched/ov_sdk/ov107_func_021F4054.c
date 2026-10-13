@@ -16,7 +16,7 @@
  *   g_021F6F20  0x021F6F20  data
  *   func_021F628C  0x021F628C  arm  ov107
  *   func_021F62A0  0x021F62A0  arm  ov107
- *   func_02090CD4  0x02090CD4  arm
+ *   WM_SetGameInfo  0x02090CD4  arm
  *   func_021F3FA4  0x021F3FA4  arm  ov107
  */
 
@@ -27,7 +27,7 @@ extern struct SUnlock g_021F6EF4;
 extern struct MbBeacon g_021F6F20;
 extern unsigned long func_021F628C(void);
 extern unsigned short func_021F62A0(void);
-extern int func_02090CD4(void *callback, void *userGameInfo, unsigned short size, unsigned long ggid, unsigned short tgid, unsigned char attr);
+extern int WM_SetGameInfo(void *callback, void *userGameInfo, unsigned short size, unsigned long ggid, unsigned short tgid, unsigned char attr);
 extern void func_021F3FA4(void);
 
 int func_021F4054(void)
@@ -36,7 +36,7 @@ int func_021F4054(void)
 
     if (*(int *)(((unsigned char *)&g_021F6EF4) + 0x18) == 0) {
         unsigned long ggid = func_021F628C();
-        func_02090CD4(0, ((unsigned char *)&g_021F6F20), 0x70, ggid, func_021F62A0(), 8);
+        WM_SetGameInfo(0, ((unsigned char *)&g_021F6F20), 0x70, ggid, func_021F62A0(), 8);
         return 0;
     }
     if (*(unsigned char **)(((unsigned char *)&g_021F6EF4) + 0x1C) != 0 && (nextGameInfop = *(unsigned char **)(*(unsigned char **)(((unsigned char *)&g_021F6EF4) + 0x1C) + 0x4BC)) != 0) {

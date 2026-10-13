@@ -25,7 +25,7 @@
  *   FIELD_MSGBG_ClearMsgWin  0x02190788  thumb  ov021
  *   FIELD_MSGBG_MsgWinPrintMsg  0x02190740  thumb  ov021
  *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   MSGDATA_Delete  0x02045C04  arm
  */
 
@@ -58,7 +58,7 @@ extern int FIELD_MSGBG_IsMsgWinTransDone(u8 *p);
 extern void FIELD_MSGBG_ClearMsgWin(u8 *p);
 extern int FIELD_MSGBG_MsgWinPrintMsg(u32 a, u32 b, u32 c, u32 d);
 extern int FIELD_MSGBG_DeleteMsgWin(void *a);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
 int INTRUDE_FIELD_TaskEdgeBlock(int a0, int *state, Obj *o, u32 a3)
@@ -103,10 +103,10 @@ int INTRUDE_FIELD_TaskEdgeBlock(int a0, int *state, Obj *o, u32 a3)
         break;
     case 4:
         if (o->f10 == 0) {
-            if (func_020362DC() & 3)
+            if (KEY_GetTrg() & 3)
                 *state += 1;
         } else {
-            if (func_020362DC() & 0xF3)
+            if (KEY_GetTrg() & 0xF3)
                 *state = 8;
         }
         break;
@@ -120,7 +120,7 @@ int INTRUDE_FIELD_TaskEdgeBlock(int a0, int *state, Obj *o, u32 a3)
             *state += 1;
         break;
     case 7:
-        if (func_020362DC() & 0xF3)
+        if (KEY_GetTrg() & 0xF3)
             *state += 1;
         break;
     case 8:

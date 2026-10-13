@@ -18,7 +18,7 @@
  *
  * symbols:
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_02012FFC  0x02012FFC  thumb
@@ -37,7 +37,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -54,7 +54,7 @@ void ITEMMENU_ShowMessage(int p, int mode)
     if (((struct Obj00002 *)p)->f4FC == 0) {
         ((struct Obj00002 *)p)->f4FC = BMP_WIN_Create(3, 1, 1, 0x1E, 4, 0xC, 1);
     }
-    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj00002 *)p)->f4FC)), 0xF);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00002 *)p)->f4FC)), 0xF);
     BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00002 *)p)->f4FC);
     win = p + 0x4FC;
     if (mode == 1) {

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02035D20  0x02035D20  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_0207CA00  0x0207CA00  arm
  *   func_0207CBD0  0x0207CBD0  arm
@@ -27,7 +27,7 @@ struct Obj {
     struct V c;
 };
 
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern void func_0207CA00(struct V *a, struct V *b, struct V *c);
 extern int func_0207CBD0(struct V *a);
@@ -38,7 +38,7 @@ void TOWNMAP_GRH_UpdateTouch(struct Obj *p)
     u32 x;
 
     p->f1c = 0;
-    if (func_02035D20(&y, &x)) {
+    if (TOUCHPANEL_GetPointTrg(&y, &x)) {
         if (x <= 0xA8) {
             p->a.x = y << 12;
             p->a.y = x << 12;

@@ -13,14 +13,14 @@
  *
  * symbols:
  *   BTL_MSG_SetPokeName  0x021EED00  thumb  ov093
- *   func_021B8DDC  0x021B8DDC  thumb  ov093
- *   func_021B8CE8  0x021B8CE8  thumb  ov093
+ *   BTL_MAIN_PokeIdToClientIdThunk  0x021B8DDC  thumb  ov093
+ *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093
  *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201EF40  0x0201EF40  thumb
  *   func_0201F250  0x0201F250  thumb
  *   gBtlMsgState     0x021F6398  data  ov093  a4
- *   d_021F63D8     0x021F63D8  data  ov093  a4
+ *   gBtlMsgFlags     0x021F63D8  data  ov093  a4
  */
 
 #include "../include/G_ov093_021F6398.h"
@@ -44,10 +44,10 @@ typedef struct {
 } P;
 
 extern struct G_ov093_021F6398 gBtlMsgState;
-extern struct H d_021F63D8;
+extern struct H gBtlMsgFlags;
 struct WordSet;
-extern u8 func_021B8DDC(u32 x);
-extern int func_021B8CE8(int a, int b, int c);
+extern u8 BTL_MAIN_PokeIdToClientIdThunk(u32 x);
+extern int BTL_MAIN_IsOpposingPos(int a, int b, int c);
 extern void *BTL_MAIN_GetCompetitor(void ***p);
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -71,8 +71,8 @@ void BTL_MSG_BuildMoveEffectA(u32 a, u32 b, P *p)
         sel = 1;
     b = (u16)(b + (u16)(sel * 0x15));
     k = p->f0;
-    if (d_021F63D8.f18 == 0
-        && func_021B8CE8(gBtlMsgState.f00, (u8)gBtlMsgState.f54, func_021B8DDC(k)) != 0) {
+    if (gBtlMsgFlags.f18 == 0
+        && BTL_MAIN_IsOpposingPos(gBtlMsgState.f00, (u8)gBtlMsgState.f54, BTL_MAIN_PokeIdToClientIdThunk(k)) != 0) {
         if (BTL_MAIN_GetCompetitor((void ***)gBtlMsgState.f00) == 0 || (int)BTL_MAIN_GetCompetitor((void ***)gBtlMsgState.f00) == 4)
             x = 1;
         else

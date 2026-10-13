@@ -1,5 +1,5 @@
 /*
- * function: PALANM_IsColorCodeKnown
+ * function: ITEM_IsBerry
  * address:  0x020213C0
  * packet:   pkt_020213C0
  * region:   arm9
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern u16 sPalAnmColorCodeTable[];
 
-int PALANM_IsColorCodeKnown(u32 a)
+int ITEM_IsBerry(u32 a)
 {
     u32 i;
 

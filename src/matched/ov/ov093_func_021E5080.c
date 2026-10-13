@@ -1,5 +1,5 @@
 /*
- * function: func_021E5080
+ * function: HAND_WAZA_AddPowerSplit
  * address: 0x021E5080
  * packet: pkt_ov093_021E5080
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E4FF4.c and filed here.
  *
  * symbols:
- *   d_021F26E4 0x021F26E4 data ov093 a4
+ *   gPowerSplitHandlers 0x021F26E4 data ov093 a4
  */
 
-extern int d_021F26E4[];
-int *func_021E5080(int *p);
+extern int gPowerSplitHandlers[];
+int *HAND_WAZA_AddPowerSplit(int *p);
 
-int *func_021E5080(int *p)
+int *HAND_WAZA_AddPowerSplit(int *p)
 {
     *p = 1;
-    return d_021F26E4;
+    return gPowerSplitHandlers;
 }

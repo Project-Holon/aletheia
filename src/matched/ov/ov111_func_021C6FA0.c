@@ -12,7 +12,7 @@
  * symbols:
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -25,7 +25,7 @@ struct Actor;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
 typedef struct {
     u8 pad0[0x98];
@@ -36,5 +36,5 @@ void func_021C6FA0(Work *p, int idx, u8 a, u8 b)
 {
     CLACT_SetActorAnimSeq(p->anim[idx], a);
     CLACT_RestartActorAnim(p->anim[idx]);
-    func_0204B3DC(p->anim[idx], b);
+    CLACT_SetActorDrawEnable(p->anim[idx], b);
 }

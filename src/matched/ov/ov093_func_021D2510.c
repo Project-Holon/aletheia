@@ -1,5 +1,5 @@
 /*
- * function: func_021D2510
+ * function: BTL_CLIENT_StepEndWeather
  * address:  0x021D2510
  * packet:   pkt_ov093_021D2510
  * region:   ov093
@@ -21,7 +21,7 @@ extern void func_021EA678(char *p, u16 k, int *c);
 extern int func_021EA710(u32 *p);
 extern void BTL_FIELD_ClearCountdown(int *p);
 
-int func_021D2510(u8 *p, int *st, u32 *c)
+int BTL_CLIENT_StepEndWeather(u8 *p, int *st, u32 *c)
 {
     u16 v;
 

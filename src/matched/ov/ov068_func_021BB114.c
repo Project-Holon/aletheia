@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_02082BCC(p, 0, 0x10).
+ * Tail call to MI_CpuFill8(p, 0, 0x10).
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
 void OPTION_MENU_ExitRunner(void *p)
 {
-    void func_02082BCC(void *, int, int);
-    func_02082BCC(p, 0, 0x10);
+    void MI_CpuFill8(void *, int, int);
+    MI_CpuFill8(p, 0, 0x10);
 }

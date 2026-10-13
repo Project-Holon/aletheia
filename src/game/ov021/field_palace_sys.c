@@ -26,7 +26,7 @@
  *   FIELD_PALACE_SYS_IsZoneFlagSet  0x021D3554  thumb  ov021
  *   INTRUDE_COMM_GetAreaOwnerVersionClass  0x0215850C  thumb  ov010
  *   INTRUDE_COMM_GetAreaSlotFlag  0x02158468  thumb  ov010
- *   func_02013B38  0x02013B38  thumb
+ *   ZONEDATA_GetAreaId  0x02013B38  thumb
  *   ARC_UTIL_LoadHandleMemberWithSize  0x0204A39C  arm
  *   func_02082D44  0x02082D44  arm
  *   GAME_DATA_GetEventWork 0x0201296C thumb
@@ -79,7 +79,7 @@ extern int ZONEDATA_IsZoneGroup118To13C(u32 zoneId);
 extern int FIELD_PALACE_SYS_IsZoneFlagSet(struct GameData *gameData, int zoneId);
 extern int INTRUDE_COMM_GetAreaOwnerVersionClass(struct GameComm *gameComm, struct GameData *gameData);
 extern int INTRUDE_COMM_GetAreaSlotFlag(struct GameComm *gameComm);
-extern u32 func_02013B38(u32 zoneId);
+extern u32 ZONEDATA_GetAreaId(u32 zoneId);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern void func_02082D44(void *src, void *dst, u32 n);
 FieldPalaceSys *FIELD_PALACE_SYS_Create(u16 heapId, struct GameSystem *gameSystem, void *fieldMap, u16 zoneId);
@@ -178,7 +178,7 @@ void FIELD_PALACE_SYS_LoadPalTable(FieldPalaceSys *sys, u32 fileId, int zoneId, 
     found = 0;
     tempHeapId = (heapId & 0x7fff) | 0x8000;
     arc = func_020490F4(_PALACE_PAL_ARC_ID, tempHeapId & 0xffff);
-    areaGroup = ((int)func_02013B38(zoneId) - 2) / 4 + 1;
+    areaGroup = ((int)ZONEDATA_GetAreaId(zoneId) - 2) / 4 + 1;
     records = ARC_UTIL_LoadHandleMemberWithSize(arc, fileId, 0, (u16)tempHeapId, &size);
     for (i = 1; i < size / sizeof(FieldPalacePalRecord); i++) {
         if ((areaGroup == records[i].areaGroup || records[i].areaGroup == 0xff)

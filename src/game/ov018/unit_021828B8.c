@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   GAME_EVENT_Change  0x0201232C  thumb
@@ -52,7 +52,7 @@ struct GameComm;
 
 typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
 
-extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 extern IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *gameComm);
 extern void GAME_EVENT_Change(struct GameEvent *event, GameEventFunc func, int workSize);
@@ -96,7 +96,7 @@ void EVENT_COMM_COMMON_StartMsgEvent(struct GameEvent *event, EventCommMsgWork *
     IntrudeCommSys *sys;
     EventCommMsgWork *work;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(func_020124E4(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(event)));
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_MsgEventMain, 0xAC);
     work = func_020124E8(event);
     func_02082D44(src, work, 0x98);
@@ -120,7 +120,7 @@ int EVENT_COMM_COMMON_MsgEventMain(struct GameEvent *event, int *seq, void *even
     IntrudeCommSys *sys;
     EventCommMsgWork *work = eventWork;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(func_020124E4(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(event)));
     switch (*seq) {
     case 0:
         EVENT_COMM_COMMON_PrintMsg(&work->msgBox, work->msgId);
@@ -204,7 +204,7 @@ void EVENT_COMM_COMMON_StartMsgScriptEvent(struct GameEvent *event, EventCommMsg
     EventCommMsgWork *work;
     int facing;
 
-    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(func_020124E4(event)));
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(event)));
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_MsgScriptEventMain, 0xA0);
     work = func_020124E8(event);
     func_02082D44(src, work, 0x98);

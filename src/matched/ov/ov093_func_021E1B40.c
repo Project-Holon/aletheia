@@ -1,5 +1,5 @@
 /*
- * function: func_021E1B40
+ * function: HAND_WAZA_AddLastResort
  * address: 0x021E1B40
  * packet: pkt_ov093_021E1B40
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E18EC.c and filed here.
  *
  * symbols:
- *   d_021F25C4 0x021F25C4 data ov093 a4
+ *   gLastResortHandlers 0x021F25C4 data ov093 a4
  */
 
-int *func_021E1B40(int *p);
-extern int d_021F25C4[];
+int *HAND_WAZA_AddLastResort(int *p);
+extern int gLastResortHandlers[];
 
-int *func_021E1B40(int *p)
+int *HAND_WAZA_AddLastResort(int *p)
 {
     *p = 1;
-    return d_021F25C4;
+    return gLastResortHandlers;
 }

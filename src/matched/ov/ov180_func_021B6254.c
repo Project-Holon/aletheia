@@ -14,7 +14,7 @@
  *   func_0207D59C 0x0207D59C arm
  *   func_02041EE4 0x02041EE4 arm
  *   func_02041FB0 0x02041FB0 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_02040EBC 0x02040EBC arm
  *   d_021B80E8 0x021B80E8 data ov180 a4
@@ -32,7 +32,7 @@ extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1,
 extern void func_0207D59C(void *,Mtx *,u32,u32,u32,u32);
 extern void func_02041EE4(u32,u32,u32);
 extern void func_02041FB0(u32,u32,u16);
-extern void func_020434DC(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32),func_02040EBC(u32,u32);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32),func_02040EBC(u32,u32);
 void func_021B6254(void)
 {
     Template t=d_021B80E8;
@@ -45,6 +45,6 @@ void func_021B6254(void)
     func_02041EE4(7,0,160);func_02041EE4(7,3,-152);
     func_02041FB0(3,9,160);func_02041FB0(3,12,160);
     func_02041FB0(7,9,160);func_02041FB0(7,12,160);
-    func_020434DC(8,1);BG_SYS_SetSubPlaneVisible(8,1);
+    BG_SYS_SetMainPlaneVisible(8,1);BG_SYS_SetSubPlaneVisible(8,1);
     func_02040EBC(0,0);func_02040EBC(4,0);
 }

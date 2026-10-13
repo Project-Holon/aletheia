@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_HANDLER_ITEM_FocusSash_ConsumeAndAnnounce",
+   "name": "HAND_ITEM_FocusSash_ConsumeAndAnnounce",
    "address": "0x021DEA8C",
    "kind": "game",
    "region": "ov093",

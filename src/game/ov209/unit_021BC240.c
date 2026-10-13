@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021BCC58 0x021BCC58 thumb
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
@@ -47,7 +47,7 @@ typedef unsigned int u32;
 
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,unsigned,unsigned);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern int func_021BCC58(char *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
@@ -74,7 +74,7 @@ extern const struct DispVram d_021BE7D4;
 
 
 
-int func_021BC240(struct Obj0203159C *p,int unused,unsigned v){unsigned *q;GFL_HEAP_CreateChildHeap(1,107,0x60000);q=PROCSYS_AllocProcWork(p,0xc44,107);func_02082BCC(q,0,0xc44);*q=v;return 1;}
+int func_021BC240(struct Obj0203159C *p,int unused,unsigned v){unsigned *q;GFL_HEAP_CreateChildHeap(1,107,0x60000);q=PROCSYS_AllocProcWork(p,0xc44,107);MI_CpuFill8(q,0,0xc44);*q=v;return 1;}
 
 
 

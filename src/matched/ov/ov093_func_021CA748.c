@@ -1,5 +1,5 @@
 /*
- * function: func_021CA748
+ * function: BTL_SERVER_FLOW_ProcHandExChangeForm
  * address:  0x021CA748
  * packet:   pkt_ov093_021CA748
  * region:   ov093
@@ -9,18 +9,18 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * The listing extent (172 bytes) runs on into func_021CA7C4 and func_021CA7D4,
+ * The listing extent (172 bytes) runs on into BTL_SERVER_FLOW_ProcHandExSetTurnStateArg and BTL_SERVER_FLOW_ProcHandExLatchTurnStateFlag,
  * which are filed separately.
  *
  * symbols:
- *   func_021B9934  0x021B9934  thumb  ov093
+ *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb  ov093
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   BTL_POKEPARAM_IsTransformed  0x021D6D54  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   BTL_SERVER_FLOW_PushAbilityPopupIn  0x021C5A1C  thumb  ov093
  *   BTL_POKEPARAM_ChangeForm  0x021D66D8  thumb  ov093
  *   BTL_SERVER_CMD_Push  0x021CD4B0  thumb  ov093
- *   func_021C99A0  0x021C99A0  thumb  ov093
+ *   BTL_SERVER_FLOW_PushMsgRecord  0x021C99A0  thumb  ov093
  *   BTL_SERVER_FLOW_PushAbilityPopupOut  0x021C5A34  thumb  ov093
  */
 #include "../include/Obj00003.h"
@@ -34,7 +34,7 @@ struct Q {
     u8 pad4[0];
 };
 
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern int BTL_POKEPARAM_IsFainted(void *p);
 struct R5;
 extern int BTL_POKEPARAM_IsTransformed(struct R5 *p);
@@ -43,20 +43,20 @@ extern void BTL_SERVER_FLOW_PushAbilityPopupIn(u8 *p, u8 *a);
 extern void BTL_POKEPARAM_ChangeForm(void *m, int v);
 extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 struct Msg;
-extern int func_021C99A0(void *w, const struct Msg *m);
+extern int BTL_SERVER_FLOW_PushMsgRecord(void *w, const struct Msg *m);
 extern void BTL_SERVER_FLOW_PushAbilityPopupOut(u8 *p, u8 *a);
 
-int func_021CA748(u8 *p, const struct Q *q)
+int BTL_SERVER_FLOW_ProcHandExChangeForm(u8 *p, const struct Q *q)
 {
     u8 t;
-    void *m = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, ((u8 *)q)[4]);
+    void *m = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00003 *)p)->f8, ((u8 *)q)[4]);
     if (!BTL_POKEPARAM_IsFainted(m) && !BTL_POKEPARAM_IsTransformed(m)) {
         t = func_021D59B4(m, 0x13);
         if (t != ((u8 *)q)[5]) {
             if (q->f) BTL_SERVER_FLOW_PushAbilityPopupIn(p, m);
             BTL_POKEPARAM_ChangeForm(m, ((u8 *)q)[5]);
             BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 0x4f, ((u8 *)q)[4], ((u8 *)q)[5]);
-            func_021C99A0(p, (const struct Msg *)((u8 *)q + 8));
+            BTL_SERVER_FLOW_PushMsgRecord(p, (const struct Msg *)((u8 *)q + 8));
             if (q->f) BTL_SERVER_FLOW_PushAbilityPopupOut(p, m);
             return 1;
         }

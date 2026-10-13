@@ -1,5 +1,5 @@
 /*
- * function: func_021E1F90
+ * function: HAND_WAZA_PerishSongGetHandlers
  * address: 0x021E1F90
  * packet: pkt_ov093_021E1F90
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E1E44.c and filed here.
  *
  * symbols:
- *   d_021F2988 0x021F2988 data ov093 a4
+ *   gPerishSongHandlers 0x021F2988 data ov093 a4
  */
 
-int *func_021E1F90(int *p);
-extern int d_021F2988[];
+int *HAND_WAZA_PerishSongGetHandlers(int *p);
+extern int gPerishSongHandlers[];
 
-int *func_021E1F90(int *p)
+int *HAND_WAZA_PerishSongGetHandlers(int *p)
 {
     *p = 2;
-    return d_021F2988;
+    return gPerishSongHandlers;
 }

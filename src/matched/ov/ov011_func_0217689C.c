@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02013D9C  0x02013D9C  thumb
+ *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -29,7 +29,7 @@ typedef struct {
 } Flags;
 
 typedef unsigned int   u32;
-extern u32 func_02013D9C(u32 id);
+extern u32 ZONEDATA_IsZoneGroup118To120(u32 id);
 
 int INTRUDE_COMM_ConsumeAreaNoticeSeen(u8 *ctx, int arg)
 {
@@ -37,7 +37,7 @@ int INTRUDE_COMM_ConsumeAreaNoticeSeen(u8 *ctx, int arg)
     int b = f->b2;
     f->b2 = 0;
     if (b == 1) {
-        if (func_02013D9C(arg) == 1)
+        if (ZONEDATA_IsZoneGroup118To120(arg) == 1)
             return 1;
     }
     return 0;

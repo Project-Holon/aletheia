@@ -17,8 +17,8 @@
  *   BTL_NET_GetPerapVoice 0x021D4648 thumb ov093
  *   BTL_NET_ResetAfterPerapVoice 0x021D4674 thumb ov093
  *   BTL_MAIN_IsClientUsed 0x021B8B9C thumb ov093
- *   func_021B9F70 0x021B9F70 thumb ov093
- *   func_021BA698 0x021BA698 thumb ov093
+ *   BTL_MAIN_IsTrainerSlotNpc 0x021B9F70 thumb ov093
+ *   BTL_MAIN_StoreClientVoiceFlag 0x021BA698 thumb ov093
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02007B44 0x02007B44 thumb
  *   func_02007B20 0x02007B20 thumb
@@ -42,8 +42,8 @@ extern u32 BTL_NET_GetPerapVoice(u32 a);
 extern void BTL_NET_ResetAfterPerapVoice(void);
 struct Big;
 extern int BTL_MAIN_IsClientUsed(unsigned char *p, unsigned char k);
-extern int func_021B9F70(u8 *p, int i);
-extern void func_021BA698(u8 *p, int k);
+extern int BTL_MAIN_IsTrainerSlotNpc(u8 *p, int i);
+extern void BTL_MAIN_StoreClientVoiceFlag(u8 *p, int k);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02007AC8Entry *func_02007B44(void *sys);
 extern void *func_02007B20(u32 heap);
@@ -74,14 +74,14 @@ int BTL_MAIN_SeqExchangePerapVoice(u8 *p,u32 *state)
     case 3:
         if (BTL_NET_IsPerapVoiceReceived()) {
             for (i = 0; i < 4; ++i) {
-                if (BTL_MAIN_IsClientUsed(p,i) && !func_021B9F70(p,(u8)i)) {
+                if (BTL_MAIN_IsClientUsed(p,i) && !BTL_MAIN_IsTrainerSlotNpc(p,(u8)i)) {
                     src = (void *)BTL_NET_GetPerapVoice((u8)i);
                     if (src) {
                         *(void **)(p + i * 4 + 0x3e0) = func_02007B20(((struct Obj07743 *)p)->f468);
                         func_02082D44(src, *(void **)(p + i * 4 + 0x3e0),func_02007B00());
                     }
                 }
-                func_021BA698(p,(u8)i);
+                BTL_MAIN_StoreClientVoiceFlag(p,(u8)i);
             }
             BTL_NET_ResetAfterPerapVoice();
             ++*state;

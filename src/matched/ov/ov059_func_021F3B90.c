@@ -17,7 +17,7 @@
  *           return 1 inside it (the inverse early return flips the blo).
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
@@ -45,7 +45,7 @@ typedef struct {
 
 struct Ctx;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetExpObj(int *p);
 extern int *FIELDMAP_GetCommonWork(char *p, int idx);
@@ -63,7 +63,7 @@ int SP_POKE_GIMMICK_MoveEventMain(void *a)
     int k;
     V pos;
 
-    t = GAMESYSTEM_GetFieldMap(func_020124E4(a));
+    t = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(a));
     s = (void *)FIELDMAP_GetExpObj(t);
     flag = 1;
     w = (W *)FIELDMAP_GetCommonWork(t, 1);

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   _u32_div_f     0x0209C2B0  arm
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 #define W(o) (*(u32 *)(p + (o)))
 
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32   POKE_TOOL_GetPartyValue(void *obj, u32 key, u32 off);
 extern void  POKE_TOOL_SetPartyValue(void *obj, u32 key, u32 v);
 extern void POKELIST_UpdateHpTransfer(u8 *p);
@@ -34,10 +34,10 @@ void POKELIST_StartHpTransfer(u8 *p)
     void *o2;
     u32 b, c, d, e;
 
-    o1 = func_0201AB28((void *)*(u32 *)W(0x280), W(0x34));
+    o1 = POKEPARTY_GetMember((void *)*(u32 *)W(0x280), W(0x34));
     POKE_TOOL_GetPartyValue(o1, 0xa0, 0);
     b = POKE_TOOL_GetPartyValue(o1, 0xa1, 0);
-    o2 = func_0201AB28((void *)*(u32 *)W(0x280), ((u32 *)W(0x280))[0x3c / 4]);
+    o2 = POKEPARTY_GetMember((void *)*(u32 *)W(0x280), ((u32 *)W(0x280))[0x3c / 4]);
     c = POKE_TOOL_GetPartyValue((void *)W(0x38), 0xa0, 0);
     d = POKE_TOOL_GetPartyValue((void *)W(0x38), 0xa1, 0);
     W(0x2c) = ((u32 *)W(0x280))[0x3c / 4];

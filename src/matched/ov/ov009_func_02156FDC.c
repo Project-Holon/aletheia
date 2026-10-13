@@ -12,7 +12,7 @@
  *           (src/matched/arm9/func_02060F98.c, pkt_02060F98).
  *
  * symbols:
- *   d_021A8268  0x021A8268  data  ov009  a4
+ *   _pRapHeap  0x021A8268  data  ov009  a4
  *   d_021A1C78  0x021A1C78  data  ov009  a1
  *   d_021A1C7C  0x021A1C7C  data  ov009  a1
  *   func_02060F98  0x02060F98  arm  arm9
@@ -39,7 +39,7 @@ typedef struct {
     u16 f20;
 } Obj;
 
-extern struct Obj *d_021A8268;
+extern struct Obj *_pRapHeap;
 extern char d_021A1C78[];
 extern char d_021A1C7C[];
 
@@ -59,17 +59,17 @@ void DWC_RAPCOMMON_Free(u32 a, void *p, int b)
         return;
     }
     if (func_02060F98(p) == 0xEA) {
-        if (d_021A8268->f8 != 0) {
+        if (_pRapHeap->f8 != 0) {
             h = func_02087988();
-            func_02060E30((struct ExpHeap *)d_021A8268->f8, p);
+            func_02060E30((struct ExpHeap *)_pRapHeap->f8, p);
             func_0208799C(h);
-            d_021A8268->f14--;
+            _pRapHeap->f14--;
             return;
         }
         GFL_NET_STATE_SetError(0, 0, 0, 0x3EE);
         return;
     }
     h = func_02087988();
-    func_02060E30((struct ExpHeap *)d_021A8268->f0, p);
+    func_02060E30((struct ExpHeap *)_pRapHeap->f0, p);
     func_0208799C(h);
 }

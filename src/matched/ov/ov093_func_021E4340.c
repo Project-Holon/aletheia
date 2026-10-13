@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021E4340, func_021E43FC
+ * function: HAND_WAZA_AcupressureRaiseRandomStat, HAND_WAZA_GetRestHandlers
  * address: 0x021E4340
  * packet: pkt_ov093_021E4340
  * region: ov093
@@ -13,28 +13,28 @@
  * Reusing n for that selection swaps the second loop's r4/r5 allocation.
  * symbols:
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
- *   func_021C7CF4 0x021C7CF4 thumb ov093
+ *   BTL_SERVER_FLOW_GetPokeParam 0x021C7CF4 thumb ov093
  *   func_021D5D14 0x021D5D14 thumb ov093
  *   BTL_CALC_Random 0x021D78AC thumb ov093
- *   func_021C88A4 0x021C88A4 thumb ov093
- *   func_021C88C8 0x021C88C8 thumb ov093
- *   d_021F2D20 0x021F2D20 data a4
- *   d_021F2888 0x021F2888 data a4
+ *   BTL_SERVER_FLOW_AllocCmdRecord 0x021C88A4 thumb ov093
+ *   BTL_SERVER_FLOW_CommitCmdRecord 0x021C88C8 thumb ov093
+ *   gAcupressureStats 0x021F2D20 data a4
+ *   gRestHandlers 0x021F2888 data a4
  */
 #include "../include/Obj06271.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int BTL_EVENT_GetVar(int);
 typedef signed char    s8;
-extern void *func_021C7CF4(int *p, int i);
+extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int func_021D5D14(s8 *p, int i, int sign);
 extern u32 BTL_CALC_Random(u32);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *, void *);
-extern const u32 d_021F2D20[];
-extern int d_021F2888[];
+extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *, void *);
+extern const u32 gAcupressureStats[];
+extern int gRestHandlers[];
 
-void func_021E4340(int unused, void *s, int k)
+void HAND_WAZA_AcupressureRaiseRandomStat(int unused, void *s, int k)
 {
     u8 v;
     void *q;
@@ -44,24 +44,24 @@ void func_021E4340(int unused, void *s, int k)
     u8 pick;
     if (k == BTL_EVENT_GetVar(3)) {
         v = BTL_EVENT_GetVar(6);
-        q = func_021C7CF4(s, v);
+        q = BTL_SERVER_FLOW_GetPokeParam(s, v);
         n = i = 0;
         for (; i < 7; i++) {
-            if (func_021D5D14(q, d_021F2D20[i], 2) != 0)
+            if (func_021D5D14(q, gAcupressureStats[i], 2) != 0)
                 n++;
         }
         if (n != 0) {
             pick = BTL_CALC_Random(n);
             for (i = 0; i < 7; i++) {
-                if (func_021D5D14(q, d_021F2D20[i], 2) != 0) {
+                if (func_021D5D14(q, gAcupressureStats[i], 2) != 0) {
                     if (pick == 0) {
-                        p = func_021C88A4(s, 14, k);
+                        p = BTL_SERVER_FLOW_AllocCmdRecord(s, 14, k);
                         p[16] = v;
                         p[15] = 1;
-                        ((struct Obj06271 *)p)->f4 = d_021F2D20[i];
+                        ((struct Obj06271 *)p)->f4 = gAcupressureStats[i];
                         p[12] = 2;
                         p[14] = 0;
-                        func_021C88C8(s, p);
+                        BTL_SERVER_FLOW_CommitCmdRecord(s, p);
                         return;
                     }
                     pick--;
@@ -71,8 +71,8 @@ void func_021E4340(int unused, void *s, int k)
     }
 }
 
-int *func_021E43FC(int *p)
+int *HAND_WAZA_GetRestHandlers(int *p)
 {
     *p = 2;
-    return d_021F2888;
+    return gRestHandlers;
 }

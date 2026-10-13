@@ -14,7 +14,7 @@
  * symbols:
  *   func_0207D760 0x0207D760 arm
  *   func_0207D888 0x0207D888 arm
- *   d_020A1B38 0x020A1B38 data a4
+ *   FX_SinCosTable_ 0x020A1B38 data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -33,7 +33,7 @@ struct S {
     s16 fE;
 };
 
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern void func_0207D760(int a, int b, int c, int d, int e, int f, int g, int h, int i);
 extern void func_0207D888(int a, int b);
 
@@ -97,9 +97,9 @@ void func_021F5EDC(char *p, int a1, int a2, int a3, int a4, int a5, int a6, stru
     } else if ((mode & 1) != 0) {
         ang = (u16)(0x10000 - *(u16 *)(p + 0xFC));
     }
-    func_0207D888(-d_020A1B38[(ang >> 4) * 2], d_020A1B38[(ang >> 4) * 2 + 1]);
+    func_0207D888(-FX_SinCosTable_[(ang >> 4) * 2], FX_SinCosTable_[(ang >> 4) * 2 + 1]);
     G3_Translate(x, y, *pz);
-    func_0207D888(-d_020A1B38[(*(u16 *)((char *)s + 2) >> 4) * 2], d_020A1B38[(*(u16 *)((char *)s + 2) >> 4) * 2 + 1]);
+    func_0207D888(-FX_SinCosTable_[(*(u16 *)((char *)s + 2) >> 4) * 2], FX_SinCosTable_[(*(u16 *)((char *)s + 2) >> 4) * 2 + 1]);
     if (mode == 0) {
         G3_Scale(s->f4, s->f8, 0x1000);
         G3_Translate(a1, a2, 0);

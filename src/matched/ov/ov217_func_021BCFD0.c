@@ -13,7 +13,7 @@
  *   func_021BC714 0x021BC714 thumb ov217
  *   func_021BC708 0x021BC708 thumb ov217
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj14733.h"
 #include "../include/Obj25882.h"
@@ -28,7 +28,7 @@ extern u32 func_021BC714(void *,u32);
 extern u32 func_021BC708(void *,u32);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
-extern void func_0204B3DC(struct Obj *,unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 void func_021BCFD0(u8 *p)
 {
     struct Arg arg;
@@ -45,6 +45,6 @@ void func_021BCFD0(u8 *p)
         d=func_021BC708(p,q->f);
         dest=p+i*4;
         ((struct Obj14733 *)dest)->f120=(u32)CLACT_CreateActor((void *)a,b,c,d,&arg,q->g,((struct Obj25882 *)p)->f8);
-        func_0204B3DC((struct Obj *)((struct Obj14733 *)dest)->f120,0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj14733 *)dest)->f120,0);
     }
 }

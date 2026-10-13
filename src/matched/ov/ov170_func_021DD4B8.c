@@ -14,7 +14,7 @@
  *   func_021DD314 0x021DD314 thumb ov170
  *   func_021EDAB0 0x021EDAB0 thumb ov170
  *   func_021EDB34 0x021EDB34 thumb ov170
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_ChangeForm 0x02017988 thumb
  *   func_0200CA1C 0x0200CA1C thumb
@@ -27,7 +27,7 @@ extern void func_021DD8A8(unsigned char *,unsigned);
 extern void func_021DD314(char **p, int a, unsigned b);
 extern void func_021EDAB0(char *p, int i);
 extern void func_021EDB34(char *p, int a);
-extern void *func_0201AB28(void *,unsigned);
+extern void *POKEPARTY_GetMember(void *,unsigned);
 extern unsigned POKE_TOOL_GetPartyValue(void *,unsigned,unsigned);
 typedef unsigned int   u32;
 struct Blk37;
@@ -42,7 +42,7 @@ void func_021DD4B8(unsigned char *p,unsigned a,unsigned b)
     void *m;
     unsigned box;
     box=func_021DD684(p,b);
-    m=func_0201AB28((*(void ***)p)[2],a-30);
+    m=POKEPARTY_GetMember((*(void ***)p)[2],a-30);
     if(POKE_TOOL_GetPartyValue(m,5,0)==492){
         POKE_TOOL_ChangeForm(m,0);
         func_021DD8A8(p,a);

@@ -16,7 +16,7 @@
  * symbols:
  *   _ll_mul        0x0209C054  arm
  *   _s32_div_f     0x0209C0A4  arm
- *   d_020A1B38     0x020A1B38  data   a2
+ *   FX_SinCosTable_     0x020A1B38  data   a2
  * Addresses are Black-image addresses.
  */
 
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef struct { int x, y, z; } V;
 typedef struct { s16 x, y, z; } VS;
 
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 static inline int FXM(int a, int b)
 {
@@ -47,18 +47,18 @@ void FIELD_CAMERA_RefineAngles(V *v, u16 h0, u16 h1, u16 *p0, u16 *p1)
 
     k0 = (h0 >> 4) * 2;
     k1 = (h1 >> 4) * 2;
-    c1 = d_020A1B38[k1 + 1];
-    c.x = FXM(d_020A1B38[k0], c1);
-    c.y = d_020A1B38[k1];
-    c.z = FXM(d_020A1B38[k0 + 1], c1);
+    c1 = FX_SinCosTable_[k1 + 1];
+    c.x = FXM(FX_SinCosTable_[k0], c1);
+    c.y = FX_SinCosTable_[k1];
+    c.z = FXM(FX_SinCosTable_[k0 + 1], c1);
     kb = ((h0 - 0xb6) >> 4) * 2;
-    b.x = FXM(d_020A1B38[kb], c1);
-    b.z = FXM(d_020A1B38[kb + 1], c1);
-    sb = d_020A1B38[((h1 - 0xb6) >> 4) * 2];
+    b.x = FXM(FX_SinCosTable_[kb], c1);
+    b.z = FXM(FX_SinCosTable_[kb + 1], c1);
+    sb = FX_SinCosTable_[((h1 - 0xb6) >> 4) * 2];
     ka = ((h0 + 0xb6) >> 4) * 2;
-    a.x = FXM(d_020A1B38[ka], c1);
-    a.z = FXM(d_020A1B38[ka + 1], c1);
-    sa = d_020A1B38[((h1 + 0xb6) >> 4) * 2];
+    a.x = FXM(FX_SinCosTable_[ka], c1);
+    a.z = FXM(FX_SinCosTable_[ka + 1], c1);
+    sa = FX_SinCosTable_[((h1 + 0xb6) >> 4) * 2];
 
     if (h0 < 0x4000) {
         if (c.x < v->x && c.z > v->z) {

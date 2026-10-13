@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_GetSlowStartHandlers
+ * function: HAND_TOKUSEI_GetSlowStartHandlers
  * address: 0x021D8A30
  * packet: pkt_ov093_021D8A30
  * region: ov093
@@ -15,10 +15,10 @@
  *   gSlowStartHandlers 0x021F0D6C data ov093 a4
  */
 
-int *BTL_CALC_GetSlowStartHandlers(int *p);
+int *HAND_TOKUSEI_GetSlowStartHandlers(int *p);
 extern int gSlowStartHandlers[];
 
-int *BTL_CALC_GetSlowStartHandlers(int *p)
+int *HAND_TOKUSEI_GetSlowStartHandlers(int *p)
 {
     *p = 6;
     return gSlowStartHandlers;

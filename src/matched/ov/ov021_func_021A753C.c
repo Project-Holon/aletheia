@@ -13,7 +13,7 @@
  *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
  *   NNS_G3dGetMdlSet  0x0206E954  arm
  *   func_02047250  0x02047250  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02069C74  0x02069C74  arm
  *   func_02069E88  0x02069E88  arm
  *
@@ -31,7 +31,7 @@ struct Tagged;
 extern void *G3D_SYSTEM_GetResourceFile(struct Tagged *p);
 extern int NNS_G3dGetMdlSet(int p0);
 extern u32 func_02047250(u32 a);
-extern void func_02082BCC(u32 *p, u32 v, u32 n);
+extern void MI_CpuFill8(u32 *p, u32 v, u32 n);
 extern void func_02069C74(u32 *a, u32 b, u32 c, u32 d);
 extern void func_02069E88(u32 a, u32 *b);
 
@@ -62,7 +62,7 @@ u32 FIELD_GROUND_ANIME_AnmEntryBind(Ctx *s, u32 b, u32 c, u32 d)
         c = func_02047250(c);
     else
         c = 0;
-    func_02082BCC(s->buf, 0, 0x80);
+    MI_CpuFill8(s->buf, 0, 0x80);
     func_02069C74(s->buf, s->v, r6, c);
     func_02069E88(d, s->buf);
     s->flags = (s->flags & ~1) | 1;

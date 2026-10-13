@@ -14,9 +14,9 @@
  *   with 02161F54. The clear spans offsets 8..31; the mask reads offset 2.
  *   Thus primary shift counts 0..2 are defined; no arbitrary-u32 domain claim.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj07292.h"
 typedef unsigned short u16;
-extern void func_02082BCC(void *, int, int);
-void EVENT_FIELD_PROCLINK_ClearReturnSlot(char *p, unsigned i) { func_02082BCC(p+8+i*8,0,8); ((struct Obj07292 *)p)->f2 = ((struct Obj07292 *)p)->f2 & ~(1<<i); }
+extern void MI_CpuFill8(void *, int, int);
+void EVENT_FIELD_PROCLINK_ClearReturnSlot(char *p, unsigned i) { MI_CpuFill8(p+8+i*8,0,8); ((struct Obj07292 *)p)->f2 = ((struct Obj07292 *)p)->f2 & ~(1<<i); }

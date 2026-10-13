@@ -13,15 +13,16 @@
  *
  * symbols:
  *   g_021AA664  0x021AA664  data
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 
 #include "../include/G_CPSSslSession.h"
 
 extern struct CPSSslSession g_021AA664;
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 
 void func_02162FA4(void)
 {
-    func_02082BCC(((char *)&g_021AA664), 0, 0x170);
+    MI_CpuFill8(((char *)&g_021AA664), 0, 0x170);
 }
 

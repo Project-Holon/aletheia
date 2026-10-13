@@ -23,7 +23,7 @@
  *   UNION_COMM_SetSituationParam  0x021734A8  thumb  ov012
  *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
  *   func_02034714  0x02034714  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_0217EE40  0x0217EE40  thumb  ov019
  *   func_0217EE1C  0x0217EE1C  thumb  ov019
  *   func_0217EDF8  0x0217EDF8  thumb  ov019
@@ -72,7 +72,7 @@ extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern void UNION_COMM_SetSituationParam(u8 *self, u32 id, u32 v);
 extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern u16 func_0217EE40(int i);
 extern u16 func_0217EE1C(int i);
 extern u16 func_0217EDF8(int i);
@@ -134,7 +134,7 @@ int UNION_ONESELF_JoinMain(u8 *a, Obj *b, u8 *c, u8 *d)
             }
         } else {
             b->f6c++;
-            if (b->f6c > 600 || (func_020362DC() & 2)) {
+            if (b->f6c > 600 || (KEY_GetTrg() & 2)) {
                 b->b0 = 0;
                 UNION_ONESELF_SetNextPlayCategory((char *)a, (int)0);
                 *d = 4;

@@ -13,7 +13,7 @@
  * symbols:
  *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   P_STA_RIBBON_GetRibbonInfo 0x021DBF2C thumb ov131
@@ -29,7 +29,7 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 P_STA_RIBBON_GetRibbonInfo(u32,u32);
@@ -42,10 +42,10 @@ void P_STA_RIBBON_PrintDetail(u8 *a,u8 *p)
     *(u32 *)&((struct Obj03815 *)p)->f24=BMP_WIN_Create(4,1,16,30,4,14,1);
     index=(p+p[0x59]*8)[0x13c];
     text=func_02045EC0(((struct Obj03815 *)p)->f50,P_STA_RIBBON_GetRibbonInfo(index,3));
-    PRINTSYS_PrintQueColor(((struct Obj00136 *)a)->f84,(u32)func_02045770(((struct Obj03815 *)p)->f20),1,1,(u32)text,((struct Obj00136 *)a)->f80,1088);
+    PRINTSYS_PrintQueColor(((struct Obj00136 *)a)->f84,(u32)BMP_WIN_GetBmp(((struct Obj03815 *)p)->f20),1,1,(u32)text,((struct Obj00136 *)a)->f80,1088);
     STRBUF_Delete(text);
     text=func_02045EC0(((struct Obj03815 *)p)->f50,P_STA_RIBBON_GetRibbonDescMsg(index));
-    PRINTSYS_PrintQueColor(((struct Obj00136 *)a)->f84,(u32)func_02045770(((struct Obj03815 *)p)->f24),1,1,(u32)text,((struct Obj00136 *)a)->f80,1088);
+    PRINTSYS_PrintQueColor(((struct Obj00136 *)a)->f84,(u32)BMP_WIN_GetBmp(((struct Obj03815 *)p)->f24),1,1,(u32)text,((struct Obj00136 *)a)->f80,1088);
     STRBUF_Delete(text);
     ((struct Obj03815 *)p)->f8=1;
 }

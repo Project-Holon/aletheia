@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C804C",
+   "name": "BTL_SERVER_FLOW_GetActionWordByPokeId",
    "address": "0x021C804C",
    "kind": "game",
    "region": "ov093",

@@ -1,5 +1,5 @@
 /*
- * function: func_021C812C
+ * function: BTL_SERVER_FLOW_GetTurnRecord
  * address:  0x021C812C
  * packet:   pkt_021C7CD4
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C812C   0x021C812C  thumb
+ *   BTL_SERVER_FLOW_GetTurnRecord   0x021C812C  thumb
  *
  * Leaf with no calls and no pool; 2 instructions, 4 bytes: adds r0, #0x1c; bx lr.
  */
@@ -23,5 +23,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021C812C  adds r0,#0x1c */
-u8 *func_021C812C(u8 *p) { return p + 0x1c; }
+u8 *BTL_SERVER_FLOW_GetTurnRecord(u8 *p) { return p + 0x1c; }
 

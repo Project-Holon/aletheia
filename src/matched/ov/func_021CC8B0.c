@@ -1,5 +1,5 @@
 /*
- * function: func_021CC8B0
+ * function: BTL_SERVER_FLOW_SetSlotTableEntry
  * address:  0x021CC8B0
  * packet:   pkt_021CC8B0
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021CC8B0   0x021CC8B0  thumb ov093
+ *   BTL_SERVER_FLOW_SetSlotTableEntry   0x021CC8B0  thumb ov093
  *
  * indexed store
  */
@@ -22,7 +22,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-void func_021CC8B0(u32 *p, u32 i, u32 b)
+void BTL_SERVER_FLOW_SetSlotTableEntry(u32 *p, u32 i, u32 b)
 {
     *(u32 *)&p[i] = b;
 }

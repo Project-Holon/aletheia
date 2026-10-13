@@ -22,7 +22,7 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_020275E4 0x020275E4 thumb
  *   func_02027614 0x02027614 thumb
  *   func_02027618 0x02027618 thumb
@@ -52,7 +52,7 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern struct Obj *CLACT_CreateActor(void *owner,unsigned int i,unsigned int j,unsigned int k,const void *position,unsigned short space,unsigned short heap);
-extern void func_0204B3DC(struct Obj *,u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 extern u32 func_020275E4(void),func_02027614(void),func_02027618(void),func_02027624(void),func_02027628(void),func_0202762C(void),func_0202761C(u32),func_02027620(u32);
 void func_021EF0F4(u8 *p) {
  void *archive;
@@ -94,6 +94,6 @@ void func_021EF0F4(u8 *p) {
  ARC_TOOL_DeleteHandle(archive);
  placement.x=232;placement.y=168;placement.z=1;placement.f7=0;placement.f6=0;
  *(struct Obj * *)&((struct Obj00057 *)p)->f7C=CLACT_CreateActor((void *)*(u32 *)&((struct Obj00057 *)p)->f6C,((struct Obj00057 *)p)->f74,((struct Obj00057 *)p)->f70,((struct Obj00057 *)p)->f78,&placement,1,((struct Obj00057 *)p)->f0);
- if(!p[0x28]) {func_0204B3DC(*(struct Obj * *)&((struct Obj00057 *)p)->f7C,1);return;}
- else {func_0204B3DC(*(struct Obj * *)&((struct Obj00057 *)p)->f7C,0);return;}
+ if(!p[0x28]) {CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00057 *)p)->f7C,1);return;}
+ else {CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00057 *)p)->f7C,0);return;}
 }

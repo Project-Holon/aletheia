@@ -1,5 +1,5 @@
 /*
- * function: func_021D51DC
+ * function: BTL_POKEPARAM_ReplaceMoveSlot
  * address: 0x021D51DC
  * packet: pkt_ov093_021D51DC
  * region: ov093
@@ -15,7 +15,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct S { u16 h[6]; u8 f0c; };
 extern void BTL_POKEPARAM_SetMoveInfo(struct S *p, u32 a, u32 b);
-void func_021D51DC(struct S *p, u32 a, u32 b, u32 c)
+void BTL_POKEPARAM_ReplaceMoveSlot(struct S *p, u32 a, u32 b, u32 c)
 {
     if (c != 0) {
         BTL_POKEPARAM_SetMoveInfo(p, a, b);

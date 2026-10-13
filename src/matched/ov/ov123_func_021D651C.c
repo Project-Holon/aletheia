@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct Obj;
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 
 void func_021D651C(u8 *p)
 {
-    func_0204B92C(((struct Obj22950 *)p)->fA8, 1);
+    CLACT_SetActorAutoAnim(((struct Obj22950 *)p)->fA8, 1);
 }

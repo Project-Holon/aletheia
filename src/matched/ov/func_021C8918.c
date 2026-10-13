@@ -1,5 +1,5 @@
 /*
- * function: func_021C8918
+ * function: BTL_SERVER_FLOW_ExecCmd
  * address:  0x021C8918
  * packet:   pkt_021C8918
  * region:   ov093
@@ -10,71 +10,71 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C8918   0x021C8918  thumb
- *   func_021B9940   0x021B9940  thumb ov093
- *   func_021C8C6C   0x021C8C6C  thumb ov093
- *   func_021C8CBC   0x021C8CBC  thumb ov093
- *   func_021C8D0C   0x021C8D0C  thumb ov093
- *   func_021C8D2C   0x021C8D2C  thumb ov093
- *   func_021C8DE4   0x021C8DE4  thumb ov093
- *   func_021C8E58   0x021C8E58  thumb ov093
- *   func_021C8F24   0x021C8F24  thumb ov093
- *   func_021C8FA4   0x021C8FA4  thumb ov093
- *   func_021C9010   0x021C9010  thumb ov093
- *   func_021C9068   0x021C9068  thumb ov093
- *   func_021C9178   0x021C9178  thumb ov093
- *   func_021C9250   0x021C9250  thumb ov093
- *   func_021C9394   0x021C9394  thumb ov093
- *   func_021C9448   0x021C9448  thumb ov093
- *   func_021C947C   0x021C947C  thumb ov093
- *   func_021C94C8   0x021C94C8  thumb ov093
- *   func_021C95D0   0x021C95D0  thumb ov093
- *   func_021C962C   0x021C962C  thumb ov093
- *   func_021C96D4   0x021C96D4  thumb ov093
- *   func_021C9728   0x021C9728  thumb ov093
- *   func_021C9750   0x021C9750  thumb ov093
- *   func_021C9778   0x021C9778  thumb ov093
- *   func_021C97A4   0x021C97A4  thumb ov093
- *   func_021C97D0   0x021C97D0  thumb ov093
- *   func_021C9828   0x021C9828  thumb ov093
- *   func_021C9898   0x021C9898  thumb ov093
- *   func_021C98C4   0x021C98C4  thumb ov093
- *   func_021C98E4   0x021C98E4  thumb ov093
- *   func_021C9A24   0x021C9A24  thumb ov093
- *   func_021C9A60   0x021C9A60  thumb ov093
- *   func_021C9BB8   0x021C9BB8  thumb ov093
- *   func_021C9CC0   0x021C9CC0  thumb ov093
- *   func_021C9DCC   0x021C9DCC  thumb ov093
- *   func_021C9DE8   0x021C9DE8  thumb ov093
- *   func_021C9E3C   0x021C9E3C  thumb ov093
- *   func_021C9ECC   0x021C9ECC  thumb ov093
- *   func_021C9F0C   0x021C9F0C  thumb ov093
- *   func_021C9F4C   0x021C9F4C  thumb ov093
- *   func_021C9F6C   0x021C9F6C  thumb ov093
- *   func_021CA128   0x021CA128  thumb ov093
- *   func_021CA158   0x021CA158  thumb ov093
- *   func_021CA1D0   0x021CA1D0  thumb ov093
- *   func_021CA248   0x021CA248  thumb ov093
- *   func_021CA270   0x021CA270  thumb ov093
- *   func_021CA2E8   0x021CA2E8  thumb ov093
- *   func_021CA318   0x021CA318  thumb ov093
- *   func_021CA370   0x021CA370  thumb ov093
- *   func_021CA394   0x021CA394  thumb ov093
- *   func_021CA3AC   0x021CA3AC  thumb ov093
- *   func_021CA3D0   0x021CA3D0  thumb ov093
- *   func_021CA47C   0x021CA47C  thumb ov093
- *   func_021CA570   0x021CA570  thumb ov093
- *   func_021CA5CC   0x021CA5CC  thumb ov093
- *   func_021CA6C4   0x021CA6C4  thumb ov093
- *   func_021CA6FC   0x021CA6FC  thumb ov093
- *   func_021CA738   0x021CA738  thumb ov093
- *   func_021CA748   0x021CA748  thumb ov093
- *   func_021CA7C4   0x021CA7C4  thumb ov093
- *   func_021CA7D4   0x021CA7D4  thumb ov093
- *   func_021CC960   0x021CC960  thumb ov093
- *   func_021CC96C   0x021CC96C  thumb ov093
- *   func_021CC974   0x021CC974  thumb ov093
- *   func_021CC99C   0x021CC99C  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmd   0x021C8918  thumb
+ *   BTL_SIDE_GetPokeById   0x021B9940  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdPokeCmd42   0x021C8C6C  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdAbilityPopupIn   0x021C8CBC  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdAbilityPopupOut   0x021C8D0C  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdRecoverHp   0x021C8D2C  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdDrainHeal   0x021C8DE4  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdAbsorbRecovery   0x021C8E58  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdChangeHp   0x021C8F24  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdRestoreMovePp   0x021C8FA4  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdConsumeMovePp   0x021C9010  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdCureSick   0x021C9068  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdAddSick   0x021C9178  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdChangeStatStage   0x021C9250  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdSetStatStages   0x021C9394  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdRaiseLoweredStatStages   0x021C9448  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdResetStatStages   0x021C947C  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdSetStatValues   0x021C94C8  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdFinishHpChange   0x021C95D0  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdSetPokeTypes   0x021C962C  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdPushMessage   0x021C96D4  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdSetTurnFlag   0x021C9728  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdClearTurnFlag   0x021C9750  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdSetContFlag   0x021C9778  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdClearContFlag   0x021C97A4  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdAdjustValueMessage   0x021C97D0  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdExpireSideEffects   0x021C9828  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdRegisterFieldSlot   0x021C9898  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdExpireFieldEffect   0x021C98C4  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdChangeWeather   0x021C98E4  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdTrainerMessage   0x021C9A24  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdChangeAbility   0x021C9A60  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdChangeHeldItem   0x021C9BB8  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdSwapHeldItems   0x021C9CC0  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdProcItemReaction   0x021C9DCC  thumb ov093
+ *   BTL_SERVER_FLOW_ExecCmdActivateHeldItem   0x021C9DE8  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExForceItemFactor   0x021C9E3C  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExConsumeItem   0x021C9ECC  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExReplaceMove   0x021C9F0C  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExSetPokeCounter   0x021C9F4C  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExUseMoveOnTarget   0x021C9F6C  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExEscape   0x021CA128  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExForceMemberOut   0x021CA158  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExPassEffects   0x021CA1D0  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExRollFlinch   0x021CA248  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExReviveAndSendIn   0x021CA270  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExSetWeight   0x021CA2E8  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExForceSwitch   0x021CA318  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExPromoteAction   0x021CA370  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExPromoteActionsByMove   0x021CA394  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExDemoteAction   0x021CA3AC  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExSwapPositions   0x021CA3D0  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExTransform   0x021CA47C  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExBreakIllusion   0x021CA570  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExGroundPokes   0x021CA5CC  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExClearContFlag   0x021CA6C4  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExPlayEffectAnim   0x021CA6FC  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExNotifyViewCmd56   0x021CA738  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExChangeForm   0x021CA748  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExSetTurnStateArg   0x021CA7C4  thumb ov093
+ *   BTL_SERVER_FLOW_ProcHandExLatchTurnStateFlag   0x021CA7D4  thumb ov093
+ *   BTL_SERVER_FLOW_GetHandExScopeArg   0x021CC960  thumb ov093
+ *   BTL_SERVER_FLOW_IsHandExScopeActive   0x021CC96C  thumb ov093
+ *   BTL_SERVER_FLOW_SetHandExScopeResult   0x021CC974  thumb ov093
+ *   BTL_SERVER_FLOW_GetHandExScopeResult   0x021CC99C  thumb ov093
  *   BTL_POKEPARAM_IsFainted   0x021D5B68  thumb ov093
  */
 
@@ -98,269 +98,269 @@ typedef struct {
 } BattleCtx;
 
 struct S;
-extern unsigned short func_021CC960(struct S *p);
+extern unsigned short BTL_SERVER_FLOW_GetHandExScopeArg(struct S *p);
 struct Cmd;
 struct Q;
 struct Q10;
 struct Q9;
-extern int func_021CC96C(struct Q9 *p);
-extern int func_021CC99C(struct Q10 *p);
-extern void func_021CC974(void *q, int r);
-extern u8 *func_021B9940(char *p, u8 i);
+extern int BTL_SERVER_FLOW_IsHandExScopeActive(struct Q9 *p);
+extern int BTL_SERVER_FLOW_GetHandExScopeResult(struct Q10 *p);
+extern void BTL_SERVER_FLOW_SetHandExScopeResult(void *q, int r);
+extern u8 *BTL_SIDE_GetPokeById(char *p, u8 i);
 extern int BTL_POKEPARAM_IsFainted(void *mon);
-extern u8 func_021C9DE8(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C8C6C(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C8CBC(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C8D0C(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C96D4(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C8D2C(BattleCtx *s, BtlCmd *cmd, int arg);
-extern u8 func_021C8DE4(BattleCtx *s, BtlCmd *cmd, int arg);
-extern u8 func_021C8E58(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C8F24(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C8FA4(BattleCtx *s, BtlCmd *cmd, int arg);
-extern u8 func_021C9010(BattleCtx *s, BtlCmd *cmd, int arg);
-extern u8 func_021C9068(BattleCtx *s, BtlCmd *cmd, int arg);
-extern u8 func_021C9178(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C9250(BattleCtx *s, BtlCmd *cmd, int arg);
-extern u8 func_021C9394(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C947C(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C94C8(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C9448(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C95D0(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C962C(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C9728(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C9750(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C9778(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C97A4(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C97D0(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C9828(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C9898(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C98C4(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C98E4(u8 *w, struct Cmd *c);
-extern u8 func_021C9A24(void *p, const struct Cmd *q);
-extern u8 func_021C9A60(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C9BB8(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C9DCC(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C9E3C(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C9ECC(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C9CC0(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C9F0C(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C9F4C(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021C9F6C(u8 *p, u8 *q);
-extern u8 func_021CA128(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA158(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA1D0(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA248(u8 *p, const u8 *q);
-extern u8 func_021CA270(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA2E8(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA318(u8 *p, const struct Q *q);
-extern u8 func_021CA370(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA394(u8 *p, const u8 *q);
-extern u8 func_021CA3AC(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA3D0(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA47C(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA570(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA5CC(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA6C4(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA6FC(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA738(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA748(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA7C4(BattleCtx *s, BtlCmd *cmd);
-extern u8 func_021CA7D4(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdActivateHeldItem(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdPokeCmd42(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdAbilityPopupIn(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdAbilityPopupOut(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdPushMessage(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdRecoverHp(BattleCtx *s, BtlCmd *cmd, int arg);
+extern u8 BTL_SERVER_FLOW_ExecCmdDrainHeal(BattleCtx *s, BtlCmd *cmd, int arg);
+extern u8 BTL_SERVER_FLOW_ExecCmdAbsorbRecovery(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdChangeHp(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdRestoreMovePp(BattleCtx *s, BtlCmd *cmd, int arg);
+extern u8 BTL_SERVER_FLOW_ExecCmdConsumeMovePp(BattleCtx *s, BtlCmd *cmd, int arg);
+extern u8 BTL_SERVER_FLOW_ExecCmdCureSick(BattleCtx *s, BtlCmd *cmd, int arg);
+extern u8 BTL_SERVER_FLOW_ExecCmdAddSick(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdChangeStatStage(BattleCtx *s, BtlCmd *cmd, int arg);
+extern u8 BTL_SERVER_FLOW_ExecCmdSetStatStages(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdResetStatStages(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdSetStatValues(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdRaiseLoweredStatStages(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdFinishHpChange(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdSetPokeTypes(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdSetTurnFlag(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdClearTurnFlag(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdSetContFlag(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdClearContFlag(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdAdjustValueMessage(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdExpireSideEffects(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdRegisterFieldSlot(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdExpireFieldEffect(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdChangeWeather(u8 *w, struct Cmd *c);
+extern u8 BTL_SERVER_FLOW_ExecCmdTrainerMessage(void *p, const struct Cmd *q);
+extern u8 BTL_SERVER_FLOW_ExecCmdChangeAbility(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdChangeHeldItem(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdProcItemReaction(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExForceItemFactor(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExConsumeItem(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ExecCmdSwapHeldItems(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExReplaceMove(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExSetPokeCounter(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExUseMoveOnTarget(u8 *p, u8 *q);
+extern u8 BTL_SERVER_FLOW_ProcHandExEscape(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExForceMemberOut(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExPassEffects(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExRollFlinch(u8 *p, const u8 *q);
+extern u8 BTL_SERVER_FLOW_ProcHandExReviveAndSendIn(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExSetWeight(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExForceSwitch(u8 *p, const struct Q *q);
+extern u8 BTL_SERVER_FLOW_ProcHandExPromoteAction(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExPromoteActionsByMove(u8 *p, const u8 *q);
+extern u8 BTL_SERVER_FLOW_ProcHandExDemoteAction(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExSwapPositions(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExTransform(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExBreakIllusion(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExGroundPokes(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExClearContFlag(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExPlayEffectAnim(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExNotifyViewCmd56(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExChangeForm(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExSetTurnStateArg(BattleCtx *s, BtlCmd *cmd);
+extern u8 BTL_SERVER_FLOW_ProcHandExLatchTurnStateFlag(BattleCtx *s, BtlCmd *cmd);
 
-void func_021C8918(BattleCtx *s, BtlCmd *cmd)
+void BTL_SERVER_FLOW_ExecCmd(BattleCtx *s, BtlCmd *cmd)
 {
-    int arg = func_021CC960((struct S *)s->queue);
+    int arg = BTL_SERVER_FLOW_GetHandExScopeArg((struct S *)s->queue);
     u8 r;
 
-    if (func_021CC96C((struct Q9 *)s->queue))
-        r = func_021CC99C((struct Q10 *)s->queue);
+    if (BTL_SERVER_FLOW_IsHandExScopeActive((struct Q9 *)s->queue))
+        r = BTL_SERVER_FLOW_GetHandExScopeResult((struct Q10 *)s->queue);
     else
         r = 1;
 
     if (cmd->ignoreIfBusy && r == 0)
         return;
-    if (cmd->checkFainted && BTL_POKEPARAM_IsFainted(func_021B9940(s->party, cmd->client)))
+    if (cmd->checkFainted && BTL_POKEPARAM_IsFainted(BTL_SIDE_GetPokeById(s->party, cmd->client)))
         return;
 
     switch (cmd->id) {
     case 1:
-        r = func_021C8C6C(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdPokeCmd42(s, cmd);
         break;
     case 2:
-        r = func_021C8CBC(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdAbilityPopupIn(s, cmd);
         break;
     case 3:
-        r = func_021C8D0C(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdAbilityPopupOut(s, cmd);
         break;
     case 0:
-        r = func_021C9DE8(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdActivateHeldItem(s, cmd);
         break;
     case 5:
-        r = func_021C8D2C(s, cmd, arg);
+        r = BTL_SERVER_FLOW_ExecCmdRecoverHp(s, cmd, arg);
         break;
     case 6:
-        r = func_021C8DE4(s, cmd, arg);
+        r = BTL_SERVER_FLOW_ExecCmdDrainHeal(s, cmd, arg);
         break;
     case 7:
-        r = func_021C8E58(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdAbsorbRecovery(s, cmd);
         break;
     case 8:
-        r = func_021C8F24(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdChangeHp(s, cmd);
         break;
     case 9:
-        r = func_021C8FA4(s, cmd, arg);
+        r = BTL_SERVER_FLOW_ExecCmdRestoreMovePp(s, cmd, arg);
         break;
     case 10:
-        r = func_021C9010(s, cmd, arg);
+        r = BTL_SERVER_FLOW_ExecCmdConsumeMovePp(s, cmd, arg);
         break;
     case 11:
-        r = func_021C9068(s, cmd, arg);
+        r = BTL_SERVER_FLOW_ExecCmdCureSick(s, cmd, arg);
         break;
     case 12:
-        r = func_021C9178(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdAddSick(s, cmd);
         break;
     case 14:
-        r = func_021C9250(s, cmd, arg);
+        r = BTL_SERVER_FLOW_ExecCmdChangeStatStage(s, cmd, arg);
         break;
     case 15:
-        r = func_021C9394(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdSetStatStages(s, cmd);
         break;
     case 18:
-        r = func_021C9448(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdRaiseLoweredStatStages(s, cmd);
         break;
     case 16:
-        r = func_021C947C(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdResetStatStages(s, cmd);
         break;
     case 17:
-        r = func_021C94C8(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdSetStatValues(s, cmd);
         break;
     case 19:
-        r = func_021C95D0(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdFinishHpChange(s, cmd);
         break;
     case 20:
-        r = func_021C962C(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdSetPokeTypes(s, cmd);
         break;
     case 4:
-        r = func_021C96D4(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdPushMessage(s, cmd);
         break;
     case 21:
-        r = func_021C9728(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdSetTurnFlag(s, cmd);
         break;
     case 22:
-        r = func_021C9750(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdClearTurnFlag(s, cmd);
         break;
     case 23:
-        r = func_021C9778(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdSetContFlag(s, cmd);
         break;
     case 24:
-        r = func_021C97A4(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdClearContFlag(s, cmd);
         break;
     case 25:
-        r = func_021C97D0(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdAdjustValueMessage(s, cmd);
         break;
     case 26:
-        r = func_021C9828(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdExpireSideEffects(s, cmd);
         break;
     case 27:
-        r = func_021C9898(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdRegisterFieldSlot(s, cmd);
         break;
     case 29:
-        r = func_021C98E4((u8 *)s, (struct Cmd *)cmd);
+        r = BTL_SERVER_FLOW_ExecCmdChangeWeather((u8 *)s, (struct Cmd *)cmd);
         break;
     case 28:
-        r = func_021C98C4(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdExpireFieldEffect(s, cmd);
         break;
     case 30:
-        r = func_021C9A24(s, (const struct Cmd *)cmd);
+        r = BTL_SERVER_FLOW_ExecCmdTrainerMessage(s, (const struct Cmd *)cmd);
         break;
     case 31:
-        r = func_021C9A60(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdChangeAbility(s, cmd);
         break;
     case 32:
-        r = func_021C9BB8(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdChangeHeldItem(s, cmd);
         break;
     case 33:
-        r = func_021C9DCC(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdProcItemReaction(s, cmd);
         break;
     case 34:
-        r = func_021C9E3C(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExForceItemFactor(s, cmd);
         break;
     case 35:
-        r = func_021C9ECC(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExConsumeItem(s, cmd);
         break;
     case 36:
-        r = func_021C9CC0(s, cmd);
+        r = BTL_SERVER_FLOW_ExecCmdSwapHeldItems(s, cmd);
         break;
     case 37:
-        r = func_021C9F0C(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExReplaceMove(s, cmd);
         break;
     case 38:
-        r = func_021C9F4C(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExSetPokeCounter(s, cmd);
         break;
     case 39:
-        r = func_021C9F6C((u8 *)s, (u8 *)cmd);
+        r = BTL_SERVER_FLOW_ProcHandExUseMoveOnTarget((u8 *)s, (u8 *)cmd);
         break;
     case 40:
-        r = func_021CA128(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExEscape(s, cmd);
         break;
     case 41:
-        r = func_021CA158(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExForceMemberOut(s, cmd);
         break;
     case 42:
-        r = func_021CA1D0(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExPassEffects(s, cmd);
         break;
     case 43:
-        r = func_021CA248((u8 *)s, (const u8 *)cmd);
+        r = BTL_SERVER_FLOW_ProcHandExRollFlinch((u8 *)s, (const u8 *)cmd);
         break;
     case 44:
-        r = func_021CA270(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExReviveAndSendIn(s, cmd);
         break;
     case 45:
-        r = func_021CA2E8(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExSetWeight(s, cmd);
         break;
     case 46:
-        r = func_021CA318((u8 *)s, (const struct Q *)cmd);
+        r = BTL_SERVER_FLOW_ProcHandExForceSwitch((u8 *)s, (const struct Q *)cmd);
         break;
     case 47:
-        r = func_021CA370(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExPromoteAction(s, cmd);
         break;
     case 48:
-        r = func_021CA394((u8 *)s, (const u8 *)cmd);
+        r = BTL_SERVER_FLOW_ProcHandExPromoteActionsByMove((u8 *)s, (const u8 *)cmd);
         break;
     case 49:
-        r = func_021CA3AC(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExDemoteAction(s, cmd);
         break;
     case 50:
-        r = func_021CA3D0(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExSwapPositions(s, cmd);
         break;
     case 51:
-        r = func_021CA47C(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExTransform(s, cmd);
         break;
     case 52:
-        r = func_021CA570(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExBreakIllusion(s, cmd);
         break;
     case 53:
-        r = func_021CA5CC(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExGroundPokes(s, cmd);
         break;
     case 54:
-        r = func_021CA6C4(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExClearContFlag(s, cmd);
         break;
     case 55:
-        r = func_021CA6FC(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExPlayEffectAnim(s, cmd);
         break;
     case 56:
-        r = func_021CA738(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExNotifyViewCmd56(s, cmd);
         break;
     case 57:
-        r = func_021CA748(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExChangeForm(s, cmd);
         break;
     case 58:
-        r = func_021CA7C4(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExSetTurnStateArg(s, cmd);
         break;
     case 59:
-        r = func_021CA7D4(s, cmd);
+        r = BTL_SERVER_FLOW_ProcHandExLatchTurnStateFlag(s, cmd);
         break;
     }
-    func_021CC974(s->queue, r);
+    BTL_SERVER_FLOW_SetHandExScopeResult(s->queue, r);
 }

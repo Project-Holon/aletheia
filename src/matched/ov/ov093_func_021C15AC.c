@@ -1,5 +1,5 @@
 /*
- * function: func_021C15AC
+ * function: BTL_SERVER_FLOW_PushEffectivenessMessage
  * address: 0x021C15AC
  * packet: pkt_ov093_021C15AC
  * region: ov093
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern void BTL_SERVER_CMD_PushVariable(void *, u8, ...);
 
-void func_021C15AC(u8 *p, int k)
+void BTL_SERVER_FLOW_PushEffectivenessMessage(u8 *p, int k)
 {
     if (k < 3) {
         BTL_SERVER_CMD_PushVariable(((struct Obj13320 *)p)->fC, 0x5a, 0x4f, 0xffff0000);

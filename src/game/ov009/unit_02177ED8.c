@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021782B4  0x021782B4  arm  ov009
  *   func_02177FFC  0x02177FFC  arm  ov009
  *   g_021AB184  0x021AB184  data  ov009
@@ -33,7 +33,7 @@
  *   func_0217956C  0x0217956C  arm  ov009
  *   func_02058518  0x02058518  arm
  *   func_0217967C  0x0217967C  arm  ov009
- *   func_02085A30  0x02085A30  arm
+ *   OS_GetThreadPriority  0x02085A30  arm
  *   func_02179718  0x02179718  arm  ov009
  *   g_021A2358  0x021A2358  data  ov009
  *   g_021A2358_arg  0x021A2358  data  ov009
@@ -155,7 +155,7 @@ typedef struct {
 
 struct DWCWiFiInfo;
 
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int func_021782B4(int getwifiinfofromflash);
 extern void func_02086004(OSMutex *mutex);
 extern int func_0208574C(void *thread);
@@ -171,7 +171,7 @@ extern int func_020948E0(const char *, const char *);
 extern int func_0217956C(DWCHttp *http, DWCHttpParam *param);
 extern void func_02058518(struct DWCWiFiInfo *buf);
 extern int func_0217967C(DWCHttp *http);
-extern unsigned long func_02085A30(void *thread);
+extern unsigned long OS_GetThreadPriority(void *thread);
 extern void func_02179718(DWCHttp *http, unsigned long prio);
 extern void func_02178C48(int error);
 extern unsigned long long func_020870D0(void);
@@ -247,10 +247,10 @@ int func_02177EE8(DWCAuthParam *param, DWCHttp *http)
     g_021AB184.auth = (DWCAuth *)alloc(0, sizeof(DWCAuth));
     if (g_021AB184.auth == 0)
         return 2;
-    func_02082BCC(g_021AB184.auth, 0, sizeof(DWCAuth));
+    MI_CpuFill8(g_021AB184.auth, 0, sizeof(DWCAuth));
     g_021AB184.auth->http = http;
     g_021AB184.state = 0;
-    func_02082BCC(&g_021AB184.auth->result, 0, sizeof(DWCAuthResult));
+    MI_CpuFill8(&g_021AB184.auth->result, 0, sizeof(DWCAuthResult));
     g_021AB184.auth->result.returncode = 20100;
     g_021AB184.auth->param = *param;
     g_021AB184.auth->param.ingamesn[25] = 0;
@@ -360,7 +360,7 @@ int func_021781DC(void)
 void func_02178224(int *result)
 {
 	if (g_021AB184.auth == 0)
-		func_02082BCC(result, 0, 0x1c4);
+		MI_CpuFill8(result, 0, 0x1c4);
 	func_02082D44(&g_021AB184.auth->result, result, 0x1c4);
 	if (result[0] < 20000 || result[0] >= 30000)
 		result[0] = 20998;
@@ -402,7 +402,7 @@ int func_021782B4(int getwifiinfofromflash)
     if (func_0217967C(g_021AB184.auth->http) != 0)
         return 4;
 
-    func_02179718(g_021AB184.auth->http, func_02085A30(g_02150FEC.current) - 1);
+    func_02179718(g_021AB184.auth->http, OS_GetThreadPriority(g_02150FEC.current) - 1);
     return 0;
 }
 

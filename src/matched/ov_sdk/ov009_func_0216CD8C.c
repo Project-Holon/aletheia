@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_02195E60  0x02195E60  arm  ov009
+ *   gt2GetSocketSOCKET  0x02195E60  arm  ov009
  *   gt2GetLocalPort  0x02195E40  arm  ov009
  *   func_0219AEB4  0x0219AEB4  arm  ov009
  *   func_0219B540  0x0219B540  arm  ov009
@@ -51,7 +51,7 @@ typedef struct DWCstMatchControl {
 
 extern int func_02175F3C(void);
 struct qr2_implementation_s;
-extern int func_02195E60(const int *p);
+extern int gt2GetSocketSOCKET(const int *p);
 extern unsigned short gt2GetLocalPort(const unsigned short *p);
 extern int func_0219AEB4(void **qrec, int s, int boundport, char *gamename, char *secret_key,
                          int ispublic, int natnegotiate, void *server_key_callback,
@@ -84,7 +84,7 @@ int func_0216CD8C(int profileID)
         return 0;
     for (i = 0; i < 1; i++) {
         qr2Error = func_0219AEB4(&((DWCstMatchControl *)func_02175F3C())->qr2,
-                                 func_02195E60(*((DWCstMatchControl *)func_02175F3C())->gt2Socket),
+                                 gt2GetSocketSOCKET(*((DWCstMatchControl *)func_02175F3C())->gt2Socket),
                                  gt2GetLocalPort(*((DWCstMatchControl *)func_02175F3C())->gt2Socket),
                                  ((DWCstMatchControl *)func_02175F3C())->gameName,
                                  ((DWCstMatchControl *)func_02175F3C())->secretKey,

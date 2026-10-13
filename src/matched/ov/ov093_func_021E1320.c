@@ -1,5 +1,5 @@
 /*
- * function: func_021E1320
+ * function: HAND_WAZA_TrapOnDecideAddSick
  * address:  0x021E1320
  * packet:   pkt_ov093_021E1320
  * region:   ov093
@@ -26,7 +26,7 @@ union U;
 extern void BTLV_CORE_SetSlotValue(union U *p, u16 v);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E1320(void *a, int b, int c)
+void HAND_WAZA_TrapOnDecideAddSick(void *a, int b, int c)
 {
     int v;
     u16 n;

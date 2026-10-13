@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D9ADC.c and filed here.
  *
  * symbols:
- *   d_021F0868 0x021F0868 data ov093 a4
+ *   gShellArmorHandlers 0x021F0868 data ov093 a4
  */
 
 int *HAND_TOKUSEI_AddShellArmor(int *p);
-extern int d_021F0868[];
+extern int gShellArmorHandlers[];
 
 int *HAND_TOKUSEI_AddShellArmor(int *p)
 {
     *p = 1;
-    return d_021F0868;
+    return gShellArmorHandlers;
 }

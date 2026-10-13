@@ -10,7 +10,7 @@
  * status: EXACT
  * Indexed-dispatch thunk, sibling of func_021E9964 (same shape, other tail target).
  * Tail call T(p[6].f0) with the index materialised as a scaled immediate.
- * Unlabelled leaf filed as the witness for the call in func_021CE4D0.
+ * Unlabelled leaf filed as the witness for the call in BTL_CLIENT_StepSelectAction.
  * symbols:
  *   func_021E9954 0x021E9954 thumb ov093
  *   func_06899D3C 0x06899D3C thumb ov095

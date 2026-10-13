@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02040588 0x02040588 arm
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_0207D658 0x0207D658 arm
  *   func_021E3230 0x021E3230 thumb ov119
@@ -26,7 +26,7 @@
 #include "../include/Obj03775.h"
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void func_021E3230(void *);
@@ -52,7 +52,7 @@ void func_021E1D68(char *p,void *a)
     if(func_021D8AA8(p)==0) {
         func_021E5998(p);
         func_021E3F30(p);
-        func_02043534(29);
+        BG_SYS_SetMainVisiblePlanes(29);
         BG_SYS_SetSubVisiblePlanes(31);
         func_0207D658(0x04001050,26,-8);
         p[0x11f9]=1;

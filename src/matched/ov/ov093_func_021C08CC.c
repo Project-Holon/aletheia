@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B911C  0x021B911C  thumb  ov093
+ *   BTL_MAIN_ReturnZero  0x021B911C  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_POKEPARAM_DecrementMovePP  0x021D5608  thumb  ov093
  *   BTL_SERVER_CMD_Push  0x021CD4B0  thumb  ov093
@@ -20,7 +20,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021B911C(void *p, int k);
+extern int BTL_MAIN_ReturnZero(void *p, int k);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 struct UtilWork;
 extern void BTL_POKEPARAM_DecrementMovePP(struct UtilWork *p, int i, u8 n);
@@ -31,7 +31,7 @@ extern void BTL_POKEPARAM_MarkMoveUsed(struct Work *p, int i);
 void BTL_SERVER_FLOW_DecrementMovePP(u8 *p, u8 *a, int b, u8 c)
 {
     u32 n;
-    if (func_021B911C(((struct Obj09966 *)p)->f4, 5) == 0) {
+    if (BTL_MAIN_ReturnZero(((struct Obj09966 *)p)->f4, 5) == 0) {
         n = BTL_POKEPARAM_GetPokeId(a);
         BTL_POKEPARAM_DecrementMovePP((struct UtilWork *)a, b, c);
         BTL_SERVER_CMD_Push(((struct Obj09966 *)p)->fC, 4, n, b, c);

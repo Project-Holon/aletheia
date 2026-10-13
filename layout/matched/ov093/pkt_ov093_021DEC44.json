@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_HANDLER_ITEM_LifeOrb_BoostDamage",
-    "BTL_HANDLER_ITEM_GetMetronomeHandlers"
+    "HAND_ITEM_LifeOrb_BoostDamage",
+    "HAND_ITEM_GetMetronomeHandlers"
    ],
    "addresses": [
     "0x021DEC44",

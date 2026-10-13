@@ -13,7 +13,7 @@
  *   FLDMMDL_MOVE_GetRailMoveRequest  0x02164380  thumb  ov010
  *   FLDMMDL_InitMoveProcWork  0x0216D684  thumb  ov010
  *   FLDMMDL_RAIL_InitRailWork  0x0219EA5C  thumb  ov021
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FLDMMDL_RAIL_SetLocation  0x0219E2C0  thumb  ov021
  * Addresses are Black-image addresses.
  */
@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 extern int FLDMMDL_MOVE_GetRailMoveRequest(void *a, u16 *b);
 extern void *FLDMMDL_InitMoveProcWork(u32, u32);
 extern int FLDMMDL_RAIL_InitRailWork(void *a, u32 b);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void FLDMMDL_RAIL_SetLocation(void *a, void *r);
 
 void *FLDMMDL_RAIL_InitMoveWork(u32 a, u32 size)
@@ -38,7 +38,7 @@ void *FLDMMDL_RAIL_InitMoveWork(u32 a, u32 size)
     if (ok) {
         FLDMMDL_RAIL_SetLocation((void *)a, buf);
     } else {
-        func_02082BCC(buf, 0, 8);
+        MI_CpuFill8(buf, 0, 8);
         FLDMMDL_RAIL_SetLocation((void *)a, buf);
     }
     return q;

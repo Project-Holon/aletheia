@@ -1,5 +1,5 @@
 /*
- * function: func_021C7820
+ * function: BTL_SERVER_FLOW_NotifyStatStageChangeBlockedEvent
  * address: 0x021C7820
  * packet: pkt_ov093_021C7820
  * region: ov093
@@ -22,7 +22,7 @@ extern void BTL_EVENT_PopVarFrame(int);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SetVarReadOnly(int, u32);
 extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
-void func_021C7820(u8 *p, u8 *a, u32 k)
+void BTL_SERVER_FLOW_NotifyStatStageChangeBlockedEvent(u8 *p, u8 *a, u32 k)
 {
     int line = 12826;
     BTL_EVENT_PushVarFrame(line);

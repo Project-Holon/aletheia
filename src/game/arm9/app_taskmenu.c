@@ -47,12 +47,12 @@
  *   MIi_CpuCopy16     0x02082A60  arm
  *   app_taskmenu_File  0x020A74E0  data
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   func_02041B6C  0x02041B6C  arm
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_02045730  0x02045730  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_Create   0x020450F0  arm
@@ -60,29 +60,30 @@
  *   FX_SinCosTable_   0x020A1B38  data
  *   NNS_GfdRegisterNewVramTransferTask   0x02061CA4  arm
  *   func_020355C4 0x020355C4  arm
- *   func_020362DC  0x020362DC  arm
- *   func_0203633C  0x0203633C  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   KEY_GetRepeat  0x0203633C  arm
  *   func_020355D8  0x020355D8  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   func_02049DB4   0x02049DB4  arm
  *   func_02049B40   0x02049B40  arm
  *   sub_0201D304   0x0201D304  thumb
- *   func_02035D20  0x02035D20  arm
- *   func_02045738  0x02045738  arm
- *   func_02045758  0x02045758  arm
- *   func_02045760  0x02045760  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
+ *   BMP_WIN_GetWidth  0x02045738  arm
+ *   BMP_WIN_GetPosX  0x02045758  arm
+ *   BMP_WIN_GetPosY  0x02045760  arm
  *   BMP_WIN_SetPalette  0x02045798  arm
- *   func_02045740  0x02045740  arm
+ *   BMP_WIN_GetHeight  0x02045740  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   MIi_CpuCopy32  0x02082A90  arm
- *   func_0201CE30  0x0201CE30  thumb
- *   func_0201CE38  0x0201CE38  thumb
- *   func_0201CE5C  0x0201CE5C  thumb
+ *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb
+ *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb
+ *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb
  *   _KeyCursorDefaultPixels  0x0209FD10  data
  *   APP_KEYCURSOR_Create  0x020285A4  thumb
  *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
+ *   KEY_GetCont  0x0203630C  arm
  */
 
 typedef unsigned char  u8;
@@ -235,12 +236,12 @@ extern void func_02082D44(const void *src, void *dst, u32 size);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern u32 func_02017E1C(const struct PokemonParam *pp, int paramId, void *buf);
 extern u32 PRINTSYS_QUE_Main(struct PrintQueue *printQue);
-extern u32 func_0201C6C4(struct PrintQueue *printQue, struct Bmp *bmp);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *printQue, struct Bmp *bmp);
 extern void func_02041B6C(u32 bgFrame);
-extern u32 func_020452E8(struct BmpWin *win);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
-extern u8 func_02045730(struct BmpWin *win);
-extern struct Bmp *func_02045770(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u32 _u32_div_f(u32 a, u32 b);
@@ -251,26 +252,26 @@ extern void PRINTSYS_PrintQueColor(struct PrintQueue *printQue, struct Bmp *bmp,
 extern void BMP_WIN_SetPalette(struct BmpWin *win, u8 palNo);
 extern s32 NNS_GfdRegisterNewVramTransferTask(u32 transType, u32 offset, const void *src, s32 size);
 extern u8 func_020355C4(void);
-extern u32 func_020362DC(void);
-extern unsigned int func_0203633C(void);
+extern u32 KEY_GetTrg(void);
+extern unsigned int KEY_GetRepeat(void);
 extern void func_020355D8(u8 isTouch);
-extern void func_020061E4(u32 seId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern int TOUCHPANEL_HitTrg(const void *hitTbl);
 extern void *func_02049DB4(u32 arcId, u32 datId, u32 compressed, TaskMenuChrData **chrData, u16 heapId);
 extern void func_02049B40(u32 arcId, u32 datId, u32 pltType, u32 offset, u32 size, u16 heapId);
 extern u32 sub_0201D304(struct StrBuf *str, struct GFont *font, u32 margin);
-extern u32 func_02035D20(u32 *x, u32 *y);
-extern u8 func_02045738(struct BmpWin *win);
-extern u8 func_02045758(struct BmpWin *win);
-extern u8 func_02045760(struct BmpWin *win);
-extern u8 func_02045740(struct BmpWin *win);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *x, u32 *y);
+extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
+extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
+extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
+extern u8 BMP_WIN_GetHeight(struct BmpWin *win);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 n);
-extern u32 func_0201CE30(struct PrintStream *stream);
-extern void func_0201CE38(struct PrintStream *stream);
-extern void func_0201CE5C(struct PrintStream *stream, int wait);
+extern u32 PRINTSYS_PrintStreamGetState(struct PrintStream *stream);
+extern void PRINTSYS_PrintStreamReleasePause(struct PrintStream *stream);
+extern void PRINTSYS_PrintStreamShortWait(struct PrintStream *stream, int wait);
 extern int TOUCHPANEL_GetTrg(void);
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
 extern struct KeyCursor *APP_KEYCURSOR_Create(u32 id, u32 isLive, u32 isFlip, u16 heapId, const void *pixels);
 
@@ -832,16 +833,16 @@ void APP_TASKMENU_CloseMenu(TaskMenuWork *menu)
     u8 i;
     u8 j;
 
-    bgFrame = func_02045730(menu->winWork[0]);
+    bgFrame = BMP_WIN_GetBgLayer(menu->winWork[0]);
     for (i = 0; i < menu->init.itemNum; i++) {
-        while (func_0201C6C4(menu->res->printQue,
-                             func_02045770(menu->winWork[i])) != 0) {
+        while (PRINTSYS_QUE_IsExistTarget(menu->res->printQue,
+                             BMP_WIN_GetBmp(menu->winWork[i])) != 0) {
             PRINTSYS_QUE_Main(menu->res->printQue);
         }
     }
     for (j = 0; j < menu->init.itemNum; j++) {
         BMP_WIN_ClearScreen(menu->winWork[j]);
-        func_020452E8(menu->winWork[j]);
+        BMP_WIN_Delete(menu->winWork[j]);
     }
     func_02041B6C(bgFrame);
     func_020307B0(menu->winWork);
@@ -867,7 +868,7 @@ void APP_TASKMENU_TransWinAfterPrint(TaskMenuWork *menu)
     }
     isPrintDone = 1;
     for (i = 0; i < menu->init.itemNum; i++) {
-        if (func_0201C6C4(menu->res->printQue, func_02045770(menu->winWork[i])) == 1) {
+        if (PRINTSYS_QUE_IsExistTarget(menu->res->printQue, BMP_WIN_GetBmp(menu->winWork[i])) == 1) {
             isPrintDone = 0;
         }
     }
@@ -878,7 +879,7 @@ void APP_TASKMENU_TransWinAfterPrint(TaskMenuWork *menu)
         struct BmpWin *win = menu->winWork[i];
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
-        func_02041B6C(func_02045730(win));
+        func_02041B6C(BMP_WIN_GetBgLayer(win));
     }
     menu->isUpdateTrans = 0;
 }
@@ -971,12 +972,12 @@ void APP_TASKMENU_CreateWindows(TaskMenuWork *menu, TaskMenuRes *res)
         APP_TASKMENU_DrawWinFrame(menu->winWork[i], res, menu->itemWork[i].type);
         items = menu->itemWork;
         item = &items[i];
-        PRINTSYS_PrintQueColor(res->printQue, func_02045770(menu->winWork[i]), 0xa, 6,
+        PRINTSYS_PrintQueColor(res->printQue, BMP_WIN_GetBmp(menu->winWork[i]), 0xa, 6,
                      items[i].str, res->font, item->msgColor);
         win = menu->winWork[i];
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
-        func_02041B6C(func_02045730(win));
+        func_02041B6C(BMP_WIN_GetBgLayer(win));
     }
 }
 
@@ -989,7 +990,7 @@ void APP_TASKMENU_SetWinActive(struct BmpWin *win, TaskMenuRes *res, int isActiv
         BMP_WIN_SetPalette(win, (u8)(res->palNo + 1));
     }
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(func_02045730(win));
+    func_02041B6C(BMP_WIN_GetBgLayer(win));
 }
 
 /*
@@ -1101,8 +1102,8 @@ void APP_TASKMENU_UpdateKey(TaskMenuWork *menu)
     u32 repeat;
     int prev;
 
-    trg = func_020362DC();
-    repeat = func_0203633C();
+    trg = KEY_GetTrg();
+    repeat = KEY_GetRepeat();
     if (menu->isDisableKey == 1) {
         return;
     }
@@ -1113,7 +1114,7 @@ void APP_TASKMENU_UpdateKey(TaskMenuWork *menu)
             }
             APP_TASKMENU_SetWinActive(menu->winWork[menu->cursorPos], menu->res, 1);
             func_020355D8(0);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             return;
         }
     }
@@ -1125,7 +1126,7 @@ void APP_TASKMENU_UpdateKey(TaskMenuWork *menu)
             menu->cursorPos = (u8)(prev - 1);
         }
         menu->colorPhase = 0;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
     } else if (repeat & 0x80) {
         if (prev >= menu->init.itemNum - 1) {
             menu->cursorPos = 0;
@@ -1133,19 +1134,19 @@ void APP_TASKMENU_UpdateKey(TaskMenuWork *menu)
             menu->cursorPos = (u8)(prev + 1);
         }
         menu->colorPhase = 0;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
     } else {
         if (trg & 1) {
             menu->isDecide = 1;
             if (menu->itemWork[prev].type == 1) {
-                func_020061E4(0x551);
+                GFL_USE_PlaySeDefaultVolume(0x551);
             } else {
-                func_020061E4(0x54C);
+                GFL_USE_PlaySeDefaultVolume(0x54C);
             }
         } else if (trg & 2) {
             menu->cursorPos = (u8)(menu->init.itemNum - 1);
             menu->isDecide = 1;
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             func_020355D8(0);
         }
     }
@@ -1193,14 +1194,14 @@ void APP_TASKMENU_UpdateTouch(TaskMenuWork *menu)
     menu->isDecide = 1;
     APP_TASKMENU_SetWinActive(menu->winWork[menu->cursorPos], menu->res, 1);
     if (menu->cursorPos == 0) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return;
     }
     if (menu->itemWork[menu->cursorPos].type == 1) {
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return;
     }
-    func_020061E4(0x54C);
+    GFL_USE_PlaySeDefaultVolume(0x54C);
 }
 
 /*
@@ -1250,7 +1251,7 @@ TaskMenuWin *APP_TASKMENU_WIN_CreateEx(TaskMenuRes *res, const TaskMenuItem *ite
     struct BmpWin *bmpWin = win->bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
-    func_02041B6C(func_02045730(bmpWin));
+    func_02041B6C(BMP_WIN_GetBgLayer(bmpWin));
     return win;
 }
 
@@ -1260,7 +1261,7 @@ TaskMenuWin *APP_TASKMENU_WIN_CreateExNoScreen(TaskMenuRes *res, const TaskMenuI
 {
     TaskMenuWin *win = APP_TASKMENU_WIN_CreateCore(res, item, charPosX, charPosY, width, height, anmSpeed, isCenter, heapId);
     BMP_WIN_MakeScreen(win->bmpWin);
-    func_02041B6C(func_02045730(win->bmpWin));
+    func_02041B6C(BMP_WIN_GetBgLayer(win->bmpWin));
     return win;
 }
 
@@ -1296,7 +1297,7 @@ TaskMenuWin *APP_TASKMENU_WIN_CreateCore(TaskMenuRes *res, const TaskMenuItem *i
         strX = (u8)(((width << 3) - sub_0201D304(item->str, res->font, 0)
                      - 0x10) >> 1);
     }
-    PRINTSYS_PrintQueColor(res->printQue, func_02045770(win->bmpWin),
+    PRINTSYS_PrintQueColor(res->printQue, BMP_WIN_GetBmp(win->bmpWin),
                  (s16)(strX + 8), 6, item->str, res->font, item->msgColor);
     win->activeColor0 = 0x3545;
     win->activeColor1 = 0x7B2C;
@@ -1317,7 +1318,7 @@ void APP_TASKMENU_WIN_DeleteNoClear(TaskMenuWin *win)
 
 void APP_TASKMENU_WIN_Free(TaskMenuWin *win)
 {
-    func_020452E8(win->bmpWin);
+    BMP_WIN_Delete(win->bmpWin);
     func_020307B0(win);
 }
 
@@ -1332,11 +1333,11 @@ void APP_TASKMENU_WIN_Update(TaskMenuWin *win)
     TaskMenuRes *res;
 
     if (win->isUpdateTrans != 0) {
-        if (func_0201C6C4(win->res->printQue, func_02045770(win->bmpWin)) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget(win->res->printQue, BMP_WIN_GetBmp(win->bmpWin)) == 0) {
             bmpWin = win->bmpWin;
             BMP_WIN_TransferChars(bmpWin);
             BMP_WIN_MakeScreen(bmpWin);
-            func_02041B6C(func_02045730(bmpWin));
+            func_02041B6C(BMP_WIN_GetBgLayer(bmpWin));
             win->isUpdateTrans = 0;
         }
     }
@@ -1381,7 +1382,7 @@ u32 APP_TASKMENU_WIN_IsFinish(TaskMenuWin *win)
 
 /*
  * Whether the touch panel is touched inside the window. The bottom edge
- * is computed from the window WIDTH (func_02045738 twice), as in the
+ * is computed from the window WIDTH (BMP_WIN_GetWidth twice), as in the
  * original.
  */
 u32 APP_TASKMENU_WIN_IsTouch(TaskMenuWin *win)
@@ -1393,13 +1394,13 @@ u32 APP_TASKMENU_WIN_IsTouch(TaskMenuWin *win)
     u32 right;
     u32 bottom;
 
-    if (func_02035D20(&x, &y) == 0) {
+    if (TOUCHPANEL_GetPointTrg(&x, &y) == 0) {
         goto fail;
     }
-    left = func_02045758(win->bmpWin) * 8;
-    top = func_02045760(win->bmpWin) * 8;
-    right = left + func_02045738(win->bmpWin) * 8;
-    bottom = top + func_02045738(win->bmpWin) * 8;
+    left = BMP_WIN_GetPosX(win->bmpWin) * 8;
+    top = BMP_WIN_GetPosY(win->bmpWin) * 8;
+    right = left + BMP_WIN_GetWidth(win->bmpWin) * 8;
+    bottom = top + BMP_WIN_GetWidth(win->bmpWin) * 8;
     if (x - left > right - left) {
         goto fail;
     }
@@ -1425,7 +1426,7 @@ void APP_TASKMENU_WIN_ChangePalette(TaskMenuWin *win, TaskMenuRes *res, u32 palN
     win->activeColor1 = color1;
     BMP_WIN_SetPalette(win->bmpWin, (u8)(palNo + 1));
     BMP_WIN_MakeScreen(win->bmpWin);
-    func_02041B6C(func_02045730(win->bmpWin));
+    func_02041B6C(BMP_WIN_GetBgLayer(win->bmpWin));
 }
 
 /*
@@ -1450,7 +1451,7 @@ void APP_TASKMENU_DrawWinFrame(struct BmpWin *win, TaskMenuRes *res, u32 frameSt
     u32 style;
 
     y = 0;
-    if (y >= func_02045740(win)) {
+    if (y >= BMP_WIN_GetHeight(win)) {
         return;
     }
     style = frameStyle - 1;
@@ -1458,44 +1459,44 @@ void APP_TASKMENU_DrawWinFrame(struct BmpWin *win, TaskMenuRes *res, u32 frameSt
     styleTileR = (style + style * 2 + 10) << 5;
     for (;;) {
         x = 0;
-        if (x >= func_02045738(win)) {
+        if (x >= BMP_WIN_GetWidth(win)) {
             goto nextrow;
         }
         for (;;) {
-        charBuf = (u32)BMP_GetPixels(func_02045770(win));
-        cellOfs = (x + y * func_02045738(win)) << 5;
+        charBuf = (u32)BMP_GetPixels(BMP_WIN_GetBmp(win));
+        cellOfs = (x + y * BMP_WIN_GetWidth(win)) << 5;
         if (y == 0 && x == 0) {
             src = (u32)res->chrData->pRawData;
-        } else if (y == 0 && x == func_02045738(win) - 1) {
+        } else if (y == 0 && x == BMP_WIN_GetWidth(win) - 1) {
             src = (u32)res->chrData->pRawData + 0x40;
         } else if (y == 0) {
             src = (u32)res->chrData->pRawData + 0x20;
-        } else if (y == func_02045740(win) - 1 && x == 0) {
+        } else if (y == BMP_WIN_GetHeight(win) - 1 && x == 0) {
             src = (u32)res->chrData->pRawData + 0xc0;
-        } else if (y == func_02045740(win) - 1 && x == func_02045738(win) - 1) {
+        } else if (y == BMP_WIN_GetHeight(win) - 1 && x == BMP_WIN_GetWidth(win) - 1) {
             src = (u32)res->chrData->pRawData + (1 << 8);
-        } else if (y == func_02045740(win) - 1) {
+        } else if (y == BMP_WIN_GetHeight(win) - 1) {
             src = (u32)res->chrData->pRawData + 0xe0;
-        } else if (frameStyle != 0 && x == func_02045738(win) - 3) {
+        } else if (frameStyle != 0 && x == BMP_WIN_GetWidth(win) - 3) {
             src = (u32)res->chrData->pRawData + styleTileL;
-        } else if (frameStyle != 0 && x == func_02045738(win) - 2) {
+        } else if (frameStyle != 0 && x == BMP_WIN_GetWidth(win) - 2) {
             src = (u32)res->chrData->pRawData + styleTileR;
         } else if (x == 0) {
             src = (u32)res->chrData->pRawData + 0x60;
-        } else if (x == func_02045738(win) - 1) {
+        } else if (x == BMP_WIN_GetWidth(win) - 1) {
             src = (u32)res->chrData->pRawData + 0xa0;
         } else {
             src = (u32)res->chrData->pRawData + 0x80;
         }
         MIi_CpuCopy32((const void *)src, (void *)(charBuf + cellOfs), 0x20);
             x++;
-            if (x >= func_02045738(win)) {
+            if (x >= BMP_WIN_GetWidth(win)) {
                 break;
             }
         }
 nextrow:
         y++;
-        if (y >= func_02045740(win)) {
+        if (y >= BMP_WIN_GetHeight(win)) {
             return;
         }
     }
@@ -1539,13 +1540,13 @@ int func_02028484(PrintStreamCtrl *ctrl, struct PrintStream *stream)
     u32 mask;
 
     if (stream != 0) {
-        switch (func_0201CE30(stream)) {
+        switch (PRINTSYS_PrintStreamGetState(stream)) {
         case 2:
             return 1;
         case 1:
             if (func_020284F4(ctrl->inputType) != 0) {
-                func_020061E4(0x547);
-                func_0201CE38(stream);
+                GFL_USE_PlaySeDefaultVolume(0x547);
+                PRINTSYS_PrintStreamReleasePause(stream);
             }
             break;
         case 0:
@@ -1557,7 +1558,7 @@ int func_02028484(PrintStreamCtrl *ctrl, struct PrintStream *stream)
                     }
                 } else {
                     if (func_02028528(ctrl->inputType) != 0) {
-                        func_0201CE5C(stream, 0);
+                        PRINTSYS_PrintStreamShortWait(stream, 0);
                     }
                 }
             }
@@ -1576,7 +1577,7 @@ u32 func_020284F4(u32 inputType)
         result = 1;
     }
     if (inputType & 2) {
-        if (func_020362DC() & 3) {
+        if (KEY_GetTrg() & 3) {
             result = 1;
         }
     }
@@ -1596,7 +1597,7 @@ u32 func_02028528(u32 inputType)
         result = 1;
     }
     if (inputType & 2) {
-        if (func_0203630C() & 3) {
+        if (KEY_GetCont() & 3) {
             result = 1;
         }
     }
@@ -1616,7 +1617,7 @@ u32 func_0202855C(u32 inputType)
         result = 1;
     }
     if (inputType & 2) {
-        if (func_0203630C() == 0) {
+        if (KEY_GetCont() == 0) {
             result = 1;
         }
     }

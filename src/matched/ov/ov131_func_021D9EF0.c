@@ -16,21 +16,21 @@
  *   func_02041570 0x02041570 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   func_020409E0 0x020409E0 arm
  *   func_02040AE0 0x02040AE0 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_020410D0 0x020410D0 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   P_STA_SKILL_ShowSlot 0x021DB964 thumb ov131
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  *   func_02017E88 0x02017E88 thumb
  *   CLACT_GetCharacterProxy 0x0204AB84 arm
  *   CLACT_SetActorImageProxy 0x0204B784 arm
  *   func_020275EC 0x020275EC thumb
- *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  */
 #include "../include/Obj00136.h"
@@ -49,13 +49,13 @@ struct Descriptor;
 struct Obj;
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void func_020409E0(u32,const void *,u32,u32);
 extern void func_02040AE0(u32 index, const void *src, u32 mode);
 extern void func_02041B6C(u32 bit);
 extern void func_020410D0(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void P_STA_SKILL_ShowSlot(u8 *,void *,u8 *);
 extern void *P_STATUS_GetPokePara(u8 *);
 extern u32 func_02017E88(void *,u32,u32);
@@ -65,8 +65,8 @@ struct Vec2;
 extern void CLACT_GetCharacterProxy(u32 idx, struct Rec *dst);
 extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
 extern u8 func_020275EC(int i);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorBgPriority(void *,u32);
 void P_STA_SKILL_ApplyMovesScreen(u8 *a,u8 *p)
 {
@@ -81,7 +81,7 @@ void P_STA_SKILL_ApplyMovesScreen(u8 *a,u8 *p)
         cell=*(void **)((p+i*4)+0x5c);
         BMP_WIN_TransferChars(cell);
         BMP_WIN_MakeScreen(cell);
-        func_020409B4(func_02045730(cell));
+        func_020409B4(BMP_WIN_GetBgLayer(cell));
     }
     i=0;
     func_020409E0(6,*(u8 * *)&((struct Obj00536 *)p)->f44+12,((struct Obj23161 *)(*(u8 * *)&((struct Obj00536 *)p)->f44))->f8,0);
@@ -89,28 +89,28 @@ void P_STA_SKILL_ApplyMovesScreen(u8 *a,u8 *p)
     func_02041B6C(6);
     func_020410D0(5,0,0,32,3,(u32)(*(u8 * *)&((struct Obj00536 *)p)->f54+12),0,0,32,32);
     func_02041B6C(5);
-    func_0204B3DC(((struct Obj00536 *)p)->f90,0);
-    func_0204B3DC(((struct Obj00536 *)p)->f94,1);
+    CLACT_SetActorDrawEnable(((struct Obj00536 *)p)->f90,0);
+    CLACT_SetActorDrawEnable(((struct Obj00536 *)p)->f94,1);
     for(;i<p[0x2b];i++) P_STA_SKILL_ShowSlot(a,p,(p+0xb0)+i*24);
     object=P_STATUS_GetPokePara(a);
     first=func_02017E88(object,174,0);
     second=func_02017E88(object,175,0);
     CLACT_GetCharacterProxy(*(u32 *)(((u32)a+first*4u)+0x130u),(struct Rec *)(&r1));
     CLACT_SetActorImageProxy(((struct Obj00136 *)a)->f198,(const struct Struct36 *)(&r1));
-    func_0204B6F4(((struct Obj00136 *)a)->f198,func_020275EC((u8)first),1);
+    CLACT_SetActorPaletteOffset(((struct Obj00136 *)a)->f198,func_020275EC((u8)first),1);
     point.x=208;
     point.y=120;
-    func_0204B404(((struct Obj00136 *)a)->f198,(const struct Vec2 *)(&point),0);
-    func_0204B3DC(((struct Obj00136 *)a)->f198,1);
+    CLACT_AddActorSurfacePos(((struct Obj00136 *)a)->f198,(const struct Vec2 *)(&point),0);
+    CLACT_SetActorDrawEnable(((struct Obj00136 *)a)->f198,1);
     CLACT_SetActorBgPriority(((struct Obj00136 *)a)->f198,0);
     if(first!=second) {
         CLACT_GetCharacterProxy(*(u32 *)(((u32)a+second*4u)+0x130u),(struct Rec *)(&r2));
         CLACT_SetActorImageProxy(((struct Obj00136 *)a)->f19C,(const struct Struct36 *)(&r2));
-        func_0204B6F4(((struct Obj00136 *)a)->f19C,func_020275EC((u8)second),1);
+        CLACT_SetActorPaletteOffset(((struct Obj00136 *)a)->f19C,func_020275EC((u8)second),1);
         point.x=240;
         point.y=120;
-        func_0204B404(((struct Obj00136 *)a)->f19C,(const struct Vec2 *)(&point),0);
-        func_0204B3DC(((struct Obj00136 *)a)->f19C,1);
+        CLACT_AddActorSurfacePos(((struct Obj00136 *)a)->f19C,(const struct Vec2 *)(&point),0);
+        CLACT_SetActorDrawEnable(((struct Obj00136 *)a)->f19C,1);
         CLACT_SetActorBgPriority(((struct Obj00136 *)a)->f19C,0);
-    } else func_0204B3DC(((struct Obj00136 *)a)->f19C,0);
+    } else CLACT_SetActorDrawEnable(((struct Obj00136 *)a)->f19C,0);
 }

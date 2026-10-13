@@ -17,11 +17,11 @@
  *   gOekakiCommandTable 0x02186A6C data ov023 a4
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   func_02082B0C  0x02082B0C  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *   OEKAKI_QueueCommand  0x02186860  thumb  ov023
  *   OEKAKI_StoreStroke 0x02186988 thumb ov023
@@ -38,7 +38,7 @@
  *   BG_SYS_ClearSubPlanes  0x02043588  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0203F8F4  0x0203F8F4  arm
  *   func_0201EC64  0x0201EC64  thumb
  *   func_02045B38  0x02045B38  arm
@@ -123,12 +123,12 @@
  *   func_0202761C  0x0202761C  thumb
  *   func_02027620  0x02027620  thumb
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   OEKAKI_StepKeepState  0x02185930  thumb  ov023
  *   gOekakiButtonLayout     0x02186BEC  data  ov023  a2
@@ -136,12 +136,12 @@
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_Clear  0x02043B5C  arm
  *   TCBL_Create  0x0203101C  arm
- *   func_0201C440  0x0201C440  thumb
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   TCBL_DeleteAllTasks  0x0203115C  arm
  *   TCBL_Destroy  0x02031140  arm
- *   func_0201C6EC  0x0201C6EC  thumb
- *   func_0201C4C0  0x0201C4C0  thumb
- *   func_020452E8  0x020452E8  arm
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   CLACT_SetActorPos 0x0204B528 arm
  *   gOekakiButtonHitTable     0x02186AFC  data  ov023  a4
@@ -150,7 +150,7 @@
  *   TOUCHPANEL_HitCont  0x02035BA4  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   TOUCHPANEL_GetCont  0x02035C38  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_0207D658  0x0207D658  arm
  *   APP_TASKMENU_TransWinAfterPrint  0x020278F4  thumb
  *   func_0201F7A8  0x0201F7A8  thumb
@@ -162,7 +162,7 @@
  *   func_0201F02C 0x0201F02C thumb
  *   GFL_NET_HANDLE_SetUserInfo 0x0203A424 arm
  *   GFL_NET_IsConnectMember  0x0203D1C0  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   BMP_CreateFromBuffer  0x020436FC  arm
  *   BMP_Blit  0x020439A0  arm
  *   BMP_Delete  0x020437AC  arm
@@ -186,6 +186,11 @@
  *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb  arm9
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
  *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb  arm9
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb  arm9
+ *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
+ *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
+ *   KEY_GetTrg  0x020362DC  arm  arm9
  */
 typedef unsigned int u32;
 
@@ -228,11 +233,11 @@ typedef struct BgTemplate { u32 word[8]; } BgTemplate;
 extern void GFL_NET_COMMAND_AddCommandTable(u32 firstCommand, const void *commandTable, u32 commandCount, void *work);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void func_02082B0C(const void *src, void *dst, u32 size);
-extern struct Bmp *func_02045770(struct BmpWin *window);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *window);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void BMP_WIN_TransferChars(struct BmpWin *window);
 extern void BMP_WIN_MakeScreen(struct BmpWin *window);
-extern u8 func_02045730(struct BmpWin *window);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *window);
 extern void func_020409B4(u32 layer);
 extern void func_02082AC0(int value, void *dst, u32 size);
 extern int UNION_APP_GetMemberCount(UnionAppWork *app);
@@ -246,7 +251,7 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 heapId, u32 size);
 extern void *PROCSYS_AllocProcWork(void *task, u32 size, u32 heapId);
-extern void func_02082BCC(void *dst, int value, int size);
+extern void MI_CpuFill8(void *dst, int value, int size);
 extern void func_0203F8F4(u16 heapId);
 extern struct WordSet *func_0201EC64(u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -382,30 +387,30 @@ typedef struct MenuItemInit {
 } MenuItemInit;
 
 extern ClActor *CLACT_CreateActor(void *clactSys, unsigned int charRes, unsigned int plttRes, unsigned int cellRes, const ClActorPos *position, unsigned short space, unsigned short heap);
-extern void func_0204B92C(ClActor *p, u32 v);
+extern void CLACT_SetActorAutoAnim(ClActor *p, u32 v);
 extern void CLACT_SetActorAnimSeq(ClActor *p, u16 value);
-extern void func_0204B3DC(ClActor *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(ClActor *p, unsigned int v);
 extern void CLACT_SetActorBgPriority(ClActor *actor, int priority);
 extern void CLACT_SetActorDrawPriority(ClActor *node, u32 val);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void BMP_WIN_Init(u16 heapId);
 extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 x, u32 y, u32 width, u8 height, u8 paletteNo, u8 tileBase);
 extern void BMP_Clear(struct Bmp *bmp, u8 color);
 extern TcbList *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern TextPrinter *func_0201C440(u32 heapId);
+extern TextPrinter *PRINTSYS_QUE_Create(u32 heapId);
 extern void TCBL_DeleteAllTasks(TcbList *p);
 extern void TCBL_Destroy(TcbList *p);
-extern void func_0201C6EC(TextPrinter *p);
-extern void func_0201C4C0(TextPrinter *p);
-extern u32 func_020452E8(struct BmpWin *d);
+extern void PRINTSYS_QUE_Clear(TextPrinter *p);
+extern void PRINTSYS_QUE_Delete(TextPrinter *p);
+extern u32 BMP_WIN_Delete(struct BmpWin *d);
 extern void BMP_WIN_Exit(void);
 extern void CLACT_SetActorPos(ClActor *actor, const Point16 *position);
 extern int  TOUCHPANEL_HitTrg(const void *p);
 extern int  TOUCHPANEL_HitCont(const void *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int  TOUCHPANEL_GetCont(void);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void APP_TASKMENU_TransWinAfterPrint(TaskMenu *menu);
 extern void func_0201F7A8(struct BmpWin *window, u32 kind);
@@ -416,7 +421,7 @@ extern UnionAppEntry *UNION_APP_GetMemberEntry(UnionAppWork *app, int netId);
 extern void func_0201F02C(struct WordSet *wordSet, u32 index, UnionAppEntry *entry);
 extern void GFL_NET_HANDLE_SetUserInfo(NetHandle *handle, int a, int b, int c);
 extern u32 GFL_NET_IsConnectMember(u32 index);
-extern u32 func_02039CB4(NetHandle *h, u32 a, u32 b);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(NetHandle *h, u32 a, u32 b);
 extern struct Bmp *BMP_CreateFromBuffer(const void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int srcX, int srcY, u32 width, u32 height, u32 key);
 extern void BMP_Delete(struct Bmp *p);
@@ -428,12 +433,12 @@ extern void PRINTSYS_PrintQueColor(TextPrinter *printer, struct Bmp *bmp, u32 x,
 extern int  GFL_NET_ResetSendQueue(void *h);
 extern void func_0201F250(struct WordSet *wordSet, StrBuf *dst, StrBuf *src);
 extern void func_0201F73C(struct BmpWin *window, int a, int b, int c);
-extern void func_0201CE48(void *stream);
+extern void PRINTSYS_PrintStreamDelete(void *stream);
 extern signed char func_02012FFC(void);
 extern void *PRINTSYS_PrintStream(struct BmpWin *window, u32 x, u32 y, StrBuf *text, void *font, u32 speed, TcbList *taskList, u32 a, u16 heap, u32 color);
-extern u32 func_0201CE30(void *stream);
-extern u32 func_020362DC(void);
-extern void func_0201CE38(void *h);
+extern u32 PRINTSYS_PrintStreamGetState(void *stream);
+extern u32 KEY_GetTrg(void);
+extern void PRINTSYS_PrintStreamReleasePause(void *h);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern TaskMenuRes *APP_TASKMENU_RES_Create(u16 a0, u16 a1, void *font, TextPrinter *printer, u16 heap);
 extern StrBuf *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -448,7 +453,7 @@ extern MetList *func_0200ED48(void *p);
 extern u32 func_02008530(const UnionAppEntry *obj);
 extern void func_0200ED54(MetList *l, u32 val);
 extern u32 PRINTSYS_QUE_Main(TextPrinter *ps);
-extern u32 func_0201C6C4(TextPrinter *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(TextPrinter *p, void *v);
 extern const ButtonLayout gOekakiButtonLayout[];
 extern char gOekakiButtonHitTable[];
 extern char gOekakiCanvasHitTable[];
@@ -569,12 +574,12 @@ void OEKAKI_RecvCanvasChunk(int netId, int size, CanvasChunk *chunk, OekakiWork 
             func_02082B0C(chunk, work->canvas + offset, 0x3e8);
         }
         func_02082B0C(work->canvas,
-                      BMP_GetPixels(func_02045770(work->canvasWindow)),
+                      BMP_GetPixels(BMP_WIN_GetBmp(work->canvasWindow)),
                       OEKAKI_CANVAS_BYTES);
         window = work->canvasWindow;
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_020409B4(func_02045730(window));
+        func_020409B4(BMP_WIN_GetBgLayer(window));
     } else {
         sent = work->nextChunk;
         if (sent * 1000 < 0x3840) {
@@ -778,7 +783,7 @@ u32 OEKAKI_SendCanvasChunk(OekakiWork *work, int chunkIndex, int unused)
     u32 sum;
     u8 joinedBits;
 
-    pixels = BMP_GetPixels(func_02045770(work->canvasWindow));
+    pixels = BMP_GetPixels(BMP_WIN_GetBmp(work->canvasWindow));
     func_02082B0C(pixels + chunkIndex * 1000, work->sendChunk.data, 1000);
     words = (u32 *)work->sendChunk.data;
     sum = 0;
@@ -831,7 +836,7 @@ int OEKAKI_Init(void *task, int *state, OekakiParam *param)
         BG_SYS_ClearSubPlanes();
         GFL_HEAP_CreateChildHeap(1, OEKAKI_HEAP_ID, 0x50000);
         work = PROCSYS_AllocProcWork(task, OEKAKI_WORK_SIZE, OEKAKI_HEAP_ID);
-        func_02082BCC(work, 0, OEKAKI_WORK_SIZE);
+        MI_CpuFill8(work, 0, OEKAKI_WORK_SIZE);
         func_0203F8F4(OEKAKI_HEAP_ID);
         work->wordSet = func_0201EC64(OEKAKI_HEAP_ID);
         work->msgBank = func_02045B38(0, 2, 0x53, OEKAKI_HEAP_ID);
@@ -1201,15 +1206,15 @@ void OEKAKI_CreateActors(OekakiWork *p)
         pos.x = i * 0x28 + 0x18;
         pos.y = 0x40;
         p->cursorActor[i] = CLACT_CreateActor(p->clactSys, p->cursorRes.charRes, p->cursorRes.plttRes, p->cursorRes.cellRes, &pos, 0, 0x28);
-        func_0204B92C(p->cursorActor[i], 1);
+        CLACT_SetActorAutoAnim(p->cursorActor[i], 1);
         CLACT_SetActorAnimSeq(p->cursorActor[i], i);
-        func_0204B3DC(p->cursorActor[i], 0);
+        CLACT_SetActorDrawEnable(p->cursorActor[i], 0);
     }
     for (j = 0; j < 12; j++) {
         pos.x = gOekakiButtonLayout[j].x;
         pos.y = gOekakiButtonLayout[j].y;
         p->colorButton[j] = CLACT_CreateActor(p->clactSys, p->cursorRes.charRes, p->cursorRes.plttRes, p->cursorRes.cellRes, &pos, 0, 0x28);
-        func_0204B92C(p->colorButton[j], 1);
+        CLACT_SetActorAutoAnim(p->colorButton[j], 1);
         CLACT_SetActorAnimSeq(p->colorButton[j], gOekakiButtonLayout[j].anim);
         if (j >= 8) {
             CLACT_SetActorBgPriority(p->colorButton[j], 2);
@@ -1220,18 +1225,18 @@ void OEKAKI_CreateActors(OekakiWork *p)
         pos.x = 0x18;
         pos.y = i * 0x20 + 0x20 + 0x100000u;
         p->nameTagActor[i] = CLACT_CreateActor(p->clactSys, p->nameTagRes.charRes, p->nameTagRes.plttRes, p->nameTagRes.cellRes, &pos, 1, 0x28);
-        func_0204B92C(p->nameTagActor[i], 1);
+        CLACT_SetActorAutoAnim(p->nameTagActor[i], 1);
         CLACT_SetActorAnimSeq(p->nameTagActor[i], i);
         CLACT_SetActorDrawPriority(p->nameTagActor[i], 1);
-        func_0204B3DC(p->nameTagActor[i], 0);
+        CLACT_SetActorDrawEnable(p->nameTagActor[i], 0);
     }
     pos.x = 0xD4;
     pos.y = 0xA0;
     p->quitButton = CLACT_CreateActor(p->clactSys, p->buttonRes.charRes, p->buttonRes.plttRes, p->buttonRes.cellRes, &pos, 0, 0x28);
-    func_0204B92C(p->quitButton, 1);
+    CLACT_SetActorAutoAnim(p->quitButton, 1);
     CLACT_SetActorAnimSeq(p->quitButton, 1);
-    func_0204B3DC(p->quitButton, 1);
-    func_020434DC(0x10, 1);
+    CLACT_SetActorDrawEnable(p->quitButton, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
@@ -1243,24 +1248,24 @@ void OEKAKI_CreateWindows(OekakiWork *p, void *task)
 
     BMP_WIN_Init(0x28);
     p->messageWindow = BMP_WIN_Create(0, 2, 1, 0x1b, 4, 0xd, 1);
-    BMP_Clear(func_02045770(p->messageWindow), 0xf);
+    BMP_Clear(BMP_WIN_GetBmp(p->messageWindow), 0xf);
     p->printJob[6].window = p->messageWindow;
     p->printJob[6].busy = 0;
     p->canvasWindow = BMP_WIN_Create(1, 1, 2, 0x1e, 0xf, 0, 1);
-    BMP_Clear(func_02045770(p->canvasWindow), 2);
+    BMP_Clear(BMP_WIN_GetBmp(p->canvasWindow), 2);
     p->taskList = TCBL_Create(0x28, 0x28, 0x20, 0x20);
-    p->namePrinter = func_0201C440(0x28);
-    p->messagePrinter = func_0201C440(0x28);
+    p->namePrinter = PRINTSYS_QUE_Create(0x28);
+    p->messagePrinter = PRINTSYS_QUE_Create(0x28);
     for (i = 0; i < 5; i++) {
         p->nameWindow[i] = BMP_WIN_Create(4, 5, (u8)(i * 4 + 3), 0xa, 2, 0xd, 1);
-        BMP_Clear(func_02045770(p->nameWindow[i]), 0);
+        BMP_Clear(BMP_WIN_GetBmp(p->nameWindow[i]), 0);
         /* the print job keeps its own copy of the window pointer */
         p->printJob[i].window = p->nameWindow[i];
         p->printJob[i].busy = 0;
         window = p->nameWindow[i];
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_020409B4(func_02045730(window));
+        func_020409B4(BMP_WIN_GetBgLayer(window));
     }
     OEKAKI_RefreshNamePlates(p->nameWindow, 0x44f, p);
 }
@@ -1271,14 +1276,14 @@ void OEKAKI_DeleteWindows(OekakiWork *p)
 
     TCBL_DeleteAllTasks(p->taskList);
     TCBL_Destroy(p->taskList);
-    func_0201C6EC(p->messagePrinter);
-    func_0201C4C0(p->messagePrinter);
-    func_0201C6EC(p->namePrinter);
-    func_0201C4C0(p->namePrinter);
+    PRINTSYS_QUE_Clear(p->messagePrinter);
+    PRINTSYS_QUE_Delete(p->messagePrinter);
+    PRINTSYS_QUE_Clear(p->namePrinter);
+    PRINTSYS_QUE_Delete(p->namePrinter);
     for (i = 0; i < 5; i++)
-        func_020452E8(p->nameWindow[i]);
-    func_020452E8(p->canvasWindow);
-    func_020452E8(p->messageWindow);
+        BMP_WIN_Delete(p->nameWindow[i]);
+    BMP_WIN_Delete(p->canvasWindow);
+    BMP_WIN_Delete(p->messageWindow);
     BMP_WIN_Exit();
 }
 
@@ -1307,7 +1312,7 @@ static inline u8 pressQuit(OekakiWork *p, int value)
     OEKAKI_PrintMessage(p, value, value);
     OEKAKI_SetNextScene(p, 5);
     OEKAKI_SetQuitButtonPressed(p->quitButton, 1);
-    func_020061E4(0x551);
+    GFL_USE_PlaySeDefaultVolume(0x551);
     return value;
 }
 
@@ -1343,7 +1348,7 @@ void OEKAKI_HandleTouch(OekakiWork *p)
             if (p->penColor != hit) {
                 p->penColor = hit;
                 OEKAKI_SelectColorButton(p->colorButton, hit);
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
             }
             break;
         case 8:
@@ -1351,14 +1356,14 @@ void OEKAKI_HandleTouch(OekakiWork *p)
                 break;
             if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
                 if (p->baseJoinedBits != OEKAKI_GetJoinedBits(p)) {
-                    func_020061E4(0x54b);
+                    GFL_USE_PlaySeDefaultVolume(0x54b);
                 } else {
                     p->syncMode = 2;
                     pressed = pressQuit(p, 1);
                 }
             } else {
                 if (p->remoteStroke[0].syncMode == 2) {
-                    func_020061E4(0x54b);
+                    GFL_USE_PlaySeDefaultVolume(0x54b);
                 } else {
                     pressed = pressQuit(p, 1);
                 }
@@ -1375,17 +1380,17 @@ void OEKAKI_HandleTouch(OekakiWork *p)
             }
             if (p->penSize != hit - 9) {
                 p->penSize = hit - 9;
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
             }
             break;
         }
     }
     hit = TOUCHPANEL_HitCont(gOekakiCanvasHitTable);
-    func_0204B3DC(p->cursorActor[GFL_NET_SYSTEM_GetCurrentAid()], 0);
+    CLACT_SetActorDrawEnable(p->cursorActor[GFL_NET_SYSTEM_GetCurrentAid()], 0);
     if (hit != -1) {
         TOUCHPANEL_GetPointCont((u32 *)&touchX, (u32 *)&touchY);
         OEKAKI_SetCursorPosition(p->cursorActor[GFL_NET_SYSTEM_GetCurrentAid()], touchX, touchY);
-        func_0204B3DC(p->cursorActor[GFL_NET_SYSTEM_GetCurrentAid()], 1);
+        CLACT_SetActorDrawEnable(p->cursorActor[GFL_NET_SYSTEM_GetCurrentAid()], 1);
     }
     x = 0;
     y = 0;
@@ -1462,7 +1467,7 @@ int OEKAKI_StepStart(OekakiWork *p, int procState)
         OEKAKI_PrintMessage(p, 0, 0);
     OEKAKI_SetNextScene(p, 2);
     OEKAKI_CloseMenuIfOpen(p);
-    func_020061E4(0x54c);
+    GFL_USE_PlaySeDefaultVolume(0x54c);
     func_0207D658(0x04000050, 14, -6);
     OEKAKI_ApplyRemoteStrokes(p);
     return procState;
@@ -1473,7 +1478,7 @@ int OEKAKI_StepHideCursors(OekakiWork *p, int procState)
     int i;
 
     for (i = 0; i < 5; i++)
-        func_0204B3DC(p->cursorActor[i], 0);
+        CLACT_SetActorDrawEnable(p->cursorActor[i], 0);
     return procState;
 }
 
@@ -1510,7 +1515,7 @@ int OEKAKI_StepQuitMenuResult(OekakiWork *p, int procState)
         OEKAKI_ApplyRemoteStrokes(p);
         APP_TASKMENU_TransWinAfterPrint(p->menu);
         if (OEKAKI_IsQuitTouched(p))
-            func_020061E4(0x54b);
+            GFL_USE_PlaySeDefaultVolume(0x54b);
         return procState;
     }
     if (GFL_NET_SYSTEM_GetCurrentAid() == 0 && p->waitMemberBits != 0) {
@@ -1530,7 +1535,7 @@ int OEKAKI_StepQuitMenuResult(OekakiWork *p, int procState)
         window = p->canvasWindow;
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_020409B4(func_02045730(window));
+        func_020409B4(BMP_WIN_GetBgLayer(window));
         break;
     case 1:
         OEKAKI_SetNextScene(p, 4);
@@ -1539,7 +1544,7 @@ int OEKAKI_StepQuitMenuResult(OekakiWork *p, int procState)
         window = p->canvasWindow;
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_020409B4(func_02045730(window));
+        func_020409B4(BMP_WIN_GetBgLayer(window));
         if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
             OEKAKI_OpenGroup(p, 1);
             p->syncMode = 1;
@@ -1554,7 +1559,7 @@ int OEKAKI_StepSendQuitRequest(OekakiWork *p, int procState)
 {
     OekakiSyncMsg msg;
 
-    func_02082BCC(&msg, 0, 4);
+    MI_CpuFill8(&msg, 0, 4);
     msg.kind = OEKAKI_SYNC_CHECK;
     msg.netId = GFL_NET_SYSTEM_GetCurrentAid();
     if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2905, 4, (u32)&msg))
@@ -1587,7 +1592,7 @@ int OEKAKI_StepSendQuitConfirm(OekakiWork *p, int procState)
 {
     OekakiSyncMsg msg;
 
-    func_02082BCC(&msg, 0, 4);
+    MI_CpuFill8(&msg, 0, 4);
     msg.kind = OEKAKI_SYNC_STATUS;
     msg.netId = GFL_NET_SYSTEM_GetCurrentAid();
     if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2905, 4, (u32)&msg))
@@ -1734,7 +1739,7 @@ int OEKAKI_StepCheckMembers(OekakiWork *p, int procState)
         if (GFL_NET_IsConnectMember((unsigned char)i) == 1)
             connectedBits |= 1 << i;
     }
-    if (func_02039CB4(handle, 0xc8, 0x29) != 0 || OEKAKI_GetJoinedCount(p) == 1
+    if (GFL_NET_HANDLE_IsTimingSyncRange(handle, 0xc8, 0x29) != 0 || OEKAKI_GetJoinedCount(p) == 1
         || connectedBits != p->baseJoinedBits) {
         WIPE_SYS_Start(0, 8, 8, 0, 0x10, 1, 0x28);
         procState = 3;
@@ -1769,7 +1774,7 @@ int OEKAKI_StepShowSyncMessage(OekakiWork *p, int procState)
     OEKAKI_PrintMessage(p, 2, 1);
     OEKAKI_CloseMenuIfOpen(p);
     OEKAKI_SetNextScene(p, 0x19);
-    func_020061E4(0x54c);
+    GFL_USE_PlaySeDefaultVolume(0x54c);
     if (GFL_NET_SYSTEM_GetCurrentAid() == 0)
         OEKAKI_NotifyHostSync(p, 0);
     p->waitMemberCount = OEKAKI_GetJoinedCount(p);
@@ -1844,7 +1849,7 @@ void OEKAKI_HandleEvent(OekakiWork *p, int event, int netId)
             window = p->canvasWindow;
             BMP_WIN_TransferChars(window);
             BMP_WIN_MakeScreen(window);
-            func_020409B4(func_02045730(window));
+            func_020409B4(BMP_WIN_GetBgLayer(window));
         }
         OEKAKI_SetQuitButtonPressed(p->quitButton, 0);
         break;
@@ -1884,7 +1889,7 @@ void OEKAKI_BlitBrush(struct BmpWin *canvas, const u8 *brushPixels, int x, int y
         height -= cut;
     }
     brushBmp = BMP_CreateFromBuffer(brushPixels, 8, 8, 0x20, 0x28);
-    BMP_Blit(brushBmp, func_02045770(canvas), x, y, srcX, srcY, width, height, 0);
+    BMP_Blit(brushBmp, BMP_WIN_GetBmp(canvas), x, y, srcX, srcY, width, height, 0);
     BMP_Delete(brushBmp);
 }
 
@@ -1992,7 +1997,7 @@ void OEKAKI_DrawStrokes(struct BmpWin *canvas, StrokeRec *strokes, LastPoint *la
     if (drew && redraw) {
         BMP_WIN_TransferChars(canvas);
         BMP_WIN_MakeScreen(canvas);
-        func_020409B4(func_02045730(canvas));
+        func_020409B4(BMP_WIN_GetBgLayer(canvas));
     }
     OEKAKI_StoreLastPoints(strokes, last);
     for (i = 0; i < 5; i++)
@@ -2014,11 +2019,11 @@ void OEKAKI_UpdateRemoteCursors(OekakiWork *p)
         if (i == GFL_NET_SYSTEM_GetCurrentAid())
             continue;
         if (REMOTE_STROKES(p)[i].count != 0 && UNION_APP_GetMemberEntry(p->param->app, (unsigned char)i) != 0) {
-            func_0204B3DC(p->cursorActor[i], 1);
+            CLACT_SetActorDrawEnable(p->cursorActor[i], 1);
             OEKAKI_SetCursorPosition(p->cursorActor[i], (&REMOTE_STROKES(p)[i].x0)[REMOTE_STROKES(p)[i].count - 1],
                           (&REMOTE_STROKES(p)[i].x0)[REMOTE_STROKES(p)[i].count + 1]);
         } else {
-            func_0204B3DC(p->cursorActor[i], 0);
+            CLACT_SetActorDrawEnable(p->cursorActor[i], 0);
         }
     }
 }
@@ -2063,30 +2068,30 @@ void OEKAKI_RefreshNamePlates(struct BmpWin **windows, u16 color, OekakiWork *p)
         return;
     for (i = 0; i < 5; i++) {
         if (p->memberSlot[i].current == 0)
-            func_0204B3DC(p->nameTagActor[i], 0);
+            CLACT_SetActorDrawEnable(p->nameTagActor[i], 0);
         else
-            func_0204B3DC(p->nameTagActor[i], 1);
+            CLACT_SetActorDrawEnable(p->nameTagActor[i], 1);
     }
-    func_0201C6EC(p->namePrinter);
+    PRINTSYS_QUE_Clear(p->namePrinter);
     for (i = 0; i < 5; i++)
-        BMP_FillRect(func_02045770(windows[i]), 0, 0, 0x50, 0x10, 0);
+        BMP_FillRect(BMP_WIN_GetBmp(windows[i]), 0, 0, 0x50, 0x10, 0);
     for (i = 0; i < 5; i++) {
         if (p->memberSlot[i].current != 0) {
             func_02008500(p->memberSlot[i].current, p->playerName[i]);
             if (selfId == i) {
                 printer = p->namePrinter;
-                PRINTSYS_PrintQueColor(printer, func_02045770(p->printJob[i].window), 0, 0, p->playerName[i], p->font, 0xc80);
+                PRINTSYS_PrintQueColor(printer, BMP_WIN_GetBmp(p->printJob[i].window), 0, 0, p->playerName[i], p->font, 0xc80);
                 p->printJob[i].busy = 1;
             } else {
                 printer = p->namePrinter;
-                PRINTSYS_PrintQueColor(printer, func_02045770(p->printJob[i].window), 0, 0, p->playerName[i], p->font, color);
+                PRINTSYS_PrintQueColor(printer, BMP_WIN_GetBmp(p->printJob[i].window), 0, 0, p->playerName[i], p->font, color);
                 p->printJob[i].busy = 1;
             }
         }
         window = windows[i];
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_020409B4(func_02045730(window));
+        func_020409B4(BMP_WIN_GetBgLayer(window));
     }
 }
 
@@ -2151,15 +2156,15 @@ void OEKAKI_PrintMessage(OekakiWork *p, u32 msgId, int mode)
     func_02045CAC(p->msgBank, msgId, text);
     func_0201F250(p->wordSet, p->messageText, text);
     STRBUF_Delete(text);
-    BMP_Clear(func_02045770(p->messageWindow), 15);
+    BMP_Clear(BMP_WIN_GetBmp(p->messageWindow), 15);
     func_0201F73C(p->messageWindow, 0, 1, 10);
     if (p->messageStream != 0) {
-        func_0201CE48(p->messageStream);
+        PRINTSYS_PrintStreamDelete(p->messageStream);
         p->messageStream = 0;
     }
     if (mode == 0) {
         printer = p->messagePrinter;
-        PRINTSYS_PrintQueColor(printer, func_02045770(p->printJob[6].window), 0, 0, p->messageText, p->font, 0x44F);
+        PRINTSYS_PrintQueColor(printer, BMP_WIN_GetBmp(p->printJob[6].window), 0, 0, p->messageText, p->font, 0x44F);
         p->printJob[6].busy = 1;
     } else {
         p->messageStream = PRINTSYS_PrintStream(p->messageWindow, 0, 0, p->messageText,
@@ -2169,22 +2174,22 @@ void OEKAKI_PrintMessage(OekakiWork *p, u32 msgId, int mode)
     window = p->messageWindow;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    func_020409B4(func_02045730(window));
+    func_020409B4(BMP_WIN_GetBgLayer(window));
 }
 
 /* Returns 1 when the message has been shown completely (or none runs). */
 int OEKAKI_IsMessageDone(OekakiWork *p)
 {
-    int state = func_0201CE30(p->messageStream);
+    int state = PRINTSYS_PrintStreamGetState(p->messageStream);
 
     if (state == 1) {
-        if (func_020362DC() & 1) {
-            func_0201CE38(p->messageStream);
+        if (KEY_GetTrg() & 1) {
+            PRINTSYS_PrintStreamReleasePause(p->messageStream);
         }
         return 0;
     }
     if (state == 2) {
-        func_0201CE48(p->messageStream);
+        PRINTSYS_PrintStreamDelete(p->messageStream);
         p->messageStream = 0;
         return 1;
     }
@@ -2348,7 +2353,7 @@ int OEKAKI_GetJoinedBits(OekakiWork *p)
 
 void OEKAKI_EnableDisplays(void)
 {
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     func_02040588(0, 1);
     func_02040588(1, 1);
@@ -2442,7 +2447,7 @@ void OEKAKI_UpdatePrintJobs(OekakiWork *p)
     for (i = 0; i < 5; i++) {
         printer = p->namePrinter;
         if (p->printJob[i].busy != 0) {
-            if (func_0201C6C4(printer, func_02045770(p->printJob[i].window)) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget(printer, BMP_WIN_GetBmp(p->printJob[i].window)) == 0) {
                 BMP_WIN_TransferChars(p->printJob[i].window);
                 p->printJob[i].busy = 0;
             }
@@ -2450,7 +2455,7 @@ void OEKAKI_UpdatePrintJobs(OekakiWork *p)
     }
     printer = p->messagePrinter;
     if (p->printJob[6].busy != 0) {
-        if (func_0201C6C4(printer, func_02045770(p->printJob[6].window)) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget(printer, BMP_WIN_GetBmp(p->printJob[6].window)) == 0) {
             BMP_WIN_TransferChars(p->printJob[6].window);
             p->printJob[6].busy = 0;
         }

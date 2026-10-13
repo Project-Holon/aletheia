@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A1B38  0x020A1B38  data
+ *   FX_SinCosTable_  0x020A1B38  data
  *   func_02061CA4  0x02061CA4  arm
  *
  * blink_palanm.c: the per-frame BGR555 cross-fade.  Advances the phase word
@@ -46,7 +46,7 @@ struct Row {
     u32 unk14;
 };
 
-extern s16 g_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
 s32 BLINK_PALANM_Update(struct Row *p)
@@ -65,7 +65,7 @@ s32 BLINK_PALANM_Update(struct Row *p)
         p->phase = p->phase + 0x400;
     }
 
-    scale = (g_020A1B38[((p->phase >> 4) << 1) + 1] + 0x1000) / 2;
+    scale = (FX_SinCosTable_[((p->phase >> 4) << 1) + 1] + 0x1000) / 2;
 
     for (i = 0; i < p->count; i++) {
         a = p->src[i];

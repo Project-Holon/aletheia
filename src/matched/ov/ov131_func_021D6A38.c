@@ -27,14 +27,14 @@
  *   P_STA_SUB_ApplyMcssOffset 0x021D7A1C thumb ov131
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   ARC_UTIL_LoadPaletteBlockFromArchive 0x02049F34 arm
  *   ARC_UTIL_LoadBgCharDataFromArchive 0x02049DB4 arm
  *   CLACT_TransferPalette 0x0204ADEC arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
  *   func_020307B0 0x020307B0 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   G3D_CAMERA_SetEye 0x02048AFC arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
@@ -69,7 +69,7 @@ extern void P_STA_SUB_CreateMcss(u8 *p, u8 *q, void *mon);
 extern void P_STA_SUB_ApplyMcssOffset(void *,void *,Vec *);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
 extern u32 func_02017E88(void *,u32,u32);
 extern u32 func_020275E4(void);
@@ -80,7 +80,7 @@ extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32,u32,u32,u32,u16);
 extern void CLACT_TransferPalette(u32,void *,u32);
 extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 extern u32 func_020307B0(void *p);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u32 POKERUS_IsBoxCured(void *);
 extern u32 POKE_TOOL_IsBoxShiny(void *);
@@ -103,11 +103,11 @@ void P_STA_SUB_Refresh(u8 *p,u8 *q)
     window=((struct Obj00472 *)q)->f18;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    func_02041B6C(func_02045730(window));
+    func_02041B6C(BMP_WIN_GetBgLayer(window));
     window=((struct Obj00472 *)q)->f1C;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    func_02041B6C(func_02045730(window));
+    func_02041B6C(BMP_WIN_GetBgLayer(window));
     form=func_02017E88(mon,0x98,0);
     archive=func_020275E4();
     loaded=ARC_UTIL_LoadPaletteBlockFromArchive(archive,func_02027720(form),(u32)&pal,((struct Obj00112 *)p)->f0);
@@ -117,17 +117,17 @@ void P_STA_SUB_Refresh(u8 *p,u8 *q)
     loaded=ARC_UTIL_LoadBgCharDataFromArchive(archive,func_0202772C(form),0,(u32)&chr,((struct Obj00112 *)p)->f0);
     CLACT_TransferCharacter(((struct Obj00112 *)p)->fD0,chr);
     func_020307B0(loaded);
-    func_0204B3DC(((struct Obj00472 *)q)->f20,1);
+    CLACT_SetActorDrawEnable(((struct Obj00472 *)q)->f20,1);
     status=func_02017E88(mon,11,0);
     for(i=0,mask=1;i<6;mask=(u8)(mask<<1),i++) {
         if(status & mask) CLACT_SetActorAnimSeq(*(void **)(q+0x24+i*4),i*2+1);
         else CLACT_SetActorAnimSeq(*(void **)(q+0x24+i*4),i*2);
     }
-    if(POKERUS_IsBoxCured(mon)==1) func_0204B3DC(((struct Obj00472 *)q)->f40,1);
-    else func_0204B3DC(((struct Obj00472 *)q)->f40,0);
+    if(POKERUS_IsBoxCured(mon)==1) CLACT_SetActorDrawEnable(((struct Obj00472 *)q)->f40,1);
+    else CLACT_SetActorDrawEnable(((struct Obj00472 *)q)->f40,0);
     if(POKE_TOOL_IsBoxShiny(mon)==1 && ((struct Obj00112 *)p)->f38==0)
-        func_0204B3DC(((struct Obj00472 *)q)->f3C,1);
-    else func_0204B3DC(((struct Obj00472 *)q)->f3C,0);
+        CLACT_SetActorDrawEnable(((struct Obj00472 *)q)->f3C,1);
+    else CLACT_SetActorDrawEnable(((struct Obj00472 *)q)->f3C,0);
     if(((struct Obj00472 *)q)->fC==1) {
         Vec a=d_021DC204;
         Vec b=d_021DC21C;
@@ -153,12 +153,12 @@ void P_STA_SUB_Refresh(u8 *p,u8 *q)
     }
     if((u8)POKE_TOOL_GetStatusCondition(other)!=0) {
         CLACT_SetActorAnimSeq(((struct Obj00472 *)q)->f48,func_020276C4((int)other));
-        func_0204B3DC(((struct Obj00472 *)q)->f48,1);
-        func_0204B3DC(((struct Obj00472 *)q)->f44,0);
+        CLACT_SetActorDrawEnable(((struct Obj00472 *)q)->f48,1);
+        CLACT_SetActorDrawEnable(((struct Obj00472 *)q)->f44,0);
     } else {
-        func_0204B3DC(((struct Obj00472 *)q)->f48,0);
-        if(POKERUS_IsBoxInfected(mon)==1) func_0204B3DC(((struct Obj00472 *)q)->f44,1);
-        else func_0204B3DC(((struct Obj00472 *)q)->f44,0);
+        CLACT_SetActorDrawEnable(((struct Obj00472 *)q)->f48,0);
+        if(POKERUS_IsBoxInfected(mon)==1) CLACT_SetActorDrawEnable(((struct Obj00472 *)q)->f44,1);
+        else CLACT_SetActorDrawEnable(((struct Obj00472 *)q)->f44,0);
     }
     {
     Vec zero={0,0,0};

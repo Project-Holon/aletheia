@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   PROCSYS_Main 0x02031330 arm
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
@@ -25,7 +25,7 @@
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
- *   func_02013E4C 0x02013E4C thumb
+ *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
  *   POKE_TOOL_HatchEgg 0x02017B24 thumb
  *   func_0200CA1C 0x0200CA1C thumb
  *   func_0200CFA0 0x0200CFA0 thumb
@@ -82,7 +82,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct S021F5E68; struct SaveBlock; struct Rec44; struct Blk37; struct Big;
 struct U16Vec; struct Sub02008C20Obj; struct PrintSys;
-extern u32 func_020362DC(void),PROCSYS_Main(void *);
+extern u32 KEY_GetTrg(void),PROCSYS_Main(void *);
 extern void FADE_Start(u32,int,int,int);
 extern int FADE_IsActive(void);
 extern void func_021F5E68(int,struct S021F5E68 *);
@@ -94,7 +94,7 @@ extern void func_021F5FDC(void *a0, void *a1);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *);
 extern u8 *GAME_DATA_GetMyStatus(void *);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *);
-extern u32 func_02013E4C(u32);
+extern u32 ZONEDATA_GetPlaceNameId(u32);
 extern void POKE_TOOL_HatchEgg(void *,u32,u32,u32);
 extern void *func_0200CA1C(void *);
 extern void func_0200CFA0(struct Blk37 *,void *),func_0200CDE0(struct Blk37 *,void *);
@@ -129,7 +129,7 @@ int func_021F5884(u32 unused0,u32 unused1,u32 *a,u32 *p)
     void *block;
     int *child;
     struct U16Vec *vec;
-    func_020362DC();
+    KEY_GetTrg();
     active=PROCSYS_Main((void *)p[34]);
     if(active==1)return 0;
     switch(p[4]) {
@@ -145,7 +145,7 @@ int func_021F5884(u32 unused0,u32 unused1,u32 *a,u32 *p)
     case 6:
         p[4]=7;
         save=GAME_DATA_GetMyPlayerWork((struct SaveBlock *)a[0]);trainer=GAME_DATA_GetMyStatus((void *)a[0]);
-        POKE_TOOL_HatchEgg((void *)a[1],(u32)trainer,func_02013E4C(GAME_DATA_GetPlayerZoneId(save)),((struct Obj00186 *)p)->f0);
+        POKE_TOOL_HatchEgg((void *)a[1],(u32)trainer,ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(save)),((struct Obj00186 *)p)->f0);
         dex=func_0200CA1C((void *)a[0]);func_0200CFA0(dex,(void *)a[1]);func_0200CDE0(dex,(void *)a[1]);
         func_021F6A48((char *)p[32],(int)((void *)a[1]));break;
     case 7:if(func_021F6A84((char *)p[32])){p[4]=8;func_021F6A98((char *)p[32]);}break;

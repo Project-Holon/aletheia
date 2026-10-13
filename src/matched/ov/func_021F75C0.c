@@ -23,6 +23,7 @@
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm  arm9
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm  arm9
  *   BG_SYS_GetSubVisiblePlanes  0x02043668  arm  arm9
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm  arm9
  *
  * Four-layer bring-up with no display restore: layer 2 is seeded by the
  * 02041300 tile dump and its 020409B4 redraw before the enable.
@@ -60,7 +61,7 @@ extern u32 BG_SYS_GetSubVisiblePlanes(void);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);

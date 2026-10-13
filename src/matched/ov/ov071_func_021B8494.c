@@ -11,16 +11,16 @@
  *
  * symbols:
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021B8650  0x021B8650  thumb  ov071
  *   func_021B86BC  0x021B86BC  thumb  ov071
  *   func_021B86E8  0x021B86E8  thumb  ov071
  *   func_021B8764  0x021B8764  thumb  ov071
- *   func_02045770  0x02045770  arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_02040588  0x02040588  arm
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  */
 #include "../include/Obj06186.h"
 
@@ -43,16 +43,16 @@ struct Obj0203159C;
 int MONOLITH_TOOL_SUMMARY_Create(struct Obj0203159C *a, int *b, C *c, u8 *d)
 {
     extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-    extern void func_02082BCC(void *, int, int);
+    extern void MI_CpuFill8(void *, int, int);
     extern void func_021B8650(void);
     extern void func_021B86BC(char *p);
     extern void func_021B86E8(Q *, u8 *);
     extern void func_021B8764(void *p, char *q);
-    extern void *func_02045770(struct Descriptor *p);
-    extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+    extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+    extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
     extern void BMP_WIN_TransferChars(struct Descriptor *d);
     extern void func_02040588(unsigned char which, unsigned char enable);
-    extern void func_020434DC(u32 mask, u32 enable);
+    extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
     u8 *m;
     int busy;
     int i;
@@ -60,7 +60,7 @@ int MONOLITH_TOOL_SUMMARY_Create(struct Obj0203159C *a, int *b, C *c, u8 *d)
     switch (*b) {
     case 0:
         m = PROCSYS_AllocProcWork(a, 0x28, 0x61);
-        func_02082BCC(m, 0, 0x28);
+        MI_CpuFill8(m, 0, 0x28);
         func_021B8650();
         func_021B86BC((char *)c->f4);
         func_021B86E8(c->f4, m);
@@ -74,7 +74,7 @@ int MONOLITH_TOOL_SUMMARY_Create(struct Obj0203159C *a, int *b, C *c, u8 *d)
             void *q = c->f4->f8;
             u8 *s = d + i * 8;
             if (s[0xc] != 0) {
-                if (func_0201C6C4(q, (void *)((unsigned)func_02045770(((struct Obj06186 *)s)->f8))) == 0) {
+                if (PRINTSYS_QUE_IsExistTarget(q, (void *)((unsigned)BMP_WIN_GetBmp(((struct Obj06186 *)s)->f8))) == 0) {
                     BMP_WIN_TransferChars(((struct Obj06186 *)s)->f8);
                     s[0xc] = 0;
                 }
@@ -86,7 +86,7 @@ int MONOLITH_TOOL_SUMMARY_Create(struct Obj0203159C *a, int *b, C *c, u8 *d)
         if (busy == 0) {
             func_02040588(0, 1);
             func_02040588(2, 1);
-            func_020434DC(0x10, 1);
+            BG_SYS_SetMainPlaneVisible(0x10, 1);
             return 1;
         }
         break;

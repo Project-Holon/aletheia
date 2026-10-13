@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Recursive MATCH unblocker: callee of func_0217FF78 (ov019) +005C.  An
+ * Recursive MATCH unblocker: callee of COLOSSEUM_UpdateCommPlayers (ov019) +005C.  An
  * unlabelled Thumb leaf inside ov010: `disasm.py` emitted its body as the
  * `pool_02167844` word run because its `push {r4, r5}` prologue saves no `lr`
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  ov009 holds

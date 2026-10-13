@@ -18,7 +18,7 @@
  *   func_021BA2D4  0x021BA2D4  thumb
  *   func_021BA264  0x021BA264  thumb  ov099
  *   func_021BA2A4  0x021BA2A4  thumb  ov099
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02049F34 0x02049F34 arm
  *   d_021C2878 0x021C2878 data ov099 a2
  *   sub_020307B0  0x020307B0  arm
@@ -123,7 +123,7 @@ extern int func_021C49A4(u8 *, unsigned int);
 extern void func_021BA2D4(void);
 extern void func_021BA264(void *a, void *b);
 extern void func_021BA2A4(void *w, u8 *s);
-extern void func_02082BCC(void *, u32_021BA60C, u32_021BA60C);
+extern void MI_CpuFill8(void *, u32_021BA60C, u32_021BA60C);
 extern void *func_02049F34(u32_021BA60C a0, u32_021BA60C a1, u32_021BA60C a2, u32_021BA60C a3);
 extern u32_021BA648 sub_020307B0(void *p);
 extern void sub_02082BCC(void *p, int c, u32_021BA648 n);
@@ -240,7 +240,7 @@ void func_021BA5F0(void *a, char *b, u8 c)
 
 void func_021BA60C(char *a, char *p, u32_021BA60C unused, u32_021BA60C arc)
 {
-    func_02082BCC(p, 0, 20);
+    MI_CpuFill8(p, 0, 20);
     ((struct Obj06351 *)p)->f0 = func_02049F34(arc, 9, (u32_021BA60C)(p + 4), (u16)(((struct Obj22018 *)a)->f4));
     p[9] = 0;
     p[8] = 15;

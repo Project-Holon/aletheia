@@ -1,5 +1,5 @@
 /*
- * function: func_021BA5C4
+ * function: BTL_MAIN_GetLimitTimeCommand
  * address:  0x021BA5C4
  * packet:   pkt_021BA5C4
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA5C4   0x021BA5C4  thumb ov093
+ *   BTL_MAIN_GetLimitTimeCommand   0x021BA5C4  thumb ov093
  *
  * ldrh at #0x442 (pool constant)
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u16 func_021BA5C4(u8 *p)
+u16 BTL_MAIN_GetLimitTimeCommand(u8 *p)
 {
     return ((struct Obj18159 *)p)->f442;
 }

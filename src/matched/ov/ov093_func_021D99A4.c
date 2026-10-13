@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_StatLossGuard_BlockForeignChange
+ * function: HAND_TOKUSEI_StatLossGuard_BlockForeignChange
  * address: 0x021D99A4
  * packet: pkt_ov093_021D99A4
  * region: ov093
@@ -14,4 +14,4 @@
  */
 extern int BTL_EVENT_GetVar(int);
 extern int BTL_EVENT_OverwriteVar(int, unsigned int);
-void BTL_TOKUSEI_StatLossGuard_BlockForeignChange(int a,int b,int c) { if(c==BTL_EVENT_GetVar(4) && c!=BTL_EVENT_GetVar(3)) BTL_EVENT_OverwriteVar(0x41,1); }
+void HAND_TOKUSEI_StatLossGuard_BlockForeignChange(int a,int b,int c) { if(c==BTL_EVENT_GetVar(4) && c!=BTL_EVENT_GetVar(3)) BTL_EVENT_OverwriteVar(0x41,1); }

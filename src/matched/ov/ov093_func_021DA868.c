@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_HeatproofHalveBurnDamage
+ * function: HAND_TOKUSEI_HeatproofHalveBurnDamage
  * address:  0x021DA868
  * packet:   pkt_ov093_021DA868
  * region:   ov093
@@ -26,7 +26,7 @@ extern int BTL_EVENT_GetVar(int a);
 extern int BTL_CALC_Max(int a, int b);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void BTL_ABILITY_HeatproofHalveBurnDamage(int a, int b, int c)
+void HAND_TOKUSEI_HeatproofHalveBurnDamage(int a, int b, int c)
 {
     int t;
 

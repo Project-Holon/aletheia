@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
@@ -26,7 +26,7 @@ typedef signed char s8;
 struct WinMgr;
 struct Actor;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int on);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int on);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
@@ -37,7 +37,7 @@ extern const int tbl_022033FC[][2];
 int func_021FB704(u8 *p)
 {
     if (CLACT_IsActorAnimActive(((struct Obj00098 *)p)->f8) != 0) return -1;
-    func_0204B3DC((struct Obj *)*(u32 *)&((struct Obj00098 *)p)->f8, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)&((struct Obj00098 *)p)->f8, 0);
     func_021F9660(p, 6);
     if (((struct Obj00098 *)p)->f38 < 0) {
         if (((struct Obj00098 *)p)->f38 == -1) return -2;
@@ -48,7 +48,7 @@ int func_021FB704(u8 *p)
         } else {
             ((struct Obj00098 *)p)->f3A = 0;
             BGWINFRM_StartMove(((struct Obj00098 *)p)->f18, 0, -4, 0, 3);
-            if (((struct Obj00098 *)p)->f14 != 0) func_0204B3DC((struct Obj *)((struct Obj00098 *)p)->f14, 0);
+            if (((struct Obj00098 *)p)->f14 != 0) CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00098 *)p)->f14, 0);
             CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)&((struct Obj00098 *)p)->f8), 7);
             ((struct Obj00098 *)p)->f48 = 2;
             BGWINFRM_SetFrameDataArc(((struct Obj00098 *)p)->f18, 0, 0x60, 0x18, 1);

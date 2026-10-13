@@ -11,7 +11,7 @@
  * symbols:
  *   MI_CpuCopy8    0x02082D44  arm
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_021D51DC  0x021D51DC  thumb  ov093
+ *   BTL_POKEPARAM_ReplaceMoveSlot  0x021D51DC  thumb  ov093
  *   gBtlPokeParamTransformMoves     0x021F3B8C  data  a4
  *   gBtlPokeParamTransformKept     0x021F3BC4  data  a4
  */
@@ -47,7 +47,7 @@ typedef struct Unk021D6C50 {
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 struct S;
-extern void func_021D51DC(struct S *p, u32 a, u32 b, u32 c);
+extern void BTL_POKEPARAM_ReplaceMoveSlot(struct S *p, u32 a, u32 b, u32 c);
 extern u8 gBtlPokeParamTransformMoves[0x38];
 extern Head gBtlPokeParamTransformKept;
 int BTL_POKEPARAM_Transform(S *a, S *b)
@@ -63,7 +63,7 @@ int BTL_POKEPARAM_Transform(S *a, S *b)
         a->h1f2 = save;
         MI_CpuCopy8(gBtlPokeParamTransformMoves, a->ent, 0x38);
         for (i = 0; i < 4; i++)
-            func_021D51DC((struct S *)(&a->ent[i]), b->ent[i].h[3], 5, 0);
+            BTL_POKEPARAM_ReplaceMoveSlot((struct S *)(&a->ent[i]), b->ent[i].h[3], 5, 0);
         MI_CpuFill8(a->f153, 0, sizeof(a->f153));
         MI_CpuFill8(a->f155, 0, sizeof(a->f155));
         a->f148 = 10000;

@@ -12,7 +12,7 @@
  * symbols:
  *   REPORT_EVENT_DeleteMenuResources  0x0216A128  thumb  ov010
  *   REPORT_EVENT_DeleteMessageWindow  0x02169E98  thumb  ov010
- *   func_0201C4C0  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
  *   TCBL_Destroy  0x02031140  arm
  *   STRBUF_Delete  0x02045808  arm
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 
 extern int REPORT_EVENT_DeleteMenuResources();
 extern int REPORT_EVENT_DeleteMessageWindow(char *p);
-extern int func_0201C4C0();
+extern int PRINTSYS_QUE_Delete();
 extern int APP_KEYCURSOR_Delete(int a0);
 extern int TCBL_Destroy();
 extern int STRBUF_Delete();
@@ -46,7 +46,7 @@ a0 = (char *)(t4 + 0);
 loc_02169E1A:
 a0 = (char *)(*(int *)&((struct Obj00029 *)t4)->f18);
 a0 = (char *)(((struct Obj00029 *)a0)->f14);
-    a0 = (char *)func_0201C4C0(a0);
+    a0 = (char *)PRINTSYS_QUE_Delete(a0);
 loc_02169E22:
 a0 = (char *)(*(int *)&((struct Obj00029 *)t4)->f18);
 a0 = (char *)(((struct Obj00029 *)a0)->f1C);

@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetSuctionCupsHandlers
+ * function: HAND_TOKUSEI_GetSuctionCupsHandlers
  * address: 0x021DB5B4
  * packet: pkt_ov093_021DB5B4
  * region: ov093
@@ -15,10 +15,10 @@
  *   gSuctionCupsHandlers 0x021F05F0 data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetSuctionCupsHandlers(int *p);
+int *HAND_TOKUSEI_GetSuctionCupsHandlers(int *p);
 extern int gSuctionCupsHandlers[];
 
-int *BTL_TOKUSEI_GetSuctionCupsHandlers(int *p)
+int *HAND_TOKUSEI_GetSuctionCupsHandlers(int *p)
 {
     *p = 1;
     return gSuctionCupsHandlers;

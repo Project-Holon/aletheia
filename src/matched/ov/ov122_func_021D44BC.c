@@ -11,9 +11,9 @@
  * lever: x initialized after construction lets its zero share the outgoing stack argument.
  * symbols:
  *   BMP_WIN_ClearScreen 0x020456F8 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -33,9 +33,9 @@ struct Descriptor;
 struct StrObj;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_0201F7A8(void *, unsigned);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
@@ -49,16 +49,16 @@ void func_021D44BC(int i, Object *p, Row *row, const int *xs, const int *ys)
     if (p->f10[i]) {
         BMP_WIN_ClearScreen(p->f10[i]);
         func_0201F7A8(p->f10[i], 2);
-        func_020452E8(p->f10[i]);
+        BMP_WIN_Delete(p->f10[i]);
         p->f10[i] = 0;
     }
     p->f10[i] = (void *)BMP_WIN_Create(7, (u8)row->f00, (u8)row->f04, (u8)row->f08, row->f0c, 13, 0);
     x = 0;
-    BMP_Clear(func_02045770(p->f10[i]), 0);
+    BMP_Clear(BMP_WIN_GetBmp(p->f10[i]), 0);
     if (xs) x = xs[i] - (func_0201D304(((struct Obj01404 *)p)->f54, *(u32 *)&((struct Obj01404 *)p)->f4C, 0) >> 1);
     if (ys) y = ys[i] - (func_0201D42C(((struct Obj01404 *)p)->f54, ((struct Obj01404 *)p)->f4C) >> 1);
     else y = 0;
-    PRINTSYS_PrintColor(func_02045770(p->f10[i]), x, y, ((struct Obj01404 *)p)->f54, ((struct Obj01404 *)p)->f4C, 0x39e3);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(p->f10[i]), x, y, ((struct Obj01404 *)p)->f54, ((struct Obj01404 *)p)->f4C, 0x39e3);
     BMP_WIN_TransferChars(p->f10[i]);
     BMP_WIN_MakeScreen(p->f10[i]);
     func_02041B6C(7);

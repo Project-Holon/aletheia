@@ -12,6 +12,7 @@
  * symbols:
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
+ *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
  */
 #include "../include/Obj01742.h"
 #include "../include/Obj02198.h"
@@ -25,7 +26,7 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *func_0200CA1C(void *);
 struct Sub02008700Obj;
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 extern u32 func_0200CA38(struct Blk37 *p);
 void func_021DCC48(u8 *p, void *unused, u8 *out)
 {
@@ -39,7 +40,7 @@ void func_021DCC48(u8 *p, void *unused, u8 *out)
     ((struct Obj01742 *)out)->f4 = (u32)func_0200873C(a);
     out[12] = 1;
     out[13] = 1;
-    out[14] = func_0201AA18(((struct Obj02198 *)p)->f4);
+    out[14] = POKEPARTY_GetCount(((struct Obj02198 *)p)->f4);
     out[15] = 0;
     out[16] = 0;
     out[17] = 0;

@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  */
 
 typedef unsigned int   u32;
-void func_02043534(u32 planes);
+void BG_SYS_SetMainVisiblePlanes(u32 planes);
 
 void FLD_FACEUP_RestoreVisiblePlanes(int *p)
 {
-    func_02043534(p[1]);
+    BG_SYS_SetMainVisiblePlanes(p[1]);
 }

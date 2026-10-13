@@ -26,7 +26,7 @@
  *   FLDMMDL_MOVE_GetMapHeight  0x02163E58  thumb  ov010
  *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
  *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
- *   GIMMICK49_InitModels  0x021F3714  thumb  ov050
+ *   GIMMICK50_InitModelsB  0x021F3714  thumb  ov050
  *   GIMMICK50_ShowModel1  0x021F37B8  thumb  ov050
  *   GIMMICK50_IsModel0AnimeDone  0x021F3758  thumb  ov050
  *   GIMMICK50_IsModel1AnimeDone  0x021F3808  thumb  ov050
@@ -38,8 +38,8 @@
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
  *   GFL_USE_GetSeSlot  0x02006148  thumb
- *   func_020061F8  0x020061F8  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  */
 
@@ -90,7 +90,7 @@ extern void NAMEIN_SETUP_SnapObjToGrid(Work *w);
 extern void FLDMMDL_MOVE_GetMapHeight(void *a, VecFx32 *v, fx32 *y);
 extern void FIELD_CAMERA_EndDelay(u8 *a);
 extern u32 FIELD_CAMERA_IsDelayEnabled(u8 *a);
-extern void GIMMICK49_InitModels(int *p);
+extern void GIMMICK50_InitModelsB(int *p);
 extern void GIMMICK50_ShowModel1(int a);
 extern int GIMMICK50_IsModel0AnimeDone(int *p);
 extern int GIMMICK50_IsModel1AnimeDone(int *p);
@@ -102,8 +102,8 @@ extern void *FIELD_PLAYER_GetMmdl(u8 *p);
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern void FIELD_PLAYER_SetPos(u8 *p, void *v);
 extern int GFL_USE_GetSeSlot(u32 a0);
-extern void func_020061F8(int i);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_StopSeSlot(int i);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
 int NAMEIN_SETUP_RunLandEvent(void *evt, u32 *state, Work *w)
@@ -129,7 +129,7 @@ int NAMEIN_SETUP_RunLandEvent(void *evt, u32 *state, Work *w)
             (*state)++;
         break;
     case 2:
-        GIMMICK49_InitModels(w->field);
+        GIMMICK50_InitModelsB(w->field);
         GIMMICK50_ShowModel1((int)w->field);
         GAME_EVENT_CallEvent(evt, EVENT_FIELDMAP_CONTROL_StartFadeIn(w->sys, w->field, 0, 0, 1, 0, 0));
         (*state)++;
@@ -142,8 +142,8 @@ int NAMEIN_SETUP_RunLandEvent(void *evt, u32 *state, Work *w)
         }
         if (done != 0) {
             ICA_ANIME_Delete(w->anim);
-            func_020061F8(GFL_USE_GetSeSlot(1953));
-            func_020061E4(1775);
+            GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(1953));
+            GFL_USE_PlaySeDefaultVolume(1775);
             p.f00 = 2;
             p.f02 = 0;
             p.f10 = 3;

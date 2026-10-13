@@ -14,7 +14,7 @@
  * Split from trial_house.c at 0x021D05D8 (lane L136, __FILE__ anchor fldeff_bubble.c at 021D0610 (d_021DE664); 021D05D8 registers callback table g_021DB968 (targets 072C/074C/0750/07D8) which sits after the bubble data g_021DB950..95C).
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   abs_id_4b      0x0000004B  data
@@ -53,7 +53,7 @@
  *   FLDMMDL_MOVE_GetDirAddGridZ  0x021641F8  thumb  ov010
  *   FLDMMDL_RAIL_GetDrawOffsetByDir  0x0219E784  thumb  ov021
  *   VEC_Fx16Normalize  0x0207CDB8  arm
- *   func_0201A954  0x0201A954  thumb
+ *   POKEPARTY_InitEx  0x0201A954  thumb
  *   FLD_BTL_INST_TOOL_LookupKeyValue  0x02168AEC  thumb  ov010
  */
 #include "../ov010/fldmmdl_types.h"
@@ -131,7 +131,7 @@ typedef struct BubbleWork {
     BubbleParticle bubbles[BUBBLE_MAX];    /* 0x0C */
 } BubbleWork;
 
-extern void func_02082BCC(void *dst, u32 value, u32 size);
+extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
 extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
@@ -357,7 +357,7 @@ void FLDEFF_BUBBLE_SpawnBubble(BubbleParticle *bubble, Mmdl *mmdl)
  */
 void FLDEFF_BUBBLE_ClearBubble(BubbleParticle *bubble)
 {
-    func_02082BCC(bubble, 0, BUBBLE_CLEAR_SIZE);
+    MI_CpuFill8(bubble, 0, BUBBLE_CLEAR_SIZE);
 }
 
 /* Ages a bubble and ends it when the animation is over. */

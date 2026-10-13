@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_PowerItem_HalveSpeed
+ * function: HAND_ITEM_PowerItem_HalveSpeed
  * address:  0x021DF288
  * packet:   pkt_021B75A8
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   BTL_HANDLER_ITEM_PowerItem_HalveSpeed   0x021DF288  thumb ov093
+ *   HAND_ITEM_PowerItem_HalveSpeed   0x021DF288  thumb ov093
  *   BTL_EVENT_GetVar   0x021D775C  thumb ov093
  *   BTL_EVENT_MultiplyVar   0x021D7704  thumb ov093
  *
@@ -28,7 +28,7 @@ typedef signed int s32;
 int BTL_EVENT_GetVar(int a);
 void BTL_EVENT_MultiplyVar(int a, int b);
 
-void BTL_HANDLER_ITEM_PowerItem_HalveSpeed(void *a, void *b, int c)
+void HAND_ITEM_PowerItem_HalveSpeed(void *a, void *b, int c)
 {
     if (c == BTL_EVENT_GetVar(2))
         BTL_EVENT_MultiplyVar(0x35, 2 << 10);

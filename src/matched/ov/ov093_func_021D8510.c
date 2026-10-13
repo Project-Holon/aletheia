@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_RemoveAbilityHandlers
+ * function: HAND_TOKUSEI_RemoveAbilityHandlers
  * address: 0x021D8510
  * packet: pkt_ov093_021D8510
  * region: ov093
@@ -20,4 +20,4 @@ extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 struct Node;
 extern struct Node *BTL_EVENT_FindFactor(int id, int sub);
 extern void BTL_EVENT_RemoveFactor(struct Node *n);
-void BTL_CALC_RemoveAbilityHandlers(void *p) { int n = BTL_POKEPARAM_GetPokeId(p); void *a; while ((a=BTL_EVENT_FindFactor(4,n)) != 0) { BTL_EVENT_RemoveFactor(a); } }
+void HAND_TOKUSEI_RemoveAbilityHandlers(void *p) { int n = BTL_POKEPARAM_GetPokeId(p); void *a; while ((a=BTL_EVENT_FindFactor(4,n)) != 0) { BTL_EVENT_RemoveFactor(a); } }

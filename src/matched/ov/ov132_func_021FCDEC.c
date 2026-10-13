@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039C68  0x02039C68  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -19,9 +19,9 @@
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *, unsigned int, unsigned int);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
 
 void func_021FCDEC(int a, int b)
 {
-    func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), b, 0x11);
+    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), b, 0x11);
 }

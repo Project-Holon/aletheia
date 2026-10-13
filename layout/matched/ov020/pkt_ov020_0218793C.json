@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0218793C",
+   "name": "EL_SCOREBOARD_TeardownStandaloneDisplay",
    "address": "0x0218793C",
    "kind": "game",
    "region": "ov020",

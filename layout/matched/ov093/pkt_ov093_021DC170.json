@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DC170",
+   "name": "HAND_TOKUSEI_Healer_CureAllyStatus",
    "address": "0x021DC170",
    "kind": "game",
    "region": "ov093",

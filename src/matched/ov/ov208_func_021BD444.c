@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082BCC        0x02082BCC  arm
+ *   MI_CpuFill8        0x02082BCC  arm
  *   func_020275E4        0x020275E4  thumb
  *   func_020490F4        0x020490F4  arm
  *   func_02027624        0x02027624  thumb
@@ -44,7 +44,7 @@ struct Ov208Bg {
     u32 f10;
 };
 
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern u32  func_020275E4(void);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32  func_02027624(void);
@@ -69,7 +69,7 @@ void ov208_func_021BD444(struct Ov208Bg *p, u32 channel, u32 objChannel, u32 pal
 {
     void *h;
 
-    func_02082BCC(p, 0, sizeof(*p));
+    MI_CpuFill8(p, 0, sizeof(*p));
     p->fc = channel;
     h = func_020490F4(func_020275E4(), heap);
     if (skip == 0) {

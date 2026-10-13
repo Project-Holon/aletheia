@@ -17,7 +17,7 @@
  * `func_021DA158(r[idx].state = n - 11, r[idx].flag)`. Earlier tries: unsigned n (blo/bhi); early `if (x != 1) return;`;
  * `if (touch == 0)` shape.
  * symbols:
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021D9E98 0x021D9E98 thumb ov129
  *   func_021D93D4 0x021D93D4 thumb ov129
@@ -36,7 +36,7 @@ typedef short s16;
 struct Obj;
 typedef struct { int state, value, flag; struct Obj *handle; char tail[12]; } Record;
 typedef unsigned char  u8;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021D9E98(char *p, int i);
 extern void func_021D93D4(char *p);
@@ -65,24 +65,24 @@ void func_021D958C(u32 n, int touch, char *p)
                     *(int *)(p + 0x31C) = 1;
                     *(int *)(p + 0x320) = r[n].value;
                 }
-                func_020061E4(1352);
+                GFL_USE_PlaySeDefaultVolume(1352);
             } else if (n == 22) {
                 *(s16 *)(p + 0x1B8) = 0;
                 *(s16 *)(p + 0x1BA) = 2;
-                func_020061E4(1363);
+                GFL_USE_PlaySeDefaultVolume(1363);
                 func_021D93D4(p);
             } else if (n == 23) {
                 *(s16 *)(p + 0x1B8) = 3;
                 *(s16 *)(p + 0x1BA) = 2;
                 if (func_021D9320((u8 *)p)) {
                     func_021D9348(p);
-                    func_020061E4(1357);
+                    GFL_USE_PlaySeDefaultVolume(1357);
                 } else {
                     func_021D8AF4(p, 4);
                 }
             } else if (n >= 12 && n <= 21) {
                 if (*(int *)(p + 0x240) == 0) return;
-                func_020061E4(1356);
+                GFL_USE_PlaySeDefaultVolume(1356);
                 idx = *(int *)(p + 0x188);
                 r[idx].state = n - 11;
                 CLACT_SetActorAnimSeq(r[idx].handle, func_021DA158(r[idx].state, r[idx].flag));

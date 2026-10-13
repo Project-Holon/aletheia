@@ -34,7 +34,7 @@
  *   func_02088150  0x02088150  arm
  *   func_02082D44  0x02082D44  arm
  *   func_02004632  0x02004632  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02088118  0x02088118  arm
  */
 
@@ -45,7 +45,7 @@ typedef unsigned char  u8;
 extern int  func_02088150(void);
 extern void func_02082D44(u32 bus, u32 p, u32 n);
 extern u32  func_02004632(u32 a, u32 p, u32 n);
-extern void func_02082BCC(u32 p, u32 c, u32 n);
+extern void MI_CpuFill8(u32 p, u32 c, u32 n);
 extern void func_02088118(void);
 
 int func_0208806C(void)
@@ -67,7 +67,7 @@ int func_0208806C(void)
     *(u16 *)(base[2] + 0x10) = func_02004632(0xffff, base[2], 0x300);
 
     if (old != *(u16 *)(base[2] + 0x10)) {
-        func_02082BCC(base[2], 0, 0x300);
+        MI_CpuFill8(base[2], 0, 0x300);
         func_02088118();
         return 0;
     }

@@ -11,11 +11,11 @@
  * its caller declaration returns that word despite the own source's void.
  * extent-tail: 021BA16A alignment padding (two zero bytes).
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   func_02012FFC 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  */
@@ -28,9 +28,9 @@ struct Descriptor;
 struct MsgBank;
 struct Rec3;
 struct U16Vec;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern signed char func_02012FFC(void);
@@ -38,8 +38,8 @@ extern void*PRINTSYS_PrintStream(unsigned,unsigned,unsigned,unsigned,unsigned,un
 void func_021BA108(int unused,char*p,unsigned entry,int v)
 {
     int x;
-    BMP_Clear(func_02045770(*(void* *)&((struct Obj01782 *)p)->f6C),15);
-    if(*(void* *)&((struct Obj01782 *)p)->f5C)func_0201CE48(*(void* *)&((struct Obj01782 *)p)->f5C);
+    BMP_Clear(BMP_WIN_GetBmp(*(void* *)&((struct Obj01782 *)p)->f6C),15);
+    if(*(void* *)&((struct Obj01782 *)p)->f5C)PRINTSYS_PrintStreamDelete(*(void* *)&((struct Obj01782 *)p)->f5C);
     if(*(void* *)&((struct Obj01782 *)p)->f78)STRBUF_Delete(*(void* *)&((struct Obj01782 *)p)->f78);
     *(void* *)&((struct Obj01782 *)p)->f78=func_02045EC0(*(void* *)&((struct Obj01782 *)p)->f58,entry);
     x=func_02012FFC();

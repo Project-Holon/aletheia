@@ -1,5 +1,5 @@
 /*
- * function: func_021E467C
+ * function: HAND_WAZA_GetEncoreHandlers
  * address: 0x021E467C
  * packet: pkt_ov093_021E467C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E4340_p01.c and filed here.
  *
  * symbols:
- *   d_021F25E4 0x021F25E4 data ov093 a4
+ *   gEncoreHandlers 0x021F25E4 data ov093 a4
  */
 
-int *func_021E467C(int *p);
-extern int d_021F25E4[];
+int *HAND_WAZA_GetEncoreHandlers(int *p);
+extern int gEncoreHandlers[];
 
-int *func_021E467C(int *p)
+int *HAND_WAZA_GetEncoreHandlers(int *p)
 {
     *p = 1;
-    return d_021F25E4;
+    return gEncoreHandlers;
 }

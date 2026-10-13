@@ -19,7 +19,7 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   CLACT_InitSystem  0x0204A48C  arm
  *   CLACT_CreateUnit  0x0204B100  arm
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterPalette  0x0204ABF0  arm
@@ -117,7 +117,7 @@ typedef signed int     s32;
 struct Cfg;
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
@@ -132,7 +132,7 @@ void func_021C7504(Work *p)
 
     CLACT_InitSystem((const struct Cfg *)gClActorInitParam, (u32)d_021C88FC, 0x27);
     p->f48 = CLACT_CreateUnit(0x24, 1, 0x27);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     p->fE0 = (void *)CLACT_RegisterCharacter(p->f0, 0x1B, 0, 0, 0x27);
     p->fDC = (void *)CLACT_RegisterPalette(p->f0, 2, 0, 0, 0x27);

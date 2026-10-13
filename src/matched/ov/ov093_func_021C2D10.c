@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_0201BD28  0x0201BD28  thumb
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
@@ -20,13 +20,13 @@
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_EVENT_PopVarFrame  0x021D7540  thumb  ov093
  *   BTL_CALC_Random  0x021D78AC  thumb  ov093
- *   func_021B911C  0x021B911C  thumb  ov093
+ *   BTL_MAIN_ReturnZero  0x021B911C  thumb  ov093
  */
 #include "../include/Obj21084.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u32 sub_0201BD28(u16 id, u32 field);
+extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern void BTL_EVENT_PushVarFrame(int line);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
@@ -36,13 +36,13 @@ extern void func_021D70F0(void *a, int id);
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 extern u32 BTL_CALC_Random(u32 range);
-extern int func_021B911C(u32 a, u32 b);
+extern int BTL_MAIN_ReturnZero(u32 a, u32 b);
 
 int BTL_SERVER_FLOW_RollMoveAddedEffectChance(u8 *p, u16 *q, u8 *b, u8 *c)
 {
     u8 s, x, y;
     u32 t;
-    s = sub_0201BD28(*q, 0x12);
+    s = WAZA_TOOL_GetParam(*q, 0x12);
     BTL_EVENT_PushVarFrame(8142);
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(b));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(c));
@@ -59,7 +59,7 @@ int BTL_SERVER_FLOW_RollMoveAddedEffectChance(u8 *p, u16 *q, u8 *b, u8 *c)
             t = 1;
         if (t)
             return 1;
-        if (func_021B911C(((struct Obj21084 *)p)->f4, 0) != 0)
+        if (BTL_MAIN_ReturnZero(((struct Obj21084 *)p)->f4, 0) != 0)
             return 1;
     }
     return 0;

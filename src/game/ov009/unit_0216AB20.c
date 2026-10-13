@@ -1,7 +1,7 @@
 /*
  * file:     unit_0216AB20.c
  * unit:     yes
- * function: DWC_InitFriendsMatch, DWC_ShutdownFriendsMatch, DWC_ProcessFriendsMatch, DWC_LoginAsync, DWC_UpdateServersAsync, DWC_ConnectToAnybodyAsync, DWC_SetupGameServer, DWC_ConnectToGameServerAsync, DWC_SetConnectionClosedCallback, DWC_CloseAllConnectionsHard, DWC_CloseConnectionHardFromServer, DWC_GetNumConnectionHost, DWC_GetMyAID, DWC_GetAIDList, DWC_GetAIDBitmap, DWC_IsValidAID, DWC_GetState, DWC_GetServerAID, DWC_IsServerMyself, DWCi_GT2Startup, func_0216BAF4, DWCi_GetConnectionAID, DWCi_GT2GetConnectionListIdx, DWCi_ClearGT2ConnectionList, DWCi_GetGT2ConnectionByIdx, DWCi_GetGT2ConnectionByProfileID, DWCi_GetConnectionInfoByIdx, DWCi_IsValidAID, DWCi_SetState, DWCi_DeleteAID, DWCi_GetAIDBitmapFromList, func_0216BD04, func_0216BE00, DWCi_CloseConnectionHard, DWCi_LoginCallback, DWCi_UpdateServersCallback, DWCi_MatchedCallback, DWCi_GPErrorCallback, func_0216C0C4, DWCi_GT2ReceivedCallback, DWCi_GT2ClosedProcess, DWCi_GT2ClosedCallback, DWCi_GT2PingCallback, DWCi_GT2SocketErrorCallback, DWCi_CustomCommonInit, DWCi_GetServerOrSubServerAID, DWCi_IsGetAIDValid
+ * function: DWC_InitFriendsMatch, DWC_ShutdownFriendsMatch, DWC_ProcessFriendsMatch, DWC_LoginAsync, DWC_UpdateServersAsync, DWC_ConnectToAnybodyAsync, DWC_SetupGameServer, DWC_ConnectToGameServerAsync, DWC_SetConnectionClosedCallback, DWC_CloseAllConnectionsHard, DWC_CloseConnectionHardFromServer, DWC_GetNumConnectionHost, DWC_GetMyAID, DWC_GetAIDList, DWC_GetAIDBitmap, DWC_IsValidAID, DWC_GetState, DWC_GetServerAID, DWC_IsServerMyself, DWCi_GT2Startup, DWCi_GetGT2Connection, DWCi_GetConnectionAID, DWCi_GT2GetConnectionListIdx, DWCi_ClearGT2ConnectionList, DWCi_GetGT2ConnectionByIdx, DWCi_GetGT2ConnectionByProfileID, DWCi_GetConnectionInfoByIdx, DWCi_IsValidAID, DWCi_SetState, DWCi_DeleteAID, DWCi_GetAIDBitmapFromList, DWCi_HandleGPError_Alt, DWCi_HandleGT2Error_Alt, DWCi_CloseConnectionHard, DWCi_LoginCallback, DWCi_UpdateServersCallback, DWCi_MatchedCallback, DWCi_GPErrorCallback, DWCi_GPRecvBuddyMessageCallback_Alt, DWCi_GT2ReceivedCallback, DWCi_GT2ClosedProcess, DWCi_GT2ClosedCallback, DWCi_GT2PingCallback, DWCi_GT2SocketErrorCallback, DWCi_CustomCommonInit, DWCi_GetServerOrSubServerAID, DWCi_IsGetAIDValid
  * address:  0x0216AB20
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -162,7 +162,7 @@ extern int DWCi_StopMeshMaking(void);
 extern void DWCi_SetMatchStatus(int state);
 extern int DWCi_IsServerChangeEnabled(void);
 extern void func_02177398(void *connection, int latency);
-extern int func_02195E60(const int *p);
+extern int gt2GetSocketSOCKET(const int *p);
 extern int func_0217ED54(void);
 extern void func_02059F54(int error, int errorCode);
 extern void DWCi_ConnectToAnybodyAsync(int topology, unsigned char numEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
@@ -188,10 +188,10 @@ void DWCi_GT2ReceivedCallback(void *connection, unsigned char *message, int size
 void DWCi_GT2ClosedCallback(void *connection, int reason);
 void DWCi_GT2PingCallback(void *connection, int latency);
 void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason, int isPseudClose, unsigned char closeAid);
-void func_0216C0C4(void **pconnection, GPRecvBuddyMessageArg *arg);
+void DWCi_GPRecvBuddyMessageCallback_Alt(void **pconnection, GPRecvBuddyMessageArg *arg);
 int DWCi_GetAIDBitmapFromList(unsigned char *p, int n);
-int func_0216BE00(int result);
-int func_0216BD04(int result);
+int DWCi_HandleGT2Error_Alt(int result);
+int DWCi_HandleGPError_Alt(int result);
 void DWCi_GT2SocketErrorCallback(void *socket);
 unsigned char DWCi_GetServerOrSubServerAID(void);
 int DWCi_DeleteAID(unsigned char aid);
@@ -329,22 +329,22 @@ void DWC_ProcessFriendsMatch(void)
         switch (GSIAvailableCheckThink())
         {
         case 1:
-            if (func_0216BD04(gpInitialize(&g_021AA878.st->gp,
+            if (DWCi_HandleGPError_Alt(gpInitialize(&g_021AA878.st->gp,
                     g_021AA878.st->login.productID, 0x10, 0xb)))
                 return;
-            if (func_0216BD04(gpSetCallback(&g_021AA878.st->gp,
+            if (DWCi_HandleGPError_Alt(gpSetCallback(&g_021AA878.st->gp,
                     0, DWCi_GPErrorCallback, 0)))
                 return;
-            if (func_0216BD04(gpSetCallback(&g_021AA878.st->gp,
+            if (DWCi_HandleGPError_Alt(gpSetCallback(&g_021AA878.st->gp,
                     3, DWCi_GPRecvBuddyMessageCallback, 0)))
                 return;
-            if (func_0216BD04(gpSetCallback(&g_021AA878.st->gp,
+            if (DWCi_HandleGPError_Alt(gpSetCallback(&g_021AA878.st->gp,
                     7, DWCi_GPRecvBuddyAuthCallback, 0)))
                 return;
-            if (func_0216BD04(gpSetCallback(&g_021AA878.st->gp,
+            if (DWCi_HandleGPError_Alt(gpSetCallback(&g_021AA878.st->gp,
                     1, DWCi_GPRecvBuddyRequestCallback, 0)))
                 return;
-            if (func_0216BD04(gpSetCallback(&g_021AA878.st->gp,
+            if (DWCi_HandleGPError_Alt(gpSetCallback(&g_021AA878.st->gp,
                     2, DWCi_GPRecvBuddyStatusCallback, 0)))
                 return;
             DWCi_SetState(2);
@@ -785,7 +785,7 @@ int DWCi_GT2Startup(void)
 		return 0;
 	baseport = func_021685CC(0x4000) + 0xc000;
 	gt2Result = func_02195AB4(&g_021AA878.st->gt2Socket, func_02198620(0, baseport, 0), g_021AA878.st->sendBufSize, g_021AA878.st->recvBufSize, DWCi_GT2SocketErrorCallback);
-	if (func_0216BE00(gt2Result))
+	if (DWCi_HandleGT2Error_Alt(gt2Result))
 		return gt2Result;
 	gt2Listen(g_021AA878.st->gt2Socket, func_0216E5B0);
 	gt2SetUnrecognizedMessageCallback(g_021AA878.st->gt2Socket, func_0216E4C0);
@@ -795,9 +795,9 @@ int DWCi_GT2Startup(void)
 
 
 /*
- * func_0216BAF4: the connection whose aid matches, or zero.
+ * DWCi_GetGT2Connection: the connection whose aid matches, or zero.
  */
-void *func_0216BAF4(unsigned char aid)
+void *DWCi_GetGT2Connection(unsigned char aid)
 {
     int i;
 
@@ -949,7 +949,7 @@ int DWCi_GetAIDBitmapFromList(unsigned char *p, int n)
  *
  * Extra open callee of DWCi_GPErrorCallback (0x0216C08C).
  */
-int func_0216BD04(int result)
+int DWCi_HandleGPError_Alt(int result)
 {
     int errorCode;
     int dwcError;
@@ -990,7 +990,7 @@ int func_0216BD04(int result)
 /*
  * sdk:      DWCi_HandleGT2Error (libdwcmatch.TWL.HYB.a(dwc_main.o))
  */
-int func_0216BE00(int result)
+int DWCi_HandleGT2Error_Alt(int result)
 {
 	int dwcError;
 	int errorCode;
@@ -1047,7 +1047,7 @@ int DWCi_CloseConnectionHard(unsigned char aid)
          g_021AA878.st->state != 5)) {
         return -1;
     }
-    conn = func_0216BAF4(aid);
+    conn = DWCi_GetGT2Connection(aid);
     if (conn == 0) {
         node = DWCi_NodeInfoList_GetNodeInfoForAID(aid);
         if (node == 0) {
@@ -1120,7 +1120,7 @@ void DWCi_GPErrorCallback(void **pconnection, void *arg, void *param)
     int v = ((GPErrorArg *)arg)->errorCode;
 
     if (v == 0x603 || v == 0x901 || v == 0xb01) return;
-    func_0216BD04(3);
+    DWCi_HandleGPError_Alt(3);
 }
 
 
@@ -1129,7 +1129,7 @@ void DWCi_GPErrorCallback(void **pconnection, void *arg, void *param)
 /*
  * sdk:      DWCi_GPRecvBuddyMessageCallback (libdwcmatch.TWL.HYB.a(dwc_main.o))
  */
-void func_0216C0C4(void **pconnection, GPRecvBuddyMessageArg *arg)
+void DWCi_GPRecvBuddyMessageCallback_Alt(void **pconnection, GPRecvBuddyMessageArg *arg)
 {
     unsigned long len;
     char *message;
@@ -1244,7 +1244,7 @@ void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
         i = 0;
 
         if (profileID == 0)
-            profileID = gt2GetConnectionData(func_0216BAF4(aid))->profileID;
+            profileID = gt2GetConnectionData(DWCi_GetGT2Connection(aid))->profileID;
 
         if (!isPseudClose)
             g_021AA8A0[conninfo->index] = 0;
@@ -1269,7 +1269,7 @@ void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
             pNodeInfo = DWCi_NodeInfoList_GetNodeInfoForIndex(i);
 
             if (pNodeInfo->profileID != g_021AA878.st->match.profileID &&
-                func_0216BAF4(pNodeInfo->aid) == 0) {
+                DWCi_GetGT2Connection(pNodeInfo->aid) == 0) {
                 if (g_021AA878.st->closedCallback != 0) {
                     g_021AA878.st->closedCallback(dwcError, reason == 0, isServer,
                                           pNodeInfo->aid,
@@ -1374,7 +1374,7 @@ void DWCi_GT2PingCallback(void *connection, int latency)
 
 void DWCi_GT2SocketErrorCallback(void *socket)
 {
-    func_02195E60(socket);
+    gt2GetSocketSOCKET(socket);
     g_021AA878.lastSocketError = func_0217ED54();
     func_02059F54(9, (int)0xfffe8515);
     *(int *)g_021AA878.st = 0;

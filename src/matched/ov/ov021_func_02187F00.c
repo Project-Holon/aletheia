@@ -20,7 +20,7 @@
  *   GAMESYSTEM_SetFieldMap  0x02012110  thumb
  *   GAMESYSTEM_GetAlwaysNetFlag  0x0201214C  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   sFieldMapHeapBuffer     0x021DE700  data
  */
@@ -43,7 +43,7 @@ void GAMESYSTEM_SetFieldMap(struct Ctx *p, void *v);
 unsigned int GAMESYSTEM_GetAlwaysNetFlag(const struct Ctx *x);
 unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *x);
 struct Comm;
-u32 func_02026454(void *obj);
+u32 GAME_COMM_GetKind(void *obj);
 void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 
 int FIELDMAP_ProcInit(struct Obj0203159C *a, int *state, int b)
@@ -71,7 +71,7 @@ int FIELDMAP_ProcInit(struct Obj0203159C *a, int *state, int b)
     case 1:
         if (GAMESYSTEM_GetAlwaysNetFlag((const struct Ctx *)b) == 0) {
             int t = GAMESYSTEM_GetGameComm((const struct Ctx *)b);
-            switch (func_02026454((void *)t)) {
+            switch (GAME_COMM_GetKind((void *)t)) {
             case 1:
             case 2:
                 GAME_COMM_RequestExitNoCallback((struct Comm *)t);

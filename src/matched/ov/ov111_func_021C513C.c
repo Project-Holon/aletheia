@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021C6FA0  0x021C6FA0  thumb  ov111
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
  *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  *
@@ -57,7 +57,7 @@ typedef struct {
 } Work;
 
 extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 
@@ -65,7 +65,7 @@ void func_021C513C(Work *p)
 {
     int v;
 
-    func_020061E4(0x646);
+    GFL_USE_PlaySeDefaultVolume(0x646);
     if (p->f3034 == 0) {
         v = GAME_DATA_CheckSaveFlag((int)p->args->f4, 0x15) ^ 1;
         func_021C6FA0(&p->anim, 7, v + 6, 1);

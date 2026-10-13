@@ -21,7 +21,7 @@
  *   func_021D6948 0x021D6948 thumb ov121
  *   func_021D96C4 0x021D96C4 thumb ov121
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   MYSTERY_DATA_IsMainSave 0x0200A350 thumb
  *   PROCSYS_PushGlobal 0x020312CC arm
  *   func_021D9624 0x021D9624 thumb ov121
@@ -65,7 +65,7 @@ extern void func_021D6C28(u8 *p);
 extern void func_021D6948(void *);
 extern void func_021D96C4(u8 *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 struct Obj;
 extern int MYSTERY_DATA_IsMainSave(struct Obj *a0);
 extern void PROCSYS_PushGlobal(u32,u32,u32);
@@ -115,7 +115,7 @@ void func_021D7EAC(void *task,u32 *state,u8 *p)
         *state=3; return;
     case 3:
         *(u8 * *)&((struct Obj00533 *)p)->f3C0=func_02030734(29,40,0,d_021DFB80,2664);
-        func_02082BCC(((struct Obj00533 *)p)->f3C0,0,40);
+        MI_CpuFill8(((struct Obj00533 *)p)->f3C0,0,40);
         ((struct Obj22858 *)(*(u8 * *)&((struct Obj00533 *)p)->f3C0))->f0=((struct Obj00533 *)p)->f3B8;
         ((struct Obj22859 *)(*(u8 * *)&((struct Obj00533 *)p)->f3C0))->f4=0;
         ((struct Obj22860 *)(*(u8 * *)&((struct Obj00533 *)p)->f3C0))->f8=1;

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_020311B8
+ * function: TCBL_AddTask
  * address:  0x020311B8
  * packet:   pkt_0203115C
  * region:   arm9
@@ -36,8 +36,8 @@
  * at 0x02031288.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020311B8.c \
- *       --func sub_020311B8 --addr 0x020311B8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TCBL_AddTask.c \
+ *       --func TCBL_AddTask --addr 0x020311B8 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -77,7 +77,7 @@ struct List;
 struct Node;
 extern struct Node *sub_02030F04(struct List *list);
 
-struct TcblNode *sub_020311B8(struct Tcbl *p, TcblFunc func, u32 workSize,
+struct TcblNode *TCBL_AddTask(struct Tcbl *p, TcblFunc func, u32 workSize,
                               u32 key)
 {
     struct TcblNode *n;

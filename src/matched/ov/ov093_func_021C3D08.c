@@ -11,11 +11,11 @@
  *  func_021C3DFC 0x021C3DFC thumb ov093
  *  BTL_SERVER_FLOW_ProcSkillSwap 0x021C3E0C thumb ov093
  *  BTL_SERVER_FLOW_ProcSubstituteMove 0x021C4034 thumb ov093
- *  func_021CC8D8 0x021CC8D8 thumb ov093
- *  func_021C88E4 0x021C88E4 thumb ov093
+ *  BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
+ *  BTL_SERVER_FLOW_GetLockState 0x021C88E4 thumb ov093
  *  BTL_SERVER_FLOW_DispatchMoveFailCheck 0x021C4304 thumb ov093
  *  BTL_SERVER_CMD_PushVariable 0x021CD64C thumb ov093
- *  func_021CC95C 0x021CC95C thumb ov093
+ *  BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
  */
 #include "../include/Obj03191.h"
 typedef unsigned char u8;
@@ -26,11 +26,11 @@ typedef struct { u8 a:4,b:1,c:3; } ByteFlag;
 extern int func_021C3DFC(u8 *);
 extern void BTL_SERVER_FLOW_ProcSkillSwap(u8 *, u8 *, u8 *);
 extern int BTL_SERVER_FLOW_ProcSubstituteMove(u8 *, u8 *);
-extern u32 func_021CC8D8(void *, int);
-extern int func_021C88E4(u8 *p);
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *, int);
+extern int BTL_SERVER_FLOW_GetLockState(u8 *p);
 extern int BTL_SERVER_FLOW_DispatchMoveFailCheck(u8 *, u16 *, u8 *, u8 *, int *);
 extern void BTL_SERVER_CMD_PushVariable(void *w, u8 id, ...);
-extern void func_021CC95C(u32 *p, u32 v, int line);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 void BTL_SERVER_FLOW_ProcMoveSpecialEffect(u8 *p, u16 *b, u8 *a, u8 *c)
 {
     int out;
@@ -51,10 +51,10 @@ void BTL_SERVER_FLOW_ProcMoveSpecialEffect(u8 *p, u16 *b, u8 *a, u8 *c)
         }
         return;
     default:
-        s = func_021CC8D8(p + 0x1d74, 9087);
-        r = func_021C88E4(p);
+        s = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 9087);
+        r = BTL_SERVER_FLOW_GetLockState(p);
         if (BTL_SERVER_FLOW_DispatchMoveFailCheck(p, b, a, c, &out)) {
-            r = func_021C88E4(p);
+            r = BTL_SERVER_FLOW_GetLockState(p);
             if (r == 2) {
                 f = *(Flag * *)&((struct Obj03191 *)p)->f4A8;
                 if (f->a == 0) f->a = 1;
@@ -63,6 +63,6 @@ void BTL_SERVER_FLOW_ProcMoveSpecialEffect(u8 *p, u16 *b, u8 *a, u8 *c)
         if (r <= 1 && out != 0 && ((ByteFlag *)(p + 0x78a))->b == 0) {
             BTL_SERVER_CMD_PushVariable(((struct Obj03191 *)p)->fC, 0x5a, 0x47, 0xffff0000);
         }
-        func_021CC95C((u32 *)(p + 0x1d74), s, 9113);
+        BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), s, 9113);
     }
 }

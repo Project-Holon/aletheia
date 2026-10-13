@@ -43,8 +43,8 @@
  *   POKE_TOOL_IsOwnedByPlayer 0x02018480 thumb
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
- *   func_021B8DDC 0x021B8DDC thumb ov093
- *   func_021B8FF4 0x021B8FF4 thumb ov093
+ *   BTL_MAIN_PokeIdToClientIdThunk 0x021B8DDC thumb ov093
+ *   BTL_MAIN_GetOwnClientId 0x021B8FF4 thumb ov093
  *   BTL_POKEPARAM_GetMon 0x021D5844 thumb ov093
  *   func_021B871C 0x021B871C thumb ov093
  *   BTL_MAIN_GetBadgeCount 0x021B85A0 thumb ov093
@@ -58,8 +58,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *BTL_MAIN_GetCompetitor(void ***);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *);
-extern u8 func_021B8DDC(u32);
-extern u8 func_021B8FF4(u8 *);
+extern u8 BTL_MAIN_PokeIdToClientIdThunk(u32);
+extern u8 BTL_MAIN_GetOwnClientId(u8 *);
 extern void *BTL_POKEPARAM_GetMon(void *);
 extern int func_021B871C(char *);
 extern int POKE_TOOL_IsOwnedByPlayer(void *, int);
@@ -76,8 +76,8 @@ int BTL_SERVER_FLOW_CheckDisobedience(u8 *p, u8 *a)
     u32 n;
     u16 x, y;
     if ((u32)BTL_MAIN_GetCompetitor(*(void ****)(p + 4)) <= 1) {
-        k = func_021B8DDC(BTL_POKEPARAM_GetPokeId(a));
-        if (k == func_021B8FF4(*(u8 **)(p + 4))) {
+        k = BTL_MAIN_PokeIdToClientIdThunk(BTL_POKEPARAM_GetPokeId(a));
+        if (k == BTL_MAIN_GetOwnClientId(*(u8 **)(p + 4))) {
             void *v = BTL_POKEPARAM_GetMon(a);
             if (POKE_TOOL_IsOwnedByPlayer(v, func_021B871C(*(char **)(p + 4))) == 0) {
                 n = BTL_MAIN_GetBadgeCount((u8 **)(*(u8 **)(p + 4)));

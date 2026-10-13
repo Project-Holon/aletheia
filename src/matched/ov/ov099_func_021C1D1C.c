@@ -17,8 +17,8 @@
  *   the call; x and y (and q) declared in the loop block (all 284); x computed before y (330). The image hoists
  *   (u8)(y+1), x+1, p+i*8 in that order; ours p+i*8, x+1, (u8)(y+1).
  * note: 2026-10-05 (wD8 lane05): not changed, 284 bytes. Re-read: image keeps y r7, x r5 across the three first-block
- *   calls and spills q (2 uses after the call: the store value is forwarded to func_02045770). Tried: the first call result in a local
- *   r stored to q + 0x8F8 and passed to func_02045770 (same 284 bytes); q computed before y and x (330, as wD6).
+ *   calls and spills q (2 uses after the call: the store value is forwarded to BMP_WIN_GetBmp). Tried: the first call result in a local
+ *   r stored to q + 0x8F8 and passed to BMP_WIN_GetBmp (same 284 bytes); q computed before y and x (330, as wD6).
  *
  * note: 2026-10-05 (wD7 lane09): not changed, 284 bytes. Re-read the loop: the image keeps y = (i % 4) * 6 in r7 (adds r7,r1; muls r7,r0,r7), x in r5, the 0x8F8 pool offset in r6 and j in r4 (j = 0 set before the 3B5C call); p is spilled at [sp,#0x10], q = p + i*4 at [sp,#0x14], p + i*8 at [sp,#0x18], x + 1 at [sp,#0x1c], i at [sp,#0x20], (u8)(y + 1) at [sp,#0x24], 0x918 at [sp,#0x28] (stored twice, x = r6; x += 0x20). So the image spills q (3 uses) and keeps y (2 uses). Tried: q inline as p + i*4 + 0x8F8 (same 284), q as ((void **)(p + 0x8F8))[i] (308), y and/or x declared u32 (same).
  * note: 2026-10-05 (wD6 lane13): not improved, 284 bytes (size 600 matches now). Tried: q = p + i*4 first in the body (330 B), q inline with x and y locals (284 B), x inline (293 B). y stays the spilled value; the image spills q. The 0x8F8 offset is held in r6 and 0x918 copies are derived from it in both builds.
@@ -53,7 +53,7 @@
  *   func_021C1FE8  0x021C1FE8  thumb  ov099
  *   func_02049B40  0x02049B40  arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
@@ -74,7 +74,7 @@ extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *h, u32 a1, u32 a2, void **
 extern void func_021C1FE8(u16 *p, u16 d);
 extern void func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
 extern void *BMP_WIN_Create(int, u8, u8, int, u8, u8, u8);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -101,21 +101,21 @@ void func_021C1D1C(u8 *p, void *a, int heap)
         y = i % 4;
         x = i / 4;
         *(void **)(p + i * 4 + 0x8F8) = BMP_WIN_Create(7, (x << 4) + 4, y * 6 + 1, 9, 3, 0xf, 1);
-        BMP_Clear(func_02045770(*(void **)(p + i * 4 + 0x8F8)), 0);
+        BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + i * 4 + 0x8F8)), 0);
         BMP_WIN_TransferChars(*(void **)(p + i * 4 + 0x8F8));
 
         for (j = 0; j < 2; j++) {
             *(void **)(p + i * 8 + j * 4 + 0x918) = BMP_WIN_Create(5, (x << 4) + 1 + j * 12, y * 6 + 1, 2, 3, 0xf, 1);
-            BMP_Clear(func_02045770(*(void **)(p + i * 8 + j * 4 + 0x918)), 0);
+            BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + i * 8 + j * 4 + 0x918)), 0);
             BMP_WIN_TransferChars(*(void **)(p + i * 8 + j * 4 + 0x918));
         }
     }
     *(void **)(p + 0x958) = BMP_WIN_Create(7, 1, 1, 0x1e, 2, 0xf, 1);
-    BMP_Clear(func_02045770(*(void **)(p + 0x958)), 0);
+    BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x958)), 0);
     BMP_WIN_MakeScreen(*(void **)(p + 0x958));
     BMP_WIN_TransferChars(*(void **)(p + 0x958));
     *(void **)(p + 0x95C) = BMP_WIN_Create(7, 1, 5, 0x1e, 0x11, 0xf, 1);
-    BMP_Clear(func_02045770(*(void **)(p + 0x95C)), 0);
+    BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x95C)), 0);
     BMP_WIN_MakeScreen(*(void **)(p + 0x95C));
     BMP_WIN_TransferChars(*(void **)(p + 0x95C));
     func_020409B4(4);

@@ -10,7 +10,7 @@
  * extent: follower 021B9784 already matched separately.
  * symbols:
  *   FADE_IsActive 0x0204E804 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_021B9788 0x021B9788 thumb ov182
  *   func_021B9814 0x021B9814 thumb ov182
@@ -19,7 +19,7 @@
 #include "../include/Obj06594.h"
 typedef unsigned short u16;
 extern int FADE_IsActive(void);
-extern unsigned func_020362DC(void);
+extern unsigned KEY_GetTrg(void);
 typedef unsigned int   u32;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
@@ -56,7 +56,7 @@ int func_021B96BC(void *a, unsigned *state, void *c, char *p)
         }
         break;
     case 5:
-        if ((func_020362DC() & 0xb) || ++((struct Obj06594 *)p)->f18 > 0x384) {
+        if ((KEY_GetTrg() & 0xb) || ++((struct Obj06594 *)p)->f18 > 0x384) {
             *state = 6;
             func_021B9814(0, (void *)0x10, 0);
         }

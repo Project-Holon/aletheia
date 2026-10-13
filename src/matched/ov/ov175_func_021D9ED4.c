@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039C68  0x02039C68  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *
  * Stores the caller's word at +0x14 and forwards its low byte to
  *     0x02039C68 with the tick/state from 0x020399A8 and line 0x24.  The byte
@@ -25,11 +25,11 @@ typedef unsigned long u32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, unsigned int lo, unsigned int hi);
 
 void func_021D9ED4(char *obj, u32 v)
 {
     ((struct Obj14331 *)obj)->f14 = v;
-    func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), (unsigned char)((struct Obj14331 *)obj)->f14, 0x24);
+    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), (unsigned char)((struct Obj14331 *)obj)->f14, 0x24);
 }
 

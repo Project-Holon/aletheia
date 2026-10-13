@@ -1,5 +1,5 @@
 /*
- * function: func_021E6DA0
+ * function: HAND_WAZA_AddMirrorMove
  * address: 0x021E6DA0
  * packet: pkt_ov093_021E6DA0
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E6DA0.c and filed here.
  *
  * symbols:
- *   d_021F2574 0x021F2574 data ov093 a4
+ *   gMirrorMoveHandlers 0x021F2574 data ov093 a4
  */
 
-extern int d_021F2574[];
-int *func_021E6DA0(int *p);
+extern int gMirrorMoveHandlers[];
+int *HAND_WAZA_AddMirrorMove(int *p);
 
-int *func_021E6DA0(int *p)
+int *HAND_WAZA_AddMirrorMove(int *p)
 {
     *p = 1;
-    return d_021F2574;
+    return gMirrorMoveHandlers;
 }

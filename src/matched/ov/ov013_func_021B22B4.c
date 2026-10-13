@@ -13,7 +13,7 @@
  *   g_021B4BE0     0x021B4BE0  data  a4
  *   g_021B4BD0     0x021B4BD0  data  a4
  *   g_021B60D8     0x021B60D8  data  a4
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020870D0  0x020870D0  arm
  */
 
@@ -53,7 +53,7 @@ struct Stats {
 
 extern struct Stats g_021B4BD0;
 extern struct Sess g_021B60D8;
-extern void func_02082BCC(void *dst, int data, unsigned long size);
+extern void MI_CpuFill8(void *dst, int data, unsigned long size);
 extern unsigned long long func_020870D0(void);
 
 int VCT_SESSION_InitPeerPool(struct Config *cfg)
@@ -63,9 +63,9 @@ int VCT_SESSION_InitPeerPool(struct Config *cfg)
     if (cfg->nodes == 0 || cfg->count == 0 || cfg->count > 8)
         return 0;
     g_021B4BE0.nodes = cfg->nodes;
-    func_02082BCC(cfg->nodes, 0, cfg->count * sizeof(struct Node));
-    func_02082BCC(&g_021B4BE0.active, 0, sizeof(struct Node));
-    func_02082BCC(&g_021B4BE0.freeList, 0, sizeof(struct Node));
+    MI_CpuFill8(cfg->nodes, 0, cfg->count * sizeof(struct Node));
+    MI_CpuFill8(&g_021B4BE0.active, 0, sizeof(struct Node));
+    MI_CpuFill8(&g_021B4BE0.freeList, 0, sizeof(struct Node));
     for (i = 0; i < cfg->count - 1; i++)
         g_021B4BE0.nodes[i].next = &g_021B4BE0.nodes[i + 1];
     (g_021B4BE0.nodes + cfg->count - 1)->next = 0;

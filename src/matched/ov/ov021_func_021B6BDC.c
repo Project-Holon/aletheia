@@ -33,7 +33,7 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   FIELD_G3D_MAP_StoreBeaconTrainerKey  0x0216BF74  thumb  ov010
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   d_021D9970     0x021D9970  data   ov021  a4
+ *   sMysteryGiftKindHandlers     0x021D9970  data   ov021  a4
  * Addresses are Black-image addresses.
  */
 
@@ -71,7 +71,7 @@ extern void *GAME_DATA_GetMiscSave(int *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void FIELD_G3D_MAP_StoreBeaconTrainerKey(void *a, int i, void *b);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
-extern Ent d_021D9970[];
+extern Ent sMysteryGiftKindHandlers[];
 
 int SCRCMD_POKEMON_FLD_HandleMysteryGift(u32 a, u32 b)
 {
@@ -92,7 +92,7 @@ int SCRCMD_POKEMON_FLD_HandleMysteryGift(u32 a, u32 b)
     h = MYSTERY_DATA_Create(GAME_DATA_GetSaveControl(sv), 0, (void *)heap);
     p = PDW_POSTMAN_FindMysteryCard(h, (int *)(&x), buf);
     k = PDW_POSTMAN_GetMysteryGiftType(h);
-    if (k != d_021D9970[k].id) {
+    if (k != sMysteryGiftKindHandlers[k].id) {
         MYSTERY_DATA_Delete(h);
         return 0;
     }

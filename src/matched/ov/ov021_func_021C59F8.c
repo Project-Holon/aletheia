@@ -14,6 +14,7 @@
  *
  * symbols:
  *   CLACT_GetActorSurfacePos  0x0204B454  arm  arm9
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -36,7 +37,7 @@ typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void SHORTCUT_MENU_SetActorsY(S *p, int v)
 {
@@ -49,6 +50,6 @@ void SHORTCUT_MENU_SetActorsY(S *p, int v)
     for (; i < 3; i++) {
         CLACT_GetActorSurfacePos((struct Actor *)p->h[i], (struct PtS *)&t, 0);
         t.y = y;
-        func_0204B404((struct Obj *)p->h[i], (const struct Vec2 *)(&t), 0);
+        CLACT_AddActorSurfacePos((struct Obj *)p->h[i], (const struct Vec2 *)(&t), 0);
     }
 }

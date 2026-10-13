@@ -1,5 +1,5 @@
 /*
- * function: BTL_ITEM_GetWeakenDamageRockHandlers
+ * function: HAND_ITEM_GetWeakenDamageRockHandlers
  * address: 0x021DDC18
  * packet: pkt_ov093_021DDC18
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int gBtlItemWeakenDamageRockHandlers[];
-int *BTL_ITEM_GetWeakenDamageRockHandlers(int *p);
+int *HAND_ITEM_GetWeakenDamageRockHandlers(int *p);
 
-int *BTL_ITEM_GetWeakenDamageRockHandlers(int *p)
+int *HAND_ITEM_GetWeakenDamageRockHandlers(int *p)
 {
     *p = 2;
     return gBtlItemWeakenDamageRockHandlers;

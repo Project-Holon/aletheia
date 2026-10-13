@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   FIELD_MSGBG_SetBlend  0x02193044  thumb  ov021
  *   FIELD_MSGBG_LoadMenuGraphicsUpper  0x02193170  thumb  ov021
  *   FIELD_MSGBG_KeyWaitReset  0x02193200  thumb  ov021
@@ -54,7 +54,7 @@ extern void TALKMSGWIN_SetupLowerBalloon(u8 *p, int i, u32 a, u32 b, u32 u, u32 
 extern void TALKMSGWIN_SetupAutoBalloon(u8 *p, int i, u32 a, u32 b, u8 u, u32 v, u32 x);
 extern void TALKMSGWIN_Open(u8 *p, int i);
 extern void FIELD_MSGBG_InitCursor(struct G *g, struct Fx *a);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 
 void FIELD_MSGBG_SetupTalkWin(A *a, B *b, u8 mode, V3 *v, u32 d, u32 e, u32 f)
 {
@@ -82,6 +82,6 @@ void FIELD_MSGBG_SetupTalkWin(A *a, B *b, u8 mode, V3 *v, u32 d, u32 e, u32 f)
     FIELD_MSGBG_InitCursor((struct G *)b->f0c, (struct Fx *)a->h);
     if (e == 1) {
         b->f02 = 8;
-        func_020061E4(0x72C);
+        GFL_USE_PlaySeDefaultVolume(0x72C);
     }
 }

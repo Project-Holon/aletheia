@@ -15,7 +15,7 @@
  * symbols:
  *   d_021F7008   0x021F7008  data
  *   _s32_div_f   0x0209C0A4  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   g_021F7008     0x021F7008  data
  *   func_021F6AA4  0x021F6AA4  arm    ov107
  *   func_02082D44  0x02082D44  arm
@@ -52,7 +52,7 @@ typedef struct {
 } ChildBlockHeader;
 
 extern void MI_CpuFill8(void *dst, int val, u32 len);
-extern void func_02082BCC(void *dst, int val, u32 len);
+extern void MI_CpuFill8(void *dst, int val, u32 len);
 extern int func_021F6AA4(int a);
 extern void func_02082D44(void *src, void *dst, unsigned long size);
 void MBi_SetChildMPMaxSize(u16 childMaxSize);
@@ -101,7 +101,7 @@ void func_021F6850(u16 child_aid)
     if (g_021F7008.buf == 0)
         return;
     i = child_aid - 1;
-    func_02082BCC(((u8 *)g_021F7008.buf) + i * 32, 0, 30);
+    MI_CpuFill8(((u8 *)g_021F7008.buf) + i * 32, 0, 30);
     *(int *)(((u8 *)g_021F7008.buf) + 0x1E0 + i * 4) = 0;
 }
 

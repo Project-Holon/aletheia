@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   BTL_POKEPARAM_RestoreIfNeeded  0x021D533C  thumb  ov093
@@ -34,7 +34,7 @@ typedef struct {
     u8 f1b_lo : 5;
     u8 f1b_b5 : 1;
 } Obj;
-extern void func_02082BCC(void *dst, u8 v, u32 n);
+extern void MI_CpuFill8(void *dst, u8 v, u32 n);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_RecalcParam(void *p);
 struct S;
@@ -54,7 +54,7 @@ extern void BTL_POKEPARAM_InitStatStages(unsigned char *p);
 
 void BTL_POKEPARAM_ResetEffectsOnSwitchOut(Obj *p)
 {
-    func_02082BCC((u8 *)p + 0x153, 0, 2);
+    MI_CpuFill8((u8 *)p + 0x153, 0, 2);
     BTL_POKEPARAM_RestoreIfNeeded((struct S *)p);
     BTL_POKEPARAM_ResetBattleMoves((struct Work *)p);
     BTL_POKEPARAM_ResetMoveHistory((struct UtilWork *)p);
@@ -65,7 +65,7 @@ void BTL_POKEPARAM_ResetEffectsOnSwitchOut(Obj *p)
         BTL_POKEPARAM_ClearSubstitute((unsigned char *)p);
         BTL_POKEPARAM_ClearSickConts((u8 *)p, 0);
         BTL_POKEPARAM_InitStatStages((unsigned char *)((char *)p + 0xfc));
-        func_02082BCC((u8 *)p + 0x155, 0, 2);
+        MI_CpuFill8((u8 *)p + 0x155, 0, 2);
     }
     ((u8 *)p)[0x141] = p->f1b_lo;
     ((struct Obj00041 *)p)->f13C = p->f16;

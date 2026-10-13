@@ -1,7 +1,7 @@
 /*
  * file:     pokeparty.c
  * unit:     yes
- * function: func_0201A920, POKEPARTY_Init, func_0201A954, func_0201A98C, func_0201A9C8, func_0201AA14, func_0201AA18, func_0201AA1C, func_0201AA50, func_0201AA88, func_0201AAD4, func_0201AB08, POKEPARTY_FindFirstNonEgg, func_0201AB28, POKEPARTY_IsMemberBattleReady, func_0201AB48, func_0201AB8C, func_0201AC2C, POKEPARTY_HasSpecies, POKEPARTY_GetAliveNonEggCount, POKEPARTY_GetSlotFlag, POKEPARTY_SetSlotFlag, func_0201AD0C, POKEPARTY_IsBattleReady, POKEPARTY_IsNotEgg, POKEPARTY_FindFirst, POKE_PERSONAL_OpenHandle, POKE_PERSONAL_LoadData, func_0201ADD0, func_0201ADE4, func_0201AE14, func_0201AE1C, func_0201AF6C, POKE_PERSONAL_LoadFormTable, POKE_PERSONAL_GetFormDataId, POKERUS_TryInfectParty, POKERUS_DecreaseDays, POKERUS_SpreadParty, POKERUS_GetInfectedMask, POKERUS_IsInfected, POKERUS_IsBoxInfected, POKERUS_IsCured, POKERUS_IsBoxCured, SHINKA_CHECK_CheckEvolution, SHINKA_CHECK_GetRowParam, SHINKA_CHECK_LoadData, SHINKA_CHECK_KnowsMove, NATSUKI_Calc, NATSUKI_CalcUseItem, NATSUKI_CalcWalk, NATSUKI_CalcParty, NATSUKI_Apply, POKE_TOOL_IsPPRestorable, POKE_TOOL_RestorePP, func_0201B9F0, POKE_TOOL_HealParty, func_0201BA68, POKE_TOOL_CalcGraphicIndex, func_0201BB5C, POKE_TOOL_GetIconPalette, func_0201BC3C, func_0201BC40, func_0201BC78, func_0201BCB4, func_0201BCEC, func_0201BD28, WAZA_TOOL_GetDataParam, WAZA_TOOL_GetFlag, WAZA_TOOL_GetDataFlag, WAZA_TOOL_GetSickCont, WAZA_TOOL_GetRankEffectCount, WAZA_TOOL_GetRankEffect, WAZA_TOOL_GetMaxPP, WAZA_TOOL_GetWeather, WAZA_TOOL_GetCategory, WAZA_TOOL_GetType, WAZA_TOOL_GetPower, WAZA_TOOL_GetDamageType, WAZA_TOOL_IsAlwaysHit, WAZA_TOOL_IsAlwaysCritical, WAZA_TOOL_IsDamaging, WAZA_TOOL_CreateCache, WAZA_TOOL_DeleteCache, PRINTSYS_Init, func_0201C440, func_0201C450, func_0201C4C0, PRINTSYS_QUE_SetForceQueue, PRINTSYS_QUE_SetLimitTick, PRINTSYS_QUE_Main, PRINTSYS_QUE_IsFinished, PRINTSYS_QUE_IsExistTarget, PRINTSYS_QUE_Clear, PRINTSYS_PrintQue, PRINTSYS_PrintQueColor, PRINTSYS_SubmitJob, PRINTSYS_Print, PRINTSYS_PrintColor, PRINTSYS_SetupJob, PRINTSYS_SetJobColor, PRINTSYS_RunJob, PRINTSYS_PrintStep, PRINTSYS_PutGlyph4bpp, PRINTSYS_PutGlyph8bpp, PRINTSYS_ProcGeneralTag, PRINTSYS_ProcColorTag, PRINTSYS_PrintStream, PRINTSYS_PrintStreamCallBack, PRINTSYS_SplitWait, PRINTSYS_PrintStreamStop, PRINTSYS_PrintStreamRun, func_0201CE30, func_0201CE34, func_0201CE38, func_0201CE48, func_0201CE5C, func_0201CE8C, func_0201CEB8
+ * function: POKEPARTY_Create, POKEPARTY_Init, POKEPARTY_InitEx, POKEPARTY_Add, POKEPARTY_RemoveMember, POKEPARTY_GetCapacity, POKEPARTY_GetCount, POKEPARTY_GetNonEggCount, POKEPARTY_GetBattleReadyCount, POKEPARTY_GetEggCount, POKEPARTY_GetBadEggCount, POKEPARTY_FindFirstBattleReady, POKEPARTY_FindFirstNonEgg, POKEPARTY_GetMember, POKEPARTY_IsMemberBattleReady, POKEPARTY_SetMember, POKEPARTY_SwapMembers, POKEPARTY_Copy, POKEPARTY_HasSpecies, POKEPARTY_GetAliveNonEggCount, POKEPARTY_GetSlotFlag, POKEPARTY_SetSlotFlag, POKEPARTY_GetSaveData, POKEPARTY_IsBattleReady, POKEPARTY_IsNotEgg, POKEPARTY_FindFirst, POKE_PERSONAL_OpenHandle, POKE_PERSONAL_LoadData, POKE_PERSONAL_LoadDataDirect, POKE_PERSONAL_Create, POKE_PERSONAL_Delete, POKE_PERSONAL_GetParam, POKE_PERSONAL_IsPlaceholderAbility, POKE_PERSONAL_LoadFormTable, POKE_PERSONAL_GetFormDataId, POKERUS_TryInfectParty, POKERUS_DecreaseDays, POKERUS_SpreadParty, POKERUS_GetInfectedMask, POKERUS_IsInfected, POKERUS_IsBoxInfected, POKERUS_IsCured, POKERUS_IsBoxCured, SHINKA_CHECK_CheckEvolution, SHINKA_CHECK_GetRowParam, SHINKA_CHECK_LoadData, SHINKA_CHECK_KnowsMove, NATSUKI_Calc, NATSUKI_CalcUseItem, NATSUKI_CalcWalk, NATSUKI_CalcParty, NATSUKI_Apply, POKE_TOOL_IsPPRestorable, POKE_TOOL_RestorePP, POKE_TOOL_HealFull, POKE_TOOL_HealParty, POKE_TOOL_GetGraphicIndex, POKE_TOOL_CalcGraphicIndex, POKE_TOOL_CalcIconPalette, POKE_TOOL_GetIconPalette, func_0201BC3C, func_0201BC40, func_0201BC78, func_0201BCB4, func_0201BCEC, WAZA_TOOL_GetParam, WAZA_TOOL_GetDataParam, WAZA_TOOL_GetFlag, WAZA_TOOL_GetDataFlag, WAZA_TOOL_GetSickCont, WAZA_TOOL_GetRankEffectCount, WAZA_TOOL_GetRankEffect, WAZA_TOOL_GetMaxPP, WAZA_TOOL_GetWeather, WAZA_TOOL_GetCategory, WAZA_TOOL_GetType, WAZA_TOOL_GetPower, WAZA_TOOL_GetDamageType, WAZA_TOOL_IsAlwaysHit, WAZA_TOOL_IsAlwaysCritical, WAZA_TOOL_IsDamaging, WAZA_TOOL_CreateCache, WAZA_TOOL_DeleteCache, PRINTSYS_Init, PRINTSYS_QUE_Create, PRINTSYS_QUE_CreateEx, PRINTSYS_QUE_Delete, PRINTSYS_QUE_SetForceQueue, PRINTSYS_QUE_SetLimitTick, PRINTSYS_QUE_Main, PRINTSYS_QUE_IsFinished, PRINTSYS_QUE_IsExistTarget, PRINTSYS_QUE_Clear, PRINTSYS_PrintQue, PRINTSYS_PrintQueColor, PRINTSYS_SubmitJob, PRINTSYS_Print, PRINTSYS_PrintColor, PRINTSYS_SetupJob, PRINTSYS_SetJobColor, PRINTSYS_RunJob, PRINTSYS_PrintStep, PRINTSYS_PutGlyph4bpp, PRINTSYS_PutGlyph8bpp, PRINTSYS_ProcGeneralTag, PRINTSYS_ProcColorTag, PRINTSYS_PrintStream, PRINTSYS_PrintStreamCallBack, PRINTSYS_SplitWait, PRINTSYS_PrintStreamStop, PRINTSYS_PrintStreamRun, PRINTSYS_PrintStreamGetState, PRINTSYS_PrintStreamGetWaitKind, PRINTSYS_PrintStreamReleasePause, PRINTSYS_PrintStreamDelete, PRINTSYS_PrintStreamShortWait, PRINTSYS_PrintStreamSetSpeed, PRINTSYS_PrintStreamResetSpeed
  * address:  0x0201A920
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -37,7 +37,7 @@
  *   _NatsukiDeltaTable     0x0209E45C  data
  *   _NatsukiWalkDeltas     0x0209E465  data  a1
  *   _NatsukiPartyDeltas     0x0209E462  data
- *   func_02013E4C   0x02013E4C  thumb
+ *   ZONEDATA_GetPlaceNameId   0x02013E4C  thumb
  *   GPOWER_ApplyFriendshipBonus   0x02011014  thumb
  *   _IconPaletteTable  0x0209E474  data
  *   _pWazaTool   0x02146530  data
@@ -54,8 +54,8 @@
  *   STRBUF_GetChars  0x02045A90  arm
  *   func_0201D26C  0x0201D26C  thumb
  *   BMP_GetWidth  0x020437DC  arm
- *   func_02045770  0x02045770  arm
- *   func_020311B8  0x020311B8  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   TCBL_AddTask  0x020311B8  arm
  *   TCBL_GetWork  0x02031290  arm
  *   func_0201CEE0  0x0201CEE0  thumb
  *   func_02019C90 0x02019C90 thumb
@@ -342,7 +342,7 @@ extern u32   func_0203F0A8(void);
 extern u32   func_02020FE4(u32 item, u32 param, u16 heap);
 extern u32   TIMEZONE_IsNight(u32 timezone);
 extern void  ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 dataId, void *dst);
-extern u32   func_02013E4C(u32 zoneId);
+extern u32   ZONEDATA_GetPlaceNameId(u32 zoneId);
 extern int   GPOWER_ApplyFriendshipBonus(int delta);
 extern u32   func_02017DBC(struct BoxPokemon *box);
 extern u32   func_02017DE4(struct BoxPokemon *box, u32 wasDecoded);
@@ -366,8 +366,8 @@ extern void  GF_FONT_ReadGlyph(struct GfFont *font, u16 code, void *dst, void *m
 extern void  BMP_BlitPaletteOffset(struct Bmp *src, u32 dst, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 width, u32 height, u16 colorKey, u16 shift);
 extern u32   func_0201D26C(u16 *str, void *font, u32 spacing, u16 **next);
 extern u16   BMP_GetWidth(const struct Bmp *bmp);
-extern struct Bmp *func_02045770(struct BmpWin *win);
-extern struct TcblNode *func_020311B8(struct Tcbl *tcbl, void *func, u32 workSize, u32 priority);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern struct TcblNode *TCBL_AddTask(struct Tcbl *tcbl, void *func, u32 workSize, u32 priority);
 extern void *TCBL_GetWork(struct TcblNode *task);
 extern void  func_0201CEE0(void *task, struct TextPrinter *printer);
 extern void  TCBL_DeleteTask(struct TcblNode *task);
@@ -439,7 +439,7 @@ int func_0201BC40(void);
 int func_0201BC78(void);
 int func_0201BCB4(void);
 int func_0201BCEC(void);
-u32 sub_0201BD28(u16 move, u32 param);
+u32 WAZA_TOOL_GetParam(u16 move, u32 param);
 u32 WAZA_TOOL_GetDataParam(const struct WazaData *data, u32 param);
 u32 WAZA_TOOL_GetFlag(u16 move, u32 flag);
 u32 WAZA_TOOL_GetDataFlag(const struct WazaData *data, u32 flag);
@@ -2530,7 +2530,7 @@ void NATSUKI_Apply(struct PokemonParam *pp, const s8 *deltas, int zoneId, u16 he
     int delta;
     u8 band;
 
-    placeId = func_02013E4C(zoneId);
+    placeId = ZONEDATA_GetPlaceNameId(zoneId);
     band = 0;
     species = (u16)func_02017E1C(pp, 0xAB, 0);
     if (species == 0 || species == 650) {
@@ -3199,7 +3199,7 @@ int func_0201BCEC(void)
  * waza_tool.c: the cached single-field read of a move record, and the 32 case
  * getter it ends in.
  *
- * sub_0201BD28 finds the move's record in the cache the constructor in
+ * WAZA_TOOL_GetParam finds the move's record in the cache the constructor in
  * src/matched/unit_0201C328.c builds, loading it through ARC_TOOL_ReadMember if the
  * slot it picks is empty or is holding a different move, and falls back to
  * the single record buffer at 0x02146534 when the cache has not been built.
@@ -3240,7 +3240,7 @@ int func_0201BCEC(void)
  *   python tools/match.py tu --src src/matched/unit_0201BD28.c \
  *       --addr 0x0201BD28 --thumb
  */
-u32 sub_0201BD28(u16 move, u32 param)
+u32 WAZA_TOOL_GetParam(u16 move, u32 param)
 {
     struct WazaData *data;
     s32 i;
@@ -3606,7 +3606,7 @@ u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp)
     if (ppUp > 3) {
         ppUp = 3;
     }
-    basePP = (u8)sub_0201BD28(move, 5);
+    basePP = (u8)WAZA_TOOL_GetParam(move, 5);
     return (u8)(basePP + (u8)((int)(ppUp * (basePP * 20)) / 100));
 }
 
@@ -3641,7 +3641,7 @@ u32 WAZA_TOOL_GetWeather(int item)
 
 u32 WAZA_TOOL_GetCategory(u16 move)
 {
-    return sub_0201BD28(move, 1);
+    return WAZA_TOOL_GetParam(move, 1);
 }
 
 
@@ -3655,7 +3655,7 @@ u32 WAZA_TOOL_GetCategory(u16 move)
 /*
  * A whole translation unit, matched as one byte range.
  *
- * Two truncating wrappers around sub_0201BD28 (0x0201BD28, still open, a
+ * Two truncating wrappers around WAZA_TOOL_GetParam (0x0201BD28, still open, a
  * getter dispatched by a small id constant), one narrowing the result to a
  * byte for id 0, the other to a halfword for id 3.
  *
@@ -3665,7 +3665,7 @@ u32 WAZA_TOOL_GetCategory(u16 move)
  */
 u8 WAZA_TOOL_GetType(u16 move)
 {
-    return (u8)sub_0201BD28(move, 0);
+    return (u8)WAZA_TOOL_GetParam(move, 0);
 }
 
 
@@ -3678,7 +3678,7 @@ u8 WAZA_TOOL_GetType(u16 move)
 
 u16 WAZA_TOOL_GetPower(u16 move)
 {
-    return (u16)sub_0201BD28(move, 3);
+    return (u16)WAZA_TOOL_GetParam(move, 3);
 }
 
 
@@ -3694,7 +3694,7 @@ u16 WAZA_TOOL_GetPower(u16 move)
  */
 int WAZA_TOOL_GetDamageType(u16 move)
 {
-    return sub_0201BD28(move, 2);
+    return WAZA_TOOL_GetParam(move, 2);
 }
 
 
@@ -3714,7 +3714,7 @@ int WAZA_TOOL_GetDamageType(u16 move)
  * it: the slot search, the "cache full, reuse the last slot" fixup, the
  * ARC_TOOL_ReadMember load and the not-yet-built fallback to 0x02146534 are written
  * out again in each.  The duplication is in the source, not an inlining
- * decision: sub_0201BD28 is a real function with eight callers, and the
+ * decision: WAZA_TOOL_GetParam is a real function with eight callers, and the
  * bodies here reach the record directly instead of going through its
  * 32 case getter.
  *
@@ -3806,7 +3806,7 @@ u32 WAZA_TOOL_IsAlwaysCritical(u16 move)
 
 
 /*
- * A boolean wrapper around sub_0201BD28 (see src/matched/unit_0201C1C8.c),
+ * A boolean wrapper around WAZA_TOOL_GetParam (see src/matched/unit_0201C1C8.c),
  * id 3 again, this time reduced to 0/1 rather than truncated to a halfword.
  *
  * Verified with:
@@ -3815,7 +3815,7 @@ u32 WAZA_TOOL_IsAlwaysCritical(u16 move)
  */
 u32 WAZA_TOOL_IsDamaging(u16 move)
 {
-    if (sub_0201BD28(move, 3) == 0) {
+    if (WAZA_TOOL_GetParam(move, 3) == 0) {
         return 0;
     }
     return 1;
@@ -4878,8 +4878,8 @@ struct TextPrinter *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, s16 x, s16 
     struct Bmp *bmp;
     u8 speed[2];
 
-    bmp = func_02045770(win);
-    task = func_020311B8(tcbl, (void *)func_0201CEE0, 0x50, priority);
+    bmp = BMP_WIN_GetBmp(win);
+    task = TCBL_AddTask(tcbl, (void *)func_0201CEE0, 0x50, priority);
     printer = TCBL_GetWork(task);
 
     printer->task = task;

@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
- *   func_02013E04  0x02013E04  thumb
+ *   ZONEDATA_IsNormalFieldZone  0x02013E04  thumb
  *   FISHING_CheckFacingWater  0x021C5C64  thumb  ov021
  */
 
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 struct Rec44;
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
-extern u32 func_02013E04(u32 id);
+extern u32 ZONEDATA_IsNormalFieldZone(u32 id);
 extern int FISHING_CheckFacingWater(u32 unused, u32 a, u32 *out);
 
 int EVENTDATA_SYSTEM_CheckFrontTileUsable(int a0, int a1, int a2)
@@ -37,7 +37,7 @@ a0 = a2 + 0;
 t4 = a1 + 0;
     a0 = GAME_DATA_GetPlayerZoneId((const struct Rec44 *)a0);
 loc_021645A8:
-    a0 = func_02013E04(a0);
+    a0 = ZONEDATA_IsNormalFieldZone(a0);
 loc_021645AC:
     if (a0 != 0) goto loc_021645B4;
 loc_021645B0:

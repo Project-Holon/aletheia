@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   func_0201F02C  0x0201F02C  thumb
@@ -17,7 +17,7 @@
  *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb
  *   EVENT_COMM_COMMON_IsKeyTrg  0x0217F420  thumb
  *   EVENT_COMM_COMMON_ExitCommonWork  0x0217FE38  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   INTRUDE_SUBDISP_CreatePalaceWarpEvent  0x0217CA1C  thumb
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   d_02183932     0x02183932  data  a2
@@ -53,7 +53,7 @@ extern unsigned short d_02183932[];
 typedef unsigned int   u32;
 struct Obj;
 struct WordSet;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 struct Ctx;
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 struct S0201235C;
@@ -63,7 +63,7 @@ void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, int a);
 int EVENT_COMM_COMMON_IsPrintFinished(Ov018Obj *p);
 int EVENT_COMM_COMMON_IsKeyTrg(void);
 void EVENT_COMM_COMMON_ExitCommonWork(int v, Ov018Outer *c);
-void func_020061E4(u32 a);
+void GFL_USE_PlaySeDefaultVolume(u32 a);
 void *INTRUDE_SUBDISP_CreatePalaceWarpEvent(void *p);
 void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
 
@@ -73,7 +73,7 @@ int EVENT_COMM_COMMON_TalkedSearchAsTargetEventMain(void *a, int *state, Ov018Ou
     void *sys;
     int v;
 
-    sub = func_020124E4(a);
+    sub = GAME_EVENT_GetGameSystem(a);
     sys = (void *)GAMESYSTEM_GetGameComm(sub);
     v = INTRUDE_COMM_GetWorkIfRunning((int)sys);
     switch (*state) {
@@ -95,7 +95,7 @@ int EVENT_COMM_COMMON_TalkedSearchAsTargetEventMain(void *a, int *state, Ov018Ou
     case 3:
         EVENT_COMM_COMMON_ExitCommonWork(v, c);
         if (INTRUDE_COMM_GetWorkIfRunning((int)sys) != 0) {
-            func_020061E4(0x737);
+            GFL_USE_PlaySeDefaultVolume(0x737);
             GAME_EVENT_ChangeEvent(a, INTRUDE_SUBDISP_CreatePalaceWarpEvent(sub));
             return 0;
         }

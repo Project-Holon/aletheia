@@ -1,5 +1,5 @@
 /*
- * function: func_0217726C
+ * function: GFL_NET_DEVWIRELESS_StartAutoSearch
  * address: 0x0217726C
  * packet: pkt_ov014_0217726C
  * region: ov014
@@ -16,9 +16,9 @@
  */
 
 extern int NET_WHPIPE_StartAutoSearch(void);
-int func_0217726C(void);
+int GFL_NET_DEVWIRELESS_StartAutoSearch(void);
 
-int func_0217726C(void)
+int GFL_NET_DEVWIRELESS_StartAutoSearch(void)
 {
     return NET_WHPIPE_StartAutoSearch();
 }

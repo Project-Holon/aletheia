@@ -1,5 +1,5 @@
 /*
- * function: func_021E217C
+ * function: HAND_WAZA_AquaRingGetHandlers
  * address: 0x021E217C
  * packet: pkt_ov093_021E217C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E203C.c and filed here.
  *
  * symbols:
- *   d_021F2514 0x021F2514 data ov093 a4
+ *   gAquaRingHandlers 0x021F2514 data ov093 a4
  */
 
-int *func_021E217C(int *p);
-extern int d_021F2514[];
+int *HAND_WAZA_AquaRingGetHandlers(int *p);
+extern int gAquaRingHandlers[];
 
-int *func_021E217C(int *p)
+int *HAND_WAZA_AquaRingGetHandlers(int *p)
 {
     *p = 1;
-    return d_021F2514;
+    return gAquaRingHandlers;
 }

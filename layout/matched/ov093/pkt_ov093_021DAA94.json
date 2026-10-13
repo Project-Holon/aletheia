@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_ABILITY_DrySkinAbsorbWater",
-    "BTL_ABILITY_GetDrySkinHandlers"
+    "HAND_TOKUSEI_DrySkinAbsorbWater",
+    "HAND_TOKUSEI_GetDrySkinHandlers"
    ],
    "addresses": [
     "0x021DAA94",

@@ -1,5 +1,5 @@
 /*
- * function: func_021E1410
+ * function: HAND_WAZA_WhirlpoolOnInvulnerableCheck
  * address:  0x021E1410
  * packet:   pkt_ov093_021E1410
  * region:   ov093
@@ -18,7 +18,7 @@ extern int BTL_EVENT_GetVar(int key);
 typedef unsigned int   u32;
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E1410(int a, int b, int c)
+void HAND_WAZA_WhirlpoolOnInvulnerableCheck(int a, int b, int c)
 {
     if (c == BTL_EVENT_GetVar(3) && BTL_EVENT_GetVar(33) == 4)
         BTL_EVENT_OverwriteVar(66, 0);

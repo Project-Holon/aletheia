@@ -20,13 +20,13 @@ typedef union {
 } Action;
 
 typedef struct {
-    u8 *a;      /* 0x0 */
-    Action b;   /* 0x4 */
-    u32 c;      /* 0x8 */
-    u8 d;       /* 0xc */
-    u8 done;    /* 0xd */
-    u8 f;       /* 0xe */
-    u8 pad;     /* 0xf */
+    u8 *pokeParam;  /* 0x0: BTL_POKEPARAM of the acting poke */
+    Action action;  /* 0x4 */
+    u32 orderKey;   /* 0x8: bits 0-12 speed, 13-15 speed order, 16-21 move priority, 22-24 action class */
+    u8 clientId;    /* 0xc */
+    u8 done;        /* 0xd */
+    u8 flag;        /* 0xe: pursuit mark while ProcPursuitBeforeSwitch runs */
+    u8 pad;         /* 0xf */
 } Entry;
 
 /* A flag word passed by value to the entry checks. */
@@ -40,81 +40,6 @@ union Slot {
     u32 raw;
     struct { u32 kind:3; u32 rest:29; } k;
 };
-
-/* The battle server object: one per battle, passed as p to most functions of the unit. */
-typedef struct {
-    u8 *f0;  /* 0x0 */
-    void *f4;  /* 0x4 */
-    void *f8;  /* 0x8 */
-    void *fC;  /* 0xc */
-    u32 f10;  /* 0x10 */
-    u32 f14;  /* 0x14 */
-    int f18;  /* 0x18 */
-    u8 w1c[0x3c4];  /* 0x1c */
-    u8 g3e0[0xc4];  /* 0x3e0 */
-    void *f4a4;  /* 0x4a4 */
-    u8 *f4a8;  /* 0x4a8 */
-    u8 *f4ac;  /* 0x4ac */
-    u8 *f4b0;  /* 0x4b0 */
-    u8 *f4b4;  /* 0x4b4 */
-    u8 w4b8[0x8];  /* 0x4b8 */
-    u8 w4c0[0xe];  /* 0x4c0 */
-    u8 g4ce[0x6];  /* 0x4ce */
-    u8 w4d4[0x2a0];  /* 0x4d4 */
-    u32 f774;  /* 0x774 */
-    u32 f778;  /* 0x778 */
-    u8 init;  /* 0x77c */
-    u8 f77d;  /* 0x77d */
-    u8 f77e;  /* 0x77e */
-    u8 f77f;  /* 0x77f */
-    u16 f780;  /* 0x780 */
-    u8 n;  /* 0x782 */
-    u8 k;  /* 0x783 */
-    u8 f784;  /* 0x784 */
-    u8 f785;  /* 0x785 */
-    u8 f786;  /* 0x786 */
-    u8 f787;  /* 0x787 */
-    u8 f788;  /* 0x788 */
-    u8 f789;  /* 0x789 */
-    union {
-        u8 raw;
-        struct { u8 b0:1, b1:1, b2:1, rest:5; } bits;
-    } f78a;  /* 0x78a */
-    u8 f78b[0x6];  /* 0x78b */
-    u8 set[0x18];  /* 0x791 */
-    u8 w7a9[0x18];  /* 0x7a9 */
-    u8 flags[0x18];  /* 0x7c1 */
-    u8 w7d9[0x7];  /* 0x7d9 */
-    Entry e[6];                     /* 0x7e0 */
-    Entry t;  /* 0x840 */
-    void *f850;  /* 0x850 */
-    void *f854;  /* 0x854 */
-    void *f858;  /* 0x858 */
-    void *f85c;  /* 0x85c */
-    void *f860;  /* 0x860 */
-    void *f864;  /* 0x864 */
-    void *f868;  /* 0x868 */
-    void *f86c;  /* 0x86c */
-    void *f870;  /* 0x870 */
-    u8 w874[0x11f0];  /* 0x874 */
-    u32 f1a64;  /* 0x1a64 */
-    u8 pad1a68[0x48];
-    void *f1ab0;  /* 0x1ab0 */
-    void *f1ab4;  /* 0x1ab4 */
-    u8 w1ab8[0x2c];  /* 0x1ab8 */
-    u8 w1ae4[0x24];  /* 0x1ae4 */
-    u8 w1b08[0x48];  /* 0x1b08 */
-    u8 w1b50[0x224];  /* 0x1b50 */
-    u32 lock;  /* 0x1d74 */
-    u8 pad1d78[0x1fc];
-    u16 f1f74;  /* 0x1f74 */
-    u8 pad1f76[0x2];
-    int f1f78;  /* 0x1f78 */
-    u8 w1f7c[0xc];  /* 0x1f7c */
-    u8 w1f88[0x60];  /* 0x1f88 */
-    u8 f1fe8[0x8];  /* 0x1fe8 */
-
-} Server;
 
 
 /* Types shared by several parts. */

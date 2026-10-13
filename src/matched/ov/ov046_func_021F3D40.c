@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
@@ -47,7 +47,7 @@ struct Big;
 struct Ctx;
 struct Desc;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetExpObj(int *);
 struct Evt;
@@ -67,7 +67,7 @@ extern void GIMMICK46_ApplyPoseLines(u32, int, int);
 
 int GIMMICK46_RotateEventProc(u32 a, int *b)
 {
-    void *h = func_020124E4((void *)a);
+    void *h = GAME_EVENT_GetGameSystem((void *)a);
     void *x = GAMESYSTEM_GetFieldMap(h);
     Q *q;
     int t;

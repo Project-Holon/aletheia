@@ -11,7 +11,7 @@
  * symbols:
  *   func_021FCD0C 0x021FCD0C thumb ov186
  *   func_021FCDA8 0x021FCDA8 thumb ov186
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021FB4B4 0x021FB4B4 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
  *   func_021E03B0 0x021E03B0 thumb ov183
@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 struct Sub0200852CObj;
 extern void func_021FCD0C(char *p);
 extern int func_021FCDA8(char *p);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(int, int, int *);
 extern void func_021E03B0(char *, char *, int);
@@ -39,14 +39,14 @@ int func_021E024C(char *p, char *q)
     unsigned int x, y;
     func_021FCD0C(((struct Obj00277 *)p)->f18);
     selected = func_021FCDA8(((struct Obj00277 *)p)->f18);
-    pressed = func_02035D20(&x, &y);
+    pressed = TOUCHPANEL_GetPointTrg(&x, &y);
     pressed &= func_021FB4B4((unsigned int *)(((struct Obj00277 *)p)->fC), x, y);
     if (selected != -1) {
         unsigned int x1, y1;
         int args[2];
         void *v;
         int a;
-        func_02035D20(&x1, &y1);
+        TOUCHPANEL_GetPointTrg(&x1, &y1);
         args[0] = x1;
         args[1] = y1;
         func_021FD860(((struct Obj00277 *)p)->f40, 1, args);
@@ -60,7 +60,7 @@ int func_021E024C(char *p, char *q)
     } else if (pressed != 0) {
         unsigned int x2, y2;
         int args[2];
-        func_02035D20(&x2, &y2);
+        TOUCHPANEL_GetPointTrg(&x2, &y2);
         args[0] = x2;
         args[1] = y2;
         func_021FD860(((struct Obj00277 *)p)->f40, 1, args);

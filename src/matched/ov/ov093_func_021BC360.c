@@ -11,15 +11,15 @@
  * extent: two zero alignment bytes at 0x021BC38E, then BTL_SERVER_FLOW_RunBagModeSetup.
  * Lever: bind the first call result before initializing the boolean result.
  * symbols:
- *   func_021B8FF4 0x021B8FF4 thumb ov093
- *   func_021B990C 0x021B990C thumb ov093
+ *   BTL_MAIN_GetOwnClientId 0x021B8FF4 thumb ov093
+ *   BTL_SIDE_GetClientPokeParam 0x021B990C thumb ov093
  *   BTL_SERVER_FLOW_ProcEscape 0x021BD584 thumb ov093
  */
 #include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 func_021B8FF4(u8 *);
-extern void *func_021B990C(char *, u32, u32);
+extern u8 BTL_MAIN_GetOwnClientId(u8 *);
+extern void *BTL_SIDE_GetClientPokeParam(char *, u32, u32);
 extern int BTL_SERVER_FLOW_ProcEscape(u8 *, u8 *);
 int BTL_SERVER_FLOW_RunEscapeFromLead(u8 *p)
 {
@@ -27,9 +27,9 @@ int BTL_SERVER_FLOW_RunEscapeFromLead(u8 *p)
     u32 side;
     int result;
     u32 *out;
-    side = func_021B8FF4(*(u8 * *)&((struct Obj00003 *)p)->f4);
+    side = BTL_MAIN_GetOwnClientId(*(u8 * *)&((struct Obj00003 *)p)->f4);
     result = 0;
-    a = func_021B990C(*(char * *)&((struct Obj00003 *)p)->f8, side, 0);
+    a = BTL_SIDE_GetClientPokeParam(*(char * *)&((struct Obj00003 *)p)->f8, side, 0);
     out = *(u32 * *)&((struct Obj00003 *)p)->fC;
     out[0] = 0;
     out[1] = 0;

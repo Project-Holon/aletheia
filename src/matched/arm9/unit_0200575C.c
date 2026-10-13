@@ -16,13 +16,13 @@
  * symbols:
  *   _ArcPathTable  0x020A6C58  data
  *   func_02034F5C       0x02034F5C  arm
- *   func_0203630C       0x0203630C  arm
+ *   KEY_GetCont       0x0203630C  arm
  *
  * A pointer table lookup and a spin loop.  GFL_USE_GetArcPath was already matched
  * as a single function in arm9/legacy.json; it is the first function of this
  * range and is absorbed here.
  *
- * GFL_USE_WaitInputReady waits until four bits of func_0203630C's result are all set,
+ * GFL_USE_WaitInputReady waits until four bits of KEY_GetCont's result are all set,
  * pumping func_02034F5C once per turn.  The four masks are 0x200, 0x100,
  * 0x400 and 0x800 and none of them is materialised with a literal pool word:
  * the compiler builds 0x100 with `movs`/`lsls` and then derives the other
@@ -38,7 +38,7 @@ typedef unsigned int u32;
 extern void *_ArcPathTable[];
 
 extern void func_02034F5C(void);
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 
 void *GFL_USE_GetArcPath(u32 index)
 {
@@ -51,6 +51,6 @@ void GFL_USE_WaitInputReady(void)
 
     do {
         func_02034F5C();
-        x = func_0203630C();
+        x = KEY_GetCont();
     } while (!(x & 0x200) || !(x & 0x100) || !(x & 0x400) || !(x & 0x800));
 }

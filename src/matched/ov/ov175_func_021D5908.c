@@ -45,7 +45,7 @@
  *   func_021DCA28 0x021DCA28 thumb ov175
  *   func_021DCAEC 0x021DCAEC thumb ov175
  *   func_021DA45C 0x021DA45C thumb ov175
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021D65C8 0x021D65C8 thumb ov175
  *   func_021E8AB4 0x021E8AB4 thumb ov177
  *   func_021D63F8 0x021D63F8 thumb ov175
@@ -95,7 +95,7 @@ extern void func_021DA36C(int);
 extern void func_021DCA28(char *, u32, u16);
 extern int func_021DCAEC(char *, int *);
 extern u32 func_021DA45C(char *);
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern void func_021D65C8(char *);
 extern void func_021E8AB4(unsigned, unsigned);
 extern void func_021D63F8(unsigned int *, unsigned int);
@@ -238,7 +238,7 @@ void func_021D5908(unsigned sys, int *state, char *p)
         break;
     case 17:
         func_021E7E0C((void **)P(0x20), 0);
-        func_020061E4(0x63a); func_021D65C8(p);
+        GFL_USE_PlaySeDefaultVolume(0x63a); func_021D65C8(p);
         func_021E8738((int *)P(0x24), P(0x10), 34, 1);
         *state = 25; func_021E8AB4(sys, 18); break;
     case 18:

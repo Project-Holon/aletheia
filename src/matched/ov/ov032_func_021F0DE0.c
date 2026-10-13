@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 typedef struct { short x,y; } Pair;
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021F0DE0(void *p, short x, short y) { Pair d; d.x=x; d.y=y; func_0204B404(p,(const struct Vec2 *)(&d),0); }
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+void func_021F0DE0(void *p, short x, short y) { Pair d; d.x=x; d.y=y; CLACT_AddActorSurfacePos(p,(const struct Vec2 *)(&d),0); }

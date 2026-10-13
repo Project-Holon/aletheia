@@ -1,5 +1,5 @@
 /*
- * function: BTL_ITEM_GetRaiseCriticalRateHandlers
+ * function: HAND_ITEM_GetRaiseCriticalRateHandlers
  * address: 0x021DD8FC
  * packet: pkt_ov093_021DD8FC
  * region: ov093
@@ -15,10 +15,10 @@
  *   gBtlItemRaiseCriticalRateHandlers 0x021F1D94 data ov093 a4
  */
 
-int *BTL_ITEM_GetRaiseCriticalRateHandlers(int *p);
+int *HAND_ITEM_GetRaiseCriticalRateHandlers(int *p);
 extern int gBtlItemRaiseCriticalRateHandlers[];
 
-int *BTL_ITEM_GetRaiseCriticalRateHandlers(int *p)
+int *HAND_ITEM_GetRaiseCriticalRateHandlers(int *p)
 {
     *p = 5;
     return gBtlItemRaiseCriticalRateHandlers;

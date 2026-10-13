@@ -11,7 +11,7 @@
  *
  * symbols:
  *   ITEMMENU_IsMessageFinished  0x021BADF0  thumb  ov070
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   ITEMMENU_SetCursorActive  0x021B80C4  thumb  ov070
  *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 typedef struct Obj Obj;
 
 extern int ITEMMENU_IsMessageFinished(int p);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void ITEMMENU_SetCursorActive(struct Obj *o, int flag);
 extern void ITEMMENU_SetTask(char *p, int k);
@@ -33,7 +33,7 @@ void ITEMMENU_TaskWaitMessageDismiss(Obj *o)
 {
     if (ITEMMENU_IsMessageFinished((int)o) == 0)
         return;
-    if (func_020362DC() & 3) {
+    if (KEY_GetTrg() & 3) {
         ITEMMENU_SetCursorActive(o, 1);
         ITEMMENU_SetTask((char *)o, (int)((void *)ITEMMENU_TaskReturnToListFromQuantity));
         return;

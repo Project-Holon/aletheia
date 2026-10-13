@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02026454  0x02026454  thumb
- *   func_02026474  0x02026474  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
+ *   GAME_COMM_GetWork  0x02026474  thumb
  *   func_02034714  0x02034714  arm
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetFieldMapState  0x0201212C  thumb
@@ -28,8 +28,8 @@
 
 typedef unsigned char u8;
 
-extern unsigned int func_02026454(void *obj);
-extern unsigned int func_02026474(void *obj);
+extern unsigned int GAME_COMM_GetKind(void *obj);
+extern unsigned int GAME_COMM_GetWork(void *obj);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 struct Ctx;
@@ -47,10 +47,10 @@ void UNION_MAIN_UpdateField(void *a, int b)
     u8 *r4;
     u8 s;
 
-    if (func_02026454(a) != 3) {
+    if (GAME_COMM_GetKind(a) != 3) {
         return;
     }
-    r4 = (u8 *)func_02026474(a);
+    r4 = (u8 *)GAME_COMM_GetWork(a);
     if (r4 == 0) {
         func_02034714((void *)0x02175610, 0, (void *)0x02175610);
     }

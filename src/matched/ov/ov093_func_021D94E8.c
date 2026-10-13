@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_PoisonGuard_CureOnPeriodicCheck
+ * function: HAND_TOKUSEI_PoisonGuard_CureOnPeriodicCheck
  * address: 0x021D94E8
  * packet: pkt_ov093_021D94E8
  * region: ov093
@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D93D8.c and filed here.
  *
  * symbols:
- *   BTL_TOKUSEI_CureSick 0x021D96FC thumb
+ *   HAND_TOKUSEI_CureSick 0x021D96FC thumb
  */
 
-void BTL_TOKUSEI_PoisonGuard_CureOnPeriodicCheck(int a, int b, int c);
-void BTL_TOKUSEI_CureSick(void *a, int b, int c);
+void HAND_TOKUSEI_PoisonGuard_CureOnPeriodicCheck(int a, int b, int c);
+void HAND_TOKUSEI_CureSick(void *a, int b, int c);
 
-void BTL_TOKUSEI_PoisonGuard_CureOnPeriodicCheck(int a, int b, int c)
+void HAND_TOKUSEI_PoisonGuard_CureOnPeriodicCheck(int a, int b, int c)
 {
-    BTL_TOKUSEI_CureSick((void *)b, c, 5);
+    HAND_TOKUSEI_CureSick((void *)b, c, 5);
 }

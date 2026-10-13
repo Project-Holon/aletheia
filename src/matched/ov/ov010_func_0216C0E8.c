@@ -22,7 +22,7 @@
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   ICA_ANIME_CreateFull  0x020114D0  thumb
  *   GFL_USE_GetSeSlot  0x02006148  thumb
- *   func_0200616C  0x0200616C  thumb
+ *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
  *   ICA_ANIME_GetTranslate  0x02011610  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb
@@ -78,7 +78,7 @@ struct S0201235C;
 extern u16 FIELDMAP_GetHeapId(u8 *p);
 extern void *ICA_ANIME_CreateFull(u32 heap, u32 a1, u32 a2);
 extern int GFL_USE_GetSeSlot(u32 a0);
-extern void func_0200616C(void *arg, int i);
+extern void GFL_USE_PlaySeInSlot(void *arg, int i);
 struct Rec12;
 extern u32 ICA_ANIME_GetTranslate(struct IcaAnime *anim, struct Rec12 *out);
 extern int FIELDMAP_GetExpObj(int *p);
@@ -120,7 +120,7 @@ int NAMEIN_SETUP_RunFallEvent(void *evt, u32 *state, Work *w)
         break;
     case 2:
         w->anim = ICA_ANIME_CreateFull(FIELDMAP_GetHeapId(field), 0x9D, 0x18);
-        func_0200616C((void *)1953, GFL_USE_GetSeSlot(1953));
+        GFL_USE_PlaySeInSlot((void *)1953, GFL_USE_GetSeSlot(1953));
         (*state)++;
         break;
     case 3:

@@ -11,7 +11,7 @@
  * volatile: BLDCNT hardware zero stores at 021BCDB6, 021BCDBA
  * symbols:
  *   ov067_id 0x00000043 data a1
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_0207D534 0x0207D534 arm
  *   func_02034A5C 0x02034A5C arm
@@ -32,7 +32,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const char ov067_id[];
-extern void func_02043534(u32);
+extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern u32 PALANM_GetFadeRequestBits(const char *);
@@ -65,7 +65,7 @@ int func_021BCD48(char *p)
     func_0207D534((volatile u16 *)0x0400106C, -16);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     func_02034A5C((int)ov067_id);
     return 9;

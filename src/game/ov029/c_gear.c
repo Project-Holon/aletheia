@@ -1,7 +1,7 @@
 /*
  * file:     c_gear.c
  * unit:     yes
- * function: func_021EFEC0, C_GEAR_SetStepFunc, C_GEAR_ChangeStep, C_GEAR_GetHexNeighbors, C_GEAR_SpawnRippleActor, C_GEAR_AcquireActorSlot, C_GEAR_IsTileActorIdle, C_GEAR_StepRipple, func_021F0194, C_GEAR_HitTestTile, C_GEAR_InitTabTimersPowerOn, C_GEAR_InitTabTimersPowerOff, C_GEAR_ResetTabPalettes, C_GEAR_UpdateTabInput, C_GEAR_IsCallTabActive, C_GEAR_TickTabTimers, C_GEAR_SetTabMode, C_GEAR_UpdateTabPalettes, C_GEAR_UpdateTabPaletteKind3, C_GEAR_UpdateTabPaletteKind1, C_GEAR_UpdateTabPaletteKind2, C_GEAR_UpdateTabPaletteKind0, C_GEAR_UpdateTabPaletteKind4, C_GEAR_BlendTabPalette, C_GEAR_LoadTargetPalette, C_GEAR_SelectTabPalette, C_GEAR_InitTiles, C_GEAR_StepTiles, C_GEAR_IsAnyTileFlashing, C_GEAR_StopTileFlashes, C_GEAR_InitTile, C_GEAR_ResetTileFlash, C_GEAR_StartTileFlash, C_GEAR_StopTileFlash, C_GEAR_StepTileFlash, C_GEAR_SetTileFlashStep, C_GEAR_IsTileFlashing, C_GEAR_GetTilePalette, C_GEAR_InitTabTimer, C_GEAR_TickTabTimer, C_GEAR_IsTabTimerFull, C_GEAR_ResetTabTimerCount, func_021F0D00, func_021F0D08, func_021F0D10, C_GEAR_TileToScreen, C_GEAR_IsIdleForInput, C_GEAR_CountCellsOfKind, C_GEAR_TintPalettes, C_GEAR_StartFlashFade, C_GEAR_FadeBackground, C_GEAR_FadeAccentColors, C_GEAR_StartFadeOut, C_GEAR_StartFadeIn, C_GEAR_StopFade, C_GEAR_GetFadeRequestBits, C_GEAR_DrawEmptyBoard, C_GEAR_StepIntroTiles, C_GEAR_StepOutroTiles, C_GEAR_ResetAllTiles, C_GEAR_DrawTile, C_GEAR_FindCellOfKind, C_GEAR_DrawAllCells, C_GEAR_LoadSkin, C_GEAR_LoadSpriteResources, C_GEAR_LoadFrameGraphics, C_GEAR_SetupBackgrounds, C_GEAR_SetupSubScreenBlend, C_GEAR_HandleButton, C_GEAR_OnButtonEvent, C_GEAR_SetPaintModeIcon, C_GEAR_CreateHudActors, C_GEAR_SetTileMarkersVisible, C_GEAR_SetAllActorsVisible, C_GEAR_SetSplashActorsVisible, C_GEAR_CreateSplashActors, C_GEAR_DeleteSplashActors, C_GEAR_IsSplashDone, C_GEAR_CreateBarActors, C_GEAR_UpdateBeaconColors, C_GEAR_DeleteBarActors, C_GEAR_LoadGraphics, C_GEAR_DeleteActors, C_GEAR_FreeGraphics, C_GEAR_GetBatteryFrame, C_GEAR_UpdateClock, C_GEAR_UpdateTileMarkers, C_GEAR_RunFrame, C_GEAR_StepIdle, C_GEAR_StepIntroEnd, C_GEAR_StepOpen, C_GEAR_StepClose, C_GEAR_LoadCustomBackground, C_GEAR_OnCommDisconnect, C_GEAR_OnCommEvent, C_GEAR_TransferPalettesTask, C_GEAR_Init, C_GEAR_Cleanup, C_GEAR_Create, C_GEAR_Open, C_GEAR_Update, C_GEAR_Nop, C_GEAR_Destroy, C_GEAR_Restart, C_GEAR_HandleCommand, C_GEAR_IsLastCommandKind5, C_GEAR_StopRingtone, C_GEAR_SetCellKind, C_GEAR_GetCellKind, C_GEAR_IsCellMarked, C_GEAR_IsCellKind, CTRDG_IsAgbCartridge, C_GEAR_StepIconAnim, C_GEAR_StepFadeIcon, C_GEAR_NoOp, C_GEAR_ShowOffIndicator, C_GEAR_ShowCommIndicator, C_GEAR_HideCommIndicator, C_GEAR_HideOffIndicator, C_GEAR_TickIndicators, C_GEAR_ApplyIndicators, C_GEAR_IsAnyIndicatorShown, C_GEAR_TickTabFrame, C_GEAR_CreateFadeFx, C_GEAR_DeleteFadeFx, C_GEAR_StartFadeFx, C_GEAR_StepFadeFx, C_GEAR_StartPanelEvent, C_GEAR_PanelEventMain, func_021F3098, C_GEAR_DeleteActorSlots, C_GEAR_AreActorSlotsIdle, C_GEAR_StepWaitSlots, C_GEAR_SetPowerState, C_GEAR_LoadSkinMember
+ * function: C_GEAR_IsColumnRowValid, C_GEAR_SetStepFunc, C_GEAR_ChangeStep, C_GEAR_GetHexNeighbors, C_GEAR_SpawnRippleActor, C_GEAR_AcquireActorSlot, C_GEAR_IsTileActorIdle, C_GEAR_StepRipple, func_021F0194, C_GEAR_HitTestTile, C_GEAR_InitTabTimersPowerOn, C_GEAR_InitTabTimersPowerOff, C_GEAR_ResetTabPalettes, C_GEAR_UpdateTabInput, C_GEAR_IsCallTabActive, C_GEAR_TickTabTimers, C_GEAR_SetTabMode, C_GEAR_UpdateTabPalettes, C_GEAR_UpdateTabPaletteKind3, C_GEAR_UpdateTabPaletteKind1, C_GEAR_UpdateTabPaletteKind2, C_GEAR_UpdateTabPaletteKind0, C_GEAR_UpdateTabPaletteKind4, C_GEAR_BlendTabPalette, C_GEAR_LoadTargetPalette, C_GEAR_SelectTabPalette, C_GEAR_InitTiles, C_GEAR_StepTiles, C_GEAR_IsAnyTileFlashing, C_GEAR_StopTileFlashes, C_GEAR_InitTile, C_GEAR_ResetTileFlash, C_GEAR_StartTileFlash, C_GEAR_StopTileFlash, C_GEAR_StepTileFlash, C_GEAR_SetTileFlashStep, C_GEAR_IsTileFlashing, C_GEAR_GetTilePalette, C_GEAR_InitTabTimer, C_GEAR_TickTabTimer, C_GEAR_IsTabTimerFull, C_GEAR_ResetTabTimerCount, func_021F0D00, func_021F0D08, func_021F0D10, C_GEAR_TileToScreen, C_GEAR_IsIdleForInput, C_GEAR_CountCellsOfKind, C_GEAR_TintPalettes, C_GEAR_StartFlashFade, C_GEAR_FadeBackground, C_GEAR_FadeAccentColors, C_GEAR_StartFadeOut, C_GEAR_StartFadeIn, C_GEAR_StopFade, C_GEAR_GetFadeRequestBits, C_GEAR_DrawEmptyBoard, C_GEAR_StepIntroTiles, C_GEAR_StepOutroTiles, C_GEAR_ResetAllTiles, C_GEAR_DrawTile, C_GEAR_FindCellOfKind, C_GEAR_DrawAllCells, C_GEAR_LoadSkin, C_GEAR_LoadSpriteResources, C_GEAR_LoadFrameGraphics, C_GEAR_SetupBackgrounds, C_GEAR_SetupSubScreenBlend, C_GEAR_HandleButton, C_GEAR_OnButtonEvent, C_GEAR_SetPaintModeIcon, C_GEAR_CreateHudActors, C_GEAR_SetTileMarkersVisible, C_GEAR_SetAllActorsVisible, C_GEAR_SetSplashActorsVisible, C_GEAR_CreateSplashActors, C_GEAR_DeleteSplashActors, C_GEAR_IsSplashDone, C_GEAR_CreateBarActors, C_GEAR_UpdateBeaconColors, C_GEAR_DeleteBarActors, C_GEAR_LoadGraphics, C_GEAR_DeleteActors, C_GEAR_FreeGraphics, C_GEAR_GetBatteryFrame, C_GEAR_UpdateClock, C_GEAR_UpdateTileMarkers, C_GEAR_RunFrame, C_GEAR_StepIdle, C_GEAR_StepIntroEnd, C_GEAR_StepOpen, C_GEAR_StepClose, C_GEAR_LoadCustomBackground, C_GEAR_OnCommDisconnect, C_GEAR_OnCommEvent, C_GEAR_TransferPalettesTask, C_GEAR_Init, C_GEAR_Cleanup, C_GEAR_Create, C_GEAR_Open, C_GEAR_Update, C_GEAR_Nop, C_GEAR_Destroy, C_GEAR_Restart, C_GEAR_HandleCommand, C_GEAR_IsLastCommandKind5, C_GEAR_StopRingtone, C_GEAR_SetCellKind, C_GEAR_GetCellKind, C_GEAR_IsCellMarked, C_GEAR_IsCellKind, CTRDG_IsAgbCartridge, C_GEAR_StepIconAnim, C_GEAR_StepFadeIcon, C_GEAR_NoOp, C_GEAR_ShowOffIndicator, C_GEAR_ShowCommIndicator, C_GEAR_HideCommIndicator, C_GEAR_HideOffIndicator, C_GEAR_TickIndicators, C_GEAR_ApplyIndicators, C_GEAR_IsAnyIndicatorShown, C_GEAR_TickTabFrame, C_GEAR_CreateFadeFx, C_GEAR_DeleteFadeFx, C_GEAR_StartFadeFx, C_GEAR_StepFadeFx, C_GEAR_StartPanelEvent, C_GEAR_PanelEventMain, func_021F3098, C_GEAR_DeleteActorSlots, C_GEAR_AreActorSlotsIdle, C_GEAR_StepWaitSlots, C_GEAR_SetPowerState, C_GEAR_LoadSkinMember
  * address:  0x021EFEC0
  * region:   ov029
  * compiler: dsi/1.1p1
@@ -17,8 +17,8 @@
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   CLACT_SetActorSurfacePosAxis  0x0204B49C  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_GetActorAnimSeqCount  0x0204B918  arm
  *   CLACT_GetActorAnimFrame  0x0204B8F4  arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
@@ -41,7 +41,7 @@
  *   d_021F3204 0x021F3204 data ov029 a1
  *   PALANM_CopyToSlot  0x020215BC  thumb
  *   d_021F31A8     0x021F31A8  data  ov029  a1
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_020413B0  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
  *   d_021F323C     0x021F323C  data  a1
@@ -95,7 +95,7 @@
  *   func_0207D63C 0x0207D63C arm
  *   func_020355D8  0x020355D8  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_0203FB44  0x0203FB44  arm
  *   func_020090E8  0x020090E8  thumb
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
@@ -117,7 +117,7 @@
  *   func_020090F0  0x020090F0  thumb
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_CreateRenderer  0x0204B034  arm
- *   func_0204B258  0x0204B258  arm
+ *   CLACT_SetUnitRenderer  0x0204B258  arm
  *   BUTTON_MAN_Create  0x02051B84  arm
  *   d_021F3214     0x021F3214  data  a4
  *   d_021F3272     0x021F3272  data  a2
@@ -131,7 +131,7 @@
  *   UI_GetPowerState 0x0203568C arm
  *   d_021F3520 0x021F3520 data a1
  *   func_0203F4CC  0x0203F4CC  arm
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   BUTTON_MAN_UpdateSlots  0x02051C88  arm
  *   func_021F2BF0  0x021F2BF0  thumb  ov029
@@ -249,8 +249,8 @@ extern void CLACT_SetActorAnimSeq(struct Actor *p, u16 value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern struct Actor *CLACT_CreateActor(struct ActorSystem *system, u32 i, u32 j, u32 k, const void *position, u16 space, u16 heap);
-extern void func_0204B92C(struct Actor *p, u32 v);
-extern void func_0204B3DC(struct Actor *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Actor *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Actor *p, u32 v);
 extern u16 CLACT_GetActorAnimSeqCount(struct Actor *p);
 extern u32 CLACT_GetActorAnimFrame(struct Actor *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
@@ -260,7 +260,7 @@ extern void *func_0201283C(const void *gameData);
 extern u32 WIH_DWC_PollStatus(void *key);
 extern int INTRUDE_COMM_GetRequestState(void *eventWork);
 extern void PALANM_CopyToSlot(struct PalAnm *slots, const void *src, u32 idx, u32 off, u16 size);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(unsigned int index);
 extern unsigned int WIPE_SYS_EndCheck(void);
@@ -295,7 +295,7 @@ extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6
 extern void func_0207D63C(u32, int, int, int, int);
 extern void func_020355D8(u8 v);
 extern u32 TOUCHPANEL_GetPointCont(int *outX, int *outY);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern int C_GEAR_IsAnyIndicatorShown(CGearWork *work);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_020090E8(struct HexMap *obj, u8 value);
@@ -314,7 +314,7 @@ extern unsigned char func_02008550(const struct PlayerSettings *obj);
 extern unsigned char func_020090F0(const struct HexMap *obj);
 extern struct ActorSystem *CLACT_CreateUnit(int count, unsigned char flag, u32 heapId);
 extern struct ActorResources *CLACT_CreateRenderer(const char *name, u32 flag, u32 heapId);
-extern void func_0204B258(struct ActorSystem *system, struct ActorResources *resources);
+extern void CLACT_SetUnitRenderer(struct ActorSystem *system, struct ActorResources *resources);
 extern struct ButtonTask *BUTTON_MAN_Create(const char *name, void (*callback)(int, int, CGearWork *), CGearWork *work, u32 heapId);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
@@ -325,7 +325,7 @@ extern u32 CLACT_DeleteUnit(struct ActorSystem *bank);
 extern void func_020403F4(u32 i);
 extern int UI_GetPowerState(void);
 extern void func_0203F4CC(RtcTime *time);
-extern void func_0204B404(struct Actor *actor, const CGearPos *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Actor *actor, const CGearPos *delta, u32 which);
 extern void CLACT_SetActorDrawPriority(struct Actor *node, u32 val);
 extern s32 BUTTON_MAN_UpdateSlots(struct ButtonTask *task);
 extern void C_GEAR_TickIndicators(CGearWork *work);
@@ -381,7 +381,7 @@ void C_GEAR_NoOp(CGearWork *work);
 extern u32 func_02009110(const struct HexMap *obj, int row, int col);
 extern int func_02009134(const struct HexMap *obj, int row, int col);
 extern u32 func_02009160(const struct HexMap *obj, int row, int col, int kind);
-int func_021EFEC0(int col, int row);
+int C_GEAR_IsColumnRowValid(int col, int row);
 void C_GEAR_SetStepFunc(CGearWork *work, CGearStepFunc stepFunc);
 void C_GEAR_ChangeStep(CGearWork *work, CGearStepFunc stepFunc, int line);
 void C_GEAR_GetHexNeighbors(int col, int row, int *outCols, int *outRows);
@@ -577,7 +577,7 @@ extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst
 
 
 
-int func_021EFEC0(int col, int row)
+int C_GEAR_IsColumnRowValid(int col, int row)
 {
     if (col % 2 == 0) {
         if (row < 3)
@@ -687,8 +687,8 @@ void C_GEAR_SpawnRippleActor(CGearWork *work, int col, int row)
         CLACT_SetActorSurfacePosAxis(slot->actor, desc.y, 0, 1);
     } else {
         slot->actor = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes, work->spriteAnimRes, &desc, 0, work->heapId);
-        func_0204B92C(slot->actor, 1);
-        func_0204B3DC(slot->actor, 1);
+        CLACT_SetActorAutoAnim(slot->actor, 1);
+        CLACT_SetActorDrawEnable(slot->actor, 1);
     }
     slot->col = col;
     slot->row = row;
@@ -1326,7 +1326,7 @@ void C_GEAR_StopTileFlashes(CGearWork *work)
 
 void C_GEAR_InitTile(CGearTile *tile, int col, int row)
 {
-    func_02082BCC(tile, 0, 8);
+    MI_CpuFill8(tile, 0, 8);
     tile->col = col;
     tile->row = row;
 }
@@ -2197,7 +2197,7 @@ void C_GEAR_SetupSubScreenBlend(CGearWork *work)
 /*
  * Stack order: c, d, x, y declared in that order ([sp,#0x10], #0xc, #8, #4).
  * The inner switch lists case 3 before case 2 (bodies 1, 6, 5 in the image).
- * func_021EFEC0 is the unlabelled ov029 leaf filed as ov029_func_021EFEC0.c.
+ * C_GEAR_IsColumnRowValid is the unlabelled ov029 leaf filed as ov029_func_021EFEC0.c.
  */
 void C_GEAR_HandleButton(CGearWork *work, int key)
 {
@@ -2220,10 +2220,10 @@ void C_GEAR_HandleButton(CGearWork *work, int key)
         if (work->paintMode != 0) {
             work->touchX = touchX;
             work->touchY = touchY;
-            if ((C_GEAR_CountCellsOfKind(work, kind) > 1 || kind == 4) && func_021EFEC0(touchCol, touchRow) != 0) {
+            if ((C_GEAR_CountCellsOfKind(work, kind) > 1 || kind == 4) && C_GEAR_IsColumnRowValid(touchCol, touchRow) != 0) {
                 C_GEAR_SetCellKind(work, work->hexMap, touchCol, touchRow, (kind + 1) % 5);
                 func_020409B4(4);
-                func_020061E4(0x628);
+                GFL_USE_PlaySeDefaultVolume(0x628);
             }
         } else if (C_GEAR_IsAnyIndicatorShown(work) == 0) {
             work->selectedCol = touchCol;
@@ -2242,7 +2242,7 @@ void C_GEAR_HandleButton(CGearWork *work, int key)
         }
         break;
     case 1:
-        func_020061E4(0x628);
+        GFL_USE_PlaySeDefaultVolume(0x628);
         work->paintMode ^= 1;
         C_GEAR_SetPaintModeIcon(work, work->paintMode);
         break;
@@ -2256,7 +2256,7 @@ void C_GEAR_HandleButton(CGearWork *work, int key)
         work->command = 0xB;
         break;
     case 5:
-        func_020061E4(0x628);
+        GFL_USE_PlaySeDefaultVolume(0x628);
         bgChar = work->bgCharBlock;
         func_0203FB44(6, (u16)bgChar, (u16)(bgChar >> 16));
         work->skinIndex++;
@@ -2298,9 +2298,9 @@ void C_GEAR_SetPaintModeIcon(CGearWork *work, int paintMode)
     if (paintMode) {
         CLACT_SetActorAnimIndex(work->hudActors[9], 0);
         CLACT_SetActorAutoAnimSpeed(work->hudActors[9], 0x2000);
-        func_0204B92C(work->hudActors[9], 1);
+        CLACT_SetActorAutoAnim(work->hudActors[9], 1);
     } else {
-        func_0204B92C(work->hudActors[9], 0);
+        CLACT_SetActorAutoAnim(work->hudActors[9], 0);
         CLACT_SetActorAnimIndex(work->hudActors[9], 1);
     }
 }
@@ -2332,7 +2332,7 @@ void C_GEAR_CreateHudActors(CGearWork *work)
         desc.surface = 2;
         work->hudActors[i] = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                                 work->spriteAnimRes, &desc, 0, work->heapId);
-        func_0204B3DC(work->hudActors[i], 0);
+        CLACT_SetActorDrawEnable(work->hudActors[i], 0);
         CLACT_SetActorVisible(work->hudActors[i], 0);
     }
     C_GEAR_SetPaintModeIcon(work, 0);
@@ -2344,7 +2344,7 @@ void C_GEAR_CreateHudActors(CGearWork *work)
         desc.surface = 2;
         work->tileMarkerActors[j] = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                                 work->spriteAnimRes, &desc, 0, work->heapId);
-        func_0204B3DC(work->tileMarkerActors[j], 0);
+        CLACT_SetActorDrawEnable(work->tileMarkerActors[j], 0);
         CLACT_SetActorVisible(work->tileMarkerActors[j], 0);
     }
     C_GEAR_UpdateClock(work);
@@ -2362,7 +2362,7 @@ void C_GEAR_SetTileMarkersVisible(CGearWork *work, int visible)
 {
     int i;
     for (i = 0; i < 3; i++)
-        func_0204B3DC(work->tileMarkerActors[i], visible);
+        CLACT_SetActorDrawEnable(work->tileMarkerActors[i], visible);
 }
 
 
@@ -2379,33 +2379,33 @@ void C_GEAR_SetAllActorsVisible(CGearWork *work, int visible)
 
     for (i = 0; i < 20; i++) {
         if (work->actorSlots[i].actor != 0) {
-            func_0204B3DC(work->actorSlots[i].actor, visible);
+            CLACT_SetActorDrawEnable(work->actorSlots[i].actor, visible);
         }
     }
     for (i = 0; i < 3; i++) {
         if (work->tileMarkerActors[i] != 0 && work->commEnabled != 0) {
-            func_0204B3DC(work->tileMarkerActors[i], visible);
+            CLACT_SetActorDrawEnable(work->tileMarkerActors[i], visible);
         }
     }
     for (i = 0; i < 11; i++) {
         if (work->hudActors[i] != 0) {
             if ((unsigned)(i - 8) <= 1) {
                 if (work->commEnabled != 0) {
-                    func_0204B3DC(work->hudActors[i], visible);
+                    CLACT_SetActorDrawEnable(work->hudActors[i], visible);
                 }
             } else {
-                func_0204B3DC(work->hudActors[i], visible);
+                CLACT_SetActorDrawEnable(work->hudActors[i], visible);
             }
         }
     }
     if (work->barActors[0] != 0 && work->commEnabled != 0) {
-        func_0204B3DC(work->barActors[0], visible);
+        CLACT_SetActorDrawEnable(work->barActors[0], visible);
     }
     if (work->barActors[1] != 0 && work->commEnabled != 0) {
-        func_0204B3DC(work->barActors[1], visible);
+        CLACT_SetActorDrawEnable(work->barActors[1], visible);
     }
     if (work->barActors[2] != 0 && work->commEnabled != 0) {
-        func_0204B3DC(work->barActors[2], visible);
+        CLACT_SetActorDrawEnable(work->barActors[2], visible);
     }
     if (visible == 1) {
         C_GEAR_UpdateClock(work);
@@ -2423,7 +2423,7 @@ void C_GEAR_SetSplashActorsVisible(CGearWork *work, int visible)
 {
     int i;
     for (i = 0; i < 18; i++)
-        func_0204B3DC(work->splashActors[i], visible);
+        CLACT_SetActorDrawEnable(work->splashActors[i], visible);
 }
 
 
@@ -2447,10 +2447,10 @@ void C_GEAR_CreateSplashActors(CGearWork *work)
         desc.surface = 2;
         work->splashActors[i] = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                                 work->spriteAnimRes, &desc, 0, work->heapId);
-        func_0204B3DC(work->splashActors[i], 0);
+        CLACT_SetActorDrawEnable(work->splashActors[i], 0);
         CLACT_SetActorAutoAnimSpeed(work->splashActors[i], 0x2000);
         CLACT_RestartActorAnim(work->splashActors[i]);
-        func_0204B92C(work->splashActors[i], 1);
+        CLACT_SetActorAutoAnim(work->splashActors[i], 1);
     }
 }
 
@@ -2508,7 +2508,7 @@ void C_GEAR_CreateBarActors(CGearWork *work)
     desc.surface = 2;
     work->barActors[0] = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                                         work->spriteAnimRes, &desc, 0, work->heapId);
-    func_0204B3DC(work->barActors[0], 0);
+    CLACT_SetActorDrawEnable(work->barActors[0], 0);
     CLACT_SetActorVisible(work->barActors[0], 0);
 
     desc.x = 0x68;
@@ -2518,7 +2518,7 @@ void C_GEAR_CreateBarActors(CGearWork *work)
     desc.surface = 2;
     work->barActors[1] = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                                         work->spriteAnimRes, &desc, 0, work->heapId);
-    func_0204B3DC(work->barActors[1], 0);
+    CLACT_SetActorDrawEnable(work->barActors[1], 0);
     CLACT_SetActorVisible(work->barActors[1], 0);
 
     desc.x = 0x22;
@@ -2528,7 +2528,7 @@ void C_GEAR_CreateBarActors(CGearWork *work)
     desc.surface = 2;
     work->barActors[2] = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                                         work->spriteAnimRes, &desc, 0, work->heapId);
-    func_0204B3DC(work->barActors[2], 0);
+    CLACT_SetActorDrawEnable(work->barActors[2], 0);
     CLACT_SetActorVisible(work->barActors[2], 0);
 }
 
@@ -2620,7 +2620,7 @@ void C_GEAR_LoadGraphics(CGearWork *work, int introMode)
     z = 0;
     work->spriteSystem = CLACT_CreateUnit(0x44, 0, work->heapId);
     work->spriteResList = CLACT_CreateRenderer(d_021F3214, 1, work->heapId);
-    func_0204B258(work->spriteSystem, work->spriteResList);
+    CLACT_SetUnitRenderer(work->spriteSystem, work->spriteResList);
     C_GEAR_LoadSkin(work, work->colorTheme, work->skinIndex, 1);
     C_GEAR_LoadSpriteResources(work, work->colorTheme);
     C_GEAR_CreateHudActors(work);
@@ -2737,15 +2737,15 @@ void C_GEAR_UpdateClock(CGearWork *work)
     int digit;
 
     func_0203F4CC(&time);
-    func_0204B3DC(work->hudActors[0], 0);
+    CLACT_SetActorDrawEnable(work->hudActors[0], 0);
 
     actor = work->hudActors[1];
     digit = time.hour / 10;
     SetActorAnimFrame(actor, digit);
     if (digit == 0) {
-        func_0204B3DC(actor, 0);
+        CLACT_SetActorDrawEnable(actor, 0);
     } else {
-        func_0204B3DC(actor, 1);
+        CLACT_SetActorDrawEnable(actor, 1);
     }
 
     actor = work->hudActors[2];
@@ -2789,13 +2789,13 @@ void C_GEAR_UpdateTileMarkers(CGearWork *work)
             pixelY = pixelY * 8;
             pos.x = pixelX + 0x10;
             pos.y = pixelY + 0xf;
-            func_0204B404(work->tileMarkerActors[i], &pos, 0);
+            CLACT_AddActorSurfacePos(work->tileMarkerActors[i], &pos, 0);
             pixelX += 0x20;
             CLACT_SetActorDrawPriority(work->tileMarkerActors[i], (pixelX / 8) & 0xff);
         } else {
             pos.x = -0x40;
             pos.y = 0;
-            func_0204B404(work->tileMarkerActors[i], &pos, 0);
+            CLACT_AddActorSurfacePos(work->tileMarkerActors[i], &pos, 0);
         }
     }
 }
@@ -3196,7 +3196,7 @@ void C_GEAR_Cleanup(CGearWork *work)
     ARC_TOOL_DeleteHandle(work->archive);
     C_GEAR_FreeGraphics(work);
     REG_DB_BLDCNT = 0;
-    func_02082BCC(work, 0, sizeof(CGearWork));
+    MI_CpuFill8(work, 0, sizeof(CGearWork));
 }
 
 
@@ -3361,30 +3361,30 @@ struct GameEvent *C_GEAR_HandleCommand(CGearWork *work, int enabled)
     case 1:
     case 6:
         if (C_GEAR_IsCallTabActive(work) == 0) {
-            func_020061E4(0x54E);
+            GFL_USE_PlaySeDefaultVolume(0x54E);
             event = C_GEAR_StartPanelEvent(work, work->command);
         } else {
-            func_020061E4(0x7E3);
+            GFL_USE_PlaySeDefaultVolume(0x7E3);
             func_021F3098(work);
             C_GEAR_ChangeStep(work, C_GEAR_StepWaitSlots, 0x1238);
         }
         break;
     case 5:
-        func_020061E4(0x54E);
+        GFL_USE_PlaySeDefaultVolume(0x54E);
         event = C_GEAR_StartPanelEvent(work, work->command);
         break;
     case 12:
     case 13:
-        func_020061E4(0x628);
+        GFL_USE_PlaySeDefaultVolume(0x628);
         event = C_GEAR_StartPanelEvent(work, work->command);
         break;
     case 7:
     case 11:
         if (C_GEAR_IsCallTabActive(work) == 0) {
-            func_020061E4(0x628);
+            GFL_USE_PlaySeDefaultVolume(0x628);
             event = C_GEAR_StartPanelEvent(work, work->command);
         } else {
-            func_020061E4(0x7E3);
+            GFL_USE_PlaySeDefaultVolume(0x7E3);
         }
         break;
     }
@@ -3498,7 +3498,7 @@ int C_GEAR_StepIconAnim(CGearWork *work)
 {
     switch (work->phase) {
     case 0:
-        func_0204B92C(work->hudActors[work->activeIcon], 1);
+        CLACT_SetActorAutoAnim(work->hudActors[work->activeIcon], 1);
         CLACT_SetActorAutoAnimSpeed(work->hudActors[work->activeIcon], 1 << 13);
         work->phase += 1;
         break;
@@ -3639,7 +3639,7 @@ void C_GEAR_CreateFadeFx(CGearWork *work, CGearFadeFx *fx)
     header.e = 2;
     fx->actor = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                               work->spriteAnimRes, &header, 0, work->heapId);
-    func_0204B3DC(fx->actor, 0);
+    CLACT_SetActorDrawEnable(fx->actor, 0);
     fx->palAnm = work->palAnm;
     fx->fadeCtx = work->fadeCtx;
 }
@@ -3653,7 +3653,7 @@ void C_GEAR_DeleteFadeFx(CGearFadeFx *fx)
 void C_GEAR_StartFadeFx(CGearFadeFx *fx, int palette)
 {
     CLACT_RestartActorAnim(fx->actor);
-    func_0204B92C(fx->actor, 1);
+    CLACT_SetActorAutoAnim(fx->actor, 1);
     CLACT_SetActorAutoAnimSpeed(fx->actor, 0x2000);
     fx->active = 1;
     fx->palette = palette;

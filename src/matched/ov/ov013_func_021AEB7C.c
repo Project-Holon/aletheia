@@ -16,7 +16,7 @@
  * VCT_MAIN_MicRestartDone.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0202EB0C  0x0202EB0C  thumb
  *   func_0208B2BC  0x0208B2BC  arm
  *   func_0208B4C8  0x0208B4C8  arm
@@ -35,7 +35,7 @@ typedef unsigned int u32;
 
 extern struct Work *gVctWork;
 
-extern void func_02082BCC(void *p, int v, u32 n);
+extern void MI_CpuFill8(void *p, int v, u32 n);
 extern u32 func_0202EB0C(void);
 extern int func_0208B2BC(void *param, void (*cb)(void), void *arg);
 extern int func_0208B4C8(void *param, void (*cb)(void), void *arg);
@@ -53,7 +53,7 @@ void VCT_MAIN_StreamCallback(int mode, u32 n, void **bufs, u32 size, int unused,
 
     if (mode == 0) {
         for (i = 0; i < n; i++) {
-            func_02082BCC(bufs[i], 0, size);
+            MI_CpuFill8(bufs[i], 0, size);
         }
         return;
     }

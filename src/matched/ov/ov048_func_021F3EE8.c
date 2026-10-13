@@ -23,7 +23,7 @@
  *   GIMMICK_OBJ_ELBOARD_CollectHighlights  0x021F44D8  thumb  ov048
  *   func_0201EC74  0x0201EC74  thumb
  *   func_02045B38  0x02045B38  arm
- *   func_02013E4C  0x02013E4C  thumb
+ *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Create  0x020457B0  arm
  *   func_0201EE0C  0x0201EE0C  thumb
@@ -58,7 +58,7 @@ struct WordSet;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 struct U16Vec;
 struct WordSet;
-extern u32 func_02013E4C(u32 id);
+extern u32 ZONEDATA_GetPlaceNameId(u32 id);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
@@ -97,7 +97,7 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(int *p)
         if (s.h[i] == 0x1AB)
             continue;
         c = s.b[i];
-        s1 = (u32)func_02045EC0((struct MsgBank *)a, func_02013E4C(s.h[i]));
+        s1 = (u32)func_02045EC0((struct MsgBank *)a, ZONEDATA_GetPlaceNameId(s.h[i]));
         s2 = (u32)func_02045EC0((struct MsgBank *)b, gElboardLabelMsgId[c]);
         h2 = func_0201EC74(2, sz, ((struct Obj02413 *)p)->f0);
         s3 = (u32)func_02045EC0((struct MsgBank *)b, 0xc0);

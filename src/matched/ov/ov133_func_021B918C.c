@@ -27,8 +27,8 @@
  *   func_021F4EA4 0x021F4EA4 thumb ov112
  *   func_021F4E8C 0x021F4E8C thumb ov112
  *   func_02040618 0x02040618 arm
- *   func_0204B404 0x0204B404 arm
- *   d_020A1B38 0x020A1B38 data
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   FX_SinCosTable_ 0x020A1B38 data
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,7 +36,7 @@ typedef unsigned int u32;
 typedef int fx32;
 typedef struct { short s; short c; } SC;
 typedef struct { short x; short y; } Pt;
-extern const SC d_020A1B38[];
+extern const SC FX_SinCosTable_[];
 extern void func_021B765C(u8 *p, u32 a, u32 b, u32 c, u32 d);
 struct Obj;
 struct Vec2;
@@ -47,7 +47,7 @@ extern u32 func_021BA208(u8 *p);
 extern void func_021F4EA4(u32 unused, u32 p, u32 q);
 extern void func_021F4E8C(u8 *, int, int *);
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern int FX_Sqrt(int);
 extern int FX_Atan2Idx(int, int);
 
@@ -76,7 +76,7 @@ void func_021B918C(u8 *p)
         ang = FX_Atan2Idx(FXI(y), FXI(x));
         func_021F4EA4((u32)(*(u8 **)(p + 0x1884)), id, (u32)v);
         k = dist + FXI(*(int *)(p + 0x10));
-        sc = &d_020A1B38[ang >> 4];
+        sc = &FX_SinCosTable_[ang >> 4];
         v[0] = (fx32)(((long long)sc->c * k + 0x800) >> 12) + 0x80000;
         k = dist + FXF((float)*(int *)(p + 0x10) * 0.6666667f);
         v[1] = (fx32)(((long long)sc->s * k + 0x800) >> 12) + 0x50000;
@@ -90,12 +90,12 @@ void func_021B918C(u8 *p)
         if (t >= 0x40) t = 0x40;
         r.y = t + 0xA0;
     }
-    func_0204B404((struct Obj *)(*(u8 **)(p + 0x184C)), (const struct Vec2 *)(&r), 0);
+    CLACT_AddActorSurfacePos((struct Obj *)(*(u8 **)(p + 0x184C)), (const struct Vec2 *)(&r), 0);
     r.x = 0xE0;
     {
         int t = 0xC0 - *(int *)(p + 0x10);
         if (t >= 0x40) t = 0x40;
         r.y = t + 0xA0;
     }
-    func_0204B404((struct Obj *)(*(u8 **)(p + 0x1850)), (const struct Vec2 *)(&r), 0);
+    CLACT_AddActorSurfacePos((struct Obj *)(*(u8 **)(p + 0x1850)), (const struct Vec2 *)(&r), 0);
 }

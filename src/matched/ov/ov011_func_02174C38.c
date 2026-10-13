@@ -8,9 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * func_02026478 returns the argument consumed by GAME_DATA_GetSecondUnionInfo.
+ * GAME_COMM_GetGameData returns the argument consumed by GAME_DATA_GetSecondUnionInfo.
  * symbols:
- *   func_02026478 0x02026478 thumb
+ *   GAME_COMM_GetGameData 0x02026478 thumb
  *   GAME_DATA_GetSecondUnionInfo 0x020127C4 thumb
  *   INTRUDE_COMM_SendUnionInfo 0x02174734 thumb ov011
  *   EVENT_FIELD_PROCLINK_GetReturnResultSlot 0x02162024 thumb ov010
@@ -22,7 +22,7 @@
  */
 #include "../include/Obj07329.h"
 typedef unsigned int   u32;
-u32 func_02026478(void *obj);
+u32 GAME_COMM_GetGameData(void *obj);
 unsigned char *GAME_DATA_GetSecondUnionInfo(void *p);
 typedef unsigned char  u8;
 int INTRUDE_COMM_SendUnionInfo(char *p, int b, void *c);
@@ -38,7 +38,7 @@ void INTRUDE_COMM_UpdateUnionInfoAndReturnSlots(unsigned char *p)
     int b2[2];
     unsigned char i;
     int h;
-    h = func_02026478((void *)(((struct Obj07329 *)p)->f4));
+    h = GAME_COMM_GetGameData((void *)(((struct Obj07329 *)p)->f4));
     if (p[0x908] != 0) {
         if (INTRUDE_COMM_SendUnionInfo((char *)p, p[0x908], (void *)GAME_DATA_GetSecondUnionInfo((void *)h)) == 1) {
             p[0x908] = 0;

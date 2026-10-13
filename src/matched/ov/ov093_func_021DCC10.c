@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_TOKUSEI_LightMetalHalveWeight
+ * function: HAND_TOKUSEI_LightMetalHalveWeight
  * address: 0x021DCC10
  * packet: pkt_ov093_021DCC10
  * region: ov093
@@ -15,4 +15,4 @@
  */
 extern int BTL_EVENT_GetVar(int);
 extern void BTL_EVENT_MultiplyVar(int,int);
-void BTL_HANDLER_TOKUSEI_LightMetalHalveWeight(int a, int b, int c) { if (c == BTL_EVENT_GetVar(2)) BTL_EVENT_MultiplyVar(0x35, 2048); }
+void HAND_TOKUSEI_LightMetalHalveWeight(int a, int b, int c) { if (c == BTL_EVENT_GetVar(2)) BTL_EVENT_MultiplyVar(0x35, 2048); }

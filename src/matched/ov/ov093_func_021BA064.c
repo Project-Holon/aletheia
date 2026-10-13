@@ -1,5 +1,5 @@
 /*
- * function: func_021BA064
+ * function: BTL_MAIN_GetTrainerHandle
  * address: 0x021BA064
  * packet: pkt_ov093_021BA064
  * region: ov093
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B9F70 0x021B9F70 thumb ov093
+ *   BTL_MAIN_IsTrainerSlotNpc 0x021B9F70 thumb ov093
  */
 typedef unsigned char  u8;
-extern int func_021B9F70(u8 *p, int i);
+extern int BTL_MAIN_IsTrainerSlotNpc(u8 *p, int i);
 typedef unsigned int u32;
-int func_021BA064(char *p, int i)
+int BTL_MAIN_GetTrainerHandle(char *p, int i)
 {
-    if (func_021B9F70((u8 *)p, i)) return 0;
+    if (BTL_MAIN_IsTrainerSlotNpc((u8 *)p, i)) return 0;
     return *(int *)((u32)p + (u32)i * 0x28 + 0x20);
 }

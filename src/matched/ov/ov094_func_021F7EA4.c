@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled tail-call stub, filed for the caller ov093 func_021D284C (lane S16).
+ * Unlabelled tail-call stub, filed for the caller ov093 BTL_CLIENT_StepPlayEffectOnMonFast (lane S16).
  *
  * symbols:
  *   func_021F7A28  0x021F7A28  thumb  ov094

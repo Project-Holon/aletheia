@@ -16,7 +16,7 @@
  *   func_020056A0  0x020056A0  thumb
  *   PALANM_Create  0x02021518  thumb
  *   PALANM_AllocSlotBuffers  0x0202155C  thumb
- *   func_0201C440  0x0201C440  thumb
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   PRINTSYS_QUE_SetForceQueue  0x0201C4C8  thumb
  *   PRINTSYS_QUE_SetLimitTick  0x0201C4DC  thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
@@ -43,7 +43,7 @@ struct PalAnmSlot;
 struct PrintSys;
 extern void *PALANM_Create(u32 heap);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern void PRINTSYS_QUE_SetForceQueue(struct PrintSys *p, u32 v);
 extern void PRINTSYS_QUE_SetLimitTick(struct PrintSys *p, u32 lo, u32 hi);
 extern u32 FIELDMAP_GetMsgBg(u8 *p);
@@ -60,7 +60,7 @@ void func_021F2908(char *p)
     ((struct Obj00007 *)p)->fAC = (u32)PALANM_Create(((struct Obj00007 *)p)->f98);
     PALANM_AllocSlotBuffers((struct PalAnmSlot *)(((struct Obj00007 *)p)->fAC), 1, 0x1c0, ((struct Obj00007 *)p)->f98);
     PALANM_AllocSlotBuffers((struct PalAnmSlot *)(((struct Obj00007 *)p)->fAC), 3, 0x200, ((struct Obj00007 *)p)->f98);
-    ((struct Obj00007 *)p)->fB4 = func_0201C440((void *)(((struct Obj00007 *)p)->f98));
+    ((struct Obj00007 *)p)->fB4 = PRINTSYS_QUE_Create((void *)(((struct Obj00007 *)p)->f98));
     PRINTSYS_QUE_SetForceQueue((struct PrintSys *)(((struct Obj00007 *)p)->fB4), 1);
     PRINTSYS_QUE_SetLimitTick((struct PrintSys *)(((struct Obj00007 *)p)->fB4), 0x1f4, 0);
     ((struct Obj00007 *)p)->fB0 = FIELD_MSGBG_GetFont((u8 *)FIELDMAP_GetMsgBg((u8 *)(*(u32 *)&((struct Obj00007 *)p)->f8)));

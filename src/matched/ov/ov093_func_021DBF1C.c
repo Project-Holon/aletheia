@@ -1,5 +1,5 @@
 /*
- * function: func_021DBF1C
+ * function: HAND_TOKUSEI_GetWeakArmorHandlers
  * address: 0x021DBF1C
  * packet: pkt_ov093_021DBF1C
  * region: ov093
@@ -15,10 +15,10 @@
  *   gWeakArmorHandlers 0x021F07D0 data ov093 a4
  */
 
-int *func_021DBF1C(int *p);
+int *HAND_TOKUSEI_GetWeakArmorHandlers(int *p);
 extern int gWeakArmorHandlers[];
 
-int *func_021DBF1C(int *p)
+int *HAND_TOKUSEI_GetWeakArmorHandlers(int *p)
 {
     *p = 1;
     return gWeakArmorHandlers;

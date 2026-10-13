@@ -10,13 +10,13 @@
  * status: EXACT
  * lever: negative constant multiplication keeps Thumb shift/negate/add; unary negation is folded back into constant-minus-shift.
  * symbols:
- * func_0201AA18 0x0201AA18 thumb
- * func_0201AB28 0x0201AB28 thumb
+ * POKEPARTY_GetCount 0x0201AA18 thumb
+ * POKEPARTY_GetMember 0x0201AB28 thumb
  * func_021B9E50 0x021B9E50 thumb ov213
  * func_021B9E80 0x021B9E80 thumb ov213
  * func_021B9EB0 0x021B9EB0 thumb ov213
  * func_021BA71C 0x021BA71C thumb ov213
- * func_0204B3DC 0x0204B3DC arm
+ * CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -24,18 +24,18 @@ typedef unsigned short u16;
 typedef signed short s16;
 struct C {void *owner,*parent; u8 kind,index,n,count; void *obj[6]; int step; u8 active; u8 pad[3]; const u8 *types;};
 struct Obj;
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void*,u32);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void*,u32);
 extern int func_021B9E50(u32),func_021B9E80(u32);
 extern int func_021B9EB0(void*,u32);
 extern void *func_021BA71C(char *p, int a, int b, unsigned short c);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 void func_021B9EE4(struct C *p,void *owner,u8 kind,u8 index,void *a,void *parent,const u8 *types)
 {
     int i,x,y,frame;
     void *entry;
     p->kind=kind;p->index=index;p->owner=owner;
-    p->n=func_0201AA18(owner);
+    p->n=POKEPARTY_GetCount(owner);
     if(func_021B9E50(kind))p->count=6;else p->count=3;
     p->parent=parent;p->step=0;p->types=types;
     for(i=0;i<p->count;i++){
@@ -52,11 +52,11 @@ void func_021B9EE4(struct C *p,void *owner,u8 kind,u8 index,void *a,void *parent
             }
         }
         entry=0;
-        if(i<p->n)entry=func_0201AB28(owner,i);
+        if(i<p->n)entry=POKEPARTY_GetMember(owner,i);
         frame=func_021B9EB0(entry,types[i]);
         if(!func_021B9E80(kind)&&frame!=0xd)frame=0xa;
         p->obj[i]=func_021BA71C(a,x,y,(u16)frame);
-        if(func_021B9E80(kind))func_0204B3DC(p->obj[i],0);
-        else func_0204B3DC(p->obj[i],1);
+        if(func_021B9E80(kind))CLACT_SetActorDrawEnable(p->obj[i],0);
+        else CLACT_SetActorDrawEnable(p->obj[i],1);
     }
 }

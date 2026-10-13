@@ -25,7 +25,7 @@
  * prototype: DC9E0 takes the explicitly loaded p despite its unused input.
  * symbols:
  *   func_02034AC4 0x02034AC4 arm
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
@@ -60,7 +60,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_02034AC4(int);
-extern void func_02043534(unsigned);
+extern void BG_SYS_SetMainVisiblePlanes(unsigned);
 extern void BG_SYS_SetSubVisiblePlanes(unsigned);
 extern void BG_SYS_SetLcdSwap(unsigned);
 typedef unsigned int   u32;
@@ -97,7 +97,7 @@ extern const char ov067_id[];
 int func_021E1E80(u8 *p)
 {
     func_02034AC4((int)ov067_id);
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;

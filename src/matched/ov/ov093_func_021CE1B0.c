@@ -1,5 +1,5 @@
 /*
- * function: func_021CE1B0
+ * function: BTL_CLIENT_StepPlaybackRecordedAction
  * address: 0x021CE1B0
  * packet: pkt_ov093_021CE1B0
  * region: ov093
@@ -31,7 +31,7 @@ extern void func_021EAF18(struct L *p, int kind, int id);
 struct H;
 extern void func_021EA614(char *p, struct H *h);
 extern int func_021EA710(u32 *p);
-int func_021CE1B0(u8 *p,int *state)
+int BTL_CLIENT_StepPlaybackRecordedAction(u8 *p,int *state)
 {
     u8 count;
     u8 flag;

@@ -18,21 +18,21 @@
  *   d_021C77A0 0x021C77A0 data a1
  *   PALANM_BlendChannel 0x02021FD8 thumb
  *   TOUCHPANEL_GetCont 0x02035C38 arm
- *   func_0203630C 0x0203630C arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetCont 0x0203630C arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
  *   _s32_div_f 0x0209C0A4 arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   d_021C7784 0x021C7784 data a4
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02045CAC 0x02045CAC arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -42,14 +42,14 @@
  *   STRBUF_Delete 0x02045808 arm
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   APP_TASKMENU_WIN_ResetDecide 0x020282A4 thumb
- *   func_0201CE30 0x0201CE30 thumb
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
  *   func_0201F7A8 0x0201F7A8 thumb
  *   APP_TASKMENU_WIN_TransChar 0x02028454 thumb
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   SDK_AUTOLOAD_MAIN_TWL_START 0x02FE0000 data
  *   PALANM_TransferPalettes 0x02021D50 thumb
@@ -65,11 +65,11 @@
  *   d_021C7EF8 0x021C7EF8 data a1
  *   MSGDATA_Delete 0x02045C04 arm
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   CLACT_CreateUnit 0x0204B100 arm
  *   PMS_DRAW_SetNullColorPalette 0x0202DE5C thumb
  *   PMS_DRAW_Delete 0x0202DC08 thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   d_021C77C4 0x021C77C4 data a1
@@ -103,7 +103,7 @@
  *   func_0207D63C 0x0207D63C arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   PMS_DRAW_Print 0x0202DC48 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -196,26 +196,26 @@ extern int PMSI_PARAM_IsComplete(struct T *p, u32 a1);
 extern int PMSI_PARAM_IsEnabled(const u16 *p);
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern int TOUCHPANEL_GetCont(void);
-extern unsigned int func_0203630C(void);
-extern u32 func_020362DC(void);
+extern unsigned int KEY_GetCont(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
 extern int TOUCHPANEL_HitTrg(const void *p);
 extern void func_0201F73C(void *, int, int, int);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u32 PRINTSYS_PrintStream(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
-extern u32 func_0201CE30(void *p);
-extern void func_0201CE48(struct Rec3 *p);
+extern u32 PRINTSYS_PrintStreamGetState(void *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -229,7 +229,7 @@ extern void APP_TASKMENU_UpdateMenu(void *p);
 extern void APP_TASKMENU_WIN_TransChar(u8 *p);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern void CLACT_VBlankSystem(void);
@@ -244,12 +244,12 @@ extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void *func_02030DA8(void *, void (*)(void *, u8 *), u8 *, int);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 extern void PMS_DRAW_Delete(struct Obj *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0203FC28(struct DispConfig *);
@@ -283,7 +283,7 @@ extern void BMP_WIN_Init(u16);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
 extern void PMS_DRAW_Print(u32 a, u32 b, u32 c, u32 d);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -407,13 +407,13 @@ int func_021C4538(u8 *p)
 {
     if (p[0xA] == 0) {
         if (TOUCHPANEL_GetCont()) return 0;
-        if (func_0203630C()) {
+        if (KEY_GetCont()) {
             if (*(void (**)(void *))(p + 0x3C)) (*(void (**)(void *))(p + 0x3C))(p);
             p[0xA] = 1;
             return 1;
         }
     } else {
-        if (func_0203630C()) return 0;
+        if (KEY_GetCont()) return 0;
         if (TOUCHPANEL_GetCont()) {
             if (*(void (**)(void *))(p + 0x40)) (*(void (**)(void *))(p + 0x40))(p);
             p[0xA] = 0;
@@ -427,14 +427,14 @@ int func_021C4538(u8 *p)
 
 int func_021C4590(u8 *p)
 {
-    if (func_020362DC()) {
+    if (KEY_GetTrg()) {
         p[0xA] = 1;
     } else if (TOUCHPANEL_GetTrg()) {
         p[0xA] = 0;
     } else {
         return 0;
     }
-    func_020061E4(0x54E);
+    GFL_USE_PlaySeDefaultVolume(0x54E);
     return 1;
 }
 
@@ -445,44 +445,44 @@ int func_021C45C0(u8 *p)
 {
     int moved;
 
-    if (func_020362DC() & 1) {
+    if (KEY_GetTrg() & 1) {
         if (p[0x16] == 4) {
             if (func_021C446C(p)) {
-                func_020061E4(0x551);
+                GFL_USE_PlaySeDefaultVolume(0x551);
                 p[0xB] = 2;
                 return 0;
             }
             **(u16 * *)&((struct MailViewCtx *)p)->f1C = 4;
-            func_020061E4(0x54E);
+            GFL_USE_PlaySeDefaultVolume(0x54E);
             (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[2] = 0;
             (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[3] = 0;
             APP_TASKMENU_WIN_SetDecide(((struct MailViewCtx *)p)->f128, 1);
             return 1;
         }
         if (p[0x16] == 5) {
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             p[0xB] = 3;
             return 0;
         }
         (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[2] = p[0x16];
         **(u16 * *)&((struct MailViewCtx *)p)->f1C = (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[2];
         (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[3] = p[0x17];
-        func_020061E4(0x54D);
+        GFL_USE_PlaySeDefaultVolume(0x54D);
         return 1;
     }
-    if (func_020362DC() & 2) {
-        func_020061E4(0x551);
+    if (KEY_GetTrg() & 2) {
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p[0xB] = 3;
         return 0;
     }
-    if (func_020362DC() & 8) {
+    if (KEY_GetTrg() & 8) {
         p[0x16] = 4;
         p[0x17] = 0;
         moved = 1;
-    } else if (func_020362DC() & 0x80) {
+    } else if (KEY_GetTrg() & 0x80) {
         p[0x16] = (p[0x16] + 1) % 6;
         moved = 1;
-    } else if (func_020362DC() & 0x40) {
+    } else if (KEY_GetTrg() & 0x40) {
         p[0x16] = (p[0x16] + 5) % 6;
         moved = 1;
     } else {
@@ -491,7 +491,7 @@ int func_021C45C0(u8 *p)
     if (moved == 0) {
         return 0;
     }
-    func_020061E4(0x54C);
+    GFL_USE_PlaySeDefaultVolume(0x54C);
     if (p[0x16] < 4) {
         APP_TASKMENU_WIN_SetActive(((struct MailViewCtx *)p)->f128, 0);
         APP_TASKMENU_WIN_SetActive(((struct MailViewCtx *)p)->f12C, 0);
@@ -514,7 +514,7 @@ int func_021C4700(u8 *p)
     n = TOUCHPANEL_HitTrg(d_021C7784);
     if (n == -1) return 0;
     if (n == 4) {
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p[0xB] = 3;
         return 0;
     }
@@ -522,16 +522,16 @@ int func_021C4700(u8 *p)
         (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[2] = n;
         *(u16 *)*(u8 * *)&((struct MailViewCtx *)p)->f1C = (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[2];
         (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[3] = p[0x17];
-        func_020061E4(0x54D);
+        GFL_USE_PlaySeDefaultVolume(0x54D);
         return 1;
     }
     if (func_021C446C(p)) {
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p[0xB] = 2;
         return 0;
     }
     *(u16 *)*(u8 * *)&((struct MailViewCtx *)p)->f1C = 4;
-    func_020061E4(0x54E);
+    GFL_USE_PlaySeDefaultVolume(0x54E);
     (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[2] = 0;
     (*(u8 * *)&((struct MailViewCtx *)p)->f1C)[3] = 0;
     APP_TASKMENU_WIN_SetDecide(((struct MailViewCtx *)p)->f128, 1);
@@ -554,13 +554,13 @@ void func_021C47C4(u8 *p, int n)
 {
     void *q;
     func_0201F73C(((struct MailViewCtx *)p)->f5C, 2, 13, 4);
-    BMP_Clear(func_02045770(((struct MailViewCtx *)p)->f5C), 255);
+    BMP_Clear(BMP_WIN_GetBmp(((struct MailViewCtx *)p)->f5C), 255);
     func_02045CAC(((struct MailViewCtx *)p)->f20, n, ((struct MailViewCtx *)p)->f34);
     *(unsigned int *)&((struct MailViewCtx *)p)->f9C = PRINTSYS_PrintStream(*(u32 *)&((struct MailViewCtx *)p)->f5C, 0, 0, *(u32 *)&((struct MailViewCtx *)p)->f34, *(unsigned int *)&((struct MailViewCtx *)p)->f24, ((struct MailViewCtx *)p)->f15, *(unsigned int *)&((struct MailViewCtx *)p)->f100, 4, (u16)((struct MailViewCtx *)p)->f0, 15);
     q = ((struct MailViewCtx *)p)->f5C;
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
-    func_020409B4(func_02045730(q));
+    func_020409B4(BMP_WIN_GetBgLayer(q));
 }
 
 
@@ -583,9 +583,9 @@ int func_021C483C(u8 *p)
         }
         break;
     case 2:
-        if (func_0201CE30(((struct MailViewCtx *)p)->f9C) == 2) {
-            if ((func_020362DC() & 1) || TOUCHPANEL_GetTrg()) {
-                func_0201CE48(((struct MailViewCtx *)p)->f9C);
+        if (PRINTSYS_PrintStreamGetState(((struct MailViewCtx *)p)->f9C) == 2) {
+            if ((KEY_GetTrg() & 1) || TOUCHPANEL_GetTrg()) {
+                PRINTSYS_PrintStreamDelete(((struct MailViewCtx *)p)->f9C);
                 ((struct MailViewCtx *)p)->f8 = 3;
             }
         }
@@ -594,7 +594,7 @@ int func_021C483C(u8 *p)
         func_0201F7A8(((struct MailViewCtx *)p)->f5C, 2);
         q = ((struct MailViewCtx *)p)->f5C;
         BMP_WIN_ClearScreen(q);
-        func_020409B4(func_02045730(q));
+        func_020409B4(BMP_WIN_GetBgLayer(q));
         func_021C44FC(p);
         ((struct MailViewCtx *)p)->f8 = 0;
         p[0xB] = p[0xC];
@@ -667,8 +667,8 @@ int func_021C49D0(u8 *p)
         }
         return 0;
     case 2:
-        if (func_0201CE30(((struct MailViewCtx *)p)->f9C) == 2) {
-            func_0201CE48(((struct MailViewCtx *)p)->f9C);
+        if (PRINTSYS_PrintStreamGetState(((struct MailViewCtx *)p)->f9C) == 2) {
+            PRINTSYS_PrintStreamDelete(((struct MailViewCtx *)p)->f9C);
             func_021C48FC(p);
             ((struct MailViewCtx *)p)->f8 = 3;
         }
@@ -681,7 +681,7 @@ int func_021C49D0(u8 *p)
         func_0201F7A8(((struct MailViewCtx *)p)->f5C, 2);
         w = ((struct MailViewCtx *)p)->f5C;
         BMP_WIN_ClearScreen(w);
-        func_020409B4(func_02045730(w));
+        func_020409B4(BMP_WIN_GetBgLayer(w));
         ((struct MailViewCtx *)p)->f8 = 0;
         if (r == 0) {
             **(u16 * *)&((struct MailViewCtx *)p)->f1C = 0xFFFF;
@@ -705,12 +705,12 @@ void func_021C4AF8(void)
 {
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    func_020434DC(1, 0);
-    func_020434DC(2, 0);
-    func_020434DC(4, 0);
-    func_020434DC(8, 0);
-    func_020434DC(16, 0);
-    func_020434DC(1, 0);
+    BG_SYS_SetMainPlaneVisible(1, 0);
+    BG_SYS_SetMainPlaneVisible(2, 0);
+    BG_SYS_SetMainPlaneVisible(4, 0);
+    BG_SYS_SetMainPlaneVisible(8, 0);
+    BG_SYS_SetMainPlaneVisible(16, 0);
+    BG_SYS_SetMainPlaneVisible(1, 0);
     BG_SYS_SetSubPlaneVisible(1, 0);
     BG_SYS_SetSubPlaneVisible(2, 0);
     BG_SYS_SetSubPlaneVisible(4, 0);
@@ -823,7 +823,7 @@ int func_021C4D14(u8 *p)
 
 void func_021C4D54(u8 *p)
 {
-    ((struct MailViewCtx *)p)->f158 = (void *)func_0201C440((void *)((u16)((struct MailViewCtx *)p)->f0));
+    ((struct MailViewCtx *)p)->f158 = (void *)PRINTSYS_QUE_Create((void *)((u16)((struct MailViewCtx *)p)->f0));
     ((struct MailViewCtx *)p)->f154 = CLACT_CreateUnit(8, 1, (u16)((struct MailViewCtx *)p)->f0);
     ((struct MailViewCtx *)p)->f148 = PMS_DRAW_Create(*(u32 *)&((struct MailViewCtx *)p)->f154, 0, *(u32 *)&((struct MailViewCtx *)p)->f158, *(u32 *)&((struct MailViewCtx *)p)->f24, 0, 4, (u16)((struct MailViewCtx *)p)->f0);
     PMS_DRAW_SetNullColorPalette(((struct MailViewCtx *)p)->f148, 0);
@@ -834,7 +834,7 @@ void func_021C4D54(u8 *p)
 void func_021C4DA8(u8 *p)
 {
     PMS_DRAW_Delete(((struct MailViewCtx *)p)->f148);
-    func_0201C4C0(((struct MailViewCtx *)p)->f158);
+    PRINTSYS_QUE_Delete(((struct MailViewCtx *)p)->f158);
     ((struct MailViewCtx *)p)->f158 = 0;
     CLACT_DeleteUnit(((struct MailViewCtx *)p)->f154);
 }
@@ -926,16 +926,16 @@ void func_021C4EEC(u8 *p)
     ARC_TOOL_DeleteHandle(h);
     func_02041300(4, 0x2001, 0, 0, 0x20, 0x20, 0x11);
     func_02041B6C(4);
-    func_020434DC(1, 1);
-    func_020434DC(2, 1);
-    func_020434DC(8, 1);
+    BG_SYS_SetMainPlaneVisible(1, 1);
+    BG_SYS_SetMainPlaneVisible(2, 1);
+    BG_SYS_SetMainPlaneVisible(8, 1);
     if (p[0xB] != 0) {
         h = func_020490F4(0x9B, (u16)((struct MailViewCtx *)p)->f0);
         func_020498F4(h, 0x24, 2, 0, sz, 1, (u16)((struct MailViewCtx *)p)->f0);
         ARC_TOOL_DeleteHandle(h);
         ((struct MailViewCtx *)p)->f3C = (void *)func_021C4534;
         ((struct MailViewCtx *)p)->f40 = (void *)func_021C4528;
-        func_020434DC(4, 1);
+        BG_SYS_SetMainPlaneVisible(4, 1);
     }
 }
 
@@ -972,14 +972,14 @@ void func_021C515C(Obj *p)
         p->slot[i].win = p->win[i];
         p->slot[i].flag = 0;
     }
-    p->f98 = (void *)func_0201C440((void *)((u16)p->heapId));
+    p->f98 = (void *)PRINTSYS_QUE_Create((void *)((u16)p->heapId));
     for (i = 0; i < 7; i++) {
-        BMP_Clear(func_02045770(p->win[i]), 0);
+        BMP_Clear(BMP_WIN_GetBmp(p->win[i]), 0);
         if (i < 5) {
             w = p->win[i];
             BMP_WIN_TransferChars(w);
             BMP_WIN_MakeScreen(w);
-            func_020409B4(func_02045730(w));
+            func_020409B4(BMP_WIN_GetBgLayer(w));
         }
     }
 }
@@ -1014,13 +1014,13 @@ void func_021C52F8(u8 *p)
         STRBUF_Delete(((struct MailViewCtx *)p)->f130);
         STRBUF_Delete(((struct MailViewCtx *)p)->f13C);
     }
-    func_0201C4C0(((struct MailViewCtx *)p)->f98);
+    PRINTSYS_QUE_Delete(((struct MailViewCtx *)p)->f98);
     ((struct MailViewCtx *)p)->f98 = 0;
     for (i = 0; i < 7; i++) {
         q = *(void **)(p + i * 4 + 0x44);
         BMP_WIN_ClearScreen(q);
-        func_020409B4(func_02045730(q));
-        func_020452E8(*(void **)(p + i * 4 + 0x44));
+        func_020409B4(BMP_WIN_GetBgLayer(q));
+        BMP_WIN_Delete(*(void **)(p + i * 4 + 0x44));
     }
     BMP_WIN_Exit();
 }
@@ -1049,12 +1049,12 @@ void func_021C5360(u8 *p)
     }
     if (p[0xB] == 0) {
         u32 a = *(u32 *)&((struct MailViewCtx *)p)->f98;
-        PRINTSYS_PrintQueColor((void *)a, (u32)func_02045770((struct Descriptor *)((struct MailViewCtx *)p)->f88), 0, 2, (u32)(((struct MailViewCtx_f1C *)((struct MailViewCtx *)p)->f1C)->fC), *(u32 *)&((struct MailViewCtx *)p)->f24, 0x440);
+        PRINTSYS_PrintQueColor((void *)a, (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct MailViewCtx *)p)->f88), 0, 2, (u32)(((struct MailViewCtx_f1C *)((struct MailViewCtx *)p)->f1C)->fC), *(u32 *)&((struct MailViewCtx *)p)->f24, 0x440);
         p[0x8C] = 1;
         t = ((struct MailViewCtx *)p)->f58;
         BMP_WIN_TransferChars((struct Descriptor *)t);
         BMP_WIN_MakeScreen((struct Cfg *)t);
-        func_020409B4(func_02045730((struct Descriptor *)t));
+        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)t));
     }
 }
 
@@ -1064,7 +1064,7 @@ void func_021C5420(u8 *p)
     CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(unsigned int)d_021C77C4,(u16)(*(int *)&((struct MailViewCtx *)p)->f0));
     ((struct MailViewCtx *)p)->fA0 = CLACT_CreateUnit(4,(int)0,(u16)(*(int *)&((struct MailViewCtx *)p)->f0));
     CLACT_SetUnitDefaultRenderer(((struct MailViewCtx *)p)->fA0);
-    func_020434DC(16,1);
+    BG_SYS_SetMainPlaneVisible(16,1);
     BG_SYS_SetSubPlaneVisible(16,1);
     GFL_NET_RestartWithDefaultTimeout((int)0,(u16)(*(int *)&((struct MailViewCtx *)p)->f0));
 }

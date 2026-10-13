@@ -1,5 +1,5 @@
 /*
- * function: func_021EE814
+ * function: WEATHER_SANDSTORM_BeginPlain
  * address:  0x021EE814
  * packet:   pkt_ov027_021EE814
  * region:   ov027
@@ -32,7 +32,7 @@ u16 func_02014A10(u32 i);
 int WEATHER_TASK_SetLight(u32 a, int b, u32 c);
 void WEATHER_SANDSTORM_SpawnParticles(int a, int b, int c);
 
-int func_021EE814(unsigned int *a, int b, int c)
+int WEATHER_SANDSTORM_BeginPlain(unsigned int *a, int b, int c)
 {
     WEATHER_TASK_GetWorkBuffer((int *)a);
     WEATHER_TASK_SetupSpawner((u8 *)a, 1, 2, 1, 2, -2, 4, 1, (int)WEATHER_SANDSTORM_SpawnParticles);

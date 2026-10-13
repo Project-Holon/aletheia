@@ -21,7 +21,7 @@
  *   func_0207CA00  0x0207CA00  arm
  *   VEC_Normalize  0x0207CCA4  arm
  *   _ll_mul        0x0209C054  arm
- *   tbl_020A1B38   0x020A1B38  data  a2
+ *   FX_SinCosTable_   0x020A1B38  data  a2
  *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
  *   FIELD_CAMERA_SetEyeRaw  0x0218ECF4  thumb  ov021
  * Addresses are Black-image addresses.
@@ -42,7 +42,7 @@ extern void func_0207CA00(const Vec *a, const Vec *b, Vec *out);
 extern void VEC_Normalize(const Vec *v, Vec *out);
 extern void FIELD_CAMERA_SetTarget(u32 a, Vec *v);
 extern void FIELD_CAMERA_SetEyeRaw(u32 a, Vec *v);
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 static inline s32 FX_Mul(s32 a, s32 b)
 {
@@ -72,10 +72,10 @@ void FLD_SCENEAREA_LOADER_ApplySectorCamera(u32 a0, const u8 *p, const Vec *q)
     b.y = 0;
     func_0207CA00(&b, &a, &b);
     VEC_Normalize(&b, &n);
-    t0 = tbl_020A1B38[(*(const s32 *)&((struct Obj04239 *)p)->f1C >> 4) * 2];
+    t0 = FX_SinCosTable_[(*(const s32 *)&((struct Obj04239 *)p)->f1C >> 4) * 2];
     a.y = y;
     out.y = FX_Mul(t0, *(const s32 *)&((struct Obj04239 *)p)->f20);
-    t1 = tbl_020A1B38[(*(const s32 *)&((struct Obj04239 *)p)->f1C >> 4) * 2 + 1];
+    t1 = FX_SinCosTable_[(*(const s32 *)&((struct Obj04239 *)p)->f1C >> 4) * 2 + 1];
     c = FX_Mul(t1, *(const s32 *)&((struct Obj04239 *)p)->f20);
     out.x = FX_Mul(n.x, c);
     out.z = FX_Mul(n.z, c);

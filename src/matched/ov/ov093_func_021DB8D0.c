@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetStickyHoldHandlers
+ * function: HAND_TOKUSEI_GetStickyHoldHandlers
  * address: 0x021DB8D0
  * packet: pkt_ov093_021DB8D0
  * region: ov093
@@ -15,10 +15,10 @@
  *   gStickyHoldHandlers 0x021F0AA0 data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetStickyHoldHandlers(int *p);
+int *HAND_TOKUSEI_GetStickyHoldHandlers(int *p);
 extern int gStickyHoldHandlers[];
 
-int *BTL_TOKUSEI_GetStickyHoldHandlers(int *p)
+int *HAND_TOKUSEI_GetStickyHoldHandlers(int *p)
 {
     *p = 3;
     return gStickyHoldHandlers;

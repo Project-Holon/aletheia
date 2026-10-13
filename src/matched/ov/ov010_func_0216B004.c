@@ -24,7 +24,7 @@
  * 2026-10-05: data hints now carry an overlay token that has a witness; EXACT.
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask  0x02029BCC  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -93,7 +93,7 @@ struct Evt;
 struct Obj;
 struct P;
 struct Sub02008700Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(void *a, u32 b);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
@@ -123,7 +123,7 @@ extern void func_021B95C8(void *p);
 
 int SCRCMD_SYMBOL_ViewEventMain(void *evt, u32 *state, Work *w)
 {
-    void *h = func_020124E4(evt);
+    void *h = GAME_EVENT_GetGameSystem(evt);
     void *sys = GAMESYSTEM_GetGameData(h);
     int ok;
 

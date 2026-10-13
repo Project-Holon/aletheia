@@ -1,5 +1,5 @@
 /*
- * function: func_021CDD50
+ * function: BTL_CLIENT_FindCommandStepFn
  * address: 0x021CDD50
  * packet: pkt_ov093_021CDD50
  * region: ov093
@@ -8,21 +8,21 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021EFFEC 0x021EFFEC data a4
+ *   gBtlClientCommandTable 0x021EFFEC data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int (*Callback)(u8 *,int *);
 typedef struct { u8 id; u8 flag; u16 pad; Callback callbacks[3]; } Entry;
-extern const Entry d_021EFFEC[15];
-Callback func_021CDD50(u8 *p,u32 id,int *out)
+extern const Entry gBtlClientCommandTable[15];
+Callback BTL_CLIENT_FindCommandStepFn(u8 *p,u32 id,int *out)
 {
     u32 i;
     for (i=0; i<15; i++) {
-        if (d_021EFFEC[i].id == id) {
-            if (out) *out = d_021EFFEC[i].flag;
-            return d_021EFFEC[i].callbacks[p[0x1a7]];
+        if (gBtlClientCommandTable[i].id == id) {
+            if (out) *out = gBtlClientCommandTable[i].flag;
+            return gBtlClientCommandTable[i].callbacks[p[0x1a7]];
         }
     }
     return 0;

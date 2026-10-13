@@ -1,5 +1,5 @@
 /*
- * function: BTL_ITEM_GetSuperEffectiveHitRecoverHandlers
+ * function: HAND_ITEM_GetSuperEffectiveHitRecoverHandlers
  * address: 0x021DDA1C
  * packet: pkt_ov093_021DDA1C
  * region: ov093
@@ -15,10 +15,10 @@
  *   gBtlItemSuperEffectiveHitRecoverHandlers 0x021F16CC data ov093 a4
  */
 
-int *BTL_ITEM_GetSuperEffectiveHitRecoverHandlers(int *p);
+int *HAND_ITEM_GetSuperEffectiveHitRecoverHandlers(int *p);
 extern int gBtlItemSuperEffectiveHitRecoverHandlers[];
 
-int *BTL_ITEM_GetSuperEffectiveHitRecoverHandlers(int *p)
+int *HAND_ITEM_GetSuperEffectiveHitRecoverHandlers(int *p)
 {
     *p = 2;
     return gBtlItemSuperEffectiveHitRecoverHandlers;

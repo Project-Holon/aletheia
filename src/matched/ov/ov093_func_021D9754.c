@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetDrizzleHandlers
+ * function: HAND_TOKUSEI_GetDrizzleHandlers
  * address: 0x021D9754
  * packet: pkt_ov093_021D9754
  * region: ov093
@@ -15,10 +15,10 @@
  *   gDrizzleHandlers 0x021F08D0 data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetDrizzleHandlers(int *p);
+int *HAND_TOKUSEI_GetDrizzleHandlers(int *p);
 extern int gDrizzleHandlers[];
 
-int *BTL_TOKUSEI_GetDrizzleHandlers(int *p)
+int *HAND_TOKUSEI_GetDrizzleHandlers(int *p)
 {
     *p = 2;
     return gDrizzleHandlers;

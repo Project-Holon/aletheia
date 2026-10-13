@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_NET_HANDLE_SetBitMask  0x0203A28C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *
  * Clears the slot's `0x3e` field, refreshes its `0x40` field from the
  * selector, then clears the 0x10-byte record its indexed pointer names.
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u16 GFL_NET_HANDLE_SetBitMask(u16 mask, u32 idx, u32 set);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
 void GFL_NET_HANDLE_ClearTimingMask(unsigned char *a, u32 b)
 {
@@ -36,6 +36,6 @@ void GFL_NET_HANDLE_ClearTimingMask(unsigned char *a, u32 b)
         void *p = *(void **)(a + b * 4 + 8);
         if (p == 0)
             return;
-        func_02082BCC(p, 0, 0x10);
+        MI_CpuFill8(p, 0, 0x10);
     }
 }

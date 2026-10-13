@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C001C",
+   "name": "BTL_SERVER_FLOW_CheckMoveExecuteFail",
    "address": "0x021C001C",
    "kind": "game",
    "region": "ov093",

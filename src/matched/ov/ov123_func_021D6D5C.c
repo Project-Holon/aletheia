@@ -14,8 +14,8 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj01544.h"
 typedef unsigned char u8;
@@ -32,8 +32,8 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 void func_021D6D5C(u8 *p)
 {
     struct Point pt;
@@ -45,6 +45,6 @@ void func_021D6D5C(u8 *p)
     ARC_TOOL_DeleteHandle(h);
     pt.x=156; pt.y=28; pt.f4=0; pt.f6=0; pt.f7=2;
     ((struct Obj01544 *)p)->fB8=CLACT_CreateActor((void *)((struct Obj01544 *)p)->fC,(unsigned int)((struct Obj01544 *)p)->f50,*(u32 *)&((struct Obj01544 *)p)->f34,*(u32 *)&((struct Obj01544 *)p)->f6C,&pt,0,((struct Obj01544 *)p)->f43C4);
-    func_0204B92C(((struct Obj01544 *)p)->fB8,0);
-    func_0204B3DC(((struct Obj01544 *)p)->fB8,0);
+    CLACT_SetActorAutoAnim(((struct Obj01544 *)p)->fB8,0);
+    CLACT_SetActorDrawEnable(((struct Obj01544 *)p)->fB8,0);
 }

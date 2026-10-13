@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   BMP_WIN_Delete  0x020452E8  arm  arm9
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj14554.h"
@@ -20,14 +21,14 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Descriptor;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 void func_0220BD84(u8 *p)
 {
     u32 t = ((struct Obj14554 *)p)->f2170;
 
     if (t != 0) {
-        func_020452E8((struct Descriptor *)t);
+        BMP_WIN_Delete((struct Descriptor *)t);
         ((struct Obj14554 *)p)->f2170 = 0;
     }
 }

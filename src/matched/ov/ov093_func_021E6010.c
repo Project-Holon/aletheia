@@ -1,5 +1,5 @@
 /*
- * function: func_021E6010
+ * function: HAND_WAZA_BeatUpSetHitCount
  * address:  0x021E6010
  * packet:   pkt_ov093_021E6010
  * region:   ov093
@@ -11,16 +11,16 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021E60A8  0x021E60A8  thumb  ov093
+ *   HAND_WAZA_FindBeatUpMember  0x021E60A8  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int key);
-extern u8 *func_021E60A8(void *a, u32 b, u8 c);
+extern u8 *HAND_WAZA_FindBeatUpMember(void *a, u32 b, u8 c);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E6010(u8 *p, void *a, int b, int *c)
+void HAND_WAZA_BeatUpSetHitCount(u8 *p, void *a, int b, int *c)
 {
     int n;
     u32 i;
@@ -28,7 +28,7 @@ void func_021E6010(u8 *p, void *a, int b, int *c)
         return;
     n = 0;
     for (i = 0; i < 6; i++) {
-        if (func_021E60A8(a, b, i) != 0)
+        if (HAND_WAZA_FindBeatUpMember(a, b, i) != 0)
             n++;
     }
     if (n == 0)

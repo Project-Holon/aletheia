@@ -43,13 +43,13 @@
  *   FIELD_CAMERA_GetTraceTarget 0x0218EC5C thumb ov021
  *   FIELD_CAMERA_SetTarget 0x0218EC90 thumb ov021
  *   FIELD_CAMERA_SetEyeRaw 0x0218ECF4 thumb ov021
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   FLDMMDL_SetMoveBit 0x0216D568 thumb ov010
  *   FLDEFF_KEMURI_Start 0x021AC528 thumb ov021
  *   FIELD_PLAYER_SetPos 0x021A3044 thumb ov021
  *   FLDMMDL_SetPos 0x0216D89C thumb ov010
  *   GFL_USE_GetSeSlot 0x02006148 thumb
- *   func_020061F8 0x020061F8 thumb
+ *   GFL_USE_StopSeSlot 0x020061F8 thumb
  *   FIELD_PLAYER_GetNogridLocation 0x021A36B0 thumb ov021
  *   FIELD_PLAYER_ClearNogridState 0x021A36D4 thumb ov021
  *   FIELD_NOGRID_MAPPER_SetActive 0x021BB260 thumb ov021
@@ -99,13 +99,13 @@ extern void FIELD_NOGRID_MAPPER_SetCameraLocation(void **h, void *r);
 extern u32 FIELD_CAMERA_GetTraceTarget(u8 *p);
 extern void FIELD_CAMERA_SetTarget(int,Vec *);
 extern void FIELD_CAMERA_SetEyeRaw(int,Vec *);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
 extern void FLDEFF_KEMURI_Start(u32 a, u32 b);
 extern void FIELD_PLAYER_SetPos(u8 *p, void *v);
 extern void FLDMMDL_SetPos(int,Vec *);
 extern int GFL_USE_GetSeSlot(u32);
-extern void func_020061F8(int);
+extern void GFL_USE_StopSeSlot(int);
 extern void FIELD_PLAYER_GetNogridLocation(u8 *p, void *r);
 extern void FIELD_PLAYER_ClearNogridState(u8 *p, u32 v);
 extern void FIELD_NOGRID_MAPPER_SetActive(int,int);
@@ -168,7 +168,7 @@ void func_021F377C(int unused,S *s)
   FIELD_CAMERA_SetTarget(s->player,&s->oldlook);FIELD_CAMERA_SetEyeRaw(s->player,&s->oldpos);
   s->state=4;break;
  case 4:
-  func_020061E4(0x6ed);s->state=5;FLDMMDL_SetMoveBit((void *)s->model,0x8000);
+  GFL_USE_PlaySeDefaultVolume(0x6ed);s->state=5;FLDMMDL_SetMoveBit((void *)s->model,0x8000);
  case 5:
   s->step++;
   if((u32)s->step>=(u32)s->count) {vset(&point,s->end.x,s->end.y,s->end.z);s->state=8;}
@@ -197,7 +197,7 @@ void func_021F377C(int unused,S *s)
   FIELD_CAMERA_SetTarget(s->player,&look);FIELD_CAMERA_SetEyeRaw(s->player,&pos);
   break;
  case 8:
-  func_020061F8(GFL_USE_GetSeSlot(0x6ed));
+  GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(0x6ed));
   if(s->obj!=0) {FIELD_PLAYER_GetNogridLocation(s->obj,&s->cell);FIELD_PLAYER_ClearNogridState(s->obj,(u32)(&finalpos));FIELD_PLAYER_SetPos(s->obj,&finalpos);FIELD_NOGRID_MAPPER_SetActive(s->scene,1);FIELD_NOGRID_MAPPER_UpdateCameraForced((void **)s->scene);}
   else FLDMMDL_RAIL_SetLocation((void *)s->model,&s->cell);
   FLDMMDL_ClearMoveBit((char *)s->model,0x8000);FLDMMDL_SetStatusBitHeightGetOff((void *)s->model,0);FLDMMDL_SetStatusBitAttrGetOff((void *)s->model,0);FLDMMDL_SetStatusBitFellowHit((unsigned int *)s->model,1);FLDMMDL_OffMoveBitMovePause((void *)s->model);s->state=9;

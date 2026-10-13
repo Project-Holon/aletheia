@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CA158",
+   "name": "BTL_SERVER_FLOW_ProcHandExForceMemberOut",
    "address": "0x021CA158",
    "kind": "game",
    "region": "ov093",

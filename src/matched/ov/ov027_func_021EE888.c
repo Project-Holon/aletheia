@@ -1,5 +1,5 @@
 /*
- * function: func_021EE888
+ * function: WEATHER_SANDSTORM_Run
  * address:  0x021EE888
  * packet:   pkt_ov027_021EE888
  * region:   ov027
@@ -14,27 +14,27 @@
  *   WEATHER_TASK_StepSpawnTimer  0x021A2248  thumb  ov021
  *   func_0209C0A4  0x0209C0A4  arm
  *   WEATHER_SANDSTORM_SpawnParticles  0x021EEA04  thumb  ov027
- *   func_021EEAF4  0x021EEAF4  thumb  ov027
- *   d_021EEB48     0x021EEB48  data  ov027  a4
+ *   WEATHER_SANDSTORM_ScrollBillboards  0x021EEAF4  thumb  ov027
+ *   gSandstormGustSpeedX     0x021EEB48  data  ov027  a4
  */
 
 int *WEATHER_TASK_GetWorkBuffer(int *p);
 int WEATHER_TASK_StepSpawnTimer(unsigned char *o, int arg);
 int func_0209C0A4(int a, int b);
 void WEATHER_SANDSTORM_SpawnParticles(int a, int b, int c);
-void func_021EEAF4(int a, int *p);
-extern int d_021EEB48[];
+void WEATHER_SANDSTORM_ScrollBillboards(int a, int *p);
+extern int gSandstormGustSpeedX[];
 
-int func_021EE888(int a, int b, int c)
+int WEATHER_SANDSTORM_Run(int a, int b, int c)
 {
     int *p = WEATHER_TASK_GetWorkBuffer((int *)a);
 
     if (WEATHER_TASK_StepSpawnTimer((unsigned char *)a, c) != 0) {
-        int v = d_021EEB48[func_0209C0A4(p[1], 40)];
+        int v = gSandstormGustSpeedX[func_0209C0A4(p[1], 40)];
         p[3] = v;
         if (v <= -6)
             WEATHER_SANDSTORM_SpawnParticles(a, 1, c);
     }
-    func_021EEAF4(a, p);
+    WEATHER_SANDSTORM_ScrollBillboards(a, p);
     return 0;
 }

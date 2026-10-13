@@ -14,7 +14,7 @@
  * two more triples at +0x10/+0x1c, two 3-vectors at +0x28/+0x34, another at
  * +0x40 and a scaled triple at +0x4c) weighted by its own +0x04 field,
  * clamped to 0x1000 (1.0 in 20.12) and normalised against the running total
- * through the hardware divider sub_0207C768.  Three shortcuts come first:
+ * through the hardware divider FX_Div.  Three shortcuts come first:
  * a single-node list dispatches straight through the node's +0x0c callback;
  * a zero total returns 0; and exactly one live contributor dispatches that
  * one node.  The tail re-orthonormalises the accumulated basis with
@@ -47,7 +47,7 @@
  * symbols:
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   MIi_CpuCopy32     0x02082A90  arm
- *   sub_0207C768      0x0207C768  arm
+ *   FX_Div      0x0207C768  arm
  *   VEC_CrossProduct  0x0207CAE8  arm
  *   VEC_Normalize     0x0207CCA4  arm
  *   func_0206AF74     0x0206AF74  arm
@@ -95,7 +95,7 @@ typedef struct Work0206AFE4 {
 
 extern void MIi_CpuClearFast(u32 val, void *dst, u32 len);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 len);
-extern s32  sub_0207C768(s32 num, s32 den);
+extern s32  FX_Div(s32 num, s32 den);
 extern void VEC_CrossProduct(const s32 *a, const s32 *b, s32 *c);
 extern void VEC_Normalize(const s32 *a, s32 *b);
 extern void func_0206AF74(volatile s32 *dst, s32 *src, s32 v, int flag);
@@ -175,7 +175,7 @@ int func_0206AFE4(Acc0206AFE4 *out, Node0206AFE4 *n, u32 idx)
             if (total == 0x1000) {
                 wgt = p->f04;
             } else {
-                wgt = sub_0207C768(p->f04, total);
+                wgt = FX_Div(p->f04, total);
             }
             func_0206AF74(out->f04, w.f04, wgt, w.f00 & 1);
             func_0206AF74(out->f10, w.f10, wgt, w.f00 & 8);

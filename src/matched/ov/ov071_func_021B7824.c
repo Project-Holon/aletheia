@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201C6B4  0x0201C6B4  thumb
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   func_021B7068  0x021B7068  thumb  ov071
  *   MONOLITH_TOOL_SLOT_SELECT_FreeCursor  0x021B7BE4  thumb  ov071
@@ -32,9 +32,9 @@ struct PrintSys;
 struct Rec3;
 struct S020315D4;
 struct U16Vec;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_021B7068(void *a);
 extern void MONOLITH_TOOL_SLOT_SELECT_FreeCursor(void *a);
@@ -46,11 +46,11 @@ extern void func_020315D4(struct S020315D4 *p);
 
 int MONOLITH_TOOL_SLOT_SELECT_Exit(void *a, void *b, char *c, char *d)
 {
-    if (func_0201C6B4(((struct Obj20692 *)(*(char * *)&((struct Obj20691 *)c)->f4))->f8) == 0)
+    if (PRINTSYS_QUE_IsFinished(((struct Obj20692 *)(*(char * *)&((struct Obj20691 *)c)->f4))->f8) == 0)
         return 0;
     BG_SYS_SetSubVisiblePlanes(8);
     if (((struct Obj06184 *)d)->f8 != 0)
-        func_0201CE48(((struct Obj06184 *)d)->f8);
+        PRINTSYS_PrintStreamDelete(((struct Obj06184 *)d)->f8);
     if (((struct Obj06184 *)d)->f4 != 0)
         STRBUF_Delete(((struct Obj06184 *)d)->f4);
     func_021B7068(((struct Obj06184 *)d)->f7C);

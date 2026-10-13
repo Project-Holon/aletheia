@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021E9100  0x021E9100  thumb  ov093
- *   func_021B98AC  0x021B98AC  thumb  ov093
+ *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021EA504  0x021EA504  thumb  ov093
  */
@@ -30,7 +30,7 @@ struct S {
 };
 
 extern u8 *func_021E9100(u8 *p, int n);
-extern u8 *func_021B98AC(char *const *q, u8 b);
+extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int func_021EA504(int *st, char *ctx);
 
@@ -40,7 +40,7 @@ void func_021EA488(struct S *s, u8 a, u8 b, u8 c)
     u8 *o;
 
     t = func_021E9100((u8 *)s, 4);
-    o = func_021B98AC(s->f08, a);
+    o = BTL_SIDE_GetPokeAtPos(s->f08, a);
     t[1] = b;
     t[2] = c;
     t[0] = a;

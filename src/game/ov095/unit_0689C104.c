@@ -11,10 +11,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C8838  0x021C8838  thumb
- *   func_021C8860  0x021C8860  thumb
- *   func_021C88A4  0x021C88A4  thumb
- *   func_021C88C8  0x021C88C8  thumb
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
  */
 
@@ -26,10 +26,10 @@ typedef struct Rec {
 } Rec;
 
 extern int BTL_POKEPARAM_GetPokeId(void *);
-extern Rec *func_021C88A4(void *, int, int);
-extern void func_021C8838(void *, int, int);
-extern void func_021C8860(void *, int);
-extern void func_021C88C8(void *, Rec *);
+extern Rec *BTL_SERVER_FLOW_AllocCmdRecord(void *, int, int);
+extern void BTL_SERVER_FLOW_InitMsgRecord(void *, int, int);
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(void *, int);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *, Rec *);
 
 void func_0689C104(void *a, void *b, u8 c)
 {
@@ -37,9 +37,9 @@ void func_0689C104(void *a, void *b, u8 c)
     Rec *r;
 
     k = BTL_POKEPARAM_GetPokeId(b);
-    r = func_021C88A4(a, 4, k);
-    func_021C8838(r->f04, 2, 0x35c);
-    func_021C8860(r->f04, k);
-    func_021C8860(r->f04, c);
-    func_021C88C8(a, r);
+    r = BTL_SERVER_FLOW_AllocCmdRecord(a, 4, k);
+    BTL_SERVER_FLOW_InitMsgRecord(r->f04, 2, 0x35c);
+    BTL_SERVER_FLOW_AppendMsgRecordArg(r->f04, k);
+    BTL_SERVER_FLOW_AppendMsgRecordArg(r->f04, c);
+    BTL_SERVER_FLOW_CommitCmdRecord(a, r);
 }

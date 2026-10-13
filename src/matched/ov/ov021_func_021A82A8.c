@@ -13,7 +13,7 @@
  *   func_021A8268  0x021A8268  thumb
  *   FIELD_BUILDMODEL_PlayNodeSlot  0x0218C88C  thumb
  *   FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry  0x0218C990  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 
 typedef unsigned short u16;
@@ -27,7 +27,7 @@ extern int func_021A8268(unsigned int a);
 extern void FIELD_BUILDMODEL_PlayNodeSlot(unsigned char *p, int v, int c);
 extern int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(unsigned char *p, int v);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 void func_021A82A8(S *s)
 {
@@ -35,7 +35,7 @@ void func_021A82A8(S *s)
     if (func_021A8268((unsigned int)s)) {
         FIELD_BUILDMODEL_PlayNodeSlot((unsigned char *)s->f28, 1, 0);
         if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry((unsigned char *)s->f28, (int)(&v))) {
-            func_020061E4(v);
+            GFL_USE_PlaySeDefaultVolume(v);
         }
     }
 }

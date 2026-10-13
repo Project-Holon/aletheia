@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
@@ -44,7 +44,7 @@
  *   CLACT_InitSystem  0x0204A48C  arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   d_021BB18C     0x021BB18C  data  a4
  *   CLACT_DeleteUnit 0x0204B1CC arm
@@ -86,7 +86,7 @@ typedef short s16;
 typedef struct {u32 x,y,z;} Vec3;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *p,unsigned value,unsigned size);
+extern void MI_CpuFill8(void *p,unsigned value,unsigned size);
 extern void BG_SYS_ClearGraphicsMemory(unsigned mode);
 extern void BG_SYS_SetVramBanks(const struct DispVram *p);
 extern void func_0204363C(unsigned swap);
@@ -112,7 +112,7 @@ extern void func_020419E4(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
@@ -158,7 +158,7 @@ void *func_021BAB64(unsigned mode,unsigned heap)
 {
     unsigned char *p;
     p=func_02030734(heap,16,0,d_021BB33C,0x1B4);
-    func_02082BCC(p,0,16);
+    MI_CpuFill8(p,0,16);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
@@ -188,7 +188,7 @@ void func_021BAC0C(unsigned char *p)
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &= 0xFFFF1FFF;
-    func_02082BCC(p, 0, 0x10);
+    MI_CpuFill8(p, 0, 0x10);
     func_020307B0(p);
 }
 
@@ -210,7 +210,7 @@ void func_021BACB4(void *p, unsigned heap)
 {
     const unsigned *row;
     unsigned i, layer;
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
     func_0203F8F4(heap);
     BMP_WIN_Init(heap);
     func_0203FC28(&d_021BB17C);
@@ -223,7 +223,7 @@ void func_021BACB4(void *p, unsigned heap)
     }
 }
 
-void func_021BAD14(void *p){unsigned i;for(i=0;i<6;i++)func_020403F4((unsigned char)d_021BB1F8[i][0]);BMP_WIN_Exit();func_0203F9B4();func_02082BCC(p,0,4);}
+void func_021BAD14(void *p){unsigned i;for(i=0;i<6;i++)func_020403F4((unsigned char)d_021BB1F8[i][0]);BMP_WIN_Exit();func_0203F9B4();MI_CpuFill8(p,0,4);}
 
 /*
  * Tail: two zero alignment bytes at 021BAD4E.
@@ -235,18 +235,18 @@ void func_021BAD50(void *a0){func_020419E4();}
 
 void func_021BAD58(void **out, int a, int b)
 {
-    func_02082BCC(out, 0, 4);
+    MI_CpuFill8(out, 0, 4);
     CLACT_InitSystem((const struct Cfg *)(&d_021BB18C), a, b);
     *out = CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer(*out);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
 /*
  * Tail: two zero alignment bytes at 021BADB2.
  */
-void func_021BAD98(void *p){CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25716 *)p)->f0);CLACT_ExitSystem();func_02082BCC(p,0,4);}
+void func_021BAD98(void *p){CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25716 *)p)->f0);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
 
 void func_021BADB4(void *a0){CLACT_DrawSystem();}
 

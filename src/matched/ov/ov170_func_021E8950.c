@@ -14,7 +14,7 @@
  *   func_021EBA5C 0x021EBA5C thumb ov170
  *   func_021DD14C 0x021DD14C thumb ov170
  *   func_021EE008 0x021EE008 thumb ov170
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021EA858 0x021EA858 thumb ov170
  *   func_021ED888 0x021ED888 thumb ov170
  *   func_021EE038 0x021EE038 thumb ov170
@@ -33,7 +33,7 @@ extern void func_021ED55C(char **p, int flag);
 extern void func_021EBA5C(char *, int);
 extern void func_021DD14C(char *);
 extern void func_021EE008(char *, int, int);
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern int func_021EA858(char *, int);
 extern void func_021ED888(char *, int);
 extern void func_021EE038(char *, int, int, int);
@@ -52,7 +52,7 @@ int func_021E8950(char *p)
         func_021EBA5C(W, 25);
         func_021DD14C(p);
         func_021EE008(p, 0, 0);
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         S++;
         return func_021EA858(p, 0x62);
     case 1:

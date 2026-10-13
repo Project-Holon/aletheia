@@ -1,5 +1,5 @@
 /*
- * function: sub_0207C768
+ * function: FX_Div
  * address:  0x0207C768
  * packet:   pkt_0207C768
  * region:   arm9
@@ -20,8 +20,8 @@
  * (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0207C768.c \
- *       --func sub_0207C768 --addr 0x0207C768 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/FX_Div.c \
+ *       --func FX_Div --addr 0x0207C768 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 extern void sub_0207C930(u32 a, u32 b);
 extern u32  sub_0207C86C(void);
 
-u32 sub_0207C768(u32 a, u32 b)
+u32 FX_Div(u32 a, u32 b)
 {
     sub_0207C930(a, b);
     return sub_0207C86C();

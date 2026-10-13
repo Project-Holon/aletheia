@@ -14,7 +14,7 @@
  * symbols:
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
- *   func_02005F38  0x02005F38  thumb
+ *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -23,14 +23,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02005F38(void *);
+extern u32 GFL_USE_IsBgmPlaying(void *);
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 
 int SCRCMD_WaitBgmStopped(u32 a, u32 b, u32 c, u32 d)
 {
 SCRCMD_WORK_GetGameSystem((void *)b);
-if (func_02005F38(SCRCMD_WORK_GetScriptWork((void *)b)) == 0) {
+if (GFL_USE_IsBgmPlaying(SCRCMD_WORK_GetScriptWork((void *)b)) == 0) {
     return 1;
 }
 return 0;

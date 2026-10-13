@@ -10,7 +10,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_021DD2D0 0x021DD2D0 thumb ov170
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   PROCSYS_Push 0x02031348 arm
  *   d_021F1400 0x021F1400 data a1
  *   gPokeStatusProcData 0x021DC800 data a4 ov131
@@ -31,7 +31,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_021DD2D0(void ***p, int a, unsigned b);
-extern unsigned func_0201AA18(void *p);
+extern unsigned POKEPARTY_GetCount(void *p);
 extern void PROCSYS_Push(void *p, int a, const void *b, void *c);
 extern const char d_021F1400[];
 extern const unsigned gPokeStatusProcData[];
@@ -49,7 +49,7 @@ int func_021DF288(char *p)
     } else {
         r->mon = (*(void ***)p)[2];
         r->kind = 1;
-        r->count = func_0201AA18((*(void ***)p)[2]);
+        r->count = POKEPARTY_GetCount((*(void ***)p)[2]);
         r->slot = ((struct Obj05437 *)p)->f16 - 30;
     }
     mode = 0;

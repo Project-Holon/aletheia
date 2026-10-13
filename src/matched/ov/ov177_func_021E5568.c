@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
@@ -21,7 +21,7 @@
 typedef struct { unsigned id; unsigned template[8]; unsigned type; unsigned enable; } Entry;
 extern const unsigned d_021E8B00[];
 extern const Entry d_021E8B5C[];
-extern void func_02082BCC(void *, unsigned, unsigned);
+extern void MI_CpuFill8(void *, unsigned, unsigned);
 extern void func_0203F8F4(unsigned short);
 extern void BMP_WIN_Init(unsigned short);
 typedef unsigned int   u32;
@@ -34,7 +34,7 @@ extern void func_02040588(unsigned char, unsigned char);
 void func_021E5568(void *p, unsigned short heap)
 {
     unsigned i;
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
     func_0203F8F4(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)d_021E8B00);

@@ -36,8 +36,8 @@
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_0200A628  0x0200A628  thumb
  *   func_0200A640  0x0200A640  thumb
  *   func_0200A644  0x0200A644  thumb
@@ -91,8 +91,8 @@ extern void *GAME_DATA_GetSaveBlock2A(void *h);
 struct Big;
 extern int GAME_DATA_GetExternalWork(char *base);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern u32 func_0201AA18(void *list);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *list);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u8 *func_0200A628(struct Big *p);
 extern Flags *func_0200A640(void *sv);
 extern u32 func_0200A644(struct Big *p, u8 index);
@@ -246,17 +246,17 @@ int SCRCMD_MUSICAL_GetValue(Ctx *c, void *vm)
         u8 n;
 
         list = GAME_DATA_GetMyParty(h);
-        n = func_0201AA18(list);
+        n = POKEPARTY_GetCount(list);
 
         for (i = 0; i < n; i++) {
-            if ((u32)func_021F6744(func_0201AB28(list, (int)i)) == 1)
+            if ((u32)func_021F6744(POKEPARTY_GetMember(list, (int)i)) == 1)
                 count++;
         }
         *dst = count;
         break;
     }
     case 12:
-        if ((u32)func_021F6744(func_0201AB28(GAME_DATA_GetMyParty(h), (int)arg)) == 1)
+        if ((u32)func_021F6744(POKEPARTY_GetMember(GAME_DATA_GetMyParty(h), (int)arg)) == 1)
             *dst = 1;
         else
             *dst = 0;

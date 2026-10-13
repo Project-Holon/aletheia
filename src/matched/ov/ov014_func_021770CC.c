@@ -1,5 +1,5 @@
 /*
- * function: func_021770CC
+ * function: GFL_NET_DEVWIRELESS_Cleanup
  * address: 0x021770CC
  * packet: pkt_ov014_021770CC
  * region: ov014
@@ -10,18 +10,18 @@
  * status: EXACT
  * symbols:
  *   sDevWirelessWork 0x021797A0 data a4
- *   func_021770A8 0x021770A8 thumb ov014
+ *   GFL_NET_DEVWIRELESS_OnShutdownDone 0x021770A8 thumb ov014
  *   NET_WHPIPE_RequestEnd 0x02177EB0 thumb ov014
  */
 typedef unsigned char u8;
 extern u8 *sDevWirelessWork;
-extern int func_021770A8(void *);
+extern int GFL_NET_DEVWIRELESS_OnShutdownDone(void *);
 extern int NET_WHPIPE_RequestEnd(int a);
-int func_021770CC(void (*cb)(void *))
+int GFL_NET_DEVWIRELESS_Cleanup(void (*cb)(void *))
 {
     if(sDevWirelessWork != 0) {
         *(void (**)(void *))(sDevWirelessWork+4)=cb;
-        return NET_WHPIPE_RequestEnd((int)func_021770A8);
+        return NET_WHPIPE_RequestEnd((int)GFL_NET_DEVWIRELESS_OnShutdownDone);
     }
     return 1;
 }

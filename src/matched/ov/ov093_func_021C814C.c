@@ -1,5 +1,5 @@
 /*
- * function: func_021C814C
+ * function: BTL_SERVER_FLOW_IsPokeInPosTable
  * address: 0x021C814C
  * packet: pkt_ov093_021C814C
  * region: ov093
@@ -15,4 +15,4 @@
  */
 typedef unsigned char u8;
 extern int func_0689D588(u8 *, int);
-int func_021C814C(u8 *p, int v) { return func_0689D588(p+0x1ab8,v); }
+int BTL_SERVER_FLOW_IsPokeInPosTable(u8 *p, int v) { return func_0689D588(p+0x1ab8,v); }

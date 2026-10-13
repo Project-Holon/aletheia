@@ -23,7 +23,7 @@
  *   func_021FC830 0x021FC830 thumb ov186
  *   func_021FD854 0x021FD854 thumb ov186
  *   func_021FD1BC 0x021FD1BC thumb ov186
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  */
 #include "../include/Obj00363.h"
@@ -32,7 +32,7 @@ typedef unsigned int u32;
 struct Pair { int x,y; };
 extern void func_021FE784(int,int,int,int);
 extern int func_021FE7B0(int *);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int func_021DDFA0(char *,int,int);
 extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(int,int,struct Pair *);
@@ -53,7 +53,7 @@ int func_021DD440(void *unused,u32 *state,char *q,char *p)
  case 0:func_021FE784(*(int *)&((struct Obj00363 *)q)->f0,2,3,0);*state=1;break;
  case 1:if(func_021FE7B0(*(int * *)&((struct Obj00363 *)q)->f0)) *state=2;break;
  case 2:
-  if(func_02035D20((u32 *)(&x),(u32 *)(&y))){
+  if(TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y))){
    ((struct Obj00731 *)p)->f78=func_021DDFA0(p,x,y);
    if(((struct Obj00731 *)p)->f78) *state=3;
    if(func_021FB4B4((unsigned int *)(((struct Obj00731 *)p)->f20),x,y)){

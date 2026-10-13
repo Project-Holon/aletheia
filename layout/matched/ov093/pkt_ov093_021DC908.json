@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_ABILITY_JustifiedRaiseAttackOnDarkHit",
+   "name": "HAND_TOKUSEI_JustifiedRaiseAttackOnDarkHit",
    "address": "0x021DC908",
    "kind": "game",
    "region": "ov093",

@@ -13,7 +13,7 @@
  *   func_021CA458 0x021CA458 thumb ov128
  *   func_021C9EFC 0x021C9EFC thumb ov128
  *   func_021C9EF0 0x021C9EF0 thumb ov128
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_021C9EB4 0x021C9EB4 thumb ov128
  *   func_021C9E54 0x021C9E54 thumb ov128
  */
@@ -24,7 +24,7 @@ extern void func_021C9EFC(void *,int);
 extern void func_021C9EF0(void *);
 struct Descriptor;
 typedef unsigned int   u32;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_021C9EB4(u8 *,void *);
 extern void func_021C9E54(u8 *);
 void func_021C9730(u8 *p,void *unused,u8 *q)
@@ -39,7 +39,7 @@ void func_021C9730(u8 *p,void *unused,u8 *q)
         for(j=0;j<8;j++) func_021C9EFC(base+i*76,j);
         func_021C9EF0(base+i*76);
     }
-    for(i=0;i<2;i++) func_020452E8(*(void **)(p+i*8+0x118));
+    for(i=0;i<2;i++) BMP_WIN_Delete(*(void **)(p+i*8+0x118));
     func_021C9EB4(p,q);
     p+=0xf8;
     func_021C9E54(p);

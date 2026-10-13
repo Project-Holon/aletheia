@@ -16,7 +16,7 @@
  *   g_021797A8     0x021797A8  data   ov014  a4
  *   func_02178138  0x02178138  thumb  ov014
  *   DWCi_MOV_WH_StateInStartScan  0x0217863C  thumb  ov014
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 extern u8 *g_021797A8;
 void func_02178138(int state);
-void func_02082BCC(void *p, u32 v, u32 n);
+void MI_CpuFill8(void *p, u32 v, u32 n);
 int DWCi_MOV_WH_StateInStartScan(void);
 
 int DWCi_MOV_WH_ChildConnectAuto(u32 a, const u16 *b, u32 c)
@@ -35,7 +35,7 @@ int DWCi_MOV_WH_ChildConnectAuto(u32 a, const u16 *b, u32 c)
         *(u16 *)(g_021797A8 + 0x140C) = b[1];
         *(u16 *)(g_021797A8 + 0x140A) = b[0];
     } else {
-        func_02082BCC(g_021797A8 + 0x140A, 0xff, 6);
+        MI_CpuFill8(g_021797A8 + 0x140A, 0xff, 6);
     }
     *(u32 *)(g_021797A8 + 0x1E74) = a;
     *(u32 *)(g_021797A8 + 0x1E94) = 0;

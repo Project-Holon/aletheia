@@ -26,8 +26,8 @@
  *   func_02007B50  0x02007B50  thumb
  *   func_02007B00  0x02007B00  thumb
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   MIi_CpuClear16 0x02082A48  arm
@@ -35,7 +35,7 @@
  *   STRBUF_GetChars   0x02045A90  arm
  *   sub_0201F41C   0x0201F41C  thumb
  *   GFL_NET_HANDLE_SetUserInfo 0x0203A424 arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   BTL_NET_FreeAfterPlayerInfoUse  0x021D4A04  thumb
  */
 #include "btl_net_types.h"
@@ -169,8 +169,8 @@ extern int POKE_REGULATION_GetDataSize(void);
 extern void *func_02007B50(void **p);
 extern u32 func_02007B00(void);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern u32 func_0201AA18(void *party);
-extern void *func_0201AB28(void *party, u32 index);
+extern u32 POKEPARTY_GetCount(void *party);
+extern void *POKEPARTY_GetMember(void *party, u32 index);
 extern int MYSTATUS_GetSize(void);
 extern u16 STRBUF_GetEosChar(void);
 extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
@@ -178,7 +178,7 @@ extern u16 STRBUF_GetLength(struct StrBuf *buf);
 extern u16 *STRBUF_GetChars(struct StrBuf *buf);
 extern void sub_0201F41C(const u16 *src, u16 *dst, u32 n);
 extern void GFL_NET_HANDLE_SetUserInfo(char *handle, int stage, int flag, int memberMask);
-extern unsigned int func_02039CB4(struct NetHandle *handle, unsigned int stage, unsigned int flag);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct NetHandle *handle, unsigned int stage, unsigned int flag);
 
 void BTL_NET_Init(void *netHandle, u16 memberMask, u16 heapId);
 int BTL_NET_IsInitialSyncDone(void);
@@ -598,9 +598,9 @@ void *BTL_NET_GetParty(u8 clientId)
     }
     party = gBtlNet->relayBuf[clientId];
     if (party != 0) {
-        count = func_0201AA18(party);
+        count = POKEPARTY_GetCount(party);
         for (i = 0; i < count; i++) {
-            func_0201AB28(party, i);
+            POKEPARTY_GetMember(party, i);
         }
         return party;
     }
@@ -785,7 +785,7 @@ int BTL_NET_PollSync(int stage)
 
     if (net != 0) {
         if (net->syncPending != 0) {
-            reached = func_02039CB4((struct NetHandle *)net->netHandle, net->syncStage, 1);
+            reached = GFL_NET_HANDLE_IsTimingSyncRange((struct NetHandle *)net->netHandle, net->syncStage, 1);
             if (reached != 0) {
                 gBtlNet->syncStage = 0;
                 gBtlNet->syncPending = 0;

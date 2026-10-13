@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   sUnionSubdispButtonActorParam     0x021F1048  data  a4
  */
 
@@ -22,7 +22,7 @@ typedef struct { u16 a, b, c, d; } Rect;
 
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern const Rect sUnionSubdispButtonActorParam;
 
 void UNION_SUBDISP_CreateActors(int *p, void *h)
@@ -40,5 +40,5 @@ void UNION_SUBDISP_CreateActors(int *p, void *h)
     r.a = 0xF4;
     r.b = 0x9C;
     p[0xB] = (int)CLACT_CreateActor((void *)p[5], p[2], p[3], p[4], &r, 1, 0x15);
-    func_0204B3DC((struct Obj *)p[0xB], 0);
+    CLACT_SetActorDrawEnable((struct Obj *)p[0xB], 0);
 }

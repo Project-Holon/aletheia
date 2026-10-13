@@ -15,11 +15,11 @@
  * Twin of ITEMMENU_PrintItemList (same record getters and window helpers).
  *
  * symbols:
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   ITEMMENU_GetCursorIndex  0x021B61B8  thumb  ov070
  *   ITEMMENU_GetSlot  0x021B616C  thumb  ov070
  *   ITEMMENU_SetMoveTypeIconsVisible  0x021B97E8  thumb  ov070
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_020212B0  0x020212B0  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
@@ -45,12 +45,12 @@ typedef unsigned char u8;
 typedef short s16;
 
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern int ITEMMENU_GetCursorIndex(u8 *p);
 extern void *ITEMMENU_GetSlot(u8 *p, int i);
 extern void ITEMMENU_SetMoveTypeIconsVisible(char *, int);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf;
 struct MsgBank;
 struct WordSet;
@@ -81,18 +81,18 @@ void ITEMMENU_DrawMoveInfo(char *p)
 
     j = 0;
     for (i = 0; i < 3; i++)
-        func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x6C0), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + i * 4 + 0x6C0), 0);
     for (j = 0; j < 17; j++)
-        func_0204B3DC((struct Obj *)*(int *)(p + j * 4 + 0x6CC), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + j * 4 + 0x6CC), 0);
     e = ITEMMENU_GetSlot((u8 *)p, ITEMMENU_GetCursorIndex((u8 *)p));
     if (e == 0 || *e == 0) {
         ITEMMENU_SetMoveTypeIconsVisible(p, 0);
         return;
     }
     ITEMMENU_SetMoveTypeIconsVisible(p, 1);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)&((struct Obj00002 *)p)->f73C)), 0);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj00002 *)p)->f744)), 0);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)&((struct Obj00002 *)p)->f74C)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((struct Obj00002 *)p)->f73C)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00002 *)p)->f744)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((struct Obj00002 *)p)->f74C)), 0);
     kind = func_020212B0(*e);
     if (kind == 0) {
         MSGDATA_ReadString((struct MsgBank *)(*(u32 *)&((struct Obj00002 *)p)->f51C), 0x86, (void *)(((struct Obj00002 *)p)->f524));

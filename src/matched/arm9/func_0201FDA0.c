@@ -19,11 +19,11 @@
  *   sBmpMenuFile    0x020A7384  data
  *   GF_FONT_Create   0x0201D7EC  thumb
  *   func_0201DC80   0x0201DC80  thumb
- *   func_0201C440   0x0201C440  thumb
+ *   PRINTSYS_QUE_Create   0x0201C440  thumb
  *   BMP_MENU_Add   0x0201F9D0  thumb
  *   BMP_WIN_MakeScreen   0x02045374  arm
  *   func_0201F73C   0x0201F73C  thumb
- *   func_02045730   0x02045730  arm
+ *   BMP_WIN_GetBgLayer   0x02045730  arm
  *   func_020409B4   0x020409B4  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
  *
@@ -105,11 +105,11 @@ extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slo
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201DC80(struct Font *p);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern BmpMenu *BMP_MENU_Add(const BmpMenuHeader *hdr, u32 px, u32 py, u32 pos, u16 heap, u32 cancel);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void  func_020409B4(u32 layer);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
@@ -153,13 +153,13 @@ BmpMenu *BMP_MENU_CreateYesNo(const WinDat *winDat, u16 base, u8 pal, u8 pos, u1
     hdr.unk0e = func_0201DC80(hdr.fontH);
     hdr.unk0c = 10;
     PrintUtil_Init(hdr.util, hdr.win);
-    hdr.que = (void *)func_0201C440((void *)heap);
+    hdr.que = (void *)PRINTSYS_QUE_Create((void *)heap);
     hdr.unk20 = 0;
 
     m = BMP_MENU_Add(&hdr, 0xE, 0, pos, heap, 2);
     BMP_WIN_MakeScreen(hdr.win);
     func_0201F73C(hdr.win, 0, base, pal);
-    func_020409B4(func_02045730(hdr.win));
+    func_020409B4(BMP_WIN_GetBgLayer(hdr.win));
     BMP_WIN_TransferChars(hdr.win);
     return m;
 }

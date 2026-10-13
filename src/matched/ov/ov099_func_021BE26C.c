@@ -11,11 +11,11 @@
  * symbols:
  *   func_021B9670 0x021B9670 thumb ov099
  *   func_021C203C 0x021C203C thumb ov099
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 extern void func_021B9670(char *);
 extern void func_021C203C(char *,int);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 void func_021BE26C(char *p) {
  int i;
  func_021B9670(p+0x274);
@@ -23,5 +23,5 @@ void func_021BE26C(char *p) {
   *(int *)((unsigned int)p+(unsigned int)i*4+0x814)=0;
   func_021C203C(p,i+1);
  }
- func_02082BCC(p+0x50,0,32);
+ MI_CpuFill8(p+0x50,0,32);
 }

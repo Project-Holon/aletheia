@@ -18,6 +18,7 @@
  *   g_021A82BC     0x021A82BC  data
  *   g_021A8298     0x021A8298  data
  *   g_021A82DC     0x021A82DC  data
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 #include "../../matched/include/G_SOCLResource.h"
 
@@ -25,7 +26,7 @@
 #define IS_B(m, d, a) (((((a) ^ (d)) & (m)) != 0 || (~(m) ^ ((d) & ~(m))) != 0) ? 1 : 0)
 typedef unsigned long u32;
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 u32 SOCLi_RoundUp4(u32 size);
 void func_0215F0D4(void);
 int func_0215F0F0(unsigned long netmask, unsigned long dns, unsigned long addr);
@@ -49,7 +50,7 @@ u32 SOCLi_RoundUp4(u32 size)
  */
 void func_0215F0D4(void)
 {
-    func_02082BCC(((char *)&g_021AA4AC), 0, 8);
+    MI_CpuFill8(((char *)&g_021AA4AC), 0, 8);
 }
 
 

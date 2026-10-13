@@ -9,17 +9,17 @@
  * status: EXACT*
  * extent: Two bytes of zero alignment padding follow the return.
  * symbols:
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  */
 typedef unsigned int u32;
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 int func_021B9F4C(int a, int b, int mode)
 {
     u32 x, y;
     int dx, dy, d;
-    if (mode == 0) func_02035D20(&x, &y);
+    if (mode == 0) TOUCHPANEL_GetPointTrg(&x, &y);
     else TOUCHPANEL_GetPointCont(&x, &y);
     if (y >= 104) {
         dx = 128 - x;

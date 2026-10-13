@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
 int OEKAKI_StepHideCursors(char *p, int a1)
 {
     int i;
 
     for (i = 0; i < 5; i++)
-        func_0204B3DC(*(void **)(p + 0x60 + i * 4), 0);
+        CLACT_SetActorDrawEnable(*(void **)(p + 0x60 + i * 4), 0);
     return a1;
 }

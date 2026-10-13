@@ -22,6 +22,7 @@
  *   func_021B87F4 0x021B87F4 thumb ov104
  *   func_021B817C 0x021B817C thumb ov104
  *   func_021B8528 0x021B8528 thumb ov104
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj04432.h"
 typedef unsigned char u8;
@@ -41,7 +42,7 @@ extern void func_021B7F1C(u8 *,void *,int,int,s16);
 extern int func_021B8768(u8 *,const Block *);
 extern int func_021B8880(u8 *);
 extern void func_021B87F4(u8 *,Block *);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021B817C(char *p, u32 v);
 extern void func_021B8528(u8 *,u16 *);
 #define CTX(p) (*(u8 **)((p)+0x8b0))
@@ -59,7 +60,7 @@ void func_021B8384(u8 *p,u16 *state) {
  case 2: if(func_021B8768(p+0xe0,(Block *)(p+0x814))) *state=3; break;
  case 3: func_021B63CC(*(int **)(CTX(p)+4),2); if(func_021B6424(*(int *)(CTX(p)+4))) *state=4; break;
  case 4: if(func_021B630C(*(int **)(CTX(p)+4),3)) { func_021B72A0(*(int *)&((struct Obj04432 *)p)->f7AC,0); *state=5; } break;
- case 5: if(((struct Obj04432 *)p)->f80A>=60) { func_020061E4(0x64b); func_021B7F1C(p+0xcc,p+0xbc,3,0,0); *state=6; } break;
+ case 5: if(((struct Obj04432 *)p)->f80A>=60) { GFL_USE_PlaySeDefaultVolume(0x64b); func_021B7F1C(p+0xcc,p+0xbc,3,0,0); *state=6; } break;
  case 6:
   if((((struct Obj04432 *)p)->f8A2)++<30) return;
   CTX(p)[0x10]=func_021B8880(p);

@@ -11,10 +11,10 @@
  *
  * symbols:
  *   BGWINFRM_GetPos  0x0202CF98  thumb
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   func_02041300  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
  *   func_02040DA8  0x02040DA8  arm
@@ -42,10 +42,10 @@ struct WinMgr;
 extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 struct CharBuf;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void func_020409B4(u32 layer);
 extern void func_02040DA8(u32, u32, u32);
@@ -59,76 +59,76 @@ void func_021F9660(Obj *p, int mode)
     switch (mode) {
     case 4:
         for (i = 0; i < 9; i++) {
-            BMP_Clear(func_02045770(p->win[i]), 10);
+            BMP_Clear(BMP_WIN_GetBmp(p->win[i]), 10);
             BMP_WIN_TransferChars(p->win[i]);
-            func_020452E8(p->win[i]);
+            BMP_WIN_Delete(p->win[i]);
         }
         if (bright[1] == 0x10) {
             func_02041300(2, 5, 0x10, 1, 1, 0xF, 0x10);
             func_02041300(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
             func_020409B4(2);
         }
-        func_020452E8(p->win[14]);
+        BMP_WIN_Delete(p->win[14]);
         break;
     case 5:
         for (i = 0; i < 4; i++) {
-            BMP_Clear(func_02045770(p->win[i]), 10);
+            BMP_Clear(BMP_WIN_GetBmp(p->win[i]), 10);
             BMP_WIN_TransferChars(p->win[i]);
-            func_020452E8(p->win[i]);
+            BMP_WIN_Delete(p->win[i]);
         }
         if (bright[1] == 0x10) {
             func_02041300(2, 5, 0x10, 1, 1, 0xF, 0x10);
             func_02041300(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
             func_020409B4(2);
         }
-        func_020452E8(p->win[14]);
+        BMP_WIN_Delete(p->win[14]);
         break;
     case 0:
         for (i = 0; i < 5; i++) {
-            BMP_Clear(func_02045770(p->win[i]), 10);
+            BMP_Clear(BMP_WIN_GetBmp(p->win[i]), 10);
             BMP_WIN_TransferChars(p->win[i]);
-            func_020452E8(p->win[i]);
+            BMP_WIN_Delete(p->win[i]);
         }
         if (bright[1] == 0x10) {
             func_02041300(2, 5, 0x10, 1, 1, 0xF, 0x10);
             func_02041300(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
             func_020409B4(2);
         }
-        func_020452E8(p->win[14]);
+        BMP_WIN_Delete(p->win[14]);
         break;
     case 6:
         for (i = 0; i < 9; i++) {
-            BMP_Clear(func_02045770(p->win[i]), 10);
+            BMP_Clear(BMP_WIN_GetBmp(p->win[i]), 10);
             BMP_WIN_TransferChars(p->win[i]);
-            func_020452E8(p->win[i]);
+            BMP_WIN_Delete(p->win[i]);
         }
         if (bright[1] == 0x10) {
             func_02041300(2, 5, 0x10, 1, 1, 0xF, 0x10);
             func_02041300(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
             func_020409B4(2);
         }
-        func_020452E8(p->win[14]);
-        func_020452E8(p->win[15]);
+        BMP_WIN_Delete(p->win[14]);
+        BMP_WIN_Delete(p->win[15]);
         break;
     case 3:
         for (i = 0; i < 6; i++) {
-            BMP_Clear(func_02045770(p->win[i]), 10);
+            BMP_Clear(BMP_WIN_GetBmp(p->win[i]), 10);
             BMP_WIN_TransferChars(p->win[i]);
-            func_020452E8(p->win[i]);
+            BMP_WIN_Delete(p->win[i]);
         }
-        func_020452E8(p->win[14]);
+        BMP_WIN_Delete(p->win[14]);
         break;
     case 1:
         for (i = 0; i < 3; i++) {
-            func_020452E8(p->win[i]);
+            BMP_WIN_Delete(p->win[i]);
         }
-        func_020452E8(p->win[14]);
+        BMP_WIN_Delete(p->win[14]);
         break;
     case 2:
         for (i = 0; i < 5; i++) {
-            func_020452E8(p->win[i]);
+            BMP_WIN_Delete(p->win[i]);
         }
-        func_020452E8(p->win[14]);
+        BMP_WIN_Delete(p->win[14]);
         break;
     }
     func_02040DA8(p->f50, 1, 0);

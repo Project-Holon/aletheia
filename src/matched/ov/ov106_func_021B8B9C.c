@@ -26,7 +26,7 @@
  *   func_0200A8E4 0x0200A8E4 thumb
  *   func_0200A908 0x0200A908 thumb
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_SetString 0x02045924 arm
  *   d_021B9680 0x021B9680 data a1
@@ -51,7 +51,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200A8A0(void *);
 extern s32 func_0200A8AC(struct Rec *r);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern u8 func_0200A930(char *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct Entry *func_0200A8C8(struct Rec *r, u32 index);
@@ -65,7 +65,7 @@ void *func_021B8B9C(void *sys,u16 heap) {
  src=func_0200A8A0(GAME_DATA_GetSaveControl(sys));
  count=func_0200A8AC(src);
  out=func_02030734(heap,count*16+4,0,d_021B9680,2724);
- func_02082BCC(out,0,count*16+4);
+ MI_CpuFill8(out,0,count*16+4);
  *(u32 *)out=count;
  if(count) {
   prev=128; seq=0; active=func_0200A930(src);

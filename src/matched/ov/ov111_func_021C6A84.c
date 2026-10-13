@@ -13,7 +13,7 @@
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
  *   func_0201D304  0x0201D304  thumb
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   d_021C8768  0x021C8768  data
  *
@@ -53,7 +53,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 typedef unsigned int   u32;
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintColor(void *bmp, s16 x, s16 y, void *str, void *font, u16 col);
 extern const u16 d_021C8768[];
 
@@ -68,5 +68,5 @@ void func_021C6A84(Work *p, void *win, int x, int ofs, int y, void *str, int mod
     func_0201EFA4(p->f3204, 4, p->info->b35, 2, 2, 1);
     func_0201F250(p->f3204, str, p->f32A0);
     w = func_0201D304(str, (u32)p->f31FC, 0);
-    PRINTSYS_PrintColor(func_02045770(win), x - (w + ofs), y, str, p->f31FC, d_021C8768[col]);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(win), x - (w + ofs), y, str, p->f31FC, d_021C8768[col]);
 }

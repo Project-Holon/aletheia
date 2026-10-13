@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 #include "../include/Obj00143.h"
 #include "../include/Obj05480.h"
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021E0E90(char *p,int animated) {
     int i,group;
     s16 pos;
@@ -43,7 +43,7 @@ void func_021E0E90(char *p,int animated) {
         CLACT_GetActorSurfacePos(((struct Obj05480 *)record)->fC,(struct PtS *)&coords.x,1);
         if(animated==0){
             coords.x=pos;
-            func_0204B404(((struct Obj05480 *)record)->fC,(const struct Vec2 *)(&coords.x),1);
+            CLACT_AddActorSurfacePos(((struct Obj05480 *)record)->fC,(const struct Vec2 *)(&coords.x),1);
         }else{
             ((struct Obj05480 *)record)->f14=(pos-coords.x)/4;
             ((struct Obj05480 *)record)->f16=0;
@@ -60,7 +60,7 @@ void func_021E0E90(char *p,int animated) {
             }
             if(animated==0){
                 coords.a=pos;
-                func_0204B404(((struct Obj05481 *)special)->f15C,(const struct Vec2 *)(&coords.a),1);
+                CLACT_AddActorSurfacePos(((struct Obj05481 *)special)->f15C,(const struct Vec2 *)(&coords.a),1);
             }else{
                 ((struct Obj05481 *)special)->f164=(pos-coords.a)/4;
                 ((struct Obj05481 *)special)->f166=0;

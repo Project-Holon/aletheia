@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C9CC0",
+   "name": "BTL_SERVER_FLOW_ExecCmdSwapHeldItems",
    "address": "0x021C9CC0",
    "kind": "game",
    "region": "ov093",

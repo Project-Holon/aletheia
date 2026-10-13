@@ -17,24 +17,24 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   d_021C4058 0x021C4058 data a1
  *   d_021C4064 0x021C4064 data a1
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_SetPalette 0x02045798 arm
- *   func_02045758 0x02045758 arm
- *   func_02045760 0x02045760 arm
- *   func_02045748 0x02045748 arm
- *   func_02045750 0x02045750 arm
+ *   BMP_WIN_GetPosX 0x02045758 arm
+ *   BMP_WIN_GetPosY 0x02045760 arm
+ *   BMP_WIN_GetDispWidth 0x02045748 arm
+ *   BMP_WIN_GetDispHeight 0x02045750 arm
  *   func_020413B0 0x020413B0 arm
  *   _fflt  0x0209BDBC  arm
  *   _fmul  0x0209C77C  arm
  *   _ffix  0x0209C494  arm
- *   func_02045738  0x02045738  arm
+ *   BMP_WIN_GetWidth  0x02045738  arm
  *   func_0201D304  0x0201D304  thumb
  *   _u32_div_f 0x0209C2B0 arm
  *   d_02148D8C  0x02148D8C  data  a4
@@ -67,27 +67,28 @@
  *   func_021C0E08  0x021C0E08  thumb  ov217
  *   func_021C0E3C  0x021C0E3C  thumb  ov217
  *   func_0206DF3C  0x0206DF3C  arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   CLACT_SetActorAnimLoopCount 0x0204B9C4 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorAutoAnimSpeed 0x0204B954 arm
  *   CLACT_StartActorAnim 0x0204B95C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   _s32_div_f  0x0209C0A4  arm
  *   func_021C2E20  0x021C2E20  thumb  ov217
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  *   PALANM_BlendColors 0x02021F64 thumb
  *   func_0209C2B0  0x0209C2B0  arm
  *   func_02082D44  0x02082D44  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   d_021C408C 0x021C408C data ov217 a1
  *   CLACT_StopActorAnim  0x0204B974  arm  arm9
  *   CLACT_CreateUnit  0x0204B100  arm  arm9
+ *   BMP_WIN_Delete  0x020452E8  arm  arm9
  */
 #include "../../matched/include/Obj26004.h"
 #include "../../matched/include/Obj26005.h"
@@ -347,24 +348,24 @@ struct Rgb555 {
 
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_PrintColor(void *w, s16 x, s16 y, void *text, void *font, u16 color);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(unsigned int bit);
 extern void BMP_WIN_ClearScreen(struct Descriptor *);
 extern void BMP_WIN_SetPalette(struct Descriptor *,u8);
-extern u8 func_02045758(struct Descriptor *);
-extern u8 func_02045760(struct Descriptor *);
-extern u8 func_02045748(struct Descriptor *);
-extern u8 func_02045750(struct Descriptor *);
+extern u8 BMP_WIN_GetPosX(struct Descriptor *);
+extern u8 BMP_WIN_GetPosY(struct Descriptor *);
+extern u8 BMP_WIN_GetDispWidth(struct Descriptor *);
+extern u8 BMP_WIN_GetDispHeight(struct Descriptor *);
 extern void func_020413B0(u32,u8,u8,u8,u8,u8);
-extern u8 func_02045738(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0207D7C4(V *a, V *b, V *c, int d, int e);
 extern void func_0207D760(int a, int b, int c, int d, int e, int f, int g, int h, int i);
@@ -382,14 +383,14 @@ extern double sin(double);
 extern int func_021C0E08(int a0, int a1);
 extern void func_021C0E3C(void *p);
 extern void func_0206DF3C(const VecFx32 *pos, s32 *px, s32 *py);
-extern void func_0204B404(struct Obj *,const struct Vec2 *,u32);
+extern void CLACT_AddActorSurfacePos(struct Obj *,const struct Vec2 *,u32);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
 extern void CLACT_SetActorAnimFrame(struct Obj *,u32);
 extern void CLACT_SetActorAnimLoopCount(struct Actor *,u32);
-extern void func_0204B92C(struct Obj *,u32);
+extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *,u32);
 extern void CLACT_StartActorAnim(struct Actor *);
-extern void func_0204B3DC(struct Obj *,u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 extern void CLACT_StopActorAnim(struct Actor *a);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
@@ -400,7 +401,7 @@ extern void func_021C2E20(char *p);
 extern void PALANM_BlendColors(u16 *,u16 *,u32,int,u16);
 extern u32 func_0209C2B0(u32 a, u32 b);
 extern int func_02082D44(int, int, int);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 struct Record *func_021C0EF4(const struct Config *config, u32 a, u32 b, u32 heap);
 void func_021C0F48(u8 *p);
 u32 func_021C0F5C(u32 a0, u32 a1);
@@ -562,7 +563,7 @@ extern V d_02148DA4;
 extern V d_02148B98;
 extern struct Glb d_02148BCC;
 extern V d_02148B54;
-extern const short d_020A1B38[];
+extern const short FX_SinCosTable_[];
 extern char d_021C408C[];
 
 
@@ -611,7 +612,7 @@ struct Record *func_021C0EF4(const struct Config *config, u32 a, u32 b, u32 heap
  */
 void func_021C0F48(u8 *p)
 {
-    func_020452E8((struct Descriptor *)(((struct Obj26004 *)p)->f18));
+    BMP_WIN_Delete((struct Descriptor *)(((struct Obj26004 *)p)->f18));
     func_020307B0(p);
 }
 
@@ -668,7 +669,7 @@ void func_021C0F78(u8 *p, struct U16Vec *text)
     void *font;
     void *obj;
     color = ((p[8] & 31) << 10) | ((p[9] & 31) << 5) | (p[10] & 31);
-    w = func_02045770(*(void **)(p + 0x18));
+    w = BMP_WIN_GetBmp(*(void **)(p + 0x18));
     BMP_Clear(w, p[10]);
     if (*(int *)(p + 0xC) != 0) {
         x = p[5] + func_021C1090(p, text);
@@ -683,7 +684,7 @@ void func_021C0F78(u8 *p, struct U16Vec *text)
         obj = *(void **)(p + 0x18);
         BMP_WIN_TransferChars(obj);
         BMP_WIN_MakeScreen(obj);
-        func_02041B6C(func_02045730(obj));
+        func_02041B6C(BMP_WIN_GetBgLayer(obj));
     }
 }
 
@@ -710,11 +711,11 @@ void func_021C0FF8(u8 *p,int visible)
         struct Descriptor *d=*(struct Descriptor * *)&((struct Obj06716 *)p)->f18;
         BMP_WIN_TransferChars(d);
         BMP_WIN_MakeScreen((struct Cfg *)d);
-        func_02041B6C(func_02045730(d));
+        func_02041B6C(BMP_WIN_GetBgLayer(d));
     } else if (((struct Obj06716 *)p)->f1C!=0 && visible==0) {
         struct Descriptor *d=*(struct Descriptor * *)&((struct Obj06716 *)p)->f18;
         BMP_WIN_ClearScreen(d);
-        func_02041B6C(func_02045730(d));
+        func_02041B6C(BMP_WIN_GetBgLayer(d));
     }
     ((struct Obj06716 *)p)->f1C=visible;
 }
@@ -738,13 +739,13 @@ void func_021C1038(u8 *p,u8 palette)
     u32 layer;
     u8 x,y,width,height;
     BMP_WIN_SetPalette(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18,palette);
-    layer=func_02045730(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
-    x=func_02045758(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
-    y=func_02045760(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
-    width=func_02045748(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
-    height=func_02045750(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
+    layer=BMP_WIN_GetBgLayer(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
+    x=BMP_WIN_GetPosX(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
+    y=BMP_WIN_GetPosY(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
+    width=BMP_WIN_GetDispWidth(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
+    height=BMP_WIN_GetDispHeight(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18);
     func_020413B0(layer,x,y,width,height,palette);
-    if (((struct Obj03954 *)p)->f1C!=0) func_02041B6C(func_02045730(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18));
+    if (((struct Obj03954 *)p)->f1C!=0) func_02041B6C(BMP_WIN_GetBgLayer(*(struct Descriptor * *)&((struct Obj03954 *)p)->f18));
 }
 
 
@@ -769,7 +770,7 @@ int func_021C1090(u8 *p, void *a1)
 {
     int r;
     int x;
-    x = func_02045738((struct Descriptor *)(((struct Obj14757 *)p)->f18)) * 8;
+    x = BMP_WIN_GetWidth((struct Descriptor *)(((struct Obj14757 *)p)->f18)) * 8;
     x = x - func_0201D304((struct StrObj *)a1, ((struct Obj14757 *)p)->f10, 0);
     r = (int)(0.5f * (float)x);
     if (r < 0) {
@@ -2707,14 +2708,14 @@ void func_021C21C4(u8 *p,int index)
     case 2: palette=((struct Obj06719 *)p)->f1A; break;
     case 3: palette=((struct Obj06719 *)p)->f1C; break;
     }
-    func_0204B404(obj,&point,((struct Obj06719 *)p)->f14);
+    CLACT_AddActorSurfacePos(obj,&point,((struct Obj06719 *)p)->f14);
     CLACT_SetActorAnimSeq(obj,palette);
     CLACT_SetActorAnimFrame(obj,0);
     CLACT_SetActorAnimLoopCount((struct Actor *)obj,1);
-    func_0204B92C(obj,1);
+    CLACT_SetActorAutoAnim(obj,1);
     CLACT_SetActorAutoAnimSpeed((struct Actor *)obj,0x12000);
     CLACT_StartActorAnim((struct Actor *)obj);
-    func_0204B3DC(obj,1);
+    CLACT_SetActorDrawEnable(obj,1);
 }
 
 
@@ -2742,7 +2743,7 @@ void func_021C2260(void *p)
     s32 i;
     s32 n = ((struct Obj26021 *)p)->f298;
     for (i = 0; i < n; i++)
-        func_0204B3DC((struct Obj *)*(u32 *)((char *)p + 0x3c + i * 0x18), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)((char *)p + 0x3c + i * 0x18), 0);
 }
 
 
@@ -3188,7 +3189,7 @@ void func_021C2740(unsigned int a0, unsigned int a1)
 
 
 /*
- * Pushes the +0x10 body through func_0204B3DC, then the +0x14 body when
+ * Pushes the +0x10 body through CLACT_SetActorDrawEnable, then the +0x14 body when
  * func_021C28BC() is busy, the +0x18 body when either query fires, and the
  * +0x1c body unconditionally.
  *
@@ -3196,14 +3197,14 @@ void func_021C2740(unsigned int a0, unsigned int a1)
  */
 void func_021C2748(u32 a0, u32 a1)
 {
-    func_0204B3DC((struct Obj *)((struct Obj08445 *)(((u8*)a0)))->f10, a1);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj08445 *)(((u8*)a0)))->f10, a1);
     if (func_021C28BC((char *)a0) != 0) {
-    func_0204B3DC((struct Obj *)((struct Obj08445 *)(((u8*)a0)))->f14, a1);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj08445 *)(((u8*)a0)))->f14, a1);
     }
     if (func_021C28BC((char *)a0) != 0 || func_021C28A4((char *)a0) != 0) {
-    func_0204B3DC((struct Obj *)((struct Obj08445 *)(((u8*)a0)))->f18, a1);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj08445 *)(((u8*)a0)))->f18, a1);
     }
-    func_0204B3DC((struct Obj *)((struct Obj08445 *)(((u8*)a0)))->f1C, a1);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj08445 *)(((u8*)a0)))->f1C, a1);
 }
 
 
@@ -3223,36 +3224,36 @@ void func_021C278C(u8 *p)
     pos[0] = ((struct Obj03957 *)p)->f4;
     pos[1] = ((struct Obj03957 *)p)->f8;
 
-    func_0204B404(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
+    CLACT_AddActorSurfacePos(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
     CLACT_SetActorAnimSeq(h, ((struct Obj03958 *)q)->f10);
 
     CLACT_SetActorAnimFrame(h, 0);
     CLACT_StopActorAnim(h);
-    func_0204B3DC(h, 0);
+    CLACT_SetActorDrawEnable(h, 0);
 
     h = ((struct Obj03957 *)p)->f14;
     func_021C28EC((const u32 *)p, pos, pos + 1);
-    func_0204B404(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
+    CLACT_AddActorSurfacePos(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
     CLACT_SetActorAnimSeq(h, ((struct Obj03958 *)q)->fE);
     CLACT_SetActorAnimFrame(h, func_021C28BC((char *)p) << 12);
     CLACT_StopActorAnim(h);
-    func_0204B3DC(h, 0);
+    CLACT_SetActorDrawEnable(h, 0);
 
     h = ((struct Obj03957 *)p)->f18;
     func_021C28DC((const u32 *)p, pos, pos + 1);
-    func_0204B404(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
+    CLACT_AddActorSurfacePos(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
     CLACT_SetActorAnimSeq(h, ((struct Obj03958 *)q)->fE);
     CLACT_SetActorAnimFrame(h, func_021C28A4((char *)p) << 12);
     CLACT_StopActorAnim(h);
-    func_0204B3DC(h, 0);
+    CLACT_SetActorDrawEnable(h, 0);
 
     h = ((struct Obj03957 *)p)->f1C;
     func_021C28CC((const u32 *)p, pos, pos + 1);
-    func_0204B404(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
+    CLACT_AddActorSurfacePos(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
     CLACT_SetActorAnimSeq(h, ((struct Obj03958 *)q)->fE);
     CLACT_SetActorAnimFrame(h, func_021C2894((char *)p) << 12);
     CLACT_StopActorAnim(h);
-    func_0204B3DC(h, z);
+    CLACT_SetActorDrawEnable(h, z);
 }
 
 
@@ -3714,7 +3715,7 @@ void func_021C2A30(Rec_021C2A10 *p)
 void func_021C2AA0(u8 *p)
 {
     u16 angle=(u16)((((struct Obj00115 *)p)->f1C<<16)/60u);
-    u8 value=(u8)(int)(16.0f+16.0f*((float)d_020A1B38[(angle>>4)*2]/4096.0f));
+    u8 value=(u8)(int)(16.0f+16.0f*((float)FX_SinCosTable_[(angle>>4)*2]/4096.0f));
     value=value*10/32;
     PALANM_BlendColors(*(u16 * *)&((struct Obj00115 *)p)->fC,*(u16 * *)&((struct Obj00115 *)p)->f8,p[0x10],value,((struct Obj00115 *)p)->f12);
     ((struct Obj00115 *)p)->f1C+=1;
@@ -3732,7 +3733,7 @@ void func_021C2AA0(u8 *p)
 void func_021C2B10(u8 *p)
 {
     u16 angle=(u16)((((struct Obj00115 *)p)->f1C<<16)/30u);
-    u8 value=(u8)(int)(16.0f+16.0f*((float)d_020A1B38[(angle>>4)*2]/4096.0f));
+    u8 value=(u8)(int)(16.0f+16.0f*((float)FX_SinCosTable_[(angle>>4)*2]/4096.0f));
     value=value*3/32;
     PALANM_BlendColors(*(u16 * *)&((struct Obj00115 *)p)->fC,*(u16 * *)&((struct Obj00115 *)p)->f8,p[0x10],value,((struct Obj00115 *)p)->f12);
     ((struct Obj00115 *)p)->f1C+=1;
@@ -3750,7 +3751,7 @@ void func_021C2B10(u8 *p)
 void func_021C2B80(u8 *p)
 {
     u16 angle=(u16)((((struct Obj00115 *)p)->f1C<<16)/90u);
-    u8 value=(u8)(int)(16.0f+16.0f*((float)d_020A1B38[(angle>>4)*2]/4096.0f));
+    u8 value=(u8)(int)(16.0f+16.0f*((float)FX_SinCosTable_[(angle>>4)*2]/4096.0f));
     value=value*3/32;
     PALANM_BlendColors(*(u16 * *)&((struct Obj00115 *)p)->fC,*(u16 * *)&((struct Obj00115 *)p)->f8,p[0x10],value,((struct Obj00115 *)p)->f12);
     ((struct Obj00115 *)p)->f1C+=1;
@@ -3916,7 +3917,7 @@ u32 func_021C2DC4(void *a0)
 void func_021C2DCC(char *p)
 {
     u16 t = ((struct Obj14768 *)p)->f0;
-    func_02082BCC(p, 0, 0x20);
+    MI_CpuFill8(p, 0, 0x20);
     ((struct Obj14768 *)p)->f0 = t;
 }
 

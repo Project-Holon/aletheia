@@ -15,9 +15,9 @@
  *   APP_TASKMENU_CloseMenu  0x02027858  thumb
  *   func_02041B6C  0x02041B6C  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_SendToHandle  0x0203D3A8  arm
- *   func_02039C68  0x02039C68  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   func_021B95B8  0x021B95B8  thumb  ov100
  *   func_021BA290  0x021BA290  thumb  ov100
  *   func_021B9EA4  0x021B9EA4  thumb  ov100
@@ -38,9 +38,9 @@ struct Entry;
 struct Link;
 extern void func_02041B6C(u32 bit);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, unsigned int, unsigned int);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
-extern void func_02039C68(struct Link *, unsigned int, unsigned int);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
 extern void func_021B95B8(u8 *p, u32 v);
 extern void func_021BA290(int, int);
 extern void func_021B9EA4(int a);
@@ -64,9 +64,9 @@ void func_021B9EF8(u8 *a)
     {
         int k = 0xc;
 
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x78, k) != 0) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x78, k) != 0) {
             if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), k << 8, 4, (u32)(a + 0x24c)) != 0) {
-                func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x7c, k);
+                GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x7c, k);
                 func_021B95B8(a, (u32)((void (*)(void))func_021B9DB8));
             }
         }

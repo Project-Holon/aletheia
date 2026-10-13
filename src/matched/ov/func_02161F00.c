@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 #include "../include/Obj17710.h"
 
@@ -18,10 +18,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02082BCC(void *dst, u8 data, u32 size);
+extern void MI_CpuFill8(void *dst, u8 data, u32 size);
 
 void EVENT_FIELD_PROCLINK_InitReturnHeader(void *p)
 {
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
     ((struct Obj17710 *)p)->f2 = 10;
 }

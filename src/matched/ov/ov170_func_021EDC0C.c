@@ -16,9 +16,9 @@
  *   func_02007A18  0x02007A18  thumb
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   func_02017E88  0x02017E88  thumb
- *   func_0201ADE4  0x0201ADE4  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
- *   func_0201AE14  0x0201AE14  thumb
+ *   POKE_PERSONAL_Create  0x0201ADE4  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
+ *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   func_02082A48  0x02082A48  arm
  */
@@ -33,9 +33,9 @@ struct Sub020079BCEntry;
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern void *func_0201ADE4(u32 a, int b, u32 c);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *p);
+extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern void func_02082A48(u32 value, void *dest, u32 size);
 
@@ -57,9 +57,9 @@ void func_021EDC0C(int **a, int box, u8 *dest)
                 if (func_02017E88(e, 0x4c, 0) == 0) {
                     void *pd;
                     form = func_02017E88(e, 0x6f, 0);
-                    pd = func_0201ADE4((u16)sp, form, 0x4c);
-                    t = (u16)func_0201AE1C(pd, 0x21);
-                    func_0201AE14(pd);
+                    pd = POKE_PERSONAL_Create((u16)sp, form, 0x4c);
+                    t = (u16)POKE_PERSONAL_GetParam(pd, 0x21);
+                    POKE_PERSONAL_Delete(pd);
                 } else {
                     t = (sp == 490) ? 1 : 8;
                 }

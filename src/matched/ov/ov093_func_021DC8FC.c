@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_GetJustifiedHandlers
+ * function: HAND_TOKUSEI_GetJustifiedHandlers
  * address: 0x021DC8FC
  * packet: pkt_ov093_021DC8FC
  * region: ov093
@@ -15,10 +15,10 @@
  *   gJustifiedHandlers 0x021F05D0 data ov093 a4
  */
 
-int *BTL_ABILITY_GetJustifiedHandlers(int *p);
+int *HAND_TOKUSEI_GetJustifiedHandlers(int *p);
 extern int gJustifiedHandlers[];
 
-int *BTL_ABILITY_GetJustifiedHandlers(int *p)
+int *HAND_TOKUSEI_GetJustifiedHandlers(int *p)
 {
     *p = 1;
     return gJustifiedHandlers;

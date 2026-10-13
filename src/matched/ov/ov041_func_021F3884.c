@@ -62,14 +62,14 @@
  *   FIELD_CAMERA_StartMoveToSaved  0x0218F9C4  thumb  ov021
  *   FLDMMDL_ClearMoveBit  0x0216D570  thumb  ov010
  *   FLDMMDL_CheckMoveBit  0x0216D57C  thumb  ov010
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
  *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
  *   ICA_ANIME_CreateWithFullBuffer  0x02011428  thumb
  *   ICA_ANIME_GetFrameNum  0x02011608  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   ICA_ANIME_Delete  0x02011558  thumb
  *   ICA_ANIME_GetTranslateAt  0x02011688  thumb
  *   gGimmick41Flights     0x021F4320  data  a4
@@ -109,7 +109,7 @@ struct IcaAnime;
 struct Obj;
 struct Rec12;
 struct VecFx32;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetExpObj(int *p);
 extern int *FIELDMAP_GetCommonWork(char *p, int idx);
@@ -135,7 +135,7 @@ extern int FLD_EXP_OBJ_GetAnimeFrame(int a, int b, int c, int d);
 extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 extern void FIELD_CAMERA_PushState(u8 *a);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int SCRIPT_SYS_CallScriptEvent(void *p, u16 b, int c, int d, u16 e);
 extern void FIELD_CAMERA_StartMove(u8 *a, void *p, int n);
 extern int FIELD_CAMERA_IsMoving(u8 *a);
@@ -187,7 +187,7 @@ int GIMMICK41_EventLaunch(void *a0, int *state)
     u16 idx;
     void *m;
 
-    ctx = GAMESYSTEM_GetFieldMap(func_020124E4(a0));
+    ctx = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(a0));
     s = (void *)FIELDMAP_GetExpObj(ctx);
     w = (u8 *)FIELDMAP_GetCommonWork(ctx, 1);
     obj = FIELDMAP_GetCamera(ctx);
@@ -234,7 +234,7 @@ int GIMMICK41_EventLaunch(void *a0, int *state)
         r = GIMMICK41_GetCannonDirection(w[1], b0);
         v = FLD_EXP_OBJ_GetAnimeFrame((int)s, 0, (u16)b0, (u16)GIMMICK41_GetFirstAnimeSlot(r));
         if (v / 4096 == gGimmick41FireSeFrames[r])
-            func_020061E4(0x698);
+            GFL_USE_PlaySeDefaultVolume(0x698);
         if (v / 4096 < gGimmick41FireDoneFrames[r])
             break;
         i3 = GIMMICK41_GetFirstAnimeSlot(r);
@@ -267,7 +267,7 @@ int GIMMICK41_EventLaunch(void *a0, int *state)
         i4 = GIMMICK41_GetFirstAnimeSlot(GIMMICK41_GetCannonDirection(w[1], b0));
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(s, 0, (u16)b0, (u16)i4), 0);
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(s, 0, (u16)b0, (u16)(i4 + 1)), 0);
-        func_020061E4(0x699);
+        GFL_USE_PlaySeDefaultVolume(0x699);
         (*state)++;
         break;
     case 4:
@@ -276,7 +276,7 @@ int GIMMICK41_EventLaunch(void *a0, int *state)
         v = FLD_EXP_OBJ_GetAnimeFrame((int)s, 0, (u16)b0, (u16)GIMMICK41_GetFirstAnimeSlot(r));
         if (v / 4096 < gGimmick41FlightStartFrames[r])
             break;
-        func_020061E4(0x6A0);
+        GFL_USE_PlaySeDefaultVolume(0x6A0);
         w[2] = 1;
         *(u16 *)(w + 0x718) = 0;
         (*state)++;
@@ -286,7 +286,7 @@ int GIMMICK41_EventLaunch(void *a0, int *state)
         r = GIMMICK41_GetCannonDirection(w[1], b0);
         v = FLD_EXP_OBJ_GetAnimeFrame((int)s, 0, (u16)b0, (u16)GIMMICK41_GetFirstAnimeSlot(r));
         if (v / 4096 == gGimmick41LandingFrames[r]) {
-            func_020061E4(0x696);
+            GFL_USE_PlaySeDefaultVolume(0x696);
             if (w[3] == 0) {
                 GIMMICK41_StartBounce(w);
                 FIELD_CAMERA_SetMode(obj, (int)1);
@@ -370,11 +370,11 @@ int GIMMICK41_EventLaunch(void *a0, int *state)
         m2 = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(ctx));
         if (*(u16 *)(w + 0x718) == *(u16 *)(w + 0x71A) - 1 - gGimmick41LandSeFramesBeforeEnd[idx] && idx != 11) {
             FLDMMDL_ClearMoveBit(m2, (int)0x8000);
-            func_020061E4(0x697);
+            GFL_USE_PlaySeDefaultVolume(0x697);
         }
         if (idx == 11) {
             if (*(u16 *)(w + 0x718) == 0x46)
-                func_020061E4(0x6A1);
+                GFL_USE_PlaySeDefaultVolume(0x6A1);
             if (*(u16 *)(w + 0x718) + 8 >= *(u16 *)(w + 0x71A)) {
                 if ((int)FLDMMDL_CheckMoveBit(m2, (int)0x8000) != 0)
                     FLDMMDL_ClearMoveBit(m2, (int)0x8000);

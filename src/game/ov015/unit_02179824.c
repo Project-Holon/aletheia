@@ -1,7 +1,7 @@
 /*
  * file:     unit_02179824.c
  * unit:     yes
- * function: func_02179824, func_02179840, func_0217984C, func_02179860, func_02179868, func_02179870, func_02179878, func_02179880, func_02179888, func_02179890, func_02179898, func_021798A0, func_021798B4, func_021798BC, func_021798C4, func_021798CC, func_021798D4, func_021798DC, func_0217993C, func_0217998C, func_02179998, func_021799B4, func_021799C0, func_021799CC, func_021799F0, func_021799FC, func_02179A08, func_02179A18, func_02179A4C, func_02179AAC, func_02179B24, func_02179B38
+ * function: func_02179824, func_02179840, func_0217984C, func_02179860, func_02179868, func_02179870, func_02179878, func_02179880, func_02179888, func_02179890, func_02179898, func_021798A0, func_021798B4, func_021798BC, func_021798C4, func_021798CC, func_021798D4, func_021798DC, func_0217993C, func_0217998C, func_02179998, func_021799B4, func_021799C0, func_021799CC, IRCNET_IsRunning, func_021799FC, func_02179A08, func_02179A18, func_02179A4C, func_02179AAC, func_02179B24, func_02179B38
  * address:  0x02179824
  * region:   ov015
  * compiler: dsi/1.1p1
@@ -31,7 +31,7 @@
  *   func_0217A148  0x0217A148  arm    ov015
  *   d_0217AB40     0x0217AB40  data   ov015  a4
  *   d_0217ABA0     0x0217ABA0  data   ov015  a4
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0208F1B4  0x0208F1B4  arm
  *   func_02179F74  0x02179F74  arm    ov015
  *   func_0217A584  0x0217A584  arm    ov015
@@ -85,7 +85,7 @@ extern void func_02034714(const char *expr, unsigned int line, const char *file)
 extern void func_02082D44(void *dst, void *src, int n);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_0217A148(int a0, int a1, int a2);
-extern void func_02082BCC(void *p, int v, u32 n);
+extern void MI_CpuFill8(void *p, int v, u32 n);
 extern u16 func_0208F1B4(void);
 extern void func_02179F74(u8 unitId);
 extern void func_0217A584(void (*cb)(void));
@@ -117,7 +117,7 @@ void func_02179998(void);
 void func_021799B4(unsigned v);
 void func_021799C0(int a);
 void func_021799CC(void);
-unsigned char func_021799F0(void);
+unsigned char IRCNET_IsRunning(void);
 u8 func_021799FC(void);
 u8 func_02179A08(void);
 int func_02179A18(void);
@@ -224,7 +224,7 @@ int func_02179890(void)
 
 unsigned char func_02179898(void)
 {
-    return func_021799F0();
+    return IRCNET_IsRunning();
 }
 
 
@@ -306,7 +306,7 @@ void func_021798DC(void *dst, int n, u8 a, u8 b)
 
 void func_0217993C(u32 a, u8 b)
 {
-    func_02082BCC(&d_0217AAC0, 0, 0xE8);
+    MI_CpuFill8(&d_0217AAC0, 0, 0xE8);
     d_0217AB40.f3c = a;
     d_0217ABA0.b6 = func_0208F1B4();
     func_02179F74(3);
@@ -395,7 +395,7 @@ void func_021799CC(void)
  * unlabelled followers at 021799FC, 02179A08 and 02179A18 (two more
  * getters and a predicate over the same block) make the extent run long.
  */
-unsigned char func_021799F0(void)
+unsigned char IRCNET_IsRunning(void)
 {
     return ((unsigned char *)&d_0217AB80)[0xc];
 }

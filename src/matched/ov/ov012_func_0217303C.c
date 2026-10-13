@@ -16,7 +16,7 @@
  *   COMM_PLAYER_Update  0x02167590  thumb  ov010
  *   COMM_PLAYER_UpdateMyPackage  0x0216786C  thumb  ov010
  *   COLOSSEUM_SendPackage  0x02174C90  thumb  ov012
- *   func_0217FF78  0x0217FF78  thumb  ov019
+ *   COLOSSEUM_UpdateCommPlayers  0x0217FF78  thumb  ov019
  *   COLOSSEUM_FlushChoiceReplies  0x02175110  thumb  ov012
  *   COLOSSEUM_UpdateReadyState  0x02175144  thumb  ov012
  */
@@ -49,7 +49,7 @@ extern void COMM_PLAYER_Update(void *a, struct Work *w);
 extern int COMM_PLAYER_UpdateMyPackage(struct Work *w, struct Report *out);
 typedef unsigned int   u32;
 extern u32 COLOSSEUM_SendPackage(u32 a);
-extern void func_0217FF78(u32 *p);
+extern void COLOSSEUM_UpdateCommPlayers(u32 *p);
 extern void COLOSSEUM_FlushChoiceReplies(u8 *p);
 extern void COLOSSEUM_UpdateReadyState(u8 *p);
 
@@ -70,7 +70,7 @@ void UNION_COMM_UpdateColosseum(Work *w)
                 }
             }
         }
-        func_0217FF78((u32 *)w->q);
+        COLOSSEUM_UpdateCommPlayers((u32 *)w->q);
     }
     COLOSSEUM_FlushChoiceReplies((u8 *)w->q);
     COLOSSEUM_UpdateReadyState((u8 *)w->q);

@@ -14,17 +14,17 @@
  * docs/idioms/a-flag-ternary-over-enum-constants-keeps-the-bne-to-one-polarity.md.
  *
  * symbols:
- *   func_021B9AE0  0x021B9AE0  thumb  ov093
+ *   BTL_MAIN_GetPosParity  0x021B9AE0  thumb  ov093
  *   BTL_MAIN_IsLocalSide  0x021B8BD0  thumb  ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef enum { B_FALSE, B_TRUE } Bool;
-extern u8 func_021B9AE0(u32);
+extern u8 BTL_MAIN_GetPosParity(u32);
 extern int BTL_MAIN_IsLocalSide(u8 *, u8);
 Bool func_021EDA3C(u8 *p, u32 x)
 {
-    if (BTL_MAIN_IsLocalSide(p, func_021B9AE0(x)) != 0)
+    if (BTL_MAIN_IsLocalSide(p, BTL_MAIN_GetPosParity(x)) != 0)
         return B_FALSE;
     return B_TRUE;
 }

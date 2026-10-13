@@ -12,7 +12,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02030734  0x02030734  arm
  *   TRCARD_SYS_BuildProfile  0x0216F40C  thumb  ov010
  *   d_02172B64     0x02172B64  data  ov010
@@ -39,7 +39,7 @@ extern char d_02172B64[];
 extern void GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int b, unsigned int c);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Profile;
 extern void TRCARD_SYS_BuildProfile(struct Profile *out, void *save, int mode, int flag, volatile u16 heap);
@@ -50,7 +50,7 @@ int TRCARD_SYS_Init(void *a, int b, T24 *c)
 
     GFL_HEAP_CreateChildHeap(1, 0x26, 0x18000);
     w = PROCSYS_AllocProcWork(a, 0x20, 0x26);
-    func_02082BCC(w, 0, 0x20);
+    MI_CpuFill8(w, 0, 0x20);
     w->f00 = 0x26;
     w->f18 = func_02030734((u16)w->f00, 0x18, 1, d_02172B64, 0x9f);
     *w->f18 = *c;

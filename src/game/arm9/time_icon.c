@@ -19,7 +19,7 @@
  *   func_020307B0  0x020307B0  arm
  *   func_02082D44  0x02082D44  arm
  *   comm_player_support_File     0x020A77EC  data
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   MYSTATUS_Init  0x020084A0  thumb
  *   func_02012138  0x02012138  thumb
  *   INTRUDE_COMM_GetAreaSlotFlag  0x02158468  thumb
@@ -45,24 +45,24 @@
  *   _u32_div_f      0x0209C2B0  arm
  *   time_icon_File     0x020A7814  data
  *   func_02030DA8  0x02030DA8  arm
- *   func_020311B8  0x020311B8  arm
+ *   TCBL_AddTask  0x020311B8  arm
  *   TCBL_GetWork  0x02031290  arm
  *   func_020056EC   0x020056EC  thumb
  *   BMP_CreateFromArchive   0x0204384C  arm
- *   func_02045730   0x02045730  arm
- *   func_02045758   0x02045758  arm
- *   func_02045738   0x02045738  arm
- *   func_02045760   0x02045760  arm
- *   func_02045740   0x02045740  arm
+ *   BMP_WIN_GetBgLayer   0x02045730  arm
+ *   BMP_WIN_GetPosX   0x02045758  arm
+ *   BMP_WIN_GetWidth   0x02045738  arm
+ *   BMP_WIN_GetPosY   0x02045760  arm
+ *   BMP_WIN_GetHeight   0x02045740  arm
  *   BMP_WIN_GetPalette   0x02045778  arm
  *   BMP_WIN_Create   0x020450F0  arm
  *   BMP_WIN_MakeScreen   0x02045374  arm
  *   func_02041B6C   0x02041B6C  arm
  *   BMP_Delete   0x020437AC  arm
- *   func_02045770   0x02045770  arm
+ *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
- *   func_020452E8   0x020452E8  arm
+ *   BMP_WIN_Delete   0x020452E8  arm
  *   func_02030EAC   0x02030EAC  arm
  *   TCBL_DeleteTask   0x02031194  arm
  *   BMP_Blit   0x020439A0  arm
@@ -274,7 +274,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void func_02082D44(void *src, void *dst, u32 size);
-extern void func_02082BCC(void *p, u32 value, u32 size);
+extern void MI_CpuFill8(void *p, u32 value, u32 size);
 extern void MYSTATUS_Init(struct PlayerRecord *record);
 extern u32 func_02012138(const struct PlayerInfo *info);
 extern int INTRUDE_COMM_GetAreaSlotFlag(int value);
@@ -299,24 +299,24 @@ extern u32 func_02009750(struct HistoryOwner *owner, u32 key);
 extern void func_020095E8(struct HistoryOwner *owner);
 extern u32 _u32_div_f(u32 dividend, u32 divisor);
 extern struct Tcb *func_02030DA8(struct TcbList *list, void (*callback)(struct Tcb *, void *), void *work, u32 priority);
-extern struct TcblNode *func_020311B8(struct TcblList *list, void (*callback)(struct TcblNode *, void *), u32 size, u32 flags);
+extern struct TcblNode *TCBL_AddTask(struct TcblList *list, void (*callback)(struct TcblNode *, void *), u32 size, u32 flags);
 extern void *TCBL_GetWork(struct TcblNode *node);
 extern u32 func_020056EC(u32 range);
 extern struct Bmp *BMP_CreateFromArchive(u32 arcId, u32 memberId, u32 compressed, u32 heapId);
-extern u8 func_02045730(struct BmpWin *win);
-extern u8 func_02045758(struct BmpWin *win);
-extern u8 func_02045738(struct BmpWin *win);
-extern u8 func_02045760(struct BmpWin *win);
-extern u8 func_02045740(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
+extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
+extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
+extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
+extern u8 BMP_WIN_GetHeight(struct BmpWin *win);
 extern u8 BMP_WIN_GetPalette(struct BmpWin *win);
 extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u32 width, u32 height, u32 palette, u32 allocDir);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern void func_02041B6C(u32 bgLayer);
 extern void BMP_Delete(struct Bmp *bmp);
-extern struct Bmp *func_02045770(struct BmpWin *win);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern u32 func_020452E8(struct BmpWin *win);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void func_02030EAC(struct Tcb *tcb);
 extern void TCBL_DeleteTask(struct TcblNode *node);
 extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u32 colorKey);
@@ -482,7 +482,7 @@ void COMM_PLAYER_SUPPORT_Delete(void *support)
 
 void COMM_PLAYER_SUPPORT_Init(struct CommPlayerSupport *support)
 {
-    func_02082BCC(support, 0, 0x4c);
+    MI_CpuFill8(support, 0, 0x4c);
     support->mode = 0;
     support->prevMode = 0;
     support->stashedMode = 0;
@@ -1173,7 +1173,7 @@ u32 func_0202EE0C(u32 total, u32 rate, u32 start, u32 end, u32 margin)
  * registered as a task (callback TIME_ICON_TaskMain); otherwise `task` is zeroed.
  *
  * Sibling of TIME_ICON_CreateNode, which builds the same object through the
- * func_020311B8 allocator instead.
+ * TCBL_AddTask allocator instead.
  */
 struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, volatile u16 heapId)
 {
@@ -1193,7 +1193,7 @@ struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWi
 
 /*
  * Sibling of TIME_ICON_Create: the same 0x1c-byte TimeIcon, built through the
- * func_020311B8 node allocator instead of func_02030734.  The node is
+ * TCBL_AddTask node allocator instead of func_02030734.  The node is
  * stashed at +4 and +0 is zeroed, the mirror image of TIME_ICON_Create, which
  * registers a task into +0 and zeroes +4.  The node callback is
  * TIME_ICON_NodeMain.
@@ -1203,7 +1203,7 @@ struct TimeIcon *TIME_ICON_CreateNode(struct TcblList *nodeList, struct BmpWin *
     struct TcblNode *node;
     struct TimeIcon *icon;
 
-    node = func_020311B8(nodeList, TIME_ICON_NodeMain, 0x1c, 0);
+    node = TCBL_AddTask(nodeList, TIME_ICON_NodeMain, 0x1c, 0);
     icon = TCBL_GetWork(node);
     TIME_ICON_Init(icon, refWin, fillColor, waitInterval, heapId);
     icon->node = node;
@@ -1231,16 +1231,16 @@ void TIME_ICON_Init(struct TimeIcon *icon, struct BmpWin *refWin, u8 fillColor, 
     icon->frame = func_020056EC(8);
     icon->sheet = BMP_CreateFromArchive(0xC6, 0, 1, icon->heapId);
 
-    bgLayer = func_02045730(refWin);
-    posX = func_02045758(refWin);
-    width = func_02045738(refWin);
-    posY = func_02045760(refWin);
-    height = func_02045740(refWin);
+    bgLayer = BMP_WIN_GetBgLayer(refWin);
+    posX = BMP_WIN_GetPosX(refWin);
+    width = BMP_WIN_GetWidth(refWin);
+    posY = BMP_WIN_GetPosY(refWin);
+    height = BMP_WIN_GetHeight(refWin);
     palette = BMP_WIN_GetPalette(refWin);
 
     BMP_WIN_MakeScreen(icon->win = BMP_WIN_Create(bgLayer, (u8)((posX + width) - 2),
                                    (u8)((posY + height) - 2), 2, 2, palette, 1));
-    func_02041B6C(func_02045730(icon->win));
+    func_02041B6C(BMP_WIN_GetBgLayer(icon->win));
 }
 
 /* Allocates an idle TimeIcon: heap id and frame sheet only; TIME_ICON_Start finishes it. */
@@ -1271,16 +1271,16 @@ void TIME_ICON_Start(struct TimeIcon *icon, struct TcbList *taskList, struct Bmp
     icon->waitInterval = waitInterval;
     icon->frame = func_020056EC(8);
 
-    bgLayer = func_02045730(refWin);
-    posX = func_02045758(refWin);
-    width = func_02045738(refWin);
-    posY = func_02045760(refWin);
-    height = func_02045740(refWin);
+    bgLayer = BMP_WIN_GetBgLayer(refWin);
+    posX = BMP_WIN_GetPosX(refWin);
+    width = BMP_WIN_GetWidth(refWin);
+    posY = BMP_WIN_GetPosY(refWin);
+    height = BMP_WIN_GetHeight(refWin);
     palette = BMP_WIN_GetPalette(refWin);
 
     BMP_WIN_MakeScreen(icon->win = BMP_WIN_Create(bgLayer, (u8)((posX + width) - 2),
                                    (u8)((posY + height) - 2), 2, 2, palette, 1));
-    func_02041B6C(func_02045730(icon->win));
+    func_02041B6C(BMP_WIN_GetBgLayer(icon->win));
 
     icon->node = 0;
     icon->task = func_02030DA8(taskList, TIME_ICON_TaskMain, icon, 0);
@@ -1301,9 +1301,9 @@ void TIME_ICON_Delete(struct TimeIcon *icon)
     }
 
     icon->isActive = 0;
-    BMP_Clear(func_02045770(icon->win), icon->fillColor);
+    BMP_Clear(BMP_WIN_GetBmp(icon->win), icon->fillColor);
     BMP_WIN_TransferChars(icon->win);
-    func_020452E8(icon->win);
+    BMP_WIN_Delete(icon->win);
     BMP_Delete(icon->sheet);
 
     if (icon->task != 0) {
@@ -1339,8 +1339,8 @@ void TIME_ICON_Update(struct TimeIcon *icon)
         return;
 
     if (icon->waitCounter == 0) {
-        BMP_Clear(func_02045770(icon->win), icon->fillColor);
-        BMP_Blit(icon->sheet, func_02045770(icon->win), 0,
+        BMP_Clear(BMP_WIN_GetBmp(icon->win), icon->fillColor);
+        BMP_Blit(icon->sheet, BMP_WIN_GetBmp(icon->win), 0,
                       (u32)icon->frame << 4, 0, 0, 0x10, 0x10, 0);
         BMP_WIN_TransferChars(icon->win);
 

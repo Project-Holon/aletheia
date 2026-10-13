@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_HANDLER_ITEM_DeepSeaScaleDoubleSpDef",
-    "BTL_HANDLER_ITEM_GetMetalPowderHandlers"
+    "HAND_ITEM_DeepSeaScaleDoubleSpDef",
+    "HAND_ITEM_GetMetalPowderHandlers"
    ],
    "addresses": [
     "0x021DE79C",

@@ -13,7 +13,7 @@
  * shape follows ov073's ENCEFF_NameCutInEventMain.
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   ENCEFF_RequestScreenCapture  0x021F54A0  thumb  ov075
  *   func_0204047C  0x0204047C  arm
@@ -31,7 +31,7 @@
 #include "../../ov021/fieldmap_types.h"
 #include "../unit_021F5260_types.h"
 
-extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern void ENCEFF_RequestScreenCapture(EncEffScreenTexWork *work);
 extern void func_0204047C(int idx, u16 val);
@@ -53,7 +53,7 @@ int ENCEFF_ScreenTexEventMain(struct GameEvent *event, int *state, EncEffScreenT
     u32 texBanks;
     struct GameEvent *child;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     switch (*state) {
     case 0:

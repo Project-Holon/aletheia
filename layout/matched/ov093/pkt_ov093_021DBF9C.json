@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DBF9C",
-    "func_021DBFC8"
+    "HAND_TOKUSEI_SheerForce_FlagNoAddedEffect",
+    "HAND_TOKUSEI_GetSheerForceHandlers"
+   ],
+   "addresses": [
+    "0x021DBF9C",
+    "0x021DBFC8"
    ],
    "evidence": {
     "sole-ref": [

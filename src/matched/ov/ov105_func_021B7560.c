@@ -14,7 +14,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02012138 0x02012138 thumb
  *   func_0201F73C 0x0201F73C thumb
  *   func_02041F6C 0x02041F6C arm
@@ -47,7 +47,7 @@ struct Task;
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
 struct Rec;
@@ -79,7 +79,7 @@ int func_021B7560(struct Task *a,void *b,u8 *context)
     int tag,font;
     GFL_HEAP_CreateChildHeap(1,60,0x20000);
     p=PROCSYS_AllocProcWork((struct Obj0203159C *)a,0x1a8,60);
-    func_02082BCC(p,0,0x1a8);
+    MI_CpuFill8(p,0,0x1a8);
     *(u8 * *)&((struct Obj03234 *)p)->f1A4=context;
     func_021B784C(p,60);
     func_021B7C20((u32 *)(p+0xb0),0,60);

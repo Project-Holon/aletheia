@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 #include "../include/Obj08149.h"
 typedef unsigned char u8;
@@ -18,7 +18,7 @@ struct Point { s16 x, y; };
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void P_STA_OAM_SetBitmapActorsPos(u8 *p, s16 x, s16 y)
 {
     struct Point pt;
@@ -27,7 +27,7 @@ void P_STA_OAM_SetBitmapActorsPos(u8 *p, s16 x, s16 y)
         for (j = 0; j < p[0x22]; j++) {
             pt.x = (s16)(x + (j << 6));
             pt.y = (s16)(y + (i << 5));
-            func_0204B404(*(void **)(p + 4 + (j + i * p[0x22]) * 4), (const struct Vec2 *)(&pt), ((struct Obj08149 *)p)->f20);
+            CLACT_AddActorSurfacePos(*(void **)(p + 4 + (j + i * p[0x22]) * 4), (const struct Vec2 *)(&pt), ((struct Obj08149 *)p)->f20);
         }
     }
 }

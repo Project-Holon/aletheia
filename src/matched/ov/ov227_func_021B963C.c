@@ -34,14 +34,14 @@
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
- *   func_02013E4C  0x02013E4C  thumb
+ *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_Dummy  0x020185F0  thumb
- *   func_0201A98C  0x0201A98C  thumb
- *   func_0201AA14  0x0201AA14  thumb
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
+ *   POKEPARTY_GetCapacity  0x0201AA14  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_0202F190  0x0202F190  thumb
  *   PROCSYS_Main  0x02031330  arm
  *   PROCSYS_Push  0x02031348  arm
@@ -106,8 +106,8 @@ extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern void func_02008500(void *a, void *b);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32 func_0201AA18(void *p);
-extern u32 func_0201AA14(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
+extern u32 POKEPARTY_GetCapacity(void *p);
 extern u32 func_02007698(void *save);
 extern int func_020076D0(void *save, int *pbox, int *pslot);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -117,7 +117,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
-extern u32 func_02013E4C(u32 a);
+extern u32 ZONEDATA_GetPlaceNameId(u32 a);
 extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 func_0200CA38(struct Blk37 *p);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
@@ -130,7 +130,7 @@ extern int *NAMEIN_SETUP_CreateCaptureArgs(unsigned short a, int b, int c, int d
 extern int NAMEIN_SETUP_IsCanceled(int *p);
 extern void NAMEIN_SETUP_CopyName(int *p, int a1);
 extern int NAMEIN_SETUP_FreeArgs(int a0);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern u32 POKE_TOOL_Dummy(u32 a);
 extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
 
@@ -155,8 +155,8 @@ u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
             func_02008DF0((struct Sub02008C20Obj *)x28, (u32)0x54);
             func_02008500((void *)x20, (void *)g->f04);
             POKE_TOOL_SetPartyValue((void *)c->f2, 0x8d, g->f04);
-            x2c = (int)func_0201AA18((void *)x24);
-            if (x2c >= (int)func_0201AA14((void *)x24)) {
+            x2c = (int)POKEPARTY_GetCount((void *)x24);
+            if (x2c >= (int)POKEPARTY_GetCapacity((void *)x24)) {
                 u32 a, b;
                 a = func_02007698((void *)x1c);
                 b = 0;
@@ -166,7 +166,7 @@ u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
                 g->f28 = (u32)func_02045EC0((struct MsgBank *)h, ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork((const struct BigObj *)c->f0), (u32)0x96d) != 0 ? 0xb1 : 0xb0);
                 MSGDATA_Delete((struct Rec *)h);
             }
-            x30 = func_02013E4C((u32)GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct SaveBlock *)c->f0)));
+            x30 = ZONEDATA_GetPlaceNameId((u32)GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct SaveBlock *)c->f0)));
             func_0202F190((void *)c->f2, 0, x20, x30, (u32)g->f30);
             fl = 0;
             x18 = func_0200CA38((struct Blk37 *)r7);
@@ -228,7 +228,7 @@ u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
     case 3:
         x24 = (u32)GAME_DATA_GetMyParty((const struct BigObj *)c->f0);
         if (g->f28 == 0) {
-            func_0201A98C((struct Party *)x24, (const struct PartyMon *)c->f2);
+            POKEPARTY_Add((struct Party *)x24, (const struct PartyMon *)c->f2);
         } else {
             r7 = GAME_DATA_GetBoxManager((const struct BigObj *)c->f0);
             func_020074D8((void **)r7, (const struct Sub02007454Entry *)POKE_TOOL_Dummy(c->f2));

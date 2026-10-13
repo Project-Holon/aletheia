@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetLightBallHandlers
+ * function: HAND_ITEM_GetLightBallHandlers
  * address: 0x021DF510
  * packet: pkt_ov093_021DF510
  * region: ov093
@@ -15,10 +15,10 @@
  *   gLightBallHandlers 0x021F167C data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetLightBallHandlers(int *p);
+int *HAND_ITEM_GetLightBallHandlers(int *p);
 extern int gLightBallHandlers[];
 
-int *BTL_HANDLER_ITEM_GetLightBallHandlers(int *p)
+int *HAND_ITEM_GetLightBallHandlers(int *p)
 {
     *p = 2;
     return gLightBallHandlers;

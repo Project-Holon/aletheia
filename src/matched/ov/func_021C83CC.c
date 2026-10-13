@@ -1,5 +1,5 @@
 /*
- * function: func_021C83CC
+ * function: BTL_SERVER_FLOW_NextSerialNumberThunk
  * address:  0x021C83CC
  * packet:   pkt_021C83CC
  * region:   ov093
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_SERVER_FLOW_NextSerialNumber   0x021C2E4C  thumb ov093
- *   func_021C83CC   0x021C83CC  thumb ov093
+ *   BTL_SERVER_FLOW_NextSerialNumberThunk   0x021C83CC  thumb ov093
  *
  * tail-call thunk to BTL_SERVER_FLOW_NextSerialNumber
  */
@@ -25,7 +25,7 @@ typedef signed int s32;
 
 extern u32 BTL_SERVER_FLOW_NextSerialNumber(u8 *p);
 
-u32 func_021C83CC(u8 *p)
+u32 BTL_SERVER_FLOW_NextSerialNumberThunk(u8 *p)
 {
     return BTL_SERVER_FLOW_NextSerialNumber(p);
 }

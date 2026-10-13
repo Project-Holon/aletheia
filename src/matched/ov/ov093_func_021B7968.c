@@ -25,9 +25,9 @@
  *   BTL_NET_GetRelayedPlayerInfo 0x021D49CC thumb ov093
  *   BTL_NET_FreeRelayedPlayerInfo 0x021D49E0 thumb ov093
  *   BTL_NET_FreeAfterPlayerInfoUse 0x021D4A04 thumb ov093
- *   func_021B9E38 0x021B9E38 thumb ov093
- *   func_021B9EF0 0x021B9EF0 thumb ov093
- *   func_021BA670 0x021BA670 thumb ov093
+ *   BTL_TRAINER_SLOT_InitPlayer 0x021B9E38 thumb ov093
+ *   BTL_TRAINER_SLOT_InitFromPacket 0x021B9EF0 thumb ov093
+ *   BTL_MAIN_CopyClientPlayerStatus 0x021BA670 thumb ov093
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -55,9 +55,9 @@ extern int BTL_NET_IsRelayedPlayerInfoReceived(void);
 extern void *BTL_NET_GetRelayedPlayerInfo(void);
 extern void BTL_NET_FreeRelayedPlayerInfo(void);
 extern void BTL_NET_FreeAfterPlayerInfoUse(void);
-extern void func_021B9E38(char *p, int a, int b);
-extern void func_021B9EF0(struct A *p, const struct B *src);
-extern void func_021BA670(char *p, u8 k, void *dst);
+extern void BTL_TRAINER_SLOT_InitPlayer(char *p, int a, int b);
+extern void BTL_TRAINER_SLOT_InitFromPacket(struct A *p, const struct B *src);
+extern void BTL_MAIN_CopyClientPlayerStatus(char *p, u8 k, void *dst);
 struct MsgBank;
 struct Rec;
 struct U16Vec;
@@ -103,7 +103,7 @@ int BTL_MAIN_SeqExchangePlayers(u8 *p,u32 *state)
                 s = BTL_NET_GetPlayerInfo(i);
                 if (s) {
                     offset = i * 0x28;
-                    func_021B9E38((char *)(p + 0x20 + offset),*(u16 *)(p + 0x468),(int)s);
+                    BTL_TRAINER_SLOT_InitPlayer((char *)(p + 0x20 + offset),*(u16 *)(p + 0x468),(int)s);
                     if (i != p[0x46c] && ((Bits *)(q + 0xc1))->c) {
                         void *str;
                         int j;
@@ -122,7 +122,7 @@ int BTL_MAIN_SeqExchangePlayers(u8 *p,u32 *state)
                         MSGDATA_Delete(bank);
                         *(void **)(p + offset + 0x24) = s2;
                     }
-                    func_021BA670((char *)p,i,*(void **)(p + offset + 0x20));
+                    BTL_MAIN_CopyClientPlayerStatus((char *)p,i,*(void **)(p + offset + 0x20));
                 }
             }
             ++*state;
@@ -147,7 +147,7 @@ int BTL_MAIN_SeqExchangePlayers(u8 *p,u32 *state)
         ++*state;
     case 8:
         if (BTL_NET_IsRelayedPlayerInfoReceived()) {
-            func_021B9EF0((struct A *)(p + 0x20 + p[0x472] * 0x28),BTL_NET_GetRelayedPlayerInfo());
+            BTL_TRAINER_SLOT_InitFromPacket((struct A *)(p + 0x20 + p[0x472] * 0x28),BTL_NET_GetRelayedPlayerInfo());
             BTL_NET_FreeRelayedPlayerInfo();
             ++p[0x470];
             if (p[0x470] >= p[0x471]) *state = 10;

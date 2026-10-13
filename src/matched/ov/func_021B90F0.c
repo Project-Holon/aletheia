@@ -1,5 +1,5 @@
 /*
- * function: func_021B90F0
+ * function: BTL_MAIN_GetMapMatrix
  * address:  0x021B90F0
  * packet:   pkt_021B90F0
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B90F0   0x021B90F0  thumb ov093
+ *   BTL_MAIN_GetMapMatrix   0x021B90F0  thumb ov093
  *
  * double deref: *(u32*)(*p + 0x64)
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u32 func_021B90F0(void **p)
+u32 BTL_MAIN_GetMapMatrix(void **p)
 {
     return ((struct Obj18136 *)((u8 *)*p))->f64;
 }

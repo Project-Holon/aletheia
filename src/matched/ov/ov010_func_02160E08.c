@@ -13,7 +13,7 @@
  * caller's record) or mode 6 (from the save, picking the first party
  * slot that passes the kind's checks). Levers: both source words read
  * into locals before the two stores, the kind == -1 arm written as the
- * else so it lands at the tail, func_0201AA18 returning int.
+ * else so it lands at the tail, POKEPARTY_GetCount returning int.
  *
  * symbols:
  *   sub_02030734   0x02030734  arm
@@ -21,10 +21,10 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200CA38  0x0200CA38  thumb
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_0200873C  0x0200873C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_HasRibbonData  0x0201897C  thumb
  *   d_02172978     0x02172978  data
@@ -85,10 +85,10 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200CA1C(void *sys);
 extern u32 func_0200CA38(struct Blk37 *p);
-extern u32 func_0201AA18(void *party);
+extern u32 POKEPARTY_GetCount(void *party);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern void *func_0201AB28(void *party, u32 i);
+extern void *POKEPARTY_GetMember(void *party, u32 i);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_HasRibbonData(struct Hdr *p);
 extern const char d_02172978[];
@@ -117,7 +117,7 @@ Setup *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(Work *w, int kind, int mode, S
         link = src->f0c;
         s->party = party;
         s->f04 = link;
-        s->count = func_0201AA18(party);
+        s->count = POKEPARTY_GetCount(party);
         s->slot = src->f3c;
         switch (src->f40) {
         case 4:
@@ -143,7 +143,7 @@ Setup *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(Work *w, int kind, int mode, S
     } else if (mode == 6) {
         s->f04 = func_0200873C(save);
         s->party = GAME_DATA_GetMyParty(sys);
-        s->count = func_0201AA18(GAME_DATA_GetMyParty(sys));
+        s->count = POKEPARTY_GetCount(GAME_DATA_GetMyParty(sys));
         s->slot = 0;
         s->f0d = 0;
         s->f20 = 1;
@@ -151,8 +151,8 @@ Setup *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(Work *w, int kind, int mode, S
             s->kind = kind;
             if (s->kind == 2) {
                 party = GAME_DATA_GetMyParty(sys);
-                for (i = 0; i < (int)func_0201AA18(party); i++) {
-                    mon = func_0201AB28(party, i);
+                for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
+                    mon = POKEPARTY_GetMember(party, i);
                     if (POKE_TOOL_GetPartyValue(mon, 0xA9, 0) && POKE_TOOL_HasRibbonData(mon) && POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {
                         s->slot = i;
                         break;
@@ -160,8 +160,8 @@ Setup *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(Work *w, int kind, int mode, S
                 }
             } else if (s->kind == 1) {
                 party = GAME_DATA_GetMyParty(sys);
-                for (i = 0; i < (int)func_0201AA18(party); i++) {
-                    mon = func_0201AB28(party, i);
+                for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
+                    mon = POKEPARTY_GetMember(party, i);
                     if (POKE_TOOL_GetPartyValue(mon, 0xA9, 0) && POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {
                         s->slot = i;
                         break;

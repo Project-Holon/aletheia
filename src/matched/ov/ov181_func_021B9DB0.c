@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  */
 #include "../include/Obj14409.h"
 struct Descriptor;
 typedef unsigned int   u32;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
-void func_021B9DB0(char *p){func_020452E8(*(struct Descriptor * *)&((struct Obj14409 *)p)->f2BC);func_020452E8(*(struct Descriptor * *)&((struct Obj14409 *)p)->f2C4);BMP_WIN_Exit();}
+void func_021B9DB0(char *p){BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj14409 *)p)->f2BC);BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj14409 *)p)->f2C4);BMP_WIN_Exit();}

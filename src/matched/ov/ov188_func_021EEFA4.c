@@ -15,7 +15,7 @@
  * before `i` — the original keeps the 0xC38 base in r4 and i in r5.
  *
  * symbols:
- *   func_02082BCC   0x02082BCC  arm
+ *   MI_CpuFill8   0x02082BCC  arm
  *   func_021EEED8   0x021EEED8  thumb
  *
  * Clear 0xA90 bytes at p+0xC38, then release each non-null entry of the
@@ -23,14 +23,14 @@
  */
 
 
-extern void func_02082BCC(int, int, int);
+extern void MI_CpuFill8(int, int, int);
 extern void func_021EEED8(int, char *);
 
 void func_021EEFA4(int *a, char *p)
 {
     char *base;
     unsigned int i;
-    func_02082BCC((int)(p + 0xC38), 0, 0xA90);
+    MI_CpuFill8((int)(p + 0xC38), 0, 0xA90);
     base = p + 0xC38;
     for (i = 0; i < 4; i++) {
         int v = a[9 + i];

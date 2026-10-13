@@ -16,8 +16,8 @@
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   UNION_ONESELF_CheckNetErrorExit  0x0217BB20  thumb  ov019
  *   UNION_MSG_CloseAllWindows  0x0217F074  thumb  ov019
@@ -77,8 +77,8 @@ extern u32 GFL_NET_IsParentAid(void);
 extern void GFL_NET_SetLoginOption(u8 a0);
 extern void GFL_NET_NotifyUserEvent(u32 unused, void *arg);
 struct Link;
-extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
-extern unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern int UNION_ONESELF_CheckNetErrorExit(char *p);
 extern void UNION_MSG_CloseAllWindows(void *p);
@@ -142,13 +142,13 @@ int UNION_ONESELF_ColosseumEntryMain(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
         }
         if (obj->b1 == 0) {
             UNION_COMM_SetGameKindByStatus(obj->f00);
-            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc, 0x14);
+            GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc, 0x14);
         }
         (*state)++;
         break;
     case 1:
         if (obj->b1 == 0) {
-            if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc, 0x14) == 1) {
+            if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc, 0x14) == 1) {
                 GFL_NET_NotifyUserEvent((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
                 (*state)++;
             }

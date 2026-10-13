@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   FIELD_STATUS_GetSeasonDispFlag  0x02014484  thumb
  *   INTRUDE_COMM_SetState  0x02174E14  thumb ov011
@@ -19,7 +19,7 @@
 
 typedef unsigned int   u32;
 struct BigObj;
-u32 func_02026478(void *obj);
+u32 GAME_COMM_GetGameData(void *obj);
 void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 struct Sub02014444Obj;
 unsigned char FIELD_STATUS_GetSeasonDispFlag(struct Sub02014444Obj *o);
@@ -30,7 +30,7 @@ void INTRUDE_COMM_UpdateSeasonState(unsigned char *p)
 {
     int r;
 
-    r = FIELD_STATUS_GetSeasonDispFlag((struct Sub02014444Obj *)GAME_DATA_GetMoveModelSys((const struct BigObj *)func_02026478((void *)(((struct Obj09347 *)p)->f4))));
+    r = FIELD_STATUS_GetSeasonDispFlag((struct Sub02014444Obj *)GAME_DATA_GetMoveModelSys((const struct BigObj *)GAME_COMM_GetGameData((void *)(((struct Obj09347 *)p)->f4))));
     switch (r) {
     case 0:
         if (((unsigned)(((struct Obj09347 *)p)->f86 << 17) >> 26) == 2) {

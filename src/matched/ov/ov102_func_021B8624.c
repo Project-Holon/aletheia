@@ -16,8 +16,8 @@
  *   opt_propagation off with named off/rows locals keeps the index copy and row address sequence (G8L1).
  * symbols:
  * BUTTON_MAN_UpdateSlots 0x02051C88 arm
- * func_020061E4 0x020061E4 thumb
- * func_02045730 0x02045730 arm
+ * GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ * BMP_WIN_GetBgLayer 0x02045730 arm
  * func_020413B0 0x020413B0 arm
  * func_020409B4 0x020409B4 arm
  */
@@ -35,8 +35,8 @@ typedef struct {
     u32 enabled;
 } State;
 extern int BUTTON_MAN_UpdateSlots(struct Ctx *);
-extern void func_020061E4(u32);
-extern u8 func_02045730(struct Descriptor *);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 index);
 #pragma opt_propagation off
@@ -46,7 +46,7 @@ void func_021B8624(State *p)
     case 0:
         p->done=0;
         if(BUTTON_MAN_UpdateSlots(p->ctx) && p->enabled) {
-            func_020061E4(1352);
+            GFL_USE_PlaySeDefaultVolume(1352);
             p->timer=0;
             p->phase=1;
         }
@@ -62,7 +62,7 @@ void func_021B8624(State *p)
         u8 *rows;
         u8 palette1;
         blink=(u8)((p->timer/4)%2);
-        win=func_02045730(*(struct Descriptor **)((u8 *)p+4+p->index*4));
+        win=BMP_WIN_GetBgLayer(*(struct Descriptor **)((u8 *)p+4+p->index*4));
         i=p->index;
         off=i*12;
         rows=p->rows;

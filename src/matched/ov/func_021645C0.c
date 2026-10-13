@@ -14,8 +14,8 @@
  *
  * symbols:
  *   GAME_DATA_GetPlayerZoneId   0x02012AC8  thumb
- *   func_02013D20   0x02013D20  thumb
- *   func_02013E04   0x02013E04  thumb
+ *   ZONEDATA_IsZone34   0x02013D20  thumb
+ *   ZONEDATA_IsNormalFieldZone   0x02013E04  thumb
  */
 
 typedef unsigned char u8;
@@ -24,16 +24,16 @@ typedef unsigned int u32;
 
 struct Rec44;
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
-extern u32 func_02013D20(u32 id);
-extern u32 func_02013E04(u32 id);
+extern u32 ZONEDATA_IsZone34(u32 id);
+extern u32 ZONEDATA_IsNormalFieldZone(u32 id);
 
 int EVENTDATA_SYSTEM_CheckNormalFieldZoneNotZone34(void *a0, void *a1, void *a2)
 {
     int r = GAME_DATA_GetPlayerZoneId(a2);
 
-    if (func_02013D20(r) != 0)
+    if (ZONEDATA_IsZone34(r) != 0)
         return 0;
 
-    return func_02013E04(r);
+    return ZONEDATA_IsNormalFieldZone(r);
 }
 

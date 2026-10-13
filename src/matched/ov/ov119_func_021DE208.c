@@ -8,18 +8,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  */
 #include "../include/Obj00251.h"
 
 typedef unsigned int u32;
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 typedef unsigned char  u8;
 extern void func_020355D8(u8 v);
 static inline int poll(void)
 {
-    int v=func_020362DC();
+    int v=KEY_GetTrg();
     if(v) func_020355D8(0);
     return v;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA08C
+ * function: BTL_MAIN_GetField
  * address:  0x021BA08C
  * packet:   pkt_021B85A0
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA08C   0x021BA08C  thumb
+ *   BTL_MAIN_GetField   0x021BA08C  thumb
  *
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: movs r1, #0xaf; lsls r1, r1, #2; ldr r0, [r0, r1]; bx lr.
  */
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 /* 021BA08C  movs r1,#0xaf; lsls r1,#2; ldr r0,[r0,r1] */
 struct Q2 { u8 pad[0x2bc]; u32 v; };
-u32 func_021BA08C(struct Q2 *p) { return p->v; }
+u32 BTL_MAIN_GetField(struct Q2 *p) { return p->v; }
 

@@ -12,8 +12,8 @@
  * remaining handed extent is tables/strings, not an unlabelled follower.
  * symbols:
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
- *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045770  0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  */
 #include "../include/Obj09884.h"
@@ -22,16 +22,16 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
 static inline void clean(u8 *p, int off)
 {
     void *t = ((struct Obj09884 *)p)->f50C;
     if (p[off] != 0) {
-        if (func_0201C6C4(t, (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + off - 4)))) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget(t, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)(p + off - 4)))) == 0) {
             BMP_WIN_TransferChars((struct Descriptor *)*(u32 *)(p + off - 4));
             p[off] = 0;
         }

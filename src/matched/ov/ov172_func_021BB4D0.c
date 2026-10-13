@@ -13,7 +13,7 @@
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   func_02041EE4 0x02041EE4 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 #include "../include/Obj02880.h"
 #include "../include/Obj14307.h"
@@ -29,7 +29,7 @@ extern u16 CLACT_GetActorAnimSeq(struct Obj *);
 extern void func_02041EE4(u32, u32, u32);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021BB4D0(void *unused, u8 *q)
 {
     s16 pos[2];
@@ -47,7 +47,7 @@ void func_021BB4D0(void *unused, u8 *q)
             CLACT_GetActorSurfacePos(*(struct Actor * *)&((struct Obj14307 *)element)->f58, (struct PtS *)pos, 0);
             pos[1] = q[5] + 180;
             if (i == 5) pos[1] -= 12;
-            func_0204B404((struct Obj *)(*(struct Actor * *)&((struct Obj14307 *)element)->f58), (const struct Vec2 *)pos, 0);
+            CLACT_AddActorSurfacePos((struct Obj *)(*(struct Actor * *)&((struct Obj14307 *)element)->f58), (const struct Vec2 *)pos, 0);
         }
     }
 }

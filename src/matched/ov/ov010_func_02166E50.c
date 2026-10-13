@@ -34,7 +34,7 @@
  *   PMSI_PARAM_GetWords  0x02024128  thumb
  *   PMSI_PARAM_GetWord  0x02024124  thumb
  *   PMSI_PARAM_GetSentence  0x02024134  thumb
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E6F0  0x0200E6F0  thumb
@@ -80,7 +80,7 @@ extern int PMSI_PARAM_CheckCanceled(unsigned char *p);
 extern void  PMSI_PARAM_GetWords(void *t, Res4 *out);
 extern unsigned int PMSI_PARAM_GetWord(unsigned short *p);
 extern void PMSI_PARAM_GetSentence(char *a, void *b);
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E6F0(u32 a);
@@ -121,7 +121,7 @@ u32 SYMBOL_MAP_PmsInputTaskMain(void *obj, u32 *mode)
             } else {
                 PMSI_PARAM_GetSentence(t, &r8);
                 if (w->f18 != 0) {
-                    func_0200E714(func_0200E6F0((u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(func_020124E4(obj)))), w->f14, (struct Rec0200E714 *)(&r8));
+                    func_0200E714(func_0200E6F0((u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(obj)))), w->f14, (struct Rec0200E714 *)(&r8));
                 }
                 *w->out0 = r8.a;
                 v = r8.b;

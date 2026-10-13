@@ -22,8 +22,8 @@
  *   func_0201F250  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   func_0201D304  0x0201D304  thumb
- *   func_02045738  0x02045738  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetWidth  0x02045738  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   d_02211B68     0x02211B68  data  ov198  a4
  */
@@ -52,8 +52,8 @@ struct Descriptor;
 struct StrObj;
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern u8 func_02045738(struct Descriptor *p);
-extern void *func_02045770(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 d_02211B68[];
 
@@ -64,7 +64,7 @@ static inline u8 center_x(int w)
 
 static inline void put(u8 *p, void *win, void *sel, short x, u32 y, void *h, u16 color)
 {
-    PRINTSYS_PrintQueColor(win, (u32)func_02045770(sel), x, y, (u32)h, *(u32 *)(*(u8 **)p + 0xc), color);
+    PRINTSYS_PrintQueColor(win, (u32)BMP_WIN_GetBmp(sel), x, y, (u32)h, *(u32 *)(*(u8 **)p + 0xc), color);
     *(u8 *)(p + 0x1F74) = 1;
 }
 
@@ -109,7 +109,7 @@ void func_0220DA6C(u8 *p, int idx)
         a = (u8)func_0201D304(msg2, *(u32 *)(*(u8 **)p + 0xc), a);
         b = 8;
     }
-    half = center_x(func_02045738(o) * 8 - t - a - b);
+    half = center_x(BMP_WIN_GetWidth(o) * 8 - t - a - b);
     put(p, *(void **)(p + 0x1EAC), *(void **)(p + 0x1F70), half, 7, vec, 0x3DC0);
     STRBUF_Delete(vec);
     if (msg2 != 0) {

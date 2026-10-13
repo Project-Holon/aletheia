@@ -34,6 +34,7 @@
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm  arm9
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm  arm9
  *   PROCSYS_AllocProcWork  0x0203159C  arm  arm9
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 
 typedef signed char s8;
@@ -72,7 +73,7 @@ extern u8 ov067_id[];
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void *func_02202608(u32 heap);
 extern void *PROCSYS_Create(int a0);
 extern u32 func_02030CB0(u32 n);
@@ -98,7 +99,7 @@ int func_021F4580(void *proc, int *seq, Args *args)
     func_02034AC4((u32)ov067_id);
     GFL_HEAP_CreateChildHeap(1, 0x48, 0x30100);
     p = PROCSYS_AllocProcWork(proc, sizeof(Work), 0x48);
-    func_02082BCC(p, 0, sizeof(Work));
+    MI_CpuFill8(p, 0, sizeof(Work));
     g_02203F80 = p;
     p->mon = func_02202608(0x48);
     p->save = PROCSYS_Create(0x48);

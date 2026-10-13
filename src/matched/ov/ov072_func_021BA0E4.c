@@ -14,7 +14,7 @@
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   func_020355D8  0x020355D8  arm
  *   func_020355C4  0x020355C4  arm
  *   TOWNMAP_MapFindNearestTown  0x021BA710  thumb  ov072
@@ -24,10 +24,10 @@
  *   VEC_Mag        0x0207CBD0  arm
  *   VEC_Normalize  0x0207CCA4  arm
  *   BUTTON_MAN_ScaleVec  0x020520A4  arm
- *   func_0204B404  0x0204B404  arm
- *   func_020362DC  0x020362DC  arm
- *   func_02035D20  0x02035D20  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 typedef short s16;
 typedef unsigned int u32;
@@ -50,7 +50,7 @@ typedef struct {
     int f10;
 } Cur;
 
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 typedef unsigned char  u8;
 extern void func_020355D8(u8 v);
 extern u8 func_020355C4(void);
@@ -63,11 +63,11 @@ extern void VEC_Normalize(const struct Vec3 *v, struct Vec3 *d);
 extern void BUTTON_MAN_ScaleVec(const struct Vec3 *v, int s, struct Vec3 *d);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern u32 func_020362DC(void);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern u32 KEY_GetTrg(void);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 void TOWNMAP_CursorUpdate(Cur *c, void *q)
 {
@@ -86,22 +86,22 @@ void TOWNMAP_CursorUpdate(Cur *c, void *q)
 
     moved = 0;
     c->fc = 0;
-    if (func_0203630C() & 0x40) {
+    if (KEY_GetCont() & 0x40) {
         func_020355D8(0);
         dir.y -= 0x1000;
         moved = 1;
     }
-    if (func_0203630C() & 0x80) {
+    if (KEY_GetCont() & 0x80) {
         func_020355D8(0);
         dir.y += 0x1000;
         moved = 1;
     }
-    if (func_0203630C() & 0x20) {
+    if (KEY_GetCont() & 0x20) {
         func_020355D8(0);
         dir.x -= 0x1000;
         moved = 1;
     }
-    if (func_0203630C() & 0x10) {
+    if (KEY_GetCont() & 0x10) {
         func_020355D8(0);
         dir.x += 0x1000;
         moved = 1;
@@ -147,13 +147,13 @@ void TOWNMAP_CursorUpdate(Cur *c, void *q)
         else if (t < 8)
             t = 8;
         c->pt.y = t;
-        func_0204B404((struct Obj *)c->obj, (const struct Vec2 *)(&c->pt), 0);
+        CLACT_AddActorSurfacePos((struct Obj *)c->obj, (const struct Vec2 *)(&c->pt), 0);
     }
-    if (func_020362DC() & 1) {
+    if (KEY_GetTrg() & 1) {
         func_020355D8(0);
         c->fc = 1;
     }
-    if (func_02035D20(&tx, &ty)) {
+    if (TOUCHPANEL_GetPointTrg(&tx, &ty)) {
         func_020355D8(1);
         if (tx <= 0xf8 && ty - 8 <= 0xa0) {
             c->fc = 1;
@@ -162,7 +162,7 @@ void TOWNMAP_CursorUpdate(Cur *c, void *q)
         }
     }
     if (func_020355C4() == 0)
-        func_0204B3DC((struct Obj *)c->obj, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)c->obj, 1);
     else
-        func_0204B3DC((struct Obj *)c->obj, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)c->obj, 0);
 }

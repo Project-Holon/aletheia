@@ -17,10 +17,10 @@
  *   func_021ECB20 0x021ECB20 thumb ov170
  *   func_021ECB60 0x021ECB60 thumb ov170
  *   func_021DD694 0x021DD694 thumb ov170
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021EBBC8 0x021EBBC8 thumb ov170
  *   func_021E8F50 0x021E8F50 thumb ov170
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_0202136C 0x0202136C thumb
  *   func_021EBC58 0x021EBC58 thumb ov170
@@ -42,10 +42,10 @@ extern int func_021E0190(char *);
 extern void func_021ECB20(char *, int, int);
 extern void func_021ECB60(char *, int, int);
 extern int func_021DD694(void ***, unsigned);
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern void func_021EBBC8(u8 *, unsigned, int);
 extern int func_021E8F50(char *, int);
-extern void *func_0201AB28(void *, unsigned);
+extern void *POKEPARTY_GetMember(void *, unsigned);
 extern unsigned POKE_TOOL_GetPartyValue(void *, unsigned, unsigned);
 extern unsigned func_0202136C(u16);
 extern void func_021EBC58(u8 *, int, int, int);
@@ -71,14 +71,14 @@ int func_021E8024(char *p)
             func_021ECB60(W, ((struct Obj00000 *)p)->f16, 0);
             slot = ((struct Obj00000 *)p)->f16 - 30;
             if (func_021DD694((void ***)p, slot) == 0) {
-                func_020061E4(0x557);
+                GFL_USE_PlaySeDefaultVolume(0x557);
                 func_021EBBC8((u8 *)p, 6, 24);
                 *(u8 *)(W + 0xA170) = 1;
                 ((struct Obj00000 *)p)->f28 = 14;
                 return func_021E8F50(p, 6);
             }
-            if (func_0202136C(POKE_TOOL_GetPartyValue(func_0201AB28(((struct Obj23928 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f8, slot), 6, 0)) == 1) {
-                func_020061E4(0x557);
+            if (func_0202136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(((struct Obj23928 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f8, slot), 6, 0)) == 1) {
+                GFL_USE_PlaySeDefaultVolume(0x557);
                 func_021EBC58((u8 *)p, 0, 5, 24);
                 *(u8 *)(W + 0xA170) = 1;
                 ((struct Obj00000 *)p)->f28 = 14;
@@ -90,7 +90,7 @@ int func_021E8024(char *p)
             func_021ECB60(W, ((struct Obj00000 *)p)->f16, 0);
         }
         if (func_02017E88((void *)func_021DD2D0((void ***)p, ((struct Obj00000 *)p)->f14, ((struct Obj00000 *)p)->f16), 0x4c, 0) != 0) {
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
             func_021EBBC8((u8 *)p, 3, 24);
             *(u8 *)(W + 0xA170) = 1;
             ((struct Obj00000 *)p)->f28 = 14;

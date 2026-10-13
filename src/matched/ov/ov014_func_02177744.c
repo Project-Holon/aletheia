@@ -1,5 +1,5 @@
 /*
- * function: func_02177744
+ * function: NET_WHPIPE_TickEntryAges
  * address:  0x02177744
  * packet:   pkt_ov014_02177744
  * region:   ov014
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 
 extern struct W *g_pWhPipeWork;
 
-void func_02177744(void)
+void NET_WHPIPE_TickEntryAges(void)
 {
     u8 *w = ((u8 *)g_pWhPipeWork);
     int i;

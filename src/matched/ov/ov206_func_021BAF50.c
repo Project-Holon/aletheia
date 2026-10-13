@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_02045770 0x02045770 arm
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  */
 #include "../include/Obj14637.h"
@@ -18,17 +18,17 @@
 typedef unsigned char  u8;
 struct CharBuf;
 struct PrintSys;
-extern void func_0201C6EC(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 void func_021BAF50(char *p)
 {
     int i;
-    func_0201C6EC((struct PrintSys *)(((struct Obj25402 *)p)->f2C));
+    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj25402 *)p)->f2C));
     for (i = 0; i < 4; i++) {
         char *slot = p + i * 4;
         ((struct Obj14637 *)slot)->f7C = 1;
-        BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj14637 *)slot)->f6C)), 0);
+        BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj14637 *)slot)->f6C)), 0);
     }
 }

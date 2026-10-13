@@ -18,10 +18,10 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   func_020122C0  0x020122C0  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   FIELD_STATUS_CreateSubProcEvent  0x020146F8  thumb
- *   func_0202647C  0x0202647C  thumb
+ *   GAME_COMM_GetLastKind  0x0202647C  thumb
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
@@ -38,12 +38,12 @@ struct BigObj;
 struct Ctx;
 struct Desc;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
-extern u32 func_0202647C(void *obj);
+extern u32 GAME_COMM_GetLastKind(void *obj);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void GFL_NET_ERR_RequestScreen(void);
 struct Evt;
@@ -57,14 +57,14 @@ extern int EVENT_COMM_ERROR_RunCommExit(u32 a, int *st);
 
 int EVENT_COMM_ERROR_Run(u32 a, int *st)
 {
-    void *h = func_020124E4((void *)a);
+    void *h = GAME_EVENT_GetGameSystem((void *)a);
     void *o = GAMESYSTEM_GetFieldMap(h);
     void *v;
 
     switch (*st) {
     case 0:
         FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys((void *)o));
-        if (func_0202647C((void *)GAMESYSTEM_GetGameComm(h)) == 2) {
+        if (GAME_COMM_GetLastKind((void *)GAMESYSTEM_GetGameComm(h)) == 2) {
             if (GAME_DATA_GetIntrudeCount(GAMESYSTEM_GetGameData(h)) == 1) {
                 GFL_NET_ERR_RequestScreen();
                 v = FIELD_STATUS_CreateSubProcEvent(h, (int)o, (int)ov021_id, (int)sCommErrorSubProcData, (int)h);

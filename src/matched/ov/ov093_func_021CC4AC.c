@@ -1,5 +1,5 @@
 /*
- * function: func_021CC4AC
+ * function: BTL_SERVER_FLOW_ItemEffectTryUseHeldItem
  * address:  0x021CC4AC
  * packet:   pkt_ov093_021CC4AC
  * region:   ov093
@@ -13,7 +13,7 @@
  *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
  *   func_021CC4F8  0x021CC4F8  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
- *   func_021C84AC  0x021C84AC  thumb  ov093
+ *   BTL_SERVER_FLOW_ProcHeldItemActivateWithResult  0x021C84AC  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -24,15 +24,15 @@ struct QI;
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 extern int func_021CC4F8(u16 v);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern int func_021C84AC(u8 *p, u8 *a, u8 *out);
+extern int BTL_SERVER_FLOW_ProcHeldItemActivateWithResult(u8 *p, u8 *a, u8 *out);
 
-u8 func_021CC4AC(void *a, void *m)
+u8 BTL_SERVER_FLOW_ItemEffectTryUseHeldItem(void *a, void *m)
 {
     u8 buf;
 
     if (func_021CC4F8((u16)(u32)BTL_POKEPARAM_GetItem(m)) == 0) {
         BTL_POKEPARAM_GetPokeId(m);
-        if ((u8)func_021C84AC(a, m, &buf) == 0) {
+        if ((u8)BTL_SERVER_FLOW_ProcHeldItemActivateWithResult(a, m, &buf) == 0) {
             return buf != 0 ? 2 : 0;
         }
         return 1;

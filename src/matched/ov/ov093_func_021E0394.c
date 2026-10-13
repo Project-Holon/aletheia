@@ -1,5 +1,5 @@
 /*
- * function: func_021E0394
+ * function: HAND_WAZA_RemoveMoveHandlerUnlessKept
  * address:  0x021E0394
  * packet:   pkt_ov093_021E0394
  * region:   ov093
@@ -29,7 +29,7 @@ extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 extern u32 BTL_EVENT_GetFactorWork(u8 *p, int i);
 extern void BTL_EVENT_RemoveFactor(struct Node *n);
 
-void func_021E0394(u8 *a, int b)
+void HAND_WAZA_RemoveMoveHandlerUnlessKept(u8 *a, int b)
 {
     void *n;
     void *next;

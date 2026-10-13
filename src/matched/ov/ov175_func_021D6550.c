@@ -8,18 +8,18 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021E888C 0x021E888C thumb ov177
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern u32 func_021E888C(void *,u32);
 void func_021D6550(u32 *p,int mode)
 {
     struct { u32 x0,x1,x2,x3,x4,x5,x6,x7; u16 a,b,c,d; int enabled; u16 kind,pad; } desc;
     if (p[10]==0) {
-        func_02082BCC(&desc,0,48);
+        MI_CpuFill8(&desc,0,48);
         desc.x0=p[4]; desc.x1=p[2]; desc.x2=p[3];
         desc.a=0; desc.b=15; desc.c=13; desc.d=1;
         switch(mode) {

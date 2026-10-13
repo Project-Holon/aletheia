@@ -1,5 +1,5 @@
 /*
- * function: BTL_ITEM_GetWeakenDamageWaterHandlers
+ * function: HAND_ITEM_GetWeakenDamageWaterHandlers
  * address: 0x021DDAD8
  * packet: pkt_ov093_021DDAD8
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int gBtlItemWeakenDamageWaterHandlers[];
-int *BTL_ITEM_GetWeakenDamageWaterHandlers(int *p);
+int *HAND_ITEM_GetWeakenDamageWaterHandlers(int *p);
 
-int *BTL_ITEM_GetWeakenDamageWaterHandlers(int *p)
+int *HAND_ITEM_GetWeakenDamageWaterHandlers(int *p)
 {
     *p = 2;
     return gBtlItemWeakenDamageWaterHandlers;

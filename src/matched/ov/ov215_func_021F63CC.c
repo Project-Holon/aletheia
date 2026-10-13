@@ -10,7 +10,7 @@
  * volatile: hardware 021F63F2,63F4,63F8,6400,6402,6406.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
@@ -31,7 +31,7 @@ typedef unsigned short u16;
 extern const char d_021F73E0[];
 extern const unsigned d_021F71C4[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 typedef unsigned int   u32;
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 struct DispVram;
@@ -50,7 +50,7 @@ char *func_021F63CC(unsigned mode,u16 heap)
 {
     char *p;
     p=func_02030734(heap,16,0,d_021F73E0,466);
-    func_02082BCC(p,0,16);
+    MI_CpuFill8(p,0,16);
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &=0xFFFF1FFF;

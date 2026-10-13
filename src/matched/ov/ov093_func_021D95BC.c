@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_InfatuationGuard_CureOnPeriodicCheck
+ * function: HAND_TOKUSEI_InfatuationGuard_CureOnPeriodicCheck
  * address: 0x021D95BC
  * packet: pkt_ov093_021D95BC
  * region: ov093
@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D93D8.c and filed here.
  *
  * symbols:
- *   BTL_TOKUSEI_CureSick 0x021D96FC thumb
+ *   HAND_TOKUSEI_CureSick 0x021D96FC thumb
  */
 
-void BTL_TOKUSEI_InfatuationGuard_CureOnPeriodicCheck(int a, void *b, int c);
-void BTL_TOKUSEI_CureSick(void *a, int b, int c);
+void HAND_TOKUSEI_InfatuationGuard_CureOnPeriodicCheck(int a, void *b, int c);
+void HAND_TOKUSEI_CureSick(void *a, int b, int c);
 
-void BTL_TOKUSEI_InfatuationGuard_CureOnPeriodicCheck(int a, void *b, int c)
+void HAND_TOKUSEI_InfatuationGuard_CureOnPeriodicCheck(int a, void *b, int c)
 {
-    BTL_TOKUSEI_CureSick(b, c, 7);
+    HAND_TOKUSEI_CureSick(b, c, 7);
 }

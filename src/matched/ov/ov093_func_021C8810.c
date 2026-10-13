@@ -1,5 +1,5 @@
 /*
- * function: func_021C8810
+ * function: BTL_SERVER_FLOW_ClearMsgRecord
  * address: 0x021C8810
  * packet: pkt_ov093_021C8810
  * region: ov093
@@ -10,15 +10,15 @@
  * extent: two-byte alignment padding at 0x021C8826.
  * lever: clearing the low eight-bit field emits bics; a raw mask emits ands.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Packed021C8810 { u16 low : 8; u16 high : 8; };
-extern void func_02082BCC(void *, int, u32);
-void func_021C8810(u8 *p)
+extern void MI_CpuFill8(void *, int, u32);
+void BTL_SERVER_FLOW_ClearMsgRecord(u8 *p)
 {
-    func_02082BCC(p, 0, 0x24);
+    MI_CpuFill8(p, 0, 0x24);
     ((struct Packed021C8810 *)(p + 2))->low = 0;
 }

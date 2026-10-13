@@ -15,15 +15,15 @@
  *   func_02040618  0x02040618  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_Create  0x02043678  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   FIELD_MSGBG_LoadBgWinGraphics  0x02191D88  thumb  ov021
- *   func_02045758  0x02045758  arm
- *   func_02045760  0x02045760  arm
- *   func_02045738  0x02045738  arm
- *   func_02045740  0x02045740  arm
+ *   BMP_WIN_GetPosX  0x02045758  arm
+ *   BMP_WIN_GetPosY  0x02045760  arm
+ *   BMP_WIN_GetWidth  0x02045738  arm
+ *   BMP_WIN_GetHeight  0x02045740  arm
  *   FIELD_MSGBG_DrawBgWinFrame  0x02191DC8  thumb  ov021
  *   func_020409B4  0x020409B4  arm
  *   FIELD_MSGBG_InitCursor  0x021927C0  thumb  ov021
@@ -46,15 +46,15 @@ struct CharBuf;
 struct Descriptor;
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *w);
+extern void *BMP_WIN_GetBmp(struct Descriptor *w);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *w);
 extern void FIELD_MSGBG_LoadBgWinGraphics(u32 a, u32 b, u32 c, u32 d);
-extern u8 func_02045758(struct Descriptor *p);
-extern u8 func_02045760(struct Descriptor *p);
-extern u8 func_02045738(struct Descriptor *p);
-extern u8 func_02045740(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
+extern u8 BMP_WIN_GetHeight(struct Descriptor *p);
 extern void FIELD_MSGBG_DrawBgWinFrame(u32 layer, u32 x, u32 y, u32 w, u32 h, u32 tile, u32 pal);
 extern void func_020409B4(u32 layer);
 struct Fx;
@@ -79,14 +79,14 @@ u32 *FIELD_MSGBG_CreateBgWinFont(u16 *a, u32 b, u32 c)
     p[1] = BMP_WIN_Create((u8)a[1], 2, 0x13, 0x1c, 4, 9, 1);
     p[2] = (u32)BMP_Create(0x1c, 4, 0x20, a[0]);
     p[3] = (u32)BMP_Create(0x1c, 4, 0x20, a[0]);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p[1])), 15);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p[1])), 15);
     BMP_WIN_MakeScreen((struct Cfg *)p[1]);
     BMP_WIN_TransferChars((struct Descriptor *)p[1]);
     FIELD_MSGBG_LoadBgWinGraphics(a[1], 9, b, a[0]);
-    x = func_02045758((struct Descriptor *)p[1]);
-    y = func_02045760((struct Descriptor *)p[1]);
-    w = func_02045738((struct Descriptor *)p[1]);
-    h = func_02045740((struct Descriptor *)p[1]);
+    x = BMP_WIN_GetPosX((struct Descriptor *)p[1]);
+    y = BMP_WIN_GetPosY((struct Descriptor *)p[1]);
+    w = BMP_WIN_GetWidth((struct Descriptor *)p[1]);
+    h = BMP_WIN_GetHeight((struct Descriptor *)p[1]);
     FIELD_MSGBG_DrawBgWinFrame((u8)a[1], x, y, w, h, 0x33, 9);
     func_020409B4((u8)a[1]);
     FIELD_MSGBG_InitCursor((struct G *)(p + 10), (struct Fx *)p[0]);

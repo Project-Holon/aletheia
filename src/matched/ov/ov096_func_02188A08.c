@@ -12,7 +12,7 @@
  *   VM_GetU32  0x0201134C  thumb
  *   func_0218A160  0x0218A160  thumb  ov096
  *   func_0218A0F4  0x0218A0F4  thumb  ov096
- *   func_021C82D0  0x021C82D0  thumb  ov093
+ *   BTL_SERVER_FLOW_GetSideEffectEntry  0x021C82D0  thumb  ov093
  */
 #include "../include/Obj21934.h"
 
@@ -24,7 +24,7 @@ struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
-extern int func_021C82D0(int unused, unsigned int v, int k);
+extern int BTL_SERVER_FLOW_GetSideEffectEntry(int unused, unsigned int v, int k);
 
 int func_02188A08(struct Cursor *a, int b, int c)
 {
@@ -37,6 +37,6 @@ int func_02188A08(struct Cursor *a, int b, int c)
     t1 = VM_GetU32(a);
     t2 = VM_GetU32(a);
     r = func_0218A160((u8 *)b, t0);
-    r = func_021C82D0(((struct Obj21934 *)b)->fB4, r, t1);
+    r = BTL_SERVER_FLOW_GetSideEffectEntry(((struct Obj21934 *)b)->fB4, r, t1);
     return func_0218A0F4((u8 *)a, c, r != 0, 1, t2);
 }

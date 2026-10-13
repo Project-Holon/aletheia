@@ -1,5 +1,5 @@
 /*
- * function: func_02175358
+ * function: COLOSSEUM_SetupBattleMember
  * address:  0x02175358
  * packet:   pkt_ov012_02175358
  * region:   ov012
@@ -36,7 +36,7 @@ typedef struct {
     u8 b9;
 } View;
 
-void func_02175358(Obj *p, View *out, int i)
+void COLOSSEUM_SetupBattleMember(Obj *p, View *out, int i)
 {
     out->word = p->word[i];
     out->rec = &p->rec[i];

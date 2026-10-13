@@ -1,5 +1,5 @@
 /*
- * function: func_021E0DF4
+ * function: HAND_WAZA_GetCurseHandlers
  * address: 0x021E0DF4
  * packet: pkt_ov093_021E0DF4
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E0DC4.c and filed here.
  *
  * symbols:
- *   d_021F28D8 0x021F28D8 data ov093 a4
+ *   gCurseHandlers 0x021F28D8 data ov093 a4
  */
 
-int *func_021E0DF4(int *p);
-extern int d_021F28D8[];
+int *HAND_WAZA_GetCurseHandlers(int *p);
+extern int gCurseHandlers[];
 
-int *func_021E0DF4(int *p)
+int *HAND_WAZA_GetCurseHandlers(int *p)
 {
     *p = 2;
-    return d_021F28D8;
+    return gCurseHandlers;
 }

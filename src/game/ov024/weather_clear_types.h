@@ -29,10 +29,10 @@ extern int WEATHER_TASK_GetZoneFogE(WeatherTaskSys *task);
 
 /* Stages of the clear weather kind (WeatherKindDef callbacks: task, variant, heap id). */
 int WEATHER_CLEAR_Begin(WeatherTaskSys *task, int variant, int heapId);
-int func_021EE788(WeatherTaskSys *task, int variant, int heapId);
-int func_021EE7F0(WeatherTaskSys *task, int variant, int heapId);
-int func_021EE838(WeatherTaskSys *task, int variant, int heapId);
-int func_021EE83C(WeatherTaskSys *task, int variant, int heapId);
-int func_021EE874(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_CLEAR_BeginParticles(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_CLEAR_BeginPlain(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_CLEAR_Run(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_CLEAR_EndParticles(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_CLEAR_EndFinish(WeatherTaskSys *task, int variant, int heapId);
 
 #endif

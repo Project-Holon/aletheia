@@ -1,5 +1,5 @@
 /*
- * function: func_02177704
+ * function: NET_WHPIPE_Destroy
  * address: 0x02177704
  * packet: pkt_ov014_02177704
  * region: ov014
@@ -18,7 +18,7 @@
 extern struct W *g_pWhPipeWork;
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_02177704(void)
+void NET_WHPIPE_Destroy(void)
 {
     if (g_pWhPipeWork != 0) {
         func_020307B0(g_pWhPipeWork);

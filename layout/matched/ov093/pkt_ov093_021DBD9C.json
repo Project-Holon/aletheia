@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DBD9C",
+   "name": "HAND_TOKUSEI_CursedBody_DisableAttackerMove",
    "address": "0x021DBD9C",
    "kind": "game",
    "region": "ov093",

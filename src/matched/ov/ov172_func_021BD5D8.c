@@ -23,10 +23,10 @@
  *   func_021BD820  0x021BD820  thumb  ov172
  *   func_0207E008  0x0207E008  arm
  *   func_0207E100  0x0207E100  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02040588  0x02040588  arm
  *   CLACT_InitSystem  0x0204A48C  arm
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
@@ -63,10 +63,10 @@ extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_021BD820(const struct BgTemplate *tmpl, u32 bgId, u32 type);
 extern void *func_0207E008(void);
 extern void *func_0207E100(void);
-extern void func_02082BCC(void *p, int c, u32 n);
+extern void MI_CpuFill8(void *p, int c, u32 n);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern void func_020434DC(u32 a, u32 b);
+extern void BG_SYS_SetMainPlaneVisible(u32 a, u32 b);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
@@ -136,8 +136,8 @@ void func_021BD5D8(u8 *p)
     *(volatile u16 *)0x0400000C = (*(volatile u16 *)0x0400000C & 0x43) | 0x4484;
     *(volatile u16 *)0x0400000E = (*(volatile u16 *)0x0400000E & 0x43) | 0x4A84;
     size = 0x18000;
-    func_02082BCC(func_0207E008(), 0, size);
-    func_02082BCC((void *)func_0207E100(), 0, size);
+    MI_CpuFill8(func_0207E008(), 0, size);
+    MI_CpuFill8((void *)func_0207E100(), 0, size);
     *(volatile u16 *)0x0400000C = (*(volatile u16 *)0x0400000C & ~3) | 1;
     *(volatile u16 *)0x0400000E = (*(volatile u16 *)0x0400000E & ~3) | 2;
     func_02040588(2, 1);
@@ -145,7 +145,7 @@ void func_021BD5D8(u8 *p)
     func_02040588(mode, 1);
     cfg = gClActorInitParam;
     CLACT_InitSystem((const struct Cfg *)(&cfg), (u32)d_021C7120, *(u16 *)p);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     bank = CLACT_CreateUnit(0x40, 0, *(u16 *)p);
     *(struct Bank **)(p + 0x1AC) = bank;

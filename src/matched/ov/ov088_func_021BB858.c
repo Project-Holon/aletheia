@@ -13,7 +13,7 @@
  *
  * symbols:
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  */
 
 typedef short s16;
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void STARTMENU_ScrollRowActors(char *p, int d)
 {
     u32 i;
@@ -33,6 +33,6 @@ void STARTMENU_ScrollRowActors(char *p, int d)
     for (i = 0; i < 6; i++) {
         CLACT_GetActorSurfacePos((struct Actor *)*(int *)((p + i * 4) + 0x1c), (struct PtS *)&pos, 0);
         pos.y += (s16)d;
-        func_0204B404((struct Obj *)(*(int *)((p + i * 4) + 0x1c)), (const struct Vec2 *)(&pos), 0);
+        CLACT_AddActorSurfacePos((struct Obj *)(*(int *)((p + i * 4) + 0x1c)), (const struct Vec2 *)(&pos), 0);
     }
 }

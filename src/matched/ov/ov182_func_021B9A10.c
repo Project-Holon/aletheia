@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
@@ -18,7 +18,7 @@
  *   d_021B9BFC 0x021B9BFC data a4
  *   d_021B9C78 0x021B9C78 data a4
  */
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void func_0203F8F4(int);
 extern void BMP_WIN_Init(int);
 typedef unsigned int   u32;
@@ -36,7 +36,7 @@ void func_021B9A10(void *p, int heap)
     unsigned i = 0;
     const Record *r;
     unsigned id;
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
     func_0203F8F4(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)d_021B9BFC);

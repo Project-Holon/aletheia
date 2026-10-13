@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  *
- * The guard's ldrb lands in r1 because func_02026478's result is live in r0:
+ * The guard's ldrb lands in r1 because GAME_COMM_GetGameData's result is live in r0:
  * it is GAME_DATA_GetSecondUnionInfo's argument (the r0 at that call is never re-set).
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
  *   INTRUDE_COMM_SendUnionInfo  0x02174734  thumb ov011
  *   INTRUDE_COMM_BuildSymbolPage  0x02174D5C  thumb ov011
@@ -23,7 +23,7 @@
 #include "../include/Obj04951.h"
 
 typedef unsigned int   u32;
-u32 func_02026478(void *obj);
+u32 GAME_COMM_GetGameData(void *obj);
 unsigned char *GAME_DATA_GetSecondUnionInfo(void *p);
 typedef unsigned char  u8;
 int INTRUDE_COMM_SendUnionInfo(char *p, int b, void *c);
@@ -38,7 +38,7 @@ void INTRUDE_COMM_UpdatePageRequests(unsigned char *p)
     unsigned char *q;
     int h;
 
-    h = func_02026478((void *)(((struct Obj04951 *)p)->f4));
+    h = GAME_COMM_GetGameData((void *)(((struct Obj04951 *)p)->f4));
     if (p[0x908] != 0) {
         if (INTRUDE_COMM_SendUnionInfo((char *)p, p[0x908], (void *)GAME_DATA_GetSecondUnionInfo((void *)h)) == 1) {
             p[0x908] = 0;

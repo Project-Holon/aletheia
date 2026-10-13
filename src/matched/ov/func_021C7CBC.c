@@ -1,5 +1,5 @@
 /*
- * function: func_021C7CBC
+ * function: BTL_SERVER_FLOW_GetPlayerNoEffectCount
  * address:  0x021C7CBC
  * packet:   pkt_021C7CBC
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C7CBC   0x021C7CBC  thumb ov093
+ *   BTL_SERVER_FLOW_GetPlayerNoEffectCount   0x021C7CBC  thumb ov093
  *
  * ldrh at #0x1f7c (pool constant)
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u16 func_021C7CBC(u8 *p)
+u16 BTL_SERVER_FLOW_GetPlayerNoEffectCount(u8 *p)
 {
     return ((struct Obj18319 *)p)->f1F7C;
 }

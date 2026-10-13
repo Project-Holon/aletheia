@@ -14,7 +14,7 @@
  *   Earlier lanes (wD3..wD9r, G3L1) tried the entry spill order through parameter widths, local
  *   widths of flagA/w24/h20/flagB, heap copies, pragmas and callee types.
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020275E4  0x020275E4  thumb
  *   func_020276A4  0x020276A4  thumb
  *   func_020276A8  0x020276A8  thumb
@@ -24,7 +24,7 @@
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   func_0201BC40  0x0201BC40  thumb
  *   func_0201BCB4  0x0201BCB4  thumb
- *   func_0201BB5C  0x0201BB5C  thumb
+ *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb
  *   func_020490F4  0x020490F4  arm
  *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
@@ -32,9 +32,9 @@
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B6F4  0x0204B6F4  arm
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   func_021F51E4  0x021F51E4  thumb ov194
  *   BMP_Create  0x02043678  arm
  *   BMP_OAM_Create  0x020255A0  thumb
@@ -49,7 +49,7 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern void func_02082BCC(void *p, int v, u32 n);
+extern void MI_CpuFill8(void *p, int v, u32 n);
 extern u32  func_020275E4(void);
 extern u32  func_020276A4(void);
 extern u32  func_020276A8(void);
@@ -67,7 +67,7 @@ extern int func_0201BC3C(void);
 extern u32  POKE_TOOL_CalcGraphicIndex(u32 a, u32 b, u32 c, u32 d);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
-extern u32  func_0201BB5C(u32 a, u32 b, u32 c, u32 d);
+extern u32  POKE_TOOL_CalcIconPalette(u32 a, u32 b, u32 c, u32 d);
 extern void *func_020490F4(u32 id, u32 heap);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
@@ -75,9 +75,9 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void func_021F51E4(u8 *dst, unsigned arc, u32 member, u32 index, u16 width, u16 height, int pos, int mode, u16 heap);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
@@ -103,7 +103,7 @@ void func_021F3FBC(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
     u32 v1c;
     u32 flagB = 0;
 
-    func_02082BCC(o, 0, 0x3c);
+    MI_CpuFill8(o, 0, 0x3c);
     v2c = 0;
     switch (mode) {
     case 0:
@@ -161,12 +161,12 @@ void func_021F3FBC(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
     ARC_TOOL_DeleteHandle(h);
     {
         Dim8 dim;
-        func_02082BCC(&dim, 0, 8);
+        MI_CpuFill8(&dim, 0, 8);
         dim.w = w24;
         dim.h = h20;
         *(void **)o = CLACT_CreateActor((void *)s0, (u32)(*(void **)(o + 0xC)), (u32)(*(void **)(o + 8)), (u32)(*(void **)(o + 0x10)), &dim, flagB, heap);
     }
-    func_0204B92C(*(void **)o, 1);
+    CLACT_SetActorAutoAnim(*(void **)o, 1);
     switch (mode) {
     case 0:
         if (a2 == 0) {
@@ -178,19 +178,19 @@ void func_021F3FBC(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
     case 1:
         func_021F51E4(*(void **)o, 0x31, 6, 3, 4, 4, 0, 0, heap);
     case 2:
-        func_0204B6F4(*(void **)o, 0, 1);
+        CLACT_SetActorPaletteOffset(*(void **)o, 0, 1);
         break;
     case 3:
         CLACT_SetActorAnimSeq(*(void **)o, 1);
-        func_0204B6F4(*(void **)o, func_0201BB5C(a2, (u8)a3, (a3 & 0xFF00) >> 8, flagB), flagB);
+        CLACT_SetActorPaletteOffset(*(void **)o, POKE_TOOL_CalcIconPalette(a2, (u8)a3, (a3 & 0xFF00) >> 8, flagB), flagB);
         break;
     case 5:
         CLACT_SetActorAnimSeq(*(void **)o, 5);
-        func_0204B6F4(*(void **)o, flagB, 1);
+        CLACT_SetActorPaletteOffset(*(void **)o, flagB, 1);
         break;
     case 4:
         CLACT_SetActorAnimSeq(*(void **)o, 2);
-        func_0204B6F4(*(void **)o, flagB, 1);
+        CLACT_SetActorPaletteOffset(*(void **)o, flagB, 1);
         break;
     }
     if (flagA != 0) {
@@ -202,7 +202,7 @@ void func_021F3FBC(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
         *(void **)(o + 0x30) = BMP_Create(2, 2, 0x20, heap);
         *(void **)(o + 0x24) = (void *)CLACT_RegisterPaletteCompressed(h2, 5, 0, 0xA0, heap);
         ARC_TOOL_DeleteHandle(h2);
-        func_02082BCC(st, 0, 0x18);
+        MI_CpuFill8(st, 0, 0x18);
         *(void **)(st + 0) = *(void **)(o + 0x30);
         *(u16 *)(st + 4) = 0x2e;
         *(u16 *)(st + 6) = 0x14;

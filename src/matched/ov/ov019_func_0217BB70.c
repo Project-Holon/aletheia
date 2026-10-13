@@ -18,7 +18,7 @@
  *   FLDMMDL_GetObjId  0x0216D588  thumb  ov010
  *   FLDMMDL_SysSearchGridPos  0x0216DDC0  thumb  ov010
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   UNION_CHARA_IsChildObjId  0x0217AEE8  thumb  ov019
  *   UNION_CHARA_GetBeaconIndex  0x0217AEFC  thumb  ov019
  *   UNION_CHARA_IsUnionObjId  0x0217AF38  thumb  ov019
@@ -59,7 +59,7 @@ extern void UNION_COMM_SetSituationParam(u8 *self, u32 id, u32 v);
 extern u16   FLDMMDL_GetObjId(void *p);
 extern void *FLDMMDL_SysSearchGridPos(u32 a, u32 b, u32 c, u32 d);
 extern int   GFL_NET_GetNegotiationNum(void);
-extern u32   func_020362DC(void);
+extern u32   KEY_GetTrg(void);
 extern int   UNION_CHARA_IsChildObjId(u16 t);
 extern u16   UNION_CHARA_GetBeaconIndex(u32 t);
 extern int   UNION_CHARA_IsUnionObjId(u16 t);
@@ -95,7 +95,7 @@ int UNION_ONESELF_IdleMain(u8 *w, u8 *obj, void *q)
         UNION_COMM_RequestRestart(w);
         return 0;
     }
-    if (func_020362DC() & 1) {
+    if (KEY_GetTrg() & 1) {
         FIELD_PLAYER_GetFrontGridPos((u32)a, (u32)(&x), (u32)(&y), (u32)(&z));
         r = FLDMMDL_SysSearchGridPos((u32)b, x, z, 0);
         if (r == 0) {

@@ -9,11 +9,11 @@
  * status: EXACT*
  * extent: 021BAA8A..021BAA8C is two zero alignment bytes, no follower.
  * symbols:
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  */
 #include "../include/Obj08421.h"
 #include "../include/Obj10932.h"
-extern unsigned func_0201AA18(void *list);
+extern unsigned POKEPARTY_GetCount(void *list);
 void func_021BAA20(unsigned char *p)
 {
     int i;
@@ -22,7 +22,7 @@ void func_021BAA20(unsigned char *p)
         unsigned char *row;
         for(i=0;i<2;i++) {
             row=p+16*i;
-            for(j=0;j<(int)func_0201AA18(((struct Obj08421 *)row)->f0);j++) row[10+j]=0;
+            for(j=0;j<(int)POKEPARTY_GetCount(((struct Obj08421 *)row)->f0);j++) row[10+j]=0;
         }
         return;
     }
@@ -31,7 +31,7 @@ void func_021BAA20(unsigned char *p)
         int j;
         for(i=0;i<4;i++) {
             row=p+16*i;
-            for(j=0;j<(int)func_0201AA18(((struct Obj08421 *)row)->f0);j++) row[10+j]=0;
+            for(j=0;j<(int)POKEPARTY_GetCount(((struct Obj08421 *)row)->f0);j++) row[10+j]=0;
         }
     }
 }

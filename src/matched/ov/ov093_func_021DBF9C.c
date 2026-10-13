@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021DBF9C, func_021DBFC8
+ * function: HAND_TOKUSEI_SheerForce_FlagNoAddedEffect, HAND_TOKUSEI_GetSheerForceHandlers
  * address: 0x021DBF9C
  * packet: pkt_ov093_021DBF9C
  * region: ov093
@@ -12,12 +12,12 @@
  * symbols:
  *   gSheerForceHandlers 0x021F0D14 data a4
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
- *   func_021DBFD4 0x021DBFD4 thumb ov093
+ *   HAND_TOKUSEI_SheerForce_IsBoostedMove 0x021DBFD4 thumb ov093
  *   BTL_EVENT_OverwriteVar 0x021D76BC thumb ov093
  */
 extern int gSheerForceHandlers;
 extern int BTL_EVENT_GetVar(int);
-extern int func_021DBFD4(unsigned short);
+extern int HAND_TOKUSEI_SheerForce_IsBoostedMove(unsigned short);
 extern int BTL_EVENT_OverwriteVar(int,unsigned int);
-void func_021DBF9C(int a,int b,int c) { if(c==BTL_EVENT_GetVar(3) && func_021DBFD4(BTL_EVENT_GetVar(0x12))) BTL_EVENT_OverwriteVar(0x48,1); }
-int *func_021DBFC8(int *p) { *p=5; return &gSheerForceHandlers; }
+void HAND_TOKUSEI_SheerForce_FlagNoAddedEffect(int a,int b,int c) { if(c==BTL_EVENT_GetVar(3) && HAND_TOKUSEI_SheerForce_IsBoostedMove(BTL_EVENT_GetVar(0x12))) BTL_EVENT_OverwriteVar(0x48,1); }
+int *HAND_TOKUSEI_GetSheerForceHandlers(int *p) { *p=5; return &gSheerForceHandlers; }

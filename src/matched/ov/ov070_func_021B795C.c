@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   func_02020FE4  0x02020FE4  thumb
  *   ITEMMENU_UpdateSideButtons  0x021BB3F4  thumb  ov070
  *   MSGDATA_ReadString  0x02045CAC  arm
@@ -48,7 +48,7 @@ typedef struct Obj {
 
 typedef unsigned int   u32;
 struct WordSet;
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern unsigned int func_02020FE4(u16 id, unsigned int sel, u16 heap);
 struct MsgBank;
 extern void ITEMMENU_UpdateSideButtons(int p, int mode);
@@ -72,7 +72,7 @@ void ITEMMENU_TaskGiveItem(Obj *o)
     unsigned int a;
     unsigned int b;
 
-    func_0204B92C(o->f6A8, 0);
+    CLACT_SetActorAutoAnim(o->f6A8, 0);
     a = func_02020FE4(o->f84C, 0, o->f544);
     b = func_02020FE4(o->f84C, 3, o->f544);
     if (a == 0 || b != 0) {

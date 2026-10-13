@@ -10,7 +10,7 @@
  * volatile: 04000050/04001050 hardware stores DE06/DE0C; 04000000/04001000 rereads DE10/DE1A.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021BE938 0x021BE938 thumb ov203
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -31,7 +31,7 @@
 extern const char d_021C3CCC[];
 extern const unsigned char d_021BFBC4[][48];
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
-extern void func_02082BCC(void *, unsigned, unsigned);
+extern void MI_CpuFill8(void *, unsigned, unsigned);
 extern int func_021BE938(void *);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 struct DispVram;
@@ -51,7 +51,7 @@ extern void func_021BE0F4(unsigned char *, int);
 void *func_021BDDD8(unsigned swap, void *config, unsigned heap)
 {
     unsigned char *ctx = func_02030734(heap, 24, 0, d_021C3CCC, 0x15a);
-    func_02082BCC(ctx, 0, 24);
+    MI_CpuFill8(ctx, 0, 24);
     ((struct Obj08374 *)ctx)->f14 = func_021BE938(config);
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;

@@ -13,7 +13,7 @@
  * prototype: own 020355D8 takes u8; the stored zero and returned flag
  *   retain that width through the inline helper and caller local.
  * symbols:
- *   func_0201C6EC 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   UI_SCENE_FreeActorGfx 0x021B6284 thumb ov067
  *   func_021C0AB4 0x021C0AB4 thumb ov110
@@ -25,7 +25,7 @@
 #include "../include/Obj06395.h"
 struct PrintSys;
 struct TaskMenuState;
-extern void func_0201C6EC(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 typedef unsigned char u8;
 extern void UI_SCENE_FreeActorGfx(unsigned int *);
 extern void func_021C0AB4(u8 *);
@@ -43,7 +43,7 @@ static inline u8 Clear(char *p, u8 i) {
 }
 void func_021C05B0(char *p) {
     u8 z;
-    func_0201C6EC(((struct Obj06395 *)p)->f5C);
+    PRINTSYS_QUE_Clear(((struct Obj06395 *)p)->f5C);
     z=Clear(p, 0);
     ((struct Obj06395 *)p)->f4C=z;
     UI_SCENE_FreeActorGfx((unsigned int *)(p+0xc));

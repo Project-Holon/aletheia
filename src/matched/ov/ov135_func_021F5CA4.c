@@ -13,6 +13,7 @@
  * symbols:
  *   tbl_02202E24  0x02202E24  data  a1
  *   TOUCHPANEL_HitTrg  0x02035C08  arm  arm9
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  */
 
 typedef signed char s8;
@@ -29,7 +30,7 @@ typedef struct {
 
 extern int TOUCHPANEL_HitTrg(const void *key);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void func_020355D8(u8 v);
 extern const u8 tbl_02202E24[];
 
@@ -38,7 +39,7 @@ int func_021F5CA4(Work *p)
     int r = TOUCHPANEL_HitTrg(tbl_02202E24);
 
     if (r != -1) {
-        func_0204B3DC((struct Obj *)p->cursor, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 0);
         func_020355D8(1);
     }
     return r;

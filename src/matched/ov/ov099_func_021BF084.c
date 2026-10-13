@@ -22,7 +22,7 @@
  *   func_021BE21C 0x021BE21C thumb ov099
  *   func_02082D44 0x02082D44 arm
  *   func_021C207C 0x021C207C thumb ov099
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 #include "../include/Obj22049.h"
 typedef unsigned char u8;
@@ -41,7 +41,7 @@ extern void func_021C2028(char *p, int i, u8 v);
 extern void func_021BE21C(char *,void *);
 extern void func_02082D44(void *,void *,int);
 extern void func_021C207C(char *);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 int func_021BF084(char *p)
 {
     int ret=func_021BE788(p);
@@ -86,8 +86,8 @@ int func_021BF084(char *p)
         }
         func_02082D44(p+0x10,p+0x30,32);
         if(removed || added)func_021C207C(p);
-        if(removed==1){func_020061E4(0x676);}
-        else if(added==1){func_020061E4(0x676);}
+        if(removed==1){GFL_USE_PlaySeDefaultVolume(0x676);}
+        else if(added==1){GFL_USE_PlaySeDefaultVolume(0x676);}
     }
     return ret;
 }

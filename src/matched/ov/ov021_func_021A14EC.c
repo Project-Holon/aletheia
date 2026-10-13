@@ -1,5 +1,5 @@
 /*
- * function: func_021A14EC
+ * function: FIELD_SUBSCREEN_ExitReport
  * address:  0x021A14EC
  * packet:   pkt_ov021_021A14EC
  * region:   ov021
@@ -25,7 +25,7 @@ extern unsigned char abs_id_22[];
 extern void REPORT_Delete(char *p);
 extern void func_02034A5C(int);
 
-void func_021A14EC(u32 *p)
+void FIELD_SUBSCREEN_ExitReport(u32 *p)
 {
     REPORT_Delete((char *)p[8]);
     func_02034A5C((int)abs_id_22);

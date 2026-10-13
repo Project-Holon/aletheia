@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
-extern void func_02082BCC(void *, int, int);
-void func_021B6C54(char *p) { int i; for(i=0;i<4;i++) func_02082BCC(p+12+i*8,0,8); }
+extern void MI_CpuFill8(void *, int, int);
+void func_021B6C54(char *p) { int i; for(i=0;i<4;i++) MI_CpuFill8(p+12+i*8,0,8); }

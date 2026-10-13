@@ -1,5 +1,5 @@
 /*
- * function: func_021B92A0
+ * function: BTL_MAIN_SetKeepBgm
  * address: 0x021B92A0
  * packet: pkt_ov093_021B92A0
  * region: ov093
@@ -12,4 +12,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021B92A0(u8 *p) { p[0x473]|=32; }
+void BTL_MAIN_SetKeepBgm(u8 *p) { p[0x473]|=32; }

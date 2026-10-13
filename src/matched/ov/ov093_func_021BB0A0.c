@@ -13,7 +13,7 @@
  *   BTL_SERVER_IsClientSlotUsed  0x021BB830  thumb  ov093
  *   BTL_ADAPTER_GetSendBuffer  0x021EEB64  thumb  ov093
  *   BTL_CALC_ActionGetKind  0x021D8454  thumb  ov093
- *   func_021B9920  0x021B9920  thumb  ov093
+ *   BTL_SIDE_GetClientPoke  0x021B9920  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  */
 #include "../include/Obj21031.h"
@@ -31,7 +31,7 @@ extern int BTL_SERVER_IsClientSlotUsed(u8 *);
 struct QW;
 extern u32 BTL_ADAPTER_GetSendBuffer(struct QW *p, u32 *out);
 extern u32 BTL_CALC_ActionGetKind(B *);
-extern u8 *func_021B9920(void *p, u32 i, u8 j);
+extern u8 *BTL_SIDE_GetClientPoke(void *p, u32 i, u8 j);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 
 u32 BTL_SERVER_GetShiftPromptMon(u8 *p)
@@ -42,7 +42,7 @@ u32 BTL_SERVER_GetShiftPromptMon(u8 *p)
     if (BTL_SERVER_IsClientSlotUsed(q) != 0) {
         b = (B *)BTL_ADAPTER_GetSendBuffer((struct QW *)(((struct Obj21032 *)q)->f0), 0);
         if (BTL_CALC_ActionGetKind(b) == 3) {
-            u8 *r = func_021B9920(((struct Obj21031 *)p)->f10, 1, b->f);
+            u8 *r = BTL_SIDE_GetClientPoke(((struct Obj21031 *)p)->f10, 1, b->f);
             return BTL_POKEPARAM_GetPokeId(r);
         }
     }

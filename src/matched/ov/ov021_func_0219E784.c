@@ -18,7 +18,7 @@
  *   VEC_Normalize  0x0207CCA4  arm
  *   d_021D84D4     0x021D84D4  data  ov021  a1
  *   d_021D841C     0x021D841C  data  ov021  a2
- *   d_020A1B38     0x020A1B38  data  a2
+ *   FX_SinCosTable_     0x020A1B38  data  a2
  * Addresses are Black-image addresses.
  */
 
@@ -46,7 +46,7 @@ static inline void setw(s16 *p, s32 x, s32 y, s32 z)
 
 extern u8  d_021D84D4[][4];
 extern u16 d_021D841C[];
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 struct Sub;
 extern void *FLDMMDL_RAIL_GetRailWork(void *a);
@@ -69,10 +69,10 @@ void FLDMMDL_RAIL_GetDrawOffsetByDir(u32 o, u32 idx, s16 *v)
     FIELD_RAIL_WORK_GetStepVector((struct Sub *)t, v);
     n = FIELD_RAIL_WORK_GetLineKey((u8 *)t);
     k = (d_021D841C[d_021D84D4[n][idx]] >> 4) * 2;
-    c = d_020A1B38[k + 1];
+    c = FX_SinCosTable_[k + 1];
     v[1] = (s16)(((s64)c * v[1] + 0x800) >> 12);
     setv(&vec, v[0], v[1], v[2]);
-    func_0207AF1C(m, d_020A1B38[k], c);
+    func_0207AF1C(m, FX_SinCosTable_[k], c);
     func_0207B51C(&vec, m, &vec);
     VEC_Normalize(&vec, &vec);
     setw(v, vec.x, vec.y, vec.z);

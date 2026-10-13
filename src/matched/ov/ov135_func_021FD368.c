@@ -11,6 +11,7 @@
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021F4EC0 0x021F4EC0 thumb ov135
  *   func_021FFD1C 0x021FFD1C thumb ov135
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj01063.h"
 typedef unsigned short u16;
@@ -20,7 +21,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 typedef unsigned char  u8;
 extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 extern void func_021FFD1C(void *, int, int);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 void func_021FD368(unsigned char *p, int i)
 {
     if (i != ((struct Obj01063 *)p)->fD4 && i >= 0) {
@@ -29,7 +30,7 @@ void func_021FD368(unsigned char *p, int i)
         func_021F4EC0(p, 3, 17);
         ((struct Obj01063 *)p)->fD4 = i;
         func_021FFD1C(p, i, 0);
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         ((struct Obj01063 *)p)->f12E4 = 1;
         ((struct Obj01063 *)p)->f12FC = 1;
     }

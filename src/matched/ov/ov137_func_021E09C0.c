@@ -11,16 +11,16 @@
  * blocker: ARM9 0x0203F63C and 0x0203F5FC have no outside label/matched witness.
  * Verified ARM scratch C: S12/blocker_0203F63C-r1.log EXACT (72 bytes),
  * S13/blocker_0203F5FC-r1.log EXACT (64 bytes). Both use this symbol:
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  * typedef unsigned short u16;
- * extern const short d_020A1B38[];
+ * extern const short FX_SinCosTable_[];
  * int func_0203F63C(u16 angle) {
  *     if (angle >= 360) return 0;
- *     return d_020A1B38[((angle * 65535 / 360) >> 4) * 2 + 1];
+ *     return FX_SinCosTable_[((angle * 65535 / 360) >> 4) * 2 + 1];
  * }
  * int func_0203F5FC(u16 angle) {
  *     if (angle >= 360) return 0;
- *     return d_020A1B38[((angle * 65535 / 360) >> 4) * 2];
+ *     return FX_SinCosTable_[((angle * 65535 / 360) >> 4) * 2];
  * }
  * symbols:
  *   func_021E15DC 0x021E15DC thumb ov137

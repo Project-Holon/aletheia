@@ -1,5 +1,5 @@
 /*
- * function: func_021C8120
+ * function: BTL_SERVER_FLOW_GetScratchBuffer
  * address:  0x021C8120
  * packet:   pkt_021C8120
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C8120   0x021C8120  thumb ov093
+ *   BTL_SERVER_FLOW_GetScratchBuffer   0x021C8120  thumb ov093
  *
  * pointer add #0x1fec
  */
@@ -22,7 +22,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u8 *func_021C8120(u8 *p, int b)
+u8 *BTL_SERVER_FLOW_GetScratchBuffer(u8 *p, int b)
 {
     return p + 0x1fec;
 }

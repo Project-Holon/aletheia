@@ -10,7 +10,7 @@
  * status: EXACT*
  * extent: 148-byte lead; unlabelled follower 021B9818 is parked at docs/notes/pkt_ov133_021B9818.c.txt.
  * symbols:
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_020413B0 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
  */
@@ -21,7 +21,7 @@ typedef struct {s16 x,y;} Pos;
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(unsigned);
 void func_021B9784(u8 *p)
@@ -31,11 +31,11 @@ void func_021B9784(u8 *p)
     pos.x=32;
     pos.y=p[0x18c0]*2+160;
     if(pos.y>=224) pos.y=224;
-    func_0204B404(((struct Obj06500 *)p)->f184C,(const struct Vec2 *)(&pos),0);
+    CLACT_AddActorSurfacePos(((struct Obj06500 *)p)->f184C,(const struct Vec2 *)(&pos),0);
     pos.x=224;
     pos.y=p[0x18c0]*2+160;
     if(pos.y>=224) pos.y=224;
-    func_0204B404(((struct Obj06500 *)p)->f1850,(const struct Vec2 *)(&pos),0);
+    CLACT_AddActorSurfacePos(((struct Obj06500 *)p)->f1850,(const struct Vec2 *)(&pos),0);
     pal=p[0x18c0]*24/60+4;
     if(pal>=11) pal=3;
     func_020413B0(2,10,44,12,12,pal);

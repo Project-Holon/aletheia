@@ -11,20 +11,20 @@
  * interface: Lock scalar word return preserves the complete r0 payload,
  * as in matched caller 021C3810; restore consumes the same word.
  * symbols:
- *   func_021CC8D8 0x021CC8D8 thumb ov093
- *   func_021C7998 0x021C7998 thumb ov093
- *   func_021CC95C 0x021CC95C thumb ov093
+ *   BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
+ *   BTL_SERVER_FLOW_DispatchWeatherChangedEvent 0x021C7998 thumb ov093
+ *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_021CC8D8(void *, int);
-extern void func_021C7998(u8 *, u32);
-extern void func_021CC95C(u32 *p, u32 v, int line);
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *, int);
+extern void BTL_SERVER_FLOW_DispatchWeatherChangedEvent(u8 *, u32);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 void BTL_SERVER_FLOW_ProcWeatherChanged(u8 *p, u32 a)
 {
     u32 old;
     int line = 0x2303;
-    old = func_021CC8D8(p + 0x1d74, line);
-    func_021C7998(p, a);
-    func_021CC95C((u32 *)(p + 0x1d74), old, line + 2);
+    old = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, line);
+    BTL_SERVER_FLOW_DispatchWeatherChangedEvent(p, a);
+    BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), old, line + 2);
 }

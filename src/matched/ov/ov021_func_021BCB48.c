@@ -15,8 +15,8 @@
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   GAME_DATA_GetIntrudeIdByte  0x0215841C  thumb
- *   func_0201444C  0x0201444C  thumb
- *   func_02013D5C  0x02013D5C  thumb
+ *   FIELD_STATUS_GetMapMode  0x0201444C  thumb
+ *   ZONEDATA_IsZone117  0x02013D5C  thumb
  */
 
 struct Ctx;
@@ -28,9 +28,9 @@ extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 extern int GAME_DATA_GetIntrudeIdByte(int a);
 struct Sub02014444Obj;
-extern unsigned int func_0201444C(struct Sub02014444Obj *o);
+extern unsigned int FIELD_STATUS_GetMapMode(struct Sub02014444Obj *o);
 typedef unsigned int   u32;
-extern u32 func_02013D5C(u32 id);
+extern u32 ZONEDATA_IsZone117(u32 id);
 
 int FIELD_PLACE_NAME_UsesIntrudeTemplate(int *p, int b)
 {
@@ -41,10 +41,10 @@ int FIELD_PLACE_NAME_UsesIntrudeTemplate(int *p, int b)
     r6 = GAME_DATA_GetExitMode((const struct BigObj *)p[1]);
     if (r4 != 0) {
         r4 = GAME_DATA_GetIntrudeIdByte(p[1]);
-        if (func_0201444C((struct Sub02014444Obj *)t) == 1) {
+        if (FIELD_STATUS_GetMapMode((struct Sub02014444Obj *)t) == 1) {
             return 1;
         }
-        if (func_02013D5C(b) != 0 && r6 != r4) {
+        if (ZONEDATA_IsZone117(b) != 0 && r6 != r4) {
             return 1;
         }
     }

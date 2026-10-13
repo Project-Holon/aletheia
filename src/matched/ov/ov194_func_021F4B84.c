@@ -13,7 +13,7 @@
  *   func_021F4CF0 0x021F4CF0 thumb ov194
  *   func_021F4C6C 0x021F4C6C thumb ov194
  *   func_0201DD68 0x0201DD68 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj24927.h"
@@ -22,7 +22,7 @@ extern void func_02030EAC(struct Node *);
 extern void func_021F4CF0(unsigned char *);
 extern void func_021F4C6C(void *p);
 extern void func_0201DD68(void);
-extern void func_02082BCC(void *, unsigned, unsigned);
+extern void MI_CpuFill8(void *, unsigned, unsigned);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 static inline void G2_BlendNone(void) { *(volatile unsigned short *)0x04000050 = 0; }
@@ -39,6 +39,6 @@ void func_021F4B84(unsigned char *p)
     G2S_BlendNone();
     GX_SetVisibleWnd(0);
     GXS_SetVisibleWnd(0);
-    func_02082BCC(p, 0, 0x10);
+    MI_CpuFill8(p, 0, 0x10);
     func_020307B0(p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D6064
+ * function: BTL_POKEPARAM_TickSickCont
  * address: 0x021D6064
  * packet: pkt_ov093_021D6064
  * region: ov093
@@ -26,7 +26,7 @@ extern u8 BTLV_CORE_GetSlotLow(union Slot);
 extern u16 BTLV_CORE_GetSlotValue(union Slot);
 extern union Slot BTLV_CORE_GetZeroMasked(void);
 extern int BTL_POKEPARAM_HasMove(u8 *p, u16 id);
-int func_021D6064(u8 *p, u32 k, union Slot *out, int *changed)
+int BTL_POKEPARAM_TickSickCont(u8 *p, u32 k, union Slot *out, int *changed)
 {
     u8 *slots;
     u8 max;

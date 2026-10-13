@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   UNION_APP_GetMemberEntry  0x02184180  thumb  ov022
  *   OEKAKI_SetCursorPosition  0x0218506C  thumb  ov023
  *
@@ -39,7 +39,7 @@ typedef unsigned short u16;
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern char *UNION_APP_GetMemberEntry(unsigned char *p, int i);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void OEKAKI_SetCursorPosition(void *actor, int x, int y);
 
 #define E(p) ((struct e6 *)((char *)(p) + 0x4212))
@@ -52,10 +52,10 @@ void OEKAKI_UpdateRemoteCursors(struct P *p)
         if (i == GFL_NET_SYSTEM_GetCurrentAid())
             continue;
         if (E(p)[i].n != 0 && UNION_APP_GetMemberEntry((unsigned char *)(*p->unk4), (unsigned char)i) != 0) {
-            func_0204B3DC((struct Obj *)p->unk60[i], 1);
+            CLACT_SetActorDrawEnable((struct Obj *)p->unk60[i], 1);
             OEKAKI_SetCursorPosition((void *)p->unk60[i], E(p)[i].b[E(p)[i].n - 1], E(p)[i].b[E(p)[i].n + 1]);
         } else {
-            func_0204B3DC((struct Obj *)p->unk60[i], 0);
+            CLACT_SetActorDrawEnable((struct Obj *)p->unk60[i], 0);
         }
     }
 }

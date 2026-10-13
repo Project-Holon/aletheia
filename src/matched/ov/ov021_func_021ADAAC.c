@@ -14,7 +14,7 @@
  *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
  *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
  *   sEncountResourceIndex     0x021D9238  data  a1
  *   sEncountFuncs     0x021D9240  data  a4
@@ -44,7 +44,7 @@ extern unsigned int FIELD_EFFECT_GetFieldMap(u8 *p);
 extern unsigned int FIELDMAP_GetMoveKind(u8 *p);
 typedef unsigned int   u32;
 extern int FIELD_EFFECT_GetResource(u32 a, u32 b);
-extern void *func_02082BCC(void *p, u8 v, unsigned n);
+extern void *MI_CpuFill8(void *p, u8 v, unsigned n);
 extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
 extern u8 FIELD_EFFECT_AddObject(int a, void *b, int c, int d, void *e, int f);
 
@@ -64,7 +64,7 @@ u8 FLDEFF_ENCOUNT_Start(int a, u8 *b, int c, int d, int e, int f)
     if (r == 0) {
         return 0;
     }
-    func_02082BCC(&l, 0, 0x28);
+    MI_CpuFill8(&l, 0, 0x28);
     l.f0 = a;
     l.f4 = r;
     l.f8 = FIELDMAP_GetMmdlSys((void *)t);

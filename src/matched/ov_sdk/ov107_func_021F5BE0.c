@@ -14,7 +14,7 @@
  * symbols:
  *   func_021F6148 0x021F6148 arm ov107
  *   WM_Initialize 0x0208F370 arm
- *   func_0208EAC8 0x0208EAC8 arm
+ *   WM_SetIndCallback 0x0208EAC8 arm
  *   func_021F4628 0x021F4628 arm ov107
  *   g_021F6F90 0x021F6F90 data
  */
@@ -34,7 +34,7 @@ extern struct WmBase g_021F6F90;
 
 extern void func_021F6148(unsigned short time);
 extern int WM_Initialize(void *wmSysBuf, void *callback, unsigned short dmaNo);
-extern int func_0208EAC8(void *callback);
+extern int WM_SetIndCallback(void *callback);
 extern void func_021F4628(void);
 
 int func_021F5BE0(void)
@@ -53,11 +53,11 @@ int func_021F5BE0(void)
         if (errcode != 2) {
             return 8;
         }
-        func_0208EAC8(*(void **)(g_021F6F90.work + 0x508));
+        WM_SetIndCallback(*(void **)(g_021F6F90.work + 0x508));
         g_021F6F90.work[0x50D] = 1;
         return 0;
     }
-    func_0208EAC8(*(void **)(g_021F6F90.work + 0x508));
+    WM_SetIndCallback(*(void **)(g_021F6F90.work + 0x508));
     g_021F6F90.work[0x50D] = 1;
     func_021F4628();
     return errcode;

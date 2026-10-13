@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   BMP_WIN_ClearScreen 0x020456F8 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_02041B6C 0x02041B6C arm
  */
 #include "../include/Obj08043.h"
@@ -19,6 +19,6 @@ typedef short s16;
 typedef unsigned int u32;
 struct Descriptor;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_02041B6C(u32);
-void func_021D5D3C(u8 *p) { if(((struct Obj08043 *)p)->f34) { BMP_WIN_ClearScreen(((struct Obj08043 *)p)->f34); func_020452E8(((struct Obj08043 *)p)->f34); ((struct Obj08043 *)p)->f34=0; func_02041B6C(1); } }
+void func_021D5D3C(u8 *p) { if(((struct Obj08043 *)p)->f34) { BMP_WIN_ClearScreen(((struct Obj08043 *)p)->f34); BMP_WIN_Delete(((struct Obj08043 *)p)->f34); ((struct Obj08043 *)p)->f34=0; func_02041B6C(1); } }

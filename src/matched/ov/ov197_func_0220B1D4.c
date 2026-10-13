@@ -10,8 +10,8 @@
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201D304 0x0201D304 thumb
- *   func_02045738 0x02045738 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetWidth 0x02045738 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  */
@@ -28,9 +28,9 @@ struct StrObj;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern u8 func_02045738(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 void func_0220B1D4(char *p,int i,int id,int y,u16 colour)
@@ -38,9 +38,9 @@ void func_0220B1D4(char *p,int i,int id,int y,u16 colour)
     int handle=*(int *)(p+0x28+i*8);
     int text=(int)func_02045EC0((struct MsgBank *)(((struct Obj08353 *)p)->fC),id);
     int width=func_0201D304((struct StrObj *)text,((struct Obj24990 *)(*(char * *)&((struct Obj08353 *)p)->f0))->f4,0);
-    int x=(func_02045738((struct Descriptor *)handle)*8-width)>>1;
+    int x=(BMP_WIN_GetWidth((struct Descriptor *)handle)*8-width)>>1;
     int font=((struct Obj08353 *)p)->f18;
-    int surface=(int)func_02045770((struct Descriptor *)*(int *)(p+0x28+i*8));
+    int surface=(int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)(p+0x28+i*8));
     PRINTSYS_PrintQueColor((void *)font,(int)surface,(s16)x,(s16)y,(int)text,(int)(((struct Obj24991 *)(*(char * *)&((struct Obj08353 *)p)->f0))->f4),colour);
     (p+i*8)[0x2c]=1;
     STRBUF_Delete((struct U16Vec *)text);

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0217D398 0x0217D398 thumb ov176
  *   func_0217D434 0x0217D434 thumb ov176
  *   func_0217D44C 0x0217D44C thumb ov176
@@ -18,7 +18,7 @@
  */
 #include "../include/Obj02222.h"
 typedef struct { int mode; int a,b,c,d,e,f,g; } Config;
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern int func_0217D398(Config *,int);
 extern void func_0217D434(int *p);
 extern int func_0217D44C(int *p);
@@ -30,7 +30,7 @@ void func_0217B620(int p, int *state, char *q)
     Config config;
     switch (*state) {
     case 0:
-        func_02082BCC(&config, 0, 32);
+        MI_CpuFill8(&config, 0, 32);
         config.mode = 1;
         config.a = ((struct Obj02222 *)q)->f18;
         config.b = ((struct Obj02222 *)q)->f1C;

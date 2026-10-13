@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetPressureHandlers
+ * function: HAND_TOKUSEI_GetPressureHandlers
  * address: 0x021DB8DC
  * packet: pkt_ov093_021DB8DC
  * region: ov093
@@ -15,10 +15,10 @@
  *   gPressureHandlers 0x021F0AB8 data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetPressureHandlers(int *p);
+int *HAND_TOKUSEI_GetPressureHandlers(int *p);
 extern int gPressureHandlers[];
 
-int *BTL_TOKUSEI_GetPressureHandlers(int *p)
+int *HAND_TOKUSEI_GetPressureHandlers(int *p)
 {
     *p = 3;
     return gPressureHandlers;

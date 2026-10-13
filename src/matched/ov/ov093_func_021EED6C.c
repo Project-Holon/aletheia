@@ -11,7 +11,7 @@
  *
  * symbols:
  *   gBtlMsgState  0x021F6398  data  a4
- *   func_021BA020  0x021BA020  thumb  ov093
+ *   BTL_MAIN_GetTrainerType  0x021BA020  thumb  ov093
  *   func_0201F0F8  0x0201F0F8  thumb
  */
 
@@ -28,11 +28,11 @@ typedef struct {
 } D;
 
 extern D gBtlMsgState;
-extern unsigned short func_021BA020(char *p, int i);
+extern unsigned short BTL_MAIN_GetTrainerType(char *p, int i);
 struct WordSet;
 extern void func_0201F0F8(struct WordSet *p, u32 i, u32 v);
 
 void BTL_MSG_SetClientValue(void *a, u8 b, u8 c)
 {
-    func_0201F0F8((struct WordSet *)a, b, (u8)func_021BA020((void *)gBtlMsgState.f0, c));
+    func_0201F0F8((struct WordSet *)a, b, (u8)BTL_MAIN_GetTrainerType((void *)gBtlMsgState.f0, c));
 }

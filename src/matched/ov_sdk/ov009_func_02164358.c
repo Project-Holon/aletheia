@@ -13,12 +13,12 @@
  *
  * symbols:
  *   func_02163F24  0x02163F24  arm  ov009
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021641FC  0x021641FC  arm  ov009
  */
 
 extern int func_02163F24(const unsigned short *p, int n);
-extern void func_02082BCC(void *dst, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);
 extern void func_021641FC(unsigned short *a, unsigned long b, int i, int digits);
 
 void func_02164358(unsigned short *c, unsigned short *a, int digits)
@@ -30,7 +30,7 @@ void func_02164358(unsigned short *c, unsigned short *a, int digits)
 
     digits_a = func_02163F24(a, digits);
     if (digits > digits_a * 2)
-        func_02082BCC(c + digits_a * 2, 0, (digits - digits_a * 2) * 2);
+        MI_CpuFill8(c + digits_a * 2, 0, (digits - digits_a * 2) * 2);
     for (i = 0; i < digits_a; i++) {
         j = i * 2;
         if (j >= digits)

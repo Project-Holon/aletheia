@@ -1,5 +1,5 @@
 /*
- * function: func_021B99B8
+ * function: BTL_MAIN_GetPositionsPerClientThunk
  * address:  0x021B99B8
  * packet:   pkt_021B99B8
  * region:   ov093
@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 struct S;
 int BTL_MAIN_GetPositionsPerClient(struct S **pp, u32 b);
 
-int func_021B99B8(void *pp, unsigned int b)
+int BTL_MAIN_GetPositionsPerClientThunk(void *pp, unsigned int b)
 {
     return BTL_MAIN_GetPositionsPerClient(pp, b);
 }

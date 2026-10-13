@@ -1,5 +1,5 @@
 /*
- * function: func_021EFEC0
+ * function: C_GEAR_IsColumnRowValid
  * address:  0x021EFEC0
  * packet:   pkt_ov029_021EFEC0
  * region:   ov029
@@ -13,7 +13,7 @@
  * data); called by C_GEAR_HandleButton.
  */
 
-int func_021EFEC0(int a, int b)
+int C_GEAR_IsColumnRowValid(int a, int b)
 {
     if (a % 2 == 0) {
         if (b < 3)

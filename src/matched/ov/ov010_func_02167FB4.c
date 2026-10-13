@@ -26,9 +26,9 @@
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_0201AA14  0x0201AA14  thumb
- *   func_0201AB28  0x0201AB28  thumb
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_GetCapacity  0x0201AA14  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  */
 
 typedef unsigned char u8;
@@ -62,9 +62,9 @@ extern void *func_02014910(char *a0, int a1, int a2, int a3);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern u32 func_0201AA14(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_GetCapacity(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 
 int FLD_BTL_INST_TOOL_PokeListEventMain(void *evt, u32 *seq, SeqWork *w)
 {
@@ -97,12 +97,12 @@ int FLD_BTL_INST_TOOL_PokeListEventMain(void *evt, u32 *seq, SeqWork *w)
         *w->out188 = w->f6c;
         *w->out184 = w->f70;
         if (*w->out188 != 7 && *w->out188 != 8 && w->party194 != 0) {
-            n = func_0201AA14(w->party194);
+            n = POKEPARTY_GetCapacity(w->party194);
             for (i = 0; i < n; i++) {
                 idx = w->order18c[i] - 1;
                 if (idx >= 6)
                     w->order18c[i] = 1;
-                func_0201A98C(w->party194, func_0201AB28(w->party190, idx));
+                POKEPARTY_Add(w->party194, POKEPARTY_GetMember(w->party190, idx));
             }
         }
         (*seq)++;

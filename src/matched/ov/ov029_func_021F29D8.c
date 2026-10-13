@@ -17,7 +17,7 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   C_GEAR_IsCallTabActive  0x021F05B4  thumb  ov029
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_021F3098  0x021F3098  thumb  ov029
  *   C_GEAR_StepWaitSlots  0x021F3118  thumb  ov029
  *   C_GEAR_ChangeStep  0x021EFEF8  thumb  ov029
@@ -31,7 +31,7 @@ extern unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 typedef unsigned char  u8;
 extern int C_GEAR_IsCallTabActive(unsigned char *p);
-extern void func_020061E4(unsigned int id);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned int id);
 extern void func_021F3098(u8 *p);
 extern void C_GEAR_StepWaitSlots(void *p);
 extern void C_GEAR_ChangeStep(char *p, void (*f)(void), int a);
@@ -52,30 +52,30 @@ int C_GEAR_HandleCommand(char *p, int a)
     case 1:
     case 6:
         if (C_GEAR_IsCallTabActive((unsigned char *)p) == 0) {
-            func_020061E4(0x54E);
+            GFL_USE_PlaySeDefaultVolume(0x54E);
             r = C_GEAR_StartPanelEvent(p, ((struct Obj00042 *)p)->f214);
         } else {
-            func_020061E4(0x7E3);
+            GFL_USE_PlaySeDefaultVolume(0x7E3);
             func_021F3098((u8 *)p);
             C_GEAR_ChangeStep(p, (void (*)(void))C_GEAR_StepWaitSlots, 0x1238);
         }
         break;
     case 5:
-        func_020061E4(0x54E);
+        GFL_USE_PlaySeDefaultVolume(0x54E);
         r = C_GEAR_StartPanelEvent(p, ((struct Obj00042 *)p)->f214);
         break;
     case 12:
     case 13:
-        func_020061E4(0x628);
+        GFL_USE_PlaySeDefaultVolume(0x628);
         r = C_GEAR_StartPanelEvent(p, ((struct Obj00042 *)p)->f214);
         break;
     case 7:
     case 11:
         if (C_GEAR_IsCallTabActive((unsigned char *)p) == 0) {
-            func_020061E4(0x628);
+            GFL_USE_PlaySeDefaultVolume(0x628);
             r = C_GEAR_StartPanelEvent(p, ((struct Obj00042 *)p)->f214);
         } else {
-            func_020061E4(0x7E3);
+            GFL_USE_PlaySeDefaultVolume(0x7E3);
         }
         break;
     }

@@ -30,7 +30,7 @@
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   BTL_SETUP_GetParty  0x0201313C  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200D418  0x0200D418  thumb
@@ -63,7 +63,7 @@ struct SaveBlock;
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern void *BTL_SETUP_GetParty(void *p, int v);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200D418(void *p);
@@ -90,7 +90,7 @@ void MOVE_POKEMON_HandleBattleResult(void *a0, Work *w)
         return;
     }
     GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(a0));
-    mon = func_0201AB28(BTL_SETUP_GetParty(w, 1), 0);
+    mon = POKEPARTY_GetMember(BTL_SETUP_GetParty(w, 1), 0);
     species = POKE_TOOL_GetPartyValue(mon, 5, 0);
     v = POKE_TOOL_GetPartyValue(mon, 0xA0, 0);
     b = POKE_TOOL_GetPartyValue(mon, 0x9D, 0);

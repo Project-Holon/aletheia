@@ -28,17 +28,17 @@
  *   func_0200BC2C  0x0200BC2C  thumb
  *   GAME_DATA_GetBoxSave  0x02012F98  thumb
  *   func_02007C34  0x02007C34  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   sSodateyaIncenseBabyTable     0x021DA960  data  ov021  a4
  *   func_02005728  0x02005728  thumb  ov021
- *   func_0201ADE4  0x0201ADE4  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
- *   func_0201AE14  0x0201AE14  thumb
+ *   POKE_PERSONAL_Create  0x0201ADE4  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
+ *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  *   sSodateyaPowerItemIds     0x021DA930  data  ov021  a4
  *   sSodateyaParentIvIds     0x021DA918  data  ov021  a4
  *   func_02008530  0x02008530  thumb
  *   func_02017ED8  0x02017ED8  thumb
- *   func_0201ADD0  0x0201ADD0  thumb
+ *   POKE_PERSONAL_LoadDataDirect  0x0201ADD0  thumb
  *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   func_020307B0  0x020307B0  arm
  *   sSodateyaEggMoveSlotIds     0x021DA908  data  ov021  a4
@@ -54,20 +54,20 @@
  *   func_0202F190  0x0202F190  thumb
  *   POKE_TOOL_RecoverAllPP  0x02018198  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
- *   func_0201B9F0  0x0201B9F0  thumb
+ *   POKE_TOOL_HealFull  0x0201B9F0  thumb
  *   gSpeciesNameBank     0x020A7370  data
  *   sSodateyaEggIvIds     0x021DA948  data  ov021  a4
  *   func_02021288  0x02021288  thumb
  *   func_0202130C  0x0202130C  thumb
  *   func_02030734  0x02030734  arm
  *   func_02012934  0x02012934  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   d_021DE458     0x021DE458  data  ov021
  *   func_0200BC4C  0x0200BC4C  thumb
- *   func_0201A9C8  0x0201A9C8  thumb
+ *   POKEPARTY_RemoveMember  0x0201A9C8  thumb
  *   SODATEYA_SyncPartyAfterDeposit  0x021C38DC  thumb  ov021
  *   func_0200BCD8  0x0200BCD8  thumb
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   func_0200BC88  0x0200BC88  thumb
  *   SODATEYA_CompactSlots  0x021C36B0  thumb  ov021
  *   POKE_TOOL_Create  0x020173F0  thumb
@@ -89,6 +89,9 @@
  *   d_021DA8C8     0x021DA8C8  data  ov021  a4
  *   POKE_TOOL_ChangeForm  0x02017988  thumb  arm9
  *   ARC_TOOL_ReadMemberRange  0x02048F74  arm  arm9
+ *   ZONEDATA_GetEventWorkAddress  0x020143CC  thumb  arm9
+ *   POKEPARTY_GetCapacity  0x0201AA14  thumb  arm9
+ *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
  */
 #include "../arm9/billboard_act_types.h"
 
@@ -224,13 +227,13 @@ extern struct MyStatus *func_02012944(void *p);
 extern struct Pokemon *func_0200BC2C(void *dayCare, int slot);
 extern u32 func_02007C34(void *p, void *party);
 extern void *GAME_DATA_GetBoxSave(void *p);
-extern u32 func_02082BCC(void *dst, u32 value, u32 size);
-extern void *func_0201ADE4(u32 species, int form, u32 heapId);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *p);
+extern u32 MI_CpuFill8(void *dst, u32 value, u32 size);
+extern void *POKE_PERSONAL_Create(u32 species, int form, u32 heapId);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *p);
 extern u32 func_02008530(const struct MyStatus *status);
 extern u32 func_02017ED8(u32 otId, u32 personalRnd);
-extern void func_0201ADD0(unsigned int species, int form, void *dest);
+extern void POKE_PERSONAL_LoadDataDirect(unsigned int species, int form, void *dest);
 extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heapId);
 extern u32 func_020307B0(void *p);
 extern u16 func_020212B0(u16 item);
@@ -243,7 +246,7 @@ extern struct StrBuf *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0202F190(struct Pokemon *mon, u32 a1, struct MyStatus *status, u32 place, u16 heapId);
 extern void POKE_TOOL_RecoverAllPP(struct Pokemon *mon);
 extern void POKE_TOOL_RecalcParam(struct Pokemon *mon);
-extern void func_0201B9F0(struct Pokemon *mon);
+extern void POKE_TOOL_HealFull(struct Pokemon *mon);
 extern u32 func_02021288(u32 item);
 extern u32 func_0202130C(u32 item);
 extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archive, u32 member, u32 mode, u32 *sizeOut);
@@ -305,12 +308,12 @@ extern MoveSlotIdTable sSodateyaTmMoveSlotIds;
 extern const StatTable sSodateyaEggIvIds;
 extern void *func_02030734(u32, u32, int, const char *, u16);
 void *func_02012934(const void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void func_0200BC4C(void *dayCare, s32 slot, const void *mon);
-extern u32 func_0201A9C8(void *p, s32 idx);
+extern u32 POKEPARTY_RemoveMember(void *p, s32 idx);
 extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
 extern u32 func_0200BCD8(void *dayCare, u32 slot);
-extern u32 func_0201A98C(void *p, const void *src);
+extern u32 POKEPARTY_Add(void *p, const void *src);
 extern void func_0200BC88(void *dayCare, s32 slot);
 extern void *func_0200CA1C(void *p);
 extern u32 func_0200CED4(void *p, u16 id);
@@ -324,9 +327,9 @@ extern void FORMCHANGE_UpdateSeasonForms(void *sys, void *party, int season);
 extern void func_0200BD48(void *dayCare, int steps);
 extern void func_0200BC10(void *dayCare);
 extern u32 func_0201296C(const void *p);
-extern u32 func_0201AA18(void *p);
-extern u32 func_0201AA14(void *p);
-extern u32 func_020143CC(u32 a, u32 b);
+extern u32 POKEPARTY_GetCount(void *p);
+extern u32 POKEPARTY_GetCapacity(void *p);
+extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
 extern u32 POKE_TOOL_CalcLevelFromExp(u16 species, u16 form, u32 exp);
 extern u32 func_02018584(u16 a, u16 b, u16 c);
 extern void func_020181F4(void *p, u16 move, u32 slot);
@@ -380,22 +383,22 @@ void SODATEYA_Delete(void *work)
 void SODATEYA_DepositPokemon(SodateyaWork *work, void *party, u32 partyPos)
 {
     int count = func_0200BCB8(work->dayCare);
-    u32 mon = (u32)func_0201AB28(party, partyPos);
+    u32 mon = (u32)POKEPARTY_GetMember(party, partyPos);
     if (count < 2) {
         SODATEYA_PrepareDeposit((void *)mon);
         SODATEYA_RevertShaymin((void *)mon);
         func_0200BC4C(work->dayCare, count, (void *)mon);
-        func_0201A9C8(party, partyPos);
+        POKEPARTY_RemoveMember(party, partyPos);
         SODATEYA_SyncPartyAfterDeposit(work->fieldMap, party);
     }
 }
 
 /*
- * Tail-call thunk: forwards to func_0201B9F0 with no argument change.
+ * Tail-call thunk: forwards to POKE_TOOL_HealFull with no argument change.
  */
 void SODATEYA_PrepareDeposit(void *mon)
 {
-    func_0201B9F0(mon);
+    POKE_TOOL_HealFull(mon);
 }
 
 /* Reverts a Shaymin (species 0x1EC) to its first form. */
@@ -413,7 +416,7 @@ void SODATEYA_WithdrawPokemon(SodateyaWork *work, u32 slot, void *party)
         mon = (u32)func_0200BC2C(work->dayCare, slot);
         SODATEYA_GrantExp((void *)mon, func_0200BCD8(work->dayCare, slot));
         SODATEYA_ReturnHeldItem(work, (void *)mon);
-        func_0201A98C(party, (void *)mon);
+        POKEPARTY_Add(party, (void *)mon);
         func_0200BC88(work->dayCare, slot);
         SODATEYA_CompactSlots(work->dayCare);
     }
@@ -438,7 +441,7 @@ void SODATEYA_ReceiveEgg(SodateyaWork *work, void *party)
         GAME_BEACON_SEARCH_SetSymbolMapEnter();
         SODATEYA_ClearEggFlag(work->fieldMap);
         SODATEYA_CreateEggMon(work, (struct Pokemon *)egg);
-        func_0201A98C(party, (void *)egg);
+        POKEPARTY_Add(party, (void *)egg);
         func_0200BC20(work->dayCare);
         func_020307B0((void *)egg);
         gameData = (u32)func_020120F4(FIELDMAP_GetGameSystem(work->fieldMap));
@@ -477,8 +480,8 @@ void SODATEYA_SetEggFlag(void *fieldMap)
     void *gameData = func_020120F4(FIELDMAP_GetGameSystem(fieldMap));
     void *eventWork = (void *)func_0201296C(gameData);
     void *party = func_02012934(gameData);
-    if ((int)func_0201AA18(party) < (int)func_0201AA14(party))
-        *((u16 *)func_020143CC((u32)eventWork, 0x4139)) = 1;
+    if ((int)POKEPARTY_GetCount(party) < (int)POKEPARTY_GetCapacity(party))
+        *((u16 *)ZONEDATA_GetEventWorkAddress((u32)eventWork, 0x4139)) = 1;
 }
 
 /*
@@ -486,7 +489,7 @@ void SODATEYA_SetEggFlag(void *fieldMap)
  */
 void SODATEYA_ClearEggFlag(void *fieldMap)
 {
-    *((u16 *)func_020143CC(func_0201296C(func_020120F4(FIELDMAP_GetGameSystem(fieldMap))), 0x4139)) = 0;
+    *((u16 *)ZONEDATA_GetEventWorkAddress(func_0201296C(func_020120F4(FIELDMAP_GetGameSystem(fieldMap))), 0x4139)) = 0;
 }
 
 /*
@@ -600,7 +603,7 @@ void SODATEYA_GrantExp(void *mon, u32 gain)
     POKE_TOOL_RecalcParam(mon);
     i = 0;
     newLevel = func_02017E1C(mon, 0x9e, 0);
-    func_0201ADD0((u16)species, (u16)form, learnset);
+    POKE_PERSONAL_LoadDataDirect((u16)species, (u16)form, learnset);
     goto test;
 body:
     entryE = entryA;
@@ -863,7 +866,7 @@ void SODATEYA_SwapParents(struct Pokemon **parents)
 /* Clears the egg record and sets its level to 1. */
 int SODATEYA_InitEgg(DayCareEgg *egg)
 {
-    func_02082BCC(egg, 0, sizeof(DayCareEgg));
+    MI_CpuFill8(egg, 0, sizeof(DayCareEgg));
     egg->level = 1;
     return 1;
 }
@@ -1107,12 +1110,12 @@ void SODATEYA_RollDittoAbilitySlot(struct Pokemon **parents, DayCareEgg *egg)
 void SODATEYA_SetAbilityFromSlot(struct Pokemon **parents, DayCareEgg *egg, u32 heapId)
 {
     u32 abilities[3];
-    struct Personal *personal = func_0201ADE4((u16)egg->species, (u16)egg->form, heapId);
+    struct Personal *personal = POKE_PERSONAL_Create((u16)egg->species, (u16)egg->form, heapId);
 
-    abilities[0] = func_0201AE1C(personal, 0x1a);
-    abilities[1] = func_0201AE1C(personal, 0x1b);
-    abilities[2] = func_0201AE1C(personal, 0x1c);
-    func_0201AE14(personal);
+    abilities[0] = POKE_PERSONAL_GetParam(personal, 0x1a);
+    abilities[1] = POKE_PERSONAL_GetParam(personal, 0x1b);
+    abilities[2] = POKE_PERSONAL_GetParam(personal, 0x1c);
+    POKE_PERSONAL_Delete(personal);
     if (egg->abilitySlot < 2) {
         egg->ability = abilities[egg->abilitySlot];
         if (egg->ability == 0)
@@ -1125,10 +1128,10 @@ void SODATEYA_SetAbilityFromSlot(struct Pokemon **parents, DayCareEgg *egg, u32 
  */
 void SODATEYA_SetBaseFriendship(DayCareEgg *egg, u32 heapId)
 {
-    void *personal = func_0201ADE4((u16)egg->species, (u16)egg->form, heapId);
-    u32 baseFriendship = func_0201AE1C(personal, 0x15);
+    void *personal = POKE_PERSONAL_Create((u16)egg->species, (u16)egg->form, heapId);
+    u32 baseFriendship = POKE_PERSONAL_GetParam(personal, 0x15);
 
-    func_0201AE14(personal);
+    POKE_PERSONAL_Delete(personal);
     egg->baseFriendship = baseFriendship;
 }
 
@@ -1276,7 +1279,7 @@ void SODATEYA_AddLevelUpMoves(DayCareEgg *egg)
     int isEnd;
     u32 entryLevel, eggLevel, move;
 
-    func_0201ADD0((u16)egg->species, (u16)egg->form, learnset);
+    POKE_PERSONAL_LoadDataDirect((u16)egg->species, (u16)egg->form, learnset);
     i = 0;
     goto test;
 body:
@@ -1345,7 +1348,7 @@ void SODATEYA_AddSharedMoves(struct Pokemon **parents, DayCareEgg *egg)
     u32 move;
     u32 value;
 
-    func_0201ADD0((u16)egg->species, (u16)egg->form, learnset);
+    POKE_PERSONAL_LoadDataDirect((u16)egg->species, (u16)egg->form, learnset);
     i = 0;
     goto test;
 body:
@@ -1483,7 +1486,7 @@ void SODATEYA_SetupEggMon(struct Pokemon *mon, const DayCareEgg *egg, struct MyS
     POKE_TOOL_SetPartyValue(mon, MON_DATA_IS_EGG, 1);
     POKE_TOOL_RecoverAllPP(mon);
     POKE_TOOL_RecalcParam(mon);
-    func_0201B9F0(mon);
+    POKE_TOOL_HealFull(mon);
 }
 
 /*
@@ -1498,21 +1501,21 @@ int SODATEYA_CanLearnTm(u32 heapId, u32 species, u32 form, u32 tmItem)
         return 0;
     if (func_02021288(tmItem) == 0)
         return 0;
-    personal = (u32)func_0201ADE4(species, form, heapId);
+    personal = (u32)POKE_PERSONAL_Create(species, form, heapId);
     tmIndex = func_0202130C(tmItem);
     if (tmIndex < 0x20) {
-        mask = func_0201AE1C((const struct Personal *)personal, 0x27);
+        mask = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x27);
     } else if (tmIndex < 0x40) {
-        mask = func_0201AE1C((const struct Personal *)personal, 0x28);
+        mask = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x28);
         tmIndex -= 0x20;
     } else if (tmIndex < 0x60) {
-        mask = func_0201AE1C((const struct Personal *)personal, 0x29);
+        mask = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x29);
         tmIndex -= 0x40;
     } else {
-        mask = func_0201AE1C((const struct Personal *)personal, 0x2a);
+        mask = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x2a);
         tmIndex -= 0x60;
     }
-    func_0201AE14((void *)personal);
+    POKE_PERSONAL_Delete((void *)personal);
     return mask & (1 << tmIndex);
 }
 
@@ -1537,13 +1540,13 @@ u16 SODATEYA_GetBaseSpecies(u16 species)
 u8 SODATEYA_GetAbilitySlot(u32 species, u32 form, u32 ability, u32 heapId)
 {
     u32 abilities[3];
-    u32 personal = (u32)func_0201ADE4(species, form, heapId);
+    u32 personal = (u32)POKE_PERSONAL_Create(species, form, heapId);
     u32 slot;
 
-    abilities[0] = func_0201AE1C((const struct Personal *)personal, 0x1a);
-    abilities[1] = func_0201AE1C((const struct Personal *)personal, 0x1b);
-    abilities[2] = func_0201AE1C((const struct Personal *)personal, 0x1c);
-    func_0201AE14((void *)personal);
+    abilities[0] = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x1a);
+    abilities[1] = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x1b);
+    abilities[2] = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x1c);
+    POKE_PERSONAL_Delete((void *)personal);
     for (slot = 0; slot < 3; slot++) {
         if (ability == abilities[slot])
             break;

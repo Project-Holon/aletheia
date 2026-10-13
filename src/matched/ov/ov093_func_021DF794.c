@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetMetalCoatHandlers
+ * function: HAND_ITEM_GetMetalCoatHandlers
  * address: 0x021DF794
  * packet: pkt_ov093_021DF794
  * region: ov093
@@ -15,10 +15,10 @@
  *   gMetalCoatHandlers 0x021F13C4 data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetMetalCoatHandlers(int *p);
+int *HAND_ITEM_GetMetalCoatHandlers(int *p);
 extern int gMetalCoatHandlers[];
 
-int *BTL_HANDLER_ITEM_GetMetalCoatHandlers(int *p)
+int *HAND_ITEM_GetMetalCoatHandlers(int *p)
 {
     *p = 1;
     return gMetalCoatHandlers;

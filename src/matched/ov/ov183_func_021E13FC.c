@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorScale 0x0204B5AC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021E0E40 0x021E0E40 thumb ov183
@@ -38,7 +38,7 @@ struct PtS;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Pair;
 extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 struct Obj;
@@ -65,7 +65,7 @@ int func_021E13FC(char *p) {
                 CLACT_GetActorSurfacePos(((struct Obj00417 *)record)->fC,(struct PtS *)&coords.x,1);
                 coords.x+=((struct Obj00417 *)record)->f14;
                 coords.y+=((struct Obj00417 *)record)->f16;
-                func_0204B404(((struct Obj00417 *)record)->fC,(const struct Vec2 *)(&coords.x),1);
+                CLACT_AddActorSurfacePos(((struct Obj00417 *)record)->fC,(const struct Vec2 *)(&coords.x),1);
                 --((struct Obj00417 *)record)->f18;
                 if(i>=((struct Obj00478 *)p)->f248&&i<((struct Obj00478 *)p)->f24C){
                     factor=*(int *)((u32)d_021E3998+((struct Obj00417 *)record)->f19*4);
@@ -87,7 +87,7 @@ int func_021E13FC(char *p) {
                 CLACT_GetActorSurfacePos(((struct Obj00417 *)record)->f15C,(struct PtS *)&coords.a,1);
                 coords.a+=((struct Obj00417 *)record)->f164;
                 coords.b+=((struct Obj00417 *)record)->f166;
-                func_0204B404(((struct Obj00417 *)record)->f15C,(const struct Vec2 *)(&coords.a),1);
+                CLACT_AddActorSurfacePos(((struct Obj00417 *)record)->f15C,(const struct Vec2 *)(&coords.a),1);
                 --((struct Obj00417 *)record)->f168;
             }
         }

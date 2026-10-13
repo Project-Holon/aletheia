@@ -10,7 +10,7 @@
  * symbols:
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   func_021D4244 0x021D4244 thumb ov120
  *   func_021D4584 0x021D4584 thumb ov120
@@ -21,7 +21,7 @@ extern int GFL_NET_GetRunState(void);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, unsigned int, unsigned int);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -35,7 +35,7 @@ void func_021D4808(int *a)
         func_021D4244(a, (int)((void (*)(int))func_021D4584), 0x2df);
         return;
     }
-    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 2, 0x22) != 0) {
+    if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 2, 0x22) != 0) {
         if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2200, 8, (u32)(*(char * *)&((struct Obj22827 *)a)->f48 + 4)) != 0)
             func_021D4244(a, (int)((void (*)(int))func_021D47D4), 0x2e7);
     }

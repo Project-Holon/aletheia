@@ -1,5 +1,5 @@
 /*
- * function: BTL_ITEM_GetRaiseSpAttackOneHandlers
+ * function: HAND_ITEM_GetRaiseSpAttackOneHandlers
  * address: 0x021DD8C4
  * packet: pkt_ov093_021DD8C4
  * region: ov093
@@ -15,12 +15,12 @@
  *   gBtlItemRaiseSpAttackOneHandlers 0x021F1D44 data ov093 a4
  */
 
-int *BTL_ITEM_GetRaiseSpAttackOneHandlers(int *p);
+int *HAND_ITEM_GetRaiseSpAttackOneHandlers(int *p);
 
-/* 021DD8D0  shifted 3-arg wrapper -> BTL_ITEM_RaiseStat(..., 0x3, 1) */
+/* 021DD8D0  shifted 3-arg wrapper -> HAND_ITEM_RaiseStat(..., 0x3, 1) */
 extern int gBtlItemRaiseSpAttackOneHandlers[];
 
-int *BTL_ITEM_GetRaiseSpAttackOneHandlers(int *p)
+int *HAND_ITEM_GetRaiseSpAttackOneHandlers(int *p)
 {
     *p = 5;
     return gBtlItemRaiseSpAttackOneHandlers;

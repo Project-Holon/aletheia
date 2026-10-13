@@ -12,7 +12,7 @@
  * symbols:
  *   func_02034AC4  0x02034AC4  arm
  *   ov067_id  0x00000043  data
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   func_0207D534  0x0207D534  arm
@@ -53,7 +53,7 @@ typedef signed char    s8;
 typedef signed int     s32;
 extern u8 ov067_id[];
 extern int func_02034AC4(s32 handle);
-extern void func_02043534(u32 a);
+extern void BG_SYS_SetMainVisiblePlanes(u32 a);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void BG_SYS_SetLcdSwap(u32 a);
 struct Blk37;
@@ -86,7 +86,7 @@ u32 func_021BCF8C(u8 *p)
 
     func_02034AC4((u32)ov067_id);
     z = 0;
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)&((struct Obj25595 *)ra)->f0 = z;
     *(volatile u16 *)&((struct Obj25596 *)rb)->f0 = z;

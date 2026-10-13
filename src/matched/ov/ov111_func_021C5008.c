@@ -11,7 +11,7 @@
  *
  * symbols:
  *   TOUCHPANEL_GetCont  0x02035C38  arm
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -25,7 +25,7 @@ typedef struct {
 } Work;
 
 extern int TOUCHPANEL_GetCont(void);
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 
 int func_021C5008(Work *p)
 {
@@ -33,12 +33,12 @@ int func_021C5008(Work *p)
         if (TOUCHPANEL_GetCont()) {
             return 0;
         }
-        if (func_0203630C()) {
+        if (KEY_GetCont()) {
             p->mode = 0;
             return 1;
         }
     } else {
-        if (func_0203630C()) {
+        if (KEY_GetCont()) {
             return 0;
         }
         if (TOUCHPANEL_GetCont()) {

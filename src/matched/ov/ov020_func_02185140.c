@@ -29,7 +29,7 @@
  *   func_0200BFA4  0x0200BFA4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
- *   func_020142A4  0x020142A4  thumb
+ *   ZONEDATA_DirToExitDir  0x020142A4  thumb
  *   ZONEDATA_SetDirectLocation  0x02014184  thumb
  *   EVENT_MAPCHANGE_GetCurrentLocation  0x021852F0  thumb  ov020
  *   EVENT_MAPCHANGE_CreateIntrudeSessionEvent  0x02185BFC  thumb  ov020
@@ -60,7 +60,7 @@ int GAME_DATA_GetPlayTime(int p0);
 unsigned long long func_0200BFA4(u8 *p, void *q, u32 mode);
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 u8 GAME_DATA_GetExitMode(const struct BigObj *p);
-u32 func_020142A4(u32 idx);
+u32 ZONEDATA_DirToExitDir(u32 idx);
 void ZONEDATA_SetDirectLocation(S7 *out, int b, s16 c, int d, int e, int f);
 void EVENT_MAPCHANGE_GetCurrentLocation(void *dst, int x);
 void *EVENT_MAPCHANGE_CreateIntrudeSessionEvent(void *p, int a1, S7 *a2, int a3, int a4);
@@ -101,6 +101,6 @@ void *EVENT_MAPCHANGE_CreateIntrudeWarpEvent(void *a, int b, S3 *c, int d)
         r6 = 0x10000;
     }
     t.f0 += r6 + (r2 << 22);
-    ZONEDATA_SetDirectLocation(&out, b, func_020142A4(0), t.f0, t.f4, t.f8);
+    ZONEDATA_SetDirectLocation(&out, b, ZONEDATA_DirToExitDir(0), t.f0, t.f4, t.f8);
     return EVENT_MAPCHANGE_CreateIntrudeSessionEvent(a, h, &out, d, r5);
 }

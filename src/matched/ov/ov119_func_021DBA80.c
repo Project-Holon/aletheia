@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021D8C84 0x021D8C84 thumb ov119
  *   func_021DF7AC 0x021DF7AC thumb ov119
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
@@ -17,7 +17,7 @@
  *   func_021DBA38 0x021DBA38 thumb ov119
  */
 #include "../include/Obj00001.h"
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void func_021D8C84(void *);
 extern void func_021DF7AC(void *,int);
 struct TaskMenu;
@@ -30,9 +30,9 @@ void func_021DBA80(char *p)
     ((struct Obj00001 *)p)->f1088=0;
     ((struct Obj00001 *)p)->f1078=0;
     ((struct Obj00001 *)p)->f107A=0;
-    func_02082BCC(p+0xca0,0,0x78);
-    func_02082BCC(p+0xd18,0,0x3c);
-    func_02082BCC(p+0xd54,0,0x3c);
+    MI_CpuFill8(p+0xca0,0,0x78);
+    MI_CpuFill8(p+0xd18,0,0x3c);
+    MI_CpuFill8(p+0xd54,0,0x3c);
     func_021D8C84(p);
     func_021DF7AC(p,1);
     if(*(int *)&((struct Obj00001 *)p)->f64C) {

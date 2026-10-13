@@ -218,7 +218,7 @@ void *func_0206062C(struct DList *list, void *elem);
 struct Elem *func_02060640(struct DList *list, u32 val);
 void *func_020606A8(u32 a);
 void func_020606D0(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapStart, void *heapEnd, u16 optFlag);
-void NHTTP_CleanupAsync(void *p);
+void FNDHEAP_Finalize(void *p);
 void func_02060764(int *out, int *blk);
 void *func_02060790(int *p, int *node);
 void *func_020607B8(int *p, void *node, int *a);
@@ -586,7 +586,7 @@ void func_020606D0(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapStart, voi
 
 
 
-void NHTTP_CleanupAsync(void *p)
+void FNDHEAP_Finalize(void *p)
 {
     func_020605B4(func_020606A8((u32)p), p);
 }

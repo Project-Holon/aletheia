@@ -13,7 +13,7 @@
  *   g_021A8264  0x021A8264  data  ov009  a4
  *   func_0205912C  0x0205912C  arm
  *   func_02168848  0x02168848  arm  ov009
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
 typedef unsigned char  u8;
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 extern u8 *g_021A8264;
 extern int func_0205912C(u8 *);
 extern unsigned char func_02168848(void *p, int a, int b);
-extern void func_02082BCC(u8 *, u32, u32);
+extern void MI_CpuFill8(u8 *, u32, u32);
 
 void DWC_RAP_PollFriendStatus(void)
 {
@@ -36,7 +36,7 @@ void DWC_RAP_PollFriendStatus(void)
                                   (int)(g_021A8264 + 0x34c + i * 32), (int)(&n));
             if (n < 1) {
                 (g_021A8264 + i)[0x32c] = 0;
-                func_02082BCC(g_021A8264 + 0x34c + i * 32, 0, 0x20);
+                MI_CpuFill8(g_021A8264 + 0x34c + i * 32, 0, 0x20);
             } else {
                 (g_021A8264 + i)[0x32c] = r;
             }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E6BE8
+ * function: HAND_WAZA_AddAssist
  * address: 0x021E6BE8
  * packet: pkt_ov093_021E6BE8
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E6AD8_p01.c and filed here.
  *
  * symbols:
- *   d_021F270C 0x021F270C data ov093 a4
+ *   gAssistHandlers 0x021F270C data ov093 a4
  */
 
-int *func_021E6BE8(int *p);
-extern int d_021F270C[];
+int *HAND_WAZA_AddAssist(int *p);
+extern int gAssistHandlers[];
 
-int *func_021E6BE8(int *p)
+int *HAND_WAZA_AddAssist(int *p)
 {
     *p = 1;
-    return d_021F270C;
+    return gAssistHandlers;
 }

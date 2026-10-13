@@ -1,7 +1,7 @@
 /*
  * file:     rail_slipdown.c
  * unit:     yes
- * function: func_021F36C0, func_021F3758, func_021F376C
+ * function: func_021F36C0, func_021F3758, func_021F376C, func_021F377C
  * address:  0x021F36C0
  * region:   ov063
  * compiler: dsi/1.1p1
@@ -31,6 +31,49 @@
  *   d_021F3D80     0x021F3D80  data  a1
  *   func_02030EAC  0x02030EAC  arm
  *   func_020307B0  0x020307B0  arm
+ *   FLDMMDL_RAIL_GetDrawOffset 0x0219E764 thumb ov021
+ *   VEC_Fx16Normalize 0x0207CDB8 arm
+ *   FIELD_RAIL_WORK_GetPos 0x021B8028 thumb ov021
+ *   FIELD_NOGRID_MAPPER_GetRailMan 0x021BB480 thumb ov021
+ *   FIELD_RAIL_FindSegmentLocation 0x021B7A84 thumb ov021
+ *   FIELD_RAIL_GetLocationWidthGrid 0x021B7D50 thumb ov021
+ *   FIELD_NOGRID_MAPPER_GetAttribute 0x021BB3C4 thumb ov021
+ *   MAP_ATTR_GetFlags 0x021AB0F8 thumb ov021
+ *   FIELD_RAIL_GetLocationPos 0x021B7D38 thumb ov021
+ *   func_0207CA00 0x0207CA00 arm
+ *   func_0207CBD0 0x0207CBD0 arm
+ *   VEC_Normalize 0x0207CCA4 arm
+ *   func_0207C768 0x0207C768 arm
+ *   func_0207D14C 0x0207D14C arm
+ *   FIELD_CAMERA_EndDelay 0x0218F0A8 thumb ov021
+ *   FIELD_CAMERA_IsDelayEnabled 0x0218F0E8 thumb ov021
+ *   FIELD_CAMERA_StopTargetTrace 0x0218EC54 thumb ov021
+ *   FIELD_CAMERA_SetMode 0x0218E13C thumb ov021
+ *   FIELD_CAMERA_EnterMode 0x0218E124 thumb ov021
+ *   FIELD_CAMERA_GetEyeRaw 0x0218ECE4 thumb ov021
+ *   FIELD_CAMERA_GetTargetRaw 0x0218ECB4 thumb ov021
+ *   FIELD_NOGRID_MAPPER_SetCameraLocation 0x021BB3D0 thumb ov021
+ *   FIELD_CAMERA_GetTraceTarget 0x0218EC5C thumb ov021
+ *   FIELD_CAMERA_SetTarget 0x0218EC90 thumb ov021
+ *   FIELD_CAMERA_SetEyeRaw 0x0218ECF4 thumb ov021
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ *   FLDMMDL_SetMoveBit 0x0216D568 thumb ov010
+ *   FLDEFF_KEMURI_Start 0x021AC528 thumb ov021
+ *   FIELD_PLAYER_SetPos 0x021A3044 thumb ov021
+ *   FLDMMDL_SetPos 0x0216D89C thumb ov010
+ *   GFL_USE_GetSeSlot 0x02006148 thumb
+ *   GFL_USE_StopSeSlot 0x020061F8 thumb
+ *   FIELD_PLAYER_GetNogridLocation 0x021A36B0 thumb ov021
+ *   FIELD_PLAYER_ClearNogridState 0x021A36D4 thumb ov021
+ *   FIELD_NOGRID_MAPPER_SetActive 0x021BB260 thumb ov021
+ *   FIELD_NOGRID_MAPPER_UpdateCameraForced 0x021BB388 thumb ov021
+ *   FLDMMDL_RAIL_SetLocation 0x0219E2C0 thumb ov021
+ *   FLDMMDL_ClearMoveBit 0x0216D570 thumb ov010
+ *   FLDMMDL_OffMoveBitMovePause 0x0216DB04 thumb ov010
+ *   _fflt 0x0209BDBC arm
+ *   _fadd 0x0209C95C arm
+ *   _fsub 0x0209CB8C arm
+ *   _ffix 0x0209C494 arm
  */
 #include "../ov021/fldmmdl_rail_types.h"
 #include "rail_slipdown_types.h"
@@ -56,6 +99,50 @@ RailSlipdown *func_021F36C0(void *gameSystem, void *fieldMap, struct Mmdl *mmdl,
 void func_021F3758(RailSlipdown *slipdown);
 int func_021F376C(RailSlipdown *slipdown);
 extern const char d_021F3D80[];
+typedef long long s64;
+extern int FLDMMDL_RAIL_GetDrawOffset(struct Mmdl *mmdl, SlipdownDir *out);
+extern void VEC_Fx16Normalize(SlipdownDir *in, SlipdownDir *out);
+extern void FIELD_RAIL_WORK_GetPos(struct RailWork *railWork, VecFx32 *outPos);
+extern struct RailManager *FIELD_NOGRID_MAPPER_GetRailMan(struct FieldNogridMapper *mapper);
+extern int FIELD_RAIL_FindSegmentLocation(struct RailManager *railMan, const VecFx32 *start, const VecFx32 *end, RailLocation *outLocation, VecFx32 *outPos);
+extern int FIELD_RAIL_GetLocationWidthGrid(struct RailManager *railMan, RailLocation *location);
+extern u32 FIELD_NOGRID_MAPPER_GetAttribute(struct FieldNogridMapper *mapper, RailLocation *location);
+extern u16 MAP_ATTR_GetFlags(u32 attr);
+extern void FIELD_RAIL_GetLocationPos(struct RailManager *railMan, RailLocation *location, VecFx32 *outPos);
+extern void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern int func_0207CBD0(const VecFx32 *v);
+extern void VEC_Normalize(VecFx32 *in, VecFx32 *out);
+extern u32 func_0207C768(u32 a, u32 b);
+extern int func_0207D14C(int value, int *out);
+extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
+extern u32 FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
+extern void FIELD_CAMERA_StopTargetTrace(struct FieldCamera *camera);
+extern void FIELD_CAMERA_SetMode(struct FieldCamera *camera, u32 mode);
+extern void FIELD_CAMERA_EnterMode(struct FieldCamera *camera, u32 mode);
+extern void FIELD_CAMERA_GetEyeRaw(struct FieldCamera *camera, VecFx32 *outEye);
+extern void FIELD_CAMERA_GetTargetRaw(struct FieldCamera *camera, VecFx32 *outTarget);
+extern void FIELD_NOGRID_MAPPER_SetCameraLocation(struct FieldNogridMapper *mapper, RailLocation *location);
+extern u32 FIELD_CAMERA_GetTraceTarget(struct FieldCamera *camera);
+extern void FIELD_CAMERA_SetTarget(struct FieldCamera *camera, VecFx32 *target);
+extern void FIELD_CAMERA_SetEyeRaw(struct FieldCamera *camera, VecFx32 *eye);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+extern void *FLDMMDL_SetMoveBit(struct Mmdl *mmdl, u32 bits);
+extern void FLDEFF_KEMURI_Start(struct Mmdl *mmdl, struct FieldEffectSys *effectSys);
+extern void FIELD_PLAYER_SetPos(struct FieldPlayer *player, VecFx32 *pos);
+extern void FLDMMDL_SetPos(struct Mmdl *mmdl, VecFx32 *pos);
+extern int GFL_USE_GetSeSlot(u32 seId);
+extern void GFL_USE_StopSeSlot(int seSlot);
+extern void FIELD_PLAYER_GetNogridLocation(struct FieldPlayer *player, RailLocation *outLocation);
+extern void FIELD_PLAYER_ClearNogridState(struct FieldPlayer *player, VecFx32 *outPos);
+extern void FIELD_NOGRID_MAPPER_SetActive(struct FieldNogridMapper *mapper, int active);
+extern int FIELD_NOGRID_MAPPER_UpdateCameraForced(struct FieldNogridMapper *mapper);
+extern void FLDMMDL_RAIL_SetLocation(struct Mmdl *mmdl, RailLocation *location);
+extern char *FLDMMDL_ClearMoveBit(struct Mmdl *mmdl, u32 bits);
+extern char *FLDMMDL_OffMoveBitMovePause(struct Mmdl *mmdl);
+/* Fixed-point multiply with rounding (12 fraction bits). */
+static inline int fxmul(int a,int b) {return (int)(((s64)a*b+2048)>>12);}
+static inline void setDir16(SlipdownDir *d,int x,int y,int z){d->x=x;d->y=y;d->z=z;}
+static inline void setVec(VecFx32 *d,int x,int y,int z){d->x=x;d->y=y;d->z=z;}
 
 RailSlipdown *func_021F36C0(void *gameSystem, void *fieldMap, struct Mmdl *mmdl, int isPlayer)
 {
@@ -93,4 +180,159 @@ int func_021F376C(RailSlipdown *slipdown)
         return 1;
     }
     return 0;
+}
+
+/*
+ * Task of RAIL_SLIPDOWN_Create. Finds the landing place below the model,
+ * then slides the model (and the camera with it) from start to end in steps.
+ */
+void func_021F377C(void *tcb, RailSlipdown *slipdown)
+{
+    int stepFixed;
+    struct RailManager *railMan;
+    int widthLimit, slideY, valid, i;
+    u16 bound;
+    int scale, top, slideZ;
+    VecFx32 origin, slope, point, eye, target, finalPos;
+    SlipdownDir facing;
+    RailLocation cell;
+    int length;
+    switch (slipdown->state) {
+    case SLIPDOWN_STATE_FIND_LANDING:
+        FLDMMDL_RAIL_GetDrawOffset(slipdown->mmdl, &facing);
+        facing.y = 0;
+        VEC_Fx16Normalize(&facing, &facing);
+        FIELD_RAIL_WORK_GetPos(slipdown->railWork, &origin);
+        slipdown->start.x = origin.x + fxmul(facing.x, 0x10000);
+        slipdown->start.y = origin.y + fxmul(facing.y, 0x10000);
+        slipdown->start.z = origin.z + fxmul(facing.z, 0x10000);
+        top = slipdown->start.y + 0xa000;
+        slipdown->end.y = -0xa000;
+        scale = fxmul(top, 0x127b);
+        slipdown->end.x = slipdown->start.x + fxmul(facing.x, scale);
+        slipdown->end.z = slipdown->start.z + fxmul(facing.z, scale);
+        railMan = FIELD_NOGRID_MAPPER_GetRailMan(slipdown->nogridMapper);
+        if (FIELD_RAIL_FindSegmentLocation(railMan, &slipdown->start, &slipdown->end, &slipdown->landing, &slipdown->end) == 0) {
+            slipdown->state = SLIPDOWN_STATE_DONE;
+            return;
+        }
+        cell = slipdown->landing;
+        widthLimit = FIELD_RAIL_GetLocationWidthGrid(railMan, &slipdown->landing);
+        valid = 0;
+        if (!(MAP_ATTR_GetFlags(FIELD_NOGRID_MAPPER_GetAttribute(slipdown->nogridMapper, &cell)) & 1)) valid = 1;
+        cell.widthGrid += 2;
+        if (cell.widthGrid > widthLimit) cell.widthGrid = widthLimit;
+        bound = widthLimit + cell.widthGrid;
+        for (i = 0; i < bound; i++) {
+            cell.widthGrid--;
+            if (MAP_ATTR_GetFlags(FIELD_NOGRID_MAPPER_GetAttribute(slipdown->nogridMapper, &cell)) & 1) break;
+            slipdown->landing = cell;
+            valid = 1;
+        }
+        if (!valid) {
+            slipdown->state = SLIPDOWN_STATE_DONE;
+            return;
+        }
+        FIELD_RAIL_GetLocationPos(railMan, &slipdown->landing, &slipdown->end);
+        func_0207CA00(&slipdown->end, &slipdown->start, &slope);
+        length = func_0207CBD0(&slope);
+        VEC_Normalize(&slope, &slope);
+        setDir16(&slipdown->dir, slope.x, slope.y, slope.z);
+        length = func_0207C768(length, 0x8000);
+        if (func_0207D14C(length, &length) == 0) slipdown->count = length>>12;
+        else slipdown->count = (length>>12) + 1;
+        slipdown->step = 0;
+        if (slipdown->player != 0) {
+            FIELD_CAMERA_EndDelay(slipdown->camera);
+            slipdown->state = SLIPDOWN_STATE_WAIT_CAMERA;
+        } else slipdown->state = SLIPDOWN_STATE_START_SLIDE;
+        break;
+    case SLIPDOWN_STATE_WAIT_CAMERA:
+        if (FIELD_CAMERA_IsDelayEnabled(slipdown->camera) != 0) break;
+        FIELD_CAMERA_StopTargetTrace(slipdown->camera);
+        FIELD_CAMERA_SetMode(slipdown->camera, 2);
+        FIELD_CAMERA_GetEyeRaw(slipdown->camera, &slipdown->eyeStart);
+        FIELD_CAMERA_GetTargetRaw(slipdown->camera, &slipdown->targetStart);
+        FIELD_NOGRID_MAPPER_SetCameraLocation(slipdown->nogridMapper, &slipdown->landing);
+        if (FIELD_CAMERA_GetTraceTarget(slipdown->camera) != 0) {
+            FIELD_CAMERA_SetTarget(slipdown->camera, &slipdown->end);
+            FIELD_CAMERA_StopTargetTrace(slipdown->camera);
+        }
+        FIELD_CAMERA_SetMode(slipdown->camera, 2);
+        FIELD_CAMERA_GetEyeRaw(slipdown->camera, &slipdown->eyeDelta);
+        FIELD_CAMERA_GetTargetRaw(slipdown->camera, &slipdown->targetDelta);
+        func_0207CA00(&slipdown->eyeDelta, &slipdown->eyeStart, &slipdown->eyeDelta);
+        func_0207CA00(&slipdown->targetDelta, &slipdown->targetStart, &slipdown->targetDelta);
+        FIELD_NOGRID_MAPPER_SetActive(slipdown->nogridMapper, 0);
+        FIELD_CAMERA_EnterMode(slipdown->camera, 2);
+        FIELD_CAMERA_StopTargetTrace(slipdown->camera);
+        FIELD_CAMERA_SetTarget(slipdown->camera, &slipdown->targetStart);
+        FIELD_CAMERA_SetEyeRaw(slipdown->camera, &slipdown->eyeStart);
+        slipdown->state = SLIPDOWN_STATE_START_SLIDE;
+        break;
+    case SLIPDOWN_STATE_START_SLIDE:
+        GFL_USE_PlaySeDefaultVolume(0x6ed);
+        slipdown->state = SLIPDOWN_STATE_SLIDE;
+        FLDMMDL_SetMoveBit(slipdown->mmdl, 0x8000);
+    case SLIPDOWN_STATE_SLIDE:
+        slipdown->step++;
+        if ((u32) slipdown->step >= (u32) slipdown->count) {
+            setVec(&point, slipdown->end.x, slipdown->end.y, slipdown->end.z);
+            slipdown->state = SLIPDOWN_STATE_FINISH;
+        } else {
+            if (slipdown->step>0) stepFixed = (int)(0.5f + (float)(slipdown->step<<12));
+            else stepFixed = (int)((float)(slipdown->step<<12)-0.5f);
+            scale = fxmul(stepFixed, 0x8000);
+            slideZ = slipdown->start.z + fxmul(slipdown->dir.z, scale);
+            slideY = slipdown->start.y + fxmul(slipdown->dir.y, scale);
+            point.x = slipdown->start.x + fxmul(slipdown->dir.x, scale);
+            point.y = slideY;
+            point.z = slideZ;
+            if (slipdown->step % 2 == 0) FLDEFF_KEMURI_Start(slipdown->mmdl, slipdown->effectSys);
+        }
+        if (slipdown->player != 0) FIELD_PLAYER_SetPos(slipdown->player, &point);
+        else FLDMMDL_SetPos(slipdown->mmdl, &point);
+        if (slipdown->player == 0) break;
+        {
+            int y, z;
+            z = slipdown->eyeStart.z + func_0207C768(fxmul(slipdown->eyeDelta.z, slipdown->step<<12), slipdown->count<<12);
+            y = slipdown->eyeStart.y + func_0207C768(fxmul(slipdown->eyeDelta.y, slipdown->step<<12), slipdown->count<<12);
+            eye.x = slipdown->eyeStart.x + func_0207C768(fxmul(slipdown->eyeDelta.x, slipdown->step<<12), slipdown->count<<12);
+            eye.y = y;
+            eye.z = z;
+        }
+        {
+            int y, z;
+            z = slipdown->targetStart.z + func_0207C768(fxmul(slipdown->targetDelta.z, slipdown->step<<12), slipdown->count<<12);
+            y = slipdown->targetStart.y + func_0207C768(fxmul(slipdown->targetDelta.y, slipdown->step<<12), slipdown->count<<12);
+            target.x = slipdown->targetStart.x + func_0207C768(fxmul(slipdown->targetDelta.x, slipdown->step<<12), slipdown->count<<12);
+            target.y = y;
+            target.z = z;
+        }
+        FIELD_CAMERA_SetTarget(slipdown->camera, &target);
+        FIELD_CAMERA_SetEyeRaw(slipdown->camera, &eye);
+        break;
+    case SLIPDOWN_STATE_FINISH:
+        GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(0x6ed));
+        if (slipdown->player != 0) {
+            FIELD_PLAYER_GetNogridLocation(slipdown->player, &slipdown->landing);
+            FIELD_PLAYER_ClearNogridState(slipdown->player, &finalPos);
+            FIELD_PLAYER_SetPos(slipdown->player, &finalPos);
+            FIELD_NOGRID_MAPPER_SetActive(slipdown->nogridMapper, 1);
+            FIELD_NOGRID_MAPPER_UpdateCameraForced(slipdown->nogridMapper);
+        } else FLDMMDL_RAIL_SetLocation(slipdown->mmdl, &slipdown->landing);
+        FLDMMDL_ClearMoveBit(slipdown->mmdl, 0x8000);
+        FLDMMDL_SetStatusBitHeightGetOff(slipdown->mmdl, 0);
+        FLDMMDL_SetStatusBitAttrGetOff(slipdown->mmdl, 0);
+        FLDMMDL_SetStatusBitFellowHit(slipdown->mmdl, 1);
+        FLDMMDL_OffMoveBitMovePause(slipdown->mmdl);
+        slipdown->state = SLIPDOWN_STATE_DONE;
+        break;
+    case 2:
+    case 3:
+    case 6:
+    case 7:
+    case SLIPDOWN_STATE_DONE:
+        break;
+    }
 }

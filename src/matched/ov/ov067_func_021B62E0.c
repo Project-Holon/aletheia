@@ -19,7 +19,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   TOUCHBAR_LoadGfx  0x021B6608  thumb  ov067
  *   TOUCHBAR_InitButton  0x021B67F8  thumb  ov067
  *   gTouchBarSourceName     0x021B954C  data  a1
@@ -51,7 +51,7 @@ typedef struct {
 extern const char gTouchBarSourceName[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void TOUCHBAR_LoadGfx(void *a, u8 b, int c, int d, int e, u8 f, u8 g, int h, int i);
 extern void TOUCHBAR_InitButton(void *a, int b, void *c, void *d, int e, int f);
 
@@ -68,7 +68,7 @@ R *TOUCHBAR_Create(A *a, int heap)
     size = a->f4 * 0x38 + 0x20;
     p = func_02030734(heap, size, 0, gTouchBarSourceName, 0x123);
     flag = 0;
-    func_02082BCC(p, 0, size);
+    MI_CpuFill8(p, 0, size);
     p->f4 = a->f4;
     p->f8 = flag;
     if (a->fC >= 4) {

@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02013080  0x02013080  thumb  arm9
- *   func_0201CE8C  0x0201CE8C  thumb  arm9
- *   func_0201CEB8  0x0201CEB8  thumb  arm9
+ *   PRINTSYS_PrintStreamSetSpeed  0x0201CE8C  thumb  arm9
+ *   PRINTSYS_PrintStreamResetSpeed  0x0201CEB8  thumb  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -24,13 +24,13 @@ typedef short          s16;
 extern signed char func_02013080(u32 idx);
 typedef signed int     s32;
 struct Rec;
-extern void func_0201CE8C(struct Rec *p, s32 v);
-extern void func_0201CEB8(struct Rec *p);
+extern void PRINTSYS_PrintStreamSetSpeed(struct Rec *p, s32 v);
+extern void PRINTSYS_PrintStreamResetSpeed(struct Rec *p);
 
 void FIELD_MSGBG_StreamSetSpeed(u32 a, int f)
 {
     if (f == 1)
-        func_0201CE8C((struct Rec *)a, func_02013080(2));
+        PRINTSYS_PrintStreamSetSpeed((struct Rec *)a, func_02013080(2));
     else
-        func_0201CEB8((struct Rec *)a);
+        PRINTSYS_PrintStreamResetSpeed((struct Rec *)a);
 }

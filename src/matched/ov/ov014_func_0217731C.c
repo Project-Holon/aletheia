@@ -1,5 +1,5 @@
 /*
- * function: func_0217731C
+ * function: NET_WHPIPE_IsBeaconAcceptable
  * address:  0x0217731C
  * packet:   pkt_ov014_0217731C
  * region:   ov014
@@ -29,7 +29,7 @@ u16 func_0203F1FC(const u8 *src, u32 len);
 typedef int (*CheckFn)(u8 a, u8 b, u32 c);
 typedef void (*NotifyFn)(u32 a, u8 *obj, u32 b, u32 c);
 
-int func_0217731C(u8 *obj)
+int NET_WHPIPE_IsBeaconAcceptable(u8 *obj)
 {
     u8 *base = ((u8 *)g_pWhPipeWork);
     u8 *st = GFL_NET_GetInitParam();

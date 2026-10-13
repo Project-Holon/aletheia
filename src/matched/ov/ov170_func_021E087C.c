@@ -14,7 +14,7 @@
  *   func_021DE158 0x021DE158 thumb
  *   func_021EE008 0x021EE008 thumb
  *   func_021EF75C 0x021EF75C thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021DD210 0x021DD210 thumb
  *   func_021EC35C 0x021EC35C thumb
  *   func_021DEDCC 0x021DEDCC thumb
@@ -47,7 +47,7 @@ extern int func_021EF770(struct WinMgr *mgr);
 extern int func_021DE158(unsigned char *p, unsigned a, unsigned b);
 extern void func_021EE008(char *p, int a, int b);
 extern void func_021EF75C(struct WinMgr *mgr);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern int func_021DD210(unsigned char *p, unsigned a, unsigned b);
 extern void func_021EC35C(char **p, int box);
 extern int func_021DEDCC(char *p, int box);
@@ -78,7 +78,7 @@ int func_021E087C(unsigned char *p)
             if (HELD(p) < 0x1E || HELD(p) == 0xFF || func_021DE158(p, p[0x16], HELD(p)) == 0) {
                 func_021EE008((char *)p, 0, 0);
                 func_021EF75C(MGR(p));
-                func_020061E4(0x669);
+                GFL_USE_PlaySeDefaultVolume(0x669);
                 b->state = 5;
                 break;
             }
@@ -114,7 +114,7 @@ int func_021E087C(unsigned char *p)
             func_021DE66C(p, b->moves);
             func_021ED544((char *)p, 6);
             func_021ED6E4((char **)p, 0);
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 0;
             return 0;
         }
@@ -123,7 +123,7 @@ int func_021E087C(unsigned char *p)
         if (func_021E01E0((char *)p) == 0) {
             func_021EF35C(MGR(p));
             func_021EF36C(MGR(p));
-            func_020061E4(0x669);
+            GFL_USE_PlaySeDefaultVolume(0x669);
             b->state = 6;
         }
         break;

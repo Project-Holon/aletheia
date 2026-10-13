@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020120F4  0x020120F4  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
@@ -30,7 +30,7 @@ typedef struct {
     u8 h : 1;
 } S;
 
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
@@ -39,7 +39,7 @@ extern u8 func_02008550(const struct Sub0200852CObj *obj);
 
 void EVENT_FIELD_PROCLINK_SetCommProcParam(S *s, int a, int b, u8 d, u32 c, u8 e, u8 f, u8 g)
 {
-    func_02082BCC(s, 0, 0x18);
+    MI_CpuFill8(s, 0, 0x18);
     s->a = a;
     s->b = b;
     s->d = d;

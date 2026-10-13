@@ -10,7 +10,7 @@
  * status:   EXACT
  * note:     the case-0 byte must be held in a u8 (or u16) local: an int local
  *           swaps the 0x0201210C result and the 0x021897BC pointer between r4
- *           and r5.  func_020124E4/GAMESYSTEM_GetFieldMap are argless as in the twin
+ *           and r5.  GAME_EVENT_GetGameSystem/GAMESYSTEM_GetFieldMap are argless as in the twin
  *           ov045_func_021F39B8.  FLD_EXP_OBJ_SetAnimeEnabled/FLD_EXP_OBJ_GetAnime take their
  *           fourth argument as u16 (the caller truncates it before the bl).
  *           FLD_EXP_OBJ_GetAnime's third parameter must be `int` here, as for
@@ -18,7 +18,7 @@
  *           swap back even with the u8 local.
  *
  * symbols:
- *   func_020124E4 0x020124E4 thumb
+ *   GAME_EVENT_GetGameSystem 0x020124E4 thumb
  *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
  *   FIELDMAP_GetExpObj 0x02188D2C thumb ov021
  *   FIELDMAP_GetCommonWork 0x021897BC thumb
@@ -39,7 +39,7 @@ typedef unsigned int u32;
 
 struct Ctx;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetExpObj(int *p);
 extern int *FIELDMAP_GetCommonWork(char *p, int idx);
@@ -68,7 +68,7 @@ int GIMMICK38_EventPressSwitch(int a0, int *a1)
     int i;
     u8 c;
 
-    sys = GAMESYSTEM_GetFieldMap(func_020124E4((void *)a0));
+    sys = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem((void *)a0));
     h = FIELDMAP_GetExpObj(sys);
     s = (u8 *)FIELDMAP_GetCommonWork(sys, 1);
     t = (unsigned int)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct Ctx *)FIELDMAP_GetGameSystem(sys)));

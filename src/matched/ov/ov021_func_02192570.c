@@ -14,7 +14,7 @@
  *   func_02030734  0x02030734  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_Create  0x02043678  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   FIELD_MSGBG_LoadFrameTile  0x02192264  thumb  ov021
@@ -38,7 +38,7 @@ struct Bmp;
 struct Cfg;
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *w);
 extern void FIELD_MSGBG_LoadFrameTile(u32 a, u32 b, u32 c, u32 d);
@@ -59,7 +59,7 @@ u32 *FIELD_MSGBG_CreateSpWin(u16 *a, u32 b, u32 c, u16 d, u16 e, u16 f)
     t[0] = BMP_WIN_Create((u8)a[1], (u8)c, (u8)d, (u8)e, (u8)f, 9, 1);
     t[3] = (u32)BMP_Create(1, 1, 0x20, *a);
     FIELD_MSGBG_LoadFrameTile(t[3], b, *a, 9);
-    FIELD_MSGBG_DrawFrameBmp((u32)func_02045770((struct Descriptor *)t[0]), b, *a);
+    FIELD_MSGBG_DrawFrameBmp((u32)BMP_WIN_GetBmp((struct Descriptor *)t[0]), b, *a);
     FIELD_MSGBG_LoadSpWinPalette(a[1], 9, *a);
     BMP_WIN_MakeScreen((struct Cfg *)t[0]);
     BMP_WIN_TransferChars((struct Descriptor *)t[0]);

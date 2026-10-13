@@ -17,7 +17,7 @@
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02049F78 0x02049F78 arm
  *   func_02082D44 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
@@ -35,7 +35,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 extern u32 func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
-extern void func_02082BCC(void *, u8, u32);
+extern void MI_CpuFill8(void *, u8, u32);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(const void *, void *, u32);
 extern u32 func_020307B0(void *p);
@@ -72,7 +72,7 @@ void func_021D9D3C(char *p)
     func_02049658(h, 4, 3, 0, j, j, *(u16 *)(p + 0x9e4));
     func_020498F4(h, 7, 3, 0, j, j, *(u16 *)(p + 0x9e4));
     heap = *(u16 *)(p + 0x9e4);
-    func_02082BCC(p + 8, 0, 0x970);
+    MI_CpuFill8(p + 8, 0, 0x970);
     allocated = func_02049F78(h, 2, (u32)&record, heap);
     func_02082D44(*(void **)((u8 *)record + 0xc), p + 0x10, 0x1e0);
     func_02082D44(*(void **)((u8 *)record + 0xc), p + 0x1f0, 0x1e0);

@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetStormDrainHandlers
+ * function: HAND_TOKUSEI_GetStormDrainHandlers
  * address: 0x021DB410
  * packet: pkt_ov093_021DB410
  * region: ov093
@@ -15,10 +15,10 @@
  *   gStormDrainHandlers 0x021F0A58 data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetStormDrainHandlers(int *p);
+int *HAND_TOKUSEI_GetStormDrainHandlers(int *p);
 extern int gStormDrainHandlers[];
 
-int *BTL_TOKUSEI_GetStormDrainHandlers(int *p)
+int *HAND_TOKUSEI_GetStormDrainHandlers(int *p)
 {
     *p = 3;
     return gStormDrainHandlers;

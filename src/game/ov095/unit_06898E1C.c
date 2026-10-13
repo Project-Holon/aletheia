@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_021B9A40  0x021B9A40  thumb
- *   func_021C815C  0x021C815C  thumb
+ *   BTL_SERVER_FLOW_GetRule  0x021C815C  thumb
  *   BTL_EVENT_MultiplyVar  0x021D7704  thumb
  *   BTL_EVENT_GetVar  0x021D775C  thumb
  *   d_0689D6F0     0x0689D6F0  data   ov095  a4
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int k);
 extern int func_021B9A40(int k);
-extern int func_021C815C(int a);
+extern int BTL_SERVER_FLOW_GetRule(int a);
 extern void BTL_EVENT_MultiplyVar(int k, int v);
 u8 *func_06898E1C(u32 *p);
 void func_06898E28(int a, int b, int c);
@@ -76,7 +76,7 @@ void func_06898E54(int a, int b, int c)
     u8 t = BTL_EVENT_GetVar(4);
 
     if (b == func_021B9A40(t) && c == BTL_EVENT_GetVar(0x1a) && BTL_EVENT_GetVar(0x45) == 0) {
-        int r = func_021C815C(a);
+        int r = BTL_SERVER_FLOW_GetRule(a);
 
         BTL_EVENT_MultiplyVar(0x35, (r == 0 || r == 3) ? 0x800 : 0xa8f);
     }

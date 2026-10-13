@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 #include "../include/Obj08786.h"
 
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 void BMP_OAM_SetEnabled(u8 *g, u32 a)
 {
@@ -28,7 +28,7 @@ void BMP_OAM_SetEnabled(u8 *g, u32 a)
 
     for (i = 0; i < ((struct Obj08786 *)g)->fCB; i++) {
         for (j = 0; j < ((struct Obj08786 *)g)->fCA; j++) {
-            func_0204B3DC(*(void **)(g + 4 + (i * ((struct Obj08786 *)g)->fCA + j) * 4), a);
+            CLACT_SetActorDrawEnable(*(void **)(g + 4 + (i * ((struct Obj08786 *)g)->fCA + j) * 4), a);
         }
     }
 }

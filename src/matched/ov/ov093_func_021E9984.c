@@ -9,12 +9,12 @@
  * status: EXACT
  * symbols:
  *   func_021D3D70 0x021D3D70 thumb ov093
- *   func_021B8F5C 0x021B8F5C thumb ov093
- *   func_021B8F38 0x021B8F38 thumb ov093
- *   func_021B8F7C 0x021B8F7C thumb ov093
- *   func_021B8FC0 0x021B8FC0 thumb ov093
+ *   BTL_MAIN_SyncSideParty 0x021B8F5C thumb ov093
+ *   BTL_MAIN_IsCommMulti 0x021B8F38 thumb ov093
+ *   BTL_MAIN_SyncPartnerSideParty 0x021B8F7C thumb ov093
+ *   BTL_MAIN_IsSecondTeamClient 0x021B8FC0 thumb ov093
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
- *   func_021B99B8 0x021B99B8 thumb ov093
+ *   BTL_MAIN_GetPositionsPerClientThunk 0x021B99B8 thumb ov093
  *   func_021E9A68 0x021E9A68 thumb ov093
  *   func_021F86D4 0x021F86D4 thumb ov094
  *   func_021F86E0 0x021F86E0 thumb ov094
@@ -27,12 +27,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 func_021D3D70(u8 *p);
-extern int func_021B8F5C(char *p, int k);
-extern int func_021B8F38(unsigned char *p);
-extern int func_021B8F7C(u8 *, u32);
-extern unsigned char func_021B8FC0(unsigned char *p, unsigned int k);
+extern int BTL_MAIN_SyncSideParty(char *p, int k);
+extern int BTL_MAIN_IsCommMulti(unsigned char *p);
+extern int BTL_MAIN_SyncPartnerSideParty(u8 *, u32);
+extern unsigned char BTL_MAIN_IsSecondTeamClient(unsigned char *p, unsigned int k);
 extern u32 BTL_MAIN_GetRule(void **p);
-extern int func_021B99B8(void *pp, unsigned int b);
+extern int BTL_MAIN_GetPositionsPerClientThunk(void *pp, unsigned int b);
 extern int func_021E9A68(void *);
 extern void *func_021F86D4(void);
 extern int func_021F86E0(void);
@@ -45,19 +45,19 @@ void func_021E9984(u8 *p, u8 *q, int mode, u8 x, int y)
     int zero;
     int active;
     k = func_021D3D70(((struct Obj00056 *)p)->f4);
-    ((struct Obj00714 *)q)->f4 = func_021B8F5C((char *)(*(u8 * *)&((struct Obj00056 *)p)->f0), k);
-    if (mode != 3) active = func_021B8F38(((struct Obj00056 *)p)->f0);
+    ((struct Obj00714 *)q)->f4 = BTL_MAIN_SyncSideParty((char *)(*(u8 * *)&((struct Obj00056 *)p)->f0), k);
+    if (mode != 3) active = BTL_MAIN_IsCommMulti(((struct Obj00056 *)p)->f0);
     else active = 0;
     ((struct Obj00714 *)q)->f18 = active;
     if (active) {
-        ((struct Obj00714 *)q)->f8 = func_021B8F7C(*(u8 * *)&((struct Obj00056 *)p)->f0, k);
-        q[0x1c] = func_021B8FC0(((struct Obj00056 *)p)->f0, k);
+        ((struct Obj00714 *)q)->f8 = BTL_MAIN_SyncPartnerSideParty(*(u8 * *)&((struct Obj00056 *)p)->f0, k);
+        q[0x1c] = BTL_MAIN_IsSecondTeamClient(((struct Obj00056 *)p)->f0, k);
     } else {
         ((struct Obj00714 *)q)->f8 = 0;
         q[0x1c] = 0;
     }
     q[0x1f] = mode;
-    if (BTL_MAIN_GetRule(((struct Obj00056 *)p)->f0) != 3) q[0x22] = func_021B99B8(((struct Obj00056 *)p)->f0, k);
+    if (BTL_MAIN_GetRule(((struct Obj00056 *)p)->f0) != 3) q[0x22] = BTL_MAIN_GetPositionsPerClientThunk(((struct Obj00056 *)p)->f0, k);
     else q[0x22] = 3;
     switch (mode) {
     case 4:

@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C88A4  0x021C88A4  thumb
- *   func_021C88C8  0x021C88C8  thumb
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb
  *   func_0689BFF8   0x0689BFF8  thumb  ov095
  *   func_0689C0A8   0x0689C0A8  thumb  ov095
  *   func_0689C1A4   0x0689C1A4  thumb  ov095
@@ -28,8 +28,8 @@ typedef struct Rec {
 } Rec;
 
 extern int func_0689C464(int, Word, void *, int, Blk *);
-extern Rec *func_021C88A4(void *, int, int);
-extern void func_021C88C8(void *, Rec *);
+extern Rec *BTL_SERVER_FLOW_AllocCmdRecord(void *, int, int);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *, Rec *);
 extern void func_0689BFF8(void *, void *);
 extern void func_0689C0A8(void *, void *);
 extern void func_0689C1A4(void *, void *);
@@ -41,9 +41,9 @@ void func_0689BF3C(void *a, void *b, int c, int d, Word e)
     Rec *r;
 
     if (func_0689C464(d, e, b, 0, &buf) != 0) {
-        r = func_021C88A4(a, 4, c);
+        r = BTL_SERVER_FLOW_AllocCmdRecord(a, 4, c);
         r->blk = buf;
-        func_021C88C8(a, r);
+        BTL_SERVER_FLOW_CommitCmdRecord(a, r);
     }
     switch (d) {
     case 14:

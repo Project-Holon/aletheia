@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetGriseousOrbHandlers
+ * function: HAND_ITEM_GetGriseousOrbHandlers
  * address: 0x021DF42C
  * packet: pkt_ov093_021DF42C
  * region: ov093
@@ -15,10 +15,10 @@
  *   gGriseousOrbHandlers 0x021F1534 data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetGriseousOrbHandlers(int *p);
+int *HAND_ITEM_GetGriseousOrbHandlers(int *p);
 extern int gGriseousOrbHandlers[];
 
-int *BTL_HANDLER_ITEM_GetGriseousOrbHandlers(int *p)
+int *HAND_ITEM_GetGriseousOrbHandlers(int *p)
 {
     *p = 1;
     return gGriseousOrbHandlers;

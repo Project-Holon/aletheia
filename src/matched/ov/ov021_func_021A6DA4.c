@@ -10,21 +10,21 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   FIELD_PLAYER_SetupNogrid  0x021A3674  thumb
  */
 
 typedef unsigned int u32;
 
-extern u32 func_020362DC(void);
-extern unsigned int func_0203630C(void);
+extern u32 KEY_GetTrg(void);
+extern unsigned int KEY_GetCont(void);
 typedef unsigned char  u8;
 extern void FIELD_PLAYER_SetupNogrid(u8 *p, u32 b, u32 c);
 
 void FIELDMAP_CTRL_NOGRID_WORK_MovePlayer(u32 *a)
 {
-    u32 x = func_020362DC();
-    u32 y = func_0203630C();
+    u32 x = KEY_GetTrg();
+    u32 y = KEY_GetCont();
     FIELD_PLAYER_SetupNogrid((u8 *)(*a), x, y);
 }

@@ -20,8 +20,8 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  */
 #include "../include/Obj00068.h"
 typedef unsigned char u8;
@@ -42,8 +42,8 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 void func_021D4558(char *p)
 {
     u32 handle;
@@ -71,6 +71,6 @@ void func_021D4558(char *p)
     req.a = 0;
     req.b = 0;
     ((struct Obj00068 *)p)->f5C = CLACT_CreateActor(((struct Obj00068 *)p)->f4C, *(u32 *)&((struct Obj00068 *)p)->f50, ((struct Obj00068 *)p)->f54, ((struct Obj00068 *)p)->f58, &req, 1, ((struct Obj00068 *)p)->f0);
-    func_0204B3DC(((struct Obj00068 *)p)->f5C, 0);
-    func_0204B92C(((struct Obj00068 *)p)->f5C, 1);
+    CLACT_SetActorDrawEnable(((struct Obj00068 *)p)->f5C, 0);
+    CLACT_SetActorAutoAnim(((struct Obj00068 *)p)->f5C, 1);
 }

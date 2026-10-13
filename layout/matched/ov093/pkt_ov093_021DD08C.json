@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_HANDLER_ITEM_ChestoBerryOnEaten",
-    "BTL_HANDLER_ITEM_AddChestoBerry"
+    "HAND_ITEM_ChestoBerryOnEaten",
+    "HAND_ITEM_AddChestoBerry"
    ],
    "addresses": [
     "0x021DD08C",

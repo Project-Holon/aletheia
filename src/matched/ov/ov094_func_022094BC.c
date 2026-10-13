@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020870D0  0x020870D0  arm
- *   func_0204B22C  0x0204B22C  arm
+ *   CLACT_SetUnitDrawEnable  0x0204B22C  arm
  *   func_02209540  0x02209540  thumb  ov094
  */
 typedef unsigned char u8;
@@ -28,7 +28,7 @@ typedef struct {
 
 extern u64 func_020870D0(void);
 struct Bank;
-extern void func_0204B22C(struct Bank *bank, u32 mode);
+extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
 struct Timer;
 extern void func_02209540(struct Timer *p, int idx);
 
@@ -42,6 +42,6 @@ void func_022094BC(u8 *p, int i, int a, int b)
             w->x64[i] = 0;
             func_02209540((struct Timer *)w, i);
         }
-        func_0204B22C((struct Bank *)w->h[i], a);
+        CLACT_SetUnitDrawEnable((struct Bank *)w->h[i], a);
     }
 }

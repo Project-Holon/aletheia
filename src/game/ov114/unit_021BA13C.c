@@ -14,6 +14,7 @@
  *
  * symbols:
  *   _u32_div_f 0x0209C2B0 arm
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  *   @12945 0x021CDFA4 data
  *   func_021BA118  0x021BA118  arm
  *   g_021CE3BC     0x021CE3BC  data
@@ -24,7 +25,7 @@ typedef unsigned char u8;
 
 typedef unsigned int u32;
 
-extern void func_02082BCC(int, int, int);
+extern void MI_CpuFill8(int, int, int);
 extern int func_021BA118(char *str_p);
 void func_021BA13C(int a, int b);
 int func_021BA150(const char *p1_p, const char *p2_p, int size);
@@ -46,7 +47,7 @@ extern char g_021CE3BC[];
  */
 void func_021BA13C(int a, int b)
 {
-    func_02082BCC(a, 0, b);
+    MI_CpuFill8(a, 0, b);
 }
 
 

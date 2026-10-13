@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
  *
  * Stage two shorts on the stack and hand the 0x9E74 array slot to the
  *   SDK call.  Two spellings (array and struct) both give the image's
@@ -19,13 +20,13 @@
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021EC08C(char *p, int i, int a, int b, unsigned short c)
 {
     unsigned short t[2];
     t[0] = a;
     t[1] = b;
-    func_0204B404((struct Obj *)(*(int *)(p + i * 4 + 0x9E74)), (const struct Vec2 *)t, c);
+    CLACT_AddActorSurfacePos((struct Obj *)(*(int *)(p + i * 4 + 0x9E74)), (const struct Vec2 *)t, c);
 }
 

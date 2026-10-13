@@ -12,7 +12,7 @@
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_0220C4DC 0x0220C4DC thumb ov198
  *   func_0220D6DC 0x0220D6DC thumb ov198
- *   sub_0201BD28 0x0201BD28 thumb
+ *   WAZA_TOOL_GetParam 0x0201BD28 thumb
  */
 #include "../include/Obj00507.h"
 #include "../include/Obj25183.h"
@@ -26,7 +26,7 @@ extern void func_0220BEB8(u8 *p, int slot, u16 a2, u8 a3, u8 extra);
 extern int func_022110D4(u8 *,int);
 extern void func_0220C4DC(char *,int,int,int,u16,short,unsigned);
 extern void func_0220D6DC(char *p, u8 *record, int slot);
-extern unsigned sub_0201BD28(u16,unsigned);
+extern unsigned WAZA_TOOL_GetParam(u16,unsigned);
 void func_0220DE4C(char *p) {
     long i;
     int offset;
@@ -47,7 +47,7 @@ void func_0220DE4C(char *p) {
         }
     }
     func_0220C4DC(p,((struct Obj25183 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,5,0x53,65535,7,0x3dc0);
-    local[2]=sub_0201BD28(((struct Obj25184 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,5);
+    local[2]=WAZA_TOOL_GetParam(((struct Obj25184 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,5);
     local[3]=local[2];
     func_0220D6DC(p,(u8 *)local,5);
 }

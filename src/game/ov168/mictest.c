@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02030CB0 0x02030CB0 arm
  *   func_02030734 0x02030734 arm
  *   func_02030CBC 0x02030CBC arm
@@ -35,8 +35,8 @@
  *   WIPE_SYS_Start   0x0202208C  thumb
  *   WIPE_SYS_EndCheck   0x020221A4  thumb
  *   func_0218484C   0x0218484C  thumb
- *   func_02006D94   0x02006D94  thumb
- *   func_020061E4   0x020061E4  thumb
+ *   SND_MIC_IsLimitReached   0x02006D94  thumb
+ *   GFL_USE_PlaySeDefaultVolume   0x020061E4  thumb
  *   CLACT_SetActorAnimSeq   0x0204B878  arm
  *   CLACT_IsActorAnimActive   0x0204B98C  arm
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm
@@ -46,7 +46,7 @@
  *   NNS_GfdDoVramTransfer  0x02061C44  arm
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  data
  *   CLACT_InitSystem  0x0204A48C  arm
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   gClActorInitParam     0x020A1448  data  a4
  *   d_021848D4     0x021848D4  data  ov168  a4
@@ -61,8 +61,8 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAffineMode 0x0204B570 arm
  *   CLACT_SetActorFlip 0x0204B604 arm
  *   d_02184910 0x02184910 data a4
@@ -88,7 +88,7 @@
  *   func_020419E4 0x020419E4 arm
  *   func_02045B38 0x02045B38 arm
  *   BMP_WIN_CreateAt 0x02045180 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -96,18 +96,18 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   d_02184888 0x02184888 data a1
  *   d_02184868 0x02184868 data a2
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   SND_MIC_Init 0x02006CBC thumb
  *   func_02034F84 0x02034F84 arm
- *   func_02006D44  0x02006D44  thumb
+ *   SND_MIC_Exit  0x02006D44  thumb
  *   func_02034FB8  0x02034FB8  arm
- *   func_02006D64   0x02006D64  thumb
+ *   SND_MIC_AddElapsed   0x02006D64  thumb
  *   func_0208B500  0x0208B500  arm
  *   func_0208B528  0x0208B528  arm
  *   d_02184A40 0x02184A40 data a4
@@ -123,6 +123,7 @@
  *   _ffix          0x0209C494  arm
  *   func_0207C9D0 0x0207C9D0 arm
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
+ *   KEY_GetTrg  0x020362DC  arm  arm9
  */
 #include "../../matched/include/Obj02210.h"
 #include "../../matched/include/Obj23813.h"
@@ -208,7 +209,7 @@ typedef struct {
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern u32 func_02030CB0(u32);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
@@ -225,8 +226,8 @@ extern void func_02030D28(struct Ctx *c);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 WIPE_SYS_EndCheck(void);
 extern int func_0218484C(void);
-extern u32 func_02006D94(void);
-extern void func_020061E4(u32 a);
+extern u32 SND_MIC_IsLimitReached(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void BG_SYS_ClearMainPlanes(void);
@@ -235,7 +236,7 @@ extern u32 WIPE_ResetWndMask(void *win);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void NNS_GfdDoVramTransfer(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void CLACT_ExitSystem(void);
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
@@ -248,8 +249,8 @@ extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
@@ -271,7 +272,7 @@ extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 fl
 extern void func_020419E4(void);
 extern struct MsgBank *func_02045B38(unsigned int resident, unsigned int arcId, unsigned int fileId, unsigned int heapId);
 extern unsigned int BMP_WIN_CreateAt(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, u8 c, u8 d, unsigned int offset);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -279,16 +280,16 @@ extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(unsigned);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void SND_MIC_Init(u16 heap);
 extern void func_02034F84(u32 v);
-extern void func_02006D44(void);
+extern void SND_MIC_Exit(void);
 extern void func_02034FB8(u32 v);
-extern void func_02006D64(u32 n);
+extern void SND_MIC_AddElapsed(u32 n);
 extern void func_0208B500(int *);
 extern int func_0208B528(void);
 extern u32 func_020056EC(u32 range);
@@ -370,7 +371,7 @@ enum Result func_02183B60(void *obj)
     GFL_HEAP_CreateChildHeap(1,73,0x70000);
     size=OBJECT_SIZE;
     p=PROCSYS_AllocProcWork(obj,size,73);
-    func_02082BCC(p,0,size);
+    MI_CpuFill8(p,0,size);
     ((struct Obj02210 *)((unsigned)p))->f14C=73;
     func_02183ED4(73);
     func_02183F30();
@@ -552,8 +553,8 @@ void func_02183DAC(int a, int *state)
         *state = 1;
         break;
     case 1:
-        if (func_0218484C() && func_02006D94()) {
-            func_020061E4(0x551);
+        if (func_0218484C() && SND_MIC_IsLimitReached()) {
+            GFL_USE_PlaySeDefaultVolume(0x551);
             *state = 2;
         }
         break;
@@ -715,7 +716,7 @@ void func_02183F40(void *unused, char *p)
 void func_02183F6C(int unused, u32 b)
 {
     CLACT_InitSystem((void *)0x020A1448, (u32)((void *)0x021848D4), (u16)b);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
@@ -783,10 +784,10 @@ void func_02183FC4(char *p,u16 heap)
         r=&d_02184910[i];
         q=p+r->group*4;
         *(void **)(p+i*4)=CLACT_CreateActor((void *)*(u32 *)&((struct Obj01262 *)p)->f1C,((struct Obj10642 *)q)->f20,((struct Obj10642 *)q)->f24,((struct Obj10642 *)q)->f28,&d_021848AC[r->config],r->id,heap);
-        func_0204B92C(*(void **)(p+i*4),1);
+        CLACT_SetActorAutoAnim(*(void **)(p+i*4),1);
         ++i;
     }while(i<7);
-    for(i=0;i<3;i++)func_0204B3DC(*(void **)(p+i*4+0x10),0);
+    for(i=0;i<3;i++)CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x10),0);
     CLACT_SetActorAffineMode(((struct Obj01262 *)p)->f0,0);
     CLACT_SetActorFlip(((struct Obj01262 *)p)->f0,1,1);
     ((struct Obj01262 *)p)->fE0=10;
@@ -908,7 +909,7 @@ void func_021842BC(void **p, int heap)
     for (i=0;i<3;i++) {
         row = d_02184888+i*12;
         p[i] = (void *)BMP_WIN_CreateAt((int)row[0],(int)row[1],(int)row[2],(int)row[3],row[4],row[5],(int)(((struct Obj03845 *)row)->f6));
-        a = func_02045770(p[i]);
+        a = BMP_WIN_GetBmp(p[i]);
         BMP_Clear(a,0);
         BMP_WIN_ClearScreen(p[i]);
         b = func_02045EC0(p[3],i);
@@ -917,7 +918,7 @@ void func_021842BC(void **p, int heap)
         s = p[i];
         BMP_WIN_TransferChars(s);
         BMP_WIN_MakeScreen(s);
-        func_020409B4(func_02045730(s));
+        func_020409B4(BMP_WIN_GetBgLayer(s));
     }
 }
 
@@ -928,7 +929,7 @@ void func_021842BC(void **p, int heap)
 
 
 
-void func_02184360(char *p) { int i; for(i=0;i<3;i++) {BMP_Clear(func_02045770(*(void **)(p+i*4)),0);BMP_WIN_ClearScreen(*(struct Descriptor **)(p+i*4));func_020452E8(*(struct Descriptor **)(p+i*4));} MSGDATA_Delete(*(struct Rec * *)&((struct Obj14260 *)p)->fC);GF_FONT_Delete(((struct Obj14260 *)p)->f10); }
+void func_02184360(char *p) { int i; for(i=0;i<3;i++) {BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+i*4)),0);BMP_WIN_ClearScreen(*(struct Descriptor **)(p+i*4));BMP_WIN_Delete(*(struct Descriptor **)(p+i*4));} MSGDATA_Delete(*(struct Rec * *)&((struct Obj14260 *)p)->fC);GF_FONT_Delete(((struct Obj14260 *)p)->f10); }
 
 
 
@@ -949,7 +950,7 @@ void func_02184398(u8 *p, int heap, u32 b, u32 c)
     SND_MIC_Init(heap);
     func_02034F84(8);
     buf = func_02030734((u16)heap, 0x120, 0, d_02184A20, 0x603);
-    func_02082BCC(buf, 0, 0x120);
+    MI_CpuFill8(buf, 0, 0x120);
     *(u8 **)(p + 0x1c) = buf;
     *(u32 *)p = 0;
     *(u32 *)(p + 4) = ((u32)buf + 0x1f) & ~0x1f;
@@ -958,7 +959,7 @@ void func_02184398(u8 *p, int heap, u32 b, u32 c)
     *(u32 *)(p + 0x10) = 1;
     *(u32 *)(p + 0x14) = b;
     *(u32 *)(p + 0x18) = c;
-    *(u32 *)(p + 0x34) = func_02006D94();
+    *(u32 *)(p + 0x34) = SND_MIC_IsLimitReached();
 }
 
 
@@ -972,7 +973,7 @@ void func_02184398(u8 *p, int heap, u32 b, u32 c)
 void func_02184408(int *p)
 {
     func_020307B0((void *)(((struct Obj23822 *)p)->f1C));
-    func_02006D44();
+    SND_MIC_Exit();
     func_02034FB8(8);
 }
 
@@ -991,8 +992,8 @@ void func_0218441C(int *p)
 {
     int x;
     int y;
-    func_02006D64(1);
-    x = func_02006D94();
+    SND_MIC_AddElapsed(1);
+    x = SND_MIC_IsLimitReached();
     if (x != 0 && p[13] != 0)
         goto end;
     if (p[12] == 0) {
@@ -1196,7 +1197,7 @@ void func_02184780(void *task, int *p)
     if (p[1] != 0) {
         p[1]--;
         if (p[1] == 0)
-            func_0204B3DC((void *)p[0], 1);
+            CLACT_SetActorDrawEnable((void *)p[0], 1);
         return;
     }
     func_0207C9D0(p + 2, p + 5, p + 2);
@@ -1210,7 +1211,7 @@ void func_02184780(void *task, int *p)
     CLACT_SetActorPosAxis((void *)p[0], x, 0);
     CLACT_SetActorPosAxis((void *)p[0], y, 1);
     if (y < -16) {
-        func_0204B3DC((void *)p[0], 0);
+        CLACT_SetActorDrawEnable((void *)p[0], 0);
         func_02030EAC(task);
         p[11] = 0;
     }
@@ -1228,10 +1229,10 @@ int func_0218483C(void)
     return TOUCHPANEL_HitTrg((void *)0x0218486E);
 }
 
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 
 int func_0218484C(void)
 {
-    return func_0218483C() == 0 || (func_020362DC() & 2) != 0;
+    return func_0218483C() == 0 || (KEY_GetTrg() & 2) != 0;
 }
 

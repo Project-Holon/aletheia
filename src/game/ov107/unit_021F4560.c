@@ -53,13 +53,13 @@
  *   func_021F5ADC 0x021F5ADC arm ov107
  *   func_021F6148 0x021F6148 arm ov107
  *   WM_Initialize 0x0208F370 arm
- *   func_0208EAC8 0x0208EAC8 arm
+ *   WM_SetIndCallback 0x0208EAC8 arm
  *   func_021F4628 0x021F4628 arm ov107
  *   func_02082A48  0x02082A48  arm
  *   func_021F1B3C  0x021F1B3C  arm  ov107
  *   func_021F6804  0x021F6804  arm  ov107
  *   func_021F6830  0x021F6830  arm  ov107
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021F3F78  0x021F3F78  arm  ov107
  *   func_020885EC  0x020885EC  arm
  *   func_021F1D80  0x021F1D80  arm  ov107
@@ -773,13 +773,12 @@ extern unsigned long func_0208799C(unsigned long state);
 extern int func_021F5ADC(unsigned short sendSize, unsigned short recvSize, unsigned short entry_num);
 extern void func_021F6148(unsigned short time);
 extern int WM_Initialize(void *wmSysBuf, void *callback, unsigned short dmaNo);
-extern int func_0208EAC8(void *callback);
 extern void func_021F4628(void);
 extern void func_02082A48(u16 data, void *destp, u32 size);
 extern void func_021F1B3C(void (*callback)(u16, u32, void *));
 extern void func_021F6804(u16 childMaxSize);
 extern void func_021F6830(void *buf);
-extern void func_02082BCC(void *dstp, u8 data, u32 size);
+extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void func_021F3F78(void);
 extern int func_020885EC(int fifotag, int proc);
 extern void func_021F1D80(u16 type, void *arg);
@@ -970,11 +969,11 @@ int func_021F5BE0(void)
         if (errcode != 2) {
             return 8;
         }
-        func_0208EAC8(*(void **)((u8 *)mbWm.work + 0x508));
+        WM_SetIndCallback(*(void **)((u8 *)mbWm.work + 0x508));
         ((u8 *)mbWm.work)[0x50D] = 1;
         return 0;
     }
-    func_0208EAC8(*(void **)((u8 *)mbWm.work + 0x508));
+    WM_SetIndCallback(*(void **)((u8 *)mbWm.work + 0x508));
     ((u8 *)mbWm.work)[0x50D] = 1;
     func_021F4628();
     return errcode;
@@ -1011,7 +1010,7 @@ int func_021F5CAC(int channel)
     }
     *(u8 *)(PBUF + 0x1000 + 0x524) = ret;
     func_02082A48(ret, PBUF + 0x388 + 0x1400, 0x5d40);
-    func_02082BCC(PBUF + 0x354 + 0x1400, ret, 0x1e);
+    MI_CpuFill8(PBUF + 0x354 + 0x1400, ret, 0x1e);
     ret = 1;
     *(u16 *)(WM + 0x500 + 0x24) = ret;
     *(void **)(WM + 0x51c) = (void *)func_021F1D80;
@@ -1120,8 +1119,8 @@ void func_021F5FB0(u16 aid)
     if (aid == 0 || aid >= 16)
         return;
     ((MBCommPWork *)mbWm.ext)->childversion[aid - 1] = 0;
-    func_02082BCC(&((MBCommPWork *)mbWm.ext)->childggid[aid - 1], 0, sizeof(u32));
-    func_02082BCC(&((MBCommPWork *)mbWm.ext)->childUser[aid - 1], 0, 0x16);
+    MI_CpuFill8(&((MBCommPWork *)mbWm.ext)->childggid[aid - 1], 0, sizeof(u32));
+    MI_CpuFill8(&((MBCommPWork *)mbWm.ext)->childUser[aid - 1], 0, 0x16);
     func_021F6850(aid);
     ((MBCommPWork *)mbWm.ext)->req2child[aid - 1] = 0;
     if (((MBCommPWork *)mbWm.ext)->fileid_of_child[aid - 1] != -1) {

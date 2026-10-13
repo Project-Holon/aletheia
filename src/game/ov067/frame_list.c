@@ -18,18 +18,18 @@
  *   func_020410D0  0x020410D0  arm
  *   func_020413B0  0x020413B0  arm
  *   func_020355D8  0x020355D8  arm
- *   func_020362DC  0x020362DC  arm
- *   func_020061E4 0x020061E4 thumb
- *   func_02045770  0x02045770  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   ENV_SetResourceSet  0x020307B0  arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_020452E8  0x020452E8  arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   BMP_WIN_Delete  0x020452E8  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_020355C4  0x020355C4  arm
  *   gFrameListSourceFile     0x021B9574  data  ov067  a1
- *   func_0201C450  0x0201C450  thumb
+ *   PRINTSYS_QUE_CreateEx  0x0201C450  thumb
  *   BLINK_PALANM_Create  0x0202E940  thumb
  *   _s32_div_f     0x0209C0A4  arm
  *   BGWINFRM_Create  0x0202C9B4  thumb
@@ -37,16 +37,16 @@
  *   func_02082A90  0x02082A90  arm
  *   BGWINFRM_Delete       0x0202CA0C  thumb
  *   func_0202EA20       0x0202EA20  thumb
- *   func_0201C4C0       0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Delete       0x0201C4C0  thumb
  *   func_02049EF4 0x02049EF4 arm
  *   func_02082A60 0x02082A60 arm
  *   BLINK_PALANM_LoadPalettes 0x0202E9AC thumb
- *   func_0201C6B4  0x0201C6B4  thumb
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   BLINK_PALANM_Update  0x0202EA40  thumb
  *   func_02041EE4  0x02041EE4  arm
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   gFrameListFlickSteps 0x021B94F8 data a1
  *   func_0202EDE4  0x0202EDE4  thumb
@@ -56,10 +56,10 @@
  *   BUTTON_MAN_CallHandlerById  0x02051B0C  arm
  *   BGWINFRM_SetFrameData  0x0202CAC4  thumb
  *   BGWINFRM_PutBmpWin  0x0202CEBC  thumb
- *   func_02045748  0x02045748  arm
- *   func_02045750  0x02045750  arm
- *   func_02045758  0x02045758  arm
- *   func_02045760  0x02045760  arm
+ *   BMP_WIN_GetDispWidth  0x02045748  arm
+ *   BMP_WIN_GetDispHeight  0x02045750  arm
+ *   BMP_WIN_GetPosX  0x02045758  arm
+ *   BMP_WIN_GetPosY  0x02045760  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   BGWINFRM_GetFrameBuffer  0x0202CF84  thumb
  *   func_02041300  0x02041300  arm
@@ -75,33 +75,33 @@ extern u32 func_020307B0(void *ptr);
 extern void func_020410D0(u8 layer, u32 dstX, u32 dstY, u32 width, u8 height, u32 src, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight);
 extern void func_020413B0(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 pltt);
 extern void func_020355D8(u8 value);
-extern u32 func_020362DC(void);
-extern void func_020061E4(u32 seId);
-extern struct Bitmap *func_02045770(struct BmpWin *win);
+extern u32 KEY_GetTrg(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+extern struct Bitmap *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void ENV_SetResourceSet(void *ptr);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 height, u8 pltt, u8 slot);
-extern u32 func_020452E8(struct BmpWin *win);
-extern u32 func_0201C6C4(struct PrintSys *printer, struct Bitmap *bitmap);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *printer, struct Bitmap *bitmap);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void func_02041B6C(u32 layer);
 extern u8 func_020355C4(void);
-extern struct PrintSys *func_0201C450(u16 size, u32 heapId);
+extern struct PrintSys *PRINTSYS_QUE_CreateEx(u16 size, u32 heapId);
 extern struct BlinkPalAnm *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 bgLayer, u16 heapId);
 extern struct BgWinFrm *BGWINFRM_Create(u32 kind, u32 frameCount, u32 heapId);
 extern void BGWINFRM_AddFrame(struct BgWinFrm *mgr, u32 index, u32 bgLayer, u32 width, u32 height);
 extern void func_02082A90(const void *src, void *dst, u32 size);
 extern void BGWINFRM_Delete(struct BgWinFrm *mgr);
 extern u32 func_0202EA20(struct BlinkPalAnm *anim);
-extern void func_0201C4C0(struct PrintSys *printer);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *printer);
 extern void *func_02049EF4(void *source, u32 fileIndex, u32 memberIndex, void **outData, u16 heapId);
 extern void func_02082A60(const void *src, void *dst, int size);
 extern void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anim, u8 *src, u32 firstColor, u32 srcOffset, u32 byteSize);
-extern u32 func_0201C6B4(const struct PrintSys *printer);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *printer);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
 extern s32 BLINK_PALANM_Update(struct BlinkPalAnm *anim);
 extern void func_02041EE4(u32 layer, u32 axis, u32 offset);
 extern int TOUCHPANEL_HitTrg(const void *hitRects);
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 extern int _s32_div_f(int numerator, int denominator);
 extern int TOUCHPANEL_HitCont(const void *hitRects);
 extern u32 func_0202EDE4(u32 scrollMax, u32 touchY, u32 barX, u32 barY, u32 barPad);
@@ -110,10 +110,10 @@ extern u8 BGWINFRM_GetBgFrame(struct BgWinFrm *mgr, u32 index);
 extern u8 *BUTTON_MAN_CallHandlerById(int id);
 extern void BGWINFRM_SetFrameData(struct BgWinFrm *mgr, u32 index, const void *src);
 extern void BGWINFRM_PutBmpWin(struct BgWinFrm *mgr, u32 index, struct BmpWin *win);
-extern u8 func_02045748(struct BmpWin *win);
-extern u8 func_02045750(struct BmpWin *win);
-extern u8 func_02045758(struct BmpWin *win);
-extern u8 func_02045760(struct BmpWin *win);
+extern u8 BMP_WIN_GetDispWidth(struct BmpWin *win);
+extern u8 BMP_WIN_GetDispHeight(struct BmpWin *win);
+extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
+extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
 extern void *BMP_GetPixels(const struct Bitmap *bitmap);
 extern u32 BGWINFRM_GetFrameBuffer(struct BgWinFrm *mgr, u32 index);
 extern void func_02041300(u32 layer, int value, int x, int y, u8 width, u8 height, u8 mode);
@@ -189,7 +189,7 @@ FrameList *FRAME_LIST_Create(const FrameListParams *params, u32 heapId)
     list->heapId = heapId;
     list->touchY = -1;
     list->prevTouchY = -1;
-    list->printer = func_0201C450(0x800, heapId);
+    list->printer = PRINTSYS_QUE_CreateEx(0x800, heapId);
     list->cursorAnim = BLINK_PALANM_Create(list->params.cursorPltt << 4, 0x10, list->params.bgLayer, list->heapId);
     list->items = func_02030734(list->heapId, list->params.itemCount * 8, 1, gFrameListSourceFile, 0x104);
     if (list->params.mapCount != 0) {
@@ -237,7 +237,7 @@ void FRAME_LIST_Delete(FrameList *list)
 
     ENV_SetResourceSet(list->hitRects);
     for (index = 0; index < list->windowCount; index++)
-        func_020452E8(list->windows[index].window);
+        BMP_WIN_Delete(list->windows[index].window);
     ENV_SetResourceSet(list->windows);
     BGWINFRM_Delete(list->frameMgr);
     if (list->params.mapCount != 0) {
@@ -247,7 +247,7 @@ void FRAME_LIST_Delete(FrameList *list)
     }
     ENV_SetResourceSet(list->items);
     func_0202EA20(list->cursorAnim);
-    func_0201C4C0(list->printer);
+    PRINTSYS_QUE_Delete(list->printer);
     ENV_SetResourceSet(list);
 }
 
@@ -289,7 +289,7 @@ int FRAME_LIST_UpdateInit(FrameList *list)
         list->state = list->state + 1;
         break;
     case 1:
-        if (func_0201C6B4(list->printer) == 1) {
+        if (PRINTSYS_QUE_IsFinished(list->printer) == 1) {
             list->state = 0;
             return 0;
         }
@@ -326,7 +326,7 @@ int FRAME_LIST_Update(FrameList *list)
             result = -8;
         break;
     case 4:
-        if (func_020355C4() == 0 && (func_020362DC() & 1))
+        if (func_020355C4() == 0 && (KEY_GetTrg() & 1))
             result = list->cursor;
         if (list->repeatDelay == 0)
             list->state = 0;
@@ -512,17 +512,17 @@ int FRAME_LIST_ReadKeys(FrameList *list)
 {
     int lastRow;
 
-    if ((func_020362DC() & 0x3f1) && func_020355C4() == 1) {
+    if ((KEY_GetTrg() & 0x3f1) && func_020355C4() == 1) {
         func_020355D8(0);
         list->prevCursor = 0xff;
         list->repeatDelay = 8;
         return FRAME_LIST_EVENT_KEY_MODE;
     }
-    if (func_0203630C() == 0) {
+    if (KEY_GetCont() == 0) {
         list->holdFrames = 0;
         list->holdStage = 6;
     }
-    if (func_0203630C() & 0x40) {
+    if (KEY_GetCont() & 0x40) {
         func_020355D8(0);
         if (list->cursor != 0) {
             list->prevCursor = list->cursor;
@@ -537,7 +537,7 @@ int FRAME_LIST_ReadKeys(FrameList *list)
         }
         return FRAME_LIST_EVENT_NONE;
     }
-    if (func_0203630C() & 0x80) {
+    if (KEY_GetCont() & 0x80) {
         func_020355D8(0);
         lastRow = list->visibleCount - 1;
         if (list->cursor < lastRow) {
@@ -553,7 +553,7 @@ int FRAME_LIST_ReadKeys(FrameList *list)
         }
         return FRAME_LIST_EVENT_NONE;
     }
-    if (func_0203630C() & 0x20) {
+    if (KEY_GetCont() & 0x20) {
         func_020355D8(0);
         if (list->scrollPos != 0) {
             list->repeatDelay = 4;
@@ -567,7 +567,7 @@ int FRAME_LIST_ReadKeys(FrameList *list)
         }
         return FRAME_LIST_EVENT_NONE;
     }
-    if (func_0203630C() & 0x10) {
+    if (KEY_GetCont() & 0x10) {
         func_020355D8(0);
         if (list->scrollPos < list->scrollMax) {
             list->repeatDelay = 4;
@@ -581,15 +581,15 @@ int FRAME_LIST_ReadKeys(FrameList *list)
         }
         return FRAME_LIST_EVENT_NONE;
     }
-    if (func_020362DC() & 1)
+    if (KEY_GetTrg() & 1)
         return FRAME_LIST_EVENT_CONFIRM;
-    if (func_020362DC() & 0x200) {
+    if (KEY_GetTrg() & 0x200) {
         func_020355D8(0);
         if (list->cursor != 0 || list->scrollPos != 0)
             return FRAME_LIST_EVENT_JUMP_TOP;
         return FRAME_LIST_EVENT_NONE;
     }
-    if (func_020362DC() & 0x100) {
+    if (KEY_GetTrg() & 0x100) {
         func_020355D8(0);
         if (list->cursor != list->visibleCount - 1 || list->scrollPos != list->scrollMax)
             return FRAME_LIST_EVENT_JUMP_BOTTOM;
@@ -604,20 +604,20 @@ int FRAME_LIST_HandleInput(FrameList *list)
     int event;
     s16 steps;
 
-    if (func_0201C6B4(list->printer) == 0)
+    if (PRINTSYS_QUE_IsFinished(list->printer) == 0)
         return -1;
     event = FRAME_LIST_ReadTouch(list);
     if (event == FRAME_LIST_EVENT_NONE)
         event = FRAME_LIST_ReadKeys(list);
     switch (event) {
     case FRAME_LIST_EVENT_KEY_MODE:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         FRAME_LIST_SetCursorHighlight(list, (u16)list->cursor, (u16)list->prevCursor);
         list->params.ops->onCursor(list->params.userData, list->cursor + list->scrollPos, 1);
         list->state = 4;
         return -12;
     case FRAME_LIST_EVENT_CURSOR_STEP:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         FRAME_LIST_SetCursorHighlight(list, (u16)list->cursor, (u16)list->prevCursor);
         list->params.ops->onCursor(list->params.userData, list->cursor + list->scrollPos, 1);
         list->state = 4;
@@ -637,7 +637,7 @@ int FRAME_LIST_HandleInput(FrameList *list)
         }
         FRAME_LIST_SetCursorHighlight(list, (u16)0xff, (u16)list->prevCursor);
         FRAME_LIST_StartScroll(list, (s8)(-list->params.stepTable[0]), steps, 4, 0);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return -7;
     case FRAME_LIST_EVENT_PAGE_DOWN:
         steps = list->visibleCount;
@@ -648,16 +648,16 @@ int FRAME_LIST_HandleInput(FrameList *list)
         }
         FRAME_LIST_SetCursorHighlight(list, (u16)0xff, (u16)list->prevCursor);
         FRAME_LIST_StartScroll(list, (s8)list->params.stepTable[0], steps, 4, 0);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return -6;
     case FRAME_LIST_EVENT_CURSOR_TOP:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         FRAME_LIST_SetCursorHighlight(list, (u16)list->cursor, (u16)list->prevCursor);
         list->params.ops->onCursor(list->params.userData, list->cursor + list->scrollPos, 1);
         list->state = 4;
         return -5;
     case FRAME_LIST_EVENT_CURSOR_BOTTOM:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         FRAME_LIST_SetCursorHighlight(list, (u16)list->cursor, (u16)list->prevCursor);
         list->params.ops->onCursor(list->params.userData, list->cursor + list->scrollPos, 1);
         list->state = 4;
@@ -666,24 +666,24 @@ int FRAME_LIST_HandleInput(FrameList *list)
         list->cursor = 0;
         list->scrollPos = 0;
         FRAME_LIST_Redraw(list, 1);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return -3;
     case FRAME_LIST_EVENT_JUMP_BOTTOM:
         list->cursor = list->visibleCount - 1;
         list->scrollPos = list->scrollMax;
         FRAME_LIST_Redraw(list, 1);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return -2;
     case FRAME_LIST_EVENT_SCROLL_BAR:
         FRAME_LIST_SetCursorHighlight(list, (u16)0xff, (u16)list->prevCursor);
         FRAME_LIST_BeginScrollBarDrag(list, list->tappedRow);
-        func_020061E4(0x645);
+        GFL_USE_PlaySeDefaultVolume(0x645);
         return -9;
     case FRAME_LIST_EVENT_ROW_TOUCH:
         FRAME_LIST_SetCursorHighlight(list, (u16)0xff, (u16)list->prevCursor);
         list->params.ops->onCursor(list->params.userData, list->cursor + list->scrollPos, 1);
         FRAME_LIST_BeginRowDrag(list, list->cursor);
-        func_020061E4(0x645);
+        GFL_USE_PlaySeDefaultVolume(0x645);
         return -8;
     case FRAME_LIST_EVENT_CONFIRM:
         if (func_020355C4() == 1) {
@@ -770,7 +770,7 @@ int FRAME_LIST_StepScroll(FrameList *list)
     const u8 *hitBase;
     int hitOffset;
 
-    if (func_0201C6B4(list->printer) == 0) return 1;
+    if (PRINTSYS_QUE_IsFinished(list->printer) == 0) return 1;
     if (list->returnState == 3 && list->flicking == 1) {
         hitRow = TOUCHPANEL_HitCont(list->hitRects);
         if (list->drag == 1) {
@@ -886,8 +886,8 @@ int FRAME_LIST_StepScroll(FrameList *list)
         }
         list->params.ops->onCursor(list->params.userData, list->cursor+list->scrollPos, 1);
         if (list->playScrollSe == 1) {
-            if ((u16)(list->returnState+0xfffe) <= 1) func_020061E4(0x645);
-            else func_020061E4(0x548);
+            if ((u16)(list->returnState+0xfffe) <= 1) GFL_USE_PlaySeDefaultVolume(0x645);
+            else GFL_USE_PlaySeDefaultVolume(0x548);
         }
     }
     list->pixelOffset = list->pixelOffset+list->scrollSpeed;
@@ -1012,7 +1012,7 @@ int FRAME_LIST_StepScrollBarDrag(FrameList *list)
     u32 targetPos;
     u32 dist;
 
-    if (func_0201C6B4(list->printer) == 0)
+    if (PRINTSYS_QUE_IsFinished(list->printer) == 0)
         return 1;
     if (TOUCHPANEL_HitCont(&list->scrollBarRect) == -1 && list->scrollBarTouchY == -1) {
         list->scrollBarDrag = 0;
@@ -1055,7 +1055,7 @@ int FRAME_LIST_StepRowDrag(FrameList *list)
 {
     int hitRow;
 
-    if (func_0201C6B4(list->printer) == 0)
+    if (PRINTSYS_QUE_IsFinished(list->printer) == 0)
         return 1;
     hitRow = TOUCHPANEL_HitCont(list->hitRects);
     switch (list->dragPhase) {
@@ -1241,11 +1241,11 @@ void FRAME_LIST_UploadRowTiles(FrameList *list, u32 item, u32 windowIndex)
     BGWINFRM_SetFrameData(list->frameMgr, windowIndex, tileMap);
     BGWINFRM_PutBmpWin(list->frameMgr, windowIndex, window);
     mapStride = list->params.tileWidth;
-    winW = func_02045748(window);
-    winH = func_02045750(window);
-    winX = func_02045758(window);
-    winY = func_02045760(window);
-    tiles = BMP_GetPixels(func_02045770(window));
+    winW = BMP_WIN_GetDispWidth(window);
+    winH = BMP_WIN_GetDispHeight(window);
+    winX = BMP_WIN_GetPosX(window);
+    winY = BMP_WIN_GetPosY(window);
+    tiles = BMP_GetPixels(BMP_WIN_GetBmp(window));
     for (tileRow = 0; tileRow < winH; tileRow++) {
         for (tileCol = 0; tileCol < winW; tileCol++) {
             func_02082A90(vramBase + (tileMap[winX + tileCol + (tileRow + winY) * mapStride] & 0x3ff) * 32,
@@ -1374,7 +1374,7 @@ void FRAME_LIST_UpdateWindows(FrameList *list)
         struct PrintSys *printer = list->printer;
 
         if (entry->busy != 0) {
-            if (func_0201C6C4(printer, func_02045770(entry->window)) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget(printer, BMP_WIN_GetBmp(entry->window)) == 0) {
                 BMP_WIN_TransferChars(entry->window);
                 entry->busy = 0;
             }

@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_GetTorrentHandlers
+ * function: HAND_TOKUSEI_GetTorrentHandlers
  * address: 0x021D8C68
  * packet: pkt_ov093_021D8C68
  * region: ov093
@@ -15,10 +15,10 @@
  *   gTorrentHandlers 0x021F0610 data ov093 a4
  */
 
-int *BTL_CALC_GetTorrentHandlers(int *p);
+int *HAND_TOKUSEI_GetTorrentHandlers(int *p);
 extern int gTorrentHandlers[];
 
-int *BTL_CALC_GetTorrentHandlers(int *p)
+int *HAND_TOKUSEI_GetTorrentHandlers(int *p)
 {
     *p = 1;
     return gTorrentHandlers;

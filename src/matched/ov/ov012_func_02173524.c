@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   UNION_COMM_ClearPartnerSelects  0x02173518  thumb  ov012
  *   func_02087C6C  0x02087C6C  arm
  *   func_02008554  0x02008554  thumb
@@ -32,7 +32,7 @@ typedef struct {
     struct { void *f0; } *head;
 } Work;
 
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void UNION_COMM_ClearPartnerSelects(u8 *p);
 extern void func_02087C6C(void *p);
 struct Sub0200852CObj;
@@ -43,7 +43,7 @@ void UNION_COMM_InitConnectInfo(Work *w, u8 *p)
 {
     Rec *r;
 
-    func_02082BCC(p, 0, 0x4c);
+    MI_CpuFill8(p, 0, 0x4c);
     UNION_COMM_ClearPartnerSelects(p);
     r = (Rec *)(p + 0x1c);
     func_02087C6C(r);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B8FF4
+ * function: BTL_MAIN_GetOwnClientId
  * address:  0x021B8FF4
  * packet:   pkt_021B8FF4
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8FF4   0x021B8FF4  thumb ov093
+ *   BTL_MAIN_GetOwnClientId   0x021B8FF4  thumb ov093
  *
  * ldrb at #0x46c (pool constant)
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u8 func_021B8FF4(u8 *p)
+u8 BTL_MAIN_GetOwnClientId(u8 *p)
 {
     return ((struct Obj18132 *)p)->f46C;
 }

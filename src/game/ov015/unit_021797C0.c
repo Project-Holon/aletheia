@@ -19,7 +19,7 @@
  *   func_02179FC4  0x02179FC4  arm
  *   func_02179AAC 0x02179AAC thumb ov015
  *   func_02179998 0x02179998 thumb ov015
- *   func_021799F0 0x021799F0 thumb ov015
+ *   IRCNET_IsRunning 0x021799F0 thumb ov015
  */
 typedef unsigned int   u32;
 
@@ -35,7 +35,7 @@ extern void  func_021799CC(void);
 void func_02179FC4(void);
 extern void func_02179AAC(void);
 extern void func_02179998(void);
-extern unsigned char func_021799F0(void);
+extern unsigned char IRCNET_IsRunning(void);
 int func_021797C0(void);
 int func_021797E0(void);
 int func_021797EC(void);
@@ -73,4 +73,4 @@ int func_021797F8(void) { return 1; }
  */
 int func_021797FC(void) { func_02179998(); return 1; }
 
-unsigned char func_02179808(void) { return func_021799F0(); }
+unsigned char func_02179808(void) { return IRCNET_IsRunning(); }

@@ -10,8 +10,8 @@
  * status:   EXACT
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_02045770  0x02045770  arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   BMP_Clear  0x02043B5C  arm
@@ -56,8 +56,8 @@ struct Sub24;
 struct WordSet;
 void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Descriptor;
-void *func_02045770(struct Descriptor *a0);
-u32 func_0201C6C4(struct PrintSys *p, void *v);
+void *BMP_WIN_GetBmp(struct Descriptor *a0);
+u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -77,7 +77,7 @@ void INTRUDE_SUBDISP_PrintTitle(Obj *p)
     int v;
 
     h = (int)GAMESYSTEM_GetGameData((const struct Ctx *)p->f00);
-    if (func_0201C6C4((struct PrintSys *)p->f28, (void *)((int)func_02045770((struct Descriptor *)p->f44))) == 1) {
+    if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)p->f28, (void *)((int)BMP_WIN_GetBmp((struct Descriptor *)p->f44))) == 1) {
         return;
     }
     if (GAME_DATA_GetIntrudeCount((const struct BigObj *)h) == 1) {
@@ -97,7 +97,7 @@ void INTRUDE_SUBDISP_PrintTitle(Obj *p)
     }
     p->f10C = mode;
     if (mode == 7) {
-        BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)p->f44)), 0);
+        BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)p->f44)), 0);
         BMP_WIN_TransferChars((struct Descriptor *)p->f44);
         return;
     }
@@ -106,8 +106,8 @@ void INTRUDE_SUBDISP_PrintTitle(Obj *p)
     }
     MSGDATA_ReadString((struct MsgBank *)p->f2C, anim, (void *)p->f38);
     func_0201F250((struct WordSet *)p->f24, (void *)p->f40, (void *)p->f38);
-    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)p->f44)), 0);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)p->f44)), 0);
     v = p->f28;
-    PRINTSYS_PrintQueColor((void *)v, (int)func_02045770((struct Descriptor *)p->f44), 0, 0, p->f40, p->f1C, 0x3C40);
+    PRINTSYS_PrintQueColor((void *)v, (int)BMP_WIN_GetBmp((struct Descriptor *)p->f44), 0, 0, p->f40, p->f1C, 0x3C40);
     p->f48 = 1;
 }

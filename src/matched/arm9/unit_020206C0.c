@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_FillRect  0x02043AF4  arm
  *   BMP_CURSOR_Draw  0x02020D5C  thumb
  *
@@ -69,7 +69,7 @@ struct Obj {
 };
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct Bmp;
 struct Desc;
 struct Handle;
@@ -97,7 +97,7 @@ void BMP_MENULIST_EraseCursor(struct Obj *obj, u32 n)
 {
     switch (obj->f1Atop) {
     case 0:
-        BMP_FillRect((struct Bmp *)((u32)func_02045770((struct Descriptor *)obj->unk0C)),
+        BMP_FillRect((struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)obj->unk0C)),
                       obj->f16,
                       (s16)(u16)(obj->f17lo + n * (u8)(obj->f22 + obj->f1Amid)),
                       obj->f20,

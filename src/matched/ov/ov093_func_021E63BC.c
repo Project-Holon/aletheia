@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021E63BC, func_021E6410, func_021E6414
+ * function: HAND_WAZA_DigOnChargeTurn, HAND_WAZA_DigNoOp, HAND_WAZA_AddSolarBeam
  * address:  0x021E63BC
  * packet:   pkt_ov093_021E63BC
  * region:   ov093
@@ -12,11 +12,11 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C88A4  0x021C88A4  thumb  ov093
- *   func_021C88C8  0x021C88C8  thumb  ov093
- *   func_021C8838  0x021C8838  thumb  ov093
- *   func_021C8860  0x021C8860  thumb  ov093
- *   d_021F2AF8     0x021F2AF8  data   ov093  a4
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
+ *   gSolarBeamHandlers     0x021F2AF8  data   ov093  a4
  */
 #include "../include/Obj13535.h"
 
@@ -25,35 +25,35 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int key);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *a, void *b);
-extern void func_021C8838(void *p, int a, int b);
+extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
+extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 struct S;
-extern void func_021C8860(struct S *p, u32 v);
-extern int d_021F2AF8[];
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 v);
+extern int gSolarBeamHandlers[];
 
-void func_021E63BC(int u, void *a, u32 b)
+void HAND_WAZA_DigOnChargeTurn(int u, void *a, u32 b)
 {
     u8 *e;
 
     if (b == BTL_EVENT_GetVar(3)) {
-        e = func_021C88A4(a, 0x17, b);
+        e = BTL_SERVER_FLOW_AllocCmdRecord(a, 0x17, b);
         e[8] = b;
         ((struct Obj13535 *)e)->f4 = 5;
-        func_021C88C8(a, e);
-        e = func_021C88A4(a, 4, b);
-        func_021C8838(e + 4, 2, 0x21a);
-        func_021C8860((struct S *)(e + 4), b);
-        func_021C88C8(a, e);
+        BTL_SERVER_FLOW_CommitCmdRecord(a, e);
+        e = BTL_SERVER_FLOW_AllocCmdRecord(a, 4, b);
+        BTL_SERVER_FLOW_InitMsgRecord(e + 4, 2, 0x21a);
+        BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(e + 4), b);
+        BTL_SERVER_FLOW_CommitCmdRecord(a, e);
     }
 }
 
-void func_021E6410(void)
+void HAND_WAZA_DigNoOp(void)
 {
 }
 
-int *func_021E6414(int *p)
+int *HAND_WAZA_AddSolarBeam(int *p)
 {
     *p = 3;
-    return d_021F2AF8;
+    return gSolarBeamHandlers;
 }

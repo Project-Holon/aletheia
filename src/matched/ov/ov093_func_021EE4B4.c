@@ -15,7 +15,7 @@
  *   BMP_Clear  0x02043B5C  arm
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 
 typedef unsigned char u8;
@@ -49,7 +49,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 int BTLV_SCU_StepBallWindowRefresh(int *st, struct C *c)
 {
@@ -63,7 +63,7 @@ int BTLV_SCU_StepBallWindowRefresh(int *st, struct C *c)
         break;
     case 1:
         BMP_WIN_TransferChars((struct Descriptor *)c->f08);
-        func_020061E4(0x547);
+        GFL_USE_PlaySeDefaultVolume(0x547);
         (*st)++;
         break;
     case 2:

@@ -15,7 +15,7 @@
  *   FIELD_BUILDMODEL_GetNodeByHandle  0x0218BA98  thumb  ov021
  *   FIELD_BUILDMODEL_PlayNodeSlot  0x0218C88C  thumb  ov021
  *   FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry  0x0218C990  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -25,7 +25,7 @@ extern int SCRCMD_SCREENEFFECTS_GetBuildModelMgr(u32 a);
 extern int FIELD_BUILDMODEL_GetNodeByHandle(int a, int b);
 extern void FIELD_BUILDMODEL_PlayNodeSlot(unsigned char *p, int v, int c);
 extern int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(unsigned char *p, int v);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 int SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotWithSe(int a, int b)
 {
@@ -37,7 +37,7 @@ int SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotWithSe(int a, int b)
     if (h) {
         FIELD_BUILDMODEL_PlayNodeSlot((unsigned char *)h, q, 0);
         if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry((unsigned char *)h, (int)(&v))) {
-            func_020061E4(v);
+            GFL_USE_PlaySeDefaultVolume(v);
         }
     }
     return 0;

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E11DC",
-    "func_021E1298"
+    "HAND_WAZA_SecretPowerOnAddEffect",
+    "HAND_WAZA_AddChatter"
+   ],
+   "addresses": [
+    "0x021E11DC",
+    "0x021E1298"
    ],
    "evidence": {
     "sole-ref": [

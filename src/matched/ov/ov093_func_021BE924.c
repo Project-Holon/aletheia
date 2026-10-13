@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CC8D8  0x021CC8D8  thumb  ov093
+ *   BTL_SERVER_FLOW_BeginHandExScope  0x021CC8D8  thumb  ov093
  *   BTL_SERVER_FLOW_DispatchMoveStartEvent  0x021BE95C  thumb  ov093
- *   func_021CC95C  0x021CC95C  thumb  ov093
+ *   BTL_SERVER_FLOW_EndHandExScope  0x021CC95C  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u32 func_021CC8D8(void *lock, int line);
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *lock, int line);
 extern void BTL_SERVER_FLOW_DispatchMoveStartEvent(u8 *p, u8 *a, u32 v);
-extern void func_021CC95C(u32 *p, u32 v, int line);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 
 void BTL_SERVER_FLOW_NotifyMoveStart(u8 *p, u8 *a, u32 v)
 {
-    u32 s = func_021CC8D8(p + 0x1D74, 3985);
+    u32 s = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1D74, 3985);
     BTL_SERVER_FLOW_DispatchMoveStartEvent(p, a, v);
-    func_021CC95C((u32 *)(p + 0x1D74), s, 3987);
+    BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1D74), s, 3987);
 }

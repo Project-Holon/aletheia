@@ -33,14 +33,14 @@
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
  *   FIELD_MSGBG_GetMsgWinBmpWin  0x021907C0  thumb  ov021
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   FIELD_MSGBG_CreateCursor  0x02192788  thumb  ov021
  *   FIELD_MSGBG_IsMsgWinTransDone  0x0219077C  thumb  ov021
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   FIELD_MSGBG_AnimateCursor  0x021928C0  thumb  ov021
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_020362DC  0x020362DC  arm
- *   func_020061E4  0x020061E4  thumb
+ *   KEY_GetTrg  0x020362DC  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELD_MSGBG_DeleteCursor  0x021927B0  thumb  ov021
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   func_02009310  0x02009310  thumb
@@ -138,8 +138,8 @@ extern void func_0201EFA4(struct WordSet *wordSet, u32 bufId, u32 number, u32 di
 extern void func_0201F250(struct WordSet *wordSet, struct StrBuf *dest, struct StrBuf *src);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct StrBuf *strBuf);
-extern u8 func_02045730(struct BmpWin *bmpWin);
-extern struct Bitmap *func_02045770(struct BmpWin *bmpWin);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *bmpWin);
+extern struct Bitmap *BMP_WIN_GetBmp(struct BmpWin *bmpWin);
 extern void BMP_WIN_TransferChars(struct BmpWin *bmpWin);
 extern void func_020409B4(u32 bgFrame);
 extern struct FieldMsgWin *FIELD_MSGBG_CreateMsgWin(struct FieldMsgBg *msgBg, struct MsgBank *msgData, u16 x, u16 y, u16 width, u16 height);
@@ -151,8 +151,8 @@ extern struct BmpWin *FIELD_MSGBG_GetMsgWinBmpWin(struct FieldMsgWin *msgWin);
 extern struct FieldMsgCursor *FIELD_MSGBG_CreateCursor(struct FieldMsgBg *msgBg);
 extern void FIELD_MSGBG_DeleteCursor(struct FieldMsgCursor *cursor);
 extern void FIELD_MSGBG_AnimateCursor(struct FieldMsgCursor *cursor, struct Bitmap *bmp, u32 color);
-extern u32 func_020362DC(void);
-extern void func_020061E4(u32 seNo);
+extern u32 KEY_GetTrg(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 extern struct MyItem *GAME_DATA_GetMyItem(const struct GameData *gameData);
 extern u16 func_02009310(const struct PdwPostmanSave *save, int slot);
 extern u8 func_02009330(const struct PdwPostmanSave *save, int slot);
@@ -236,7 +236,7 @@ void PDW_POSTMAN_PrintListWin(PdwPostmanListWin *listWin)
         FIELD_MSGBG_MsgWinPrintStr(listWin->msgWin, 0x6c, i * PDW_POSTMAN_LINE_HEIGHT, listWin->expandBuf);
     }
     MSGDATA_Delete(itemNames);
-    func_020409B4(func_02045730(FIELD_MSGBG_GetMsgWinBmpWin(listWin->msgWin)));
+    func_020409B4(BMP_WIN_GetBgLayer(FIELD_MSGBG_GetMsgWinBmpWin(listWin->msgWin)));
 }
 
 /*
@@ -268,10 +268,10 @@ int PDW_POSTMAN_ListEvent(struct GameEvent *event, int *seq, void *eventWork)
         break;
     case 2:
         bmpWin = FIELD_MSGBG_GetMsgWinBmpWin(work->listWin->msgWin);
-        FIELD_MSGBG_AnimateCursor(work->listWin->cursor, func_02045770(bmpWin), 15);
+        FIELD_MSGBG_AnimateCursor(work->listWin->cursor, BMP_WIN_GetBmp(bmpWin), 15);
         BMP_WIN_TransferChars(bmpWin);
-        if (func_020362DC() & 1) {
-            func_020061E4(0x547);
+        if (KEY_GetTrg() & 1) {
+            GFL_USE_PlaySeDefaultVolume(0x547);
             (*seq)++;
         }
         break;

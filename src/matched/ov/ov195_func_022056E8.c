@@ -13,8 +13,8 @@
  *   gSpeciesNameBank 0x020A7370 data a4
  *   d_02208F40 0x02208F40 data a4
  *   GAME_DATA_GetMyItem 0x0201292C thumb
- *   func_0201AA18 0x0201AA18 thumb
- *   func_0201AA14 0x0201AA14 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
+ *   POKEPARTY_GetCapacity 0x0201AA14 thumb
  *   func_02007F68 0x02007F68 thumb
  *   func_02007F1C 0x02007F1C thumb
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
@@ -23,7 +23,7 @@
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   MAIL_Create 0x02008F08 thumb
- *   func_0201A98C 0x0201A98C thumb
+ *   POKEPARTY_Add 0x0201A98C thumb
  *   func_0200CA1C 0x0200CA1C thumb
  *   func_0200CFA0 0x0200CFA0 thumb
  *   func_0200CDE0 0x0200CDE0 thumb
@@ -48,8 +48,8 @@ struct RecDC;
 struct Sub02008C20Obj;
 struct U16Vec;
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
-extern u32 func_0201AA18(void *);
-extern u32 func_0201AA14(void *p);
+extern u32 POKEPARTY_GetCount(void *);
+extern u32 POKEPARTY_GetCapacity(void *p);
 typedef unsigned char  u8;
 struct Party;
 struct PartyMon;
@@ -65,7 +65,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *MAIL_Create(int a0);
 extern u32 func_020307B0(void *p);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern void *func_0200CA1C(void *a);
 extern void func_0200CFA0(struct Blk37 *p, void *m);
 extern void func_0200CDE0(struct Blk37 *p, void *m);
@@ -79,7 +79,7 @@ void func_022056E8(u32 *a, char *b)
     int i;
 
     save = GAME_DATA_GetMyItem((const struct BigObj *)a[0]);
-    if ((int)func_0201AA18((void *)a[1]) >= (int)func_0201AA14((void *)a[1]))
+    if ((int)POKEPARTY_GetCount((void *)a[1]) >= (int)POKEPARTY_GetCapacity((void *)a[1]))
         return;
     if (func_02007F68(save, 4, 1, ((struct Obj06644 *)b)->f0) == 0)
         return;
@@ -103,7 +103,7 @@ void func_022056E8(u32 *a, char *b)
     POKE_TOOL_SetPartyValue((void *)p, 0xa7, v);
     func_020307B0((void *)v);
     POKE_TOOL_SetPartyValue((void *)p, 0x9f, 0);
-    func_0201A98C((void *)a[1], (void *)p);
+    POKEPARTY_Add((void *)a[1], (void *)p);
     func_02007F1C(save, 4, 1, ((struct Obj06644 *)b)->f0);
     func_020307B0((void *)p);
     q = (u32)func_0200CA1C((void *)a[0]);

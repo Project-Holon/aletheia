@@ -16,7 +16,7 @@
  * draft that declared three arguments dropped that load (DIFF 109/128).
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0200A8AC  0x0200A8AC  thumb
  *   func_021B78EC  0x021B78EC  thumb  ov102
  *   func_02005728  0x02005728  thumb
@@ -26,7 +26,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 typedef signed int     s32;
 struct Rec;
 extern s32 func_0200A8AC(struct Rec *r);
@@ -38,7 +38,7 @@ extern void func_021B8810(int a0, int b, int c, int a3);
 void func_021B8934(u8 *a, void *b, void *c, int d)
 {
     int i;
-    func_02082BCC(a, 0, 0x350);
+    MI_CpuFill8(a, 0, 0x350);
     if (c == 0)
         *(u16 *)(a + 0x34e) = 0x1e;
     else

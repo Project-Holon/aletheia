@@ -14,7 +14,7 @@
  *           its `b` to the shared tail; d = (u32)s[5] >> 1 gives the plain lsrs.
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
@@ -33,9 +33,9 @@
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeFrame  0x021BE6CC  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   GIMMICK38_EventReturnDoor  0x021F3DFC  thumb  ov038
@@ -76,7 +76,7 @@ struct Desc;
 struct Evt;
 struct Obj;
 struct S0201235C;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 struct Ctx;
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetExpObj(int *p);
@@ -103,8 +103,8 @@ extern void FLD_EXP_OBJ_SetAnimeFrame(int p, int i, int j, int k, int flag);
 extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
 extern int FLD_EXP_OBJ_GetAnimeFrame(int p, int i, int j, int k);
-extern unsigned int func_0203630C(void);
-extern void func_020061E4(u32 se);
+extern unsigned int KEY_GetCont(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void GFL_USE_StopAllSe(void);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
@@ -132,7 +132,7 @@ int GIMMICK38_EventSlideDoor(int a0, int *a1)
     u32 d;
     V3 v;
 
-    w = func_020124E4((struct Obj *)a0);
+    w = GAME_EVENT_GetGameSystem((struct Obj *)a0);
     sys = GAMESYSTEM_GetFieldMap(w);
     h = FIELDMAP_GetExpObj(sys);
     s = (u8 *)FIELDMAP_GetCommonWork(sys, 1);
@@ -168,7 +168,7 @@ int GIMMICK38_EventSlideDoor(int a0, int *a1)
             mask = 0x80;
             dir = 1;
         }
-        if ((func_0203630C() & mask) != 0) {
+        if ((KEY_GetCont() & mask) != 0) {
             s[7]++;
             if (s[7] >= 2) {
                 s[7] = 0;
@@ -178,7 +178,7 @@ int GIMMICK38_EventSlideDoor(int a0, int *a1)
                 FIELD_PLAYER_SetPos(q, &v);
                 d = (u32)s[5] >> 1;
                 if (((struct Obj00488 *)s)->f20 == 0 && d != 0) {
-                    func_020061E4(0x6C2);
+                    GFL_USE_PlaySeDefaultVolume(0x6C2);
                     ((struct Obj00488 *)s)->f20 = 1;
                 }
                 FLD_EXP_OBJ_SetAnimeFrame(h, 0, 0x22, k, d << 12);
@@ -206,7 +206,7 @@ int GIMMICK38_EventSlideDoor(int a0, int *a1)
             FLD_EXP_OBJ_SetAnimePaused(e, 0);
             GAME_EVENT_CallEvent((struct Evt *)a0, EVENT_FIELD_PROCLINK_CreateObjAnimEvent(w, (int)sys, 0xff, (int)(s[6] == 0 ? gGimmick38ReleaseAcmdSide0 : gGimmick38ReleaseAcmdSide1)));
             GFL_USE_StopAllSe();
-            func_020061E4(0x6C3);
+            GFL_USE_PlaySeDefaultVolume(0x6C3);
         }
         break;
     case 3:

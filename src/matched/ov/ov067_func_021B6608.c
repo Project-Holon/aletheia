@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020275E4  0x020275E4  thumb
  *   func_020490F4  0x020490F4  arm
  *   func_02027624  0x02027624  thumb
@@ -41,7 +41,7 @@ typedef struct {
     u32 f10;
 } S;
 
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern u32 func_020275E4(void);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32 func_02027624(void);
@@ -67,7 +67,7 @@ void TOUCHBAR_LoadGfx(S *p, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6, u32 a7
     void *h;
     u32 t;
 
-    func_02082BCC(p, 0, 0x14);
+    MI_CpuFill8(p, 0, 0x14);
     p->fC = a1;
     h = func_020490F4(func_020275E4(), heap);
     if (a7 == 0) {

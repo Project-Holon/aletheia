@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   func_021BD86C 0x021BD86C thumb ov209
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021BD86C(char *,int,int);struct Actor; struct Obj; extern void func_0204B92C(struct Obj *,unsigned int);
-void func_021BD890(char *p,int idx,int value) {func_021BD86C(p,idx,value);func_0204B92C((struct Obj *)*(struct Actor **)(p+idx*4+0xa74),1);}
+extern void func_021BD86C(char *,int,int);struct Actor; struct Obj; extern void CLACT_SetActorAutoAnim(struct Obj *,unsigned int);
+void func_021BD890(char *p,int idx,int value) {func_021BD86C(p,idx,value);CLACT_SetActorAutoAnim((struct Obj *)*(struct Actor **)(p+idx*4+0xa74),1);}

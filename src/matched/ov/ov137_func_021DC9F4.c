@@ -10,25 +10,26 @@
  * symbols:
  * func_020307B0 0x020307B0 arm
  * func_02030734 0x02030734 arm
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * PROCSYS_Push 0x02031348 arm
  * d_021E2260 0x021E2260 data a4
  * gPokeStatusProcData 0x021DC800 data a4 ov131
  * d_021E1A44 0x021E1A44 data a4
  * d_00000083 0x00000083 data a1
+ *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 struct BigObj;
 struct Blk37;
 extern u8 *func_02012944(void *p);
 extern void *func_0200CA1C(void *);
 extern void *func_02012934(const struct BigObj *p);
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 extern u32 func_0200CA38(struct Blk37 *p);
 extern void PROCSYS_Push(void *,int,const void *,void *);
 extern const u8 d_021E2260[],gPokeStatusProcData[],d_021E1A44[],d_00000083[];
@@ -43,12 +44,12 @@ int func_021DC9F4(u32 *p)
         func_02012944((void *)p[4]);
         q=func_0200CA1C((void *)p[4]);
         p[7]=(u32)func_02030734(4,40,0,(const char *)d_021E2260,328);
-        func_02082BCC((void *)p[7],0,40);
+        MI_CpuFill8((void *)p[7],0,40);
         r=(void *)func_02012934((void *)p[4]);
         *(void **)p[7]=r;
         *(u32 *)(p[7]+8)=p[4];
         *(u8 *)(p[7]+12)=1;
-        *(u8 *)(p[7]+14)=func_0201AA18(r);
+        *(u8 *)(p[7]+14)=POKEPARTY_GetCount(r);
         *(u8 *)(p[7]+15)=0;
         *(u8 *)(p[7]+13)=1;
         *(u16 *)(p[7]+20)=0;

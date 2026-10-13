@@ -14,7 +14,7 @@
  *   BTL_SERVER_SendCommandData  0x021BB724  thumb  ov093
  *   BTL_SERVER_AreRepliesReady  0x021BB798  thumb  ov093
  *   BTL_SERVER_ClearReplies  0x021BB7D0  thumb  ov093
- *   func_021B8FF4  0x021B8FF4  thumb  ov093
+ *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
  *   BTL_ADAPTER_GetSendBuffer  0x021EEB64  thumb  ov093
  *   BTL_SERVER_FLOW_RunEscapeFromLead  0x021BC360  thumb  ov093
  *   BTL_SERVER_SetHandler  0x021BABEC  thumb  ov093
@@ -30,7 +30,7 @@ extern void BTL_SERVER_SendCommand(int a, int b);
 extern void BTL_SERVER_SendCommandData(u8 *p, int a, int b, int c);
 extern int BTL_SERVER_AreRepliesReady(u8 *);
 extern void BTL_SERVER_ClearReplies(const u8 *p);
-extern u8 func_021B8FF4(u8 *);
+extern u8 BTL_MAIN_GetOwnClientId(u8 *);
 extern u32 BTL_ADAPTER_GetSendBuffer(struct QW *p, u32 *out);
 extern int BTL_SERVER_FLOW_RunEscapeFromLead(u8 *p);
 extern void BTL_SERVER_SetHandler(int *p, void *f);
@@ -45,7 +45,7 @@ int BTL_SERVER_StepShiftPrompt(u8 *p, int *s)
         break;
     case 1:
         if (BTL_SERVER_AreRepliesReady(p) != 0) {
-            u8 idx = func_021B8FF4(*(u8 * *)&((struct Obj06222 *)p)->fC);
+            u8 idx = BTL_MAIN_GetOwnClientId(*(u8 * *)&((struct Obj06222 *)p)->fC);
             int *q;
 
             BTL_SERVER_ClearReplies(p);

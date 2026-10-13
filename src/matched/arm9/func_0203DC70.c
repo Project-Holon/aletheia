@@ -27,8 +27,8 @@
  * symbols:
  *   gNetIrcWirelessLink     0x021469F0  data
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   GFL_NET_HANDLE_GetNegotiationNum  0x020399EC  arm
  *   GFL_NET_HANDLE_CheckNegotiation  0x02039ACC  arm
@@ -75,8 +75,8 @@ typedef signed int     s32;
 struct Entry;
 struct Link;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void func_02039C68(struct Link *h, u32 a, u32 b);
-extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *h, u32 a, u32 b);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *h, u32 a, u32 b);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern int  GFL_NET_HANDLE_GetNegotiationNum(void);
 extern int  GFL_NET_HANDLE_CheckNegotiation(void);
@@ -114,11 +114,11 @@ void GFL_NET_IRC_WIRELESS_Main(void)
         if (p->f102 != 1)
             return;
         p->f101 = 1;
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0);
         GFL_NET_IRC_WIRELESS_SetState(p, 1);
         break;
     case 1:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0) == 0)
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0) == 0)
             return;
         GFL_NET_IRC_WIRELESS_SetState(p, 2);
         break;
@@ -292,12 +292,12 @@ void GFL_NET_IRC_WIRELESS_Main(void)
     case 16:
         if (p->f102 != 1)
             return;
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0);
         gNetIrcWirelessLink->f101 = 1;
         GFL_NET_IRC_WIRELESS_SetState(p, 0x11);
         break;
     case 17:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0) == 0)
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0) == 0)
             return;
         if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0, 0) == 0)
             return;

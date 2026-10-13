@@ -12,14 +12,14 @@
  *      Palette is selected only for the original modes 0..3; original
  *      default branch retains entry r5 without initializing it.
  * symbols:
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   CLACT_SetActorAnimLoopCount 0x0204B9C4 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorAutoAnimSpeed 0x0204B954 arm
  *   CLACT_StartActorAnim 0x0204B95C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj06719.h"
 #include "../include/Obj06720.h"
@@ -29,14 +29,14 @@ typedef unsigned int u32;
 struct Vec2 { short x,y; };
 struct Obj;
 struct Actor;
-extern void func_0204B404(struct Obj *,const struct Vec2 *,u32);
+extern void CLACT_AddActorSurfacePos(struct Obj *,const struct Vec2 *,u32);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
 extern void CLACT_SetActorAnimFrame(struct Obj *,u32);
 extern void CLACT_SetActorAnimLoopCount(struct Actor *,u32);
-extern void func_0204B92C(struct Obj *,u32);
+extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *,u32);
 extern void CLACT_StartActorAnim(struct Actor *);
-extern void func_0204B3DC(struct Obj *,u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 void func_021C21C4(u8 *p,int index)
 {
     u8 *record=p+0x28+index*24;
@@ -52,12 +52,12 @@ void func_021C21C4(u8 *p,int index)
     case 2: palette=((struct Obj06719 *)p)->f1A; break;
     case 3: palette=((struct Obj06719 *)p)->f1C; break;
     }
-    func_0204B404(obj,&point,((struct Obj06719 *)p)->f14);
+    CLACT_AddActorSurfacePos(obj,&point,((struct Obj06719 *)p)->f14);
     CLACT_SetActorAnimSeq(obj,palette);
     CLACT_SetActorAnimFrame(obj,0);
     CLACT_SetActorAnimLoopCount((struct Actor *)obj,1);
-    func_0204B92C(obj,1);
+    CLACT_SetActorAutoAnim(obj,1);
     CLACT_SetActorAutoAnimSpeed((struct Actor *)obj,0x12000);
     CLACT_StartActorAnim((struct Actor *)obj);
-    func_0204B3DC(obj,1);
+    CLACT_SetActorDrawEnable(obj,1);
 }

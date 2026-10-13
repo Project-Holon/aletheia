@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb ov010
@@ -28,7 +28,7 @@ struct Ctx;
 typedef unsigned char  u8;
 struct Evt;
 struct Obj;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *p);
 void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
@@ -41,7 +41,7 @@ void *EVENT_COMM_COMMON_CreateTalkedEvent(int a, int b, u8 *c, int d, int e, u16
 
 int EVENT_COMM_COMMON_TalkedStartEventMain(int x, int *st, int *obj)
 {
-    int v = (int)func_020124E4((struct Obj *)x);
+    int v = (int)GAME_EVENT_GetGameSystem((struct Obj *)x);
     int *m;
 
     m = (int *)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((const struct Ctx *)v));

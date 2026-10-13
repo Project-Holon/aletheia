@@ -15,7 +15,7 @@
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj01248.h"
@@ -33,7 +33,7 @@ extern void BMP_CURSOR_Delete(struct D *p);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern unsigned int func_020452E8(struct Descriptor *d);
+extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void func_021BBCF0(u8 *p)
@@ -46,7 +46,7 @@ void func_021BBCF0(u8 *p)
     if (((struct Obj01248 *)p)->f18) CLACT_DeleteActor(((struct Obj01248 *)p)->f18);
     if (((struct Obj01248 *)p)->f2C) MSGDATA_Delete(((struct Obj01248 *)p)->f2C);
     if (((struct Obj01248 *)p)->f30) STRBUF_Delete(((struct Obj01248 *)p)->f30);
-    func_020452E8(((struct Obj01248 *)p)->fC);
-    func_020452E8(((struct Obj01248 *)p)->f10);
+    BMP_WIN_Delete(((struct Obj01248 *)p)->fC);
+    BMP_WIN_Delete(((struct Obj01248 *)p)->f10);
     func_020307B0(p);
 }

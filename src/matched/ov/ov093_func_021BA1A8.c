@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1A8
+ * function: BTL_MAIN_CheckSetupStatusFlag
  * address:  0x021BA1A8
  * packet:   pkt_021BA1A8
  * region:   ov093
@@ -18,7 +18,7 @@
 
 int BTL_SETUP_CheckStatusFlag(char *base, int m);
 
-int func_021BA1A8(char **p, int m)
+int BTL_MAIN_CheckSetupStatusFlag(char **p, int m)
 {
     return BTL_SETUP_CheckStatusFlag(*p, m);
 }

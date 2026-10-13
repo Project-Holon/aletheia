@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E01D4",
+   "name": "HAND_ITEM_GemMoveUsed",
    "address": "0x021E01D4",
    "kind": "game",
    "region": "ov093",

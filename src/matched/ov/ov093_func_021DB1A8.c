@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_MoldBreaker_SkipCheck
+ * function: HAND_TOKUSEI_MoldBreaker_SkipCheck
  * address: 0x021DB1A8
  * packet: pkt_ov093_021DB1A8
  * region: ov093
@@ -12,4 +12,4 @@
  *   func_021DB1C4 0x021DB1C4 thumb ov093
  */
 extern int func_021DB1C4(unsigned short);
-int BTL_TOKUSEI_MoldBreaker_SkipCheck(int a, int b, int c, int d, unsigned short k) { if (c == 4 && func_021DB1C4(k)) return 1; return 0; }
+int HAND_TOKUSEI_MoldBreaker_SkipCheck(int a, int b, int c, int d, unsigned short k) { if (c == 4 && func_021DB1C4(k)) return 1; return 0; }

@@ -20,15 +20,15 @@
  *   GFL_USE_GetBgmNo  0x02005C44  thumb
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_SetAutoExit  0x0203D7B0  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GFL_NET_STATE_WifiDisconnect  0x0203C554  arm
@@ -62,7 +62,7 @@ extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
-extern u32 func_02026454(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
@@ -71,8 +71,8 @@ extern int   GFL_NET_GetRunState(void);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void  func_02039C68(struct Link *a0, u32 a1, u32 a2);
-extern u32   func_02039CB4(struct Link *a0, u32 a1, u32 a2);
+extern void  GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a0, u32 a1, u32 a2);
+extern u32   GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a0, u32 a1, u32 a2);
 extern void GFL_NET_SetAutoExit(u8 a0);
 extern void GFL_NET_SetLoginOption(u8 a0);
 extern void GFL_NET_STATE_WifiDisconnect(u32 a);
@@ -119,7 +119,7 @@ u32 EVENT_GTSNEGO_Main(void *obj, u32 *mode, char *args)
         (*mode)++;
         break;
     case 1:
-        if (func_02026454((void *)GAMESYSTEM_GetGameComm((const struct Ctx *)h)) == 0) {
+        if (GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm((const struct Ctx *)h)) == 0) {
             GAME_EVENT_CallEvent(obj, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent(h, (int)v0c));
             (*mode)++;
         }
@@ -173,7 +173,7 @@ u32 EVENT_GTSNEGO_Main(void *obj, u32 *mode, char *args)
             } else if (F(0x340) == 1) {
                 *mode = 10;
             } else {
-                func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0xc);
+                GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0xc);
                 GFL_NET_SetAutoExit(0);
                 GFL_NET_SetLoginOption(0);
                 F(0x4) = 100;
@@ -183,7 +183,7 @@ u32 EVENT_GTSNEGO_Main(void *obj, u32 *mode, char *args)
         break;
     case 8:
         F(0x4)--;
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0xc))
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0xc))
             *mode = 9;
         if ((int)F(0x4) < 0)
             *mode = 9;

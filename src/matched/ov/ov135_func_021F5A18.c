@@ -13,7 +13,7 @@
  *   func_021F663C 0x021F663C thumb ov135
  *   func_021F4E98 0x021F4E98 thumb ov135
  *   func_020355C4 0x020355C4 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
  */
 #include "../include/Obj00018.h"
@@ -24,7 +24,7 @@ extern void func_021F663C(u8 *, u32, u32, u32, u32, u32);
 extern void func_021F4E98(u8 *, u32, u32);
 extern u8 func_020355C4(void);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 int func_021F5A18(u8 *p)
 {
     int index;
@@ -37,9 +37,9 @@ int func_021F5A18(u8 *p)
         func_021F663C(p, index, 1, 0, 0xf0f, 0);
         func_021F4E98(p, 3, 1);
         if (func_020355C4() == 1) {
-            func_0204B3DC((struct Obj *)((struct Obj00018 *)p)->fBF4, 0);
+            CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00018 *)p)->fBF4, 0);
         } else {
-            func_0204B3DC((struct Obj *)((struct Obj00018 *)p)->fBF4, 1);
+            CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00018 *)p)->fBF4, 1);
         }
     }
     return 2;

@@ -1,5 +1,5 @@
 /*
- * function: func_021A14CC
+ * function: FIELD_SUBSCREEN_InitReport
  * address:  0x021A14CC
  * packet:   pkt_ov021_021A14CC
  * region:   ov021
@@ -27,7 +27,7 @@ extern int func_02034AC4(signed int);
 extern void *FIELDMAP_GetGameSystem(void *p);
 extern void *func_021EFEC0(int a0, int a1);
 
-void func_021A14CC(u32 *p)
+void FIELD_SUBSCREEN_InitReport(u32 *p)
 {
     func_02034AC4((int)abs_id_22);
     p[8] = (u32)func_021EFEC0((int)FIELDMAP_GetGameSystem((void *)p[5]), ((u16 *)p)[6]);

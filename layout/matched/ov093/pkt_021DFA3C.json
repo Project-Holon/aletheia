@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_HANDLER_ITEM_IronBallGroundCheck",
+   "name": "HAND_ITEM_IronBallGroundCheck",
    "address": "0x021DFA3C",
    "kind": "game",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_HANDLER_ITEM_AirBalloonGroundCheck",
+   "name": "HAND_ITEM_AirBalloonGroundCheck",
    "address": "0x021DFB94",
    "kind": "game",
    "region": "ov093",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E0838",
+   "name": "HAND_WAZA_BrickBreakClearSkipCheck",
    "address": "0x021E0838",
    "kind": "game",
    "region": "ov093",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E0F50",
+   "name": "HAND_WAZA_ThunderWaveSetAccuracyCheckFlag",
    "address": "0x021E0F50",
    "kind": "game",
    "region": "ov093",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E1050",
+   "name": "HAND_WAZA_DreamEaterSetFailFlag",
    "address": "0x021E1050",
    "kind": "game",
    "region": "ov093",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E14C0",
+   "name": "HAND_WAZA_DragonRageOnCalcFixedDamage",
    "address": "0x021E14C0",
    "kind": "game",
    "region": "ov093",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E14E4",
+   "name": "HAND_WAZA_SonicBoomOnCalcFixedDamage",
    "address": "0x021E14E4",
    "kind": "game",
    "region": "ov093",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E1958",
+   "name": "HAND_WAZA_CounterOnCalcFixedDamage",
    "address": "0x021E1958",
    "kind": "game",
    "region": "ov093",
@@ -103,7 +103,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021E199C",
+   "name": "HAND_WAZA_MirrorCoatOnCalcFixedDamage",
    "address": "0x021E199C",
    "kind": "game",
    "region": "ov093",
@@ -115,7 +115,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021E19E0",
+   "name": "HAND_WAZA_MetalBurstOnCalcFixedDamage",
    "address": "0x021E19E0",
    "kind": "game",
    "region": "ov093",
@@ -127,7 +127,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021E278C",
+   "name": "HAND_WAZA_TripleKickCheckEachHit",
    "address": "0x021E278C",
    "kind": "game",
    "region": "ov093",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E357C",
+   "name": "HAND_WAZA_MagicCoatOnTurnEnd",
    "address": "0x021E357C",
    "kind": "game",
    "region": "ov093",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E36A4",
+   "name": "HAND_WAZA_SnatchOnTurnEnd",
    "address": "0x021E36A4",
    "kind": "game",
    "region": "ov093",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E3AF0",
+   "name": "HAND_WAZA_EndureRemoveAtTurnEnd",
    "address": "0x021E3AF0",
    "kind": "game",
    "region": "ov093",
@@ -175,7 +175,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E4220",
+   "name": "HAND_WAZA_FeintSetBypassFlag",
    "address": "0x021E4220",
    "kind": "game",
    "region": "ov093",

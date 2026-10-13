@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E163C",
+   "name": "HAND_WAZA_StockpileOnMoveFailCheck",
    "address": "0x021E163C",
    "kind": "game",
    "region": "ov093",

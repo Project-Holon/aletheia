@@ -20,7 +20,7 @@
  *   func_02198620  0x02198620  arm  ov009
  *   func_0219EF60  0x0219EF60  arm  ov009
  *   func_02173D9C  0x02173D9C  arm  ov009
- *   func_02195E60  0x02195E60  arm  ov009
+ *   gt2GetSocketSOCKET  0x02195E60  arm  ov009
  *   func_02199DFC  0x02199DFC  arm  ov009
  *   func_02174FE4  0x02174FE4  arm  ov009
  *   func_02174FE8  0x02174FE8  arm  ov009
@@ -39,7 +39,7 @@ extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
 struct ServerBrowser;
 extern int func_0219EF60(struct ServerBrowser *sb, char *ip, unsigned short port, int cookie);
 extern int func_02173D9C(int sbError);
-extern int func_02195E60(const int *p);
+extern int gt2GetSocketSOCKET(const int *p);
 extern int func_02199DFC(int sock, int cookie, int clientindex, void *progress, void *completed, void *userdata);
 extern void func_02174FE4(void);
 extern void func_02174FE8(void);
@@ -56,7 +56,7 @@ int func_0216FE34(struct nninfo_s *nnInfo)
             return 2;
     }
     for (i = 0; i < 1; i++) {
-        nnError = func_02199DFC(func_02195E60((const int *)(**(int **)(func_02175F3C() + 4))), nnInfo->cookie, nnInfo->clientindex, func_02174FE4, func_02174FE8, nnInfo);
+        nnError = func_02199DFC(gt2GetSocketSOCKET((const int *)(**(int **)(func_02175F3C() + 4))), nnInfo->cookie, nnInfo->clientindex, func_02174FE4, func_02174FE8, nnInfo);
         if (nnError == 0)
             return nnError;
         if (nnError != 3)

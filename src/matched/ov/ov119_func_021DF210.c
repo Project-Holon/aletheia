@@ -10,7 +10,7 @@
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   func_021D8A24 0x021D8A24 thumb ov119
  *   func_021DD24C 0x021DD24C thumb ov119
@@ -30,7 +30,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern unsigned int GFL_NET_GetHandleNetID(struct Link *p);
 struct Link;
-extern unsigned func_02039CB4(struct Link *, unsigned, unsigned);
+extern unsigned GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, unsigned, unsigned);
 typedef unsigned int   u32;
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -56,7 +56,7 @@ void func_021DF210(char *p)
         b = 1;
     }
     if (func_021D8A24(p)) {
-        if (!func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1A, 8)) {
+        if (!GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1A, 8)) {
             func_021DD24C(p);
             return;
         }

@@ -15,7 +15,7 @@
  *
  * symbols:
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
- *   func_0201C6B4  0x0201C6B4  thumb
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   func_02030EAC  0x02030EAC  arm
  *   func_02008298  0x02008298  thumb
  *   func_02008288  0x02008288  thumb
@@ -28,12 +28,12 @@
  *   func_0201ED04  0x0201ED04  thumb
  *   ITEMMENU_HideSideWindows  0x021BAF10  thumb  ov070
  *   func_0203FB44  0x0203FB44  arm
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   func_02040DA8  0x02040DA8  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
- *   func_0201C6EC  0x0201C6EC  thumb
- *   func_0201C4C0  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   ITEMMENU_FreePalAnmSlots  0x021B8E84  thumb  ov070
  *   ITEMMENU_DeleteBlinkPalAnm  0x021B8B6C  thumb  ov070
  *   BUTTON_MAN_Delete  0x02051C6C  arm
@@ -102,7 +102,7 @@ struct S02031140;
 struct TaskMenuState;
 struct U16Vec;
 struct WordSet;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void func_02030EAC(struct Node *n);
 extern void func_02008298(struct MyItemSave *p, u16 v);
 extern void func_02008288(struct MyItemSave *p, int i, s16 a, s16 b);
@@ -115,12 +115,12 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void ITEMMENU_HideSideWindows(char *p);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_02040DA8(u32 a, u32 b, u32 c);
 extern u32 GF_FONT_Delete(void *ptr);
 extern int APP_KEYCURSOR_Delete(int a0);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void ITEMMENU_FreePalAnmSlots(char *p);
 extern void ITEMMENU_DeleteBlinkPalAnm(char *p);
 extern void BUTTON_MAN_Delete(void *p);
@@ -135,7 +135,7 @@ int ITEMMENU_Exit(void *proc, int b, Parent *par, Obj *o)
 {
     if (WIPE_SYS_EndCheck() != 1)
         return 0;
-    if (func_0201C6B4((const struct PrintSys *)o->f50C) == 0)
+    if (PRINTSYS_QUE_IsFinished((const struct PrintSys *)o->f50C) == 0)
         return 0;
     func_02030EAC((struct Node *)o->f698);
     func_02008298(o->gfx, o->f80C);
@@ -152,13 +152,13 @@ int ITEMMENU_Exit(void *proc, int b, Parent *par, Obj *o)
     ITEMMENU_HideSideWindows((char *)o);
     if (o->f4FC != 0) {
         func_0203FB44((int)3, (unsigned short)o->f838, (unsigned short)(o->f838 >> 16));
-        func_020452E8((struct Descriptor *)o->f4FC);
+        BMP_WIN_Delete((struct Descriptor *)o->f4FC);
     }
     func_02040DA8(3, 1, 0);
     GF_FONT_Delete((void *)o->f530);
     APP_KEYCURSOR_Delete(o->f518);
-    func_0201C6EC((struct PrintSys *)o->f50C);
-    func_0201C4C0((struct PrintSys *)o->f50C);
+    PRINTSYS_QUE_Clear((struct PrintSys *)o->f50C);
+    PRINTSYS_QUE_Delete((struct PrintSys *)o->f50C);
     ITEMMENU_FreePalAnmSlots((char *)o);
     ITEMMENU_DeleteBlinkPalAnm((char *)o);
     BUTTON_MAN_Delete((void *)o->f694);

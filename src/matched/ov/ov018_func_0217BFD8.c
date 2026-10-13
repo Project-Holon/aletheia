@@ -15,11 +15,11 @@
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   GAMESYSTEM_IsNetOffBySleep  0x02012204  thumb
- *   func_02013D5C  0x02013D5C  thumb
- *   func_02013D9C  0x02013D9C  thumb
- *   func_0202648C  0x0202648C  thumb
- *   func_02026454  0x02026454  thumb
- *   func_0202647C  0x0202647C  thumb
+ *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
+ *   GAME_COMM_GetCounter  0x0202648C  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
+ *   GAME_COMM_GetLastKind  0x0202647C  thumb
  */
 
 typedef unsigned char  u8;
@@ -32,11 +32,11 @@ extern int INTRUDE_COMM_GetWorkIfRunning(int);
 extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 extern unsigned int GAMESYSTEM_IsNetOffBySleep(const struct Ctx *p);
 typedef unsigned int   u32;
-extern u32 func_02013D5C(u32 id);
-extern u32 func_02013D9C(u32 id);
-extern u32 func_0202648C(void *obj);
-extern u32 func_02026454(void *obj);
-extern u32 func_0202647C(void *obj);
+extern u32 ZONEDATA_IsZone117(u32 id);
+extern u32 ZONEDATA_IsZoneGroup118To120(u32 id);
+extern u32 GAME_COMM_GetCounter(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
+extern u32 GAME_COMM_GetLastKind(void *obj);
 
 int INTRUDE_FIELD_IsCommAllowed(const struct Ctx *a, int b)
 {
@@ -53,13 +53,13 @@ int INTRUDE_FIELD_IsCommAllowed(const struct Ctx *a, int b)
         return 0;
     if (GAMESYSTEM_IsNetOffBySleep(a) == 1)
         return 1;
-    if (func_02013D5C(b) == 1) {
-        if (func_0202648C((void *)t) != 0)
+    if (ZONEDATA_IsZone117(b) == 1) {
+        if (GAME_COMM_GetCounter((void *)t) != 0)
             return 1;
         return 0;
     }
-    if (func_02013D9C(b) == 1) {
-        if (func_02026454((void *)t) == 2 || (func_02026454((void *)t) == 0 && func_0202647C((void *)t) == 2 && func_0202648C((void *)t) != 0))
+    if (ZONEDATA_IsZoneGroup118To120(b) == 1) {
+        if (GAME_COMM_GetKind((void *)t) == 2 || (GAME_COMM_GetKind((void *)t) == 0 && GAME_COMM_GetLastKind((void *)t) == 2 && GAME_COMM_GetCounter((void *)t) != 0))
             return 1;
         return 0;
     }

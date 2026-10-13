@@ -12,7 +12,7 @@
  * Task body started by func_021CF7DC: a three-state counter walk.
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_021CF8E4  0x021CF8E4  thumb  ov021
  *   func_021CF940  0x021CF940  thumb  ov021
@@ -33,7 +33,7 @@ typedef struct Work {
 
 struct Ctx;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern int func_021CF8E4(void *a, void *src, int c);
 extern int func_021CF940(void *a, void *src, void *b, int *c);
@@ -46,7 +46,7 @@ int func_021CF844(void *a, int *task, Work *w)
     void *sys;
     int i;
 
-    sys = GAMESYSTEM_GetGameData(func_020124E4(a));
+    sys = GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(a));
     switch (*task) {
     case 0:
         func_021CF8E4((void *)w->f00, sys, (int)(&w->f0c));

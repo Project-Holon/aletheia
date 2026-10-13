@@ -23,12 +23,12 @@
  *   POKELIST_OpenTakeMailMenu 0x021BA394 thumb ov091
  *   POKELIST_GetFieldMoveMenuIndex 0x021B99E4 thumb ov091
  *   MOVE_POKEMON_IsSkillBlocked 0x0215EA14 thumb ov010
- *   func_02013E04 0x02013E04 thumb
- *   func_0204B3DC 0x0204B3DC arm
+ *   ZONEDATA_IsNormalFieldZone 0x02013E04 thumb
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   _u32_div_f 0x0209C2B0 arm
  *   d_021BEC0C 0x021BEC0C data a4
  *   d_021BEC1C 0x021BEC1C data a4
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   PLIST_MENU_CreateButtonWindow 0x021BBDEC thumb ov091
  *   POKELIST_SetupModeScreen 0x021B7B98 thumb ov091
  *   PLIST_MENU_ItemRestoresHp 0x021BC1B4 thumb ov091
@@ -81,6 +81,7 @@
  *   POKELIST_EndMessageToEvolve 0x021BA4E4 thumb ov091
  *   POKELIST_OpenTakeItemMenu 0x021BA098 thumb ov091
  *   POKELIST_OpenLearnMoveMenu 0x021B9EB0 thumb ov091
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -88,7 +89,7 @@ typedef unsigned int u32;
 struct Obj;
 struct Sub02008F80Obj;
 extern void func_020409B4(u32 index);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u32 func_0202136C(u16);
 extern struct Sub02008F80Obj *func_02009050(struct Sub02008F80Obj *arr, u32 unused, int i, u32 heap);
@@ -131,7 +132,7 @@ extern void POKELIST_OpenLearnMoveMenu(u8 *p);
 #define S (*(u8 **)(p+0x280))
 #define H(k) (*(u16 *)(S+(k)))
 #define T(k) (*(u32 *)(S+(k)))
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern int PLIST_MENU_CreateButtonWindow(int p, int unused, int id, int r3, u8 a4, int a5);
 extern void POKELIST_SetupModeScreen(u8 *);
 extern int PLIST_MENU_ItemRestoresHp(unsigned short *p, void *id);
@@ -158,8 +159,8 @@ extern void PLIST_MENU_ButtonWinSetActive(int,int);
 extern void POKELIST_OpenTakeMailMenu(u8 *p);
 extern int POKELIST_GetFieldMoveMenuIndex(void *p, int i);
 extern int MOVE_POKEMON_IsSkillBlocked(int a0, int a1);
-extern u32 func_02013E04(u32 id);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern u32 ZONEDATA_IsNormalFieldZone(u32 id);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 typedef struct { int v[4]; } Four;
 extern const Four d_021BEC0C,d_021BEC1C;
 #define A (*(int **)((p+W(0x2c)*4)+0x160))
@@ -201,18 +202,18 @@ void POKELIST_DispatchMenuChoice(u8 *p)
             if (p[0x105] == q[3]) flag=1;
             p[0xc]=2;
         } else if (r == 2) {
-            POKELIST_ShowMessage(p,0x90,1,(int)POKELIST_EndMessageToList); func_020061E4(0x557);
+            POKELIST_ShowMessage(p,0x90,1,(int)POKELIST_EndMessageToList); GFL_USE_PlaySeDefaultVolume(0x557);
         } else if (r == 3) {
-            POKELIST_ShowMessage(p,0x91,1,(int)POKELIST_EndMessageToList); func_020061E4(0x557);
+            POKELIST_ShowMessage(p,0x91,1,(int)POKELIST_EndMessageToList); GFL_USE_PlaySeDefaultVolume(0x557);
         } else if (r == 4) {
-            POKELIST_ShowMessage(p,q[3]+0x5c,1,(int)POKELIST_EndMessageToList); func_020061E4(0x557);
+            POKELIST_ShowMessage(p,q[3]+0x5c,1,(int)POKELIST_EndMessageToList); GFL_USE_PlaySeDefaultVolume(0x557);
         }
         W(0x38)=0;
         if (flag==1) {
             PLIST_PLATE_SetSelected(p,(u8 *)((u32)A),0); W(0x2c)=6;
             if (W(8)==0) {
                 PLIST_MENU_ButtonWinSetActive(*(int *)((p+(u8)(W(0x2c)-6)*4)+0x108),1);
-                func_0204B3DC((struct Obj *)W(0x1d8),0); return;
+                CLACT_SetActorDrawEnable((struct Obj *)W(0x1d8),0); return;
             }
         } else if (W(8)==0) POKELIST_MoveCursorToPlate(p,W(0x2c));
         return;
@@ -258,13 +259,13 @@ void POKELIST_DispatchMenuChoice(u8 *p)
                 old=POKE_TOOL_GetPartyValue((void *)W(0x38),W(0x3c)+0x26,0);
                 func_020409B4(0); PLIST_MENU_StartItemUse(p,old);
                 PLIST_DEMO_UseItemOnMon((void *)W(0x38),H(0x44),(u16)(W(0x3c)-16),H(0x30),*(u16 *)p);
-                PLIST_PLATE_Redraw(p,(u8 *)((u32)A)); POKELIST_RemoveBagItem(p,H(0x44)); func_020061E4(0x56f);
+                PLIST_PLATE_Redraw(p,(u8 *)((u32)A)); POKELIST_RemoveBagItem(p,H(0x44)); GFL_USE_PlaySeDefaultVolume(0x56f);
             } else PLIST_MENU_ShowItemUsedThenContinue((int)p);
             return;
         }
         r=POKELIST_GetFieldMoveMenuIndex((void *)W(0x38),(u8)(W(0x3c)-16));
         if ((u32)(r-22)<=1) {
-            if (func_02013E04(H(0x30))==0) {
+            if (ZONEDATA_IsNormalFieldZone(H(0x30))==0) {
                 POKELIST_ShowMessage(p,0x50,1,(int)POKELIST_EndMessageToList); return;
             }
             L.n=POKE_TOOL_GetPartyValue((void *)W(0x38),0xa1,0);

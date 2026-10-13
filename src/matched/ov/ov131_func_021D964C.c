@@ -8,21 +8,21 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  */
 #include "../include/Obj05394.h"
 typedef unsigned char u8;
 struct Descriptor;
 typedef unsigned int   u32;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 void P_STA_RIBBON_FreeDetailWindows(u8 *a,u8 *p)
 {
     if(((struct Obj05394 *)p)->f20!=0) {
-        func_020452E8(((struct Obj05394 *)p)->f20);
+        BMP_WIN_Delete(((struct Obj05394 *)p)->f20);
         ((struct Obj05394 *)p)->f20=0;
     }
     if(((struct Obj05394 *)p)->f24!=0) {
-        func_020452E8(((struct Obj05394 *)p)->f24);
+        BMP_WIN_Delete(((struct Obj05394 *)p)->f24);
         ((struct Obj05394 *)p)->f24=0;
     }
 }

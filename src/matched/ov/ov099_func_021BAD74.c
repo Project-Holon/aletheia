@@ -19,7 +19,7 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   func_0201F73C 0x0201F73C thumb
  *   BMP_MENULIST_Create 0x0201FF30 thumb
- *   func_0201C6B4 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   BMP_MENULIST_ResetCursorTile 0x02020CF8 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -58,7 +58,7 @@ struct Src;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
-extern u32 func_0201C6B4(const struct PrintSys *);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
 extern void BMP_MENULIST_ResetCursorTile(struct Obj *p, int heap);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
@@ -94,10 +94,10 @@ void func_021BAD74(char *p)
     desc.w28 = (u32)(p + 0x1ac);
     desc.w30 = ((struct Obj01244 *)p)->fE8;
     *(struct Obj * *)&((struct Obj01244 *)p)->fBC = BMP_MENULIST_Create((struct Src *)(&desc), 0, 0, 33);
-    if (func_0201C6B4(*(struct PrintSys * *)&((struct Obj01244 *)p)->f1B4) == 0) {
+    if (PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj01244 *)p)->f1B4) == 0) {
         do {
             PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj01244 *)p)->f1B4);
-        } while (func_0201C6B4(*(struct PrintSys * *)&((struct Obj01244 *)p)->f1B4) == 0);
+        } while (PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj01244 *)p)->f1B4) == 0);
     }
     BMP_MENULIST_ResetCursorTile(*(struct Obj * *)&((struct Obj01244 *)p)->fBC, 33);
     BMP_WIN_MakeScreen(*(struct Cfg * *)&((struct Obj01244 *)p)->f1A4);

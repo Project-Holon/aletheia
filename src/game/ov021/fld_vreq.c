@@ -17,7 +17,7 @@
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02040588  0x02040588  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   d_021DE6C8     0x021DE6C8  data  ov021  a4
  *   sFldVReqBlendFuncs     0x021DE6AC  data  ov021  a4
  *   func_0207D534  0x0207D534  arm
@@ -62,7 +62,7 @@ typedef void (*FldVReqBlendFunc)(void *params, int isMain);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern u32 func_02040588(u32 which, u32 enable);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_0207D658(u32 addr, int plane, int brightness);
@@ -88,7 +88,7 @@ extern char d_021DE6C8[];       /* "fld_vreq.c" */
 FldVReq *FLD_VREQ_Create(u32 heapId)
 {
     FldVReq *vreq = func_02030734(heapId, sizeof(FldVReq), 1, d_021DE6C8, 0x80);
-    func_02082BCC(vreq->bgVisible, 0xff, sizeof(vreq->bgVisible));
+    MI_CpuFill8(vreq->bgVisible, 0xff, sizeof(vreq->bgVisible));
     return vreq;
 }
 

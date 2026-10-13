@@ -1,7 +1,7 @@
 /*
  * file:     weather_sandstorm.c
  * unit:     yes
- * function: WEATHER_SANDSTORM_Begin, func_021EE7A4, func_021EE814, func_021EE888, func_021EE8D4, func_021EE908, func_021EE970, func_021EE990, WEATHER_SANDSTORM_SpawnParticles, func_021EEAF4
+ * function: WEATHER_SANDSTORM_Begin, WEATHER_SANDSTORM_BeginParticles, WEATHER_SANDSTORM_BeginPlain, WEATHER_SANDSTORM_Run, WEATHER_SANDSTORM_EndParticles, WEATHER_SANDSTORM_EndFade, WEATHER_SANDSTORM_EndFinish, WEATHER_SANDSTORM_UpdateParticle, WEATHER_SANDSTORM_SpawnParticles, WEATHER_SANDSTORM_ScrollBillboards
  * address:  0x021EE740
  * region:   ov027
  * compiler: dsi/1.1p1
@@ -29,7 +29,7 @@
  *   WEATHER_TASK_SetLight  0x021A2114  thumb  ov021
  *   WEATHER_TASK_StepSpawnTimer  0x021A2248  thumb  ov021
  *   func_0209C0A4  0x0209C0A4  arm
- *   d_021EEB48     0x021EEB48  data  ov027  a4
+ *   gSandstormGustSpeedX     0x021EEB48  data  ov027  a4
  *   WEATHER_TASK_RetargetSpawner 0x021A2228 thumb ov021
  *   WEATHER_TASK_StopSe 0x021A25CC thumb ov021
  *   WEATHER_TASK_ChangeFogOffset  0x021A2390  thumb  ov021
@@ -44,7 +44,7 @@
  *   func_020056EC  0x020056EC  thumb
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
  *   WEATHER_TASK_AddParticle  0x021A21C8  thumb  ov021
- *   d_021EEB68     0x021EEB68  data  a4
+ *   gSandstormGustSpeedY     0x021EEB68  data  a4
  *   WEATHER_TASK_GetCameraScroll  0x021A244C  thumb  ov021
  *   WEATHER_TASK_ShiftParticles  0x021A2564  thumb  ov021
  *   WEATHER_TASK_SetBillboardParam0C  0x021A2190  thumb  ov021
@@ -85,19 +85,19 @@ extern u32 func_020056EC(u32 range);
 extern int func_0209C0A4(int dividend, int divisor);
 extern void CLACT_SetActorAnimIndex(struct Actor *actor, u32 animIndex);
 int WEATHER_SANDSTORM_Begin(WeatherTaskSys *task, int variant);
-int func_021EE7A4(WeatherTaskSys *task, int variant, int heapId);
-int func_021EE814(WeatherTaskSys *task, int variant, int heapId);
-int func_021EE888(WeatherTaskSys *task, int variant, int heapId);
-int func_021EE8D4(WeatherTaskSys *task);
-int func_021EE908(WeatherTaskSys *task, int variant, int heapId);
-int func_021EE970(WeatherTaskSys *task, int variant);
-void func_021EE990(WeatherParticle *particle);
+int WEATHER_SANDSTORM_BeginParticles(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_SANDSTORM_BeginPlain(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_SANDSTORM_Run(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_SANDSTORM_EndParticles(WeatherTaskSys *task);
+int WEATHER_SANDSTORM_EndFade(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_SANDSTORM_EndFinish(WeatherTaskSys *task, int variant);
+void WEATHER_SANDSTORM_UpdateParticle(WeatherParticle *particle);
 void WEATHER_SANDSTORM_SpawnParticles(WeatherTaskSys *task, s32 count, u32 heapId);
 
 /* Horizontal speed of the particles per gust step. */
-extern const int d_021EEB48[];
+extern const int gSandstormGustSpeedX[];
 /* Vertical speed per gust step. */
-extern const int d_021EEB68[];
+extern const int gSandstormGustSpeedY[];
 extern void WEATHER_TASK_GetCameraScroll(struct WeatherTaskSys *task, int *outX, int *outY);
 extern void WEATHER_TASK_ShiftParticles(struct WeatherTaskSys *task, int dx, int dy);
 extern void WEATHER_TASK_SetBillboardParam0C(struct WeatherTaskSys *task, unsigned int value, int layer);
@@ -119,7 +119,7 @@ int WEATHER_SANDSTORM_Begin(WeatherTaskSys *task, int variant)
 }
 
 /* Begin particles stage: start the fog and light change, wait for the fog and the spawner. */
-int func_021EE7A4(WeatherTaskSys *task, int variant, int heapId)
+int WEATHER_SANDSTORM_BeginParticles(WeatherTaskSys *task, int variant, int heapId)
 {
     WeatherSandstormWork *work = WEATHER_TASK_GetWorkBuffer(task);
     int spawnerReady = WEATHER_TASK_StepSpawner(task, heapId);
@@ -134,12 +134,12 @@ int func_021EE7A4(WeatherTaskSys *task, int variant, int heapId)
         WEATHER_TASK_SetBillboardVisible(task, 1, 0);
         return 1;
     }
-    func_021EEAF4(task, work);
+    WEATHER_SANDSTORM_ScrollBillboards(task, work);
     return 0;
 }
 
 /* Begin plain stage (everything at once): fog, filled screen, light, first billboard layer. */
-int func_021EE814(WeatherTaskSys *task, int variant, int heapId)
+int WEATHER_SANDSTORM_BeginPlain(WeatherTaskSys *task, int variant, int heapId)
 {
     WEATHER_TASK_GetWorkBuffer(task);
     WEATHER_TASK_SetupSpawner(task, 1, 2, 1, 2, -2, 4, 1, WEATHER_SANDSTORM_SpawnParticles);
@@ -151,22 +151,22 @@ int func_021EE814(WeatherTaskSys *task, int variant, int heapId)
 }
 
 /* Run stage: pick the gust speed of the current step and scroll the billboards. */
-int func_021EE888(WeatherTaskSys *task, int variant, int heapId)
+int WEATHER_SANDSTORM_Run(WeatherTaskSys *task, int variant, int heapId)
 {
     WeatherSandstormWork *work = WEATHER_TASK_GetWorkBuffer(task);
 
     if (WEATHER_TASK_StepSpawnTimer(task, heapId) != 0) {
-        int gustSpeed = d_021EEB48[func_0209C0A4(work->gustCounter, GUST_STEP_FRAMES)];
+        int gustSpeed = gSandstormGustSpeedX[func_0209C0A4(work->gustCounter, GUST_STEP_FRAMES)];
         work->gustSpeed = gustSpeed;
         if (gustSpeed <= -6)
             WEATHER_SANDSTORM_SpawnParticles(task, 1, heapId);
     }
-    func_021EEAF4(task, work);
+    WEATHER_SANDSTORM_ScrollBillboards(task, work);
     return 0;
 }
 
 /* End particles stage: let the spawner run out, hide the first billboard layer, stop the sound. */
-int func_021EE8D4(WeatherTaskSys *task)
+int WEATHER_SANDSTORM_EndParticles(WeatherTaskSys *task)
 {
     WeatherSandstormWork *work;
     work = WEATHER_TASK_GetWorkBuffer(task);
@@ -178,7 +178,7 @@ int func_021EE8D4(WeatherTaskSys *task)
 }
 
 /* End fade stage: after the delay fade the fog out, then wait for the fog and the particles. */
-int func_021EE908(WeatherTaskSys *task, int variant, int heapId)
+int WEATHER_SANDSTORM_EndFade(WeatherTaskSys *task, int variant, int heapId)
 {
     WeatherSandstormWork *work = WEATHER_TASK_GetWorkBuffer(task);
     int spawnerReady = WEATHER_TASK_StepSpawner(task, heapId);
@@ -198,12 +198,12 @@ int func_021EE908(WeatherTaskSys *task, int variant, int heapId)
                 return 1;
         }
     }
-    func_021EEAF4(task, work);
+    WEATHER_SANDSTORM_ScrollBillboards(task, work);
     return 0;
 }
 
 /* End finish stage: switch the fog off and reset the light. */
-int func_021EE970(WeatherTaskSys *task, int variant)
+int WEATHER_SANDSTORM_EndFinish(WeatherTaskSys *task, int variant)
 {
     WEATHER_TASK_GetWorkBuffer(task);
     WEATHER_TASK_DisableFog(task, variant);
@@ -216,7 +216,7 @@ int func_021EE970(WeatherTaskSys *task, int variant)
  * WEATHER_SANDSTORM_SpawnParticles, which is why the verdict is EXACT*.
  */
 /* Moves one particle: gusts accelerate it to the right until it expires. */
-void func_021EE990(WeatherParticle *particle)
+void WEATHER_SANDSTORM_UpdateParticle(WeatherParticle *particle)
 {
     WeatherSandstormGrain *work = (WeatherSandstormGrain *)WEATHER_TASK_GetParticleWork(particle);
     WeatherScreenPos pos;
@@ -261,10 +261,10 @@ void WEATHER_SANDSTORM_SpawnParticles(WeatherTaskSys *task, s32 count, u32 heapI
         particleWork->age = 0;
         particleWork->lifetime = func_020056EC(20) + 15;
         spriteSize = 3 - (particleWork->lifetime - 15) / 6;
-        particleWork->speedY = (spriteSize + 1) * d_021EEB68[gustStep];
-        particleWork->speedX = (spriteSize + 1) * d_021EEB48[gustStep];
+        particleWork->speedY = (spriteSize + 1) * gSandstormGustSpeedY[gustStep];
+        particleWork->speedX = (spriteSize + 1) * gSandstormGustSpeedX[gustStep];
         particleWork->expired = 0;
-        particleWork->speedXStep = d_021EEB48[gustStep];
+        particleWork->speedXStep = gSandstormGustSpeedX[gustStep];
         if (func_020056EC(1000) == 777) {
             spriteSize = 4;
             particleWork->speedY = particleWork->speedY + particleWork->speedY / 2;
@@ -277,7 +277,7 @@ void WEATHER_SANDSTORM_SpawnParticles(WeatherTaskSys *task, s32 count, u32 heapI
 }
 
 /* Scrolls the billboards with the camera and with the gust phase, and shifts the particles. */
-void func_021EEAF4(struct WeatherTaskSys *task, WeatherSandstormWork *work)
+void WEATHER_SANDSTORM_ScrollBillboards(struct WeatherTaskSys *task, WeatherSandstormWork *work)
 {
     int scrollX;
     int scrollY;

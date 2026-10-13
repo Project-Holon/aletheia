@@ -12,12 +12,12 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_0201ADD0  0x0201ADD0  thumb
+ *   POKE_PERSONAL_LoadDataDirect  0x0201ADD0  thumb
  *   POKE_TOOL_AddMove  0x0201808C  thumb
  *   func_020307B0  0x020307B0  arm
  *   sPokeToolFile  0x020A72E4  data
  *
- * Level-up learnset scan: load the species/form learnset (func_0201ADD0) into
+ * Level-up learnset scan: load the species/form learnset (POKE_PERSONAL_LoadDataDirect) into
  * a 0x68-byte heap block (poke_tool.c line 0x644), then walk it from *idx
  * until the {0xFFFF, 0xFFFF} terminator.  For an entry at the record's
  * level, try to teach it (POKE_TOOL_AddMove): 0xFFFF (no free slot) answers the
@@ -27,7 +27,7 @@
  * Load-bearing, found by hand after the permuter's hill (800, --types) and
  * the r12 lane's register swap:
  *   - `species` is u16 (truncated at the assignment) but `form` is u32 and
- *     the (u16) lands at the func_0201ADD0 call; `level` is u8.
+ *     the (u16) lands at the POKE_PERSONAL_LoadDataDirect call; `level` is u8.
  *   - FIVE 4-byte struct copies live in the frame, in this declaration
  *     order (later declaration at the lower address): e, d, f, t, cur.
  *     They are by-value copies of the entry (e for the level test, d for the
@@ -47,7 +47,7 @@ struct Learn { u16 move; u16 level; };
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32   POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
-extern void  func_0201ADD0(u32 species, int form, void *dest);
+extern void  POKE_PERSONAL_LoadDataDirect(u32 species, int form, void *dest);
 extern u16   POKE_TOOL_AddMove(void *p, u16 move);
 extern u32 func_020307B0(void *p);
 extern u8    sPokeToolFile;
@@ -77,7 +77,7 @@ u16 POKE_TOOL_GetLevelUpMove(void *p, u32 *idx, u32 heap)
     species = POKE_TOOL_GetPartyValue(p, 5, 0);
     form = POKE_TOOL_GetPartyValue(p, 0x6f, 0);
     level = POKE_TOOL_GetPartyValue(p, 0x9e, 0);
-    func_0201ADD0(species, (u16)form, tbl);
+    POKE_PERSONAL_LoadDataDirect(species, (u16)form, tbl);
 
     while (cur = tbl[*idx], t = cur, !Learn_IsEnd(&t)) {
         e = cur;

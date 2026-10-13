@@ -13,7 +13,7 @@
  *   P_STATUS_RequestRefresh 0x021D5C98 thumb ov131
  *   P_STATUS_ChangePokemon 0x021D5B58 thumb ov131
  *   P_STATUS_CanUseButtons 0x021D62E4 thumb ov131
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 #include "../include/Obj00039.h"
@@ -24,7 +24,7 @@ extern void P_STATUS_RequestRefresh(u8 *p);
 extern int P_STATUS_ChangePokemon(u8 *,int);
 extern int P_STATUS_CanUseButtons(char *);
 struct Obj;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 void P_STATUS_CheckTouch(char *p)
 {
@@ -33,7 +33,7 @@ void P_STATUS_CheckTouch(char *p)
         if (((struct Obj00039 *)p)->f58!=0) {
             ((struct Obj00039 *)p)->f58=0;
             P_STATUS_RequestRefresh((u8 *)p);
-            func_020061E4(1637);
+            GFL_USE_PlaySeDefaultVolume(1637);
             ((struct Obj00039 *)p)->f1C=1;
         }
         break;
@@ -41,7 +41,7 @@ void P_STATUS_CheckTouch(char *p)
         if (((struct Obj00039 *)p)->f58!=1 && ((struct Obj00039 *)p)->f38==0) {
             ((struct Obj00039 *)p)->f58=1;
             P_STATUS_RequestRefresh((u8 *)p);
-            func_020061E4(1637);
+            GFL_USE_PlaySeDefaultVolume(1637);
             ((struct Obj00039 *)p)->f1C=1;
         }
         break;
@@ -49,7 +49,7 @@ void P_STATUS_CheckTouch(char *p)
         if (((struct Obj00039 *)p)->f58!=2 && ((struct Obj00039 *)p)->f38==0 && ((struct Obj00039 *)p)->f40==1) {
             ((struct Obj00039 *)p)->f58=2;
             P_STATUS_RequestRefresh((u8 *)p);
-            func_020061E4(1637);
+            GFL_USE_PlaySeDefaultVolume(1637);
             ((struct Obj00039 *)p)->f1C=1;
         }
         break;
@@ -62,7 +62,7 @@ void P_STATUS_CheckTouch(char *p)
                 *(int *)((u32)p+0x60+(u32)((struct Obj00039 *)p)->f58*4)=1;
                 CLACT_SetActorAnimSeq(((struct Obj00039 *)p)->f184,7);
             }
-            func_020061E4(1606);
+            GFL_USE_PlaySeDefaultVolume(1606);
             ((struct Obj00039 *)p)->f1C=1;
         }
         break;
@@ -73,7 +73,7 @@ void P_STATUS_CheckTouch(char *p)
             CLACT_SetActorAnimSeq(((struct Obj00039 *)p)->f18C,2);
             ((struct Obj00039 *)p)->f48=1;
             ((struct Obj00039 *)p)->f4C=0;
-            func_020061E4(1636);
+            GFL_USE_PlaySeDefaultVolume(1636);
             ((struct Obj00039 *)p)->f1C=1;
         }
         break;
@@ -84,7 +84,7 @@ void P_STATUS_CheckTouch(char *p)
             CLACT_SetActorAnimSeq(((struct Obj00039 *)p)->f18C,10);
             ((struct Obj00039 *)p)->f48=0;
             ((struct Obj00039 *)p)->f4C=1;
-            func_020061E4(1636);
+            GFL_USE_PlaySeDefaultVolume(1636);
             ((struct Obj00039 *)p)->f1C=1;
         }
         break;
@@ -95,7 +95,7 @@ void P_STATUS_CheckTouch(char *p)
             ((struct Obj00039 *)p)->f50=2;
             CLACT_SetActorAnimSeq(((struct Obj00039 *)p)->f190,8);
             ((struct Obj00039 *)p)->f1A0=((struct Obj00039 *)p)->f190;
-            func_020061E4(1366);
+            GFL_USE_PlaySeDefaultVolume(1366);
             ((struct Obj00039 *)p)->f1C=1;
         }
         break;
@@ -105,7 +105,7 @@ void P_STATUS_CheckTouch(char *p)
         ((struct Obj00039 *)p)->f50=2;
         CLACT_SetActorAnimSeq(((struct Obj00039 *)p)->f194,9);
         ((struct Obj00039 *)p)->f1A0=((struct Obj00039 *)p)->f194;
-        func_020061E4(1361);
+        GFL_USE_PlaySeDefaultVolume(1361);
         ((struct Obj00039 *)p)->f1C=1;
         break;
     }

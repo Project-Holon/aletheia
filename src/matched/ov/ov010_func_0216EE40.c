@@ -20,7 +20,7 @@
  *
  * symbols:
  *   BTL_SETUP_GetParty  0x0201313C  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GAME_BEACON_SEARCH_SetBattlePokeStart  0x0216505C  thumb  ov010
  *   GAME_BEACON_SEARCH_SetBattlePokeWin  0x02165078  thumb  ov010
@@ -31,7 +31,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *BTL_SETUP_GetParty(void *p, int i);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern int GAME_BEACON_SEARCH_SetBattlePokeStart(int a0);
 extern int GAME_BEACON_SEARCH_SetBattlePokeWin(int a0);
@@ -41,7 +41,7 @@ void EVENT_BATTLE_NotifyLeadSpecies(void *p, int which)
 {
     u16 species;
 
-    species = POKE_TOOL_GetPartyValue(func_0201AB28(BTL_SETUP_GetParty(p, 1), 0), 5, 0);
+    species = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(BTL_SETUP_GetParty(p, 1), 0), 5, 0);
     switch (which) {
     case 0:
         GAME_BEACON_SEARCH_SetBattlePokeStart(species);

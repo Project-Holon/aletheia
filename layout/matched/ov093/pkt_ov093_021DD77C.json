@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_ITEM_RequestUseAtHalfHpDirect",
+   "name": "HAND_ITEM_RequestUseAtHalfHpDirect",
    "address": "0x021DD77C",
    "kind": "game",
    "region": "ov093",

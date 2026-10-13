@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021C8138 0x021C8138 thumb ov093
+ *   BTL_SERVER_FLOW_GetTurnCount 0x021C8138 thumb ov093
  */
 #include "../include/Obj10176.h"
-struct Q7; extern unsigned short func_021C8138(struct Q7 *);
-int func_02188C88(int a, unsigned char *b) { ((struct Obj10176 *)b)->f38=func_021C8138(*(struct Q7 * *)&((struct Obj10176 *)b)->fB4); return ((struct Obj10176 *)b)->fC4; }
+struct Q7; extern unsigned short BTL_SERVER_FLOW_GetTurnCount(struct Q7 *);
+int func_02188C88(int a, unsigned char *b) { ((struct Obj10176 *)b)->f38=BTL_SERVER_FLOW_GetTurnCount(*(struct Q7 * *)&((struct Obj10176 *)b)->fB4); return ((struct Obj10176 *)b)->fC4; }

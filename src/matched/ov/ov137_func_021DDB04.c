@@ -13,7 +13,7 @@
  *   UNION_APP_GetMemberCount 0x021841A4 thumb ov022
  *   func_021DE354 0x021DE354 thumb ov137
  *   func_021DD924 0x021DD924 thumb ov137
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   func_021DCBC4 0x021DCBC4 thumb ov137
  */
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 extern int UNION_APP_GetMemberCount(unsigned char *p);
 extern int func_021DE354(void *p);
 extern void func_021DD924(char *);
-extern void func_02082BCC(void *, int, unsigned);
+extern void MI_CpuFill8(void *, int, unsigned);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void func_021DCBC4(void *p, u32 a, const void *b, u32 c);
 int func_021DDB04(char *p, int state) {
@@ -43,7 +43,7 @@ int func_021DDB04(char *p, int state) {
     ++*(volatile s16 *)&((struct Obj03303 *)p)->f4820;
     if (*(volatile s16 *)&((struct Obj03303 *)p)->f4820 > 30) {
         int zero = 0;
-        func_02082BCC(buf, 0, 4);
+        MI_CpuFill8(buf, 0, 4);
         buf[2] = 1;
         buf[0] = GFL_NET_SYSTEM_GetCurrentAid();
         func_021DCBC4(((struct Obj03303 *)p)->f10, 0x2801, buf, 4);

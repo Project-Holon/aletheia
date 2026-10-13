@@ -1,5 +1,5 @@
 /*
- * function: func_021E1FCC
+ * function: HAND_WAZA_PerishSongClearNoEffect
  * address:  0x021E1FCC
  * packet:   pkt_ov093_021E1FCC
  * region:   ov093
@@ -22,7 +22,7 @@ struct QQ;
 extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E1FCC(void *u, int a, int b)
+void HAND_WAZA_PerishSongClearNoEffect(void *u, int a, int b)
 {
     if (b == BTL_EVENT_GetVar(3)) {
         if (BTL_EVENT_GetVar(0x12) == BTL_EVENT_GetFactorKey(u))

@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201CE30 0x0201CE30 thumb
- *   func_0201CE48 0x0201CE48 thumb
- *   func_0201CE38 0x0201CE38 thumb
- *   func_0201CE5C 0x0201CE5C thumb
- *   func_020362DC 0x020362DC arm
- *   func_0203630C 0x0203630C arm
+ *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
+ *   PRINTSYS_PrintStreamShortWait 0x0201CE5C thumb
+ *   KEY_GetTrg 0x020362DC arm
+ *   KEY_GetCont 0x0203630C arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetCont 0x02035C38 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  * Original consumes r0 from the legacy void 35C38/35C60 wrappers;
  * their final forwarding targets 357A0/357C0 return a halfword load.
  */
@@ -26,32 +26,32 @@
 typedef unsigned int u32;
 struct Rec3;
 struct Rec;
-extern unsigned int func_0201CE30(void *);
-extern void func_0201CE48(struct Rec3 *);
-extern void func_0201CE38(void *);
-extern void func_0201CE5C(struct Rec *, int);
-extern u32 func_020362DC(void);
-extern unsigned int func_0203630C(void);
+extern unsigned int PRINTSYS_PrintStreamGetState(void *);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *);
+extern void PRINTSYS_PrintStreamReleasePause(void *);
+extern void PRINTSYS_PrintStreamShortWait(struct Rec *, int);
+extern u32 KEY_GetTrg(void);
+extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_GetCont(void);
-extern void func_020061E4(unsigned int);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned int);
 int func_021B9C00(char *p)
 {
     if (((struct Obj05563 *)p)->f20 != 0) {
-        switch (func_0201CE30(((struct Obj05563 *)p)->f20)) {
+        switch (PRINTSYS_PrintStreamGetState(((struct Obj05563 *)p)->f20)) {
         case 2:
-            func_0201CE48(*(struct Rec3 * *)&((struct Obj05563 *)p)->f20);
+            PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct Obj05563 *)p)->f20);
             ((struct Obj05563 *)p)->f20 = 0;
             return 1;
         case 1:
-            if (func_020362DC() == 1 || func_020362DC() == 2 || TOUCHPANEL_GetTrg() != 0) {
-                func_0201CE38(((struct Obj05563 *)p)->f20);
-                func_020061E4(1356);
+            if (KEY_GetTrg() == 1 || KEY_GetTrg() == 2 || TOUCHPANEL_GetTrg() != 0) {
+                PRINTSYS_PrintStreamReleasePause(((struct Obj05563 *)p)->f20);
+                GFL_USE_PlaySeDefaultVolume(1356);
             }
             break;
         case 0:
-            if (((unsigned int)func_0203630C() & 3) != 0 || TOUCHPANEL_GetCont() != 0)
-                func_0201CE5C(*(struct Rec * *)&((struct Obj05563 *)p)->f20, 0);
+            if (((unsigned int)KEY_GetCont() & 3) != 0 || TOUCHPANEL_GetCont() != 0)
+                PRINTSYS_PrintStreamShortWait(*(struct Rec * *)&((struct Obj05563 *)p)->f20, 0);
             break;
         }
         return 0;

@@ -18,10 +18,10 @@
  *   GFL_NET_QUEUE_GetNext   0x020369C8  arm
  *   GFL_NET_QUEUE_RemoveNext   0x020369F8  arm
  *   GFL_NET_QUEUE_WriteNode   0x020367C4  arm
- *   func_02082BCC   0x02082BCC  arm
+ *   MI_CpuFill8   0x02082BCC  arm
  *
  * Byte-identical at 164 bytes; only the two PC24 call fields at +0x40 and
- * +0x54 stay wildcarded (GFL_NET_QUEUE_GetNext resolves `matched`, func_02082BCC
+ * +0x54 stay wildcarded (GFL_NET_QUEUE_GetNext resolves `matched`, MI_CpuFill8
  * resolves `label x566`).
  *
  * Spellings that mattered: every `return 1` must be a `goto` to one label at
@@ -39,7 +39,7 @@ typedef unsigned char  u8;
 extern u32 GFL_NET_QUEUE_GetNext(u32 *p);
 extern void GFL_NET_QUEUE_RemoveNext(u8 *p);
 extern int   GFL_NET_QUEUE_WriteNode(int slot, u16 *info, u32 arg, int flag);
-extern void *func_02082BCC(void *dst, int val, u32 size);
+extern void *MI_CpuFill8(void *dst, int val, u32 size);
 
 int GFL_NET_QUEUE_FillSendBuffer(u32 list, u16 *info)
 {
@@ -62,7 +62,7 @@ int GFL_NET_QUEUE_FillSendBuffer(u32 list, u16 *info)
             ((struct Obj08825 *)list)->f10 = slot;
             return 0;
         }
-        func_02082BCC((void *)slot, 0, 0x14);
+        MI_CpuFill8((void *)slot, 0, 0x14);
         if (info[2] == 0)
             break;
     }

@@ -13,7 +13,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021D5E88 0x021D5E88 thumb ov120
  *   func_021D7724 0x021D7724 thumb ov120
  *   GFL_NET_GetRunState 0x0203CD98 arm
@@ -37,7 +37,7 @@ typedef unsigned int u32;
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern u8 *func_021D5E88(u32, void *);
 struct Big;
 struct BigObj;
@@ -67,7 +67,7 @@ int func_021D5C60(void *a, int unused, u8 *q)
     WIPE_SetBrightnessFadeOut(0, 0);
     WIPE_SetBrightnessFadeOut(1, 0);
     p = PROCSYS_AllocProcWork(a, 0x1b8, 0x1f);
-    func_02082BCC(p, 0, 0x1b8);
+    MI_CpuFill8(p, 0, 0x1b8);
     ((struct Obj01401 *)p)->fC = 0x1f;
     *(u8 * *)&((struct Obj01401 *)p)->f48 = q;
     ((struct Obj01401 *)p)->f3C = func_021D5E88(((struct Obj01401 *)p)->fC, ((struct Obj06435 *)q)->f0);

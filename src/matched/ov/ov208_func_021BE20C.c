@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_02061CA4 0x02061CA4 arm
- *   tbl_020A1B38 0x020A1B38 data
+ *   FX_SinCosTable_ 0x020A1B38 data
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,7 +23,7 @@ struct Ov208Pal {
     u16 out[16];
     int phase;
 };
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 s32 func_021BE20C(struct Ov208Pal *m)
@@ -34,7 +34,7 @@ s32 func_021BE20C(struct Ov208Pal *m)
         m->phase -= 0xfc00;
     else
         m->phase += 0x400;
-    t = (tbl_020A1B38[2 * (m->phase >> 4) + 1] + 0x1000) / 2;
+    t = (FX_SinCosTable_[2 * (m->phase >> 4) + 1] + 0x1000) / 2;
     for (i = 0; i < 16; i++) {
         u16 c1 = m->a[i];
         u16 c2 = m->b[i];

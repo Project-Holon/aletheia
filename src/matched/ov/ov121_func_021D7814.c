@@ -24,14 +24,14 @@
  *   func_021D9E04 0x021D9E04 thumb ov121
  *   func_021D8380 0x021D8380 thumb ov121
  *   func_021D9790 0x021D9790 thumb ov121
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021DCFC8 0x021DCFC8 thumb ov121
  *   func_021DD24C 0x021DD24C thumb ov121
  *   MYSTERY_ALBUM_RequestSetup 0x021DE0AC thumb ov121
  *   MYSTERY_ALBUM_StepIntro 0x021DD9CC thumb ov121
  *   MYSTERY_ALBUM_StartIntro 0x021DDF5C thumb ov121
  *   MYSTERY_ALBUM_IsIntroIdle 0x021DE014 thumb ov121
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_021D93F4 0x021D93F4 thumb ov121
  *   func_021D94B8 0x021D94B8 thumb ov121
  *   func_021D9488 0x021D9488 thumb ov121
@@ -58,14 +58,14 @@ extern void func_021D8CA8(u8 *p);
 extern void func_021D9E04(u8 *p);
 extern void func_021D8380(char *p);
 extern void func_021D9790(char *p);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void *func_021DCFC8(Desc *,u16);
 extern void *func_021DD24C(void *,void *,void *,u16);
 extern void MYSTERY_ALBUM_RequestSetup(u8 *p, u32 b);
 extern void MYSTERY_ALBUM_StepIntro(char *p);
 extern void MYSTERY_ALBUM_StartIntro(u8 *p);
 extern int MYSTERY_ALBUM_IsIntroIdle(char *p);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_021D93F4(u8 *p, const void *q, int n, int k, int x, int y, int z, u16 heap);
 extern int func_021D94B8(char *p);
 extern void func_021D9488(void **p);
@@ -134,7 +134,7 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         break;
     case 12:
         func_02040588(1,0);
-        func_02082BCC(&d,0,48);
+        MI_CpuFill8(&d,0,48);
         d.w[0]=2;
         d.w[1]=0;
         d.w[2]=8;
@@ -165,7 +165,7 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         }
         break;
     case 15:
-        if (func_020362DC()&1) *state=18;
+        if (KEY_GetTrg()&1) *state=18;
         if ((((struct Obj00297 *)p)->f3C4)++>240) {
             ((struct Obj00297 *)p)->f3C4=0;
             *state=16;
@@ -178,7 +178,7 @@ void func_021D7814(void *task,u32 *state,u8 *p)
         break;
     case 17:
         func_021D94B8((char *)(p+612));
-        if (func_020362DC()&1) {
+        if (KEY_GetTrg()&1) {
             func_021D9488((void **)(p+612));
             *state=18;
         }

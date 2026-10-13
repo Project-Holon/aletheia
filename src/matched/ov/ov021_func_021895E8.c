@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02013BD0  0x02013BD0  thumb
+ *   ZONEDATA_GetCameraAreaId  0x02013BD0  thumb
  *   FIELD_CAMERA_LoadAreas  0x0218F14C  thumb  ov021
  *   FIELD_CAMERA_ClearAreas  0x0218F134  thumb  ov021
  */
 #include "../include/Obj09444.h"
 
-unsigned short func_02013BD0(unsigned short id);
+unsigned short ZONEDATA_GetCameraAreaId(unsigned short id);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 void FIELD_CAMERA_LoadAreas(u8 *p, u32 a, u32 b);
@@ -24,7 +24,7 @@ void FIELD_CAMERA_ClearAreas(u8 *a);
 
 void FIELDMAP_SetupCameraArea(unsigned char *p, int id, int c)
 {
-    int r = func_02013BD0(id);
+    int r = ZONEDATA_GetCameraAreaId(id);
     if (r != 0xFFFF)
         FIELD_CAMERA_LoadAreas((u8 *)(((struct Obj09444 *)p)->f10), r, c);
     else

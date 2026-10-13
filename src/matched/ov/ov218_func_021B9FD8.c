@@ -13,12 +13,12 @@
  * function_starts: 0x021BA0AC (four-byte return-one follower)
  * ov067 tokens follow same-overlay A138's task-state interface and 9890's 63D0 target.
  * symbols:
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   FRAME_LIST_Update 0x021B7AB0 thumb ov067
  *   FRAME_LIST_GetSelectedIndex 0x021B93A4 thumb ov067
  *   FRAME_LIST_GetCursor 0x021B93B0 thumb ov067
  *   FRAME_LIST_SetRowPalette 0x021B9280 thumb ov067
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   UI_SCENE_SetNextScene 0x021B61F8 thumb ov067
  *   func_021B9890 0x021B9890 thumb ov218
  *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
@@ -26,14 +26,14 @@
  */
 #include "../include/Obj02931.h"
 typedef unsigned int u32;
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 struct S;
 extern int FRAME_LIST_Update(struct S *p);
 extern int FRAME_LIST_GetSelectedIndex(char *);
 extern int FRAME_LIST_GetCursor(char *);
 typedef unsigned char  u8;
 extern void FRAME_LIST_SetRowPalette(u8 *p, int a, u32 b);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void UI_SCENE_SetNextScene(unsigned char *,int);
 extern void func_021B9890(void *);
 extern int TOUCHBAR_GetPressedButtonIdIfDone(unsigned char *);
@@ -43,15 +43,15 @@ int func_021B9FD8(unsigned char *task,char *p)
     int active=0;
     int selected;
     ((struct Obj02931 *)p)->f32C=0;
-    if(func_020362DC()&0x200)active=1;
-    else if(func_020362DC()&0x100)active=1;
+    if(KEY_GetTrg()&0x200)active=1;
+    else if(KEY_GetTrg()&0x100)active=1;
     if(active) ((struct Obj02931 *)p)->f32C=1;
     if((u32)FRAME_LIST_Update(((struct Obj02931 *)p)->f2C)<4){
         selected=FRAME_LIST_GetSelectedIndex(*(char * *)&((struct Obj02931 *)p)->f2C);
         if(*(u32 *)((u32)p+0x34+(u32)selected*4)==1){
             ((struct Obj02931 *)p)->f30=selected;
             FRAME_LIST_SetRowPalette(((struct Obj02931 *)p)->f2C,(unsigned short)FRAME_LIST_GetCursor(*(char * *)&((struct Obj02931 *)p)->f2C),3);
-            func_020061E4(1356);
+            GFL_USE_PlaySeDefaultVolume(1356);
             UI_SCENE_SetNextScene(task,**(unsigned char * *)&((struct Obj02931 *)p)->f20==131-selected ? 2 : 1);
             return 1;
         }

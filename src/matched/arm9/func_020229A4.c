@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   WIPE_SetBrightness  0x020222CC  thumb
  *   WIPE_SUB_CalcStep  0x0202290C  thumb
  *   GFL_USE_AddMainTask   0x020056A0  thumb
@@ -79,7 +79,7 @@ struct Task {
 };
 
 extern void *func_02030734(u32 a0, u32 a1, int a2, const char *a3, u16 a4);
-extern void  func_02082BCC(void *p, u32 v, u32 n);
+extern void  MI_CpuFill8(void *p, u32 v, u32 n);
 typedef unsigned char  u8;
 extern void WIPE_SetBrightness(u32 which, int brightness);
 extern s32 WIPE_SUB_CalcStep(s32 a, s32 b, s32 c);
@@ -94,7 +94,7 @@ void WIPE_SUB_FadeStart(struct Task *t, u32 dir)
 
     t->obj = (struct Obj *)func_02030734((u16)t->f20, 0x24, 0, (const char *)0x020A7450,
                                          0x09AC);
-    func_02082BCC(t->obj, 0, 0x24);
+    MI_CpuFill8(t->obj, 0, 0x24);
     o = t->obj;
 
     b = 0;

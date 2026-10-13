@@ -22,8 +22,8 @@
  *   func_021C1154 0x021C1154 thumb ov099
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_HANDLE_IsNegotiationDone 0x020399B8 arm
- *   func_02082BCC 0x02082BCC arm
- *   func_02039C68 0x02039C68 arm
+ *   MI_CpuFill8 0x02082BCC arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  *   func_021BC090 0x021BC090 thumb ov099
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   GFL_NET_HANDLE_CheckNegotiation 0x02039ACC arm
@@ -42,8 +42,8 @@ struct Entry;
 struct Link;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_HANDLE_IsNegotiationDone(u8 *p);
-extern void func_02082BCC(void *, int, int);
-extern void func_02039C68(struct Link *p, u32 lo, u32 hi);
+extern void MI_CpuFill8(void *, int, int);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, u32 lo, u32 hi);
 extern void func_021BC090(void *);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern int GFL_NET_HANDLE_CheckNegotiation(void);
@@ -64,8 +64,8 @@ int func_021C11A0(char *p, int ret)
         if (*(int *)(p + 0x1e0) > 1) --*(int *)(p + 0x1e0);
         if (*(int *)(p + 0x1e0) == 0) {
             if (GFL_NET_HANDLE_IsNegotiationDone((u8 *)GFL_NET_HANDLE_GetCurrentHandle()) != 0) {
-                func_02082BCC(p + 0x1f4, 0, 0x40);
-                func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 14, 10);
+                MI_CpuFill8(p + 0x1f4, 0, 0x40);
+                GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 14, 10);
                 *(u16 *)(p + 0x244) = 0;
                 func_021BAAB8(p, 0x45, 0);
                 func_021BC090(p);

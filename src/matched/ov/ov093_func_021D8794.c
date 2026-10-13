@@ -13,7 +13,7 @@
  *   gChlorophyllHandlers 0x021F05D8 data a4
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   BTL_EVENT_MultiplyVar 0x021D7704 thumb ov093
- *   func_021C8288 0x021C8288 thumb ov093
+ *   BTL_SERVER_FLOW_GetEffectiveWeatherThunk 0x021C8288 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -21,6 +21,6 @@ typedef unsigned int u32;
 extern u8 gChlorophyllHandlers[];
 extern int BTL_EVENT_GetVar(int);
 extern void BTL_EVENT_MultiplyVar(int,int);
-extern int func_021C8288(u8 *p);
-void BTL_CALC_ChlorophyllDoubleSpeed(int a,int b,int c) { if (c==BTL_EVENT_GetVar(2)) { if (func_021C8288((u8 *)b)==1) BTL_EVENT_MultiplyVar(53,8192); } }
+extern int BTL_SERVER_FLOW_GetEffectiveWeatherThunk(u8 *p);
+void BTL_CALC_ChlorophyllDoubleSpeed(int a,int b,int c) { if (c==BTL_EVENT_GetVar(2)) { if (BTL_SERVER_FLOW_GetEffectiveWeatherThunk((u8 *)b)==1) BTL_EVENT_MultiplyVar(53,8192); } }
 u8 *BTL_CALC_GetChlorophyllHandlers(u32 *p) { *p=1; return gChlorophyllHandlers; }

@@ -15,8 +15,8 @@
  * symbols:
  *   func_06899ED0  0x06899ED0  thumb
  *   func_06899F28  0x06899F28  thumb
- *   func_021B8ED8  0x021B8ED8  thumb  ov093
- *   func_021B98AC  0x021B98AC  thumb  ov093
+ *   BTL_MAIN_GetSlotFromViewPos  0x021B8ED8  thumb  ov093
+ *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  *   func_021D3D90  0x021D3D90  thumb  ov093
  */
 #include "../../matched/include/Obj03707.h"
@@ -31,8 +31,8 @@ struct Pair {
     char *const *q;
 };
 
-extern u8 func_021B8ED8(u8 *p, u8 k);
-extern u8 *func_021B98AC(char *const *q, u8 b);
+extern u8 BTL_MAIN_GetSlotFromViewPos(u8 *p, u8 k);
+extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 extern u8 func_021D3D90(u8 *p);
 extern void func_06899ED0(void *a, int b, int c, int d, int e);
 extern int func_06899F28(void *a);
@@ -42,7 +42,7 @@ int func_021E964C(char *p, int *st);
 
 u8 *func_021E9634(struct Pair *s, u32 k)
 {
-    return func_021B98AC(s->q, func_021B8ED8(s->a, k));
+    return BTL_SIDE_GetPokeAtPos(s->q, BTL_MAIN_GetSlotFromViewPos(s->a, k));
 }
 
 

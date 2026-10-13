@@ -1,5 +1,5 @@
 /*
- * function: func_021C77B0
+ * function: BTL_SERVER_FLOW_CheckStatStageChangeAllowedEvent
  * address:  0x021C77B0
  * packet:   pkt_ov093_021C77B0
  * region:   ov093
@@ -29,7 +29,7 @@ extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 
-int func_021C77B0(u8 *p, u8 *a, u32 b, u32 c, u32 d, u32 e)
+int BTL_SERVER_FLOW_CheckStatStageChangeAllowedEvent(u8 *p, u8 *a, u32 b, u32 c, u32 d, u32 e)
 {
     int r;
     int res;

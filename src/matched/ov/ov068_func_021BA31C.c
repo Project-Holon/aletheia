@@ -14,8 +14,8 @@
  *
  * symbols:
  *   func_02028484  0x02028484  thumb
- *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045770  0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  */
 #include "../include/Obj03658.h"
@@ -27,9 +27,9 @@ typedef signed int     s32;
 struct Blk;
 struct PrintSys;
 extern s32 func_02028484(struct Blk *blk, void *h);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
 int OPTION_MENU_IsTextDone(u8 *p)
@@ -43,7 +43,7 @@ int OPTION_MENU_IsTextDone(u8 *p)
     case 2:
         t = ((struct Obj03658 *)p)->f24;
         if (p[0x20] != 0) {
-            if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj03658 *)p)->f1C))) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)t, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj03658 *)p)->f1C))) == 0) {
                 BMP_WIN_TransferChars((struct Descriptor *)((struct Obj03658 *)p)->f1C);
                 p[0x20] = 0;
             }

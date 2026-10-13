@@ -31,7 +31,7 @@
  *   func_020410D0 0x020410D0 arm
  *   CLACT_CreateRenderer 0x0204B034 arm
  *   CLACT_CreateUnit 0x0204B100 arm
- *   func_0204B258 0x0204B258 arm
+ *   CLACT_SetUnitRenderer 0x0204B258 arm
  *   CLACT_SetSurfacePos 0x0204B09C arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
@@ -57,7 +57,7 @@ struct Obj;
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void func_0204B258(struct Bank *bank, void *p);
+extern void CLACT_SetUnitRenderer(struct Bank *bank, void *p);
 extern void CLACT_SetSurfacePos(void *,u32,Rect *);
 extern void *BMP_WIN_Create(int,u8,int,int,u8,u8,u8);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
@@ -102,7 +102,7 @@ u8 *PLIST_PLATE_Create(u8 *p, int k, void *mon)
     r.f = 0;
     W(0x24) = (u32)CLACT_CreateRenderer((u8 *)(&r.a),1,*(u16 *)p);
     W(0x28) = (u32)CLACT_CreateUnit(6,0,*(u16 *)p);
-    func_0204B258((void *)W(0x28),(void *)W(0x24));
+    CLACT_SetUnitRenderer((void *)W(0x28),(void *)W(0x24));
     PLIST_PLATE_CreateActors(p,s);
     PLIST_PLATE_CreateMonIcon(p,s);
     r.x = -x*8;

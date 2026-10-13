@@ -1,5 +1,5 @@
 /*
- * function: BTL_ITEM_WeakenDamagePoison
+ * function: HAND_ITEM_WeakenDamagePoison
  * address:  0x021DDB84
  * packet:   pkt_021D8684
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   BTL_ITEM_WeakenDamagePoison   0x021DDB84  thumb
- *   BTL_HANDLER_ITEM_WeakenHitOfType   0x021DDCD8  thumb
- * Leaf with no calls and no pool; 9 instructions, 20 bytes: push {r4, lr}; sub sp, #8; movs r4, #3; str r4, [sp]; movs r4, #0; str r4, [sp, #4]; bl BTL_HANDLER_ITEM_WeakenHitOfType; add sp, #8; pop {r4, pc}.
+ *   HAND_ITEM_WeakenDamagePoison   0x021DDB84  thumb
+ *   HAND_ITEM_WeakenHitOfType   0x021DDCD8  thumb
+ * Leaf with no calls and no pool; 9 instructions, 20 bytes: push {r4, lr}; sub sp, #8; movs r4, #3; str r4, [sp]; movs r4, #0; str r4, [sp, #4]; bl HAND_ITEM_WeakenHitOfType; add sp, #8; pop {r4, pc}.
  */
 
 typedef unsigned char u8;
@@ -23,8 +23,8 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021DDB84  shape F2: two stack constants (3, 0) */
-void BTL_ITEM_WeakenDamagePoison(int a, int b, int c, int d)
+void HAND_ITEM_WeakenDamagePoison(int a, int b, int c, int d)
 {
-    BTL_HANDLER_ITEM_WeakenHitOfType(a, b, c, d, 3, 0);
+    HAND_ITEM_WeakenHitOfType(a, b, c, d, 3, 0);
 }
 

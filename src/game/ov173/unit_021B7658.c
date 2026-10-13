@@ -16,7 +16,7 @@
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021B820C 0x021B820C data a4
  *   d_021B8250 0x021B8250 data a4
@@ -48,14 +48,14 @@
  *   func_02049E74 0x02049E74 arm
  *   CLACT_TransferCharacter 0x0204A9D0 arm
  *   func_020307B0 0x020307B0 arm
- *   func_0201BD28 0x0201BD28 thumb
+ *   WAZA_TOOL_GetParam 0x0201BD28 thumb
  *   func_020275EC 0x020275EC thumb
- *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B404 0x0204B404 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   d_021B85E0 0x021B85E0 data a4
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   WIPE_SYS_Start 0x0202208C thumb
@@ -72,7 +72,7 @@
  *   d_021B83A8 0x021B83A8 data a4
  *   d_021B81DC 0x021B81DC data a4
  *   func_02025D14  0x02025D14  thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_020260E4 0x020260E4 thumb
  *   func_021B71C4 0x021B71C4 thumb ov173
  *   func_021B70D8 0x021B70D8 thumb ov173
@@ -144,7 +144,7 @@ typedef struct {short x,y;u16 z;u8 a,b;} Position;
 extern void CLACT_InitSystem(const struct Cfg *,u32,u32);
 extern struct Bank *CLACT_CreateUnit(int,u8,u32);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *);
-extern void func_020434DC(u32,u32);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void CLACT_DeleteActor(struct Obj *);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
@@ -175,14 +175,14 @@ extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void CLACT_TransferCharacter(int,struct Sub0204A9D0 *);
 extern u32 func_020307B0(void *p);
 /* The original forwards the full entry r1 without halfword truncation. */
-extern u32 func_0201BD28(u16 id, u32 field);
+extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern u8 func_020275EC(int i);
-extern void func_0204B6F4(struct Obj *,u32,u32);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorPaletteOffset(struct Obj *,u32,u32);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern void func_021B6460(char *);
@@ -195,7 +195,7 @@ extern struct Struct_02025CD0 *func_02025CD0(u32,u32,u32,u32,u8,u16);
 extern void func_02026124(struct Sound *,u32);
 extern u32 func_02025D14(void *a0);
 extern void func_021B71C4(char *,int);
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern void func_021B70D8(char *);
 extern void func_020260E4(struct Sound *obj, u8 sel);
 extern u32 APP_TASKMENU_WIN_Create(u32, u32, u32, u32, u8, u16);
@@ -246,7 +246,7 @@ extern const u8 d_021B83A8[];
 
 
 
-void func_021B7658(u8 *p, void *a1) {Offset off;struct Bank *b;CLACT_InitSystem(&d_021B820C,(u32)d_021B8250,79);off=OFFSET;b=CLACT_CreateUnit(14,0,79);off+=242;*(struct Bank **)(p+off)=b;CLACT_SetUnitDefaultRenderer(b);func_020434DC(16,1);BG_SYS_SetSubPlaneVisible(16,1);}
+void func_021B7658(u8 *p, void *a1) {Offset off;struct Bank *b;CLACT_InitSystem(&d_021B820C,(u32)d_021B8250,79);off=OFFSET;b=CLACT_CreateUnit(14,0,79);off+=242;*(struct Bank **)(p+off)=b;CLACT_SetUnitDefaultRenderer(b);BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);}
 
 
 
@@ -296,7 +296,7 @@ void func_021B78A0(u32 a,int b,u32 c,u32 d,u16 heap) {void *raw;struct Sub0204A9
 
 
 
-void func_021B78CC(u8 *p, u16 id, u16 i) {u32 n;n=func_0201BD28(id,0);*(u32 *)(p+i*8+320)=n;*(u32 *)(p+i*8+324)=1;func_0204B6F4(*(struct Obj **)(p+(i+8)*4+260),func_020275EC((u8)n),1);}
+void func_021B78CC(u8 *p, u16 id, u16 i) {u32 n;n=WAZA_TOOL_GetParam(id,0);*(u32 *)(p+i*8+320)=n;*(u32 *)(p+i*8+324)=1;CLACT_SetActorPaletteOffset(*(struct Obj **)(p+(i+8)*4+260),func_020275EC((u8)n),1);}
 
 
 
@@ -323,12 +323,12 @@ void func_021B7968(char *p)
     for (i = 0; i < 4; i++) {
         rect[0] = 0x2f;
         rect[1] = i * 24 + 0x50;
-        func_0204B404(*(void **)(p + i * 4 + 0x114), (const struct Vec2 *)rect, 1);
+        CLACT_AddActorSurfacePos(*(void **)(p + i * 4 + 0x114), (const struct Vec2 *)rect, 1);
         if (((struct Obj24182 *)(*(char * *)&((struct Obj03857 *)p)->f0))->f16 + i >= *(u8 *)(p + off)) {
-            func_0204B3DC(*(void **)(p + i * 4 + 0x114), 0);
+            CLACT_SetActorDrawEnable(*(void **)(p + i * 4 + 0x114), 0);
         } else {
-            value = func_0201BD28(*(u16 *)(*(char * *)&((struct Obj24183 *)(*(char * *)&((struct Obj03857 *)p)->f0))->f10 + (((struct Obj24184 *)(*(char * *)&((struct Obj03857 *)p)->f0))->f16 + i) * 2), 0);
-            func_0204B3DC(*(void **)(p + i * 4 + 0x114), 1);
+            value = WAZA_TOOL_GetParam(*(u16 *)(*(char * *)&((struct Obj24183 *)(*(char * *)&((struct Obj03857 *)p)->f0))->f10 + (((struct Obj24184 *)(*(char * *)&((struct Obj03857 *)p)->f0))->f16 + i) * 2), 0);
+            CLACT_SetActorDrawEnable(*(void **)(p + i * 4 + 0x114), 1);
             CLACT_SetActorAnimSeq(*(void **)(p + i * 4 + 0x114), value);
         }
     }
@@ -336,7 +336,7 @@ void func_021B7968(char *p)
 
 
 
-void func_021B79E0(u8 *p, u16 id) {CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj24185 *)p)->f110,func_0201BD28(id,2));}
+void func_021B79E0(u8 *p, u16 id) {CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj24185 *)p)->f110,WAZA_TOOL_GetParam(id,2));}
 
 
 
@@ -357,12 +357,12 @@ void func_021B7A00(char *p,void *arg)
         pos.a=d_021B85E0[i].a;
         pos.b=d_021B85E0[i].h;
         *(void **)(p+i*4+0x104)=CLACT_CreateActor((void *)((struct Obj00180 *)p)->f100,*(u32 *)(p+d_021B85E0[i].d*4+0x70),*(u32 *)(p+d_021B85E0[i].e*4+0x94),*(u32 *)(p+d_021B85E0[i].f*4+0xb8),&pos,d_021B85E0[i].c,79);
-        func_0204B92C(*(void **)(p+i*4+0x104),0);
+        CLACT_SetActorAutoAnim(*(void **)(p+i*4+0x104),0);
     }
-    func_0204B92C(((struct Obj00180 *)p)->f138,1);
-    func_0204B92C(((struct Obj00180 *)p)->f10C,1);
-    func_0204B92C(((struct Obj00180 *)p)->f108,1);
-    func_0204B92C(((struct Obj00180 *)p)->f104,1);
+    CLACT_SetActorAutoAnim(((struct Obj00180 *)p)->f138,1);
+    CLACT_SetActorAutoAnim(((struct Obj00180 *)p)->f10C,1);
+    CLACT_SetActorAutoAnim(((struct Obj00180 *)p)->f108,1);
+    CLACT_SetActorAutoAnim(((struct Obj00180 *)p)->f104,1);
 }
 
 
@@ -375,17 +375,17 @@ void func_021B7ADC(unsigned char *p, u32 idx, int unused)
     if (idx < 4) {
         local[0] = 0x82;
         local[1] = idx * 0x18 + 0x54;
-        func_0204B404((struct Obj *)(((struct Obj05451 *)p)->f10C), (const struct Vec2 *)local, 1);
+        CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj05451 *)p)->f10C), (const struct Vec2 *)local, 1);
         CLACT_SetActorAnimFrame((struct Obj *)(((struct Obj05451 *)p)->f10C), 0);
     } else if (idx < 6) {
         local[0] = (idx - 4) * 0x28;
         local[1] = 0xa8;
-        func_0204B404((struct Obj *)(((struct Obj05451 *)p)->f10C), (const struct Vec2 *)local, 1);
+        CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj05451 *)p)->f10C), (const struct Vec2 *)local, 1);
         CLACT_SetActorAnimFrame((struct Obj *)(((struct Obj05451 *)p)->f10C), 1);
     } else {
         local[0] = 0xc0;
         local[1] = 0xa0;
-        func_0204B404((struct Obj *)(((struct Obj05451 *)p)->f10C), (const struct Vec2 *)local, 1);
+        CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj05451 *)p)->f10C), (const struct Vec2 *)local, 1);
         CLACT_SetActorAnimFrame((struct Obj *)(((struct Obj05451 *)p)->f10C), 2);
     }
 }
@@ -469,13 +469,13 @@ void func_021B7C90(char *p,int row,int old)
     
     func_021B7EB0(p,0);
     if(row<=3) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         *(u16 *)(S(p)+0x14)=row;
         if(*(u16 *)(S(p)+0x16)+*(u16 *)(S(p)+0x14)<*(u8 *)(p+0x1B8)) func_021B71C4(p,func_021B7438((char **)p));
         else func_021B71C4(p,-2);
     } else if(row==6) {
         if(old==3 && *(u16 *)(S(p)+0x16)+4<*(u8 *)(p+0x1B8)) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             func_020260E4(*(void **)(p+0x1C8),row=3);
             (*(u16 *)(S(p)+0x16))++;
             func_021B70D8(p);
@@ -484,7 +484,7 @@ void func_021B7C90(char *p,int row,int old)
             func_021B7FD0((u8 *)p,1);
         } else if(old==0) {
             if(*(u16 *)(S(p)+0x16)!=0) {
-                func_020061E4(0x54C);
+                GFL_USE_PlaySeDefaultVolume(0x54C);
                 (*(u16 *)(S(p)+0x16))--;
                 func_021B70D8(p);
                 func_021B71C4(p,func_021B7438((char **)p));
@@ -497,7 +497,7 @@ void func_021B7C90(char *p,int row,int old)
             row=3;
             func_020260E4(*(void **)(p+0x1C8),3);
         }
-    } else func_020061E4(0x54C);
+    } else GFL_USE_PlaySeDefaultVolume(0x54C);
     func_021B7ADC((u8 *)p,(u8)row,3);
 }
 
@@ -522,7 +522,7 @@ void func_021B7DA0(char *p,int i)
             func_021B71C4(p,-2);
         }
     } else if(i==4) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         i=*(u16 *)(S(p)+0x14);
         (*(u16 *)(S(p)+0x16))++;
         func_021B71C4(p,func_021B7438((char **)p));
@@ -532,7 +532,7 @@ void func_021B7DA0(char *p,int i)
         func_021B7FD0((u8 *)p,1);
         func_020260E4(*(void **)(p+0x1C8),i);
     } else if(i==5) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         i=*(u16 *)(S(p)+0x14);
         (*(u16 *)(S(p)+0x16))--;
         func_021B71C4(p,func_021B7438((char **)p));

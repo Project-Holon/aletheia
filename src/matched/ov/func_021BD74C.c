@@ -11,6 +11,7 @@
  *
  * symbols:
  *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  *   (none)
 
  * Releases +0 and clears 0x38 bytes of the object.
@@ -20,11 +21,11 @@
 
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
-extern void func_02082BCC(char *, int, int);
+extern void MI_CpuFill8(char *, int, int);
 
 void func_021BD74C(char *p)
 {
     CLACT_DeleteActor((struct Obj *)(((struct Obj18236 *)p)->f0));
-    func_02082BCC(p, 0, 0x38);
+    MI_CpuFill8(p, 0, 0x38);
 }
 

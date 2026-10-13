@@ -20,14 +20,14 @@
  *   BTL_MAIN_TaskCommDouble 0x021B73C4 thumb ov093
  *   BTL_MAIN_RunSetupSeqKind3 0x021B7518 thumb ov093
  *   BTL_MAIN_RunSetupSeqKind1 0x021B7488 thumb ov093
- *   func_021B6C08 0x021B6C08 thumb ov093
+ *   BTL_MAIN_TaskCleanup 0x021B6C08 thumb ov093
  */
 #include "../include/Obj07741.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { void (*first)(void); u32 second; u8 *object; u32 state; } Callback;
 extern void BTL_MAIN_TaskSetupSingle(void), BTL_MAIN_TaskSetupDouble(void), BTL_MAIN_TaskSetupMulti(void), BTL_MAIN_TaskSetupTriple(void);
-extern void BTL_MAIN_TaskSetupRotation(void), BTL_MAIN_TaskCommSingle(void), BTL_MAIN_TaskCommDouble(void), BTL_MAIN_RunSetupSeqKind3(void), BTL_MAIN_RunSetupSeqKind1(void), func_021B6C08(void);
+extern void BTL_MAIN_TaskSetupRotation(void), BTL_MAIN_TaskCommSingle(void), BTL_MAIN_TaskCommDouble(void), BTL_MAIN_RunSetupSeqKind3(void), BTL_MAIN_RunSetupSeqKind1(void), BTL_MAIN_TaskCleanup(void);
 static inline void init(Callback *a, u8 *p, void (*f)(void))
 {
     a->first = f; a->second = 0; a->object = p; a->state = 0;
@@ -59,5 +59,5 @@ void BTL_MAIN_StartSetupTask(Callback *a, u8 *p, u8 *q)
 }
 void BTL_MAIN_StartCleanupTask(Callback *a, u8 *p, u8 *q)
 {
-    INIT(func_021B6C08);
+    INIT(BTL_MAIN_TaskCleanup);
 }

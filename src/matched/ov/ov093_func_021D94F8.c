@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetPoisonGuardHandlers
+ * function: HAND_TOKUSEI_GetPoisonGuardHandlers
  * address: 0x021D94F8
  * packet: pkt_ov093_021D94F8
  * region: ov093
@@ -15,12 +15,12 @@
  *   gPoisonGuardHandlers 0x021F0C74 data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetPoisonGuardHandlers(int *p);
+int *HAND_TOKUSEI_GetPoisonGuardHandlers(int *p);
 
-/* 021D9504  shape F5: out-param store of BTL_TOKUSEI_BlockSickIfTargeted(..., 4) */
+/* 021D9504  shape F5: out-param store of HAND_TOKUSEI_BlockSickIfTargeted(..., 4) */
 extern int gPoisonGuardHandlers[];
 
-int *BTL_TOKUSEI_GetPoisonGuardHandlers(int *p)
+int *HAND_TOKUSEI_GetPoisonGuardHandlers(int *p)
 {
     *p = 5;
     return gPoisonGuardHandlers;

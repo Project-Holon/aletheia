@@ -7,11 +7,11 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "NHTTP_CleanupAsync",
+   "name": "FNDHEAP_Finalize",
    "address": "0x0206074C",
-   "kind": "sdk",
+   "kind": "game",
    "region": "arm9",
-   "source": "src/matched/arm9_sdk/nhttp_cleanupasync.c",
+   "source": "src/matched/arm9/FNDHEAP_Finalize.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",
@@ -55,11 +55,11 @@
    "status": "EXACT"
   },
   {
-   "name": "DWCi_IsShutdownMatch",
+   "name": "SNDARC_IsGroupLoaded",
    "address": "0x02074A54",
-   "kind": "sdk",
+   "kind": "game",
    "region": "arm9",
-   "source": "src/matched/arm9_sdk/dwci_isshutdownmatch.c",
+   "source": "src/matched/arm9/SNDARC_IsGroupLoaded.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

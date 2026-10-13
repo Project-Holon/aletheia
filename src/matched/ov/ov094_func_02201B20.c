@@ -18,7 +18,7 @@
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_CreateAffineActor 0x0204B324 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 #include "../include/Obj03216.h"
@@ -39,7 +39,7 @@ extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern struct Obj *CLACT_CreateAffineActor(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
-extern void func_0204B92C(struct Obj *, unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
 extern void ARC_TOOL_DeleteHandle(void *);
 int func_02201B20(char *p, u32 archiveId, int a, u32 b, int c, int d, s16 x, s16 y, u32 e, u32 f)
 {
@@ -67,7 +67,7 @@ int func_02201B20(char *p, u32 archiveId, int a, u32 b, int c, int d, s16 x, s16
         cfg.b = f;
         *(u32 *)(p + 8 + off) = (u32)CLACT_CreateAffineActor(((struct Obj03216 *)p)->f4, *(u32 *)(p + 12 + off), *(u32 *)(p + 16 + off), *(u32 *)(p + 20 + off), (u32)(&cfg), 0, ((struct Obj03216 *)p)->f80);
     }
-    func_0204B92C((struct Obj *)*(u32 *)(p + 8 + off), 1);
+    CLACT_SetActorAutoAnim((struct Obj *)*(u32 *)(p + 8 + off), 1);
     ARC_TOOL_DeleteHandle(archive);
     return i;
 }

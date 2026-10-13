@@ -1,5 +1,5 @@
 /*
- * function: func_021E47C0
+ * function: HAND_WAZA_AddTorment
  * address: 0x021E47C0
  * packet: pkt_ov093_021E47C0
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E4754.c and filed here.
  *
  * symbols:
- *   d_021F28A8 0x021F28A8 data ov093 a4
+ *   gTormentHandlers 0x021F28A8 data ov093 a4
  */
 
-int *func_021E47C0(int *p);
-extern int d_021F28A8[];
+int *HAND_WAZA_AddTorment(int *p);
+extern int gTormentHandlers[];
 
-int *func_021E47C0(int *p)
+int *HAND_WAZA_AddTorment(int *p)
 {
     *p = 2;
-    return d_021F28A8;
+    return gTormentHandlers;
 }

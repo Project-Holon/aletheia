@@ -14,7 +14,7 @@
  *
  * symbols:
  *   DWCi_BM_GetWiFiInfo  0x02058518  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02084F80  0x02084F80  arm
  *   func_02088234  0x02088234  arm
  *   func_02082D44  0x02082D44  arm
@@ -122,7 +122,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 
 extern void DWCi_BM_GetWiFiInfo(WiFiInfo *buf);
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
 extern void func_02088234(void);
 extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
@@ -197,7 +197,7 @@ int func_02178F78(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo)
     unsigned short wcmessidlen;
     unsigned char aptype;
 
-    func_02082BCC(cal, 0, sizeof(DWCCalInfo));
+    MI_CpuFill8(cal, 0, sizeof(DWCCalInfo));
 
     if (wifiinfo->attestedUserId != 0)
         func_02084F80(cal->userid, sizeof(cal->userid), g_021A2490, wifiinfo->attestedUserId);

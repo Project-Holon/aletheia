@@ -24,7 +24,7 @@
  *   FLDMMDL_DRAW_CheckStepFrame  0x0219FADC  thumb  ov021
  *   FLDMMDL_DRAW_ShiftOffsetByDir  0x0219FAB4  thumb  ov021
  *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
- *   func_02013D9C  0x02013D9C  thumb
+ *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
  *   _s32_div_f     0x0209C0A4  arm
  * Addresses are Black-image addresses.
  */
@@ -52,7 +52,7 @@ extern u32 FIELD_PLAYER_GetStepKind(u8 *p);
 extern int FLDMMDL_DRAW_CheckStepFrame(u8 *p, int a, u8 *q);
 extern void FLDMMDL_DRAW_ShiftOffsetByDir(u32 a, u32 b, u8 *c, int *d);
 extern void FLDMMDL_SetDrawOffset(u32, Vec *);
-extern u32 func_02013D9C(u32 id);
+extern u32 ZONEDATA_IsZoneGroup118To120(u32 id);
 
 void FLDMMDL_DRAW_UpdateWalkOffset(u32 a, u8 *p, u8 b)
 {
@@ -95,7 +95,7 @@ void FLDMMDL_DRAW_UpdateWalkOffset(u32 a, u8 *p, u8 b)
     } else if (FLDMMDL_DRAW_CheckStepFrame(p, b, info) == 0 && ok != 0) {
         d.y = d.y + 0x1800;
     }
-    if (func_02013D9C(s10) != 0 && ff == 0) {
+    if (ZONEDATA_IsZoneGroup118To120(s10) != 0 && ff == 0) {
         m = sc % 3;
         if (m == 0)
             d.z = d.z - 0x219a;

@@ -1,5 +1,5 @@
 /*
- * function: func_021E2F48
+ * function: HAND_WAZA_WeatherBallOnWazaTypeCheck
  * address:  0x021E2F48
  * packet:   pkt_ov093_021E2F48
  * region:   ov093
@@ -11,23 +11,23 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C8288  0x021C8288  thumb  ov093
+ *   BTL_SERVER_FLOW_GetEffectiveWeatherThunk  0x021C8288  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
- *   func_021C83DC  0x021C83DC  thumb  ov093
+ *   BTL_SERVER_FLOW_SetCurTurnStateFlag  0x021C83DC  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int BTL_EVENT_GetVar(int key);
-extern int func_021C8288(u8 *p);
+extern int BTL_SERVER_FLOW_GetEffectiveWeatherThunk(u8 *p);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
-extern void func_021C83DC(char *p, int x);
+extern void BTL_SERVER_FLOW_SetCurTurnStateFlag(char *p, int x);
 
-void func_021E2F48(int u, void *p, int key)
+void HAND_WAZA_WeatherBallOnWazaTypeCheck(int u, void *p, int key)
 {
     int two = 2;
     if (key == BTL_EVENT_GetVar(two)) {
-        int s = func_021C8288(p);
+        int s = BTL_SERVER_FLOW_GetEffectiveWeatherThunk(p);
         u8 v = BTL_EVENT_GetVar(0x16);
         int r = 0;
         switch (s) {
@@ -37,6 +37,6 @@ void func_021E2F48(int u, void *p, int key)
         case 3: v = 14; r = two; break;
         }
         BTL_EVENT_OverwriteVar(0x16, v);
-        func_021C83DC(p, r);
+        BTL_SERVER_FLOW_SetCurTurnStateFlag(p, r);
     }
 }

@@ -13,11 +13,11 @@
  *   func_02030734  0x02030734  arm
  *   func_020490F4  0x020490F4  arm
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   func_02013B38  0x02013B38  thumb
+ *   ZONEDATA_GetAreaId  0x02013B38  thumb
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   COMM_PLAYER_SUPPORT_GetInfoCode  0x0202E83C  thumb
  *   FIELDMAP_GetAreaData  0x02188D58  thumb  ov021
- *   func_020140D8  0x020140D8  thumb
+ *   ZONEDATA_GetAreaInnerOuter  0x020140D8  thumb
  *   FIELD_EFFECT_InitResourceTable  0x021ABEAC  thumb  ov021
  *   FIELDMAP_GetEffectBbdAct  0x02188C88  thumb  ov021
  *   BILLBOARD_ACT_GetBoard  0x02050080  arm
@@ -38,11 +38,11 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void *func_020490F4(u32 id, u32 heap);
 struct Sub020140BCObj;
 extern u16 FIELDMAP_GetZoneId(u8 *p);
-extern u32 func_02013B38(u32 id);
+extern u32 ZONEDATA_GetAreaId(u32 id);
 extern void *FIELDMAP_GetGameSystem(void *p);
 extern int COMM_PLAYER_SUPPORT_GetInfoCode(void *a0);
 extern u32 FIELDMAP_GetAreaData(u8 *p);
-extern u8 func_020140D8(struct Sub020140BCObj *p);
+extern u8 ZONEDATA_GetAreaInnerOuter(struct Sub020140BCObj *p);
 extern void FIELD_EFFECT_InitResourceTable(char *p);
 extern u32 FIELDMAP_GetEffectBbdAct(u8 *p);
 extern u32 BILLBOARD_ACT_GetBoard(u32 *p);
@@ -65,9 +65,9 @@ char *FIELD_EFFECT_Create(int a, int b, u16 c)
     ((struct Obj04240 *)p)->f4 = c;
     ((struct Obj04240 *)p)->f8 = a;
     ((struct Obj04240 *)p)->fC = (int)func_020490F4(0x4b, c);
-    func_02013B38(FIELDMAP_GetZoneId((u8 *)a));
+    ZONEDATA_GetAreaId(FIELDMAP_GetZoneId((u8 *)a));
     ((struct Obj04240 *)p)->f16 = COMM_PLAYER_SUPPORT_GetInfoCode(FIELDMAP_GetGameSystem((void *)a));
-    ((struct Obj04240 *)p)->f17 = func_020140D8((struct Sub020140BCObj *)FIELDMAP_GetAreaData((u8 *)a));
+    ((struct Obj04240 *)p)->f17 = ZONEDATA_GetAreaInnerOuter((struct Sub020140BCObj *)FIELDMAP_GetAreaData((u8 *)a));
     FIELD_EFFECT_InitResourceTable(p);
     h = BILLBOARD_ACT_GetBoard((u32 *)FIELDMAP_GetEffectBbdAct((u8 *)(((struct Obj04240 *)p)->f8)));
     func_0204EDBC((u8 *)h, 0);

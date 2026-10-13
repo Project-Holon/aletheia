@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x24.
  *
  * symbols:
- *   func_020061F8  0x020061F8  thumb
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020061F8(int i);
+extern void GFL_USE_StopSeSlot(int i);
 
 void FIELD_TILE_MOVE_SlideStopLoopSe(int *p)
 {
-    func_020061F8(((struct Obj18343 *)p)->f24);
+    GFL_USE_StopSeSlot(((struct Obj18343 *)p)->f24);
 }

@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetLaggingTailHandlers
+ * function: HAND_ITEM_GetLaggingTailHandlers
  * address: 0x021DE494
  * packet: pkt_ov093_021DE494
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DE3D4.c and filed here.
  *
  * symbols:
- *   gLaggingTailHandlerTable 0x021F1394 data ov093 a4
+ *   gLaggingTailHandlers 0x021F1394 data ov093 a4
  */
 
-extern int gLaggingTailHandlerTable[];
-int *BTL_HANDLER_ITEM_GetLaggingTailHandlers(int *p);
+extern int gLaggingTailHandlers[];
+int *HAND_ITEM_GetLaggingTailHandlers(int *p);
 
-int *BTL_HANDLER_ITEM_GetLaggingTailHandlers(int *p)
+int *HAND_ITEM_GetLaggingTailHandlers(int *p)
 {
     *p = 1;
-    return gLaggingTailHandlerTable;
+    return gLaggingTailHandlers;
 }

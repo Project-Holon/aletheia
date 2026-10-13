@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb
  */
 #include "../include/Obj00164.h"
 
@@ -15,7 +18,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020061F8(int i);
+extern void GFL_USE_StopSeSlot(int i);
 
 void FIELD_SOUND_SYSTEM_PauseSlots(u8 *o, u32 v)
 {
@@ -24,7 +27,7 @@ void FIELD_SOUND_SYSTEM_PauseSlots(u8 *o, u32 v)
     if (((struct Obj00164 *)o)->fB4 == 0) {
         for (i = 0; i < 2; i++) {
             if (*(u16 *)(o + 0xac + i * 2) != 0xffff) {
-                func_020061F8(i + 1);
+                GFL_USE_StopSeSlot(i + 1);
             }
         }
     }

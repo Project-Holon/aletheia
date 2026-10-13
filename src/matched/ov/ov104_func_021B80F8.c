@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -17,5 +20,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_02082BCC(void *, int, int);
-void func_021B80F8(void *p) { func_02082BCC(p, 0, 0x1c); }
+extern void MI_CpuFill8(void *, int, int);
+void func_021B80F8(void *p) { MI_CpuFill8(p, 0, 0x1c); }

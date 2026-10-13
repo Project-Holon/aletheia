@@ -17,7 +17,7 @@
  * COMM_ENTRY_RecvJoinAccept (unlabelled) is a tail-call stub into COMM_ENTRY_StoreJoinReply.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   MYSTATUS_Copy  0x02008494  thumb
  *   func_02087C6C  0x02087C6C  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
@@ -35,7 +35,7 @@ typedef struct {
     u8 x[8];
 } B;
 
-extern void func_02082BCC(void *dst, int v, u32 n);
+extern void MI_CpuFill8(void *dst, int v, u32 n);
 extern void MYSTATUS_Copy(void *src, void *dst);
 extern void func_02087C6C(void *p);
 struct Entry;
@@ -47,7 +47,7 @@ u32 COMM_ENTRY_SendJoinRequest(u32 a, u32 b, u32 c)
 {
     B buf;
 
-    func_02082BCC(&buf, 0, 0x28);
+    MI_CpuFill8(&buf, 0, 0x28);
     MYSTATUS_Copy((void *)a, &buf);
     func_02087C6C(buf.x);
     buf.x[6] = b;

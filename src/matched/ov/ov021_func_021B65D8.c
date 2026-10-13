@@ -16,7 +16,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveBlock43  0x02012FD8  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_0200E7BC  0x0200E7BC  thumb
  * Addresses are Black-image addresses.
  */
@@ -34,7 +34,7 @@ struct Rec0200E7BC;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveBlock43(void **p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void func_0200E7BC(struct Rec0200E7BC *o, int idx, void *mon);
 
 u32 SCRCMD_POKEMON_FLD_StoreMonName(void *a, void *b)
@@ -50,6 +50,6 @@ u32 SCRCMD_POKEMON_FLD_StoreMonName(void *a, void *b)
     t = GAME_DATA_GetMyParty(t);
     i = SCRIPT_WORK_ReadWorkValue(a, b);
     j = SCRIPT_WORK_ReadWorkValue(a, b);
-    func_0200E7BC(w, j, func_0201AB28(t, i));
+    func_0200E7BC(w, j, POKEPARTY_GetMember(t, i));
     return 0;
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 
 typedef unsigned char u8;
@@ -31,7 +31,7 @@ typedef struct {
 } Obj021A27B8;
 
 struct Obj;
-void func_0204B3DC(struct Obj *h, unsigned int v);
+void CLACT_SetActorDrawEnable(struct Obj *h, unsigned int v);
 
 void WEATHER_TASK_UnlinkParticle(Obj021A27B8 *p, Node021A27B8 *n)
 {
@@ -46,5 +46,5 @@ void WEATHER_TASK_UnlinkParticle(Obj021A27B8 *p, Node021A27B8 *n)
     n->prev->next = n->next;
     n->next = 0;
     n->prev = 0;
-    func_0204B3DC((struct Obj *)n->handle, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)n->handle, 0);
 }

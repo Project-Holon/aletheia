@@ -19,19 +19,19 @@
  *   func_02030734 0x02030734 arm
  *   func_020307B0  0x020307B0  arm
  *   func_0201210C  0x0201210C  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020120F4  0x020120F4  thumb
  *   func_02012944 0x02012944 thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02008550  0x02008550  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   POKE_REGULATION_LoadInto 0x0201A364 thumb
  *   func_0200CA1C 0x0200CA1C thumb
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   func_0200CA38 0x0200CA38 thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -39,8 +39,8 @@
  *   func_02014910  0x02014910  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
- *   func_0201AA14  0x0201AA14  thumb
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_GetCapacity  0x0201AA14  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb ov021
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045B38  0x02045B38  arm
@@ -52,7 +52,7 @@
  *   FLDMMDL_GetPos  0x0216D88C  thumb
  *   FIELD_MSGBG_AddTalkWin  0x0219129C  thumb ov021
  *   FIELD_MSGBG_TalkWinMain  0x02191388  thumb
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   FIELD_MSGBG_DeleteTalkWin  0x021912D8  thumb
  *   FIELD_MSGBG_WaitTalkWinClose  0x021912F8  thumb
  *   STRBUF_Delete  0x02045808  arm
@@ -63,7 +63,7 @@
  *   BTL_SETUP_SetupTrainerMulti  0x02013734  thumb
  *   BTL_SETUP_SetupCommAiMulti  0x02013810  thumb
  *   BTL_SETUP_AllocRecordBuffer  0x02013980  thumb
- *   func_0201A954  0x0201A954  thumb
+ *   POKEPARTY_InitEx  0x0201A954  thumb
  *   func_020173EC  0x020173EC  thumb
  *   POKE_TOOL_ClearPartyParam  0x02017528  thumb
  *   func_02019CE0  0x02019CE0  thumb
@@ -92,7 +92,7 @@
  *   g_0217208E  0x0217208E  data  ov010  a2
  *   FIELDMAP_GetSubscreen  0x02188CCC  thumb ov021
  *   func_02012138  0x02012138  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   GAMESYSTEM_SetAlwaysNetFlag  0x02012158  thumb
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
@@ -124,7 +124,7 @@
  *   func_0200E518  0x0200E518  thumb
  *   func_0200A8A0  0x0200A8A0  thumb
  *   func_0200AB04  0x0200AB04  thumb
- *   func_0201AD0C 0x0201AD0C thumb
+ *   POKEPARTY_GetSaveData 0x0201AD0C thumb
  *   func_02012984 0x02012984 thumb
  *   func_0200C0F0 0x0200C0F0 thumb
  *   func_0200C3C0 0x0200C3C0 thumb
@@ -434,19 +434,18 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern PokemonParam *func_02030734(u32 heapKind, u32 size, int unused, const char *file, u16 line);
 extern void func_020307B0(void *p);
 extern FieldMap *func_0201210C(GameSystem *gameSystem);
-extern void func_02082BCC(void *p, int v, int n);
 extern GameData *func_020120F4(GameSystem *gameSystem);
 extern MyStatus *func_02012944(GameData *gameData);
 extern NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u8 func_02008550(const MyStatus *myStatus);
-extern PokemonParam *func_0201AB28(Party *party, u32 pos);
+extern PokemonParam *POKEPARTY_GetMember(Party *party, u32 pos);
 extern u32 func_02017E1C(PokemonParam *mon, u32 id, u32 v);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, GameEventFunc main, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
 extern void POKE_REGULATION_LoadInto(int regulationId, Regulation *dest);
 extern ZukanSave *func_0200CA1C(GameData *gameData);
-extern u32 func_0201AA18(Party *party);
+extern u32 POKEPARTY_GetCount(Party *party);
 extern u32 func_0200CA38(ZukanSave *zukan);
 extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(GameSystem *gameSystem, FieldMap *fieldMap, int a, int b);
 extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *child);
@@ -454,8 +453,8 @@ extern GameEvent *FIELD_STATUS_CreateFieldCloseEvent(GameSystem *gameSystem, Fie
 extern GameEvent *func_02014910(GameSystem *gameSystem, FieldMap *fieldMap, PokeListParam *listParam, PStatusParam *statusParam);
 extern GameEvent *FIELD_STATUS_CreateFieldOpenEvent(GameSystem *gameSystem);
 extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, FieldMap *fieldMap, int a, int b, int c, u8 d, u8 e);
-extern u32 func_0201AA14(Party *party);
-extern u32 func_0201A98C(Party *party, const PokemonParam *mon);
+extern u32 POKEPARTY_GetCapacity(Party *party);
+extern u32 POKEPARTY_Add(Party *party, const PokemonParam *mon);
 extern FldMsgBalloonSys *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -467,7 +466,7 @@ extern FldMmdl *FLDMMDL_SysSearchObjId(FldMmdlSys *mmdlSys, u32 id);
 extern void FLDMMDL_GetPos(const FldMmdl *mmdl, VecFx32 *pos);
 extern FldMsgBalloon *FIELD_MSGBG_AddTalkWin(FldMsgBalloonSys *sys, int a, VecFx32 *pos, Strbuf *msg, u32 b, u32 c);
 extern int FIELD_MSGBG_TalkWinMain();
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int FIELD_MSGBG_DeleteTalkWin();
 extern int FIELD_MSGBG_WaitTalkWinClose();
 extern int STRBUF_Delete();
@@ -478,7 +477,7 @@ extern void BTL_SETUP_SetupTrainerDouble(BtlSetup *bs, GameData *gameData, BtlFi
 extern void BTL_SETUP_SetupTrainerMulti(BtlSetup *bs, GameData *gameData, BtlFieldSituation *situation, u32 a, u32 b, u32 c, u32 heapId);
 extern void BTL_SETUP_SetupCommAiMulti(BtlSetup *bs, GameData *gameData, NetHandle *handle, u32 a, u8 playerPos, u32 b, u32 c, u16 heapId);
 extern void BTL_SETUP_AllocRecordBuffer(BtlSetup *bs, u32 heapId);
-extern void func_0201A954(Party *party, int capacity);
+extern void POKEPARTY_InitEx(Party *party, int capacity);
 extern u32 func_020173EC(void);
 extern void POKE_TOOL_ClearPartyParam(PokemonParam *mon);
 extern void func_02019CE0(const PokemonParam *src, PokemonParam *dest);
@@ -504,7 +503,7 @@ extern void STRBUF_ToChars(Strbuf *strbuf, u16 *dest, u32 maxLen);
 extern GameEvent *FIELD_SUBSCREEN_RequestModeWithCallback(FieldMap *fieldMap, u32 a, u32 callback, u32 callbackArg);
 extern int FIELDMAP_GetSubscreen(FieldMap *fieldMap);
 extern GameComm *func_02012138(GameSystem *gameSystem);
-extern u32 func_02026454(GameComm *gameComm);
+extern u32 GAME_COMM_GetKind(GameComm *gameComm);
 extern void GAME_COMM_RequestExitNoCallback(GameComm *gameComm);
 extern void GAMESYSTEM_SetAlwaysNetFlag(GameSystem *gameSystem, unsigned int flag);
 extern u32 GAMESYSTEM_TryStartAutoComm(GameSystem *gameSystem);
@@ -533,7 +532,7 @@ extern void *func_0200E394(SaveControl *saveControl);
 extern void func_0200E518(void *obj);
 extern void *func_0200A8A0(SaveControl *saveControl);
 extern void func_0200AB04(void *obj);
-extern PartySave *func_0201AD0C(SaveControl *saveControl);
+extern PartySave *POKEPARTY_GetSaveData(SaveControl *saveControl);
 extern u8 func_02012984(GameData *gameData);
 extern void *func_0200C0F0(SaveControl *saveControl);
 extern void func_0200C3C0(void *obj, u16 v);
@@ -633,10 +632,10 @@ GameEvent *FLD_BTL_INST_TOOL_CreatePokeListEvent(GameSystem *gameSystem, int lis
     statusParam = &work->statusParam;
     gameData = func_020120F4(gameSystem);
     zukan = func_0200CA1C(gameData);
-    func_02082BCC(statusParam, 0, 0x28);
+    MI_CpuFill8(statusParam, 0, 0x28);
     statusParam->ppd = party;
     statusParam->ppt = 1;
-    maxCount = func_0201AA18(party);
+    maxCount = POKEPARTY_GetCount(party);
     statusParam->max = maxCount;
     statusParam->mode = 0;
     statusParam->page = 0;
@@ -691,12 +690,12 @@ int FLD_BTL_INST_TOOL_PokeListEventMain(GameEvent *event, u32 *seq, PartySelectE
         *work->resultSlot = work->listParam.selectedSlot;
         *work->resultCommand = work->listParam.command;
         if (*work->resultSlot != 7 && *work->resultSlot != 8 && work->resultParty != 0) {
-            count = func_0201AA14(work->resultParty);
+            count = POKEPARTY_GetCapacity(work->resultParty);
             for (i = 0; i < count; i++) {
                 slot = work->resultOrder[i] - 1;
                 if (slot >= 6)
                     work->resultOrder[i] = 1;
-                func_0201A98C(work->resultParty, func_0201AB28(work->sourceParty, slot));
+                POKEPARTY_Add(work->resultParty, POKEPARTY_GetMember(work->sourceParty, slot));
             }
         }
         (*seq)++;
@@ -763,7 +762,7 @@ int FLD_BTL_INST_TOOL_TrainerMsgEventMain(GameEvent *event, int *seq, TrainerMsg
             (*seq)++;
         break;
     case 1:
-        if ((func_020362DC() & 3) != 0) {
+        if ((KEY_GetTrg() & 3) != 0) {
             FIELD_MSGBG_DeleteTalkWin(work->balloon);
             (*seq)++;
         }
@@ -847,15 +846,15 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
     myStatus = func_02012944(gameData);
     bs->myStatus[client] = myStatus;
     party = bs->parties[client];
-    func_0201A954(party, 6);
+    POKEPARTY_InitEx(party, 6);
     tempMon = func_02030734(0x8004, func_020173EC(), 0, d_02172A2C, 0x253);
     POKE_TOOL_ClearPartyParam(tempMon);
     for (; i < monCount; i++) {
-        srcMon = func_0201AB28(playerParty, i);
+        srcMon = POKEPARTY_GetMember(playerParty, i);
         func_02019CE0(srcMon, tempMon);
         if (func_02017E1C(srcMon, 0x9E, 0) != 0x32)
             func_02019CA0(tempMon, 0x32);
-        func_0201A98C(party, tempMon);
+        POKEPARTY_Add(party, tempMon);
     }
     func_020307B0(tempMon);
 
@@ -887,11 +886,11 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
         trainerData->battleMsgs.half[7] = trainerA->battleMsgs.half[7];
     }
     enemy1Party = bs->parties[client];
-    func_0201A954(enemy1Party, 6);
+    POKEPARTY_InitEx(enemy1Party, 6);
     tempMon = func_02030734(0x8004, func_020173EC(), 0, d_02172A2C, 0x29E);
     for (i = 0; i < monCount; i++) {
         FLD_BTL_INST_TOOL_BattleMonToPokemon(&trainerA->mons[i], tempMon);
-        func_0201A98C(enemy1Party, tempMon);
+        POKEPARTY_Add(enemy1Party, tempMon);
     }
     func_020307B0(tempMon);
 
@@ -904,11 +903,11 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
         trainerData->aiBits = 0x87;
         STRBUF_SetString(trainerData->name, trainerC->name);
         enemy2Party = bs->parties[client];
-        func_0201A954(enemy2Party, 6);
+        POKEPARTY_InitEx(enemy2Party, 6);
         tempMon = func_02030734(0x8004, func_020173EC(), 0, d_02172A2C, 0x2C4);
         for (i = 0; i < monCount; i++) {
             FLD_BTL_INST_TOOL_BattleMonToPokemon(&trainerC->mons[i], tempMon);
-            func_0201A98C(enemy2Party, tempMon);
+            POKEPARTY_Add(enemy2Party, tempMon);
         }
         func_020307B0(tempMon);
     }
@@ -922,11 +921,11 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
         PMSI_PARAM_ClearSentence((PmsData *)&trainerData->battleMsgs.half[0]);
         PMSI_PARAM_ClearSentence((PmsData *)&trainerData->battleMsgs.half[4]);
         partnerParty = bs->parties[client];
-        func_0201A954(partnerParty, 6);
+        POKEPARTY_InitEx(partnerParty, 6);
         tempMon = func_02030734(0x8004, func_020173EC(), 0, d_02172A2C, 0x2F3);
         for (i = 0; i < monCount; i++) {
             FLD_BTL_INST_TOOL_BattleMonToPokemon(&trainerB->mons[i], tempMon);
-            func_0201A98C(partnerParty, tempMon);
+            POKEPARTY_Add(partnerParty, tempMon);
         }
         func_020307B0(tempMon);
     }
@@ -1211,7 +1210,7 @@ BtlInstGroup *FLD_BTL_INST_TOOL_InitTrainerHeader(BtlInstTrainer *trainer, int t
     MsgData *nameBank = func_02045B38(0, 2, 11, heapId);
     BtlInstGroup *group;
     Strbuf *name;
-    func_02082BCC(trainer, 0, 0x120);
+    MI_CpuFill8(trainer, 0, 0x120);
     group = FLD_BTL_INST_TOOL_LoadTrainerGroup(trainerIndex, heapId);
     trainer->trainerId = trainerIndex + 1;
     trainer->introMsg.sentenceType = 0xFFFF;
@@ -1401,12 +1400,12 @@ int FLD_BTL_INST_TOOL_CommResetEventMain(GameEvent *event, int *step, CommResetW
     CommResetStep current = (CommResetStep)*step;
     switch (current) {
     case COMM_RESET_REQUEST_EXIT:
-        if (func_02026454(gameComm) != 0)
+        if (GAME_COMM_GetKind(gameComm) != 0)
             GAME_COMM_RequestExitNoCallback(gameComm);
         (*step)++;
         break;
     case COMM_RESET_WAIT_EXIT:
-        if (func_02026454(gameComm) != 0)
+        if (GAME_COMM_GetKind(gameComm) != 0)
             break;
         GAMESYSTEM_SetAlwaysNetFlag(gameSystem, 0);
         (*step)++;
@@ -1447,7 +1446,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreateCommResetEvent(GameSystem *gameSystem, int re
     func_020120F4(gameSystem);
     event = func_020122C0(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_CommResetEventMain, 0xc);
     work = func_020124E8(event);
-    func_02082BCC(work, 0, 0xc);
+    MI_CpuFill8(work, 0, 0xc);
     work->gameSystem = gameSystem;
     work->restoreAutoComm = restoreAutoComm;
     return event;
@@ -1593,10 +1592,10 @@ void FLD_BTL_INST_TOOL_AddBattleTally(BtlInstRecord *record, BtlInstResult *resu
     record->tally[9] += result->tally[9];
     record->lastTally += result->tally[10];
     party = result->party;
-    count = func_0201AA18(party);
+    count = POKEPARTY_GetCount(party);
     statSum = 0;
     for (i = 0; i < count; i++)
-        statSum += func_02017E1C(func_0201AB28(party, i), 0xA1, 0);
+        statSum += func_02017E1C(POKEPARTY_GetMember(party, i), 0xA1, 0);
     record->scoreShare += (u16)(result->score * 100 / statSum);
 }
 
@@ -1766,7 +1765,7 @@ void FIELD_CLOCK_UpdateDays(GameData *gameData, int days)
  * extent: trailing two-byte alignment padding.
  * interface: final u16 argument follows the original lsls/lsrs #16 pair.
  */
-void FIELD_CLOCK_UpdateMinutes(GameData *gameData, int minutes, RTCTime *time) { PartySave *partySave=func_0201AD0C(GAME_DATA_GetSaveControl(gameData)); FORMCHANGE_RevertShayminIfTimeOfDayChanged(gameData,partySave,minutes,time,func_02012984(gameData)); func_0200C3C0(func_0200C0F0(GAME_DATA_GetSaveControl(gameData)),minutes); }
+void FIELD_CLOCK_UpdateMinutes(GameData *gameData, int minutes, RTCTime *time) { PartySave *partySave=POKEPARTY_GetSaveData(GAME_DATA_GetSaveControl(gameData)); FORMCHANGE_RevertShayminIfTimeOfDayChanged(gameData,partySave,minutes,time,func_02012984(gameData)); func_0200C3C0(func_0200C0F0(GAME_DATA_GetSaveControl(gameData)),minutes); }
 
 
 

@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   _ll_mul        0x0209C054  arm
- *   tbl_020A1B38   0x020A1B38  data
+ *   FX_SinCosTable_   0x020A1B38  data
  *
  * pmsi_param.c: fill out[0..count) with amp * sin(phase), phase advancing
  * by step through 16 bits.  The table is FX_SinCosTable_ at 0x020A1B38
@@ -29,7 +29,7 @@ typedef signed int       s32;
 typedef unsigned int     u32;
 typedef signed long long s64;
 
-extern const s16 tbl_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 
 void PMSI_PARAM_MakeSineTable(s16 *out, u32 count, u16 step, s32 amp)
 {
@@ -39,7 +39,7 @@ void PMSI_PARAM_MakeSineTable(s16 *out, u32 count, u16 step, s32 amp)
     phase = 0;
     i = 0;
     while (i < count) {
-        s64 v = (s64)tbl_020A1B38[(phase >> 4) * 2];
+        s64 v = (s64)FX_SinCosTable_[(phase >> 4) * 2];
         s64 prod = v * (s64)amp;
 
         out[i] = (s16)((s32)((prod + 0x800) >> 12) >> 12);

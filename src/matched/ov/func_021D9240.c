@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_IndirectGuardCause6Block
+ * function: HAND_TOKUSEI_IndirectGuardCause6Block
  * address:  0x021D9240
  * packet:   pkt_021D8A8C
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   BTL_ABILITY_IndirectGuardCause6Block   0x021D9240  thumb
- *   BTL_ABILITY_BlockIndirectDamage   0x021D928C  thumb
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; adds r0, r1, #0; adds r1, r2, #0; adds r2, r3, #0; movs r3, #6; bl BTL_ABILITY_BlockIndirectDamage; pop {r3, pc}.
+ *   HAND_TOKUSEI_IndirectGuardCause6Block   0x021D9240  thumb
+ *   HAND_TOKUSEI_BlockIndirectDamage   0x021D928C  thumb
+ * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; adds r0, r1, #0; adds r1, r2, #0; adds r2, r3, #0; movs r3, #6; bl HAND_TOKUSEI_BlockIndirectDamage; pop {r3, pc}.
  */
 
 typedef unsigned char u8;
@@ -22,9 +22,9 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-/* 021D9240  shifted 4-arg wrapper -> BTL_ABILITY_BlockIndirectDamage(..., 0x6) */
-void BTL_ABILITY_IndirectGuardCause6Block(int a, int b, int c, int d)
+/* 021D9240  shifted 4-arg wrapper -> HAND_TOKUSEI_BlockIndirectDamage(..., 0x6) */
+void HAND_TOKUSEI_IndirectGuardCause6Block(int a, int b, int c, int d)
 {
-    BTL_ABILITY_BlockIndirectDamage(b, c, d, 0x6);
+    HAND_TOKUSEI_BlockIndirectDamage(b, c, d, 0x6);
 }
 

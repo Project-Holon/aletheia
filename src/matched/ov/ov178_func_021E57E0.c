@@ -14,7 +14,7 @@
  *   GAME_DATA_GetMyStatus   0x02012944  thumb
  *   func_0200CA1C   0x0200CA1C  thumb
  *   func_0200873C   0x0200873C  thumb
- *   func_0201AA18   0x0201AA18  thumb
+ *   POKEPARTY_GetCount   0x0201AA18  thumb
  *   func_0200CA38   0x0200CA38  thumb
  *
  * Populate the 0x28-byte record from the two source objects.
@@ -31,7 +31,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *func_0200CA1C(void *a);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern unsigned int func_0201AA18(void *p);
+extern unsigned int POKEPARTY_GetCount(void *p);
 extern u32 func_0200CA38(struct Blk37 *p);
 
 void func_021E57E0(int *r5, int *r6, char *r4)
@@ -46,7 +46,7 @@ void func_021E57E0(int *r5, int *r6, char *r4)
     ((struct Obj01763 *)r4)->f4 = (int)func_0200873C((void *)a);
     ((struct Obj01763 *)r4)->fC = 1;
     ((struct Obj01763 *)r4)->fD = 1;
-    ((struct Obj01763 *)r4)->fE = func_0201AA18((void *)r6[1]);
+    ((struct Obj01763 *)r4)->fE = POKEPARTY_GetCount((void *)r6[1]);
     ((struct Obj01763 *)r4)->fF = 0;
     ((struct Obj01763 *)r4)->f10 = 0;
     ((struct Obj01763 *)r4)->f11 = 0;

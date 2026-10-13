@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   COMM_PLAYER_UpdateMyPackage  0x0216786C  thumb ov010
@@ -34,7 +34,7 @@ typedef unsigned int   u32;
 struct Report;
 struct SaveBlock;
 struct Work;
-u32 func_02026478(void *obj);
+u32 GAME_COMM_GetGameData(void *obj);
 void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 struct Rec44;
 u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
@@ -49,7 +49,7 @@ int INTRUDE_COMM_UpdateSelfRecord(u8 *p)
     int k;
     Hd *h;
 
-    ctx = func_02026478((void *)(((struct Obj09349 *)p)->f4));
+    ctx = GAME_COMM_GetGameData((void *)(((struct Obj09349 *)p)->f4));
     v = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct SaveBlock *)ctx));
     h = (Hd *)(p + 0x70);
     r = COMM_PLAYER_UpdateMyPackage((struct Work *)(((struct Obj09349 *)p)->f8), (struct Report *)h);

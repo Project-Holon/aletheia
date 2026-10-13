@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_MentalHerbUseWhenForced, BTL_HANDLER_ITEM_GetBrightPowderHandlers
+ * function: HAND_ITEM_MentalHerbUseWhenForced, HAND_ITEM_GetBrightPowderHandlers
  * address: 0x021DE358
  * packet: pkt_ov093_021DE358
  * region: ov093
@@ -12,13 +12,13 @@
  * lever: fourth argument keeps r3 live; three arguments give ldr/cmp r3.
  * unit: yes
  * symbols:
- *   BTL_HANDLER_ITEM_MentalHerbCureCondition 0x021DE34C thumb ov093
- *   gBrightPowderHandlerTable 0x021F1564 data a4
+ *   HAND_ITEM_MentalHerbCureCondition 0x021DE34C thumb ov093
+ *   gBrightPowderHandlers 0x021F1564 data a4
  */
 #include "../include/Obj21387.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void BTL_HANDLER_ITEM_MentalHerbCureCondition(int, int, int, u8 *);
-void BTL_HANDLER_ITEM_MentalHerbUseWhenForced(int a, int b, int c, u8 *d) { if (((struct Obj21387 *)d)->f18) BTL_HANDLER_ITEM_MentalHerbCureCondition(a,b,c,d); }
-extern u8 gBrightPowderHandlerTable[];
-void *BTL_HANDLER_ITEM_GetBrightPowderHandlers(int *p) { *p=1; return gBrightPowderHandlerTable; }
+extern void HAND_ITEM_MentalHerbCureCondition(int, int, int, u8 *);
+void HAND_ITEM_MentalHerbUseWhenForced(int a, int b, int c, u8 *d) { if (((struct Obj21387 *)d)->f18) HAND_ITEM_MentalHerbCureCondition(a,b,c,d); }
+extern u8 gBrightPowderHandlers[];
+void *HAND_ITEM_GetBrightPowderHandlers(int *p) { *p=1; return gBrightPowderHandlers; }

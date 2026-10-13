@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -22,10 +22,10 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
 void P_STA_SKILL_HideSlot(void *a, void *b, u8 *p)
 {
-    func_0204B3DC(((struct Obj14078 *)p)->f8, 0);
-    func_0204B3DC(((struct Obj14078 *)p)->fC, 0);
+    CLACT_SetActorDrawEnable(((struct Obj14078 *)p)->f8, 0);
+    CLACT_SetActorDrawEnable(((struct Obj14078 *)p)->fC, 0);
 }

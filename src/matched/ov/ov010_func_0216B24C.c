@@ -12,7 +12,7 @@
  *   func_020120F4 0x020120F4 thumb
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   FIELD_G3D_MAP_IntrudeRequestEventMain 0x0216B280 thumb ov010
  */
 typedef unsigned char u8;
@@ -25,7 +25,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern int FIELD_G3D_MAP_IntrudeRequestEventMain(int, int *, u8 **);
 int FIELD_G3D_MAP_CreateIntrudeRequestEvent(void *vm, int value, int flag)
 {
@@ -34,7 +34,7 @@ int FIELD_G3D_MAP_CreateIntrudeRequestEvent(void *vm, int value, int flag)
     func_020120F4((const struct Ctx *)vm);
     task = (int)func_020122C0((void *)vm, 0, FIELD_G3D_MAP_IntrudeRequestEventMain, 8);
     p = func_020124E8((struct Obj *)task);
-    func_02082BCC(p, 0, 8);
+    MI_CpuFill8(p, 0, 8);
     p->value = value;
     p->flag = flag;
     return task;

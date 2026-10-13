@@ -38,8 +38,8 @@
  *   func_021BA5F4 0x021BA5F4 thumb ov100
  *   func_021BA3A4 0x021BA3A4 thumb ov100
  *   func_021BA64C 0x021BA64C thumb ov100
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021B97BC 0x021B97BC thumb ov100
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
@@ -66,7 +66,7 @@ extern void func_021BB180(int);
 extern void func_021BA5F4(unsigned a);
 extern void func_021BA64C(unsigned a, unsigned b);
 extern void func_021BA3A4(struct Word *,int);
-extern void func_0204B92C(struct Obj *,u32),func_0204B3DC(struct Obj *,u32);
+extern void CLACT_SetActorAutoAnim(struct Obj *,u32),CLACT_SetActorDrawEnable(struct Obj *,u32);
 extern void func_021B97BC(int,int,int,int);
 extern int GFL_NET_GetRunState(void);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -93,8 +93,8 @@ void func_021BB270(int p)
             func_021BA64C(p,5);
             *(int *)(p+0xc80)=0;
             if(*(struct Obj **)(p+0x2c8)) {
-                func_0204B92C(*(struct Obj **)(p+0x2c8),0);
-                func_0204B92C(*(struct Obj **)(p+0x2d0),0);
+                CLACT_SetActorAutoAnim(*(struct Obj **)(p+0x2c8),0);
+                CLACT_SetActorAutoAnim(*(struct Obj **)(p+0x2d0),0);
             }
         }
         func_021B97BC(p,0,-2,0);
@@ -102,8 +102,8 @@ void func_021BB270(int p)
         *(u32 *)(p+0xc88)=*(u32 *)(p+0xc88)+1;
         if(*(int *)(p+0xc88)>30) {
             if(*(struct Obj **)(p+0x2c8)) {
-                func_0204B3DC(*(struct Obj **)(p+0x2c8),0);
-                func_0204B3DC(*(struct Obj **)(p+0x2d0),0);
+                CLACT_SetActorDrawEnable(*(struct Obj **)(p+0x2c8),0);
+                CLACT_SetActorDrawEnable(*(struct Obj **)(p+0x2d0),0);
             }
             *(int *)(p+0xc84)=0;
         }

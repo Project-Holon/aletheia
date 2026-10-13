@@ -16,14 +16,14 @@
  * copy is declared after the request, so it sits below it.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020490F4  0x020490F4  arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_StopActorAnim  0x0204B974  arm
  *   TOUCHBAR_Create  0x021B62E0  thumb  ov067
  *   TOUCHBAR_SetAllButtonsPriority  0x021B6520  thumb  ov067
@@ -55,7 +55,7 @@ typedef struct {
     int f1c;
 } Req;
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
@@ -64,7 +64,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 struct Actor;
 extern void CLACT_StopActorAnim(struct Actor *a);
 extern u32 TOUCHBAR_Create(Req *r, int heap);
@@ -78,22 +78,22 @@ void TOWNMAP_BackButtonInit(u32 *o, u32 a1, u32 a2, u8 a3, u8 s0, u8 s1, u32 s2,
     Rect s;
     void *h;
 
-    func_02082BCC(o, 0, 0x20);
+    MI_CpuFill8(o, 0, 0x20);
     o[4] = s2;
     h = func_020490F4(0x55, heap);
     o[0] = CLACT_RegisterPaletteEx(h, 2, 0, 0, 0, 4, heap);
     o[1] = CLACT_RegisterCharacter(h, 8, 0, 0, heap);
     o[2] = CLACT_RegisterCellAnim(h, 0xc, 0x13, heap);
     ARC_TOOL_DeleteHandle(h);
-    func_02082BCC(&s, 0, 8);
+    MI_CpuFill8(&s, 0, 8);
     s.a = 0xa8;
     s.b = 0xa8;
     s.c = 7;
     o[5] = (u32)CLACT_CreateActor((void *)a2, o[1], o[0], o[2], &s, 0, heap);
-    func_0204B92C((struct Obj *)o[5], 1);
+    CLACT_SetActorAutoAnim((struct Obj *)o[5], 1);
     CLACT_StopActorAnim((struct Actor *)o[5]);
     t = d_021BBB8C;
-    func_02082BCC(&r, 0, 0x20);
+    MI_CpuFill8(&r, 0, 0x20);
     r.f0 = (u8 *)&t;
     r.f4 = 2;
     r.f8 = a2;

@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_0207CB68   0x0207CB68  arm
+ *   VEC_Fx16CrossProduct   0x0207CB68  arm
  *   VEC_Fx16Normalize   0x0207CDB8  arm
  *
  * out = M * src for a rig matrix M whose two 3x2 s16 rows live at m+0x84 and
@@ -62,14 +62,14 @@ static inline fx32 FX_Mul(fx32 a, fx32 b)
     return (fx32)(((fx64)a * b + 0x800) >> 12);
 }
 
-extern void func_0207CB68(const struct Vec16 *a, const struct Vec16 *b, struct Vec16 *out);
+extern void VEC_Fx16CrossProduct(const struct Vec16 *a, const struct Vec16 *b, struct Vec16 *out);
 extern void VEC_Fx16Normalize(struct Vec16 *v, struct Vec16 *w);
 
 void func_020576D0(fx32 *out, const struct VecFx32 *src, const struct Mtx3 *m)
 {
     struct Vec16 v;
 
-    func_0207CB68((const struct Vec16 *)(m->pad + 0x84),
+    VEC_Fx16CrossProduct((const struct Vec16 *)(m->pad + 0x84),
                   (const struct Vec16 *)(m->pad + 0x8a), &v);
     VEC_Fx16Normalize(&v, &v);
 

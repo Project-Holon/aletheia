@@ -18,7 +18,7 @@
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
- *   func_0201BA68 0x0201BA68 thumb
+ *   POKE_TOOL_GetGraphicIndex 0x0201BA68 thumb
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   func_0201BC3C 0x0201BC3C thumb
@@ -40,7 +40,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *POKE_TOOL_GetBoxParam(void *);
-extern u32 func_0201BA68(void *);
+extern u32 POKE_TOOL_GetGraphicIndex(void *);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32, u32, u32, u32);
 extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
 extern int func_0201BC3C(void);
@@ -70,7 +70,7 @@ void func_021F6F88(int p)
     icons = IconBase(p);
     for (i = 0; i < 6; i++) {
         if (*(void **)(p + i * 4 + 0xf8) != 0)
-            icon = func_0201BA68(POKE_TOOL_GetBoxParam(*(void **)(p + i * 4 + 0xf8)));
+            icon = POKE_TOOL_GetGraphicIndex(POKE_TOOL_GetBoxParam(*(void **)(p + i * 4 + 0xf8)));
         else
             icon = POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0);
         *(int *)(icons + i * 4) = CLACT_RegisterCharacter(h, icon, 0, 0, 0x71);

@@ -18,7 +18,7 @@
  *   func_021B9028 0x021B9028 thumb ov133
  *   func_021B9D54 0x021B9D54 thumb ov133
  *   func_021B765C 0x021B765C thumb ov133
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 #include "../include/Obj00004.h"
 typedef unsigned char u8;
@@ -30,7 +30,7 @@ extern int func_021F50F4(unsigned);
 extern void func_021B9028(u8 *, int, u16);
 extern void func_021B9D54(u8 *, int);
 extern void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 int func_021B8930(u8 *p)
 {
     int pos[2];
@@ -61,7 +61,7 @@ int func_021B8930(u8 *p)
     if (((struct Obj00004 *)p)->fA0 >= 65536 && ((struct Obj00004 *)p)->fA0 <= 65538)
         ((struct Obj00004 *)p)->fA0 += 4681;
     func_021B765C(p, ((struct Obj00004 *)p)->f182C, 0, 72, 48);
-    func_020061E4(1576);
+    GFL_USE_PlaySeDefaultVolume(1576);
     return 1;
     }
     return mode;

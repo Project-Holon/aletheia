@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0204B6F4  0x0204B6F4  arm
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   func_02082A60  0x02082A60  arm
  *   PALANM_BlendColors  0x02021F64  thumb
  */
@@ -31,7 +31,7 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void func_02082A60(const void *, void *, int);
 extern void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
 
@@ -47,7 +47,7 @@ void INTRUDE_SUBDISP_UpdateTownMarkPalette(Work *p)
         c = -1;
         v = p->f16a;
         if (v != 4 && v != sel) {
-            func_0204B6F4(p->f5c[v + 12], (u8)(v + 1), (int)1);
+            CLACT_SetActorPaletteOffset(p->f5c[v + 12], (u8)(v + 1), (int)1);
         }
         if (p->f16a != sel) {
             func_02082A60((void *)(0x05000600 + (sel + 1) * 32), buf, 0x20);
@@ -63,13 +63,13 @@ void INTRUDE_SUBDISP_UpdateTownMarkPalette(Work *p)
             p->f16b = 0;
         }
         if (c != -1) {
-            func_0204B6F4(p->f5c[sel + 12], (u8)c, (int)1);
+            CLACT_SetActorPaletteOffset(p->f5c[sel + 12], (u8)c, (int)1);
         }
         return;
     }
     v = p->f16a;
     if (v != 4) {
-        func_0204B6F4(p->f5c[v + 12], (u8)(v + 1), (int)1);
+        CLACT_SetActorPaletteOffset(p->f5c[v + 12], (u8)(v + 1), (int)1);
         p->f16a = 4;
         p->f16b = 0;
     }

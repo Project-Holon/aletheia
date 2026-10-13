@@ -21,13 +21,13 @@
  *   BTL_ACTION_SetFight 0x021D82D0 thumb ov093
  *   BTL_POKEPARAM_FindMoveSlot 0x021D5778 thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
- *   func_021E02DC 0x021E02DC thumb ov093
+ *   HAND_WAZA_AddMoveHandler 0x021E02DC thumb ov093
  *   BTL_SERVER_FLOW_NotifyMoveStart 0x021BE924 thumb ov093
- *   func_021C001C 0x021C001C thumb ov093
+ *   BTL_SERVER_FLOW_CheckMoveExecuteFail 0x021C001C thumb ov093
  *   BTL_SERVER_FLOW_QueryForcedMoveEvent 0x021C62D8 thumb ov093
  *   BTL_SERVER_FLOW_PushPokeCmd59 0x021C5604 thumb ov093
  *   BTL_SERVER_FLOW_GetMoveParam 0x021C64B4 thumb ov093
- *   func_021CA7F4 0x021CA7F4 thumb ov093
+ *   BTL_SERVER_FLOW_DecideMoveTargets 0x021CA7F4 thumb ov093
  *   BTL_SERVER_FLOW_ReducePPByEvent 0x021C07AC thumb ov093
  *   BTL_SERVER_FLOW_ProcMoveExecuteFail 0x021C0450 thumb ov093
  *   BTL_SERVER_FLOW_PushMoveExecCmd 0x021BEBD8 thumb ov093
@@ -42,17 +42,17 @@
  *   BTL_SERVER_FLOW_DispatchMoveParamEventLocked 0x021BE66C thumb ov093
  *   BTL_SERVER_FLOW_DispatchMoveTypeEvent 0x021BE620 thumb ov093
  *   BTL_SERVER_FLOW_QueryActionMessageEvent 0x021C6458 thumb ov093
- *   func_021C99A0 0x021C99A0 thumb ov093
- *   func_021C8810 0x021C8810 thumb ov093
+ *   BTL_SERVER_FLOW_PushMsgRecord 0x021C99A0 thumb ov093
+ *   BTL_SERVER_FLOW_ClearMsgRecord 0x021C8810 thumb ov093
  *   BTL_SERVER_FLOW_CureSick 0x021C5620 thumb ov093
  *   BTL_POKEPARAM_SetTurnFlag 0x021D5FC0 thumb ov093
  *   BTL_SERVER_FLOW_CheckMoveExecuteFailByEvent 0x021C024C thumb ov093
- *   func_021BE7E4 0x021BE7E4 thumb ov093
+ *   BTL_SERVER_FLOW_TryMoveExecuteCheckEvent 0x021BE7E4 thumb ov093
  *   BTL_SERVER_FLOW_ProcPledgeCombo 0x021BE6EC thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_SERVER_FLOW_CheckMoveInterrupt 0x021BEAB4 thumb ov093
  *   BTL_SERVER_FLOW_ProcInterruptMove 0x021BE550 thumb ov093
- *   func_021BEC58 0x021BEC58 thumb ov093
+ *   BTL_SERVER_FLOW_ProcMoveExecute 0x021BEC58 thumb ov093
  *   BTL_POKEPARAM_RecordMoveUse 0x021D6744 thumb ov093
  *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
  *   BTL_POKEPARAM_GetCounter 0x021D69AC thumb ov093
@@ -61,7 +61,7 @@
  *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
  *   BTL_SERVER_FLOW_ReleaseBindingTarget 0x021BFF60 thumb ov093
  *   BTL_SERVER_FLOW_NotifyMoveEnd 0x021BE994 thumb ov093
- *   func_021E0394 0x021E0394 thumb ov093
+ *   HAND_WAZA_RemoveMoveHandlerUnlessKept 0x021E0394 thumb ov093
  *   BTL_SERVER_FLOW_ProcDeferredMoves 0x021BE400 thumb ov093
  */
 typedef unsigned char u8;
@@ -91,13 +91,13 @@ extern int BTL_CALC_DecideMoveTarget(void *p, int a, int m, u16 move);
 extern void BTL_ACTION_SetFight(struct Unk021D82D0 *out, u32 id, u32 sub);
 extern u8 BTL_POKEPARAM_FindMoveSlot(struct UtilWork *p, u16 id);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
-extern int func_021E02DC(u8 *, u16, u32);
+extern int HAND_WAZA_AddMoveHandler(u8 *, u16, u32);
 extern void BTL_SERVER_FLOW_NotifyMoveStart(u8 *, u8 *, u32);
-extern int func_021C001C(u8 *, u8 *, u16, u16);
+extern int BTL_SERVER_FLOW_CheckMoveExecuteFail(u8 *, u8 *, u16, u16);
 extern int BTL_SERVER_FLOW_QueryForcedMoveEvent(u8 *p, u8 *a, u32 unused, u32 c, struct O *out);
 extern void BTL_SERVER_FLOW_PushPokeCmd59(u8 *, u8 *, int);
 extern void BTL_SERVER_FLOW_GetMoveParam(u8 *p, u16 q, u8 *a, struct Out64B4 *out);
-extern int func_021CA7F4(u8 *, u8 *, u16, const u8 *, void *);
+extern int BTL_SERVER_FLOW_DecideMoveTargets(u8 *, u8 *, u16, const u8 *, void *);
 extern int BTL_SERVER_FLOW_ReducePPByEvent(u8 *, u8 *, u32, u32, int);
 extern void BTL_SERVER_FLOW_ProcMoveExecuteFail(u8 *, u8 *, u16, int);
 extern void BTL_SERVER_FLOW_PushMoveExecCmd(u8 *, u8 *, int, int);
@@ -112,17 +112,17 @@ extern void func_021BE398(void *, u16, u32, u32);
 extern void BTL_SERVER_FLOW_DispatchMoveParamEventLocked(u8 *p, u8 *a, u8 *c, int k);
 extern void BTL_SERVER_FLOW_DispatchMoveTypeEvent(u8 *p, u8 *a, u8 *c);
 extern int BTL_SERVER_FLOW_QueryActionMessageEvent(u8 *, u8 *, u32, u32, u8 *);
-extern int func_021C99A0(void *w, const struct Msg *m);
-extern void func_021C8810(u8 *);
+extern int BTL_SERVER_FLOW_PushMsgRecord(void *w, const struct Msg *m);
+extern void BTL_SERVER_FLOW_ClearMsgRecord(u8 *);
 extern void BTL_SERVER_FLOW_CureSick(u8 *p, u8 *a, int k, struct Slot *out);
 extern void BTL_POKEPARAM_SetTurnFlag(struct UtilWork *p, u32 n);
 extern int BTL_SERVER_FLOW_CheckMoveExecuteFailByEvent(u8 *, u8 *, u32);
-extern int func_021BE7E4(u8 *, u8 *, u32, u32, u8 *);
+extern int BTL_SERVER_FLOW_TryMoveExecuteCheckEvent(u8 *, u8 *, u32, u32, u8 *);
 extern int BTL_SERVER_FLOW_ProcPledgeCombo(u8 *, u8 *, u16, u32);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int BTL_SERVER_FLOW_CheckMoveInterrupt(u8 *, u8 *, int, int, u8 *);
 extern void BTL_SERVER_FLOW_ProcInterruptMove(u8 *, u8 *, u16, void *);
-extern int func_021BEC58(u8 *p, u8 *a, u16 key, u8 *d);
+extern int BTL_SERVER_FLOW_ProcMoveExecute(u8 *p, u8 *a, u16 key, u8 *d);
 extern void BTL_POKEPARAM_RecordMoveUse(u8 *, u8, int, u8, u16, u16);
 extern void BTL_SERVER_CMD_Push(void *, volatile u32, ...);
 extern u8 BTL_POKEPARAM_GetCounter(u8 *, int);
@@ -131,7 +131,7 @@ extern void BTL_SERVER_FLOW_ClearMoveLockSicks(u8 *, u8 *);
 extern int BTL_POKEPARAM_TestTurnFlag(struct UtilWork *p, u32 n);
 extern void BTL_SERVER_FLOW_ReleaseBindingTarget(u8 *, u8 *, int);
 extern void BTL_SERVER_FLOW_NotifyMoveEnd(u8 *, u8 *, u32, u32);
-extern void func_021E0394(u8 *, int);
+extern void HAND_WAZA_RemoveMoveHandlerUnlessKept(u8 *, int);
 extern void BTL_SERVER_FLOW_ProcDeferredMoves(u8 *, u16);
 
 static inline void ev18(void *w, u32 x, u32 s, u32 c, u32 b, u32 i2, u32 i1)
@@ -172,13 +172,13 @@ void BTL_SERVER_FLOW_ProcFight(u8 *p, u8 *a, Action *act, u32 key)
     o.c0 = 0;
     chk1 = (u8)BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)a, 0x19);
     chk2 = (u8)BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)a, 0x1a);
-    func_021E02DC(a, id, key);
+    HAND_WAZA_AddMoveHandler(a, id, key);
     BTL_SERVER_FLOW_NotifyMoveStart(p, a, id);
-    if (func_021C001C(p, a, id, (u8)((chk1 != 0 || chk2 != 0) ? 1 : flag)) != 0) goto end;
+    if (BTL_SERVER_FLOW_CheckMoveExecuteFail(p, a, id, (u8)((chk1 != 0 || chk2 != 0) ? 1 : flag)) != 0) goto end;
     if (BTL_SERVER_FLOW_QueryForcedMoveEvent(p, a, id, sel, (struct O *)(&o.c2)) == 0) {
         BTL_SERVER_FLOW_PushPokeCmd59(p, a, id);
         BTL_SERVER_FLOW_GetMoveParam(p, id, a, (struct Out64B4 *)F(0x1ab4));
-        func_021CA7F4(p, a, sel, F(0x1ab4), F(0x850));
+        BTL_SERVER_FLOW_DecideMoveTargets(p, a, sel, F(0x1ab4), F(0x850));
         BTL_SERVER_FLOW_ReducePPByEvent(p, a, id, pr, (int)F(0x850));
         flag = 1;
         BTL_SERVER_FLOW_ProcMoveExecuteFail(p, a, id, 0x1a);
@@ -188,7 +188,7 @@ void BTL_SERVER_FLOW_ProcFight(u8 *p, u8 *a, Action *act, u32 key)
     if (found) {
         BTL_SERVER_FLOW_PushPokeCmd59(p, a, id);
         BTL_SERVER_FLOW_PushMoveExecCmd(p, a, id, sel);
-        func_021E02DC(a, o.c2, key);
+        HAND_WAZA_AddMoveHandler(a, o.c2, key);
         id2 = o.c2;
         sel = o.c4;
     } else {
@@ -209,7 +209,7 @@ void BTL_SERVER_FLOW_ProcFight(u8 *p, u8 *a, Action *act, u32 key)
     }
     func_021BE338(F(0x850));
     func_021BE348(F(0x854));
-    func_021CA7F4(p, a, sel, F(0x1ab0), F(0x850));
+    BTL_SERVER_FLOW_DecideMoveTargets(p, a, sel, F(0x1ab0), F(0x850));
     {
         u32 v = (u8)func_021BE358(F(0x850));
         func_021BE368(F(0x850));
@@ -225,9 +225,9 @@ void BTL_SERVER_FLOW_ProcFight(u8 *p, u8 *a, Action *act, u32 key)
         BTL_SERVER_FLOW_DispatchMoveParamEventLocked(p, a, *(void **)(p + k), 0x22);
         BTL_SERVER_FLOW_DispatchMoveTypeEvent(p, a, *(void **)(p + k - 4));
         if (BTL_SERVER_FLOW_QueryActionMessageEvent(p, a, id, id2, p + k + 0x30) != 0) {
-            func_021C99A0(p, (const struct Msg *)(p + k + 0x30));
+            BTL_SERVER_FLOW_PushMsgRecord(p, (const struct Msg *)(p + k + 0x30));
             k += 0x30;
-            func_021C8810(p + k);
+            BTL_SERVER_FLOW_ClearMsgRecord(p + k);
         } else {
             BTL_SERVER_FLOW_PushPokeCmd59(p, a, id2);
         }
@@ -238,14 +238,14 @@ void BTL_SERVER_FLOW_ProcFight(u8 *p, u8 *a, Action *act, u32 key)
         BTL_POKEPARAM_SetTurnFlag((struct UtilWork *)a, 0xe);
     }
     if (BTL_SERVER_FLOW_CheckMoveExecuteFailByEvent(p, a, id2) == 0
-        && func_021BE7E4(p, a, id2, sel, (u8 *)&o) == 0
+        && BTL_SERVER_FLOW_TryMoveExecuteCheckEvent(p, a, id2, sel, (u8 *)&o) == 0
         && BTL_SERVER_FLOW_ProcPledgeCombo(p, a, id2, sel) == 0) {
         func_021BE398(p + 0x1c, id2, *(u32 *)(p + 0x10), BTL_POKEPARAM_GetPokeId(a));
         BTL_SERVER_FLOW_DispatchMoveParamEventLocked(p, a, F(0x1ab0), 0x23);
         if (BTL_SERVER_FLOW_CheckMoveInterrupt(p, a, id2, *(int *)(p + 0x854), F(0x4ac)) != 0) {
             BTL_SERVER_FLOW_ProcInterruptMove(p, a, id2, F(0x854));
         } else {
-            o.c0 = func_021BEC58(p, a, id2, F(0x854));
+            o.c0 = BTL_SERVER_FLOW_ProcMoveExecute(p, a, id2, F(0x854));
         }
     }
 end:
@@ -262,7 +262,7 @@ end:
         BTL_SERVER_FLOW_ReleaseBindingTarget(p, a, 0);
     }
     BTL_SERVER_FLOW_NotifyMoveEnd(p, a, id2, o.c0);
-    if (o.c2 != 0) func_021E0394(a, o.c2);
-    func_021E0394(a, id);
+    if (o.c2 != 0) HAND_WAZA_RemoveMoveHandlerUnlessKept(a, o.c2);
+    HAND_WAZA_RemoveMoveHandlerUnlessKept(a, id);
     BTL_SERVER_FLOW_ProcDeferredMoves(p, id2);
 }

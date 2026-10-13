@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CFFAC",
+   "name": "BTL_CLIENT_ShouldSwitchWhileLocked",
    "address": "0x021CFFAC",
    "kind": "game",
    "region": "ov093",

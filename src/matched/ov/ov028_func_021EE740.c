@@ -1,5 +1,5 @@
 /*
- * function: func_021EE740
+ * function: WEATHER_FOG_BeginFixed
  * address: 0x021EE740
  * packet: pkt_ov028_021EE740
  * region: ov028
@@ -16,7 +16,7 @@
 typedef unsigned int u32;
 extern int *WEATHER_TASK_GetWorkBuffer(int *);
 extern void WEATHER_TASK_InitFog(u32 *, int, int, int);
-int func_021EE740(u32 *a, int b)
+int WEATHER_FOG_BeginFixed(u32 *a, int b)
 {
     int *p;
     p = WEATHER_TASK_GetWorkBuffer((int *)a);

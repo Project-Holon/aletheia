@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E3190",
-    "func_021E3240"
+    "HAND_WAZA_JudgmentOnWazaTypeCheck",
+    "HAND_WAZA_AddTechnoBlast"
+   ],
+   "addresses": [
+    "0x021E3190",
+    "0x021E3240"
    ],
    "evidence": {
     "sole-ref": [

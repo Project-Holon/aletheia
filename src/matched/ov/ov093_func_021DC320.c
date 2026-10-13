@@ -1,5 +1,5 @@
 /*
- * function: func_021DC320
+ * function: HAND_TOKUSEI_GetTelepathyHandlers
  * address: 0x021DC320
  * packet: pkt_ov093_021DC320
  * region: ov093
@@ -15,10 +15,10 @@
  *   gTelepathyHandlers 0x021F05E8 data ov093 a4
  */
 
-int *func_021DC320(int *p);
+int *HAND_TOKUSEI_GetTelepathyHandlers(int *p);
 extern int gTelepathyHandlers[];
 
-int *func_021DC320(int *p)
+int *HAND_TOKUSEI_GetTelepathyHandlers(int *p)
 {
     *p = 1;
     return gTelepathyHandlers;

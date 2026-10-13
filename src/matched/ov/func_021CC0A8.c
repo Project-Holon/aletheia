@@ -1,5 +1,5 @@
 /*
- * function: func_021CC0A8
+ * function: BTL_SERVER_FLOW_ItemEffectRaiseDefense
  * address:  0x021CC0A8
  * packet:   pkt_021CBF30
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CC0A8   0x021CC0A8  thumb
- *   func_021CC438   0x021CC438  thumb
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #2; str r4, [sp]; bl func_021CC438; add sp, #4; pop {r3, r4, pc}.
+ *   BTL_SERVER_FLOW_ItemEffectRaiseDefense   0x021CC0A8  thumb
+ *   BTL_SERVER_FLOW_ItemEffectRaiseStatStage   0x021CC438  thumb
+ * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #2; str r4, [sp]; bl BTL_SERVER_FLOW_ItemEffectRaiseStatStage; add sp, #4; pop {r3, r4, pc}.
  */
 
 typedef unsigned char u8;
@@ -22,6 +22,6 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-/* 021CC0A8  stack-arg wrapper: func_021CC438(a, b, c, d, 0x2) */
-void func_021CC0A8(int a, int b, int c, int d) { func_021CC438(a, b, c, d, 0x2); }
+/* 021CC0A8  stack-arg wrapper: BTL_SERVER_FLOW_ItemEffectRaiseStatStage(a, b, c, d, 0x2) */
+void BTL_SERVER_FLOW_ItemEffectRaiseDefense(int a, int b, int c, int d) { BTL_SERVER_FLOW_ItemEffectRaiseStatStage(a, b, c, d, 0x2); }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021D1FB4
+ * function: BTL_CLIENT_StepShowItemUseMessage
  * address:  0x021D1FB4
  * packet:   pkt_ov093_021D1FB4
  * region:   ov093
@@ -28,7 +28,7 @@ extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern void func_021EA6F4(void *p, u8 b, u16 c);
 extern int func_021EA710(u32 *p);
 
-int func_021D1FB4(Seq *s, int *state, u32 *a)
+int BTL_CLIENT_StepShowItemUseMessage(Seq *s, int *state, u32 *a)
 {
     switch (*state) {
     case 0:

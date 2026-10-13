@@ -1,5 +1,5 @@
 /*
- * function: func_021C8140
+ * function: BTL_SERVER_FLOW_GetSlotFlag
  * address:  0x021C8140
  * packet:   pkt_021C8140
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-unsigned char func_021C8140(char *p, int i)
+unsigned char BTL_SERVER_FLOW_GetSlotFlag(char *p, int i)
 {
     return *(unsigned char *)(p + i + 0x7d9);
 }

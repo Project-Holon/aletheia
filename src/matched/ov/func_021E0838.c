@@ -1,5 +1,5 @@
 /*
- * function: func_021E0838
+ * function: HAND_WAZA_BrickBreakClearSkipCheck
  * address:  0x021E0838
  * packet:   pkt_021DFA3C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E0838   0x021E0838  thumb
+ *   HAND_WAZA_BrickBreakClearSkipCheck   0x021E0838  thumb
  *   BTL_EVENT_ClearFactorSkipCheck   0x021D7324  thumb
  *   BTL_EVENT_GetVar   0x021D775C  thumb
  * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r3, r4, r5, lr}; adds r5, r0, #0; movs r0, #3; adds r4, r2, #0; bl BTL_EVENT_GetVar; cmp r4, r0; bne loc_021E084E; adds r0, r5, #0; bl BTL_EVENT_ClearFactorSkipCheck; pop {r3, r4, r5, pc}.
@@ -24,7 +24,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021E0838  shape F3: gate on BTL_EVENT_GetVar(3) then BTL_EVENT_ClearFactorSkipCheck */
-void func_021E0838(int a, int b, int c)
+void HAND_WAZA_BrickBreakClearSkipCheck(int a, int b, int c)
 {
     if (c == BTL_EVENT_GetVar(3))
         BTL_EVENT_ClearFactorSkipCheck(a);

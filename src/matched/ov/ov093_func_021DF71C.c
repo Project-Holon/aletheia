@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetHardStoneHandlers
+ * function: HAND_ITEM_GetHardStoneHandlers
  * address: 0x021DF71C
  * packet: pkt_ov093_021DF71C
  * region: ov093
@@ -15,10 +15,10 @@
  *   gHardStoneHandlers 0x021F13AC data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetHardStoneHandlers(int *p);
+int *HAND_ITEM_GetHardStoneHandlers(int *p);
 extern int gHardStoneHandlers[];
 
-int *BTL_HANDLER_ITEM_GetHardStoneHandlers(int *p)
+int *HAND_ITEM_GetHardStoneHandlers(int *p)
 {
     *p = 1;
     return gHardStoneHandlers;

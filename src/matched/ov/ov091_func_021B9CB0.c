@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   STRBUF_Delete  0x02045808  arm
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  */
@@ -25,7 +25,7 @@ typedef signed short   s16;
 struct MsgBank;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
@@ -33,6 +33,6 @@ extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 void POKELIST_PrintTextSubDirect(u8 *p, u32 win, u32 idx, u32 x, s16 y, u16 color)
 {
     void *text = func_02045EC0((struct MsgBank *)(((struct Obj13242 *)p)->f134), idx);
-    PRINTSYS_PrintColor((void *)((u32)func_02045770((struct Descriptor *)win)), x, y, text, (void *)(((struct Obj13242 *)p)->f13C), color);
+    PRINTSYS_PrintColor((void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)win)), x, y, text, (void *)(((struct Obj13242 *)p)->f13C), color);
     STRBUF_Delete(text);
 }

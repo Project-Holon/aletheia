@@ -14,9 +14,9 @@
  *   POKELIST_StartSwapAnimation  0x021B9968  thumb  ov091
  *   POKELIST_MoveCursorToPlate  0x021B8F68  thumb  ov091
  *   PLIST_PLATE_SetSelected  0x021BAFA0  thumb  ov091
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   POKELIST_SetupModeScreen  0x021B7B98  thumb  ov091
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 
 typedef unsigned char u8;
@@ -27,9 +27,9 @@ extern void POKELIST_StartSwapAnimation(u8 *p);
 extern void POKELIST_MoveCursorToPlate(u8 *p, int v);
 extern void PLIST_PLATE_SetSelected(u8 *a, u8 *s, int k);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void POKELIST_SetupModeScreen(u8 *p);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 
 #define W(o) (*(int *)(p + (o)))
 
@@ -48,10 +48,10 @@ void POKELIST_UpdateSwapCommand(u8 *p)
         p[0xc] = 2;
         POKELIST_MoveCursorToPlate(p, W(0x2c));
         PLIST_PLATE_SetSelected(p, (u8 *)(*(int *)(p + W(0x30) * 4 + 0x160)), 0);
-        func_0204B3DC((struct Obj *)W(0x1dc), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)W(0x1dc), 0);
         W(0x30) = 9;
         *(int *)(W(0x280) + 0x3c) = W(0x2c);
         POKELIST_SetupModeScreen(p);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
     }
 }

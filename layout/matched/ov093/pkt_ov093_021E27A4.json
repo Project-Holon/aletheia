@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E27A4",
+   "name": "HAND_WAZA_GyroBallGetHandlers",
    "address": "0x021E27A4",
    "kind": "game",
    "region": "ov093",

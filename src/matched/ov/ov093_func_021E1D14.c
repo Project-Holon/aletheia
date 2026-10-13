@@ -1,5 +1,5 @@
 /*
- * function: func_021E1D14
+ * function: HAND_WAZA_PursuitGetHandlers
  * address: 0x021E1D14
  * packet: pkt_ov093_021E1D14
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E1C8C.c and filed here.
  *
  * symbols:
- *   d_021F2C48 0x021F2C48 data ov093 a4
+ *   gPursuitHandlers 0x021F2C48 data ov093 a4
  */
 
-int *func_021E1D14(int *p);
-extern int d_021F2C48[];
+int *HAND_WAZA_PursuitGetHandlers(int *p);
+extern int gPursuitHandlers[];
 
-int *func_021E1D14(int *p)
+int *HAND_WAZA_PursuitGetHandlers(int *p)
 {
     *p = 3;
-    return d_021F2C48;
+    return gPursuitHandlers;
 }

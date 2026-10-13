@@ -1,5 +1,5 @@
 /*
- * function: func_021E1970
+ * function: HAND_WAZA_AddMirrorCoat
  * address: 0x021E1970
  * packet: pkt_ov093_021E1970
  * region: ov093
@@ -12,16 +12,16 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E18EC.c and filed here.
  *
  * symbols:
- *   d_021F2C18 0x021F2C18 data ov093 a4
+ *   gMirrorCoatHandlers 0x021F2C18 data ov093 a4
  */
 
-int *func_021E1970(int *p);
+int *HAND_WAZA_AddMirrorCoat(int *p);
 
-/* 021E197C  shifted 4-arg wrapper -> func_021E19F8(..., 0x2) */
-extern int d_021F2C18[];
+/* 021E197C  shifted 4-arg wrapper -> HAND_WAZA_RetaliateOnMoveFailCheck(..., 0x2) */
+extern int gMirrorCoatHandlers[];
 
-int *func_021E1970(int *p)
+int *HAND_WAZA_AddMirrorCoat(int *p)
 {
     *p = 3;
-    return d_021F2C18;
+    return gMirrorCoatHandlers;
 }

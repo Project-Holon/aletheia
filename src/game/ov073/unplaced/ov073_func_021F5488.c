@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
@@ -23,7 +23,7 @@ typedef signed int s32;
 struct GameSystem;
 struct GameEvent;
 
-extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern void FADE_Start(u32 flags, s32 start, s32 end, s32 step);
 extern int FADE_IsActive(void);
@@ -35,7 +35,7 @@ extern int FADE_IsActive(void);
  */
 int ENCEFF_NameCutInFadeOutEventMain(struct GameEvent *event, int *state)
 {
-    GAMESYSTEM_GetFieldMap(func_020124E4(event));
+    GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     switch (*state) {
     case 0:
         FADE_Start(3, 0, 0x10, 3);

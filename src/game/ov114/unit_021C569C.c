@@ -30,7 +30,7 @@
  *   OS_UnlockMutex 0x02086078  arm
  *   func_02059F38  0x02059F38  arm
  *   func_02086004  0x02086004  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   strncpy        0x02094860  arm
  *   func_02167FA8  0x02167FA8  arm
  *   func_020853C0  0x020853C0  arm
@@ -94,7 +94,7 @@ extern void func_02085A38(u32_021C5724 msec);
 extern void func_021C659C(int err, int servererror);
 extern int func_02059F38(void);
 extern void func_02086004(void *mutex);
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern char *strncpy(char *dst, const char *src, unsigned long n);
 extern int func_02167FA8(char *svl, void *result);
 extern void func_020853C0(void *thread, void (*func)(void *), void *arg, void *stack,
@@ -255,7 +255,7 @@ int func_021C5928(void (*callback)(int, int, int), char *gamecd, char *passwd)
         func_021C659C(1, 0);
         return 0;
     }
-    func_02082BCC(g_021D3B68.svl, 0, sizeof(NdParam));
+    MI_CpuFill8(g_021D3B68.svl, 0, sizeof(NdParam));
     ((NdParam *)g_021D3B68.svl)->f40 = 0;
     strncpy(((NdParam *)g_021D3B68.svl)->gamecd, gamecd, 31);
     strncpy(((NdParam *)g_021D3B68.svl)->passwd, passwd, 31);

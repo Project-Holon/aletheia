@@ -13,7 +13,7 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_0201F73C 0x0201F73C thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
@@ -33,7 +33,7 @@ struct MsgBank;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
@@ -46,9 +46,9 @@ void func_021BA3A4(struct Word *p,int a) {
   BMP_WIN_MakeScreen((struct Cfg *)v);
   func_0201F73C((void *)(*(int *)&((struct Obj00060 *)a)->f27C),0,(unsigned short)(((struct Obj00060 *)a)->f304),14);
  }
- BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)&((struct Obj00060 *)a)->f27C)),255);
+ BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)&((struct Obj00060 *)a)->f27C)),255);
  ((struct Obj00060 *)a)->fCB0=p->x;
  MSGDATA_ReadString((struct MsgBank *)(((struct Obj00060 *)a)->f288),p->x,(void *)(((struct Obj00060 *)a)->f298));
- PRINTSYS_Print((void *)((int)func_02045770((struct Descriptor *)*(int *)&((struct Obj00060 *)a)->f27C)),4,4,(void *)(((struct Obj00060 *)a)->f298),(void *)(((struct Obj00060 *)a)->f290));
+ PRINTSYS_Print((void *)((int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)&((struct Obj00060 *)a)->f27C)),4,4,(void *)(((struct Obj00060 *)a)->f298),(void *)(((struct Obj00060 *)a)->f290));
  BMP_WIN_TransferChars((struct Descriptor *)*(int *)&((struct Obj00060 *)a)->f27C);
 }

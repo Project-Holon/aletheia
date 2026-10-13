@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FBE54 0x021FBE54 thumb ov186
  *   func_021FEEF4 0x021FEEF4 thumb ov186
  *   d_02200D78 0x02200D78 data a1
@@ -20,14 +20,14 @@ extern const char d_02200B74[];
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *, unsigned, unsigned);
+extern void MI_CpuFill8(void *, unsigned, unsigned);
 extern void func_021FBE54(char *, unsigned, unsigned);
 extern void func_021FEEF4(char *, int, char *, const char *, unsigned);
 char *func_021FED50(int a, int unused, char *resources, unsigned heap)
 {
     char *p = func_02030734(heap, 0x390, 0, d_02200D78, 0x132);
     int i;
-    func_02082BCC(p, 0, 0x390);
+    MI_CpuFill8(p, 0, 0x390);
     func_021FBE54(resources, 4, heap);
     func_021FBE54(resources, 5, heap);
     for (i = 0; i < 12; i++)

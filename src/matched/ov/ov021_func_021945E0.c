@@ -13,7 +13,7 @@
  *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
  *   FIELD_SUBSCREEN_IsIdle  0x021A0ED4  thumb  ov021
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   GAME_DATA_SetFrameRate  0x020129D0  thumb
@@ -30,7 +30,7 @@ struct Obj;
 extern u32 FIELDMAP_GetSubscreen(u8 *p);
 extern int FIELD_SUBSCREEN_IsIdle(u32 a);
 extern void *FIELDMAP_GetMmdlSys(u8 *p);
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern u32 GAMESYSTEM_GetGameData(void);
 extern void FLDMMDL_SysPauseMove(void *a);
 struct BigObj;
@@ -48,7 +48,7 @@ int func_021945E0(void *a, int b, u8 *c)
     case 0:
         if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(((struct Obj02693 *)c)->f8)) == 1) {
             r6 = FIELDMAP_GetMmdlSys(((struct Obj02693 *)c)->f8);
-            func_020124E4(a);
+            GAME_EVENT_GetGameSystem(a);
             r4 = GAMESYSTEM_GetGameData();
             FLDMMDL_SysPauseMove(r6);
             GAME_DATA_SetFrameRate((struct BigObj *)r4, 1);
@@ -58,7 +58,7 @@ int func_021945E0(void *a, int b, u8 *c)
         break;
     case 1:
         if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(((struct Obj02693 *)c)->f8)) == 1) {
-            func_020124E4(a);
+            GAME_EVENT_GetGameSystem(a);
             GAME_DATA_SetSubscreenType((struct BigObj *)GAMESYSTEM_GetGameData(), ((struct Obj02693 *)c)->fC & 0xff);
             c[0x10]++;
         }

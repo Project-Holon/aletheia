@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_ITEM_FlavorHealAttack",
+   "name": "HAND_ITEM_FlavorHealAttack",
    "address": "0x021DD614",
    "kind": "sdk",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ITEM_FlavorHealDefense",
+   "name": "HAND_ITEM_FlavorHealDefense",
    "address": "0x021DD648",
    "kind": "game",
    "region": "ov093",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ITEM_FlavorHealSpeed",
+   "name": "HAND_ITEM_FlavorHealSpeed",
    "address": "0x021DD67C",
    "kind": "game",
    "region": "ov093",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ITEM_FlavorHealSpAttack",
+   "name": "HAND_ITEM_FlavorHealSpAttack",
    "address": "0x021DD6B0",
    "kind": "game",
    "region": "ov093",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ITEM_FlavorHealSpDefense",
+   "name": "HAND_ITEM_FlavorHealSpDefense",
    "address": "0x021DD6E4",
    "kind": "game",
    "region": "ov093",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_HANDLER_ITEM_JabocaBerryRememberPhysicalAttacker",
+   "name": "HAND_ITEM_JabocaBerryRememberPhysicalAttacker",
    "address": "0x021DE0DC",
    "kind": "game",
    "region": "ov093",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_HANDLER_ITEM_RowapBerryRememberSpecialAttacker",
+   "name": "HAND_ITEM_RowapBerryRememberSpecialAttacker",
    "address": "0x021DE0F8",
    "kind": "game",
    "region": "ov093",

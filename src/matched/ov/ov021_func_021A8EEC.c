@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm
- *   func_0203633C  0x0203633C  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   KEY_GetRepeat  0x0203633C  arm
  *   FIELD_MENU_StartLeave  0x021A90A4  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
- *   func_0204B3DC  0x0204B3DC  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   FIELD_MENU_MoveCursor  0x021A8E80  thumb  ov021
  *   FIELD_MENU_GetSlotIndex  0x021A8E78  thumb  ov021
  *   func_020355D8  0x020355D8  arm
@@ -49,11 +49,11 @@ typedef struct Obj {
     u32 f124;
 } Obj;
 
-extern u32 func_020362DC(void);
-extern unsigned int func_0203633C(void);
+extern u32 KEY_GetTrg(void);
+extern unsigned int KEY_GetRepeat(void);
 extern void FIELD_MENU_StartLeave(Obj *p, int k);
-extern void func_020061E4(u32 se);
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 struct W;
 extern u32 FIELD_MENU_MoveCursor(struct W *w, u32 dir);
 extern int FIELD_MENU_GetSlotIndex(u32 a, u32 b);
@@ -64,39 +64,39 @@ void FIELD_MENU_HandleKeys(Obj *p)
     u32 trg;
     u32 rep;
 
-    trg = func_020362DC();
-    rep = func_0203633C();
+    trg = KEY_GetTrg();
+    rep = KEY_GetRepeat();
     if (p->f2C == 0 && (trg | rep) != 0) {
         if ((trg & 2) || (trg & 0x400)) {
             FIELD_MENU_StartLeave(p, 1);
             return;
         }
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         p->f2C = 1;
         p->fF8 = 0;
         p->f24 = 1;
-        func_0204B3DC((struct Obj *)p->f124, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->f124, 1);
         return;
     }
     if (rep & 0x40) {
         if (FIELD_MENU_MoveCursor((struct W *)p, 0) != 0) {
             p->f24 = 1;
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
         }
     } else if (rep & 0x80) {
         if (FIELD_MENU_MoveCursor((struct W *)p, 1) != 0) {
             p->f24 = 1;
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
         }
     } else if (rep & 0x20) {
         if (FIELD_MENU_MoveCursor((struct W *)p, 2) != 0) {
             p->f24 = 1;
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
         }
     } else if (rep & 0x10) {
         if (FIELD_MENU_MoveCursor((struct W *)p, 3) != 0) {
             p->f24 = 1;
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
         }
     } else if ((trg & 2) || (trg & 0x400)) {
         FIELD_MENU_StartLeave(p, 1);

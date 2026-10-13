@@ -1,5 +1,5 @@
 /*
- * function: func_021CC918
+ * function: BTL_SERVER_FLOW_SetHandExScopeState
  * address:  0x021CC918
  * packet:   pkt_ov093_021CC918
  * region:   ov093
@@ -22,7 +22,7 @@ typedef struct {
     u32 g : 1;
 } Bf;
 
-u32 func_021CC918(Bf *p, u32 v)
+u32 BTL_SERVER_FLOW_SetHandExScopeState(Bf *p, u32 v)
 {
     u32 old = ((struct Obj21130 *)p)->f0;
     p->a = v;

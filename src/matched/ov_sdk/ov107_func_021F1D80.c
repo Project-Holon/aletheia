@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_021F1D0C  0x021F1D0C  arm  ov107
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021F6850  0x021F6850  arm  ov107
  *   func_021F26C0  0x021F26C0  arm  ov107
  *   func_021F2CBC  0x021F2CBC  arm  ov107
@@ -99,7 +99,7 @@ typedef struct MBCommPWork {
 extern MBCommPWork *g_021F6FA0;
 
 extern void func_021F1D0C(u16 child, int state, void *arg);
-extern void func_02082BCC(void *dstp, u8 data, u32 size);
+extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void func_021F6850(u16 child_aid);
 extern void func_021F26C0(void *arg);
 extern int func_021F2CBC(void);
@@ -140,8 +140,8 @@ void func_021F1D80(u16 type, void *arg)
                 break;
 
             g_021F6FA0->childversion[sparg->aid - 1] = 0;
-            func_02082BCC(&g_021F6FA0->childggid[sparg->aid - 1], 0, sizeof(u32));
-            func_02082BCC(&g_021F6FA0->childUser[sparg->aid - 1], 0, sizeof(MBUserInfo));
+            MI_CpuFill8(&g_021F6FA0->childggid[sparg->aid - 1], 0, sizeof(u32));
+            MI_CpuFill8(&g_021F6FA0->childUser[sparg->aid - 1], 0, sizeof(MBUserInfo));
             func_021F6850(sparg->aid);
             g_021F6FA0->req2child[sparg->aid - 1] = 0;
 

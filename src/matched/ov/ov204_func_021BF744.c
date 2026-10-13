@@ -13,7 +13,7 @@
  * symbols:
  *   MCSS_SetAnimeIndex 0x02016028 thumb
  *   MCSS_ResetAnmStopFlag 0x02015E4C thumb
- *   func_02015F2C 0x02015F2C thumb
+ *   MCSS_SetAnimCallback 0x02015F2C thumb
  *   func_021BF7F0 0x021BF7F0 thumb ov204
  */
 
@@ -21,7 +21,7 @@ extern void MCSS_SetAnimeIndex(void *, unsigned int);
 extern void MCSS_ResetAnmStopFlag(void *);
 typedef unsigned char  u8;
 extern void func_021BF7F0(u8 *p);
-extern void func_02015F2C(void *, void *, void (*)(void *, void *), int);
+extern void MCSS_SetAnimCallback(void *, void *, void (*)(void *, void *), int);
 
 void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v)
 {
@@ -33,7 +33,7 @@ void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v)
     zero = Zero;
     *(unsigned int *)(p + off + 12) = zero;
     *(unsigned int *)(p + off + 16) = v;
-    func_02015F2C(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
+    MCSS_SetAnimCallback(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
 }
 
 unsigned int func_021BF77C(char *p, u8 i)

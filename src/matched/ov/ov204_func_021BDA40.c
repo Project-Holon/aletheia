@@ -11,7 +11,7 @@
  *   func_02034AC4 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021BDC18 0x021BDC18 thumb ov204
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
@@ -29,7 +29,7 @@ struct Obj0203159C; struct GfFont; struct MsgBank;
 extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned, unsigned);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
-extern void func_02082BCC(void *, unsigned, unsigned);
+extern void MI_CpuFill8(void *, unsigned, unsigned);
 typedef unsigned short u16;
 extern void *func_021BDC18(int swap, int mode, u16 heap);
 extern struct GfFont *GF_FONT_Create(int, int, int, int, unsigned);
@@ -46,7 +46,7 @@ int func_021BDA40(struct Obj0203159C *owner, int unused, char *args)
     func_02034AC4((int)ov067_id);
     GFL_HEAP_CreateChildHeap(1, 111, 0x100000);
     p = PROCSYS_AllocProcWork(owner, 0x24, 111);
-    func_02082BCC(p, 0, 0x24);
+    MI_CpuFill8(p, 0, 0x24);
     ((struct Obj00689 *)p)->f0 = 111;
     *(char * *)&((struct Obj00689 *)p)->f4 = args;
     *(unsigned char * *)&((struct Obj00689 *)p)->f8 = func_021BDC18(1, ((struct Obj25331 *)args)->f8, ((struct Obj00689 *)p)->f0);

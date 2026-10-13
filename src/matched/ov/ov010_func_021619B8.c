@@ -26,7 +26,7 @@
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   FLDMMDL_InitPosition  0x0216E014  thumb  ov010
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDEFF_KEMURI_Start  0x021AC528  thumb  ov021
  */
 
@@ -60,7 +60,7 @@ struct Actor;
 extern void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *out);
 extern u16 FLDMMDL_GetDirDisp(void *obj);
 extern void FLDMMDL_InitPosition(void *a, int *p, int b);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void FLDEFF_KEMURI_Start(u32 a, u32 b);
 
 static inline fx32 FX_Mul(fx32 a, fx32 b)
@@ -100,7 +100,7 @@ int EVENT_FIELD_PROCLINK_HopEventMain(void *task, u32 *seq, HopWork *w)
             pos.x = w->start.x + w->delta.x;
             pos.z = w->start.z + w->delta.z;
             FLDMMDL_InitPosition(w->obj, (int *)(&pos), FLDMMDL_GetDirDisp(w->obj));
-            func_020061E4(0x67B);
+            GFL_USE_PlaySeDefaultVolume(0x67B);
             FLDEFF_KEMURI_Start((u32)w->obj, (u32)w->owner);
         }
         break;

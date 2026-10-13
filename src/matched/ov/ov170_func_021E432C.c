@@ -15,7 +15,7 @@
  *   func_021ECB20 0x021ECB20 thumb ov170
  *   func_021ED888 0x021ED888 thumb ov170
  *   func_021EF3EC 0x021EF3EC thumb ov170
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021E8FC0 0x021E8FC0 thumb ov170
  *   func_021E01B0 0x021E01B0 thumb ov170
  *   func_020260E0 0x020260E0 thumb
@@ -39,7 +39,7 @@ extern void func_021EF3A0(struct WinMgr *mgr);
 extern void func_021ECB20(char *p, int f, int c);
 extern void func_021ED888(char *p, int a);
 extern void func_021EF3EC(struct WinMgr *mgr);
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E01B0(u8 *);
 struct Sound;
@@ -67,7 +67,7 @@ int func_021E432C(u8 *p)
             func_021EF3EC(*(struct WinMgr **)(W(p) + 116));
             *(u32 *)(W(p) + 0xa194) = 1;
         }
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         return func_021E8FC0((char *)p, (int)func_021E01B0, 33);
     case 1:
         *(u32 *)(W(p) + 0xa194) = 0;

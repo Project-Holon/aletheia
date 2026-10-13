@@ -13,14 +13,14 @@
  *
  * symbols:
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021B8A70  0x021B8A70  thumb  ov071
  *   func_021B8ADC  0x021B8ADC  thumb  ov071
  *   func_021B8B08  0x021B8B08  thumb  ov071
  *   func_021B8EC4  0x021B8EC4  thumb  ov071
  *   func_021B8C0C  0x021B8C0C  thumb  ov071
- *   func_02045770  0x02045770  arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_02040588  0x02040588  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
@@ -46,14 +46,14 @@ struct Obj0203159C;
 int MONOLITH_TOOL_STATS_Create(struct Obj0203159C *a, int *b, C *c, u8 *d)
 {
     extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-    extern void func_02082BCC(void *, int, int);
+    extern void MI_CpuFill8(void *, int, int);
     extern void func_021B8A70(void);
     extern void func_021B8ADC(char *p);
     extern void func_021B8B08(Q *, u8 *);
     extern void func_021B8EC4(void *p, int a);
     extern void func_021B8C0C(C *, Q *, u8 *);
-    extern void *func_02045770(struct Descriptor *p);
-    extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+    extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+    extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
     extern void BMP_WIN_TransferChars(struct Descriptor *d);
     extern void func_02040588(unsigned char which, unsigned char enable);
     extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
@@ -64,7 +64,7 @@ int MONOLITH_TOOL_STATS_Create(struct Obj0203159C *a, int *b, C *c, u8 *d)
     switch (*b) {
     case 0:
         m = PROCSYS_AllocProcWork(a, 0x50, 0x61);
-        func_02082BCC(m, 0, 0x50);
+        MI_CpuFill8(m, 0, 0x50);
         func_021B8A70();
         func_021B8ADC((char *)c->f4);
         func_021B8B08(c->f4, m);
@@ -78,7 +78,7 @@ int MONOLITH_TOOL_STATS_Create(struct Obj0203159C *a, int *b, C *c, u8 *d)
             void *q = c->f4->f8;
             u8 *s = d + i * 8;
             if (s[0x1c] != 0) {
-                if (func_0201C6C4(q, (void *)((unsigned)func_02045770(((struct Obj06189 *)s)->f18))) == 0) {
+                if (PRINTSYS_QUE_IsExistTarget(q, (void *)((unsigned)BMP_WIN_GetBmp(((struct Obj06189 *)s)->f18))) == 0) {
                     BMP_WIN_TransferChars(((struct Obj06189 *)s)->f18);
                     s[0x1c] = 0;
                 }

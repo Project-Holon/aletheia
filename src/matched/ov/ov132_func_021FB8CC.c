@@ -14,7 +14,7 @@
  *   func_021FADF8 0x021FADF8 thumb ov132
  *   _u32_div_f 0x0209C2B0 arm
  *   _ll_mul 0x0209C054 arm
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  */
 #include "../include/Obj03823.h"
 typedef signed short s16;
@@ -24,7 +24,7 @@ extern void *func_021F9DA0(char *p);
 extern int func_021FAEE8(char *p);
 extern void func_021F8084(void *unused, u32 *p, const u32 *q);
 extern void func_021FADF8(char *p, char *q);
-extern const s16 d_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 void func_021FB8CC(int unused, char *p)
 {
     void *ctx;
@@ -39,7 +39,7 @@ void func_021FB8CC(int unused, char *p)
         Vec v;
         int sine;
         v.x = 0;
-        sine = d_020A1B38[((int)(((u32)((struct Obj03823 *)p)->f4 << 15) / (u32)((struct Obj03823 *)p)->f8) >> 4) * 2];
+        sine = FX_SinCosTable_[((int)(((u32)((struct Obj03823 *)p)->f4 << 15) / (u32)((struct Obj03823 *)p)->f8) >> 4) * 2];
         v.y = -(int)(((long long)sine * ((struct Obj03823 *)p)->f14 + 0x800) >> 12);
         v.z = 0;
         func_021F8084(ctx, ((struct Obj03823 *)p)->f10, (const u32 *)(&v));

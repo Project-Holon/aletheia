@@ -10,25 +10,25 @@
  * volatile: 021BFB12 rereads byte just incremented at 021BFB10.
  * symbols:
  *   func_021BE620 0x021BE620 thumb ov203
- *   func_0204B404 0x0204B404 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   d_021C3BD0 0x021C3BD0 data a2
  */
 #include "../include/Obj04607.h"
 #include "../include/Obj14600.h"
 struct Obj; struct Vec2 { short x, y; };
 extern int func_021BE620(char *p);
-extern void func_0204B404(struct Obj *, const struct Vec2 *, unsigned);
-extern void func_0204B3DC(struct Obj *, unsigned);
+extern void CLACT_AddActorSurfacePos(struct Obj *, const struct Vec2 *, unsigned);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned);
 extern const struct Vec2 d_021C3BD0[];
 void func_021BFAE4(char *p)
 {
     unsigned char *a = *(unsigned char * *)&((struct Obj14600 *)p)->f10;
     int progress = func_021BE620(((struct Obj14600 *)p)->f8) >> 12;
     if (*a < 54 && *a * 100 <= progress) {
-        func_0204B404(*(struct Obj * *)&((struct Obj04607 *)a)->f14, d_021C3BD0 + *a, 1);
+        CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct Obj04607 *)a)->f14, d_021C3BD0 + *a, 1);
         ++*a;
         if (*(volatile unsigned char *)&((struct Obj04607 *)a)->f0 == 54)
-            func_0204B3DC(*(struct Obj * *)&((struct Obj04607 *)a)->f14, 0);
+            CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj04607 *)a)->f14, 0);
     }
 }

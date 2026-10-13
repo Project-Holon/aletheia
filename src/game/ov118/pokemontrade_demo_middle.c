@@ -25,7 +25,7 @@
  *   func_021D8AA8  0x021D8AA8  thumb  ov119
  *   func_021D8FA4  0x021D8FA4  thumb  ov119
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_02006CAC  0x02006CAC  thumb
+ *   PM_VOICE_GetPerapVoiceSave  0x02006CAC  thumb
  *   PM_VOICE_Play  0x02006984  thumb
  *   func_020307B0  0x020307B0  arm
  *   MCSS_GetPosition  0x02015C30  thumb
@@ -137,7 +137,7 @@ extern void func_021D6738(u8 *p, u32 v);
 extern int func_021D8AA8(void *);
 extern void *func_021D8FA4(void *, int);
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
-extern void func_02006CAC(void **out);
+extern void PM_VOICE_GetPerapVoiceSave(void **out);
 extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern u32 func_020307B0(void *p);
 extern void MCSS_GetPosition(void *p, u32 *out);
@@ -235,7 +235,7 @@ void func_021D6918(u8 *p)
         if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {
             a = POKE_TOOL_GetPartyValue(mon, 0xAB, 0);
             b = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
-            func_02006CAC((void **)(&buf));
+            PM_VOICE_GetPerapVoiceSave((void **)(&buf));
             PM_VOICE_Play(a, b, 0x40, 0, 0, 0, 0, (u32)(&buf));
         }
         if (SLOT0 != 0) {

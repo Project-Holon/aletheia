@@ -12,7 +12,7 @@
  * symbols:
  *   ov067_id 0x00000043 data a1
  *   func_02034AC4 0x02034AC4 arm
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_0207D534 0x0207D534 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
@@ -39,7 +39,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const char ov067_id[];
-extern void func_02043534(u32);
+extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern int func_02034AC4(int);
@@ -65,7 +65,7 @@ extern void func_021BC7D0(void);
 int func_021BCC94(char *p)
 {
     func_02034AC4((int)ov067_id);
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CF918",
+   "name": "BTL_CLIENT_GetEscapeBlockerForSide",
    "address": "0x021CF918",
    "kind": "game",
    "region": "ov093",

@@ -16,6 +16,7 @@
  *   func_021BA2BC  0x021BA2BC  thumb  ov217
  *   func_021BA388  0x021BA388  thumb  ov217
  *   func_021BA3E8  0x021BA3E8  thumb  ov217
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -28,7 +29,7 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021BA284(int sel);
 extern void func_021BA2BC(int sel);
 extern void func_021BA388(char *self, int d);
@@ -38,7 +39,7 @@ u32 func_021BA1F8(u32 a0)
     func_021BA2BC(((struct Obj00511 *)(((u8*)a0)))->f28);
     func_021BA388((char *)a0, -1);
     func_021BA284(((struct Obj00511 *)(((u8*)a0)))->f28);
-    func_020061E4(1352);
+    GFL_USE_PlaySeDefaultVolume(1352);
     return func_021BA3E8(a0, 1);
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021D18EC
+ * function: BTL_CLIENT_StepShowPrizeMoneyMessage
  * address:  0x021D18EC
  * packet:   pkt_ov093_021D18EC
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA1A8  0x021BA1A8  thumb  ov093
- *   func_021B9210  0x021B9210  thumb  ov093
- *   func_021B8FF4  0x021B8FF4  thumb  ov093
+ *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
+ *   BTL_MAIN_GetBonusMoney  0x021B9210  thumb  ov093
+ *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
  *   func_021EAF18  0x021EAF18  thumb  ov093
  *   func_021EAF50  0x021EAF50  thumb  ov093
  *   func_021EA614  0x021EA614  thumb  ov093
@@ -31,9 +31,9 @@ typedef struct {
     u8 unk1A6;            /* 0x1A6 */
 } BattleSeq;
 
-extern int func_021BA1A8(char **p, int m);
-extern u32 func_021B9210(u8 *p);
-extern u8 func_021B8FF4(u8 *p);
+extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
+extern u32 BTL_MAIN_GetBonusMoney(u8 *p);
+extern u8 BTL_MAIN_GetOwnClientId(u8 *p);
 struct L;
 extern void func_021EAF18(struct L *p, int kind, int id);
 struct H;
@@ -41,17 +41,17 @@ extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021EA614(char *p, struct H *h);
 extern int func_021EA710(u32 *p);
 
-int func_021D18EC(BattleSeq *s, int *state)
+int BTL_CLIENT_StepShowPrizeMoneyMessage(BattleSeq *s, int *state)
 {
     int a;
     int b;
 
     switch (*state) {
     case 0:
-        if (func_021BA1A8(s->battle, 0x200) == 0) {
-            a = func_021B9210(s->battle);
+        if (BTL_MAIN_CheckSetupStatusFlag(s->battle, 0x200) == 0) {
+            a = BTL_MAIN_GetBonusMoney(s->battle);
             if (a != 0) {
-                b = func_021B8FF4(s->battle);
+                b = BTL_MAIN_GetOwnClientId(s->battle);
                 func_021EAF18((struct L *)s->msg, 1, 0x3b);
                 func_021EAF50((struct L *)s->msg, b);
                 func_021EAF50((struct L *)s->msg, a);

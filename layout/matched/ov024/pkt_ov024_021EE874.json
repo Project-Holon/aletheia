@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EE874",
+   "name": "WEATHER_CLEAR_EndFinish",
    "address": "0x021EE874",
    "kind": "game",
    "region": "ov024",

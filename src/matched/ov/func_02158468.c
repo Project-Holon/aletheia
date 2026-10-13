@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   GAME_DATA_GetIntrudeIdByte  0x0215841C  thumb  ov010
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct BigObj;
-extern u32 func_02026478(void *obj);
+extern u32 GAME_COMM_GetGameData(void *obj);
 extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern u8 GAME_DATA_GetIntrudeIdByte(void *p);
@@ -36,7 +36,7 @@ int INTRUDE_COMM_GetAreaSlotFlag(int a0)
     int t4;
     int t5;
 
-    a0 = func_02026478((void *)a0);
+    a0 = GAME_COMM_GetGameData((void *)a0);
 loc_0215846E:
 t5 = a0 + 0;
     a0 = GAME_DATA_GetIntrudeCount((const struct BigObj *)a0);

@@ -15,11 +15,11 @@
  * func_02034AC4 0x02034AC4 arm
  * GFL_HEAP_CreateChildHeap 0x0203064C arm
  * PROCSYS_AllocProcWork 0x0203159C arm
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * func_02040588 0x02040588 arm
  * func_021BB178 0x021BB178 thumb ov214
  * GF_FONT_Create 0x0201D7EC thumb
- * func_0201C440 0x0201C440 thumb
+ * PRINTSYS_QUE_Create 0x0201C440 thumb
  * func_0201292C 0x0201292C thumb
  * func_02007F68 0x02007F68 thumb
  * func_020056A0 0x020056A0 thumb
@@ -55,7 +55,7 @@ extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void*,u32,u32);
+extern void MI_CpuFill8(void*,u32,u32);
 struct C;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0204047C(int idx, unsigned short val);
@@ -66,7 +66,7 @@ struct BigObj;
 struct GfFont;
 struct MsgBank;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern u32 func_0201C440(void*);
+extern u32 PRINTSYS_QUE_Create(void*);
 extern void *func_0201292C(const struct BigObj *p);
 extern u32 func_02007F68(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 func_020056A0(void(*)(void*),void*,u32);
@@ -95,15 +95,15 @@ int func_021B95A0(void *manager,char *state,char * const obj)
     func_02034AC4((int)ov67_id);
     GFL_HEAP_CreateChildHeap(1,0x75,0x50000);
     p=PROCSYS_AllocProcWork(manager,0x2f0,0x75);
-    func_02082BCC(p,0,0x2f0);
+    MI_CpuFill8(p,0,0x2f0);
     ((struct Obj00182 *)p)->f0=0x75;
     for(i=0;i<=7;i++)func_02040588(i,0);
     *(void* *)&((struct Obj00182 *)p)->f4=func_021BB178(1,((struct Obj00182 *)p)->f0);
     *(void* *)&((struct Obj00182 *)p)->f8=GF_FONT_Create(23,0,0,0,((struct Obj00182 *)p)->f0);
-    ((struct Obj00182 *)p)->fC=func_0201C440((void*)(u32)((struct Obj00182 *)p)->f0);
-    ((struct Obj00182 *)p)->f10=func_0201C440((void*)(u32)((struct Obj00182 *)p)->f0);
-    ((struct Obj00182 *)p)->f14=func_0201C440((void*)(u32)((struct Obj00182 *)p)->f0);
-    ((struct Obj00182 *)p)->f18=func_0201C440((void*)(u32)((struct Obj00182 *)p)->f0);
+    ((struct Obj00182 *)p)->fC=PRINTSYS_QUE_Create((void*)(u32)((struct Obj00182 *)p)->f0);
+    ((struct Obj00182 *)p)->f10=PRINTSYS_QUE_Create((void*)(u32)((struct Obj00182 *)p)->f0);
+    ((struct Obj00182 *)p)->f14=PRINTSYS_QUE_Create((void*)(u32)((struct Obj00182 *)p)->f0);
+    ((struct Obj00182 *)p)->f18=PRINTSYS_QUE_Create((void*)(u32)((struct Obj00182 *)p)->f0);
     ((struct Obj00182 *)p)->f50=func_02007F68(func_0201292C(*(void* *)&((struct Obj06705 *)obj)->f0),0x1d1,1,((struct Obj00182 *)p)->f0);
     ((struct Obj00182 *)p)->f54=0;
     ((struct Obj00182 *)p)->f4C=func_020056A0((void (*)(void *))func_021B9F18,p,1);

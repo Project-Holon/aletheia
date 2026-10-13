@@ -10,19 +10,19 @@
  * status:   EXACT
  * symbols:
  *   GFL_USE_IsSeSlotBusy  0x02006224  thumb
- *   func_0200616C  0x0200616C  thumb
+ *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int GFL_USE_IsSeSlotBusy(u32 a0);
-extern void func_0200616C(void *arg, int i);
+extern void GFL_USE_PlaySeInSlot(void *arg, int i);
 
 void RINGTONE_SYS_StartRing(u16 *p)
 {
     if (GFL_USE_IsSeSlotBusy(4) == 0) {
-        func_0200616C((void *)0x662, 4);
+        GFL_USE_PlaySeInSlot((void *)0x662, 4);
     }
     p[2] = 0x384;
 }

@@ -29,7 +29,7 @@
  *       --thumb --region ov119 --flags=-O4,p
  *
  * symbols:
- *   sub_0207C768   0x0207C768  arm
+ *   FX_Div   0x0207C768  arm
  *   _fflt          0x0209BDBC  arm
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
@@ -62,7 +62,7 @@ struct Curve {
 #define FX_INT_TO_FX32(x) ((fx32)(((x) > 0) ? ((float)((x) << 12) + .5f) \
                                             : ((float)((x) << 12) - .5f)))
 
-extern u32 sub_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 
 int func_021E729C(struct Curve *c)
 {
@@ -70,7 +70,7 @@ int func_021E729C(struct Curve *c)
     fx32 tm3, t2m3;
 
     if (c->idx < c->count - 1) {
-        t = sub_0207C768(FX_INT_TO_FX32(c->idx), FX_INT_TO_FX32(c->count));
+        t = FX_Div(FX_INT_TO_FX32(c->idx), FX_INT_TO_FX32(c->count));
         s = FX32_ONE - t;
         t2 = FX_MUL(t, t);
         s2 = FX_MUL(s, s);

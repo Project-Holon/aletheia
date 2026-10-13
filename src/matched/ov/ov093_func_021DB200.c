@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_MoldBreaker_RemoveSkipCheckOnEvent4
+ * function: HAND_TOKUSEI_MoldBreaker_RemoveSkipCheckOnEvent4
  * address: 0x021DB200
  * packet: pkt_ov093_021DB200
  * region: ov093
@@ -15,4 +15,4 @@
 extern int BTL_EVENT_GetVar(int);
 typedef unsigned char  u8;
 extern void BTL_EVENT_ClearFactorSkipCheck(u8 *p);
-void BTL_TOKUSEI_MoldBreaker_RemoveSkipCheckOnEvent4(char *a, int b, int c, int *d) { if (c == BTL_EVENT_GetVar(2) && *d == 1) { BTL_EVENT_ClearFactorSkipCheck((u8 *)a); *d = 0; } }
+void HAND_TOKUSEI_MoldBreaker_RemoveSkipCheckOnEvent4(char *a, int b, int c, int *d) { if (c == BTL_EVENT_GetVar(2) && *d == 1) { BTL_EVENT_ClearFactorSkipCheck((u8 *)a); *d = 0; } }

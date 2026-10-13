@@ -13,9 +13,9 @@
  *   GAMESYSTEM_GetGameData   0x020120F4  thumb
  *   GAMESYSTEM_GetGameComm   0x02012138  thumb
  *   func_020124E8   0x020124E8  thumb
- *   func_02026454   0x02026454  thumb
+ *   GAME_COMM_GetKind   0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback   0x02026400  thumb
- *   func_0201A920   0x0201A920  thumb
+ *   POKEPARTY_Create   0x0201A920  thumb
  *   func_02030734   0x02030734  arm
  *   GAME_DATA_GetSaveControl   0x02012EBC  thumb
  *   GAME_DATA_GetWifiList   0x0201283C  thumb
@@ -40,9 +40,9 @@ struct Ctx;
 struct Obj;
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 void *func_020124E8(struct Obj *p);
-u32 func_02026454(void *obj);
+u32 GAME_COMM_GetKind(void *obj);
 void GAME_COMM_RequestExitNoCallback(struct Comm *p);
-struct Party *func_0201A920(u32 heap);
+struct Party *POKEPARTY_Create(u32 heap);
 void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 void *GAME_DATA_GetSaveControl(struct Big *p);
 u32 GAME_DATA_GetWifiList(const struct BigObj *p);
@@ -72,7 +72,7 @@ void EVENT_WIFICLUB_InitWork(void *obj_in, void *p, int a, int b)
     char *obj;
     Sub *s;
 
-    if (func_02026454((void *)GAMESYSTEM_GetGameComm(p)))
+    if (GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm(p)))
         GAME_COMM_RequestExitNoCallback((struct Comm *)GAMESYSTEM_GetGameComm(p));
     obj = func_020124E8(obj_in);
     ((struct Obj00652 *)obj)->f4 = p;
@@ -88,11 +88,11 @@ void EVENT_WIFICLUB_InitWork(void *obj_in, void *p, int a, int b)
     ((struct Obj00652 *)obj)->f90 = (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f04;
     ((struct Obj00652 *)obj)->f94 = GAME_DATA_GetWifiList((const struct BigObj *)(((struct Obj00652 *)obj)->f90));
     (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f0c = 0;
-    ((struct Obj00652 *)obj)->f7C = ((struct Obj00652 *)obj)->f168 = (int)func_0201A920(0x8004);
+    ((struct Obj00652 *)obj)->f7C = ((struct Obj00652 *)obj)->f168 = (int)POKEPARTY_Create(0x8004);
     *(char * *)&((struct Obj00652 *)obj)->fC = obj;
     ((struct Obj00652 *)obj)->f170 = GFL_USE_GetBgmNo();
-    (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f14 = (int)func_0201A920(0x8001);
-    (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f18 = (int)func_0201A920(0x8001);
+    (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f14 = (int)POKEPARTY_Create(0x8001);
+    (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f18 = (int)POKEPARTY_Create(0x8001);
     (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f1c = (int)func_0200ADF0(0x8001);
     (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f20 = 1;
 }

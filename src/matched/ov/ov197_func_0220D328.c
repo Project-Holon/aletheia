@@ -10,19 +10,19 @@
  * trailing: larger follower filed as ov197_func_0220D358.c (parent cleared).
  * symbols:
  *   func_0220D884 0x0220D884 thumb ov197
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  */
 #include "../include/Obj25088.h"
 
 typedef unsigned int u32;
 extern int func_0220D884(char **);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 int func_0220D328(char *p)
 {
     if (func_0220D884((char **)p) == 1) return 18;
-    if ((func_020362DC() & 3) || TOUCHPANEL_GetTrg() == 1)
+    if ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg() == 1)
         return ((struct Obj25088 *)p)->f531;
     return 15;
 }

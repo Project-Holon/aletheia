@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021F2608 0x021F2608 thumb ov194
  *   func_021F1A10 0x021F1A10 thumb ov194
  */
@@ -19,9 +19,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern void func_021F2608(void *);
 extern void func_021F1A10(void *);
-void func_021F31B8(u8 *p) {int off;func_020452E8(((struct Obj24905 *)p)->fE0);func_021F2608(p);func_021F1A10(p+36);off=0x11c;func_020307B0(*(void **)(p+off));func_020307B0(*(void **)(p+off+4));off+=20;func_02082BCC(p,0,off);}
+void func_021F31B8(u8 *p) {int off;BMP_WIN_Delete(((struct Obj24905 *)p)->fE0);func_021F2608(p);func_021F1A10(p+36);off=0x11c;func_020307B0(*(void **)(p+off));func_020307B0(*(void **)(p+off+4));off+=20;MI_CpuFill8(p,0,off);}

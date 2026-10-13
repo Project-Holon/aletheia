@@ -12,7 +12,7 @@
  *   func_021CA458 0x021CA458 thumb ov128
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj04505.h"
@@ -24,7 +24,7 @@ struct TaskMenuState;
 struct U16Vec;
 extern unsigned int APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern unsigned int func_020452E8(struct Descriptor *d);
+extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void func_021C72A0(u8 *p, u8 *unused, u8 *q)
@@ -35,7 +35,7 @@ void func_021C72A0(u8 *p, u8 *unused, u8 *q)
     STRBUF_Delete(((struct Obj04505 *)p)->f30);
     STRBUF_Delete(((struct Obj04505 *)p)->f3C);
     STRBUF_Delete(((struct Obj04505 *)p)->f2C);
-    func_020452E8(((struct Obj04505 *)p)->f1C);
-    func_020452E8(((struct Obj04505 *)p)->fC);
+    BMP_WIN_Delete(((struct Obj04505 *)p)->f1C);
+    BMP_WIN_Delete(((struct Obj04505 *)p)->fC);
     func_020307B0(((struct Obj04505 *)p)->f14);
 }

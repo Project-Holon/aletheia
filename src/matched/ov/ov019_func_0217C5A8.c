@@ -31,10 +31,10 @@
  *   UNION_COMMAND_SendPartnerSelectB  0x02173A48  thumb ov012
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_0201AA1C  0x0201AA1C  thumb
- *   func_0201AAD4  0x0201AAD4  thumb
- *   func_0201AA88  0x0201AA88  thumb
- *   func_020362DC  0x020362DC  arm
+ *   POKEPARTY_GetNonEggCount  0x0201AA1C  thumb
+ *   POKEPARTY_GetBadEggCount  0x0201AAD4  thumb
+ *   POKEPARTY_GetEggCount  0x0201AA88  thumb
+ *   KEY_GetTrg  0x020362DC  arm
  */
 
 typedef unsigned char u8;
@@ -96,10 +96,10 @@ int UNION_COMMAND_SendPartnerSelectB(int a, ...);
 void *GAME_DATA_GetMyParty(const struct BigObj *p);
 struct Ctx;
 void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-u32 func_0201AA1C(void *p);
-u32 func_0201AAD4(void *p);
-u32 func_0201AA88(void *p);
-u32 func_020362DC(void);
+u32 POKEPARTY_GetNonEggCount(void *p);
+u32 POKEPARTY_GetBadEggCount(void *p);
+u32 POKEPARTY_GetEggCount(void *p);
+u32 KEY_GetTrg(void);
 
 int UNION_ONESELF_TalkChildMain(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
 {
@@ -159,15 +159,15 @@ int UNION_ONESELF_TalkChildMain(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
             flag = 0;
         } else if (obj->f2d == 0x18 && flag == 1) {
             GAMESYSTEM_GetGameData((const struct Ctx *)ctx->sys->fc);
-            if ((int)func_0201AA1C(h) < 2) {
+            if ((int)POKEPARTY_GetNonEggCount(h) < 2) {
                 flag = 0;
                 obj->f6e = 1;
             }
         } else if (obj->f2d == 0x19 && flag == 1) {
-            if ((int)func_0201AAD4(h) > 0) {
+            if ((int)POKEPARTY_GetBadEggCount(h) > 0) {
                 flag = 0;
                 obj->f6e = 3;
-            } else if (func_0201AA88(h) == 0) {
+            } else if (POKEPARTY_GetEggCount(h) == 0) {
                 flag = 0;
                 obj->f6e = 2;
             }
@@ -188,7 +188,7 @@ int UNION_ONESELF_TalkChildMain(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
         (*state)++;
         break;
     case 7:
-        if (UNION_MSG_CheckRegulationPrintEnd((char *)ctx, (u32)a2) == 1 && (func_020362DC() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd((char *)ctx, (u32)a2) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow((char *)ctx);
             if (obj->f68 == -1)
                 *state = 10;
@@ -201,7 +201,7 @@ int UNION_ONESELF_TalkChildMain(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
         (*state)++;
         break;
     case 9:
-        if (UNION_MSG_CheckRegulationPrintEnd((char *)ctx, (u32)a2) == 1 && (func_020362DC() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd((char *)ctx, (u32)a2) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow((char *)ctx);
             *state = 10;
         }

@@ -16,7 +16,7 @@
  *   EVENT_DISAPPEAR_CreateFadeOutAlt  0x021C0374  thumb  ov021
  *   EVENT_DISAPPEAR_EndZoomInAlt  0x021C0360  thumb  ov021
  *   FIELD_TASK_MANAGER_IsEmpty  0x021C6E48  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  */
 #include "../include/Obj05073.h"
@@ -31,7 +31,7 @@ extern void EVENT_DISAPPEAR_StartZoomInAlt(u8 *p);
 extern int EVENT_DISAPPEAR_CreateFadeOutAlt(u32 *p);
 extern int EVENT_DISAPPEAR_EndZoomInAlt(u8 *a);
 extern int FIELD_TASK_MANAGER_IsEmpty(u32 a);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
 int EVENT_DISAPPEAR_RunSpinZoomEffect(u32 a, int *st, u8 *p)
@@ -45,7 +45,7 @@ int EVENT_DISAPPEAR_RunSpinZoomEffect(u32 a, int *st, u8 *p)
     case 0:
         EVENT_DISAPPEAR_StartSpinAndEffect(p);
         EVENT_DISAPPEAR_StartZoomInAlt(p);
-        func_020061E4(0x6DF);
+        GFL_USE_PlaySeDefaultVolume(0x6DF);
         *st = *st + 1;
         break;
     case 1:
@@ -58,7 +58,7 @@ int EVENT_DISAPPEAR_RunSpinZoomEffect(u32 a, int *st, u8 *p)
         }
     case 2:
         if (FIELD_TASK_MANAGER_IsEmpty(q)) {
-            func_020061E4(0x559);
+            GFL_USE_PlaySeDefaultVolume(0x559);
             *st = *st + 1;
         }
         break;

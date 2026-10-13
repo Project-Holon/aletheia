@@ -21,7 +21,7 @@
  *   func_02078B70  0x02078B70  arm
  *   func_021F628C  0x021F628C  arm  ov107
  *   func_021F62A0  0x021F62A0  arm  ov107
- *   func_02090CD4  0x02090CD4  arm
+ *   WM_SetGameInfo_Alt  0x02090CD4  arm
  *   MBi_calc_cksum  0x021F3CB8  arm  ov107
  *   WM_SetGameInfo  0x02090CD4  arm
  *   sMb 0x021F6EF4 data
@@ -118,7 +118,7 @@ extern int func_02078A80(FSFile *file);
 extern s32 func_02078B70(FSFile *file, void *buffer, s32 length);
 extern u32 func_021F628C(void);
 extern u16 func_021F62A0(void);
-extern int func_02090CD4(void *callback, void *userGameInfo, u16 size, u32 ggid, u16 tgid, u8 attr);
+extern int WM_SetGameInfo_Alt(void *callback, void *userGameInfo, u16 size, u32 ggid, u16 tgid, u8 attr);
 extern u16 MBi_calc_cksum(u16 *buf, int length);
 extern int WM_SetGameInfo(void (*callback)(void *), u16 *userGameInfo,
                           u16 userGameInfoSize, u32 ggid, u16 tgid, u8 attr);
@@ -326,7 +326,7 @@ int func_021F4054(void)
 
     if (mbss.top == 0) {
         u32 ggid = func_021F628C();
-        func_02090CD4(0, &bsendBuff, 0x70, ggid, func_021F62A0(), 8);
+        WM_SetGameInfo_Alt(0, &bsendBuff, 0x70, ggid, func_021F62A0(), 8);
         return 0;
     }
     if (mbss.nowGInfop != 0 && (nextGameInfop = mbss.nowGInfop->next) != 0) {

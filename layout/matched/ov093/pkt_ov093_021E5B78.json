@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E5B78",
-    "func_021E5C0C"
+    "HAND_WAZA_BatonPassSwitchOut",
+    "HAND_WAZA_GetTeleportHandlers"
+   ],
+   "addresses": [
+    "0x021E5B78",
+    "0x021E5C0C"
    ],
    "evidence": {
     "sole-ref": [

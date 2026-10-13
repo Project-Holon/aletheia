@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GAME_LANGUAGE_Code 0x0209DF0C data a1
  *   func_02034714 0x02034714 arm
  *   d_0217E64C 0x0217E64C data a1
@@ -22,7 +22,7 @@ typedef struct {
     unsigned pad[24];
     unsigned last;
 } Config;
-extern void func_02082BCC(void *, int, unsigned);
+extern void MI_CpuFill8(void *, int, unsigned);
 extern unsigned char GAME_LANGUAGE_Code;
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -32,7 +32,7 @@ extern void *DELIVERY_IRC_Create(u8 *p);
 void func_0217E318(char *p, unsigned value)
 {
     Config config;
-    func_02082BCC(&config, 0, 0x7C);
+    MI_CpuFill8(&config, 0, 0x7C);
     config.a = 0x30;
     config.c = 0x160;
     config.value = value;

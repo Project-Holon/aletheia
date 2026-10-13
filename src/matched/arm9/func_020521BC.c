@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   tbl_020A1B38   0x020A1B38  data
+ *   FX_SinCosTable_   0x020A1B38  data
  *   VEC_Mag        0x0207CBD0  arm
  *   FX_Atan2Idx    0x0207CFB8  arm
  *   MTX_RotX33_    0x0207AF00  thumb
@@ -58,7 +58,7 @@ struct Mtx33 {
     int m[9];
 };
 
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 extern int  VEC_Mag(const struct Vec3 *v);
 extern int  FX_Atan2Idx(int y, int x);
@@ -80,10 +80,10 @@ void BUTTON_MAN_MakeLookAtMtx(const struct Vec3 *v, struct Mtx33 *dst)
     run = VEC_Mag(&flat);
 
     i = FX_Atan2Idx(-v->y, run) >> 4;
-    MTX_RotX33_(&mx, tbl_020A1B38[2 * i], tbl_020A1B38[2 * i + 1]);
+    MTX_RotX33_(&mx, FX_SinCosTable_[2 * i], FX_SinCosTable_[2 * i + 1]);
 
     i = FX_Atan2Idx(v->x, v->z) >> 4;
-    MTX_RotY33_(&my, tbl_020A1B38[2 * i], tbl_020A1B38[2 * i + 1]);
+    MTX_RotY33_(&my, FX_SinCosTable_[2 * i], FX_SinCosTable_[2 * i + 1]);
 
     MTX_Concat33(&mx, &my, dst);
 }

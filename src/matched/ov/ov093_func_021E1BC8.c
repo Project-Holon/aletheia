@@ -1,5 +1,5 @@
 /*
- * function: func_021E1BC8
+ * function: HAND_WAZA_AddSnore
  * address: 0x021E1BC8
  * packet: pkt_ov093_021E1BC8
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E1B4C.c and filed here.
  *
  * symbols:
- *   d_021F2978 0x021F2978 data ov093 a4
+ *   gSnoreHandlers 0x021F2978 data ov093 a4
  */
 
-int *func_021E1BC8(int *p);
-extern int d_021F2978[];
+int *HAND_WAZA_AddSnore(int *p);
+extern int gSnoreHandlers[];
 
-int *func_021E1BC8(int *p)
+int *HAND_WAZA_AddSnore(int *p)
 {
     *p = 2;
-    return d_021F2978;
+    return gSnoreHandlers;
 }

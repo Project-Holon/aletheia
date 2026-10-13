@@ -22,7 +22,7 @@
  *   gVctReadyHead 0x021B4BAC data a4
  *   gVctReadyCount 0x021B4BB8 data a4
  *   VCT_POOL_FreeFrame  0x021B2FE4  arm  ov013
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020870D0  0x020870D0  arm
  *   gVctSession 0x021B60D8 data a4
  *   VCT_SESSION_AllocPeer 0x021B24FC arm ov013
@@ -40,7 +40,7 @@
 extern u32 func_02087988(void);
 extern void func_0208799C(u32 irq);
 extern void VCT_POOL_FreeFrame(VctRxPacket *packet);
-extern void func_02082BCC(void *dst, int value, int size);
+extern void MI_CpuFill8(void *dst, int value, int size);
 extern unsigned long long func_020870D0(void);
 extern VctPeer *VCT_SESSION_AllocPeer(unsigned int index);
 extern void VCT_SESSION_InitPacketHeader(void *peer, void *message, unsigned int type);
@@ -424,7 +424,7 @@ int VCT_AUDIO_GetReadyCount(unsigned int slot) { return gVctReadyCount[slot]; }
 
 void VCT_AUDIO_InitReceiveSource(VctReceiveSource *source, u32 queueIndex, int peerAid)
 {
-    func_02082BCC(source, 0, 0x28);
+    MI_CpuFill8(source, 0, 0x28);
     source->playoutDelay = 0x134DF;
     source->lastLatency = 0;
     source->latencyFilter = 0;
@@ -819,9 +819,9 @@ int VCT_SESSION_InitPeerPool(VctInitParams *params)
     if (params->peerBuffer == 0 || params->peerCount == 0 || params->peerCount > 8)
         return 0;
     gVctPeerPool.freePeers = params->peerBuffer;
-    func_02082BCC(params->peerBuffer, 0, params->peerCount * sizeof(VctPeer));
-    func_02082BCC(&gVctPeerPool.active, 0, sizeof(VctPeer));
-    func_02082BCC(&gVctPeerPool.rejectPeer, 0, sizeof(VctPeer));
+    MI_CpuFill8(params->peerBuffer, 0, params->peerCount * sizeof(VctPeer));
+    MI_CpuFill8(&gVctPeerPool.active, 0, sizeof(VctPeer));
+    MI_CpuFill8(&gVctPeerPool.rejectPeer, 0, sizeof(VctPeer));
     for (i = 0; i < params->peerCount - 1; i++)
         gVctPeerPool.freePeers[i].next = &gVctPeerPool.freePeers[i + 1];
     (gVctPeerPool.freePeers + params->peerCount - 1)->next = 0;

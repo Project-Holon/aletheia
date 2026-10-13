@@ -12,15 +12,15 @@
  *   c[k + 1], c[k + 2], c[k + 3]); the byte load then evaluates before x, as in the image.
  * symbols:
  *   ov208_func_021BC3B4 0x021BC3B4 thumb ov208
- *   func_0204B3F4 0x0204B3F4 arm
- *   func_020362DC 0x020362DC arm
- *   func_0203633C 0x0203633C arm
- *   func_02035D20 0x02035D20 arm
+ *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   KEY_GetRepeat 0x0203633C arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_020355D8 0x020355D8 arm
  *   ov208_func_021BDC48 0x021BDC48 thumb ov208
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_020061E4 0x020061E4 thumb
- *   func_0204B92C 0x0204B92C arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  */
 
@@ -30,15 +30,15 @@ typedef unsigned int   u32;
 
 extern void *ov208_func_021BC3B4(int key);
 struct Obj;
-extern u32 func_0204B3F4(struct Obj *p);
-extern u32 func_020362DC(void);
-extern u32 func_0203633C(void);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
+extern u32 KEY_GetTrg(void);
+extern u32 KEY_GetRepeat(void);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void func_020355D8(int v);
 extern void ov208_func_021BDC48(void *scene, u32 on);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_020061E4(u32 v);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void GFL_USE_PlaySeDefaultVolume(u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 
 #define F32(b, o) (*(u32 *)((b) + (o)))
@@ -63,14 +63,14 @@ int ov208_func_021C6760(void *unused, u8 *p, int key)
     if (hit == 5) {
         for (i = 0; i < 4; i++) {
             b = p + i * 0x28;
-            if (func_0204B3F4((void *)F32(b, 0x618)) != 0) {
-                if ((func_020362DC() & F32(b, 0x60c)) != 0) {
+            if (CLACT_GetActorDrawEnable((void *)F32(b, 0x618)) != 0) {
+                if ((KEY_GetTrg() & F32(b, 0x60c)) != 0) {
                     type = 0;
                     hit = i;
                     break;
                 }
                 if (i == 2 || i == 3) {
-                    if ((func_0203633C() & F32(b, 0x60c)) != 0) {
+                    if ((KEY_GetRepeat() & F32(b, 0x60c)) != 0) {
                         type = 0;
                         hit = i;
                         break;
@@ -80,11 +80,11 @@ int ov208_func_021C6760(void *unused, u8 *p, int key)
         }
     }
     if (hit == 5) {
-        if (func_02035D20(&x, &y) != 0) {
+        if (TOUCHPANEL_GetPointTrg(&x, &y) != 0) {
             k = 0x604;
             for (j = 0; j < 4; j++) {
                 c = p + j * 0x28;
-                if (func_0204B3F4((void *)F32(c, 0x618)) != 0) {
+                if (CLACT_GetActorDrawEnable((void *)F32(c, 0x618)) != 0) {
                     if ((u32)c[k] <= x && x < (u32)c[k] + c[k + 2]
                         && (u32)c[k + 1] <= y && y < (u32)c[k + 1] + c[k + 3]) {
                         type = 1;
@@ -104,7 +104,7 @@ int ov208_func_021C6760(void *unused, u8 *p, int key)
             o = hit * 0x28;
             *(u32 *)(p + 0x614 + o) = 1;
             CLACT_SetActorAnimSeq((void *)*(u32 *)(p + 0x618 + o), *(u8 *)(p + 0x609 + o));
-            func_020061E4(*(u32 *)(p + 0x610 + o));
+            GFL_USE_PlaySeDefaultVolume(*(u32 *)(p + 0x610 + o));
             partner = 5;
             if (hit == 2)
                 partner = 3;
@@ -112,7 +112,7 @@ int ov208_func_021C6760(void *unused, u8 *p, int key)
                 partner = 2;
             if (partner != 5) {
                 q = p + 0x618;
-                func_0204B92C((void *)F32(q, partner * 0x28), 0);
+                CLACT_SetActorAutoAnim((void *)F32(q, partner * 0x28), 0);
                 CLACT_SetActorAnimFrame((void *)F32(q, partner * 0x28), 0);
             }
             F32(p, 0x694) = hit;

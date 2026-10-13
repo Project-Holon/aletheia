@@ -1,7 +1,7 @@
 /*
  * file:     unit_02179CAC.c
  * unit:     yes
- * function: func_02179CAC, func_02179CE4, func_02179D14, func_02179D30, func_02179D3C, func_02179D68, func_02179D78, func_02179D80
+ * function: func_02179CAC, func_02179CE4, func_02179D14, IRCNET_GetSenderFlag, func_02179D3C, func_02179D68, func_02179D78, func_02179D80
  * address:  0x02179CAC
  * region:   ov015
  * compiler: dsi/1.1p1
@@ -68,7 +68,7 @@ extern void GFL_NET_HANDLE_RemoveHandle(u32 a0);
 int func_02179CAC(void);
 void func_02179CE4(void);
 void func_02179D14(void);
-u8 func_02179D30(void);
+u8 IRCNET_GetSenderFlag(void);
 int func_02179D3C(void);
 u8 func_02179D68(void);
 int func_02179D78(void);
@@ -113,7 +113,7 @@ void func_02179D14(void) { ((u8 *)&d_0217AB80)[0x1c] = func_0217A014(); ((u8 *)&
 
 
 
-u8 func_02179D30(void)
+u8 IRCNET_GetSenderFlag(void)
 {
     return g_0217AB80[0x1c];
 }

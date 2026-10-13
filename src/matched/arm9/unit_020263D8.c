@@ -12,7 +12,7 @@
  * status:   EXACT
  * function: GAME_COMM_Start, GAME_COMM_RequestExitNoCallback, GAME_COMM_RequestExit
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GAME_COMM_ClearPlayerStatus  0x020264F4  thumb
  *   GAME_COMM_SetSeqState  0x02026490  thumb
  *
@@ -59,7 +59,7 @@ struct Comm {
     u32 f20;
 };
 
-extern void func_02082BCC(void *dst, int val, u32 n);
+extern void MI_CpuFill8(void *dst, int val, u32 n);
 extern void GAME_COMM_ClearPlayerStatus(u8 *p);
 
 void GAME_COMM_Start(struct Comm *p, u32 a1, u32 a2)
@@ -69,7 +69,7 @@ void GAME_COMM_Start(struct Comm *p, u32 a1, u32 a2)
     p->f05 = a1;
     p->f20 = 0;
     p->f1c = 0;
-    func_02082BCC(&p->sub, 0, 8);
+    MI_CpuFill8(&p->sub, 0, 8);
     GAME_COMM_ClearPlayerStatus((u8 *)p);
 }
 

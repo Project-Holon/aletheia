@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_Klutz_BlockNaturalGift
+ * function: HAND_TOKUSEI_Klutz_BlockNaturalGift
  * address:  0x021DB734
  * packet:   pkt_ov093_021DB734
  * region:   ov093
@@ -19,7 +19,7 @@ extern int BTL_EVENT_GetVar(int);
 typedef unsigned int   u32;
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void BTL_TOKUSEI_Klutz_BlockNaturalGift(int a, int b, int c, int d)
+void HAND_TOKUSEI_Klutz_BlockNaturalGift(int a, int b, int c, int d)
 {
     if (c == BTL_EVENT_GetVar(2)) {
         unsigned short t = (unsigned short)BTL_EVENT_GetVar(0x12);

@@ -1,5 +1,5 @@
 /*
- * function: func_021D1EB4
+ * function: BTL_CLIENT_StepShowSideMessageWithSound
  * address:  0x021D1EB4
  * packet:   pkt_ov093_021D1EB4
  * region:   ov093
@@ -14,7 +14,7 @@
  *   func_021EA678  0x021EA678  thumb  ov093
  *   func_021EA710  0x021EA710  thumb  ov093
  *   func_021EA720  0x021EA720  thumb  ov093
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 
 typedef unsigned char u8;
@@ -30,9 +30,9 @@ extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern void func_021EA678(char *p, u16 k, int *c);
 extern int func_021EA710(u32 *p);
 extern int func_021EA720(u32 *p);
-extern void func_020061E4(unsigned int arg);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned int arg);
 
-int func_021D1EB4(Seq *s, int *state, u32 *a)
+int BTL_CLIENT_StepShowSideMessageWithSound(Seq *s, int *state, u32 *a)
 {
     switch (*state) {
     case 0:
@@ -44,7 +44,7 @@ int func_021D1EB4(Seq *s, int *state, u32 *a)
         break;
     case 1:
         if (func_021EA720(s->win)) {
-            func_020061E4(a[1]);
+            GFL_USE_PlaySeDefaultVolume(a[1]);
         }
         if (func_021EA710(s->win)) {
             return 1;

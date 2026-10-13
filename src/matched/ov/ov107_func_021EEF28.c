@@ -19,7 +19,7 @@
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  *   WIPE_ResetWndMask 0x02022224 thumb
@@ -57,7 +57,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void CLACT_InitSystem(const struct Cfg *,u32,u32);
 extern struct Bank *CLACT_CreateUnit(int,u8,u32);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *);
-extern void func_020434DC(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32);
 void func_021EEF28(u8 *p) {
  struct Cfg cfg;
  BG_SYS_ClearMainPlanes();BG_SYS_ClearSubPlanes();
@@ -80,5 +80,5 @@ void func_021EEF28(u8 *p) {
  CLACT_InitSystem(&cfg,(u32)&d_021F6C10,((struct Obj00057 *)p)->f0);
  *(struct Bank * *)&((struct Obj00057 *)p)->f6C=CLACT_CreateUnit(8,0,((struct Obj00057 *)p)->f0);
  CLACT_SetUnitDefaultRenderer(*(struct Bank * *)&((struct Obj00057 *)p)->f6C);
- func_020434DC(16,1);BG_SYS_SetSubPlaneVisible(16,1);
+ BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);
 }

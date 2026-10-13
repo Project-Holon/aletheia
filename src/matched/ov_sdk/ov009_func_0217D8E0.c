@@ -1,5 +1,5 @@
 /*
- * function: func_0217D8E0
+ * function: gsLargeIntDiv
  * address:  0x0217D8E0
  * packet:   pkt_ov009_0217D8E0
  * region:   ov009
@@ -25,7 +25,7 @@ typedef struct gsLargeInt_s {
 
 extern int gsiLargeIntDiv(unsigned int *src, unsigned int len, struct gsLargeInt_s *div, struct gsLargeInt_s *dest, struct gsLargeInt_s *remainder);
 
-gsi_bool func_0217D8E0(const gsLargeInt_t *src1, const gsLargeInt_t *divisor, gsLargeInt_t *dest, gsLargeInt_t *remainder)
+gsi_bool gsLargeIntDiv(const gsLargeInt_t *src1, const gsLargeInt_t *divisor, gsLargeInt_t *dest, gsLargeInt_t *remainder)
 {
     return gsiLargeIntDiv((unsigned int *)src1->mData, src1->mLength, (struct gsLargeInt_s *)divisor, dest, remainder);
 }

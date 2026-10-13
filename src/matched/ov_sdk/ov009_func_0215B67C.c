@@ -12,7 +12,7 @@
  * sdk:      scavenger (libcps.TWL.HYB.a network.o, static)
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0215AA5C  0x0215AA5C  arm  ov009
  *   func_02085A38  0x02085A38  arm
  *   func_020870D0  0x020870D0  arm
@@ -128,7 +128,7 @@ extern struct ArpEntry g_021A8384[8];
 extern struct thread_info g_02150FEC;
 extern struct CPSFragTable g_021A8A64[8];
 
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void func_0215AA5C(int v);
 extern void func_02085A38(unsigned long msec);
 extern unsigned long long func_020870D0(void);
@@ -163,7 +163,7 @@ void func_0215B67C(void)
 
     dhcp_state = 0;
     g_021A826C.calm = 0;
-    func_02082BCC(&g_021A83E4, 0, sizeof(CPSSoc));
+    MI_CpuFill8(&g_021A83E4, 0, sizeof(CPSSoc));
     g_021A83E4.rcvbuf.size = sizeof(g_021A88E4);
     g_021A83E4.rcvbuf.data = g_021A88E4;
     g_021A83E4.sndbuf.size = sizeof(g_021A8764);

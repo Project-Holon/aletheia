@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02208D50  0x02208D50  thumb  ov094
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_GetActorAnimSeq  0x0204B898  arm
  */
 
@@ -36,21 +36,21 @@ typedef struct O {
 
 extern void func_02208D50(O *obj, int idx, int a);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 typedef unsigned short u16;
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 
 void func_02207D04(O *obj, int a, int idx)
 {
     obj->e[idx].flag = a;
-    func_0204B3DC((struct Obj *)obj->e[idx].f0, a);
+    CLACT_SetActorDrawEnable((struct Obj *)obj->e[idx].f0, a);
     func_02208D50(obj, idx, a);
     if (obj->e[idx].f10 != 0) {
-        func_0204B3DC((struct Obj *)obj->e[idx].f10, a);
+        CLACT_SetActorDrawEnable((struct Obj *)obj->e[idx].f10, a);
     }
     if (obj->e[idx].f14 != 0) {
         if (CLACT_GetActorAnimSeq((struct Obj *)obj->e[idx].f14) != 0) {
-            func_0204B3DC((struct Obj *)obj->e[idx].f14, a);
+            CLACT_SetActorDrawEnable((struct Obj *)obj->e[idx].f14, a);
         }
     }
 }

@@ -36,7 +36,7 @@
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
  *   FLD_EXP_OBJ_GetModelObject  0x021BE4C4  thumb  ov021
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GIMMICK_OBJ_ELBOARD_Create  0x021F4698  thumb  ov048
  *   FIELDMAP_FreeCommonWork 0x021897A0 thumb ov021
  *   GAME_DATA_GetSaveControlWork 0x02012EC0 thumb
@@ -110,7 +110,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *memory);
 extern u32 ARC_TOOL_GetArchiveFileCount(u32 archiveId);
 extern u32 GPOWER_GetSpecialPowerId(void);
-extern void func_02082BCC(void *dst, int value, int size);
+extern void MI_CpuFill8(void *dst, int value, int size);
 extern void BUTTON_MAN_MakeRotMtxXYZ(int angleX, int angleY, int angleZ, MtxFx33 *dst);
 extern void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *expObj, const G3dUtilSetup *setup, int unitIndex);
 extern G3dObject *FLD_EXP_OBJ_GetModelObject(FldExpObjCnt *expObj, u32 unitIndex, int modelIndex);
@@ -301,7 +301,7 @@ GateWork *FIELD_GIMMICK_GATE_CreateWork(FieldMap *fieldMap)
     heapId = FIELDMAP_GetHeapId(fieldMap);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_AllocCommonWork(fieldMap, GATE_WORK_ID, heapId, sizeof(GateWork));
-    func_02082BCC(work, 0, sizeof(GateWork));
+    MI_CpuFill8(work, 0, sizeof(GateWork));
     work->heapId = heapId;
     work->fieldMap = fieldMap;
     gameSystem = FIELDMAP_GetGameSystem(fieldMap);

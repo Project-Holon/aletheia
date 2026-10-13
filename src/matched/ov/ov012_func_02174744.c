@@ -36,20 +36,20 @@
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200CA38  0x0200CA38  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   func_02034714  0x02034714  arm
- *   func_0201A920  0x0201A920  thumb
- *   func_0201AC2C  0x0201AC2C  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
+ *   POKEPARTY_Copy  0x0201AC2C  thumb
  *   POKEPARTY_Init  0x0201A948  thumb
- *   func_0201AB28  0x0201AB28  thumb
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   func_020307B0  0x020307B0  arm
  *   COLOSSEUM_ResetParties  0x02175240  thumb  ov012
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   COLOSSEUM_SendParty  0x02174D98  thumb  ov012
  *   COLOSSEUM_AllPartiesReceived  0x02175214  thumb  ov012
  *   COLOSSEUM_SetupBattleInfo  0x02175280  thumb  ov012
@@ -151,20 +151,20 @@ extern void  func_02034A5C(int id);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32   GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern u32   func_0201AA18(void *p);
+extern u32   POKEPARTY_GetCount(void *p);
 extern void *func_0200CA1C(void *a);
 extern u32 func_0200CA38(struct Blk37 *p);
 extern u32 func_0200FB24(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern struct Party *func_0201A920(u32 heap);
-extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
+extern struct Party *POKEPARTY_Create(u32 heap);
+extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
 extern void POKEPARTY_Init(struct Party *p);
-extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern u32 func_020307B0(void *p);
 extern void COLOSSEUM_ResetParties(u8 *a, int b);
-extern void  func_02039C68(struct Link *a0, unsigned int a1, unsigned int a2);
-extern unsigned int func_02039CB4(struct Link *a0, unsigned int a1, unsigned int a2);
+extern void  GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a0, unsigned int a1, unsigned int a2);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a0, unsigned int a1, unsigned int a2);
 extern u32 COLOSSEUM_SendParty(u32 p);
 extern int COLOSSEUM_AllPartiesReceived(u8 *p);
 extern void COLOSSEUM_SetupBattleInfo(u8 *a, void *b, u8 *out, int d);
@@ -232,7 +232,7 @@ int UNION_MAIN_StepColosseumPartyEntry(u32 a0, u8 *self, u32 a2, Work *w, void *
         s->f4 = w->fc;
         s->f8 = GAMESYSTEM_GetGameData((const struct Ctx *)a0);
         s->fc = 1;
-        s->fe = func_0201AA18(w->f0);
+        s->fe = POKEPARTY_GetCount(w->f0);
         s->fd = 0;
         s->ff = w->f3c;
         s->f10 = 0;
@@ -261,17 +261,17 @@ int UNION_MAIN_StepColosseumPartyEntry(u32 a0, u8 *self, u32 a2, Work *w, void *
         if (w->f3c != 6)
             func_02034714((const char *)gUnionMainEmptyString, 0, (const char *)gUnionMainEmptyString);
         party = t->parties[me];
-        tmp = func_0201A920(0x41);
-        func_0201AC2C(party, tmp);
+        tmp = POKEPARTY_Create(0x41);
+        POKEPARTY_Copy(party, tmp);
         POKEPARTY_Init(party);
         for (i = 0; i < 6; i++) {
             if (w->f49[i] == 0)
                 break;
-            func_0201A98C(party, func_0201AB28(tmp, w->f49[i] - 1));
+            POKEPARTY_Add(party, POKEPARTY_GetMember(tmp, w->f49[i] - 1));
         }
         func_020307B0(tmp);
         COLOSSEUM_ResetParties((u8 *)t, 1);
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x16, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x16, 0x14);
         (*state)++;
         break;
     case 9:
@@ -279,7 +279,7 @@ int UNION_MAIN_StepColosseumPartyEntry(u32 a0, u8 *self, u32 a2, Work *w, void *
             *state = 0x11;
             break;
         }
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x16, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x16, 0x14) == 1)
             (*state)++;
         break;
     case 10:

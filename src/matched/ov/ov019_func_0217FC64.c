@@ -12,7 +12,7 @@
  * The reload of out[1] before the last call is spelled with a volatile read.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   G3D_SYSTEM_CreateRender  0x02047400  arm
  *   G3D_SYSTEM_CreateObject  0x0204767C  arm
  * Addresses are Black-image addresses.
@@ -23,7 +23,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void *G3D_SYSTEM_CreateRender(void *a0, u32 n, void *a2);
 extern void *G3D_SYSTEM_CreateObject(u32 a0, u32 *a1, int a2);
 
@@ -31,7 +31,7 @@ void UNION_EFF_CreateIconObj(char *self, u32 *out, u32 a2, u16 a3, int flag)
 {
     u32 *q;
 
-    func_02082BCC(out, 0, 0x14);
+    MI_CpuFill8(out, 0, 0x14);
     out[0] = a2;
     ((struct Obj04188 *)out)->f10 = a3;
     if (flag == 0) {

@@ -11,11 +11,11 @@
  *
  * symbols:
  *   BTL_MAIN_GetRuleSlotSpan  0x021B8640  thumb  ov093
- *   func_021B8FF4  0x021B8FF4  thumb  ov093
- *   func_021B8DE4  0x021B8DE4  thumb  ov093
- *   func_021B902C  0x021B902C  thumb  ov093
+ *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
+ *   BTL_MAIN_GetSlotClientIdThunk  0x021B8DE4  thumb  ov093
+ *   BTL_MAIN_IsSameTeamClient  0x021B902C  thumb  ov093
  *   func_021C50F8  0x021C50F8  thumb  ov093
- *   func_021B9934  0x021B9934  thumb  ov093
+ *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  */
 #include "../include/Obj07755.h"
@@ -23,24 +23,24 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern unsigned int BTL_MAIN_GetRuleSlotSpan(unsigned int **p);
-extern u8 func_021B8FF4(u8 *m);
-extern u8 func_021B8DE4(char *p, int i);
-extern int func_021B902C(int a, int b);
+extern u8 BTL_MAIN_GetOwnClientId(u8 *m);
+extern u8 BTL_MAIN_GetSlotClientIdThunk(char *p, int i);
+extern int BTL_MAIN_IsSameTeamClient(int a, int b);
 extern u8 func_021C50F8(u8 *q, u8 i);
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 
 u32 BTL_SERVER_FLOW_GetHighestOpponentLevel(u8 *p)
 {
     u32 best = 1;
     u32 n = BTL_MAIN_GetRuleSlotSpan((unsigned int **)(*(u8 * *)&((struct Obj07755 *)p)->f4));
-    u8 x = func_021B8FF4(*(u8 * *)&((struct Obj07755 *)p)->f4);
+    u8 x = BTL_MAIN_GetOwnClientId(*(u8 * *)&((struct Obj07755 *)p)->f4);
     u32 i;
     for (i = 0; i <= n; i++) {
-        if (func_021B902C(x, func_021B8DE4((char *)(*(u8 * *)&((struct Obj07755 *)p)->f4), (u8)i)) == 0) {
+        if (BTL_MAIN_IsSameTeamClient(x, BTL_MAIN_GetSlotClientIdThunk((char *)(*(u8 * *)&((struct Obj07755 *)p)->f4), (u8)i)) == 0) {
             int r = func_021C50F8(p + 0x1AB8, i);
             if (r != 0x1f) {
-                u32 t = func_021D59B4((u8 *)func_021B9934(*(char * *)&((struct Obj07755 *)p)->f8, r), 0xf);
+                u32 t = func_021D59B4((u8 *)BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj07755 *)p)->f8, r), 0xf);
                 if (t > best) {
                     best = t;
                 }

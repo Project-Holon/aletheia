@@ -13,7 +13,7 @@
  * symbols:
  *   func_021F4F10 0x021F4F10 thumb ov112
  *   func_021F514C 0x021F514C thumb ov112
- *   func_0200616C 0x0200616C thumb
+ *   GFL_USE_PlaySeInSlot 0x0200616C thumb
  *   func_021F7AEC 0x021F7AEC thumb ov112
  *   func_021F7C90 0x021F7C90 thumb ov112
  *   func_021F7E2C 0x021F7E2C thumb ov112
@@ -33,7 +33,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_021F4F10(u8 *);
 extern unsigned char func_021F514C(void *p, int i);
-extern void func_0200616C(void *,int);
+extern void GFL_USE_PlaySeInSlot(void *,int);
 extern void *d_021F832C[];
 extern void func_021F7AEC(char *,char *);
 extern void func_021F7C90(char *,char *);
@@ -53,7 +53,7 @@ void func_021F79A8(char *p,char *q,int index)
     ((struct Obj03248 *)q)->fF0=0;
     ((struct Obj03248 *)q)->fF4=index;
     ((struct Obj03248 *)q)->fF8=0;
-    func_0200616C(d_021F832C[v],2);
+    GFL_USE_PlaySeInSlot(d_021F832C[v],2);
     ((struct Obj13841 *)p)->f43C+=1;
     switch(v) {
     case 0: func_021F7A94(p,q); *(void (**)(char *,char *))(q+260)=func_021F7A98; break;

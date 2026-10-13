@@ -10,9 +10,9 @@
  * status: EXACT
  * symbols:
  *   func_021F20E4 0x021F20E4 thumb ov032
- *   func_020311B8 0x020311B8 arm
+ *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj09799.h"
 #include "../include/Obj20446.h"
@@ -20,15 +20,15 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021F20E4(void *task, char *q);
-extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
+extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
 extern void *TCBL_GetWork(struct S02030FB4 *p);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 void func_021F20A8(char *p, char *q, int *r)
 {
     u8 *t;
-    t = TCBL_GetWork(func_020311B8(((struct Obj20446 *)p)->fA0, (void *)func_021F20E4, 0x10, 0));
-    func_02082BCC(t, 0, 0x10);
+    t = TCBL_GetWork(TCBL_AddTask(((struct Obj20446 *)p)->fA0, (void *)func_021F20E4, 0x10, 0));
+    MI_CpuFill8(t, 0, 0x10);
     *(char * *)&((struct Obj09799 *)t)->f8 = p;
     *(char * *)&((struct Obj09799 *)t)->f4 = q;
     if (r != 0) {

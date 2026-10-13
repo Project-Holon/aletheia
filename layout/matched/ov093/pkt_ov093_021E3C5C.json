@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E3C5C",
-    "func_021E3CA4"
+    "HAND_WAZA_ProtectIncrementStreak",
+    "HAND_WAZA_GetBideHandlers"
+   ],
+   "addresses": [
+    "0x021E3C5C",
+    "0x021E3CA4"
    ],
    "evidence": {
     "sole-ref": [

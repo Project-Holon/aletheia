@@ -1,5 +1,5 @@
 /*
- * function: func_021E66C0
+ * function: HAND_WAZA_AddDestinyBond
  * address: 0x021E66C0
  * packet: pkt_ov093_021E66C0
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E65B0_p01.c and filed here.
  *
  * symbols:
- *   d_021F2B40 0x021F2B40 data ov093 a4
+ *   gDestinyBondHandlers 0x021F2B40 data ov093 a4
  */
 
-int *func_021E66C0(int *p);
-extern int d_021F2B40[];
+int *HAND_WAZA_AddDestinyBond(int *p);
+extern int gDestinyBondHandlers[];
 
-int *func_021E66C0(int *p)
+int *HAND_WAZA_AddDestinyBond(int *p)
 {
     *p = 3;
-    return d_021F2B40;
+    return gDestinyBondHandlers;
 }

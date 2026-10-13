@@ -12,7 +12,7 @@
  * symbols:
  *   func_021E9100  0x021E9100  thumb  ov093
  *   BTL_MAIN_GetClientTrainerIndex  0x021B8BEC  thumb  ov093
- *   func_021B8E70  0x021B8E70  thumb  ov093
+ *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
  *   func_021EAB18  0x021EAB18  thumb  ov093
  */
 
@@ -30,7 +30,7 @@ typedef struct {
 
 extern u8 *func_021E9100(u8 *p, int n);
 extern u8 BTL_MAIN_GetClientTrainerIndex(u8 *p, u32 k, u8 n);
-extern u8 func_021B8E70(u8 *p, u32 k);
+extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k);
 extern int func_021EAB18(int *st, u8 *b);
 
 void func_021EAA6C(CbSlot *s, u32 k, u32 n)
@@ -44,9 +44,9 @@ void func_021EAA6C(CbSlot *s, u32 k, u32 n)
         t[5] = BTL_MAIN_GetClientTrainerIndex(s->battle, k, 0);
         t[6] = BTL_MAIN_GetClientTrainerIndex(s->battle, k, 1);
         t[7] = BTL_MAIN_GetClientTrainerIndex(s->battle, k, 2);
-        t[2] = func_021B8E70(s->battle, t[5]);
-        t[3] = func_021B8E70(s->battle, t[6]);
-        t[4] = func_021B8E70(s->battle, t[7]);
+        t[2] = BTL_MAIN_GetViewPosOfSlot(s->battle, t[5]);
+        t[3] = BTL_MAIN_GetViewPosOfSlot(s->battle, t[6]);
+        t[4] = BTL_MAIN_GetViewPosOfSlot(s->battle, t[7]);
         s->cb1 = 0;
         s->cb2 = (int (*)(void *, u32))func_021EAB18;
         s->arg = (u32)s;

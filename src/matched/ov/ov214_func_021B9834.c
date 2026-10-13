@@ -14,7 +14,7 @@
  * status: EXACT
  * symbols:
  * GAME_DATA_GetSaveControl 0x02012EBC thumb
- * func_020362DC 0x020362DC arm
+ * KEY_GetTrg 0x020362DC arm
  * FADE_Start 0x0204E720 arm
  * FADE_IsActive 0x0204E804 arm
  * func_021BA108 0x021BA108 thumb ov214
@@ -50,12 +50,12 @@
  * BATTLE_REC_Save 0x0200B6E0 thumb
  * BATTLE_REC_DecodeWork 0x0200B490 thumb
  * TIME_ICON_Delete 0x0202F038 thumb
- * func_020061E4 0x020061E4 thumb
+ * GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  * func_021B9EFC 0x021B9EFC thumb ov214
  * GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- * func_02039C68 0x02039C68 arm
+ * GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  * func_0200FB24 0x0200FB24 thumb
- * func_02039CB4 0x02039CB4 arm
+ * GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  * func_021BA058 0x021BA058 thumb ov214
  * func_021BA45C 0x021BA45C thumb ov214
  * func_021BA4E8 0x021BA4E8 thumb ov214
@@ -76,7 +76,7 @@ struct ObjC4;
 struct PrintSys;
 struct S;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void FADE_Start(u32,int,int,int);
 extern int FADE_IsActive(void);
 extern void func_021BA108(int,char*,u32,int);
@@ -105,12 +105,12 @@ extern u32 func_021BA2B8(int unused, u8 *p);
 extern u32 func_020056BC(void);
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern u32 BATTLE_REC_Save(void*,u16,u32,u32,u32,u16*,u16*);
-extern void BATTLE_REC_DecodeWork(void),TIME_ICON_Delete(u8*),func_020061E4(u32);
+extern void BATTLE_REC_DecodeWork(void),TIME_ICON_Delete(u8*),GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_021B9EFC(int*,int,int,int,int);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void func_02039C68(struct Link *p, u32 lo, u32 hi);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, u32 lo, u32 hi);
 extern u32 func_0200FB24(void);
-extern u32 func_02039CB4(struct Link *p, u32 lo, u32 hi);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, u32 lo, u32 hi);
 extern void func_021BA058(int,char*);
 extern void func_021BA45C(void*,char*);
 extern void func_021BA4E8(void *unused, struct S *p);
@@ -127,7 +127,7 @@ int func_021B9834(void *unused,u32 *state,const char *obj,char *p)
     u32 status0,status1,a,b,c;
     u32 addr;
     owner=GAME_DATA_GetSaveControl(*(void**)obj);
-    func_020362DC();
+    KEY_GetTrg();
     switch(*state){
     case 0:
         if((*(u32*)(p+0x54))){*state=18;break;}
@@ -225,7 +225,7 @@ int func_021B9834(void *unused,u32 *state,const char *obj,char *p)
         if((*(u32*)(p+0x2bc))!=2 && (*(u32*)(p+0x2bc))!=3)(*(u32*)(p+0x2bc))=BATTLE_REC_Save(*(void**)obj,*(u16*)p,(*(u32*)(obj+0x10)),(*(u32*)(obj+0x14)),0,(u16*)(p+0x2b8),(u16*)(p+0x2ba));
         if((u32)((*(u32*)(p+0x2bc))-2)<=1){
             BATTLE_REC_DecodeWork();TIME_ICON_Delete((u8*)(*(u32*)(p+0x2ec)));
-            if((*(u32*)(p+0x2bc))==2){func_020061E4(0x558);func_021B9EFC((int*)state,(int)obj,(int)p,13,10);(*(u32*)(p+0x64))=120;}
+            if((*(u32*)(p+0x2bc))==2){GFL_USE_PlaySeDefaultVolume(0x558);func_021B9EFC((int*)state,(int)obj,(int)p,13,10);(*(u32*)(p+0x64))=120;}
             else if((*(u32*)(p+0x2bc))==3){func_021B9EFC((int*)state,(int)obj,(int)p,14,11);(*(u32*)(p+0x64))=120;}
         }break;
     case 13:if(func_021BA16C((int)obj,p))*state=15;break;
@@ -247,7 +247,7 @@ int func_021B9834(void *unused,u32 *state,const char *obj,char *p)
         else if(func_021BA16C((int)obj,p))done=1;
         if(done){
             if((*(u32*)(obj+8))){
-                func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),150,43);
+                GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),150,43);
                 (*(u32*)(p+0x2ec))=(u32)TIME_ICON_Create((void *)func_020056BC(),(void*)(*(u32*)(p+0x6c)),15,16,*(u16*)p);
             }
             *state=17;
@@ -255,7 +255,7 @@ int func_021B9834(void *unused,u32 *state,const char *obj,char *p)
     case 17:
         done=1;
         if((*(u32*)(obj+8))){
-            if(!func_0200FB24())done=func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),150,43);
+            if(!func_0200FB24())done=GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),150,43);
             if(done)TIME_ICON_Delete((u8*)(*(u32*)(p+0x2ec)));
         }
         if(done)func_021B9EB8((char*)state,(int)obj,p,18,3,0,16,2,0);

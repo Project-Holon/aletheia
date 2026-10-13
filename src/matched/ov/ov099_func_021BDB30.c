@@ -21,7 +21,7 @@
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_NotifyUserEvent 0x0203D1E8 arm
  *   GFL_NET_IsParentAid 0x0203D378 arm
- *   func_02039C68 0x02039C68 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  */
 #include "../include/Obj02155.h"
 typedef unsigned char u8;
@@ -41,7 +41,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void GFL_NET_NotifyUserEvent(u32, void *);
 extern u32 GFL_NET_IsParentAid(void);
 struct Link;
-extern void func_02039C68(struct Link *p, u32 lo, u32 hi);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, u32 lo, u32 hi);
 int func_021BDB30(char *p, int v)
 {
     u16 state;
@@ -74,7 +74,7 @@ int func_021BDB30(char *p, int v)
             }
             ((struct Obj02155 *)p)->f1CC = 0x5b;
         } else {
-            func_02039C68((void *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1b, 0xa);
+            GFL_NET_HANDLE_SetTimingSyncRange((void *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1b, 0xa);
             ((struct Obj02155 *)p)->f1CC = 0x49;
         }
         return v;

@@ -13,7 +13,7 @@
  * symbols:
  *   func_0200D064 0x0200D064 thumb
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   d_02200C94 0x02200C94 data a2
  *   d_02200D9C 0x02200D9C data a1
  */
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 struct Blk37;
 extern u32 func_0200D064(struct Blk37 *p, u16 id);
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_02082BCC(void *, u8, u32);
+extern void MI_CpuFill8(void *, u8, u32);
 extern const u16 d_02200C94[];
 extern const char d_02200D9C[];
 u16 *func_02200188(void *p, u32 index, const u16 *table, u32 *out, u16 heap)
@@ -43,7 +43,7 @@ u16 *func_02200188(void *p, u32 index, const u16 *table, u32 *out, u16 heap)
     bytes = count * 2;
     dst = func_02030734(heap, bytes, 0, d_02200D9C, 0x3c3);
     filled = 0;
-    func_02082BCC(dst, 0, bytes);
+    MI_CpuFill8(dst, 0, bytes);
     for (; start < end; start++) {
         if (func_0200D064(p, table[start])) {
             dst[filled] = table[start];

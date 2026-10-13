@@ -12,7 +12,7 @@
  * symbols:
  *   func_020409B4  0x020409B4  arm  arm9
  *   BMP_WIN_TransferChars  0x02045334  arm  arm9
- *   func_02045770  0x02045770  arm  arm9
+ *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  *   FIELD_MSGBG_PrintLines  0x021924F0  thumb  ov021
  * Addresses are Black-image addresses.
  */
@@ -37,7 +37,7 @@ typedef struct T {
 } T;
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void FIELD_MSGBG_PrintLines(u16 a, u16 b, u32 c, u32 d, u32 e, u16 f);
 extern void BMP_WIN_TransferChars(struct Descriptor *a);
 extern void func_020409B4(u32 a);
@@ -46,7 +46,7 @@ void FIELD_MSGBG_SpWinPrintStr(T *t, u16 b, u16 c, u32 d)
 {
     Fx *x = t->f08;
 
-    FIELD_MSGBG_PrintLines(b, c, (u32)func_02045770((struct Descriptor *)t->f00), x->f08, d, x->f00);
+    FIELD_MSGBG_PrintLines(b, c, (u32)BMP_WIN_GetBmp((struct Descriptor *)t->f00), x->f08, d, x->f00);
     BMP_WIN_TransferChars((struct Descriptor *)t->f00);
     func_020409B4((u8)t->f08->f02);
 }

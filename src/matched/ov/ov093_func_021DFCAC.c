@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetRingTargetHandlers
+ * function: HAND_ITEM_GetRingTargetHandlers
  * address: 0x021DFCAC
  * packet: pkt_ov093_021DFCAC
  * region: ov093
@@ -15,10 +15,10 @@
  *   gBtlHandlerItemRingTargetHandlers 0x021F14BC data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetRingTargetHandlers(int *p);
+int *HAND_ITEM_GetRingTargetHandlers(int *p);
 extern int gBtlHandlerItemRingTargetHandlers[];
 
-int *BTL_HANDLER_ITEM_GetRingTargetHandlers(int *p)
+int *HAND_ITEM_GetRingTargetHandlers(int *p)
 {
     *p = 1;
     return gBtlHandlerItemRingTargetHandlers;

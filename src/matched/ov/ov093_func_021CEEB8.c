@@ -1,5 +1,5 @@
 /*
- * function: func_021CEEB8
+ * function: BTL_CLIENT_StepSelectItem
  * address: 0x021CEEB8
  * packet: pkt_ov093_021CEEB8
  * region: ov093
@@ -11,7 +11,7 @@
  *        enum same retains the early ternary truncation.
  * symbols:
  *   BTL_CLIENT_SumSlotFlagsBeforeCurrent 0x021CF448 thumb ov093
- *   func_021CEFFC 0x021CEFFC thumb ov093
+ *   BTL_CLIENT_IsLoneFoeSemiInvulnerable 0x021CEFFC thumb ov093
  *   func_021E9D04 0x021E9D04 thumb ov093
  *   BTL_CLIENT_PollTimeLimitAndSetSub 0x021CE0BC thumb ov093
  *   func_021E9E70 0x021E9E70 thumb ov093
@@ -26,9 +26,9 @@
  *   BTL_CALC_GetMonParamWithHeap 0x021D805C thumb ov093
  *   BTL_CLIENT_SetSlotLinkWord 0x021CF37C thumb ov093
  *   BTL_CLIENT_SetSubFn 0x021CE150 thumb ov093
- *   func_021CF220 0x021CF220 thumb ov093
- *   func_021CE4D0 0x021CE4D0 thumb ov093
- *   func_021CE3C8 0x021CE3C8 thumb ov093
+ *   BTL_CLIENT_StepAdvanceSlot 0x021CF220 thumb ov093
+ *   BTL_CLIENT_StepSelectAction 0x021CE4D0 thumb ov093
+ *   BTL_CLIENT_StepAutoSelectActions 0x021CE3C8 thumb ov093
  */
 #include "../include/Obj00967.h"
 typedef unsigned char u8;
@@ -36,7 +36,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef enum { VALUE_ZERO, VALUE_ONE } Value;
 extern u8 BTL_CLIENT_SumSlotFlagsBeforeCurrent(u8 *);
-extern u32 func_021CEFFC(u8 *);
+extern u32 BTL_CLIENT_IsLoneFoeSemiInvulnerable(u8 *);
 extern void func_021E9D04(void *, int, int, int, u32, u32);
 struct QV;
 extern int BTL_CLIENT_PollTimeLimitAndSetSub(u8 *p, void *q);
@@ -52,16 +52,16 @@ extern void func_021EA058(char *p);
 extern u32 BTL_CALC_GetMonParamWithHeap(void *p, u32 n);
 extern void BTL_CLIENT_SetSlotLinkWord(u8 *, u32, u32);
 extern void BTL_CLIENT_SetSubFn(u8 *p, void *q);
-extern u32 func_021CF220(u8 *p, int *st);
-extern int func_021CE4D0(u8 *p, u32 *st);
-extern int func_021CE3C8(u8 *p, int *state);
+extern u32 BTL_CLIENT_StepAdvanceSlot(u8 *p, int *st);
+extern int BTL_CLIENT_StepSelectAction(u8 *p, u32 *st);
+extern int BTL_CLIENT_StepAutoSelectActions(u8 *p, int *state);
 
 static inline u8 same_index(u8 *p)
 {
     return p[0x11d] == p[0x11f] ? 1 : 0;
 }
 
-u32 func_021CEEB8(u8 *p, int *st)
+u32 BTL_CLIENT_StepSelectItem(u8 *p, int *st)
 {
     u32 a, c, z;
     u16 b, d;
@@ -71,7 +71,7 @@ u32 func_021CEEB8(u8 *p, int *st)
     case 0:
         a = BTL_CLIENT_SumSlotFlagsBeforeCurrent(p);
         same = same_index(p);
-        flag = (u8)func_021CEFFC(p);
+        flag = (u8)BTL_CLIENT_IsLoneFoeSemiInvulnerable(p);
         func_021E9D04(((struct Obj00967 *)p)->f54, p[0x1aa], p[0x1ab], a, same, flag);
         ++*st;
         break;
@@ -98,12 +98,12 @@ u32 func_021CEEB8(u8 *p, int *st)
                 func_021EA058(((struct Obj00967 *)p)->f54);
                 if (BTL_CALC_GetMonParamWithHeap((void *)a, 0xf) == 4) p[0x1b2] |= 4;
                 BTL_CLIENT_SetSlotLinkWord(p, p[0x11d], a);
-                BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CF220));
-            } else BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CE4D0));
+                BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
+            } else BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepSelectAction));
         }
         break;
     case 2:
-        if (func_021E9E80(((struct Obj00967 *)p)->f54)) BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CE3C8));
+        if (func_021E9E80(((struct Obj00967 *)p)->f54)) BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepAutoSelectActions));
         break;
     }
     return 0;

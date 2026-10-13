@@ -12,7 +12,7 @@
  * symbols:
  *   TIME_ICON_Delete  0x0202F038  thumb
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  */
 #include "../include/Obj00018.h"
@@ -27,7 +27,7 @@ struct Cfg;
 struct Descriptor;
 extern void TIME_ICON_Delete(u8 *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 v);
 
 void func_021F4FC4(u8 *p)
@@ -36,6 +36,6 @@ void func_021F4FC4(u8 *p)
         TIME_ICON_Delete((u8 *)(((struct Obj00018 *)p)->fDF8));
         ((struct Obj00018 *)p)->fDF8 = 0;
         BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj00018 *)p)->fD40));
-        func_020409B4(func_02045730((struct Descriptor *)(((struct Obj00018 *)p)->fD40)));
+        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)(((struct Obj00018 *)p)->fD40)));
     }
 }

@@ -19,13 +19,13 @@
  *   func_02041B6C  0x02041B6C  arm
  *   PMS_DRAW_IsActive  0x0202DCC4  thumb
  *   PMS_DRAW_Clear  0x0202DC9C  thumb
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   PMS_DRAW_PrintOffset  0x0202DC60  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   STRBUF_Create  0x020457B0  arm
@@ -72,13 +72,13 @@ extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 bit);
 extern u32 PMS_DRAW_IsActive(const struct Obj0202DCC4 *p, u32 i);
 extern void PMS_DRAW_Clear(struct Obj0202DC98 *o, int i, u32 a1);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void PMS_DRAW_PrintOffset(struct Obj *p, u32 a, void *w, u32 i, u32 e);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -111,7 +111,7 @@ void UNION_SUBDISP_DrawChatLine(struct Obj *p, const u8 *e, u8 k)
         if (PMS_DRAW_IsActive((const struct Obj0202DCC4 *)p->w7c, k) == 1)
             PMS_DRAW_Clear((struct Obj0202DC98 *)p->w7c, k, 1);
     } else if (p->b[k] == 1) {
-        BMP_Clear(func_02045770((struct Descriptor *)p->a[k]), 0);
+        BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)p->a[k]), 0);
         BMP_WIN_TransferChars((struct Descriptor *)p->a[k]);
     }
     if (e[0x21] == 0) {
@@ -140,20 +140,20 @@ void UNION_SUBDISP_DrawChatLine(struct Obj *p, const u8 *e, u8 k)
             return;
         }
         BMP_WIN_MakeScreen((struct Cfg *)p->a[k]);
-        func_02041B6C(func_02045730((struct Descriptor *)p->a[k]));
+        func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)p->a[k]));
         q = p->w40;
-        PRINTSYS_PrintQueColor((void *)q, (u32)func_02045770((struct Descriptor *)p->s[k].h), (s16)0, (s16)t.b, (u32)x, p->w44, (u32)0x440);
+        PRINTSYS_PrintQueColor((void *)q, (u32)BMP_WIN_GetBmp((struct Descriptor *)p->s[k].h), (s16)0, (s16)t.b, (u32)x, p->w44, (u32)0x440);
         p->s[k].f = 1;
         STRBUF_Delete(x);
         p->b[k] = 1;
     }
     buf = STRBUF_Create(8, 0x15);
     STRBUF_SetString(buf, (const u16 *)e);
-    PRINTSYS_PrintQueColor((void *)p->w40, (u32)func_02045770((struct Descriptor *)p->a[k]), (s16)0, (s16)0, (u32)buf, p->w44, (u32)0x440);
+    PRINTSYS_PrintQueColor((void *)p->w40, (u32)BMP_WIN_GetBmp((struct Descriptor *)p->a[k]), (s16)0, (s16)0, (u32)buf, p->w44, (u32)0x440);
     STRBUF_Delete(buf);
     if (e[0x22] != 0) {
         buf = func_02045EC0((struct MsgBank *)p->w48, (e[0x22] == 1) ? 4 : 5);
-        PRINTSYS_PrintQueColor((void *)p->w40, (u32)func_02045770((struct Descriptor *)p->a[k]), (s16)0x74, (s16)0, (u32)buf, p->w44, (u32)0x440);
+        PRINTSYS_PrintQueColor((void *)p->w40, (u32)BMP_WIN_GetBmp((struct Descriptor *)p->a[k]), (s16)0x74, (s16)0, (u32)buf, p->w44, (u32)0x440);
         STRBUF_Delete(buf);
     }
 }

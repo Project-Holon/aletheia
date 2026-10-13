@@ -53,7 +53,7 @@
  *   func_021DD3D0  0x021DD3D0  arm  ov175
  *   g_021E461C  0x021E461C  data
  *   func_02084F80  0x02084F80  arm
- *   func_02084FA8  0x02084FA8  arm
+ *   OS_VSNPrintf  0x02084FA8  arm
  *   g_021E4640     0x021E4640  data
  *   DWCi_IsError      0x02059F38  arm
  *   DWC_GetLastError  0x02059E18  arm
@@ -258,7 +258,7 @@ extern void *func_021DD380(void *sake, void *input, void (*callback)(void), void
 extern void *func_021DD3A8(void *sake, void *input, void (*callback)(void), void *userData);
 extern void *func_021DD3D0(void *sake, void *input, void (*callback)(void), void *userData);
 extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
-extern int func_02084FA8(char *s, unsigned int n, const char *format, void *arg);
+extern int OS_VSNPrintf(char *s, unsigned int n, const char *format, void *arg);
 extern int DWCi_IsError(void);
 extern int DWC_GetLastError(int *errorCode);
 extern void func_0217CD94(void);
@@ -670,7 +670,7 @@ void func_021E17D8(int line, char *fmt, ...)
 
     str_len = func_02084F80(str_buf, 256, g_021E4640, line);
     args = (char *)((((unsigned int)&fmt) & ~3) + 4);
-    func_02084FA8(str_buf + str_len, 256 - str_len, fmt, args);
+    OS_VSNPrintf(str_buf + str_len, 256 - str_len, fmt, args);
 }
 
 

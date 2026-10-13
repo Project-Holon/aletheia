@@ -17,7 +17,7 @@
  *   and caller stores that return word despite the callee's void declaration.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0201283C 0x0201283C thumb
  *   func_02009860 0x02009860 thumb
  *   func_02012944 0x02012944 thumb
@@ -45,7 +45,7 @@ typedef unsigned char  u8;
 struct BigObj;
 struct Sub0200852CObj;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern u32 func_0201283C(const struct BigObj *p);
 extern u32 func_02009860(void);
 extern u8 *func_02012944(void *p);
@@ -63,7 +63,7 @@ extern const u32 d_021E2C90[];
 char *func_021D9DC8(u32 a, void *save, u32 b, u16 heap) {
     char *p;
     p = func_02030734(heap, 0x149c, 0, d_021E2EE0, 0x2b0);
-    func_02082BCC(p, 0, 0x149c);
+    MI_CpuFill8(p, 0, 0x149c);
     *(u32 *)(p + 4) = func_0201283C(save);
     *(u32 *)p = func_02009860();
     *(void **)(p + 0xc) = (void *)func_0200853C((const struct Sub0200852CObj *)func_02012944(save));
@@ -72,7 +72,7 @@ char *func_021D9DC8(u32 a, void *save, u32 b, u16 heap) {
     *(u32 *)(p + 0x1464) = a;
     *(int *)(p + 0x19c) = 0x573;
     *(char **)(p + 0x190) = func_02030734(heap, 0x260, 0, d_021E2EE0, 0x2c0);
-    func_02082BCC(*(void **)(p + 0x190), 0, 0x260);
+    MI_CpuFill8(*(void **)(p + 0x190), 0, 0x260);
     if (!GFL_NET_GetRunState()) func_02034714(d_021E2EF8, 0, d_021E2EF8);
     GFL_NET_COMMAND_AddCommandTable(0x2400, (u32)d_021E2C90, 6, (u32)p);
     GFL_NET_SetWaitMode(0);

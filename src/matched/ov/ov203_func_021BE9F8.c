@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020311B8 0x020311B8 arm
+ *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
  *   func_02080C54 0x02080C54 arm
  *   func_020056A0 0x020056A0 thumb
@@ -22,7 +22,7 @@ struct CaptureConfig;
 extern void func_021BEAB8(void *task, const int *ctx);
 struct S02030FB4;
 extern void func_021BEAF8(void *node, int *s);
-extern void *func_020311B8(void *, void (*)(void *, void *), unsigned, unsigned);
+extern void *TCBL_AddTask(void *, void (*)(void *, void *), unsigned, unsigned);
 extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern unsigned short func_02080C54(void);
 extern void *func_020056A0(unsigned, unsigned, unsigned);
@@ -31,7 +31,7 @@ void *func_021BE9F8(void *manager, const Config *source)
 {
     void *task;
     char *ctx;
-    task = func_020311B8(manager, (void (*)(void *, void *))func_021BEAB8, 56, 5);
+    task = TCBL_AddTask(manager, (void (*)(void *, void *))func_021BEAB8, 56, 5);
     ctx = TCBL_GetWork(task);
     *(Config *)(ctx + 4) = *source;
     ((struct Obj10864 *)ctx)->f34 = task;

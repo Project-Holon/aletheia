@@ -18,14 +18,14 @@
  *   func_020355D8 0x020355D8 arm
  *   func_021BB034 0x021BB034 thumb ov225
  *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
- *   func_020362DC 0x020362DC arm
- *   func_0203633C 0x0203633C arm
- *   func_020061E4 0x020061E4 thumb
+ *   KEY_GetTrg 0x020362DC arm
+ *   KEY_GetRepeat 0x0203633C arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   func_021BB074 0x021BB074 thumb ov225
  *   func_021BB088 0x021BB088 thumb ov225
  *   func_021BB258 0x021BB258 thumb ov225
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 #include "../include/Obj00074.h"
 typedef unsigned char u8;
@@ -40,11 +40,11 @@ extern u8 func_020355C4(void);
 extern void func_020355D8(u8);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
-extern u32 func_020362DC(void),func_0203633C(void);
-extern void func_020061E4(u32);
+extern u32 KEY_GetTrg(void),KEY_GetRepeat(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_021BB088(char *);
 extern u16 func_021BB258(void *,u16,u16);
-extern void func_0204B404(struct Obj *,const struct Vec2 *,u32);
+extern void CLACT_AddActorSurfacePos(struct Obj *,const struct Vec2 *,u32);
 #define S (*(struct State **)p)
 int func_021BAABC(char *p)
 {
@@ -62,22 +62,22 @@ int func_021BAABC(char *p)
             APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
         }
     } else {
-        if(func_020362DC()!=0 && !(func_020362DC()&2)) {
+        if(KEY_GetTrg()!=0 && !(KEY_GetTrg()&2)) {
             func_020355D8(0);
             APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
             ((struct Obj00074 *)p)->f8C=0;
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             return 0;
         }
     }
     if(func_020355C4()==0) {
-        if(func_020362DC()&1) {
+        if(KEY_GetTrg()&1) {
             APP_TASKMENU_WIN_SetDecide(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
-            func_020061E4(0x54c);
+            GFL_USE_PlaySeDefaultVolume(0x54c);
             return 1;
         }
         if(S->count>1) {
-            if(func_0203633C()&0x40) {
+            if(KEY_GetRepeat()&0x40) {
                 APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
                 if(S->selected>S->top) S->selected--;
                 else if(S->count<=6) S->selected=S->count-1;
@@ -93,12 +93,12 @@ int func_021BAABC(char *p)
                     y=func_021BB258(p,(u16)(func_021BB074((u16 **)p)+1),S->top);
                     delta[3].x=240;
                     delta[3].y=y;
-                    func_0204B404(*(struct Obj * *)&((struct Obj00074 *)p)->f5C,&delta[3],1);
+                    CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct Obj00074 *)p)->f5C,&delta[3],1);
                 }
                 APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
                 ((struct Obj00074 *)p)->f8C=0;
-                func_020061E4(0x548);
-            } else if(func_0203633C()&0x80) {
+                GFL_USE_PlaySeDefaultVolume(0x548);
+            } else if(KEY_GetRepeat()&0x80) {
                 APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
                 if(S->selected<last) S->selected++;
                 else if(S->count<=6) S->selected=0;
@@ -111,12 +111,12 @@ int func_021BAABC(char *p)
                     y=func_021BB258(p,(u16)(func_021BB074((u16 **)p)+1),S->top);
                     delta[2].x=240;
                     delta[2].y=y;
-                    func_0204B404(*(struct Obj * *)&((struct Obj00074 *)p)->f5C,&delta[2],1);
+                    CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct Obj00074 *)p)->f5C,&delta[2],1);
                 }
                 APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
                 ((struct Obj00074 *)p)->f8C=0;
-                func_020061E4(0x548);
-            } else if(func_0203633C()&0x220) {
+                GFL_USE_PlaySeDefaultVolume(0x548);
+            } else if(KEY_GetRepeat()&0x220) {
                 if(S->selected!=0) {
                     APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
                     if(S->count<=6) S->selected=0;
@@ -127,13 +127,13 @@ int func_021BAABC(char *p)
                         y=func_021BB258(p,(u16)(func_021BB074((u16 **)p)+1),S->top);
                         delta[1].x=240;
                         delta[1].y=y;
-                        func_0204B404(*(struct Obj * *)&((struct Obj00074 *)p)->f5C,&delta[1],1);
+                        CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct Obj00074 *)p)->f5C,&delta[1],1);
                     }
                     APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
                     ((struct Obj00074 *)p)->f8C=0;
-                    func_020061E4(0x548);
+                    GFL_USE_PlaySeDefaultVolume(0x548);
                 }
-            } else if(func_0203633C()&0x110) {
+            } else if(KEY_GetRepeat()&0x110) {
                 if(S->selected<S->count-1) {
                     APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
                     if(S->count<=6) S->selected=S->count-1;
@@ -146,11 +146,11 @@ int func_021BAABC(char *p)
                         y=func_021BB258(p,(u16)(func_021BB074((u16 **)p)+1),S->top);
                         delta[0].x=240;
                         delta[0].y=y;
-                        func_0204B404(*(struct Obj * *)&((struct Obj00074 *)p)->f5C,&delta[0],1);
+                        CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct Obj00074 *)p)->f5C,&delta[0],1);
                     }
                     APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
                     ((struct Obj00074 *)p)->f8C=0;
-                    func_020061E4(0x548);
+                    GFL_USE_PlaySeDefaultVolume(0x548);
                 }
             }
         }
@@ -159,7 +159,7 @@ int func_021BAABC(char *p)
         APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
         ((struct Obj00074 *)p)->f8C=0;
         APP_TASKMENU_WIN_SetDecide(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         return 1;
     }
     return 0;

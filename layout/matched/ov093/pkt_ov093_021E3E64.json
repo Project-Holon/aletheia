@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E3E64",
+   "name": "HAND_WAZA_BideEndOnFail",
    "address": "0x021E3E64",
    "kind": "game",
    "region": "ov093",

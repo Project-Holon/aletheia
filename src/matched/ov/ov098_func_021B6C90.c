@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  */
@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
@@ -28,7 +28,7 @@ void func_021B6C90(char *p, int flag)
 {
     if ((u8)(((struct Obj03220 *)p)->f14 + 0xff) <= 1) {
         if (flag == 0) {
-            BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj03220 *)p)->f0)), 0xc);
+            BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj03220 *)p)->f0)), 0xc);
             BMP_WIN_TransferChars((struct Descriptor *)((struct Obj03220 *)p)->f0);
         }
         ((struct Obj03220 *)p)->f4 = 0;

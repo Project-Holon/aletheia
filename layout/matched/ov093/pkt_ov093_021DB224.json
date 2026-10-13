@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_TOKUSEI_MoldBreaker_RemoveSkipCheckOnEvent6A",
-    "BTL_TOKUSEI_GetMoldBreakerHandlers"
+    "HAND_TOKUSEI_MoldBreaker_RemoveSkipCheckOnEvent6A",
+    "HAND_TOKUSEI_GetMoldBreakerSkipCheckHandlers"
    ],
    "addresses": [
     "0x021DB224",

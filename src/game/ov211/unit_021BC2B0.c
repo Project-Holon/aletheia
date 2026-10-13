@@ -26,7 +26,7 @@
  *   func_020414EC 0x020414EC arm
  *   func_02040B94 0x02040B94 arm
  *   func_02041570 0x02041570 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021BC8C8 0x021BC8C8 data a4
  *   d_021BC910 0x021BC910 data a4
@@ -58,7 +58,7 @@
  *   func_0207F5C8 0x0207F5C8 arm
  *   func_0207F65C 0x0207F65C arm
  *   func_020072A4 0x020072A4 thumb
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
@@ -66,7 +66,7 @@
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   TOUCHPANEL_GetCont   0x02035C38  arm
  *   func_020355D8   0x020355D8  arm
- *   func_020362DC   0x020362DC  arm
+ *   KEY_GetTrg   0x020362DC  arm
  *   func_021C93C4   0x021C93C4  thumb ov212
  *   sound 0x020061E4 thumb
  *   setup 0x02041EE4 arm
@@ -128,9 +128,9 @@ extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u32);
 extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_02041570(int, u16);
-extern void func_020434DC(u32, u32);
+extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
-extern void func_020434DC(unsigned,unsigned),BG_SYS_SetSubPlaneVisible(unsigned,unsigned),func_020403F4(unsigned),func_0203F9B4(void);
+extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned),BG_SYS_SetSubPlaneVisible(unsigned,unsigned),func_020403F4(unsigned),func_0203F9B4(void);
 extern void *open(u32,u16);
 extern int kind(void *);
 extern void palette(void *,u32,u32,u32,u32,u16);
@@ -148,13 +148,13 @@ extern void func_020862F0(void *,unsigned long);
 extern void func_0207F308(void),func_0207F394(const void *,u32_021BC5B0,u32_021BC5B0),func_0207F428(void);
 extern void func_0207F5B0(void),func_0207F5C8(const void *,u32_021BC5B0,u32_021BC5B0),func_0207F65C(void);
 extern void func_020072A4(struct Sub020072A4Ctrl *,u32_021BC5B0);
-extern void func_02043534(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned),BG_SYS_SetLcdSwap(unsigned);
+extern void BG_SYS_SetMainVisiblePlanes(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned),BG_SYS_SetLcdSwap(unsigned);
 extern void func_021C93A8(unsigned);
-extern void func_021BC30C(unsigned char *),func_021BC43C(void),func_02043534(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned);
+extern void func_021BC30C(unsigned char *),func_021BC43C(void),BG_SYS_SetMainVisiblePlanes(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned);
 extern unsigned WIPE_SYS_EndCheck(void);
 extern int  TOUCHPANEL_GetCont(void);
 extern void func_020355D8(u8 v);
-extern u32_021BC720 func_020362DC(void);
+extern u32_021BC720 KEY_GetTrg(void);
 extern void func_021C93C4(u32_021BC720 heap);
 extern void sound(int);
 extern void setup(u32_021BC7A0,u32_021BC7A0,u32_021BC7A0);
@@ -223,12 +223,12 @@ void func_021BC318(void)
     f = d_021BC8F0;
     func_0203FCA0(5, (const struct BgTemplate *)(&f), 0);
     func_020414EC(5);
-    func_020434DC(14, 1);
+    BG_SYS_SetMainPlaneVisible(14, 1);
     BG_SYS_SetSubPlaneVisible(10, 1);
 }
 
 
-void func_021BC43C(void){func_020434DC(14,0);BG_SYS_SetSubPlaneVisible(10,0);func_020403F4(5);func_020403F4(7);func_020403F4(2);func_020403F4(1);func_020403F4(3);func_0203F9B4();}
+void func_021BC43C(void){BG_SYS_SetMainPlaneVisible(14,0);BG_SYS_SetSubPlaneVisible(10,0);func_020403F4(5);func_020403F4(7);func_020403F4(2);func_020403F4(1);func_020403F4(3);func_0203F9B4();}
 
 
 void func_021BC474(struct Object_021BC2B0 *p)
@@ -295,7 +295,7 @@ void func_021BC5B0(char *p)
  */
 int func_021BC670(char *p)
 {
-    func_02043534(0);BG_SYS_SetSubVisiblePlanes(0);
+    BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     BG_SYS_SetLcdSwap(0);func_021BC2B0();func_021BC318();
@@ -306,7 +306,7 @@ int func_021BC670(char *p)
 }
 
 
-int func_021BC6CC(unsigned char *p){func_021BC30C(p);func_021BC43C();*(volatile unsigned short *)0x04000050=0;*(volatile unsigned short *)0x04001050=0;func_02043534(0);BG_SYS_SetSubVisiblePlanes(0);return 6;}
+int func_021BC6CC(unsigned char *p){func_021BC30C(p);func_021BC43C();*(volatile unsigned short *)0x04000050=0;*(volatile unsigned short *)0x04001050=0;BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);return 6;}
 
 
 int func_021BC6F8(void){if(WIPE_SYS_EndCheck()==1)return 4;return 2;}
@@ -327,18 +327,18 @@ int func_021BC720(char *p)
         func_020355D8(1);
         return 5;
     }
-    if (func_020362DC() & 1) {
+    if (KEY_GetTrg() & 1) {
         func_020355D8(0);
         return 5;
     }
-    if (func_020362DC() & 2) {
+    if (KEY_GetTrg() & 2) {
         func_020355D8(0);
         v = 0;
         *(u32_021BC720 *)(((struct Obj06700 *)p)->f0 + 8) = v;
         func_021C93C4(0x7E);
         return 3;
     }
-    if (func_020362DC() & 0x400) {
+    if (KEY_GetTrg() & 0x400) {
         func_020355D8(0);
         *(u32_021BC720 *)(((struct Obj06700 *)p)->f0 + 8) = v;
         func_021C93C4(0x7E);

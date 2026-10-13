@@ -15,7 +15,7 @@
  *   func_021E12AC  0x021E12AC  thumb  ov119
  *   func_021DD140  0x021DD140  thumb  ov119
  *   func_021D8A24  0x021D8A24  thumb  ov119
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   func_021DD24C  0x021DD24C  thumb  ov119
  *   func_021DD294  0x021DD294  thumb  ov119
  *   func_021DD080  0x021DD080  thumb  ov119
@@ -38,7 +38,7 @@ extern int func_021E12AC(char *p);
 extern int func_021DD140(char *p);
 extern int func_021D8A24(void *p);
 struct Link;
-extern unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, unsigned int lo, unsigned int hi);
 extern int func_021DD24C(char *p);
 extern void func_021DD294(char *p, int a, int b);
 extern void func_021DD080(void *a, void *b, void *c);
@@ -55,7 +55,7 @@ void func_021DDBF0(char *p)
     b = 1 - a;
     if (func_021E12AC(p) == 0) return;
     if (func_021DD140(p) == 0) return;
-    if (func_021D8A24(p) != 0 && func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1D, 8) == 0) {
+    if (func_021D8A24(p) != 0 && GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1D, 8) == 0) {
         func_021DD24C(p);
         return;
     }

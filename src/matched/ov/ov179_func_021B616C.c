@@ -16,7 +16,7 @@
  *   func_0207EB78 0x0207EB78 arm
  *   func_0207ECF0 0x0207ECF0 arm
  *   func_020307B0 0x020307B0 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   d_021B6B00 0x021B6B00 data a4
  */
 typedef struct {int m[4];} Mtx;
@@ -30,7 +30,7 @@ extern void func_0207EB78(void *,int,int);
 extern void func_0207ECF0(void *,int,int);
 extern unsigned int func_020307B0(void *p);
 typedef unsigned int   u32;
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern unsigned char d_021B6B00[];
 void func_021B616C(char *unused)
 {
@@ -44,5 +44,5 @@ void func_021B616C(char *unused)
  func_0207D59C((void *)0x04000030,&m,0,0,0,0);
  p=func_02030734(0x807F,0x18000,1,(const char *)d_021B6B00,0x5B);
  func_0207EB78(p,0,0x18000);func_0207ECF0(p,0,0x18000);func_020307B0(p);
- func_020434DC(0x13,0);func_020434DC(0xC,1);
+ BG_SYS_SetMainPlaneVisible(0x13,0);BG_SYS_SetMainPlaneVisible(0xC,1);
 }

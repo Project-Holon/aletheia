@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_DisablePokeFactors
+ * function: HAND_ITEM_DisablePokeFactors
  * address: 0x021DCFA4
  * packet: pkt_ov093_021DCFA4
  * region: ov093
@@ -15,4 +15,4 @@
 typedef unsigned char u8;
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_DisablePokeFactors(unsigned int,int);
-void BTL_HANDLER_ITEM_DisablePokeFactors(void *p) { BTL_EVENT_DisablePokeFactors(BTL_POKEPARAM_GetPokeId(p),5); }
+void HAND_ITEM_DisablePokeFactors(void *p) { BTL_EVENT_DisablePokeFactors(BTL_POKEPARAM_GetPokeId(p),5); }

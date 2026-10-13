@@ -17,17 +17,17 @@
  *   func_020307B0  0x020307B0  arm
  *   func_0201210C  0x0201210C  thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020120F4  0x020120F4  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   func_02012944 0x02012944 thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   func_0200CA1C 0x0200CA1C thumb
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
@@ -89,7 +89,7 @@
  *   INTRUDE_COMM_SetPendingValue  0x0217688C  thumb  ov011
  *   func_0203F1FC  0x0203F1FC  arm
  *   func_0200E2BC  0x0200E2BC  thumb
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask  0x02029BCC  thumb
  *   func_0201292C  0x0201292C  thumb
  *   func_02007E50  0x02007E50  thumb
@@ -244,7 +244,7 @@ extern void func_0200CFA0(struct PokedexSave *pokedex, struct PokemonParam *mon)
 /* Game events. */
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
-extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 extern void GAME_EVENT_CallProc(struct GameEvent *parent, u32 overlayId, void *procData, void *param);
 extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(struct GameSystem *gameSystem, u32 bgmId);
@@ -254,15 +254,15 @@ extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *g
 extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
 /* Party and Pokemon. */
-extern u32 func_0201AA18(struct Party *party);
-extern struct PokemonParam *func_0201AB28(struct Party *party, u32 index);
+extern u32 POKEPARTY_GetCount(struct Party *party);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 extern u32 func_02017E1C(struct PokemonParam *mon, u32 paramId, void *buffer);
 extern void POKE_TOOL_ChangeForm(struct PokemonParam *mon, u16 form);
 extern u32 func_020173EC(void);
 extern u8 func_02011400(int season, int timeZone);
 extern u16 func_0203F1FC(const void *src, u32 len);
 extern void func_0201EE84(struct WordSet *wordSet, u32 index, struct PokemonParam *mon);
-extern void func_02082BCC(void *dst, int value, int size);
+extern void MI_CpuFill8(void *dst, int value, int size);
 extern void func_020307B0(void *block);
 
 /* Field models and the field map. */
@@ -407,9 +407,9 @@ void FORMCHANGE_RevertShaymin(struct GameData *gameData, struct Party *party)
     int species;
     int form;
 
-    count = func_0201AA18(party);
+    count = POKEPARTY_GetCount(party);
     for (i = 0; i < count; i++) {
-        mon = func_0201AB28(party, i);
+        mon = POKEPARTY_GetMember(party, i);
         species = func_02017E1C(mon, PARAM_SPECIES, 0);
         form = func_02017E1C(mon, PARAM_FORM, 0);
         if (species == SPECIES_SHAYMIN && form == SHAYMIN_FORM_SKY)
@@ -482,9 +482,9 @@ void FORMCHANGE_RevertShayminAndRegister(struct GameData *gameData, struct Party
 
     pokedex = func_0200CA1C(gameData);
     registered = 0;
-    count = func_0201AA18(party);
+    count = POKEPARTY_GetCount(party);
     for (i = 0; i < count; i++) {
-        mon = func_0201AB28(party, i);
+        mon = POKEPARTY_GetMember(party, i);
         species = func_02017E1C(mon, PARAM_SPECIES, 0);
         form = func_02017E1C(mon, PARAM_FORM, 0);
         if (species == SPECIES_SHAYMIN && form == SHAYMIN_FORM_SKY) {
@@ -895,9 +895,9 @@ void FORMCHANGE_UpdateSeasonForms(struct GameData *gameData, struct Party *party
         break;
     }
 
-    count = func_0201AA18(party);
+    count = POKEPARTY_GetCount(party);
     for (i = 0; i < count; i++) {
-        struct PokemonParam *mon = func_0201AB28(party, i);
+        struct PokemonParam *mon = POKEPARTY_GetMember(party, i);
         int species = func_02017E1C(mon, PARAM_SPECIES, 0);
         int form = func_02017E1C(mon, PARAM_FORM, 0);
 
@@ -1157,7 +1157,7 @@ struct GameEvent *SCRCMD_SYMBOL_CreateViewEvent(struct GameSystem *gameSystem, s
     gameData = func_020120F4(gameSystem);
     event = func_020122C0(gameSystem, 0, SCRCMD_SYMBOL_ViewEventMain, sizeof(SymbolViewWork));
     work = func_020124E8(event);
-    func_02082BCC(work, 0, sizeof(SymbolViewWork));
+    MI_CpuFill8(work, 0, sizeof(SymbolViewWork));
     work->fieldMap = fieldMap;
     work->resultOut = resultOut;
     work->heapId = heapId;
@@ -1183,7 +1183,7 @@ struct GameEvent *SCRCMD_SYMBOL_CreateViewEvent(struct GameSystem *gameSystem, s
 int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procWork)
 {
     SymbolViewWork *work = procWork;
-    struct GameSystem *gameSystem = func_020124E4(event);
+    struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     struct GameData *gameData = func_020120F4(gameSystem);
     int ok;
 

@@ -9,9 +9,9 @@
  * status: EXACT*
  * evidence: CCE4 return widened because original stores live r0 after call.
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201EC64 0x0201EC64 thumb
@@ -28,14 +28,14 @@ typedef unsigned short u16;
 typedef unsigned char  u8;
 struct CharBuf;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 typedef unsigned int   u32;
 struct MsgBank;
 struct Rec3;
 struct U16Vec;
 struct WordSet;
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct WordSet *func_0201EC64(u32 heap);
@@ -48,8 +48,8 @@ extern void *PRINTSYS_PrintStream(void *,unsigned,unsigned,void *,unsigned,unsig
 void func_021F6194(char *object,char *p,unsigned entry)
 {
     void *text,*words,*buffer;
-    BMP_Clear(func_02045770(((struct Obj01590 *)p)->f58),15);
-    if(((struct Obj01590 *)p)->f50) func_0201CE48(((struct Obj01590 *)p)->f50);
+    BMP_Clear(BMP_WIN_GetBmp(((struct Obj01590 *)p)->f58),15);
+    if(((struct Obj01590 *)p)->f50) PRINTSYS_PrintStreamDelete(((struct Obj01590 *)p)->f50);
     if(((struct Obj01590 *)p)->f68) STRBUF_Delete(((struct Obj01590 *)p)->f68);
     text=func_02045EC0(((struct Obj01590 *)p)->f64,entry);
     words=func_0201EC64(((struct Obj01590 *)p)->f0);

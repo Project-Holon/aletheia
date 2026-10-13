@@ -39,7 +39,7 @@
  *   FIELD_EFFECT_GetFieldMap  0x021ABE14  thumb  ov021
  *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   sEncountResourceIndex     0x021D9238  data  a1
  *   sEncountFuncs     0x021D9240  data  a4
  *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
@@ -169,7 +169,7 @@ extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
 extern int FIELDMAP_GetMoveKind(FieldMap *fieldMap);
 extern void *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
 extern int FIELDMAP_IsReady(FieldMap *fieldMap);
-extern void *func_02082BCC(void *dst, u8 value, unsigned size);
+extern void *MI_CpuFill8(void *dst, u8 value, unsigned size);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int anmIdx, int step);
 extern u32 func_02047828(G3dObject *obj, u32 anmIdx, s32 *frame);
 extern int EFFECT_ENCOUNT_GetSpotDistance(EncountSys *encount, short *out);
@@ -378,7 +378,7 @@ FieldEffectObj *FLDEFF_ENCOUNT_Start(EncountSys *encount, FieldEffectSys *fieldE
     if (res == 0) {
         return 0;
     }
-    func_02082BCC(&param, 0, 0x28);
+    MI_CpuFill8(&param, 0, 0x28);
     param.encount = encount;
     param.res = res;
     param.mmdlSys = FIELDMAP_GetMmdlSys(fieldMap);

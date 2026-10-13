@@ -19,6 +19,7 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb  arm9
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb  arm9
+ *   GAME_COMM_GetKind  0x02026454  thumb  arm9
  */
 #include "../include/Obj06457.h"
 typedef unsigned short u16;
@@ -28,7 +29,7 @@ struct Comm;
 extern void NET_WHPIPE_SetNotifyCallback(u32 callback, u32 value);
 struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *);
-extern u32 func_02026454(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 extern void func_021D4244(void *p, u32 a, int a2);
 extern void func_021D4B30(char *p);
@@ -37,7 +38,7 @@ void func_021D4B74(char *p)
     ((struct Obj06457 *)p)->f38C = 1;
     WIPE_SYS_Start(0, 0, 0, 0, 6, 1, ((struct Obj06457 *)p)->fC);
     NET_WHPIPE_SetNotifyCallback(0, 0);
-    if (((struct Obj06457 *)p)->f8 == 1 && func_02026454((void *)GAMESYSTEM_GetGameComm(((struct Obj06457 *)p)->f354)))
+    if (((struct Obj06457 *)p)->f8 == 1 && GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm(((struct Obj06457 *)p)->f354)))
         GAME_COMM_RequestExitNoCallback((struct Comm *)GAMESYSTEM_GetGameComm(((struct Obj06457 *)p)->f354));
     func_021D4244(p, (u32)func_021D4B30, 0x35e);
 }

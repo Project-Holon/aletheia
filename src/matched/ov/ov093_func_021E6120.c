@@ -1,5 +1,5 @@
 /*
- * function: func_021E6120
+ * function: HAND_WAZA_GetFakeOutHandlers
  * address: 0x021E6120
  * packet: pkt_ov093_021E6120
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E5B78.c and filed here.
  *
  * symbols:
- *   d_021F242C 0x021F242C data ov093 a4
+ *   gFakeOutHandlers 0x021F242C data ov093 a4
  */
 
-int *func_021E6120(int *p);
-extern int d_021F242C[];
+int *HAND_WAZA_GetFakeOutHandlers(int *p);
+extern int gFakeOutHandlers[];
 
-int *func_021E6120(int *p)
+int *HAND_WAZA_GetFakeOutHandlers(int *p)
 {
     *p = 1;
-    return d_021F242C;
+    return gFakeOutHandlers;
 }

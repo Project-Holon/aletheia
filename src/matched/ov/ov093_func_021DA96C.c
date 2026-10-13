@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_AbsorbRaiseStat
+ * function: HAND_TOKUSEI_AbsorbRaiseStat
  * address:  0x021DA96C
  * packet:   pkt_ov093_021DA96C
  * region:   ov093
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C7CF4  0x021C7CF4  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   func_021D5D14  0x021D5D14  thumb  ov093
- *   func_021C88A4  0x021C88A4  thumb  ov093
- *   func_021C88C8  0x021C88C8  thumb  ov093
- *   func_021C8838  0x021C8838  thumb  ov093
- *   func_021C8860  0x021C8860  thumb  ov093
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
  */
 #include "../include/Obj04368.h"
 
@@ -24,32 +24,32 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 typedef signed char    s8;
-extern void *func_021C7CF4(int *p, int i);
+extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int func_021D5D14(s8 *p, int i, int sign);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *a, void *b);
-extern void func_021C8838(void *p, int a, int b);
+extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
+extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 struct S;
-extern void func_021C8860(struct S *p, u32 v);
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 v);
 
-void BTL_ABILITY_AbsorbRaiseStat(void *a, int id, u32 e, int d)
+void HAND_TOKUSEI_AbsorbRaiseStat(void *a, int id, u32 e, int d)
 {
     u8 *r;
 
-    if (func_021D5D14(func_021C7CF4(a, id), e, d) != 0) {
-        r = (u8 *)func_021C88A4(a, 14, id);
+    if (func_021D5D14(BTL_SERVER_FLOW_GetPokeParam(a, id), e, d) != 0) {
+        r = (u8 *)BTL_SERVER_FLOW_AllocCmdRecord(a, 14, id);
         r[0xf] = 1;
         r[0x10] = id;
         r[0xe] = 1;
         ((struct Obj04368 *)r)->f4 = e;
         r[0xc] = d;
         ((struct Obj04368 *)r)->f0 |= 0x800000;
-        func_021C88C8(a, r);
+        BTL_SERVER_FLOW_CommitCmdRecord(a, r);
     } else {
-        r = (u8 *)func_021C88A4(a, 4, id);
-        func_021C8838(r + 4, 2, 0xd2);
-        func_021C8860((struct S *)(r + 4), id);
+        r = (u8 *)BTL_SERVER_FLOW_AllocCmdRecord(a, 4, id);
+        BTL_SERVER_FLOW_InitMsgRecord(r + 4, 2, 0xd2);
+        BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(r + 4), id);
         ((struct Obj04368 *)r)->f0 |= 0x800000;
-        func_021C88C8(a, r);
+        BTL_SERVER_FLOW_CommitCmdRecord(a, r);
     }
 }

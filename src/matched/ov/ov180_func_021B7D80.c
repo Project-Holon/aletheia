@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 func_0204B258; all concrete bytes match, 29/30 sites resolve.
+ * blocker: ARM9 CLACT_SetUnitRenderer; all concrete bytes match, 29/30 sites resolve.
  *   src/matched/arm9/unit_0204B22C.c defines CLACT_SetUnitRenderer but its function:
  *   line lists only CLACT_SetUnitDrawEnable. the integrator must add the missing unit entry.
  *   Scratch one --arm, dsi/1.1p1 -O4,p -lang c99: EXACT, 24 bytes, no sites.
@@ -19,7 +19,7 @@
  *       u8 pad00[8]; void *f8; u8 pad0c[2];
  *       u8 source:4; u8 mode:4; u8 pad0f[9];
  *   };
- *   void func_0204B258(struct Bank *bank,void *p) {
+ *   void CLACT_SetUnitRenderer(struct Bank *bank,void *p) {
  *       bank->f8=p;
  *       bank->source=1;
  *   }
@@ -30,7 +30,7 @@
  *   func_021B7C78 0x021B7C78 thumb ov180
  *   CLACT_CreateRenderer 0x0204B034 arm
  *   CLACT_SetRendererCulling 0x0204B0F4 arm
- *   func_0204B258 0x0204B258 arm
+ *   CLACT_SetUnitRenderer 0x0204B258 arm
  *   func_021B75A4 0x021B75A4 thumb ov180
  *   func_021B746C 0x021B746C thumb ov180
  *   func_020490F4 0x020490F4 arm
@@ -66,7 +66,7 @@ struct Obj;
 struct Sub0200852CObj;
 extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
 extern void CLACT_SetRendererCulling(struct Actor *a0, int a1);
-extern void func_0204B258(struct Bank *,void *);
+extern void CLACT_SetUnitRenderer(struct Bank *,void *);
 extern struct Obj *func_021B75A4(char *p, const char *q);
 extern void func_021B746C(int *,int,int);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -89,7 +89,7 @@ void func_021B7D80(char *p) {
     s=d_021B82B4;
     *(struct Actor **)(p+0x9118)=(struct Actor *)CLACT_CreateRenderer((u8 *)&s,2,141);
     CLACT_SetRendererCulling(*(struct Actor **)(p+0x9118),1);
-    func_0204B258(*(struct Bank **)(p+0x9044),*(void **)(p+0x9118));
+    CLACT_SetUnitRenderer(*(struct Bank **)(p+0x9044),*(void **)(p+0x9118));
     *(u32 *)(p+0x9064)=(u32)func_021B75A4(p,d_021B8204);
     *(u32 *)(p+0x9068)=(u32)func_021B75A4(p,((char *)&d_021B81EC));
     func_021B746C((int *)p,7,0); func_021B746C((int *)p,8,0);

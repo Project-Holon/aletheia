@@ -14,8 +14,8 @@
  *   GAME_DATA_GetPlayerDirectionType  0x02012AE4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_02026454  0x02026454  thumb
- *   func_02013D5C  0x02013D5C  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
+ *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   INTRUDE_COMM_HasResultReward  0x02175E90  thumb  ov011
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   GAMESYSTEM_IsEventActive  0x020120D8  thumb
@@ -40,8 +40,8 @@ extern unsigned int GAME_DATA_GetPlayerDirectionType(const struct Rec44 *p);
 typedef unsigned int   u32;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern u32 func_02026454(void *obj);
-extern u32 func_02013D5C(u32 id);
+extern u32 GAME_COMM_GetKind(void *obj);
+extern u32 ZONEDATA_IsZone117(u32 id);
 extern int INTRUDE_COMM_HasResultReward(void *p, u8 *q);
 struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *, struct VecFx32 *);
@@ -69,11 +69,11 @@ void INTRUDE_FIELD_UpdateAreaIndex(int a0, void *a1, void *a2, u8 *p)
     x = GAMESYSTEM_GetGameComm(a1);
     flag = 0;
     GAMESYSTEM_GetGameData(a1);
-    if ((int)func_02026454((void *)x) != 2)
+    if ((int)GAME_COMM_GetKind((void *)x) != 2)
         return;
     if (p == 0)
         return;
-    if (func_02013D5C(sys) == 0)
+    if (ZONEDATA_IsZone117(sys) == 0)
         return;
     if (p[0x902] < 2)
         return;

@@ -16,7 +16,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_NET_SYSTEM_SetError  0x02039548  arm
  *   func_02034714  0x02034714  arm
  *   MI_CpuCopy8    0x02082D44  arm
@@ -130,7 +130,7 @@ typedef signed int     s32;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void *func_02082BCC(void *dst, int val, u32 size);
+extern void *MI_CpuFill8(void *dst, int val, u32 size);
 
 extern void GFL_NET_SYSTEM_SetError(void);
 
@@ -321,7 +321,7 @@ void GFL_NET_COMMAND_Exit(void)
 {
     if (_pCommandWork == 0)
         return;
-    func_02082BCC(_pCommandWork, 0, 0x22c);
+    MI_CpuFill8(_pCommandWork, 0, 0x22c);
     func_020307B0(_pCommandWork);
     _pCommandWork = 0;
 }
@@ -409,7 +409,7 @@ void GFL_NET_COMMAND_DeleteCommandTable(u32 groupKey)
         return;
     for (tableIdx = 0; tableIdx < 4; tableIdx++) {
         if (tables[tableIdx].groupKey == groupKey) {
-            func_02082BCC(&tables[tableIdx], 0, 0x10);
+            MI_CpuFill8(&tables[tableIdx], 0, 0x10);
             return;
         }
     }

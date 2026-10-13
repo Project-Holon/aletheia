@@ -36,8 +36,8 @@
  *   func_021BE024 0x021BE024 thumb ov172
  *   func_021BE018 0x021BE018 thumb ov172
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   func_02082A90 0x02082A90 arm
  *   func_020307B0 0x020307B0 arm
@@ -74,8 +74,8 @@ extern void ARC_TOOL_DeleteHandle(void *arc);
 extern u32 func_021BE024(void *p);
 extern u32 func_021BE018(void *p, int i);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *e, unsigned short f, unsigned short g);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082A90(const void *src, void *dst, u32 size);
 extern u32 func_020307B0(void *p);
@@ -139,8 +139,8 @@ void func_021BD844(u8 *p)
     i1 = func_021BE018(p, z);
     i2 = func_021BE018(p, 8);
     W(0x1b0) = (u32)CLACT_CreateActor((void *)o, i0, i1, i2, &cfg, z, HEAP);
-    func_0204B3DC((void *)W(0x1b0), z);
-    func_0204B92C((void *)W(0x1b0), 1);
+    CLACT_SetActorDrawEnable((void *)W(0x1b0), z);
+    CLACT_SetActorAutoAnim((void *)W(0x1b0), 1);
     if (func_02008550(t) == 0) {
         dev = ARC_UTIL_LoadPaletteBlockFromHandle(BG, 7, (u32)(&pal), HEAP);
     } else {

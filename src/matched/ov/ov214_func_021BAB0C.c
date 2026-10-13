@@ -14,9 +14,9 @@
  *   func_0201BCB4 0x0201BCB4 thumb
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   CLACT_SetActorDrawPriority 0x0204B800 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_0201BB5C 0x0201BB5C thumb
- *   func_0204B6F4 0x0204B6F4 arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   POKE_TOOL_CalcIconPalette 0x0201BB5C thumb
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
  *   UI_SCENE_CreateActor 0x021B629C thumb ov067
  */
@@ -35,9 +35,9 @@ struct Node;
 struct Obj;
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 struct Obj;
-extern void func_0204B92C(struct Obj *,u32);
-extern u32 func_0201BB5C(u32,u32,u32,u32);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
+extern u32 POKE_TOOL_CalcIconPalette(u32,u32,u32,u32);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 int func_021BAB0C(int a,u16 b,int c,u8 d,u32 e,u32 f,u32 g,u32 h,void*x,u8 i,u8 j,u8 k,u8 l,u8 m)
 {
     In in;
@@ -56,7 +56,7 @@ int func_021BAB0C(int a,u16 b,int c,u8 d,u32 e,u32 f,u32 g,u32 h,void*x,u8 i,u8 
     actor=UI_SCENE_CreateActor(x,a,i,j,k,b);
     CLACT_SetActorBgPriority(actor,l);
     CLACT_SetActorDrawPriority((struct Node *)actor,m);
-    func_0204B92C((struct Obj *)actor,1);
-    func_0204B6F4((struct Obj *)actor,func_0201BB5C(e,f,g,h),0);
+    CLACT_SetActorAutoAnim((struct Obj *)actor,1);
+    CLACT_SetActorPaletteOffset((struct Obj *)actor,POKE_TOOL_CalcIconPalette(e,f,g,h),0);
     return actor;
 }

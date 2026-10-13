@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E30C8",
+   "name": "HAND_WAZA_ThunderOnAccuracyCheck",
    "address": "0x021E30C8",
    "kind": "game",
    "region": "ov093",

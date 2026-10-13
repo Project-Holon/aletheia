@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   g_brightnessMain    0x0214691C  data
  *   g_brightnessSub   0x021468FC  data
  *   g_brightnessSub  0x021468FC  data
@@ -53,7 +53,7 @@
 
 typedef unsigned int  u32;
 
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
 extern u32 g_brightnessMain[];
 extern u32 g_brightnessSub[];
@@ -62,11 +62,11 @@ extern u32 g_brightnessSub[];
 void BRIGHTNESS_ChangeReset(u32 mask)
 {
     if (mask & 1) {
-        func_02082BCC(g_brightnessMain, 0, 0x20);
+        MI_CpuFill8(g_brightnessMain, 0, 0x20);
         g_brightnessSub[0x3c / 4] = 0;
     }
     if (mask & 2) {
-        func_02082BCC(g_brightnessSub, 0, 0x20);
+        MI_CpuFill8(g_brightnessSub, 0, 0x20);
         g_brightnessSub[0x1c / 4] = 0;
     }
 }

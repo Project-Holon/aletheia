@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/btl_server_p125.c and filed here.
  *
  * symbols:
- *   func_021D0E7C 0x021D0E7C thumb
+ *   BTL_CLIENT_StepChooseReplacement 0x021D0E7C thumb
  */
 
 typedef unsigned char u8;
 int BTL_CLIENT_StepChoiceMode1(u8 *p, int *state);
-int func_021D0E7C(u8 *p, int *state, u8 param);
+int BTL_CLIENT_StepChooseReplacement(u8 *p, int *state, u8 param);
 
 int BTL_CLIENT_StepChoiceMode1(u8 *p, int *state)
 {
-    return func_021D0E7C(p, state, 1);
+    return BTL_CLIENT_StepChooseReplacement(p, state, 1);
 }

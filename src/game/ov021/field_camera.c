@@ -18,9 +18,9 @@
  *   func_020307B0  0x020307B0  arm
  *   func_020490F4  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0207C9D0  0x0207C9D0  arm
- *   d_020A1B38     0x020A1B38  data   a2
+ *   FX_SinCosTable_     0x020A1B38  data   a2
  *   gFieldCameraFileName     0x021DDA28  data  ov021  a4
  *   func_02048B78  0x02048B78  arm
  *   func_02048B88  0x02048B88  arm
@@ -30,7 +30,7 @@
  *   G3D_SYSTEM_SetSwapBuffersMode  0x02046BE0  arm
  *   func_02048B80  0x02048B80  arm
  *   func_02048B94  0x02048B94  arm
- *   tbl_020A1B38   0x020A1B38  data
+ *   FX_SinCosTable_   0x020A1B38  data
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  *   VEC_Normalize  0x0207CCA4  arm
@@ -78,7 +78,7 @@ typedef struct { s16 x, y, z; } VecS16;
 
 typedef void (*FieldCameraEnterFunc)(FieldCamera *camera);
 
-extern u32 func_02082BCC(void *, int, u32);
+extern u32 MI_CpuFill8(void *, int, u32);
 extern void *func_02030734(u16, u32, u32, const void *, u32);
 extern u32 func_020307B0(void *);
 extern void *func_020490F4(u32, u32);
@@ -214,11 +214,11 @@ u16 FIELD_CAMERA_LerpAngle(u16 *from, u16 *to, s32 frames, s32 frame);
 void FIELD_CAMERA_ClearMoveCallback(FieldCamera *camera);
 int FIELD_CAMERA_IsMoving(FieldCamera *camera);
 FieldCameraView *FIELD_CAMERA_GetMoveGoal(FieldCamera *camera);
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern const char gFieldCameraFileName[];
 extern FieldCameraEnterFunc gFieldCameraEnterModeFuncs[];
 extern FieldCameraEnterFunc gFieldCameraPrepareModeFuncs[];
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern FieldCameraUpdateFunc gFieldCameraUpdateModeFuncs[];
 extern VecFx32 gFieldCameraUpVec;
 extern s16 FX_SinCosTable_[];
@@ -343,8 +343,8 @@ void FIELD_CAMERA_LoadSetting(FieldCamera *camera, const VecFx32 *targetSrc)
         break;
     }
     if (func_02048B78(camera->g3dCamera) == 0) {
-        func_02048B80(camera->g3dCamera, tbl_020A1B38[(camera->fov >> 4) * 2]);
-        func_02048B94(camera->g3dCamera, tbl_020A1B38[(camera->fov >> 4) * 2 + 1]);
+        func_02048B80(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2]);
+        func_02048B94(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2 + 1]);
     }
     if (setting.hasTarget != 0) {
         camera->boundTarget = targetSrc;
@@ -396,10 +396,10 @@ void FIELD_CAMERA_CalcOffsetPoint(VecFx32 *base, VecFx32 *out, int yaw, int pitc
     int idx;
 
     idx = (yaw >> 4) * 2;
-    yawSin = d_020A1B38[idx];
-    yawCos = d_020A1B38[idx + 1];
-    pitchSin = d_020A1B38[(pitch >> 4) * 2];
-    pitchCos = d_020A1B38[(pitch >> 4) * 2 + 1];
+    yawSin = FX_SinCosTable_[idx];
+    yawCos = FX_SinCosTable_[idx + 1];
+    pitchSin = FX_SinCosTable_[(pitch >> 4) * 2];
+    pitchCos = FX_SinCosTable_[(pitch >> 4) * 2 + 1];
     if (pitchCos < 0) pitchCos = -pitchCos;
     if (pitchCos < 0x200) pitchCos = 0x200;
     dir.x = (int)(((long long)yawSin * pitchCos + 0x800) >> 12);
@@ -647,18 +647,18 @@ void FIELD_CAMERA_RefineAngles(VecFx32 *vec, u16 yaw, u16 pitch, u16 *outYaw, u1
     *outPitch = pitch;
     yawIdx = (yaw >> 4) * 2;
     pitchIdx = (pitch >> 4) * 2;
-    pitchCos = d_020A1B38[pitchIdx + 1];
-    cur.x = FxMulRound(d_020A1B38[yawIdx], pitchCos);
-    cur.y = d_020A1B38[pitchIdx];
-    cur.z = FxMulRound(d_020A1B38[yawIdx + 1], pitchCos);
+    pitchCos = FX_SinCosTable_[pitchIdx + 1];
+    cur.x = FxMulRound(FX_SinCosTable_[yawIdx], pitchCos);
+    cur.y = FX_SinCosTable_[pitchIdx];
+    cur.z = FxMulRound(FX_SinCosTable_[yawIdx + 1], pitchCos);
     yawIdxMinus = ((yaw - 0xb6) >> 4) * 2;
-    minus.x = FxMulRound(d_020A1B38[yawIdxMinus], pitchCos);
-    minus.z = FxMulRound(d_020A1B38[yawIdxMinus + 1], pitchCos);
-    pitchSinMinus = d_020A1B38[((pitch - 0xb6) >> 4) * 2];
+    minus.x = FxMulRound(FX_SinCosTable_[yawIdxMinus], pitchCos);
+    minus.z = FxMulRound(FX_SinCosTable_[yawIdxMinus + 1], pitchCos);
+    pitchSinMinus = FX_SinCosTable_[((pitch - 0xb6) >> 4) * 2];
     yawIdxPlus = ((yaw + 0xb6) >> 4) * 2;
-    plus.x = FxMulRound(d_020A1B38[yawIdxPlus], pitchCos);
-    plus.z = FxMulRound(d_020A1B38[yawIdxPlus + 1], pitchCos);
-    pitchSinPlus = d_020A1B38[((pitch + 0xb6) >> 4) * 2];
+    plus.x = FxMulRound(FX_SinCosTable_[yawIdxPlus], pitchCos);
+    plus.z = FxMulRound(FX_SinCosTable_[yawIdxPlus + 1], pitchCos);
+    pitchSinPlus = FX_SinCosTable_[((pitch + 0xb6) >> 4) * 2];
     if (yaw < 0x4000) {
         if (cur.x < vec->x && cur.z > vec->z) {
             if (ABS(cur.x - vec->x) >= ABS(cur.z - vec->z)) {
@@ -1080,7 +1080,7 @@ void FIELD_CAMERA_CopyAreas(FieldCamera *camera, FieldCameraAreaSet *set)
 
 void FIELD_CAMERA_ClearAreas(FieldCamera *camera)
 {
-    func_02082BCC(camera->areas, 0, sizeof(camera->areas));
+    MI_CpuFill8(camera->areas, 0, sizeof(camera->areas));
     camera->areaCount = 0;
 }
 
@@ -1242,9 +1242,9 @@ int FIELD_CAMERA_AreaKeepInRing(const FieldCameraArea *area, VecFx32 *in, VecFx3
     }
     if (clamped != 0) {
         idx = (angle >> 4) * 2;
-        trig = d_020A1B38[idx];
+        trig = FX_SinCosTable_[idx];
         out->x = center.x + (int)(((long long)trig * radius + 0x800) >> 12);
-        trig = d_020A1B38[idx + 1];
+        trig = FX_SinCosTable_[idx + 1];
         out->z = center.z + (int)(((long long)trig * radius + 0x800) >> 12);
         out->y = orig.y;
     }
@@ -1527,8 +1527,8 @@ void FIELD_CAMERA_UpdateMove(FieldCamera *camera)
     if (motion->channels.fov != 0) {
         camera->fov = FIELD_CAMERA_LerpAngle(&from->fov, &to->fov,
                                     motion->frames, motion->frame);
-        func_02048B80(camera->g3dCamera, d_020A1B38[(camera->fov >> 4) * 2]);
-        func_02048B94(camera->g3dCamera, d_020A1B38[(camera->fov >> 4) * 2 + 1]);
+        func_02048B80(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2]);
+        func_02048B94(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2 + 1]);
     }
     if (motion->channels.distance != 0) {
         camera->distance = FIELD_CAMERA_LerpFx32(&from->distance, &to->distance,
@@ -1564,8 +1564,8 @@ void FIELD_CAMERA_UpdateFreeMove(FieldCamera *camera)
     if (motion->channels.fov != 0) {
         camera->fov = FIELD_CAMERA_LerpAngle(&from->fov, &to->fov,
                                     motion->frames, motion->frame);
-        func_02048B80(camera->g3dCamera, d_020A1B38[(camera->fov >> 4) * 2]);
-        func_02048B94(camera->g3dCamera, d_020A1B38[(camera->fov >> 4) * 2 + 1]);
+        func_02048B80(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2]);
+        func_02048B94(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2 + 1]);
     }
     if (motion->channels.shift != 0) {
         FIELD_CAMERA_LerpVec(&from->shift, &to->shift, motion->frames, motion->frame, &camera->targetShift);

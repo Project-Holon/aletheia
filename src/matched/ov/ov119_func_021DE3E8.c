@@ -22,10 +22,10 @@
  *   func_020355D8 0x020355D8 arm
  *   func_021E68F4 0x021E68F4 thumb ov119
  *   func_021DE1B4 0x021DE1B4 thumb ov119
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021DE3BC 0x021DE3BC thumb ov119
  *   func_020355C4 0x020355C4 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_021DE208 0x021DE208 thumb ov119
  */
 #include "../include/Obj00251.h"
@@ -47,11 +47,11 @@ extern const char d_021E80C4[];
 extern void func_020355D8(u8);
 extern void func_021E68F4(int,int);
 extern void func_021DE1B4(State *,int);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern u8 func_020355C4(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int func_021DE208(char *);
-static inline int poll(void) { int v=func_020362DC(); if(v)func_020355D8(0); return v; }
+static inline int poll(void) { int v=KEY_GetTrg(); if(v)func_020355D8(0); return v; }
 void func_021DE3E8(char *p)
 {
     int idx;
@@ -70,7 +70,7 @@ void func_021DE3E8(char *p)
                 ((struct Obj00251 *)p)->f10A0=idx;
                 func_021E68F4((int)p,-1);
                 func_021DE1B4((State *)p,((struct Obj00251 *)p)->f10A0);
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 ((struct Obj00251 *)p)->fF2C=0;
                 func_021D8E84(p,(int)func_021DE3BC);
                 return;
@@ -78,13 +78,13 @@ void func_021DE3E8(char *p)
             if(func_020355C4() && poll()) {
                 func_020355D8(0);
                 func_021E68F4((int)p,((struct Obj00251 *)p)->f10A0);
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 ((struct Obj00251 *)p)->fF2C=0;
                 func_021D8E84(p,(int)func_021DE3BC);
                 return;
             }
             if(func_021DE208(p)) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021E68F4((int)p,((struct Obj00251 *)p)->f10A0);
                 func_021DE1B4((State *)p,((struct Obj00251 *)p)->f10A0);
                 ((struct Obj00251 *)p)->fF2C=0;

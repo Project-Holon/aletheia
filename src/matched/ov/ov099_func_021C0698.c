@@ -11,7 +11,7 @@
  *   func_021B9B64 0x021B9B64 thumb ov099
  *   func_021BA928 0x021BA928 thumb ov099
  *   BMP_MENULIST_Main 0x020200CC thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021C18C8 0x021C18C8 thumb ov099
  *   func_021BA8EC 0x021BA8EC thumb ov099
  *   func_021C23C8 0x021C23C8 thumb ov099
@@ -28,7 +28,7 @@ typedef unsigned short u16;
 struct Obj;
 extern s32 BMP_MENULIST_Main(struct Obj *o);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021C18C8(char *p, int kind, int value);
 extern void func_021BA8EC(char *);
 extern int func_021C23C8(void *a, void *b);
@@ -46,11 +46,11 @@ int func_021C0698(char *p,int ret) {
     switch(r) {
     case -1: return ret;
     case -2:
-        func_020061E4(1356);
+        GFL_USE_PlaySeDefaultVolume(1356);
         *(int *)(p+(o-0xa8))=28;
         break;
     default:
-        func_020061E4(1356);
+        GFL_USE_PlaySeDefaultVolume(1356);
         func_021C18C8(p,2,r);
         *(int *)(p+(o-0xa8))=11;
         func_021BA8EC(p);

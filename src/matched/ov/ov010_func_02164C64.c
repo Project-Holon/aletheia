@@ -40,11 +40,11 @@
  *   GAME_COMM_RequestExit  0x0202640C  thumb
  *   GAME_BEACON_SEARCH_StartConnectEvent  0x02164FD0  thumb  ov010
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_02177BF4  0x02177BF4  thumb  ov014
+ *   NET_WHPIPE_ReleaseEntry  0x02177BF4  thumb  ov014
  *   func_02010498  0x02010498  thumb
  *   GAME_BEACON_SEARCH_FileName     0x021729BC  data  a1
  
- * 2026-10-05 (D8 lane 15): the ov011 hint on func_02177BF4 was wrong; the label is in ov014, so the symbols line now says ov014 and every relocation resolves.
+ * 2026-10-05 (D8 lane 15): the ov011 hint on NET_WHPIPE_ReleaseEntry was wrong; the label is in ov014, so the symbols line now says ov014 and every relocation resolves.
  */
 
 typedef unsigned char u8;
@@ -97,7 +97,7 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void GAME_COMM_RequestExit(struct Comm *p, u32 a, u32 b);
 extern void GAME_BEACON_SEARCH_StartConnectEvent(u8 *obj, int flag);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void func_02177BF4(u32 id);
+extern void NET_WHPIPE_ReleaseEntry(u32 id);
 extern void func_02010498(void);
 extern const char GAME_BEACON_SEARCH_FileName[];
 
@@ -148,7 +148,7 @@ void GAME_BEACON_SEARCH_Update(void *unused, void *sys, PollWork *w)
                 }
             }
             MI_CpuFill8(&w->rec, 0, sizeof(LinkRec));
-            func_02177BF4(id);
+            NET_WHPIPE_ReleaseEntry(id);
         } else {
             rec->kind = 0;
         }

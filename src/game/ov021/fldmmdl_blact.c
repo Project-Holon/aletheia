@@ -57,7 +57,7 @@
  *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
  *   FLDMMDL_SysGetMmdlMax  0x0216D4F0  thumb  ov010
  *   FLDMMDL_CallDrawProc  0x0216D758  thumb  ov010
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FLDMMDL_CallDrawGetProc  0x0216D7A8  thumb  ov010
  *   FLDMMDL_ChangeObjCode  0x0216E204  thumb  ov010
  *   FLDMMDL_CheckStatusBitUse  0x0216DA30  thumb  ov010
@@ -104,7 +104,7 @@ extern void *FLDMMDL_SysGetResArcHandle(MmdlSys *sys);
 extern void *G3D_SYSTEM_CreateResourceArcHandle(void *arcHandle, u32 dataId);
 extern u16 FLDMMDL_SysGetMmdlMax(MmdlSys *sys);
 extern void FLDMMDL_CallDrawProc(Mmdl *mmdl);
-extern void func_02082BCC(void *p, u32 value, u32 size);
+extern void MI_CpuFill8(void *p, u32 value, u32 size);
 extern int FLDMMDL_CallDrawGetProc(Mmdl *mmdl, unsigned int kind);
 extern void FLDMMDL_ChangeObjCode(Mmdl *mmdl, u32 code);
 extern int FLDMMDL_CheckStatusBitUse(Mmdl *mmdl, BlactCodeChange *change);
@@ -941,7 +941,7 @@ void FLDMMDL_BLACT_CancelReservedActor(BlactSys *cont, Mmdl *mmdl)
 void FLDMMDL_BLACT_ClearActorReserve(BlactEntry *entry)
 {
     entry->isWaiting = 0;
-    func_02082BCC(entry, 0, sizeof(BlactEntry));
+    MI_CpuFill8(entry, 0, sizeof(BlactEntry));
 }
 
 /*

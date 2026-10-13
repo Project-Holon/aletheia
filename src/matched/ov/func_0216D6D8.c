@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FLDMMDL_GetDrawProcWork  0x0216D6F0  thumb  ov010
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
 typedef unsigned char u8;
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *FLDMMDL_GetDrawProcWork(void *p);
-extern int func_02082BCC();
+extern int MI_CpuFill8();
 
 void *FLDMMDL_InitDrawProcWork(int a0, int a1)
 {
@@ -32,6 +32,6 @@ t5 = a1 + 0;
 loc_0216D6E0:
 a1 = 0;
 a2 = t5 + 0;
-    a0 = func_02082BCC(t4, a1, a2);
+    a0 = MI_CpuFill8(t4, a1, a2);
 loc_0216D6EA:
     return t4;}

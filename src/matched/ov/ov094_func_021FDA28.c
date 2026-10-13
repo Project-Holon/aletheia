@@ -12,12 +12,12 @@
  *   BUTTON_MAN_SetEmitterPos 0x02051838 arm
  *   func_021FE1B8 0x021FE1B8 thumb ov094
  *   _ll_mul 0x0209C054 arm
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  */
 typedef signed short s16;
 typedef unsigned short u16;
 typedef struct { int x, y, z; } VecFx32;
-extern const s16 d_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 extern int BUTTON_MAN_GetUserData(void *p);
 extern void BUTTON_MAN_SetEmitterPos(void *p, const VecFx32 *v);
 extern void func_021FE1B8(VecFx32 *v, const VecFx32 *ofs);
@@ -37,11 +37,11 @@ void func_021FDA28(void *p, int active)
             else
                 s[6] += s[7];
             s[6] = (u16)s[6];
-            v.x = d_020A1B38[(s[6] >> 4) * 2];
+            v.x = FX_SinCosTable_[(s[6] >> 4) * 2];
             v.x = MUL(v.x, s[4]);
             v.x += s[1];
             v.y = s[2];
-            v.z = d_020A1B38[(s[6] >> 4) * 2 + 1];
+            v.z = FX_SinCosTable_[(s[6] >> 4) * 2 + 1];
             v.z = MUL(v.z, s[5]);
             v.z += s[3];
             if (s[15] != 0)

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0207CB68  0x0207CB68  arm
+ *   VEC_Fx16CrossProduct  0x0207CB68  arm
  *   VEC_Fx16DotProduct  0x0207CAA4  arm
  *   FX_AcosIdx  0x0207D184  arm
  * Addresses are Black-image addresses.
@@ -27,7 +27,7 @@ typedef signed int     s32;
 
 typedef struct { s32 x, y, z; } V32;
 
-extern void func_0207CB68(const s16 *a, u32 b, s16 *c);
+extern void VEC_Fx16CrossProduct(const s16 *a, u32 b, s16 *c);
 extern s32 VEC_Fx16DotProduct(const s16 *a, u32 b);
 extern u16 FX_AcosIdx(s32 x);
 
@@ -43,7 +43,7 @@ void FIELD_LIGHT_InitDirLerp(s32 *o, const s16 *in, u32 c)
     s16 v[3];
 
     set((V32 *)o, in[0], in[1], in[2]);
-    func_0207CB68(in, c, v);
+    VEC_Fx16CrossProduct(in, c, v);
     set((V32 *)(o + 3), v[0], v[1], v[2]);
     ((struct Obj19697 *)o)->f18 = FX_AcosIdx(VEC_Fx16DotProduct(in, c));
 }

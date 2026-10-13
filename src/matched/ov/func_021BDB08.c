@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *
  * Feeds the block to the arm9 predicate at 0x020399A8 and hands that answer,
  * with the constants 0x18 and 0x0A, to the arm9 predicate at 0x02039CB4; when
@@ -35,11 +35,11 @@ typedef int BOOL;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, unsigned int lo, unsigned int hi);
 
 int func_021BDB08(char *p, int v)
 {
-    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, 0xA) == 0) {
+    if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, 0xA) == 0) {
         return v;
     }
 

@@ -16,8 +16,8 @@
  *   func_02184470   0x02184470  thumb
  *   func_0218448C   0x0218448C  thumb
  *   func_0218484C   0x0218484C  thumb
- *   func_02006D94   0x02006D94  thumb
- *   func_020061E4   0x020061E4  thumb
+ *   SND_MIC_IsLimitReached   0x02006D94  thumb
+ *   GFL_USE_PlaySeDefaultVolume   0x020061E4  thumb
  *
  * Four-state step: x+0xF8 through 0x2184470 on 0, gate two polls on 1,
  *   x+0xF8 through 0x218448C on 2, install 0x2183E18 on 3.
@@ -31,8 +31,8 @@ extern void func_02183E18(int a, int *state);
 extern void func_02184470(int *p);
 extern void func_0218448C(int *p);
 extern int func_0218484C(void);
-extern u32 func_02006D94(void);
-extern void func_020061E4(u32 a);
+extern u32 SND_MIC_IsLimitReached(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 void func_02183DAC(int a, int *state)
 {
@@ -43,8 +43,8 @@ void func_02183DAC(int a, int *state)
         *state = 1;
         break;
     case 1:
-        if (func_0218484C() && func_02006D94()) {
-            func_020061E4(0x551);
+        if (func_0218484C() && SND_MIC_IsLimitReached()) {
+            GFL_USE_PlaySeDefaultVolume(0x551);
             *state = 2;
         }
         break;

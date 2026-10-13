@@ -12,6 +12,7 @@
  * symbols:
  *   func_021B984C  0x021B984C  thumb  ov114
  *   GFL_NET_AllocAligned  0x0203D7C8  arm  arm9
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  *
  *
  * Binds a 0x130-stride sub-table to the record and zeroes its first 0x130 bytes.
@@ -22,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void *GFL_NET_AllocAligned(unsigned int a, unsigned int size, const char *c, unsigned short d);
-extern void func_02082BCC(int, int, int);
+extern void MI_CpuFill8(int, int, int);
 extern void func_021B984C(u8 *, int);
 
 void func_021B98A0(u8 *p, int a, int b, int c)
@@ -33,6 +34,6 @@ void func_021B98A0(u8 *p, int a, int b, int c)
         return;
     q = GFL_NET_AllocAligned(a, b + 0x130, (const char *)0x021CE310, 0x1f5);
     ((struct Obj03250 *)p)->f0 = (u32)q;
-    func_02082BCC((int)q, 0, b + 0x130);
+    MI_CpuFill8((int)q, 0, b + 0x130);
     func_021B984C(p, c);
 }

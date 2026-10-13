@@ -25,8 +25,8 @@
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_020362DC  0x020362DC  arm
- *   func_020061E4  0x020061E4  thumb
+ *   KEY_GetTrg  0x020362DC  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   memcmp         0x0203EFC8  arm
  *
  * Addresses are Black-image addresses.
@@ -64,8 +64,8 @@ extern void GFL_NET_SetLoginOption(u8 a0);
 extern int  GFL_NET_SYSTEM_GetConnectNum(void);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u32 func_020362DC(void);
-extern void func_020061E4(u32 id);
+extern u32 KEY_GetTrg(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern int  memcmp(const void *a, const void *b, u32 n);
 
 int UNION_ONESELF_ConnectParentMain(void *w, Obj *obj, u8 *a2, u8 *state)
@@ -103,7 +103,7 @@ int UNION_ONESELF_ConnectParentMain(void *w, Obj *obj, u8 *a2, u8 *state)
             }
         } else {
             obj->s6C++;
-            if (obj->s6C > 600 || (func_020362DC() & 2)) {
+            if (obj->s6C > 600 || (KEY_GetTrg() & 2)) {
                 UNION_COMM_RequestRestart(w);
                 UNION_ONESELF_SetNextPlayCategory(w, 0);
                 UNION_COMM_SetSituationParam(w, 1, 0);
@@ -125,7 +125,7 @@ int UNION_ONESELF_ConnectParentMain(void *w, Obj *obj, u8 *a2, u8 *state)
                 }
             } else {
                 if (UNION_COMMAND_SendPartnerMode(1) == 1) {
-                    func_020061E4(0x806);
+                    GFL_USE_PlaySeDefaultVolume(0x806);
                     UNION_ONESELF_SetNextPlayCategory(w, 7);
                     UNION_COMM_SetSituationParam(w, 3, (u32)obj->p18);
                     UNION_COMM_SetSituationParam(w, 1, 0);
@@ -140,7 +140,7 @@ int UNION_ONESELF_ConnectParentMain(void *w, Obj *obj, u8 *a2, u8 *state)
         }
         break;
     case 4:
-        if (UNION_MSG_CheckTalkPrintEnd(w) == 1 && (func_020362DC() & 0xF3)) {
+        if (UNION_MSG_CheckTalkPrintEnd(w) == 1 && (KEY_GetTrg() & 0xF3)) {
             return 1;
         }
         break;

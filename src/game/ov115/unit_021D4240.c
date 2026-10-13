@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
@@ -34,7 +34,7 @@ typedef signed char s8;
 
 typedef int s32;
 
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
@@ -42,7 +42,7 @@ int func_021D4240(u8 *p);
 void func_021D426C(u8 *p, u32 v);
 void func_021D4270(u32 a, u32 b, u32 c, u8 *p, u32 id);
 
-int func_021D4240(u8 *p) { if(func_020362DC()&3) return 1; if(*(int *)(((struct Obj22580 *)p)->f40+4) && TOUCHPANEL_GetTrg()) return 1; return 0; }
+int func_021D4240(u8 *p) { if(KEY_GetTrg()&3) return 1; if(*(int *)(((struct Obj22580 *)p)->f40+4) && TOUCHPANEL_GetTrg()) return 1; return 0; }
 
 
 void func_021D426C(u8 *p, u32 v) { ((struct Obj22581 *)p)->f0 = v; }

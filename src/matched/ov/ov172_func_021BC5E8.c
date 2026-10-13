@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035D20  0x02035D20  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_021BDFE4  0x021BDFE4  thumb  ov172
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_021BCEF8  0x021BCEF8  thumb  ov172
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   _u32_div_f     0x0209C2B0  arm
  *   APP_TASKMENU_WIN_IsTouch  0x0202824C  thumb
  *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
- *   func_0200616C  0x0200616C  thumb
+ *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   d_021C7040     0x021C7040  data
  *
  * Touch handling for the selection list: a tap on a row toggles the entry (a kind 0x20 entry takes the single special slot +3, any other entry one of the three slots +0..+2) and refreshes the prompt; a tap on the scroll thumb grabs it, dragging moves it and scrolls the list; then polls the prompt's buttons and the exit rectangle.
@@ -40,20 +40,20 @@ struct SpritePos {
     s16 y;
 };
 
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern u32 func_021BDFE4(void *p);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern void func_021BCEF8(void *ctx, u8 *st);
 struct Obj;
 struct Vec2;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u32 APP_TASKMENU_WIN_IsTouch(void **p);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
-extern void func_0200616C(void *arg, int i);
+extern void GFL_USE_PlaySeInSlot(void *arg, int i);
 extern int TOUCHPANEL_HitTrg(const void *p);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern const u8 d_021C7040[];
 
 void func_021BC5E8(void *ctx, u8 *list)
@@ -73,7 +73,7 @@ void func_021BC5E8(void *ctx, u8 *list)
     int s;
     u32 range;
 
-    trg = func_02035D20(&tx, &ty);
+    trg = TOUCHPANEL_GetPointTrg(&tx, &ty);
     cont = TOUCHPANEL_GetPointCont(&dx, &dy);
     func_021BDFE4(ctx);
     if (trg == 1) {
@@ -91,14 +91,14 @@ void func_021BC5E8(void *ctx, u8 *list)
                             ((struct Obj01950 *)e)->f8 = 1;
                             ((struct Obj01950 *)e)->f10 = 1;
                             ((struct Obj00330 *)list)->fC = 1;
-                            func_020061E4(0x73b);
+                            GFL_USE_PlaySeDefaultVolume(0x73b);
                         } else {
                             list[3] = 0xff;
                             ((struct Obj01950 *)e)->f8 = 0;
                             done = 1;
                             ((struct Obj01950 *)e)->f10 = 1;
                             ((struct Obj00330 *)list)->fC = 1;
-                            func_020061E4(0x73c);
+                            GFL_USE_PlaySeDefaultVolume(0x73c);
                         }
                     } else if (list[3] == 0xff) {
                         if (((struct Obj01950 *)e)->f8 == 0) {
@@ -113,7 +113,7 @@ void func_021BC5E8(void *ctx, u8 *list)
                                 ((struct Obj01950 *)e)->f8 = 1;
                                 ((struct Obj01950 *)e)->f10 = 1;
                                 ((struct Obj00330 *)list)->fC = 1;
-                                func_020061E4(0x73b);
+                                GFL_USE_PlaySeDefaultVolume(0x73b);
                             }
                         } else {
                             for (i = 0; i < 3; i++) {
@@ -126,7 +126,7 @@ void func_021BC5E8(void *ctx, u8 *list)
                             done = 1;
                             ((struct Obj01950 *)e)->f10 = 1;
                             ((struct Obj00330 *)list)->fC = 1;
-                            func_020061E4(0x73c);
+                            GFL_USE_PlaySeDefaultVolume(0x73c);
                         }
                     }
                 }
@@ -137,7 +137,7 @@ void func_021BC5E8(void *ctx, u8 *list)
                    && ty <= ((struct Obj00330 *)list)->f6 + 0x24 && list[0x14] > 5) {
             ((struct Obj00330 *)list)->f10 = 1;
             CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00330 *)list)->f404), 0xd);
-            func_020061E4(0x66c);
+            GFL_USE_PlaySeDefaultVolume(0x66c);
         }
     }
     if (cont == 1 && ((struct Obj00330 *)list)->f10 == 1 && list[0x14] > 5) {
@@ -151,7 +151,7 @@ void func_021BC5E8(void *ctx, u8 *list)
             ((struct Obj00330 *)list)->f6 = s;
             pos.x = 0xf8;
             pos.y = ((struct Obj00330 *)list)->f6 + 0x18;
-            func_0204B404((struct Obj *)(((struct Obj00330 *)list)->f404), (const struct Vec2 *)(&pos), 1);
+            CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj00330 *)list)->f404), (const struct Vec2 *)(&pos), 1);
             ((struct Obj00330 *)list)->f4 = ((struct Obj00330 *)list)->f6 * range / 0x78;
             ((struct Obj00330 *)list)->fC = 1;
         }
@@ -162,14 +162,14 @@ void func_021BC5E8(void *ctx, u8 *list)
     if (((struct Obj00330 *)list)->f1C != 0 && APP_TASKMENU_WIN_IsTouch((void **)(((struct Obj00330 *)list)->f1C)) == 1) {
         APP_TASKMENU_WIN_SetDecide((char *)(((struct Obj00330 *)list)->f1C), 1);
         ((struct Obj00330 *)list)->f8 = 6;
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         if (((struct Obj00330 *)list)->f18 == 1)
-            func_0200616C((void *)0x73d, 2);
+            GFL_USE_PlaySeInSlot((void *)0x73d, 2);
     }
-    if (!TOUCHPANEL_HitTrg(d_021C7040) || (func_020362DC() & 2)) {
+    if (!TOUCHPANEL_HitTrg(d_021C7040) || (KEY_GetTrg() & 2)) {
         ((struct Obj00330 *)list)->f8 = 6;
         ((struct Obj00330 *)list)->f18 = 5;
         CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00330 *)list)->f400), 9);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
     }
 }

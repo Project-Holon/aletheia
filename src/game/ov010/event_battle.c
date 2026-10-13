@@ -19,7 +19,7 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   BTL_SETUP_GetParty  0x0201313C  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   func_021CF5D8  0x021CF5D8  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -39,12 +39,12 @@
  *   FIELD_ENCOUNT_SetupTrainerBattle  0x021AA5CC  thumb  ov021
  *   BTL_SETUP_SetStatusFlag  0x02013144  thumb
  *   func_021CF748  0x021CF748  thumb  ov021
- *   func_0201A920  0x0201A920  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *   func_02030734  0x02030734  arm
  *   POKE_TOOL_SetupPartyParam  0x0201756C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   FIELD_ENCOUNT_SetFieldSituation  0x021AA304  thumb  ov021
  *   BTL_SETUP_SetupDemo  0x020135C0  thumb
  *   func_020307B0  0x020307B0  arm
@@ -65,7 +65,7 @@
  *   GAME_EVENT_CallProc  0x02012444  thumb
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   GAME_DATA_GetListCursor  0x02012F50  thumb
- *   func_0201447C  0x0201447C  thumb
+ *   FIELD_STATUS_SwapSeasonDispFlag  0x0201447C  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask  0x02029B28  thumb
@@ -197,7 +197,7 @@ extern void *GAMESYSTEM_GetGameData(const struct GameSystem *p);
 extern struct GameEvent *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct GameEvent *p);
 extern void *BTL_SETUP_GetParty(void *p, int i);
-extern void *func_0201AB28(void *party, u32 i);
+extern void *POKEPARTY_GetMember(void *party, u32 i);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
 extern void func_021CF5D8(u32 species, u32 a, u32 b, void *c, u32 *d, void *e);
 extern void GAME_EVENT_CallEvent(struct GameEvent *evt, struct GameEvent **out);
@@ -217,12 +217,12 @@ extern void *BTL_SETUP_Create(u32 heap);
 extern void FIELD_ENCOUNT_SetupTrainerBattle(struct GameSystem *ctx, void *a1, u32 mode, u32 flag, void *mon, u32 a5, u16 heap);
 extern void BTL_SETUP_SetStatusFlag(char *p, int v);
 extern void func_021CF748(u32 a, u32 x, int *out, u16 *out2);
-extern void *func_0201A920(u16 heap);
+extern void *POKEPARTY_Create(u16 heap);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void POKE_TOOL_SetupPartyParam(void *mon, u16 species, u16 level, u64 id);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32 func_0201A98C(struct PokeParty *p, const struct PokemonParam *src);
+extern u32 POKEPARTY_Add(struct PokeParty *p, const struct PokemonParam *src);
 extern void FIELD_ENCOUNT_SetFieldSituation(struct BtlSetup *out, void *a1, void *a2);
 extern void BTL_SETUP_SetupDemo(void *bs, void *ctx, void *p1, void *p2, BattleLocation *loc, u32 heap);
 extern u32 func_020307B0(void *p);
@@ -242,7 +242,7 @@ extern u32   POKE_TOOL_SetDefaultMoves(void *p);
 extern void GAME_EVENT_CallProc(struct GameEvent *obj, u32 a1, u32 a2, u32 a3);
 extern void *GAME_DATA_GetMoveModelSys(const struct BtlSetup *p);
 extern void *GAME_DATA_GetListCursor(void *base);
-extern u8 func_0201447C(struct FieldStatus *o, u8 v);
+extern u8 FIELD_STATUS_SwapSeasonDispFlag(struct FieldStatus *o, u8 v);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *sys);
 extern void *FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask(void *a, u16 b);
@@ -353,7 +353,7 @@ int EVENT_BATTLE_ProcScriptedBattle(void *event, u32 *state, ScriptedBattleArgs 
         EVENT_BATTLE_InitTaskWork(work, gameSystem, args->btlSetup);
         hasWildOpponent = 1;
         work->isScripted = 1;
-        species = POKE_TOOL_GetPartyValue(func_0201AB28(BTL_SETUP_GetParty(args->btlSetup, 1), 0), 5, 0);
+        species = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(BTL_SETUP_GetParty(args->btlSetup, 1), 0), 5, 0);
         {
             void *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
 
@@ -505,21 +505,21 @@ void *EVENT_BATTLE_CreateCatchTutorial(void *gameSystem, u32 fieldMap, u32 heapI
     tempHeapId = (heapId & 0x7FFF) | 0x8000;
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     btlSetup = BTL_SETUP_Create(heapId);
-    playerParty = func_0201A920(tempHeapId);
-    opponentParty = func_0201A920(tempHeapId);
+    playerParty = POKEPARTY_Create(tempHeapId);
+    opponentParty = POKEPARTY_Create(tempHeapId);
     pokemon = func_02030734(tempHeapId, POKE_TOOL_GetPartyParamSize(), 1, d_02172B54, 0x1DA);
     POKE_TOOL_SetupPartyParam(pokemon, 572, 7, 0);
     POKE_TOOL_SetPartyValue(pokemon, 0x36, 1);
     POKE_TOOL_SetPartyValue(pokemon, 0x37, 45);
     POKE_TOOL_SetPartyValue(pokemon, 0x38, 0);
     POKE_TOOL_SetPartyValue(pokemon, 0x39, 0);
-    func_0201A98C(playerParty, pokemon);
+    POKEPARTY_Add(playerParty, pokemon);
     POKE_TOOL_SetupPartyParam(pokemon, 504, 2, 0);
     POKE_TOOL_SetPartyValue(pokemon, 0x36, 33);
     POKE_TOOL_SetPartyValue(pokemon, 0x37, 43);
     POKE_TOOL_SetPartyValue(pokemon, 0x38, 0);
     POKE_TOOL_SetPartyValue(pokemon, 0x39, 0);
-    func_0201A98C(opponentParty, pokemon);
+    POKEPARTY_Add(opponentParty, pokemon);
     FIELD_ENCOUNT_SetFieldSituation((struct BtlSetup *)(&location), gameData, (void *)fieldMap);
     location.battleBg = 5;
     location.terrain = 0;
@@ -564,7 +564,7 @@ void *EVENT_BATTLE_CreateEncounterTaskWithMon(void *gameSystem, u32 battleSrc, u
     giftData = GAME_DATA_GetSaveBlock43(GAMESYSTEM_GetGameData(gameSystem));
     task = (void *)EVENT_BATTLE_CreateEncounterTask((int)gameSystem, battleSrc, battleMode, battleFlags, battleKind, fieldEffect, options);
     if (sub_0200E740(giftData, entryIndex) != 0) {
-        mon = func_0201AB28(*(void **)(*(u8 **)((u8 *)GAME_EVENT_GetWork(task) + 8) + 0x28), 0);
+        mon = POKEPARTY_GetMember(*(void **)(*(u8 **)((u8 *)GAME_EVENT_GetWork(task) + 8) + 0x28), 0);
         oldSpecies = POKE_TOOL_GetPartyValue(mon, 5, 0);
         species = sub_0200E788(giftData, entryIndex, 0x15);
         level = sub_0200E74C(giftData, entryIndex);
@@ -646,7 +646,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
         (*state)++;
         break;
     case 3:
-        func_0201447C(GAME_DATA_GetMoveModelSys(gameData), 1);
+        FIELD_STATUS_SwapSeasonDispFlag(GAME_DATA_GetMoveModelSys(gameData), 1);
         COMM_PLAYER_SUPPORT_Init((u8 *)GAME_DATA_GetPmsWork((int)gameData));
         GAME_EVENT_CallProc(event, (u32)ov093_id, (u32)d_021EFDAC, (u32)work->btlSetup);
         (*state)++;
@@ -659,7 +659,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
         break;
     case 5:
         func_02034AC4((s32)ov230_id);
-        func_0201447C(GAME_DATA_GetMoveModelSys(gameData), 0);
+        FIELD_STATUS_SwapSeasonDispFlag(GAME_DATA_GetMoveModelSys(gameData), 0);
         COMM_PLAYER_SUPPORT_StashMode((void *)GAME_DATA_GetPmsWork((int)gameData));
         (*state)++;
         break;
@@ -779,7 +779,7 @@ void EVENT_BATTLE_NotifyLeadSpecies(void *btlSetup, int which)
 {
     u16 species;
 
-    species = POKE_TOOL_GetPartyValue(func_0201AB28(BTL_SETUP_GetParty(btlSetup, 1), 0), 5, 0);
+    species = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(BTL_SETUP_GetParty(btlSetup, 1), 0), 5, 0);
     switch (which) {
     case 0:
         GAME_BEACON_SEARCH_SetBattlePokeStart(species);
@@ -814,7 +814,7 @@ void EVENT_BATTLE_NotifyBattleEnd(BattleEndCtx *ctx)
 
     setup = ctx->btlSetup;
     playerParty = GAME_DATA_GetMyParty(ctx->btlSetupObj);
-    leadMon = func_0201AB28(playerParty, POKEPARTY_FindFirstNonEgg(playerParty));
+    leadMon = POKEPARTY_GetMember(playerParty, POKEPARTY_FindFirstNonEgg(playerParty));
     if (setup->outcome != 0 && setup->outcome != 2) {
         nameBuf = STRBUF_Create(12, 0x8004);
         POKE_TOOL_GetPartyValue(leadMon, 0x73, (u32)nameBuf);

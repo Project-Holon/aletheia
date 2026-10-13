@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_HeatproofHalveFirePower
+ * function: HAND_TOKUSEI_HeatproofHalveFirePower
  * address: 0x021DA844
  * packet: pkt_ov093_021DA844
  * region: ov093
@@ -15,7 +15,7 @@
 extern int BTL_EVENT_GetVar(int);
 extern void BTL_EVENT_MultiplyVar(int, int);
 
-void BTL_ABILITY_HeatproofHalveFirePower(int a, int b, int c)
+void HAND_TOKUSEI_HeatproofHalveFirePower(int a, int b, int c)
 {
     int k = 4;
     if (c == BTL_EVENT_GetVar(k) && BTL_EVENT_GetVar(0x16) == 9)

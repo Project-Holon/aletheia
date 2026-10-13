@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
-void func_02082BCC(void *p, int v, int n);
+void MI_CpuFill8(void *p, int v, int n);
 
 void TOWNMAP_GRH_ClearTouch(void *p)
 {
-    func_02082BCC(p, 0, 0x30);
+    MI_CpuFill8(p, 0, 0x30);
 }

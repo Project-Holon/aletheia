@@ -12,7 +12,7 @@
  *   ARC_UTIL_LoadHandleMemberWithSize 0x0204A39C arm
  *   func_02049B68 0x02049B68 arm
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   d_021BC174 0x021BC174 data a1
  */
@@ -27,7 +27,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 struct CharBuf;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 void func_021BA890(char *p)
 {
@@ -42,7 +42,7 @@ void func_021BA890(char *p)
     tab = d_021BC174;
     for (i = 0; i < 4; i++) {
         *(void **)(p+i*4+0x6c) = (void *)BMP_WIN_Create(((struct Obj00022 *)p)->f4C, tab.b[i*4], tab.b[i*4+1], tab.b[i*4+2], tab.b[i*4+3], 3, 1);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770(*(void **)(p+i*4+0x6c))), 0);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp(*(void **)(p+i*4+0x6c))), 0);
     }
     for (i = 0; i < 4; i++) {
         *(int *)(p+i*4+0x7c) = 1;

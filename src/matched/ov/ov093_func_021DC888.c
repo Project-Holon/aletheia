@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_GetMoxieHandlers
+ * function: HAND_TOKUSEI_GetMoxieHandlers
  * address: 0x021DC888
  * packet: pkt_ov093_021DC888
  * region: ov093
@@ -15,10 +15,10 @@
  *   gMoxieHandlers 0x021F0770 data ov093 a4
  */
 
-int *BTL_ABILITY_GetMoxieHandlers(int *p);
+int *HAND_TOKUSEI_GetMoxieHandlers(int *p);
 extern int gMoxieHandlers[];
 
-int *BTL_ABILITY_GetMoxieHandlers(int *p)
+int *HAND_TOKUSEI_GetMoxieHandlers(int *p)
 {
     *p = 1;
     return gMoxieHandlers;

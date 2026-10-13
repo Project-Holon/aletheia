@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02026478 0x02026478 thumb
+ *   GAME_COMM_GetGameData 0x02026478 thumb
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   GAME_DATA_SetEnterMode 0x02012B4C thumb
@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 struct Link;
 typedef unsigned int   u32;
-extern u32 func_02026478(void *obj);
+extern u32 GAME_COMM_GetGameData(void *obj);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern unsigned int GFL_NET_GetHandleNetID(struct Link *);
@@ -29,7 +29,7 @@ void INTRUDE_COMM_RecvMemberCount(unsigned int a, int b, u8 *c, u8 *d)
 {
     void *h;
     unsigned int n;
-    h = (void *)func_02026478(((struct Obj12413 *)d)->f4);
+    h = (void *)GAME_COMM_GetGameData(((struct Obj12413 *)d)->f4);
     if (a != GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) {
         n = *c;
         d[0x902] = n;

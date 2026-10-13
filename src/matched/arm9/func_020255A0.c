@@ -15,7 +15,7 @@
  *   BMP_GetHeight  0x020437E4  arm
  *   CLACT_RegisterEmptyCharacter  0x0204A7A0  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B6F4  0x0204B6F4  arm
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   CLACT_SetActorVisible  0x0204BA20  arm
  *   BMP_OAM_AcquireModeSlot  0x02025A9C  thumb
  *   gModeTable     0x0209F87C  data
@@ -96,7 +96,7 @@ extern s32 CLACT_RegisterEmptyCharacter(u32 size, u32 a2, u16 heapId);
 extern u32 BMP_OAM_AcquireModeSlot(struct Obj *obj, u32 engine, u32 arg);
 extern struct Obj *CLACT_CreateActor(void *a, u32 res, u32 c, u32 d, const void *pt,
                            u16 f, u16 g);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
 
 struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param)
@@ -157,7 +157,7 @@ struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param)
                                           param->f12, sys->f4);
                 u32 fc = (u8)param->fc;
                 ((struct Obj06909 *)cell)->f4 = act;
-                func_0204B6F4(act, fc, 0);
+                CLACT_SetActorPaletteOffset(act, fc, 0);
             }
             CLACT_SetActorVisible(((struct Obj06909 *)cell)->f4, 0);
         }

@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 
 typedef unsigned char u8;
 
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
 void PARTY_SELECT_LIST_SetStatusIconsVisible(u8 *s, int flag)
 {
@@ -25,19 +25,19 @@ void PARTY_SELECT_LIST_SetStatusIconsVisible(u8 *s, int flag)
 
     for (i = 0; i < 6; i++) {
         if (*(void **)(s + i * 4 + 0x4c) != 0)
-            func_0204B3DC(*(void **)(s + i * 4 + 0x4c), 0);
+            CLACT_SetActorDrawEnable(*(void **)(s + i * 4 + 0x4c), 0);
         if (*(void **)(s + i * 4 + 0x64) != 0)
-            func_0204B3DC(*(void **)(s + i * 4 + 0x64), 0);
+            CLACT_SetActorDrawEnable(*(void **)(s + i * 4 + 0x64), 0);
     }
     if (flag == 0) {
         for (i = 0; i < 6; i++) {
             if (*(void **)(s + i * 4 + 0x4c) != 0)
-                func_0204B3DC(*(void **)(s + i * 4 + 0x4c), 1);
+                CLACT_SetActorDrawEnable(*(void **)(s + i * 4 + 0x4c), 1);
         }
     } else if (flag == 1) {
         for (i = 0; i < 6; i++) {
             if (*(void **)(s + i * 4 + 0x64) != 0)
-                func_0204B3DC(*(void **)(s + i * 4 + 0x64), 1);
+                CLACT_SetActorDrawEnable(*(void **)(s + i * 4 + 0x64), 1);
         }
     }
 }

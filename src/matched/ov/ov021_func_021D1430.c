@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045768  0x02045768  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetCharOffset  0x02045768  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Blit  0x020439A0  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   BMP_GetByteSize  0x020437EC  arm
@@ -26,9 +26,9 @@ typedef unsigned int   u32;
 
 struct Bmp;
 struct Descriptor;
-extern u16 func_02045768(struct Descriptor *p);
+extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *a);
+extern void *BMP_WIN_GetBmp(struct Descriptor *a);
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
@@ -36,8 +36,8 @@ extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 
 void FIELD_SAVEANIME_DrawFrame(u8 *p, u32 n)
 {
-    u32 a = func_02045768((struct Descriptor *)(((struct Obj01509 *)p)->f4));
-    u32 b = (u32)func_02045770((struct Descriptor *)((struct Obj01509 *)p)->f4);
+    u32 a = BMP_WIN_GetCharOffset((struct Descriptor *)(((struct Obj01509 *)p)->f4));
+    u32 b = (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01509 *)p)->f4);
     u32 x;
     u32 y;
 

@@ -11,12 +11,12 @@
  *
  * symbols:
  *   func_0220052C  0x0220052C  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_021F4FF4  0x021F4FF4  thumb
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_020355D8  0x020355D8  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_020355C4  0x020355C4  arm
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   tbl_022038E0   0x022038E0  data  a2
@@ -45,14 +45,14 @@ typedef struct {
 extern const Pos tbl_022038E0[];
 
 extern int func_0220052C(void);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 struct Obj;
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 struct Actor;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_020355D8(u8 v);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern u8 func_020355C4(void);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 
@@ -63,50 +63,50 @@ int func_022005EC(Work *p)
     r = func_0220052C();
     if (r != -1) {
         p->sel = r;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
         CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 1);
         p->state = 0xE;
         func_020355D8(1);
         if (p->sel == 2) {
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
         } else {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
         }
         return 2;
     }
-    if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+    if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
         func_020355D8(0);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return 2;
     }
-    if (func_020362DC() & 2) {
+    if (KEY_GetTrg() & 2) {
         p->sel = 2;
         func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
         CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 1);
         p->state = 0xE;
-        func_020061E4(0x551);
-    } else if (func_020362DC() & 1) {
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+        GFL_USE_PlaySeDefaultVolume(0x551);
+    } else if (KEY_GetTrg() & 1) {
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
         CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 1);
         p->state = 0xE;
-        func_020061E4(0x54C);
-    } else if (func_020362DC() & 0x40) {
+        GFL_USE_PlaySeDefaultVolume(0x54C);
+    } else if (KEY_GetTrg() & 0x40) {
         if (p->sel != 0) {
             p->sel--;
-            func_020061E4(0x548);
-            func_0204B3DC((struct Obj *)p->cursor, 1);
+            GFL_USE_PlaySeDefaultVolume(0x548);
+            CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
             CLACT_RestartActorAnim((struct Actor *)p->cursor);
             func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         }
-    } else if (func_020362DC() & 0x80) {
+    } else if (KEY_GetTrg() & 0x80) {
         if (p->sel < 2) {
             p->sel++;
-            func_020061E4(0x548);
-            func_0204B3DC((struct Obj *)p->cursor, 1);
+            GFL_USE_PlaySeDefaultVolume(0x548);
+            CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
             CLACT_RestartActorAnim((struct Actor *)p->cursor);
             func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         }

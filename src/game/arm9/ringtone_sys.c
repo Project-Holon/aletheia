@@ -31,8 +31,8 @@
  *   func_020307B0  0x020307B0  arm
  *   func_0203508C  0x0203508C  arm
  *   GFL_USE_IsSeSlotBusy  0x02006224  thumb
- *   func_020061F8  0x020061F8  thumb
- *   func_0200616C  0x0200616C  thumb
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb
+ *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
  *   sRingtoneTransitions   0x0209FED4  data  a1
  *   func_02072788  0x02072788  arm
  *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb
@@ -222,8 +222,8 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern void func_0203508C(void (*onSleep)(void), void (*onWake)(void), Ringtone *arg);
 extern int GFL_USE_IsSeSlotBusy(u32 slot);
-extern void func_020061F8(int slot);
-extern void func_0200616C(u32 seqNo, int slot);
+extern void GFL_USE_StopSeSlot(int slot);
+extern void GFL_USE_PlaySeInSlot(u32 seqNo, int slot);
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern int GAME_DATA_GetPlayerObjectCode(const struct PlayerWork *player);
 extern void func_02072788(int volume);
@@ -1383,12 +1383,12 @@ int RINGTONE_SYS_TickRing(Ringtone *ringtone)
     }
     if (ringtone->ringFramesLeft == 0) {
         if (GFL_USE_IsSeSlotBusy(4) == 1) {
-            func_020061F8(4);
+            GFL_USE_StopSeSlot(4);
         }
         return 0;
     }
     if (GFL_USE_IsSeSlotBusy(4) == 0) {
-        func_0200616C(0x662, 4);
+        GFL_USE_PlaySeInSlot(0x662, 4);
     }
     return 1;
 }
@@ -1409,7 +1409,7 @@ void RINGTONE_SYS_OnWake(void)
 void RINGTONE_SYS_StartRing(Ringtone *ringtone)
 {
     if (GFL_USE_IsSeSlotBusy(4) == 0) {
-        func_0200616C(0x662, 4);
+        GFL_USE_PlaySeInSlot(0x662, 4);
     }
     ringtone->ringFramesLeft = 0x384;
 }
@@ -1417,7 +1417,7 @@ void RINGTONE_SYS_StartRing(Ringtone *ringtone)
 /* Stops the ring sound. */
 void RINGTONE_SYS_StopRing(Ringtone *ringtone)
 {
-    func_020061F8(4);
+    GFL_USE_StopSeSlot(4);
     ringtone->ringFramesLeft = 0;
 }
 

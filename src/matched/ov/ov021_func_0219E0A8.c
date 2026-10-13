@@ -23,7 +23,7 @@
  *   FLDMMDL_MOVE_UpdateOldGridPos  0x02163F10  thumb  ov010
  *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
  *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb  ov010
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   d_021DDD94     0x021DDD94  data
  * Addresses are Black-image addresses.
  */
@@ -62,7 +62,7 @@ extern u8 FIELD_RAIL_WORK_IsMoving(u8 *p);
 extern int FLDMMDL_MOVE_UpdateOldGridPos(int a0);
 extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
 extern void FLDMMDL_IncAcmdSeq(u8 *p);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 
 extern s32 *d_021DDD94[];
 
@@ -119,6 +119,6 @@ int FLDMMDL_RAIL_MOVE_AcJump1(u32 o)
     FLDMMDL_MOVE_UpdateOldGridPos(o);
     FLDMMDL_SetDrawStatus((void *)o, 0);
     FLDMMDL_IncAcmdSeq((u8 *)o);
-    func_020061E4(0x67B);
+    GFL_USE_PlaySeDefaultVolume(0x67B);
     return 1;
 }

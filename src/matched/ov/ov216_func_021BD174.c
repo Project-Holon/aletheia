@@ -39,7 +39,7 @@
  *   func_02025C88 0x02025C88 thumb
  *   POKEGRA_LoadTrainerGraphics 0x0202DAA4 thumb
  *   GAME_BEACON_ACCESSOR_GetResearchTeamRank 0x02165CB4 thumb ov010
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021BCE7C 0x021BCE7C thumb ov216
  */
 #include "../include/Obj00051.h"
@@ -82,7 +82,7 @@ extern u8 GAME_BEACON_ACCESSOR_GetTrainerAppearance(struct S *);
 extern u32 func_02025C88(u32);
 extern void POKEGRA_LoadTrainerGraphics(void *set, u32 id, void *dstA, void *dstB, volatile u16 which);
 extern u8 GAME_BEACON_ACCESSOR_GetResearchTeamRank(void *);
-extern void func_0204B3DC(struct Obj *,u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 extern void func_021BCE7C(void *p, unsigned short value);
 void func_021BD174(char *p,void *record,u16 unused,u8 slot)
 {
@@ -130,7 +130,7 @@ void func_021BD174(char *p,void *record,u16 unused,u8 slot)
     index=slot*12;
     POKEGRA_LoadTrainerGraphics(((struct Obj00051 *)p)->f58,func_02025C88(((struct Obj05555 *)q)->f7C),*(void **)((u32)p+0x6c+(u32)index),*(void **)((u32)p+0x68+(u32)index),((struct Obj00051 *)p)->f2);
     subtype=GAME_BEACON_ACCESSOR_GetResearchTeamRank(record);
-    if(subtype==0) {func_0204B3DC(*(struct Obj * *)&((struct Obj05555 *)q)->f74,0);return;}
+    if(subtype==0) {CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj05555 *)q)->f74,0);return;}
     func_021BCE7C(((struct Obj05555 *)q)->f74,(u8)(subtype+1));
-    func_0204B3DC(*(struct Obj * *)&((struct Obj05555 *)q)->f74,1);
+    CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj05555 *)q)->f74,1);
 }

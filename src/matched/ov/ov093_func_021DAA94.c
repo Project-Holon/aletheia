@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: BTL_ABILITY_DrySkinAbsorbWater, BTL_ABILITY_GetDrySkinHandlers
+ * function: HAND_TOKUSEI_DrySkinAbsorbWater, HAND_TOKUSEI_GetDrySkinHandlers
  * address: 0x021DAA94
  * packet: pkt_ov093_021DAA94
  * region: ov093
@@ -10,23 +10,23 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   gDrySkinHandlerTable 0x021F0B30 data a4
- *   BTL_ABILITY_AbsorbCheckMoveType 0x021DA8A8 thumb ov093
- *   BTL_ABILITY_AbsorbRecoverHp 0x021DA8DC thumb ov093
+ *   gDrySkinHandlers 0x021F0B30 data a4
+ *   HAND_TOKUSEI_AbsorbCheckMoveType 0x021DA8A8 thumb ov093
+ *   HAND_TOKUSEI_AbsorbRecoverHp 0x021DA8DC thumb ov093
  * extent: includes store-and-return followers 021DAAB4.
  */
-extern unsigned char gDrySkinHandlerTable[];
-extern int BTL_ABILITY_AbsorbCheckMoveType(int, int, int);
-extern void BTL_ABILITY_AbsorbRecoverHp(int, int, int);
+extern unsigned char gDrySkinHandlers[];
+extern int HAND_TOKUSEI_AbsorbCheckMoveType(int, int, int);
+extern void HAND_TOKUSEI_AbsorbRecoverHp(int, int, int);
 
-void BTL_ABILITY_DrySkinAbsorbWater(int a, int b, int c)
+void HAND_TOKUSEI_DrySkinAbsorbWater(int a, int b, int c)
 {
-    if (BTL_ABILITY_AbsorbCheckMoveType(b, c, 10))
-        BTL_ABILITY_AbsorbRecoverHp(b, c, 4);
+    if (HAND_TOKUSEI_AbsorbCheckMoveType(b, c, 10))
+        HAND_TOKUSEI_AbsorbRecoverHp(b, c, 4);
 }
 
-void *BTL_ABILITY_GetDrySkinHandlers(int *p)
+void *HAND_TOKUSEI_GetDrySkinHandlers(int *p)
 {
     *p = 3;
-    return gDrySkinHandlerTable;
+    return gDrySkinHandlers;
 }

@@ -151,7 +151,8 @@ struct BattleRngState {
 struct BattleTrainerData {
     unsigned int  trainerId;
     unsigned int  trainerType;
-    unsigned char aiAndItems[0xC];
+    unsigned int  aiFlags;
+    unsigned short itemIds[4];
     void         *name;
     unsigned char winWord[8];
     unsigned char loseWord[8];
@@ -199,7 +200,13 @@ struct BattleSetupParam {
     void                    *recordBuffer;
     unsigned int             recordSize;
     struct BattleRngState    rng;
-    unsigned char            resultWork[13];
+    unsigned short           hpSum;
+    unsigned char            turnCount;
+    unsigned char            stats[6];
+    unsigned char            won;
+    unsigned char            enemyFainted;
+    unsigned char            ownFainted;
+    unsigned char            moveUseTotal;
     union {
         unsigned char            bitFlags;
         struct {
@@ -210,7 +217,8 @@ struct BattleSetupParam {
         } bits;
     };
     unsigned char            resultFlags[6];
-    unsigned char            resultExtra[0x28];
+    unsigned char            memberStatus[4][6];
+    unsigned int             hpPercent[4];
 };
 
 #endif

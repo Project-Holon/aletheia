@@ -12,8 +12,8 @@
  *   r | g << 5 | b << 10 (GX_RGB order) with the three lerps inline, and the f108 wrap
  *   written on the field directly (no x/y locals).
  * symbols:
- *   tbl_020A1B38 0x020A1B38 data
- *   func_0204B6F4 0x0204B6F4 arm
+ *   FX_SinCosTable_ 0x020A1B38 data
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   func_02061CA4 0x02061CA4 arm
  */
 
@@ -28,11 +28,11 @@ typedef struct {
     int f10c;
 } Ent;
 
-extern short tbl_020A1B38[];
+extern short FX_SinCosTable_[];
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
 void func_021BF664(int a0, Ent *e)
@@ -41,7 +41,7 @@ void func_021BF664(int a0, Ent *e)
         int v = e->f98;
 
         if (v != 6)
-            func_0204B6F4((struct Obj *)(*(int *)((char *)e + v * 0x14 + 0x1c)), 2, 0);
+            CLACT_SetActorPaletteOffset((struct Obj *)(*(int *)((char *)e + v * 0x14 + 0x1c)), 2, 0);
         e->f10c = 0;
     }
 
@@ -56,7 +56,7 @@ void func_021BF664(int a0, Ent *e)
         short ratio;
 
         t = ((t >> 4) << 1) + 1;
-        ratio = (tbl_020A1B38[t] + 0x1000) / 2;
+        ratio = (FX_SinCosTable_[t] + 0x1000) / 2;
 
         for (i = 0; i < 0x10; i++) {
             unsigned short A = e->srcA[i];

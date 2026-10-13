@@ -25,7 +25,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   EVENT_BATTLE_InitTaskWork  0x0216F02C  thumb  ov010
  *   BTL_SETUP_GetParty  0x0201313C  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   func_021CF5D8  0x021CF5D8  thumb
@@ -85,7 +85,7 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void EVENT_BATTLE_InitTaskWork(void **p, void *a, void *b);
 extern void *BTL_SETUP_GetParty(void *p, int i);
-extern void *func_0201AB28(void *party, u32 i);
+extern void *POKEPARTY_GetMember(void *party, u32 i);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void func_021CF5D8(u32 species, u32 a, u32 b, void *c, u32 *d, void *e);
@@ -117,7 +117,7 @@ int EVENT_BATTLE_ProcScriptedBattle(void *evt, u32 *state, Work *w)
         EVENT_BATTLE_InitTaskWork((void **)t, sys, w->bs);
         flag = 1;
         t->f14 = 1;
-        species = POKE_TOOL_GetPartyValue(func_0201AB28(BTL_SETUP_GetParty(w->bs, 1), 0), 5, 0);
+        species = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(BTL_SETUP_GetParty(w->bs, 1), 0), 5, 0);
         {
             void *proc = GAMESYSTEM_GetFieldMap(sys);
 

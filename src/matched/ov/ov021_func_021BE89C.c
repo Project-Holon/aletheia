@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02013FD8  0x02013FD8  thumb
+ *   ZONEDATA_GetExpObjSetId  0x02013FD8  thumb
  *   EVENT_FIELDMAP_CONTROL_LookupExitEffect  0x021BEA9C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int u32;
 typedef unsigned char  u8;
-extern u8 func_02013FD8(u32 id);
+extern u8 ZONEDATA_GetExpObjSetId(u32 id);
 extern u32 EVENT_FIELDMAP_CONTROL_LookupExitEffect(int row, int col);
 int EVENT_FIELDMAP_CONTROL_GetExitEffect(int a, u32 b)
 {
-    return EVENT_FIELDMAP_CONTROL_LookupExitEffect(func_02013FD8(a), func_02013FD8(b));
+    return EVENT_FIELDMAP_CONTROL_LookupExitEffect(ZONEDATA_GetExpObjSetId(a), ZONEDATA_GetExpObjSetId(b));
 }

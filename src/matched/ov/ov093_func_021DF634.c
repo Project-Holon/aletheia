@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetFlameOrbHandlers
+ * function: HAND_ITEM_GetFlameOrbHandlers
  * address: 0x021DF634
  * packet: pkt_ov093_021DF634
  * region: ov093
@@ -15,10 +15,10 @@
  *   gFlameOrbHandlers 0x021F169C data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetFlameOrbHandlers(int *p);
+int *HAND_ITEM_GetFlameOrbHandlers(int *p);
 extern int gFlameOrbHandlers[];
 
-int *BTL_HANDLER_ITEM_GetFlameOrbHandlers(int *p)
+int *HAND_ITEM_GetFlameOrbHandlers(int *p)
 {
     *p = 2;
     return gFlameOrbHandlers;

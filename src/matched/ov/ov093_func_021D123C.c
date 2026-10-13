@@ -1,5 +1,5 @@
 /*
- * function: func_021D123C
+ * function: BTL_CLIENT_RecordReceivedPacket
  * address:  0x021D123C
  * packet:   pkt_ov093_021D123C
  * region:   ov093
@@ -23,7 +23,7 @@ extern void BTL_REC_AppendPacket(u8 *p, const u8 *src, int n);
 extern void BTL_SERVER_LoadRecorderReplies(int, int, int);
 extern u8 BTL_REC_GetPacketId(u8 *p);
 
-int func_021D123C(int a)
+int BTL_CLIENT_RecordReceivedPacket(int a)
 {
     int tmp;
     int r4 = BTL_ADAPTER_GetRecvData(((struct Obj05203 *)a)->f50, &tmp);

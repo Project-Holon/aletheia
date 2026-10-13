@@ -14,23 +14,23 @@
  * one branch per operand.
  *
  * symbols:
- *   func_021C8168  0x021C8168  thumb  ov093
- *   func_021B8DDC  0x021B8DDC  thumb  ov093
+ *   BTL_SERVER_FLOW_GetCompetitor  0x021C8168  thumb  ov093
+ *   BTL_MAIN_PokeIdToClientIdThunk  0x021B8DDC  thumb  ov093
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021C8168(void *p);
-extern u8 func_021B8DDC(u32 x);
+extern int BTL_SERVER_FLOW_GetCompetitor(void *p);
+extern u8 BTL_MAIN_PokeIdToClientIdThunk(u32 x);
 
 int BTLV_CORE_CheckPartySlotCondition(void *a, int b)
 {
     int r;
 
-    if (func_021C8168(a) == 0) {
-        r = func_021B8DDC(b);
+    if (BTL_SERVER_FLOW_GetCompetitor(a) == 0) {
+        r = BTL_MAIN_PokeIdToClientIdThunk(b);
         if (r == 1 || r == 1)
             return 1;
     }

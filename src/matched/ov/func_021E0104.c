@@ -1,5 +1,5 @@
 /*
- * function: func_021E0104
+ * function: HAND_ITEM_GhostGemMovePower
  * address:  0x021E0104
  * packet:   pkt_021DFEF4
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E0104   0x021E0104  thumb
- *   func_021E0284   0x021E0284  thumb
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #7; str r4, [sp]; bl func_021E0284; add sp, #4; pop {r3, r4, pc}.
+ *   HAND_ITEM_GhostGemMovePower   0x021E0104  thumb
+ *   HAND_ITEM_GemMovePower   0x021E0284  thumb
+ * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #7; str r4, [sp]; bl HAND_ITEM_GemMovePower; add sp, #4; pop {r3, r4, pc}.
  */
 
 typedef unsigned char u8;
@@ -22,6 +22,6 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-/* 021E0104  stack-arg wrapper: func_021E0284(a, b, c, d, 0x7) */
-void func_021E0104(int a, int b, int c, int d) { func_021E0284(a, b, c, d, 0x7); }
+/* 021E0104  stack-arg wrapper: HAND_ITEM_GemMovePower(a, b, c, d, 0x7) */
+void HAND_ITEM_GhostGemMovePower(int a, int b, int c, int d) { HAND_ITEM_GemMovePower(a, b, c, d, 0x7); }
 

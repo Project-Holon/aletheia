@@ -13,7 +13,7 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02012138  0x02012138  thumb
  *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
  *   FIELD_G3D_MAP_SymbolEntryEventMain  0x0216B3EC  thumb  ov010
@@ -33,7 +33,7 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 struct Work;
 extern void *func_020124E8(struct Obj *p);
-extern void func_02082BCC();
+extern void MI_CpuFill8();
 extern unsigned int func_02012138(const struct Ctx *p);
 extern u8 INTRUDE_COMM_GetPartnerSlot(void *a, void *b);
 extern int FIELD_G3D_MAP_SymbolEntryEventMain(void *evt, u32 *state, struct Work *w);
@@ -47,7 +47,7 @@ struct Desc *FIELD_G3D_MAP_CreateSymbolEntryEvent(int a0, int a1, V12 *a2, int a
     h = func_020120F4((const struct Ctx *)a0);
     r = func_020122C0((void *)a0, 0, (void *)FIELD_G3D_MAP_SymbolEntryEventMain, 0x24);
     p = func_020124E8((struct Obj *)r);
-    func_02082BCC(p, 0, 0x24);
+    MI_CpuFill8(p, 0, 0x24);
     *(V12 *)(p + 8) = *a2;
     ((struct Obj05904 *)p)->f14 = a3;
     ((struct Obj05904 *)p)->f0 = 0;

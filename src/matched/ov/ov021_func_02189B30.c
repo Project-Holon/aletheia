@@ -15,9 +15,9 @@
  *   MAP_MATRIX_GetHeight  0x02159BF8  thumb  ov010
  *   MAP_MATRIX_GetCount  0x02159BFC  thumb  ov010
  *   MAP_MATRIX_GetMapGrid  0x02159C20  thumb  ov010
- *   func_020140BC  0x020140BC  thumb
- *   func_020140C0  0x020140C0  thumb
- *   func_020140CC  0x020140CC  thumb
+ *   ZONEDATA_GetAreaTexSetId  0x020140BC  thumb
+ *   ZONEDATA_GetAreaItaAnimeId  0x020140C0  thumb
+ *   ZONEDATA_GetAreaItpAnimeId  0x020140CC  thumb
  *   sMapTypeTable     0x021D3700  data  a4
  */
 #include "../include/Obj03106.h"
@@ -35,9 +35,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Sub020140BCObj;
 extern char *MAP_MATRIX_GetMapGrid(char *p);
-extern u16 func_020140BC(struct Sub020140BCObj *p);
-extern u32 func_020140C0(struct Sub020140BCObj *p);
-extern u32 func_020140CC(struct Sub020140BCObj *p);
+extern u16 ZONEDATA_GetAreaTexSetId(struct Sub020140BCObj *p);
+extern u32 ZONEDATA_GetAreaItaAnimeId(struct Sub020140BCObj *p);
+extern u32 ZONEDATA_GetAreaItpAnimeId(struct Sub020140BCObj *p);
 
 void FIELDMAP_SetupMapperParam(int a, int x, char *out, void *obj)
 {
@@ -52,7 +52,7 @@ void FIELDMAP_SetupMapperParam(int a, int x, char *out, void *obj)
     }
     ((struct Obj03106 *)out)->f20 = 1;
     ((struct Obj03106 *)out)->f24 = 0xe;
-    ((struct Obj03106 *)out)->f28 = func_020140BC((struct Sub020140BCObj *)x);
-    ((struct Obj03106 *)out)->f2C = func_020140C0((struct Sub020140BCObj *)x);
-    ((struct Obj03106 *)out)->f30 = func_020140CC((struct Sub020140BCObj *)x);
+    ((struct Obj03106 *)out)->f28 = ZONEDATA_GetAreaTexSetId((struct Sub020140BCObj *)x);
+    ((struct Obj03106 *)out)->f2C = ZONEDATA_GetAreaItaAnimeId((struct Sub020140BCObj *)x);
+    ((struct Obj03106 *)out)->f30 = ZONEDATA_GetAreaItpAnimeId((struct Sub020140BCObj *)x);
 }

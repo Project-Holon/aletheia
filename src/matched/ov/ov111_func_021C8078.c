@@ -13,7 +13,7 @@
  *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
  *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -84,7 +84,7 @@ extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 struct Obj;
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 void func_021C8078(Work *p)
 {
@@ -92,5 +92,5 @@ void func_021C8078(Work *p)
 
     CLACT_SetActorAnimSeq(p->f58, v + 6);
     GAME_DATA_SetSaveFlag(p->f108->f4, 0x17, v);
-    func_020061E4(0x646);
+    GFL_USE_PlaySeDefaultVolume(0x646);
 }

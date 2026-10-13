@@ -30,7 +30,7 @@
  *   FLD_EXP_OBJ_GetAnime 0x021BE674 thumb ov021
  *   FLD_EXP_OBJ_SetAnimePaused 0x021BE6B0 thumb ov021
  *   FIELD_SOUND_SYSTEM_ClaimSlot 0x02028A7C thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   FIELD_SOUND_SYSTEM_TransferSlot 0x02028B18 thumb
  *   GFL_USE_GetSeHandle 0x02006138 thumb
@@ -100,7 +100,7 @@ extern u32 ICA_ANIME_CreateWithFullBuffer(u32 heap, u32 a1, u16 a2, void *a3, u3
 extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 extern void FIELD_SOUND_SYSTEM_ClaimSlot(struct SoundSys2 *s, u32 id);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int GFL_USE_GetSeSlot(u32 a);
 extern void FIELD_SOUND_SYSTEM_TransferSlot(struct SoundSys2 *s, u32 id, u32 who);
 extern u32 *GFL_USE_GetSeHandle(int i);
@@ -182,7 +182,7 @@ void GIMMICK39_UpdateTask(int a0, void *a1)
                 FLD_EXP_OBJ_SetAnimePaused(o, 0);
                 if (s->sel != 0xff && j == ((u32)s->sel >> 1)) {
                     FIELD_SOUND_SYSTEM_ClaimSlot((struct SoundSys2 *)w, 0x68A);
-                    func_020061E4(0x6DB);
+                    GFL_USE_PlaySeDefaultVolume(0x6DB);
                     snd = GFL_USE_GetSeSlot(0x6DB);
                     FIELD_SOUND_SYSTEM_TransferSlot((struct SoundSys2 *)w, 0x68A, 0x7f);
                     NNS_SndHandleSetSeqPriority((struct Obj *)GFL_USE_GetSeHandle(snd), 0);

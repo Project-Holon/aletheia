@@ -17,7 +17,7 @@
  *
  * symbols:
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   sActorTemplates  0x021BA6BC  data  a4
  */
 
@@ -46,7 +46,7 @@ extern const Ent sActorTemplates[];
 
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B92C(struct Obj *, unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
 
 void BSUBWAY_RECORD_LIST_CreateActors(Obj *o)
 {
@@ -60,6 +60,6 @@ void BSUBWAY_RECORD_LIST_CreateActors(Obj *o)
         r.e = 0;
         r.d = 0;
         o->slot[i] = (int)CLACT_CreateActor((void *)o->f11C, o->arr[sActorTemplates[i].d], o->arr[sActorTemplates[i].e], o->arr[sActorTemplates[i].f], &r, 0, 0x80);
-        func_0204B92C((struct Obj *)o->slot[i], 1);
+        CLACT_SetActorAutoAnim((struct Obj *)o->slot[i], 1);
     }
 }

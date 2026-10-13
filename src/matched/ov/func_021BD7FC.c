@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  *   (none)
  *
  * Loads the word at [p] and tail-calls the function at 0x0204B3DC with it and
@@ -18,9 +19,9 @@
 
 struct Obj;
 
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 void func_021BD7FC(struct Obj **p, unsigned int v)
 {
-    func_0204B3DC(*p, v);
+    CLACT_SetActorDrawEnable(*p, v);
 }

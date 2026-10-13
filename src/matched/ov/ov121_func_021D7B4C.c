@@ -11,7 +11,7 @@
  * symbols:
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0207D63C 0x0207D63C arm
  *   func_021DA8C0 0x021DA8C0 thumb ov121
  *   func_021DA8C4 0x021DA8C4 thumb ov121
@@ -40,7 +40,7 @@ typedef signed int     s32;
 struct Obj;
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void func_021DA8C0(u32 *p, u32 a);
 extern void func_021DA8C4(u32 *p);
@@ -75,7 +75,7 @@ void func_021D7B4C(void *task,u32 *state,u8 *p)
         func_021D8380((char *)p);
         func_021D9E04(((struct Obj00989 *)p)->f284);
         ((struct Obj00989 *)p)->f284=0;
-        func_02082BCC(&d,0,36);
+        MI_CpuFill8(&d,0,36);
         d.w[0]=0;
         d.w[2]=(u32)func_021D9744(((struct Obj00989 *)p)->f394);
         d.w[3]=((struct Obj00989 *)p)->f3BC;

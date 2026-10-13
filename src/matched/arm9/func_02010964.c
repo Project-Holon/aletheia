@@ -16,6 +16,7 @@
  * symbols:
  *   GAME_DATA_SaveMain  0x02012DD0  thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  */
 #include "../include/Obj11240.h"
 
@@ -25,7 +26,7 @@ typedef unsigned int  u32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *h, u32 a, u32 b);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *h, u32 a, u32 b);
 extern int  GAME_DATA_SaveMain(u8 *p);
 extern u32  func_020056EC(u32 v);
 extern void func_02010888(u8 *p, u32 v);
@@ -34,7 +35,7 @@ extern void func_02010994(u8 *p);
 void func_02010964(u8 *p)
 {
     if (GAME_DATA_SaveMain((u8 *)((struct Obj11240 *)p)->fC) == 1) {
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x72, 8);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x72, 8);
         ((struct Obj11240 *)p)->f10 = func_020056EC(0x3c);
         func_02010888(p, (u32)func_02010994);
     }

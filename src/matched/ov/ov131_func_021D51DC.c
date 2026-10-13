@@ -13,7 +13,7 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   func_02049B40 0x02049B40 arm
- *   func_0201C450 0x0201C450 thumb
+ *   PRINTSYS_QUE_CreateEx 0x0201C450 thumb
  */
 #include "../include/Obj03814.h"
 typedef unsigned short u16;
@@ -24,7 +24,7 @@ struct MsgBank;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
-extern void *func_0201C450(u16,u32);
+extern void *PRINTSYS_QUE_CreateEx(u16,u32);
 void P_STATUS_InitMessage(char *p)
 {
     ((struct Obj03814 *)p)->f80=GF_FONT_Create(23,0,0,0,((struct Obj03814 *)p)->f0);
@@ -37,5 +37,5 @@ void P_STATUS_InitMessage(char *p)
         ((Palette *)base)->x=color;
         ((Palette *)base)->y=0x6a52;
     }
-    ((struct Obj03814 *)p)->f84=func_0201C450(4096,((struct Obj03814 *)p)->f0);
+    ((struct Obj03814 *)p)->f84=PRINTSYS_QUE_CreateEx(4096,((struct Obj03814 *)p)->f0);
 }

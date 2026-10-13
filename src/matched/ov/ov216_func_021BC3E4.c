@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  */
 typedef struct { unsigned char a,b,c,pad; unsigned short first,second,third; } Config;
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern signed int CLACT_RegisterPaletteEx(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned short e, unsigned short f, unsigned short g);
 typedef signed int     s32;
 typedef unsigned short u16;
@@ -23,7 +23,7 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 void func_021BC3E4(unsigned short *p,int *out,const Config *cfg,void *handle)
 {
-    func_02082BCC(out,0,12);
+    MI_CpuFill8(out,0,12);
     out[0]=CLACT_RegisterPaletteEx(handle,cfg->first,cfg->a,(unsigned short)(cfg->b<<5),0,cfg->c,*p);
     out[1]=CLACT_RegisterCharacter((void *)handle,cfg->second,0,cfg->a,*p);
     out[2]=CLACT_RegisterCellAnim((void *)handle,cfg->third,cfg->third+1,*p);

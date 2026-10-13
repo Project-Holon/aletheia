@@ -30,7 +30,7 @@
  *   }
  * }
  * symbols:
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021DD27C 0x021DD27C thumb ov183
  *   func_021DD2BC 0x021DD2BC thumb ov183
  *   func_021FB4B4 0x021FB4B4 thumb ov186
@@ -48,7 +48,7 @@
 typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct {char pad[0x4c];char saved[0x18];int count;void *ptr;} S;
-extern u32 func_02035D20(u32 *,u32 *);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 extern int func_021DD27C(char *,int,int),func_021DD2BC(char *,int,int);
 extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(int,int,int *);
@@ -65,7 +65,7 @@ extern void func_021DC638(int *a, int *state, char *p);
 void func_021DBD7C(int *task,int *state,char *p)
 {
     u32 x,y;
-    if(func_02035D20(&x,&y)) {
+    if(TOUCHPANEL_GetPointTrg(&x,&y)) {
         if(func_021DD27C(p,x,y)) {
             *(int *)(p+0xb0)^=1;
             func_021FD73C(task,(int)func_021DBEB0);

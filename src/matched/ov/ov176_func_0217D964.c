@@ -12,7 +12,7 @@
  *   func_0217DC28 0x0217DC28 thumb ov176
  *   func_0217DEA4 0x0217DEA4 thumb ov176
  *   func_0217DE8C 0x0217DE8C thumb ov176
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_0217E000 0x0217E000 thumb ov176
  *   func_0217DFF0 0x0217DFF0 thumb ov176
  *   func_0217DFD0 0x0217DFD0 thumb ov176
@@ -29,7 +29,7 @@ typedef unsigned char  u8;
 extern void func_0217DEA4(int *p, int a);
 extern int func_0217DE8C(int *);
 typedef unsigned int   u32;
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_0217E000(int *);
 extern int func_0217DFF0(int, int);
 extern void func_0217DFD0(int *, int, int);
@@ -46,7 +46,7 @@ void func_0217D964(int *a, int *state, int *p)
     switch (*state) {
     case 0: func_0217DC28(p); func_0217DEA4((int *)p, 1); *state = 1; break;
     case 1: if (func_0217DE8C(p)) *state = 2; break;
-    case 2: if (func_020362DC() & 3) *state = 3; break;
+    case 2: if (KEY_GetTrg() & 3) *state = 3; break;
     case 3: func_0217E000(p); func_0217DFF0((int)p, 1); func_0217DFD0(p, 0x6D, 1); *state = 4; break;
     case 4: if (func_0217DFE4(p)) *state = 5; break;
     case 5: func_0217DEDC((char *)p, 1); *state = 6; break;

@@ -1,5 +1,5 @@
 /*
- * function: func_021E3074
+ * function: HAND_WAZA_AddThunder
  * address: 0x021E3074
  * packet: pkt_ov093_021E3074
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E3050.c and filed here.
  *
  * symbols:
- *   d_021F2D08 0x021F2D08 data ov093 a4
+ *   gThunderHandlers 0x021F2D08 data ov093 a4
  */
 
-int *func_021E3074(int *p);
-extern int d_021F2D08[];
+int *HAND_WAZA_AddThunder(int *p);
+extern int gThunderHandlers[];
 
-int *func_021E3074(int *p)
+int *HAND_WAZA_AddThunder(int *p)
 {
     *p = 3;
-    return d_021F2D08;
+    return gThunderHandlers;
 }

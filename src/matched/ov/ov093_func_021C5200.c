@@ -12,7 +12,7 @@
  *   func_021C52C8 0x021C52C8 thumb ov093
  *   func_021C52D8 0x021C52D8 thumb ov093
  *   func_021C52E8 0x021C52E8 thumb ov093
- *   func_021B9934 0x021B9934 thumb ov093
+ *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   BTL_SERVER_FLOW_CheckShowdown 0x021BC2B0 thumb ov093
  *   BTL_SERVER_FLOW_CheckPlayerSideAlive 0x021BC310 thumb ov093
@@ -30,7 +30,7 @@ extern int BTL_MAIN_CheckEventOverlayAllowed(u32 **p);
 extern u32 func_021C52C8(u8 *, int);
 extern int func_021C52D8(u8 *, int, u8);
 extern int func_021C52E8(u8 *, int, u8);
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void *BTL_MAIN_GetCompetitor(void ***p);
 extern int BTL_SERVER_FLOW_CheckShowdown(u8 *);
 extern int BTL_SERVER_FLOW_CheckPlayerSideAlive(u8 *);
@@ -48,7 +48,7 @@ int BTL_SERVER_FLOW_ProcFaintRewards(u8 *p)
         count = func_021C52C8(p + 0x3e0, 0);
         for (i = 0; i < count; i++) {
             if (!func_021C52D8(p + 0x3e0, 0, i)) {
-                a = func_021B9934((char *)(*(u8 * *)&((struct Obj00003 *)p)->f8), func_021C52E8(p + 0x3e0, 0, i));
+                a = BTL_SIDE_GetPokeByIdThunk((char *)(*(u8 * *)&((struct Obj00003 *)p)->f8), func_021C52E8(p + 0x3e0, 0, i));
                 if (!BTL_MAIN_GetCompetitor(((struct Obj00003 *)p)->f4) && !((struct Flags *)(p + 0x78a))->b && BTL_SERVER_FLOW_CheckShowdown(p) && BTL_SERVER_FLOW_CheckPlayerSideAlive(p)) {
                     BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 0x55, BTL_MAIN_GetWinBgm(((struct Obj00003 *)p)->f4));
                     ((struct Flags *)(p + 0x78a))->b = 1;

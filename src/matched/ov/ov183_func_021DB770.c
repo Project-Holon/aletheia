@@ -23,8 +23,8 @@
  *   func_021FE7F4 0x021FE7F4 thumb ov186
  *   func_021FD854 0x021FD854 thumb ov186
  *   func_021DB924 0x021DB924 thumb ov183
- *   func_02035D20 0x02035D20 arm
- *   func_020061E4 0x020061E4 thumb
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_02030EAC 0x02030EAC arm
  *   _u32_div_f 0x0209C2B0 arm
@@ -44,9 +44,9 @@ extern int func_021FC238(char *),func_021FC224(char *);
 extern void func_021FC230(char *,int),func_021FE7F4(int *,int);
 extern void func_021FD854(char *);
 extern void func_021DB924(int a0, char *p);
-extern u32 func_02035D20(u32 *,u32 *);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 struct Node;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void *func_020056A0(void (*)(void),void *,int);
 extern void func_02030EAC(struct Node *n);
 extern int d_021E3280[];
@@ -57,8 +57,8 @@ int func_021DB770(int *task,int *state,char *p,char *q)
     case 0: func_021FE784(*(int *)&((struct Obj01004 *)p)->f10,((struct Obj01004 *)p)->fC,3,0);*state=1;break;
     case 1: if(func_021FE7B0(*(int * *)&((struct Obj01004 *)p)->f10))*state=2;break;
     case 2:
-        if(((struct Obj01004 *)p)->f0<=4 && !func_021FA018(*(char * *)&((struct Obj02891 *)q)->f0) && func_02035D20(&x,&y)) {
-            if(x<8 || x>248) {func_020061E4(0x703);*state=6;break;}
+        if(((struct Obj01004 *)p)->f0<=4 && !func_021FA018(*(char * *)&((struct Obj02891 *)q)->f0) && TOUCHPANEL_GetPointTrg(&x,&y)) {
+            if(x<8 || x>248) {GFL_USE_PlaySeDefaultVolume(0x703);*state=6;break;}
         }
         func_021F9FE8(*(char * *)&((struct Obj02891 *)q)->f0);
         if(func_021FA004(*(char * *)&((struct Obj02891 *)q)->f0,(int *)(p+4),(int *)(p+8))) *state=3;

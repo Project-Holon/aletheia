@@ -10,7 +10,7 @@
  * trailing: two-byte zero alignment padding at 0x021FAD82.
  * symbols:
  *   CLACT_IsActorAnimActive 0x0204B98C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   BGWINFRM_StartMove 0x0202CD64 thumb
  */
 #include "../include/Obj03297.h"
@@ -22,14 +22,14 @@ struct WinMgr;
 struct Actor;
 struct Obj;
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 int func_021FAD24(u8 *p)
 {
     if (CLACT_IsActorAnimActive(((struct Obj03297 *)p)->f8)) return -1;
-    func_0204B3DC(((struct Obj03297 *)p)->f8, 0);
-    func_0204B3DC(((struct Obj03297 *)p)->fC, 0);
-    func_0204B3DC(((struct Obj03297 *)p)->f10, 0);
+    CLACT_SetActorDrawEnable(((struct Obj03297 *)p)->f8, 0);
+    CLACT_SetActorDrawEnable(((struct Obj03297 *)p)->fC, 0);
+    CLACT_SetActorDrawEnable(((struct Obj03297 *)p)->f10, 0);
     if (((struct Obj03297 *)p)->f54 == 3 && ((struct Obj03297 *)p)->f4C == 28)
         BGWINFRM_StartMove(((struct Obj03297 *)p)->f18, 0, 6, 0, 6);
     else

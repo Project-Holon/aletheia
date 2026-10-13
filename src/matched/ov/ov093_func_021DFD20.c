@@ -1,5 +1,5 @@
 /*
- * function: func_021DFD20
+ * function: HAND_ITEM_AbsorbBulbDamageReaction
  * address:  0x021DFD20
  * packet:   pkt_ov093_021DFD20
  * region:   ov093
@@ -11,20 +11,20 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C7CF4  0x021C7CF4  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   func_021D5D14  0x021D5D14  thumb  ov093
- *   BTL_HANDLER_ITEM_PushUseItem  0x021DD044  thumb  ov093
+ *   HAND_ITEM_PushUseItem  0x021DD044  thumb  ov093
  */
 
 typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int key);
-extern void *func_021C7CF4(int *p, int i);
+extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 typedef signed char    s8;
 extern int func_021D5D14(s8 *p, int i, int sign);
-extern void BTL_HANDLER_ITEM_PushUseItem(void *a, void *b, int c);
+extern void HAND_ITEM_PushUseItem(void *a, void *b, int c);
 
-void func_021DFD20(int self, int q, int id)
+void HAND_ITEM_AbsorbBulbDamageReaction(int self, int q, int id)
 {
     if (id != BTL_EVENT_GetVar(4))
         return;
@@ -32,7 +32,7 @@ void func_021DFD20(int self, int q, int id)
         return;
     if (BTL_EVENT_GetVar(0x16) != 10)
         return;
-    if (func_021D5D14(func_021C7CF4((int *)q, id), 3, 1) == 0)
+    if (func_021D5D14(BTL_SERVER_FLOW_GetPokeParam((int *)q, id), 3, 1) == 0)
         return;
-    BTL_HANDLER_ITEM_PushUseItem((void *)self, (void *)q, id);
+    HAND_ITEM_PushUseItem((void *)self, (void *)q, id);
 }

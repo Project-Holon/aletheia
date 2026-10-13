@@ -11,7 +11,7 @@
  *
  * symbols:
  *   APP_TASKMENU_WIN_IsTouch  0x0202824C  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
  *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb
  *   APP_TASKMENU_WIN_ResetDecide  0x020282A4  thumb
@@ -22,7 +22,7 @@
 
 extern unsigned int APP_TASKMENU_WIN_IsTouch(void **p);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 typedef unsigned char  u8;
 struct Obj;
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
@@ -38,7 +38,7 @@ void func_021B71E4(int a)
         case 0:
             ((struct Obj02158 *)a)->f44 = -1;
             if (APP_TASKMENU_WIN_IsTouch((void **)(((struct Obj02158 *)a)->f0))) {
-                func_020061E4(0x551);
+                GFL_USE_PlaySeDefaultVolume(0x551);
                 APP_TASKMENU_WIN_SetDecide((char *)(((struct Obj02158 *)a)->f0), 1);
                 ((struct Obj02158 *)a)->f50 = 1;
             }

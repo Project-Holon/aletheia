@@ -14,7 +14,7 @@
  * Split from bsubway_scr.c at 0x021C8E68: fldeff_d06denki.c __FILE__ anchor at 0x021C8E68.
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   sFldeffD06DenkiFileName  0x021DE544  data  ov021  a4
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
@@ -162,7 +162,7 @@ typedef struct D06DenkiPulseWork {
     G3dRender *render;                             /* 0x20 */
 } D06DenkiPulseWork;
 
-extern void func_020061E4(u32 seNo);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
 extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
@@ -324,7 +324,7 @@ void FLDEFF_D06DENKI_SparkInit(FieldEffectObj *effect, D06DenkiSparkWork *work)
     D06DenkiStartParam *param = FIELD_EFFECT_GetObjectParam(effect);
     work->res = param->res;
     FIELD_EFFECT_SetObjectPos(effect, &param->pos);
-    func_020061E4(SE_D06DENKI_SPARK);
+    GFL_USE_PlaySeDefaultVolume(SE_D06DENKI_SPARK);
 }
 
 

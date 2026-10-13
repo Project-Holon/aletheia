@@ -15,7 +15,7 @@
  *   func_02030734        0x02030734  arm
  *   func_02030EAC   0x02030EAC  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes             0x020435F4  arm
  *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   func_02082AC0    0x02082AC0  arm
@@ -44,7 +44,7 @@ typedef unsigned int u32;
 extern const char d_021C7F04[];
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_02043534(u32);
+extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void BG_SYS_SetLcdSwap(u32);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
@@ -73,7 +73,7 @@ int func_021C6984(u8 *p)
         func_02030EAC(((struct Obj03836 *)p)->f2C);
         *(u32 *)&((struct Obj03836 *)p)->f2C = 0;
     }
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;

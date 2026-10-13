@@ -13,7 +13,7 @@
  * is what the old register-rotation residue was.
  *
  * symbols:
- *   func_0204B3DC        0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable        0x0204B3DC  arm
  *   func_021C53E0        0x021C53E0  thumb
  *   ov208_func_021C57A4  0x021C57A4  thumb
  */
@@ -47,14 +47,14 @@ struct Ov208Menu {
 };
 
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void func_021C53E0(int a, int b);
 extern void ov208_func_021C57A4(u16 *heap, struct Ov208Menu *p, int key, u16 idx);
 
 void ov208_func_021C5CF0(u16 *heap, struct Ov208Menu *p, int key)
 {
     if (p->obj[p->cur] != 0)
-        func_0204B3DC((struct Obj *)p->obj[p->cur], 0);
+        CLACT_SetActorDrawEnable((struct Obj *)p->obj[p->cur], 0);
     p->cur = (p->cur + 1) % 2;
     if (p->obj[p->cur] != 0) {
         if (p->obj[p->cur] != 0)

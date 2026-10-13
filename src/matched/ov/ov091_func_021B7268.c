@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  */
 #include "../include/Obj06209.h"
 struct PrintSys;
 struct Rec;
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
-void POKELIST_DeleteFonts(unsigned p) { func_0201C6EC((struct PrintSys *)(((struct Obj06209 *)p)->f140)); func_0201C4C0((struct PrintSys *)(((struct Obj06209 *)p)->f140)); MSGDATA_Delete((struct Rec *)(((struct Obj06209 *)p)->f134)); GF_FONT_Delete(((struct Obj06209 *)p)->f13C); GF_FONT_Delete(((struct Obj06209 *)p)->f138); }
+void POKELIST_DeleteFonts(unsigned p) { PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj06209 *)p)->f140)); PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj06209 *)p)->f140)); MSGDATA_Delete((struct Rec *)(((struct Obj06209 *)p)->f134)); GF_FONT_Delete(((struct Obj06209 *)p)->f13C); GF_FONT_Delete(((struct Obj06209 *)p)->f138); }

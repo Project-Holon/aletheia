@@ -27,20 +27,20 @@
  *   d_020A8144     0x020A8144  data  a4
  *   TCBL_Destroy  0x02031140  arm
  *   func_0206DF3C  0x0206DF3C  arm
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   func_020409B4  0x020409B4  arm
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_0206E0C4  0x0206E0C4  arm
- *   func_02045758  0x02045758  arm
- *   func_02045760  0x02045760  arm
- *   func_02045748  0x02045748  arm
- *   func_02045750  0x02045750  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetPosX  0x02045758  arm
+ *   BMP_WIN_GetPosY  0x02045760  arm
+ *   BMP_WIN_GetDispWidth  0x02045748  arm
+ *   BMP_WIN_GetDispHeight  0x02045750  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02040804  0x02040804  arm
  *   func_0207CA00  0x0207CA00  arm
  *   func_0207CBD0  0x0207CBD0  arm
@@ -95,21 +95,21 @@ extern void TCBL_Main(struct Tcbl *tcbl);
 extern void func_0206DB80(void);
 extern void TCBL_Destroy(struct Tcbl *tcbl);
 extern void func_0206DF3C(const VecFx32 *worldPos, int *screenX, int *screenY);
-extern void func_0201CE48(struct PrintStream *stream);
+extern void PRINTSYS_PrintStreamDelete(struct PrintStream *stream);
 extern struct PrintStream *PRINTSYS_PrintStream(struct BmpWin *bmpWin, u32 x, u32 y, struct Strbuf *str, struct GfFont *font,
                                          u32 wait, struct Tcbl *tcbl, u32 tcblPri, u32 heapId, u32 clearColor);
 extern void func_020409B4(u32 bgLayer);
-extern void func_020452E8(struct BmpWin *bmpWin);
+extern void BMP_WIN_Delete(struct BmpWin *bmpWin);
 extern struct BmpWin *BMP_WIN_Create(u32 bgFrame, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slotId);
-extern struct Bmp *func_02045770(struct BmpWin *bmpWin);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *bmpWin);
 extern void BMP_Clear(struct Bmp *bmp, u8 color);
 extern void BMP_WIN_TransferChars(struct BmpWin *bmpWin);
 extern int func_0206E0C4(int screenX, int screenY, VecFx32 *out, int mode);
-extern u8 func_02045758(struct BmpWin *bmpWin);
-extern u8 func_02045760(struct BmpWin *bmpWin);
-extern u8 func_02045748(struct BmpWin *bmpWin);
-extern u8 func_02045750(struct BmpWin *bmpWin);
-extern u8 func_02045730(struct BmpWin *bmpWin);
+extern u8 BMP_WIN_GetPosX(struct BmpWin *bmpWin);
+extern u8 BMP_WIN_GetPosY(struct BmpWin *bmpWin);
+extern u8 BMP_WIN_GetDispWidth(struct BmpWin *bmpWin);
+extern u8 BMP_WIN_GetDispHeight(struct BmpWin *bmpWin);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *bmpWin);
 extern u32 func_02040804(u32 bgLayer);
 extern void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern int func_0207CBD0(const VecFx32 *v);
@@ -390,7 +390,7 @@ void TALKMSGWIN_Reprint(TalkMsgWinSys *sys, int index, struct Strbuf *str, u32 w
 
     win = &sys->windows[index];
     if (win->printStream != 0) {
-        func_0201CE48(win->printStream);
+        PRINTSYS_PrintStreamDelete(win->printStream);
         win->printStream = 0;
     }
     if (str != 0) {
@@ -426,7 +426,7 @@ void TALKMSGWIN_ClearWindowFrame(TalkMsgWinSys *sys, struct BmpWin *bmpWin)
 void TALKMSGWIN_DeleteFrameWindow(TalkMsgWinSys *sys, struct BmpWin *bmpWin)
 {
     TALKMSGWIN_ClearFrame(&sys->param, bmpWin);
-    func_020452E8(bmpWin);
+    BMP_WIN_Delete(bmpWin);
 }
 
 TalkMsgWin *TALKMSGWIN_InitEntry(TalkMsgWin *win)
@@ -464,7 +464,7 @@ struct BmpWin *TALKMSGWIN_AddBmpWin(TalkMsgWinSys *sys, u8 x, u8 y, int width, u
     struct BmpWin *bmpWin;
 
     bmpWin = BMP_WIN_Create((u8)sys->param.bgLayer, x, y, width, height, sys->param.bmpWinPalette, 1);
-    BMP_Clear(func_02045770(bmpWin), 15);
+    BMP_Clear(BMP_WIN_GetBmp(bmpWin), 15);
     BMP_WIN_TransferChars(bmpWin);
     return bmpWin;
 }
@@ -503,11 +503,11 @@ void TALKMSGWIN_ReleaseEntry(TalkMsgWinSys *sys, TalkMsgWin *win)
 {
     if (TALKMSGWIN_IsEntryFree(win) == 0) {
         if (win->printStream != 0) {
-            func_0201CE48(win->printStream);
+            PRINTSYS_PrintStreamDelete(win->printStream);
             win->printStream = 0;
         }
         TALKMSGWIN_ClearFrame(&sys->param, win->bmpWin);
-        func_020452E8(win->bmpWin);
+        BMP_WIN_Delete(win->bmpWin);
         win->isPlain = 0;
         win->state = TALKMSGWIN_STATE_FREE;
     }
@@ -717,14 +717,14 @@ void TALKMSGWIN_GetAnchorWindowPoint(TalkMsgWin *win, TalkMsgWin *anchor, int *s
     int anchorW;
     int anchorH;
 
-    winX = (func_02045758(win->bmpWin) - 1) << 3;
-    winY = (func_02045760(win->bmpWin) - 1) << 3;
-    winW = (func_02045748(win->bmpWin) + 2) << 3;
-    winH = (func_02045750(win->bmpWin) + 2) << 3;
-    anchorX = (func_02045758(anchor->bmpWin) - 1) << 3;
-    anchorY = (func_02045760(anchor->bmpWin) - 1) << 3;
-    anchorW = (func_02045748(anchor->bmpWin) + 2) << 3;
-    anchorH = (func_02045750(anchor->bmpWin) + 2) << 3;
+    winX = (BMP_WIN_GetPosX(win->bmpWin) - 1) << 3;
+    winY = (BMP_WIN_GetPosY(win->bmpWin) - 1) << 3;
+    winW = (BMP_WIN_GetDispWidth(win->bmpWin) + 2) << 3;
+    winH = (BMP_WIN_GetDispHeight(win->bmpWin) + 2) << 3;
+    anchorX = (BMP_WIN_GetPosX(anchor->bmpWin) - 1) << 3;
+    anchorY = (BMP_WIN_GetPosY(anchor->bmpWin) - 1) << 3;
+    anchorW = (BMP_WIN_GetDispWidth(anchor->bmpWin) + 2) << 3;
+    anchorH = (BMP_WIN_GetDispHeight(anchor->bmpWin) + 2) << 3;
     if (winX + winW < anchorX) {
         *screenX = anchorX;
     } else if (winX > anchorX + anchorW) {
@@ -772,11 +772,11 @@ int TALKMSGWIN_CalcTail(TalkMsgWin *win, int targetX, int targetY, VecFx32 *outB
     u16 yB;
     u16 baseX[2];  /* [1]: left end of the base, [0]: right end */
 
-    x = (func_02045758(win->bmpWin) - 1) << 3;
-    y = (func_02045760(win->bmpWin) - 1) << 3;
-    w = (func_02045748(win->bmpWin) + 2) << 3;
-    h = (func_02045750(win->bmpWin) + 2) << 3;
-    y += func_02040804(func_02045730(win->bmpWin));
+    x = (BMP_WIN_GetPosX(win->bmpWin) - 1) << 3;
+    y = (BMP_WIN_GetPosY(win->bmpWin) - 1) << 3;
+    w = (BMP_WIN_GetDispWidth(win->bmpWin) + 2) << 3;
+    h = (BMP_WIN_GetDispHeight(win->bmpWin) + 2) << 3;
+    y += func_02040804(BMP_WIN_GetBgLayer(win->bmpWin));
     switch (win->tailMode) {
     case TALKMSGWIN_TAIL_MODE_AUTO:
     default:
@@ -868,10 +868,10 @@ void TALKMSGWIN_GetWindowCornerPoints(TalkMsgWin *win, VecFx32 *outTopLeft, VecF
     int w;
     int h;
 
-    x = func_02045758(win->bmpWin) << 3;
-    y = (func_02045760(win->bmpWin) - 1) << 3;
-    w = func_02045748(win->bmpWin) << 3;
-    h = (func_02045750(win->bmpWin) + 2) << 3;
+    x = BMP_WIN_GetPosX(win->bmpWin) << 3;
+    y = (BMP_WIN_GetPosY(win->bmpWin) - 1) << 3;
+    w = BMP_WIN_GetDispWidth(win->bmpWin) << 3;
+    h = (BMP_WIN_GetDispHeight(win->bmpWin) + 2) << 3;
     func_0206E0C4(x, y, outTopLeft, 0);
     func_0206E0C4(x + w, y, outTopRight, 0);
     func_0206E0C4(x, y + h, outBottomLeft, 0);
@@ -1132,10 +1132,10 @@ void TALKMSGWIN_DrawSimpleFrame(const TalkMsgWinParam *style, struct BmpWin *bmp
     int bottom;
     u16 notchTile;
 
-    x = func_02045758(bmpWin);
-    y = func_02045760(bmpWin);
-    w = func_02045748(bmpWin);
-    h = func_02045750(bmpWin);
+    x = BMP_WIN_GetPosX(bmpWin);
+    y = BMP_WIN_GetPosY(bmpWin);
+    w = BMP_WIN_GetDispWidth(bmpWin);
+    h = BMP_WIN_GetDispHeight(bmpWin);
     topClip = 0;
     bottomClip = 0;
     leftClip = 0;
@@ -1244,10 +1244,10 @@ void TALKMSGWIN_DrawCorneredFrame(const TalkMsgWinParam *style, struct BmpWin *b
     int bottom;
     u16 notchTile;
 
-    x = func_02045758(bmpWin);
-    y = func_02045760(bmpWin);
-    w = func_02045748(bmpWin);
-    h = func_02045750(bmpWin);
+    x = BMP_WIN_GetPosX(bmpWin);
+    y = BMP_WIN_GetPosY(bmpWin);
+    w = BMP_WIN_GetDispWidth(bmpWin);
+    h = BMP_WIN_GetDispHeight(bmpWin);
     topClip = 0;
     bottomClip = 0;
     leftClip = 0;
@@ -1395,10 +1395,10 @@ void TALKMSGWIN_ClearFrame(const TalkMsgWinParam *style, struct BmpWin *bmpWin)
     int right;
     int bottom;
 
-    x = func_02045758(bmpWin);
-    y = func_02045760(bmpWin);
-    w = func_02045748(bmpWin);
-    h = func_02045750(bmpWin);
+    x = BMP_WIN_GetPosX(bmpWin);
+    y = BMP_WIN_GetPosY(bmpWin);
+    w = BMP_WIN_GetDispWidth(bmpWin);
+    h = BMP_WIN_GetDispHeight(bmpWin);
     topClip = 0;
     bottomClip = 0;
     leftClip = 0;

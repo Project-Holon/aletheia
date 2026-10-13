@@ -1,5 +1,5 @@
 /*
- * function: func_021D344C
+ * function: BTL_CLIENT_StepClearIllusion
  * address:  0x021D344C
  * packet:   pkt_ov093_021D344C
  * region:   ov093
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B8D8C  0x021B8D8C  thumb  ov093
- *   func_021B9934  0x021B9934  thumb  ov093
+ *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
+ *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb  ov093
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
  *   BTL_POKEPARAM_ClearIllusion  0x021D6C2C  thumb  ov093
  *   func_021EA868  0x021EA868  thumb  ov093
@@ -22,15 +22,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021B8D8C(void *p, void *a, u32 b);
-extern u8 *func_021B9934(char *p, int i);
+extern int BTL_MAIN_GetTrainerSlotOfPoke(void *p, void *a, u32 b);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 struct Unk021D6C2C;
 extern void BTL_POKEPARAM_ClearIllusion(struct Unk021D6C2C *p);
 extern void func_021EA868(u32 *p, u32 a2, u32 a3);
 extern int func_021EA878(u32 *p);
 
-int func_021D344C(u32 *a, int *b, u32 *c)
+int BTL_CLIENT_StepClearIllusion(u32 *a, int *b, u32 *c)
 {
     u32 u;
     int s;
@@ -40,8 +40,8 @@ int func_021D344C(u32 *a, int *b, u32 *c)
     switch (*b) {
     case 0:
         u = (u8)c[0];
-        s = func_021B8D8C((void *)a[0], (void *)a[1], u);
-        m = func_021B9934((char *)a[1], u);
+        s = BTL_MAIN_GetTrainerSlotOfPoke((void *)a[0], (void *)a[1], u);
+        m = BTL_SIDE_GetPokeByIdThunk((char *)a[1], u);
         f = BTL_CLIENT_IsMainStepActive((u8 *)a);
         BTL_POKEPARAM_ClearIllusion((struct Unk021D6C2C *)m);
         func_021EA868((u32 *)a[0x15], s, f);

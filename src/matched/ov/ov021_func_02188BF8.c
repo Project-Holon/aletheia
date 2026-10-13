@@ -13,7 +13,7 @@
  *   FIELD_PLAYER_GetFormCode  0x021A3098  thumb
  *   FIELD_PLAYER_StartFormChange  0x021A2F48  thumb
  *   FIELD_PLAYER_StepFormChange  0x021A2F54  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   func_02008DF0  0x02008DF0  thumb
  * Addresses are Black-image addresses.
@@ -31,7 +31,7 @@ extern u32 FIELD_PLAYER_GetFormCode(u8 *p);
 extern void FIELD_PLAYER_StartFormChange(u8 *p, u32 a1);
 struct Sub02008C20Obj;
 extern int FIELD_PLAYER_StepFormChange(u8 *p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 
@@ -45,7 +45,7 @@ u32 FIELDMAP_CheckPlayerRequest(u8 *a)
         FIELD_PLAYER_StartFormChange((u8 *)(*(u32 *)&((struct Obj00020 *)a)->f8C), 1);
     } else if (t == 0) {
         r = 1;
-        func_020061E4(0x55F);
+        GFL_USE_PlaySeDefaultVolume(0x55F);
         FIELD_PLAYER_StartFormChange((u8 *)(*(u32 *)&((struct Obj00020 *)a)->f8C), 2);
         func_02008DF0(GAME_DATA_GetTrainerRecord((int *)(*(u32 *)&((struct Obj00020 *)a)->f8)), 3);
     }

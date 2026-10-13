@@ -29,7 +29,7 @@
  *   FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent  0x02014554  thumb
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
  *   SCRCMD_NETWORK_GetCommExitKind  0x0215F9C4  thumb  ov010
  *   SCRCMD_NETWORK_AdvanceStep  0x0215F9DC  thumb  ov010
@@ -83,7 +83,7 @@ extern void GAMESYSTEM_SetAlwaysNetFlag(char *p, unsigned int v);
 extern int FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent(int a0, int a1);
 extern void GFL_USE_FadeOutBgm(u32 v);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
-extern u32 func_02026454(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *sys, void *proc, u32 a, u32 b);
 extern int SCRCMD_NETWORK_GetCommExitKind(void);
 extern void SCRCMD_NETWORK_AdvanceStep(Work *w, u32 *i);
@@ -120,12 +120,12 @@ int SCRCMD_NETWORK_CommBattleEventMain(void *evt, u32 *i, Work *w)
         SCRCMD_NETWORK_AdvanceStep(w, i);
         break;
     case 2:
-        if (func_02026454(save))
+        if (GAME_COMM_GetKind(save))
             GAME_COMM_RequestExitNoCallback(save);
         SCRCMD_NETWORK_AdvanceStep(w, i);
         break;
     case 3:
-        if (func_02026454(save) == 0)
+        if (GAME_COMM_GetKind(save) == 0)
             SCRCMD_NETWORK_AdvanceStep(w, i);
         break;
     case 4:

@@ -41,10 +41,10 @@
  *   FLDMMDL_SysResumeMove 0x0216D9E4 thumb ov010
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AB08  0x0201AB08  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_FindFirstBattleReady  0x0201AB08  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_0201EEF4  0x0201EEF4  thumb
  *   GPOWER_UseHpRestore  0x0201104C  thumb
  *   GPOWER_UsePpRestore  0x020110CC  thumb
@@ -56,7 +56,7 @@
  *   FIELD_MSGBG_ClearInfoMsgWin 0x02190854 thumb ov021
  *   FIELD_MSGBG_DeleteInfoMsgWin 0x0219082C thumb ov021
  *   GPOWER_EVENT_PrintPowerList 0x021F55D4 thumb ov083
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_0201F184  0x0201F184  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
@@ -105,10 +105,10 @@ extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern u32 *FLDMMDL_SysResumeMove(struct FldMmdlSys *mmdlSys);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int  FADE_IsActive(void);
-extern void func_020061E4(u32 seId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern struct PokeParty *GAME_DATA_GetMyParty(const struct GameData *gameData);
-extern u32   func_0201AB08(struct PokeParty *party);
-extern struct Pokemon *func_0201AB28(struct PokeParty *party, u32 index);
+extern u32   POKEPARTY_FindFirstBattleReady(struct PokeParty *party);
+extern struct Pokemon *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
 extern void func_0201EEF4(struct WordSet *wordSet, u32 index, struct Pokemon *pokemon);
 extern u32   GPOWER_UseHpRestore(struct PokeParty *party);
 extern u32   GPOWER_UsePpRestore(struct PokeParty *party);
@@ -120,7 +120,7 @@ extern struct InfoMsgWin *FIELD_MSGBG_CreateInfoMsgWin(struct FieldMsgBg *msgBg,
 extern void FIELD_MSGBG_ClearInfoMsgWin(struct InfoMsgWin *win);
 extern int FIELD_MSGBG_DeleteInfoMsgWin(struct InfoMsgWin *win);
 extern void GPOWER_EVENT_PrintPowerList(GPowerListWork *work);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_0201F184(struct WordSet *wordSet, u32 index, s32 value);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 value, u32 digits, u32 padding, u32 d);
 extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
@@ -231,7 +231,7 @@ int GPOWER_EVENT_FlashMain(struct GameEvent *event, int *seq, void *work)
     switch (*seq) {
     case 0:
         FADE_Start(4, 10, 16, 4);
-        func_020061E4(0x5E0);
+        GFL_USE_PlaySeDefaultVolume(0x5E0);
         (*seq)++;
         break;
     case 1:
@@ -253,8 +253,8 @@ void GPOWER_EVENT_RestoreParty(struct GameSystem *gameSystem, struct WordSet *wo
     struct PokeParty *party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem));
     u8 firstReady;
 
-    firstReady = func_0201AB08(party);
-    func_0201EEF4(wordSet, 1, func_0201AB28(party, firstReady));
+    firstReady = POKEPARTY_FindFirstBattleReady(party);
+    func_0201EEF4(wordSet, 1, POKEPARTY_GetMember(party, firstReady));
     switch (powerType) {
     case 5:
         GPOWER_UseHpRestore(party);
@@ -288,7 +288,7 @@ int GPOWER_EVENT_ListMain(struct GameEvent *event, int *seq, GPowerListWork *wor
         *seq += 1;
         break;
     case 3:
-        if (func_020362DC() & 3) *seq += 1;
+        if (KEY_GetTrg() & 3) *seq += 1;
         break;
     default:
         FIELD_MSGBG_ClearInfoMsgWin(work->infoMsgWin);

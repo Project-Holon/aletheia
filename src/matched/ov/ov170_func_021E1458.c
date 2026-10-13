@@ -13,7 +13,7 @@
  *   func_021ED544 0x021ED544 thumb
  *   func_021EC0B0 0x021EC0B0 thumb
  *   func_021EC08C 0x021EC08C thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021ED108 0x021ED108 thumb
  *   func_021EBFA8 0x021EBFA8 thumb
  *   func_021EBFEC 0x021EBFEC thumb
@@ -29,7 +29,7 @@ typedef struct {
 extern void func_021ED544(char *p, int b);
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
 extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void func_021ED108(char *p, int on);
 extern void func_021EBFA8(char *p, int i, int v);
 typedef unsigned int   u32;
@@ -57,7 +57,7 @@ int func_021E1458(char *p)
         b->cnt++;
         break;
     case 2:
-        func_020061E4(0x667);
+        GFL_USE_PlaySeDefaultVolume(0x667);
         func_021ED544(p, 6);
         func_021ED108(WORK(p), 1);
         func_021EBFA8(WORK(p), 10, 2);

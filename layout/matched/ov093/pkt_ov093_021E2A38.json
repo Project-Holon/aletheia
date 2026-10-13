@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E2A38",
-    "func_021E2A74"
+    "HAND_WAZA_BrineOnPowerRatio",
+    "HAND_WAZA_AddReturn"
+   ],
+   "addresses": [
+    "0x021E2A38",
+    "0x021E2A74"
    ],
    "evidence": {
     "sole-ref": [

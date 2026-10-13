@@ -11,8 +11,8 @@
  *
  * symbols:
  *   TOWNMAP_TownGetField  0x021BA774  thumb  ov072
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
  */
 
@@ -26,10 +26,10 @@ typedef struct {
 struct Actor;
 extern int TOWNMAP_TownGetField(char *p, int i);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 typedef unsigned int   u32;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 
 void TOWNMAP_CursorSetHoverTown(int *p, int a, int *b)
@@ -37,15 +37,15 @@ void TOWNMAP_CursorSetHoverTown(int *p, int a, int *b)
     Pos pos;
 
     if (a == 0) {
-        func_0204B3DC((struct Obj *)p[1], 0);
+        CLACT_SetActorDrawEnable((struct Obj *)p[1], 0);
         p[5] = 0;
         return;
     }
     if (p[5] != a) {
         pos.x = b[0] + TOWNMAP_TownGetField((char *)a, 4);
         pos.y = b[1] + TOWNMAP_TownGetField((char *)a, 5);
-        func_0204B404((struct Obj *)p[1], (const struct Vec2 *)(&pos), 0);
-        func_0204B3DC((struct Obj *)p[1], 1);
+        CLACT_AddActorSurfacePos((struct Obj *)p[1], (const struct Vec2 *)(&pos), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)p[1], 1);
         CLACT_RestartActorAnim((struct Actor *)p[1]);
         p[5] = a;
     }

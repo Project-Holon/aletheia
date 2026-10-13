@@ -8,12 +8,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201BD28, WAZA_TOOL_GetDataParam
+ * function: WAZA_TOOL_GetParam, WAZA_TOOL_GetDataParam
  *
  * waza_tool.c: the cached single-field read of a move record, and the 32 case
  * getter it ends in.
  *
- * sub_0201BD28 finds the move's record in the cache the constructor in
+ * WAZA_TOOL_GetParam finds the move's record in the cache the constructor in
  * src/matched/unit_0201C328.c builds, loading it through ARC_TOOL_ReadMember if the
  * slot it picks is empty or is holding a different move, and falls back to
  * the single record buffer at 0x02146534 when the cache has not been built.
@@ -101,7 +101,7 @@ extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 
 u32 WAZA_TOOL_GetDataParam(const struct Waza *p, u32 id);
 
-u32 sub_0201BD28(u16 id, u32 field)
+u32 WAZA_TOOL_GetParam(u16 id, u32 field)
 {
     struct Waza *rec;
     s32 i;

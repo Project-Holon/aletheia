@@ -10,21 +10,26 @@
  * status:   EXACT*
  *
  * Reads personal-data field 0x15 for the species/form pair (EXACT*: pad).
+ *
+ * symbols:
+ *   POKE_PERSONAL_Create  0x0201ADE4  thumb  arm9
+ *   POKE_PERSONAL_Delete  0x0201AE14  thumb  arm9
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb  arm9
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0201ADE4(u32 a, int b, u32 heap);
+extern void *POKE_PERSONAL_Create(u32 a, int b, u32 heap);
 struct Personal;
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *h);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *h);
 
 void SODATEYA_SetBaseFriendship(u32 *p, u32 heap)
 {
-    void *h = func_0201ADE4((u16)p[0], (u16)p[1], heap);
-    u32 v = func_0201AE1C(h, 0x15);
+    void *h = POKE_PERSONAL_Create((u16)p[0], (u16)p[1], heap);
+    u32 v = POKE_PERSONAL_GetParam(h, 0x15);
 
-    func_0201AE14(h);
+    POKE_PERSONAL_Delete(h);
     p[5] = v;
 }

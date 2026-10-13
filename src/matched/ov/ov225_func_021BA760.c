@@ -12,7 +12,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201C6B4 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   func_021BAA50 0x021BAA50 thumb ov225
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
  *   func_021BAE2C 0x021BAE2C thumb ov225
@@ -34,7 +34,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct PrintSys;
-extern u32 func_0201C6B4(const struct PrintSys *);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *);
 extern void func_021BAA50(char *);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern int func_021BAE2C(char *);
@@ -49,7 +49,7 @@ int func_021BA760(char *p)
  u8 i;
  int result=0;
  unsigned selected;
- if(!func_0201C6B4(*(const struct PrintSys * *)&((struct Obj26179 *)(*(char * *)&((struct Obj00601 *)p)->f4))->f14)) return 0;
+ if(!PRINTSYS_QUE_IsFinished(*(const struct PrintSys * *)&((struct Obj26179 *)(*(char * *)&((struct Obj00601 *)p)->f4))->f14)) return 0;
  if(((struct Obj00601 *)p)->f90==0) result=1;
  else if(((struct Obj00601 *)p)->f90>0) {
   if(((struct Obj00601 *)p)->f90==1) func_021BAA50(p);

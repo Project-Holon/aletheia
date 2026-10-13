@@ -13,7 +13,9 @@
  * symbols:
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
+ *   POKEPARTY_Copy  0x0201AC2C  thumb
  */
 #include "../include/Obj00155.h"
 
-int BTL_SETUP_SetPlayerParty(int a0, int a1, int a2){ int t0, t1, t2, t3; t0 = GAME_DATA_GetMyPlayerWork((int)((a1 + 0) + 0)); t1 = func_0201A920((int)((a2 + 0) + 0)); *(int *)&((struct Obj00155 *)((char *)((a0 + 0))))->f24 = (int)t1; t2 = GAME_DATA_GetMyParty((int)((a1 + 0) + 0)); t3 = func_0201AC2C((int)t2, (int)*(int *)&((struct Obj00155 *)((char *)((a0 + 0))))->f24); return t3; }
+int BTL_SETUP_SetPlayerParty(int a0, int a1, int a2){ int t0, t1, t2, t3; t0 = GAME_DATA_GetMyPlayerWork((int)((a1 + 0) + 0)); t1 = POKEPARTY_Create((int)((a2 + 0) + 0)); *(int *)&((struct Obj00155 *)((char *)((a0 + 0))))->f24 = (int)t1; t2 = GAME_DATA_GetMyParty((int)((a1 + 0) + 0)); t3 = POKEPARTY_Copy((int)t2, (int)*(int *)&((struct Obj00155 *)((char *)((a0 + 0))))->f24); return t3; }

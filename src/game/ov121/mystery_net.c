@@ -16,7 +16,7 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  *   func_02082D44 0x02082D44 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02030734 0x02030734 arm
  *   d_021DFBC0 0x021DFBC0 data ov121 a1
  *   GFL_NET_GetRunState 0x0203CD98 arm
@@ -123,7 +123,7 @@ typedef struct { char pad[0x6e0];u32 flag; } Flag;
 typedef enum { NO_DIGIT = -1 } Digit;
 extern void func_02082D44(const void *,void *,int);
 extern u32 func_020307B0(void *p);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int GFL_NET_GetRunState(void);
 extern char *GFL_NET_GetInitParam(void);
@@ -223,7 +223,7 @@ void *func_021DE2A0(void *arg,int heap)
 {
     char *p;
     p=func_02030734(heap,0x17a8,0,d_021DFBC0,315);
-    func_02082BCC(p,0,0x17a8);
+    MI_CpuFill8(p,0,0x17a8);
     ((struct Obj13959 *)p)->f58=heap;
     ((struct Obj13959 *)p)->f794=arg;
     func_021DEE68(p,(int)p,func_021DE618);
@@ -439,7 +439,7 @@ void func_021DE6F8(int a, int b, char *c)
 
 
 
-void func_021DE70C(void *a,int *state,char *p) {Config cfg;u32 h; switch(*state) {case 0: func_02082BCC(&cfg,0,124);cfg.kind=9;cfg.bytes=720;cfg.data=p+1956;cfg.lang=GAME_LANGUAGE_Code;cfg.align=2097152;cfg.last=1;cfg.flag=0;cfg.heap=((struct Obj08101 *)p)->f58;h=(u32)DELIVERY_BEACON_Create((u8 *)(&cfg));((struct Obj08101 *)p)->f798=h;DELIVERY_BEACON_Start((u32 *)h);BG_SYS_SetSubPlaneVisible(16,0);((struct Obj08101 *)p)->f17A4=0;*state=1;break;case 1:if(GFL_NET_GetRunState()) {GFL_NET_RestartWithDefaultTimeout(1,((struct Obj08101 *)p)->f58);BG_SYS_SetSubPlaneVisible(16,1);*state=2;}break;case 2:func_021DEEA4(a,func_021DE7FC);break;} }
+void func_021DE70C(void *a,int *state,char *p) {Config cfg;u32 h; switch(*state) {case 0: MI_CpuFill8(&cfg,0,124);cfg.kind=9;cfg.bytes=720;cfg.data=p+1956;cfg.lang=GAME_LANGUAGE_Code;cfg.align=2097152;cfg.last=1;cfg.flag=0;cfg.heap=((struct Obj08101 *)p)->f58;h=(u32)DELIVERY_BEACON_Create((u8 *)(&cfg));((struct Obj08101 *)p)->f798=h;DELIVERY_BEACON_Start((u32 *)h);BG_SYS_SetSubPlaneVisible(16,0);((struct Obj08101 *)p)->f17A4=0;*state=1;break;case 1:if(GFL_NET_GetRunState()) {GFL_NET_RestartWithDefaultTimeout(1,((struct Obj08101 *)p)->f58);BG_SYS_SetSubPlaneVisible(16,1);*state=2;}break;case 2:func_021DEEA4(a,func_021DE7FC);break;} }
 
 
 
@@ -470,7 +470,7 @@ void func_021DE830(void *a, int *state, char *p)
     Descriptor d;
     switch (*state) {
     case 0:
-        func_02082BCC(&d, 0, 0x7c);
+        MI_CpuFill8(&d, 0, 0x7c);
         d.kind = 9;
         d.size = 0x2d0;
         d.data = p + 0x7a4;
@@ -541,7 +541,7 @@ void func_021DE958(void *task,int *state,char *p)
     switch(*state) {
     case 0:
         DWC_RAP_SetErrorHookCallback((int)func_021DEF54,(int)q);
-        func_02082BCC(q,0,0x734);
+        MI_CpuFill8(q,0,0x734);
         Q(0x70c)=0;Q(0x710)=0;Q(0x724)=0;Q(0x728)=(u32)(p+0x7a4);
         W(0x17a4)=0;
         if(!func_021C5928(func_021DEED8,d_021DFBD0,d_021DFBD8)) {
@@ -673,14 +673,14 @@ void func_021DEE38(u32 p,int a,int *state,int b,int c) {d_021DFC00[0]=0;d_021DFC
 
 void func_021DEE68(void *p, int a, void *b)
 {
-    func_02082BCC(p, 0, 0x10);
+    MI_CpuFill8(p, 0, 0x10);
     ((struct Obj22920 *)p)->fC = (u32)a;
     func_021DEEA4(p, b);
 }
 
 
 
-void func_021DEE84(void *p) {func_02082BCC(p,0,16);}
+void func_021DEE84(void *p) {MI_CpuFill8(p,0,16);}
 
 
 

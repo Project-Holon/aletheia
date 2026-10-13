@@ -47,11 +47,11 @@
  *   func_0203FB44 0x0203FB44 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021BCE10 0x021BCE10 thumb
  *   func_021BCEC0 0x021BCEC0 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_0200CA54 0x0200CA54 thumb
  *   func_021BD8C0 0x021BD8C0 thumb
@@ -61,8 +61,8 @@
  *   func_021BE778 0x021BE778 thumb ov208
  *   func_021BD954 0x021BD954 thumb ov208
  *   func_02030EAC 0x02030EAC arm
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
@@ -83,7 +83,7 @@
  *   d_021C8590 0x021C8590 data a4
  *   d_021C86F0 0x021C86F0 data a4
  *   d_021C881C 0x021C881C data a4
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
@@ -243,11 +243,11 @@ extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern void GFL_HEAP_CreateChildHeap(u32 src, u32 heap, u32 size);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern char *func_021BCE10(u32 display, u32 heap, int threeD);
 extern void func_021BCEC0(char *p);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern int func_020056A0(void (*fn)(void), void *arg, int n);
 extern u32 func_0200CA54(struct Blk37 *p);
 extern char *func_021BD8C0(u16 heap, unsigned arg);
@@ -257,8 +257,8 @@ extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void func_021BE778(struct Ov208Mgr *m);
 extern void func_021BD954(struct Ov208Mgr *m);
 extern void func_02030EAC(struct Node *n);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
@@ -274,7 +274,7 @@ extern void func_021BEA00(void *mem, u32 heap);
 extern void func_021BF784(u16 *p, u16 v);
 extern void func_021C255C(u16 *dst, u16 value);
 extern void func_021C3B68(u16 *p, u32 value);
-extern void func_020434DC(unsigned,unsigned);
+extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned);
 extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(u16,int,int,int,int);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
@@ -942,14 +942,14 @@ int func_021BCA68(void *owner, int unused, struct Ov208Args *args)
     struct Ov208Main_021BCA68 *p;
     GFL_HEAP_CreateChildHeap(1, 0x95, 0x90000);
     p = PROCSYS_AllocProcWork(owner, 0x2c, 0x95);
-    func_02082BCC(p, 0, 0x2c);
+    MI_CpuFill8(p, 0, 0x2c);
     p->heap = 0x95;
     args->f10 = 0;
     p->disp = func_021BCE10(0, p->heap, 1);
     func_021BCEC0(p->disp);
     p->disp = func_021BCE10(0, p->heap, 0);
     p->font = GF_FONT_Create(0x17, 0, 0, 0, p->heap);
-    p->gfx = (void *)func_0201C440((void *)p->heap);
+    p->gfx = (void *)PRINTSYS_QUE_Create((void *)p->heap);
     p->task = func_020056A0(func_021BCC80, p, 1);
 
     p->f14 = func_021BD8C0(p->heap, func_0200CA54(func_0200CA1C(args->src)));
@@ -978,8 +978,8 @@ int func_021BCB4C(void *a,int b,int c,char *p)
     func_021BE778(((struct Obj02253 *)p)->f18);
     func_021BD954(((struct Obj02253 *)p)->f14);
     func_02030EAC(((struct Obj02253 *)p)->f10);
-    func_0201C6EC((struct PrintSys *)(*(unsigned *)&((struct Obj02253 *)p)->fC));
-    func_0201C4C0(((struct Obj02253 *)p)->fC);
+    PRINTSYS_QUE_Clear((struct PrintSys *)(*(unsigned *)&((struct Obj02253 *)p)->fC));
+    PRINTSYS_QUE_Delete(((struct Obj02253 *)p)->fC);
     GF_FONT_Delete(((struct Obj02253 *)p)->f8);
     func_021BCEC0(*(char * *)&((struct Obj02253 *)p)->f4);
     func_020315D4(a);
@@ -1109,7 +1109,7 @@ static inline void EdgeMarking(int enable) {if(enable)REG60=(u16)((REG60 & ~0x30
 void func_021BCD68(void)
 {
     unsigned i;
-    func_020434DC(1,1);
+    BG_SYS_SetMainPlaneVisible(1,1);
     *(volatile u16 *)0x04000008=(*(volatile u16 *)0x04000008 & ~3)|1;
     SetShading(ShadeHighlight);
     AntiAlias(0);

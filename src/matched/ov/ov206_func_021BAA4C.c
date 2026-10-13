@@ -20,7 +20,7 @@
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201ED04 0x0201ED04 thumb
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   gSpeciesNameBank 0x020A7370 data
@@ -44,7 +44,7 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 void func_021BAA4C(char *p)
@@ -89,7 +89,7 @@ void func_021BAA4C(char *p)
         func_021BA960(((struct Obj00031 *)p)->f0, *(int *)&((struct Obj00031 *)p)->f70, (void *)(((struct Obj00031 *)p)->f2C), ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f274, 8, 5, 0x3e7 + 0x59, 0, 0);
     }
     name = func_02045EC0(gSpeciesNameBank, ((struct Obj00031 *)p)->fC);
-    PRINTSYS_PrintQueColor((void *)(((struct Obj00031 *)p)->f2C), (u32)func_02045770(((struct Obj00031 *)p)->f70), 0x30, 5, (u32)name, ((struct Obj00031 *)p)->f28, 0x440);
+    PRINTSYS_PrintQueColor((void *)(((struct Obj00031 *)p)->f2C), (u32)BMP_WIN_GetBmp(((struct Obj00031 *)p)->f70), 0x30, 5, (u32)name, ((struct Obj00031 *)p)->f28, 0x440);
     STRBUF_Delete(name);
     m = 0;
     if (((struct Obj00031 *)p)->f8 != 0) m = ((struct Obj00031 *)p)->fC;

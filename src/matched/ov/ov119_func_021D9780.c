@@ -11,9 +11,9 @@
  *  by the compiler, so the 0xf0c pool constant is not hoisted across blocks);
  *  020355C4 is a void getter called on its own; the 021D8FA4 result is a local.
  * symbols:
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_020355C4 0x020355C4 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021D8FA4 0x021D8FA4 thumb ov119
  *   func_021E5B6C 0x021E5B6C thumb ov119
  *   func_021E219C 0x021E219C thumb ov119
@@ -28,11 +28,11 @@ extern const Pt d_021E757C;
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 typedef unsigned char  u8;
 extern u8 func_020355C4(void);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void *func_021D8FA4(void *p, int a);
 extern void func_021E5B6C(int p, int b, int c);
 extern void func_021E219C(char *p, void *mon, int side, int flag);
@@ -41,17 +41,17 @@ void func_021D9780(char *p, int a1, int a2)
     Pt t0, t1;
     if (a1 == 0) {
         t0 = d_021E7580;
-        func_0204B404((struct Obj *)(((struct Obj05326 *)p)->fF0C), (const struct Vec2 *)(&t0), 1);
+        CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj05326 *)p)->fF0C), (const struct Vec2 *)(&t0), 1);
     } else {
         t1 = d_021E757C;
-        func_0204B404((struct Obj *)(((struct Obj05326 *)p)->fF0C), (const struct Vec2 *)(&t1), 1);
+        CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj05326 *)p)->fF0C), (const struct Vec2 *)(&t1), 1);
     }
     if (func_020355C4()) {
         func_021E5B6C((int)p, a1, 0);
-        func_0204B3DC((struct Obj *)((struct Obj05326 *)p)->fF0C, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj05326 *)p)->fF0C, 0);
     } else {
         func_021E5B6C((int)p, a1, 1);
-        func_0204B3DC((struct Obj *)((struct Obj05326 *)p)->fF0C, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj05326 *)p)->fF0C, 1);
     }
     if (a2 != 0) {
         void *v;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DC294
+ * function: HAND_TOKUSEI_GetFlareBoostHandlers
  * address: 0x021DC294
  * packet: pkt_ov093_021DC294
  * region: ov093
@@ -15,10 +15,10 @@
  *   gFlareBoostHandlers 0x021F0620 data ov093 a4
  */
 
-int *func_021DC294(int *p);
+int *HAND_TOKUSEI_GetFlareBoostHandlers(int *p);
 extern int gFlareBoostHandlers[];
 
-int *func_021DC294(int *p)
+int *HAND_TOKUSEI_GetFlareBoostHandlers(int *p)
 {
     *p = 1;
     return gFlareBoostHandlers;

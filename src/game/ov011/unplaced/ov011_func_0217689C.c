@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02013D9C  0x02013D9C  thumb
+ *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -24,7 +24,7 @@ typedef signed int s32;
 
 #include "../intrude_comm_types.h"
 
-extern u32 func_02013D9C(u32 id);
+extern u32 ZONEDATA_IsZoneGroup118To120(u32 id);
 
 /*
  * Consumes the areaNoticeSeen flag (set by the partner's zone report);
@@ -36,7 +36,7 @@ int INTRUDE_COMM_ConsumeAreaNoticeSeen(IntrudeCommSys *linkState, int zoneId)
     int wasPending = linkState->areaNoticeSeen;
     linkState->areaNoticeSeen = 0;
     if (wasPending == 1) {
-        if (func_02013D9C(zoneId) == 1)
+        if (ZONEDATA_IsZoneGroup118To120(zoneId) == 1)
             return 1;
     }
     return 0;

@@ -10,7 +10,7 @@
  * symbols:
  *   func_021C1154 0x021C1154 thumb ov099
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   func_021C14EC 0x021C14EC thumb ov099
  *   func_021BA8EC 0x021BA8EC thumb ov099
  *   DWC_RAP_GetTargetFriendIndex 0x02156A3C thumb ov009
@@ -26,7 +26,7 @@ extern int func_021C1154(char *p);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, unsigned int, unsigned int);
 extern int func_021C14EC(char *);
 typedef unsigned int   u32;
 struct BigObj;
@@ -46,7 +46,7 @@ int func_021C1510(char *p, int ret)
     void *s;
     unsigned count;
     if (func_021C1154(p) == 0) {
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 18, 10) != 0) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 18, 10) != 0) {
             if (func_021C14EC(p) == 1) {
                 func_0200F4E4(func_020099C8((struct Sub020097BCObj *)GAME_DATA_GetWifiList(((struct Obj10211 *)p)->fC4), 0));
                 func_021BA8EC(p);

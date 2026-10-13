@@ -20,12 +20,12 @@
  *   func_021D98D8 0x021D98D8 thumb
  *   func_021D98B8 0x021D98B8 thumb
  *   func_021D9A50 0x021D9A50 thumb
- *   func_0201AA50 0x0201AA50 thumb
+ *   POKEPARTY_GetBattleReadyCount 0x0201AA50 thumb
  *   func_0200AE14 0x0200AE14 thumb
  *   POKE_REGULATION_CheckParty 0x0201A090 thumb
  *   func_021DCB58 0x021DCB58 thumb
  *   func_021DCC28 0x021DCC28 thumb
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   func_021DBC04 0x021DBC04 thumb
  *   func_021DBDAC 0x021DBDAC thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
@@ -39,7 +39,7 @@
  *   func_020307B0 0x020307B0 arm
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021DD020 0x021DD020 thumb
  *   func_021DC8B4 0x021DC8B4 thumb
  *   func_021DC908 0x021DC908 thumb
@@ -71,7 +71,7 @@ extern void func_021D98B8(char *);
 extern void func_021D9A50(char *,char *);
 typedef unsigned char  u8;
 struct Obj;
-extern u32 func_0201AA50(void *p);
+extern u32 POKEPARTY_GetBattleReadyCount(void *p);
 extern int func_0200AE14(unsigned);
 typedef signed int     s32;
 struct Big;
@@ -82,7 +82,7 @@ extern int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask);
 extern void func_021DCB58(char *,void *,int);
 struct Record;
 extern int func_021DCC28(char *p, u8 *out);
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 extern void func_021DBC04(u8 *p, u32 mode, struct Record *src);
 extern int func_021DBDAC(char *);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
@@ -96,7 +96,7 @@ extern void func_0200B2A4(int,int);
 extern u32 func_020307B0(void *p);
 extern int GAME_DATA_SaveStart(int);
 extern int GAME_DATA_SaveMain(unsigned char *);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern unsigned func_021DD020(char *);
 extern void func_021DC8B4(char *,void *,unsigned);
 extern int func_021DC908(char *);
@@ -133,7 +133,7 @@ void func_021D76D4(u32 sys,int *state,char *p)
     case 11: if(func_021D98D8(p)) {func_021D98B8(p); *state=29;} break;
     case 12:
         rec=(char *)ctx[5]; func_021D9A50(rec,p);
-        if(func_0201AA50(rec+0xd4)==0) *state=14;
+        if(POKEPARTY_GetBattleReadyCount(rec+0xd4)==0) *state=14;
         else {out=0; if(POKE_REGULATION_CheckParty((void *)func_0200AE14(W(0x108)),rec+0xd4,&out)==0) *state=15; else *state=13;}
         break;
     case 13: func_021E8738((int *)W(0x2c),W(0x14),0x49,1); func_021E8AB4(sys,29); *state=30; break;
@@ -142,11 +142,11 @@ void func_021D76D4(u32 sys,int *state,char *p)
     case 16: func_021E8738((int *)W(0x2c),W(0x14),0x46,2); func_021E8AB4(sys,17); *state=30; break;
     case 17:
         func_021DCB58((char *)W(0x34),(void *)(ctx[5]+0xd4),1);
-        func_02082BCC(p+0x44,0,0x9c); *state=18; break;
+        MI_CpuFill8(p+0x44,0,0x9c); *state=18; break;
     case 18:
         r=func_021DCC28((char *)W(0x34),(u8 *)(p+0x44));
         if(r==1) {
-            n=func_0201AA18((void *)(ctx[5]+0xd4)); empty=0;
+            n=POKEPARTY_GetCount((void *)(ctx[5]+0xd4)); empty=0;
             for(i=0;i<n;i++) if(((SlotView *)p)->slots[i]==0) empty++;
             if(((struct Obj00013 *)p)->f44==0 && empty==n) *state=20; else *state=19;
         } else if(r==3) func_021E8AA0((int *)sys,(int)func_021D9064);
@@ -168,7 +168,7 @@ void func_021D76D4(u32 sys,int *state,char *p)
     case 23: GAME_DATA_SaveStart(*(u32 *)ctx[2]); *state=24; break;
     case 24: r=GAME_DATA_SaveMain((unsigned char *)*(u32 *)ctx[2]); if(r==2) *state=25; else if(r==3) *state=29; break;
     case 25:
-        func_02082BCC(&request,0,8); request.b=2; request.id=func_021DD020((char *)W(0x34));
+        MI_CpuFill8(&request,0,8); request.b=2; request.id=func_021DD020((char *)W(0x34));
         ((unsigned char *)((u32 *)W(0x104))[12])[5]=2;
         func_021DC8B4((char *)W(0x34),&request,87); *state=26; break;
     case 26:

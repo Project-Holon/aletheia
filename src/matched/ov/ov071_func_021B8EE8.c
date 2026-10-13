@@ -11,7 +11,7 @@
  *
  * symbols:
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021B6C54  0x021B6C54  thumb  ov071
  *   func_02045B38  0x02045B38  arm
  *   MONOLITH_TOOL_LIST_InitBackgrounds  0x021B9560  thumb  ov071
@@ -32,8 +32,8 @@
  *   MONOLITH_TOOL_UpdateRows  0x021BA140  thumb  ov071
  *   func_020355C4  0x020355C4  arm
  *   MONOLITH_TOOL_SetCursor  0x021B9F2C  thumb  ov071
- *   func_02045770  0x02045770  arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_02040588  0x02040588  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
@@ -47,7 +47,7 @@ typedef enum { B_FALSE, B_TRUE } Bool;
 
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void func_021B6C54(char *p);
 struct MsgBank;
 struct PrintSys;
@@ -73,8 +73,8 @@ extern void MONOLITH_TOOL_UpdateRows(u8 *p);
 extern u8 func_020355C4(void);
 extern int MONOLITH_TOOL_SetCursor(u8 *p, int i, int v);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *a);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
@@ -88,7 +88,7 @@ int MONOLITH_TOOL_LIST_Init(struct Obj0203159C *a, int *b, u8 *c, u8 *o)
     switch (*b) {
     case 0:
         o = PROCSYS_AllocProcWork(a, 0x314, 0x61);
-        func_02082BCC(o, 0, 0x314);
+        MI_CpuFill8(o, 0, 0x314);
         ((struct Obj01884 *)o)->f2D8 = 0x800;
         ((struct Obj01884 *)o)->f300 = 0xffff;
         ((struct Obj01884 *)o)->f2F8 = 0xffff;
@@ -127,7 +127,7 @@ int MONOLITH_TOOL_LIST_Init(struct Obj0203159C *a, int *b, u8 *c, u8 *o)
         busy = 0;
         t = (*(u32 **)(c + 4))[2];
         if (o[0x28c] != 0) {
-            if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj01884 *)o)->f288))) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)t, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01884 *)o)->f288))) == 0) {
                 BMP_WIN_TransferChars((struct Descriptor *)((struct Obj01884 *)o)->f288);
                 o[0x28c] = 0;
             }

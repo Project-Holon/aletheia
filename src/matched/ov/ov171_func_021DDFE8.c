@@ -12,7 +12,7 @@
  *   func_021DE144 0x021DE144 thumb ov171
  *   func_021DE2D4 0x021DE2D4 thumb ov171
  *   func_021DE80C 0x021DE80C thumb ov171
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  */
 typedef unsigned char u8;
@@ -23,7 +23,7 @@ extern void func_021DE114(u8 *);
 extern void func_021DE144(char *);
 extern void func_021DE2D4(char *);
 extern void func_021DE80C(char *);
-extern void func_020434DC(u32,u32);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 void func_021DDFE8(u8 *p)
 {
@@ -31,6 +31,6 @@ void func_021DDFE8(u8 *p)
     func_021DE144((char *)p);
     func_021DE2D4((char *)p);
     func_021DE80C((char *)p);
-    func_020434DC(16,1);
+    BG_SYS_SetMainPlaneVisible(16,1);
     BG_SYS_SetSubPlaneVisible(16,1);
 }

@@ -11,14 +11,14 @@
  * status: EXACT
  * evidence: C30 truncates r1 to u16 at the tail call; its extern reflects that caller width.
  * symbols:
- *   func_02178E4C 0x02178E4C thumb ov014
+ *   WIH_GetSysState 0x02178E4C thumb ov014
  *   DWCi_MOV_WH_SendData 0x02179368 thumb ov014
  *   func_02178E38 0x02178E38 thumb ov014
  *   WIH_GetOwnAid 0x021795A4 thumb ov014
  */
 
-extern int func_02178E4C(void);
-int NET_WHPIPE_IsStateScanning(void) { if (func_02178E4C() == 2) return 1; return 0; }
+extern int WIH_GetSysState(void);
+int NET_WHPIPE_IsStateScanning(void) { if (WIH_GetSysState() == 2) return 1; return 0; }
 extern int DWCi_MOV_WH_SendData(int a, unsigned short b, int c);
 typedef unsigned short u16;
 extern u16 func_02178E38(void);

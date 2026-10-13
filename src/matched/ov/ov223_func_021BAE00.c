@@ -15,7 +15,7 @@
  *   TCBL_Create 0x0203101C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  */
@@ -31,7 +31,7 @@ extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 void func_021BAE00(char *p)
@@ -44,7 +44,7 @@ void func_021BAE00(char *p)
     GF_FONT_SetTextColor(15,2,0);
     for(;i<3;i++) {
         *(u32 *)(p+i*4+568)=BMP_WIN_Create(table[i].a,table[i].b,table[i].c,table[i].d,table[i].e,table[i].f,table[i].g);
-        BMP_Clear(func_02045770(*(struct Descriptor **)(p+i*4+568)),0);
+        BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+i*4+568)),0);
         BMP_WIN_TransferChars(*(struct Descriptor **)(p+i*4+568));
         *(u32 *)(p+i*4+580)=1;
     }

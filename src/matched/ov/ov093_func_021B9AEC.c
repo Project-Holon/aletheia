@@ -1,5 +1,5 @@
 /*
- * function: func_021B9AEC
+ * function: BTL_SIDE_GetSlotOfClient
  * address:  0x021B9AEC
  * packet:   pkt_021B9AEC
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT* (extent 12, compiled 10, trailing padding)
  */
 
-char *func_021B9AEC(char *p, int i)
+char *BTL_SIDE_GetSlotOfClient(char *p, int i)
 {
     return p + 4 + i * 0x1c;
 }

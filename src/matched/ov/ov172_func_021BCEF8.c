@@ -14,7 +14,7 @@
  *   func_021BE03C  0x021BE03C  thumb  ov172
  *   func_021BE04C  0x021BE04C  thumb  ov172
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_0201F7A8  0x0201F7A8  thumb
  *   APP_TASKMENU_WIN_Delete  0x02028148  thumb
@@ -45,7 +45,7 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
@@ -57,7 +57,7 @@ extern void func_021BD0C4(void *a0, char *a1, int a2);
 static inline u8 func_021BCEF8_show(u32 win)
 {
     BMP_WIN_ClearScreen((struct Descriptor *)win);
-    return func_02045730((struct Descriptor *)win);
+    return BMP_WIN_GetBgLayer((struct Descriptor *)win);
 }
 
 void func_021BCEF8(void *ctx, u8 *st)

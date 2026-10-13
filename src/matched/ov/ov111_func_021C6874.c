@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_021C63B8  0x021C63B8  thumb  ov111
  *
@@ -33,11 +33,11 @@ typedef struct {
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(unsigned int bit);
 extern void func_021C63B8(Work *p, void *a, int sel, int y, int idx);
 
@@ -47,13 +47,13 @@ void func_021C6874(Work *p, int scroll, int flush, int idx)
     int i;
     int top = -(scroll / 16);
 
-    BMP_Clear(func_02045770(bg), 0);
+    BMP_Clear(BMP_WIN_GetBmp(bg), 0);
     for (i = 0; i < 5; i++) {
         func_021C63B8(p, bg, p->list[i + top], scroll % 16 + i * 16, idx);
     }
     if (flush) {
         BMP_WIN_TransferChars(bg);
         BMP_WIN_MakeScreen(bg);
-        func_02041B6C(func_02045730(bg));
+        func_02041B6C(BMP_WIN_GetBgLayer(bg));
     }
 }

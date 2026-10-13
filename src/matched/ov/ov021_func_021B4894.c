@@ -17,7 +17,7 @@
  *   PRINTSYS_PrintStreamCallBack 0x0201CD10 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
 #include "../include/Obj01121.h"
@@ -42,7 +42,7 @@ extern struct Rec *PRINTSYS_PrintStreamCallBack(u32 a0, s16 a1, s16 a2, u32 a3, 
 struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 a);
 
 void SCRCMD_PROC_FLD_ShowMessage(char *w, u32 b)
@@ -59,5 +59,5 @@ void SCRCMD_PROC_FLD_ShowMessage(char *w, u32 b)
     win = ((struct Obj01121 *)w)->f17C;
     BMP_WIN_TransferChars((struct Descriptor *)win);
     BMP_WIN_MakeScreen((struct Cfg *)win);
-    func_020409B4(func_02045730((struct Descriptor *)win));
+    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)win));
 }

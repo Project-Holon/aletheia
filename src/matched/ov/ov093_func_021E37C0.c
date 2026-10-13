@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021E37C0, func_021E38F8
+ * function: HAND_WAZA_TrickOnWazaExecute, HAND_WAZA_AddMagnitude
  * address: 0x021E37C0
  * packet: pkt_ov093_021E37C0
  * region: ov093
@@ -10,36 +10,36 @@
  * status: EXACT
  * follower: 021E38F8 store-and-return stub included.
  * symbols:
- *   data_021F2E58 0x021F2E58 data a4
+ *   gMagnitudeHandlers 0x021F2E58 data a4
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
- *   func_021C7CF4 0x021C7CF4 thumb ov093
+ *   BTL_SERVER_FLOW_GetPokeParam 0x021C7CF4 thumb ov093
  *   BTL_POKEPARAM_GetItem 0x021D5B40 thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  *   BTLV_CORE_CheckPartySlotCondition 0x021E86C8 thumb ov093
  *   func_021E8638 0x021E8638 thumb ov093
- *   func_021C88A4 0x021C88A4 thumb ov093
- *   func_021C8838 0x021C8838 thumb ov093
- *   func_021C8860 0x021C8860 thumb ov093
- *   func_021C88C8 0x021C88C8 thumb ov093
+ *   BTL_SERVER_FLOW_AllocCmdRecord 0x021C88A4 thumb ov093
+ *   BTL_SERVER_FLOW_InitMsgRecord 0x021C8838 thumb ov093
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg 0x021C8860 thumb ov093
+ *   BTL_SERVER_FLOW_CommitCmdRecord 0x021C88C8 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int BTL_EVENT_GetVar(int);
 struct QF;
-extern void *func_021C7CF4(int *p, int i);
+extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 struct QI;
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
 extern int BTLV_CORE_CheckPartySlotCondition(void *, int);
 extern int func_021E8638(int, int);
 extern u32 func_0202136C(u16 v);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C8838(void *, int, int);
+extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
+extern void BTL_SERVER_FLOW_InitMsgRecord(void *, int, int);
 struct S;
-extern void func_021C8860(struct S *p, u32 val);
-extern void func_021C88C8(void *, void *);
-void func_021E37C0(void *a, void *b, int c)
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 val);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *, void *);
+void HAND_WAZA_TrickOnWazaExecute(void *a, void *b, int c)
 {
     u8 k;
     void *m;
@@ -52,8 +52,8 @@ void func_021E37C0(void *a, void *b, int c)
     if (c != BTL_EVENT_GetVar(3)) return;
     k = BTL_EVENT_GetVar(6);
     if (BTLV_CORE_CheckPartySlotCondition(b, c) != 0) return;
-    m = func_021C7CF4(b, c);
-    n = func_021C7CF4(b, k);
+    m = BTL_SERVER_FLOW_GetPokeParam(b, c);
+    n = BTL_SERVER_FLOW_GetPokeParam(b, k);
     x = (int)BTL_POKEPARAM_GetItem(m);
     y = (int)BTL_POKEPARAM_GetItem(n);
     if (x == 0 && y == 0) return;
@@ -65,25 +65,25 @@ void func_021E37C0(void *a, void *b, int c)
     if (func_021E8638(u, x) != 0) return;
     if (func_021E8638(t, x) != 0) return;
     if (func_021E8638(u, y) != 0) return;
-    p = func_021C88A4(b, 36, c);
+    p = BTL_SERVER_FLOW_AllocCmdRecord(b, 36, c);
     p[4] = k;
-    func_021C8838(p + 8, 2, 682);
-    func_021C8860((struct S *)(p + 8), c);
+    BTL_SERVER_FLOW_InitMsgRecord(p + 8, 2, 682);
+    BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(p + 8), c);
     if (y != 0) {
-        func_021C8838(p + 80, 2, 685);
-        func_021C8860((struct S *)(p + 80), c);
-        func_021C8860((struct S *)(p + 80), y);
+        BTL_SERVER_FLOW_InitMsgRecord(p + 80, 2, 685);
+        BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(p + 80), c);
+        BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(p + 80), y);
     }
     if (x != 0) {
-        func_021C8838(p + 44, 2, 685);
-        func_021C8860((struct S *)(p + 44), k);
-        func_021C8860((struct S *)(p + 44), x);
+        BTL_SERVER_FLOW_InitMsgRecord(p + 44, 2, 685);
+        BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(p + 44), k);
+        BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(p + 44), x);
     }
-    func_021C88C8(b, p);
+    BTL_SERVER_FLOW_CommitCmdRecord(b, p);
 }
-extern u32 data_021F2E58[];
-u32 *func_021E38F8(u32 *p)
+extern u32 gMagnitudeHandlers[];
+u32 *HAND_WAZA_AddMagnitude(u32 *p)
 {
     *p = 4;
-    return data_021F2E58;
+    return gMagnitudeHandlers;
 }

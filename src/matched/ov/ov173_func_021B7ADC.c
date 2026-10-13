@@ -6,7 +6,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  */
 #include "../include/Obj05451.h"
@@ -15,7 +15,7 @@ typedef unsigned int u32;
 
 struct Obj;
 struct Vec2;
-void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 
 void func_021B7ADC(unsigned char *p, u32 idx, int unused)
@@ -25,17 +25,17 @@ void func_021B7ADC(unsigned char *p, u32 idx, int unused)
     if (idx < 4) {
         local[0] = 0x82;
         local[1] = idx * 0x18 + 0x54;
-        func_0204B404((struct Obj *)(((struct Obj05451 *)p)->f10C), (const struct Vec2 *)local, 1);
+        CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj05451 *)p)->f10C), (const struct Vec2 *)local, 1);
         CLACT_SetActorAnimFrame((struct Obj *)(((struct Obj05451 *)p)->f10C), 0);
     } else if (idx < 6) {
         local[0] = (idx - 4) * 0x28;
         local[1] = 0xa8;
-        func_0204B404((struct Obj *)(((struct Obj05451 *)p)->f10C), (const struct Vec2 *)local, 1);
+        CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj05451 *)p)->f10C), (const struct Vec2 *)local, 1);
         CLACT_SetActorAnimFrame((struct Obj *)(((struct Obj05451 *)p)->f10C), 1);
     } else {
         local[0] = 0xc0;
         local[1] = 0xa0;
-        func_0204B404((struct Obj *)(((struct Obj05451 *)p)->f10C), (const struct Vec2 *)local, 1);
+        CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj05451 *)p)->f10C), (const struct Vec2 *)local, 1);
         CLACT_SetActorAnimFrame((struct Obj *)(((struct Obj05451 *)p)->f10C), 2);
     }
 }

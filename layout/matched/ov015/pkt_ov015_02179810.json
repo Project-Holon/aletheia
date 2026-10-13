@@ -7,11 +7,11 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "DWCi_IsShutdownMatch",
+   "name": "IRCNET_IsNotRunning",
    "address": "0x02179810",
-   "kind": "sdk",
+   "kind": "game",
    "region": "ov015",
-   "source": "src/matched/ov_sdk/ov015_func_02179810.c",
+   "source": "src/matched/ov/ov015_func_02179810.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

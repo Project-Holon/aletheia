@@ -11,7 +11,7 @@
  *
  * Builds the list of level-up moves a mon could still learn: reads
  * species/form/level and its 4 current moves, loads the learnset (26
- * {move, level} pairs, 0xFFFF/0xFFFF terminated) with func_0201ADD0, and
+ * {move, level} pairs, 0xFFFF/0xFFFF terminated) with POKE_PERSONAL_LoadDataDirect, and
  * collects moves at or below its level that it neither knows nor already
  * collected. Returns the 0x34-byte list (caller frees); frees the learnset.
  *
@@ -32,7 +32,7 @@
  * symbols:
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_02030734  0x02030734  arm
- *   func_0201ADD0  0x0201ADD0  thumb
+ *   POKE_PERSONAL_LoadDataDirect  0x0201ADD0  thumb
  *   func_020307B0  0x020307B0  arm
  *   d_02172B74     0x02172B74  data  ov010 a1
  */
@@ -48,7 +48,7 @@ typedef struct Ent {
 
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_0201ADD0(unsigned int a, int b, void *buf);
+extern void POKE_PERSONAL_LoadDataDirect(unsigned int a, int b, void *buf);
 extern u32 func_020307B0(void *p);
 extern char d_02172B74[];
 
@@ -88,7 +88,7 @@ u16 *WAZA_OSHIE_CreateMoveList(void *mon, u32 heap)
         cur[i] = POKE_TOOL_GetPartyValue(mon, 0x36 + i, 0);
     tbl = (Ent *)func_02030734(heap, 0x68, 0, d_02172B74, 0x55);
     out = (u16 *)func_02030734(heap, 0x34, 0, d_02172B74, 0x56);
-    func_0201ADD0(species, form, tbl);
+    POKE_PERSONAL_LoadDataDirect(species, form, tbl);
     for (n = 0, j = 0; j < 26; j++) {
         if (Ent_IsEnd(tbl[j])) {
             out[n] = 0xFFFF;

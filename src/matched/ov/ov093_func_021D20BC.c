@@ -1,5 +1,5 @@
 /*
- * function: func_021D20BC
+ * function: BTL_CLIENT_StepSetMonVisibility
  * address:  0x021D20BC
  * packet:   pkt_ov093_021D20BC
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8DC0  0x021B8DC0  thumb  ov093
+ *   BTL_MAIN_GetViewPosOfPoke  0x021B8DC0  thumb  ov093
  *   func_021EA354  0x021EA354  thumb  ov093
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
  */
@@ -26,17 +26,17 @@ typedef struct {
     void *win;            /* 0x54 */
 } Seq;
 
-extern unsigned char func_021B8DC0(unsigned char *p, void *a, unsigned int b);
+extern unsigned char BTL_MAIN_GetViewPosOfPoke(unsigned char *p, void *a, unsigned int b);
 extern void func_021EA354(void *ctx, int a, int b);
 extern int func_021F7EB4(void);
 
-int func_021D20BC(Seq *s, int *state, u32 *a)
+int BTL_CLIENT_StepSetMonVisibility(Seq *s, int *state, u32 *a)
 {
     u32 t;
 
     switch (*state) {
     case 0:
-        t = (u32)func_021B8DC0((unsigned char *)s->unk00, (void *)s->unk04, (u8)a[0]);
+        t = (u32)BTL_MAIN_GetViewPosOfPoke((unsigned char *)s->unk00, (void *)s->unk04, (u8)a[0]);
         func_021EA354(s->win, t, a[1] != 0);
         *state = *state + 1;
         break;

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E5974",
-    "func_021E5A28"
+    "HAND_WAZA_UTurnSwitchOut",
+    "HAND_WAZA_GetRapidSpinHandlers"
+   ],
+   "addresses": [
+    "0x021E5974",
+    "0x021E5A28"
    ],
    "evidence": {
     "sole-ref": [

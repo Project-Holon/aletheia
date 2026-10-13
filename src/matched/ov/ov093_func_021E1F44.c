@@ -1,5 +1,5 @@
 /*
- * function: func_021E1F44
+ * function: HAND_WAZA_ChargeArmOnNextMove
  * address:  0x021E1F44
  * packet:   pkt_ov093_021E1F44
  * region:   ov093
@@ -20,7 +20,7 @@ extern int BTL_EVENT_GetVar(int key);
 struct QQ;
 extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 
-void func_021E1F44(void *u, int a, int b, int *p)
+void HAND_WAZA_ChargeArmOnNextMove(void *u, int a, int b, int *p)
 {
     if (b == BTL_EVENT_GetVar(3)) {
         if (BTL_EVENT_GetVar(0x12) != BTL_EVENT_GetFactorKey(u))

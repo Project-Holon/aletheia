@@ -1,5 +1,5 @@
 /*
- * function: func_021C84D0
+ * function: BTL_SERVER_FLOW_DispatchPokeEntryEventToType4Thunk
  * address:  0x021C84D0
  * packet:   pkt_021C84D0
  * region:   ov093
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_SERVER_FLOW_DispatchPokeEntryEventToType4   0x021BDBB8  thumb ov093
- *   func_021C84D0   0x021C84D0  thumb ov093
+ *   BTL_SERVER_FLOW_DispatchPokeEntryEventToType4Thunk   0x021C84D0  thumb ov093
  *
  * tail-call thunk to BTL_SERVER_FLOW_DispatchPokeEntryEventToType4
  */
@@ -25,7 +25,7 @@ typedef signed int s32;
 
 extern void BTL_SERVER_FLOW_DispatchPokeEntryEventToType4(u8 *p, u8 *a);
 
-void func_021C84D0(u8 *p, u8 *a)
+void BTL_SERVER_FLOW_DispatchPokeEntryEventToType4Thunk(u8 *p, u8 *a)
 {
     BTL_SERVER_FLOW_DispatchPokeEntryEventToType4(p, a);
 }

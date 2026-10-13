@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02005C64  0x02005C64  thumb
+ *   GFL_USE_IsLoaderBusy  0x02005C64  thumb
  *   func_02085A38  0x02085A38  arm
  *   PM_VOICE_Prepare  0x020069D4  thumb
  *   PM_VOICE_Start  0x02006A64  thumb
@@ -33,7 +33,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int  func_02005C64(void);
+extern int  GFL_USE_IsLoaderBusy(void);
 extern void func_02085A38(u32 v);
 extern int PM_VOICE_Prepare(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8);
 extern int PM_VOICE_Start(u32 idx);
@@ -43,11 +43,11 @@ u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3,
 {
     u32 v;
 
-    if (func_02005C64() == 1) {
+    if (GFL_USE_IsLoaderBusy() == 1) {
         v = 2;
         do {
             func_02085A38(v);
-        } while (func_02005C64() == 1);
+        } while (GFL_USE_IsLoaderBusy() == 1);
     }
     v = (u16)PM_VOICE_Prepare(a0, a1, a2, a3, a4, a5, a6, a7);
     PM_VOICE_Start(v);

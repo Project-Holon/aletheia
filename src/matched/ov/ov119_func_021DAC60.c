@@ -13,7 +13,7 @@
  *   MSGDATA_ReadString 0x02045CAC arm
  *   func_021E0FF4 0x021E0FF4 thumb ov119
  *   func_021E1030 0x021E1030 thumb ov119
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   WIPE_ResetBrightness 0x02022230 thumb
  *   WIPE_SYS_Start 0x0202208C thumb
@@ -29,7 +29,7 @@ extern void DWC_RAP_SetVchatTalkLock(int);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E0FF4(void *,int,int);
 extern void func_021E1030(char *p);
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void WIPE_ResetBrightness(u32 which);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
@@ -37,6 +37,6 @@ extern void func_021D8E84(void *,int),func_021DAC20(void *);
 void func_021DAC60(char *p) {
  GFL_NET_RestartWithDefaultTimeout(1,((struct Obj06423 *)p)->f5F4);if(((struct Obj06423 *)p)->f118C==2)DWC_RAP_SetVchatTalkLock(1);
  MSGDATA_ReadString((struct MsgBank *)(((struct Obj06423 *)p)->f720),6,(void *)(((struct Obj06423 *)p)->f738));func_021E0FF4(p,1,0);func_021E1030(p);
- func_02043534(16);BG_SYS_SetSubVisiblePlanes(4);WIPE_ResetBrightness(0);
+ BG_SYS_SetMainVisiblePlanes(16);BG_SYS_SetSubVisiblePlanes(4);WIPE_ResetBrightness(0);
  WIPE_SYS_Start((void *)4,1,1,0,6,1,((struct Obj06423 *)p)->f5F4);func_021D8E84(p,(int)func_021DAC20);
 }

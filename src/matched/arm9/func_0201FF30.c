@@ -16,6 +16,7 @@
  *   BMP_MENULIST_NotifyCursor  0x02020A34  thumb
  *   BMP_CURSOR_Create  0x02020D18  thumb
  *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  */
 #include "../include/Obj11266.h"
 
@@ -75,7 +76,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 struct CharBuf;
 extern void *BMP_CURSOR_Create(u32 heap);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_MENULIST_DrawItems(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag);
 extern void BMP_MENULIST_DrawCursor(struct Obj *o);
@@ -115,7 +116,7 @@ struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap)
         ((struct Obj11266 *)q)->f0 = (u32)obj->unk0C;
         q[4] = 0;
     }
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)obj->unk0C)), obj->f18lo);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)obj->unk0C)), obj->f18lo);
     BMP_MENULIST_DrawItems(obj, obj->f40, 0, obj->rows, 1);
     BMP_MENULIST_DrawCursor(obj);
     BMP_MENULIST_NotifyCursor(obj, (void *)1);

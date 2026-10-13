@@ -1,5 +1,5 @@
 /*
- * function: DAILY_LAYOUT_Generate
+ * function: GIMMICK38_Init
  * address:  0x021F36C0
  * packet:   pkt_ov038_021F36C0
  * region:   ov038
@@ -79,7 +79,7 @@ extern void  FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, u16 j, u16 k, int flag)
 extern void  FLD_EXP_OBJ_SetAnimeFrame(void *p, int i, u16 j, u16 k, int v);
 extern int FLD_EXP_OBJ_GetAnimeLastFrame(u32 a);
 
-void DAILY_LAYOUT_Generate(void *a0)
+void GIMMICK38_Init(void *a0)
 {
     void *r5;
     int i;

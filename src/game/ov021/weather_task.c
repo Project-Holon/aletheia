@@ -51,16 +51,16 @@
  *   g_DefaultProjectionMtx  0x02148B54  data
  *   CLACT_GetActorPos  0x0204B53C  arm
  *   CLACT_SetActorPos  0x0204B528  arm
- *   func_02005C64  0x02005C64  thumb
+ *   GFL_USE_IsLoaderBusy  0x02005C64  thumb
  *   FIELD_SOUND_SYSTEM_ClaimSlot  0x02028A7C  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELD_SOUND_SYSTEM_ClaimSlotWithOwner  0x02028ACC  thumb
- *   func_020061F0  0x020061F0  thumb
+ *   GFL_USE_PlaySeWithVolume  0x020061F0  thumb
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   func_0204B404  0x0204B404  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   gWeatherStagePhase  0x021D88E8  data  a1
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_020490F4  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
@@ -81,7 +81,7 @@
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   FIELD_SOUND_SYSTEM_ReleaseSlot  0x02028B50  thumb
  *   GFL_USE_GetSeSlot  0x02006148  thumb
- *   func_020061F8  0x020061F8  thumb
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb
  *   FIELD_FOG_FADE_InitEx  0x021A0224  thumb  ov021
  */
 #include "weather_task_types.h"
@@ -128,15 +128,15 @@ extern fx32 func_0207CF3C(const VecFx32 *a, const VecFx32 *b);
 extern u32 func_0207C768(u32 a, u32 b);
 void CLACT_GetActorPos(const Actor *actor, WeatherScreenPos *out);
 void CLACT_SetActorPos(Actor *actor, const WeatherScreenPos *src);
-int func_02005C64(void);
+int GFL_USE_IsLoaderBusy(void);
 void FIELD_SOUND_SYSTEM_ClaimSlot(FieldSoundSystem *soundSys, u32 seId);
-void func_020061E4(u32 seId);
+void GFL_USE_PlaySeDefaultVolume(u32 seId);
 void FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(FieldSoundSystem *soundSys, u32 seId, u32 who);
-void func_020061F0(u32 seId, u32 who);
+void GFL_USE_PlaySeWithVolume(u32 seId, u32 who);
 extern void CLACT_GetActorSurfacePos(Actor *actor, WeatherScreenPos *out, u16 space);
-u32 func_0204B404(Actor *actor, const WeatherScreenPos *pos, u32 space);
-void func_02082BCC(void *p, int value, int size);
-void func_0204B3DC(Actor *actor, unsigned int enabled);
+u32 CLACT_AddActorSurfacePos(Actor *actor, const WeatherScreenPos *pos, u32 space);
+void MI_CpuFill8(void *p, int value, int size);
+void CLACT_SetActorDrawEnable(Actor *actor, unsigned int enabled);
 void *func_020490F4(unsigned int archiveId, unsigned int heapId);
 extern void ARC_TOOL_DeleteHandle(void *archive);
 int CLACT_RegisterCharacter(void *archive, int a, int b, int c, int heapId);
@@ -154,7 +154,7 @@ void CLACT_SetActorVisible(Actor *actor, u32 value);
 extern void CLACT_DeleteActor(Actor *actor);
 void FIELD_SOUND_SYSTEM_ReleaseSlot(FieldSoundSystem *soundSys, int seId);
 int GFL_USE_GetSeSlot(u32 seId);
-void func_020061F8(int handle);
+void GFL_USE_StopSeSlot(int handle);
 void FIELD_FOG_FADE_InitEx(FieldFog *fog, u32 startOffset, u32 endOffset, u32 startSlope, u32 endSlope, u16 frames);
 
 
@@ -824,22 +824,22 @@ void WEATHER_TASK_StopSe(WeatherTaskSys *task)
 
 void WEATHER_TASK_PlaySeDirect(WeatherTaskSys *task, int seId)
 {
-    if (func_02005C64() == 0) {
+    if (GFL_USE_IsLoaderBusy() == 0) {
         if (task->sound.useSoundSys != 0)
             FIELD_SOUND_SYSTEM_ClaimSlot(task->soundSys, seId);
         else
-            func_020061E4(seId);
+            GFL_USE_PlaySeDefaultVolume(seId);
     }
 }
 
 
 void WEATHER_TASK_PlaySeWithVoice(WeatherTaskSys *task, int seId, int who)
 {
-    if (func_02005C64() == 0) {
+    if (GFL_USE_IsLoaderBusy() == 0) {
         if (task->sound.useSoundSys != 0)
             FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(task->soundSys, seId, who);
         else
-            func_020061F0(seId, who);
+            GFL_USE_PlaySeWithVolume(seId, who);
     }
 }
 
@@ -881,13 +881,13 @@ void WEATHER_TASK_SetParticlePosWrapped(WeatherParticle *particle, u16 *src)
     } else if (pos[1] < -64) {
         pos[1] = pos[1] + 256;
     }
-    func_0204B404(WEATHER_TASK_GetParticleActorPtr(particle), (const WeatherScreenPos *)pos, 0);
+    CLACT_AddActorSurfacePos(WEATHER_TASK_GetParticleActorPtr(particle), (const WeatherScreenPos *)pos, 0);
 }
 
 
 int WEATHER_TASK_SetParticlePos(WeatherParticle *particle, const WeatherScreenPos *pos)
 {
-    return func_0204B404(WEATHER_TASK_GetParticleActorPtr(particle), pos, 0);
+    return CLACT_AddActorSurfacePos(WEATHER_TASK_GetParticleActorPtr(particle), pos, 0);
 }
 
 
@@ -911,7 +911,7 @@ void WEATHER_TASK_Reset(WeatherTaskSys *task)
     light = task->light;
     zoneId = task->zoneId;
     sys = task->sys;
-    func_02082BCC(task, 0, sizeof(WeatherTaskSys));
+    MI_CpuFill8(task, 0, sizeof(WeatherTaskSys));
     task->camera = camera;
     task->textureBank = textureBank;
     task->soundSys = soundSys;
@@ -969,7 +969,7 @@ void WEATHER_TASK_LinkParticle(WeatherTaskSys *task, WeatherParticle *particle)
     particle->next = tail->next;
     tail->next->prev = particle;
     tail->next = particle;
-    func_0204B3DC(particle->actor, 1);
+    CLACT_SetActorDrawEnable(particle->actor, 1);
 }
 
 
@@ -986,7 +986,7 @@ void WEATHER_TASK_UnlinkParticle(WeatherTaskSys *task, WeatherParticle *particle
     particle->prev->next = particle->next;
     particle->next = 0;
     particle->prev = 0;
-    func_0204B3DC(particle->actor, 0);
+    CLACT_SetActorDrawEnable(particle->actor, 0);
 }
 
 
@@ -1234,7 +1234,7 @@ int WEATHER_TASK_TickSpawnTimer(WeatherSpawner *spawner, int arg)
 
 void WEATHER_TASK_ClearParticle(WeatherParticle *particle)
 {
-    func_02082BCC(particle, 0, sizeof(WeatherParticle));
+    MI_CpuFill8(particle, 0, sizeof(WeatherParticle));
 }
 
 
@@ -1252,7 +1252,7 @@ void WEATHER_TASK_CreateParticleActor(WeatherParticle *particle, WeatherTaskSys 
 {
     particle->owner = owner;
     particle->actor = CLACT_CreateActor(textureBank, resources->charResId, resources->paletteResId, resources->cellResId, gWeatherParticlePosition, 0, heapId);
-    func_0204B3DC(particle->actor, 0);
+    CLACT_SetActorDrawEnable(particle->actor, 0);
     CLACT_SetActorVisible(particle->actor, 0);
 }
 
@@ -1288,13 +1288,13 @@ void WEATHER_TASK_SetSoundUseSoundSys(WeatherSoundState *sound, u32 useSoundSys)
 void WEATHER_TASK_PlaySound(WeatherSoundState *sound, FieldSoundSystem *soundSys, u16 seId)
 {
     WEATHER_TASK_StopSound(sound, soundSys);
-    if (func_02005C64() == 0) {
+    if (GFL_USE_IsLoaderBusy() == 0) {
         sound->state = 1;
         sound->seId = seId;
         if (sound->useSoundSys != 0)
             FIELD_SOUND_SYSTEM_ClaimSlot(soundSys, sound->seId);
         else
-            func_020061E4(sound->seId);
+            GFL_USE_PlaySeDefaultVolume(sound->seId);
     } else {
         sound->state = 2;
         sound->seId = seId;
@@ -1309,7 +1309,7 @@ void WEATHER_TASK_StopSound(WeatherSoundState *sound, FieldSoundSystem *soundSys
         if (sound->useSoundSys != 0)
             FIELD_SOUND_SYSTEM_ReleaseSlot(soundSys, sound->seId);
         else
-            func_020061F8(GFL_USE_GetSeSlot(sound->seId));
+            GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(sound->seId));
     }
 }
 
@@ -1317,12 +1317,12 @@ void WEATHER_TASK_StopSound(WeatherSoundState *sound, FieldSoundSystem *soundSys
 /* Starts a sound that was waiting for the sound system to be free. */
 void WEATHER_TASK_ResumeSound(WeatherSoundState *sound, FieldSoundSystem *soundSys)
 {
-    if (sound->state == 2 && func_02005C64() == 0) {
+    if (sound->state == 2 && GFL_USE_IsLoaderBusy() == 0) {
         sound->state = 1;
         if (sound->useSoundSys != 0)
             FIELD_SOUND_SYSTEM_ClaimSlot(soundSys, sound->seId);
         else
-            func_020061E4(sound->seId);
+            GFL_USE_PlaySeDefaultVolume(sound->seId);
     }
 }
 

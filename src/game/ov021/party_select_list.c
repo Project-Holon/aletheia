@@ -18,7 +18,7 @@
  *   STRBUF_Delete  0x02045808  arm
  *   func_020307B0  0x020307B0  arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02034714  0x02034714  arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
@@ -34,18 +34,18 @@
  *   func_0201BC40  0x0201BC40  thumb
  *   func_0201BCB4  0x0201BCB4  thumb
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKE_TOOL_Dummy  0x020185F0  thumb
- *   func_0201BA68  0x0201BA68  thumb
+ *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_ReleasePalette  0x0204ADA4  arm
- *   func_0201BB5C  0x0201BB5C  thumb
+ *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B6F4  0x0204B6F4  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   d_021DB404     0x021DB404  data  a2
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   func_02027694  0x02027694  thumb
@@ -150,7 +150,7 @@ extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 
 extern void STRBUF_Delete(struct Strbuf *str);
 extern u32 func_020307B0(void *p);
 extern u32 POKE_TOOL_GetPartyValue(void *obj, u32 key, u32 off);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
@@ -162,18 +162,18 @@ extern int CLACT_RegisterPaletteCompressed(void *h, u32 a1, u32 a2, u32 a3, u16 
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 extern u32 POKE_TOOL_Dummy(void *p);
-extern u32 func_0201BA68(void *mon);
+extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void CLACT_ReleaseCharacter(u32 v);
 extern void CLACT_ReleaseCellAnim(u32 v);
 extern u32 CLACT_ReleasePalette(u32 v);
-extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
+extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
 extern struct IconActor *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
-extern void func_0204B6F4(struct IconActor *o, u32 v, u32 flag);
-extern void func_0204B3DC(struct IconActor *p, unsigned int v);
+extern void CLACT_SetActorPaletteOffset(struct IconActor *o, u32 v, u32 flag);
+extern void CLACT_SetActorDrawEnable(struct IconActor *p, unsigned int v);
 extern void CLACT_DeleteActor(struct IconActor *p);
 extern u32 func_02027694(void);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
@@ -366,14 +366,14 @@ void PARTY_SELECT_LIST_LoadMonIconResources(PartySelectList *list)
     arc = func_020490F4(7, list->heapId);
     list->monIconPalette = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 0, 0x60, list->heapId);
     list->monIconCell = CLACT_RegisterCellAnim(arc, func_0201BC40(), func_0201BCB4(), list->heapId);
-    count = func_0201AA18(list->party[0]);
+    count = POKEPARTY_GetCount(list->party[0]);
     for (i = 0; i < count; i++) {
-        list->monIconRes[0][i] = CLACT_RegisterCharacter(arc, func_0201BA68((void *)POKE_TOOL_Dummy(func_0201AB28(list->party[0], i))), 0, 0, list->heapId);
+        list->monIconRes[0][i] = CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex((void *)POKE_TOOL_Dummy(POKEPARTY_GetMember(list->party[0], i))), 0, 0, list->heapId);
     }
     if (list->party[1] != 0) {
-        count = func_0201AA18(list->party[1]);
+        count = POKEPARTY_GetCount(list->party[1]);
         for (i = 0; i < count; i++) {
-            list->monIconRes[1][i] = CLACT_RegisterCharacter(arc, func_0201BA68((void *)POKE_TOOL_Dummy(func_0201AB28(list->party[1], i))), 0, 0, list->heapId);
+            list->monIconRes[1][i] = CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex((void *)POKE_TOOL_Dummy(POKEPARTY_GetMember(list->party[1], i))), 0, 0, list->heapId);
         }
     }
     ARC_TOOL_DeleteHandle(arc);
@@ -386,11 +386,11 @@ void PARTY_SELECT_LIST_FreeMonIconResources(PartySelectList *list)
     int count;
 
     if (list->party[1]) {
-        count = func_0201AA18(list->party[1]);
+        count = POKEPARTY_GetCount(list->party[1]);
         for (i = 0; i < count; i++)
             CLACT_ReleaseCharacter(list->monIconRes[1][i]);
     }
-    count = func_0201AA18(list->party[0]);
+    count = POKEPARTY_GetCount(list->party[0]);
     for (i = 0; i < count; i++)
         CLACT_ReleaseCharacter(list->monIconRes[0][i]);
     CLACT_ReleaseCellAnim(list->monIconCell);
@@ -410,30 +410,30 @@ void PARTY_SELECT_LIST_CreateMonIcons(PartySelectList *list)
     u32 isEgg;
     u32 iconKind;
 
-    count0 = func_0201AA18(list->party[0]);
+    count0 = POKEPARTY_GetCount(list->party[0]);
     for (i = 0; i < count0; i++) {
         pos.x = i * 0x28 + 0x18;
         list->monIcon[0][i] = CLACT_CreateActor(list->actorBank, list->monIconRes[0][i], list->monIconPalette, list->monIconCell, &pos, 0, list->heapId);
-        mon = func_0201AB28(list->party[0], i);
+        mon = POKEPARTY_GetMember(list->party[0], i);
         species = POKE_TOOL_GetPartyValue(mon, 5, 0);
         form = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
         isEgg = (POKE_TOOL_GetPartyValue(mon, 0xab, 0) == 0x28a) ? 1 : 0;
-        iconKind = func_0201BB5C(species, form, POKE_TOOL_GetPartyValue(mon, 0x6e, 0), isEgg);
-        func_0204B6F4(list->monIcon[0][i], (u8)iconKind, 1);
-        func_0204B3DC(list->monIcon[0][i], 0);
+        iconKind = POKE_TOOL_CalcIconPalette(species, form, POKE_TOOL_GetPartyValue(mon, 0x6e, 0), isEgg);
+        CLACT_SetActorPaletteOffset(list->monIcon[0][i], (u8)iconKind, 1);
+        CLACT_SetActorDrawEnable(list->monIcon[0][i], 0);
     }
     if (list->party[1] != 0) {
-        count1 = func_0201AA18(list->party[1]);
+        count1 = POKEPARTY_GetCount(list->party[1]);
         for (i = 0; i < count1; i++) {
             pos.x = i * 0x28 + 0x18;
             list->monIcon[1][i] = CLACT_CreateActor(list->actorBank, list->monIconRes[1][i], list->monIconPalette, list->monIconCell, &pos, 0, list->heapId);
-            mon = func_0201AB28(list->party[1], i);
+            mon = POKEPARTY_GetMember(list->party[1], i);
             species = POKE_TOOL_GetPartyValue(mon, 5, 0);
             form = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
             isEgg = (POKE_TOOL_GetPartyValue(mon, 0xab, 0) == 0x28a) ? 1 : 0;
-            iconKind = func_0201BB5C(species, form, POKE_TOOL_GetPartyValue(mon, 0x6e, 0), isEgg);
-            func_0204B6F4(list->monIcon[1][i], (u8)iconKind, 1);
-            func_0204B3DC(list->monIcon[1][i], 0);
+            iconKind = POKE_TOOL_CalcIconPalette(species, form, POKE_TOOL_GetPartyValue(mon, 0x6e, 0), isEgg);
+            CLACT_SetActorPaletteOffset(list->monIcon[1][i], (u8)iconKind, 1);
+            CLACT_SetActorDrawEnable(list->monIcon[1][i], 0);
         }
     }
 }
@@ -444,11 +444,11 @@ void PARTY_SELECT_LIST_DeleteMonIcons(PartySelectList *list)
     int i;
     int count;
 
-    count = func_0201AA18(list->party[0]);
+    count = POKEPARTY_GetCount(list->party[0]);
     for (i = 0; i < count; i++)
         CLACT_DeleteActor(list->monIcon[0][i]);
     if (list->party[1]) {
-        count = func_0201AA18(list->party[1]);
+        count = POKEPARTY_GetCount(list->party[1]);
         for (i = 0; i < count; i++)
             CLACT_DeleteActor(list->monIcon[1][i]);
     }
@@ -461,19 +461,19 @@ void PARTY_SELECT_LIST_SetMonIconsVisible(PartySelectList *list, int side)
 
     for (i = 0; i < 6; i++) {
         if (list->monIcon[0][i] != 0)
-            func_0204B3DC(list->monIcon[0][i], 0);
+            CLACT_SetActorDrawEnable(list->monIcon[0][i], 0);
         if (list->monIcon[1][i] != 0)
-            func_0204B3DC(list->monIcon[1][i], 0);
+            CLACT_SetActorDrawEnable(list->monIcon[1][i], 0);
     }
     if (side == 0) {
         for (i = 0; i < 6; i++) {
             if (list->monIcon[0][i] != 0)
-                func_0204B3DC(list->monIcon[0][i], 1);
+                CLACT_SetActorDrawEnable(list->monIcon[0][i], 1);
         }
     } else if (side == 1) {
         for (i = 0; i < 6; i++) {
             if (list->monIcon[1][i] != 0)
-                func_0204B3DC(list->monIcon[1][i], 1);
+                CLACT_SetActorDrawEnable(list->monIcon[1][i], 1);
         }
     }
 }
@@ -521,9 +521,9 @@ void PARTY_SELECT_LIST_CreateStatusIcons(PartySelectList *list)
     int i;
     u32 species;
 
-    count0 = func_0201AA18(list->party[0]);
+    count0 = POKEPARTY_GetCount(list->party[0]);
     for (i = 0; i < count0; i++) {
-        species = POKE_TOOL_GetPartyValue(func_0201AB28(list->party[0], i), 6, 0);
+        species = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(list->party[0], i), 6, 0);
         if (species != 0) {
             if (func_0202136C(species) == 1) {
                 pos.alt = 1;
@@ -532,13 +532,13 @@ void PARTY_SELECT_LIST_CreateStatusIcons(PartySelectList *list)
             }
             pos.x = i * 0x28 + 0x20;
             list->statusIcon[0][i] = CLACT_CreateActor(list->actorBank, list->statusIconRes, list->statusIconCell, list->statusIconAnim, &pos, 0, list->heapId);
-            func_0204B3DC(list->statusIcon[0][i], 0);
+            CLACT_SetActorDrawEnable(list->statusIcon[0][i], 0);
         }
     }
     if (list->party[1] != 0) {
-        count1 = func_0201AA18(list->party[1]);
+        count1 = POKEPARTY_GetCount(list->party[1]);
         for (i = 0; i < count1; i++) {
-            species = POKE_TOOL_GetPartyValue(func_0201AB28(list->party[1], i), 6, 0);
+            species = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(list->party[1], i), 6, 0);
             if (species != 0) {
                 if (func_0202136C(species) == 1) {
                     pos.alt = 1;
@@ -547,7 +547,7 @@ void PARTY_SELECT_LIST_CreateStatusIcons(PartySelectList *list)
                 }
                 pos.x = i * 0x28 + 0x20;
                 list->statusIcon[1][i] = CLACT_CreateActor(list->actorBank, list->statusIconRes, list->statusIconCell, list->statusIconAnim, &pos, 0, list->heapId);
-                func_0204B3DC(list->statusIcon[1][i], 0);
+                CLACT_SetActorDrawEnable(list->statusIcon[1][i], 0);
             }
         }
     }
@@ -559,13 +559,13 @@ void PARTY_SELECT_LIST_DeleteStatusIcons(PartySelectList *list)
     int i;
     int count;
 
-    count = func_0201AA18(list->party[0]);
+    count = POKEPARTY_GetCount(list->party[0]);
     for (i = 0; i < count; i++) {
         if (list->statusIcon[0][i])
             CLACT_DeleteActor(list->statusIcon[0][i]);
     }
     if (list->party[1]) {
-        count = func_0201AA18(list->party[1]);
+        count = POKEPARTY_GetCount(list->party[1]);
         for (i = 0; i < count; i++) {
             if (list->statusIcon[1][i])
                 CLACT_DeleteActor(list->statusIcon[1][i]);
@@ -580,19 +580,19 @@ void PARTY_SELECT_LIST_SetStatusIconsVisible(PartySelectList *list, int side)
 
     for (i = 0; i < 6; i++) {
         if (list->statusIcon[0][i] != 0)
-            func_0204B3DC(list->statusIcon[0][i], 0);
+            CLACT_SetActorDrawEnable(list->statusIcon[0][i], 0);
         if (list->statusIcon[1][i] != 0)
-            func_0204B3DC(list->statusIcon[1][i], 0);
+            CLACT_SetActorDrawEnable(list->statusIcon[1][i], 0);
     }
     if (side == 0) {
         for (i = 0; i < 6; i++) {
             if (list->statusIcon[0][i] != 0)
-                func_0204B3DC(list->statusIcon[0][i], 1);
+                CLACT_SetActorDrawEnable(list->statusIcon[0][i], 1);
         }
     } else if (side == 1) {
         for (i = 0; i < 6; i++) {
             if (list->statusIcon[1][i] != 0)
-                func_0204B3DC(list->statusIcon[1][i], 1);
+                CLACT_SetActorDrawEnable(list->statusIcon[1][i], 1);
         }
     }
 }
@@ -755,9 +755,9 @@ void PARTY_SELECT_LIST_PrintPartyNames(PartySelectList *list, void *party)
     FIELD_MSGBG_ClearMsgWin(list->listWin);
     nameBuf = STRBUF_Create(0x40, list->heapId);
     templateBuf = STRBUF_Create(0x40, list->heapId);
-    count = func_0201AA18(party);
+    count = POKEPARTY_GetCount(party);
     for (i = 0; i < count; i++) {
-        mon = func_0201AB28(party, i);
+        mon = POKEPARTY_GetMember(party, i);
         if (POKE_TOOL_GetPartyValue(mon, 0x4c, 0) != 0) {
             continue;
         }

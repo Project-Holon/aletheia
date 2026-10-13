@@ -10,7 +10,7 @@
  * status: EXACT
  * E88B0 returns its allocated record; original call truncates four coordinates to bytes.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021E88B0 0x021E88B0 thumb ov177
  */
 #include "../include/Obj00348.h"
@@ -23,14 +23,14 @@ typedef struct {
     u32 f28;
     u16 f2c, f2e;
 } Menu;
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern void *func_021E88B0(Menu *, u8, u8, u8, u8, int);
 void func_0217DEDC(char *p, int mode)
 {
     Menu rec;
     int layout, x, y, width, height;
     if (*(int *)&((struct Obj00348 *)p)->fC == 0) {
-        func_02082BCC(&rec, 0, 0x30);
+        MI_CpuFill8(&rec, 0, 0x30);
         rec.f00 = *(u32 *)&((struct Obj00348 *)p)->f0;
         rec.f04 = *(u32 *)&((struct Obj00348 *)p)->f1C;
         rec.f08 = *(u32 *)&((struct Obj00348 *)p)->f24;

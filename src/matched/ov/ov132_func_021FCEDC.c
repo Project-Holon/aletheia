@@ -11,14 +11,14 @@
  * lever: bounded permuter introduced full-word row-address temporaries with split assignments in case 12; every temporary is assigned before reading, indices retain the explicit u8 extraction.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   d_021FDE5C 0x021FDE5C data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern const char d_021FDE5C[];
 typedef struct 
 {
@@ -165,10 +165,10 @@ void func_021FCEDC(unsigned long slot, int unused, const Packet *q, char *p)
       }
 
       if (code == 1)
-        func_020061E4(0x62c);
+        GFL_USE_PlaySeDefaultVolume(0x62c);
       else
         if (code == 2)
-        func_020061E4(0x62b);
+        GFL_USE_PlaySeDefaultVolume(0x62b);
       break;
     }
 

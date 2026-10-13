@@ -11,12 +11,12 @@
  *
  * symbols:
  *   WEATHER_LIGHTNING_Clear 0x021EF9CC thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 
-extern void func_02082BCC(int, int, int);
+extern void MI_CpuFill8(int, int, int);
 
 void WEATHER_LIGHTNING_Clear(int a0)
 {
-    func_02082BCC(a0, 0, 0x40);
+    MI_CpuFill8(a0, 0, 0x40);
 }

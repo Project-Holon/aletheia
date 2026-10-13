@@ -11,9 +11,9 @@
  *
  * symbols:
  *   TALKMSGWIN_IsEntryFree  0x02194A74  thumb  ov021
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   TALKMSGWIN_ClearFrame  0x02195E90  thumb  ov021
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj04217.h"
@@ -26,19 +26,19 @@ struct Descriptor;
 struct FrameStyle;
 struct Rec3;
 extern int TALKMSGWIN_IsEntryFree(u32 a);
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void TALKMSGWIN_ClearFrame(struct FrameStyle *style, void *win);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 void TALKMSGWIN_ReleaseEntry(u8 *p, u8 *e)
 {
     if (TALKMSGWIN_IsEntryFree((u32)e) == 0) {
         if (((struct Obj04217 *)e)->f8 != 0) {
-            func_0201CE48((struct Rec3 *)(((struct Obj04217 *)e)->f8));
+            PRINTSYS_PrintStreamDelete((struct Rec3 *)(((struct Obj04217 *)e)->f8));
             ((struct Obj04217 *)e)->f8 = 0;
         }
         TALKMSGWIN_ClearFrame((struct FrameStyle *)p, (void *)(((struct Obj04217 *)e)->fC));
-        func_020452E8((struct Descriptor *)(((struct Obj04217 *)e)->fC));
+        BMP_WIN_Delete((struct Descriptor *)(((struct Obj04217 *)e)->fC));
         ((struct Obj04217 *)e)->f2 = 0;
         ((struct Obj04217 *)e)->f0 = 0;
     }

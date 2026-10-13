@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021F38CC 0x021F38CC thumb ov194
  *   func_021F36E8 0x021F36E8 thumb ov194
  *   func_021F37EC 0x021F37EC thumb ov194
@@ -27,7 +27,7 @@
 #include "../include/Obj00117.h"
 typedef struct {int x,y;} Pair;
 typedef struct {int left,top,right,bottom;} Rect;
-extern void func_02082BCC(void *,unsigned,unsigned);
+extern void MI_CpuFill8(void *,unsigned,unsigned);
 extern int func_021F38CC(char *,int *),func_021F36E8(char *,int *),func_021F37EC(char *,int *);
 extern void func_021F391C(char *,int *);
 extern int func_021F3BD4(char *,int *),func_021F3A0C(char *,int *),func_021F3B18(char *,int *);
@@ -45,13 +45,13 @@ void func_021F31F4(char *p,char *q)
     ((struct Obj00117 *)p)->fE8=0;
     switch(((struct Obj00117 *)p)->fE4){
     case 0:
-        func_02082BCC(out0,0,16);
+        MI_CpuFill8(out0,0,16);
         result=func_021F38CC(p,out0);
         if(!result){func_021F36E8(p,out0);result=func_021F37EC(p,out0);}
         if(result)func_021F391C(p,out0);
         break;
     case 2:
-        func_02082BCC(out2,0,16);
+        MI_CpuFill8(out2,0,16);
         result=func_021F3BD4(p,out2);
         if(!result){func_021F3A0C(p,out2);result=func_021F3B18(p,out2);}
         if(result)func_021F3C40(p,out2);

@@ -11,7 +11,7 @@
  * an if/else chain rather than a switch. 0202815C forwards pointer to 28164.
  * symbols:
  *   APP_TASKMENU_WIN_ClearScreen 0x0202843C thumb
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021BB044 0x021BB044 thumb ov225
  *   APP_TASKMENU_WIN_DeleteNoClear 0x0202815C thumb
  *   func_02045EC0 0x02045EC0 arm
@@ -38,7 +38,7 @@ struct MsgBank; struct U16Vec;
 struct Entry {void *resource;u16 tag,pad;u32 flags;};
 extern void APP_TASKMENU_WIN_ClearScreen(u8 *);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern u16 func_021BB044(u16 **);
 extern void APP_TASKMENU_WIN_DeleteNoClear(void);
 extern void *func_02045EC0(struct MsgBank *,u32);
@@ -60,7 +60,7 @@ void func_021BB088(char *p)
         }
         index=((struct Obj26219 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC;
         first=1;
-        func_0204B3DC(((struct Obj00074 *)p)->f60,0);
+        CLACT_SetActorDrawEnable(((struct Obj00074 *)p)->f60,0);
     }
     end=(u16)(func_021BB044((u16 **)p)+1);
     if (end>=((struct Obj26220 *)(*(char * *)&((struct Obj00074 *)p)->f0))->f4) end--;
@@ -70,7 +70,7 @@ void func_021BB088(char *p)
             APP_TASKMENU_WIN_ClearScreen(*(u8 **)(p+i*4+0xc));
             *(u32 *)(p+i*4+0x2c)=0;
         }
-        func_0204B3DC(*(void **)(p+i*4+0x60),0);
+        CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x60),0);
     }
     for(i=first;i<=last;i++) {
         if (*(u8 **)(p+i*4+0xc)) APP_TASKMENU_WIN_DeleteNoClear();
@@ -85,9 +85,9 @@ void func_021BB088(char *p)
         *(u32 *)(p+i*4+0x2c)=1;
         STRBUF_Delete(e.resource);
         if (*(u32 *)(*(char * *)&((struct Obj26225 *)(*(char * *)&((struct Obj00074 *)p)->f0))->f8+index*8+4)==0)
-            func_0204B3DC(*(void **)(p+i*4+0x60),0);
+            CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x60),0);
         else if (*(u32 *)(*(char * *)&((struct Obj26226 *)(*(char * *)&((struct Obj00074 *)p)->f0))->f8+index*8+4)==1)
-            func_0204B3DC(*(void **)(p+i*4+0x60),1);
+            CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x60),1);
         index++;
     }
     ((struct Obj00074 *)p)->f94=1;

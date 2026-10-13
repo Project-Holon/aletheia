@@ -18,6 +18,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   d_021E8530 0x021E8530 data a4
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb  arm9
+ *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb  arm9
  */
 #include "../include/Obj00001.h"
 #include "../include/Obj22808.h"
@@ -26,7 +27,7 @@ extern char d_021E8530[];
 extern void *func_02030734(unsigned heapId, unsigned size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void *func_021D8DD0(void *a, int b, int c, char *p);
-extern unsigned int func_0201BA68(void *mon);
+extern unsigned int POKE_TOOL_GetGraphicIndex(void *mon);
 typedef unsigned int   u32;
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
@@ -46,7 +47,7 @@ body:
         for (i = 0; i < 30; i++) {
             if (b == 24 && i == 6) break;
             x = (int)func_021D8DD0((void *)(*(int *)&((struct Obj00001 *)p)->f828), b, i, p);
-            if (x) x = func_0201BA68((void *)x);
+            if (x) x = POKE_TOOL_GetGraphicIndex((void *)x);
             else x = POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0);
             t = (int)ARC_UTIL_LoadBgCharDataFromHandle(a, x, 0, (u32)(&out), ((struct Obj00001 *)p)->f5F4);
             func_02082D44(((struct Obj22808 *)out)->f14, (void *)(*(int *)&((struct Obj00001 *)p)->f1184 + n * 512), 512);

@@ -31,7 +31,7 @@
  *   func_021B9774 0x021B9774 thumb ov114
  *   func_021DC610 0x021DC610 thumb ov175
  *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -45,7 +45,7 @@ extern u8 *func_021B97F4(u8 *);
 extern void func_021B9774(u8 *);
 extern int func_021DC610(u32);
 extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 int func_021DC77C(u8 *p)
 {
     int query,status;
@@ -76,7 +76,7 @@ int func_021DC77C(u8 *p)
         }
         break;
     case 4:
-        func_02082BCC(p+0x1220,0,8);
+        MI_CpuFill8(p+0x1220,0,8);
         if(*(u8 **)(p+0x121c)!=0) {
             func_021B9774(*(u8 **)(p+0x121c));func_021B9838(*(u8 **)(p+0x121c));*(u32 *)(p+0x121c)=0;
         }

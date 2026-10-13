@@ -11,7 +11,7 @@
  *
  * symbols:
  *   gOptionMenuChoices     0x021BB704  data  ov068  a4
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   OPTION_MENU_IsPointInRect  0x021BB508  thumb  ov068
  *   OPTION_MENU_SelectChoice  0x021BAFD8  thumb  ov068
  *   OPTION_MENU_ApplySoundMode  0x021BACF4  thumb  ov068
@@ -32,7 +32,7 @@ typedef struct {
 } Ent;
 
 extern Ent gOptionMenuChoices[];
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern int  OPTION_MENU_IsPointInRect(int *rect, void *b);
 extern void OPTION_MENU_SelectChoice(u8 *p, int i);
 extern void OPTION_MENU_ApplySoundMode(u8 *p, u32 a, u32 b);
@@ -55,7 +55,7 @@ void OPTION_MENU_SelectChoiceAtTouch(u8 *p, void *b)
         r[2] = x + e->f14;
         if (y >= 0x18 && y <= 0xa8 && r[3] >= 0x18 && r[3] <= 0xa8) {
             if (OPTION_MENU_IsPointInRect(r, b)) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 OPTION_MENU_SelectChoice(p + 0x44, i);
                 OPTION_MENU_ApplySoundMode(p, ((struct Obj13141 *)p)->f47, 0);
                 return;

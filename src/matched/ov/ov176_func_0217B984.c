@@ -14,7 +14,7 @@
  *   unsigned char *func_0200EA08(unsigned char *p) { return p; }
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BATTLE_REC_IsDataExist 0x0200B45C thumb
  *   func_021E58A4 0x021E58A4 thumb ov177
  *   func_0201EC74 0x0201EC74 thumb
@@ -31,7 +31,7 @@
  *   func_0200B1D4 0x0200B1D4 thumb
  *   func_0200E9F4 0x0200E9F4 thumb
  *   func_0200EA08 0x0200EA08 thumb
- *   func_0201A920 0x0201A920 thumb
+ *   POKEPARTY_Create 0x0201A920 thumb
  *   func_0203516C 0x0203516C arm
  *   d_0217E600 0x0217E600 data a4
  */
@@ -46,7 +46,7 @@ struct MsgBank;
 struct Party;
 struct Rec160;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern u32 BATTLE_REC_IsDataExist(void);
 extern void func_021E58A4(int,int,u32);
 extern void *func_0201EC74(u32,u32,u32);
@@ -63,7 +63,7 @@ extern void *func_0200B358(void *);
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
 extern void *func_0200E9F4(void *);
 extern int func_0200EA08(int p);
-extern struct Party *func_0201A920(u32 heap);
+extern struct Party *POKEPARTY_Create(u32 heap);
 extern void func_0203516C(int);
 extern const char d_0217E600[];
 u8 *func_0217B984(Init *src,u32 heap)
@@ -72,7 +72,7 @@ u8 *func_0217B984(Init *src,u32 heap)
     u8 *p;
     size=0x1dc;
     p=func_02030734(heap,size,0,d_0217E600,0x109);
-    func_02082BCC(p,0,size);
+    MI_CpuFill8(p,0,size);
     *(Init *)(p+0x1a0)=*src;
     *(u16 *)(p+0x1c8)=heap;
     *(u32 *)(p+0x1d0)=BATTLE_REC_IsDataExist();
@@ -87,7 +87,7 @@ u8 *func_0217B984(Init *src,u32 heap)
     func_021E7E0C(*(void ***)(p+0x1c),0);
     *(void **)(p+0x38)=func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))),1);
     *(void **)(p+0x34)=(void *)func_0200EA08((int)func_0200E9F4(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))));
-    *(void **)(p+0x30)=func_0201A920(heap);
+    *(void **)(p+0x30)=POKEPARTY_Create(heap);
     if(*(int *)(p+0x1a0)==0)func_0203516C(8);
     return p;
 }

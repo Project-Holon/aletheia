@@ -12,7 +12,7 @@
  * symbols:
  *   func_021BD134  0x021BD134  thumb  ov172
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_0201F7A8  0x0201F7A8  thumb
  *   func_021BD0C4  0x021BD0C4  thumb  ov172
@@ -29,7 +29,7 @@ typedef unsigned long u32;
 extern void func_021BD134(void *ctx, char *st, u32 msgId);
 struct Descriptor;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void func_021BD0C4(void *ctx, char *st, int msgId);
@@ -39,7 +39,7 @@ extern void func_020409B4(u32 index);
 static inline u8 func_021BD038_show(u32 win)
 {
     BMP_WIN_ClearScreen((struct Descriptor *)win);
-    return func_02045730((struct Descriptor *)win);
+    return BMP_WIN_GetBgLayer((struct Descriptor *)win);
 }
 
 void func_021BD038(void *ctx, char *st)

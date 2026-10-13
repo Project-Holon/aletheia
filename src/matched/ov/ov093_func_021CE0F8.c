@@ -1,5 +1,5 @@
 /*
- * function: func_021CE0F8
+ * function: BTL_CLIENT_BuildActionPromptMessage
  * address:  0x021CE0F8
  * packet:   pkt_ov093_021CE0F8
  * region:   ov093
@@ -27,7 +27,7 @@ extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021EAF78(u8 *o, u8 v);
 
-void func_021CE0F8(u8 *p, u8 *q, u8 *o)
+void BTL_CLIENT_BuildActionPromptMessage(u8 *p, u8 *q, u8 *o)
 {
     if (BTL_MAIN_GetRule(*(void ** *)&((struct Obj13355 *)p)->f0) != 3) {
         func_021EAF18((struct L *)o, 1, 0x45);

@@ -47,6 +47,7 @@
  *   TOWNMAP_StepFadeOut 0x021B99AC thumb ov072
  *   func_020355C4 0x020355C4 arm
  *   d_021BBB78 0x021BBB78 data ov072 a4
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -68,7 +69,7 @@ extern int TOWNMAP_CursorGetHoverTown(int *);
 extern int TOWNMAP_MapFindTownUnderCursor(void *,void *);
 extern int TOWNMAP_CursorIsPressed(int *);
 extern int TOWNMAP_TownGetField(char *p, int i);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void TOWNMAP_ProcSetStep(int *,int);
 struct Obj;
 extern u8 func_020355C4(void);
@@ -133,7 +134,7 @@ int TOWNMAP_StepBrowse(int *a,int unused,char *p)
                     *(unsigned short *)(W(0x130)+8)=TOWNMAP_TownGetField((char *)w,0);
                     *(int *)(W(0x130)+12)=TOWNMAP_TownGetField((char *)w,13);
                     *(int *)(W(0x130)+16)=TOWNMAP_TownGetField((char *)w,14);
-                    func_020061E4(0x54c); TOWNMAP_ProcSetStep(a,(int)TOWNMAP_StepFadeOut);
+                    GFL_USE_PlaySeDefaultVolume(0x54c); TOWNMAP_ProcSetStep(a,(int)TOWNMAP_StepFadeOut);
                 }
             }
             if (func_020355C4()==0) t=1; else t=TOWNMAP_CursorIsPressed(R(0x38));
@@ -141,7 +142,7 @@ int TOWNMAP_StepBrowse(int *a,int unused,char *p)
                 w=TOWNMAP_MapFindTownUnderCursor(R(0x50),R(0x38));
                 if (w!=W(0x134) && w!=0) {
                     Pos o3;
-                    func_020061E4(0x548);
+                    GFL_USE_PlaySeDefaultVolume(0x548);
                     TOWNMAP_DrawSelection(R(0xb0),(void *)w); TOWNMAP_MapHighlightTown(R(0x50),(void *)w);
                     W(0x134)=w; TOWNMAP_MapGetScroll(R(0x50),&o3.x);
                     TOWNMAP_CursorSetHoverTown(R(0x38),w,(int *)(&o3));
@@ -169,7 +170,7 @@ int TOWNMAP_StepBrowse(int *a,int unused,char *p)
             Pos o4;
             TOWNMAP_CursorGetPos(R(0x38),&o4.x);
             TOWNMAP_StartScrollZoom(R(0x78),8192,&d_021BBB78,&o4);
-            func_020061E4(0x648);
+            GFL_USE_PlaySeDefaultVolume(0x648);
             if (W(0x134)!=0) {
                 TOWNMAP_ClearSelection(R(0xb0)); TOWNMAP_GRH_SetLabelVisible(R(0xd4),0); TOWNMAP_MapClearHighlight(R(0x50));
                 TOWNMAP_CursorSetHoverTown(R(0x38),0,0); W(0x134)=0;
@@ -179,7 +180,7 @@ int TOWNMAP_StepBrowse(int *a,int unused,char *p)
             Pos o5;
             TOWNMAP_GetScrollPosition(R(0x78),&o5.x); o5.x+=128; o5.y+=96;
             TOWNMAP_StartScrollZoom(R(0x78),4096,&o5,&d_021BBB78);
-            func_020061E4(0x649);
+            GFL_USE_PlaySeDefaultVolume(0x649);
             if (W(0x134)!=0) {
                 TOWNMAP_ClearSelection(R(0xb0)); TOWNMAP_GRH_SetLabelVisible(R(0xd4),0); TOWNMAP_MapClearHighlight(R(0x50));
                 TOWNMAP_CursorSetHoverTown(R(0x38),0,0); W(0x134)=0;

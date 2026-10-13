@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
 typedef unsigned char u8;
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *FLDMMDL_GetMoveProcWork(void *p);
-extern int func_02082BCC();
+extern int MI_CpuFill8();
 
 void *FLDMMDL_InitMoveProcWork(int a0, int a1, u32 a2, u32 a3)
 {
@@ -31,6 +31,6 @@ t5 = a1 + 0;
 loc_0216D68C:
 a1 = 0;
 a2 = t5 + 0;
-    a0 = func_02082BCC(t4, a1, a2);
+    a0 = MI_CpuFill8(t4, a1, a2);
 loc_0216D696:
     return t4;}

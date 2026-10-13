@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
@@ -38,7 +38,7 @@ struct GameSystem;
 struct GameComm;
 struct ScriptEvent;
 
-extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 extern IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *gameComm);
 void EVENT_COMM_COMMON_PrintMsg(EventCommMsgBox *msgBox, int msgId);
@@ -65,7 +65,7 @@ int EVENT_COMM_COMMON_MsgScriptEventMain(struct GameEvent *event, int *seq, void
     IntrudeCommSys *sys;
     struct ScriptEvent *scriptEvent;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     switch (*seq) {
     case 0:

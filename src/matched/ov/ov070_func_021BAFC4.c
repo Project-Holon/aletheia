@@ -14,7 +14,7 @@
  * Lever: unsigned long win and distinct pointer/u32/unsigned-long address
  * expressions reproduce recomputation and colours; enum win leaves 10B.
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
@@ -92,7 +92,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 struct Descriptor;struct CharBuf;struct MsgBank;struct Blk34;struct WordSet;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
 extern void *GAME_DATA_GetMiscSave(int *);
@@ -106,8 +106,8 @@ extern void ITEMMENU_FlushWindowAt(void **);
 void ITEMMENU_PrintMoney(u8 *p)
 {
  unsigned long win = 0x764;
- BMP_Clear(func_02045770(P(win)),0);
- BMP_Clear(func_02045770(*(void **)(p+(win-8))),0);
+ BMP_Clear(BMP_WIN_GetBmp(P(win)),0);
+ BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+(win-8))),0);
  MSGDATA_ReadString(P(0x51C),0x51,P(0x524));
  ITEMMENU_PrintToWindow((int)p,(u32 *)((u32)p+(win-8)),W(0x524),0,4,0x3C40);
  ITEMMENU_FlushWindowAt((void **)((unsigned long)p+(win-8)));

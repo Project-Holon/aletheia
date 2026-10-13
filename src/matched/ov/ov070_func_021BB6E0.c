@@ -15,7 +15,7 @@
  * early (same size, scheduling-only DIFF).
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  */
 #include "../include/Obj01516.h"
@@ -25,13 +25,13 @@ typedef signed short s16;
 typedef unsigned short u16;
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 void ITEMMENU_PrintToWindow(int p, u32 *obj, u32 str, u16 x, s16 y, u16 color)
 {
     u32 print = ((struct Obj01516 *)p)->f50C;
 
-    PRINTSYS_PrintQueColor((void *)print, (u32)func_02045770((struct Descriptor *)*obj), (s16)x, y, str, ((struct Obj01516 *)p)->f530, color);
+    PRINTSYS_PrintQueColor((void *)print, (u32)BMP_WIN_GetBmp((struct Descriptor *)*obj), (s16)x, y, str, ((struct Obj01516 *)p)->f530, color);
     *((unsigned char *)obj + 4) = 1;
 }

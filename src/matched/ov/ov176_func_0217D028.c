@@ -18,7 +18,7 @@
  *   func_0200B204 0x0200B204 thumb
  *   func_02012944 0x02012944 thumb
  *   func_021E5548 0x021E5548 thumb ov177
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0200E918 0x0200E918 thumb
  *   func_0200AE54 0x0200AE54 thumb
  *   func_02008554 0x02008554 thumb
@@ -46,7 +46,7 @@ struct Sub0200852CObj;
 extern struct Rec1E *func_0200B204(struct RecBig *p, u32 index);
 extern u8 *func_02012944(void *p);
 extern int func_021E5548(int *);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern u8 func_0200E918(const u8 *, u32);
 extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
@@ -66,7 +66,7 @@ void func_0217D028(u8 *p)
     aux = (int)func_0200B204(func_0200B358(base), 1);
     x = (int)func_02012944(((struct Obj00053 *)p)->f1B8);
     table = func_021E5548(*(int * *)&((struct Obj00053 *)p)->f1B4);
-    func_02082BCC(&rec, 0, 0xAC);
+    MI_CpuFill8(&rec, 0, 0xAC);
     rec.fa0 = func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34, 1);
     rec.fa2 = func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34, 2);
     rec.fa4 = func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34, 0);

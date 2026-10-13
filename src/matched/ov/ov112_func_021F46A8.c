@@ -18,6 +18,7 @@
  *   func_02049B40 0x02049B40 arm
  *   TCBL_Create 0x0203101C arm
  *   GF_FONT_Create  0x0201D7EC  thumb  arm9
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
  */
 #include "../include/Obj01147.h"
 typedef unsigned char u8;
@@ -38,7 +39,7 @@ extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern u32 func_02049B40(int,int,int,int,int,u16);
 extern void GF_FONT_SetDefaultTextColor(u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 void func_021F46A8(u8 *p)
 {
     int zero;
@@ -56,5 +57,5 @@ void func_021F46A8(u8 *p)
     ((struct Obj01147 *)p)->f2C=zero;
     ((struct Obj01147 *)p)->f30=zero;
     ((struct Obj01147 *)p)->f34=zero;
-    ((struct Obj01147 *)p)->f38=func_0201C440((void *)(((struct Obj01147 *)p)->f0));
+    ((struct Obj01147 *)p)->f38=PRINTSYS_QUE_Create((void *)(((struct Obj01147 *)p)->f0));
 }

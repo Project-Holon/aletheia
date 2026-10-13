@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B94
+ * function: BTL_SLOT_GetCount
  * address:  0x021B9B94
  * packet:   pkt_021B85A0
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9B94   0x021B9B94  thumb
+ *   BTL_SLOT_GetCount   0x021B9B94  thumb
  *
  * Reads the u8 field at #0x18 of the argument and returns it.
  */
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 struct Q1 { u32 items[6]; u8 count; };
 /* 021B9B94  ldrb r0,[r0,#0x18] */
-u8 func_021B9B94(struct Q1 *p) { return p->count; }
+u8 BTL_SLOT_GetCount(struct Q1 *p) { return p->count; }
 

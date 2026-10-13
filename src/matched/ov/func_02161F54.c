@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  */
 #include "../include/Obj17711.h"
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02082BCC();
+extern int MI_CpuFill8();
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
 int EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid(int a0)
@@ -31,7 +31,7 @@ int EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid(int a0)
 a1 = 0;
 a2 = 0x48;
 t4 = a0 + 0;
-    a0 = func_02082BCC(a0, a1, a2);
+    a0 = MI_CpuFill8(a0, a1, a2);
 loc_02161F60:
     a0 = GFL_NET_SYSTEM_GetCurrentAid();
 loc_02161F64:

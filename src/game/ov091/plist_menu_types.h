@@ -50,27 +50,4 @@ typedef struct PlistMenuItemList {
     int item[3];
 } PlistMenuItemList;
 
-/* The four timer digits, a copy of the timer palette and the timer state:
-   the part of PokelistWork that starts at pad1EC (offsets 0x1EC..0x24F). */
-typedef struct PlistWorkTail {
-    struct Bank *bank;                          /* 0x1EC */
-    u32 *timerDigit[3];                         /* 0x1F0 */
-    u8 pad1FC[0x10];
-    u8 timerValue;                              /* 0x20C */
-    u8 timerDirty;                              /* 0x20D */
-    u16 timerPalette[16];                       /* 0x20E */
-    u8 pad22E[0x20];
-    u16 timerFlags;                             /* 0x24E */
-} PlistWorkTail;
-typedef char PlistWorkTail_SizeCheck[(sizeof(PlistWorkTail) == 0x64) ? 1 : -1];
-
-/* Six stat values saved before a level up (the part of PokelistWork at pad124). */
-typedef struct PlistStatSnapshot {
-    u16 stat[6];
-} PlistStatSnapshot;
-
-/* Views of the parts of PokelistWork that pokelist_types.h still keeps as padding. */
-#define PLIST_WORK_TAIL(work) ((PlistWorkTail *)(work)->pad1EC)
-#define PLIST_WORK_STATS(work) ((PlistStatSnapshot *)(work)->pad124)
-
 #endif

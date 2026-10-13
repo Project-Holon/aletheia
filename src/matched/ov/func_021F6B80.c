@@ -11,6 +11,7 @@
  *
  * symbols:
  *   func_021F6B34  0x021F6B34  thumb  ov135
+ *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
 
  * Sentinel test picks between the direct query and the two-argument helper.
  */
@@ -21,13 +22,13 @@ typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
 extern int func_021F6B34(int v);
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 extern int func_020078C4(void *save, u32 box);
 
 u32 func_021F6B80(u8 *p, u32 b, u32 c)
 {
     if (func_021F6B34(c) != 0) {
-        return func_0201AA18(p);
+        return POKEPARTY_GetCount(p);
     }
     return func_020078C4((void *)b, c);
 }

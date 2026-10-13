@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   ov208_func_021BC3A4 0x021BC3A4 thumb ov208
  *   func_0200CA1C 0x0200CA1C thumb
  *   ov208_func_021BC3C0 0x021BC3C0 thumb ov208
@@ -28,9 +28,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned long long u64;
 
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int ov208_func_021BC3A4(int key);
 extern void *func_0200CA1C(void *a);
 extern u16 ov208_func_021BC3C0(int key);
@@ -52,10 +52,10 @@ void ov208_func_021C3514(u16 *heap, u8 *p, int key)
     void *pd;
     hit = 0;
     if (((struct Obj06684 *)p)->fD0 != 0) {
-        if (func_020362DC() & 1) {
+        if (KEY_GetTrg() & 1) {
             func_020355D8(0);
             hit = 1;
-        } else if (func_02035D20(&x, &y) != 0) {
+        } else if (TOUCHPANEL_GetPointTrg(&x, &y) != 0) {
             if (x < 0x100 && y < 0xa8) {
                 hit = 1;
                 func_020355D8(1);

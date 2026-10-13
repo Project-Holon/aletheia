@@ -11,8 +11,8 @@
  *
  * symbols:
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_02045770  0x02045770  arm
- *   func_0201C6FC  0x0201C6FC  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -35,9 +35,9 @@ typedef struct Slot {
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *a);
+extern void *BMP_WIN_GetBmp(struct Descriptor *a);
 struct PrintSys;
-extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
+extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 
 void FIELD_MSGBG_MsgPrintPrintMsg(Slot *s, int x, int y, u32 z)
 {
@@ -45,6 +45,6 @@ void FIELD_MSGBG_MsgPrintPrintMsg(Slot *s, int x, int y, u32 z)
 
     MSGDATA_ReadString((struct MsgBank *)s->f10, z, (void *)s->f18);
     t = s->f0c;
-    func_0201C6FC((struct PrintSys *)t, (u32)func_02045770((struct Descriptor *)s->f1c), (s16)x, (s16)y, (void *)s->f18, s->f08);
+    PRINTSYS_PrintQue((struct PrintSys *)t, (u32)BMP_WIN_GetBmp((struct Descriptor *)s->f1c), (s16)x, (s16)y, (void *)s->f18, s->f08);
     s->f20 = 1;
 }

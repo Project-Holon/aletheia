@@ -13,7 +13,7 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
- *   func_0202648C  0x0202648C  thumb
+ *   GAME_COMM_GetCounter  0x0202648C  thumb
  */
 
 typedef unsigned char u8;
@@ -25,7 +25,7 @@ extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct BigObj;
 extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
-extern u32 func_0202648C(void *obj);
+extern u32 GAME_COMM_GetCounter(void *obj);
 
 int INTRUDE_COMM_CheckEntryAllowed(int a0)
 {
@@ -45,7 +45,7 @@ loc_0215832C:
     if (a0 != 1) goto loc_0215833E;
 loc_02158330:
 a0 = t4 + 0;
-    a0 = func_0202648C((void *)a0);
+    a0 = GAME_COMM_GetCounter((void *)a0);
 loc_02158336:
     if (a0 == 0) goto loc_0215833E;
 loc_0215833A:

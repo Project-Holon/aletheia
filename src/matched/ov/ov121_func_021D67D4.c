@@ -25,6 +25,7 @@
  *   GAME_DATA_Delete  0x02012704  thumb  arm9
  *   MYSTERY_DATA_Delete  0x0200A338  thumb  arm9
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  */
 #include "../include/Obj02176.h"
 extern void func_021D9228(void *);
@@ -39,7 +40,7 @@ extern void func_021D9E04(u8 *p);
 extern void func_021DA890(void *);
 extern u32 func_0201ED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_021D6C28(u8 *p);
 extern void func_021D6948(void *);
@@ -61,7 +62,7 @@ int func_021D67D4(void *a, int b, int c, char *p)
     func_0201ED04(((struct Obj02176 *)p)->f3A8);
     MSGDATA_Delete(((struct Obj02176 *)p)->f3A0);
     MSGDATA_Delete(((struct Obj02176 *)p)->f3A4);
-    func_0201C4C0(((struct Obj02176 *)p)->f39C);
+    PRINTSYS_QUE_Delete(((struct Obj02176 *)p)->f39C);
     GF_FONT_Delete(((struct Obj02176 *)p)->f398);
     func_021D6C28((u8 *)(p + 0x294));
     func_021D6948(p + 0x390);

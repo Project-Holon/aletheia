@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0201BD28  0x0201BD28  thumb
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   BTL_MAIN_GetRule  0x021B8588  thumb
  *   func_021B8D8C  0x021B8D8C  thumb
  *   func_021B99E0  0x021B99E0  thumb
@@ -44,7 +44,7 @@ extern u32 BTL_POKEPARAM_GetPokeId(u32 a);
 extern void func_021B8D8C(u32 a, u32 b, u32 c);
 extern u8 *func_021B99E0(void);
 extern void BTL_ACTION_SetFight(Q *q, u16 id, u8 c);
-extern u8 func_0201BD28(u16 id, int k);
+extern u8 WAZA_TOOL_GetParam(u16 id, int k);
 extern u8 BTL_CALC_GetCurseTargetKind(u32 a);
 void func_0689B098(u8 *p, u8 *s);
 u8 func_0689B0CC(u8 *p);
@@ -89,7 +89,7 @@ int func_0689B0D4(int unused, u8 *s)
     }
     func_0689B098(s + 0x80, s);
     s[0x89] = 0;
-    s[0x8a] = func_0201BD28((*(Q * *)&((struct Obj00409 *)s)->f70)->id, 0x1b);
+    s[0x8a] = WAZA_TOOL_GetParam((*(Q * *)&((struct Obj00409 *)s)->f70)->id, 0x1b);
     if ((*(Q * *)&((struct Obj00409 *)s)->f70)->id == 0xae)
         s[0x8a] = BTL_CALC_GetCurseTargetKind(*(u32 *)&((struct Obj00409 *)s)->f6C);
     return 1;

@@ -14,8 +14,8 @@
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   func_02034714  0x02034714  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   func_02008554  0x02008554  thumb
  *   func_02008550  0x02008550  thumb
  *   func_02008530  0x02008530  thumb
@@ -65,8 +65,8 @@ extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern int GFL_NET_GetNegotiationNum(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 struct Link;
-extern void func_02039C68(struct Link *a, u32 b, u32 c);
-extern u32 func_02039CB4(struct Link *a, u32 b, u32 c);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a, u32 b, u32 c);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a, u32 b, u32 c);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
@@ -106,20 +106,20 @@ int UNION_ONESELF_ColosseumSetupMain(void *ctx, u8 *obj, int a2, u8 *state)
 
     switch (*state) {
     case 0:
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd, 0x14);
         (*state)++;
         break;
     case 1:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd, 0x14) == 1)
             (*state)++;
         break;
     case 2:
         COLOSSEUM_AddCommandTable((u32)ctx);
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xe, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xe, 0x14);
         (*state)++;
         break;
     case 3:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xe, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xe, 0x14) == 1)
             (*state)++;
         break;
     case 4:
@@ -140,11 +140,11 @@ int UNION_ONESELF_ColosseumSetupMain(void *ctx, u8 *obj, int a2, u8 *state)
         }
         break;
     case 6:
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x14);
         (*state)++;
         break;
     case 7:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x14) == 1)
             (*state)++;
         break;
     case 8:

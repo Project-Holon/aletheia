@@ -14,7 +14,7 @@
  *
  * symbols:
  *   BTL_POKEPARAM_GetCounter  0x021D69AC  thumb  ov093
- *   func_021B9934  0x021B9934  thumb  ov093
+ *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   BTL_SERVER_FLOW_CureSick  0x021C5620  thumb  ov093
  *   BTL_SERVER_FLOW_ClearContFlag  0x021C6110  thumb  ov093
@@ -30,7 +30,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u8 BTL_POKEPARAM_GetCounter(u8 *a, int i);
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 struct Unk021D62A8;
 struct Slot;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
@@ -56,7 +56,7 @@ bad:
     k = 0x1f;
 ok:
     if (k != 0x1f) {
-        w = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, k);
+        w = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00003 *)p)->f8, k);
         if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)w, 0x21) != 0) {
             BTL_SERVER_FLOW_CureSick(p, w, 0x21, 0);
             BTL_SERVER_FLOW_ClearContFlag(p, w, 3);

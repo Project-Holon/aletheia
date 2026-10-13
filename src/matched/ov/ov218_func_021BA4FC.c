@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3F4 0x0204B3F4 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj14773.h"
 typedef unsigned int   u32;
 struct Obj;
-extern u32 func_0204B3F4(struct Obj *p);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 void func_021BA4FC(char *ctx)
 {
     int i;
@@ -24,13 +24,13 @@ void func_021BA4FC(char *ctx)
         ((struct Obj14773 *)ctx)->f32C = 0;
         for (i = 0; i < 7; i++) {
             item = *(void **)(ctx + 0x294 + i * 4);
-            if (func_0204B3F4(item) != 0)
-                func_0204B3DC(item, 0);
+            if (CLACT_GetActorDrawEnable(item) != 0)
+                CLACT_SetActorDrawEnable(item, 0);
         }
         for (i = 0; i < 7; i++) {
             item = *(void **)(ctx + 0x2b0 + i * 4);
-            if (func_0204B3F4(item) != 0)
-                func_0204B3DC(item, 0);
+            if (CLACT_GetActorDrawEnable(item) != 0)
+                CLACT_SetActorDrawEnable(item, 0);
         }
     }
 }

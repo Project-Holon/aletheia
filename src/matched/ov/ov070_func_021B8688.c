@@ -13,7 +13,7 @@
  * symbols:
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *   ITEMMENU_MoveActorToPoint  0x021BB690  thumb  ov070
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   ITEMMENU_ReturnToBagMain  0x021B8AF4  thumb  ov070
  */
 #include "../include/Obj20670.h"
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern u32 WIPE_SYS_EndCheck(void);
 extern int ITEMMENU_MoveActorToPoint(const char *p);
 struct Obj;
-extern void func_0204B92C(struct Obj *, unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
 extern void ITEMMENU_ReturnToBagMain(void *p);
 
 void ITEMMENU_TaskWaitFadeIn(int p)
@@ -30,7 +30,7 @@ void ITEMMENU_TaskWaitFadeIn(int p)
     int a = WIPE_SYS_EndCheck();
     int b = ITEMMENU_MoveActorToPoint((const char *)p);
     if (a == 1 && b == 0) {
-        func_0204B92C((struct Obj *)((struct Obj20670 *)p)->f6A8, 1);
+        CLACT_SetActorAutoAnim((struct Obj *)((struct Obj20670 *)p)->f6A8, 1);
         ITEMMENU_ReturnToBagMain((void *)p);
     }
 }

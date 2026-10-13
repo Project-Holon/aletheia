@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DC5EC",
+   "name": "HAND_TOKUSEI_GetRegeneratorHandlers",
    "address": "0x021DC5EC",
    "kind": "game",
    "region": "ov093",

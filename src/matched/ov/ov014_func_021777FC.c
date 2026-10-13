@@ -1,5 +1,5 @@
 /*
- * function: func_021777FC
+ * function: NET_WHPIPE_RefreshBeacon
  * address:  0x021777FC
  * packet:   pkt_ov014_021777FC
  * region:   ov014
@@ -14,7 +14,7 @@
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_02034714  0x02034714  arm
  *   func_02082D44  0x02082D44  arm
- *   func_02177A74  0x02177A74  thumb  ov014
+ *   NET_WHPIPE_GetConnectedNum  0x02177A74  thumb  ov014
  *   NET_WHPIPE_SetBeaconGameInfo  0x02177D58  thumb  ov014
  */
 #include "../include/Obj04955.h"
@@ -29,13 +29,13 @@ extern u8 sEmptyString[];
 extern void *GFL_NET_GetInitParam(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082D44(void *src, void *dst, int n);
-extern int func_02177A74(void);
+extern int NET_WHPIPE_GetConnectedNum(void);
 extern void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len);
 
 typedef int (*SizeFn)(u32 a);
 typedef u32 (*DataFn)(u32 a);
 
-void func_021777FC(void)
+void NET_WHPIPE_RefreshBeacon(void)
 {
     u8 *w = g_pWhPipeWork;
     u8 *e = w + 0xC6E;
@@ -49,9 +49,9 @@ void func_021777FC(void)
             func_02034714((const char *)sEmptyString, 0, (const char *)sEmptyString);
         func_02082D44((void *)(*(DataFn *)(st + 0x18))(((struct Obj04955 *)w)->fC64), e + 8, n);
     }
-    if (e[6] != func_02177A74()) {
+    if (e[6] != NET_WHPIPE_GetConnectedNum()) {
         w[0xCF0] = 0;
-        e[6] = func_02177A74();
+        e[6] = NET_WHPIPE_GetConnectedNum();
     }
     if (w[0xCF0] == 0) {
         NET_WHPIPE_SetBeaconGameInfo(w + 0xC6E, 0x70);

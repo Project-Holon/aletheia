@@ -24,7 +24,7 @@
  *   func_0220985C 0x0220985C thumb ov094
  *   PARTICLE_GetEffectCount 0x02051614 arm
  *   func_021F8324 0x021F8324 thumb ov094
- *   func_02006238 0x02006238 thumb
+ *   GFL_USE_IsAnySeBusy 0x02006238 thumb
  *   GFL_USE_IsSeSlotBusy 0x02006224 thumb
  *   PM_VOICE_IsActive 0x02006BD0 thumb
  */
@@ -67,7 +67,7 @@ extern int func_021F8700(void);
 extern int func_0220985C(void *);
 extern int PARTICLE_GetEffectCount(int **p);
 extern int func_021F8324(unsigned);
-extern int func_02006238(void);
+extern int GFL_USE_IsAnySeBusy(void);
 extern int GFL_USE_IsSeSlotBusy(unsigned);
 extern u32 PM_VOICE_IsActive(u32 i);
 
@@ -116,7 +116,7 @@ int func_021FC744(int a, State *s)
         if (func_021F8324(3) != 0) return 0;
     }
     if (s->mode == 10) {
-        if (func_02006238() != 0 || s->flags.bit.b2 || s->flags.bit.b3) return 0;
+        if (GFL_USE_IsAnySeBusy() != 0 || s->flags.bit.b2 || s->flags.bit.b3) return 0;
     }
     if (s->mode == 11) {
         if (GFL_USE_IsSeSlotBusy(1) != 0 || s->flags.bit.b2 || s->flags.bit.b3) return 0;

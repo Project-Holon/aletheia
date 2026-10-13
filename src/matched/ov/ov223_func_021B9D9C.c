@@ -19,11 +19,11 @@
  *   POKEGRA_RegisterPalette 0x0202D7D8 thumb
  *   POKEGRA_RegisterCellAnim 0x0202D898 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021BC520 0x021BC520 thumb
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_CreateAffineActor 0x0204B324 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_020490F4 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -53,12 +53,12 @@ extern u32 POKEGRA_RegisterCgr(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern u32 POKEGRA_RegisterPalette(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern u32 POKEGRA_RegisterCellAnim(u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(u32);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern unsigned func_021BC520(unsigned char *p);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern struct Obj *CLACT_CreateAffineActor(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
-extern void func_0204B3DC(struct Obj *,unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 typedef signed int     s32;
 extern void *func_020490F4(u32 id, u32 heap);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
@@ -81,11 +81,11 @@ void func_021B9D9C(char *p)
     }
     ARC_TOOL_DeleteHandle(arc);
     for(j=0;j<3;j++) {
-        func_02082BCC(&request,0,8);
+        MI_CpuFill8(&request,0,8);
         request.x=motion[j].b[0];request.y=motion[j].b[1];request.z=0;request.a=2;request.b=3;
         r=p+j*148;
         ((struct Obj01595 *)r)->f6C=(u32)CLACT_CreateActor((void *)func_021BC520(((struct Obj00211 *)p)->f14),((struct Obj01595 *)r)->f54,((struct Obj01595 *)r)->f58,((struct Obj01595 *)r)->f5C,&request,1,((struct Obj00211 *)p)->f0);
-        func_0204B3DC((struct Obj *)((struct Obj01595 *)r)->f6C,0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj01595 *)r)->f6C,0);
     }
     other=(u32)func_020490F4(205,((struct Obj00211 *)p)->f0);
     for(i=0;i<3;i++) {
@@ -96,13 +96,13 @@ void func_021B9D9C(char *p)
     }
     ARC_TOOL_DeleteHandle(other);
     for(j=0;j<3;j++) {
-        func_02082BCC(&desc,0,24);
+        MI_CpuFill8(&desc,0,24);
         desc.x=motion[j].b[0];desc.y=motion[j].b[1];desc.z=0;desc.a=2;desc.b=3;desc.c=0;desc.d=0;
         desc.sx=FIX((float)motion[j].b[6]/16.0f);desc.sy=FIX((float)motion[j].b[6]/16.0f);
         desc.e=0;desc.f=1;
         r=p+j*148;
         ((struct Obj01595 *)r)->f70=(unsigned int)CLACT_CreateAffineActor(func_021BC520(((struct Obj00211 *)p)->f14),((struct Obj01595 *)r)->f60,((struct Obj01595 *)r)->f58,((struct Obj01595 *)r)->f68,(u32)(&desc),1,((struct Obj00211 *)p)->f0);
-        func_0204B3DC((struct Obj *)((struct Obj01595 *)r)->f70,0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj01595 *)r)->f70,0);
     }
     for(i=0;i<3;i++) {
         *(u16 *)(p+i*148+216)=0;

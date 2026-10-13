@@ -10,7 +10,7 @@
  * volatile: hardware reads/writes 021D4D66, 021D4D70, 021D4D74.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   func_0207D46C 0x0207D46C arm
@@ -36,7 +36,7 @@ extern u8 d_021D6614[];
 extern u32 d_021D65E4[];
 extern u32 d_021D65D4[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02043534(u32);
+extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void BG_SYS_SetLcdSwap(u32);
 extern void func_0207D46C(void);
@@ -57,7 +57,7 @@ u8 *func_021D4D38(u16 heap, u32 mode, int a2) {
     p=func_02030734(heap,0x14bc,1,(const char *)d_021D6614,146);
     ((struct Obj00198 *)p)->fC=heap;
     ((struct Obj00198 *)p)->f8=mode;
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050=0;
     BG_SYS_SetLcdSwap(1);
@@ -80,6 +80,6 @@ u8 *func_021D4D38(u16 heap, u32 mode, int a2) {
         break;
     }
     BG_SYS_SetSubVisiblePlanes(31);
-    func_02043534(31);
+    BG_SYS_SetMainVisiblePlanes(31);
     return p;
 }

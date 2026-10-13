@@ -14,7 +14,7 @@
  *   func_021BDF74 0x021BDF74 thumb ov204
  *   func_021BDDF8 0x021BDDF8 thumb ov204
  *   func_0201DD68 0x0201DD68 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj25334.h"
@@ -24,7 +24,7 @@ extern void func_021BE0D4(unsigned char *);
 extern void func_021BDF74(unsigned char *);
 extern void func_021BDDF8(unsigned char *);
 extern void func_0201DD68(void);
-extern void func_02082BCC(void *, unsigned, unsigned);
+extern void MI_CpuFill8(void *, unsigned, unsigned);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void func_021BDCF0(unsigned char *p)
@@ -38,6 +38,6 @@ void func_021BDCF0(unsigned char *p)
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &= 0xFFFF1FFF;
-    func_02082BCC(p, 0, 0x14);
+    MI_CpuFill8(p, 0, 0x14);
     func_020307B0(p);
 }

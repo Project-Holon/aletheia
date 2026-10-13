@@ -12,13 +12,13 @@
  * bits and emits the otherwise unused frame word. A cast S lvalue at
  * c+2 compiled 30 bytes with the wrong frame and redundant address add.
  * symbols:
- *   func_021B9934 0x021B9934 thumb ov093
+ *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   BTL_POKEPARAM_SetSickCont 0x021D6034 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 typedef struct { int x; } S;
 extern void BTL_POKEPARAM_SetSickCont(u8 *, int, S);
 int BTL_CLIENT_CmdSetSick(u32 *a, int b, u32 *c)
@@ -26,7 +26,7 @@ int BTL_CLIENT_CmdSetSick(u32 *a, int b, u32 *c)
     u8 *m;
     S s;
 
-    m = func_021B9934((char *)a[1], (u8)c[0]);
+    m = BTL_SIDE_GetPokeByIdThunk((char *)a[1], (u8)c[0]);
     s.x = c[2];
     BTL_POKEPARAM_SetSickCont(m, c[1], s);
     return 1;

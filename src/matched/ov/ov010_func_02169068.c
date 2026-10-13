@@ -12,7 +12,7 @@
  * interface: final u16 argument follows the original lsls/lsrs #16 pair.
  * symbols:
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0201AD0C 0x0201AD0C thumb
+ *   POKEPARTY_GetSaveData 0x0201AD0C thumb
  *   GAME_DATA_GetSeason 0x02012984 thumb
  *   FORMCHANGE_RevertShayminIfTimeOfDayChanged 0x0216A2EC thumb ov010
  *   func_0200C0F0 0x0200C0F0 thumb
@@ -24,10 +24,10 @@ typedef unsigned int u32;
 struct Big;
 struct BigObj;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0201AD0C(void *sys);
+extern void *POKEPARTY_GetSaveData(void *sys);
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern int FORMCHANGE_RevertShayminIfTimeOfDayChanged(int,int,int,int *,int);
 extern void *func_0200C0F0(void *sys);
 struct Blk34;
 extern void func_0200C3C0(struct Blk34 *p, u16 v);
-void FIELD_CLOCK_UpdateMinutes(int a,int b,int *c) { int t=(int)func_0201AD0C(GAME_DATA_GetSaveControl((struct Big *)a)); FORMCHANGE_RevertShayminIfTimeOfDayChanged(a,t,b,c,GAME_DATA_GetSeason((const struct BigObj *)a)); func_0200C3C0((struct Blk34 *)((int)func_0200C0F0(GAME_DATA_GetSaveControl((struct Big *)a))),b); }
+void FIELD_CLOCK_UpdateMinutes(int a,int b,int *c) { int t=(int)POKEPARTY_GetSaveData(GAME_DATA_GetSaveControl((struct Big *)a)); FORMCHANGE_RevertShayminIfTimeOfDayChanged(a,t,b,c,GAME_DATA_GetSeason((const struct BigObj *)a)); func_0200C3C0((struct Blk34 *)((int)func_0200C0F0(GAME_DATA_GetSaveControl((struct Big *)a))),b); }

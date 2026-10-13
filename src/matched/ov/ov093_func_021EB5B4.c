@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8ED8  0x021B8ED8  thumb  ov093
- *   func_021B98AC  0x021B98AC  thumb  ov093
+ *   BTL_MAIN_GetSlotFromViewPos  0x021B8ED8  thumb  ov093
+ *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
  *   func_021F7EE8  0x021F7EE8  thumb  ov094
  *   func_021EDA04  0x021EDA04  thumb  ov093
@@ -21,8 +21,8 @@
 #include "../include/Obj10117.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 func_021B8ED8(u8 *p, u8 k);
-extern u8 *func_021B98AC(char *const *q, u8 b);
+extern u8 BTL_MAIN_GetSlotFromViewPos(u8 *p, u8 k);
+extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 struct E;
 struct Work;
 extern void *BTL_POKEPARAM_GetDisplayMon(struct Work *p);
@@ -39,8 +39,8 @@ int BTLV_SCU_ProcQuickEntry(u8 *p, int *state, u8 *src, u8 n)
         u8 k;
         for (i = 0; i < n; i++) {
             c = src[i];
-            k = func_021B8ED8(*(u8 * *)&((struct Obj10117 *)p)->f134, c);
-            func_021F7EE8(BTL_POKEPARAM_GetDisplayMon((struct Work *)func_021B98AC(*(char *const * *)&((struct Obj10117 *)p)->f138, k)), c);
+            k = BTL_MAIN_GetSlotFromViewPos(*(u8 * *)&((struct Obj10117 *)p)->f134, c);
+            func_021F7EE8(BTL_POKEPARAM_GetDisplayMon((struct Work *)BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj10117 *)p)->f138, k)), c);
             func_021EDA04((struct E *)(p + 0x48 + k * 12));
         }
         *state = *state + 1;

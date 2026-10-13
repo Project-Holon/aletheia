@@ -12,7 +12,7 @@
  * Two-step state machine on *st: step 0 starts a request, step 1 finishes.
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FLD_FACEUP_StartClose  0x021F5550  thumb  ov082
  *   SCRIPT_WORK_ResetCheckFlag  0x02159168  thumb  ov010
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 
 struct Evt;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern void *FLD_FACEUP_StartClose(void *p);
 extern void SCRIPT_WORK_ResetCheckFlag(int n);
@@ -37,7 +37,7 @@ extern u8 ov_id_52[];
 
 int FLD_FACEUP_EndEvent(void *a, int *st)
 {
-    int r = (int)func_020124E4(a);
+    int r = (int)GAME_EVENT_GetGameSystem(a);
     switch (*st) {
     case 0:
         GAME_EVENT_CallEvent(a, FLD_FACEUP_StartClose((void *)r));

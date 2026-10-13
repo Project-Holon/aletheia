@@ -40,7 +40,7 @@
  *   func_0204EBD4 0x0204EBD4 arm
  *   func_0204ED70 0x0204ED70 arm
  *   CLACT_InitSystem 0x0204A48C arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_0207D63C 0x0207D63C arm
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
@@ -105,7 +105,7 @@ extern void func_0207DCF8(const void *);
 extern void *func_0204EBD4(u8 *src, void *heap);
 extern void func_0204ED70(u8 *dst, struct Blk3 *src);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern void func_020434DC(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32),func_0207D63C(void *,int,int,int,int);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32),func_0207D63C(void *,int,int,int,int);
 typedef enum { MAIN_SUB=0,SUB_MAIN=1 } GXDispSelect;
 static inline void GX_SetVisiblePlane(int plane) { *(volatile u32 *)0x04000000=(*(volatile u32 *)0x04000000&~0x1F00u)|((u32)plane<<8); }
 static inline void GXS_SetVisiblePlane(int plane) { *(volatile u32 *)0x04001000=(*(volatile u32 *)0x04001000&~0x1F00u)|((u32)plane<<8); }
@@ -152,7 +152,7 @@ void func_021F899C(u8 *p)
     *(void **)(p+0xAC)=board;
     func_0204ED70(board,(struct Blk3 *)(&small));
     CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)d_021FDBA0,*(u16 *)p);
-    func_020434DC(16,1); BG_SYS_SetSubPlaneVisible(16,1);
+    BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
     func_0207D63C((void *)0x04000050,8,1,0,10);
     GX_SetVisibleWnd(4);
     G2_SetWndOBJInsidePlane(23,1);

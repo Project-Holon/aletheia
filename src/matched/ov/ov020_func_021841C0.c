@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Two spellings are load-bearing.  The u8 range check on func_02026454's
+ * Two spellings are load-bearing.  The u8 range check on GAME_COMM_GetKind's
  * result is `adds r0, #0xff; lsls/lsrs #0x18; cmp #1; bhi`: written
  * `(u8)(v - 1) <= 1` it compiles to `subs r0, r0, #1` (one byte out), and as
  * `switch (v) { case 1: case 2: }` it grows by 4 bytes with two compares;
@@ -24,13 +24,13 @@
  *   ov230_id       0x000000E6  data
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
- *   func_0201447C  0x0201447C  thumb
+ *   FIELD_STATUS_SwapSeasonDispFlag  0x0201447C  thumb
  *   FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent  0x02014554  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
- *   func_02013D34  0x02013D34  thumb
- *   func_02026454  0x02026454  thumb
+ *   ZONEDATA_IsNoGameEventZone  0x02013D34  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   func_02183B60  0x02183B60  thumb  ov020
  *   EVENT_MAPCHANGE_AllocWorkBufferA  0x0218604C  thumb  ov020
@@ -74,13 +74,13 @@ struct Evt;
 struct Sub02008AECSession;
 struct Sub02014444Obj;
 extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
-extern u8 func_0201447C(struct Sub02014444Obj *o, u8 v);
+extern u8 FIELD_STATUS_SwapSeasonDispFlag(struct Sub02014444Obj *o, u8 v);
 extern int FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent(int a, int b);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int func_02034AC4(int id);
 extern void func_02034A5C(int handle);
-extern u32 func_02013D34(u32 id);
-extern u32 func_02026454(void *obj);
+extern u32 ZONEDATA_IsNoGameEventZone(u32 id);
+extern u32 GAME_COMM_GetKind(void *obj);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 extern int func_02183B60(int f);
 extern void *EVENT_MAPCHANGE_AllocWorkBufferA(void);
@@ -126,13 +126,13 @@ int EVENT_MAPCHANGE_ChangeFieldEvent(int ctx, int *state, u8 **pp)
 
     switch (*state) {
     case 0:
-        func_0201447C(GAME_DATA_GetMoveModelSys((const struct BigObj *)y), 2);
+        FIELD_STATUS_SwapSeasonDispFlag(GAME_DATA_GetMoveModelSys((const struct BigObj *)y), 2);
         GAME_EVENT_CallEvent((struct Evt *)ctx, (struct Evt **)FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent(x, z));
         (*state)++;
         break;
     case 1:
         func_02034AC4((int)ov230_id);
-        if (func_02013D34(((struct Obj01649 *)p)->f14) == 1 && (u8)(func_02026454((void *)w) + 0xff) <= 1) {
+        if (ZONEDATA_IsNoGameEventZone(((struct Obj01649 *)p)->f14) == 1 && (u8)(GAME_COMM_GetKind((void *)w) + 0xff) <= 1) {
             GAME_COMM_RequestExitNoCallback((struct Comm *)w);
             *state = 2;
         } else {
@@ -140,7 +140,7 @@ int EVENT_MAPCHANGE_ChangeFieldEvent(int ctx, int *state, u8 **pp)
         }
         break;
     case 2:
-        if (func_02026454((void *)w) == 0) {
+        if (GAME_COMM_GetKind((void *)w) == 0) {
             *state = 3;
         }
         break;

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
@@ -20,7 +20,7 @@
  */
 #include "../include/Obj10347.h"
 typedef unsigned char u8;
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void func_0203F8F4(unsigned);
 extern void BMP_WIN_Init(unsigned);
 typedef unsigned int   u32;
@@ -33,7 +33,7 @@ extern void func_02040588(u8,u8);
 extern char d_021D83B0[],d_021D83F0[];
 void func_021D8304(void *p,unsigned heap) {
  unsigned i; char *q; unsigned n;
- func_02082BCC(p,0,4);
+ MI_CpuFill8(p,0,4);
  func_0203F8F4(heap); BMP_WIN_Init(heap); func_0203FC28((struct DispConfig *)d_021D83B0);
  for(i=0;i<8;i++) {
  q=d_021D83F0+i*44; n=((struct Obj10347 *)q)->f0;

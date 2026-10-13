@@ -1,5 +1,5 @@
 /*
- * function: func_021C7C18
+ * function: BTL_SERVER_FLOW_ClearEffectivenessRecord
  * address:  0x021C7C18
  * packet:   pkt_021C7C18
  * region:   ov093
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
-void func_02082BCC(void *p, int v, int n);
+void MI_CpuFill8(void *p, int v, int n);
 
-void func_021C7C18(void *p)
+void BTL_SERVER_FLOW_ClearEffectivenessRecord(void *p)
 {
-    func_02082BCC(p, 0, 0xc);
+    MI_CpuFill8(p, 0, 0xc);
 }

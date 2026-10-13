@@ -1,5 +1,5 @@
 /*
- * function: func_021B91E4
+ * function: BTL_MAIN_AddBonusMoney
  * address:  0x021B91E4
  * packet:   pkt_ov093_021B91E4
  * region:   ov093
@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-void func_021B91E4(void *p, int add)
+void BTL_MAIN_AddBonusMoney(void *p, int add)
 {
     if (((unsigned int)((struct Obj07745 *)p)->f473 << 28 >> 31) != 0)
         return;

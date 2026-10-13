@@ -11,11 +11,11 @@
  *
  * symbols:
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   func_02026474  0x02026474  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetWork  0x02026474  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   UNION_CHAT_LOG_Add  0x021BBA70  thumb  ov021
  *   UNION_SUBDISP_UpdateChatLines  0x021F0680  thumb  ov031
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   UNION_SUBDISP_CheckTouch  0x021F0584  thumb  ov031
  *   UNION_COMM_SetChatType  0x021736C8  thumb  ov012
  *   UNION_SUBDISP_UpdateKnobDrag  0x021F0B98  thumb  ov031
@@ -36,12 +36,12 @@ typedef unsigned int   u32;
 struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 struct Src;
-extern u32 func_02026474(void *obj);
-extern u32 func_02026454(void *obj);
+extern u32 GAME_COMM_GetWork(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
 extern void UNION_CHAT_LOG_Add(struct Ctx *ctx, struct Src *src, u16 *v, u8 kind);
 extern void UNION_SUBDISP_UpdateChatLines(char *p, u8 *b);
 struct Obj;
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern int UNION_SUBDISP_CheckTouch(int *p, u8 *flag);
 extern void UNION_COMM_SetChatType(u8 *a, int v);
 extern int UNION_SUBDISP_UpdateKnobDrag(char *o);
@@ -60,7 +60,7 @@ void UNION_SUBDISP_Update(char *p, int mode)
     int res;
 
     s = (void *)GAMESYSTEM_GetGameComm(((struct Obj01128 *)p)->f0);
-    q = (u8 *)func_02026474(s);
+    q = (u8 *)GAME_COMM_GetWork(s);
     if (q != 0) {
         r = q + 0x2830;
         if (r[0xe] == 1) {
@@ -69,7 +69,7 @@ void UNION_SUBDISP_Update(char *p, int mode)
         }
         UNION_SUBDISP_UpdateChatLines(p, q + 0x30E0);
         if (((struct Obj07628 *)q)->f351C >= 3)
-            func_0204B3DC((struct Obj *)((struct Obj01128 *)p)->f2C, 1);
+            CLACT_SetActorDrawEnable((struct Obj *)((struct Obj01128 *)p)->f2C, 1);
     }
     if (mode == 1) {
         res = UNION_SUBDISP_CheckTouch((int *)p, q);
@@ -105,6 +105,6 @@ void UNION_SUBDISP_Update(char *p, int mode)
             UNION_SUBDISP_CheckLineTouch(q, p, q + 0x30E0);
         UNION_SUBDISP_UpdateLineHighlights(p, q + 0x30E0);
     }
-    if (func_02026454(s) == 3 && q != 0)
+    if (GAME_COMM_GetKind(s) == 3 && q != 0)
         UNION_MAIN_SetAppealNo(q, ((struct Obj01128 *)p)->f30);
 }

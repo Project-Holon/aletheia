@@ -10,9 +10,9 @@
  * extent: Two zero alignment bytes at 021E012E follow the 90-byte function.
  * symbols:
  *   BMP_WIN_ClearScreen 0x020456F8 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_021E03A0 0x021E03A0 thumb ov137
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_0201ED04 0x0201ED04 thumb
@@ -25,9 +25,9 @@ typedef unsigned char u8;
 struct Descriptor;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 typedef unsigned int   u32;
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_021E03A0(u8 *);
 struct Rec;
 struct U16Vec;
@@ -45,8 +45,8 @@ void func_021E00D4(u8 *p)
     s=p+3296;
     obj=((struct Obj05432 *)s)->f10;
     BMP_WIN_ClearScreen(obj);
-    func_020409B4(func_02045730(obj));
-    func_020452E8(((struct Obj05432 *)s)->f10);
+    func_020409B4(BMP_WIN_GetBgLayer(obj));
+    BMP_WIN_Delete(((struct Obj05432 *)s)->f10);
     func_021E03A0(p);
     MSGDATA_Delete(((struct Obj05432 *)s)->f8);
     func_0201ED04(((struct Obj05432 *)s)->fC);

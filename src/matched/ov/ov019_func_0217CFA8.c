@@ -16,8 +16,8 @@
  *   TRCARD_SYS_BuildProfile  0x0216F40C  thumb  ov010
  *   func_02082D44  0x02082D44  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   UNION_MSG_CheckLanguageVersion  0x0217EE4C  thumb  ov019
  *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb  ov019
  *   UNION_COMMAND_SendTrainerCard  0x02173BB0  thumb  ov012
@@ -52,8 +52,8 @@ extern void func_02082D44(void *a, void *b, int c);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
-extern unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
 extern int UNION_MSG_CheckLanguageVersion(int **p, int x, int y);
 typedef unsigned int   u32;
 extern void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
@@ -81,12 +81,12 @@ int UNION_ONESELF_TrainerCardMain(u8 *a, Obj *b, u8 *c, u8 *d)
         ((struct Obj00610 *)a)->f3544 = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B5);
         TRCARD_SYS_BuildProfile(((struct Obj00610 *)a)->f3540, (void *)((*(int **)a)[2]), 1, 0, 0x41);
         func_02082D44(((struct Obj00610 *)a)->f3540, ((struct Obj00610 *)a)->f3544, 0x678);
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x14);
         UNION_MSG_SetupPrintTalkMsg(a, c, UNION_MSG_CheckLanguageVersion((int **)a, b->f14[0x26], b->f14[0x27]));
         (*d)++;
         break;
     case 1:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x14) == 1)
             (*d)++;
         break;
     case 2:
@@ -102,11 +102,11 @@ int UNION_ONESELF_TrainerCardMain(u8 *a, Obj *b, u8 *c, u8 *d)
         }
         break;
     case 4:
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 4, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 4, 0x14);
         (*d)++;
         break;
     case 5:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 4, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 4, 0x14) == 1)
             (*d)++;
         break;
     case 6:
@@ -119,11 +119,11 @@ int UNION_ONESELF_TrainerCardMain(u8 *a, Obj *b, u8 *c, u8 *d)
         break;
     case 8:
         UNION_MSG_SetupPrintTalkMsg(a, c, 0x10);
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 5, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 5, 0x14);
         (*d)++;
         break;
     case 9:
-        if (UNION_MSG_CheckTalkPrintEnd(a) != 0 && func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 5, 0x14) == 1) {
+        if (UNION_MSG_CheckTalkPrintEnd(a) != 0 && GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 5, 0x14) == 1) {
             func_020307B0(((struct Obj00610 *)a)->f3540);
             func_020307B0(((struct Obj00610 *)a)->f3544);
             ((struct Obj00610 *)a)->f353C = 0;

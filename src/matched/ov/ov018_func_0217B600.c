@@ -24,7 +24,7 @@
  * the stores go through r7, which a declared struct folds to sp.
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
@@ -32,7 +32,7 @@
  *   GAME_DATA_SetPlayerPosition  0x02012A90  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   func_0200FB24  0x0200FB24  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
@@ -88,7 +88,7 @@ struct Obj;
 struct Rec;
 struct Rec44;
 struct Vec12;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
@@ -96,7 +96,7 @@ extern u8 *GAME_DATA_GetPlayerWork(u8 *p, int i);
 extern void GAME_DATA_SetPlayerPosition(struct Rec44 *p, const struct Vec12 *src);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern u32 func_0200FB24(void);
-extern u32 func_02026454(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern int FLDMMDL_CheckPossibleAcmd(int a0);
@@ -138,7 +138,7 @@ int INTRUDE_FIELD_EventExitConfirm(int a0, int *state, Obj *o)
     u8 v[12];
     V12 *pv;
 
-    w = (int)func_020124E4((struct Obj *)a0);
+    w = (int)GAME_EVENT_GetGameSystem((struct Obj *)a0);
     g = (int)GAMESYSTEM_GetFieldMap((const struct Ctx *)w);
     h = GAMESYSTEM_GetGameComm((const struct Ctx *)w);
     switch (*state) {
@@ -170,7 +170,7 @@ int INTRUDE_FIELD_EventExitConfirm(int a0, int *state, Obj *o)
         }
         break;
     case 3:
-        if (func_0200FB24() == 0 && func_02026454((void *)h) == 2) {
+        if (func_0200FB24() == 0 && GAME_COMM_GetKind((void *)h) == 2) {
             GAME_COMM_RequestExitNoCallback((struct Comm *)h);
             o->f4 = FIELD_MSGBG_CreateBottomMsgWin(FIELDMAP_GetMsgBg((u8 *)g), o->f0);
             FIELD_MSGBG_MsgWinPrintMsg(o->f4, 0, 0, 0x14);
@@ -185,7 +185,7 @@ int INTRUDE_FIELD_EventExitConfirm(int a0, int *state, Obj *o)
         o->f28++;
         if (o->f4 != 0 && o->f28 <= 0x3C)
             break;
-        if (func_02026454((void *)h) == 2)
+        if (GAME_COMM_GetKind((void *)h) == 2)
             break;
         ctx = (int)GAMESYSTEM_GetGameData((const struct Ctx *)w);
         pv = (V12 *)v;

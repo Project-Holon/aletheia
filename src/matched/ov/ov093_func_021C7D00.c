@@ -1,5 +1,5 @@
 /*
- * function: func_021C7D00
+ * function: BTL_SERVER_FLOW_GetFrontPosOfPoke
  * address: 0x021C7D00
  * packet: pkt_ov093_021C7D00
  * region: ov093
@@ -16,4 +16,4 @@
 typedef unsigned char u8;
 extern int func_021C7D24(u8 *);
 extern int BTL_MAIN_CheckFrontPos(unsigned int **, unsigned int);
-int func_021C7D00(u8 *p, int b) { int i = func_021C7D24(p + 0x1ab8); if (!BTL_MAIN_CheckFrontPos(*(unsigned int ** *)&((struct Obj00003 *)p)->f4, i)) i = 6; return i; }
+int BTL_SERVER_FLOW_GetFrontPosOfPoke(u8 *p, int b) { int i = func_021C7D24(p + 0x1ab8); if (!BTL_MAIN_CheckFrontPos(*(unsigned int ** *)&((struct Obj00003 *)p)->f4, i)) i = 6; return i; }

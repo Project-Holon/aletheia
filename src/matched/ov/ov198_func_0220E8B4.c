@@ -21,7 +21,7 @@
  *   func_020307B0 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02027604 0x02027604 thumb
- *   func_0204B6F4 0x0204B6F4 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,7 +36,7 @@ extern void CLACT_TransferCharacter(int,struct Sub0204A9D0 *);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern u8 func_02027604(u8 i);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 void func_0220E8B4(char *p,int first,int index,int which)
 {
     void *owner,*data;
@@ -50,6 +50,6 @@ void func_0220E8B4(char *p,int first,int index,int which)
     CLACT_TransferCharacter(*(int *)(p+index*4+0x24a4),out);
     func_020307B0(data);
     ARC_TOOL_DeleteHandle(owner);
-    func_0204B6F4(*(void **)(p+first*4+0x1ebc),(unsigned)func_02027604(which),1);
+    CLACT_SetActorPaletteOffset(*(void **)(p+first*4+0x1ebc),(unsigned)func_02027604(which),1);
     ((Flags *)(p+0x2175))->flip^=1;
 }

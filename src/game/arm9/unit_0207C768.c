@@ -26,7 +26,7 @@ extern void sub_0207C930(u32 a, u32 b);
 extern u32  sub_0207C86C(void);
 extern void func_0207C8A0(fx32 denom);
 extern u32 func_0207C86C(void);
-u32 sub_0207C768(u32 numer, u32 denom);
+u32 FX_Div(u32 numer, u32 denom);
 fx32 FX_Inv(fx32 denom);
 
 
@@ -38,10 +38,10 @@ fx32 FX_Inv(fx32 denom);
  * (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0207C768.c \
- *       --func sub_0207C768 --addr 0x0207C768 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/FX_Div.c \
+ *       --func FX_Div --addr 0x0207C768 --cc 1.1p1 --arm
  */
-u32 sub_0207C768(u32 numer, u32 denom)
+u32 FX_Div(u32 numer, u32 denom)
 {
     sub_0207C930(numer, denom);
     return sub_0207C86C();

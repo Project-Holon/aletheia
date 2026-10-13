@@ -15,7 +15,7 @@
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
  *   FIELD_PLAYER_CORE_SetStepKind  0x021A3964  thumb  ov021
  *   FIELD_PLAYER_GRID_CheckMapConnectAhead  0x021A5810  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 #include "../include/Obj07499.h"
 
@@ -29,7 +29,7 @@ void FLDMMDL_SetAcmd(int b, int v);
 void FIELD_PLAYER_CORE_SetStepKind(u8 *p, u32 v);
 
 int FIELD_PLAYER_GRID_CheckMapConnectAhead(u8 *p, int dir);
-void func_020061E4(u32 a);
+void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 void FIELD_PLAYER_GRID_StartBlockedOnSurf(u32 *p, int b, u8 *c)
 {
@@ -37,5 +37,5 @@ void FIELD_PLAYER_GRID_StartBlockedOnSurf(u32 *p, int b, u8 *c)
     p[0] = 3;
     FIELD_PLAYER_CORE_SetStepKind((u8 *)p[3], 0);
     if (FIELD_PLAYER_GRID_CheckMapConnectAhead((u8 *)p, ((struct Obj07499 *)c)->f8) == 0)
-        func_020061E4(0x55A);
+        GFL_USE_PlaySeDefaultVolume(0x55A);
 }

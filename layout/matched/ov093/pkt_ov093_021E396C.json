@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E396C",
+   "name": "HAND_WAZA_MagnitudeSetDefaultLevel",
    "address": "0x021E396C",
    "kind": "game",
    "region": "ov093",

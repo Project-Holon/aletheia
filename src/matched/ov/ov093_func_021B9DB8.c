@@ -1,5 +1,5 @@
 /*
- * function: func_021B9DB8
+ * function: BTL_MAIN_ClearTrainerSlotsAndVoices
  * address: 0x021B9DB8
  * packet: pkt_ov093_021B9DB8
  * region: ov093
@@ -11,7 +11,7 @@
 #include "../include/Obj09942.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021B9DB8(char *p) {
+void BTL_MAIN_ClearTrainerSlotsAndVoices(char *p) {
     u32 i;
     char *q;
     for(i=0;i<4;i++) {

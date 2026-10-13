@@ -9,16 +9,16 @@
  * status:   EXACT
  * symbols:
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_020355C4 0x020355C4 arm
  *   func_020490F4 0x020490F4 arm
  *   func_021D8FA4 0x021D8FA4 thumb ov119
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
- *   func_0201BA68 0x0201BA68 thumb
+ *   POKE_TOOL_GetGraphicIndex 0x0201BA68 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
- *   func_0204B6F4 0x0204B6F4 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 #include "../include/Obj00285.h"
@@ -29,17 +29,17 @@ struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern u8 func_020355C4(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_021D8FA4(void *p, int a);
 extern void *POKE_TOOL_GetBoxParam(void *a);
-extern u32 func_0201BA68(void *mon);
+extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
 typedef signed int     s32;
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern int POKE_TOOL_GetIconPalette(void *);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void ARC_TOOL_DeleteHandle(void *);
 void func_021E5998(char *p)
 {
@@ -54,8 +54,8 @@ void func_021E5998(char *p)
     u.mode = 1;
     ((struct Obj00285 *)p)->fF08 = CLACT_CreateActor(((struct Obj00285 *)p)->f9C4, (unsigned int)((struct Obj00285 *)p)->f894, (unsigned int)((struct Obj00285 *)p)->f880,
         (unsigned int)((struct Obj00285 *)p)->f8B0, &u, 1, ((struct Obj00285 *)p)->f5F4);
-    func_0204B92C(((struct Obj00285 *)p)->fF08, 1);
-    func_0204B3DC(((struct Obj00285 *)p)->fF08, 1);
+    CLACT_SetActorAutoAnim(((struct Obj00285 *)p)->fF08, 1);
+    CLACT_SetActorDrawEnable(((struct Obj00285 *)p)->fF08, 1);
     u.x = 0x60;
     u.y = 0x10;
     u.prio = 0;
@@ -63,16 +63,16 @@ void func_021E5998(char *p)
     u.mode = 1;
     ((struct Obj00285 *)p)->fF0C = CLACT_CreateActor(((struct Obj00285 *)p)->f9C4, (unsigned int)((struct Obj00285 *)p)->f894, (unsigned int)((struct Obj00285 *)p)->f880,
         (unsigned int)((struct Obj00285 *)p)->f8B0, &u, 1, ((struct Obj00285 *)p)->f5F4);
-    func_0204B92C(((struct Obj00285 *)p)->fF0C, 1);
+    CLACT_SetActorAutoAnim(((struct Obj00285 *)p)->fF0C, 1);
     if (func_020355C4()) {
-        func_0204B3DC(((struct Obj00285 *)p)->fF0C, 0);
+        CLACT_SetActorDrawEnable(((struct Obj00285 *)p)->fF0C, 0);
     }
     arc = func_020490F4(7, ((struct Obj00285 *)p)->f5F4);
     z = 0;
     a = POKE_TOOL_GetBoxParam(func_021D8FA4(p, 0));
     b = POKE_TOOL_GetBoxParam(func_021D8FA4(p, 1));
-    ((struct Obj00285 *)p)->f89C = (void *)CLACT_RegisterCharacter(arc, func_0201BA68(a), z, 1, ((struct Obj00285 *)p)->f5F4);
-    ((struct Obj00285 *)p)->f8A0 = (void *)CLACT_RegisterCharacter(arc, func_0201BA68(b), z, 1, ((struct Obj00285 *)p)->f5F4);
+    ((struct Obj00285 *)p)->f89C = (void *)CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex(a), z, 1, ((struct Obj00285 *)p)->f5F4);
+    ((struct Obj00285 *)p)->f8A0 = (void *)CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex(b), z, 1, ((struct Obj00285 *)p)->f5F4);
     t.x = 0x60;
     t.y = 0xc;
     t.prio = z;
@@ -80,14 +80,14 @@ void func_021E5998(char *p)
     t.mode = 1;
     ((struct Obj00285 *)p)->fF10 = CLACT_CreateActor(((struct Obj00285 *)p)->f9C4, (unsigned int)((struct Obj00285 *)p)->f89C, (unsigned int)((struct Obj00285 *)p)->f87C,
         (unsigned int)((struct Obj00285 *)p)->f8AC, &t, 1, ((struct Obj00285 *)p)->f5F4);
-    func_0204B92C(((struct Obj00285 *)p)->fF10, 0);
-    func_0204B3DC(((struct Obj00285 *)p)->fF10, 1);
-    func_0204B6F4(((struct Obj00285 *)p)->fF10, POKE_TOOL_GetIconPalette(a), 1);
+    CLACT_SetActorAutoAnim(((struct Obj00285 *)p)->fF10, 0);
+    CLACT_SetActorDrawEnable(((struct Obj00285 *)p)->fF10, 1);
+    CLACT_SetActorPaletteOffset(((struct Obj00285 *)p)->fF10, POKE_TOOL_GetIconPalette(a), 1);
     t.x = 0xa0;
     ((struct Obj00285 *)p)->fF14 = CLACT_CreateActor(((struct Obj00285 *)p)->f9C4, (unsigned int)((struct Obj00285 *)p)->f8A0, (unsigned int)((struct Obj00285 *)p)->f87C,
         (unsigned int)((struct Obj00285 *)p)->f8AC, &t, 1, ((struct Obj00285 *)p)->f5F4);
-    func_0204B92C(((struct Obj00285 *)p)->fF14, 0);
-    func_0204B3DC(((struct Obj00285 *)p)->fF14, 1);
-    func_0204B6F4(((struct Obj00285 *)p)->fF14, POKE_TOOL_GetIconPalette(b), 1);
+    CLACT_SetActorAutoAnim(((struct Obj00285 *)p)->fF14, 0);
+    CLACT_SetActorDrawEnable(((struct Obj00285 *)p)->fF14, 1);
+    CLACT_SetActorPaletteOffset(((struct Obj00285 *)p)->fF14, POKE_TOOL_GetIconPalette(b), 1);
     ARC_TOOL_DeleteHandle(arc);
 }

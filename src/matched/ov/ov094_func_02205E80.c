@@ -19,9 +19,9 @@
  *   d_0220A580     0x0220A580  data   ov094  a4
  *   d_0220A392     0x0220A392  data   ov094  a2
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 #include "../include/Obj00083.h"
 #include "../include/Obj21787.h"
@@ -36,9 +36,9 @@ extern const Q d_0220A580;
 extern const u16 d_0220A392[];
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *res, unsigned int a, unsigned int b, unsigned int c, const void *pos, u16 f, u16 heap);
-extern void func_0204B92C(struct Obj *h, u32 f);
+extern void CLACT_SetActorAutoAnim(struct Obj *h, u32 f);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 void func_02205E80(char *m)
 {
@@ -62,8 +62,8 @@ void func_02205E80(char *m)
         p = m + j * 8;
         *(u32 *)(p + o3) = (u32)CLACT_CreateActor((void *)*(u32 *)(m + o0), ((struct Obj00083 *)m)->f110, *(u32 *)(m + o1),
                                          *(u32 *)(m + o2), d_0220A392, 1, ((struct Obj00083 *)m)->f240);
-        func_0204B92C((struct Obj *)*(int *)(p + o4), 1);
+        CLACT_SetActorAutoAnim((struct Obj *)*(int *)(p + o4), 1);
         CLACT_SetActorAnimSeq((struct Obj *)(*(int *)(p + o5)), q.v[j]);
-        func_0204B3DC((struct Obj *)((struct Obj21787 *)p)->f180, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj21787 *)p)->f180, 0);
     }
 }

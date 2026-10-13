@@ -14,7 +14,7 @@
  *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb  ov093
  *   BTL_POKEPARAM_GetMoveId  0x021D54C0  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
- *   func_021C7DAC  0x021C7DAC  thumb  ov093
+ *   BTL_SERVER_FLOW_CalcMoveTypeEffectiveness  0x021C7DAC  thumb  ov093
  *
  * Lever: the second parameter is a struct pointer; with an int base the
  * loop-invariant b+0xbc/b+0xc0 addresses were hoisted and b spilled.
@@ -38,7 +38,7 @@ extern void VM_Jump(struct Cur *c, u32 v);
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern int func_021C7DAC(u8 *p, int a, int b, int c);
+extern int BTL_SERVER_FLOW_CalcMoveTypeEffectiveness(u8 *p, int a, int b, int c);
 
 int func_02189B78(struct Cursor *a, Obj *b) {
     int r;
@@ -51,7 +51,7 @@ int func_02189B78(struct Cursor *a, Obj *b) {
         c6 = BTL_POKEPARAM_GetMoveId(b->fbc, (u8)i);
         c7 = BTL_POKEPARAM_GetPokeId(b->fbc);
         c2 = BTL_POKEPARAM_GetPokeId(b->fc0);
-        if ((u32)(func_021C7DAC((u8 *)b->fb4, c7, c2, c6) - 4) <= 1) {
+        if ((u32)(BTL_SERVER_FLOW_CalcMoveTypeEffectiveness((u8 *)b->fb4, c7, c2, c6) - 4) <= 1) {
             VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r);
             break;
         }

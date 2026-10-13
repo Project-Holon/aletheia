@@ -58,7 +58,7 @@
  *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
  *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
  *   FLDEFF_KEMURI_Start  0x021AC528  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FADE_Start  0x0204E720  arm
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   _ll_mul        0x0209C054  arm
@@ -73,7 +73,7 @@
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   gFlashCommandTable  0x021DAAD0  data  ov021  a4
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0207C768  0x0207C768  arm
  *   _s32_div_f     0x0209C0A4  arm
  *   gFieldSkillMapEffFileName  0x021DE50C  data  ov021  a4
@@ -137,13 +137,13 @@
  *   FIELD_PLACE_NAME_Cancel  0x021BC5BC  thumb  ov021
  *   func_02043658  0x02043658  arm
  *   FIELDMAP_SetBgMode  0x02188DA0  thumb  ov021
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb  ov021
  *   FIELD_PLACE_NAME_ShowForZone  0x021BC578  thumb  ov021
  *   FIELD_CAMERA_StartMoveToSaved  0x0218F9C4  thumb  ov021
  *   FIELD_CAMERA_SetTraceTarget  0x0218EC30  thumb  ov021
  *   FIELD_CAMERA_RestartDelay  0x0218F05C  thumb  ov021
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   FADE_IsActive  0x0204E804  arm
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
@@ -469,7 +469,7 @@ extern void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern FieldEffectCtrl *FIELDMAP_GetEffect(FieldMap *fieldMap);
 extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, VecFx32 *offset);
 extern void FLDEFF_KEMURI_Start(Mmdl *mmdl, FieldEffectCtrl *effectCtrl);
-extern void func_020061E4(u32 seId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern void FADE_Start(u32 mode, u32 start, u32 end, u32 wait);
 extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *pos);
 extern void FLDMMDL_SetPos(Mmdl *mmdl, VecFx32 *pos);
@@ -481,7 +481,7 @@ extern void func_0207CEE4(int t, VecFx32 *a, VecFx32 *b, VecFx32 *out);
 extern void FLDEFF_IWAKUDAKI_Start(Mmdl *mmdl, FieldEffectCtrl *effectCtrl);
 extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *dst, int value, int size);
+extern void MI_CpuFill8(void *dst, int value, int size);
 extern u32 func_0207C768(u32 a, u32 b);
 extern void *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 mode);
 extern void *G3D_SYSTEM_CreateRender(void *resArc, u32 index, void *param);
@@ -540,13 +540,13 @@ extern void *FIELDMAP_GetPlaceName(FieldMap *fieldMap);
 extern int FIELD_PLACE_NAME_Cancel(void *msgBg);
 extern u32 func_02043658(void);
 extern void FIELDMAP_SetBgMode(void);
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void FIELDMAP_ResetBgAffineShowMsg(FieldMap *fieldMap);
 extern void FIELD_PLACE_NAME_ShowForZone(void *msgBg, int zoneId);
 extern void FIELD_CAMERA_StartMoveToSaved(FieldCamera *camera, CameraAnimFlags *flags, u16 frames);
 extern void FIELD_CAMERA_SetTraceTarget(FieldCamera *camera, u32 bits);
 extern void FIELD_CAMERA_RestartDelay(FieldCamera *camera);
-extern GameSystem *func_020124E4(GameEvent *event);
+extern GameSystem *GAME_EVENT_GetGameSystem(GameEvent *event);
 extern int FADE_IsActive(void);
 extern int func_02034AC4(s32 overlayId);
 extern void func_02034A5C(int overlayId);
@@ -1085,7 +1085,7 @@ int FIELD_TASK_UpdatePlayerDrop(PlayerDropTask *task)
     case 0:
         FIELD_TASK_CalcDropOffset(&offset, (float)(u32)task->frame, (float)(u32)task->frames, task->height);
         FLDMMDL_SetDrawOffset(mmdl, &offset);
-        func_020061E4(0x681);
+        GFL_USE_PlaySeDefaultVolume(0x681);
         task->state = task->state + 1;
         break;
     case 1:
@@ -1094,7 +1094,7 @@ int FIELD_TASK_UpdatePlayerDrop(PlayerDropTask *task)
         FLDMMDL_SetDrawOffset(mmdl, &offset);
         if (task->frames <= task->frame) {
             FLDEFF_KEMURI_Start(mmdl, FIELDMAP_GetEffect(task->fieldMap));
-            func_020061E4(0x682);
+            GFL_USE_PlaySeDefaultVolume(0x682);
             return 1;
         }
         break;
@@ -1430,12 +1430,12 @@ u16 FIELD_FLASH_GetState(FieldFlash *flash)
 /* Tail-call thunk: pins arguments 2 and 3 to 0 and 24. */
 void FIELD_FLASH_InitTween(FlashTween *tween)
 {
-    func_02082BCC(tween, 0, 24);
+    MI_CpuFill8(tween, 0, 24);
 }
 
 void FIELD_FLASH_ClearTween(FlashTween *tween)
 {
-    func_02082BCC(tween, 0, 24);
+    MI_CpuFill8(tween, 0, 24);
 }
 
 /* Starts a tween of size sizeStart..sizeEnd and alpha alphaStart..alphaEnd over `frames`. */
@@ -1498,7 +1498,7 @@ void FIELD_FLASH_CmdExpand(FieldFlash *flash)
 {
     flash->state = FLASH_STATE_EXPANDING;
     FIELD_FLASH_StartTween(&flash->tween, 0x3000, 0xaa00, 0x1f, 0x1f, 0xf);
-    func_020061E4(0x767);
+    GFL_USE_PlaySeDefaultVolume(0x767);
 }
 
 /* Command 2: show the expanded lit area at once (flash was already active). */
@@ -1727,7 +1727,7 @@ GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, int unuse
     int cutInIdAfter;
     event = func_020122C0(gameSystem, 0, FLD_WIPE_3DOBJ_MapChangeEventMain, 0x30);
     work = func_020124E8(event);
-    func_02082BCC(work, 0, 0x30);
+    MI_CpuFill8(work, 0, 0x30);
     work->gameSystem = gameSystem;
     work->zoneId = zoneId;
     if (func_02008550(func_02012944(func_020120F4(gameSystem))) == 0) {
@@ -1848,7 +1848,7 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
         FLDMMDL_SetStatusBitVanish(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap)), 1);
         visiblePlanes = func_02043658();
         FIELDMAP_SetBgMode();
-        func_02043534(visiblePlanes);
+        BG_SYS_SetMainVisiblePlanes(visiblePlanes);
         FIELDMAP_ResetBgAffineShowMsg(fieldMap);
         (*seq)++;
         break;
@@ -1893,7 +1893,7 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
 /* Fades the screen out, then ends. */
 int FLD_WIPE_3DOBJ_FadeOutEventMain(GameEvent *event, int *seq)
 {
-    func_0201210C(func_020124E4(event));
+    func_0201210C(GAME_EVENT_GetGameSystem(event));
     switch (*seq) {
     case 0:
         FADE_Start(3, 0x10, 0, 0);
@@ -1928,7 +1928,7 @@ PleasureBoatWork *PLEASURE_BOAT_Create(void)
 void PLEASURE_BOAT_AckEvent(PleasureBoatWork *work)
 {
     if (work != 0 && work->locked == 0 && work->eventPending != 0) {
-        func_020061E4(0x6dd);
+        GFL_USE_PlaySeDefaultVolume(0x6dd);
         work->periodCount++;
         work->eventPending = 0;
     }

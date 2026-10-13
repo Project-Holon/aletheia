@@ -15,15 +15,15 @@
  * `bne` to the 1 instead (same size, polarity flipped).
  *
  * symbols:
- *   func_02045770  0x02045770  arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_021B8EDC  0x021B8EDC  thumb  ov071
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   MONOLITH_TOOL_StartBlink  0x021B7108  thumb  ov071
  *   func_020355D8  0x020355D8  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   MONOLITH_TOOL_IsBlinking  0x021B7114  thumb  ov071
  *   d_021BAAA4     0x021BAAA4  data  a4
  */
@@ -52,15 +52,15 @@ struct Descriptor;
 struct PrintSys;
 int MONOLITH_TOOL_STATS_Update(int a, int *b, C *c, u8 *d)
 {
-    extern void *func_02045770(struct Descriptor *p);
-    extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+    extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+    extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
     extern void BMP_WIN_TransferChars(struct Descriptor *d);
     extern void func_021B8EDC(void *);
-    extern u32 func_020362DC(void);
+    extern u32 KEY_GetTrg(void);
     extern int TOUCHPANEL_HitTrg(const void *p);
     extern void MONOLITH_TOOL_StartBlink(void *);
     extern void func_020355D8(u8 v);
-    extern void func_020061E4(unsigned int);
+    extern void GFL_USE_PlaySeDefaultVolume(unsigned int);
     extern int MONOLITH_TOOL_IsBlinking(void *p);
     int i;
     int t;
@@ -72,7 +72,7 @@ int MONOLITH_TOOL_STATS_Update(int a, int *b, C *c, u8 *d)
         void *q = c->f4->f8;
         u8 *s = d + i * 8;
         if (s[0x1c] != 0) {
-            if (func_0201C6C4(q, (void *)((unsigned)func_02045770(((struct Obj07702 *)s)->f18))) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget(q, (void *)((unsigned)BMP_WIN_GetBmp(((struct Obj07702 *)s)->f18))) == 0) {
                 BMP_WIN_TransferChars(((struct Obj07702 *)s)->f18);
                 s[0x1c] = 0;
             }
@@ -81,7 +81,7 @@ int MONOLITH_TOOL_STATS_Update(int a, int *b, C *c, u8 *d)
     func_021B8EDC(d);
     switch (*b) {
     case 0:
-        t = func_020362DC();
+        t = KEY_GetTrg();
         if (TOUCHPANEL_HitTrg(d_021BAAA4) != -1 || (t & 2) != 0) {
             MONOLITH_TOOL_StartBlink(d + 0x48);
             if (t & 2) {
@@ -89,7 +89,7 @@ int MONOLITH_TOOL_STATS_Update(int a, int *b, C *c, u8 *d)
             } else {
                 func_020355D8(1);
             }
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             *b = *b + 1;
         }
         break;

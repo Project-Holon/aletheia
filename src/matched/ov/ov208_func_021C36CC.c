@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   _s32_div_f 0x0209C0A4 arm
  *   BMP_FillRect 0x02043AF4 arm
  *   BMP_Blit 0x020439A0 arm
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct Descriptor;
 struct Bmp;
 
-extern void *func_02045770(struct Descriptor *d);
+extern void *BMP_WIN_GetBmp(struct Descriptor *d);
 extern void BMP_FillRect(struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 color);
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y,
                           int sx, int sy, u32 w, u32 h, u32 key);
@@ -49,7 +49,7 @@ void ov208_func_021C36CC(u16 *heap, struct Ov208Scroll *p, int key)
     s16 x;
     s16 *qa;
     s16 n;
-    bmp = func_02045770(p->desc);
+    bmp = BMP_WIN_GetBmp(p->desc);
     x = (s16)(((s16)(p->a + (p->b << 3)) + 0xee) % 0xf8);
     n = 0;
     qa = &p->a;

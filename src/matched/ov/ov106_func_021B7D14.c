@@ -26,7 +26,7 @@
  * a-constant-loaded-at-entry-into-a-callee-saved-register (n/a).
  *
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
@@ -44,7 +44,7 @@
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
  *   func_02012944 0x02012944 thumb
@@ -70,7 +70,7 @@ struct GfFont;
 struct StrObj;
 extern struct DispConfig d_021B94A8;
 extern BgEntry d_021B9524[];
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern void func_0203F8F4(u32);
 extern void BMP_WIN_Init(u32);
 extern void func_0203FC28(struct DispConfig *);
@@ -92,7 +92,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *, u32);
 extern u8 *func_02012944(void *p);
@@ -105,7 +105,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_020409B4(u32);
 void func_021B7D14(u32 *p, void *arg, u32 heap) {
  int i; int k; u32 bg; struct MsgBank *msg; struct GfFont *font; struct StrObj *str;
- func_02082BCC(p, 0, 0x10);
+ MI_CpuFill8(p, 0, 0x10);
  func_0203F8F4(heap);
  BMP_WIN_Init(heap);
  func_0203FC28(&d_021B94A8);
@@ -135,7 +135,7 @@ void func_021B7D14(u32 *p, void *arg, u32 heap) {
  msg = func_02045B38(0, 2, 0x32, heap);
  font = GF_FONT_Create(0x17, 0, 0, 0, heap);
  p[3] = BMP_WIN_Create(0, 3, 1, 0x1a, (u32)2, (u32)0xe, (u32)1);
- BMP_Clear(func_02045770((struct Descriptor *)p[3]), 0xf);
+ BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)p[3]), 0xf);
  str = (struct StrObj *)func_02045EC0(msg, 0);
  func_021B91A8((struct Descriptor *)p[3], str, func_02012944(arg), (u32)font);
  STRBUF_Delete((struct U16Vec *)str);

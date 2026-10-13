@@ -29,7 +29,7 @@
  *   func_020414EC 0x020414EC arm
  *   func_02040588 0x02040588 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0201C450 0x0201C450 thumb
+ *   PRINTSYS_QUE_CreateEx 0x0201C450 thumb
  */
 #include "../include/Obj13769.h"
 #include "../include/Obj22333.h"
@@ -54,7 +54,7 @@ struct GfFont;
 extern void func_020414EC(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern void *func_0201C450(u16,u32);
+extern void *PRINTSYS_QUE_CreateEx(u16,u32);
 void func_021BA070(u8 *p) {
     u8 *q=*(u8 * *)&((struct Obj22333 *)p)->f0;
     int i;
@@ -74,5 +74,5 @@ void func_021BA070(u8 *p) {
         func_02040588((u8)i,1);
     }
     ((struct Obj13769 *)q)->f80=GF_FONT_Create(23,0,0,0,42);
-    ((struct Obj13769 *)q)->f7C=func_0201C450(0x500,42);
+    ((struct Obj13769 *)q)->f7C=PRINTSYS_QUE_CreateEx(0x500,42);
 }

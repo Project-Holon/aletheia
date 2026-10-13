@@ -1,5 +1,5 @@
 /*
- * function: func_021EE8D4
+ * function: WEATHER_SANDSTORM_EndParticles
  * address: 0x021EE8D4
  * packet: pkt_ov027_021EE8D4
  * region: ov027
@@ -21,7 +21,7 @@ extern int *WEATHER_TASK_GetWorkBuffer(int *);
 extern void WEATHER_TASK_RetargetSpawner(u8 *, int, int, int, int);
 extern void WEATHER_TASK_SetBillboardVisible(u8 *, u32, int);
 extern void WEATHER_TASK_StopSe(u8 *);
-int func_021EE8D4(u8 *a)
+int WEATHER_SANDSTORM_EndParticles(u8 *a)
 {
     int *p;
     p = WEATHER_TASK_GetWorkBuffer((int *)a);

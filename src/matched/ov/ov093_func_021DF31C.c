@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetInsectPlateHandlers
+ * function: HAND_ITEM_GetInsectPlateHandlers
  * address: 0x021DF31C
  * packet: pkt_ov093_021DF31C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DEFC4.c and filed here.
  *
  * symbols:
- *   d_021F14A4 0x021F14A4 data ov093 a4
+ *   gInsectPlateHandlers 0x021F14A4 data ov093 a4
  */
 
-extern int d_021F14A4[];
-int *BTL_HANDLER_ITEM_GetInsectPlateHandlers(int *p);
+extern int gInsectPlateHandlers[];
+int *HAND_ITEM_GetInsectPlateHandlers(int *p);
 
-int *BTL_HANDLER_ITEM_GetInsectPlateHandlers(int *p)
+int *HAND_ITEM_GetInsectPlateHandlers(int *p)
 {
     *p = 1;
-    return d_021F14A4;
+    return gInsectPlateHandlers;
 }

@@ -1,5 +1,5 @@
 /*
- * function: sub_02015F2C
+ * function: MCSS_SetAnimCallback
  * address:  0x02015F2C
  * packet:   pkt_02015F2C
  * region:   arm9
@@ -21,15 +21,15 @@
  * labelled function; they are not matched here.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02015F2C.c \
- *       --func sub_02015F2C --addr 0x02015F2C --cc 1.1p1
+ *   python tools/match.py one --src src/matched/MCSS_SetAnimCallback.c \
+ *       --func MCSS_SetAnimCallback --addr 0x02015F2C --cc 1.1p1
  */
 
 typedef unsigned int u32;
 
 extern void func_02063000(int p0, int p1, int p2, int p3);
 
-void sub_02015F2C(void *a, u32 arg1, u32 arg2)
+void MCSS_SetAnimCallback(void *a, u32 arg1, u32 arg2)
 {
     func_02063000((int)((char *)a + 0x34), 1, arg1, arg2);
 }

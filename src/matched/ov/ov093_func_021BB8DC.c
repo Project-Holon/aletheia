@@ -12,7 +12,7 @@
  *   BTL_POKEPARAM_GetMon 0x021D5844 thumb ov093
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   GAME_BEACON_SetPokeCapture 0x020271DC thumb
- *   func_021BA1B4 0x021BA1B4 thumb ov093
+ *   BTL_MAIN_TrainerRecordAdd 0x021BA1B4 thumb ov093
  * evidence: caller narrows POKE_TOOL_GetPartyValue result to u16 before 020271DC.
  */
 #include "../include/Obj13295.h"
@@ -22,9 +22,9 @@ typedef unsigned int u32;
 extern void *BTL_POKEPARAM_GetMon(void *);
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 extern void GAME_BEACON_SetPokeCapture(u16);
-extern void func_021BA1B4(char **p, int i);
+extern void BTL_MAIN_TrainerRecordAdd(char **p, int i);
 void BTL_SERVER_NotifyCapture(u8 *p, u32 *q) {
     GAME_BEACON_SetPokeCapture(POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetMon(q),5,0));
-    func_021BA1B4((char **)(*(u8 * *)&((struct Obj13295 *)p)->fC),7);
-    func_021BA1B4((char **)(*(u8 * *)&((struct Obj13295 *)p)->fC),0x54);
+    BTL_MAIN_TrainerRecordAdd((char **)(*(u8 * *)&((struct Obj13295 *)p)->fC),7);
+    BTL_MAIN_TrainerRecordAdd((char **)(*(u8 * *)&((struct Obj13295 *)p)->fC),0x54);
 }

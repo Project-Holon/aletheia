@@ -1,5 +1,5 @@
 /*
- * function: func_021E4948
+ * function: HAND_WAZA_HealBellOnUncategorizedMoveNoTarget
  * address:  0x021E4948
  * packet:   pkt_021E492C
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E4948   0x021E4948  thumb
- *   func_021E4958   0x021E4958  thumb
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #0x6f; str r4, [sp]; bl func_021E4958; add sp, #4; pop {r3, r4, pc}.
+ *   HAND_WAZA_HealBellOnUncategorizedMoveNoTarget   0x021E4948  thumb
+ *   HAND_WAZA_CureParty   0x021E4958  thumb
+ * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #0x6f; str r4, [sp]; bl HAND_WAZA_CureParty; add sp, #4; pop {r3, r4, pc}.
  */
 
 typedef unsigned char u8;
@@ -22,6 +22,6 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-/* 021E4948  stack-arg wrapper: func_021E4958(a, b, c, d, 0x6f) */
-void func_021E4948(int a, int b, int c, int d) { func_021E4958(a, b, c, d, 0x6f); }
+/* 021E4948  stack-arg wrapper: HAND_WAZA_CureParty(a, b, c, d, 0x6f) */
+void HAND_WAZA_HealBellOnUncategorizedMoveNoTarget(int a, int b, int c, int d) { HAND_WAZA_CureParty(a, b, c, d, 0x6f); }
 

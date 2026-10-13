@@ -1,5 +1,5 @@
 /*
- * function: func_0217727C
+ * function: NET_WHPIPE_SetTask
  * address:  0x0217727C
  * packet:   pkt_0217727C
  * region:   ov014
@@ -12,7 +12,7 @@
 
 typedef unsigned int u32;
 
-void func_0217727C(u32 *p, u32 v)
+void NET_WHPIPE_SetTask(u32 *p, u32 v)
 {
     *p = v;
 }

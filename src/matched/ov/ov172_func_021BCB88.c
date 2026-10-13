@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_021BCC40  0x021BCC40  thumb  ov172
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   _u32_div_f     0x0209C2B0  arm
  *
  * Redraws the fifteen list rows, counts the filled ones (+0x58 of each 0x1c-byte row) and, when the count changed (+0x14), shows the scroll bar (+0x404) for more than five rows, clamping the scroll offset (+4) and placing the thumb at 120 * offset / range (+6), or hides it and resets the offset.
@@ -31,9 +31,9 @@ struct SpritePos {
 
 extern void func_021BCC40(void *ctx, char *list, char *row, int idx);
 struct Obj;
-extern void func_0204B3DC(struct Obj *spr, unsigned int on);
+extern void CLACT_SetActorDrawEnable(struct Obj *spr, unsigned int on);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_021BCB88(void *ctx, char *list)
 {
@@ -52,17 +52,17 @@ void func_021BCB88(void *ctx, char *list)
         return;
     if (n > 5) {
         range = (n - 5) * 32;
-        func_0204B3DC((struct Obj *)((struct Obj01951 *)list)->f404, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj01951 *)list)->f404, 1);
         if (((struct Obj01951 *)list)->f4 > range)
             ((struct Obj01951 *)list)->f4 = range;
         ((struct Obj01951 *)list)->f6 = ((struct Obj01951 *)list)->f4 * 0x78 / range;
         if (((struct Obj01951 *)list)->f10 == 0) {
             pos.x = 0xf8;
             pos.y = ((struct Obj01951 *)list)->f6 + 0x18;
-            func_0204B404((struct Obj *)(((struct Obj01951 *)list)->f404), (const struct Vec2 *)(&pos), 1);
+            CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj01951 *)list)->f404), (const struct Vec2 *)(&pos), 1);
         }
     } else {
-        func_0204B3DC((struct Obj *)((struct Obj01951 *)list)->f404, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj01951 *)list)->f404, 0);
         ((struct Obj01951 *)list)->f4 = 0;
         ((struct Obj01951 *)list)->fC = 1;
     }

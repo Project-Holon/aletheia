@@ -24,13 +24,13 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   func_02030734  0x02030734  arm
- *   func_0201A920  0x0201A920  thumb
- *   func_0201A954  0x0201A954  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
+ *   POKEPARTY_InitEx  0x0201A954  thumb
  *   POKE_TOOL_Create  0x020173F0  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   POKE_REGULATION_Load  0x0201A354  thumb
  *   func_02005728  0x02005728  thumb
  *   POKE_REGULATION_FindValidOrder  0x0201A59C  thumb
@@ -105,13 +105,13 @@ extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct Party *func_0201A920(u32 heap);
-extern void func_0201A954(struct Party *p, s32 capacity);
+extern struct Party *POKEPARTY_Create(u32 heap);
+extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
 extern void *POKE_TOOL_Create(u16 species, u16 level, u64 id, u16 heap);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern u32 func_020307B0(void *p);
-extern u32 func_0203630C(void);
+extern u32 KEY_GetCont(void);
 extern void *POKE_REGULATION_Load(int a, int b);
 extern u32 func_02005728(u32 range);
 extern int POKE_REGULATION_FindValidOrder(void *a0, void *a1, void *a2);
@@ -143,20 +143,20 @@ int POKELIST_Init(struct Obj0203159C *a0, int *seq, Q *q, P *p)
         p->heap = 0x17;
         if (q == 0) {
             q = func_02030734(0x17, 0x98, 1, d_021BED0C, 0x52);
-            q->party = func_0201A920(0x17);
+            q->party = POKEPARTY_Create(0x17);
             q->v3c = 0;
-            func_0201A954(q->party, 6);
+            POKEPARTY_InitEx(q->party, 6);
             a = d_021BEA78;
             for (i = 0; i < 6; i++) {
                 mon = POKE_TOOL_Create(d_021BEA90[i], d_021BEA9C[i], 0xffffffff, 0x17);
                 b = a;
                 POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)&b);
                 POKE_TOOL_SetPartyValue(mon, 0x9a, 0);
-                func_0201A98C(q->party, mon);
+                POKEPARTY_Add(q->party, mon);
                 func_020307B0(mon);
             }
             q->v34 = 0;
-            if (func_0203630C() & 0x100) {
+            if (KEY_GetCont() & 0x100) {
                 s = POKE_REGULATION_Load(0xf, 0x17);
                 q->s = s;
                 s->b2 = 1;
@@ -171,14 +171,14 @@ int POKELIST_Init(struct Obj0203159C *a0, int *seq, Q *q, P *p)
                 q->v34 = 0x16;
                 for (k = 0; k < 3; k++) {
                     c = d_021BEA84;
-                    q->e[k].list = func_0201A920(0x17);
+                    q->e[k].list = POKEPARTY_Create(0x17);
                     for (i = 0; i < 6; i++) {
                         mon = POKE_TOOL_Create(func_02005728(0xfa), 0x64, 0xffffffff, 0x17);
                         d = c;
                         POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)&d);
                         POKE_TOOL_SetPartyValue(mon, 0x9a, 0);
                         POKE_TOOL_SetPartyValue(mon, 6, func_02005728(2));
-                        func_0201A98C(q->e[k].list, mon);
+                        POKEPARTY_Add(q->e[k].list, mon);
                         func_020307B0(mon);
                     }
                     t = func_02030734(0x17, 0xc, 0, d_021BED0C, 0xae);
@@ -197,10 +197,10 @@ int POKELIST_Init(struct Obj0203159C *a0, int *seq, Q *q, P *p)
                 q->h60 = 0xff;
                 q->b94 = 0;
                 POKE_REGULATION_FindValidOrder(s, q->party, 0);
-            } else if (func_0203630C() & 0x400) {
+            } else if (KEY_GetCont() & 0x400) {
                 q->v34 = 5;
                 q->h44 = 0x2c;
-            } else if (func_0203630C() & 0x800) {
+            } else if (KEY_GetCont() & 0x800) {
                 q->v34 = 0x19;
             }
             func_020355D8(1);

@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021C5928 0x021C5928 arm ov114
  *   func_021C5C04 0x021C5C04 arm ov114
  *   func_021C5C38 0x021C5C38 arm ov114
@@ -40,7 +40,7 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct { char pad[0x6e0];u32 flag; } Flag;
 extern void DWC_RAP_SetErrorHookCallback(int,int);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern int func_021C5928(void (*callback)(int, int, int), char *gamecd, char *passwd);
 extern int func_021C5C04(char *,char *,char *);
 extern int func_021C5C38(void *,u32,u32);
@@ -70,7 +70,7 @@ void func_021DE958(void *task,int *state,char *p)
     switch(*state) {
     case 0:
         DWC_RAP_SetErrorHookCallback((int)func_021DEF54,(int)q);
-        func_02082BCC(q,0,0x734);
+        MI_CpuFill8(q,0,0x734);
         Q(0x70c)=0;Q(0x710)=0;Q(0x724)=0;Q(0x728)=(u32)(p+0x7a4);
         W(0x17a4)=0;
         if(!func_021C5928((void (*)(int,int,int))func_021DEED8,d_021DFBD0,d_021DFBD8)) {

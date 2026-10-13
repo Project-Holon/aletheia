@@ -14,7 +14,7 @@
  *   OPTION_MENU_ExitSprites  0x021B9F70  thumb  ov068
  *   OPTION_MENU_ExitGfx  0x021B9B6C  thumb  ov068
  *   func_0201DD68  0x0201DD68  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 #include "../include/Obj20635.h"
 
@@ -27,7 +27,7 @@ extern void func_02030EAC(struct Node *n);
 extern void OPTION_MENU_ExitSprites(u32 *p);
 extern void OPTION_MENU_ExitGfx(u32 *p);
 extern void func_0201DD68(void);
-extern void func_02082BCC(void *p, u32 a, u32 b);
+extern void MI_CpuFill8(void *p, u32 a, u32 b);
 
 void OPTION_MENU_ExitScreen(u8 *p)
 {
@@ -39,5 +39,5 @@ void OPTION_MENU_ExitScreen(u8 *p)
     *(volatile u16 *)0x04001050 = 0;
     *(volatile u32 *)0x04000000 &= 0xffff1fff;
     *(volatile u32 *)0x04001000 &= 0xffff1fff;
-    func_02082BCC(p, 0, 0xd4);
+    MI_CpuFill8(p, 0, 0xd4);
 }

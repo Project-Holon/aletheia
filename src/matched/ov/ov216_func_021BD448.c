@@ -20,7 +20,7 @@
  *   GAME_BEACON_ACCESSOR_GetTownmapRootZoneId 0x02165D34 thumb ov010
  *   TOWNMAP_GRH_FindRecordIndex 0x021BBB48 thumb ov072
  *   TOWNMAP_GRH_GetTownInfoValue 0x021BBB3C thumb ov072
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021BCE8C 0x021BCE8C thumb ov216
  *   func_021BCE7C 0x021BCE7C thumb ov216
  *   BMP_Clear 0x02043B5C arm
@@ -30,7 +30,7 @@
  *   func_021BCE04 0x021BCE04 thumb ov216
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
 #include "../include/Obj00051.h"
@@ -56,7 +56,7 @@ extern u16 GAME_BEACON_ACCESSOR_GetZoneId(const struct Bits *);
 extern unsigned short GAME_BEACON_ACCESSOR_GetTownmapRootZoneId(const struct Bits *p);
 extern int TOWNMAP_GRH_FindRecordIndex(int,int);
 extern u16 TOWNMAP_GRH_GetTownInfoValue(char *,int,int);
-extern void func_0204B3DC(struct Obj *,u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 extern void func_021BCE8C(void *,s16,s16,int);
 extern void func_021BCE7C(void *p, unsigned short value);
 extern void BMP_Clear(struct CharBuf *,u8);
@@ -66,7 +66,7 @@ extern void func_021BDA54(char *,char *,u32,u16,u32,u16);
 extern void func_021BCE04(void *,void *);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
-extern u8 func_02045730(struct Descriptor *);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_020409B4(u32);
 void func_021BD448(char *p)
 {
@@ -83,8 +83,8 @@ void func_021BD448(char *p)
         ((struct Obj00051 *)p)->f260=0;
         *(volatile s16 *)&((struct Obj00051 *)p)->f25E=0;
         ((struct Obj00051 *)p)->f25C=*(volatile s16 *)&((struct Obj00051 *)p)->f25E;
-        func_0204B3DC(*(struct Obj * *)&((struct Obj00051 *)p)->f264,0);
-        func_0204B3DC(*(struct Obj * *)&((struct Obj00051 *)p)->f268,0);
+        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00051 *)p)->f264,0);
+        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00051 *)p)->f268,0);
     } else {
         ((struct Obj00051 *)p)->f260=1;
         ((struct Obj00051 *)p)->f25C=TOWNMAP_GRH_GetTownInfoValue(*(char * *)&((struct Obj00051 *)p)->f1C,index,2);
@@ -94,12 +94,12 @@ void func_021BD448(char *p)
         if(((struct Obj00051 *)p)->f25C<16) ((struct Obj00051 *)p)->f25C=16;
         else if(((struct Obj00051 *)p)->f25C>240) ((struct Obj00051 *)p)->f25C=240;
         func_021BCE8C(((struct Obj00051 *)p)->f264,((struct Obj00051 *)p)->f25C,((struct Obj00051 *)p)->f25E,0);
-        func_0204B3DC(*(struct Obj * *)&((struct Obj00051 *)p)->f264,1);
+        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00051 *)p)->f264,1);
         if(type[2]!=0) {
             func_021BCE8C(((struct Obj00051 *)p)->f268,((struct Obj00051 *)p)->f25C-24,((struct Obj00051 *)p)->f25E,0);
             func_021BCE7C(((struct Obj00051 *)p)->f268,(u8)(type[2]-1));
         }
-        func_0204B3DC(*(struct Obj * *)&((struct Obj00051 *)p)->f268,type[2]!=0);
+        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00051 *)p)->f268,type[2]!=0);
     }
     BMP_Clear(*(struct CharBuf * *)&((struct Obj00051 *)p)->f14C,15);
     high=(u8)(((struct Obj00051 *)p)->f2C>>8);
@@ -113,5 +113,5 @@ void func_021BD448(char *p)
     d=*(struct Descriptor * *)&((struct Obj00051 *)p)->f148;
     BMP_WIN_TransferChars(d);
     BMP_WIN_MakeScreen((struct Cfg *)d);
-    func_020409B4(func_02045730(d));
+    func_020409B4(BMP_WIN_GetBgLayer(d));
 }

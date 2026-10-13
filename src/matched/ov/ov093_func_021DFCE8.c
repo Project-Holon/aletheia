@@ -1,5 +1,5 @@
 /*
- * function: func_021DFCE8
+ * function: HAND_ITEM_BindingBandSickCont
  * address:  0x021DFCE8
  * packet:   pkt_ov093_021DFCE8
  * region:   ov093
@@ -21,7 +21,7 @@ extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 union U;
 extern void BTLV_CORE_SetSlotFlag(union U *p, int v);
 
-void func_021DFCE8(int a, int b, int c)
+void HAND_ITEM_BindingBandSickCont(int a, int b, int c)
 {
     int v;
 

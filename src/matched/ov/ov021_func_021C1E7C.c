@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
@@ -41,7 +41,7 @@
  *   func_02030830  0x02030830  arm
  *   FIELDMAP_SetDrawMode  0x021899F8  thumb  ov021
  *   FLD3D_CI_DarkenCapturedScreen  0x021C30D4  thumb  ov021
- *   func_02005C64  0x02005C64  thumb
+ *   GFL_USE_IsLoaderBusy  0x02005C64  thumb
  *   FLD3D_CI_UpdateStartDelays  0x021C21B4  thumb  ov021
  *   FLD3D_CI_UpdateTrackA  0x021C223C  thumb  ov021
  *   FLD3D_CI_UpdateTrackB  0x021C22AC  thumb  ov021
@@ -78,7 +78,7 @@ typedef struct { int a, b, c, d; } BgMode;
 struct Desc;
 struct Evt;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 struct Ctx;
 struct DispConfig;
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
@@ -112,7 +112,7 @@ extern void FLD3D_CI_SetupSequence(int a, char *p, char *q, int d);
 extern void *func_02030830(u32 heapId);
 extern void FIELDMAP_SetDrawMode(u8 *p, u32 v);
 extern void FLD3D_CI_DarkenCapturedScreen(u32 a);
-extern int func_02005C64(void);
+extern int GFL_USE_IsLoaderBusy(void);
 extern int FLD3D_CI_UpdateStartDelays(char *p);
 extern int FLD3D_CI_UpdateTrackA(char *p);
 extern int FLD3D_CI_UpdateTrackB(char *p);
@@ -148,7 +148,7 @@ int FLD3D_CI_EventMain(int a, int *st, u8 *ctx)
     BgMode m;
 
     p = *(u8 * *)&((struct Obj06072 *)ctx)->f0;
-    h = (int)func_020124E4((struct Obj *)a);
+    h = (int)GAME_EVENT_GetGameSystem((struct Obj *)a);
     sys = GAMESYSTEM_GetFieldMap((void *)h);
     switch (*st) {
     case 0:
@@ -209,7 +209,7 @@ int FLD3D_CI_EventMain(int a, int *st, u8 *ctx)
         (*st)++;
         break;
     case 6:
-        if (func_02005C64())
+        if (GFL_USE_IsLoaderBusy())
             break;
         (*st)++;
     case 7:

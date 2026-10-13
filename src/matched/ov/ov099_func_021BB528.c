@@ -15,7 +15,7 @@
  *   func_021C2370 0x021C2370 thumb ov099
  *   MSGDATA_ReadString 0x02045CAC arm
  *   func_0201F250 0x0201F250 thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   func_021C23B8 0x021C23B8 thumb ov099
  *   func_021BDD48 0x021BDD48 thumb ov099
@@ -49,7 +49,7 @@ extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern void func_021C2370(char *,int);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_Print(void *,short,short,void *,void *);
 extern int func_021C23B8(int i);
 extern unsigned func_021BDD48(char *,void *);
@@ -81,32 +81,32 @@ void func_021BB528(char *p,int v)
     func_021C2370(p,index);
     MSGDATA_ReadString(PTR(0xe0),33,PTR(0xf0));
     func_0201F250(PTR(0x8b0),PTR(0xf8),PTR(0xf0));
-    PRINTSYS_Print(func_02045770(PTR(0x958)),25,0,PTR(0xf8),PTR(0xe8));
+    PRINTSYS_Print(BMP_WIN_GetBmp(PTR(0x958)),25,0,PTR(0xf8),PTR(0xe8));
     mon=(void *)func_021C23B8(index);
     kind=func_021BDD48(p,mon);
     form=func_021BDD54(p,mon);
     message=func_021BB918((void *)kind,form,&unused);
     if(message>=141 && message<=144)message-=81;
     MSGDATA_ReadString(PTR(0xe0),message,PTR(0xf0));
-    PRINTSYS_PrintColor(func_02045770(PTR(0x958)),96,0,PTR(0xf0),PTR(0xe8),0x3c40);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(PTR(0x958)),96,0,PTR(0xf0),PTR(0xe8),0x3c40);
     MSGDATA_ReadString(PTR(0xe0),35,PTR(0xf8));
-    PRINTSYS_PrintColor(func_02045770(PTR(0x95c)),104,0,PTR(0xf8),PTR(0xe8),0x3c40);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(PTR(0x95c)),104,0,PTR(0xf8),PTR(0xe8),0x3c40);
     func_0201EFA4(PTR(0x8b0),0,func_02009864(PTR(4),index,2),4,1,1);
     MSGDATA_ReadString(PTR(0xe0),36,PTR(0xf0));
     func_0201F250(PTR(0x8b0),PTR(0xf8),PTR(0xf0));
-    PRINTSYS_PrintColor(func_02045770(PTR(0x95c)),176,24,PTR(0xf8),PTR(0xe8),0x3c40);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(PTR(0x95c)),176,24,PTR(0xf8),PTR(0xe8),0x3c40);
     func_0201EFA4(PTR(0x8b0),0,func_02009864(PTR(4),index,3),4,1,1);
     MSGDATA_ReadString(PTR(0xe0),37,PTR(0xf0));
     func_0201F250(PTR(0x8b0),PTR(0xf8),PTR(0xf0));
-    PRINTSYS_PrintColor(func_02045770(PTR(0x95c)),176,40,PTR(0xf8),PTR(0xe8),0x3c40);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(PTR(0x95c)),176,40,PTR(0xf8),PTR(0xe8),0x3c40);
     MSGDATA_ReadString(PTR(0xe0),38,PTR(0xf8));
-    PRINTSYS_PrintColor(func_02045770(PTR(0x95c)),104,64,PTR(0xf8),PTR(0xe8),0x3c40);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(PTR(0x95c)),104,64,PTR(0xf8),PTR(0xe8),0x3c40);
     func_0201EFA4(PTR(0x8b0),0,func_02009864(PTR(4),index,4),4,1,1);
     MSGDATA_ReadString(PTR(0xe0),39,PTR(0xf0));
     func_0201F250(PTR(0x8b0),PTR(0xf8),PTR(0xf0));
-    PRINTSYS_PrintColor(func_02045770(PTR(0x95c)),188,64,PTR(0xf8),PTR(0xe8),0x3c40);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(PTR(0x95c)),188,64,PTR(0xf8),PTR(0xe8),0x3c40);
     MSGDATA_ReadString(PTR(0xe0),42,PTR(0xf8));
-    PRINTSYS_PrintColor(func_02045770(PTR(0x95c)),8,96,PTR(0xf8),PTR(0xe8),0x3c40);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(PTR(0x95c)),8,96,PTR(0xf8),PTR(0xe8),0x3c40);
     message=func_02009864(PTR(4),index,7);
     if(message){
         func_0201EFA4(PTR(0x8b0),2,message,2,0,1);
@@ -114,7 +114,7 @@ void func_021BB528(char *p,int v)
         func_0201EFA4(PTR(0x8b0),1,func_02009864(PTR(4),index,6),2,0,1);
         MSGDATA_ReadString(PTR(0xe0),44,PTR(0xf0));
         func_0201F250(PTR(0x8b0),PTR(0xf8),PTR(0xf0));
-        PRINTSYS_PrintColor(func_02045770(PTR(0x95c)),152,96,PTR(0xf8),PTR(0xe8),0x3c40);
+        PRINTSYS_PrintColor(BMP_WIN_GetBmp(PTR(0x95c)),152,96,PTR(0xf8),PTR(0xe8),0x3c40);
     }
     BMP_WIN_MakeScreen(PTR(0x95c));
     BMP_WIN_TransferChars(PTR(0x95c));

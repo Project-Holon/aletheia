@@ -13,7 +13,7 @@
  * symbols:
  *   sHeldItemWeights  0x021D8DCC  data
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   FIELD_ENCOUNT_RandPercent  0x021A9DC8  thumb
  * Addresses are Black-image addresses.
  */
@@ -26,7 +26,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct Personal;
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 FIELD_ENCOUNT_RandPercent(void);
 extern const u8 sHeldItemWeights[];
@@ -40,7 +40,7 @@ void FIELD_ENCOUNT_RollHeldItem(void *mon, void *src, int a, int b)
     u8 acc;
 
     for (i = 0; i < 3; i++)
-        vals[i] = func_0201AE1C(src, 0x11 + i);
+        vals[i] = POKE_PERSONAL_GetParam(src, 0x11 + i);
     if (vals[0] == vals[1]) {
         POKE_TOOL_SetPartyValue(mon, 6, vals[0]);
         return;

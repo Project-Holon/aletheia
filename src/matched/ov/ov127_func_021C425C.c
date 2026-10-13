@@ -13,15 +13,15 @@
  * Leaf of ov127 func_021C5834 (blocker of ov099 func_021BA2D4).
  *
  * symbols:
- *   func_0204B3F4  0x0204B3F4  arm
+ *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
  */
 #include "../include/Obj23016.h"
 
 typedef unsigned int   u32;
 struct Obj;
-extern u32 func_0204B3F4(struct Obj *p);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 
 int func_021C425C(char *p)
 {
-    return func_0204B3F4(((struct Obj23016 *)p)->f4);
+    return CLACT_GetActorDrawEnable(((struct Obj23016 *)p)->f4);
 }

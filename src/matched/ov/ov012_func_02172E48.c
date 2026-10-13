@@ -11,7 +11,7 @@
  * symbols:
  *   UNION_COMM_UpdateReset  0x02172D7C  thumb  ov012
  *   GFL_NET_GetRunState  0x0203CD98  arm
- *   func_0217778C  0x0217778C  thumb  ov014
+ *   NET_WHPIPE_PublishBeacon  0x0217778C  thumb  ov014
  *   UNION_COMM_UpdateBeaconScan  0x021730C8  thumb  ov012
  *   UNION_COMM_UpdateColosseum  0x0217303C  thumb  ov012
  *   UNION_COMM_SendEntryReplies  0x02172FF0  thumb  ov012
@@ -40,7 +40,7 @@ typedef struct {
 
 extern int UNION_COMM_UpdateReset(u8 *p);
 extern int GFL_NET_GetRunState(void);
-extern void func_0217778C(void);
+extern void NET_WHPIPE_PublishBeacon(void);
 extern void UNION_COMM_UpdateBeaconScan(u8 *self);
 extern void UNION_COMM_UpdateColosseum(Work *w);
 extern void UNION_COMM_SendEntryReplies(u8 *w);
@@ -59,7 +59,7 @@ void UNION_COMM_Update(int a, int b, Work *w)
         return;
     }
     if (w->f2829 == 1) {
-        func_0217778C();
+        NET_WHPIPE_PublishBeacon();
         w->f2829 = 0;
     }
     UNION_COMM_UpdateBeaconScan((u8 *)w);

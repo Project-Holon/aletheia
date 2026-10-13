@@ -1,5 +1,5 @@
 /*
- * function: func_021B8F38
+ * function: BTL_MAIN_IsCommMulti
  * address: 0x021B8F38
  * packet: pkt_ov093_021B8F38
  * region: ov093
@@ -14,4 +14,4 @@
  */
 extern int BTL_MAIN_IsMultiMode(unsigned char **p);
 extern void *BTL_MAIN_GetCompetitor(void ***p);
-int func_021B8F38(unsigned char *p) { unsigned int v; if(BTL_MAIN_IsMultiMode((unsigned char **)p)) { v=(unsigned int)BTL_MAIN_GetCompetitor((void ***)p); if(v!=1 && v!=0) return 1; } return 0; }
+int BTL_MAIN_IsCommMulti(unsigned char *p) { unsigned int v; if(BTL_MAIN_IsMultiMode((unsigned char **)p)) { v=(unsigned int)BTL_MAIN_GetCompetitor((void ***)p); if(v!=1 && v!=0) return 1; } return 0; }

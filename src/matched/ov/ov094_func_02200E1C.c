@@ -13,7 +13,7 @@
  *   func_021F89BC 0x021F89BC thumb ov094
  *   MCSS_SetOfsPosition 0x02015C78 thumb
  *   _ll_mul 0x0209C054 arm
- *   d_020A1B38 0x020A1B38 data
+ *   FX_SinCosTable_ 0x020A1B38 data
  */
 #include "../include/Obj00264.h"
 typedef unsigned char u8;
@@ -24,7 +24,7 @@ typedef long long s64;
 typedef struct Vec { int x, y, z; } Vec;
 extern int func_022019F4(char *, int);
 extern void func_021F89BC(void *);
-extern const s16 d_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 extern void MCSS_SetOfsPosition(void *, u32 *);
 #define MUL(a, b) ((int)(((s64)(a) * (b) + 0x800) >> 12))
 void func_02200E1C(void *task, char *q)
@@ -66,32 +66,32 @@ void func_02200E1C(void *task, char *q)
             switch (((struct Obj00264 *)q)->fC) {
             case 0:
                 j = ((u16)(((struct Obj00264 *)q)->f28 + 0x4000) >> 4) * 2;
-                x = d_020A1B38[j];
+                x = FX_SinCosTable_[j];
                 x = -MUL(x, ((struct Obj00264 *)q)->f10);
-                y = d_020A1B38[j + 1];
+                y = FX_SinCosTable_[j + 1];
                 y = -MUL(y, ((struct Obj00264 *)q)->f14);
                 x += ((struct Obj00264 *)q)->f10;
                 break;
             case 1:
                 j = ((u16)(((struct Obj00264 *)q)->f28 + 0x4000) >> 4) * 2;
-                x = d_020A1B38[j];
+                x = FX_SinCosTable_[j];
                 x = MUL(x, ((struct Obj00264 *)q)->f10) - ((struct Obj00264 *)q)->f10;
-                y = d_020A1B38[j + 1];
+                y = FX_SinCosTable_[j + 1];
                 y = MUL(y, ((struct Obj00264 *)q)->f14);
                 break;
             case 2:
                 j = (((struct Obj00264 *)q)->f28 >> 4) * 2;
-                x = d_020A1B38[j];
+                x = FX_SinCosTable_[j];
                 x = -MUL(x, ((struct Obj00264 *)q)->f10);
-                y = d_020A1B38[j + 1];
+                y = FX_SinCosTable_[j + 1];
                 y = -MUL(y, ((struct Obj00264 *)q)->f14);
                 y += ((struct Obj00264 *)q)->f14;
                 break;
             case 3:
                 j = (((struct Obj00264 *)q)->f28 >> 4) * 2;
-                x = d_020A1B38[j];
+                x = FX_SinCosTable_[j];
                 x = MUL(x, ((struct Obj00264 *)q)->f10);
-                y = d_020A1B38[j + 1];
+                y = FX_SinCosTable_[j + 1];
                 y = MUL(y, ((struct Obj00264 *)q)->f14) - ((struct Obj00264 *)q)->f14;
                 break;
             }

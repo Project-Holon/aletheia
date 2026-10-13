@@ -1,5 +1,5 @@
 /*
- * function: func_02185848
+ * function: GSMD5_memset
  * address:  0x02185848
  * packet:   pkt_02155168
  * region:   ov009
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern void *func_020923B0(void *p, int c, u32 n);
 
-void *func_02185848(void *p, int c, u32 n)
+void *GSMD5_memset(void *p, int c, u32 n)
 {
     return func_020923B0(p, c, n);
 }

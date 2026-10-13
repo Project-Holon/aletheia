@@ -32,7 +32,7 @@
  *   DWC_RAPCOMMON_SetHeapTag 0x02156F50 thumb ov009
  *   DWC_RAPCOMMON_DestroySubHeap 0x02156ED0 thumb ov009
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200ED48 0x0200ED48 thumb
  *   func_0200ED54 0x0200ED54 thumb
@@ -76,7 +76,7 @@ extern void *func_0200ED48(void *);
 struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_0200ED54(struct L0200ED54 *,unsigned int);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern void func_021DBC04(u8 *p, u32 mode, struct Record *src);
 extern int func_021DBDAC(char *);
 void func_021D8904(u32 sys,int *state,char *p)
@@ -124,7 +124,7 @@ void func_021D8904(u32 sys,int *state,char *p)
         case 2:func_021E8AA0((int *)sys,(int)func_021D9064);break;
         }break;
     case 7:if(**(u32 * *)&((struct Obj02512 *)q)->f20==0) {
-        func_02082BCC(&rec,0,84);
+        MI_CpuFill8(&rec,0,84);
         rec.data=**(Rec80 * *)&((struct Obj24273 *)(*(char * *)&((struct Obj00477 *)p)->f104))->f24;
         rec.last=**(u32 * *)&((struct Obj24274 *)(*(char * *)&((struct Obj00477 *)p)->f104))->f28;
         func_021DBC04((u8 *)(*(char * *)&((struct Obj00477 *)p)->f34),3,(struct Record *)(&rec));*state=8;

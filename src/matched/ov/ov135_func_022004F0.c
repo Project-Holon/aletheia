@@ -11,12 +11,12 @@
  * symbols:
  *   func_022009A4 0x022009A4 thumb ov135
  *   func_021F4E98 0x021F4E98 thumb ov135
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_021F4F90 0x021F4F90 thumb ov135
  */
 #include "../include/Obj02863.h"
 struct Obj;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_022009A4(u8 *p, u32 n, int a2, int a3, int a4);extern void func_021F4E98(void *,unsigned,unsigned);extern void func_0204B92C(struct Obj *,unsigned);extern void func_021F4F90(void *);
-int func_022004F0(unsigned char *p) {func_022009A4(p,4,1,0,0xf0f);func_021F4E98(p,10,6);func_0204B92C(*(struct Obj * *)&((struct Obj02863 *)p)->fBF4,1);func_021F4F90(p);return 2;}
+extern void func_022009A4(u8 *p, u32 n, int a2, int a3, int a4);extern void func_021F4E98(void *,unsigned,unsigned);extern void CLACT_SetActorAutoAnim(struct Obj *,unsigned);extern void func_021F4F90(void *);
+int func_022004F0(unsigned char *p) {func_022009A4(p,4,1,0,0xf0f);func_021F4E98(p,10,6);CLACT_SetActorAutoAnim(*(struct Obj * *)&((struct Obj02863 *)p)->fBF4,1);func_021F4F90(p);return 2;}

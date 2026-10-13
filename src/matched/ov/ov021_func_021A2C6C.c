@@ -12,7 +12,7 @@
  * symbols:
  *   FIELD_SOUND_SYSTEM_ReleaseSlot  0x02028B50  thumb
  *   GFL_USE_GetSeSlot  0x02006148  thumb
- *   func_020061F8  0x020061F8  thumb
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb
  */
 
 typedef unsigned short u16;
@@ -28,7 +28,7 @@ typedef struct {
 typedef unsigned char  u8;
 void FIELD_SOUND_SYSTEM_ReleaseSlot(u8 *p, int a0);
 int GFL_USE_GetSeSlot(u32 a0);
-void func_020061F8(int h);
+void GFL_USE_StopSeSlot(int h);
 
 void WEATHER_TASK_StopSound(Snd021A2C6C *p, int a)
 {
@@ -37,6 +37,6 @@ void WEATHER_TASK_StopSound(Snd021A2C6C *p, int a)
         if (p->flag != 0)
             FIELD_SOUND_SYSTEM_ReleaseSlot((u8 *)a, p->id);
         else
-            func_020061F8(GFL_USE_GetSeSlot(p->id));
+            GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(p->id));
     }
 }

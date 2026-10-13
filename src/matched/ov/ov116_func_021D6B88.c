@@ -14,7 +14,7 @@
  *   func_02012944 0x02012944 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
  *   func_02008510 0x02008510 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   STRBUF_GetChars 0x02045A90 arm
  *   STRBUF_GetLength 0x020458F8 arm
  *   STRBUF_GetEosChar 0x02045A98 arm
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 extern u8 *func_02012944(void *);
 extern void MYSTATUS_Copy(void *, void *);
 extern void *func_02008510(void *, int);
-extern void func_02082BCC(void *, u8, u32);
+extern void MI_CpuFill8(void *, u8, u32);
 struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
@@ -42,7 +42,7 @@ void func_021D6B88(u8 *p, void *save, int id)
     u32 i;
     MYSTATUS_Copy(func_02012944(save), ((struct Obj04469 *)p)->f218);
     str = func_02008510(((struct Obj04469 *)p)->f218, id);
-    func_02082BCC(p + 0x1f0, 0, 40);
+    MI_CpuFill8(p + 0x1f0, 0, 40);
     ((struct Obj04469 *)p)->f214 = id;
     chars = STRBUF_GetChars(str);
     for (i = 0; i < STRBUF_GetLength(str) + 1u; i++) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021CFDCC
+ * function: BTL_CLIENT_IsCountdownEndingNext
  * address: 0x021CFDCC
  * packet: pkt_ov093_021CFDCC
  * region: ov093
@@ -27,7 +27,7 @@ extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern union Slot BTL_POKEPARAM_GetSickContRaw(void *, int);
 extern u8 BTLV_CORE_GetSlotLow(union Slot);
 extern u8 BTL_POKEPARAM_GetSickTurn(u8 *p, int i);
-int func_021CFDCC(void *p, void *q)
+int BTL_CLIENT_IsCountdownEndingNext(void *p, void *q)
 {
     u32 n;
     u32 id = 20;

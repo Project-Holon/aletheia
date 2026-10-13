@@ -12,6 +12,7 @@
  *   GAME_BEACON_ACCESSOR_GetDetailsMonsNo 0x02165DF0 thumb ov010
  *   GAME_BEACON_ACCESSOR_GetDetailsTrainerNo 0x02165DBC thumb ov010
  *   GAME_BEACON_ACCESSOR_GetZoneId 0x02165D28 thumb ov010
+ *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb  arm9
  */
 struct Bits;
 extern unsigned GAME_BEACON_ACCESSOR_GetDetailsType(const char *);
@@ -21,7 +22,7 @@ extern unsigned short GAME_BEACON_ACCESSOR_GetZoneId(const struct Bits *);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct WordSet;
-extern u32 func_02013E4C(u32 id);
+extern u32 ZONEDATA_GetPlaceNameId(u32 id);
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
 extern void func_0201F104(struct WordSet *p, u32 i, u32 a);
 extern void func_0201F134(struct WordSet *p, u32 i, u32 v);
@@ -39,7 +40,7 @@ void func_021BCE04(void *p,void *q)
     default: {
         unsigned a=GAME_BEACON_ACCESSOR_GetZoneId(p);
         if(a>=427) a=317;
-        func_0201F158(q,0,func_02013E4C(a)); break;
+        func_0201F158(q,0,ZONEDATA_GetPlaceNameId(a)); break;
     }
     }
 }

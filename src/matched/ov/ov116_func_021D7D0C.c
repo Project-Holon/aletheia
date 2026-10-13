@@ -19,7 +19,7 @@
  *   func_02049F78 0x02049F78 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02049B40 0x02049B40 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02082D44 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   func_020056A0 0x020056A0 thumb
@@ -40,7 +40,7 @@ extern void func_02049990(void *, int, int, int, u16, int, int, u32);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int func_02049B40(int, int, int, int, int, u32);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern void func_02082D44(const void *, void *, u32);
 extern u32 func_020307B0(void *p);
 extern void *func_020056A0(void *, void *, int);
@@ -74,7 +74,7 @@ void func_021D7D0C(u8 *p, short heap) {
     func_02049B68(arc, 3, 0, 0, j, heap);
     func_02049990(arc, 5, 0, 0, (u16)func_02049740(arc, 4, 0, 0, j, heap), j, j, heap);
     func_02049990(arc, 7, 3, 0, (u16)func_02049740(arc, 4, 3, 0, j, heap), j, j, heap);
-    func_02082BCC(p + 0xc, 0, 0x970);
+    MI_CpuFill8(p + 0xc, 0, 0x970);
     blk = func_02049F78(arc, 2, (u32)(&res), (u16)heap);
     func_02082D44(res->fC, p + 0x14, 0x1e0);
     func_02082D44(res->fC, p + 0x1f4, 0x1e0);

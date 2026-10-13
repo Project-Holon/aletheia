@@ -12,7 +12,7 @@
  * symbols:
  *   GAMESYSTEM_GetEvent  0x02012104  thumb
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
- *   func_0201447C  0x0201447C  thumb
+ *   FIELD_STATUS_SwapSeasonDispFlag  0x0201447C  thumb
  *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   FIELDMAP_UpdateCameraAndDraw  0x021888C8  thumb  ov021
  *   CLACT_DrawSystem  0x0204A600  arm
@@ -23,8 +23,8 @@
  *   FIELD_PLACE_NAME_Main  0x021BC484  thumb  ov021
  *   FIELDSKILL_MAPEFF_Update  0x021C7FAC  thumb  ov021
  *   FIELD_PLAYER_SaveToPlayerWork  0x021A2EB8  thumb  ov021
- *   func_02013CC8  0x02013CC8  thumb
- *   func_02013CE0  0x02013CE0  thumb
+ *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
+ *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   UNION_MAIN_UpdateField  0x021737A4  thumb  ov012
  *   INTRUDE_FIELD_Update  0x0217AE20  thumb  ov018
@@ -61,7 +61,7 @@ struct T;
 struct V3;
 extern u32 GAMESYSTEM_GetEvent(const struct Ctx *p);
 extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
-extern u8 func_0201447C(struct Sub02014444Obj *o, u8 v);
+extern u8 FIELD_STATUS_SwapSeasonDispFlag(struct Sub02014444Obj *o, u8 v);
 extern u8 GAME_DATA_IsSaving(const u8 *o);
 extern void FIELDMAP_UpdateCameraAndDraw(char *o);
 extern void CLACT_DrawSystem(void);
@@ -72,8 +72,8 @@ extern void FIELD_CLOCK_Update(int a);
 extern void FIELD_PLACE_NAME_Main(u32 a);
 extern void FIELDSKILL_MAPEFF_Update(u32 a);
 extern void FIELD_PLAYER_SaveToPlayerWork(u32 *a);
-extern u32 func_02013CC8(u32 id);
-extern u32 func_02013CE0(u32 id);
+extern u32 ZONEDATA_IsZone1A6(u32 id);
+extern u32 ZONEDATA_IsZone96Pair(u32 id);
 struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *a);
 extern void UNION_MAIN_UpdateField(void *a, int b);
@@ -95,7 +95,7 @@ extern void PLEASURE_BOAT_AckEvent(u32 a);
 int FIELDMAP_SeqUpdate(void *a, u8 *p)
 {
     if (GAMESYSTEM_GetEvent((const struct Ctx *)(((struct Obj00518 *)p)->f4)) == 0)
-        func_0201447C(GAME_DATA_GetMoveModelSys((const struct BigObj *)(((struct Obj00518 *)p)->f8)), 0);
+        FIELD_STATUS_SwapSeasonDispFlag(GAME_DATA_GetMoveModelSys((const struct BigObj *)(((struct Obj00518 *)p)->f8)), 0);
     if (GAME_DATA_IsSaving((const u8 *)(((struct Obj00518 *)p)->f8)) != 0)
         return 0;
     if (((struct Obj00518 *)p)->f140 != 0) {
@@ -113,7 +113,7 @@ int FIELDMAP_SeqUpdate(void *a, u8 *p)
         FIELD_PLACE_NAME_Main(((struct Obj00518 *)p)->f30);
     FIELDSKILL_MAPEFF_Update(((struct Obj00518 *)p)->fA0);
     FIELD_PLAYER_SaveToPlayerWork((u32 *)(((struct Obj00518 *)p)->f8C));
-    if (func_02013CC8(((struct Obj00518 *)p)->fD0) == 1 || func_02013CE0(((struct Obj00518 *)p)->fD0) == 1)
+    if (ZONEDATA_IsZone1A6(((struct Obj00518 *)p)->fD0) == 1 || ZONEDATA_IsZone96Pair(((struct Obj00518 *)p)->fD0) == 1)
         UNION_MAIN_UpdateField((void *)((void *)GAMESYSTEM_GetGameComm(a)), (int)p);
     else
         INTRUDE_FIELD_Update((u8 *)p, ((struct Obj00518 *)p)->f4, ((struct Obj00518 *)p)->f8C);

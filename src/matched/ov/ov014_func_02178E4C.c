@@ -1,5 +1,5 @@
 /*
- * function: func_02178E4C
+ * function: WIH_GetSysState
  * address: 0x02178E4C
  * packet: pkt_ov014_02178E4C
  * region: ov014
@@ -16,4 +16,4 @@
 
 typedef unsigned char u8;
 extern struct S *g_021797A8;
-int func_02178E4C(void) { if (((u8 *)g_021797A8) == 0) return 0; return *(int *)(((u8 *)g_021797A8) + 0x1E70); }
+int WIH_GetSysState(void) { if (((u8 *)g_021797A8) == 0) return 0; return *(int *)(((u8 *)g_021797A8) + 0x1E70); }

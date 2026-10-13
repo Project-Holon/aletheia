@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 void C_GEAR_InitTile(unsigned char *p, int a, int b)
 {
-    func_02082BCC(p, 0, 8);
+    MI_CpuFill8(p, 0, 8);
     p[6] = a;
     p[7] = b;
 }

@@ -14,7 +14,7 @@
  * symbols:
  * func_02030734 0x02030734 arm
  * func_020307B0 0x020307B0 arm
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * func_020120F4 0x020120F4 thumb
  * GAME_DATA_GetSaveControl 0x02012EBC thumb
  * func_0200A8A0 0x0200A8A0 thumb
@@ -34,7 +34,7 @@ typedef struct Data { u32 f00; u8 f04,f05; u16 f06; u8 f08,f09,f0a; unsigned cha
 extern char IRC_COMPATIBLE_SourceFileName[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern u32 func_020307B0(void *p);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 struct Big;
 struct Ctx;
 struct T0200A9A4;
@@ -55,7 +55,7 @@ void *IRC_COMPATIBLE_ResultStepCreateArgs(u32 heap,char *p)
     int both,flag=0;
     u32 id;
     out=func_02030734(heap,16,0,IRC_COMPATIBLE_SourceFileName,0x418);
-    func_02082BCC(out,0,16);
+    MI_CpuFill8(out,0,16);
     ((struct Obj07971 *)out)->f0=**(u32 * *)&((struct Obj01387 *)p)->f10;
     ((struct Obj07971 *)out)->f4=((struct Obj01387 *)p)->f0;
     ((struct Obj07971 *)out)->f8=*(u32 *)&((struct Obj01387 *)p)->f3C;

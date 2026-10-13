@@ -12,7 +12,7 @@
  *
  * symbols:
  *   GAME_DATA_GetSeason  0x02012984  thumb
- *   func_02013ED8  0x02013ED8  thumb
+ *   ZONEDATA_GetFieldEffectSetId  0x02013ED8  thumb
  *   func_0203F4CC  0x0203F4CC  arm
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
@@ -45,7 +45,7 @@ struct BigObj;
 extern u16 FIELDMAP_GetZoneId(u8 *p);
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
-extern u8 func_02013ED8(u32 id);
+extern u8 ZONEDATA_GetFieldEffectSetId(u32 id);
 extern u32 FIELD_PLAYER_GetNowAttribute(void **ctx);
 extern u16 MAP_ATTR_GetTerrainId(u32 attr);
 extern u8 MAP_ATTR_GetBattleBackground(u16 x);
@@ -59,7 +59,7 @@ void FIELD_ENCOUNT_SetFieldSituation(struct Info *out, void *a1, void *a2)
     u16 x = FIELDMAP_GetZoneId(a2);
     void *y = FIELDMAP_GetFieldPlayer(a2);
 
-    out->f00 = func_02013ED8(x);
+    out->f00 = ZONEDATA_GetFieldEffectSetId(x);
     out->f04 = MAP_ATTR_GetBattleBackground(MAP_ATTR_GetTerrainId(FIELD_PLAYER_GetNowAttribute(y)));
     out->f0A = x;
     func_0203F4CC(&t);

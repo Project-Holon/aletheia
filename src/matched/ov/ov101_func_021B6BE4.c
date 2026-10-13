@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   PROCSYS_Create 0x02031324 arm
  */
 #include "../include/Obj22112.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern void *PROCSYS_Create(int);
-void IRC_COMPATIBLE_StepRunnerInit(u8 *p,int heap) { func_02082BCC(p,0,12); ((struct Obj22112 *)p)->f0=PROCSYS_Create(heap); }
+void IRC_COMPATIBLE_StepRunnerInit(u8 *p,int heap) { MI_CpuFill8(p,0,12); ((struct Obj22112 *)p)->f0=PROCSYS_Create(heap); }

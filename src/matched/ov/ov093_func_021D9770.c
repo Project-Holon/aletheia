@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetDroughtHandlers
+ * function: HAND_TOKUSEI_GetDroughtHandlers
  * address: 0x021D9770
  * packet: pkt_ov093_021D9770
  * region: ov093
@@ -15,10 +15,10 @@
  *   gDroughtHandlers 0x021F08E0 data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetDroughtHandlers(int *p);
+int *HAND_TOKUSEI_GetDroughtHandlers(int *p);
 extern int gDroughtHandlers[];
 
-int *BTL_TOKUSEI_GetDroughtHandlers(int *p)
+int *HAND_TOKUSEI_GetDroughtHandlers(int *p)
 {
     *p = 2;
     return gDroughtHandlers;

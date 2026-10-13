@@ -19,6 +19,7 @@
  *   GF_FONT_Create  0x0201D7EC  thumb  arm9
  *   GF_FONT_ResetTextColor  0x0201DD60  thumb  arm9
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
  */
 #include "../include/Obj00496.h"
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ struct R;
 struct Tcbl;
 struct U16Vec;
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 struct MsgBank;
@@ -49,7 +50,7 @@ char *func_021D7724(u32 heap,u32 n)
     BMP_WIN_Init(((struct Obj00496 *)p)->fC8);
     GF_FONT_ResetTextColor();
     ((struct Obj00496 *)p)->fA0=TCBL_Create(((struct Obj00496 *)p)->fC8,((struct Obj00496 *)p)->fC8,1,0);
-    ((struct Obj00496 *)p)->fA4=(void *)func_0201C440((void *)(u32)((struct Obj00496 *)p)->fC8);
+    ((struct Obj00496 *)p)->fA4=(void *)PRINTSYS_QUE_Create((void *)(u32)((struct Obj00496 *)p)->fC8);
     ((struct Obj00496 *)p)->f1C=STRBUF_Create(240,((struct Obj00496 *)p)->fC8);
     ((struct Obj00496 *)p)->f18=STRBUF_Create(240,((struct Obj00496 *)p)->fC8);
     ((struct Obj00496 *)p)->f20=STRBUF_Create(240,((struct Obj00496 *)p)->fC8);

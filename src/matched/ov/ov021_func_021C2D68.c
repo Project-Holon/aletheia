@@ -11,7 +11,7 @@
  * symbols:
  *   func_020124F0  0x020124F0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
@@ -45,7 +45,7 @@ struct Obj;
 struct Sub0200852CObj;
 extern void *func_020124F0(struct Obj *p);
 extern void *func_020124E8(struct Obj *p);
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 struct Bmp;
@@ -80,7 +80,7 @@ int FLD3D_CI_NameExtraTask(int a, int *b)
     u32 y;
 
     pp = func_020124E8(func_020124F0((struct Obj *)a));
-    t = (int)func_020124E4((struct Obj *)a);
+    t = (int)GAME_EVENT_GetGameSystem((struct Obj *)a);
     s = (int)GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData((const struct Ctx *)t));
     p = *pp;
     GAMESYSTEM_GetFieldMap((void *)t);

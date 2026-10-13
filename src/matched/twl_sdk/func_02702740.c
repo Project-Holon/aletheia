@@ -15,7 +15,7 @@
  *   NWMi_DeleteSleepCallback  0x02702A78  arm twl
  *   PM_DeletePostExitCallback  0x02731590  arm twl
  *   DAT_027341a8   0x027341a8  data twl
- *   func_02082BCC  0x02082BCC  arm twl
+ *   MI_CpuFill8  0x02082BCC  arm twl
  *   func_020862D4  0x020862D4  arm twl
  *   NWMi_ClearFifoRecvFlag  0x027026EC  arm twl
  */
@@ -37,7 +37,7 @@ extern void func_020862B8(u32, u32);
 extern void NWMi_DeleteSleepCallback(void);
 extern void PM_DeletePostExitCallback(u32);
 extern u32 DAT_027341a8[];
-extern void func_02082BCC(u32, u32, u32);
+extern void MI_CpuFill8(u32, u32, u32);
 extern void func_020862D4(u32, u32);
 extern void NWMi_ClearFifoRecvFlag(void);
 
@@ -83,7 +83,7 @@ void NWMi_ReceiveFifo9(u32 a0, Msg *msg, u32 a2) {
             handler(msg);
         }
     }
-    func_02082BCC((u32)msg, 0, 0x100);
+    MI_CpuFill8((u32)msg, 0, 0x100);
     func_020862D4((u32)msg, 0x100);
     if (base != 0) {
         NWMi_ClearFifoRecvFlag();

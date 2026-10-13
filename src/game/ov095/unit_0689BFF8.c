@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C88A4  0x021C88A4  thumb
- *   func_021C88C8  0x021C88C8  thumb
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
  *   func_021D62A8  0x021D62A8  thumb
  *   BTL_CALC_RandRange  0x021D7B8C  thumb
@@ -34,9 +34,9 @@ typedef struct Rec {
 extern int BTL_CALC_RandRange(int, int);
 extern int func_021D62A8(void *);
 extern int BTL_POKEPARAM_GetPokeId(void *);
-extern Rec *func_021C88A4(void *, int, int);
+extern Rec *BTL_SERVER_FLOW_AllocCmdRecord(void *, int, int);
 extern int BTLV_CORE_MakeSlotKind2Index(u8);
-extern void func_021C88C8(void *, Rec *);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *, Rec *);
 
 void func_0689BFF8(void *a, void *b)
 {
@@ -48,12 +48,12 @@ void func_0689BFF8(void *a, void *b)
     if (n > 0) {
         if (func_021D62A8(b) == 0) {
             k = BTL_POKEPARAM_GetPokeId(b);
-            r = func_021C88A4(a, 0xc, k);
+            r = BTL_SERVER_FLOW_AllocCmdRecord(a, 0xc, k);
             r->f0c = 1;
             r->f04 = 2;
             r->f08 = BTLV_CORE_MakeSlotKind2Index(n);
             r->f0f = k;
-            func_021C88C8(a, r);
+            BTL_SERVER_FLOW_CommitCmdRecord(a, r);
         }
     }
 }

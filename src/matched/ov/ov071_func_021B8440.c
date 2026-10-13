@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   func_02034714  0x02034714  arm
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   func_02040588  0x02040588  arm
  *   BMP_Clear  0x02043B5C  arm
@@ -38,20 +38,20 @@ typedef unsigned char  u8;
 struct CharBuf;
 void func_021B8440(W *w)
 {
-    extern void *func_02045770(struct Descriptor *p);
+    extern void *BMP_WIN_GetBmp(struct Descriptor *p);
     extern void func_02034714(const char *expr, u32 line, const char *file);
-    extern void func_0201CE48(struct Rec3 *p);
+    extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
     extern void STRBUF_Delete(struct U16Vec *vec);
     extern void func_02040588(unsigned char which, unsigned char enable);
     extern void BMP_Clear(struct CharBuf *buf, u8 value);
     extern void BMP_WIN_TransferChars(struct Descriptor *d);
     extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
-    unsigned r = (unsigned)func_02045770(w->f3c);
+    unsigned r = (unsigned)BMP_WIN_GetBmp(w->f3c);
 
     if (w->f40 == 0) {
         func_02034714(d_021BABF8, 0, d_021BABF8);
     }
-    func_0201CE48(w->f40);
+    PRINTSYS_PrintStreamDelete(w->f40);
     w->f40 = 0;
     STRBUF_Delete(w->f44);
     w->f44 = 0;

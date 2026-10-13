@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   func_02034714  0x02034714  arm
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   func_0201F7A8  0x0201F7A8  thumb
  *   BMP_Clear  0x02043B5C  arm
@@ -31,9 +31,9 @@ struct CharBuf;
 struct Descriptor;
 struct Rec3;
 struct U16Vec;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -44,10 +44,10 @@ void MONOLITH_TOOL_LIST_HideMessage(char *a)
 {
     void *r6;
 
-    r6 = func_02045770(((struct Obj00044 *)a)->f280);
+    r6 = BMP_WIN_GetBmp(((struct Obj00044 *)a)->f280);
     if (((struct Obj00044 *)a)->f294 == 0)
         func_02034714(d_021BABFC, 0, d_021BABFC);
-    func_0201CE48(((struct Obj00044 *)a)->f294);
+    PRINTSYS_PrintStreamDelete(((struct Obj00044 *)a)->f294);
     ((struct Obj00044 *)a)->f294 = 0;
     STRBUF_Delete(((struct Obj00044 *)a)->f290);
     ((struct Obj00044 *)a)->f290 = 0;

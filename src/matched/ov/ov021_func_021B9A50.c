@@ -24,7 +24,7 @@
  *   VEC_Add          0x0207C9D0  arm
  *   BUTTON_MAN_ScaleVec    0x020520A4  arm
  *   _ll_mul          0x0209C054  arm
- *   d_020A1B38       0x020A1B38  data   a2
+ *   FX_SinCosTable_       0x020A1B38  data   a2
  * Addresses are Black-image addresses.
  */
 
@@ -38,7 +38,7 @@ extern int FX_Div(int n, int d);
 extern void VEC_Add(V *a, V *b, V *o);
 struct Vec3;
 extern void BUTTON_MAN_ScaleVec(const struct Vec3 *v, int s, struct Vec3 *dst);
-extern u16 d_020A1B38[];
+extern u16 FX_SinCosTable_[];
 
 #define FX32_ONE ((int)0x00001000L)
 
@@ -58,14 +58,14 @@ void FIELD_RAIL_SlerpDir(V *out, V *a, V *b, int t)
     VEC_Normalize(a, &na);
     VEC_Normalize(b, &nb);
     w = FX_AcosIdx(VEC_DotProduct(&na, &nb));
-    s = d_020A1B38[(w >> 4) * 2];
+    s = FX_SinCosTable_[(w >> 4) * 2];
     if (s == 0) {
         *out = nb;
         return;
     }
     aw = w << 12;
-    BUTTON_MAN_ScaleVec((const struct Vec3 *)(&na), FX_Div(d_020A1B38[(FX_Mul(aw, FX32_ONE - t) >> 16) * 2], s), (struct Vec3 *)(&na));
-    BUTTON_MAN_ScaleVec((const struct Vec3 *)(&nb), FX_Div(d_020A1B38[(FX_Mul(aw, t) >> 16) * 2], s), (struct Vec3 *)(&nb));
+    BUTTON_MAN_ScaleVec((const struct Vec3 *)(&na), FX_Div(FX_SinCosTable_[(FX_Mul(aw, FX32_ONE - t) >> 16) * 2], s), (struct Vec3 *)(&na));
+    BUTTON_MAN_ScaleVec((const struct Vec3 *)(&nb), FX_Div(FX_SinCosTable_[(FX_Mul(aw, t) >> 16) * 2], s), (struct Vec3 *)(&nb));
     VEC_Add(&na, &nb, out);
     VEC_Normalize(out, out);
 }

@@ -24,7 +24,7 @@
  *   _ll_mul        0x0209C054  arm
  *   func_0206DF3C  0x0206DF3C  arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   FIELD_SAVEANIME_DrawFrame  0x021D1430  thumb  ov021
@@ -56,7 +56,7 @@ extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern void func_0206DF3C(V *a, int *x, int *y);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *a);
+extern void *BMP_WIN_GetBmp(struct Descriptor *a);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void FIELD_SAVEANIME_DrawFrame(u8 *p, u32 n);
@@ -111,7 +111,7 @@ void FIELD_SAVEANIME_CreateWindow(u8 *p)
         y = 0x18;
     }
     ((struct Obj01509 *)p)->f4 = BMP_WIN_Create(3, (u8)x, (u8)y, 5, (u32)5, (u32)9, (u32)1);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01509 *)p)->f4)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01509 *)p)->f4)), 0);
     BMP_WIN_TransferChars((struct Descriptor *)((struct Obj01509 *)p)->f4);
     FIELD_SAVEANIME_DrawFrame(p, 0);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A14B4",
+   "name": "FIELD_SUBSCREEN_UpdateDowsing",
    "address": "0x021A14B4",
    "kind": "game",
    "region": "ov021",

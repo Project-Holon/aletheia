@@ -10,7 +10,7 @@
  * symbols:
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 #include "../include/Obj06422.h"
 typedef signed short s16;
@@ -22,7 +22,7 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021D8C0C(void *p) {
  int x,y; s16 pos[2];
  if(((struct Obj06422 *)p)->fF60!=0) {
@@ -31,7 +31,7 @@ void func_021D8C0C(void *p) {
  pos[0]=x+((struct Obj06422 *)p)->fF68;
  pos[1]=y+((struct Obj06422 *)p)->fF6A;
  if(pos[1]>150) pos[1]=150;
- func_0204B404((struct Obj *)(((struct Obj06422 *)p)->fF60),(const struct Vec2 *)pos,1);
+ CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj06422 *)p)->fF60),(const struct Vec2 *)pos,1);
  }
  }
 }

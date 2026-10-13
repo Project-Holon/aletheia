@@ -14,7 +14,7 @@
  * because the listing extent holds the 2-byte alignment pad at 0x021F549E.
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   ENCEFF_RequestScreenCapture  0x021F54A0  thumb  ov075
  *   func_0204047C  0x0204047C  arm
@@ -50,7 +50,7 @@ typedef struct Work {
 typedef signed int     s32;
 struct Ctx;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void ENCEFF_RequestScreenCapture(char *p);
 extern void func_0204047C(int idx, u16 val);
@@ -75,7 +75,7 @@ int ENCEFF_ScreenTexFlashEventMain(void *task, int *st, Work *w)
     u32 bank;
     int r;
 
-    t = func_020124E4(task);
+    t = GAME_EVENT_GetGameSystem(task);
     v = GAMESYSTEM_GetFieldMap(t);
     switch (*st) {
     case 0:

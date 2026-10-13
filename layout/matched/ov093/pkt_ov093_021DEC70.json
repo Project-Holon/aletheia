@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_HANDLER_ITEM_Metronome_BoostConsecutiveUse",
+   "name": "HAND_ITEM_Metronome_BoostConsecutiveUse",
    "address": "0x021DEC70",
    "kind": "game",
    "region": "ov093",

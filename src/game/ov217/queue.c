@@ -44,11 +44,11 @@
  *   func_02030EAC  0x02030EAC  arm
  *   func_02012138  0x02012138  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_SetNotifyFlag  0x02026498  thumb
  *   func_021BF734  0x021BF734  thumb  ov217
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020120F4 0x020120F4 thumb
  *   d_021C3F64  0x021C3F64  data
  *   d_021C3F9C  0x021C3F9C  data
@@ -60,7 +60,7 @@
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   d_021C3F80 0x021C3F80 data a4
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   PALANM_FreeSlotBuffers  0x020215A0  thumb
  *   func_021C29F8  0x021C29F8  thumb  ov217
@@ -218,11 +218,11 @@ extern u32 func_021BF6BC(u32 a0, u32 a1);
 extern void func_02030EAC(struct Node *n);
 extern u32 func_02012138(const struct Ctx *);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
-extern u32 func_02026454(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
 extern void GAME_COMM_SetNotifyFlag(void *obj, u32 flag);
 extern u32 func_021BF734(u8 *);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
-extern void func_02082BCC(void *dst, int val, u32 n);
+extern void MI_CpuFill8(void *dst, int val, u32 n);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020120F4(const struct Ctx *);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
@@ -238,7 +238,7 @@ extern u32 CLACT_ReleaseCellAnim();
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void func_0204B3DC(struct Obj *, u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *, u32);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void func_021C29F8(u8 *p, u32 b, u16 c);
 extern void func_021C2A00(u32);
@@ -646,7 +646,7 @@ u32 func_021C0900(s32 v)
 
 /*
  * Opens the +0x10 record (func_02012138 on the result of func_021BF734),
- * tags it with 1, and releases it when func_02026454 reports state 2.
+ * tags it with 1, and releases it when GAME_COMM_GetKind reports state 2.
  * Closed by the generator's duplicate guard statement (O89).
  *
  * Addresses are Black-image addresses.
@@ -655,7 +655,7 @@ void func_021C0918(u8 *a0)
 {
     u32 v1 = func_02012138((const struct Ctx *)func_021BF734(a0));
     GAME_COMM_SetNotifyFlag((void *)v1, 1);
-    if (func_02026454((void *)v1) == 2) {
+    if (GAME_COMM_GetKind((void *)v1) == 2) {
     GAME_COMM_RequestExitNoCallback((struct Comm *)v1);
     }
 }
@@ -670,7 +670,7 @@ int func_021C093C(u8 *a0)
 {
     u32 r;
     r = func_021BF734(a0);
-    switch (func_02026454((void *)func_02012138((const struct Ctx *)r))) {
+    switch (GAME_COMM_GetKind((void *)func_02012138((const struct Ctx *)r))) {
     case 0:
         GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)r);
         return 1;
@@ -941,7 +941,7 @@ void func_021C09FC(void *p)
 
 void func_021C0A04(u8 *p)
 {
-    func_02082BCC(p, 0, 0x40);
+    MI_CpuFill8(p, 0, 0x40);
     ((struct Obj00791 *)p)->f30 = 0;
     ((struct Obj00791 *)p)->f34 = 0;
     func_021C0AF8(p);
@@ -1158,7 +1158,7 @@ void func_021C0BBC(u8 *p)
     c=func_021C0DB4(p,d_021C3F80.e);
     d=func_021C0DB4(p,d_021C3F80.f);
     *(u32 *)&((struct Obj00791 *)p)->f24=(u32)CLACT_CreateActor((void *)a,b,c,d,&arg,d_021C3F80.g,((struct Obj00791 *)p)->f0);
-    func_0204B3DC(*(struct Obj * *)&((struct Obj00791 *)p)->f24,1);
+    CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00791 *)p)->f24,1);
 }
 
 

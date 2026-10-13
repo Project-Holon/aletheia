@@ -23,9 +23,9 @@
  *   func_021F4F54 0x021F4F54 thumb ov112
  *   func_021F4F70 0x021F4F70 thumb ov112
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021FA99C 0x021FA99C thumb ov132
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  */
 #include "../include/Obj00151.h"
 typedef unsigned char u8;
@@ -42,8 +42,8 @@ extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_0204B3DC(struct Obj *,unsigned int);
-extern void func_0204B92C(struct Obj *,u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16),CLACT_RegisterCharacter(void *,u32,u32,u32,u16),CLACT_RegisterCellAnim(void *,u32,u32,u32),CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern void func_021FA99C(u8 *p, u16 slot, int resource, u32 type);
@@ -82,13 +82,13 @@ void func_021FA7E0(char *p)
             *(void **)(p+i*4+0x4c)=CLACT_CreateActor((void *)*(u32 *)&((struct Obj00151 *)p)->f18,((struct Obj00151 *)p)->f28,((struct Obj00151 *)p)->f1C,((struct Obj00151 *)p)->f34,&configs[1],1,((struct Obj00151 *)p)->f0);
             configs[1].index=0;
             *(void **)(p+i*4+0x54)=CLACT_CreateActor((void *)*(u32 *)&((struct Obj00151 *)p)->f18,((struct Obj00151 *)p)->f2C,((struct Obj00151 *)p)->f20,((struct Obj00151 *)p)->f38,&configs[1],1,((struct Obj00151 *)p)->f0);
-            func_0204B3DC(*(void **)(p+i*4+0x4c),0);
-            func_0204B3DC(*(void **)(p+i*4+0x54),0);
+            CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x4c),0);
+            CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x54),0);
             func_021FA99C((u8 *)p,i,*(u16 *)(p+i*2+0x48),format);
         }
     }
     configs[0].x=128; configs[0].y=96; configs[0].index=0;configs[0].a=0;configs[0].b=0;
     ((struct Obj00151 *)p)->f5C=CLACT_CreateActor((void *)*(u32 *)&((struct Obj00151 *)p)->f18,((struct Obj00151 *)p)->f30,((struct Obj00151 *)p)->f24,((struct Obj00151 *)p)->f3C,&configs[0],1,((struct Obj00151 *)p)->f0);
-    func_0204B3DC(((struct Obj00151 *)p)->f5C,0);
-    func_0204B92C(((struct Obj00151 *)p)->f5C,1);
+    CLACT_SetActorDrawEnable(((struct Obj00151 *)p)->f5C,0);
+    CLACT_SetActorAutoAnim(((struct Obj00151 *)p)->f5C,1);
 }

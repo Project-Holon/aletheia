@@ -9,14 +9,14 @@
  * status: EXACT
  * symbols:
  *   CLACT_DeleteActor 0x0204B3B4 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj10737.h"
 #include "../include/Obj24580.h"
 typedef unsigned short u16;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
-extern void func_02082BCC(void *, int, unsigned);
+extern void MI_CpuFill8(void *, int, unsigned);
 void func_021DE12C(char *p)
 {
     int i;
@@ -28,5 +28,5 @@ void func_021DE12C(char *p)
         }
     }
     CLACT_DeleteActor(((struct Obj24580 *)p)->f0);
-    func_02082BCC(p, 0, 20);
+    MI_CpuFill8(p, 0, 20);
 }

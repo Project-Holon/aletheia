@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_021E12AC 0x021E12AC thumb ov119
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020355D8 0x020355D8 arm
  *   func_021E1098 0x021E1098 thumb ov119
@@ -21,7 +21,7 @@
 #include "../include/Obj00001.h"
 
 typedef unsigned int u32;
-extern int func_021E12AC(char *p);extern u32 func_020362DC(void);extern int TOUCHPANEL_GetTrg(void);extern void func_020355D8(int);extern void func_021E1098(void *);extern void func_021E6700(void *);extern void func_021D8E84(void *,int);extern void func_021DBE70(void);extern void func_021E4E64(int,void *,int);
-static inline int poll_a(void) {int r=func_020362DC();if(r)func_020355D8(0);return r;}
+extern int func_021E12AC(char *p);extern u32 KEY_GetTrg(void);extern int TOUCHPANEL_GetTrg(void);extern void func_020355D8(int);extern void func_021E1098(void *);extern void func_021E6700(void *);extern void func_021D8E84(void *,int);extern void func_021DBE70(void);extern void func_021E4E64(int,void *,int);
+static inline int poll_a(void) {int r=KEY_GetTrg();if(r)func_020355D8(0);return r;}
 static inline int poll_b(void) {int r=TOUCHPANEL_GetTrg();if(r)func_020355D8(1);return r;}
 void func_021DC370(char *p) {int hit=0;if(func_021E12AC(p)) {if(poll_a()) {func_020355D8(0);hit=1;}if(poll_b()){hit=1;func_020355D8(1);}if(hit){func_021E1098(p);func_021E6700(p);func_021D8E84(p,(int)func_021DBE70);((struct Obj00001 *)p)->f1080=-1;func_021E4E64(*(int *)&((struct Obj00001 *)p)->f828,p,1);}}}

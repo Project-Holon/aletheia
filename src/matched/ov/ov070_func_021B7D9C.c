@@ -11,7 +11,7 @@
  * symbols:
  *   ITEMMENU_LoadSellPalette 0x021BB1C4 thumb ov070
  *   ITEMMENU_PrintQuantityPrice 0x021BB260 thumb ov070
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj00002.h"
 
@@ -20,5 +20,5 @@ extern void ITEMMENU_LoadSellPalette(void *p);
 extern void ITEMMENU_PrintQuantityPrice(u8 *p, int val);
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
-void ITEMMENU_ShowQuantityWindows(u8 *p, int v) { ((struct Obj00002 *)p)->f7EC=v; ITEMMENU_LoadSellPalette(p); ITEMMENU_PrintQuantityPrice(p,((struct Obj00002 *)p)->f7F4); func_0204B3DC(((struct Obj00002 *)p)->f724,1); func_0204B3DC(((struct Obj00002 *)p)->f728,1); }
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+void ITEMMENU_ShowQuantityWindows(u8 *p, int v) { ((struct Obj00002 *)p)->f7EC=v; ITEMMENU_LoadSellPalette(p); ITEMMENU_PrintQuantityPrice(p,((struct Obj00002 *)p)->f7F4); CLACT_SetActorDrawEnable(((struct Obj00002 *)p)->f724,1); CLACT_SetActorDrawEnable(((struct Obj00002 *)p)->f728,1); }

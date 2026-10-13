@@ -14,7 +14,7 @@
  *   ITEMMENU_RedrawList  0x021B6138  thumb  ov070
  *   ITEMMENU_MoveCursorToRow  0x021BA6A4  thumb  ov070
  *   ITEMMENU_LeaveQuantityMode  0x021BB0BC  thumb  ov070
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   ITEMMENU_UpdateSideButtons  0x021BB3F4  thumb  ov070
  *   ITEMMENU_ReturnToBagMain  0x021B8AF4  thumb  ov070
  */
@@ -35,7 +35,7 @@ extern void func_020414EC(u32 i);
 extern void ITEMMENU_RedrawList(char *p);
 extern void ITEMMENU_MoveCursorToRow(char *p);
 extern void ITEMMENU_LeaveQuantityMode(char *p);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void ITEMMENU_UpdateSideButtons(int p, int mode);
 extern void ITEMMENU_ReturnToBagMain(void *p);
 
@@ -47,7 +47,7 @@ void ITEMMENU_TaskReturnToListFromQuantity(Obj *o)
     o->f83E = 1;
     ITEMMENU_MoveCursorToRow((char *)o);
     ITEMMENU_LeaveQuantityMode((char *)o);
-    func_0204B92C(o->f6A8, 1);
+    CLACT_SetActorAutoAnim(o->f6A8, 1);
     ITEMMENU_UpdateSideButtons((int)o, 1);
     ITEMMENU_ReturnToBagMain(o);
 }

@@ -11,19 +11,22 @@
  *
  *
  * Allocates and zeroes an a*b byte scratch block from tag 0xb9.
+ *
+ * symbols:
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_02082BCC(int, int, int);
+extern void MI_CpuFill8(int, int, int);
 
 u8 *func_021B9A64(int a, int b, int c)
 {
     int n = b * a;
     u8 *p = func_02030734(c, n, 0, (const char *)0x021CE3A0, 0xb9);
 
-    func_02082BCC((int)p, 0, n);
+    MI_CpuFill8((int)p, 0, n);
     return p;
 }

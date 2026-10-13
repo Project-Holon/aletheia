@@ -25,7 +25,7 @@
  *   BTL_SERVER_FLOW_ProcDamageRecordIfAny 0x021C11A4 thumb ov093
  *   BTL_SERVER_FLOW_ProcDamagedItemReaction 0x021C195C thumb ov093
  *   BTL_SERVER_FLOW_RollMoveAccuracy 0x021BFA60 thumb ov093
- *   func_021C15AC 0x021C15AC thumb ov093
+ *   BTL_SERVER_FLOW_PushEffectivenessMessage 0x021C15AC thumb ov093
  *
  * Single dynamic executor loop: 0FD4..10B8. Sum/counters retain full-word
  * wrapping adds and unsigned bound comparison; bound is reread after calls.
@@ -67,7 +67,7 @@ extern void BTL_SERVER_FLOW_BuildDamageList(u8 *, u8 *, u8 *, const u8 *, const 
 extern u32 BTL_SERVER_FLOW_ProcDamageRecordIfAny(u8 *, u32, u32, u32, u8 *, u32, u32, struct Flags);
 extern void BTL_SERVER_FLOW_ProcDamagedItemReaction(u8 *p, u8 *q, u32 n);
 extern int BTL_SERVER_FLOW_RollMoveAccuracy(u8 *, u8 *, u8 *, struct Q *);
-extern void func_021C15AC(u8 *, int);
+extern void BTL_SERVER_FLOW_PushEffectivenessMessage(u8 *, int);
 
 u32 BTL_SERVER_FLOW_ProcMultiHitDamage(u8 *p, u8 *q, u8 *a, u8 *d, u32 c)
 {
@@ -111,7 +111,7 @@ u32 BTL_SERVER_FLOW_ProcMultiHitDamage(u8 *p, u8 *q, u8 *a, u8 *d, u32 c)
             !BTL_SERVER_FLOW_RollMoveAccuracy(p, a, b, (struct Q *)q)) break;
     }
     if (completed != 0) {
-        func_021C15AC(p, (*(u8 **)(p + 0x4b4))[5]);
+        BTL_SERVER_FLOW_PushEffectivenessMessage(p, (*(u8 **)(p + 0x4b4))[5]);
         BTL_SERVER_CMD_PushVariable(((struct Obj02134 *)p)->fC, 0x5a, 0x20, completed, 0xffff0000);
     }
     if (BTL_POKEPARAM_IsFainted(b)) {

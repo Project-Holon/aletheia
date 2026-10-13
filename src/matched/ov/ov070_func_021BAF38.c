@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201F14C  0x0201F14C  thumb
@@ -22,7 +22,7 @@
 #include "../include/Obj01516.h"
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 typedef signed short   s16;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -43,7 +43,7 @@ void ITEMMENU_PrintPocketCount(int p, int val)
 {
     int r;
 
-    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj01516 *)p)->f504)), 0);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01516 *)p)->f504)), 0);
     MSGDATA_ReadString((struct MsgBank *)(((struct Obj01516 *)p)->f51C), 0x8B, (void *)(((struct Obj01516 *)p)->f524));
     func_0201F14C((struct WordSet *)(((struct Obj01516 *)p)->f520), 0, val);
     func_0201F250((struct WordSet *)(((struct Obj01516 *)p)->f520), (void *)(((struct Obj01516 *)p)->f528), (void *)(((struct Obj01516 *)p)->f524));

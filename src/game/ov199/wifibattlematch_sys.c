@@ -16,10 +16,10 @@
  *   func_02034714 0x02034714 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02082D44 0x02082D44 arm
  *   GAME_DATA_Create 0x020124F4 thumb
- *   func_0201A920 0x0201A920 thumb
+ *   POKEPARTY_Create 0x0201A920 thumb
  *   BATTLE_REC_AllocWork 0x0200B400 thumb
  *   func_02012934 0x02012934 thumb
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
@@ -47,7 +47,7 @@
  *   func_0200AE14 0x0200AE14 thumb
  *   func_0200B1D4 0x0200B1D4 thumb
  *   func_0200B358 0x0200B358 thumb
- *   func_0201AC2C 0x0201AC2C thumb
+ *   POKEPARTY_Copy 0x0201AC2C thumb
  *   POKE_REGULATION_AdjustPartyLevels 0x0201A2A8 thumb
  *   func_020084F4 0x020084F4 thumb
  *   func_02008550 0x02008550 thumb
@@ -74,8 +74,8 @@
  *   func_021EEEA8 0x021EEEA8 thumb ov188
  *   BTL_SETUP_ClearWithSlots 0x02013930 thumb
  *   func_0200853C 0x0200853C thumb
- *   func_0201AA18 0x0201AA18 thumb
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   func_02167ED8 0x02167ED8 arm ov009
  *   PROCSYS_Create 0x02031324 arm
@@ -259,10 +259,10 @@ typedef unsigned int   u32_02213850;
 extern void func_02034714(const char *expr, u32_02212560 line, const char *file);
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32_02212560 size, u32_02212560 heap);
-extern void func_02082BCC(void *, int, unsigned);
+extern void MI_CpuFill8(void *, int, unsigned);
 extern void func_02082D44(const void *, void *, unsigned);
 extern void *GAME_DATA_Create(u16);
-extern struct Party *func_0201A920(u32_02212560 heap);
+extern struct Party *POKEPARTY_Create(u32_02212560 heap);
 extern void BATTLE_REC_AllocWork(unsigned);
 extern void *func_02012934(const struct BigObj *p);
 extern int POKE_REGULATION_GetDataSize(void);
@@ -287,7 +287,7 @@ extern void *POKE_REGULATION_Load(int, int);
 extern void *func_0200AE14(void *);
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32_02212988 index);
 extern void *func_0200B358(void *);
-extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
+extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
 extern void POKE_REGULATION_AdjustPartyLevels(void *, void *);
 extern void *func_020084F4(void *);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
@@ -315,8 +315,8 @@ extern void BTL_SETUP_InitWithSlots(char *, void *, int);
 extern void func_021EEEA8(void *p, u32_022132C4 c);
 extern void BTL_SETUP_ClearWithSlots(struct Obj *p);
 extern u32_022133E4 func_0200853C(const struct Sub0200852CObj *obj);
-extern unsigned func_0201AA18(void *);
-extern void *func_0201AB28(void *,unsigned);
+extern unsigned POKEPARTY_GetCount(void *);
+extern void *POKEPARTY_GetMember(void *,unsigned);
 extern unsigned func_02017E1C(void *,unsigned,unsigned);
 extern int func_02167ED8(void *date, void *time);
 extern void *PROCSYS_Create(int);
@@ -383,17 +383,17 @@ int func_02212560(void *a, int unused, u8 *arg)
     }
     GFL_HEAP_CreateChildHeap(kind, 0x56, 0x8000);
     p = PROCSYS_AllocProcWork(a, 0x8b0, 0x56);
-    func_02082BCC(p, 0, 0x8b0);
+    MI_CpuFill8(p, 0, 0x8b0);
     func_02082D44(arg, p + 4, 0x14);
     ((struct Obj01177 *)p)->f20 = 0;
     if (((struct Obj01177 *)p)->f4 == 0) {
         ((struct Obj01177 *)p)->f4 = GAME_DATA_Create(1);
         ((struct Obj01177 *)p)->f0 = 1;
     }
-    ((struct Obj01177 *)p)->f30 = func_0201A920(0x56);
-    ((struct Obj01177 *)p)->f34 = func_0201A920(0x56);
-    ((struct Obj01177 *)p)->f38 = func_0201A920(0x56);
-    ((struct Obj01177 *)p)->f3C = func_0201A920(0x56);
+    ((struct Obj01177 *)p)->f30 = POKEPARTY_Create(0x56);
+    ((struct Obj01177 *)p)->f34 = POKEPARTY_Create(0x56);
+    ((struct Obj01177 *)p)->f38 = POKEPARTY_Create(0x56);
+    ((struct Obj01177 *)p)->f3C = POKEPARTY_Create(0x56);
     BATTLE_REC_AllocWork(0x56);
     func_0221336C((char *)p, 0x56);
     ((struct Obj01177 *)p)->f18 = func_022136E4((void *)d_02213C58, (void *)9, p, 0x56);
@@ -466,7 +466,7 @@ int *func_02212740(void *obj, unsigned heap, char *ctx)
 {
     Offset2740 offset = tag_2740;
     int *p = func_02030734(heap, 0x18, 0, d_02213D04, tag_2740);
-    func_02082BCC(p, 0, 0x18);
+    MI_CpuFill8(p, 0, 0x18);
     p[0] = ((struct Obj08368 *)ctx)->f4;
     offset -= 0x9b;
     p[3] = ((struct Obj08368 *)ctx)->f28;
@@ -510,7 +510,7 @@ int *func_02212854(int unused, unsigned heap, char *ctx)
 {
     Offset2854 offset = tag_2854;
     int *p = func_02030734(heap, 0x44, 0, d_02213D04, tag_2854);
-    func_02082BCC(p, 0, 0x44);
+    MI_CpuFill8(p, 0, 0x44);
     p[2] = (int)(ctx + 4);
     p[3] = ((struct Obj06657 *)ctx)->f20;
     p[0] = ((struct Obj06657 *)ctx)->f1C - 2;
@@ -570,7 +570,7 @@ u8 *func_02212988(int unused, unsigned heap, u8 *p)
     POKEPARTY_Init(((struct Obj01078 *)p)->f30);
     POKEPARTY_Init(((struct Obj01078 *)p)->f34);
     out = func_02030734(heap, 0x24, 0, d_02213D04, 0x32f);
-    func_02082BCC(out, 0, 0x24);
+    MI_CpuFill8(out, 0, 0x24);
     if (((struct Obj01078 *)p)->f1C == 2 || ((struct Obj01078 *)p)->f1C == 3) {
         switch (((struct Obj01078 *)p)->f8) {
         case 0: id = 15; break;
@@ -590,11 +590,11 @@ u8 *func_02212988(int unused, unsigned heap, u8 *p)
     }
     ((struct Obj02537 *)out)->f1C = ((struct Obj01078 *)p)->f30;
     ((struct Obj02537 *)out)->f14 = ((struct Obj01078 *)p)->f4;
-    func_0201AC2C((const struct Rec534 *)(*(u8 * *)&((struct Obj01078 *)p)->f28 + 0xd4), ((struct Obj01078 *)p)->f38);
+    POKEPARTY_Copy((const struct Rec534 *)(*(u8 * *)&((struct Obj01078 *)p)->f28 + 0xd4), ((struct Obj01078 *)p)->f38);
     POKE_REGULATION_AdjustPartyLevels(((struct Obj02537 *)out)->f0, ((struct Obj01078 *)p)->f38);
     ((struct Obj02537 *)out)->f4 = ((struct Obj01078 *)p)->f38;
     row = *(u8 * *)&((struct Obj01078 *)p)->f2C;
-    func_0201AC2C((const struct Rec534 *)(row + 0xd4), ((struct Obj01078 *)p)->f3C);
+    POKEPARTY_Copy((const struct Rec534 *)(row + 0xd4), ((struct Obj01078 *)p)->f3C);
     POKE_REGULATION_AdjustPartyLevels(((struct Obj02537 *)out)->f0, ((struct Obj01078 *)p)->f3C);
     ((struct Obj02537 *)out)->f8 = func_020084F4(row);
     ((struct Obj02537 *)out)->f10 = ((struct Obj01078 *)p)->f3C;
@@ -638,12 +638,12 @@ struct Out *func_02212AF8(int unused, u32_02212AF8 heap, struct In *p)
     int flag = 0;
     sys = func_0200B358(GAME_DATA_GetSaveControl(p->f4));
     out = func_02030734(heap, 0x10, 0, d_02213D04, 0x3e0);
-    func_02082BCC(out, 0, 0x10);
+    MI_CpuFill8(out, 0, 0x10);
     out->f0 = p->f4;
     BATTLE_REC_ClearWork();
-    func_02082BCC((u8 *)p + 0x1b4, 0, 0x18);
+    MI_CpuFill8((u8 *)p + 0x1b4, 0, 0x18);
     out->f8 = func_02030734(heap, 0x58, 0, d_02213D04, 0x3eb);
-    func_02082BCC(out->f8, 0, 0x58);
+    MI_CpuFill8(out->f8, 0, 0x58);
     out->f8->f54 = GAME_DATA_GetTrainerRecord(p->f4);
     out->f8->f50 = 0;
     {
@@ -660,7 +660,7 @@ struct Out *func_02212AF8(int unused, u32_02212AF8 heap, struct In *p)
         b->f9 = p->f2c->f44;
     }
     out->f4 = func_02030734(heap, 0xf0, 0, d_02213D04, 0x403);
-    func_02082BCC(out->f4, 0, 0xf0);
+    MI_CpuFill8(out->f4, 0, 0xf0);
     func_02034AC4((int)ov093_id);
     if (p->f1c == 2 || p->f1c == 3) {
         id = 16;
@@ -788,7 +788,7 @@ int *func_02212FD8(int unused, unsigned heap, char *ctx)
 {
     int zero = 0;
     int *p = func_02030734(heap, 0x28, zero, d_02213D04, 0x588);
-    func_02082BCC(p, zero, 0x28);
+    MI_CpuFill8(p, zero, 0x28);
     p[0] = ((struct Obj08370 *)ctx)->f4;
     p[1] = zero;
     p[2] = 1;
@@ -822,7 +822,7 @@ int func_0221303C(char *p, char *q, char *work)
 void *func_02213078(void *unused, int heap, char *p)
 {
     unsigned int *work = func_02030734(heap, 0x1c, 0, d_02213D04, 0x5dc);
-    func_02082BCC(work, 0, 0x1c);
+    MI_CpuFill8(work, 0, 0x1c);
     work[0] = (unsigned int)(p + 4);
     work[3] = ((struct Obj10858 *)p)->f30;
     work[4] = ((struct Obj10858 *)p)->f34;
@@ -866,7 +866,7 @@ unsigned *func_02213134(int unused, unsigned heap, u8 *p)
     int a;
     unsigned b;
     out = func_02030734(heap, 0x18, 0, d_02213D04, 0x637);
-    func_02082BCC(out, 0, 0x18);
+    MI_CpuFill8(out, 0, 0x18);
     if (((struct Obj02248 *)p)->f1C == 3) {
         id = ((struct Obj02248 *)p)->f8 + 0x17;
     } else if (((struct Obj02248 *)p)->f1C == 2) {
@@ -916,7 +916,7 @@ int func_0221320C(char *p, char *q, char *work)
 void *func_02213234(void *unused, int heap, char *p)
 {
     unsigned int *work = func_02030734(heap, 0x1c, 0, d_02213D04, 0x6b2);
-    func_02082BCC(work, 0, 0x1c);
+    MI_CpuFill8(work, 0, 0x1c);
     work[0] = ((struct Obj14577 *)p)->f4;
     work[1] = 0;
     work[2] = 1;
@@ -960,7 +960,7 @@ int func_02213278(char *a, void *work, char *p)
 void *func_022132C4(void *unused, int heap, char *p)
 {
     char *work = func_02030734(heap, 0xf0, 0, d_02213D04, 0x6f4);
-    func_02082BCC(work, 0, 0xf0);
+    MI_CpuFill8(work, 0, 0xf0);
     func_02034AC4((s32)ov093_id);
     BTL_SETUP_Clear((u8 *)work);
     BTL_SETUP_InitWithSlots(work, *(void **)(p + 4), heap);
@@ -990,10 +990,10 @@ void func_0221336C(char *p, int heap)
     int size;
     ((struct Obj08373 *)p)->f28 = func_02030734(heap, POKE_REGULATION_GetDataSize() + 0xd4, 0, d_02213D04, 0x72d);
     size = POKE_REGULATION_GetDataSize() + 0xd4;
-    func_02082BCC(((struct Obj08373 *)p)->f28, 0, size);
+    MI_CpuFill8(((struct Obj08373 *)p)->f28, 0, size);
     ((struct Obj08373 *)p)->f2C = func_02030734(heap, POKE_REGULATION_GetDataSize() + 0xd4, 0, d_02213D04, 0x72f);
     size = POKE_REGULATION_GetDataSize() + 0xd4;
-    func_02082BCC(((struct Obj08373 *)p)->f2C, 0, size);
+    MI_CpuFill8(((struct Obj08373 *)p)->f2C, 0, size);
 }
 
 
@@ -1014,11 +1014,11 @@ void func_022133E4(u8 *p,void *party1,void *party2,u8 *save,void *reg,int settin
     Date date;
     Triple time;
     Bytes_022133E4 bytes;
-    func_02082BCC(p,0,0x50);
+    MI_CpuFill8(p,0,0x50);
     ((struct Obj06660 *)p)->f0=func_0200853C((const struct Sub0200852CObj *)save);
     ((struct Obj06660 *)p)->f4=((struct Obj25296 *)save)->f48;
-    for(i=0;i<(int)func_0201AA18(party2);i++) {
-        mon=func_0201AB28(party2,i);
+    for(i=0;i<(int)POKEPARTY_GetCount(party2);i++) {
+        mon=POKEPARTY_GetMember(party2,i);
         if(func_02017E1C(mon,0xa9,0)) {
             *(u16 *)((unsigned)p+i*2+8)=func_02017E1C(mon,5,0);
             *(u8 *)((unsigned)p+i+0x14)=func_02017E1C(mon,0x6f,0);
@@ -1026,8 +1026,8 @@ void func_022133E4(u8 *p,void *party1,void *party2,u8 *save,void *reg,int settin
             *(u8 *)((unsigned)p+i+0x20)=func_02017E1C(mon,0x6e,0);
         }
     }
-    for(i=0;i<(int)func_0201AA18(party1);i++) {
-        mon=func_0201AB28(party1,i);
+    for(i=0;i<(int)POKEPARTY_GetCount(party1);i++) {
+        mon=POKEPARTY_GetMember(party1,i);
         if(func_02017E1C(mon,0xa9,zero)) {
             *(u16 *)((unsigned)p+i*2+0x26)=func_02017E1C(mon,5,zero);
             *(u8 *)((unsigned)p+i+0x32)=func_02017E1C(mon,0x6f,zero);
@@ -1065,7 +1065,7 @@ void func_022135CC(unsigned char *p, unsigned char *a, unsigned char *b)
                 index = (i & 2) + 1;
             else
                 index = i & 2;
-            count = func_0201AA18(*(void **)(p + 0x24 + index * 4));
+            count = POKEPARTY_GetCount(*(void **)(p + 0x24 + index * 4));
             for (j = 0; j < count; j++) {
                 if (p[0xc8 + index * 6 + j] != 2)
                     (*a)++;
@@ -1075,7 +1075,7 @@ void func_022135CC(unsigned char *p, unsigned char *a, unsigned char *b)
                 index = i & 2;
             else
                 index = (i & 2) + 1;
-            count = func_0201AA18(*(void **)(p + 0x24 + index * 4));
+            count = POKEPARTY_GetCount(*(void **)(p + 0x24 + index * 4));
             for (j = 0; j < count; j++) {
                 if (p[0xc8 + index * 6 + j] != 2)
                     (*b)++;
@@ -1112,7 +1112,7 @@ void func_02213684(const unsigned char *p, unsigned char *a, unsigned char *b)
 void *func_022136E4(void *a, void *b, void *c, int heap)
 {
     char *work = func_02030734(heap, 0x20, 0, d_02213D04, 0x846);
-    func_02082BCC(work, 0, 0x20);
+    MI_CpuFill8(work, 0, 0x20);
     ((struct Obj06661 *)work)->f0 = PROCSYS_Create(heap);
     ((struct Obj06661 *)work)->fC = c;
     ((struct Obj06661 *)work)->f10 = a;
@@ -1206,7 +1206,7 @@ void func_02213808(char *p, int value)
  */
 void func_0221380C(unsigned char *p){p[0x19]=255;}
 
-int func_02213814(struct Obj0203159C *p,int unused,char *q){void *r;GFL_HEAP_CreateChildHeap(1,88,336);r=PROCSYS_AllocProcWork(p,16,88);func_02082BCC(r,0,16);((struct Obj25303 *)q)->fC=0;((struct Obj25304 *)r)->f0=PROCSYS_Create(88);GFL_USE_FadeOutBgm(16);return 1;}
+int func_02213814(struct Obj0203159C *p,int unused,char *q){void *r;GFL_HEAP_CreateChildHeap(1,88,336);r=PROCSYS_AllocProcWork(p,16,88);MI_CpuFill8(r,0,16);((struct Obj25303 *)q)->fC=0;((struct Obj25304 *)r)->f0=PROCSYS_Create(88);GFL_USE_FadeOutBgm(16);return 1;}
 
 int func_02213850(void *a, void *b, void *c, char *work)
 {

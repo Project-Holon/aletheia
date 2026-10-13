@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   d_021BC8D8 0x021BC8D8 data a4
@@ -27,7 +27,7 @@ struct Obj0203159C;
 struct S020315D4;
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,unsigned,unsigned);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned int);
 int func_021BC240(struct Obj0203159C *obj,int unused,unsigned value);
@@ -36,7 +36,7 @@ int func_021BC280(struct S020315D4 *p);
 int func_021BC290(unsigned char *p);
 extern unsigned char d_021BC8D8[];
 
-int func_021BC240(struct Obj0203159C *obj,int unused,unsigned value){unsigned char *p;GFL_HEAP_CreateChildHeap(1,126,0x60000);p=PROCSYS_AllocProcWork(obj,16,126);func_02082BCC(p,0,16);((struct Obj25637 *)p)->f0=value;return 1;}
+int func_021BC240(struct Obj0203159C *obj,int unused,unsigned value){unsigned char *p;GFL_HEAP_CreateChildHeap(1,126,0x60000);p=PROCSYS_AllocProcWork(obj,16,126);MI_CpuFill8(p,0,16);((struct Obj25637 *)p)->f0=value;return 1;}
 
 int func_021BC26C(int a,int b,int c,unsigned char *p){return func_021BC290(p)==0;}
 

@@ -29,9 +29,9 @@
  *   POKEGRA_RegisterCellAnim 0x0202D898 thumb
  *   func_021C940C 0x021C940C thumb ov212
  *   CLACT_SetActorVisible 0x0204BA20 arm
- *   func_0201ADE4 0x0201ADE4 thumb
- *   func_0201AE1C 0x0201AE1C thumb
- *   func_0201AE14 0x0201AE14 thumb
+ *   POKE_PERSONAL_Create 0x0201ADE4 thumb
+ *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
+ *   POKE_PERSONAL_Delete 0x0201AE14 thumb
  *   CLACT_SetActorFlip 0x0204B604 arm
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  */
@@ -66,9 +66,9 @@ extern u32 POKEGRA_RegisterCellAnim(u32,u32,u32,u32,u32,u32,u32,u32,u16);
 struct Obj;
 extern struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap);
 extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
-extern void *func_0201ADE4(u32,int,u32);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *);
+extern void *POKE_PERSONAL_Create(u32,int,u32);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *);
 extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 void func_021BDD7C(char *p,u16 species)
@@ -119,10 +119,10 @@ void func_021BDD7C(char *p,u16 species)
     t.w10=*(unsigned *)(p+t.w10*4+0xc0c);
     *(void **)(p+0xa74+index*4)=func_021C940C((u32)(((struct Obj08410 *)p)->fA70),(const u8 *)(&t),0x6b);
     CLACT_SetActorVisible(*(void **)(p+0xa74+index*4),0);
-    personal=func_0201ADE4(species,(u16)outForm,0x806b);
-    if (species!=0 && func_0201AE1C(personal,0x22)==0)
+    personal=POKE_PERSONAL_Create(species,(u16)outForm,0x806b);
+    if (species!=0 && POKE_PERSONAL_GetParam(personal,0x22)==0)
         CLACT_SetActorFlip(*(void **)(p+0xa74+index*4),1,1);
-    func_0201AE14(personal);
+    POKE_PERSONAL_Delete(personal);
     func_021BD8D8(p,other,0);
     PALANM_CopyHwPaletteToSlot(((struct Obj08410 *)p)->fC,2,(u16)((base>>5)<<4),0x20);
     ((Flags *)(p+0xc24))->side^=1;

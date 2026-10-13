@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_AspearBerryOnTrigger
+ * function: HAND_ITEM_AspearBerryOnTrigger
  * address:  0x021DD0C8
  * packet:   pkt_021DD0C8
  * region:   ov093
@@ -10,13 +10,13 @@
  * status:   EXACT* (extent runs past compiled, trailing padding)
  *
  * symbols:
- *   BTL_HANDLER_ITEM_CureSickOnTrigger  0x021DD158  thumb  ov093
+ *   HAND_ITEM_CureSickOnTrigger  0x021DD158  thumb  ov093
  */
 
 typedef unsigned char  u8;
-void BTL_HANDLER_ITEM_CureSickOnTrigger(u8 *a, u8 *b, int c, int d);
+void HAND_ITEM_CureSickOnTrigger(u8 *a, u8 *b, int c, int d);
 
-void BTL_HANDLER_ITEM_AspearBerryOnTrigger(int a, int b, int c)
+void HAND_ITEM_AspearBerryOnTrigger(int a, int b, int c)
 {
-    BTL_HANDLER_ITEM_CureSickOnTrigger((u8 *)a, (u8 *)b, c, 3);
+    HAND_ITEM_CureSickOnTrigger((u8 *)a, (u8 *)b, c, 3);
 }

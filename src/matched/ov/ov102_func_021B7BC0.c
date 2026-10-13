@@ -14,7 +14,7 @@
  * CLACT_ReleaseCellAnim 0x0204AFD8 arm
  * CLACT_DeleteUnit 0x0204B1CC arm
  * CLACT_ExitSystem 0x0204A5AC arm
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj07973.h"
 struct Bank;
@@ -26,7 +26,7 @@ extern void CLACT_ReleaseCellAnim(unsigned);
 typedef unsigned int   u32;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 void func_021B7BC0(void *p) {
  int i;
  for(i=0;i<32;i++) {
@@ -37,5 +37,5 @@ void func_021B7BC0(void *p) {
  CLACT_ReleaseCellAnim(((struct Obj07973 *)p)->fC);
  CLACT_DeleteUnit(((struct Obj07973 *)p)->f0);
  CLACT_ExitSystem();
- func_02082BCC(p,0,0x90);
+ MI_CpuFill8(p,0,0x90);
 }

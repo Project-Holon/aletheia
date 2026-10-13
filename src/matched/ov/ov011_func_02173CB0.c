@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200BE48  0x0200BE48  thumb
  *   INTRUDE_COMM_IsLinked  0x021736D8  thumb ov011
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Big;
 struct Out;
-u32 func_02026478(void *obj);
+u32 GAME_COMM_GetGameData(void *obj);
 void *GAME_DATA_GetSaveControl(struct Big *p);
 u16 *func_0200BE48(void *sys);
 int INTRUDE_COMM_IsLinked(void);
@@ -37,7 +37,7 @@ int INTRUDE_CMD_SendSaveSummary(int *a, int b)
     int v;
     int buf[4];
 
-    v = func_02026478((void *)a[1]);
+    v = GAME_COMM_GetGameData((void *)a[1]);
     func_0200BE48(GAME_DATA_GetSaveControl((struct Big *)v));
     if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;

@@ -12,7 +12,7 @@
  * symbols:
  *   func_02040804  0x02040804  arm
  *   func_02041EE4  0x02041EE4  arm
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  */
 #include "../include/Obj02346.h"
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
@@ -72,7 +72,7 @@ void func_021C0980(int a, unsigned char *p, int a2)
             } else {
                 v[1] -= 8;
             }
-            func_0204B404((struct Obj *)(*(int *)(p + 0x5c + 4 * ((struct Obj02346 *)p)->f64)), (const struct Vec2 *)v, 1);
+            CLACT_AddActorSurfacePos((struct Obj *)(*(int *)(p + 0x5c + 4 * ((struct Obj02346 *)p)->f64)), (const struct Vec2 *)v, 1);
             break;
         case 3:
             CLACT_GetActorSurfacePos((struct Actor *)*(int *)(p + 0x5c + 4 * ((struct Obj02346 *)p)->f64), (struct PtS *)v, 1);
@@ -82,7 +82,7 @@ void func_021C0980(int a, unsigned char *p, int a2)
             } else {
                 v[1] += 8;
             }
-            func_0204B404((struct Obj *)(*(int *)(p + 0x5c + 4 * ((struct Obj02346 *)p)->f64)), (const struct Vec2 *)v, 1);
+            CLACT_AddActorSurfacePos((struct Obj *)(*(int *)(p + 0x5c + 4 * ((struct Obj02346 *)p)->f64)), (const struct Vec2 *)v, 1);
             break;
         }
     }

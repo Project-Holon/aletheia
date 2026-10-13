@@ -1,5 +1,5 @@
 /*
- * function: func_021C7AA0
+ * function: BTL_SERVER_FLOW_NotifyHeldItemChangeBlockedEvent
  * address: 0x021C7AA0
  * packet: pkt_ov093_021C7AA0
  * region: ov093
@@ -22,7 +22,7 @@ extern void BTL_EVENT_PopVarFrame(int);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SetVarReadOnly(int, u32);
 extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
-void func_021C7AA0(u8 *p, u8 *a)
+void BTL_SERVER_FLOW_NotifyHeldItemChangeBlockedEvent(u8 *p, u8 *a)
 {
     int line = 13017;
     BTL_EVENT_PushVarFrame(line);

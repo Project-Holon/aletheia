@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_02035D20(u32 *outA, u32 *outB);
-int func_021B884C(u32 *p) { u32 x,y; if(func_02035D20(&x,&y)) { if(x<=256 && y<=168) { p[0]=x; p[1]=y; return 1; } } return 0; }
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
+int func_021B884C(u32 *p) { u32 x,y; if(TOUCHPANEL_GetPointTrg(&x,&y)) { if(x<=256 && y<=168) { p[0]=x; p[1]=y; return 1; } } return 0; }

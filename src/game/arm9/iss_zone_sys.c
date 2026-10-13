@@ -16,7 +16,7 @@
  *   ISS_3DS_SYS_ResetSources  0x0202BA24  thumb
  *   VEC_Subtract   0x0207CA00  arm
  *   VEC_Mag        0x0207CBD0  arm
- *   sub_0207C768   0x0207C768  arm
+ *   FX_Div   0x0207C768  arm
  *   _fflt          0x0209BDBC  arm
  *   _fdiv          0x0209CE10  arm
  *   _fmul          0x0209C77C  arm
@@ -111,7 +111,7 @@ extern void ISS_3DS_SYS_ResetSources(struct Iss3dsSys *sys);
 extern void VEC_Subtract(const struct Vec *a, const struct Vec *b,
                          struct Vec *out);
 extern s32  VEC_Mag(const struct Vec *v);
-extern u32 sub_0207C768(u32 numerator, u32 denominator);
+extern u32 FX_Div(u32 numerator, u32 denominator);
 extern void VEC_Normalize(const struct Vec *v, struct Vec *out);
 extern void VEC_CrossProduct(const struct Vec *a, const struct Vec *b,
                              struct Vec *out);
@@ -257,7 +257,7 @@ void func_0202BBB0(struct Iss3dsSys *sys, int sourceIndex)
 /*
  * Distance falloff: the source position is taken relative to the listener
  * point, and the remaining headroom (the radius less that distance) is
- * divided by the radius through the hardware divider sub_0207C768. The
+ * divided by the radius through the hardware divider FX_Div. The
  * quotient is an FX32, so it is scaled back by 4096.0f in float before
  * multiplying the amplitude and truncating; that is the pool word 0x45800000
  * at 0x0202BC44. Outside the radius the answer is 0.
@@ -276,7 +276,7 @@ s32 func_0202BBFC(struct Iss3dsSource *source, const struct Vec *listenerPos)
     if (source->radius < distance) {
         return 0;
     }
-    ratio = (float)(s32)sub_0207C768((s32)(source->radius - distance), (s32)source->radius) / 4096.0f;
+    ratio = (float)(s32)FX_Div((s32)(source->radius - distance), (s32)source->radius) / 4096.0f;
     return (s32)((float)source->amplitude * ratio);
 }
 

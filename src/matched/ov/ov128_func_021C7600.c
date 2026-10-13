@@ -9,38 +9,43 @@
  * status: EXACT
  * symbols:
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_0203630C 0x0203630C arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetCont 0x0203630C arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
+ *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
+ *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb  arm9
  */
 
 typedef unsigned int u32;
 typedef signed int     s32;
 struct Rec;
 struct Rec3;
-extern u32 func_0201CE30(void *p);
-extern void func_0201CE5C(struct Rec *p, s32 v);
-extern void func_0201CE38(void *);
-extern void func_0201CE48(struct Rec3 *p);
+extern u32 PRINTSYS_PrintStreamGetState(void *p);
+extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
+extern void PRINTSYS_PrintStreamReleasePause(void *);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern int TOUCHPANEL_GetTrg(void);
-extern unsigned int func_0203630C(void);
-extern u32 func_020362DC(void);
-extern void func_020061E4(u32 a);
+extern unsigned int KEY_GetCont(void);
+extern u32 KEY_GetTrg(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 int func_021C7600(void *p, int *q)
 {
-    switch (func_0201CE30(p)) {
+    switch (PRINTSYS_PrintStreamGetState(p)) {
     case 0:
-        if (TOUCHPANEL_GetTrg() == 1 || (func_0203630C() & 3)) func_0201CE5C(p, 0);
+        if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetCont() & 3)) PRINTSYS_PrintStreamShortWait(p, 0);
         *q = 0;
         break;
     case 1:
-        if (*q == 0 && (TOUCHPANEL_GetTrg() == 1 || (func_020362DC() & 3))) {
-            func_020061E4(0x547);
-            func_0201CE38(p);
+        if (*q == 0 && (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3))) {
+            GFL_USE_PlaySeDefaultVolume(0x547);
+            PRINTSYS_PrintStreamReleasePause(p);
             *q = 1;
         }
         break;
     case 2:
-        func_0201CE48(p);
+        PRINTSYS_PrintStreamDelete(p);
         *q = 0;
         return 0;
     }

@@ -23,12 +23,12 @@
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   CLACT_SetActorPos 0x0204B528 arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   CLACT_GetActorDrawPriority  0x0204B838  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B3F4  0x0204B3F4  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
  *   CLACT_GetActorAnimSeqCount 0x0204B918 arm
  *   tbl_021C5FBC  0x021C5FBC  data  a4
  *   d_021C5FB0 0x021C5FB0 data a4
@@ -134,12 +134,12 @@ extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const voi
 extern void CLACT_SetActorBgPriority(u32, u32);
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
 extern void CLACT_DeleteActor(struct Obj *);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void CLACT_SetActorPos(struct Actor *, const struct Pt_021C3EE0 *);
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern int CLACT_GetActorDrawPriority(int a0);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern u32 func_0204B3F4(struct Obj *p);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void CLACT_ReleaseCellAnim(u32);
@@ -352,7 +352,7 @@ void func_021C41BC(u8 *p)
 {
     if (((struct Obj10462 *)p)->f8 != 0) CLACT_DeleteActor(*(struct Obj * *)&((struct Obj10462 *)p)->f8);
     CLACT_DeleteActor(*(struct Obj * *)&((struct Obj10462 *)p)->f4);
-    func_02082BCC(p, 0, 24);
+    MI_CpuFill8(p, 0, 24);
 }
 
 
@@ -393,9 +393,9 @@ int func_021C4224(u8 *p)
 
 void func_021C4230(char *p, int a)
 {
-    func_0204B3DC(((struct Obj10464 *)p)->f4, a);
+    CLACT_SetActorDrawEnable(((struct Obj10464 *)p)->f4, a);
     if (((struct Obj10464 *)p)->f8 != 0)
-        func_0204B3DC(((struct Obj10464 *)p)->f8, a);
+        CLACT_SetActorDrawEnable(((struct Obj10464 *)p)->f8, a);
 }
 
 
@@ -404,7 +404,7 @@ void func_021C4230(char *p, int a)
 void func_021C424C(char *p, int a)
 {
     if (((struct Obj14015 *)p)->f8 != 0)
-        func_0204B3DC(((struct Obj14015 *)p)->f8, a);
+        CLACT_SetActorDrawEnable(((struct Obj14015 *)p)->f8, a);
 }
 
 
@@ -416,7 +416,7 @@ void func_021C424C(char *p, int a)
  */
 int func_021C425C(char *p)
 {
-    return func_0204B3F4(((struct Obj23016 *)p)->f4);
+    return CLACT_GetActorDrawEnable(((struct Obj23016 *)p)->f4);
 }
 
 

@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0xc.
  *
  * symbols:
- *   func_0201C6B4  0x0201C6B4  thumb
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -23,9 +23,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct PrintSys;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 
 int FIELD_MSGBG_IsPrintQueFinished(u8 *p)
 {
-    return func_0201C6B4((const struct PrintSys *)(((struct Obj17922 *)p)->fC));
+    return PRINTSYS_QUE_IsFinished((const struct PrintSys *)(((struct Obj17922 *)p)->fC));
 }

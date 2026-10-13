@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C9010",
+   "name": "BTL_SERVER_FLOW_ExecCmdConsumeMovePp",
    "address": "0x021C9010",
    "kind": "game",
    "region": "ov093",

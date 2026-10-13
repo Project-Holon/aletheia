@@ -17,6 +17,7 @@
  *   func_021BDE98 0x021BDE98 thumb ov203
  *   ov067_id 0x00000043 data a1
  *   BRIGHTNESS_ChangeReset  0x02023F98  thumb  arm9
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  */
 #include "../include/Obj06664.h"
 typedef unsigned int   u32;
@@ -26,7 +27,7 @@ struct S020315D4;
 extern void BRIGHTNESS_ChangeReset(u32 mask);
 extern void func_021BDD18(char *);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void func_021BE4B4(char *ctx);
 extern void func_021BDE98(char *ctx);
 extern void func_020315D4(struct S020315D4 *p);
@@ -38,7 +39,7 @@ int func_021BDB20(void *a, void *b, void *c, char *work)
     BRIGHTNESS_ChangeReset(3);
     func_021BDD18(*(char * *)&((struct Obj06664 *)work)->f1C);
     MSGDATA_Delete(((struct Obj06664 *)work)->f14);
-    func_0201C4C0(((struct Obj06664 *)work)->f10);
+    PRINTSYS_QUE_Delete(((struct Obj06664 *)work)->f10);
     func_021BE4B4(((struct Obj06664 *)work)->f18);
     func_021BDE98(((struct Obj06664 *)work)->fC);
     func_020315D4(a);

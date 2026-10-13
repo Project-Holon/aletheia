@@ -17,10 +17,10 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B688 0x0204B688 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
  *   POKEGRA_RegisterPalette 0x0202D7D8 thumb
  *   POKEGRA_RegisterCellAnim 0x0202D898 thumb
@@ -49,10 +49,10 @@ extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern struct Obj *CLACT_CreateActor(void *owner,unsigned int i,unsigned int j,unsigned int k,const void *position,unsigned short space,unsigned short heap);
-extern void func_0204B688(struct Actor *actor, u32 value);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern int POKEGRA_OpenHandle(int a0);
 extern int POKEGRA_RegisterPalette(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, unsigned short a8, unsigned short a9);
 extern int POKEGRA_RegisterCellAnim(u32,u32,u32,u32,u32,u32,u32,u32,u16);
@@ -87,23 +87,23 @@ void *func_021DCFC8(const Desc *p,u16 heap)
     *(int *)&((struct Obj00237 *)out)->fC=CLACT_RegisterCellAnim(arc,33,36,heap);
     *(int *)&((struct Obj00237 *)out)->f8=CLACT_RegisterCharacter(arc,12,0,((struct Obj00237 *)out)->f98,heap);
     ARC_TOOL_DeleteHandle(arc);
-    func_02082BCC(&first,0,8);
+    MI_CpuFill8(&first,0,8);
     first.x=216;first.y=22;
     ((struct Obj00237 *)out)->f1C=CLACT_CreateActor((void *)p->w[6],((struct Obj00237 *)out)->f8,((struct Obj00237 *)out)->f4,((struct Obj00237 *)out)->fC,&first,((struct Obj00237 *)out)->f98,heap);
-    func_0204B688(((struct Obj00237 *)out)->f1C,0);
-    func_0204B3DC(((struct Obj00237 *)out)->f1C,0);
+    CLACT_SetActorObjMode(((struct Obj00237 *)out)->f1C,0);
+    CLACT_SetActorDrawEnable(((struct Obj00237 *)out)->f1C,0);
     arc2=(void *)POKEGRA_OpenHandle(heap);
     *(int *)&((struct Obj00237 *)out)->f10=POKEGRA_RegisterPalette((int)arc2,1,0,0,0,0,0,((struct Obj00237 *)out)->f98,p->w[5]<<5,heap);
     *(int *)&((struct Obj00237 *)out)->f18=POKEGRA_RegisterCellAnim(1,0,0,0,0,0,2,((struct Obj00237 *)out)->f98,heap);
     *(int *)&((struct Obj00237 *)out)->f14=POKEGRA_RegisterCgr(arc2,1,0,0,0,0,0,0,((struct Obj00237 *)out)->f98,heap);
     ARC_TOOL_DeleteHandle(arc2);
-    func_02082BCC(&second,0,8);
+    MI_CpuFill8(&second,0,8);
     second.x=184;second.y=112;second.b=p->w[0]&3;
     ((struct Obj00237 *)out)->f8C=second.b;
     ((struct Obj00237 *)out)->f90=p->w[1]&3;
     ((struct Obj00237 *)out)->f20=CLACT_CreateActor((void *)p->w[6],((struct Obj00237 *)out)->f14,((struct Obj00237 *)out)->f10,((struct Obj00237 *)out)->f18,&second,((struct Obj00237 *)out)->f98,heap);
     CLACT_SetActorAffineMode(((struct Obj00237 *)out)->f20,2);
-    func_0204B688(((struct Obj00237 *)out)->f20,1);
-    func_0204B3DC(((struct Obj00237 *)out)->f20,0);
+    CLACT_SetActorObjMode(((struct Obj00237 *)out)->f20,1);
+    CLACT_SetActorDrawEnable(((struct Obj00237 *)out)->f20,0);
     return out;
 }

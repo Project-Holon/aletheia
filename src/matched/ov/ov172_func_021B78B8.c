@@ -9,12 +9,12 @@
  * status: EXACT
  * symbols:
  *   func_021B792C 0x021B792C thumb ov172
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 #include "../include/Obj06556.h"
 typedef unsigned short u16;
 extern int func_021B792C(void *, u16 *, u16 *);
-extern void func_020061E4(unsigned int);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned int);
 int func_021B78B8(void *p, char *q)
 {
     int result, zero;
@@ -28,7 +28,7 @@ int func_021B78B8(void *p, char *q)
         if (result == 0) ((struct Obj06556 *)q)->f0 = zero;
         if (((struct Obj06556 *)q)->f8 == 1) {
             ((struct Obj06556 *)q)->f8 = 0;
-            func_020061E4(0x66e);
+            GFL_USE_PlaySeDefaultVolume(0x66e);
         }
         ((struct Obj06556 *)q)->f4 = 0;
         return 1;

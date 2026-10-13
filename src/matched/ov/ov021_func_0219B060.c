@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  */
 
 typedef unsigned char  u8;
@@ -18,11 +18,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 
 int FLDMMDL_MOVECODE_IsBButtonHeld(void)
 {
-    if (func_0203630C() & 2) {
+    if (KEY_GetCont() & 2) {
         return 1;
     }
     return 0;

@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B3DC        0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable        0x0204B3DC  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 void func_021C66B8(u8 *p, int i, u32 v)
 {
-    func_0204B3DC(*(void **)(p + i * 4 + 0x1F0), v);
+    CLACT_SetActorDrawEnable(*(void **)(p + i * 4 + 0x1F0), v);
 }

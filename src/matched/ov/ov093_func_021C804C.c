@@ -1,5 +1,5 @@
 /*
- * function: func_021C804C
+ * function: BTL_SERVER_FLOW_GetActionWordByPokeId
  * address:  0x021C804C
  * packet:   pkt_ov093_021C804C
  * region:   ov093
@@ -28,7 +28,7 @@ typedef union { u32 u; W w; } U;
 typedef struct { u8 *a; U b; u32 c; u32 d; } E;
 typedef struct { u8 pad[0x782]; u8 n; u8 pad2[0x5d]; E e[4]; } S;
 
-int func_021C804C(S *p, u8 key, u32 *out)
+int BTL_SERVER_FLOW_GetActionWordByPokeId(S *p, u8 key, u32 *out)
 {
     u32 i;
     for (i = 0; i < p->n; i++) {

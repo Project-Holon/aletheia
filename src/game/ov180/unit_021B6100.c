@@ -28,6 +28,7 @@
  *   PROCSYS_AllocProcWork  0x0203159C  arm  arm9
  *   BG_SYS_SetVramBanks  0x020433E0  arm  arm9
  *   CLACT_VBlankSystem  0x0204A648  arm  arm9
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 #include "../../matched/include/Obj24479.h"
 #include "../../matched/include/Obj24480.h"
@@ -47,7 +48,7 @@ struct DispConfig {u32 a,b,c,d;};
 
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *, u32, u32);
+extern void MI_CpuFill8(void *, u32, u32);
 extern int func_021B6A10(char *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);
@@ -85,7 +86,7 @@ int func_021B6100(struct Obj0203159C *obj, void *unused, u32 value)
     u32 *p;
     GFL_HEAP_CreateChildHeap(1, 141, 0x60000);
     p = PROCSYS_AllocProcWork(obj, 0x919C, 141);
-    func_02082BCC(p, 0, 0x919C);
+    MI_CpuFill8(p, 0, 0x919C);
     *p = value;
     return 1;
 }

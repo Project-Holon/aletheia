@@ -17,8 +17,8 @@
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   func_020409B4 0x020409B4 arm
  */
 #include "../include/Obj06135.h"
@@ -38,8 +38,8 @@ extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 
 struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *a);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
-extern void *func_02045770(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 
 void func_021F201C(char *p, char *q, void *text, u16 x, u8 y, u8 a5, u16 col, u32 a7)
@@ -53,11 +53,11 @@ void func_021F201C(char *p, char *q, void *text, u16 x, u8 y, u8 a5, u16 col, u3
         w = ((struct Obj06135 *)q)->f0;
         BMP_WIN_TransferChars((struct Descriptor *)w);
         BMP_WIN_MakeScreen((struct Cfg *)w);
-        func_020409B4(func_02045730((struct Descriptor *)w));
+        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)w));
         return;
     }
     v = ((struct Obj07634 *)p)->fB4;
-    PRINTSYS_PrintQueColor((void *)v, (u32)func_02045770((struct Descriptor *)((struct Obj06135 *)q)->f8), x, y, (u32)text,
+    PRINTSYS_PrintQueColor((void *)v, (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj06135 *)q)->f8), x, y, (u32)text,
                   ((struct Obj07634 *)p)->fB0, col);
     ((struct Obj06135 *)q)->fC = 1;
     func_021F20A8(p, q, (int *)a7);

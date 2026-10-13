@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B8DEC",
+   "name": "BTL_MAIN_GetSlotNthOfClient",
    "address": "0x021B8DEC",
    "kind": "game",
    "region": "ov093",

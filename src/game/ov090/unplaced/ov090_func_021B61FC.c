@@ -11,11 +11,11 @@
  *
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  */
 struct NetHandle;
 extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern unsigned int func_02039CB4(struct NetHandle *handle, unsigned int syncNo, unsigned int syncGroup);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct NetHandle *handle, unsigned int syncNo, unsigned int syncGroup);
 
 typedef struct PartyListCommWork {
     unsigned char unusedHead[0x62];
@@ -25,7 +25,7 @@ typedef struct PartyListCommWork {
 
 int PLIST_COMM_IsSyncDoneOrFinished(PartyListCommWork *work, int syncNo)
 {
-    if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), syncNo, 0x2d) == 1)
+    if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), syncNo, 0x2d) == 1)
         return 1;
     if (work->commFinished == 1)
         return 1;

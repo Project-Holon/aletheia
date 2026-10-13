@@ -15,10 +15,10 @@
  *   func_02034714 0x02034714 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02082D44 0x02082D44 arm
  *   GAME_DATA_Create 0x020124F4 thumb
- *   func_0201A920 0x0201A920 thumb
+ *   POKEPARTY_Create 0x0201A920 thumb
  *   BATTLE_REC_AllocWork 0x0200B400 thumb
  *   func_0221336C 0x0221336C thumb ov199
  *   func_022136E4 0x022136E4 thumb ov199
@@ -44,10 +44,10 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *, int, unsigned);
+extern void MI_CpuFill8(void *, int, unsigned);
 extern void func_02082D44(const void *, void *, unsigned);
 extern void *GAME_DATA_Create(u16);
-extern struct Party *func_0201A920(u32 heap);
+extern struct Party *POKEPARTY_Create(u32 heap);
 extern void BATTLE_REC_AllocWork(unsigned);
 extern void func_0221336C(char *, int);
 extern void *func_022136E4(void *, void *, void *, int);
@@ -73,17 +73,17 @@ int func_02212560(void *a, int unused, u8 *arg)
     }
     GFL_HEAP_CreateChildHeap(kind, 0x56, 0x8000);
     p = PROCSYS_AllocProcWork(a, 0x8b0, 0x56);
-    func_02082BCC(p, 0, 0x8b0);
+    MI_CpuFill8(p, 0, 0x8b0);
     func_02082D44(arg, p + 4, 0x14);
     ((struct Obj01177 *)p)->f20 = 0;
     if (((struct Obj01177 *)p)->f4 == 0) {
         ((struct Obj01177 *)p)->f4 = GAME_DATA_Create(1);
         ((struct Obj01177 *)p)->f0 = 1;
     }
-    ((struct Obj01177 *)p)->f30 = func_0201A920(0x56);
-    ((struct Obj01177 *)p)->f34 = func_0201A920(0x56);
-    ((struct Obj01177 *)p)->f38 = func_0201A920(0x56);
-    ((struct Obj01177 *)p)->f3C = func_0201A920(0x56);
+    ((struct Obj01177 *)p)->f30 = POKEPARTY_Create(0x56);
+    ((struct Obj01177 *)p)->f34 = POKEPARTY_Create(0x56);
+    ((struct Obj01177 *)p)->f38 = POKEPARTY_Create(0x56);
+    ((struct Obj01177 *)p)->f3C = POKEPARTY_Create(0x56);
     BATTLE_REC_AllocWork(0x56);
     func_0221336C((char *)p, 0x56);
     ((struct Obj01177 *)p)->f18 = func_022136E4((void *)d_02213C58, (void *)9, p, 0x56);

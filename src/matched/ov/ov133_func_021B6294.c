@@ -18,7 +18,7 @@
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   func_021B7498 0x021B7498 thumb ov133
@@ -47,7 +47,7 @@ extern void CLACT_DeleteActor(struct Obj *);
 extern void CLACT_ReleasePalette(u32);
 extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleaseCellAnim(u32);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void func_021B7498(u8 *p);
@@ -75,7 +75,7 @@ void func_021B6294(char *p)
     for(i=0;i<=2;i++) CLACT_ReleasePalette(*(u32 *)(p+0x1858+i*4));
     for(i=3;i<=5;i++) CLACT_ReleaseCharacter(*(u32 *)(p+0x1858+i*4));
     for(i=6;i<=8;i++) CLACT_ReleaseCellAnim(*(u32 *)(p+0x1858+i*4));
-    if(*(struct Descriptor * *)&((struct Obj01941 *)p)->f18EC) func_020452E8(*(struct Descriptor * *)&((struct Obj01941 *)p)->f18EC);
+    if(*(struct Descriptor * *)&((struct Obj01941 *)p)->f18EC) BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj01941 *)p)->f18EC);
     CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj01941 *)p)->f1848);
     CLACT_ExitSystem();
     func_021B7498((u8 *)p);

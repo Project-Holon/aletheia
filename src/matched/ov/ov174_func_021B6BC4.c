@@ -12,7 +12,7 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02030734 0x02030734 arm
  *   GAME_DATA_Create 0x020124F4 thumb
- *   func_0203630C 0x0203630C arm
+ *   KEY_GetCont 0x0203630C arm
  *   func_021B6100 0x021B6100 thumb ov174
  *   d_021B74AC 0x021B74AC data
  */
@@ -25,7 +25,7 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, u
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GAME_DATA_Create(u16);
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 typedef unsigned char  u8;
 extern void func_021B6100(u8 *p);
 extern char d_021B74AC[];
@@ -38,7 +38,7 @@ int func_021B6BC4(void *ctx,int unused,char *arg)
         arg=func_02030734(0x55,8,0,d_021B74AC,0x3b8);
         ((struct Obj10673 *)arg)->f4=GAME_DATA_Create(1);
         ((struct Obj10673 *)arg)->f0=1;
-        if(func_0203630C() & 0x100) ((struct Obj10673 *)arg)->f0=5;
+        if(KEY_GetCont() & 0x100) ((struct Obj10673 *)arg)->f0=5;
     }
     ((struct Obj01167 *)p)->f0=0x55;
     *(char * *)&((struct Obj01167 *)p)->f30=arg;

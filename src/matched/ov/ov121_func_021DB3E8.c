@@ -13,7 +13,7 @@
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_021D9A40 0x021D9A40 thumb ov121
  */
 #include "../include/Obj01058.h"
@@ -26,7 +26,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_021D9A40(u8 *p);
 void func_021DB3E8(char *p)
 {
@@ -42,5 +42,5 @@ void func_021DB3E8(char *p)
     func_021D9A40(((struct Obj01058 *)p)->fAB4);
     ((struct Obj01058 *)p)->fAB4=0;
     CLACT_ReleasePalette((u32)(((struct Obj01058 *)p)->fBA8));
-    for(i=0;i<8;i++) func_020452E8(*(void **)(p+0xb08+i*4));
+    for(i=0;i<8;i++) BMP_WIN_Delete(*(void **)(p+0xb08+i*4));
 }

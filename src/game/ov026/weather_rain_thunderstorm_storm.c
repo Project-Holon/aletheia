@@ -54,7 +54,7 @@
  *   gWeatherStormDropUpdate 0x021EFDCC data ov026 a4
  *   gWeatherStormDropInit     0x021EFDC0  data  a4
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
  *   WEATHER_TASK_SetBillboardParam14  0x021A2170  thumb  ov021
  *   WEATHER_TASK_SetBillboardParam18  0x021A2180  thumb  ov021
@@ -64,7 +64,7 @@
  *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   GFL_USE_IsSeSlotBusy  0x02006224  thumb
  *   WEATHER_TASK_PlaySeWithVoice  0x021A2604  thumb  ov021
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   gWeatherLightningPatternChance     0x021EFCF9  data  a1
  *   gWeatherLightningReturnFrames     0x021EFD1C  data  a1
  */
@@ -806,7 +806,7 @@ void WEATHER_STORM_InitSlowSideDrop(WeatherParticle *particle, const WeatherStor
     drop->posY = pos.y << 3;
     CLACT_SetActorAnimSeq(actor, 0);
     autoAnimSpeed = 1;
-    func_0204B92C(actor, 1);
+    CLACT_SetActorAutoAnim(actor, 1);
     CLACT_SetActorAutoAnimSpeed(actor, autoAnimSpeed << 13);
 }
 
@@ -844,7 +844,7 @@ void WEATHER_STORM_InitFallingStreak(WeatherParticle *particle, const WeatherSto
     drop->posY = pos.y << 3;
     CLACT_SetActorAnimSeq(actor, 1);
     autoAnimSpeed = 1;
-    func_0204B92C(actor, 1);
+    CLACT_SetActorAutoAnim(actor, 1);
     CLACT_SetActorAutoAnimSpeed(actor, autoAnimSpeed << 13);
 }
 
@@ -902,7 +902,7 @@ void WEATHER_STORM_InitFastSideStreak(WeatherParticle *particle, const WeatherSt
     drop->posY = pos.y << 3;
     CLACT_SetActorAnimSeq(actor, 2);
     autoAnimSpeed = 1;
-    func_0204B92C(actor, 1);
+    CLACT_SetActorAutoAnim(actor, 1);
     CLACT_SetActorAutoAnimSpeed(actor, autoAnimSpeed << 13);
 }
 
@@ -1072,7 +1072,7 @@ void WEATHER_STORM_UpdateThunder(WeatherTaskSys *task, WeatherStormWork *work, i
 /* Lightning: clears the sequencer and picks the first wait. */
 void WEATHER_LIGHTNING_Init(WeatherLightning *lightning, int mode)
 {
-    func_02082BCC(lightning, 0, 64);
+    MI_CpuFill8(lightning, 0, 64);
     lightning->timer = func_020056EC(3);
     lightning->mode = mode;
 }
@@ -1080,7 +1080,7 @@ void WEATHER_LIGHTNING_Init(WeatherLightning *lightning, int mode)
 /* Lightning: clears the sequencer. */
 void WEATHER_LIGHTNING_Clear(WeatherLightning *lightning)
 {
-    func_02082BCC(lightning, 0, 0x40);
+    MI_CpuFill8(lightning, 0, 0x40);
 }
 
 /*

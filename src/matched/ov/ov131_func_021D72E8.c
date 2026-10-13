@@ -21,7 +21,7 @@
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  *   P_STA_SUB_SetPetOffset 0x021D79A8 thumb ov131
  *   MCSS_SetOfsPosition 0x02015C78 thumb
  *   MCSS_SetAnmStopFlag 0x02015E04 thumb
@@ -32,7 +32,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
 typedef struct {int x,y,z;} Vec;
-extern const s16 d_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 extern void P_STA_SUB_SetPetOffset(void *p, unsigned char *q, int radius);
 extern void MCSS_SetOfsPosition(void *p, u32 *src);
 extern void MCSS_SetAnmStopFlag(void *);
@@ -53,7 +53,7 @@ int P_STA_SUB_PetRise(u8 *p,u8 *q,int mode)
         if(sum>20) sum=20;
         delta=20-sum;
         ((struct Obj00831 *)q)->f68=2048+(6144*delta)/10;
-        v.y+=*(const s16 *)((u32)d_020A1B38+((u32)((((struct Obj00831 *)q)->f62*546)>>4)<<2))*4;
+        v.y+=*(const s16 *)((u32)FX_SinCosTable_+((u32)((((struct Obj00831 *)q)->f62*546)>>4)<<2))*4;
         ++((struct Obj00831 *)q)->f62;
         if(((struct Obj00831 *)q)->f62>120) ((struct Obj00831 *)q)->f62=0;
     } else ((struct Obj00831 *)q)->f68=0;

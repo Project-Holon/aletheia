@@ -15,15 +15,15 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FADE_Start  0x0204E720  arm
  *   func_0204363C  0x0204363C  arm
  *   func_02040588  0x02040588  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   ICA_ANIME_GetFrame  0x0201160C  thumb
- *   func_020362DC  0x020362DC  arm
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   PM_VOICE_Play  0x02006984  thumb
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb
  *   FADE_IsActive  0x0204E804  arm
@@ -40,7 +40,7 @@
  *   ov088_id       0x00000058  data  a1
  *   ov168_id       0x000000A8  data  a1
  *   func_0207D534  0x0207D534  arm
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   func_0203FC28  0x0203FC28  arm
@@ -68,12 +68,12 @@
  *   func_02040C14  0x02040C14  arm
  *   func_02041300  0x02041300  arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
- *   func_0201C440  0x0201C440  thumb
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   func_02045B38  0x02045B38  arm
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045CAC  0x02045CAC  arm
@@ -87,9 +87,9 @@
  *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_0201C4C0  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   G3D_UTIL_Create  0x02047CFC  arm
  *   G3D_UTIL_AddUnit  0x02047E88  arm
  *   func_020489F4  0x020489F4  arm
@@ -132,7 +132,7 @@
  *   CLACT_RegisterPalette  0x0204ABF0  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   gClActorInitParam     0x020A1448  data  a4
  *   CLACT_DrawSystem  0x0204A600  arm
@@ -166,11 +166,11 @@
  *   GFL_NET_IsIdle  0x0203D210  arm
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
- *   func_0201C6C4  0x0201C6C4  thumb
- *   func_0201C6B4  0x0201C6B4  thumb
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   BLINK_PALANM_Update  0x0202EA40  thumb
- *   func_020061E4  0x020061E4  thumb
- *   func_0203633C  0x0203633C  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
+ *   KEY_GetRepeat  0x0203633C  arm
  *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
  *   func_020090E0  0x020090E0  thumb
  *   BMP_MENU_ProcessYesNo  0x0201FEBC  thumb
@@ -213,7 +213,7 @@
  *   func_02008854  0x02008854  thumb
  *   func_02008848  0x02008848  thumb
  *   func_0200890C  0x0200890C  thumb
- *   func_02013E4C  0x02013E4C  thumb
+ *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
  *   ZONEDATA_Exit  0x02013A48  thumb
  *   func_02008748  0x02008748  thumb
  *   func_0200864C  0x0200864C  thumb
@@ -222,7 +222,7 @@
  *   func_0200D0AC  0x0200D0AC  thumb
  *   func_0200C258  0x0200C258  thumb
  *   gStartMenuWindowTemplates     0x021BD7C4  data  a1
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   d_021BD688     0x021BD688  data  a4
  *   d_021BD5DC     0x021BD5DC  data  a4
  *   d_021BD5E4     0x021BD5E4  data  a4
@@ -240,7 +240,7 @@
  *   func_02082A60  0x02082A60  arm
  *   func_020307B0  0x020307B0  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   func_020410D0  0x020410D0  arm
  *   BGWINFRM_GetFrameBuffer  0x0202CF84  thumb
  *   func_02041B6C  0x02041B6C  arm
@@ -250,13 +250,13 @@
  *   func_0201F73C  0x0201F73C  thumb
  *   func_02012FFC  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_0201F7A8  0x0201F7A8  thumb
  *   APP_KEYCURSOR_Update  0x020286C4  thumb
- *   func_0201CE30  0x0201CE30  thumb
- *   func_0201CE5C  0x0201CE5C  thumb
- *   func_0201CE38  0x0201CE38  thumb
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb
+ *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb
+ *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   BMP_MENU_CreateYesNo  0x0201FDA0  thumb
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   func_020071E8  0x020071E8  thumb
@@ -321,7 +321,7 @@
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   d_021BD83C     0x021BD83C  data  a1
- *   tbl_020A1B38   0x020A1B38  data
+ *   FX_SinCosTable_   0x020A1B38  data
  *   func_02061CA4  0x02061CA4  arm
  *   d_021BD944     0x021BD944  data  a4
  *   d_021BD8F4     0x021BD8F4  data  a4
@@ -497,15 +497,15 @@ typedef struct YesNoWindowTemplate {
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int heap, unsigned int size);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void  func_02082BCC(void *p, int v, int n);
+extern void  MI_CpuFill8(void *p, int v, int n);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern void func_0204363C(u32 swap);
 extern void func_02040588(u32 which, unsigned char enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern u32 ICA_ANIME_GetFrame(struct IcaAnime *p);
-extern u32   func_020362DC(void);
-extern unsigned int func_0203630C(void);
+extern u32   KEY_GetTrg(void);
+extern unsigned int KEY_GetCont(void);
 extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern int  FADE_IsActive(void);
@@ -517,7 +517,7 @@ extern void func_020315D4(struct S020315D4 *a);
 extern void func_020306F0(unsigned int a);
 extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0203FC28(struct DispConfig *cfg);
@@ -543,12 +543,12 @@ extern void func_020409B4(u32 layer);
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02041300(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u32 a6);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
@@ -558,9 +558,9 @@ extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern u32 GPOWER_GetSpecialPowerId(void);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32   G3D_UTIL_Create(u32 a, u32 b, u32 heap);
 extern u16   G3D_UTIL_AddUnit(u32 a, const void *b);
 extern u32 func_020489F4(u8 *a0, int i);
@@ -596,7 +596,7 @@ extern int CLACT_RegisterCharacter(void *, int, int, int, int);
 extern int CLACT_RegisterPalette(void *, int, int, int, int);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern int CLACT_CreateActor(int, int, int, int, ClactInitData *, int, int);
-extern void func_0204B92C(struct ClactActor *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct ClactActor *p, u32 v);
 extern void ARC_TOOL_DeleteHandle(void *);
 void CLACT_DrawSystem(void);
 extern void CLACT_ReleaseCharacter(u32 i);
@@ -619,11 +619,11 @@ extern void func_0200C2F0(struct Blk34 *p, u32 i, u8 v);
 extern u32 GFL_NET_IsIdle(void);
 extern u32 WIPE_SYS_EndCheck(void);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern s32 BLINK_PALANM_Update(struct Row *p);
-extern void func_020061E4(u32);
-extern unsigned int func_0203633C(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
+extern unsigned int KEY_GetRepeat(void);
 extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 extern u8 func_020090E0(const struct Sub020090B0Obj *obj);
 extern u32 BMP_MENU_ProcessYesNo(u8 *);
@@ -655,7 +655,7 @@ extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 extern struct Sub02008828Obj *func_02008854(void *sys);
 extern u16 *func_02008848(void *);
 extern void func_0200890C(void *sys, struct Sub02008828Rec *dest);
-extern u32 func_02013E4C(u32 id);
+extern u32 ZONEDATA_GetPlaceNameId(u32 id);
 extern void ZONEDATA_Exit(void);
 extern struct PlayTime *func_02008748(void *sys);
 extern u16 func_0200864C(const struct PlayTime *p);
@@ -663,7 +663,7 @@ extern u8 func_02008650(const struct PlayTime *p);
 extern void *func_0200CA10(void *);
 extern u32 func_0200D0AC(struct Blk37 *p, u32 heap);
 extern u32 func_0200C258(struct Blk34 *p);
-extern void func_0204B3DC(struct ClactActor *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct ClactActor *p, u32 v);
 extern void CLACT_DeleteActor(struct ClactActor *p);
 extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
@@ -676,7 +676,7 @@ extern void *func_02049EF4(void *o, u32 a, u32 b, void **out, u16 e);
 extern void func_02082A60(void *srcp, void *destp, unsigned long size);
 extern u32 func_020307B0(void *p);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void func_0204B404(struct ClactActor *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct ClactActor *p, const struct Vec2 *delta, u32 which);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
 extern void func_02041B6C(u32);
@@ -686,13 +686,13 @@ extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern signed char func_02012FFC(void);
 extern u32 PRINTSYS_PrintStream(u32 a0, u32 a1, u32 a2, u32 a3, u32 a5, u32 a6, u32 a7,
                          u32 a8, u16 a9, u16 a10);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
-extern u32 func_0201CE30(void *p);
-extern void func_0201CE5C(struct Rec *p, s32 v);
-extern void func_0201CE38(void *);
-extern void func_0201CE48(struct Rec3 *p);
+extern u32 PRINTSYS_PrintStreamGetState(void *p);
+extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
+extern void PRINTSYS_PrintStreamReleasePause(void *);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void *BMP_MENU_CreateYesNo(YesNoWindowTemplate *win, int base, int pal, int pos, int heap);
 extern void WIPE_SYS_Start(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
 extern u32 func_020071E8(const struct Sub020071E4Ctrl *ctrl);
@@ -962,7 +962,6 @@ extern char d_021BD858[];
 extern char d_021BD878[];
 extern char d_021BD898[];
 extern TouchHitTable d_021BD83C;
-extern s16 tbl_020A1B38[];
 extern const u8 d_021BD944[];
 extern const u8 d_021BD8F4[];
 extern const u8 d_021BD904[];
@@ -1014,7 +1013,7 @@ int STARTMENU_TitleDemoInit(struct Proc *allocator)
 
     GFL_HEAP_CreateChildHeap(1, 0x16, 0x120000);
     work = PROCSYS_AllocProcWork(allocator, 0x98, 0x16);
-    func_02082BCC(work, 0, 0x98);
+    MI_CpuFill8(work, 0, 0x98);
     work->heapId = 0x16;
     return 1;
 }
@@ -1031,7 +1030,7 @@ void STARTMENU_TitleDemoUpdateTimer(TitleDemoWork *work)
         func_0204363C(1);
         func_02040588(6, 0);
         BG_SYS_SetSubPlaneVisible(16, 0);
-        func_020434DC(8, 0);
+        BG_SYS_SetMainPlaneVisible(8, 0);
         work->phase = 1;
     }
     if (work->phase == 2 && ICA_ANIME_GetFrame((struct IcaAnime *)work->demo3d.anime) == 0x015F3000)
@@ -1050,7 +1049,7 @@ void STARTMENU_TitleDemoUpdateTimer(TitleDemoWork *work)
 
 void STARTMENU_TitleDemoCheckInput(TitleDemoWork *work)
 {
-    if ((func_020362DC() & 0xB) && work->phase == 1) {
+    if ((KEY_GetTrg() & 0xB) && work->phase == 1) {
         func_0204363C(0);
         func_02040588(6, 1);
         func_02040588(3, 1);
@@ -1059,7 +1058,7 @@ void STARTMENU_TitleDemoCheckInput(TitleDemoWork *work)
         work->phase = 2;
         return;
     }
-    if (func_020362DC() & 9) {
+    if (KEY_GetTrg() & 9) {
         work->result = 0;
         work->state = 4;
         work->fanfareHandle = (void *)PM_VOICE_Play(0x283, 0, 0x40, 0, 0, 0, 0, 0);
@@ -1072,10 +1071,10 @@ void STARTMENU_TitleDemoCheckInput(TitleDemoWork *work)
         STARTMENU_CaptureSetBlend(&work->capture, 8, 8);
         return;
     }
-    if (func_0203630C() == 0x46) {
+    if (KEY_GetCont() == 0x46) {
         work->result = 2;
         work->state = 5;
-    } else if (func_0203630C() == 0xC80) {
+    } else if (KEY_GetCont() == 0xC80) {
         work->result = 3;
         work->state = 5;
     }
@@ -1176,7 +1175,7 @@ void STARTMENU_ResetDisplayState(void)
 {
     func_0207D534((volatile u16 *)0x0400006C, -16);
     func_0207D534((volatile u16 *)0x0400106C, -16);
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(u16 *)0x04000050 = 0;
     *(u16 *)0x04001050 = 0;
@@ -1322,7 +1321,7 @@ void STARTMENU_LogoInit(TitleDemoLogo *logo, u32 heap)
     func_02040C14(5, 0, 1, 0);
     func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
     logo->textWindow = BMP_WIN_Create(5, 0, 0x13, 0x20, 2, 0xA, 0);
-    logo->textBitmap = (u32)func_02045770((struct Descriptor *)logo->textWindow);
+    logo->textBitmap = (u32)BMP_WIN_GetBmp((struct Descriptor *)logo->textWindow);
     BMP_Clear((struct CharBuf *)logo->textBitmap, 0);
     BMP_WIN_MakeScreen((struct Cfg *)logo->textWindow);
     BMP_WIN_TransferChars((struct Descriptor *)logo->textWindow);
@@ -1330,7 +1329,7 @@ void STARTMENU_LogoInit(TitleDemoLogo *logo, u32 heap)
     logo->textWindowCopy = logo->textWindow;
     func_020409B4(5);
     logo->font = (u32)GF_FONT_Create(0x17, 0, 0, 0, heap);
-    logo->printer = func_0201C440((void *)heap);
+    logo->printer = PRINTSYS_QUE_Create((void *)heap);
     logo->msgBank = (u32)func_02045B38(0, 2, 0xB5, heap);
     logo->titleText = (u32)STRBUF_Create(0x40, heap);
     func_02045CAC((struct MsgBank *)logo->msgBank, 1, (void *)logo->titleText);
@@ -1374,9 +1373,9 @@ void STARTMENU_LogoDelete(TitleDemoLogo *logo)
 {
     STRBUF_Delete((struct U16Vec *)logo->titleText);
     MSGDATA_Delete((struct Rec *)logo->msgBank);
-    func_0201C4C0((struct PrintSys *)logo->printer);
+    PRINTSYS_QUE_Delete((struct PrintSys *)logo->printer);
     GF_FONT_Delete((void *)logo->font);
-    func_020452E8((struct Descriptor *)logo->textWindow);
+    BMP_WIN_Delete((struct Descriptor *)logo->textWindow);
 }
 
 
@@ -1623,7 +1622,7 @@ void STARTMENU_SpritesInit(TitleDemoSprites *sprites, int heap)
     initData.palOffset = 0;
     initData.priority = 0;
     sprites->actor = CLACT_CreateActor(sprites->unit, sprites->charRes, sprites->paletteRes, sprites->cellRes, &initData, 1, heap);
-    func_0204B92C((struct ClactActor *)sprites->actor, 1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)sprites->actor, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     ARC_TOOL_DeleteHandle(archive);
 }
@@ -1671,7 +1670,7 @@ int STARTMENU_MenuInit(struct Proc *allocator)
     StartMenuWork *work;
     GFL_HEAP_CreateChildHeap(1, 0xb, 0x80000);
     work = PROCSYS_AllocProcWork(allocator, 0x150, 0xb);
-    func_02082BCC(work, 0, 0x150);
+    MI_CpuFill8(work, 0, 0x150);
     work->saveData = (void *)func_020070A4();
     work->playerData = (void *)func_02008730(work->saveData);
     work->unlockData = (void *)func_0200C0F0(work->saveData);
@@ -1733,7 +1732,7 @@ int STARTMENU_MenuExit(int procCtx, int unusedArg1, int unusedArg2, StartMenuWor
         break;
     case 3:
         procArgs = func_02030734(1, 0x14, 0, d_021BDA00, 0x200);
-        func_02082BCC(procArgs, 0, 0x14);
+        MI_CpuFill8(procArgs, 0, 0x14);
         ((StartMenuOv199Args *)procArgs)->selection = 0;
         ((StartMenuOv199Args *)procArgs)->fromTitleMenu = 1;
         PROCSYS_ReplaceGlobal((int)ov199_id, (u32)d_02213C4C, (u32)procArgs);
@@ -1773,7 +1772,7 @@ int STARTMENU_StateSetup(StartMenuWork *work)
     if (func_020092EC((const struct Sub02009210Obj *)func_02009448((void *)work->saveData)) == 1)
         func_0200C2F0((struct Blk34 *)work->unlockData, 2, 2);
     z = 0;
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(unsigned short *)0x04000050 = z;
     *(unsigned short *)0x04001050 = z;
@@ -1821,7 +1820,7 @@ int STARTMENU_StateWaitStart(StartMenuWork *work)
             STARTMENU_TeardownBackgrounds();
             *(unsigned short *)0x04000050 = 0;
             *(unsigned short *)0x04001050 = 0;
-            func_02043534(0);
+            BG_SYS_SetMainVisiblePlanes(0);
             BG_SYS_SetSubVisiblePlanes(0);
             return 12;
         }
@@ -1903,12 +1902,12 @@ int STARTMENU_StateWaitPrint(StartMenuWork *work)
     PRINTSYS_QUE_Main(work->printSys);
     for (i = 0; i < 14; i++) {
         t = work->printSys;
-        if (work->windows[i].textPending != 0 && func_0201C6C4(t, func_02045770(work->windows[i].window)) == 0) {
+        if (work->windows[i].textPending != 0 && PRINTSYS_QUE_IsExistTarget(t, BMP_WIN_GetBmp(work->windows[i].window)) == 0) {
             BMP_WIN_TransferChars(work->windows[i].window);
             work->windows[i].textPending = 0;
         }
     }
-    if (func_0201C6B4(work->printSys) == 1) {
+    if (PRINTSYS_QUE_IsFinished(work->printSys) == 1) {
         if (STARTMENU_RefreshSaveStatus(work) == 1)
             return 10;
         return STARTMENU_BeginFadeOut(work, 5);
@@ -1927,8 +1926,8 @@ int STARTMENU_StateWaitPrint(StartMenuWork *work)
 int STARTMENU_StateSelectRow(StartMenuWork *work)
 {
     BLINK_PALANM_Update(work->blinkPalAnm);
-    if (func_020362DC() & 1) {
-        func_020061E4(0x54c);
+    if (KEY_GetTrg() & 1) {
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         switch (work->rowIds[work->cursorIndex]) {
         case 0:
             work->selectedRow = work->rowIds[work->cursorIndex];
@@ -1957,20 +1956,20 @@ int STARTMENU_StateSelectRow(StartMenuWork *work)
             return STARTMENU_BeginSelectAnim(work, 11);
         }
     }
-    if (func_020362DC() & 2) {
-        func_020061E4(0x551);
+    if (KEY_GetTrg() & 2) {
+        GFL_USE_PlaySeDefaultVolume(0x551);
         work->selectedRow = 8;
         return STARTMENU_BeginFadeIn(work, 1);
     }
-    if (func_0203633C() & 0x40) {
+    if (KEY_GetRepeat() & 0x40) {
         if (STARTMENU_MoveCursor(work, -1) == 1) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             return 6;
         }
     }
-    if (func_0203633C() & 0x80) {
+    if (KEY_GetRepeat() & 0x80) {
         if (STARTMENU_MoveCursor(work, 1) == 1) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             return 6;
         }
     }
@@ -2026,7 +2025,7 @@ int STARTMENU_StateConnectPrompt(StartMenuWork *work)
     u32 menuResult;
     switch (work->subState) {
     case 0:
-        func_020434DC(6, 0);
+        BG_SYS_SetMainPlaneVisible(6, 0);
         STARTMENU_ShowRowActors(work, 0);
         if (func_020090E0(work->connectData) == 0) {
             work->connectResult = 1;
@@ -2079,7 +2078,7 @@ int STARTMENU_StateConnectPrompt(StartMenuWork *work)
             work->subState = work->subState + 1;
         break;
     case 6:
-        if (func_020362DC() & 3) {
+        if (KEY_GetTrg() & 3) {
             work->connectResult = 1;
             work->subState = 4;
         }
@@ -2106,7 +2105,7 @@ int STARTMENU_StateConnectPrompt(StartMenuWork *work)
     }
     PRINTSYS_QUE_Main(work->printSys);
     printSys = work->printSys;
-    if (work->descWindowOpen != 0 && func_0201C6C4(printSys, func_02045770(work->descWindow)) == 0) {
+    if (work->descWindowOpen != 0 && PRINTSYS_QUE_IsExistTarget(printSys, BMP_WIN_GetBmp(work->descWindow)) == 0) {
         BMP_WIN_TransferChars(work->descWindow);
         work->descWindowOpen = 0;
     }
@@ -2135,19 +2134,19 @@ int STARTMENU_StateConfirmPrompt(StartMenuWork *work)
         work->subState = work->subState + 1;
         break;
     case 1:
-        if (func_0201C6B4(work->printSys) == 1)
+        if (PRINTSYS_QUE_IsFinished(work->printSys) == 1)
             work->subState = work->subState + 1;
         break;
     case 2:
-        if (func_020362DC() & 1) {
-            func_020061E4(0x54c);
+        if (KEY_GetTrg() & 1) {
+            GFL_USE_PlaySeDefaultVolume(0x54c);
             STARTMENU_CloseDescWindow(work, 1);
             work->selectedRow = 1;
             work->subState = 0;
             return STARTMENU_BeginFadeIn(work, 1);
         }
-        if (func_020362DC() & 2) {
-            func_020061E4(0x551);
+        if (KEY_GetTrg() & 2) {
+            GFL_USE_PlaySeDefaultVolume(0x551);
             STARTMENU_CloseDescWindow(work, 0);
             STARTMENU_PaintRowPalette(work, work->rowIds[work->cursorIndex],
                           STARTMENU_RowTileY(work, work->cursorTileY), 2);
@@ -2158,7 +2157,7 @@ int STARTMENU_StateConfirmPrompt(StartMenuWork *work)
     }
     PRINTSYS_QUE_Main(work->printSys);
     printSys = work->printSys;
-    if (work->descWindowOpen != 0 && func_0201C6C4(printSys, func_02045770(work->descWindow)) == 0) {
+    if (work->descWindowOpen != 0 && PRINTSYS_QUE_IsExistTarget(printSys, BMP_WIN_GetBmp(work->descWindow)) == 0) {
         BMP_WIN_TransferChars(work->descWindow);
         work->descWindowOpen = 0;
     }
@@ -2183,12 +2182,12 @@ int STARTMENU_StateInfoMessage(StartMenuWork *work)
             work->subState = work->subState + 1;
             break;
         case 1:
-            if (func_0201C6B4(work->printSys) == 1)
+            if (PRINTSYS_QUE_IsFinished(work->printSys) == 1)
                 work->subState = work->subState + 1;
             break;
         case 2:
-            if (func_020362DC() & 3) {
-                func_020061E4(0x54c);
+            if (KEY_GetTrg() & 3) {
+                GFL_USE_PlaySeDefaultVolume(0x54c);
                 STARTMENU_CloseDescWindow(work, 0);
                 STARTMENU_PaintRowPalette(work, work->rowIds[work->cursorIndex],
                               STARTMENU_RowTileY(work, work->cursorTileY), 2);
@@ -2199,7 +2198,7 @@ int STARTMENU_StateInfoMessage(StartMenuWork *work)
         }
         PRINTSYS_QUE_Main(work->printSys);
         printSys = work->printSys;
-        if (work->descWindowOpen != 0 && func_0201C6C4(printSys, func_02045770(work->descWindow)) == 0) {
+        if (work->descWindowOpen != 0 && PRINTSYS_QUE_IsExistTarget(printSys, BMP_WIN_GetBmp(work->descWindow)) == 0) {
             BMP_WIN_TransferChars(work->descWindow);
             work->descWindowOpen = 0;
         }
@@ -2226,7 +2225,7 @@ int func_021BA880(StartMenuWork *work)
     u32 i;
     switch (work->subState) {
     case 0:
-        func_020434DC(0x1e, 0);
+        BG_SYS_SetMainPlaneVisible(0x1e, 0);
         BG_SYS_SetSubPlaneVisible(0x17, 0);
         func_02040EBC(0, 0x7d8c);
         func_02040EBC(4, 0x7d8c);
@@ -2251,13 +2250,13 @@ int func_021BA880(StartMenuWork *work)
         }
         break;
     case 2:
-        if (STARTMENU_UpdateMessage(work) == 0 && (func_020362DC() & 3)) {
-            func_020061E4(0x547);
+        if (STARTMENU_UpdateMessage(work) == 0 && (KEY_GetTrg() & 3)) {
+            GFL_USE_PlaySeDefaultVolume(0x547);
             work->subState = 1;
         }
         break;
     case 3:
-        func_020434DC(0x1e, 1);
+        BG_SYS_SetMainPlaneVisible(0x1e, 1);
         BG_SYS_SetSubPlaneVisible(0x17, 1);
         work->subState = 0;
         return STARTMENU_BeginFadeOut(work, 5);
@@ -2378,7 +2377,7 @@ void STARTMENU_SetupBackgrounds(void)
     func_0203FCA0(5, (const struct BgTemplate *)(&bg5Template), 0);
     bg6Template = d_021BD704;
     func_0203FCA0(6, (const struct BgTemplate *)(&bg6Template), 0);
-    func_020434DC(0xf, 1);
+    BG_SYS_SetMainPlaneVisible(0xf, 1);
     BG_SYS_SetSubPlaneVisible(7, 1);
 }
 
@@ -2395,7 +2394,7 @@ void STARTMENU_SetupBackgrounds(void)
  */
 void STARTMENU_TeardownBackgrounds(void)
 {
-    func_020434DC(0xf, 0);
+    BG_SYS_SetMainPlaneVisible(0xf, 0);
     BG_SYS_SetSubPlaneVisible(7, 0);
     func_020403F4(6);
     func_020403F4(5);
@@ -2470,7 +2469,7 @@ void STARTMENU_CreateTextSystem(StartMenuWork *work)
     work->msgBank = (void *)func_02045B38(0, 2, 0xb3, 0xb);
     work->font = (u32)GF_FONT_Create(0x17, 0, 0, 0, 0xb);
     work->wordSet = (void *)func_0201EC64(0xb);
-    work->printSys = (void *)func_0201C440((void *)0xb);
+    work->printSys = (void *)PRINTSYS_QUE_Create((void *)0xb);
     work->stringBuf = (void *)STRBUF_Create(0x400, 0xb);
     work->taskList = (u32)TCBL_Create(0xb, 0xb, 1, 4);
     work->msgBoxFrame = (void *)func_02028590(0xf, 1, 0, 0xb);
@@ -2488,7 +2487,7 @@ void STARTMENU_DeleteTextSystem(StartMenuWork *work)
     APP_KEYCURSOR_Delete((int)work->msgBoxFrame);
     TCBL_Destroy((struct S02031140 *)work->taskList);
     STRBUF_Delete((struct U16Vec *)work->stringBuf);
-    func_0201C4C0((struct PrintSys *)work->printSys);
+    PRINTSYS_QUE_Delete((struct PrintSys *)work->printSys);
     func_0201ED04((struct WordSet *)work->wordSet);
     GF_FONT_Delete((void *)work->font);
     MSGDATA_Delete((struct Rec *)work->msgBank);
@@ -2518,7 +2517,7 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
 
     msgStr = func_02045EC0(work->msgBank, 0);
     printSys = work->printSys;
-    PRINTSYS_PrintQueColor(printSys, (u32)func_02045770(work->windows[0].window), 0, 4, (u32)msgStr, (u32)work->font, 0x440);
+    PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[0].window), 0, 4, (u32)msgStr, (u32)work->font, 0x440);
     work->windows[0].textPending = 1;
     STRBUF_Delete(msgStr);
 
@@ -2527,11 +2526,11 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     func_0201F250(work->wordSet, work->stringBuf, msgStr);
     if (func_02008550(work->playerData) == 0) {
         printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, (u32)func_02045770(work->windows[1].window), 0, 0, (u32)work->stringBuf, (u32)work->font, 0xC80);
+        PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[1].window), 0, 0, (u32)work->stringBuf, (u32)work->font, 0xC80);
         work->windows[1].textPending = 1;
     } else {
         printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, (u32)func_02045770(work->windows[1].window), 0, 0, (u32)work->stringBuf, (u32)work->font, 0x14C0);
+        PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[1].window), 0, 0, (u32)work->stringBuf, (u32)work->font, 0x14C0);
         work->windows[1].textPending = 1;
     }
     STRBUF_Delete(msgStr);
@@ -2539,16 +2538,16 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     msgStr = func_02045EC0(work->msgBank, 16);
     ZONEDATA_Init(0x800B);
     if (ZONEDATA_CheckEventFlag(work->eventWork, 0x966) == 1) {
-        zoneName = (void *)func_02013E4C(func_02008848(func_02008854(work->saveData))[2]);
+        zoneName = (void *)ZONEDATA_GetPlaceNameId(func_02008848(func_02008854(work->saveData))[2]);
     } else {
         func_0200890C(work->saveData, (struct Sub02008828Rec *)locationBuf);
-        zoneName = (void *)func_02013E4C(locationBuf[0]);
+        zoneName = (void *)ZONEDATA_GetPlaceNameId(locationBuf[0]);
     }
     ZONEDATA_Exit();
     func_0201F158(work->wordSet, 0, (u32)zoneName);
     func_0201F250(work->wordSet, work->stringBuf, msgStr);
     printSys = work->printSys;
-    PRINTSYS_PrintQueColor(printSys, (u32)func_02045770(work->windows[2].window), 0, 0, (u32)work->stringBuf, (u32)work->font, 0x440);
+    PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[2].window), 0, 0, (u32)work->stringBuf, (u32)work->font, 0x440);
     work->windows[2].textPending = 1;
     STRBUF_Delete(msgStr);
 
@@ -2558,7 +2557,7 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     func_0201EFA4(work->wordSet, 1, func_02008650(playerInfo), 2, 2, 1);
     func_0201F250(work->wordSet, work->stringBuf, msgStr);
     printSys = work->printSys;
-    PRINTSYS_PrintQueColor(printSys, (u32)func_02045770(work->windows[3].window), 0, 0, (u32)work->stringBuf, (u32)work->font, 0x440);
+    PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[3].window), 0, 0, (u32)work->stringBuf, (u32)work->font, 0x440);
     work->windows[3].textPending = 1;
     STRBUF_Delete(msgStr);
 
@@ -2567,7 +2566,7 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
         func_0201EFA4(work->wordSet, 0, func_0200D0AC(func_0200CA10(work->saveData), 11), 3, 0, 1);
         func_0201F250(work->wordSet, work->stringBuf, msgStr);
         printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, (u32)func_02045770(work->windows[4].window), 0, 0, (u32)work->stringBuf, (u32)work->font, 0x440);
+        PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[4].window), 0, 0, (u32)work->stringBuf, (u32)work->font, 0x440);
         work->windows[4].textPending = 1;
         STRBUF_Delete(msgStr);
     }
@@ -2576,14 +2575,14 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     func_0201EFA4(work->wordSet, 0, func_0200C258(func_0200C0F0(work->saveData)), 2, 0, 1);
     func_0201F250(work->wordSet, work->stringBuf, msgStr);
     printSys = work->printSys;
-    PRINTSYS_PrintQueColor(printSys, (u32)func_02045770(work->windows[5].window), 0, 0, (u32)work->stringBuf, (u32)work->font, 0x440);
+    PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[5].window), 0, 0, (u32)work->stringBuf, (u32)work->font, 0x440);
     work->windows[5].textPending = 1;
     STRBUF_Delete(msgStr);
 
     msgStr = func_02045EC0(work->msgBank, 1);
     {
         void *printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, (u32)func_02045770(work->windows[6].window), 0, 4, (u32)msgStr, (u32)work->font, 0x440);
+        PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[6].window), 0, 4, (u32)msgStr, (u32)work->font, 0x440);
     }
     work->windows[6].textPending = 1;
     STRBUF_Delete(msgStr);
@@ -2591,7 +2590,7 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     msgStr = func_02045EC0(work->msgBank, 2);
     {
         void *printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, (u32)func_02045770(work->windows[7].window), 0, 4, (u32)msgStr, (u32)work->font, 0x440);
+        PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[7].window), 0, 4, (u32)msgStr, (u32)work->font, 0x440);
     }
     work->windows[7].textPending = 1;
     STRBUF_Delete(msgStr);
@@ -2599,7 +2598,7 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     msgStr = func_02045EC0(work->msgBank, 4);
     {
         void *printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, (u32)func_02045770(work->windows[8].window), 0, 4, (u32)msgStr, (u32)work->font, 0x440);
+        PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[8].window), 0, 4, (u32)msgStr, (u32)work->font, 0x440);
     }
     work->windows[8].textPending = 1;
     STRBUF_Delete(msgStr);
@@ -2607,7 +2606,7 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     msgStr = func_02045EC0(work->msgBank, 5);
     {
         void *printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, (u32)func_02045770(work->windows[9].window), 0, 4, (u32)msgStr, (u32)work->font, 0x440);
+        PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[9].window), 0, 4, (u32)msgStr, (u32)work->font, 0x440);
     }
     work->windows[9].textPending = 1;
     STRBUF_Delete(msgStr);
@@ -2615,7 +2614,7 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     msgStr = func_02045EC0(work->msgBank, 3);
     {
         void *printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, (u32)func_02045770(work->windows[10].window), 0, 4, (u32)msgStr, (u32)work->font, 0x440);
+        PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[10].window), 0, 4, (u32)msgStr, (u32)work->font, 0x440);
     }
     work->windows[10].textPending = 1;
     STRBUF_Delete(msgStr);
@@ -2623,7 +2622,7 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     msgStr = func_02045EC0(work->msgBank, 7);
     {
         void *printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, (u32)func_02045770(work->windows[11].window), 0, 4, (u32)msgStr, (u32)work->font, 0x440);
+        PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[11].window), 0, 4, (u32)msgStr, (u32)work->font, 0x440);
     }
     work->windows[11].textPending = 1;
     STRBUF_Delete(msgStr);
@@ -2631,7 +2630,7 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     msgStr = func_02045EC0(work->msgBank, 6);
     {
         void *printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, (u32)func_02045770(work->windows[12].window), 0, 4, (u32)msgStr, (u32)work->font, 0x440);
+        PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[12].window), 0, 4, (u32)msgStr, (u32)work->font, 0x440);
     }
     work->windows[12].textPending = 1;
     STRBUF_Delete(msgStr);
@@ -2652,7 +2651,7 @@ void STARTMENU_DeleteRowWindows(StartMenuWork *work)
 {
     unsigned i;
     for (i = 0; i < 14; i++)
-        func_020452E8(work->windows[i].window);
+        BMP_WIN_Delete(work->windows[i].window);
     BMP_WIN_Exit();
 }
 
@@ -2691,14 +2690,14 @@ void STARTMENU_CreateActors(StartMenuWork *work)
     ARC_TOOL_DeleteHandle(archive);
     work->clactUnit = (void *)CLACT_CreateUnit(6, 0, 0xb);
     work->rowActors[0] = (void *)CLACT_CreateActor((int)((void *)work->clactUnit), work->actorCharRes[0], work->actorPaletteRes[0], work->actorCellRes[0], (ClactInitData *)d_021BD5DC, 0, 0xb);
-    func_0204B3DC((void *)work->rowActors[0], 0);
+    CLACT_SetActorDrawEnable((void *)work->rowActors[0], 0);
     for (i = 1; i <= 4; i++) {
         work->rowActors[i] = (void *)CLACT_CreateActor((int)((void *)work->clactUnit), work->actorCharRes[1], work->actorPaletteRes[1], work->actorCellRes[1], (ClactInitData *)d_021BD5E4, 0, 0xb);
-        func_0204B92C((struct ClactActor *)work->rowActors[i], 1);
-        func_0204B3DC((void *)work->rowActors[i], 0);
+        CLACT_SetActorAutoAnim((struct ClactActor *)work->rowActors[i], 1);
+        CLACT_SetActorDrawEnable((void *)work->rowActors[i], 0);
     }
     work->rowActors[5] = (void *)CLACT_CreateActor((int)((void *)work->clactUnit), work->actorCharRes[2], work->actorPaletteRes[2], work->actorCellRes[2], (ClactInitData *)d_021BD5D4, 0, 0xb);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
@@ -2862,7 +2861,7 @@ void STARTMENU_SetRowActorY(StartMenuWork *work, u32 actorIndex, s16 y)
     SpritePos position;
     CLACT_GetActorSurfacePos(work->rowActors[actorIndex], (struct PtS *)&position, 0);
     position.y = y;
-    func_0204B404(work->rowActors[actorIndex], (const struct Vec2 *)(&position), 0);
+    CLACT_AddActorSurfacePos(work->rowActors[actorIndex], (const struct Vec2 *)(&position), 0);
 }
 
 
@@ -2915,7 +2914,7 @@ void STARTMENU_LayoutRows(StartMenuWork *work)
         } else {
             goto next;
         }
-        func_0204B3DC(rowActor, 1);
+        CLACT_SetActorDrawEnable(rowActor, 1);
     next:
         tileY += (s8)gStartMenuRowInfo[(u8)work->rowIds[i]].height;
     }
@@ -2979,7 +2978,7 @@ void STARTMENU_ScrollRowActors(StartMenuWork *work, int deltaY)
     for (i = 0; i < 6; i++) {
         CLACT_GetActorSurfacePos((struct Actor *)work->rowActors[i], (struct PtS *)&position, 0);
         position.y += (s16)deltaY;
-        func_0204B404((struct ClactActor *)(work->rowActors[i]), (const struct Vec2 *)(&position), 0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)(work->rowActors[i]), (const struct Vec2 *)(&position), 0);
     }
 }
 
@@ -3054,25 +3053,25 @@ void STARTMENU_ShowRowActors(StartMenuWork *work, int flag)
     unsigned i;
     if (flag == 0) {
         for (i = 0; i <= 5; i++)
-            func_0204B3DC(work->rowActors[i], flag);
+            CLACT_SetActorDrawEnable(work->rowActors[i], flag);
         return;
     }
-    func_0204B3DC(work->rowActors[0], 1);
+    CLACT_SetActorDrawEnable(work->rowActors[0], 1);
     for (i = 0; i < 8; i++) {
         u8 rowId = work->rowIds[i];
         if (rowId == 8)
             return;
         if (rowId == 3) {
             if (func_0200C308(work->unlockData, 1) == 1)
-                func_0204B3DC(work->rowActors[2], 1);
+                CLACT_SetActorDrawEnable(work->rowActors[2], 1);
         } else if (rowId == 4) {
             if (func_0200C308(work->unlockData, 2) == 1)
-                func_0204B3DC(work->rowActors[3], 1);
+                CLACT_SetActorDrawEnable(work->rowActors[3], 1);
         } else if (rowId == 7) {
             if (func_0200C308(work->unlockData, 3) == 1)
-                func_0204B3DC(work->rowActors[4], 1);
+                CLACT_SetActorDrawEnable(work->rowActors[4], 1);
         } else if (rowId == 5) {
-            func_0204B3DC(work->rowActors[5], 1);
+            CLACT_SetActorDrawEnable(work->rowActors[5], 1);
         }
     }
 }
@@ -3112,7 +3111,7 @@ static inline void PrintMessageLine(StartMenuWork *work, u32 id, u32 pixelY, u16
 {
     u32 msgStr = (u32)func_02045EC0((struct MsgBank *)(work->msgBank), id);
     u32 printSys = (unsigned int)work->printSys;
-    PRINTSYS_PrintQueColor((void *)printSys, (u32)func_02045770((struct Descriptor *)work->descWindow), 0, pixelY, msgStr, work->font, color);
+    PRINTSYS_PrintQueColor((void *)printSys, (u32)BMP_WIN_GetBmp((struct Descriptor *)work->descWindow), 0, pixelY, msgStr, work->font, color);
     work->descWindowOpen = 1;
     STRBUF_Delete((struct U16Vec *)msgStr);
 }
@@ -3147,7 +3146,7 @@ void STARTMENU_OpenConfirmWindow(StartMenuWork *work)
 
 void STARTMENU_CloseDescWindow(StartMenuWork *work, int mode)
 {
-    func_020452E8(work->descWindow);
+    BMP_WIN_Delete(work->descWindow);
     if (mode != 1) {
         STARTMENU_ClearFrameBox(0x20, 1, 0x20, 0x16, 2);
         func_02041570(0, 0);
@@ -3182,7 +3181,7 @@ void STARTMENU_OpenInfoWindow(StartMenuWork *work)
  */
 void STARTMENU_CloseInfoWindow(StartMenuWork *work)
 {
-    func_020452E8(work->descWindow);
+    BMP_WIN_Delete(work->descWindow);
 }
 
 
@@ -3197,7 +3196,7 @@ void STARTMENU_OpenNoticeWindow(StartMenuWork *work)
     work->descWindow = (void *)BMP_WIN_Create(0, 2, 2, 0x1e, 0x14, 5, 1);
     msgStr = (u32)func_02045EC0((struct MsgBank *)noticeBank, 0x20);
     printSys = (unsigned int)work->printSys;
-    PRINTSYS_PrintQueColor((void *)printSys, (u32)func_02045770((struct Descriptor *)work->descWindow), 0, 0, msgStr, work->font, 0x440);
+    PRINTSYS_PrintQueColor((void *)printSys, (u32)BMP_WIN_GetBmp((struct Descriptor *)work->descWindow), 0, 0, msgStr, work->font, 0x440);
     work->descWindowOpen = 1;
     STRBUF_Delete((struct U16Vec *)msgStr);
     MSGDATA_Delete((struct Rec *)noticeBank);
@@ -3219,7 +3218,7 @@ void STARTMENU_StartMessage(StartMenuWork *work, u32 msgId)
 {
     void *window;
     func_02045CAC((struct MsgBank *)(work->msgBank), msgId, (void *)(work->stringBuf));
-    BMP_Clear((struct CharBuf *)func_02045770((struct Descriptor *)work->windows[13].window), 0xf);
+    BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp((struct Descriptor *)work->windows[13].window), 0xf);
     func_0201F73C(work->windows[13].window, 2, 1, 0xe);
     work->printJob = (void *)PRINTSYS_PrintStream((u32)work->windows[13].window, 0, 0, (u32)work->stringBuf,
                                        work->font, func_02012FFC(),
@@ -3228,7 +3227,7 @@ void STARTMENU_StartMessage(StartMenuWork *work, u32 msgId)
     window = work->windows[13].window;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    func_02041B6C(func_02045730(window));
+    func_02041B6C(BMP_WIN_GetBgLayer(window));
 }
 
 
@@ -3247,23 +3246,23 @@ int STARTMENU_UpdateMessage(StartMenuWork *work)
     if (work->printJob == 0)
         return 0;
     APP_KEYCURSOR_Update(work->msgBoxFrame, work->printJob, work->windows[13].window);
-    switch (func_0201CE30(work->printJob)) {
+    switch (PRINTSYS_PrintStreamGetState(work->printJob)) {
     case 0:
-        if (func_0203630C() & 3)
-            func_0201CE5C(work->printJob, 0);
+        if (KEY_GetCont() & 3)
+            PRINTSYS_PrintStreamShortWait(work->printJob, 0);
         work->printAdvanceLatched = 0;
         break;
     case 1:
         if (work->printAdvanceLatched == 0) {
-            if (func_020362DC() & 3) {
-                func_020061E4(0x547);
-                func_0201CE38(work->printJob);
+            if (KEY_GetTrg() & 3) {
+                GFL_USE_PlaySeDefaultVolume(0x547);
+                PRINTSYS_PrintStreamReleasePause(work->printJob);
                 work->printAdvanceLatched = 1;
             }
         }
         break;
     case 2:
-        func_0201CE48(work->printJob);
+        PRINTSYS_PrintStreamDelete(work->printJob);
         work->printJob = 0;
         work->printAdvanceLatched = 0;
         return 0;
@@ -3694,7 +3693,7 @@ void STARTMENU_ConfigPromptSetupGraphics(ConfigPromptWork *work)
 {
     func_0207D534((volatile u16 *)0x0400006C, -16);
     func_0207D534((volatile u16 *)0x0400106C, -16);
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021BD8B8);
     func_0203F8F4(0x39);
@@ -3733,18 +3732,18 @@ void STARTMENU_ConfigPromptDrawQuestion(ConfigPromptWork *work)
     work->selectedChoice = 0;
     work->questionWin = (void *)BMP_WIN_Create((int)5, (int)1, (u8)0x13, (int)0x1d, (int)4, (int)0, (int)1);
     BMP_WIN_MakeScreen((struct Cfg *)work->questionWin);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)work->questionWin)), 0xf);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)work->questionWin)), 0xf);
     text = (u32)func_02045EC0((struct MsgBank *)msgArc, work->question);
     func_0201F73C(work->questionWin, 0, 1, 1);
-    PRINTSYS_Print((void *)((u32)func_02045770((struct Descriptor *)work->questionWin)), 2, 2, (void *)text, work->font);
+    PRINTSYS_Print((void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)work->questionWin)), 2, 2, (void *)text, work->font);
     STRBUF_Delete((struct U16Vec *)text);
     BMP_WIN_TransferChars((struct Descriptor *)work->questionWin);
     for (i = 0; i < 2; i++) {
         work->choiceWin[i] = (void *)BMP_WIN_Create((int)1, (int)6, (u8)(i * 4 + 0xc), (int)0x14, (int)2, (int)0, (int)1);
         BMP_WIN_MakeScreen((struct Cfg *)work->choiceWin[i]);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)work->choiceWin[i])), 0xf);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)work->choiceWin[i])), 0xf);
         text = (u32)func_02045EC0((struct MsgBank *)msgArc, i + 5 + work->question * 2);
-        PRINTSYS_Print((void *)((u32)func_02045770((struct Descriptor *)work->choiceWin[i])), 2, 2, (void *)text, work->font);
+        PRINTSYS_Print((void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)work->choiceWin[i])), 2, 2, (void *)text, work->font);
         STRBUF_Delete((struct U16Vec *)text);
         BMP_WIN_TransferChars((struct Descriptor *)work->choiceWin[i]);
     }
@@ -3756,9 +3755,9 @@ void STARTMENU_ConfigPromptDeleteWindows(ConfigPromptWork *work)
 {
     u8 i;
 
-    func_020452E8(work->questionWin);
+    BMP_WIN_Delete(work->questionWin);
     for (i = 0; i < 2; i++)
-        func_020452E8(work->choiceWin[i]);
+        BMP_WIN_Delete(work->choiceWin[i]);
 }
 
 void STARTMENU_ConfigPromptHighlightChoice(ConfigPromptWork *work)
@@ -3780,18 +3779,18 @@ int STARTMENU_ConfigPromptReadInput(ConfigPromptWork *work)
     int touched;
     TouchHitTable hitTable;
 
-    if ((func_020362DC() & 0x40) || (func_020362DC() & 0x80)) {
+    if ((KEY_GetTrg() & 0x40) || (KEY_GetTrg() & 0x80)) {
         if (work->selectedChoice == 0)
             work->selectedChoice = 1;
         else
             work->selectedChoice = 0;
         STARTMENU_ConfigPromptHighlightChoice(work);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
     }
-    keys = func_020362DC();
+    keys = KEY_GetTrg();
     result = 1;
     if (keys & result) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         if (work->selectedChoice != 0)
             result = 2;
         return result;
@@ -3799,7 +3798,7 @@ int STARTMENU_ConfigPromptReadInput(ConfigPromptWork *work)
     hitTable = d_021BD83C;
     touched = TOUCHPANEL_HitTrg(&hitTable);
     if (touched != -1) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return touched == 0 ? 1 : 2;
     }
     return 0;
@@ -3816,7 +3815,7 @@ s32 STARTMENU_ConfigPromptPulseColor(ConfigPromptWork *work)
         work->pulsePhase = work->pulsePhase - 0xFC00;
     else
         work->pulsePhase = nextPhase;
-    sineValue = tbl_020A1B38[(work->pulsePhase >> 4) * 2 + 1] + 0x1000;
+    sineValue = FX_SinCosTable_[(work->pulsePhase >> 4) * 2 + 1] + 0x1000;
     halfSine = sineValue / 2;
     blue = (u8)(0x1d + (-(halfSine * 8) >> 12));
     red = (u8)(0x19 + (halfSine * -0x14 >> 12));
@@ -3828,7 +3827,7 @@ s32 STARTMENU_ConfigPromptPulseColor(ConfigPromptWork *work)
 int STARTMENU_LogoScreenInit(struct Proc *proc)
 {
     GFL_HEAP_CreateChildHeap(1, 0x16, 0x70000);
-    func_02082BCC(PROCSYS_AllocProcWork(proc, 8, 0x16), 0, 8);
+    MI_CpuFill8(PROCSYS_AllocProcWork(proc, 8, 0x16), 0, 8);
     return 1;
 }
 
@@ -3869,7 +3868,7 @@ int STARTMENU_LogoScreenMain(int proc, int seq, int *variant, LogoScreenWork *wo
 
     switch (work->state) {
     case 0:
-        func_02043534(0);
+        BG_SYS_SetMainVisiblePlanes(0);
         BG_SYS_SetSubVisiblePlanes(0);
         reg_G2_BLDCNT = 0;
         reg_G2S_DB_BLDCNT = 0;
@@ -3914,7 +3913,7 @@ int STARTMENU_LogoScreenMain(int proc, int seq, int *variant, LogoScreenWork *wo
     case 3:
         if (++work->timer > 0x5a)
             work->state = 4;
-        if (func_020362DC() & 0xb)
+        if (KEY_GetTrg() & 0xb)
             work->state = 4;
         break;
     case 4:
@@ -3994,7 +3993,7 @@ int STARTMENU_LogoScreenEnd(int proc)
 int STARTMENU_SaveEraseInit(struct Proc *proc)
 {
     GFL_HEAP_CreateChildHeap(1, 0x81, 0x30000);
-    func_02082BCC(PROCSYS_AllocProcWork(proc, 0x2c, 0x81), 0, 0x2c);
+    MI_CpuFill8(PROCSYS_AllocProcWork(proc, 0x2c, 0x81), 0, 0x2c);
     return 1;
 }
 
@@ -4127,7 +4126,7 @@ void STARTMENU_SaveEraseStepErase(SaveEraseWork *work, int *seq)
 
     if (STARTMENU_SaveEraseUpdateMessage(work) == 0) {
         d_021BDA20 = TIME_ICON_Create(0, work->window, 0xf, 0x10, 0x81);
-        func_020409B4(func_02045730(work->window));
+        func_020409B4(BMP_WIN_GetBgLayer(work->window));
         func_02005654((int)STARTMENU_SaveEraseUpdateTimeIcon, 0);
         saveControl = func_020070A4();
         func_02034AC4((u32)ov228_id);
@@ -4173,14 +4172,14 @@ void STARTMENU_SaveEraseSetupGraphics(void)
     func_0203FC28((struct DispConfig *)(&dispConfig));
     bgTemplate = d_021BD990;
     func_0203FCA0(0, (const struct BgTemplate *)(&bgTemplate), 0);
-    func_020434DC(1, 1);
+    BG_SYS_SetMainPlaneVisible(1, 1);
     func_02040EBC(0, 0x7D8C);
     func_02040EBC(4, 0x7D8C);
 }
 
 void STARTMENU_SaveEraseExitGraphics(void)
 {
-    func_020434DC(1, 0);
+    BG_SYS_SetMainPlaneVisible(1, 0);
     func_020403F4(0);
     func_0203F9B4();
 }
@@ -4218,7 +4217,7 @@ void STARTMENU_SaveEraseCreateWindow(SaveEraseWork *work)
 
 void STARTMENU_SaveEraseDeleteWindow(SaveEraseWork *work)
 {
-    func_020452E8(work->window);
+    BMP_WIN_Delete(work->window);
     BMP_WIN_Exit();
 }
 
@@ -4243,35 +4242,35 @@ void STARTMENU_SaveEraseStartMessage(SaveEraseWork *work, u32 messageId)
     void *window;
 
     func_02045CAC((struct MsgBank *)work->msgBank, messageId, work->stringBuf);
-    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)work->window)), 15);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)work->window)), 15);
     func_0201F73C(work->window, 2, 1, 14);
     work->printJob = (void *)PRINTSYS_PrintStream((u32)work->window, 0, 0, (u32)work->stringBuf, (u32)work->font, func_02013080(0), (u32)work->taskList, 10, 0x81, 15);
     work->printAdvanceLatched = 0;
     window = work->window;
     BMP_WIN_TransferChars((struct Descriptor *)window);
     BMP_WIN_MakeScreen((struct Cfg *)window);
-    func_02041B6C(func_02045730((struct Descriptor *)window));
+    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)window));
 }
 
 int STARTMENU_SaveEraseUpdateMessage(SaveEraseWork *work)
 {
     TCBL_Main(work->taskList);
     APP_KEYCURSOR_Update(work->msgBoxFrame, work->printJob, work->window);
-    switch (func_0201CE30(work->printJob)) {
+    switch (PRINTSYS_PrintStreamGetState(work->printJob)) {
     case 0:
         work->printAdvanceLatched = 0;
         break;
     case 1:
         if (work->printAdvanceLatched == 0) {
-            if (func_020362DC() & 3) {
-                func_020061E4(0x547);
-                func_0201CE38(work->printJob);
+            if (KEY_GetTrg() & 3) {
+                GFL_USE_PlaySeDefaultVolume(0x547);
+                PRINTSYS_PrintStreamReleasePause(work->printJob);
                 work->printAdvanceLatched = 1;
             }
         }
         break;
     case 2:
-        func_0201CE48(work->printJob);
+        PRINTSYS_PrintStreamDelete(work->printJob);
         work->printAdvanceLatched = 0;
         return 0;
     }

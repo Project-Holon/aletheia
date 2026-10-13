@@ -10,13 +10,13 @@
  * status: EXACT
  * The u16 target parameter fixes the otherwise swapped home stores at +6/+8.
  * symbols:
- *   sub_020311B8 0x020311B8 arm
+ *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021BED94 0x021BED94 thumb
  *   func_021BF7AC 0x021BF7AC thumb
  *   GFL_USE_GetSeSlot 0x02006148 thumb
- *   sub_0207C768 0x0207C768 arm
+ *   FX_Div 0x0207C768 arm
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -30,20 +30,20 @@ struct TcblNode;
 struct S02030FB4;
 struct Owner { u8 pad[0x20]; struct Tcbl *manager; };
 struct Work { struct Owner *owner; u8 state,kind,target,pad; int duration,start,end,current,step; };
-extern struct TcblNode *sub_020311B8(struct Tcbl *,void (*)(struct TcblNode *,void *),u32,u32);
+extern struct TcblNode *TCBL_AddTask(struct Tcbl *,void (*)(struct TcblNode *,void *),u32,u32);
 extern void *TCBL_GetWork(struct S02030FB4 *);
-extern void func_02082BCC(void *,u32,u32);
+extern void MI_CpuFill8(void *,u32,u32);
 extern void func_021BED94(struct TcblNode *p, char *q);
 extern int func_021BF7AC(char *p, int v);
 extern int GFL_USE_GetSeSlot(u32);
-extern u32 sub_0207C768(u32,u32);
+extern u32 FX_Div(u32,u32);
 void func_021BECA8(struct Owner *owner,u8 kind,u16 target,int start,int end,int duration,int flag)
 {
     struct Work *work;
     float a,b,c;
     int final;
-    work=TCBL_GetWork((struct S02030FB4 *)sub_020311B8(owner->manager,(void (*)(struct TcblNode *, void *))func_021BED94,0x1c,0));
-    func_02082BCC(work,0,0x1c);
+    work=TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(owner->manager,(void (*)(struct TcblNode *, void *))func_021BED94,0x1c,0));
+    MI_CpuFill8(work,0,0x1c);
     work->owner=owner;
     work->kind=kind;
     work->start=start;
@@ -59,5 +59,5 @@ void func_021BECA8(struct Owner *owner,u8 kind,u16 target,int start,int end,int 
     if(end>0) c=0.5f+(float)(end<<12);
     else c=(float)(end<<12)-0.5f;
     final=(int)c;
-    work->step=sub_0207C768(final-work->current,(int)b);
+    work->step=FX_Div(final-work->current,(int)b);
 }

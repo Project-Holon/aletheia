@@ -1,5 +1,5 @@
 /*
- * function: func_021E354C
+ * function: HAND_WAZA_MagicCoatOnWazaNotice
  * address:  0x021E354C
  * packet:   pkt_ov093_021E354C
  * region:   ov093
@@ -21,7 +21,7 @@ extern int BTL_EVENT_GetVar(int key);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern void BTLV_CORE_EventQueueMoveNotice(int a, void *b, int c, int d);
 
-void func_021E354C(int u, void *a, int b, int c)
+void HAND_WAZA_MagicCoatOnWazaNotice(int u, void *a, int b, int c)
 {
     if (b == BTL_EVENT_GetVar(2)) {
         if (BTL_EVENT_OverwriteVar(0x51, 1) != 0)

@@ -11,7 +11,7 @@
  * extent: Two bytes of alignment padding follow.
  * symbols:
  *   func_0202616C 0x0202616C thumb
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 #include "../include/Obj09876.h"
 typedef unsigned char u8;
@@ -21,7 +21,7 @@ extern void *func_0202616C(void **obj, unsigned int idx);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void BSUBWAY_RECORD_LIST_PlaceCursorActor(char *p, int i)
 {
     Point pt;
@@ -29,5 +29,5 @@ void BSUBWAY_RECORD_LIST_PlaceCursorActor(char *p, int i)
     v = func_0202616C(((struct Obj09876 *)p)->f14C, i);
     pt.x = v[0];
     pt.y = v[1];
-    func_0204B404(((struct Obj09876 *)p)->f124, (const struct Vec2 *)(&pt), 0);
+    CLACT_AddActorSurfacePos(((struct Obj09876 *)p)->f124, (const struct Vec2 *)(&pt), 0);
 }

@@ -15,7 +15,7 @@
  *
  * symbols:
  *   sUnionSubdispAppealNo     0x021F1038  data  a1
- *   func_0204B6F4  0x0204B6F4  arm
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  */
 #include "../include/Obj06133.h"
 
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 
 extern u8 sUnionSubdispAppealNo[];
 struct Obj;
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 
 void UNION_SUBDISP_SelectAppeal(char *p, int sel)
 {
@@ -39,8 +39,8 @@ void UNION_SUBDISP_SelectAppeal(char *p, int sel)
         ((struct Obj06133 *)p)->f30 = v;
     for (i = 0; (i <= 4) ? 1 : 0; i++) {
         if (i == sel && ((struct Obj06133 *)p)->f30 != 0)
-            func_0204B6F4((struct Obj *)(*(u32 *)(p + 0x18 + i * 4)), 1, 1);
+            CLACT_SetActorPaletteOffset((struct Obj *)(*(u32 *)(p + 0x18 + i * 4)), 1, 1);
         else
-            func_0204B6F4((struct Obj *)(*(u32 *)(p + 0x18 + i * 4)), 0, 1);
+            CLACT_SetActorPaletteOffset((struct Obj *)(*(u32 *)(p + 0x18 + i * 4)), 0, 1);
     }
 }

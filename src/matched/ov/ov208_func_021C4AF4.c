@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -20,14 +20,14 @@ struct Ov208Menu {
     u32 print[5];
 };
 struct PrintSys;
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 void func_021C4AF4(u16 *heap, struct Ov208Menu *p)
 {
     u8 i;
     for (i = 0; i < 5; i++) {
         p->slot[i] = 0;
-        func_0201C6EC((struct PrintSys *)p->print[i]);
-        func_0201C4C0((struct PrintSys *)p->print[i]);
+        PRINTSYS_QUE_Clear((struct PrintSys *)p->print[i]);
+        PRINTSYS_QUE_Delete((struct PrintSys *)p->print[i]);
     }
 }

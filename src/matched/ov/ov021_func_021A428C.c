@@ -19,7 +19,7 @@
  *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
  *   FLDMMDL_MOVE_GetMapAttr  0x02163E34  thumb  ov010
  *   MAP_ATTR_GetFlags  0x021AB0F8  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   gFieldPlayerGridAttrSounds     0x021D8A00  data  ov021  a4
  *   gFieldPlayerGridAttrSoundsAhead     0x021D8A0C  data  ov021  a4
  *   gFieldPlayerGridCallbackSounds     0x021D89F4  data  ov021  a4
@@ -48,7 +48,7 @@ extern int FIELD_PLAYER_GRID_HasFlag(u32 *p, u32 m);
 extern void *FIELD_PLAYER_CORE_GetMmdl(unsigned char *p);
 extern int FLDMMDL_MOVE_GetMapAttr(void *, int, u32 *);
 extern u16 MAP_ATTR_GetFlags(u32);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 int FIELD_PLAYER_GRID_PlayTileSound(u8 *o, int unused, int c, int flag, int kind)
 {
@@ -125,7 +125,7 @@ int FIELD_PLAYER_GRID_PlayTileSound(u8 *o, int unused, int c, int flag, int kind
             ((struct Obj00656 *)o)->f1A = ((struct Obj00656 *)o)->f1A + 1;
         }
         if (sel != 0x546) {
-            func_020061E4(sel);
+            GFL_USE_PlaySeDefaultVolume(sel);
             return 1;
         }
     }

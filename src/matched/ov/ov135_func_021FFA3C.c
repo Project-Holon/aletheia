@@ -13,6 +13,7 @@
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   func_020307B0 0x020307B0 arm
  *   func_02030EAC 0x02030EAC arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj08193.h"
 typedef unsigned char u8;
@@ -26,7 +27,7 @@ extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern u32 func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void func_021FFA3C(void *task, Anim *a)
 {
     u8 *p;
@@ -45,7 +46,7 @@ void func_021FFA3C(void *task, Anim *a)
         if (CLACT_IsActorAnimActive((struct Actor *)(((struct Obj08193 *)p)->fD0C)) == 0) {
             func_021FF914((u32 *)a, 0);
             a->state = 2;
-            func_020061E4(0x791);
+            GFL_USE_PlaySeDefaultVolume(0x791);
         }
         break;
     case 2:

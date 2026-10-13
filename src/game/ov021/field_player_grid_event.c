@@ -18,7 +18,7 @@
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
  *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_CheckEndAcmd 0x0216D454 thumb ov010
  *   FLDMMDL_EndAcmd 0x0216D480 thumb ov010
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
@@ -43,7 +43,7 @@
  *   FIELD_PLAYER_CORE_GetFieldMap  0x021A395C  thumb  ov021
  *   FLDMMDL_MOVE_HitCheckMoveDir  0x021639C0  thumb  ov010
  *   FIELD_PLAYER_CORE_GetGameSystem  0x021A3990  thumb  ov021
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
  *   FIELD_PLAYER_GRID_StopTurnOrBlocked  0x021A5408  thumb  ov021
@@ -153,7 +153,7 @@ typedef struct JumpWork {
     u32 effectHandle;
 } JumpWork;
 
-extern void func_020061E4(u32 seId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, int (*func)(), u32 workSize);
 extern void *func_020124E8(GameEvent *event);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
@@ -161,7 +161,7 @@ extern u32 func_020307B0(void *block);
 extern void func_02030DA8(TcblSys *tcblSys, void (*func)(), void *work, u32 priority);
 extern void *TCBL_IsDeletePending(TcblTask *task);
 extern u32 func_02030EAC(TcblTask *task);
-extern void func_02082BCC(void *dst, int value, int size);
+extern void MI_CpuFill8(void *dst, int value, int size);
 extern int func_0209C0A4(int dividend, int divisor);
 extern void FLDMMDL_MOVE_GetMapHeight(Mmdl *mmdl, MmdlVec *pos, int *outHeight);
 extern u32 FLDMMDL_MOVE_HitCheckMoveDir(Mmdl *mmdl, u32 dir);
@@ -362,7 +362,7 @@ GameEvent *FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(FieldPlayer *player, u
     core = FIELD_PLAYER_GRID_GetCore(player);
     event = func_020122C0(FIELD_PLAYER_CORE_GetGameSystem(core), 0, FIELD_PLAYER_GRID_EVENT_BoulderDropEvent, sizeof(BoulderDropWork));
     work = func_020124E8(event);
-    func_02082BCC(work, 0, sizeof(BoulderDropWork));
+    MI_CpuFill8(work, 0, sizeof(BoulderDropWork));
     work->player = player;
     work->dir = dir;
     work->fillsHole = fillsHole;
@@ -385,7 +385,7 @@ int FIELD_PLAYER_GRID_EVENT_BoulderDropEvent(GameEvent *event, int *seq, Boulder
             break;
         FLDMMDL_SetAcmd(work->boulder, FLDMMDL_ACMD_ConvertCodeByDir(work->dir, 8));
         FLDMMDL_SetAcmd(work->playerMmdl, FLDMMDL_ACMD_ConvertCodeByDir(work->dir, 0x20));
-        func_020061E4(0x674);
+        GFL_USE_PlaySeDefaultVolume(0x674);
         (*seq)++;
         break;
     case 1:
@@ -405,7 +405,7 @@ int FIELD_PLAYER_GRID_EVENT_BoulderDropEvent(GameEvent *event, int *seq, Boulder
             work->targetY -= 26 << 12;
         FLDMMDL_SetStatusBitHeightGetOff(work->boulder, 1);
         FLDMMDL_SetStatusBitFellowHit(work->boulder, 0);
-        func_020061E4(0x675);
+        GFL_USE_PlaySeDefaultVolume(0x675);
         (*seq)++;
         break;
     case 2:
@@ -626,7 +626,7 @@ int FIELD_PLAYER_GRID_EVENT_JumpUpStart(JumpWork *work)
     FIELD_EFFECT_LoadResources(effects, &effectId, 1);
     work->effectHandle = FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(effects, effectKind, playerAnim);
     FIELDMAP_TCB_CAMERA_ZOOM_Create(work->fieldMap, 0x10, 0x20000);
-    func_020061E4(0x6e0);
+    GFL_USE_PlaySeDefaultVolume(0x6e0);
     work->state = work->state + 1;
     return 1;
 }
@@ -736,7 +736,7 @@ int FIELD_PLAYER_GRID_EVENT_JumpUpLand(JumpWork *work)
     playerAnim = FIELD_PLAYER_GetRideEffect(work->player);
     FLDEFF_NAMIPOKE_SetFollowMode(playerAnim, 1);
     work->effectHandle = FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(FIELDMAP_GetEffect(work->fieldMap), 0, playerAnim);
-    func_020061E4(0x6e2);
+    GFL_USE_PlaySeDefaultVolume(0x6e2);
     work->state = work->state + 1;
     return 0;
 }
@@ -798,7 +798,7 @@ void FIELD_PLAYER_GRID_EVENT_UpdateJumpDown(JumpWork *work)
         FIELD_EFFECT_LoadResources(effects, &effectId, 1);
         work->effectHandle = FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(effects, effectKind, playerAnim);
         FIELDMAP_TCB_CAMERA_ZOOM_Create(work->fieldMap, 0x10, 0x20000);
-        func_020061E4(0x6e1);
+        GFL_USE_PlaySeDefaultVolume(0x6e1);
         work->state = work->state + 1;
     case 1:
         FLDMMDL_GetPos(mmdl, &nowPos);
@@ -854,7 +854,7 @@ void FIELD_PLAYER_GRID_EVENT_UpdateJumpDown(JumpWork *work)
             FIELD_PLAYER_SetGridMoveState(work->player, 1);
             work->effectHandle = 0;
             work->done = 1;
-            func_020061E4(0x6e2);
+            GFL_USE_PlaySeDefaultVolume(0x6e2);
             work->state = work->state + 1;
         }
         break;

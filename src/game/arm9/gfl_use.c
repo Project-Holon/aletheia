@@ -87,7 +87,7 @@
  *   func_0203F258     0x0203F258  arm
  *   _ull_mul          0x0209C054  arm
  *   func_02034F5C       0x02034F5C  arm
- *   func_0203630C       0x0203630C  arm
+ *   KEY_GetCont       0x0203630C  arm
  *   func_02072788  0x02072788  arm
  *   func_0203508C    0x0203508C  arm
  *   func_02035108  0x02035108  arm
@@ -330,7 +330,7 @@ extern int func_02050A70(int);
 extern int FADE_Update(int);
 extern void  func_0203F034(u32 seed);
 extern void func_0203F258(struct GflRandom *out);
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 /* The linker veneer in front of SND_SetMasterVolume; ARM. */
 extern void func_02072788(u32 volume);
 /* Registers a pair of callbacks.  ARM, and in another packet's territory. */
@@ -1105,7 +1105,7 @@ u32 GFL_USE_GetRandomBelow(u32 range)
  * as a single function in arm9/legacy.json; it is the first function of this
  * range and is absorbed here.
  *
- * GFL_USE_WaitInputReady waits until four bits of func_0203630C's result are all set,
+ * GFL_USE_WaitInputReady waits until four bits of KEY_GetCont's result are all set,
  * pumping func_02034F5C once per turn.  The four masks are 0x200, 0x100,
  * 0x400 and 0x800 and none of them is materialised with a literal pool word:
  * the compiler builds 0x100 with `movs`/`lsls` and then derives the other
@@ -1127,7 +1127,7 @@ void GFL_USE_WaitInputReady(void)
 
     do {
         func_02034F5C();
-        keyState = func_0203630C();
+        keyState = KEY_GetCont();
     } while (!(keyState & 0x200) || !(keyState & 0x100) || !(keyState & 0x400) || !(keyState & 0x800));
 }
 

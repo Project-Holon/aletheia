@@ -14,7 +14,7 @@
  *           the same but the pair order in case 5 follows the original). The GIMMICK39_GetAnimeFrame call keeps
  *           (u8)(s->sel + 1) for its u16 parameter.
  * symbols:
- *   func_020124E4 0x020124E4 thumb
+ *   GAME_EVENT_GetGameSystem 0x020124E4 thumb
  *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
  *   FIELDMAP_GetExpObj 0x02188D2C thumb ov021
  *   FIELDMAP_GetCommonWork 0x021897BC thumb
@@ -34,15 +34,15 @@
  *   GIMMICK39_SampleJointTranslation 0x021F48C0 thumb ov039
  *   ICA_ANIME_CreateWithFullBuffer 0x02011428 thumb
  *   ICA_ANIME_Delete 0x02011558 thumb
- *   func_020061E4 0x020061E4 thumb
- *   func_020061F8 0x020061F8 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ *   GFL_USE_StopSeSlot 0x020061F8 thumb
  *   GFL_USE_GetSeHandle 0x02006138 thumb
  *   GFL_USE_StopAllSe 0x02006210 thumb
  *   FIELD_SOUND_SYSTEM_ClaimSlot 0x02028A7C thumb
  *   FIELD_SOUND_SYSTEM_TransferSlot 0x02028B18 thumb
  *   FIELD_SOUND_SYSTEM_ReleaseSlot 0x02028B50 thumb
  *   NNS_SndHandleSetSeqPriority 0x02072F34 arm
- *   func_0203630C 0x0203630C arm
+ *   KEY_GetCont 0x0203630C arm
  *   G3D_SYSTEM_GetObjectAnime 0x02047790 arm
  *   G3D_SYSTEM_GetAnimeObj 0x02047674 arm
  *   func_0207CA00 0x0207CA00 arm
@@ -97,7 +97,7 @@ struct Big;
 struct BigObj;
 struct IcaAnime;
 struct SoundSys2;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetExpObj(int *p);
 extern Work *FIELDMAP_GetCommonWork(void *p, int idx);
@@ -119,15 +119,15 @@ extern int GIMMICK39_GetAnimeFrame(void *p, u16 delta, u16 i);
 extern void GIMMICK39_SampleJointTranslation(u8 *a, int idx, int x, int *out);
 extern void *ICA_ANIME_CreateWithFullBuffer(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void ICA_ANIME_Delete(struct IcaAnime *p);
-extern void func_020061E4(u32 a);
-extern void func_020061F8(int i);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+extern void GFL_USE_StopSeSlot(int i);
 extern u32 *GFL_USE_GetSeHandle(int i);
 extern void GFL_USE_StopAllSe(void);
 extern void FIELD_SOUND_SYSTEM_ClaimSlot(struct SoundSys2 *s, u32 id);
 extern void FIELD_SOUND_SYSTEM_TransferSlot(struct SoundSys2 *s, u32 id, u32 who);
 extern void FIELD_SOUND_SYSTEM_ReleaseSlot(u8 *p, int a0);
 extern void NNS_SndHandleSetSeqPriority(struct Obj *o, u8 v);
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 extern int G3D_SYSTEM_GetObjectAnime(int *p, int i);
 extern int G3D_SYSTEM_GetAnimeObj(int p);
 extern void func_0207CA00(const Vec *a, const Vec *b, Vec *out);
@@ -169,7 +169,7 @@ int GIMMICK39_RideEventMain(void *a0, int *a1)
     Vec b;
     Vec e;
 
-    sys = GAMESYSTEM_GetFieldMap(func_020124E4(a0));
+    sys = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(a0));
     h = FIELDMAP_GetExpObj(sys);
     s = FIELDMAP_GetCommonWork(sys, 1);
     w = GAME_DATA_GetBgmInfo((const struct BigObj *)GAMESYSTEM_GetGameData((const struct Ctx *)FIELDMAP_GetGameSystem(sys)));
@@ -183,7 +183,7 @@ int GIMMICK39_RideEventMain(void *a0, int *a1)
         s->anim = (u32)ICA_ANIME_CreateWithFullBuffer(0x8015, 0x6b, (u16)sRideAnimeIds[s->sel], (u32)s->f1c, 0x21C0);
         GIMMICK39_SetAnimeFrame((void *)h, j, 0, 0);
         FLD_EXP_OBJ_SetAnimePaused(o, 0);
-        func_020061E4(0x687);
+        GFL_USE_PlaySeDefaultVolume(0x687);
         *a1 = *a1 + 1;
         break;
     case 1:
@@ -196,7 +196,7 @@ int GIMMICK39_RideEventMain(void *a0, int *a1)
         break;
     case 2:
         FLD_EXP_OBJ_SetAnimePaused(o, 0);
-        func_020061E4(0x687);
+        GFL_USE_PlaySeDefaultVolume(0x687);
         *a1 = *a1 + 1;
         break;
     case 3:
@@ -210,7 +210,7 @@ int GIMMICK39_RideEventMain(void *a0, int *a1)
         s->slot[c] = -1;
         s->hold = -1;
         FIELD_SOUND_SYSTEM_ClaimSlot((struct SoundSys2 *)w, 0x68A);
-        func_020061E4(0x6DB);
+        GFL_USE_PlaySeDefaultVolume(0x6DB);
         NNS_SndHandleSetSeqPriority((struct Obj *)GFL_USE_GetSeHandle(snd), 0);
         FIELD_SOUND_SYSTEM_TransferSlot((struct SoundSys2 *)w, 0x68A, 0x7f);
         s->active = 1;
@@ -220,7 +220,7 @@ int GIMMICK39_RideEventMain(void *a0, int *a1)
         if (s->slot[c] == -1) {
             break;
         }
-        if (func_0203630C() & 0x80) {
+        if (KEY_GetCont() & 0x80) {
             *a1 = *a1 + 1;
         }
         break;
@@ -230,7 +230,7 @@ int GIMMICK39_RideEventMain(void *a0, int *a1)
         FLD_EXP_OBJ_SetAnimePaused(p, 1);
         GIMMICK39_SetAnimeFrame((void *)h, j, 0, 0);
         FLD_EXP_OBJ_SetAnimePaused(o, 0);
-        func_020061E4(0x687);
+        GFL_USE_PlaySeDefaultVolume(0x687);
         p = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(sys));
         FLDMMDL_SetDirDispCheckPause(p, 1);
         FLDMMDL_SetStatusBitVanish(p, 0);
@@ -256,7 +256,7 @@ int GIMMICK39_RideEventMain(void *a0, int *a1)
         break;
     case 8:
         FLD_EXP_OBJ_SetAnimePaused(o, 0);
-        func_020061E4(0x687);
+        GFL_USE_PlaySeDefaultVolume(0x687);
         *a1 = *a1 + 1;
         break;
     case 9:
@@ -272,7 +272,7 @@ int GIMMICK39_RideEventMain(void *a0, int *a1)
         s->sel = 0xff;
         FIELD_SOUND_SYSTEM_ClaimSlot((struct SoundSys2 *)w, 0x68A);
         FIELD_SOUND_SYSTEM_TransferSlot((struct SoundSys2 *)w, 0x68A, 0);
-        func_020061F8(snd);
+        GFL_USE_StopSeSlot(snd);
         return 1;
     }
     if ((u8)(s->sel + 0xFE) <= 3) {
@@ -282,38 +282,38 @@ int GIMMICK39_RideEventMain(void *a0, int *a1)
             if (f == 0xBF000) {
                 FIELD_SOUND_SYSTEM_ReleaseSlot((u8 *)w, 0x68A);
                 GFL_USE_StopAllSe();
-                func_020061E4(0x68B);
+                GFL_USE_PlaySeDefaultVolume(0x68B);
             } else if (f == 0xEB000) {
                 FIELD_SOUND_SYSTEM_ReleaseSlot((u8 *)w, 0x68A);
                 GFL_USE_StopAllSe();
             } else if (f == 0xFF000) {
-                func_020061E4(0x68C);
+                GFL_USE_PlaySeDefaultVolume(0x68C);
             }
             break;
         case 3:
             if (f == 0x108000) {
                 FIELD_SOUND_SYSTEM_ReleaseSlot((u8 *)w, 0x68A);
                 GFL_USE_StopAllSe();
-                func_020061E4(0x68B);
+                GFL_USE_PlaySeDefaultVolume(0x68B);
             } else if (f == 0x131000) {
                 FIELD_SOUND_SYSTEM_ReleaseSlot((u8 *)w, 0x68A);
                 GFL_USE_StopAllSe();
             } else if (f == 0x148000) {
-                func_020061E4(0x68C);
+                GFL_USE_PlaySeDefaultVolume(0x68C);
             }
             break;
         case 4:
             if (f == 0xB1000) {
                 FIELD_SOUND_SYSTEM_ReleaseSlot((u8 *)w, 0x68A);
                 GFL_USE_StopAllSe();
-                func_020061E4(0x6D2);
+                GFL_USE_PlaySeDefaultVolume(0x6D2);
             }
             break;
         case 5:
             if (f == 0xB6000) {
                 FIELD_SOUND_SYSTEM_ReleaseSlot((u8 *)w, 0x68A);
                 GFL_USE_StopAllSe();
-                func_020061E4(0x6D2);
+                GFL_USE_PlaySeDefaultVolume(0x6D2);
             }
             break;
         }

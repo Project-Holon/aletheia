@@ -1,5 +1,5 @@
 /*
- * function: func_021D77E8
+ * function: BTL_EVENT_FindVar
  * address: 0x021D77E8
  * packet: pkt_ov093_021D77E8
  * region: ov093
@@ -10,4 +10,4 @@
  * status: EXACT*
  */
 typedef struct { unsigned int count; unsigned short keys[0x60]; int vals[0x60]; int a[0x60]; int b[0x60]; unsigned char c[0x60]; } Tbl;
-int func_021D77E8(Tbl *p, int key) { unsigned int i; for (i=p->count; i<0x60 && p->keys[i]!=0; i++) { if(key==p->keys[i]) return i; } return -1; }
+int BTL_EVENT_FindVar(Tbl *p, int key) { unsigned int i; for (i=p->count; i<0x60 && p->keys[i]!=0; i++) { if(key==p->keys[i]) return i; } return -1; }

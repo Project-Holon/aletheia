@@ -14,7 +14,7 @@
  *   func_02017E88  0x02017E88  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   func_021F66F0  0x021F66F0  thumb
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_0202136C  0x0202136C  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *
@@ -49,7 +49,7 @@ extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern void func_021F66F0(u32 species, u32 form, u32 gender, u32 isEgg, u32 slot, u32 f8, u32 arc, IconRec *rec);
 struct Obj;
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern u32 func_0202136C(u16 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
@@ -74,20 +74,20 @@ void func_021F67A8(void *mon, u32 icon, u32 item_spr, u16 *species, u32 slot, u3
     POKE_TOOL_EncodeBoxParam(mon, 1);
     if (present != 0) {
         func_021F66F0(*species, form, info->f2 - 1, egg, slot, icon, arc, rec);
-        func_0204B3DC((struct Obj *)icon, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)icon, 1);
         if (item != 0) {
-            func_0204B3DC((struct Obj *)item_spr, 1);
+            CLACT_SetActorDrawEnable((struct Obj *)item_spr, 1);
             if (func_0202136C(item) != 0) {
                 CLACT_SetActorAnimSeq((struct Obj *)item_spr, 0x29);
             } else {
                 CLACT_SetActorAnimSeq((struct Obj *)item_spr, 0x28);
             }
         } else {
-            func_0204B3DC((struct Obj *)item_spr, 0);
+            CLACT_SetActorDrawEnable((struct Obj *)item_spr, 0);
         }
     } else {
-        func_0204B3DC((struct Obj *)icon, 0);
-        func_0204B3DC((struct Obj *)item_spr, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)icon, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)item_spr, 0);
         rec->f8 = 0;
     }
 }

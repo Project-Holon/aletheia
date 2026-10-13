@@ -1,5 +1,5 @@
 /*
- * function: func_021D32E0
+ * function: BTL_CLIENT_StepSwapAbilitiesWithPopup
  * address:  0x021D32E0
  * packet:   pkt_ov093_021D32E0
  * region:   ov093
@@ -16,23 +16,23 @@
  * waits after it, as in the original. With const a, the pointee of a is not in the set (22 B).
  * Earlier passes (wave75 to pass 6 P6L04) stayed at 13 B with u32 locals.
  * symbols:
- *   func_021B8D8C 0x021B8D8C thumb ov093
- *   func_021B9934 0x021B9934 thumb ov093
- *   func_021B9A24 0x021B9A24 thumb ov093
+ *   BTL_MAIN_GetTrainerSlotOfPoke 0x021B8D8C thumb ov093
+ *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
+ *   BTL_MAIN_IsPokeSamePair 0x021B9A24 thumb ov093
  *   BTL_CLIENT_IsMainStepActive 0x021CD9E0 thumb ov093
  *   BTL_POKEPARAM_SetAbility 0x021D66D0 thumb ov093
  *   func_021EA768 0x021EA768 thumb ov093
  *   func_021EA778 0x021EA778 thumb ov093
  *   func_021EA7A8 0x021EA7A8 thumb ov093
  *   func_021EA7B8 0x021EA7B8 thumb ov093
- *   d_021F3B64 0x021F3B64 data a4
+ *   gExpGainWork 0x021F3B64 data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021B8D8C(void *, void *, u32);
-extern u8 *func_021B9934(char *, int);
-extern int func_021B9A24(u32, u32);
+extern int BTL_MAIN_GetTrainerSlotOfPoke(void *, void *, u32);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *, int);
+extern int BTL_MAIN_IsPokeSamePair(u32, u32);
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *);
 struct QJ;
 extern void BTL_POKEPARAM_SetAbility(struct QJ *p, u32 v);
@@ -40,8 +40,8 @@ extern void func_021EA768(u32 *p, u32 a2, u32 a3);
 extern int func_021EA778(u32 *p, u32 a2);
 extern void func_021EA7A8(u32 *p, u32 a2);
 extern int func_021EA7B8(u32 *p, u32 a2);
-extern u32 d_021F3B64[];
-int func_021D32E0(u32 *a, int *b, u32 *c)
+extern u32 gExpGainWork[];
+int BTL_CLIENT_StepSwapAbilitiesWithPopup(u32 *a, int *b, u32 *c)
 {
     u32 u, v;
     u16 x, y;
@@ -51,10 +51,10 @@ int func_021D32E0(u32 *a, int *b, u32 *c)
     v = (u8)c[1];
     x = (u16)c[2];
     y = (u16)c[3];
-    s = func_021B8D8C((void *)a[0], (void *)a[1], u);
-    t = func_021B8D8C((void *)a[0], (void *)a[1], v);
-    p = func_021B9934((char *)a[1], u);
-    q = func_021B9934((char *)a[1], v);
+    s = BTL_MAIN_GetTrainerSlotOfPoke((void *)a[0], (void *)a[1], u);
+    t = BTL_MAIN_GetTrainerSlotOfPoke((void *)a[0], (void *)a[1], v);
+    p = BTL_SIDE_GetPokeByIdThunk((char *)a[1], u);
+    q = BTL_SIDE_GetPokeByIdThunk((char *)a[1], v);
     switch (*b) {
     case 0:
         if (BTL_CLIENT_IsMainStepActive((u8 *)a)) {
@@ -62,18 +62,18 @@ int func_021D32E0(u32 *a, int *b, u32 *c)
             BTL_POKEPARAM_SetAbility((struct QJ *)q, y);
             return 1;
         }
-        if (func_021B9A24(u, v)) {
+        if (BTL_MAIN_IsPokeSamePair(u, v)) {
             BTL_POKEPARAM_SetAbility((struct QJ *)p, x);
             BTL_POKEPARAM_SetAbility((struct QJ *)q, y);
             return 1;
         }
         func_021EA768((u32 *)((int)a[21]), s, 0);
-        d_021F3B64[1] = 8;
+        gExpGainWork[1] = 8;
         (*b)++;
         break;
     case 1:
         func_021EA778((u32 *)a[21], s);
-        if (d_021F3B64[1]) d_021F3B64[1]--;
+        if (gExpGainWork[1]) gExpGainWork[1]--;
         else {
             func_021EA768((u32 *)a[21], t, 0);
             (*b)++;
@@ -89,12 +89,12 @@ int func_021D32E0(u32 *a, int *b, u32 *c)
     case 3:
         BTL_POKEPARAM_SetAbility((struct QJ *)p, x);
         BTL_POKEPARAM_SetAbility((struct QJ *)q, y);
-        d_021F3B64[1] = 0;
+        gExpGainWork[1] = 0;
         (*b)++;
         break;
     case 4:
-        d_021F3B64[1]++;
-        if (d_021F3B64[1] > 8) {
+        gExpGainWork[1]++;
+        if (gExpGainWork[1] > 8) {
             func_021EA7A8((u32 *)a[21], s);
             (*b)++;
         }

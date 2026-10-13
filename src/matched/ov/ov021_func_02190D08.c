@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb  arm9
- *   func_02006238  0x02006238  thumb  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   GFL_USE_IsAnySeBusy  0x02006238  thumb  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -20,17 +20,17 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef short          s16;
 
-extern void func_020061E4(u32 se);
-extern int func_02006238(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
+extern int GFL_USE_IsAnySeBusy(void);
 
 int FIELD_MSGBG_MsgStreamCallback(int x)
 {
     switch (x) {
     case 3:
-        func_020061E4(0x56B);
+        GFL_USE_PlaySeDefaultVolume(0x56B);
         break;
     case 6:
-        return func_02006238();
+        return GFL_USE_IsAnySeBusy();
     }
     return 0;
 }

@@ -20,7 +20,7 @@
  *   func_02082D44  0x02082D44  arm
  *   func_021F2EE8  0x021F2EE8  arm  ov107
  *   func_021F1D58  0x021F1D58  arm  ov107
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021F6850  0x021F6850  arm  ov107
  *   func_021F3E9C  0x021F3E9C  arm  ov107
  *   func_021F628C  0x021F628C  arm  ov107
@@ -138,7 +138,7 @@ extern unsigned long func_0208799C(unsigned long state);
 extern void func_02082D44(void *srcp, void *dstp, unsigned long size);
 extern int func_021F2EE8(unsigned short child_aid);
 extern void func_021F1D58(unsigned short child, int state, void *arg);
-extern void func_02082BCC(void *dstp, u8 data, u32 size);
+extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void func_021F6850(u16 child_aid);
 extern void func_021F3E9C(unsigned char *gameInfop, void *member, unsigned short nowPlayerFlag, unsigned short changePlayerFlag);
 extern u32 func_021F628C(void);
@@ -374,8 +374,8 @@ void func_021F1D80(u16 type, void *arg)
                 break;
 
             pPwork->childversion[sparg->aid - 1] = 0;
-            func_02082BCC(&pPwork->childggid[sparg->aid - 1], 0, sizeof(u32));
-            func_02082BCC(&pPwork->childUser[sparg->aid - 1], 0, sizeof(MBUserInfo));
+            MI_CpuFill8(&pPwork->childggid[sparg->aid - 1], 0, sizeof(u32));
+            MI_CpuFill8(&pPwork->childUser[sparg->aid - 1], 0, sizeof(MBUserInfo));
             func_021F6850(sparg->aid);
             pPwork->req2child[sparg->aid - 1] = 0;
 
@@ -672,7 +672,7 @@ int func_021F27A8(void)
     u8 file_req_num[16];
     u16 pollbmp = 0;
 
-    func_02082BCC(file_req_num, 0, 16);
+    MI_CpuFill8(file_req_num, 0, 16);
     for (child = 1; child <= 15; child++) {
         if (pPwork->p_comm_state[child - 1] == 5)
             file_req_num[pPwork->fileid_of_child[child - 1]]++;

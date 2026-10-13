@@ -16,7 +16,7 @@
  *   ov_abs_e4      0x000000E4  data
  *   func_021DFDB8  0x021DFDB8  thumb  ov228
  *   func_02034A5C  0x02034A5C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *
  * Third pass, lane 1: this row was DIFF for two passes and is now byte-correct.
  * The residue was never a codegen difference.  The original's second call is
@@ -50,7 +50,7 @@ typedef unsigned int  u32;
 extern u8   ov_abs_e4[];
 extern void func_021DFDB8(void *v);
 extern void func_02034A5C(int p);
-extern void func_02082BCC(void *p, int c, u32 n);
+extern void MI_CpuFill8(void *p, int c, u32 n);
 
 void MYSTERY_DATA_Unload(void *obj)
 {
@@ -62,5 +62,5 @@ void MYSTERY_DATA_Unload(void *obj)
     case 1:
         break;
     }
-    func_02082BCC(obj, 0, 0xc);
+    MI_CpuFill8(obj, 0, 0xc);
 }

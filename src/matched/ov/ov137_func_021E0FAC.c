@@ -9,22 +9,22 @@
  * status: EXACT
  * blocker: ARM9 0203F5FC has no outside code witness; verified scratch-only EXACT.
  *   typedef unsigned short u16;
- *   extern const short d_020A1B38[];
+ *   extern const short FX_SinCosTable_[];
  *   int func_0203F5FC(u16 angle) {
  *       if (angle >= 360) return 0;
- *       return d_020A1B38[((angle * 65535 / 360) >> 4) * 2];
+ *       return FX_SinCosTable_[((angle * 65535 / 360) >> 4) * 2];
  *   }
- *   symbols: d_020A1B38 0x020A1B38 data a2
+ *   symbols: FX_SinCosTable_ 0x020A1B38 data a2
  * symbols:
  *   func_021E15DC 0x021E15DC thumb ov137
  *   func_0203F5FC 0x0203F5FC arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 typedef unsigned short u16;
 extern void func_021E15DC(int *, int);
 typedef unsigned int   u32;
 extern int func_0203F5FC(u32 x);
-extern void func_02082BCC(void *, int, unsigned);
+extern void MI_CpuFill8(void *, int, unsigned);
 void func_021E0FAC(int *p)
 {
     int *q = (int *)p[5];
@@ -47,7 +47,7 @@ void func_021E0FAC(int *p)
             p[2] = (unsigned)p[2] >> 1;
             if (p[2] == 0) {
                 q[13] = 0;
-                func_02082BCC(p, 0, 24);
+                MI_CpuFill8(p, 0, 24);
             }
         }
         break;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA82C",
+   "name": "BTL_SETUP_ClearResultStats",
    "address": "0x021BA82C",
    "kind": "game",
    "region": "ov093",

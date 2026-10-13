@@ -11,7 +11,7 @@
  * extent: 0754 tail-call stub; 075C state getter; 0764 64-bit getter; 0772 padding.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FC20C 0x021FC20C thumb ov186
  *   func_020490F4 0x020490F4 arm
  *   func_021E1244 0x021E1244 thumb ov183
@@ -30,7 +30,7 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 struct Source { int words[10]; };
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern unsigned func_021FC20C(char *p);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_021E1244(char *);
@@ -43,7 +43,7 @@ char *func_021E06D0(const struct Source *src, u16 heap)
 {
     char *p;
     p = func_02030734(heap, 0x368, 0, d_021E3968, 56);
-    func_02082BCC(p, 0, 0x368);
+    MI_CpuFill8(p, 0, 0x368);
     *(struct Source *)(p + 0x324) = *src;
     ((struct Obj03331 *)p)->f34C = heap;
     ((struct Obj03331 *)p)->f25C = src->words[7];

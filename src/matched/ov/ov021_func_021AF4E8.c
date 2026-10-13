@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02005C64  0x02005C64  thumb
- *   func_02006CAC  0x02006CAC  thumb
+ *   GFL_USE_IsLoaderBusy  0x02005C64  thumb
+ *   PM_VOICE_GetPerapVoiceSave  0x02006CAC  thumb
  *   PM_VOICE_Play  0x02006984  thumb
  *   SCRCMD_WORK_SetFadeParam  0x0215A6B8  thumb  ov010
  * Addresses are Black-image addresses.
@@ -27,8 +27,8 @@ typedef struct {
     u32 f8;
 } Rec;
 
-extern int func_02005C64(void);
-extern void func_02006CAC(void **out);
+extern int GFL_USE_IsLoaderBusy(void);
+extern void PM_VOICE_GetPerapVoiceSave(void **out);
 extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern void SCRCMD_WORK_SetFadeParam(u32 *a, u32 b);
 
@@ -36,14 +36,14 @@ int SCRCMD_PokeVoiceEvent(u32 a, u32 b, Rec *c)
 {
     u32 v, r;
 
-    if (func_02005C64()) {
+    if (GFL_USE_IsLoaderBusy()) {
         return 0;
     }
     if (c->f4) {
         u32 x, y;
         y = c->b;
         x = c->a;
-        func_02006CAC((void **)(&v));
+        PM_VOICE_GetPerapVoiceSave((void **)(&v));
         r = PM_VOICE_Play(x, y, 0x40, 0, 0, 0, 0, (u32)(&v));
     } else {
         r = PM_VOICE_Play(c->a, c->b, 0x40, 0, 0, 0, 0, 0);

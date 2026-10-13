@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02006D64   0x02006D64  thumb
- *   func_02006D94   0x02006D94  thumb
+ *   SND_MIC_AddElapsed   0x02006D64  thumb
+ *   SND_MIC_IsLimitReached   0x02006D94  thumb
  *   func_0218448C   0x0218448C  thumb
  *   func_02184470   0x02184470  thumb
  *
@@ -21,8 +21,8 @@
 
 
 typedef unsigned int   u32;
-extern void func_02006D64(u32 n);
-extern u32 func_02006D94(void);
+extern void SND_MIC_AddElapsed(u32 n);
+extern u32 SND_MIC_IsLimitReached(void);
 extern void func_0218448C(int *);
 extern void func_02184470(int *);
 
@@ -30,8 +30,8 @@ void func_0218441C(int *p)
 {
     int x;
     int y;
-    func_02006D64(1);
-    x = func_02006D94();
+    SND_MIC_AddElapsed(1);
+    x = SND_MIC_IsLimitReached();
     if (x != 0 && p[13] != 0)
         goto end;
     if (p[12] == 0) {

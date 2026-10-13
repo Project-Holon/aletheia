@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GAME_DATA_SetEnterMode  0x02012B4C  thumb
@@ -52,7 +52,7 @@ typedef struct {
 
 struct Big;
 struct BigObj;
-extern u32 func_02026478(void *obj);
+extern u32 GAME_COMM_GetGameData(void *obj);
 extern u32 GFL_NET_IsParentAid(void);
 extern int GFL_NET_GetNegotiationNum(void);
 extern void GAME_DATA_SetEnterMode(struct BigObj *p, u8 v);
@@ -84,7 +84,7 @@ void func_02174978(u8 *s)
     int n;
     void *w;
 
-    h = func_02026478((void *)(((struct Obj00269 *)s)->f4));
+    h = GAME_COMM_GetGameData((void *)(((struct Obj00269 *)s)->f4));
     if (GFL_NET_IsParentAid() == 1) {
         n = GFL_NET_GetNegotiationNum();
         if (n > s[0x902]) {

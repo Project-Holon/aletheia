@@ -25,7 +25,7 @@
  *   CLACT_GetActorRotation 0x0204B5FC arm
  *   MYSTERY_ALBUM_PathAnimInit 0x021DE128 thumb ov121
  *   MYSTERY_ALBUM_PathAnimStep 0x021DE154 thumb ov121
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_02006BD0 0x02006BD0 thumb
  *   MYSTERY_ALBUM_SetBlendMain 0x021DDC30 arm ov121
  *   MYSTERY_ALBUM_SetBlendSub 0x021DDC44 arm ov121
@@ -46,8 +46,8 @@
  *   func_02082D44 0x02082D44 arm
  *   func_02049E74 0x02049E74 arm
  *   CLACT_TransferCharacterPart 0x0204AA94 arm
- *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_TransferPalette 0x0204ADEC arm
  *   func_02082A48 0x02082A48 arm
  *   CLACT_SetActorRotation 0x0204B5F4 arm
@@ -59,7 +59,7 @@
  *   func_02040588 0x02040588 arm
  *   func_020056A0 0x020056A0 thumb
  *   func_020414EC 0x020414EC arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   MYSTERY_ALBUM_PathFrameIds 0x021DF858 data a2
  *   MYSTERY_ALBUM_PathDirections 0x021DF822 data a1
  *   MYSTERY_ALBUM_PathDurations 0x021DF82D data a1
@@ -99,7 +99,7 @@ extern u32 PM_VOICE_Play(u32 soundId,u32 playerId,u32 volume,u32,u32,u32,u32,u32
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern u16 CLACT_GetActorRotation(const struct Actor *actor);
 extern void MYSTERY_ALBUM_PathAnimInit(MysteryAlbumPathAnim *anim, u16 frameId, int x, int y);
-extern void func_0204B404(void *actor,const MysteryAlbumPoint16 *pos,u16 space);
+extern void CLACT_AddActorSurfacePos(void *actor,const MysteryAlbumPoint16 *pos,u16 space);
 extern u32 func_02006BD0(u32 soundHandle);
 #pragma thumb off
 extern void MYSTERY_ALBUM_SetBlendMain(int eva,int evb);
@@ -174,7 +174,7 @@ void MYSTERY_ALBUM_StepIntro(MysteryAlbum *album)
         done&=MYSTERY_ALBUM_PathAnimStep(&album->pathAnim,&pathOut,position);
         pathOut.x=position[0];
         pathOut.y=position[1];
-        func_0204B404(ui->cursorActor,(MysteryAlbumPoint16 *)&pathOut.x,ui->screenId);
+        CLACT_AddActorSurfacePos(ui->cursorActor,(MysteryAlbumPoint16 *)&pathOut.x,ui->screenId);
         if(!album->skipSound) {
             if(func_02006BD0(album->soundHandle)) soundDone=0;
             done &= soundDone;
@@ -253,8 +253,8 @@ extern void func_02082D44(const void *src,void *dst,int size);
 extern u32 func_020307B0(void *mem);
 extern void *func_02049E74(void *arc, u32 fileId, u32 compressed, u32 res, u16 heapId);
 extern void CLACT_TransferCharacterPart(int,void *,u32,int,int);
-extern void func_0204B6F4(struct Obj *actor, u32 animId, u32 flag);
-extern void func_0204B3DC(struct Obj *actor, u32 visible);
+extern void CLACT_SetActorPaletteOffset(struct Obj *actor, u32 animId, u32 flag);
+extern void CLACT_SetActorDrawEnable(struct Obj *actor, u32 visible);
 extern void CLACT_TransferPalette(u32,void *,u32);
 extern void func_02082A48(u32 value,void *dst,u32 size);
 extern void CLACT_SetActorRotation(struct Actor *actor, u16 frame);
@@ -271,7 +271,7 @@ extern void func_021DA318(void *albumData);
 extern void func_02040588(unsigned char plane, unsigned char enable);
 extern void *func_020056A0(u32 func,u32 arg,u32 priority);
 extern void func_020414EC(unsigned bgLayer);
-extern void func_02082BCC(void *dst,int value,u32 size);
+extern void MI_CpuFill8(void *dst,int value,u32 size);
 extern int _s32_div_f(int, int);
 extern u32 _u32_div_f(u32, u32);
 void MYSTERY_ALBUM_LoadBgWithTilemap(const MysteryAlbumBgSetup *bgSetup,MysteryAlbum *album,u16 heapId);
@@ -384,16 +384,16 @@ void MYSTERY_ALBUM_SetupIcons(MysteryAlbum *album,MysteryAlbumUi *ui,u16 heapId)
     ARC_TOOL_DeleteHandle(arc);
     iconPos.x=216; iconPos.y=22;
     if (func_021DC024(album)==2) {iconPos.x+=4;iconPos.y+=8;}
-    func_0204B6F4(ui->iconActor,(u8)func_021DBF70(album),0);
-    func_0204B404(ui->iconActor, (const MysteryAlbumPoint16 *)&iconPos, ui->screenId);
-    func_0204B3DC(ui->iconActor,1);
+    CLACT_SetActorPaletteOffset(ui->iconActor,(u8)func_021DBF70(album),0);
+    CLACT_AddActorSurfacePos(ui->iconActor, (const MysteryAlbumPoint16 *)&iconPos, ui->screenId);
+    CLACT_SetActorDrawEnable(ui->iconActor,1);
     if (func_021DC024(album)==1) {
         CLACT_TransferPalette(ui->paletteHandle,*(void **)((char *)album->paletteRes+12),1);
         func_02082D44(*(void **)((char *)album->paletteRes+12),ui->palImage,32);
         func_02082A48(0,ui->palBlack,32);
         CLACT_TransferCharacterPart(ui->bgHandleB,*(void **)((char *)album->bgDataRes+20),0x1200,0,ui->screenId);
         CLACT_SetActorRotation(ui->cursorActor,0);
-        func_0204B3DC(ui->cursorActor,1);
+        CLACT_SetActorDrawEnable(ui->cursorActor,1);
         if (ui->bgSetup.bgLayer<4) paletteRam=(u16 *)((u32)CLACT_GetPaletteVramAddress(ui->paletteHandle,ui->screenId)+0x05000200);
         else paletteRam=(u16 *)((u32)CLACT_GetPaletteVramAddress(ui->paletteHandle,ui->screenId)+0x05000600);
         for(i=0;i<16;i++) paletteRam[i]=ui->palBlack[i];
@@ -401,7 +401,7 @@ void MYSTERY_ALBUM_SetupIcons(MysteryAlbum *album,MysteryAlbumUi *ui,u16 heapId)
             func_0207D63C((void *)0x04000050,0,(1<<(u8)ui->bgSetup.bgLayer)|(1<<(u8)ui->bgSetup.overlayLayer),2,12);
         else
             func_0207D63C((void *)0x04001050,0,(1<<(u8)(ui->bgSetup.bgLayer-4))|(1<<(u8)(ui->bgSetup.overlayLayer-4)),2,12);
-    } else func_0204B3DC(ui->cursorActor,0);
+    } else CLACT_SetActorDrawEnable(ui->cursorActor,0);
 }
 
 
@@ -478,11 +478,11 @@ void MYSTERY_ALBUM_HideScreen(MysteryAlbumUi *ui)
     MysteryAlbumPoint16 cursorPos;
     func_020414EC(4);
     func_020409B4(4);
-    func_0204B3DC(ui->iconActor,0);
+    CLACT_SetActorDrawEnable(ui->iconActor,0);
     cursorPos.x=184;
     cursorPos.y=112;
-    func_0204B404(ui->cursorActor, (const MysteryAlbumPoint16 *)&cursorPos, ui->screenId);
-    func_0204B3DC(ui->cursorActor,0);
+    CLACT_AddActorSurfacePos(ui->cursorActor, (const MysteryAlbumPoint16 *)&cursorPos, ui->screenId);
+    CLACT_SetActorDrawEnable(ui->cursorActor,0);
     func_02040588(6,0);
 }
 
@@ -498,7 +498,7 @@ void MYSTERY_ALBUM_HideScreen(MysteryAlbumUi *ui)
  */
 void MYSTERY_ALBUM_PathAnimInit(MysteryAlbumPathAnim *anim,u16 frameId,int x,int y)
 {
-    func_02082BCC(anim,0,44);
+    MI_CpuFill8(anim,0,44);
     anim->prevFrameId=frameId;
     anim->nextFrameId=frameId;
     anim->waypointCount=11;

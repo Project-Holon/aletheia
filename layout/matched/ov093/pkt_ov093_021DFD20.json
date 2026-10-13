@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DFD20",
+   "name": "HAND_ITEM_AbsorbBulbDamageReaction",
    "address": "0x021DFD20",
    "kind": "game",
    "region": "ov093",

@@ -17,7 +17,7 @@
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
  *   COLOSSEUM_SendReady  0x02174E20  thumb  ov012
  *   COLOSSEUM_SendReadyCancel  0x02174E64  thumb  ov012
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  */
 #include "../include/Obj19428.h"
 
@@ -31,7 +31,7 @@ void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
 u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
 u32 COLOSSEUM_SendReady(void);
 u32 COLOSSEUM_SendReadyCancel(void);
-u32 func_020362DC(void);
+u32 KEY_GetTrg(void);
 
 int UNION_ONESELF_ColosseumReadyWaitMain(u8 *w, void *obj, u8 *a2, u8 *state)
 {
@@ -60,7 +60,7 @@ int UNION_ONESELF_ColosseumReadyWaitMain(u8 *w, void *obj, u8 *a2, u8 *state)
         }
         break;
     case 2:
-        if (UNION_MSG_CheckTalkPrintEnd(w) == 1 && (func_020362DC() & 2))
+        if (UNION_MSG_CheckTalkPrintEnd(w) == 1 && (KEY_GetTrg() & 2))
             *state = 100;
         break;
     case 100:

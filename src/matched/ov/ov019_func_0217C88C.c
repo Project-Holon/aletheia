@@ -26,7 +26,7 @@
  *   UNION_MSG_CheckRegulationPrintEnd  0x0217F794  thumb ov019
  *   UNION_MSG_DeleteRegulationWindow  0x0217F7B8  thumb ov019
  *   func_0217EC88  0x0217EC88  thumb ov019
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  */
 
 typedef unsigned char u8;
@@ -70,7 +70,7 @@ void UNION_MSG_SetupRegulationWindow(struct Self *self, u32 a1, u32 mask, int mo
 u32 UNION_MSG_CheckRegulationPrintEnd(char *p, u32 a);
 void UNION_MSG_DeleteRegulationWindow(char *p);
 u16 func_0217EC88(int i);
-u32 func_020362DC(void);
+u32 KEY_GetTrg(void);
 
 int UNION_ONESELF_BattleMenuMain(void *ctx, Obj *obj, u8 *a2, u8 *state)
 {
@@ -136,7 +136,7 @@ int UNION_ONESELF_BattleMenuMain(void *ctx, Obj *obj, u8 *a2, u8 *state)
         (*state)++;
         break;
     case 4:
-        if (UNION_MSG_CheckRegulationPrintEnd(ctx, (u32)a2) == 1 && (func_020362DC() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd(ctx, (u32)a2) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow(ctx);
             *state = 1;
         }
@@ -146,7 +146,7 @@ int UNION_ONESELF_BattleMenuMain(void *ctx, Obj *obj, u8 *a2, u8 *state)
         (*state)++;
         break;
     case 6:
-        if (UNION_MSG_CheckRegulationPrintEnd(ctx, (u32)a2) == 1 && (func_020362DC() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd(ctx, (u32)a2) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow(ctx);
             if (obj->f68 == -1)
                 *state = 9;
@@ -159,7 +159,7 @@ int UNION_ONESELF_BattleMenuMain(void *ctx, Obj *obj, u8 *a2, u8 *state)
         (*state)++;
         break;
     case 8:
-        if (UNION_MSG_CheckRegulationPrintEnd(ctx, (u32)a2) == 1 && (func_020362DC() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd(ctx, (u32)a2) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow(ctx);
             *state = 9;
         }

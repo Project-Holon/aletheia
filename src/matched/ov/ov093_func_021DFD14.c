@@ -1,5 +1,5 @@
 /*
- * function: func_021DFD14
+ * function: HAND_ITEM_GetAbsorbBulbHandlers
  * address: 0x021DFD14
  * packet: pkt_ov093_021DFD14
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DFCE8.c and filed here.
  *
  * symbols:
- *   d_021F173C 0x021F173C data a4
+ *   gHandItemAbsorbBulbHandlers 0x021F173C data a4
  */
 
-int *func_021DFD14(int *p);
-extern int d_021F173C[];
+int *HAND_ITEM_GetAbsorbBulbHandlers(int *p);
+extern int gHandItemAbsorbBulbHandlers[];
 
-int *func_021DFD14(int *p)
+int *HAND_ITEM_GetAbsorbBulbHandlers(int *p)
 {
     *p = 2;
-    return d_021F173C;
+    return gHandItemAbsorbBulbHandlers;
 }

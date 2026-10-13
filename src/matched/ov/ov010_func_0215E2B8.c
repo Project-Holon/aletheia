@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   ZONEDATA_GetEncountId  0x02013EC0  thumb
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   _u32_div_f     0x0209C2B0  arm
@@ -25,7 +25,7 @@ struct R {
     u8 f7;
 };
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern u32 ZONEDATA_GetEncountId(u32 id);
 struct ArcFile;
 extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
@@ -37,7 +37,7 @@ int FIELD_ENCOUNT_ST_LoadEncountData(struct R *r, int a, int b, int n)
     u32 q;
     int v;
 
-    func_02082BCC(r, 0, 0xe8);
+    MI_CpuFill8(r, 0, 0xe8);
     v = ZONEDATA_GetEncountId(b);
     if (v == 0xffff) {
         return 0;

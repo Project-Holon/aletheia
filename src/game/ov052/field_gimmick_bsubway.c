@@ -1,7 +1,7 @@
 /*
  * file:     field_gimmick_bsubway.c
  * unit:     yes
- * function: func_021F36C0, FIELD_GIMMICK_BSUBWAY_Update, FIELD_GIMMICK_BSUBWAY_Exit, FIELD_GIMMICK_BSUBWAY_StartTrain, FIELD_GIMMICK_BSUBWAY_GetTrainEffect, FIELD_GIMMICK_BSUBWAY_InitTrain, FIELD_GIMMICK_BSUBWAY_ExitTrain, FIELD_GIMMICK_BSUBWAY_HaltTrainSway, FIELD_GIMMICK_BSUBWAY_InitTrainSway, func_021F38E4, FIELD_GIMMICK_BSUBWAY_UpdateTrainSway
+ * function: func_021F36C0, FIELD_GIMMICK_BSUBWAY_Update, FIELD_GIMMICK_BSUBWAY_Exit, FIELD_GIMMICK_BSUBWAY_StartTrain, FIELD_GIMMICK_BSUBWAY_GetTrainEffect, FIELD_GIMMICK_BSUBWAY_InitTrain, FIELD_GIMMICK_BSUBWAY_ExitTrain, FIELD_GIMMICK_BSUBWAY_HaltTrainSway, FIELD_GIMMICK_BSUBWAY_InitTrainSway, func_021F38E4, FIELD_GIMMICK_BSUBWAY_UpdateTrainSway, FIELD_GIMMICK_BSUBWAY_FindZoneEntry
  * address:  0x021F36C0
  * region:   ov052
  * compiler: dsi/1.1p1
@@ -30,6 +30,7 @@
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
  *   FIELD_G3D_MAPPER_SetOriginOffset  0x0218DC4C  thumb  ov021
  *   sFieldGimmickBsubwaySwayIntervals     0x021F39CC  data  a4
+ *   d_021F39DC     0x021F39DC  data  ov052  a4
  */
 #include "field_gimmick_bsubway_types.h"
 
@@ -48,6 +49,8 @@ void FIELD_GIMMICK_BSUBWAY_UpdateTrainSway(BsubwayZoneGimmick *zone, struct Fiel
 extern BsubwayZoneHandlers sFieldGimmickBsubwayZoneHandlers[];
 extern char sFieldGimmickBsubwayFileName[];
 extern BsubwaySwayIntervals sFieldGimmickBsubwaySwayIntervals;
+#define BSUBWAY_ZONE_ENTRY_COUNT 10
+extern BsubwayZoneEntry d_021F39DC[];
 
 /* Gimmick init: fills in the record of the zone and runs the init handler of the zone. */
 void func_021F36C0(struct FieldMap *fieldMap)
@@ -220,4 +223,23 @@ void FIELD_GIMMICK_BSUBWAY_UpdateTrainSway(BsubwayZoneGimmick *zone, struct Fiel
         sway->offsetY = -sway->offsetY;
         break;
     }
+}
+
+/*
+ * Looks the zone up in the zone table. Returns the gimmick work slot of the
+ * zone and the table index (the index of its handlers); both 0 for an
+ * unknown zone.
+ */
+void FIELD_GIMMICK_BSUBWAY_FindZoneEntry(int zoneId, int *slotId, int *handlerIndex)
+{
+    int i;
+    for (i = 0; i < BSUBWAY_ZONE_ENTRY_COUNT; i++) {
+        if (zoneId == d_021F39DC[i].zoneId) {
+            *slotId = d_021F39DC[i].slotId;
+            *handlerIndex = i;
+            return;
+        }
+    }
+    *slotId = 0;
+    *handlerIndex = 0;
 }

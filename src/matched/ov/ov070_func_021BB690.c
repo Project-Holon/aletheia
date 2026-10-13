@@ -11,7 +11,7 @@
  * lever: expand q at the first call but retain q for the second call.
  * symbols:
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   d_021BBBCC 0x021BBBCC data a4
  */
 struct Actor;
@@ -21,7 +21,7 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern short d_021BBBCC[];
 int ITEMMENU_MoveActorToPoint(const char *p)
 {
@@ -37,7 +37,7 @@ int ITEMMENU_MoveActorToPoint(const char *p)
             return 0;
         }
         v[0] = v[0] + 4;
-        func_0204B404((struct Obj *)(*((int *)(q + 0x6AC))), (const struct Vec2 *)v, 0xFFFF);
+        CLACT_AddActorSurfacePos((struct Obj *)(*((int *)(q + 0x6AC))), (const struct Vec2 *)v, 0xFFFF);
     }
     return 1;
 }

@@ -11,12 +11,12 @@
  *
  * symbols:
  *   func_021F0DD8 0x021F0DD8 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 
-extern void func_020061E4(unsigned int a);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned int a);
 
 void func_021F0DD8(unsigned int a)
 {
-    func_020061E4(a);
+    GFL_USE_PlaySeDefaultVolume(a);
 }

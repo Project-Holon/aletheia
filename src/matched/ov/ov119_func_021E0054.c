@@ -20,7 +20,7 @@
  *   func_021E0C78 0x021E0C78 thumb ov119
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
- *   func_02039C68 0x02039C68 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
@@ -55,7 +55,7 @@ extern int func_021D8A24(void *);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 struct Link;
-extern void func_02039C68(struct Link *,u32,u32);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,u32,u32);
 extern void func_021D8E84(void *,int);
 extern void func_021E0030(void *);
 extern void func_021E0C78(char *p);
@@ -79,7 +79,7 @@ void func_021E0054(char *p)
     packet.mode=func_0200960C(saved);
     if(func_021D8A24(p)) {
         if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc12,40,(u32)(&packet))) {
-            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),23,8);
+            GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),23,8);
             func_021D8E84(p,(int)func_021E0030);
             return;
         }

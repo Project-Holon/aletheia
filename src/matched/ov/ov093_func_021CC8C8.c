@@ -1,5 +1,5 @@
 /*
- * function: func_021CC8C8
+ * function: BTL_SERVER_FLOW_ResetHandExBuffer
  * address: 0x021CC8C8
  * packet: pkt_ov093_021CC8C8
  * region: ov093
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 typedef unsigned int u32;
-extern void func_02082BCC(void *, int, u32);
-void func_021CC8C8(u32 *p) { *p++=0; func_02082BCC(p,0,500); }
+extern void MI_CpuFill8(void *, int, u32);
+void BTL_SERVER_FLOW_ResetHandExBuffer(u32 *p) { *p++=0; MI_CpuFill8(p,0,500); }

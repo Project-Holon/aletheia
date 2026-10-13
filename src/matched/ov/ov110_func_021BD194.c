@@ -18,11 +18,11 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021BAC40 0x021BAC40 thumb ov110
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj02462.h"
 typedef unsigned char u8;
@@ -41,11 +41,11 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern u32 func_021BAC40(u8 *p);
 extern struct Obj *CLACT_CreateActor(void *owner,u32 i,u32 j,u32 k,const void *position,u16 space,u16 heap);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 void func_021BD194(u8 *p) {
     void *h;
     int a;
@@ -56,10 +56,10 @@ void func_021BD194(u8 *p) {
     a=func_0202761C(1);
     ((struct Obj02462 *)p)->f24=(void *)CLACT_RegisterCellAnim(h,a,func_02027620(1),42);
     ARC_TOOL_DeleteHandle(h);
-    func_02082BCC(&t,0,8);
+    MI_CpuFill8(&t,0,8);
     t.x=232; t.y=168; t.z=1; t.a=0; t.b=3;
     ((struct Obj02462 *)p)->f28=CLACT_CreateActor((void *)func_021BAC40(((struct Obj02462 *)p)->f0),(u32)((struct Obj02462 *)p)->f20,(u32)((struct Obj02462 *)p)->f1C,(u32)((struct Obj02462 *)p)->f24,&t,0,42);
-    func_0204B92C(((struct Obj02462 *)p)->f28,1);
-    func_0204B3DC(((struct Obj02462 *)p)->f28,0);
+    CLACT_SetActorAutoAnim(((struct Obj02462 *)p)->f28,1);
+    CLACT_SetActorDrawEnable(((struct Obj02462 *)p)->f28,0);
     ((struct Obj02462 *)p)->f2C=0;
 }

@@ -19,8 +19,8 @@
  *   func_020120F4  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E8F8  0x0200E8F8  thumb
- *   func_02082BCC  0x02082BCC  arm
- *   func_0201AB28  0x0201AB28  thumb
+ *   MI_CpuFill8  0x02082BCC  arm
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02030734  0x02030734  arm
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
@@ -60,8 +60,8 @@ struct Sub02008C20Obj;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E8F8(void *sys);
-extern void func_02082BCC(void *p, int v, int n);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void MI_CpuFill8(void *p, int v, int n);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern void *func_02030734(u32 heap, u32 size, int flag, const char *file, u16 line);
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(u32 sv, u32 id, u32 heap, void *buf, u32 size);
@@ -142,10 +142,10 @@ void TRIAL_HOUSE_ComputeScoreAndRank(u32 a, u8 *w, u16 *outRank, u16 *outScore)
         e->kind = 0;
     }
     e->score = s;
-    func_02082BCC(e->mons, 0, 0x10);
+    MI_CpuFill8(e->mons, 0, 0x10);
     for (i = 0; i < (int)U32(0x124); i++) {
         m = &e->mons[i];
-        mon = func_0201AB28((void *)U32(0x128), i);
+        mon = POKEPARTY_GetMember((void *)U32(0x128), i);
         m->species = func_02017E1C(mon, 5, 0);
         m->b2 = func_02017E1C(mon, 0x6f, 0);
         m->b3 = func_02017E1C(mon, 0x6e, 0);

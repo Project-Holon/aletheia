@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   sub_0201F41C   0x0201F41C  thumb
  *
  * The Entry constructor of the family (see docs/families/mystery_data.h):
@@ -88,13 +88,13 @@ typedef struct {
     u8  c2 : 1;
 } Self;
 
-extern void func_02082BCC(void *p, int c, u32 n);
+extern void MI_CpuFill8(void *p, int c, u32 n);
 extern void sub_0201F41C(const u16 *src, u16 *dst, u32 n);
 
 void sub_0200AC14(Self *self, const void *src, u32 a2, u32 a3,
                   u8 p0, u8 p1, u8 p2, u32 p3, u16 p4, u8 p5, u8 p6, u8 p7)
 {
-    func_02082BCC(self, 0, 0x1c);
+    MI_CpuFill8(self, 0, 0x1c);
     sub_0201F41C(src, self->w0, 8);
     self->b0 = a2;
     self->f14 = p3;

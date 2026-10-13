@@ -13,8 +13,8 @@
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  */
 #include "../include/Obj00047.h"
 
@@ -35,9 +35,9 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 struct Obj;
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 
 void POKELIST_CreateClactUnit(u8 *p)
 {
@@ -58,10 +58,10 @@ void POKELIST_CreateClactUnit(u8 *p)
                                         ((struct Obj00047 *)p)->f178, ((struct Obj00047 *)p)->f1B4, &b, 0, ((struct Obj00047 *)p)->f0);
     ((struct Obj00047 *)p)->f1DC = (int)CLACT_CreateActor((void *)((struct Obj00047 *)p)->f1D4, ((struct Obj00047 *)p)->f198,
                                         ((struct Obj00047 *)p)->f178, ((struct Obj00047 *)p)->f1B4, &b, 0, ((struct Obj00047 *)p)->f0);
-    func_0204B92C((struct Obj *)((struct Obj00047 *)p)->f1D8, 1);
-    func_0204B92C((struct Obj *)((struct Obj00047 *)p)->f1DC, 1);
-    func_0204B3DC((struct Obj *)((struct Obj00047 *)p)->f1D8, 0);
-    func_0204B3DC((struct Obj *)((struct Obj00047 *)p)->f1DC, 0);
+    CLACT_SetActorAutoAnim((struct Obj *)((struct Obj00047 *)p)->f1D8, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)((struct Obj00047 *)p)->f1DC, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00047 *)p)->f1D8, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00047 *)p)->f1DC, 0);
     a.a = 0xe0;
     a.b = 0xa8;
     a.c = 1;
@@ -70,11 +70,11 @@ void POKELIST_CreateClactUnit(u8 *p)
     x = (int)CLACT_CreateActor((void *)((struct Obj00047 *)p)->f1D4, ((struct Obj00047 *)p)->f1A0,
                       ((struct Obj00047 *)p)->f17C, ((struct Obj00047 *)p)->f1BC, &a, 0, ((struct Obj00047 *)p)->f0);
     ((struct Obj00047 *)p)->f1E0 = x;
-    func_0204B92C((struct Obj *)x, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)x, 1);
     a.a = 0xc4;
     a.c = 0;
     x = (int)CLACT_CreateActor((void *)((struct Obj00047 *)p)->f1D4, ((struct Obj00047 *)p)->f1A0,
                       ((struct Obj00047 *)p)->f17C, ((struct Obj00047 *)p)->f1BC, &a, 0, ((struct Obj00047 *)p)->f0);
     ((struct Obj00047 *)p)->f1E4 = x;
-    func_0204B92C((struct Obj *)x, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)x, 1);
 }

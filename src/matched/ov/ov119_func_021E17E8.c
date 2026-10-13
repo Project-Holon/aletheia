@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
  *   PRINTSYS_Print  0x0201C7A4  thumb  arm9
  */
@@ -20,7 +20,7 @@ struct MsgBank;
 struct WordSet;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern unsigned int POKE_TOOL_GetPartyValue(void *,unsigned int,unsigned int);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -34,5 +34,5 @@ void func_021E17E8(int a,int b,int x,int y,char *p)
     func_0201EFA4((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),0,v,3,1,1);
     func_0201EFA4((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),1,w,3,1,1);
     func_0201F250((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f734));
-    PRINTSYS_Print(func_02045770((struct Descriptor *)b),x,y,((struct Obj00001 *)p)->f730,((struct Obj00001 *)p)->f728);
+    PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y,((struct Obj00001 *)p)->f730,((struct Obj00001 *)p)->f728);
 }

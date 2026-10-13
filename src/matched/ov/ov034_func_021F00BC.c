@@ -12,19 +12,19 @@
  * symbols:
  *   REPORT_StartSaveAnim 0x021F00BC thumb
  *   BMP_WIN_ClearScreen 0x020456F8 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 
 typedef unsigned char  u8;
 struct Descriptor;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 void REPORT_StartSaveAnim(int *p)
 {
@@ -32,8 +32,8 @@ void REPORT_StartSaveAnim(int *p)
     unsigned int i;
 
     BMP_WIN_ClearScreen((struct Descriptor *)h);
-    func_02041B6C(func_02045730((struct Descriptor *)h));
+    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     for (i = 6; i <= 15; i++)
-        func_0204B3DC((struct Obj *)p[0x15 + i], 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p[0x15 + i], 1);
     p[0x44] = 1;
 }

@@ -24,9 +24,9 @@
  *   BMP_Blit  0x020439A0  arm
  *   _s32_div_f     0x0209C0A4  arm
  *   PRINTSYS_PrintStreamGetState   0x0201CE30  thumb
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_020307B0  0x020307B0  arm
  *   NNS_SndPlayerSetPlayerVolume  0x02072D98  arm
@@ -84,9 +84,9 @@ extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern void BMP_FillRect(const struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void BMP_Blit(struct Bmp *dst, const struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern u32   PRINTSYS_PrintStreamGetState(void *p);
-extern u32   func_020362DC(void);
+extern u32   KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
 extern void NNS_SndPlayerSetPlayerVolume(u32 channel, u32 level);
@@ -181,7 +181,7 @@ void APP_KEYCURSOR_Update(struct KeyCursor *k, void *p, void *cell)
         u32 r = 0;
 
         if (k->live) {
-            r = func_020362DC() & 3;
+            r = KEY_GetTrg() & 3;
         }
         if (r == 0) {
             if (k->flip) {
@@ -190,14 +190,14 @@ void APP_KEYCURSOR_Update(struct KeyCursor *k, void *p, void *cell)
         }
         if (r != 0) {
             k->held = 1;
-            APP_KEYCURSOR_DrawMark(k, func_02045770(cell), k->id);
+            APP_KEYCURSOR_DrawMark(k, BMP_WIN_GetBmp(cell), k->id);
             BMP_WIN_TransferChars(cell);
             return;
         }
         if (k->held != 0) {
             return;
         }
-        APP_KEYCURSOR_Animate(k, func_02045770(cell), k->id);
+        APP_KEYCURSOR_Animate(k, BMP_WIN_GetBmp(cell), k->id);
         BMP_WIN_TransferChars(cell);
         return;
     }

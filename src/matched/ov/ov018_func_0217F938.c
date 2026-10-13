@@ -11,7 +11,7 @@
  * symbols:
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   EVENT_COMM_COMMON_MissionInfoEventMain 0x0217F95C thumb ov018
  */
 typedef unsigned char u8;
@@ -20,12 +20,12 @@ struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_02082BCC(void *, u8, u32);
+extern void MI_CpuFill8(void *, u8, u32);
 extern int EVENT_COMM_COMMON_MissionInfoEventMain(void *a0, int *state, void *a2);
 void *EVENT_COMM_COMMON_CreateMissionInfoEvent(void *owner)
 {
     void *task;
     task = func_020122C0(owner, 0, EVENT_COMM_COMMON_MissionInfoEventMain, 0x30);
-    func_02082BCC(func_020124E8(task), 0, 0x30);
+    MI_CpuFill8(func_020124E8(task), 0, 0x30);
     return task;
 }

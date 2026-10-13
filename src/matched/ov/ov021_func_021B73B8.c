@@ -1,5 +1,5 @@
 /*
- * function: func_021B73B8
+ * function: SCRCMD_POKEMON_FLD_GetDailyGiftIndex
  * address:  0x021B73B8
  * packet:   pkt_ov021_021B73B8
  * region:   ov021
@@ -14,9 +14,9 @@
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   FIELD_CLOCK_GetMonth  0x021690D0  thumb  ov010
  *   FIELD_CLOCK_GetDay  0x021690E0  thumb  ov010
- *   func_021B7390  0x021B7390  thumb  ov021
+ *   SCRCMD_POKEMON_FLD_IsSpecialDate  0x021B7390  thumb  ov021
  *   _s32_div_f     0x0209C0A4  arm
- *   d_021D99DE     0x021D99DE  data   ov021  a1
+ *   sDailyGiftIndexByDay     0x021D99DE  data   ov021  a1
  * Addresses are Black-image addresses.
  */
 
@@ -28,10 +28,10 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern int FIELD_CLOCK_GetMonth(int a0);
 extern int FIELD_CLOCK_GetDay(int a0);
-extern int func_021B7390(u32 a, int b);
-extern u8 d_021D99DE[];
+extern int SCRCMD_POKEMON_FLD_IsSpecialDate(u32 a, int b);
+extern u8 sDailyGiftIndexByDay[];
 
-int func_021B73B8(u32 a, u32 b)
+int SCRCMD_POKEMON_FLD_GetDailyGiftIndex(u32 a, u32 b)
 {
     u16 *out;
     void *h;
@@ -42,9 +42,9 @@ int func_021B73B8(u32 a, u32 b)
     h = SCRCMD_WORK_GetGameData((void *)b);
     x = FIELD_CLOCK_GetMonth((int)h);
     y = FIELD_CLOCK_GetDay((int)h);
-    if (func_021B7390(x, y) == 1)
+    if (SCRCMD_POKEMON_FLD_IsSpecialDate(x, y) == 1)
         *out = 10;
     else
-        *out = d_021D99DE[y % 10];
+        *out = sDailyGiftIndexByDay[y % 10];
     return 0;
 }

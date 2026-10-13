@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj00228.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 void func_021B9AC0(u8 *p, int *a, int *b, u16 duration)
 {
     int x, y;
@@ -28,7 +28,7 @@ void func_021B9AC0(u8 *p, int *a, int *b, u16 duration)
     x = a[0] + (b[0] - a[0]) * count / (int)duration;
     ((struct Obj00228 *)p)->f1C = x;
     ((struct Obj00228 *)p)->f20 = y;
-    func_0204B3DC(((struct Obj00228 *)p)->f1854, 1);
+    CLACT_SetActorDrawEnable(((struct Obj00228 *)p)->f1854, 1);
     (((struct Obj00228 *)p)->f1844)++;
     if (((struct Obj00228 *)p)->f1844 > duration) {
         ((struct Obj00228 *)p)->f1844 = 0;

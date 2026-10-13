@@ -18,6 +18,7 @@
  *
  * symbols:
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   (none)
  */
 #include "../include/Obj05866.h"
@@ -27,7 +28,7 @@ typedef unsigned short u16;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 void func_021BD880(char *p)
 {
@@ -37,5 +38,5 @@ void func_021BD880(char *p)
     ((struct Obj05866 *)p)->f8 = h;
     CLACT_SetActorAnimSeq((struct Obj *)v, h);
     if (((struct Obj05866 *)p)->f30 != 0)
-        func_020061E4(((struct Obj05866 *)p)->f30);
+        GFL_USE_PlaySeDefaultVolume(((struct Obj05866 *)p)->f30);
 }

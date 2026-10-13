@@ -15,7 +15,7 @@
  *
  * symbols:
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GFL_USE_GetBgmNo  0x02005C44  thumb
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
@@ -41,7 +41,7 @@ struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 typedef unsigned char  u8;
 struct IcaAnime;
-extern u32 func_02026454(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
 typedef unsigned short u16;
 struct Evt;
 extern u16 GFL_USE_GetBgmNo(void);
@@ -70,7 +70,7 @@ u32 EVENT_WIFIBATTLEMATCH_Main(void *obj, u32 *mode, u32 *args)
 
     switch (*mode) {
     case 0:
-        if (func_02026454((void *)GAMESYSTEM_GetGameComm((const struct Ctx *)a0)) == 0) {
+        if (GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm((const struct Ctx *)a0)) == 0) {
             args[0] = GFL_USE_GetBgmNo();
             GFL_USE_FadeOutBgm(6);
             (*mode)++;

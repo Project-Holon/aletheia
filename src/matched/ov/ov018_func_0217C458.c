@@ -14,7 +14,7 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   EVENT_COMM_COMMON_InitMsgBox  0x0217F2B4  thumb  ov018
  *   INTRUDE_COMM_SetState  0x02174E14  thumb  ov011
  *   INTRUDE_FIELD_EventOfferInfo  0x0217C4D0  thumb  ov018
@@ -47,7 +47,7 @@ extern u8 *INTRUDE_COMM_GetActiveSessionRequest(u8 *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void EVENT_COMM_COMMON_InitMsgBox();
 extern void INTRUDE_COMM_SetState(u8 *p, int a);
 extern void INTRUDE_FIELD_EventOfferInfo();
@@ -62,7 +62,7 @@ struct Desc *INTRUDE_FIELD_CreateOfferInfoEvent(void *a0, void *a1, u8 *a2, int 
     func_020120F4(a0);
     x = func_020122C0(a0, 0, INTRUDE_FIELD_EventOfferInfo, 0x88);
     o = func_020124E8((struct Obj *)x);
-    func_02082BCC(o, 0, 0x88);
+    MI_CpuFill8(o, 0, 0x88);
     o->h0 = a3;
     o->w4 = a1;
     o->b38 = *src;

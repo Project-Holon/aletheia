@@ -18,6 +18,7 @@
  *   func_021F6B40  0x021F6B40  thumb
  *   func_021F4EC0  0x021F4EC0  thumb
  *   func_021F6D14  0x021F6D14  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
  */
 
 typedef signed char s8;
@@ -52,7 +53,7 @@ typedef struct {
 } Work;
 
 extern int func_021F6DE8(u32 handle);
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 extern void func_021F663C(u8 *p, u32 b, u32 c, u32 d, u32 e, u32 sel);
 extern void func_021F4E98(u8 *p, u32 a, u32 b);
 extern void *func_021F6B40(void *party, void *save, int box, int slot);
@@ -62,7 +63,7 @@ extern void func_021F6D14(void *dst, Work *p);
 int func_021F6474(Work *p)
 {
     if (func_021F6DE8((u32)p->list[p->sel]) != 0 && p->box != 0xFF
-        && func_0201AA18(p->ctx->party) == 6) {
+        && POKEPARTY_GetCount(p->ctx->party) == 6) {
         func_021F663C((u8 *)p, 0x29, 1, 0, 0xF0F, 1);
         func_021F4E98((u8 *)p, 4, 1);
         return 0;

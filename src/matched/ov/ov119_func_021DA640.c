@@ -14,7 +14,7 @@
  *   func_021D8D4C 0x021D8D4C thumb ov119
  *   func_021E1E00 0x021E1E00 thumb ov119
  *   func_020307B0 0x020307B0 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021D8C84 0x021D8C84 thumb ov119
  *   func_021D8B38 0x021D8B38 thumb ov119
  *   func_020355C4 0x020355C4 arm
@@ -36,7 +36,7 @@ extern void *func_021D8D4C(void **a, int b, int c, char *p);
 extern void func_021E1E00(char *p, int mode, void *mon);
 extern u32 func_020307B0(void *p);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void func_021D8C84(void *);
 typedef unsigned char  u8;
 extern void func_021D8B38(char *p);
@@ -58,7 +58,7 @@ void func_021DA640(char *p) {
     ((struct Obj02826 *)p)->f10A0=zero;
     func_021E1E00(p,0,(void *)n);
     func_020307B0((void *)n);
-    func_0204B3DC((struct Obj *)((struct Obj02826 *)p)->fF04,0);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj02826 *)p)->fF04,0);
     func_021D8C84(p);
     func_021D8B38(p);
     if(func_020355C4()) APP_TASKMENU_SetCursorActive((struct TaskMenu *)(((struct Obj02826 *)p)->f64C),zero);

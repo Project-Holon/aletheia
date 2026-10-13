@@ -25,8 +25,8 @@
  *   func_020306F0 0x020306F0 arm
  *   BMP_OAM_DeleteSys 0x02025588 thumb
  *   func_0201ED04 0x0201ED04 thumb
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  */
 #include "../include/Obj02908.h"
@@ -53,8 +53,8 @@ extern void BMP_OAM_DeleteSys(void *);
 extern void func_021F4B84(unsigned char *p);
 extern u32 func_0201ED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32);
@@ -75,8 +75,8 @@ int func_021F168C(void *a,u32 b,u32 c,u8 *d)
     func_021F4B84(((struct Obj02908 *)d)->f0);
     func_0201ED04(((struct Obj02908 *)d)->f2BC);
     MSGDATA_Delete(((struct Obj02908 *)d)->f2B8);
-    func_0201C6EC(((struct Obj02908 *)d)->f2B4);
-    func_0201C4C0(((struct Obj02908 *)d)->f2B4);
+    PRINTSYS_QUE_Clear(((struct Obj02908 *)d)->f2B4);
+    PRINTSYS_QUE_Delete(((struct Obj02908 *)d)->f2B4);
     GF_FONT_Delete(((struct Obj02908 *)d)->f2B0);
     func_020315D4(a);
     func_020306F0(30);

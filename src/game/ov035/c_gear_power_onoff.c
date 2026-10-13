@@ -25,12 +25,12 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_0201DD68 0x0201DD68 thumb
  *   func_02045B38 0x02045B38 arm
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   FIELD_SUBSCREEN_LoadBackdrop 0x021A12D4 thumb ov021
  *   FIELD_SUBSCREEN_ResumeField 0x021A0FB4 thumb ov021
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   func_02040588 0x02040588 arm
@@ -58,17 +58,17 @@
  *   func_0201F5DC 0x0201F5DC thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_SetDispHeight 0x02045790 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   TCBL_Create 0x0203101C arm
  *   func_02028590 0x02028590 thumb
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
  *   TCBL_Destroy 0x02031140 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_0201F614 0x0201F614 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
@@ -84,7 +84,7 @@
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_02012204 0x02012204 thumb
- *   func_02026454 0x02026454 thumb
+ *   GAME_COMM_GetKind 0x02026454 thumb
  *   GAME_COMM_RequestExitNoCallback 0x02026400 thumb
  *   GAMESYSTEM_SetAlwaysNetFlag 0x02012158 thumb
  *   GAMESYSTEM_TryStartAutoComm 0x020121CC thumb
@@ -144,12 +144,12 @@ extern u32 PRINTSYS_QUE_Main(struct PrintQue *printQue);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, unsigned int heapId);
 extern void func_0201DD68(void);
 extern struct MsgBank *func_02045B38(unsigned int resident, unsigned int arcId, unsigned int fileId, unsigned int heapId);
-extern struct PrintQue *func_0201C440(unsigned int heapId);
+extern struct PrintQue *PRINTSYS_QUE_Create(unsigned int heapId);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void FIELD_SUBSCREEN_LoadBackdrop(FieldSubscreen *subscreen, u32 heapId);
 extern void FIELD_SUBSCREEN_ResumeField(FieldSubscreen *subscreen, u32 heapId);
-extern void func_0201C6EC(struct PrintQue *printQue);
-extern void func_0201C4C0(struct PrintQue *printQue);
+extern void PRINTSYS_QUE_Clear(struct PrintQue *printQue);
+extern void PRINTSYS_QUE_Delete(struct PrintQue *printQue);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -173,17 +173,17 @@ extern void func_02049B40(int, int, int, int, int, int);
 extern void *func_0201F5DC(u32 layer, unsigned int a1, unsigned int a2, unsigned int a3);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void BMP_WIN_SetDispHeight(struct BmpWin *window, u8 v);
-extern void *func_02045770(struct BmpWin *window);
+extern void *BMP_WIN_GetBmp(struct BmpWin *window);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct BmpWin *window);
 extern void BMP_WIN_MakeScreen(struct BmpWin *window);
 extern void *TCBL_Create(int, int, int, int);
 extern void *func_02028590(int, int, int, int);
-extern void func_0201CE48(void *printStream);
+extern void PRINTSYS_PrintStreamDelete(void *printStream);
 extern void STRBUF_Delete(struct Strbuf *text);
 extern int APP_KEYCURSOR_Delete(void *keyCursor);
 extern void TCBL_Destroy(void *tcbl);
-extern u32 func_020452E8(struct BmpWin *window);
+extern u32 BMP_WIN_Delete(struct BmpWin *window);
 extern void func_0201F614(int, unsigned int);
 extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_Print(void *bitmap, s16 x, s16 y, struct Strbuf *msg, struct GfFont *font);
@@ -198,7 +198,7 @@ extern u32 APP_TASKMENU_IsFinish(void *taskMenu);
 extern u32 WIPE_SYS_EndCheck(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 func_02012204(const void *gameSystem);
-extern u32 func_02026454(void *beacon);
+extern u32 GAME_COMM_GetKind(void *beacon);
 extern void GAME_COMM_RequestExitNoCallback(void *beacon);
 extern void GAMESYSTEM_SetAlwaysNetFlag(void *gameSystem, unsigned int v);
 extern u32 GAMESYSTEM_TryStartAutoComm(void *gameSystem);
@@ -263,7 +263,7 @@ void C_GEAR_POWER_ONOFF_InitScreen(CGearPowerOnOffWork *work, u16 heapId)
     work->font = GF_FONT_Create(0x17, 0, 0, 0, heapId);
     func_0201DD68();
     work->msgBank = func_02045B38(0, 2, 0x16, heapId);
-    work->printQue = func_0201C440(heapId);
+    work->printQue = PRINTSYS_QUE_Create(heapId);
     C_GEAR_POWER_ONOFF_InitBgs(work, heapId);
     C_GEAR_POWER_ONOFF_CreateTaskMenuRes(work, heapId);
     C_GEAR_POWER_ONOFF_InitWindows(work, heapId);
@@ -272,7 +272,7 @@ void C_GEAR_POWER_ONOFF_InitScreen(CGearPowerOnOffWork *work, u16 heapId)
 }
 
 
-void C_GEAR_POWER_ONOFF_ExitScreen(CGearPowerOnOffWork *work) { FIELD_SUBSCREEN_ResumeField(work->subscreen,work->heapId); C_GEAR_POWER_ONOFF_ExitWindows(work); C_GEAR_POWER_ONOFF_DeleteTaskMenuRes(work); C_GEAR_POWER_ONOFF_ExitBgs(work); func_0201C6EC(work->printQue); func_0201C4C0(work->printQue); MSGDATA_Delete(work->msgBank); GF_FONT_Delete(work->font); }
+void C_GEAR_POWER_ONOFF_ExitScreen(CGearPowerOnOffWork *work) { FIELD_SUBSCREEN_ResumeField(work->subscreen,work->heapId); C_GEAR_POWER_ONOFF_ExitWindows(work); C_GEAR_POWER_ONOFF_DeleteTaskMenuRes(work); C_GEAR_POWER_ONOFF_ExitBgs(work); PRINTSYS_QUE_Clear(work->printQue); PRINTSYS_QUE_Delete(work->printQue); MSGDATA_Delete(work->msgBank); GF_FONT_Delete(work->font); }
 
 
 
@@ -346,10 +346,10 @@ void C_GEAR_POWER_ONOFF_InitWindows(CGearPowerOnOffWork *work, int heapId)
     work->messageWindow = BMP_WIN_Create(5, 1, 1, 0x1E, 6, 1, 1);
     work->menuWindow = BMP_WIN_Create(5, 1, 0xD, 0x1E, 0xA, 1, 1);
     BMP_WIN_SetDispHeight(work->messageWindow, 4);
-    BMP_Clear(func_02045770(work->messageWindow), 0xF);
+    BMP_Clear(BMP_WIN_GetBmp(work->messageWindow), 0xF);
     BMP_WIN_TransferChars(work->messageWindow);
     BMP_WIN_MakeScreen(work->messageWindow);
-    BMP_Clear(func_02045770(work->menuWindow), 0xF);
+    BMP_Clear(BMP_WIN_GetBmp(work->menuWindow), 0xF);
     BMP_WIN_TransferChars(work->menuWindow);
     BMP_WIN_MakeScreen(work->menuWindow);
     work->tcbl = TCBL_Create(heapId, heapId, 1, 4);
@@ -367,15 +367,15 @@ void C_GEAR_POWER_ONOFF_InitWindows(CGearPowerOnOffWork *work, int heapId)
 void C_GEAR_POWER_ONOFF_ExitWindows(CGearPowerOnOffWork *work)
 {
     if (work->printStream) {
-        func_0201CE48(work->printStream);
+        PRINTSYS_PrintStreamDelete(work->printStream);
         work->printStream = 0;
         STRBUF_Delete(work->streamMessage);
         work->streamMessage = 0;
     }
     APP_KEYCURSOR_Delete(work->keyCursor);
     TCBL_Destroy(work->tcbl);
-    func_020452E8(work->menuWindow);
-    func_020452E8(work->messageWindow);
+    BMP_WIN_Delete(work->menuWindow);
+    BMP_WIN_Delete(work->messageWindow);
     func_0201F614(5, (unsigned int)work->bmpMenuWork);
 }
 
@@ -385,7 +385,7 @@ void C_GEAR_POWER_ONOFF_ExitWindows(CGearPowerOnOffWork *work)
 void C_GEAR_POWER_ONOFF_PrintMessage(CGearPowerOnOffWork *work, struct BmpWin *window, int msgId)
 {
     struct Strbuf *msg = func_02045EC0(work->msgBank, msgId);
-    PRINTSYS_Print(func_02045770(window), 0, 0, msg, work->font);
+    PRINTSYS_Print(BMP_WIN_GetBmp(window), 0, 0, msg, work->font);
     func_0201F79C(window, 0, work->bmpMenuWork, 2);
     BMP_WIN_TransferChars(window);
     STRBUF_Delete(msg);
@@ -399,10 +399,10 @@ void C_GEAR_POWER_ONOFF_ResetAndPrintMessage(CGearPowerOnOffWork *work, struct B
     struct Strbuf *msg = func_02045EC0(work->msgBank, msgId);
 
     BMP_WIN_SetDispHeight(window, height);
-    BMP_Clear(func_02045770(window), 15);
+    BMP_Clear(BMP_WIN_GetBmp(window), 15);
     func_0201F7A8(window, 2);
     BMP_WIN_MakeScreen(window);
-    PRINTSYS_Print(func_02045770(window), 0, 0, msg, work->font);
+    PRINTSYS_Print(BMP_WIN_GetBmp(window), 0, 0, msg, work->font);
     func_0201F79C(window, 0, work->bmpMenuWork, 2);
     BMP_WIN_TransferChars(window);
     STRBUF_Delete(msg);
@@ -505,14 +505,14 @@ int C_GEAR_POWER_ONOFF_StepTurnOn(CGearPowerOnOffWork *work)
         break;
     case 5:
         if (func_02012204(work->gameSystem) != 0) {
-            if (func_02026454(work->beacon))
+            if (GAME_COMM_GetKind(work->beacon))
                 GAME_COMM_RequestExitNoCallback(work->beacon);
             work->step = 6;
             break;
         }
         return 1;
     case 6:
-        if (func_02026454(work->beacon) == 0)
+        if (GAME_COMM_GetKind(work->beacon) == 0)
             return 1;
         break;
     }
@@ -541,7 +541,7 @@ int C_GEAR_POWER_ONOFF_StepTurnOff(CGearPowerOnOffWork *work)
     case 2:
         if (C_GEAR_POWER_ONOFF_IsMenuDecided(work) != 0 || func_02012204(work->gameSystem) == 1) {
             if (C_GEAR_POWER_ONOFF_GetMenuResult(work) == 0 || func_02012204(work->gameSystem) == 1) {
-                if (func_02026454(work->beacon))
+                if (GAME_COMM_GetKind(work->beacon))
                     GAME_COMM_RequestExitNoCallback(work->beacon);
                 closeComm = 1;
             } else {
@@ -554,7 +554,7 @@ int C_GEAR_POWER_ONOFF_StepTurnOff(CGearPowerOnOffWork *work)
         break;
     case 3:
         if (work->closeComm != 0) {
-            if (func_02026454(work->beacon) != 0)
+            if (GAME_COMM_GetKind(work->beacon) != 0)
                 break;
             GAMESYSTEM_SetAlwaysNetFlag(work->gameSystem, 0);
         }

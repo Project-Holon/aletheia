@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_020362DC 0x020362DC arm
- *   func_0203633C 0x0203633C arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   KEY_GetRepeat 0x0203633C arm
  *   func_021BD388 0x021BD388 thumb
  *   func_021BD3F8 0x021BD3F8 thumb
  *   func_021BDB08 0x021BDB08 thumb
@@ -34,8 +34,8 @@ struct Ov208Menu {
     char pad34[0x38];
     struct Ov208Slot tab[9];
 };
-extern u32 func_020362DC(void);
-extern u32 func_0203633C(void);
+extern u32 KEY_GetTrg(void);
+extern u32 KEY_GetRepeat(void);
 extern int func_021BD388(void *a, int b);
 extern void func_021BD3F8(void *a, int b);
 struct State;
@@ -49,8 +49,8 @@ extern void func_021BE1BC(struct Ov208Menu *m);
 void func_021BDFDC(struct Ov208Menu *m)
 {
     u32 sel = 9;
-    u32 trg = func_020362DC();
-    u32 held = func_0203633C();
+    u32 trg = KEY_GetTrg();
+    u32 held = KEY_GetRepeat();
     u32 a;
     u32 b;
     u32 c;

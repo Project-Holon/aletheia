@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201BD28  0x0201BD28  thumb
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   BTL_CALC_RollHitCount  0x021D7BA4  thumb  ov093
  *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
@@ -24,7 +24,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u32 func_0201BD28(u32 v, u32 n);
+extern u32 WAZA_TOOL_GetParam(u32 v, u32 n);
 extern int BTL_CALC_RollHitCount(int a);
 extern void BTL_EVENT_PushVarFrame(int line);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
@@ -37,7 +37,7 @@ extern void BTL_EVENT_PopVarFrame(int line);
 
 int BTL_SERVER_FLOW_CalcMultiHitCount(u8 *p, u8 *a, u32 x, u8 *out)
 {
-    u8 id = func_0201BD28(x, 8);
+    u8 id = WAZA_TOOL_GetParam(x, 8);
     u32 r;
 
     out[1] = 0;

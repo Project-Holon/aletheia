@@ -12,7 +12,7 @@
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   BMP_OAM_SetEnabled  0x02025774  thumb
  */
 
@@ -24,7 +24,7 @@ struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 struct Obj;
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern void BMP_OAM_SetEnabled(u8 *g, u32 a);
 
 void INTRUDE_SUBDISP_UpdateButtonActors(int *p, int a1)
@@ -39,7 +39,7 @@ void INTRUDE_SUBDISP_UpdateButtonActors(int *p, int a1)
         case 2:
         case 3:
         case 4:
-            func_0204B3DC((struct Obj *)p[0x9c / 4], 0);
+            CLACT_SetActorDrawEnable((struct Obj *)p[0x9c / 4], 0);
             BMP_OAM_SetEnabled((u8 *)p[0xc0 / 4], 0);
             break;
         }

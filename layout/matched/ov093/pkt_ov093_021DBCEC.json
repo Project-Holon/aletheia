@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DBCEC",
+   "name": "HAND_TOKUSEI_Pickpocket_StealOnContact",
    "address": "0x021DBCEC",
    "kind": "game",
    "region": "ov093",

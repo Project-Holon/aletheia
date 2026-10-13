@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_HANDLER_ITEM_LightBallDoublePikachuAttack",
+   "name": "HAND_ITEM_LightBallDoublePikachuAttack",
    "address": "0x021DF51C",
    "kind": "game",
    "region": "ov093",

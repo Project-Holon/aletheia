@@ -16,7 +16,7 @@
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   PROCSYS_Create 0x02031324 arm
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   func_021DCC48 0x021DCC48 thumb ov134
@@ -31,12 +31,12 @@
  *   func_02034AC4 0x02034AC4 arm
  *   PROCSYS_Push 0x02031348 arm
  *   PROCSYS_Main 0x02031330 arm
- *   func_0201AB28 0x0201AB28 thumb
- *   func_0201A98C 0x0201A98C thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
+ *   POKEPARTY_Add 0x0201A98C thumb
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   GFL_NET_SendData 0x0203D3F8 arm
- *   func_02039C68 0x02039C68 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   func_0200FB24 0x0200FB24 thumb
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
@@ -102,7 +102,7 @@ typedef struct {
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern void *PROCSYS_Create(int a0);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
 extern void func_021DCC48(u8 *p, void *unused, u8 *out);
@@ -114,12 +114,12 @@ extern void PLIST_COMM_Update(u8 *);
 extern int func_02034AC4(int);
 extern void PROCSYS_Push(void *, int, const void *, void *);
 extern u32 PROCSYS_Main(void *);
-extern void *func_0201AB28(void *, u32);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern void *POKEPARTY_GetMember(void *, u32);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern int POKE_REGULATION_GetDataSize(void);
 extern u32 GFL_NET_SendData(u32, u32, u32, u32, u32, u32, u32, u32);
-extern void func_02039C68(struct Link *, unsigned int, unsigned int);
-extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, unsigned int, unsigned int);
 extern u32 func_0200FB24(void);
 extern int GFL_NET_GetRunState(void);
 extern int DWC_RAPCOMMON_HandleNetError(int, int);
@@ -157,7 +157,7 @@ int func_021DC888(void *ctx, int unused, const Args_021DC860 *args)
 {
     u8 *p;
     p = PROCSYS_AllocProcWork(ctx, 0x100, 4);
-    func_02082BCC(p, 0, 0x100);
+    MI_CpuFill8(p, 0, 0x100);
     *(Args_021DC860 *)(p + 0xd0) = *args;
     ((struct Obj05411 *)p)->fFC = 4;
     ((struct Obj05411 *)p)->fCC = PROCSYS_Create(((struct Obj05411 *)p)->fFC);
@@ -215,8 +215,8 @@ int func_021DC93C(void *unused0, void *unused1, u8 *q, u8 *p)
         for (i = 0; i < 6; i++) {
             if (p[77 + i] != 0) {
                 void *mon;
-                mon = func_0201AB28(((struct Obj06506 *)q)->f4, p[77 + i] - 1);
-                func_0201A98C(((struct Obj06506 *)q)->f1C, mon);
+                mon = POKEPARTY_GetMember(((struct Obj06506 *)q)->f4, p[77 + i] - 1);
+                POKEPARTY_Add(((struct Obj06506 *)q)->f1C, mon);
             }
         }
         ((struct Obj00310 *)p)->f0 = 7;
@@ -225,12 +225,12 @@ int func_021DC93C(void *unused0, void *unused1, u8 *q, u8 *p)
         ctx = GFL_NET_HANDLE_GetCurrentHandle();
         code = POKE_REGULATION_GetDataSize();
         if (GFL_NET_SendData((u32)ctx, 255, 0x2f00, code, *(u32 *)&((struct Obj06506 *)q)->f1C, 0, 0, 1) != 0) {
-            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 20, 47);
+            GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 20, 47);
             ((struct Obj00310 *)p)->f0 = 8;
         }
         break;
     case 8:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 20, 47) != 0) return 1;
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 20, 47) != 0) return 1;
         break;
     case 3:
         func_02034AC4((int)ov131_id);

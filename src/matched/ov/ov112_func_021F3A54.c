@@ -17,7 +17,7 @@
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   CLACT_InitSystem 0x0204A48C arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   d_021F816C 0x021F816C data a4
  *   d_021F815C 0x021F815C data a4
  *   gClActorInitParam 0x020A1448 data a4
@@ -40,7 +40,7 @@ extern void func_0203F8F4(u16);
 extern void BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern char d_021F816C[],d_021F815C[],gClActorInitParam[];
 void func_021F3A54(u8 *p)
 {
@@ -58,5 +58,5 @@ void func_021F3A54(u8 *p)
     BMP_WIN_Init(((struct Obj10296 *)p)->f0);
     func_0203FC28((struct DispConfig *)d_021F815C);
     CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)d_021F816C,((struct Obj10296 *)p)->f0);
-    func_020434DC(16,1);
+    BG_SYS_SetMainPlaneVisible(16,1);
 }

@@ -10,16 +10,16 @@
  * status: EXACT
  * ABI: narrow extern arguments follow explicit caller truncation.
  * symbols:
- *   func_021B9934 0x021B9934 thumb ov093
+ *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   BTL_POKEPARAM_SetCounter 0x021D69A0 thumb ov093
  */
 #include "../include/Obj21197.h"
 typedef unsigned char u8;
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void BTL_POKEPARAM_SetCounter(u8 *, int, u8);
 int func_021D3BC0(char *p, int unused, unsigned int *a)
 {
-    u8 *obj = func_021B9934(*(char * *)&((struct Obj21197 *)p)->f4, (u8)a[0]);
+    u8 *obj = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj21197 *)p)->f4, (u8)a[0]);
     BTL_POKEPARAM_SetCounter(obj, a[1], a[2]);
     return 1;
 }

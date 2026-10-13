@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18062.h"
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
 int FIELD_PLAYER_NOGRID_InitInputHold(void *a)
 {
-    func_02082BCC(a, 0, 8);
+    MI_CpuFill8(a, 0, 8);
     ((struct Obj18062 *)a)->f4 = 9;
     return 9;
 }

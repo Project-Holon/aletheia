@@ -31,7 +31,7 @@
  * allocates (an EncEffModelScene).
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
  *   ENCEFF_GetWork  0x021CF560  thumb  ov021
@@ -50,7 +50,7 @@
  *   FIELDMAP_GetDrawMode  0x021899F0  thumb  ov021
  *   FIELDMAP_SetDrawMode  0x021899F8  thumb  ov021
  *   G3D_SYSTEM_GetObjectAnimeFrameMax  0x02047888  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   G3D_SYSTEM_GetObjectAnimeFrame  0x02047828  arm
  *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm
  *   G3D_SYSTEM_DeleteObject  0x02047738  arm
@@ -67,7 +67,7 @@ struct G3dRec;
 struct G3dSys;
 struct Rec;
 struct Tagged;
-extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void FADE_Start(u32 planes, s32 startLevel, s32 endLevel, s32 wait);
 extern int FADE_IsActive(void);
 extern u16 func_02080C44(void);
@@ -83,7 +83,7 @@ extern void SCREENTEX_CaptureDisplay(u32 a0, u32 a1);
 extern u32 FIELDMAP_GetDrawMode(struct FieldMap *fieldMap);
 extern void FIELDMAP_SetDrawMode(struct FieldMap *fieldMap, u32 mode);
 extern int G3D_SYSTEM_GetObjectAnimeFrameMax(int *object, int index, int *frameMax);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern u32 G3D_SYSTEM_GetObjectAnimeFrame(struct AnmCtl *object, u32 index, s32 *frame);
 extern int G3D_SYSTEM_IncObjectAnimeFrame(void *object, int index, int amount);
 extern void G3D_SYSTEM_DeleteObject(struct Rec *object);
@@ -98,7 +98,7 @@ int ENCEFF_ModelSceneEventMain(struct GameEvent *event, int *state)
     s32 frame;
     s32 current;
 
-    scene = ENCEFF_GetWork(FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(func_020124E4(event))));
+    scene = ENCEFF_GetWork(FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event))));
     switch (*state) {
     case 0:
         FADE_Start(4, 0, 0x10, 0);
@@ -142,7 +142,7 @@ int ENCEFF_ModelSceneEventMain(struct GameEvent *event, int *state)
         G3D_SYSTEM_GetObjectAnimeFrameMax(scene->object, 0, &frameMax);
         scene->fadeStartFrame = frameMax - 0x14000;
         if (scene->soundId != -1) {
-            func_020061E4(scene->soundId);
+            GFL_USE_PlaySeDefaultVolume(scene->soundId);
         }
         *state = *state + 1;
         break;

@@ -18,7 +18,7 @@
  * 2026-10-05: byte-identical; the wildcard is arm9 GAME_DATA_SetSymbolMapFlag (new matched/arm9 file, EXACT, this lane); needs its shard.
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
@@ -26,7 +26,7 @@
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   FIELD_G3D_MAP_CreateIntrudeRequestEvent  0x0216B24C  thumb  ov010
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
  *   SYMBOL_MAP_GetSelectedCellTile  0x021665D0  thumb  ov010
  *   GAME_DATA_SetSymbolMapFlag  0x02012FA4  thumb
@@ -57,7 +57,7 @@ typedef struct Work {
 struct Ctx;
 struct Evt;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
@@ -65,7 +65,7 @@ extern void *FIELDMAP_GetMmdlSys(u8 *p);
 extern void FLDMMDL_SysPauseMove(void *map);
 extern int FIELD_G3D_MAP_CreateIntrudeRequestEvent(void *vm, int value, int flag);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *sys, void *proc, u32 a, u32 b);
 extern int SYMBOL_MAP_GetSelectedCellTile(int a0, int a1);
 extern void GAME_DATA_SetSymbolMapFlag(char *p, unsigned char v);
@@ -76,7 +76,7 @@ extern u32 *FLDMMDL_SysResumeMove(void *c);
 
 int FIELD_G3D_MAP_SymbolEntryEventMain(void *evt, u32 *state, Work *w)
 {
-    void *sys = func_020124E4(evt);
+    void *sys = GAME_EVENT_GetGameSystem(evt);
     void *ctx;
     void *proc;
 
@@ -104,7 +104,7 @@ int FIELD_G3D_MAP_SymbolEntryEventMain(void *evt, u32 *state, Work *w)
         break;
     case 2:
         if (w->f1c != 0)
-            func_020061E4(1369);
+            GFL_USE_PlaySeDefaultVolume(1369);
         GAME_EVENT_CallEvent(evt, EVENT_FIELDMAP_CONTROL_StartFadeOut(sys, proc, 9, 0));
         (*state)++;
         break;

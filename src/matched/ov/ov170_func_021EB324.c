@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021EABB8 0x021EABB8 thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_021EAAE4 0x021EAAE4 thumb
  */
@@ -30,7 +30,7 @@ extern void func_021EABB8(void **p);
 typedef unsigned char  u8;
 struct CharBuf;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_021EAAE4(unsigned char *p, unsigned i);
 
@@ -39,7 +39,7 @@ void func_021EB324(Work *w)
     unsigned i;
     for (i = 1; i <= 9; i++) {
         func_021EABB8((void **)(&w->items[i]));
-        BMP_Clear(func_02045770(w->items[i].obj), 0);
+        BMP_Clear(BMP_WIN_GetBmp(w->items[i].obj), 0);
         func_021EAAE4((unsigned char *)w, i);
     }
     func_021EABB8((void **)(&w->items[10]));

@@ -1,5 +1,5 @@
 /*
- * function: func_021DBE60
+ * function: HAND_TOKUSEI_GetCursedBodyHandlers
  * address: 0x021DBE60
  * packet: pkt_ov093_021DBE60
  * region: ov093
@@ -12,4 +12,4 @@
  *   gCursedBodyHandlers 0x021F0718 data a4
  */
 extern int gCursedBodyHandlers;
-int *func_021DBE60(int *p) { *p=1; return &gCursedBodyHandlers; }
+int *HAND_TOKUSEI_GetCursedBodyHandlers(int *p) { *p=1; return &gCursedBodyHandlers; }

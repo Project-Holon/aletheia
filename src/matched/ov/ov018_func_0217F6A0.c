@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
@@ -23,7 +23,7 @@
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
  *   FIELD_MSGBG_CreateBottomMsgWin  0x021907A8  thumb  ov021
  *   func_0201EC64  0x0201EC64  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GAME_DATA_GetIntrudeIdByte  0x0215841C  thumb  ov010
  *   FIELD_MSGBG_MsgWinPrintMsg  0x02190740  thumb  ov021
  *   STRBUF_Create  0x020457B0  arm
@@ -39,7 +39,7 @@
  *   INTRUDE_COMM_SendReady  0x02173C6C  thumb  ov011
  *   INTRUDE_FIELD_GetStartKind  0x0217BF28  thumb  ov018
  *   FIELD_MSGBG_IsMsgWinTransDone  0x0219077C  thumb  ov021
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_0201ED04  0x0201ED04  thumb
  *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
  *   MSGDATA_Delete  0x02045C04  arm
@@ -59,7 +59,7 @@ typedef struct {
 struct BigObj;
 struct Ctx;
 struct Obj;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Ctx;
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
@@ -79,7 +79,7 @@ u32 FIELDMAP_GetMsgBg(u8 *p);
 int FIELD_MSGBG_CreateMsgData(u32 a, u32 b);
 int FIELD_MSGBG_CreateBottomMsgWin(void *a0, int a1);
 struct WordSet *func_0201EC64(u32 heap);
-void func_020061E4(u32 a);
+void GFL_USE_PlaySeDefaultVolume(u32 a);
 u8 GAME_DATA_GetIntrudeIdByte(void *p);
 int FIELD_MSGBG_MsgWinPrintMsg(u32 a, u32 b, u32 c, u32 d);
 struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -95,7 +95,7 @@ int INTRUDE_COMM_GetMemberNameNetId(u8 *p);
 int INTRUDE_COMM_SendReady(int a, int b);
 u8 INTRUDE_FIELD_GetStartKind(u8 *p);
 int FIELD_MSGBG_IsMsgWinTransDone(u8 *p);
-u32 func_020362DC(void);
+u32 KEY_GetTrg(void);
 u32 func_0201ED04(struct WordSet *p);
 int FIELD_MSGBG_DeleteMsgWin(void *a);
 u32 MSGDATA_Delete(struct Rec *rec);
@@ -109,7 +109,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(void *a0, int *state, Ctx *c)
     void *t;
     int flag;
 
-    h = func_020124E4(a0);
+    h = GAME_EVENT_GetGameSystem(a0);
     s = GAMESYSTEM_GetGameData(h);
     k = GAMESYSTEM_GetGameComm(h);
     t = GAMESYSTEM_GetFieldMap(h);
@@ -136,7 +136,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(void *a0, int *state, Ctx *c)
         c->f0 = FIELD_MSGBG_CreateMsgData((int)g, 0x2D);
         c->f4 = FIELD_MSGBG_CreateBottomMsgWin(g, c->f0);
         c->f8 = (int)func_0201EC64(4);
-        func_020061E4(0x547);
+        GFL_USE_PlaySeDefaultVolume(0x547);
         if (w == 0 || GAME_DATA_GetIntrudeIdByte(s) == GAME_DATA_GetExitMode(s)) {
             FIELD_MSGBG_MsgWinPrintMsg(c->f4, 0, 0, 0x49);
             flag = 1;
@@ -187,7 +187,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(void *a0, int *state, Ctx *c)
         }
         break;
     case 6:
-        if (func_020362DC() & 0xF3) {
+        if (KEY_GetTrg() & 0xF3) {
             func_0201ED04((struct WordSet *)c->f8);
             FIELD_MSGBG_DeleteMsgWin((void *)c->f4);
             MSGDATA_Delete((struct Rec *)c->f0);

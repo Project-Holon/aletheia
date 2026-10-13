@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_GetThickFatHandlers
+ * function: HAND_TOKUSEI_GetThickFatHandlers
  * address: 0x021D86F0
  * packet: pkt_ov093_021D86F0
  * region: ov093
@@ -15,10 +15,10 @@
  *   gThickFatHandlers 0x021F05B8 data ov093 a4
  */
 
-int *BTL_CALC_GetThickFatHandlers(int *p);
+int *HAND_TOKUSEI_GetThickFatHandlers(int *p);
 extern int gThickFatHandlers[];
 
-int *BTL_CALC_GetThickFatHandlers(int *p)
+int *HAND_TOKUSEI_GetThickFatHandlers(int *p)
 {
     *p = 1;
     return gThickFatHandlers;

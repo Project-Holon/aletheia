@@ -1,5 +1,5 @@
 /*
- * function: func_021DC6A0
+ * function: HAND_TOKUSEI_Analytic_BoostPowerWhenMovingLast
  * address: 0x021DC6A0
  * packet: pkt_ov093_021DC6A0
  * region: ov093
@@ -19,4 +19,4 @@ extern int BTL_EVENT_GetVar(int);
 extern int func_021DC6DC(u16);
 extern int func_021E8624(int a, int b);
 extern void BTL_EVENT_MultiplyVar(int,int);
-void func_021DC6A0(int a, void *b, int c) { if (c == BTL_EVENT_GetVar(3) && func_021DC6DC(BTL_EVENT_GetVar(18)) == 0 && func_021E8624((int)b,c) != 0) BTL_EVENT_MultiplyVar(49,0x14cd); }
+void HAND_TOKUSEI_Analytic_BoostPowerWhenMovingLast(int a, void *b, int c) { if (c == BTL_EVENT_GetVar(3) && func_021DC6DC(BTL_EVENT_GetVar(18)) == 0 && func_021E8624((int)b,c) != 0) BTL_EVENT_MultiplyVar(49,0x14cd); }

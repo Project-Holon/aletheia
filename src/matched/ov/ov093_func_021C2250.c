@@ -13,14 +13,14 @@
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
  *   BTL_POKEPARAM_SetItem  0x021D5B44  thumb  ov093
- *   func_021CC8D8  0x021CC8D8  thumb  ov093
- *   func_021CC95C  0x021CC95C  thumb  ov093
- *   func_021C7AD0  0x021C7AD0  thumb  ov093
- *   func_021C7B0C  0x021C7B0C  thumb  ov093
+ *   BTL_SERVER_FLOW_BeginHandExScope  0x021CC8D8  thumb  ov093
+ *   BTL_SERVER_FLOW_EndHandExScope  0x021CC95C  thumb  ov093
+ *   BTL_SERVER_FLOW_NotifyHeldItemSetEvent  0x021C7AD0  thumb  ov093
+ *   BTL_SERVER_FLOW_NotifyHeldItemClearedEvent  0x021C7B0C  thumb  ov093
  *   BTL_SERVER_FLOW_SetContFlag  0x021C60EC  thumb  ov093
  *   BTL_SERVER_FLOW_SetTurnFlag  0x021C6134  thumb  ov093
- *   BTL_HANDLER_ITEM_RemoveUnforcedFactors  0x021DCF24  thumb  ov093
- *   BTL_HANDLER_ITEM_AddHeldItemFactor  0x021DCF5C  thumb  ov093
+ *   HAND_ITEM_RemoveUnforcedFactors  0x021DCF24  thumb  ov093
+ *   HAND_ITEM_AddHeldItemFactor  0x021DCF5C  thumb  ov093
  *   BTL_SERVER_CMD_Push  0x021CD4B0  thumb  ov093
  *   BTL_POKEPARAM_ConsumeHeldItem  0x021D6730  thumb  ov093
  */
@@ -32,14 +32,14 @@ struct QI;
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 struct QI;
 extern void BTL_POKEPARAM_SetItem(struct QI *p, u16 v);
-extern u32 func_021CC8D8(void *lock, int line);
-extern void func_021CC95C(u32 *p, u32 v, int line);
-extern void func_021C7AD0(u8 *p, u8 *a, u32 b);
-extern void func_021C7B0C(u8 *p, u8 *a);
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *lock, int line);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
+extern void BTL_SERVER_FLOW_NotifyHeldItemSetEvent(u8 *p, u8 *a, u32 b);
+extern void BTL_SERVER_FLOW_NotifyHeldItemClearedEvent(u8 *p, u8 *a);
 extern void BTL_SERVER_FLOW_SetContFlag(u8 *p, u8 *a, u32 n);
 extern void BTL_SERVER_FLOW_SetTurnFlag(u8 *p, u8 *a, unsigned int n);
-extern void BTL_HANDLER_ITEM_RemoveUnforcedFactors(u8 *a);
-extern void *BTL_HANDLER_ITEM_AddHeldItemFactor(void *p);
+extern void HAND_ITEM_RemoveUnforcedFactors(u8 *a);
+extern void *HAND_ITEM_AddHeldItemFactor(void *p);
 extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 struct QK;
 extern void BTL_POKEPARAM_ConsumeHeldItem(struct QK *p, u16 v);
@@ -51,19 +51,19 @@ void BTL_SERVER_FLOW_SetHeldItem(u8 *p, u8 *a, u16 b, u32 c)
     int name;
     name = BTL_POKEPARAM_GetPokeId(a);
     t = (u16)(int)BTL_POKEPARAM_GetItem((struct QI *)a);
-    s = func_021CC8D8(p + 0x1D74, 7469);
-    func_021C7AD0(p, a, b);
-    func_021CC95C((u32 *)(p + 0x1D74), s, 7471);
+    s = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1D74, 7469);
+    BTL_SERVER_FLOW_NotifyHeldItemSetEvent(p, a, b);
+    BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1D74), s, 7471);
     if (b == 0)
         BTL_SERVER_FLOW_SetContFlag(p, a, 15);
-    BTL_HANDLER_ITEM_RemoveUnforcedFactors(a);
+    HAND_ITEM_RemoveUnforcedFactors(a);
     BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 0x1E, name, b);
     BTL_POKEPARAM_SetItem((struct QI *)a, b);
     if (b != 0)
-        BTL_HANDLER_ITEM_AddHeldItemFactor(a);
-    s = func_021CC8D8(p + 0x1D74, 7485);
-    func_021C7B0C(p, a);
-    func_021CC95C((u32 *)(p + 0x1D74), s, 7487);
+        HAND_ITEM_AddHeldItemFactor(a);
+    s = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1D74, 7485);
+    BTL_SERVER_FLOW_NotifyHeldItemClearedEvent(p, a);
+    BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1D74), s, 7487);
     if (c != 0) {
         BTL_POKEPARAM_ConsumeHeldItem((struct QK *)a, t);
         BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 0x17, name, t);

@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Resolved by the matched func_021B9C00 in ov093 (thumb); cross-overlay target.
+ * Resolved by the matched BTL_SLOT_GetPokeParam in ov093 (thumb); cross-overlay target.
  *
  * symbols:
- *   func_021B9C00  0x021B9C00  thumb  ov093
+ *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -23,5 +23,5 @@ typedef unsigned int u32;
 typedef int s32;
 
 struct S2;
-extern u8 *func_021B9C00(struct S2 *p, u32 i);
-u8 *func_0218A308(void *p, u32 i) { return func_021B9C00(p, i); }
+extern u8 *BTL_SLOT_GetPokeParam(struct S2 *p, u32 i);
+u8 *func_0218A308(void *p, u32 i) { return BTL_SLOT_GetPokeParam(p, i); }

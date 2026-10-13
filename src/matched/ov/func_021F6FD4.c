@@ -20,14 +20,14 @@
  *   SHINKA_CHECK_CheckEvolution  0x0201B2B0  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
- *   func_0201A920  0x0201A920  thumb
- *   func_0201A98C  0x0201A98C  thumb
+ *   MI_CpuFill8  0x02082BCC  arm
+ *   POKEPARTY_Create  0x0201A920  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   func_02034A5C  0x02034A5C  arm
  *   func_02034AC4  0x02034AC4  arm
  *   PROCSYS_Push  0x02031348  arm
- *   func_0200AD9C  0x0200AD9C  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   WORLDTRADE_CopyPokemon  0x0200AD9C  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02019CE0  0x02019CE0  thumb
  *   str_02203B6C   0x02203B6C  data  a1
  *   d_02208C40     0x02208C40  data  ov195
@@ -36,7 +36,7 @@
  *
  * Two-state step. State 0, once the +0x12F4 busy word clears: for kind 9
  * (or kinds 8/10 when the stored entry differs from the one rebuilt from
- * the save data by func_02202608/func_0200AD9C) build a 0x14-byte request
+ * the save data by func_02202608/WORLDTRADE_CopyPokemon) build a 0x14-byte request
  * (SHINKA_CHECK_CheckEvolution result, list holding the entry, out byte) at +0x10DC,
  * load overlay 67 and start the overlay-195 task (d_02208C40, hinted to
  * ov195 because this function names ov195_id), then go to state 1; any
@@ -103,14 +103,14 @@ extern u8 func_02012984(const struct BigObj *p);
 extern u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
 extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *, int, int);
-extern struct Party *func_0201A920(u32 heap);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern void MI_CpuFill8(void *, int, int);
+extern struct Party *POKEPARTY_Create(u32 heap);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern void func_02034A5C(s32 handle);
 extern int func_02034AC4(s32 handle);
 extern void PROCSYS_Push(void *h, u32 id, void *a, void *b);
-extern void func_0200AD9C(void *save, void *mon);
-extern void *func_0201AB28(void *list, u32 i);
+extern void WORLDTRADE_CopyPokemon(void *save, void *mon);
+extern void *POKEPARTY_GetMember(void *list, u32 i);
 extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
 
 int func_021F6FD4(Obj *p)
@@ -137,11 +137,11 @@ int func_021F6FD4(Obj *p)
                     p->req = 0;
                 }
                 p->req = func_02030734(0x48, 0x14, 0, str_02203B6C, 0xEB);
-                func_02082BCC(p->req, 0, 0x14);
+                MI_CpuFill8(p->req, 0, 0x14);
                 w = p->req;
                 w->f0 = func_020120F4(p->ctx->f40);
-                w->list = func_0201A920(0x48);
-                func_0201A98C(w->list, e);
+                w->list = POKEPARTY_Create(0x48);
+                POKEPARTY_Add(w->list, e);
                 w->f8 = r;
                 w->fA = 0;
                 w->fB = out;
@@ -160,7 +160,7 @@ int func_021F6FD4(Obj *p)
             u32 out;
             u32 r;
 
-            func_0200AD9C(p->ctx->save, mon);
+            WORLDTRADE_CopyPokemon(p->ctx->save, mon);
             if (func_02017E1C(e, 5, 0) != func_02017E1C(mon, 5, 0)
                 || func_02017E1C(e, 0, 0) != func_02017E1C(mon, 0, 0)) {
                 func_02017E1C(e, 6, 0);
@@ -177,11 +177,11 @@ int func_021F6FD4(Obj *p)
                         p->req = 0;
                     }
                     p->req = func_02030734(0x48, 0x14, 0, str_02203B6C, 0x130);
-                    func_02082BCC(p->req, 0, 0x14);
+                    MI_CpuFill8(p->req, 0, 0x14);
                     w = p->req;
                     w->f0 = func_020120F4(p->ctx->f40);
-                    w->list = func_0201A920(0x48);
-                    func_0201A98C(w->list, e);
+                    w->list = POKEPARTY_Create(0x48);
+                    POKEPARTY_Add(w->list, e);
                     w->f8 = r;
                     w->fA = 0;
                     w->fB = out;
@@ -212,7 +212,7 @@ int func_021F6FD4(Obj *p)
             Req *w = p->req;
             void *e = func_021F7338(p, p->kind);
 
-            func_02019CE0(func_0201AB28(w->list, 0), e);
+            func_02019CE0(POKEPARTY_GetMember(w->list, 0), e);
             func_020307B0(w->list);
             func_020307B0(p->req);
             p->req = 0;

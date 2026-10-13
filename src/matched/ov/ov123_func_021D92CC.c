@@ -19,6 +19,7 @@
  *   GF_FONT_Create  0x0201D7EC  thumb  arm9
  *   GF_FONT_ResetTextColor  0x0201DD60  thumb  arm9
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
  */
 #include "../include/Obj00500.h"
 typedef unsigned char u8;
@@ -35,7 +36,7 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern void BMP_WIN_Init(u16);
 extern void GF_FONT_ResetTextColor(void);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u32 func_0201C440(void *);
+extern u32 PRINTSYS_QUE_Create(void *);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 struct MsgBank;
@@ -51,7 +52,7 @@ u8 *func_021D92CC(u32 heap,u32 bank)
     BMP_WIN_Init(((struct Obj00500 *)p)->fB0);
     GF_FONT_ResetTextColor();
     ((struct Obj00500 *)p)->f88=TCBL_Create(((struct Obj00500 *)p)->fB0,((struct Obj00500 *)p)->fB0,2,0);
-    ((struct Obj00500 *)p)->f8C=func_0201C440((void *)(u32)((struct Obj00500 *)p)->fB0);
+    ((struct Obj00500 *)p)->f8C=PRINTSYS_QUE_Create((void *)(u32)((struct Obj00500 *)p)->fB0);
     ((struct Obj00500 *)p)->f2C=STRBUF_Create(400,((struct Obj00500 *)p)->fB0);
     ((struct Obj00500 *)p)->f30=STRBUF_Create(400,((struct Obj00500 *)p)->fB0);
     ((struct Obj00500 *)p)->f28=GF_FONT_Create(23,0,0,0,((struct Obj00500 *)p)->fB0);

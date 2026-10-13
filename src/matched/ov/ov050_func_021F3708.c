@@ -1,5 +1,5 @@
 ﻿/*
- * function: GIMMICK49_Update
+ * function: GIMMICK50_Update
  * address:  0x021F3708
  * packet:   pkt_ov050_021F3708
  * region:   ov050
@@ -23,7 +23,7 @@
  * region hint; both call sites fine, verdict promoted to EXACT.
 */
 
-void GIMMICK49_Update(void *p)
+void GIMMICK50_Update(void *p)
 {
     void *FIELDMAP_GetExpObj(void *p);
     void FLD_EXP_OBJ_UpdateAnimes(void *p);

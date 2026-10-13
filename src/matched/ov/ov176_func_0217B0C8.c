@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0217B2E4 0x0217B2E4 thumb ov176
  *   func_0217B35C 0x0217B35C thumb ov176
  *   func_0217B368 0x0217B368 thumb ov176
@@ -19,7 +19,7 @@
  *   func_0217B1BC 0x0217B1BC thumb ov176
  */
 typedef struct Data { unsigned words[8]; } Data;
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern void *func_0217B2E4(const Data *,unsigned);
 extern void func_0217B35C(int *);
 extern int func_0217B368(int *);
@@ -32,7 +32,7 @@ void func_0217B0C8(int *a,int *state,int *p)
     Data config;
     switch(*state) {
     case 0:
-        func_02082BCC(&config,0,32);
+        MI_CpuFill8(&config,0,32);
         config.words[1]=p[2];
         config.words[2]=p[3];
         config.words[3]=p[4];

@@ -46,7 +46,7 @@
  *   MTX_Rot22_       0x0207AD64  thumb
  *   MTX_ScaleApply22 0x0207AD70  arm
  *   FX_Inv    0x0207C778  arm
- *   tbl_020A1B38     0x020A1B38  data
+ *   FX_SinCosTable_     0x020A1B38  data
  *   VEC_Subtract    0x0207CA00  arm
  *   VEC_DotProduct  0x0207CA68  arm
  *   VEC_Mag         0x0207CBD0  arm
@@ -211,7 +211,7 @@ extern u16 STRBUF_GetEosChar(void);
 
 extern struct SysCtx *g_pParticleMan;
 extern char g_020A7FCC[];
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern u32 (*g_020A8140)(u32 a, u32 b, u32 c);
 extern u32 (*g_020A8148)(u32 a, u32 b, u32 c);
 extern s32 (*const g_020A15E8[])(struct Slot *, s32, s32);
@@ -861,7 +861,7 @@ void BUTTON_MAN_RotScaleMtx22(Mtx22 *mtx, u32 ang, long scaleX, long scaleY, u8 
     else if (mode == 2)
         ang = (u16)((ang * 0xFFFF) / 360);
 
-    MTX_Rot22_(mtx, tbl_020A1B38[((s32)ang >> 4) * 2], tbl_020A1B38[((s32)ang >> 4) * 2 + 1]);
+    MTX_Rot22_(mtx, FX_SinCosTable_[((s32)ang >> 4) * 2], FX_SinCosTable_[((s32)ang >> 4) * 2 + 1]);
     MTX_ScaleApply22(mtx, mtx, FX_Inv(scaleX), FX_Inv(scaleY));
 }
 
@@ -1001,14 +1001,14 @@ void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, Mtx33 *dst)
     MTX_Identity33_(dst);
 
     i = ax >> 4;
-    MTX_RotX33_(dst, tbl_020A1B38[2 * i], tbl_020A1B38[2 * i + 1]);
+    MTX_RotX33_(dst, FX_SinCosTable_[2 * i], FX_SinCosTable_[2 * i + 1]);
 
     i = ay >> 4;
-    MTX_RotY33_(&tmp, tbl_020A1B38[2 * i], tbl_020A1B38[2 * i + 1]);
+    MTX_RotY33_(&tmp, FX_SinCosTable_[2 * i], FX_SinCosTable_[2 * i + 1]);
     MTX_Concat33(dst, &tmp, dst);
 
     i = az >> 4;
-    MTX_RotZ33_(&tmp, tbl_020A1B38[2 * i], tbl_020A1B38[2 * i + 1]);
+    MTX_RotZ33_(&tmp, FX_SinCosTable_[2 * i], FX_SinCosTable_[2 * i + 1]);
     MTX_Concat33(dst, &tmp, dst);
 }
 
@@ -1054,10 +1054,10 @@ void BUTTON_MAN_MakeLookAtMtx(const Vec3 *v, Mtx33 *dst)
     run = VEC_Mag(&flat);
 
     i = FX_Atan2Idx(-v->y, run) >> 4;
-    MTX_RotX33_(&mx, tbl_020A1B38[2 * i], tbl_020A1B38[2 * i + 1]);
+    MTX_RotX33_(&mx, FX_SinCosTable_[2 * i], FX_SinCosTable_[2 * i + 1]);
 
     i = FX_Atan2Idx(v->x, v->z) >> 4;
-    MTX_RotY33_(&my, tbl_020A1B38[2 * i], tbl_020A1B38[2 * i + 1]);
+    MTX_RotY33_(&my, FX_SinCosTable_[2 * i], FX_SinCosTable_[2 * i + 1]);
 
     MTX_Concat33(&mx, &my, dst);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     game_beacon.c
  * unit:     yes
- * function: GAME_COMM_CallKindNotify, GAME_COMM_Start, GAME_COMM_RequestExitNoCallback, GAME_COMM_RequestExit, func_02026454, func_02026460, func_02026474, func_02026478, func_0202647C, func_02026484, func_0202648C, GAME_COMM_SetSeqState, GAME_COMM_SetNotifyFlag, GAME_COMM_GetNotifyFlag, GAME_COMM_UpdatePlayerStatus, GAME_COMM_ClearPlayerStatus, GAME_COMM_PushInfoMessage, GAME_COMM_PopInfoMessage, GAME_COMM_ClearInfoMessages, GAME_COMM_PushPairMessage, GAME_COMM_PushPalaceMessage, GAME_COMM_PushPlayerMessage, GAME_BEACON_Create, GAME_BEACON_Update, GAME_BEACON_Setup, GAME_BEACON_GetMyInfo, GAME_BEACON_SendIfRequested, GAME_BEACON_UpdateActionTime, GAME_BEACON_AddLog, GAME_BEACON_ReceiveInfo, GAME_BEACON_GetLogFromWork, GAME_BEACON_GetLog, GAME_BEACON_GetLogByReceiveNoFromWork, GAME_BEACON_GetLogByReceiveNo, GAME_BEACON_GetReceiveCount, GAME_BEACON_GetNextNewLogIndex, GAME_BEACON_ClearNewFlag, GAME_BEACON_SetNewFlagByTrainerId, GAME_BEACON_GetReceivedFramesByTrainerId, GAME_BEACON_BuildMyInfo, GAME_BEACON_RequestSend, GAME_BEACON_CheckActionPriority, GAME_BEACON_IsSpecialPokemon, GAME_BEACON_CopyStrbufCodes, GAME_BEACON_PopQuestionnaireUpdated, GAME_BEACON_SetQuestionnaire, GAME_BEACON_SetNationArea, GAME_BEACON_SetResearchTeamRank, GAME_BEACON_SetPms, GAME_BEACON_SetTrainerView, GAME_BEACON_UpdateGreeting, GAME_BEACON_SetPokeCapture, GAME_BEACON_SetPokeGet, func_02027220, GAME_BEACON_SetSpecialPokeGet, func_02027258, GAME_BEACON_SetPokeLevelUp, func_02027290, GAME_BEACON_SetPokeEvolution, func_020272D0, GAME_BEACON_SetPlayTime, func_02027314, GAME_BEACON_SetItemUse, func_0202734C, GAME_BEACON_SetZone, GAME_BEACON_SetInfoZone, GAME_BEACON_SetDetailsBattleWildPoke, GAME_BEACON_SetDetailsBattleSpecialPoke, GAME_BEACON_SetDetailsBattleTrainer, GAME_BEACON_SetDetailsBattleLeader, GAME_BEACON_SetDetailsBattleBigFour, GAME_BEACON_ResetDetails, GAME_BEACON_WritePms, GAME_BEACON_SetMyPms, GAME_BEACON_RegisterClearCallback, GAME_BEACON_ClearFlags
+ * function: GAME_COMM_CallKindNotify, GAME_COMM_Start, GAME_COMM_RequestExitNoCallback, GAME_COMM_RequestExit, GAME_COMM_GetKind, GAME_COMM_IsTransition, GAME_COMM_GetWork, GAME_COMM_GetGameData, GAME_COMM_GetLastKind, GAME_COMM_ClearCounter, GAME_COMM_GetCounter, GAME_COMM_SetSeqState, GAME_COMM_SetNotifyFlag, GAME_COMM_GetNotifyFlag, GAME_COMM_UpdatePlayerStatus, GAME_COMM_ClearPlayerStatus, GAME_COMM_PushInfoMessage, GAME_COMM_PopInfoMessage, GAME_COMM_ClearInfoMessages, GAME_COMM_PushPairMessage, GAME_COMM_PushPalaceMessage, GAME_COMM_PushPlayerMessage, GAME_BEACON_Create, GAME_BEACON_Update, GAME_BEACON_Setup, GAME_BEACON_GetMyInfo, GAME_BEACON_SendIfRequested, GAME_BEACON_UpdateActionTime, GAME_BEACON_AddLog, GAME_BEACON_ReceiveInfo, GAME_BEACON_GetLogFromWork, GAME_BEACON_GetLog, GAME_BEACON_GetLogByReceiveNoFromWork, GAME_BEACON_GetLogByReceiveNo, GAME_BEACON_GetReceiveCount, GAME_BEACON_GetNextNewLogIndex, GAME_BEACON_ClearNewFlag, GAME_BEACON_SetNewFlagByTrainerId, GAME_BEACON_GetReceivedFramesByTrainerId, GAME_BEACON_BuildMyInfo, GAME_BEACON_RequestSend, GAME_BEACON_CheckActionPriority, GAME_BEACON_IsSpecialPokemon, GAME_BEACON_CopyStrbufCodes, GAME_BEACON_PopQuestionnaireUpdated, GAME_BEACON_SetQuestionnaire, GAME_BEACON_SetNationArea, GAME_BEACON_SetResearchTeamRank, GAME_BEACON_SetPms, GAME_BEACON_SetTrainerView, GAME_BEACON_UpdateGreeting, GAME_BEACON_SetPokeCapture, GAME_BEACON_SetPokeGet, func_02027220, GAME_BEACON_SetSpecialPokeGet, func_02027258, GAME_BEACON_SetPokeLevelUp, func_02027290, GAME_BEACON_SetPokeEvolution, func_020272D0, GAME_BEACON_SetPlayTime, func_02027314, GAME_BEACON_SetItemUse, func_0202734C, GAME_BEACON_SetZone, GAME_BEACON_SetInfoZone, GAME_BEACON_SetDetailsBattleWildPoke, GAME_BEACON_SetDetailsBattleSpecialPoke, GAME_BEACON_SetDetailsBattleTrainer, GAME_BEACON_SetDetailsBattleLeader, GAME_BEACON_SetDetailsBattleBigFour, GAME_BEACON_ResetDetails, GAME_BEACON_WritePms, GAME_BEACON_SetMyPms, GAME_BEACON_RegisterClearCallback, GAME_BEACON_ClearFlags
  * address:  0x020263B0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -31,7 +31,7 @@
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
  *   func_0200864C  0x0200864C  thumb
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_0217778C  0x0217778C  thumb
+ *   NET_WHPIPE_PublishBeacon  0x0217778C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E394  0x0200E394  thumb
  *   func_0200E44C  0x0200E44C  thumb
@@ -47,8 +47,8 @@
  *   OS_GetOwnerInfo  0x02087C88  arm
  *   func_020127A4    0x020127A4  thumb
  *   func_02012AC8    0x02012AC8  thumb
- *   func_02013CC8    0x02013CC8  thumb
- *   func_02013CE0    0x02013CE0  thumb
+ *   ZONEDATA_IsZone1A6    0x02013CC8  thumb
+ *   ZONEDATA_IsZone96Pair    0x02013CE0  thumb
  *   func_02012894    0x02012894  thumb
  *   SYMBOL_MAP_ResolveZoneId    0x02166C7C  thumb
  *   func_02008534    0x02008534  thumb
@@ -227,7 +227,7 @@ extern int  GFL_NET_GetRunState(void);
 extern struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gameData);
 extern u16 func_0200864C(const struct PlayTime *playTime);
 extern u8 func_02008650(const struct PlayTime *playTime);
-extern void func_0217778C(void);
+extern void NET_WHPIPE_PublishBeacon(void);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct QuestionnaireSave *func_0200E394(struct SaveControl *save);
 extern int   func_0200E44C(struct QuestionnaireSave *questionnaire, int slot);
@@ -248,8 +248,8 @@ extern struct PmsSave *func_0200E6E8(struct SaveControl *save);
 extern void func_0200E6FC(struct PmsSave *pmsSave, int index, GameBeaconPms *dst);
 extern struct PlayerWork *func_020127A4(struct GameData *gameData);
 extern u16 func_02012AC8(const struct PlayerWork *player);
-extern u32 func_02013CC8(u16 zoneId);
-extern u32 func_02013CE0(u16 zoneId);
+extern u32 ZONEDATA_IsZone1A6(u16 zoneId);
+extern u32 ZONEDATA_IsZone96Pair(u16 zoneId);
 extern struct WarpLocation *func_02012894(const struct GameData *gameData);
 extern u32 SYMBOL_MAP_ResolveZoneId();
 extern u16 func_02008534(const struct MyStatus *status);
@@ -1180,7 +1180,7 @@ void GAME_BEACON_SendIfRequested(void)
 {
     if (GAME_BEACON_Work->own.sendRequest == 1) {
         if (GFL_NET_GetRunState() == 1) {
-            func_0217778C();
+            NET_WHPIPE_PublishBeacon();
             GAME_BEACON_Work->own.sendRequest = 0;
         }
     }
@@ -1696,7 +1696,7 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
     OS_GetOwnerInfo(&ownerInfo);
     info->versionBit = 0xff;
     info->zoneId = func_02012AC8(func_020127A4(gameData));
-    if (func_02013CC8(info->zoneId) == 1 || func_02013CE0(info->zoneId) == 1) {
+    if (ZONEDATA_IsZone1A6(info->zoneId) == 1 || ZONEDATA_IsZone96Pair(info->zoneId) == 1) {
         info->zoneId = func_02012894(gameData)->zoneId;
     }
     info->townmapRootZoneId = SYMBOL_MAP_ResolveZoneId(gameData, (u16)info->zoneId);

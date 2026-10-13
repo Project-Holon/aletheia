@@ -13,7 +13,7 @@
  *   func_021C1154 0x021C1154 thumb ov099
  *   func_021BDD54 0x021BDD54 thumb ov099
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039C68 0x02039C68 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  *   DWC_RAP_GetTargetFriendIndex 0x02156A3C thumb ov009
  *   func_021BA874 0x021BA874 thumb ov099
  *   func_021BAAB8 0x021BAAB8 thumb ov099
@@ -27,7 +27,7 @@ extern int func_021BDD54(char *, void *);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *, unsigned, unsigned);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned, unsigned);
 extern int DWC_RAP_GetTargetFriendIndex(void);
 extern void func_021BA874(char *, int);
 extern void func_021BAAB8(char *, int, int);
@@ -40,7 +40,7 @@ int func_021C143C(char *p, int ret)
         if (((u16 *)(p + 0x1f4))[index] != 0) {
             value = func_021BDD54(p, ((struct Obj06359 *)p)->f8);
             if (value == ((u16 *)(p + 0x1f4))[index]) {
-                func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 15, 10);
+                GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 15, 10);
                 ((struct Obj06359 *)p)->f1CC = 44;
             } else {
                 func_021BA874(p, DWC_RAP_GetTargetFriendIndex());

@@ -20,12 +20,12 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02013D5C  0x02013D5C  thumb
+ *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   EVENT_MAPCHANGE_InitWork  0x02184CEC  thumb  ov020
- *   func_020142A4  0x020142A4  thumb
+ *   ZONEDATA_DirToExitDir  0x020142A4  thumb
  *   ZONEDATA_SetDirectLocation  0x02014184  thumb
  *   EVENT_MAPCHANGE_FadeDelayedEvent  0x0218466C  thumb  ov020
  */
@@ -46,12 +46,12 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 struct BigObj;
-extern u32 func_02013D5C(u32 id);
+extern u32 ZONEDATA_IsZone117(u32 id);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 extern void EVENT_MAPCHANGE_InitWork(void **o, void *p);
-extern u32 func_020142A4(u32 idx);
+extern u32 ZONEDATA_DirToExitDir(u32 idx);
 extern void ZONEDATA_SetDirectLocation(void *r, u16 id, s16 count, u32 a, u32 b, u32 c);
 extern int EVENT_MAPCHANGE_FadeDelayedEvent(int ctx, int *state, u8 *p);
 
@@ -63,7 +63,7 @@ void *EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(void *owner, u16 id, cons
     char *x = func_020124E8((struct Obj *)node);
     int r = 0;
 
-    if (func_02013D5C(id) == 1) {
+    if (ZONEDATA_IsZone117(id) == 1) {
         E *e = (E *)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((const struct Ctx *)owner));
         if (e != 0) {
             int lo = e->lo;
@@ -74,7 +74,7 @@ void *EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(void *owner, u16 id, cons
         v.x += (u32)r << 22;
     }
     EVENT_MAPCHANGE_InitWork((void **)x, owner);
-    ZONEDATA_SetDirectLocation(x + 0x10, id, (s16)func_020142A4(0), v.x, v.y, v.z);
+    ZONEDATA_SetDirectLocation(x + 0x10, id, (s16)ZONEDATA_DirToExitDir(0), v.x, v.y, v.z);
     *(u32 *)(x + 0x2C) = 0;
     *(u32 *)(x + 0x40) = 0;
     return node;

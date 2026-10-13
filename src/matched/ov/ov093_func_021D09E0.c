@@ -1,5 +1,5 @@
 /*
- * function: func_021D09E0
+ * function: BTL_CLIENT_SortMonsByMovePower
  * address:  0x021D09E0
  * packet:   pkt_ov093_021D09E0
  * region:   ov093
@@ -21,7 +21,7 @@
  *   WAZA_TOOL_GetType 0x0201C1C8 thumb
  *   WAZA_TOOL_GetPower 0x0201C1D8 thumb
  *   BTL_POKEPARAM_GetTypePair 0x021D57FC thumb ov093
- *   func_021B9C00 0x021B9C00 thumb ov093
+ *   BTL_SLOT_GetPokeParam 0x021B9C00 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
  *   BTL_POKEPARAM_GetMovePPChecked 0x021D5584 thumb ov093
@@ -35,7 +35,7 @@ extern u16 BTL_POKEPARAM_GetTypePair(void *);
 struct QG;
 struct S2;
 struct UtilWork;
-extern u8 *func_021B9C00(struct S2 *p, u32 i);
+extern u8 *BTL_SLOT_GetPokeParam(struct S2 *p, u32 i);
 extern int BTL_POKEPARAM_IsFainted(void *);
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern u8 BTL_POKEPARAM_GetMovePPChecked(struct UtilWork *p, u32 i);
@@ -44,7 +44,7 @@ extern u32 WAZA_TOOL_IsDamaging(void *);
 extern u8 WAZA_TOOL_GetType(void *);
 extern u16 WAZA_TOOL_GetPower(void *);
 extern int BTL_CALC_GetTypeAffinityVsPair(int, u16);
-void func_021D09E0(u8 *p, u8 *order, u8 count, void *target)
+void BTL_CLIENT_SortMonsByMovePower(u8 *p, u8 *order, u8 count, void *target)
 {
     u16 scores[6];
     u16 type;
@@ -58,7 +58,7 @@ void func_021D09E0(u8 *p, u8 *order, u8 count, void *target)
     type = BTL_POKEPARAM_GetTypePair(target);
     for (i = 0; i < count; i++) {
         scores[i] = 0;
-        mon = func_021B9C00(*(void **)(p + 0x118), order[i]);
+        mon = BTL_SLOT_GetPokeParam(*(void **)(p + 0x118), order[i]);
         if (!BTL_POKEPARAM_IsFainted(mon)) {
             u8 n;
             n = BTL_POKEPARAM_GetMoveCount(mon);

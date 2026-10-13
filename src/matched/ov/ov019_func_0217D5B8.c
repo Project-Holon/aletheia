@@ -12,8 +12,8 @@
  * symbols:
  *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
  *   func_02030734  0x02030734  arm
  *   GAME_DATA_GetMyParty  0x02012934  thumb
@@ -61,8 +61,8 @@ extern int UNION_ONESELF_CheckNetError(char *p);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
-extern unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
 typedef unsigned int   u32;
 struct BigObj;
 extern u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
@@ -101,11 +101,11 @@ int UNION_ONESELF_AppMain(u8 *a, Obj *b, u8 *c, u8 *d)
             (*d)++;
         break;
     case 1:
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 8, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 8, 0x14);
         (*d)++;
         break;
     case 2:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 8, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 8, 0x14) == 1)
             (*d)++;
         break;
     case 3:

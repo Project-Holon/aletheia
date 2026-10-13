@@ -11,16 +11,16 @@
  *
  * symbols:
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
- *   func_0204B3F4  0x0204B3F4  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B92C  0x0204B92C  arm
- *   func_020061E4  0x020061E4  thumb
+ *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_021BB54C  0x021BB54C  thumb  ov172
  *   func_021BE0B8  0x021BE0B8  thumb  ov172
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B404  0x0204B404  arm
- *   func_020362DC  0x020362DC  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_021BB65C  0x021BB65C  thumb  ov172
  *   func_021BB9E4  0x021BB9E4  thumb  ov172
  *   CLACT_IsActorAnimActive  0x0204B98C  arm
@@ -49,17 +49,17 @@ struct SpritePos {
 extern int TOUCHPANEL_HitTrg(const void *p);
 struct Actor;
 struct Obj;
-extern u32 func_0204B3F4(struct Obj *p);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204B92C(struct Obj *p, unsigned int v);
-extern void func_020061E4(u32 id);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern void func_021BB54C(void *ctx, u8 *p);
 extern void func_021BE0B8(void *ctx);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern u32 func_020362DC(void);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern u32 KEY_GetTrg(void);
 extern void func_021BB65C(void *ctx, u8 *p, int v);
 extern void func_021BB9E4(void *a0, char *a1);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
@@ -83,43 +83,43 @@ void func_021BAEE0(void *ctx, u8 *p)
     int j;
 
     k = TOUCHPANEL_HitTrg(d_021C6FF8);
-    if (k == 0 && func_0204B3F4(((struct Obj00024 *)p)->f8C) == 0) {
+    if (k == 0 && CLACT_GetActorDrawEnable(((struct Obj00024 *)p)->f8C) == 0) {
         ((struct Obj00024 *)p)->f28 = 0;
         ((struct Obj00024 *)p)->f24 = 0;
         func_021BB54C(ctx, p);
         ((struct Obj00024 *)p)->f8 = 1;
         ((struct Obj00024 *)p)->f10 = 1;
-        func_0204B3DC(((struct Obj00024 *)p)->f84, 1);
-        func_0204B92C(((struct Obj00024 *)p)->f84, 1);
-        func_020061E4(0x66c);
+        CLACT_SetActorDrawEnable(((struct Obj00024 *)p)->f84, 1);
+        CLACT_SetActorAutoAnim(((struct Obj00024 *)p)->f84, 1);
+        GFL_USE_PlaySeDefaultVolume(0x66c);
     }
     if (k == 1) {
         ((struct Obj00024 *)p)->f28 = 1;
         func_021BB54C(ctx, p);
         ((struct Obj00024 *)p)->f8 = 1;
-        func_020061E4(0x66c);
+        GFL_USE_PlaySeDefaultVolume(0x66c);
     }
     if (k == 2) {
         ((struct Obj00024 *)p)->f28 = 2;
         func_021BB54C(ctx, p);
         ((struct Obj00024 *)p)->f8 = 1;
-        func_020061E4(0x66c);
+        GFL_USE_PlaySeDefaultVolume(0x66c);
     }
-    if (k == 3 && func_0204B3F4(((struct Obj00024 *)p)->f8C) == 0) {
+    if (k == 3 && CLACT_GetActorDrawEnable(((struct Obj00024 *)p)->f8C) == 0) {
         ((struct Obj00024 *)p)->f28 = 3;
         ((struct Obj00024 *)p)->f24 = 1;
         func_021BB54C(ctx, p);
         ((struct Obj00024 *)p)->f8 = 1;
         ((struct Obj00024 *)p)->f14 = 1;
-        func_0204B3DC(((struct Obj00024 *)p)->f88, 1);
-        func_0204B92C(((struct Obj00024 *)p)->f88, 1);
-        func_020061E4(0x66c);
+        CLACT_SetActorDrawEnable(((struct Obj00024 *)p)->f88, 1);
+        CLACT_SetActorAutoAnim(((struct Obj00024 *)p)->f88, 1);
+        GFL_USE_PlaySeDefaultVolume(0x66c);
     }
     if (k == 4) {
         func_021BE0B8(ctx);
         func_021BB54C(ctx, p);
         ((struct Obj00024 *)p)->f8 = 1;
-        func_020061E4(0x66f);
+        GFL_USE_PlaySeDefaultVolume(0x66f);
     }
     if (((struct Obj00024 *)p)->f10 == 1) {
         j = TOUCHPANEL_HitTrg(d_021C7014);
@@ -127,13 +127,13 @@ void func_021BAEE0(void *ctx, u8 *p)
             p[0x36] = d_021C6FBC[j];
             ((struct Obj00024 *)p)->f8 = 1;
             pa = d_021C7030;
-            func_0204B3DC(((struct Obj00024 *)p)->f8C, 1);
+            CLACT_SetActorDrawEnable(((struct Obj00024 *)p)->f8C, 1);
             CLACT_RestartActorAnim(((struct Obj00024 *)p)->f8C);
-            func_0204B92C(((struct Obj00024 *)p)->f8C, 1);
+            CLACT_SetActorAutoAnim(((struct Obj00024 *)p)->f8C, 1);
             CLACT_SetActorAnimSeq(((struct Obj00024 *)p)->f8C, (u16)(j + 0x11));
-            func_0204B404(((struct Obj00024 *)p)->f8C, (const struct Vec2 *)(&pa), 0);
-            func_0204B3DC(((struct Obj00024 *)p)->f90, 0);
-            func_020061E4(0x66c);
+            CLACT_AddActorSurfacePos(((struct Obj00024 *)p)->f8C, (const struct Vec2 *)(&pa), 0);
+            CLACT_SetActorDrawEnable(((struct Obj00024 *)p)->f90, 0);
+            GFL_USE_PlaySeDefaultVolume(0x66c);
         }
     }
     if (((struct Obj00024 *)p)->f14 == 1) {
@@ -141,36 +141,36 @@ void func_021BAEE0(void *ctx, u8 *p)
         if (j != -1) {
             p[0x37] = d_021C6FC8[j];
             ((struct Obj00024 *)p)->f8 = 1;
-            func_020061E4(0x66c);
+            GFL_USE_PlaySeDefaultVolume(0x66c);
             pb = d_021C7034;
-            func_0204B3DC(((struct Obj00024 *)p)->f8C, 1);
+            CLACT_SetActorDrawEnable(((struct Obj00024 *)p)->f8C, 1);
             CLACT_RestartActorAnim(((struct Obj00024 *)p)->f8C);
-            func_0204B92C(((struct Obj00024 *)p)->f8C, 1);
+            CLACT_SetActorAutoAnim(((struct Obj00024 *)p)->f8C, 1);
             CLACT_SetActorAnimSeq(((struct Obj00024 *)p)->f8C, (u16)(j + 0x14));
-            func_0204B404(((struct Obj00024 *)p)->f8C, (const struct Vec2 *)(&pb), 0);
-            func_0204B3DC(((struct Obj00024 *)p)->f90, 0);
+            CLACT_AddActorSurfacePos(((struct Obj00024 *)p)->f8C, (const struct Vec2 *)(&pb), 0);
+            CLACT_SetActorDrawEnable(((struct Obj00024 *)p)->f90, 0);
         }
     }
-    if ((func_020362DC() & 0x400) || (func_020362DC() & 2) || k == 5) {
+    if ((KEY_GetTrg() & 0x400) || (KEY_GetTrg() & 2) || k == 5) {
         if (*(int *)&((struct Obj00024 *)p)->f38 == 0) {
             ((struct Obj00024 *)p)->f0 = 4;
             p[4] = 0x18;
             ((struct Obj00024 *)p)->f8 = 1;
             func_021BB65C(ctx, p, 0);
             func_021BB9E4(ctx, (char *)p);
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             CLACT_SetActorAnimSeq(((struct Obj00024 *)p)->f6C, 9);
         }
     }
-    if (func_020362DC() & 0xc) {
+    if (KEY_GetTrg() & 0xc) {
         func_021BE0B8(ctx);
         func_021BB54C(ctx, p);
-        func_020061E4(0x66f);
+        GFL_USE_PlaySeDefaultVolume(0x66f);
     }
-    if (func_0204B3F4(((struct Obj00024 *)p)->f8C) == 1 && CLACT_IsActorAnimActive(((struct Obj00024 *)p)->f8C) == 0) {
+    if (CLACT_GetActorDrawEnable(((struct Obj00024 *)p)->f8C) == 1 && CLACT_IsActorAnimActive(((struct Obj00024 *)p)->f8C) == 0) {
         func_021BB9E4(ctx, (char *)p);
     }
-    if (((struct Obj00024 *)p)->f10 == 1 && CLACT_IsActorAnimActive(((struct Obj00024 *)p)->f84) == 0 && func_0204B3F4(((struct Obj00024 *)p)->f90) == 0) {
+    if (((struct Obj00024 *)p)->f10 == 1 && CLACT_IsActorAnimActive(((struct Obj00024 *)p)->f84) == 0 && CLACT_GetActorDrawEnable(((struct Obj00024 *)p)->f90) == 0) {
         pc = d_021C7038;
         switch (p[0x36]) {
         case 1:
@@ -182,10 +182,10 @@ void func_021BAEE0(void *ctx, u8 *p)
         case 2:
             break;
         }
-        func_0204B404(((struct Obj00024 *)p)->f90, (const struct Vec2 *)(&pc), 0);
-        func_0204B3DC(((struct Obj00024 *)p)->f90, 1);
+        CLACT_AddActorSurfacePos(((struct Obj00024 *)p)->f90, (const struct Vec2 *)(&pc), 0);
+        CLACT_SetActorDrawEnable(((struct Obj00024 *)p)->f90, 1);
     }
-    if (((struct Obj00024 *)p)->f14 == 1 && CLACT_IsActorAnimActive(((struct Obj00024 *)p)->f88) == 0 && func_0204B3F4(((struct Obj00024 *)p)->f90) == 0) {
+    if (((struct Obj00024 *)p)->f14 == 1 && CLACT_IsActorAnimActive(((struct Obj00024 *)p)->f88) == 0 && CLACT_GetActorDrawEnable(((struct Obj00024 *)p)->f90) == 0) {
         pd = d_021C703C;
         switch (p[0x37]) {
         case 3:
@@ -201,7 +201,7 @@ void func_021BAEE0(void *ctx, u8 *p)
             pd.x = pd.x + 0x20;
             break;
         }
-        func_0204B404(((struct Obj00024 *)p)->f90, (const struct Vec2 *)(&pd), 0);
-        func_0204B3DC(((struct Obj00024 *)p)->f90, 1);
+        CLACT_AddActorSurfacePos(((struct Obj00024 *)p)->f90, (const struct Vec2 *)(&pd), 0);
+        CLACT_SetActorDrawEnable(((struct Obj00024 *)p)->f90, 1);
     }
 }

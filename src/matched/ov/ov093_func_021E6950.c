@@ -1,5 +1,5 @@
 /*
- * function: func_021E6950
+ * function: HAND_WAZA_AddDefenseCurl
  * address: 0x021E6950
  * packet: pkt_ov093_021E6950
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E65B0_p03.c and filed here.
  *
  * symbols:
- *   d_021F2754 0x021F2754 data ov093 a4
+ *   gDefenseCurlHandlers 0x021F2754 data ov093 a4
  */
 
-int *func_021E6950(int *p);
-extern int d_021F2754[];
+int *HAND_WAZA_AddDefenseCurl(int *p);
+extern int gDefenseCurlHandlers[];
 
-int *func_021E6950(int *p)
+int *HAND_WAZA_AddDefenseCurl(int *p)
 {
     *p = 1;
-    return d_021F2754;
+    return gDefenseCurlHandlers;
 }

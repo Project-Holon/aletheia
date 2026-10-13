@@ -13,15 +13,16 @@
  *
  * symbols:
  *   g_021AA4AC  0x021AA4AC  data
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 
 #include "../include/G_SOCLResource.h"
 
 extern struct SOCLResource g_021AA4AC;
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 
 void func_0215F0D4(void)
 {
-    func_02082BCC(((char *)&g_021AA4AC), 0, 8);
+    MI_CpuFill8(((char *)&g_021AA4AC), 0, 8);
 }
 

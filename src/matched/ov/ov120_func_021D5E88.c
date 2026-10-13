@@ -14,7 +14,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02034AC4 0x02034AC4 arm
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   func_0207D46C 0x0207D46C arm
@@ -48,7 +48,7 @@ extern const u32 d_021D8974[];
 extern struct DispConfig d_021D8B60;
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern int func_02034AC4(int);
-extern void func_02043534(u32);
+extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 struct Bank;
 extern void BG_SYS_SetLcdSwap(u32 swap);
@@ -72,7 +72,7 @@ u8 *func_021D5E88(u32 heap,void *arg)
     ((struct Obj00987 *)p)->fF4=heap;
     ((struct Obj00987 *)p)->f118=arg;
     func_02034AC4((int)ov_id);
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     BG_SYS_SetLcdSwap(1);
     *(volatile u32 *)0x04001000|=0x10000;
@@ -90,6 +90,6 @@ u8 *func_021D5E88(u32 heap,void *arg)
     func_021D69A0(p);
     func_021D692C(p,0);
     BG_SYS_SetSubVisiblePlanes(31);
-    func_02043534(31);
+    BG_SYS_SetMainVisiblePlanes(31);
     return p;
 }

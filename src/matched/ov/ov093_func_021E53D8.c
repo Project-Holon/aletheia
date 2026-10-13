@@ -1,5 +1,5 @@
 /*
- * function: func_021E53D8
+ * function: HAND_WAZA_AddTailwind
  * address: 0x021E53D8
  * packet: pkt_ov093_021E53D8
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E535C.c and filed here.
  *
  * symbols:
- *   d_021F25EC 0x021F25EC data ov093 a4
+ *   gTailwindHandlers 0x021F25EC data ov093 a4
  */
 
-int *func_021E53D8(int *p);
-extern int d_021F25EC[];
+int *HAND_WAZA_AddTailwind(int *p);
+extern int gTailwindHandlers[];
 
-int *func_021E53D8(int *p)
+int *HAND_WAZA_AddTailwind(int *p)
 {
     *p = 1;
-    return d_021F25EC;
+    return gTailwindHandlers;
 }

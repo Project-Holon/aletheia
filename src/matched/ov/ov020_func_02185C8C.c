@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
  *   ENCEFF_Start  0x021CF498  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Desc;
 struct Obj;
-void func_020061E4(u32 a);
+void GFL_USE_PlaySeDefaultVolume(u32 a);
 struct Ctx;
 struct Evt;
 int FIELDMAP_GetEncEff(unsigned char *p);
@@ -48,7 +48,7 @@ int EVENT_MAPCHANGE_RunIntrudeArriveEvent(int a0, int *st, int *p)
 
     switch (st[0]) {
     case 0:
-        func_020061E4(0x773);
+        GFL_USE_PlaySeDefaultVolume(0x773);
         ENCEFF_Start((struct Ctx *)FIELDMAP_GetEncEff((unsigned char *)r6), a0, 0x24);
         st[0]++;
         break;

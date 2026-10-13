@@ -10,7 +10,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F0848 0x021F0848 data a4
+ *   gStaticHandlers 0x021F0848 data a4
  *   BTL_CALC_MakeDefaultSickCont 0x021D7D18 thumb ov093
  *   HAND_TOKUSEI_TryAddContactSick 0x021D9E08 thumb ov093
  */
@@ -21,5 +21,5 @@ extern Slot BTL_CALC_MakeDefaultSickCont(int);
  * original outgoing str [sp] supplies 30. No padding bits are read. */
 extern void HAND_TOKUSEI_TryAddContactSick(int,int,int,Slot,unsigned char);
 void HAND_TOKUSEI_StaticOnDamageReaction(int a,int b,int c) { Slot s; s=BTL_CALC_MakeDefaultSickCont(1); HAND_TOKUSEI_TryAddContactSick(b,c,1,s,30); }
-extern unsigned int d_021F0848;
-void *HAND_TOKUSEI_AddStatic(int *p) { *p=1; return &d_021F0848; }
+extern unsigned int gStaticHandlers;
+void *HAND_TOKUSEI_AddStatic(int *p) { *p=1; return &gStaticHandlers; }

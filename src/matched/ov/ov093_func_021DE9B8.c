@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_ChoiceScarf_BoostSpeed
+ * function: HAND_ITEM_ChoiceScarf_BoostSpeed
  * address: 0x021DE9B8
  * packet: pkt_ov093_021DE9B8
  * region: ov093
@@ -15,4 +15,4 @@
  */
 extern int BTL_EVENT_GetVar(int);
 extern void BTL_EVENT_MultiplyVar(int,int);
-void BTL_HANDLER_ITEM_ChoiceScarf_BoostSpeed(int a,int b,int c) { if(c==BTL_EVENT_GetVar(2)) BTL_EVENT_MultiplyVar(53,6144); }
+void HAND_ITEM_ChoiceScarf_BoostSpeed(int a,int b,int c) { if(c==BTL_EVENT_GetVar(2)) BTL_EVENT_MultiplyVar(53,6144); }

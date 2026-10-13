@@ -17,8 +17,8 @@
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 #include "../include/Obj01041.h"
 
@@ -39,8 +39,8 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
-extern void func_0204B92C(struct Obj *, u32);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *, u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 void ITEMMENU_CreateMovingCursor(char *p, int id)
 {
@@ -59,6 +59,6 @@ void ITEMMENU_CreateMovingCursor(char *p, int id)
     r.d = 0;
     r.e = 0;
     *(int *)&((struct Obj01041 *)p)->f6A0 = (int)CLACT_CreateActor((void *)((struct Obj01041 *)p)->f69C, ((struct Obj01041 *)p)->f54C, ((struct Obj01041 *)p)->f548, ((struct Obj01041 *)p)->f550, &r, 1, ((struct Obj01041 *)p)->f544);
-    func_0204B92C((struct Obj *)*(int *)&((struct Obj01041 *)p)->f6A0, 1);
-    func_0204B3DC((struct Obj *)*(int *)&((struct Obj01041 *)p)->f6A0, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)*(int *)&((struct Obj01041 *)p)->f6A0, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)*(int *)&((struct Obj01041 *)p)->f6A0, 1);
 }

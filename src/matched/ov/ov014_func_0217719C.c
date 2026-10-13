@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_02177310  0x02177310  thumb
+ *   NET_WHPIPE_SetEventCallback  0x02177310  thumb
  */
 
 typedef unsigned int u32;
 
-void func_02177310(u32 v);
+void NET_WHPIPE_SetEventCallback(u32 v);
 
 int GFL_NET_DEVWIRELESS_SetEventCallback(u32 v)
 {
-    func_02177310(v);
+    NET_WHPIPE_SetEventCallback(v);
     return 1;
 }

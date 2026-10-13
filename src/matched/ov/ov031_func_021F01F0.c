@@ -11,7 +11,7 @@
  * extent: trailing two-byte zero alignment padding.
  * symbols:
  *   CLACT_CreateUnit 0x0204B100 arm
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  */
@@ -22,13 +22,13 @@ struct Bank;
 struct GfFont;
 struct MsgBank;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 void UNION_SUBDISP_CreateSystems(u32 *p)
 {
     ((struct Obj07624 *)p)->f14 = CLACT_CreateUnit(12, 5, 21);
-    ((struct Obj07624 *)p)->f40 = func_0201C440((void *)21);
+    ((struct Obj07624 *)p)->f40 = PRINTSYS_QUE_Create((void *)21);
     ((struct Obj07624 *)p)->f44 = GF_FONT_Create(23, 0, 0, 0, 21);
     ((struct Obj07624 *)p)->f48 = func_02045B38(0, 2, 201, 21);
 }

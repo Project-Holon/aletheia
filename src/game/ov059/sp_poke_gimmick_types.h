@@ -55,7 +55,7 @@ typedef struct SpPokeGimmickWork {
 } SpPokeGimmickWork;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
-extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
 extern SpPokeGimmickWork *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);

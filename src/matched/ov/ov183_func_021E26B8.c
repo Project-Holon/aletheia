@@ -15,7 +15,7 @@
  *   func_021E2E30 0x021E2E30 thumb ov183
  *   func_021FE784 0x021FE784 thumb ov186
  *   func_021FE7B0 0x021FE7B0 thumb ov186
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FF54C 0x021FF54C thumb ov186
  *   func_021FF648 0x021FF648 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
@@ -27,8 +27,8 @@
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   func_021FD170 0x021FD170 thumb ov186
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_02035D20 0x02035D20 arm
- *   func_020061E4 0x020061E4 thumb
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021E2E48 0x021E2E48 thumb ov183
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021E2910 0x021E2910 thumb ov183
@@ -47,7 +47,7 @@ struct SOCLResource;
 extern void func_021E2F98(struct SOCLResource *resource);
 extern void func_021E2E30(char *,int,int);
 extern void func_021FE784(int,int,int,int);extern int func_021FE7B0(int *);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern void func_021FF54C(char *p, int kind, const int *values);
 extern int func_021FF648(char *p);
 extern int func_021FF72C(char *p, int *out);
@@ -59,8 +59,8 @@ extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int ind
 extern void func_021FD170(char *p, char *q, void *text);
 extern void func_021FD860(int,int,Pair *);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_02035D20(u32 *,u32 *);
-extern void func_020061E4(u32 a);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021E2E48(char *p, int a, int b);
 extern int *func_021FD73C(int *p, int v);
 extern void func_021E2910(int *task, int *state, char *p);
@@ -79,7 +79,7 @@ void func_021E26B8(int *task,State *state,char *p) {
     case 1:func_021FE784(**(int **)(p+0x3c),2,3,0);*state=2;break;
     case 2:if(func_021FE7B0((int *)**(int **)(p+0x3c)))*state=3;break;
     case 3:
-        func_02082BCC(req,0,8);*(u64 *)req=*(u64 *)(*(char **)(p+0x3c)+0x1c);
+        MI_CpuFill8(req,0,8);*(u64 *)req=*(u64 *)(*(char **)(p+0x3c)+0x1c);
         func_021FF54C(*(void **)(*(char **)(p+0x3c)+12),3,(const int *)req);
         *(u32 *)(p+0x44)=0;*state=4;break;
     case 4:
@@ -104,8 +104,8 @@ void func_021E26B8(int *task,State *state,char *p) {
         break;
     case 9:
         if(TOUCHPANEL_GetTrg()) {
-            func_02035D20(&x,&y);click.a=x;click.b=y;func_021FD860(*(int *)(p+0x34),1,&click);
-            func_020061E4(0x703);*state=10;
+            TOUCHPANEL_GetPointTrg(&x,&y);click.a=x;click.b=y;func_021FD860(*(int *)(p+0x34),1,&click);
+            GFL_USE_PlaySeDefaultVolume(0x703);*state=10;
         }break;
     case 6:func_021FE784(**(int **)(p+0x3c),2,3,1);*state=7;break;
     case 7:if(func_021FE7B0((int *)**(int **)(p+0x3c)))*state=8;break;

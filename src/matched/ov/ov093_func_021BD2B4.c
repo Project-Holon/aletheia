@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_SERVER_GetClientIfUsed  0x021BB878  thumb  ov093
- *   func_021B9C00  0x021B9C00  thumb  ov093
+ *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  */
 #include "../include/Obj13305.h"
@@ -20,7 +20,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u8 *BTL_SERVER_GetClientIfUsed(u8 *p, u32 i);
 struct S2;
-extern u8 *func_021B9C00(struct S2 *p, u32 i);
+extern u8 *BTL_SLOT_GetPokeParam(struct S2 *p, u32 i);
 extern int BTL_POKEPARAM_IsFainted(void *p);
 
 void BTL_SERVER_FLOW_InitFieldPokeIter(u8 *p, u8 **q)
@@ -38,7 +38,7 @@ void BTL_SERVER_FLOW_InitFieldPokeIter(u8 *p, u8 **q)
         m = BTL_SERVER_GetClientIfUsed(*q, i);
         if (m == 0) continue;
         for (j = 0; j < m[9]; j++) {
-            x = func_021B9C00((struct S2 *)(*(u8 * *)&((struct Obj13305 *)m)->f4), j);
+            x = BTL_SLOT_GetPokeParam((struct S2 *)(*(u8 * *)&((struct Obj13305 *)m)->f4), j);
             if (x) f = BTL_POKEPARAM_IsFainted(x) == 0;
             else f = 0;
             if (f) {

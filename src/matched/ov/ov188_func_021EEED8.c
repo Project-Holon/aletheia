@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082BCC   0x02082BCC  arm
- *   func_0201AA14   0x0201AA14  thumb
- *   func_0201AA18   0x0201AA18  thumb
- *   func_0201AB28   0x0201AB28  thumb
+ *   MI_CpuFill8   0x02082BCC  arm
+ *   POKEPARTY_GetCapacity   0x0201AA14  thumb
+ *   POKEPARTY_GetCount   0x0201AA18  thumb
+ *   POKEPARTY_GetMember   0x0201AB28  thumb
  *   func_021EE920   0x021EE920  thumb
  *
  * Clear a 0x2A4-byte record, copy the pair of counts out of a and release
@@ -24,21 +24,21 @@
 
 typedef unsigned int u32;
 
-extern void func_02082BCC(int, int, int);
+extern void MI_CpuFill8(int, int, int);
 struct Mon;
-extern u32 func_0201AA14(void *p);
-extern u32 func_0201AA18(void *);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCapacity(void *p);
+extern u32 POKEPARTY_GetCount(void *);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void func_021EE920(struct Mon *p, char *q);
 
 void func_021EEED8(int a, char *p)
 {
     int i;
-    func_02082BCC((int)p, 0, 0x2A4);
-    if (func_0201AA18((void *)a) == 0)
+    MI_CpuFill8((int)p, 0, 0x2A4);
+    if (POKEPARTY_GetCount((void *)a) == 0)
         return;
-    ((struct Obj10803 *)p)->f0 = func_0201AA14((void *)a);
-    ((struct Obj10803 *)p)->f2 = func_0201AA18((void *)a);
+    ((struct Obj10803 *)p)->f0 = POKEPARTY_GetCapacity((void *)a);
+    ((struct Obj10803 *)p)->f2 = POKEPARTY_GetCount((void *)a);
     for (i = 0; i < ((struct Obj10803 *)p)->f2; i++)
-        func_021EE920((struct Mon *)((int)func_0201AB28((void *)a, i)), p + 4 + i * 0x70);
+        func_021EE920((struct Mon *)((int)POKEPARTY_GetMember((void *)a, i)), p + 4 + i * 0x70);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021775AC",
+   "name": "NET_WHPIPE_ForwardEvent",
    "address": "0x021775AC",
    "kind": "game",
    "region": "ov014",

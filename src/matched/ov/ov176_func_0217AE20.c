@@ -10,7 +10,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02034AC4 0x02034AC4 arm
  *   ov67_id 0x43 data
  *   ov177_id 0xB1 data
@@ -25,7 +25,7 @@ extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 typedef unsigned int   u32;
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern int func_02034AC4(signed int);
 extern char ov67_id[],ov177_id[];
 extern void func_0217AEF4(int *);
@@ -38,7 +38,7 @@ int func_0217AE20(void *a,void *b,void *context)
     char *p;
     GFL_HEAP_CreateChildHeap(1,0x4e,0x30200);
     p=PROCSYS_AllocProcWork(a,0x34,0x4e);
-    func_02082BCC(p,0,0x34);
+    MI_CpuFill8(p,0,0x34);
     ((struct Obj10694 *)p)->f28=context;
     ((struct Obj10694 *)p)->f0=0x4e;
     func_02034AC4((int)ov67_id);

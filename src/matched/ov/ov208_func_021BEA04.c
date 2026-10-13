@@ -15,7 +15,7 @@
  *   ov067_id 0x00000043 data
  *   ov206_id 0x000000CE data
  *   func_021BC32C 0x021BC32C thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_020056A0 0x020056A0 thumb
  *   func_021BEF9C 0x021BEF9C thumb ov208
  *   func_021BC448 0x021BC448 thumb
@@ -42,7 +42,7 @@ typedef signed int     s32;
 struct Ov208Buf;
 extern int func_02034AC4(s32 handle);
 extern void *func_021BC32C(struct Ov208Buf *p, u32 size, u32 heap);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern int func_020056A0(void (*fn)(void *), void *arg, int n);
 extern void func_021BEF9C(void *p);
 extern void *func_021BC448(u32 heap);
@@ -54,7 +54,7 @@ int func_021BEA04(void *owner, int unused, u16 *heap)
     func_02034AC4((u32)ov067_id);
     func_02034AC4((u32)ov206_id);
     s = func_021BC32C(owner, 0x120, *heap);
-    func_02082BCC(s, 0, 0x120);
+    MI_CpuFill8(s, 0, 0x120);
     s->task = func_020056A0(func_021BEF9C, s, 1);
     s->f94 = 6;
     s->f98 = 6;

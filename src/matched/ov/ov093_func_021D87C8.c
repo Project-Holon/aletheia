@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_QuickFeetBoostSpeed
+ * function: HAND_TOKUSEI_QuickFeetBoostSpeed
  * address:  0x021D87C8
  * packet:   pkt_ov093_021D87C8
  * region:   ov093
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C7CF4  0x021C7CF4  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
  *   BTL_EVENT_MultiplyVar  0x021D7704  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
@@ -25,17 +25,17 @@ typedef signed short s16;
 typedef signed int s32;
 
 int BTL_EVENT_GetVar(int a);
-void *func_021C7CF4(int *p, int i);
+void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 struct Unk021D62A8;
 int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
 void BTL_EVENT_MultiplyVar(int a, int b);
 int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void BTL_CALC_QuickFeetBoostSpeed(void *a, int b, int c)
+void HAND_TOKUSEI_QuickFeetBoostSpeed(void *a, int b, int c)
 {
     void *r;
     if (c == BTL_EVENT_GetVar(2)) {
-        r = func_021C7CF4((int *)b, c);
+        r = BTL_SERVER_FLOW_GetPokeParam((int *)b, c);
         if (BTL_POKEPARAM_GetMajorStatusIndex(r) != 0) {
             BTL_EVENT_MultiplyVar(0x35, 6 << 10);
             BTL_EVENT_OverwriteVar(0x51, 0);

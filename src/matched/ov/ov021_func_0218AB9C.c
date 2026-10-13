@@ -21,6 +21,8 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb  arm9
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  *   NATSUKI_CalcWalk  0x0201B7EC  thumb  arm9
+ *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
+ *   POKEPARTY_GetMember  0x0201AB28  thumb  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -39,8 +41,8 @@ extern void func_02008980(struct Sub02008828Obj *obj, u16 value);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern u16 FIELDMAP_GetHeapId(u8 *p);
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void NATSUKI_CalcWalk(void *mon, int a, int b);
 
 void FIELD_EVENT_CHECK_UpdateWalkFriendship(void *sys, u8 *pos)
@@ -63,8 +65,8 @@ void FIELD_EVENT_CHECK_UpdateWalkFriendship(void *sys, u8 *pos)
 
         a = FIELDMAP_GetZoneId(pos);
         b = FIELDMAP_GetHeapId(pos);
-        n = func_0201AA18(party);
+        n = POKEPARTY_GetCount(party);
         for (i = 0; i < n; i++)
-            NATSUKI_CalcWalk(func_0201AB28(party, i), a, b);
+            NATSUKI_CalcWalk(POKEPARTY_GetMember(party, i), a, b);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E3E00
+ * function: HAND_WAZA_BideStoreDamage
  * address:  0x021E3E00
  * packet:   pkt_ov093_021E3E00
  * region:   ov093
@@ -17,7 +17,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int BTL_EVENT_GetVar(int key);
 
-void func_021E3E00(int u, int a, int b, int *p)
+void HAND_WAZA_BideStoreDamage(int u, int a, int b, int *p)
 {
     if (b == BTL_EVENT_GetVar(4)) {
         if (BTL_EVENT_GetVar(0x46) == 0) {

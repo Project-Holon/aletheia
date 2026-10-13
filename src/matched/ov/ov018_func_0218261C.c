@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
@@ -65,7 +65,7 @@ struct Blk34;
 struct Ctx;
 struct Obj;
 struct WordSet;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
@@ -100,7 +100,7 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(void *a, int *state, Outer *c)
     int flag;
     int r;
 
-    sub = func_020124E4(a);
+    sub = GAME_EVENT_GetGameSystem(a);
     x = GAMESYSTEM_GetGameData(sub);
     t = (void *)GAMESYSTEM_GetGameComm(sub);
     h = c->h58;

@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045770  0x02045770  arm
- *   func_020311B8  0x020311B8  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   TCBL_AddTask  0x020311B8  arm
  *   TCBL_GetWork  0x02031290  arm
  *   STRBUF_GetChars  0x02045A90  arm
  *   func_0201CEE0  0x0201CEE0  thumb
@@ -90,8 +90,8 @@ struct Rec {
 };
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
-extern void *func_020311B8(u32 a0, void *fn, u32 sz, u32 a3);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern void *TCBL_AddTask(u32 a0, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
 extern void *TCBL_GetWork(struct S02030FB4 *p);
 struct U16Vec;
@@ -109,8 +109,8 @@ struct Rec *PRINTSYS_PrintStreamCallBack(u32 a0, s16 a1, s16 a2, u32 a3,
     u32 h;
     u8 pair[2];
 
-    h = (u32)func_02045770((struct Descriptor *)a0);
-    r = func_020311B8(a6, (void *)func_0201CEE0, 0x50, a7);
+    h = (u32)BMP_WIN_GetBmp((struct Descriptor *)a0);
+    r = TCBL_AddTask(a6, (void *)func_0201CEE0, 0x50, a7);
     o = TCBL_GetWork(r);
 
     o->task = r;

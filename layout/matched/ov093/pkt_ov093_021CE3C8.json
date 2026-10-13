@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CE3C8",
+   "name": "BTL_CLIENT_StepAutoSelectActions",
    "address": "0x021CE3C8",
    "kind": "game",
    "region": "ov093",

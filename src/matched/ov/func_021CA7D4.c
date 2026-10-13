@@ -1,5 +1,5 @@
 /*
- * function: func_021CA7D4
+ * function: BTL_SERVER_FLOW_ProcHandExLatchTurnStateFlag
  * address:  0x021CA7D4
  * packet:   pkt_021CA7D4
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CA7D4   0x021CA7D4  thumb
+ *   BTL_SERVER_FLOW_ProcHandExLatchTurnStateFlag   0x021CA7D4  thumb
  */
 
 typedef unsigned char u8;
@@ -27,7 +27,7 @@ typedef struct {
 } BattleCtx;
 
 /* command handler: latch the state flag once */
-u8 func_021CA7D4(BattleCtx *s, void *cmd)
+u8 BTL_SERVER_FLOW_ProcHandExLatchTurnStateFlag(BattleCtx *s, void *cmd)
 {
     BattleState *st = s->state;
 

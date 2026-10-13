@@ -12,6 +12,7 @@
  * symbols:
  *   g_021461E8  0x021461E8  data
  *   GPOWER_ClearAll  0x02010DF4  thumb
+ *   MI_CpuFill8  0x02082BCC  arm
  *
  * Zeroes the 0x60-byte array and reinitialises it.
  *
@@ -25,11 +26,11 @@ typedef unsigned int  u32;
 
 extern u8 g_021461E8[];
 
-extern void func_02082BCC(void *dst, u32 v, u32 size);
+extern void MI_CpuFill8(void *dst, u32 v, u32 size);
 extern void GPOWER_ClearAll(void);
 
 void GPOWER_Init(void)
 {
-    func_02082BCC(g_021461E8, 0, 0x60);
+    MI_CpuFill8(g_021461E8, 0, 0x60);
     GPOWER_ClearAll();
 }

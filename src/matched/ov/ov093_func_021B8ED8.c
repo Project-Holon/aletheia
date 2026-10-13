@@ -1,5 +1,5 @@
 /*
- * function: func_021B8ED8
+ * function: BTL_MAIN_GetSlotFromViewPos
  * address:  0x021B8ED8
  * packet:   pkt_ov093_021B8ED8
  * region:   ov093
@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-u8 func_021B8ED8(u8 *p, u8 k)
+u8 BTL_MAIN_GetSlotFromViewPos(u8 *p, u8 k)
 {
     u8 par = k & 1;
     u32 mode = *(u32 *)(((struct Obj07744 *)p)->f0 + 4);

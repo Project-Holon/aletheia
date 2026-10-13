@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E203C",
+   "name": "HAND_WAZA_PayDayScatterCoins",
    "address": "0x021E203C",
    "kind": "game",
    "region": "ov093",

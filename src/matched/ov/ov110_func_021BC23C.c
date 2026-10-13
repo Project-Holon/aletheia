@@ -15,8 +15,8 @@
  *   func_021BF6F0 0x021BF6F0 thumb ov110
  *   func_021BC5BC 0x021BC5BC thumb ov110
  *   func_021BC340 0x021BC340 thumb ov110
- *   func_0204B3DC 0x0204B3DC arm
- *   func_02045770 0x02045770 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_02041B6C 0x02041B6C arm
@@ -31,8 +31,8 @@ typedef unsigned int   u32;
 struct CharBuf;
 struct Descriptor;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void *func_02045770(struct Descriptor *p);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern unsigned func_021BF6D8(u8 *);
 extern void func_021BC58C(void *,Pair *);
@@ -48,9 +48,9 @@ void func_021BC23C(Obj *p)
     func_021BC0CC((u8 *)p);
     for(i=0;i<2;i++) {
         for(j=0;j<2;j++) {
-            if(p->items[j][i]) func_0204B3DC(p->items[j][i],0);
+            if(p->items[j][i]) CLACT_SetActorDrawEnable(p->items[j][i],0);
         }
-        BMP_Clear(func_02045770(p->desc[i]),15);
+        BMP_Clear(BMP_WIN_GetBmp(p->desc[i]),15);
         switch(func_021BF6D8(p->state)) {
         case 0:
             func_021BC58C(p->desc[i],&p->pos[0]);

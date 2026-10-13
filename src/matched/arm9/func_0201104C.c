@@ -13,8 +13,8 @@
  *   g_02146208     0x02146208  data
  *   g_02146228     0x02146228  data
  *   POKE_TOOL_HealParty  0x0201BA34  thumb
- *   func_0201AB08  0x0201AB08  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_FindFirstBattleReady  0x0201AB08  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
@@ -25,15 +25,15 @@
  *   python tools/match.py one --src src/matched/GPOWER_UseHpRestore.c  *       --func GPOWER_UseHpRestore --addr 0x0201104C --cc 1.1p1 --thumb
  *
  * net_save.c, gated on mode byte +0x19 (slot 5): unless the +0xc factor
- * is 999, pick the record func_0201AB08(box) names inside the box
- * (func_0201AB28: box + 8 + idx * 0xdc), and add the +0xc factor to its
+ * is 999, pick the record POKEPARTY_FindFirstBattleReady(box) names inside the box
+ * (POKEPARTY_GetMember: box + 8 + idx * 0xdc), and add the +0xc factor to its
  * field 0xa0 clamped to field 0xa1, inside the POKE_TOOL_DecodePartyParam /
  * POKE_TOOL_EncodePartyParam access bracket; then clear slot 5.  Returns the index, or
  * 0xff when the mode byte is '0'.
  *
  * Wave 14 closed the entry residue shared with GPOWER_UsePpRestore and
  * GPOWER_ApplyCaptureRate (pool word loaded into r1 before the parameter copy):
- * it was ARITY, not order.  POKE_TOOL_HealParty, func_0201AB08 (a tail-call
+ * it was ARITY, not order.  POKE_TOOL_HealParty, POKEPARTY_FindFirstBattleReady (a tail-call
  * forwarder that passes r0 through) and POKE_TOOL_DecodePartyParam all take the box
  * or record pointer, so r0 stays live across the guards.  The record is
  * a separate local from the box parameter (reassigning the parameter
@@ -45,8 +45,8 @@ typedef unsigned int u32;
 extern u8 g_02146208[];
 extern u8 g_02146228[];
 extern void POKE_TOOL_HealParty(void *p);
-extern u32 func_0201AB08(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_FindFirstBattleReady(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 struct Sav;
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
@@ -67,8 +67,8 @@ u32 GPOWER_UseHpRestore(void *box)
             POKE_TOOL_HealParty(box);
             idx = 0;
         } else {
-            idx = func_0201AB08(box);
-            p = func_0201AB28(box, idx);
+            idx = POKEPARTY_FindFirstBattleReady(box);
+            p = POKEPARTY_GetMember(box, idx);
             h = POKE_TOOL_DecodePartyParam(p);
             max = POKE_TOOL_GetPartyValue(p, 0xa1, 0);
             n = POKE_TOOL_GetPartyValue(p, 0xa0, 0);

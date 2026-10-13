@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   FADE_Start  0x0204E720  arm
  *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   func_02040588  0x02040588  arm
@@ -26,8 +26,8 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32   func_020362DC(void);
-extern unsigned int func_0203630C(void);
+extern u32   KEY_GetTrg(void);
+extern unsigned int KEY_GetCont(void);
 typedef signed int     s32;
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern void BG_SYS_SetLcdSwap(u32 swap);
@@ -40,7 +40,7 @@ extern void  STARTMENU_CaptureSetBlend(u16 *p, u16 a, u16 b);
 
 void STARTMENU_TitleDemoCheckInput(char *p)
 {
-    if ((func_020362DC() & 0xB) && ((struct Obj00462 *)p)->f94 == 1) {
+    if ((KEY_GetTrg() & 0xB) && ((struct Obj00462 *)p)->f94 == 1) {
         BG_SYS_SetLcdSwap(0);
         func_02040588(6, 1);
         func_02040588(3, 1);
@@ -49,7 +49,7 @@ void STARTMENU_TitleDemoCheckInput(char *p)
         ((struct Obj00462 *)p)->f94 = 2;
         return;
     }
-    if (func_020362DC() & 9) {
+    if (KEY_GetTrg() & 9) {
         ((struct Obj00462 *)p)->f4 = 0;
         ((struct Obj00462 *)p)->f0 = 4;
         ((struct Obj00462 *)p)->f90 = (void *)PM_VOICE_Play(0x283, 0, 0x40, 0, 0, 0, 0, 0);
@@ -62,10 +62,10 @@ void STARTMENU_TitleDemoCheckInput(char *p)
         STARTMENU_CaptureSetBlend((u16 *)(p + 8), 8, 8);
         return;
     }
-    if (func_0203630C() == 0x46) {
+    if (KEY_GetCont() == 0x46) {
         ((struct Obj00462 *)p)->f4 = 2;
         ((struct Obj00462 *)p)->f0 = 5;
-    } else if (func_0203630C() == 0xC80) {
+    } else if (KEY_GetCont() == 0xC80) {
         ((struct Obj00462 *)p)->f4 = 3;
         ((struct Obj00462 *)p)->f0 = 5;
     }

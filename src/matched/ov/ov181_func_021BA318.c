@@ -10,8 +10,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203630C 0x0203630C arm
+ *   KEY_GetCont 0x0203630C arm
  */
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
-extern u32 func_0203630C(void);
-void func_021BA318(u8 *p){if(**(int **)p){enum {K=0x2d1} k=K;if(p[k]==0)p[k+1]=(func_0203630C()&3)?1:0;p[0x2d1]=(p[0x2d1]+1)&3;}}
+extern u32 KEY_GetCont(void);
+void func_021BA318(u8 *p){if(**(int **)p){enum {K=0x2d1} k=K;if(p[k]==0)p[k+1]=(KEY_GetCont()&3)?1:0;p[0x2d1]=(p[0x2d1]+1)&3;}}

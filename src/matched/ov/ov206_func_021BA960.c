@@ -9,7 +9,7 @@
  * status: EXACT*
  * Alignment has the valid values 0 (left), 1 (right), 2 (center).
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Create 0x020457B0 arm
  *   func_0201F250 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
@@ -18,7 +18,7 @@
  *   STRBUF_Delete 0x02045808 arm
  */
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Bmp;
@@ -33,7 +33,7 @@ extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 
 extern void STRBUF_Delete(struct U16Vec *vec);
 void func_021BA960(int heap,int window,void *printer,int font,int input,unsigned short right,unsigned short y,unsigned short color,int alignment,int expansion)
 {
-    int buffer=(int)func_02045770((struct Descriptor *)window);
+    int buffer=(int)BMP_WIN_GetBmp((struct Descriptor *)window);
     unsigned short x;
     int text;
     if(expansion) {

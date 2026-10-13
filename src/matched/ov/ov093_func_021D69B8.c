@@ -15,7 +15,7 @@
  *   POKE_TOOL_RecalcParam 0x020185C4 thumb
  *   POKE_TOOL_EncodePartyParam 0x02017D70 thumb
  *   BTL_POKEPARAM_SaveMovesToMon 0x021D505C thumb ov093
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj00041.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -30,7 +30,7 @@ extern void POKE_TOOL_RecalcParam(void *);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 struct A;
 extern void BTL_POKEPARAM_SaveMovesToMon(struct A *a);
-extern void func_02082BCC(void *,u8,u32);
+extern void MI_CpuFill8(void *,u8,u32);
 int BTL_POKEPARAM_AddExp(struct Obj *p, u32 *remaining, struct Result *r)
 {
     u32 old, total, delta, threshold;
@@ -85,6 +85,6 @@ int BTL_POKEPARAM_AddExp(struct Obj *p, u32 *remaining, struct Result *r)
             POKE_TOOL_SetPartyValue(p->w,8,total);
         }
     }
-    if (r != 0) func_02082BCC(r,0,14);
+    if (r != 0) MI_CpuFill8(r,0,14);
     return 0;
 }

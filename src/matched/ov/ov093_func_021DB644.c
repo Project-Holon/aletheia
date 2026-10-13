@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetLiquidOozeHandlers
+ * function: HAND_TOKUSEI_GetLiquidOozeHandlers
  * address: 0x021DB644
  * packet: pkt_ov093_021DB644
  * region: ov093
@@ -15,10 +15,10 @@
  *   gLiquidOozeHandlers 0x021F0920 data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetLiquidOozeHandlers(int *p);
+int *HAND_TOKUSEI_GetLiquidOozeHandlers(int *p);
 extern int gLiquidOozeHandlers[];
 
-int *BTL_TOKUSEI_GetLiquidOozeHandlers(int *p)
+int *HAND_TOKUSEI_GetLiquidOozeHandlers(int *p)
 {
     *p = 2;
     return gLiquidOozeHandlers;

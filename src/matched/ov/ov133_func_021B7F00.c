@@ -12,6 +12,7 @@
  *   func_021BA25C 0x021BA25C thumb ov133
  *   func_021BA228 0x021BA228 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj04522.h"
 typedef unsigned char u8;
@@ -20,7 +21,7 @@ extern void *func_021BA184(char *p);
 extern int func_021BA25C(u8 *, int, int);
 extern u8 *func_021BA228(u8 *p);
 extern u32 func_021BA208(u8 *p);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 int func_021B7F00(u8 *p, void *q, u32 a)
 {
     u8 *e = func_021BA184(q);
@@ -30,7 +31,7 @@ int func_021B7F00(u8 *p, void *q, u32 a)
             v = (u32 *)func_021BA228(e);
             ((struct Obj04522 *)p)->f3C = 2;
             *(u8 * *)&((struct Obj04522 *)p)->f38 = e;
-            func_020061E4(0x623);
+            GFL_USE_PlaySeDefaultVolume(0x623);
             ((struct Obj04522 *)p)->f40 = a;
             ((struct Obj04522 *)p)->f44 = v[0];
             ((struct Obj04522 *)p)->f48 = v[1];

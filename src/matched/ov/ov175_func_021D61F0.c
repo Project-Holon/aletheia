@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02082D44 0x02082D44 arm
  *   func_021DCB58 0x021DCB58 thumb ov175
  *   func_021DCC28 0x021DCC28 thumb ov175
@@ -17,7 +17,7 @@
 #include "../include/Obj03317.h"
 #include "../include/Obj24227.h"
 typedef unsigned int u32;
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void func_02082D44(const void *,void *,int);
 extern void func_021DCB58(char *p, void *q, int mode);
 typedef unsigned char  u8;
@@ -30,7 +30,7 @@ void func_021D61F0(u32 sys,int *state,char *p)
     switch(*state) {
     case 0:
         ((struct Obj03317 *)p)->fE0=0;
-        func_02082BCC(p+0x44,0,0x9c);
+        MI_CpuFill8(p+0x44,0,0x9c);
         (*state)++;
         break;
     case 1:

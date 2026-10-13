@@ -20,7 +20,14 @@
    "functions": [
     "func_021B6910",
     "func_021B694C",
-    "func_021B6988"
+    "func_021B6988",
+    "IRC_COMPATIBLE_ProcExit"
+   ],
+   "addresses": [
+    "0x021B6910",
+    "0x021B694C",
+    "0x021B6988",
+    "0x021B69C4"
    ]
   }
  ]

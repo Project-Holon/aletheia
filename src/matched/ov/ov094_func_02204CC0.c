@@ -106,6 +106,10 @@
  *   STRBUF_Create  0x020457B0  arm  arm9
  *   STRBUF_Delete  0x02045808  arm  arm9
  *   CLACT_CreateActor  0x0204B294  arm  arm9
+ *   CLACT_SetUnitDrawEnable  0x0204B22C  arm  arm9
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm  arm9
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb  arm9
  */
 #include "../include/Obj21781.h"
 #include "../include/Obj21782.h"
@@ -139,19 +143,19 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
-extern void func_0204B22C(struct Bank *bank, u32 mode);
-extern u32 func_0201BD28(u16 id, u32 field);
+extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
+extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 struct PalAnmSlot;
 struct Struct36;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u32 func_020275E4(void);
 extern u32 func_020275F8(u32 a);
 extern u8 func_020275EC(int i);
 extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
 extern u32 func_020307B0(void *p);
@@ -228,17 +232,17 @@ void func_02204CC0(Work *p, const Slots *q)
     font = (int)func_0201EC64(p->heap);
     str2 = STRBUF_Create(0x10, p->heap);
     m2 = func_02045EC0(p->msgdata, 2);
-    func_0204B22C(p->sys, 0);
+    CLACT_SetUnitDrawEnable(p->sys, 0);
     for (i = 0; (i < 4) ? 1 : 0; i++) {
         if (q->id[i] != 0) {
-            k = func_0201BD28(q->id[i], 0);
+            k = WAZA_TOOL_GetParam(q->id[i], 0);
             file = d_0220A5F0[k];
             p->obj[i] = CLACT_CreateActor(p->sys, p->res[i], p->r1f0, p->r1f4, d_0220A392, 1, p->heap);
-            func_0204B404(p->obj[i], (const struct Vec2 *)(&d_0220A3C4[i]), (int)1);
+            CLACT_AddActorSurfacePos(p->obj[i], (const struct Vec2 *)(&d_0220A3C4[i]), (int)1);
             heap = (p->heap & 0x7fff) | 0x8000;
             arc = func_020275E4();
             chr = func_02049E34(arc, func_020275F8((u8)k), 0, (u32)(&cd), heap);
-            func_0204B6F4(p->obj[i], func_020275EC((u8)k), 1);
+            CLACT_SetActorPaletteOffset(p->obj[i], func_020275EC((u8)k), 1);
             CLACT_GetActorImageProxy(p->obj[i], (struct Struct36 *)(&buf));
             vram = VRAM_BASE;
             func_02082A60(((struct Obj21781 *)cd)->f14, (void *)(vram + buf.w[2]), 0x100);

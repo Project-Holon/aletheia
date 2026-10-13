@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   TOUCHBAR_Create 0x021B62E0 thumb ov067
  *   func_021B6558 0x021B6558 thumb ov067
  *   TOUCHBAR_SetAllButtonsPriority 0x021B6520 thumb ov067
@@ -21,7 +21,7 @@ typedef struct { u32 f0, f4; u16 f8, fA, fC, fE, f10, f12; u32 f14, f18, f1C; } 
 typedef struct { Element e[4]; } Template;
 typedef struct { void *f0; u32 f4; int f8; u32 fC, f10, f14; int f18, f1C; } Config;
 extern const Template d_021E7C0C;
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void *TOUCHBAR_Create(Config *, int);
 typedef unsigned char  u8;
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
@@ -31,7 +31,7 @@ void func_021E3C20(char *p)
     Template t = d_021E7C0C;
     Config c;
     u16 a, b, d;
-    func_02082BCC(&c, 0, 32);
+    MI_CpuFill8(&c, 0, 32);
     c.f0 = &t;
     c.f4 = 4;
     c.f8 = *(int *)&((struct Obj00252 *)p)->f9C4;

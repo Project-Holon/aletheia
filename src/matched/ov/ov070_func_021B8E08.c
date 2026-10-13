@@ -11,7 +11,7 @@
  *
  * symbols:
  *   ITEMMENU_HideQuantityWindows  0x021B7DD0  thumb  ov070
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   ITEMMENU_UpdateSideButtons  0x021BB3F4  thumb  ov070
  *   func_020355C4  0x020355C4  arm
  *   ITEMMENU_SetCursorActive  0x021B80C4  thumb  ov070
@@ -22,7 +22,7 @@
 
 extern void ITEMMENU_HideQuantityWindows(unsigned char *p);
 struct Obj;
-extern void func_0204B92C(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
 typedef unsigned char  u8;
 extern void ITEMMENU_UpdateSideButtons(int p, int mode);
 extern u8 func_020355C4(void);
@@ -34,7 +34,7 @@ void ITEMMENU_TaskReturnFromQuantity(unsigned char *p)
 {
     int f;
     ITEMMENU_HideQuantityWindows(p);
-    func_0204B92C((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A8, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A8, 1);
     ITEMMENU_UpdateSideButtons((int)p, 1);
     f = 1;
     if (func_020355C4()) {

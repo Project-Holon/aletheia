@@ -1,5 +1,5 @@
 /*
- * function: func_021E03F8
+ * function: HAND_WAZA_RemoveMoveHandlerById
  * address:  0x021E03F8
  * packet:   pkt_ov093_021E03F8
  * region:   ov093
@@ -24,7 +24,7 @@ extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 extern void BTL_EVENT_RemoveFactor(struct Node *n);
 extern struct Node *BTL_EVENT_FindNextFactor(struct Node *n);
 
-void func_021E03F8(int a, int b)
+void HAND_WAZA_RemoveMoveHandlerById(int a, int b)
 {
     void *n = BTL_EVENT_FindFactor(0, a);
 

@@ -19,7 +19,7 @@
  *   G3X_SetFog 0x0207DC44 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   func_0204044C 0x0204044C arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   d_021B6DF4 0x021B6DF4 data a4
  *   d_021B6DB0 0x021B6DB0 data a4
  *   d_021B6DD8 0x021B6DD8 data a4
@@ -42,7 +42,7 @@ extern void G3D_SYSTEM_SetSwapBuffersMode(u32, u32);
 extern void G3X_SetFog(int, int, int, int);
 extern void CLACT_InitSystem(const struct Cfg *, u32, u32);
 extern void func_0204044C(u32);
-extern void func_020434DC(u32, u32);
+extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 #define BLDCNT (*(volatile u16 *)0x04000050)
 #define SBLDCNT (*(volatile u16 *)0x04001050)
 #define POWCNT (*(volatile u16 *)0x04000304)
@@ -67,5 +67,5 @@ void func_021B636C(u16 heap)
     BG0CNT = (u16)((BG0CNT & ~3) | 1);
     CLACT_InitSystem(&d_021B6DD8, (u32)&d_021B6DF4, heap);
     func_0204044C(1);
-    func_020434DC(16, 1);
+    BG_SYS_SetMainPlaneVisible(16, 1);
 }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021C41BC  0x021C41BC  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -23,10 +23,10 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern void func_021C41BC(u8 *p);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 
 void func_021C5704(u8 *p)
 {
     func_021C41BC(((struct Obj23045 *)p)->f4);
-    func_02082BCC(p, 0, 0x14);
+    MI_CpuFill8(p, 0, 0x14);
 }

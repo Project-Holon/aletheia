@@ -14,7 +14,7 @@
  *   g_02146A44     0x02146A44  data
  *   g_020A7E5C     0x020A7E5C  data
  *   sub_02030734   0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02033C00  0x02033C00  arm
  *
  * TU: bg_sys.c.
@@ -23,7 +23,7 @@
  * with two 0x1000-byte scratch buffers and three parallel eight-entry
  * tables at +0x170, +0x190 and +0x1b0.  Every access after the first goes
  * through a fresh load of the global, because each call in between may
- * write it; only the `func_02082BCC` argument is forwarded from the
+ * write it; only the `MI_CpuFill8` argument is forwarded from the
  * allocator's return value, since nothing has been called since the store.
  *
  * Verified with:
@@ -54,7 +54,7 @@ extern char g_020A7E5C[];
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
-extern void  func_02082BCC(void *dst, u32 value, u32 size);
+extern void  MI_CpuFill8(void *dst, u32 value, u32 size);
 struct AreaMan;
 extern struct AreaMan *func_02033C00(u32 size, u32 heap);
 
@@ -63,7 +63,7 @@ void func_0203F8F4(u16 heapId)
     s32 i;
 
     g_02146A44 = sub_02030734(heapId, 0x1d0, 0, g_020A7E5C, 134);
-    func_02082BCC(g_02146A44, 0, 0x1d0);
+    MI_CpuFill8(g_02146A44, 0, 0x1d0);
     g_02146A44->heapId = heapId;
     g_02146A44->unk_04 = 0;
     g_02146A44->unk_06 = 0;

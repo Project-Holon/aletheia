@@ -16,15 +16,16 @@
  *   func_021EF34C 0x021EF34C thumb ov170
  *   func_021EF36C 0x021EF36C thumb ov170
  *   func_021EC5A0 0x021EC5A0 thumb ov170
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021E8FC0 0x021E8FC0 thumb ov170
  *   func_021E01B0 0x021E01B0 thumb ov170
  *   func_021DEFEC 0x021DEFEC thumb ov170
  *   func_021EF68C 0x021EF68C thumb ov170
  *   func_021EE364 0x021EE364 thumb ov170
+ *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
  */
 struct WinMgr;
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Sound;
@@ -32,7 +33,7 @@ struct Struct_02025CD0;
 extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 extern u8 func_020355C4(void);
-extern unsigned func_0201AA18(void *);
+extern unsigned POKEPARTY_GetCount(void *);
 extern void func_021DD14C(char *p);
 extern void func_021DF0BC(unsigned char *);
 extern void func_021DEFEC(char *p, int b);
@@ -79,7 +80,7 @@ int func_021E49CC(unsigned char *p)
         func_021EF34C(MGR(p));
         func_021EF36C(MGR(p));
         func_021EC5A0((char **)p, 0);
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         STEP(p)++;
         return func_021E8FC0((char *)p, (int)func_021E01B0, 0x26);
     case 1:

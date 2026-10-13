@@ -9,20 +9,20 @@
  * status: EXACT
  * symbols:
  *   d_021E7794 0x021E7794 data a4
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 typedef struct { int id; int key; } Ent;
 typedef struct { Ent e[22]; } Tbl;
 extern const Tbl d_021E7794;
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void func_021DFA98(int key)
 {
     Tbl t = d_021E7794;
     unsigned i;
     for (i = 0; i < 22; i++) {
         if (key == t.e[i].key) {
-            func_020061E4(t.e[i].id);
+            GFL_USE_PlaySeDefaultVolume(t.e[i].id);
         }
     }
 }

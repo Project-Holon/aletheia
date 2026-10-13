@@ -13,9 +13,9 @@
  *   func_02049B40 0x02049B40 arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_0201F7A8 0x0201F7A8 thumb
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02045CAC 0x02045CAC arm
  *   func_0201D304 0x0201D304 thumb
@@ -40,9 +40,9 @@ struct MsgBank;
 struct StrObj;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_0201F7A8(void *, unsigned);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
@@ -61,19 +61,19 @@ void func_021D4384(int count, int *values, Object *p, Row *rows, const int *xs, 
         if (p->f10[i]) {
             BMP_WIN_ClearScreen(p->f10[i]);
             func_0201F7A8(p->f10[i], 2);
-            func_020452E8(p->f10[i]);
+            BMP_WIN_Delete(p->f10[i]);
         }
         p->f10[i] = 0;
     }
     for (i = 0; i < count; i++) {
         p->f10[i] = (void *)BMP_WIN_Create(7, (u8)rows[i].f00, (u8)rows[i].f04, (u8)rows[i].f08, rows[i].f0c, 13, 0);
-        BMP_Clear(func_02045770(p->f10[i]), 0);
+        BMP_Clear(BMP_WIN_GetBmp(p->f10[i]), 0);
         func_02045CAC(p->f44, (int)values[i], p->f54);
         if (xs) x = xs[i] - (func_0201D304(p->f54, (u32)p->f4C, 0) >> 1);
         else x = 0;
         if (ys) y = ys[i] - (func_0201D42C(p->f54, p->f4C) >> 1);
         else y = 0;
-        PRINTSYS_PrintColor(func_02045770(p->f10[i]), x, y, p->f54, p->f4C, 0x39e3);
+        PRINTSYS_PrintColor(BMP_WIN_GetBmp(p->f10[i]), x, y, p->f54, p->f4C, 0x39e3);
         BMP_WIN_TransferChars(p->f10[i]);
         BMP_WIN_MakeScreen(p->f10[i]);
     }

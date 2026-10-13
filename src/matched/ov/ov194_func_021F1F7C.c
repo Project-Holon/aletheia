@@ -12,8 +12,8 @@
  *   func_021F4F60 0x021F4F60 thumb ov194
  *   func_021F4DD0 0x021F4DD0 thumb ov194
  *   STRBUF_Delete 0x02045808 arm
- *   func_020452E8 0x020452E8 arm
- *   func_02082BCC 0x02082BCC arm
+ *   BMP_WIN_Delete 0x020452E8 arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj10806.h"
 typedef unsigned char u8;
@@ -24,6 +24,6 @@ extern void func_021F4F60(void *);
 extern void func_021F4DD0(void *);
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 func_020452E8(struct Descriptor *d);
-extern void func_02082BCC(void *,int,int);
-void func_021F1F7C(u8 *p) { int i;func_021F4F60(((struct Obj10806 *)p)->f90);for(i=0;i<3;i++)func_021F4DD0(*(void **)((u32)p+(u32)i*4+132));STRBUF_Delete(((struct Obj10806 *)p)->f3C);func_020452E8((struct Descriptor *)(((struct Obj10806 *)p)->f40));func_02082BCC(p,0,148); }
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern void MI_CpuFill8(void *,int,int);
+void func_021F1F7C(u8 *p) { int i;func_021F4F60(((struct Obj10806 *)p)->f90);for(i=0;i<3;i++)func_021F4DD0(*(void **)((u32)p+(u32)i*4+132));STRBUF_Delete(((struct Obj10806 *)p)->f3C);BMP_WIN_Delete((struct Descriptor *)(((struct Obj10806 *)p)->f40));MI_CpuFill8(p,0,148); }

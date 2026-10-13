@@ -12,7 +12,7 @@
  *   ov114_id 0x00000072 data
  *   func_02034AC4 0x02034AC4 arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_021B9800 0x021B9800 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
@@ -35,7 +35,7 @@ extern char ov114_id[];
 extern int func_02034AC4(int);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,u8,u32);
+extern void MI_CpuFill8(void *,u8,u32);
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u8 *func_02012944(void *p);
@@ -57,7 +57,7 @@ int func_021DA478(void *a,int unused,char *q)
     char *p;
     func_02034AC4((int)ov114_id);
     p=PROCSYS_AllocProcWork(a,0x74,((struct Obj03275 *)q)->f8);
-    func_02082BCC(p,0,0x74);
+    MI_CpuFill8(p,0,0x74);
     ((struct Obj02478 *)p)->f0=((struct Obj03275 *)q)->f8;
     ((struct Obj02478 *)p)->f1C=GAME_DATA_GetSaveControl(((struct Obj03275 *)q)->f0);
     ((struct Obj02478 *)p)->f20=((struct Obj03275 *)q)->f0;

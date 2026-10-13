@@ -27,9 +27,12 @@
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   FLDMMDL_GetPosPtr  0x0216D888  thumb  ov010
  *   func_02012B38  0x02012B38  thumb
- *   func_02014478  0x02014478  thumb
+ *   FIELD_STATUS_GetProcAction  0x02014478  thumb
  *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb
  *   FIELD_PLAYER_GetGridMoveState  0x021A3584  thumb
+ *   KEY_GetTrg  0x020362DC  arm  arm9
+ *   KEY_GetCont  0x0203630C  arm  arm9
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -70,7 +73,7 @@ struct FieldInput {
     u32 b10 : 1;
 };
 
-extern void func_02082BCC(void *p, int v, u32 n);
+extern void MI_CpuFill8(void *p, int v, u32 n);
 extern u16 FIELDMAP_GetHeapId(u8 *p);
 struct BigObj;
 struct Ctx;
@@ -78,8 +81,8 @@ struct Sub02014444Obj;
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012844(const struct BigObj *p);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
-extern u32 func_020362DC(void);
-extern unsigned int func_0203630C(void);
+extern u32 KEY_GetTrg(void);
+extern unsigned int KEY_GetCont(void);
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern void FIELD_PLAYER_UpdateStepPhase(u32 *p);
@@ -89,7 +92,7 @@ extern void *FIELD_PLAYER_GetMmdl(u8 *p);
 extern u16 FLDMMDL_GetDirDisp(void *p);
 extern void *FLDMMDL_GetPosPtr(void *p);
 extern void *func_02012B38(const struct BigObj *p);
-extern u16 func_02014478(struct Sub02014444Obj *o);
+extern u16 FIELD_STATUS_GetProcAction(struct Sub02014444Obj *o);
 extern u32 FIELD_PLAYER_GetNowAttribute(void **ctx);
 extern int FIELD_PLAYER_GetGridMoveState(void *v);
 
@@ -97,14 +100,14 @@ void FIELD_EVENT_CHECK_InitInput(struct FieldInput *p, void *sys, struct Obj0002
 {
     void *obj;
 
-    func_02082BCC(p, 0, 0x40);
+    MI_CpuFill8(p, 0, 0x40);
     p->f0 = FIELDMAP_GetHeapId((u8 *)pos);
     p->sys = sys;
     p->f8 = func_020120F4(sys);
     p->fC = (void *)func_02012844(p->f8);
     p->f10 = FIELDMAP_GetZoneId((u8 *)pos);
-    p->trg = func_020362DC();
-    p->cont = func_0203630C();
+    p->trg = KEY_GetTrg();
+    p->cont = KEY_GetCont();
     p->dir = 9;
     if (p->cont & 0x40)
         p->dir = 0;
@@ -122,7 +125,7 @@ void FIELD_EVENT_CHECK_InitInput(struct FieldInput *p, void *sys, struct Obj0002
     obj = FIELD_PLAYER_GetMmdl(p->f18);
     p->f24 = FLDMMDL_GetDirDisp(obj);
     p->f34 = (u32)FLDMMDL_GetPosPtr(obj);
-    p->f26 = func_02014478(func_02012B38(p->f8));
+    p->f26 = FIELD_STATUS_GetProcAction(func_02012B38(p->f8));
     p->f38 = FIELD_PLAYER_GetNowAttribute(p->f18);
 
     if (p->f1C == 3 || p->f1C == 0) {

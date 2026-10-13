@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: BTL_HANDLER_ITEM_LumBerryOnEaten, BTL_HANDLER_ITEM_AddLumBerry
+ * function: HAND_ITEM_LumBerryOnEaten, HAND_ITEM_AddLumBerry
  * address: 0x021DD140
  * packet: pkt_ov093_021DD140
  * region: ov093
@@ -10,17 +10,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   BTL_HANDLER_ITEM_CureSickOnEaten 0x021DD19C thumb ov093
- *   gHandlerTableLumBerry 0x021F1B8C data a4
+ *   HAND_ITEM_CureSickOnEaten 0x021DD19C thumb ov093
+ *   gLumBerryHandlers 0x021F1B8C data a4
  */
-extern void BTL_HANDLER_ITEM_CureSickOnEaten(void *, unsigned char *, int, int);
-extern const unsigned char gHandlerTableLumBerry[];
-void BTL_HANDLER_ITEM_LumBerryOnEaten(void *a, void *b, int c)
+extern void HAND_ITEM_CureSickOnEaten(void *, unsigned char *, int, int);
+extern const unsigned char gLumBerryHandlers[];
+void HAND_ITEM_LumBerryOnEaten(void *a, void *b, int c)
 {
-    BTL_HANDLER_ITEM_CureSickOnEaten(a, b, c, 37);
+    HAND_ITEM_CureSickOnEaten(a, b, c, 37);
 }
-const void *BTL_HANDLER_ITEM_AddLumBerry(int *p)
+const void *HAND_ITEM_AddLumBerry(int *p)
 {
     *p = 5;
-    return gHandlerTableLumBerry;
+    return gLumBerryHandlers;
 }

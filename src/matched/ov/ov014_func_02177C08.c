@@ -1,0 +1,25 @@
+/*
+ * function: WIH_HasBeaconBeenSent
+ * address:  0x02177C08
+ * packet:   pkt_ov014_02177C08
+ * region:   ov014
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * sdk:      WIH_HasBeaconBeenSent (libdwcaccount.TWL.HYB.thumb.a(dwc_account.o))
+ *
+ * symbols:
+ *   DWCi_Acc_GetFlag_DataType  0x02179614  thumb  ov014
+ */
+
+extern unsigned long DWCi_Acc_GetFlag_DataType(void *userdata);
+
+int WIH_HasBeaconBeenSent(void *frienddata)
+{
+    if (DWCi_Acc_GetFlag_DataType(frienddata))
+        return 1;
+    return 0;
+}

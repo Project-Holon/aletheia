@@ -11,7 +11,7 @@
  * lever: a switch with empty sentinel and default arms retains the dead
  * comparison before the shared bitfield return.
  * symbols:
- *   func_02026478 0x02026478 thumb
+ *   GAME_COMM_GetGameData 0x02026478 thumb
  *   GAME_DATA_GetExitMode 0x02012B58 thumb
  *   GAME_DATA_GetPlayerStatus 0x02012950 thumb
  *   func_02008550 0x02008550 thumb
@@ -33,7 +33,7 @@ typedef struct {
     Ent arr[];
 } Ov018Obj;
 
-unsigned int func_02026478(void *obj);
+unsigned int GAME_COMM_GetGameData(void *obj);
 typedef unsigned int   u32;
 struct BigObj;
 struct Rec44;
@@ -50,7 +50,7 @@ int EVENT_COMM_COMMON_GetPeerTalkStatus(Ov018Obj *p, int idx)
 
     void *sub;
 
-    sub = (void *)func_02026478(p->f04);
+    sub = (void *)GAME_COMM_GetGameData(p->f04);
     if (idx == GAME_DATA_GetExitMode(sub)) {
         e = &p->cur;
     } else {
@@ -59,7 +59,7 @@ int EVENT_COMM_COMMON_GetPeerTalkStatus(Ov018Obj *p, int idx)
     h = e->f18;
     switch (h) {
     case 0:
-        if (func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetPlayerStatus((struct Sub24 *)func_02026478(p->f04), idx)) == 0) {
+        if (func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetPlayerStatus((struct Sub24 *)GAME_COMM_GetGameData(p->f04), idx)) == 0) {
             return 3;
         }
         return 4;

@@ -12,7 +12,7 @@
  * symbols:
  *   s_clact_c      0x020A7F74  data
  *   sub_02030734   0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   CLACT_ClearActor  0x0204CAE4  arm
  *   CLACT_SetUnitDefaultRenderer   0x0204B270  arm
  *   CLACT_SetUnitDrawEnable   0x0204B22C  arm
@@ -64,7 +64,7 @@ extern char s_clact_c[];
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
-extern void  func_02082BCC(void *dst, int fill, u32 size);
+extern void  MI_CpuFill8(void *dst, int fill, u32 size);
 struct Obj;
 extern void CLACT_ClearActor(struct Obj *o);
 extern void  CLACT_SetUnitDefaultRenderer(struct Bank *bank);
@@ -77,7 +77,7 @@ struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId)
     int          i;
 
     bank = sub_02030734(heapId, sizeof(struct Bank), 0, s_clact_c, 0x6eb);
-    func_02082BCC(bank, 0, sizeof(struct Bank));
+    MI_CpuFill8(bank, 0, sizeof(struct Bank));
 
     bank->actors = sub_02030734(heapId, count * sizeof(struct Actor), 0,
                                 s_clact_c, 0x6ef);

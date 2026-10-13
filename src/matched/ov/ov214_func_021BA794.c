@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201C6EC  0x0201C6EC  thumb
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   func_0201EC64  0x0201EC64  thumb
  *   func_0201ED04  0x0201ED04  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
  *   BMP_Clear  0x02043B5C  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   func_02045EC0  0x02045EC0  arm
@@ -55,7 +55,7 @@ typedef struct {
 } Obj;
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct CharBuf;
@@ -67,7 +67,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0201C6EC(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_PrintQueColor(int, int, int, int, int, int, int);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern u32 func_0201ED04(struct WordSet *p);
@@ -100,19 +100,19 @@ void func_021BA794(Obj *obj, Ent *e, unsigned int v)
     }
 
     if (state != e->fBC) {
-        tmp = (int)func_02045770((struct Descriptor *)e->f94);
+        tmp = (int)BMP_WIN_GetBmp((struct Descriptor *)e->f94);
         BMP_Clear((struct CharBuf *)tmp, 0);
-        tmp = (int)func_02045770((struct Descriptor *)e->f98);
+        tmp = (int)BMP_WIN_GetBmp((struct Descriptor *)e->f98);
         BMP_Clear((struct CharBuf *)tmp, 0);
     } else if (v != e->fC0) {
-        tmp = (int)func_02045770((struct Descriptor *)e->f98);
+        tmp = (int)BMP_WIN_GetBmp((struct Descriptor *)e->f98);
         BMP_Clear((struct CharBuf *)tmp, 0);
     }
 
     if (state != e->fBC) {
-        func_0201C6EC((struct PrintSys *)e->f14);
+        PRINTSYS_QUE_Clear((struct PrintSys *)e->f14);
         h = (int)func_02045EC0((struct MsgBank *)e->f58, 0x10);
-        p = (int)func_02045770((struct Descriptor *)e->f94);
+        p = (int)BMP_WIN_GetBmp((struct Descriptor *)e->f94);
         PRINTSYS_PrintQueColor(e->f14, p, 4, 1, h, e->f08, flag);
         e->fA4 = 0;
         STRBUF_Delete((struct U16Vec *)h);
@@ -122,10 +122,10 @@ void func_021BA794(Obj *obj, Ent *e, unsigned int v)
         x = (int)func_0201EC64(e->f00);
         h2 = (int)func_02045EC0((struct MsgBank *)e->f58, 0x12);
         p2 = (int)STRBUF_Create(8, e->f00);
-        func_0201C6EC((struct PrintSys *)e->f18);
+        PRINTSYS_QUE_Clear((struct PrintSys *)e->f18);
         func_0201EFA4((struct WordSet *)x, 1, v, 2, 2, 1);
         func_0201F250((struct WordSet *)x, (void *)p2, (void *)h2);
-        q = (int)func_02045770((struct Descriptor *)e->f98);
+        q = (int)BMP_WIN_GetBmp((struct Descriptor *)e->f98);
         PRINTSYS_PrintQueColor(e->f18, q, 2, 2, p2, e->f08, flag);
         e->fA8 = 0;
         STRBUF_Delete((struct U16Vec *)p2);

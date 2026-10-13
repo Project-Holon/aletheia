@@ -9,8 +9,8 @@
  * status: EXACT
  * lever: u16 c and u8 n recover spill scheduling; fifth e and C676C fourth argument are u16.
  * symbols:
- *   func_021CC8D8 0x021CC8D8 thumb ov093
- *   func_021CC95C 0x021CC95C thumb ov093
+ *   BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
+ *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
  *   BTL_SERVER_FLOW_QueryMoveRedirectEvent 0x021C676C thumb ov093
  *   func_021BFE30 0x021BFE30 thumb ov093
  *   func_021BFE40 0x021BFE40 thumb ov093
@@ -25,8 +25,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_021CC8D8(void *, int);
-extern void func_021CC95C(u32 *p, u32 v, int line);
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *, int);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 extern int BTL_SERVER_FLOW_QueryMoveRedirectEvent(u8 *, u8 *, u8 *, u16, u8 *, u32 *);
 extern int func_021BFE30(u8 *);
 extern u8 *func_021BFE40(u8 *, int);
@@ -46,7 +46,7 @@ int BTL_SERVER_FLOW_ProcMoveUseDecide(u8 *p, u8 *q, u16 c, u8 *d, u16 e)
     u8 n;
     out = 0;
     id = 31;
-    lock = func_021CC8D8(p + 0x1d74, 5160);
+    lock = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 5160);
     r = BTL_SERVER_FLOW_QueryMoveRedirectEvent(p, q, d, e, &id, &out);
     if (r) {
         n = p[0x77f];
@@ -54,11 +54,11 @@ int BTL_SERVER_FLOW_ProcMoveUseDecide(u8 *p, u8 *q, u16 c, u8 *d, u16 e)
             n = func_021BFE50(p + 0x1ab8, BTL_POKEPARAM_GetPokeId(func_021BFE40(d, 0)));
         BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 48, c, n, e, 0);
     }
-    func_021CC95C((u32 *)(p + 0x1d74), lock, 5173);
+    BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), lock, 5173);
     if (r) {
-        lock = func_021CC8D8(p + 0x1d74, 5177);
+        lock = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 5177);
         BTL_SERVER_FLOW_NotifyMoveBeginEvent(p, q);
-        func_021CC95C((u32 *)(p + 0x1d74), lock, 5179);
+        BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), lock, 5179);
         if (BTL_POKEPARAM_IsSemiInvulnerable((struct UtilWork *)q))
             BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 49, BTL_POKEPARAM_GetPokeId(q), 1);
         if (id != 31)

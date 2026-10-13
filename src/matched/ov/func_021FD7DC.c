@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_021F7FD4  0x021F7FD4  thumb
  *   func_021F8104  0x021F8104  thumb
@@ -37,7 +37,7 @@ typedef struct {
 
 struct CharBuf;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_021F7FD4(void *win, void *bank, u32 index, u32 y, u16 color, void *g);
 extern void func_021F8104(void *win, void *bank, int mode, int force, u32 x, u32 y, u16 color, void *g);
@@ -46,7 +46,7 @@ extern void func_021F8178(void *win, void *bank, int idx, u32 e, u32 x, u32 y, u
 
 void func_021FD7DC(Pane *pane, void *bank, void *names, Rec *rec, void *g)
 {
-    BMP_Clear(func_02045770(pane->win), 0);
+    BMP_Clear(BMP_WIN_GetBmp(pane->win), 0);
     func_021F7FD4(pane->win, names, rec->name, 0, 0x440, g);
     func_021F8104(pane->win, bank, rec->mode, 0, 0x49, 0, 0x440, g);
     func_021F8178(pane->win, bank, func_021F886C(rec->key, rec->val, 0), 0, 0x68, 0, 0x440, 0, (u32)g);

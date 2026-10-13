@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_020A1B38     0x020A1B38  data  a2
+ *   FX_SinCosTable_     0x020A1B38  data  a2
  *   func_0207AF1C  0x0207AF1C  thumb
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  *   FLD_EXP_OBJ_SetModelCullDraw  0x021BE4A4  thumb  ov021
@@ -29,7 +29,7 @@ typedef struct {
     int c;
 } V;
 
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 extern int FLD_EXP_OBJ_GetModelStatus(char *p, unsigned i, int j);
 extern void  FLD_EXP_OBJ_SetModelCullDraw(void *p, int i, u16 j, int v);
@@ -50,7 +50,7 @@ void GIMMICK46_InitModel(void *a0, int a1, V *a2, u16 *a3, int a4, int a5)
     *(V *)e = *a2;
     if (a3) {
         k = (*a3 >> 4) * 2;
-        func_0207AF1C(e + 0x18, d_020A1B38[k], d_020A1B38[k + 1]);
+        func_0207AF1C(e + 0x18, FX_SinCosTable_[k], FX_SinCosTable_[k + 1]);
     }
     FLD_EXP_OBJ_SetModelCullDraw(a0, 0, a1, a5);
     for (i = 0; i < a4; i++) {

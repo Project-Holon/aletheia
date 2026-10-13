@@ -13,6 +13,7 @@
  *   MYSTERY_DATA_CheckCardExist  0x02009F50  thumb
  *   MYSTERY_DATA_GetCardMax  0x0200A400  thumb
  *   MYSTERY_DATA_GetCardSlot  0x0200A43C  thumb
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
 typedef unsigned char u8;
@@ -22,7 +23,7 @@ struct Obj;
 extern u32 MYSTERY_DATA_GetCardMax(struct Obj *obj);
 extern int MYSTERY_DATA_CheckCardExist(char *p, unsigned int idx);
 extern void *MYSTERY_DATA_GetCardSlot(struct Obj *obj, u32 index);
-extern void func_02082BCC(void *dst, int v, int n);
+extern void MI_CpuFill8(void *dst, int v, int n);
 void MYSTERY_DATA_CloseCardGap(void *p, unsigned int idx)
 {
     unsigned int i;
@@ -34,5 +35,5 @@ void MYSTERY_DATA_CloseCardGap(void *p, unsigned int idx)
         void *src = MYSTERY_DATA_GetCardSlot(p, i + 1);
         *(Slot *)dst = *(Slot *)src;
     }
-    func_02082BCC(MYSTERY_DATA_GetCardSlot(p, i), 0, 0xcc);
+    MI_CpuFill8(MYSTERY_DATA_GetCardSlot(p, i), 0, 0xcc);
 }

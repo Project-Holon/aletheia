@@ -1,5 +1,5 @@
 /*
- * function: func_021D1BD0
+ * function: BTL_CLIENT_StepShowRecallMessage
  * address:  0x021D1BD0
  * packet:   pkt_ov093_021D1BD0
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D1C40  0x021D1C40  thumb  ov093
+ *   BTL_CLIENT_PickRecallMessageId  0x021D1C40  thumb  ov093
  *   func_021EAF18  0x021EAF18  thumb  ov093
  *   func_021EAF50  0x021EAF50  thumb  ov093
  *   func_021EA614  0x021EA614  thumb  ov093
@@ -29,7 +29,7 @@ typedef struct {
     u8 unk1A6;            /* 0x1A6 */
 } BattleSeq;
 
-extern int func_021D1C40(BattleSeq *s, u8 x, int *out);
+extern int BTL_CLIENT_PickRecallMessageId(BattleSeq *s, u8 x, int *out);
 struct L;
 extern void func_021EAF18(struct L *p, int kind, int id);
 struct H;
@@ -38,13 +38,13 @@ extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021EA614(char *p, struct H *h);
 extern int func_021EA710(u32 *p);
 
-int func_021D1BD0(BattleSeq *s, int *state, int *pp)
+int BTL_CLIENT_StepShowRecallMessage(BattleSeq *s, int *state, int *pp)
 {
     int t;
 
     switch (*state) {
     case 0:
-        func_021EAF18((struct L *)s->msg, 1, func_021D1C40(s, pp[0], &t));
+        func_021EAF18((struct L *)s->msg, 1, BTL_CLIENT_PickRecallMessageId(s, pp[0], &t));
         if (t != 0)
             func_021EAF50((struct L *)s->msg, pp[0]);
         func_021EAF50((struct L *)s->msg, pp[1]);

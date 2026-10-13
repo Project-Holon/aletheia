@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_DampBlockExplosion
+ * function: HAND_TOKUSEI_DampBlockExplosion
  * address: 0x021DAE04
  * packet: pkt_ov093_021DAE04
  * region: ov093
@@ -14,4 +14,4 @@
  */
 extern int BTL_EVENT_GetVar(int);
 extern int BTL_EVENT_OverwriteVar(int,unsigned int);
-void BTL_ABILITY_DampBlockExplosion(int a, int b, int c, int *d) { unsigned short k; k = BTL_EVENT_GetVar(18); *d = 0; if (k == 153 || k == 120) { if (BTL_EVENT_GetVar(34) == 0) { *d = BTL_EVENT_OverwriteVar(34,19); d[1] = k; } } }
+void HAND_TOKUSEI_DampBlockExplosion(int a, int b, int c, int *d) { unsigned short k; k = BTL_EVENT_GetVar(18); *d = 0; if (k == 153 || k == 120) { if (BTL_EVENT_GetVar(34) == 0) { *d = BTL_EVENT_OverwriteVar(34,19); d[1] = k; } } }

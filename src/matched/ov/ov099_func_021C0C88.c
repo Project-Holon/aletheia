@@ -30,7 +30,7 @@
  *   func_021B9AE0  0x021B9AE0  thumb  ov099
  *   func_021BE900  0x021BE900  thumb  ov099
  *   func_021BA8EC  0x021BA8EC  thumb  ov099
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_021BDD54  0x021BDD54  thumb  ov099
  *   func_0202EB14  0x0202EB14  thumb
  *   func_0202EB0C  0x0202EB0C  thumb
@@ -59,7 +59,7 @@ extern u32 BMP_MENUWORK_Delete(void *p);
 extern void func_021B9AE0(void *w, u8 *s);
 extern void func_021BE900(char *p);
 extern void func_021BA8EC(char *p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int func_021BDD54(char *p, char *s);
 extern int func_0202EB14(void);
 extern u32 func_0202EB0C(void);
@@ -106,11 +106,11 @@ int func_021C0C88(char *p, int v)
     case -1:
         return v;
     case -2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         ((struct P *)p)->f1cc = 0xb;
         goto end;
     }
-    func_020061E4(0x54c);
+    GFL_USE_PlaySeDefaultVolume(0x54c);
     r4 = func_021BDD54(p, st);
     if (r4 == 5 && !func_0202EB14() && func_0202EB0C()) {
         func_021BAAB8(p, 0x95, 0);

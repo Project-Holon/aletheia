@@ -1,5 +1,5 @@
 /*
- * function: BTL_ITEM_GetWeakenDamageElectricHandlers
+ * function: HAND_ITEM_GetWeakenDamageElectricHandlers
  * address: 0x021DDAF8
  * packet: pkt_ov093_021DDAF8
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int gBtlItemWeakenDamageElectricHandlers[];
-int *BTL_ITEM_GetWeakenDamageElectricHandlers(int *p);
+int *HAND_ITEM_GetWeakenDamageElectricHandlers(int *p);
 
-int *BTL_ITEM_GetWeakenDamageElectricHandlers(int *p)
+int *HAND_ITEM_GetWeakenDamageElectricHandlers(int *p)
 {
     *p = 2;
     return gBtlItemWeakenDamageElectricHandlers;

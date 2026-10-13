@@ -15,12 +15,12 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
  *   d_021BAB70 0x021BAB70 data a4
  *   func_02034AC4  0x02034AC4  arm
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   func_0204363C  0x0204363C  arm
  *   func_0207D534  0x0207D534  arm
@@ -34,7 +34,7 @@
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   GF_OVERLAY_Unload 0x02034A5C arm
  *   overlay_id 0x00000043 data a1
- *   func_02005F38 0x02005F38 thumb
+ *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   d_021BABD0 0x021BABD0 data a4
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
@@ -45,7 +45,7 @@
  *   func_0203FCA0 0x0203FCA0 arm
  *   BUTTON_MAN_RotScaleMtx22 0x02051E74 arm
  *   sub_02040860 0x02040860 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021BAC74 0x021BAC74 data a4
  *   d_021BACC4 0x021BACC4 data a4
@@ -71,7 +71,7 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   BMP_Create 0x02043678 arm
  *   BMP_Delete 0x020437AC arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Blit 0x020439A0 arm
  *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   func_020307B0  0x020307B0  arm
@@ -79,9 +79,9 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_UTIL_Create 0x02047CFC arm
@@ -119,7 +119,7 @@
  *   func_02048AFC 0x02048AFC arm
  *   func_02048B44 0x02048B44 arm
  *   WIPE_SYS_Start 0x0202208C thumb
- *   func_0203630C 0x0203630C arm
+ *   KEY_GetCont 0x0203630C arm
  *   BMP_GetPixels 0x020437D4 arm
  *   func_02045CAC 0x02045CAC arm
  *   func_0201D304 0x0201D304 thumb
@@ -233,11 +233,11 @@ struct Mtx22 { int m[4]; };
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 extern int func_02034AC4(s32 handle);
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_0204363C(u32 swap);
 extern void func_0207D534(volatile u16 *reg, int brightness);
@@ -246,7 +246,7 @@ extern u32 WIPE_SYS_EndCheck(void);
 extern int GFL_USE_IsBgmFading(void),GFL_USE_IsBgmPlaying(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void BG_SYS_SetMainVisiblePlanes(u32),BG_SYS_SetSubVisiblePlanes(u32),GF_OVERLAY_Unload(int);
-extern int func_02005F38(void);
+extern int GFL_USE_IsBgmPlaying(void);
 extern void GFL_USE_FadeOutBgm(u32);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -255,9 +255,9 @@ extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
 extern void sub_02040860(unsigned, unsigned, unsigned, unsigned);
-extern void func_020434DC(unsigned, unsigned);
+extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
-extern void func_020434DC(unsigned,unsigned),BG_SYS_SetSubPlaneVisible(unsigned,unsigned),func_020403F4(unsigned),func_0203F9B4(void);
+extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned),BG_SYS_SetSubPlaneVisible(unsigned,unsigned),func_020403F4(unsigned),func_0203F9B4(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -275,7 +275,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern void BMP_Delete(struct Obj020437AC *);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Blit(struct Bmp *,struct Bmp *,unsigned,unsigned,int,int,unsigned,unsigned,unsigned);
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 extern u32 func_020307B0(void *p);
@@ -283,9 +283,9 @@ extern void BMP_WIN_Init(unsigned short);
 extern unsigned BMP_WIN_Create(unsigned, unsigned, unsigned, unsigned, unsigned char, unsigned char, unsigned char);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(unsigned);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
 extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u16 fifoSize, s16 heap, void (*setup)(void));
 extern struct Util *G3D_UTIL_Create(u16,u16,u16);
@@ -315,7 +315,7 @@ extern void func_02048B30(struct Light *, Vec *);
 extern void func_02048AFC(struct Light *, const Vec *);
 extern void func_02048B44(struct Light *, const Vec *);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
-extern u32 func_0203630C(void);
+extern u32 KEY_GetCont(void);
 extern void *BMP_GetPixels(const struct Bmp *);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
@@ -401,7 +401,7 @@ extern const unsigned short d_021BAB40[];
 
 
 
-int func_021B95A0(struct Obj0203159C *p,int unused,u32 v) { u8 *q; GFL_HEAP_CreateChildHeap(1,142,0x125000); q=PROCSYS_AllocProcWork(p,756,142); func_02082BCC(q,0,756); ((struct Obj24498 *)q)->f0=v; return 1; }
+int func_021B95A0(struct Obj0203159C *p,int unused,u32 v) { u8 *q; GFL_HEAP_CreateChildHeap(1,142,0x125000); q=PROCSYS_AllocProcWork(p,756,142); MI_CpuFill8(q,0,756); ((struct Obj24498 *)q)->f0=v; return 1; }
 
 
 
@@ -435,7 +435,7 @@ int func_021B95F8(char *p){func_021BA318((unsigned char *)p);((struct Obj14406 *
 int func_021B9630(u8 *p)
 {
     func_02034AC4((int)ov067_id);
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
@@ -538,7 +538,7 @@ int func_021B97BC(char *p) {
     case 2: if(func_021BA5E8(p)==0) ((struct Obj01003 *)p)->f2EC=0; break;
     case 3: if(func_021BA6F0(p)==0) ((struct Obj01003 *)p)->f2EC=0; break;
     case 5:
-        if(func_02005F38()==1) GFL_USE_FadeOutBgm(64);
+        if(GFL_USE_IsBgmPlaying()==1) GFL_USE_FadeOutBgm(64);
         return func_021BA2AC((u8 *)p,2);
     }
     func_021BA390(p);
@@ -573,7 +573,7 @@ void func_021B9908(void)
     sub_02040860(3, (unsigned)&d, 0x80, 0x60);
     e = d_021BACA4;
     func_0203FCA0(5, (const struct BgTemplate *)(&e), 0);
-    func_020434DC(2, 1);
+    BG_SYS_SetMainPlaneVisible(2, 1);
     BG_SYS_SetSubPlaneVisible(2, 1);
 }
 
@@ -582,7 +582,7 @@ void func_021B9908(void)
 /*
  * Tail: two zero alignment bytes at 0x021B99F6.
  */
-void func_021B99CC(void){func_020434DC(2,0);BG_SYS_SetSubPlaneVisible(2,0);func_020403F4(5);func_020403F4(3);func_020403F4(1);func_0203F9B4();}
+void func_021B99CC(void){BG_SYS_SetMainPlaneVisible(2,0);BG_SYS_SetSubPlaneVisible(2,0);func_020403F4(5);func_020403F4(3);func_020403F4(1);func_0203F9B4();}
 
 
 
@@ -707,7 +707,7 @@ void func_021B9C80(char *p)
 
 
 
-void func_021B9CC8(char *p){struct Bmp *s=func_02045770(((struct Obj14408 *)p)->f2C4);BMP_Blit(*(struct Bmp **)((unsigned)p+((struct Obj14408 *)p)->f2BB*8+0xb8),s,0,0,0,192,256,16,0);}
+void func_021B9CC8(char *p){struct Bmp *s=BMP_WIN_GetBmp(((struct Obj14408 *)p)->f2C4);BMP_Blit(*(struct Bmp **)((unsigned)p+((struct Obj14408 *)p)->f2BB*8+0xb8),s,0,0,0,192,256,16,0);}
 
 
 
@@ -741,16 +741,16 @@ void func_021B9D34(char *p)
     h = ((struct Obj03327 *)p)->f2BC;
     BMP_WIN_TransferChars((struct Descriptor *)h);
     BMP_WIN_MakeScreen((struct Cfg *)h);
-    func_020409B4(func_02045730((struct Descriptor *)h));
+    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     h = ((struct Obj03327 *)p)->f2C4;
     BMP_WIN_TransferChars((struct Descriptor *)h);
     BMP_WIN_MakeScreen((struct Cfg *)h);
-    func_020409B4(func_02045730((struct Descriptor *)h));
+    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)h));
 }
 
 
 
-void func_021B9DB0(char *p){func_020452E8(*(struct Descriptor * *)&((struct Obj14409 *)p)->f2BC);func_020452E8(*(struct Descriptor * *)&((struct Obj14409 *)p)->f2C4);BMP_WIN_Exit();}
+void func_021B9DB0(char *p){BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj14409 *)p)->f2BC);BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj14409 *)p)->f2C4);BMP_WIN_Exit();}
 
 
 
@@ -796,7 +796,7 @@ void func_021B9E14(char *p) {
     AntiAlias(1);
     func_0204044C(2);
     func_021B9F9C((u8 *)(p+0x28));
-    func_020434DC(1,0);
+    BG_SYS_SetMainPlaneVisible(1,0);
     func_0207D658(0x04000050,1,-16);
 }
 
@@ -950,7 +950,7 @@ void func_021BA2D8(char *p)
 
 
 
-void func_021BA318(u8 *p){if(**(int **)p){enum {K=0x2d1} k=K;if(p[k]==0)p[k+1]=(func_0203630C()&3)?1:0;p[0x2d1]=(p[0x2d1]+1)&3;}}
+void func_021BA318(u8 *p){if(**(int **)p){enum {K=0x2d1} k=K;if(p[k]==0)p[k+1]=(KEY_GetCont()&3)?1:0;p[0x2d1]=(p[0x2d1]+1)&3;}}
 
 
 
@@ -973,8 +973,8 @@ void func_021BA390(char *p)
     ((struct Obj04570 *)p)->f2DC -= 0x1000;
     n = 1;
     if (((struct Obj04570 *)p)->f2D2) n = 4;
-    a = BMP_GetPixels(func_02045770(((struct Obj04570 *)p)->f2BC));
-    b = BMP_GetPixels(func_02045770(((struct Obj04570 *)p)->f2C4));
+    a = BMP_GetPixels(BMP_WIN_GetBmp(((struct Obj04570 *)p)->f2BC));
+    b = BMP_GetPixels(BMP_WIN_GetBmp(((struct Obj04570 *)p)->f2C4));
     x = 0;
     for (i = 0; i < 32; i++, x += 32) func_021BA354((u8 *)(a + x), 0, n);
     for (j = 1; j < 25; j++) {
@@ -1014,7 +1014,7 @@ void func_021BA4AC(char *p, unsigned char *q, void *s, int y)
 
 
 
-void func_021BA558(char *p,u8 *q){if(q[9]==0)func_021BA4AC(p,q,func_02045770(*(struct Descriptor * *)&((struct Obj14412 *)p)->f2C4),192);else func_021BA4AC(p,q,func_02045770(*(struct Descriptor * *)&((struct Obj14412 *)p)->f2C4),194);}
+void func_021BA558(char *p,u8 *q){if(q[9]==0)func_021BA4AC(p,q,BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj14412 *)p)->f2C4),192);else func_021BA4AC(p,q,BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj14412 *)p)->f2C4),194);}
 
 
 
@@ -1023,11 +1023,11 @@ void func_021BA594(char *p, unsigned char *q)
     void *s;
     int y;
     if (((struct Obj01071 *)q)->f4 < 0x100) {
-        s = func_02045770(((struct Obj08305 *)p)->f2BC);
+        s = BMP_WIN_GetBmp(((struct Obj08305 *)p)->f2BC);
         y = ((struct Obj01071 *)q)->f4;
         ((struct Obj08305 *)p)->f2CF |= 1;
     } else {
-        s = func_02045770(((struct Obj08305 *)p)->f2C4);
+        s = BMP_WIN_GetBmp(((struct Obj08305 *)p)->f2C4);
         y = ((struct Obj01071 *)q)->f4 - 0x100;
         ((struct Obj08305 *)p)->f2CF |= 2;
     }
@@ -1088,8 +1088,8 @@ int func_021BA6F0(char *p)
         if (((struct Obj00784 *)p)->f2CF & 1) *(volatile u16 *)0x04000052 = a | (b << 8);
         if (((struct Obj00784 *)p)->f2CF & 2) *(volatile u16 *)0x04001052 = a | (b << 8);
         if (((struct Obj00784 *)p)->f2D0 >= 16) {
-            if (((struct Obj00784 *)p)->f2CF & 1) BMP_Clear(func_02045770(((struct Obj00784 *)p)->f2BC), 0);
-            if (((struct Obj00784 *)p)->f2CF & 2) BMP_Clear(func_02045770(((struct Obj00784 *)p)->f2C4), 0);
+            if (((struct Obj00784 *)p)->f2CF & 1) BMP_Clear(BMP_WIN_GetBmp(((struct Obj00784 *)p)->f2BC), 0);
+            if (((struct Obj00784 *)p)->f2CF & 2) BMP_Clear(BMP_WIN_GetBmp(((struct Obj00784 *)p)->f2C4), 0);
             ((struct Obj00784 *)p)->f2CC = ((struct Obj00784 *)p)->f2CF;
             *(u8 *)&((struct Obj00784 *)p)->f2D0 = 0;
             ++((struct Obj00784 *)p)->f2CE;
@@ -1119,7 +1119,7 @@ int func_021BA83C(char *p)
     case 0:
         func_021B9A80(p, 1);
         func_0207D63C(0x04000050, 8, 0x20, 0, 16);
-        func_020434DC(8, 1);
+        BG_SYS_SetMainPlaneVisible(8, 1);
         func_0207D534((void *)0x0400006c, 0);
         func_0207D534((void *)0x0400106c, 0);
         *(u8 *)&((struct Obj00682 *)p)->f2D0 = 0;
@@ -1157,7 +1157,7 @@ int func_021BA83C(char *p)
         v = ((struct Obj00682 *)p)->f2D0;
         if (v >= 16) {
             *(volatile u16 *)0x04000050 = 0;
-            func_020434DC(8, 0);
+            BG_SYS_SetMainPlaneVisible(8, 0);
             BUTTON_MAN_RotScaleMtx22(&matrix, 0, (const void *)0x1000, (const void *)0x1000, 0);
             func_02040860(3, (unsigned)&matrix, 0x80, 0x60);
             func_021B9A80(p, 0);
@@ -1253,7 +1253,7 @@ int func_021BAABC(void)
 
 int func_021BAAC0(void)
 {
-    func_020434DC(1, 1);
+    BG_SYS_SetMainPlaneVisible(1, 1);
     return 1;
 }
 
@@ -1262,7 +1262,7 @@ int func_021BAAC0(void)
 
 int func_021BAAD0(void)
 {
-    func_020434DC(1, 0);
+    BG_SYS_SetMainPlaneVisible(1, 0);
     return 1;
 }
 

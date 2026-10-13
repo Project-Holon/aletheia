@@ -25,7 +25,7 @@
  *   func_021B8680 0x021B8680 thumb ov133
  *   func_021B8254 0x021B8254 thumb ov133
  *   func_021B765C 0x021B765C thumb ov133
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   _fflt 0x0209BDBC arm
  *   _fmul 0x0209C77C arm
  *   _ffix 0x0209C494 arm
@@ -52,7 +52,7 @@ extern void func_021B82E8(u8 *,int);
 extern void func_021B8680(u8 *);
 extern void func_021B8254(u8 *);
 extern void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 void func_021B7A70(u8 *p)
 {
     int moved=0,other=0,hit=0,outer,n,dx,dy;
@@ -80,7 +80,7 @@ void func_021B7A70(u8 *p)
             if(moved==0 && ((struct Obj00004 *)p)->f14==1)func_021B7F00(p,((struct Obj00004 *)p)->f1820,2);
         }
         if(((struct Obj00004 *)p)->f14!=0 && *(u8 * *)&((struct Obj00004 *)p)->f38==0 && ((struct Obj00004 *)p)->f20>160 && *(u32 *)&((struct Obj00004 *)p)->f1C>96 && *(u32 *)&((struct Obj00004 *)p)->f1C<160){
-            ((struct Obj00004 *)p)->fC=2;((struct Obj00004 *)p)->f10=0;func_020061E4(0x622);func_021BA098(p);
+            ((struct Obj00004 *)p)->fC=2;((struct Obj00004 *)p)->f10=0;GFL_USE_PlaySeDefaultVolume(0x622);func_021BA098(p);
         }
     }else {
         dy=(s16)(((struct Obj00004 *)p)->f28-80);dx=(s16)(((struct Obj00004 *)p)->f24-128);

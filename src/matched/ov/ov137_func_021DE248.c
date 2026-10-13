@@ -12,7 +12,7 @@
  * symbols:
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   func_021DE388 0x021DE388 thumb ov137
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02008534 0x02008534 thumb
  *   STRBUF_Create 0x020457B0 arm
@@ -24,7 +24,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
 typedef unsigned short u16;
@@ -42,7 +42,7 @@ struct U16Vec;
 struct WordSet;
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern int func_021DE388(char *p);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern u16 func_02008534(const struct Sub0200852CObj *obj);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -54,7 +54,7 @@ extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 int func_021DE248(void *window,int unused,u16 color,Context *p) {
     int player;
@@ -65,7 +65,7 @@ int func_021DE248(void *window,int unused,u16 color,Context *p) {
     u16 ink;
     player=GFL_NET_SYSTEM_GetCurrentAid();
     if (!func_021DE388((char *)p)) return 0;
-    BMP_Clear(func_02045770(window),0);
+    BMP_Clear(BMP_WIN_GetBmp(window),0);
     for(i=0;i<5;i++) {
       do {
         if (p->entries[i].current) {
@@ -78,8 +78,8 @@ int func_021DE248(void *window,int unused,u16 color,Context *p) {
             func_0201F250(p->formatter,text,format);
             if (player==i) ink=0x860; else ink=color;
             y=18*i+1;
-            PRINTSYS_PrintColor(func_02045770(window),5,18*i+1,p->names[i],p->font,ink);
-            PRINTSYS_PrintColor(func_02045770(window),70,y,text,p->font,ink);
+            PRINTSYS_PrintColor(BMP_WIN_GetBmp(window),5,18*i+1,p->names[i],p->font,ink);
+            PRINTSYS_PrintColor(BMP_WIN_GetBmp(window),70,y,text,p->font,ink);
             STRBUF_Delete(text);
             do { STRBUF_Delete(format); } while (0);
         }
@@ -87,6 +87,6 @@ int func_021DE248(void *window,int unused,u16 color,Context *p) {
     }
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    func_020409B4(func_02045730(window));
+    func_020409B4(BMP_WIN_GetBgLayer(window));
     return 1;
 }

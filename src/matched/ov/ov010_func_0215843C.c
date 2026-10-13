@@ -10,7 +10,7 @@
  * extent: Two zero alignment bytes at 0x02158466 precede 0x02158468.
  * lever: A named u8 id truncates the result in r0 before preparing r1.
  * symbols:
- *   func_02026478 0x02026478 thumb
+ *   GAME_COMM_GetGameData 0x02026478 thumb
  *   GAME_DATA_GetIntrudeCount 0x02012B70 thumb
  *   GAME_DATA_GetIntrudeId 0x02012B80 thumb
  *   GAME_DATA_GetMyStatusByNetId 0x021583EC thumb ov010
@@ -18,7 +18,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int   u32;
-extern u32 func_02026478(void *obj);
+extern u32 GAME_COMM_GetGameData(void *obj);
 struct BigObj;
 struct Sub0200852CObj;
 extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
@@ -27,7 +27,7 @@ extern int GAME_DATA_GetMyStatusByNetId(void *a0, int a1);
 extern u8 func_0200855C(const struct Sub0200852CObj *obj);
 int INTRUDE_COMM_GetAreaOwnerVersion(void *p)
 {
-    void *q = (void *)func_02026478(p);
+    void *q = (void *)GAME_COMM_GetGameData(p);
     u8 id;
     if (GAME_DATA_GetIntrudeCount(q) == 0)
         return 21;

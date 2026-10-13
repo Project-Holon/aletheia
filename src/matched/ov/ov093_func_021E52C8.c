@@ -1,5 +1,5 @@
 /*
- * function: func_021E52C8
+ * function: HAND_WAZA_AddReflect
  * address: 0x021E52C8
  * packet: pkt_ov093_021E52C8
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E508C.c and filed here.
  *
  * symbols:
- *   d_021F25FC 0x021F25FC data ov093 a4
+ *   gReflectHandlers 0x021F25FC data ov093 a4
  */
 
-int *func_021E52C8(int *p);
-extern int d_021F25FC[];
+int *HAND_WAZA_AddReflect(int *p);
+extern int gReflectHandlers[];
 
-int *func_021E52C8(int *p)
+int *HAND_WAZA_AddReflect(int *p)
 {
     *p = 1;
-    return d_021F25FC;
+    return gReflectHandlers;
 }

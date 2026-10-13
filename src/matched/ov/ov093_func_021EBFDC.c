@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA020 0x021BA020 thumb ov093
+ *   BTL_MAIN_GetTrainerType 0x021BA020 thumb ov093
  *   func_021F7F58 0x021F7F58 thumb ov094
  *   func_021ED798 0x021ED798 thumb ov093
  *   func_021ED814 0x021ED814 thumb ov093
@@ -27,7 +27,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct S { int h, x, y, dx, dy; u8 state, cnt; };
-extern u16 func_021BA020(char *, int);
+extern u16 BTL_MAIN_GetTrainerType(char *, int);
 extern void func_021F7F58(int, u32, u32, u32, u32);
 struct T;
 extern void func_021ED798(struct S *s);
@@ -49,7 +49,7 @@ int func_021EBFDC(u8 *p, int *state, u16 i)
     switch (*state) {
     case 0:
         b[1] = 9;
-        func_021F7F58(func_021BA020(*(char * *)&((struct Obj00027 *)p)->f134, i), b[1], 0, 0, 0);
+        func_021F7F58(BTL_MAIN_GetTrainerType(*(char * *)&((struct Obj00027 *)p)->f134, i), b[1], 0, 0, 0);
         func_021ED798((struct S *)(p + 0x154));
         (*state)++;
         break;

@@ -24,7 +24,7 @@
  *   func_0200B204 0x0200B204 thumb
  *   func_02012944 0x02012944 thumb
  *   func_021E5548 0x021E5548 thumb ov177
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0200E918 0x0200E918 thumb
  *   func_0200AE54 0x0200AE54 thumb
  *   func_02008554 0x02008554 thumb
@@ -65,7 +65,7 @@
  *   func_021E8A90 0x021E8A90 thumb ov177
  *   func_0200B1D4 0x0200B1D4 thumb
  *   func_0217DEA4 0x0217DEA4 thumb ov176
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_0217E000 0x0217E000 thumb ov176
  *   func_0217DFF0 0x0217DFF0 thumb ov176
  *   func_0217DFD0 0x0217DFD0 thumb ov176
@@ -157,7 +157,7 @@ extern void *func_0200B358(void *);
 extern struct Rec1E *func_0200B204(struct RecBig *p, u32 index);
 extern u8 *func_02012944(void *p);
 extern int func_021E5548(int *);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern u8 func_0200E918(const u8 *, u32);
 extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
@@ -196,7 +196,7 @@ extern int func_021E64C0(unsigned char *, void *);
 extern int func_021E8A90(int **p);
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
 extern void func_0217DEA4(int *, int);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_0217E000(int *);
 extern int func_0217DFF0(int, int);
 extern void func_0217DFD0(int *, int, int);
@@ -286,7 +286,7 @@ void func_0217D028(u8 *p)
     aux = (int)func_0200B204(func_0200B358(base), 1);
     x = (int)func_02012944(((struct Obj00053 *)p)->f1B8);
     table = func_021E5548(*(int * *)&((struct Obj00053 *)p)->f1B4);
-    func_02082BCC(&rec, 0, 0xAC);
+    MI_CpuFill8(&rec, 0, 0xAC);
     rec.fa0 = func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34, 1);
     rec.fa2 = func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34, 2);
     rec.fa4 = func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34, 0);
@@ -442,7 +442,7 @@ Request *func_0217D398(Config *p, int heap)
 {
     Request *r;
     r = func_02030734(heap, 0x38, 0, d_0217E61C, 0x9A);
-    func_02082BCC(r, 0, 0x38);
+    MI_CpuFill8(r, 0, 0x38);
     r->config = *p;
     r->heap = heap;
     func_021E58A4(r->config.v[4], 3, heap);
@@ -523,7 +523,7 @@ void func_0217D4FC(int *a, int *state, int *p)
     switch (*state) {
     case 0: func_0217DC28(p); func_0217DEA4(p, 1); *state = 1; break;
     case 1: if (func_0217DE8C(p)) *state = 2; break;
-    case 2: if (func_020362DC() & 3) *state = 3; break;
+    case 2: if (KEY_GetTrg() & 3) *state = 3; break;
     case 3:
         func_0217E000(p); func_0217DFF0((int)p, 1); func_0217DFD0(p, 0x67, 1);
         *state = 19; func_021E8AB4((u32)a, 4); break;
@@ -573,7 +573,7 @@ void func_0217D730(int *a, int *state, int *p)
     switch (*state) {
     case 0: func_0217DC28(p); func_0217DEA4(p, 0); *state = 1; break;
     case 1: if (func_0217DE8C(p)) *state = 2; break;
-    case 2: if (func_020362DC() & 3) *state = 3; break;
+    case 2: if (KEY_GetTrg() & 3) *state = 3; break;
     case 3:
         func_0217E000(p); func_0217DFF0((int)p, 1); func_0217DFD0(p, 0x68, 1);
         *state = 19; func_021E8AB4((u32)a, 4); break;
@@ -622,7 +622,7 @@ void func_0217D964(int *a, int *state, int *p)
     switch (*state) {
     case 0: func_0217DC28(p); func_0217DEA4((int *)p, 1); *state = 1; break;
     case 1: if (func_0217DE8C(p)) *state = 2; break;
-    case 2: if (func_020362DC() & 3) *state = 3; break;
+    case 2: if (KEY_GetTrg() & 3) *state = 3; break;
     case 3: func_0217E000(p); func_0217DFF0((int)p, 1); func_0217DFD0(p, 0x6D, 1); *state = 4; break;
     case 4: if (func_0217DFE4(p)) *state = 5; break;
     case 5: func_0217DEDC((char *)p, 1); *state = 6; break;
@@ -649,7 +649,7 @@ void func_0217DA38(int sys, int *state, int *p)
     switch (*state) {
     case 0: func_0217DC28(p); func_0217DEA4((int *)p, 1); *state = 1; break;
     case 1: if (func_0217DE8C(p)) *state = 2; break;
-    case 2: if (func_020362DC() & 3) *state = 3; break;
+    case 2: if (KEY_GetTrg() & 3) *state = 3; break;
     case 3:
         func_0217E000(p); func_0217DFF0((int)p, 1); func_0217DFD0(p, 0x6e, 1);
         *state = 4; break;
@@ -672,7 +672,7 @@ void func_0217DB0C(int sys, int *state, int *p)
     switch (*state) {
     case 0: func_0217DC28(p); func_0217DEA4((int *)p, 1); *state = 1; break;
     case 1: if (func_0217DE8C(p)) *state = 2; break;
-    case 2: if (func_020362DC() & 3) *state = 3; break;
+    case 2: if (KEY_GetTrg() & 3) *state = 3; break;
     case 3:
         func_0217E000(p); func_0217DFF0((int)p, 1); func_0217DFD0(p, 0x70, 1);
         *state = 4; break;
@@ -743,7 +743,7 @@ void func_0217DC28(int *p)
             Rec rec;
             Row *table;
             int total, a, b, c, d;
-            func_02082BCC(&rec, 0, 0xac);
+            MI_CpuFill8(&rec, 0, 0xac);
             func_02082D44(func_0200B074(obj), &rec, 0x92);
             table = (u16 (*)[3])func_0200EA00((int)stats);
             rec.a0 = BSUBWAY_SAVEDATA_GetStat(table, 10, 0);
@@ -760,7 +760,7 @@ void func_0217DC28(int *p)
             Rec rec;
             const u8 *table;
             int a, b, c, d;
-            func_02082BCC(&rec, 0, 0xac);
+            MI_CpuFill8(&rec, 0, 0xac);
             func_02082D44(func_0200B074(obj), &rec, 0x92);
             table = (const u8 *)func_0200EA08((int)stats);
             rec.a0 = func_0200E918(table, 1); rec.a2 = func_0200E918(table, 2);

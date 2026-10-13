@@ -14,7 +14,7 @@
  *   func_021E2E30 0x021E2E30 thumb ov183
  *   func_021FE784 0x021FE784 thumb ov186
  *   func_021FE7B0 0x021FE7B0 thumb ov186
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021FB4B4 0x021FB4B4 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
  *   func_021E2E48 0x021E2E48 thumb ov183
@@ -31,7 +31,7 @@ extern void func_021E300C(Pair *);
 extern void func_021E2E30(char *,int,int);
 extern void func_021FE784(int,int,int,int);
 extern int func_021FE7B0(int *);
-extern u32 func_02035D20(u32 *,u32 *);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(int,int,Pair *);
 extern void func_021E2E48(char *p, int a, int b);
@@ -53,7 +53,7 @@ void func_021E2910(int *task,int *state,char *p) {
     case 1: func_021FE784(**(int * *)&((struct Obj01074 *)p)->f3C,2,3,0); *state=2; break;
     case 2: if(func_021FE7B0((int *)**(int * *)&((struct Obj01074 *)p)->f3C)) *state=3; break;
     case 3: {
-        if(func_02035D20(&x,&y)) {
+        if(TOUCHPANEL_GetPointTrg(&x,&y)) {
             for(i=0;i<=2;i++) {
                 if(func_021FB4B4((unsigned int *)(*(int *)(p+i*4+0x14)),x,y)) {
                     first.a=x; first.b=y;

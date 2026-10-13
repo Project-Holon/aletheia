@@ -23,6 +23,10 @@
  *   func_021F5E44  0x021F5E44  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
  *   CLACT_RestartActorAnim  0x0204B9A0  arm  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   KEY_GetTrg  0x020362DC  arm  arm9
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
  */
 
 typedef signed char s8;
@@ -51,19 +55,19 @@ typedef struct {
 
 extern int func_021F5CA4(Work *p);
 struct Obj;
-extern void func_0204B92C(struct Obj *obj, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *obj, u32 v);
 struct Actor;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int func_021F5F9C(int a, int b, int c);
 extern void func_021F68A4(Work *p, int box);
-extern void func_020061E4(u32 se);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void func_021F5F60(u32 cursor, int i);
 extern void func_021F5A7C(Work *p);
 extern void func_021F5B8C(Work *p);
 extern void func_021F5E44(Work *p);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 
 int func_021F5CFC(Work *p)
 {
@@ -72,25 +76,25 @@ int func_021F5CFC(Work *p)
     if (r != -1) {
         switch (r) {
         case 0x1F:
-            func_0204B92C((struct Obj *)p->arrows[0], 1);
+            CLACT_SetActorAutoAnim((struct Obj *)p->arrows[0], 1);
             CLACT_SetActorAnimSeq((struct Obj *)p->arrows[0], 0x26);
             p->box = func_021F5F9C(p->box, p->boxes, 1);
             func_021F68A4(p, p->box);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             break;
         case 0x20:
-            func_0204B92C((struct Obj *)p->arrows[1], 1);
+            CLACT_SetActorAutoAnim((struct Obj *)p->arrows[1], 1);
             CLACT_SetActorAnimSeq((struct Obj *)p->arrows[1], 0x27);
             p->box = func_021F5F9C(p->box, p->boxes, -1);
             func_021F68A4(p, p->box);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             break;
         case 0x1E:
-            func_0204B3DC((struct Obj *)p->marker, 1);
+            CLACT_SetActorDrawEnable((struct Obj *)p->marker, 1);
             CLACT_RestartActorAnim((struct Actor *)p->marker);
             p->state = 0x11;
             p->slot = r;
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             func_021F5F60(p->cursor, p->slot);
             break;
         default:
@@ -106,21 +110,21 @@ int func_021F5CFC(Work *p)
     } else {
         func_021F5E44(p);
         if (p->mode == 5) {
-            if (func_020362DC() & 2) {
-                func_0204B3DC((struct Obj *)p->marker, 1);
+            if (KEY_GetTrg() & 2) {
+                CLACT_SetActorDrawEnable((struct Obj *)p->marker, 1);
                 CLACT_RestartActorAnim((struct Actor *)p->marker);
                 p->state = 0x11;
-                func_020061E4(0x551);
-            } else if (func_020362DC() & 1) {
+                GFL_USE_PlaySeDefaultVolume(0x551);
+            } else if (KEY_GetTrg() & 1) {
                 func_021F5A7C(p);
             }
         } else if (p->mode == 6) {
-            if (func_020362DC() & 2) {
-                func_0204B3DC((struct Obj *)p->marker, 1);
+            if (KEY_GetTrg() & 2) {
+                CLACT_SetActorDrawEnable((struct Obj *)p->marker, 1);
                 CLACT_RestartActorAnim((struct Actor *)p->marker);
                 p->state = 0x11;
-                func_020061E4(0x551);
-            } else if (func_020362DC() & 1) {
+                GFL_USE_PlaySeDefaultVolume(0x551);
+            } else if (KEY_GetTrg() & 1) {
                 func_021F5B8C(p);
             }
         }

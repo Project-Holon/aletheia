@@ -13,7 +13,7 @@
  *   ov067_id 0x00000043 data
  *   func_02030734 0x02030734 arm
  *   func_02034AC4 0x02034AC4 arm
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   func_0207D46C 0x0207D46C arm
@@ -42,7 +42,7 @@ typedef unsigned char  u8;
 struct Bank;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02034AC4(int);
-extern void func_02043534(u32);
+extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void func_0207D46C(void);
@@ -64,7 +64,7 @@ char *func_021D9958(int heap)
     p=func_02030734(heap,0xb70,1,d_021DABFC,201);
     ((struct Obj05370 *)p)->f9E4=heap;
     func_02034AC4((int)ov067_id);
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     BG_SYS_SetLcdSwap(1);
     *(volatile u32 *)0x04001000|=0x10000;
@@ -78,6 +78,6 @@ char *func_021D9958(int heap)
     func_021D9D3C(p);
     ((struct Obj05370 *)p)->f980=func_020056A0(func_021D9D34,p,0);
     BG_SYS_SetSubVisiblePlanes(31);
-    func_02043534(27);
+    BG_SYS_SetMainVisiblePlanes(27);
     return p;
 }

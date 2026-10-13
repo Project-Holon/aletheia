@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CA5CC",
+   "name": "BTL_SERVER_FLOW_ProcHandExGroundPokes",
    "address": "0x021CA5CC",
    "kind": "game",
    "region": "ov093",

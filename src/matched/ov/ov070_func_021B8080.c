@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 #include "../include/Obj20665.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_020061E4(unsigned int id);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned int id);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-void ITEMMENU_ShowInputGuardError(u8 *p) { func_020061E4(0x663); CLACT_SetActorAnimSeq(((struct Obj20665 *)p)->f72C,2); }
+void ITEMMENU_ShowInputGuardError(u8 *p) { GFL_USE_PlaySeDefaultVolume(0x663); CLACT_SetActorAnimSeq(((struct Obj20665 *)p)->f72C,2); }

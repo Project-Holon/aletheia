@@ -14,8 +14,8 @@
  *   func_0201D304 0x0201D304 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_02045738 0x02045738 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetWidth 0x02045738 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -53,8 +53,8 @@ struct U16Vec;
 struct WordSet;
 extern int func_022110D4(u8 *p, int i);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_02045770(struct Descriptor *p);
-extern u8 func_02045738(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 typedef unsigned short u16;
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -65,7 +65,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
 static inline void put(Big *a0, int win, int sel, int x, int h, int color)
 {
-    PRINTSYS_PrintQueColor((void *)win, (int)func_02045770((struct Descriptor *)sel), x, 0, h, a0->f0->fc, color);
+    PRINTSYS_PrintQueColor((void *)win, (int)BMP_WIN_GetBmp((struct Descriptor *)sel), x, 0, h, a0->f0->fc, color);
 }
 
 void func_0220C8F0(Big *a0, int i)
@@ -88,7 +88,7 @@ void func_0220C8F0(Big *a0, int i)
     func_0201F250((struct WordSet *)a0->f1ea4, (void *)p, (void *)h2);
 
     v = (unsigned char)func_0201D304((struct StrObj *)p, a0->f0->fc, 0);
-    x = (func_02045738((struct Descriptor *)a0->f1f98) << 3) - v;
+    x = (BMP_WIN_GetWidth((struct Descriptor *)a0->f1f98) << 3) - v;
     put(a0, a0->f1eac, a0->f1f98, x, p, 0x2120);
     a0->f1f9c = 1;
     STRBUF_Delete((struct U16Vec *)h2);

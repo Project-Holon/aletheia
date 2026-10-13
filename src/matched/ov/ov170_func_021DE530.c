@@ -12,7 +12,7 @@
  * symbols:
  *   func_021DD25C 0x021DD25C thumb
  *   func_021DDEFC 0x021DDEFC thumb
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   func_021DE120 0x021DE120 thumb
  *
  * Clears the seven move slots, then either starts a slide from a to b or,
@@ -38,7 +38,7 @@ typedef struct {
 extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern void func_021DDEFC(unsigned char *p, Obj *o);
 typedef unsigned int   u32;
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 extern void func_021DE120(char *p, int a, int b);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -68,6 +68,6 @@ void func_021DE530(unsigned char *p, int a, int b)
     } else {
         ((struct Obj01418 *)o)->fAC = a;
         ((struct Obj01418 *)o)->fB0 = b;
-        func_021DE120((char *)p, a, func_0201AA18(((struct Obj23845 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f8) + 0x1E);
+        func_021DE120((char *)p, a, POKEPARTY_GetCount(((struct Obj23845 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f8) + 0x1E);
     }
 }

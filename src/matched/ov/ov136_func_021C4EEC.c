@@ -25,7 +25,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02041300 0x02041300 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   func_021C4534 0x021C4534 thumb ov136
  *   func_021C4528 0x021C4528 thumb ov136
  */
@@ -49,7 +49,7 @@ extern void GF_FONT_SetDefaultTextColor(void);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void func_02041300(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
 extern void func_02041B6C(u32 layer);
-extern void func_020434DC(u32, u32);
+extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern int func_021C4534(void);
 extern int func_021C4528(void *a);
 
@@ -83,15 +83,15 @@ void func_021C4EEC(u8 *p)
     ARC_TOOL_DeleteHandle(h);
     func_02041300(4, 0x2001, 0, 0, 0x20, 0x20, 0x11);
     func_02041B6C(4);
-    func_020434DC(1, 1);
-    func_020434DC(2, 1);
-    func_020434DC(8, 1);
+    BG_SYS_SetMainPlaneVisible(1, 1);
+    BG_SYS_SetMainPlaneVisible(2, 1);
+    BG_SYS_SetMainPlaneVisible(8, 1);
     if (p[0xB] != 0) {
         h = func_020490F4(0x9B, (u16)((struct Obj00540 *)p)->f0);
         func_020498F4(h, 0x24, 2, 0, sz, 1, (u16)((struct Obj00540 *)p)->f0);
         ARC_TOOL_DeleteHandle(h);
         ((struct Obj00540 *)p)->f3C = (void *)func_021C4534;
         ((struct Obj00540 *)p)->f40 = (void *)func_021C4528;
-        func_020434DC(4, 1);
+        BG_SYS_SetMainPlaneVisible(4, 1);
     }
 }

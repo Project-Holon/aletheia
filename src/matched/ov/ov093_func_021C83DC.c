@@ -1,5 +1,5 @@
 /*
- * function: func_021C83DC
+ * function: BTL_SERVER_FLOW_SetCurTurnStateFlag
  * address:  0x021C83DC
  * packet:   pkt_021C83DC
  * region:   ov093
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj21120.h"
 
-void func_021C83DC(char *p, int x)
+void BTL_SERVER_FLOW_SetCurTurnStateFlag(char *p, int x)
 {
     *(char *)(((struct Obj21120 *)p)->f4A8 + 4) = x;
 }

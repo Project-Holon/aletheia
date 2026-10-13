@@ -8,53 +8,53 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203630C 0x0203630C arm
+ *   KEY_GetCont 0x0203630C arm
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   func_020355D8 0x020355D8 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020061E4 0x020061E4 thumb
- *   func_0201CE30 0x0201CE30 thumb
- *   func_0201CE5C 0x0201CE5C thumb
- *   func_0201CE38 0x0201CE38 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
+ *   PRINTSYS_PrintStreamShortWait 0x0201CE5C thumb
+ *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
  */
 #include "../include/Obj04632.h"
 
 typedef unsigned int u32;
-extern unsigned func_0201CE30(void*);
+extern unsigned PRINTSYS_PrintStreamGetState(void*);
 typedef signed int     s32;
 typedef unsigned char  u8;
 struct Rec;
-extern void func_0201CE5C(struct Rec *p, s32 v);
-extern void func_0201CE38(void*);
-extern unsigned int func_0203630C(void);
+extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
+extern void PRINTSYS_PrintStreamReleasePause(void*);
+extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
 extern void func_020355D8(u8 v);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 int func_021BA190(int unused,char*p)
 {
     int result=0;
-    switch(func_0201CE30(*(void* *)&((struct Obj04632 *)p)->f5C)){
+    switch(PRINTSYS_PrintStreamGetState(*(void* *)&((struct Obj04632 *)p)->f5C)){
     case 0:
-        if((func_0203630C()&3)||TOUCHPANEL_GetCont()){
-            func_0201CE5C(*(void* *)&((struct Obj04632 *)p)->f5C,0);
-            if(func_0203630C()&3)func_020355D8(0);else func_020355D8(1);
+        if((KEY_GetCont()&3)||TOUCHPANEL_GetCont()){
+            PRINTSYS_PrintStreamShortWait(*(void* *)&((struct Obj04632 *)p)->f5C,0);
+            if(KEY_GetCont()&3)func_020355D8(0);else func_020355D8(1);
         }
         break;
     case 1:
-        if((func_020362DC()&3)||TOUCHPANEL_GetTrg()){
-            func_020061E4(0x547);
-            func_0201CE38(*(void* *)&((struct Obj04632 *)p)->f5C);
-            if(func_020362DC()&3)func_020355D8(0);else func_020355D8(1);
+        if((KEY_GetTrg()&3)||TOUCHPANEL_GetTrg()){
+            GFL_USE_PlaySeDefaultVolume(0x547);
+            PRINTSYS_PrintStreamReleasePause(*(void* *)&((struct Obj04632 *)p)->f5C);
+            if(KEY_GetTrg()&3)func_020355D8(0);else func_020355D8(1);
         }
         break;
     case 2:
         if(((struct Obj04632 *)p)->f64)--((struct Obj04632 *)p)->f64;
         else if(((struct Obj04632 *)p)->f60){
-            if((func_020362DC()&3)||TOUCHPANEL_GetTrg()){
-                if(func_020362DC()&3)func_020355D8(0);else func_020355D8(1);
+            if((KEY_GetTrg()&3)||TOUCHPANEL_GetTrg()){
+                if(KEY_GetTrg()&3)func_020355D8(0);else func_020355D8(1);
                 ((struct Obj04632 *)p)->f60=0;
                 result=1;
             }

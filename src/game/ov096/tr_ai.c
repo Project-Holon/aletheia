@@ -35,9 +35,9 @@
  *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
  *   func_020870D0 0x020870D0 arm
  *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
- *   func_021B9A6C 0x021B9A6C thumb ov093
- *   func_021B8DE4 0x021B8DE4 thumb ov093
- *   func_021B8CE8 0x021B8CE8 thumb ov093
+ *   BTL_MAIN_IsPosInTable 0x021B9A6C thumb ov093
+ *   BTL_MAIN_GetSlotClientIdThunk 0x021B8DE4 thumb ov093
+ *   BTL_MAIN_IsOpposingPos 0x021B8CE8 thumb ov093
  *   BTL_POKEPARAM_GetMovePPChecked 0x021D5584 thumb ov093
  *   func_0218A528 0x0218A528 thumb ov096
  *   VM_Start 0x0201127C thumb
@@ -50,22 +50,22 @@
  *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb  ov093
  *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
  *   BTL_POKEPARAM_TestContFlag  0x021D5BDC  thumb  ov093
- *   func_021C82D0  0x021C82D0  thumb  ov093
+ *   BTL_SERVER_FLOW_GetSideEffectEntry  0x021C82D0  thumb  ov093
  *   VM_Jump  0x020113B0  thumb
- *   func_021C8138 0x021C8138 thumb ov093
+ *   BTL_SERVER_FLOW_GetTurnCount 0x021C8138 thumb ov093
  *   BTL_POKEPARAM_GetTypePair  0x021D57FC  thumb  ov093
  *   BTLV_CORE_GetHighByte  0x021E8CFC  thumb  ov093
  *   BTLV_CORE_GetLowByte  0x021E8D04  thumb  ov093
  *   WAZA_TOOL_GetPower 0x0201C1D8 thumb
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
- *   func_021C7E14 0x021C7E14 thumb ov093
+ *   BTL_SERVER_FLOW_CalcPredictedMoveDamage 0x021C7E14 thumb ov093
  *   BTL_POKEPARAM_GetLastUsedMoveId  0x021D67A8  thumb  ov093
- *   func_021C81C8  0x021C81C8  thumb  ov093
- *   func_021B9AF8  0x021B9AF8  thumb  ov093
- *   func_021B99B8  0x021B99B8  thumb  ov093
- *   func_021B9B94  0x021B9B94  thumb  ov093
+ *   BTL_SERVER_FLOW_CalcPokeSpeedWrapper  0x021C81C8  thumb  ov093
+ *   BTL_SIDE_GetSlotOfClientThunk  0x021B9AF8  thumb  ov093
+ *   BTL_MAIN_GetPositionsPerClientThunk  0x021B99B8  thumb  ov093
+ *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
  *   BTL_POKEPARAM_IsAbleToBattle  0x021D5B7C  thumb  ov093
- *   func_021C7DAC  0x021C7DAC  thumb  ov093
+ *   BTL_SERVER_FLOW_CalcMoveTypeEffectiveness  0x021C7DAC  thumb  ov093
  *   BTL_FIELD_GetCountdownValue 0x021EF884 thumb ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
@@ -76,23 +76,24 @@
  *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
  *   BTL_POKEPARAM_GetMovePPLost 0x021D554C thumb ov093
  *   func_021D5478  0x021D5478  thumb  ov093
- *   func_021C81D0  0x021C81D0  thumb  ov093
+ *   BTL_SERVER_FLOW_CountFasterPokes  0x021C81D0  thumb  ov093
  *   BTL_POKEPARAM_GetTurnCount  0x021D5BA4  thumb  ov093
  *   d_0218A58C     0x0218A58C  data   ov096  a4
- *   func_021B9C98 0x021B9C98 thumb ov093
+ *   BTL_SLOT_FindPoke 0x021B9C98 thumb ov093
  *   BTL_POKEPARAM_HasSubstitute 0x021D6D7C thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
- *   func_021C82F4  0x021C82F4  thumb  ov093
+ *   BTL_SERVER_FLOW_CheckFieldEffectActive  0x021C82F4  thumb  ov093
  *   BTL_MAIN_GetOwnLanePos  0x021B8C38  thumb  ov093
  *   func_021F8AFC 0x021F8AFC thumb ov094
  *   func_02019C90 0x02019C90 thumb
- *   func_021B98AC  0x021B98AC  thumb  ov093
- *   func_021B9C00  0x021B9C00  thumb  ov093
+ *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
+ *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
  *   func_02020F20  0x02020F20  thumb
  *   func_02021014  0x02021014  thumb
  *   D_0218A7C0 0x0218A7C0 data a4
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb  arm9
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb  arm9
  */
 #include "../../matched/include/Obj00067.h"
 #include "../../matched/include/Obj13649.h"
@@ -361,9 +362,9 @@ extern void WAZA_TOOL_DeleteCache(void);
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern u64 func_020870D0(void);
 extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
-extern int func_021B9A6C(int, u32);
-extern u8 func_021B8DE4(char *p, int i);
-extern int func_021B8CE8(int, int, int);
+extern int BTL_MAIN_IsPosInTable(int, u32);
+extern u8 BTL_MAIN_GetSlotClientIdThunk(char *p, int i);
+extern int BTL_MAIN_IsOpposingPos(int, int, int);
 extern u8 BTL_POKEPARAM_GetMovePPChecked(struct UtilWork *p, u32 i);
 extern void func_0218A528(u8 *);
 extern void VM_Start(struct ScriptVm *vm, u8 *pc);
@@ -376,22 +377,22 @@ extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern Slot_02187F00 BTL_POKEPARAM_GetSickContRaw(void *, int);
 extern int BTLV_CORE_IsSlotKind1Index15(Slot_02187F00);
 extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
-extern int func_021C82D0(int unused, unsigned int v, int k);
+extern int BTL_SERVER_FLOW_GetSideEffectEntry(int unused, unsigned int v, int k);
 extern void VM_Jump(struct Cur *c, u32 v);
-extern unsigned short func_021C8138(struct Q7 *);
+extern unsigned short BTL_SERVER_FLOW_GetTurnCount(struct Q7 *);
 extern u16 BTL_POKEPARAM_GetTypePair(void *p);
 extern u8 BTLV_CORE_GetHighByte(s32_02188CA0 v);
 extern int BTLV_CORE_GetLowByte(int x);
 extern u16 WAZA_TOOL_GetPower(void *p);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *);
-extern u16 func_021C7E14(u8 *p, u8 a, u8 b, u32 c, int e0, int e1);
+extern u16 BTL_SERVER_FLOW_CalcPredictedMoveDamage(u8 *p, u8 a, u8 b, u32 c, int e0, int e1);
 extern u16 BTL_POKEPARAM_GetLastUsedMoveId(struct QL *p);
-extern u16 func_021C81C8(u8 *, u8 *, int);
-extern char *func_021B9AF8(char *p, int i);
-extern int func_021B99B8(void *pp, unsigned int b);
-extern u8 func_021B9B94(struct Q1 *p);
+extern u16 BTL_SERVER_FLOW_CalcPokeSpeedWrapper(u8 *, u8 *, int);
+extern char *BTL_SIDE_GetSlotOfClientThunk(char *p, int i);
+extern int BTL_MAIN_GetPositionsPerClientThunk(void *pp, unsigned int b);
+extern u8 BTL_SLOT_GetCount(struct Q1 *p);
 extern int BTL_POKEPARAM_IsAbleToBattle(void *);
-extern int func_021C7DAC(u8 *p, int a, int b, int c);
+extern int BTL_SERVER_FLOW_CalcMoveTypeEffectiveness(u8 *p, int a, int b, int c);
 extern int BTL_FIELD_GetCountdownValue(void);
 extern int func_021D59B4(u8 *p, int k);
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
@@ -401,18 +402,18 @@ extern u16 BTL_POKEPARAM_GetMoveStreak(u8 *p);
 extern int BTL_FIELD_GetStaticSlotObject(int);
 extern u8 BTL_POKEPARAM_GetMovePPLost(u8 *p, u8 i);
 extern u8 func_021D5478(struct Work *p);
-extern u16 func_021C81D0(u8 *p, u8 *a, u32 y);
+extern u16 BTL_SERVER_FLOW_CountFasterPokes(u8 *p, u8 *a, u32 y);
 extern unsigned short BTL_POKEPARAM_GetTurnCount(int *p);
-extern int func_021B9C98(u8 *p, u32 v);
+extern int BTL_SLOT_FindPoke(u8 *p, u32 v);
 extern u32 BTL_POKEPARAM_HasSubstitute(u8 *p);
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
-extern int func_021C82F4(int, int, int);
+extern int BTL_SERVER_FLOW_CheckFieldEffectActive(int, int, int);
 extern u8 BTL_MAIN_GetOwnLanePos(u32 flags, u32 v);
 extern int func_021F8AFC(int);
 extern u32 func_02019C90(u16, u16, u32);
-extern u8 *func_021B98AC(char *const *q, u8 b);
-extern u8 *func_021B9C00(struct S2 *p, u32 i);
-extern int func_0201BD28(int, int);
+extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
+extern u8 *BTL_SLOT_GetPokeParam(struct S2 *p, u32 i);
+extern int WAZA_TOOL_GetParam(int, int);
 extern int WAZA_TOOL_GetFlag(int, int);
 extern int func_02020F20(int, int, u16);
 extern u32 func_02021014(struct Rec *p, u32 sel);
@@ -897,7 +898,7 @@ int func_02188284(int a, Obj_02188284 *b)
         }
         b->s30[b->opp] = ids[draw_below(n)];
         b->h24[b->opp] = scores[0];
-        if (func_021B8CE8(b->fb0, func_021B8DE4((char *)b->fb0, b->side), func_021B8DE4((char *)b->fb0, b->opp)) == 0) {
+        if (BTL_MAIN_IsOpposingPos(b->fb0, BTL_MAIN_GetSlotClientIdThunk((char *)b->fb0, b->side), BTL_MAIN_GetSlotClientIdThunk((char *)b->fb0, b->opp)) == 0) {
             if (b->h24[b->opp] < 100)
                 b->h24[b->opp] = -1;
         }
@@ -924,7 +925,7 @@ int func_02188284(int a, Obj_02188284 *b)
     if (func_0218A378((Obj_02188284 *)b, BTL_POKEPARAM_GetMoveId(b->fbc, b->slot), 27) == 1 && !(b->target & 1))
         b->target = b->side;
     v = BTL_POKEPARAM_GetMoveId(b->fbc, b->slot);
-    if (b->mode == 2 && func_021B9A6C(b->side, b->target) == 0 && func_0218A384((Obj_02188284 *)b, v, 11) == 0)
+    if (b->mode == 2 && BTL_MAIN_IsPosInTable(b->side, b->target) == 0 && func_0218A384((Obj_02188284 *)b, v, 11) == 0)
         b->target = (b->target & 1) + 2;
     return 0;
 }
@@ -954,7 +955,7 @@ void func_021885BC(int a, Obj_021885BC *b)
             }
             b->state++;
         case 1:
-            if (b->mode == 2 && b->move != 0 && func_021B9A6C(b->side, b->opp) == 0 && func_0218A384((Obj_02188284 *)b, b->move, 11) == 0) {
+            if (b->mode == 2 && b->move != 0 && BTL_MAIN_IsPosInTable(b->side, b->opp) == 0 && func_0218A384((Obj_02188284 *)b, b->move, 11) == 0) {
                 b->move = 0;
                 func_02011290((struct ScriptVm *)a);
                 func_0218A528((u8 *)b);
@@ -1396,7 +1397,7 @@ int func_02188A08(struct Cursor *a, int b, int c)
     t1 = VM_GetU32(a);
     t2 = VM_GetU32(a);
     r = func_0218A160((u8 *)b, t0);
-    r = func_021C82D0(((struct Obj21934 *)b)->fB4, r, t1);
+    r = BTL_SERVER_FLOW_GetSideEffectEntry(((struct Obj21934 *)b)->fB4, r, t1);
     return func_0218A0F4((u8 *)a, c, r != 0, 1, t2);
 }
 
@@ -1608,7 +1609,7 @@ int func_02188C1C(struct Cursor *a, Conn_02188284 *b)
 
 
 
-int func_02188C88(int a, unsigned char *b) { ((struct Obj10176 *)b)->f38=func_021C8138(*(struct Q7 * *)&((struct Obj10176 *)b)->fB4); return ((struct Obj10176 *)b)->fC4; }
+int func_02188C88(int a, unsigned char *b) { ((struct Obj10176 *)b)->f38=BTL_SERVER_FLOW_GetTurnCount(*(struct Q7 * *)&((struct Obj10176 *)b)->fB4); return ((struct Obj10176 *)b)->fC4; }
 
 
 
@@ -1673,7 +1674,7 @@ u32 func_02188D5C(struct Cursor *a, u8 *p)
     int t = VM_GetU32(a);
     u8 x = BTL_POKEPARAM_GetPokeId(*(u8 **)(p + 0xBC));
     u8 y = BTL_POKEPARAM_GetPokeId(*(u8 **)(p + 0xC0));
-    u32 best = func_021C7E14(*(u8 **)(p + 0xB4), x, y, *(u16 *)(p + 2), 1, t);
+    u32 best = BTL_SERVER_FLOW_CalcPredictedMoveDamage(*(u8 **)(p + 0xB4), x, y, *(u16 *)(p + 2), 1, t);
     int i;
     if (best == 0) {
         *(u32 *)(p + 0x38) = 0;
@@ -1682,7 +1683,7 @@ u32 func_02188D5C(struct Cursor *a, u8 *p)
         for (i = 0; i < BTL_POKEPARAM_GetMoveCount((struct QG *)(*(u8 **)(p + 0xBC))); i++) {
             u16 c = BTL_POKEPARAM_GetMoveId(*(u8 **)(p + 0xBC), (u8)i);
             if (i != p[1]) {
-                u32 r = func_021C7E14(*(u8 **)(p + 0xB4), x, y, c, 1, t);
+                u32 r = BTL_SERVER_FLOW_CalcPredictedMoveDamage(*(u8 **)(p + 0xB4), x, y, c, 1, t);
                 if (r > best) {
                     *(u32 *)(p + 0x38) = 1;
                     break;
@@ -1725,8 +1726,8 @@ int func_02188E24(struct Cursor *a, u8 *b)
 
     k = VM_GetU32(a);
     m = VM_GetU32(a);
-    x = func_021C81C8(*(u8 * *)&((struct Obj06341 *)b)->fB4, *(u8 * *)&((struct Obj06341 *)b)->fBC, 1);
-    y = func_021C81C8(*(u8 * *)&((struct Obj06341 *)b)->fB4, *(u8 * *)&((struct Obj06341 *)b)->fC0, 1);
+    x = BTL_SERVER_FLOW_CalcPokeSpeedWrapper(*(u8 * *)&((struct Obj06341 *)b)->fB4, *(u8 * *)&((struct Obj06341 *)b)->fBC, 1);
+    y = BTL_SERVER_FLOW_CalcPokeSpeedWrapper(*(u8 * *)&((struct Obj06341 *)b)->fB4, *(u8 * *)&((struct Obj06341 *)b)->fC0, 1);
     switch (k) {
     case 0:
         k = 1;
@@ -1758,11 +1759,11 @@ int func_02188E90(struct Cursor *a, Conn_02188E90 *b)
     char *p;
     int n;
 
-    x = func_021B8DE4((char *)b->fb0, func_0218A160((u8 *)b, VM_GetU32(a)));
-    p = func_021B9AF8(b->fb8, x);
-    n = func_021B99B8((void *)b->fb0, x);
+    x = BTL_MAIN_GetSlotClientIdThunk((char *)b->fb0, func_0218A160((u8 *)b, VM_GetU32(a)));
+    p = BTL_SIDE_GetSlotOfClientThunk(b->fb8, x);
+    n = BTL_MAIN_GetPositionsPerClientThunk((void *)b->fb0, x);
     b->f38 = 0;
-    for (; n < func_021B9B94((struct Q1 *)p); n++) {
+    for (; n < BTL_SLOT_GetCount((struct Q1 *)p); n++) {
         if (BTL_POKEPARAM_IsAbleToBattle(func_0218A308(p, (u8)n)) != 0)
             b->f38++;
     }
@@ -1820,7 +1821,7 @@ int func_02188F58(struct Cursor *a, int b)
     t1 = VM_GetU32(a);
     y = BTL_POKEPARAM_GetPokeId(*(u8 * *)&((struct Obj06342 *)b)->fBC);
     z = BTL_POKEPARAM_GetPokeId(*(u8 * *)&((struct Obj06342 *)b)->fC0);
-    r = func_021C7DAC((u8 *)(((struct Obj06342 *)b)->fB4), y, z, ((struct Obj06342 *)b)->f2);
+    r = BTL_SERVER_FLOW_CalcMoveTypeEffectiveness((u8 *)(((struct Obj06342 *)b)->fB4), y, z, ((struct Obj06342 *)b)->f2);
     func_0218A0F4((u8 *)a, 2, r, t0, t1);
     return ((struct Obj06342 *)b)->fC4;
 }
@@ -1855,10 +1856,10 @@ void func_02188FCC(struct Cursor *a, int b, int c)
 
     t0 = VM_GetU32(a);
     t1 = VM_GetU32(a);
-    n = func_021B8DE4((char *)(((struct Obj10180 *)b)->fB0), func_0218A160((u8 *)b, t0));
-    handle = func_021B9AF8(*(char * *)&((struct Obj10180 *)b)->fB8, n);
-    for (i = func_021B99B8((void *)(((struct Obj10180 *)b)->fB0), n);
-         i < func_021B9B94((struct Q1 *)handle); i++) {
+    n = BTL_MAIN_GetSlotClientIdThunk((char *)(((struct Obj10180 *)b)->fB0), func_0218A160((u8 *)b, t0));
+    handle = BTL_SIDE_GetSlotOfClientThunk(*(char * *)&((struct Obj10180 *)b)->fB8, n);
+    for (i = BTL_MAIN_GetPositionsPerClientThunk((void *)(((struct Obj10180 *)b)->fB0), n);
+         i < BTL_SLOT_GetCount((struct Q1 *)handle); i++) {
         u8 *t = func_0218A308(handle, (unsigned char)i);
 
         if (BTL_POKEPARAM_IsFainted(t) == 0) {
@@ -2016,7 +2017,7 @@ int func_02189170(struct Cursor *a, int b, int c)
     w = func_021D59B4(*(u8 * *)&((struct Obj06343 *)b)->fC0, 0xd);
     y = BTL_POKEPARAM_GetPokeId(*(u8 * *)&((struct Obj06343 *)b)->fBC);
     z = BTL_POKEPARAM_GetPokeId(*(u8 * *)&((struct Obj06343 *)b)->fC0);
-    r = func_021C7E14((u8 *)(((struct Obj06343 *)b)->fB4), y, z, ((struct Obj06343 *)b)->f2, 1, 0);
+    r = BTL_SERVER_FLOW_CalcPredictedMoveDamage((u8 *)(((struct Obj06343 *)b)->fB4), y, z, ((struct Obj06343 *)b)->f2, 1, 0);
     return func_0218A0F4((u8 *)a, c, w, r, t);
 }
 
@@ -2601,7 +2602,7 @@ int func_021897CC(struct Cursor *a, int b) {
     r6 = VM_GetU32(a);
     r4 = VM_GetU32(a);
     t = func_0218A160((u8 *)b, r6);
-    t = func_021C82D0(((struct Obj10186 *)b)->fB4, t, r4);
+    t = BTL_SERVER_FLOW_GetSideEffectEntry(((struct Obj10186 *)b)->fB4, t, r4);
     ((struct Obj10186 *)b)->f38 = t;
     return ((struct Obj10186 *)b)->fC4;
 }
@@ -2622,10 +2623,10 @@ int func_02189800(struct Cursor *a, int b) {
     r4 = VM_GetU32(a);
     x = VM_GetU32(a);
     y = func_0218A160((u8 *)b, r4);
-    r5 = func_021B8DE4((char *)(((struct Obj07925 *)b)->fB0), y);
-    r4 = (int)func_021B9AF8(*(char * *)&((struct Obj07925 *)b)->fB8, r5);
-    r5 = func_021B99B8((void *)(((struct Obj07925 *)b)->fB0), r5);
-    for (; r5 < func_021B9B94((struct Q1 *)r4); r5++) {
+    r5 = BTL_MAIN_GetSlotClientIdThunk((char *)(((struct Obj07925 *)b)->fB0), y);
+    r4 = (int)BTL_SIDE_GetSlotOfClientThunk(*(char * *)&((struct Obj07925 *)b)->fB8, r5);
+    r5 = BTL_MAIN_GetPositionsPerClientThunk((void *)(((struct Obj07925 *)b)->fB0), r5);
+    for (; r5 < BTL_SLOT_GetCount((struct Q1 *)r4); r5++) {
         if (BTL_POKEPARAM_IsFainted(func_0218A308((void *)r4, (u8)r5)) == 0) {
             t = BTL_POKEPARAM_GetHpRatioFixed((struct Rat *)func_0218A2FC((u8 *)b, y));
             if (func_0218A0F4((u8 *)a, 0, t, 100, x) != 0) {
@@ -2654,10 +2655,10 @@ int func_0218989C(struct Cursor *a, int b)
     x = VM_GetU32(a);
     z = VM_GetU32(a);
     y = func_0218A160((u8 *)b, x);
-    n = func_021B8DE4((char *)(((struct Obj07926 *)b)->fB0), y);
-    p = func_021B9AF8(*(char * *)&((struct Obj07926 *)b)->fB8, n);
-    i = func_021B99B8((void *)(((struct Obj07926 *)b)->fB0), n);
-    for (; i < func_021B9B94((struct Q1 *)p); i++) {
+    n = BTL_MAIN_GetSlotClientIdThunk((char *)(((struct Obj07926 *)b)->fB0), y);
+    p = BTL_SIDE_GetSlotOfClientThunk(*(char * *)&((struct Obj07926 *)b)->fB8, n);
+    i = BTL_MAIN_GetPositionsPerClientThunk((void *)(((struct Obj07926 *)b)->fB0), n);
+    for (; i < BTL_SLOT_GetCount((struct Q1 *)p); i++) {
         if (BTL_POKEPARAM_IsFainted(func_0218A308(p, (u8)i)) == 0) {
             for (j = 0; j < BTL_POKEPARAM_GetMoveCount((struct QG *)func_0218A2FC((u8 *)b, y)); j++) {
                 if (func_0218A0F4((u8 *)a, 3, BTL_POKEPARAM_GetMovePPLost(func_0218A2FC((u8 *)b, y), j), 0, z) != 0)
@@ -2766,7 +2767,7 @@ int func_02189A6C(struct Cursor *a, int b) {
     u8 s;
     t = VM_GetU32(a);
     s = func_0218A160((u8 *)b, t);
-    t = func_021C81D0((u8 *)(((struct Obj10190 *)b)->fB4), func_0218A2FC((u8 *)b, s), 1);
+    t = BTL_SERVER_FLOW_CountFasterPokes((u8 *)(((struct Obj10190 *)b)->fB4), func_0218A2FC((u8 *)b, s), 1);
     ((struct Obj10190 *)b)->f38 = t;
     return ((struct Obj10190 *)b)->fC4;
 }
@@ -2812,11 +2813,11 @@ int func_02189AC0(struct Cursor *a, Obj_02189AC0 *b) {
     u32 base;
     c = VM_GetU32(a);
     x = VM_GetU32(a);
-    r4 = func_021B8DE4((char *)b->fb0, b->f94);
-    r7 = func_021B9AF8(b->fb8, r4);
-    r4 = func_021B99B8((void *)b->fb0, r4);
+    r4 = BTL_MAIN_GetSlotClientIdThunk((char *)b->fb0, b->f94);
+    r7 = BTL_SIDE_GetSlotOfClientThunk(b->fb8, r4);
+    r4 = BTL_MAIN_GetPositionsPerClientThunk((void *)b->fb0, r4);
     base = func_0218A390((u8 *)((int)b), b->fbc, b->fc0, c);
-    for (; r4 < func_021B9B94((struct Q1 *)r7); r4++) {
+    for (; r4 < BTL_SLOT_GetCount((struct Q1 *)r7); r4++) {
         r6 = func_0218A308(r7, (u8)r4);
         BTL_POKEPARAM_GetPokeId(r6);
         if (BTL_POKEPARAM_IsFainted(r6) == 0) {
@@ -2851,7 +2852,7 @@ int func_02189B78(struct Cursor *a, Obj_02189B78 *b) {
         c6 = BTL_POKEPARAM_GetMoveId(b->fbc, (u8)i);
         c7 = BTL_POKEPARAM_GetPokeId(b->fbc);
         c2 = BTL_POKEPARAM_GetPokeId(b->fc0);
-        if ((u32)(func_021C7DAC((u8 *)b->fb4, c7, c2, c6) - 4) <= 1) {
+        if ((u32)(BTL_SERVER_FLOW_CalcMoveTypeEffectiveness((u8 *)b->fb4, c7, c2, c6) - 4) <= 1) {
             VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r);
             break;
         }
@@ -2886,7 +2887,7 @@ int func_02189BFC(struct Cursor *a, int b)
     x = BTL_POKEPARAM_GetLastUsedMoveId((struct QL *)v);
     y = BTL_POKEPARAM_GetPokeId(v);
     z = BTL_POKEPARAM_GetPokeId(*(u8 * *)&((struct Obj06344 *)b)->fC0);
-    r = func_021C7E14((u8 *)(((struct Obj06344 *)b)->fB4), y, z, x, 1, t1);
+    r = BTL_SERVER_FLOW_CalcPredictedMoveDamage((u8 *)(((struct Obj06344 *)b)->fB4), y, z, x, 1, t1);
     if (w < r)
         VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + t2);
     return ((struct Obj06344 *)b)->fC4;
@@ -3009,7 +3010,7 @@ int func_02189D40(int a, int b) {
 
 
 /*
- * 2026-10-05 (wD5 lane16): EXACT*. func_021C7E14 takes u8 position arguments (a, b), and x, y, z are
+ * 2026-10-05 (wD5 lane16): EXACT*. BTL_SERVER_FLOW_CalcPredictedMoveDamage takes u8 position arguments (a, b), and x, y, z are
  *   u8 locals (BTL_POKEPARAM_GetPokeId returns u8). That moves the `adds r1,rX` before the y reload at both calls.
  *   The ov093 callee also compiles EXACT with `u8 a, u8 b` (scratch test only, file not changed).
  */
@@ -3023,13 +3024,13 @@ u32 func_02189D48(struct Cursor *a, u8 *p)
     u32 best;
     int n;
     t = VM_GetU32(a);
-    k = func_021B8DE4((char *)(*(u8 **)(p + 0xB0)), p[0x94]);
-    g = (u8 *)func_021B9AF8(*(char **)(p + 0xB8), k);
-    n = func_021B99B8(*(u8 **)(p + 0xB0), k);
-    sel = func_021B9C98(g, (u32)(*(u8 **)(p + 0xBC)));
+    k = BTL_MAIN_GetSlotClientIdThunk((char *)(*(u8 **)(p + 0xB0)), p[0x94]);
+    g = (u8 *)BTL_SIDE_GetSlotOfClientThunk(*(char **)(p + 0xB8), k);
+    n = BTL_MAIN_GetPositionsPerClientThunk(*(u8 **)(p + 0xB0), k);
+    sel = BTL_SLOT_FindPoke(g, (u32)(*(u8 **)(p + 0xBC)));
     x = BTL_POKEPARAM_GetPokeId(*(u8 **)(p + 0xBC));
     y = BTL_POKEPARAM_GetPokeId(*(u8 **)(p + 0xC0));
-    best = func_021C7E14(*(u8 **)(p + 0xB4), x, y, *(u16 *)(p + 2), 1, t);
+    best = BTL_SERVER_FLOW_CalcPredictedMoveDamage(*(u8 **)(p + 0xB4), x, y, *(u16 *)(p + 2), 1, t);
     if (sel < 0 || best == 0) {
         *(u32 *)(p + 0x38) = 0;
         return *(u32 *)(p + 0xC4);
@@ -3043,7 +3044,7 @@ u32 func_02189D48(struct Cursor *a, u8 *p)
             for (i = 0; i < (int)BTL_POKEPARAM_GetMoveCount((struct QG *)m); i++) {
                 u16 c = BTL_POKEPARAM_GetMoveId(m, (u8)i);
                 if (i != p[1]) {
-                    u32 r = func_021C7E14(*(u8 **)(p + 0xB4), z, y, c, 1, t);
+                    u32 r = BTL_SERVER_FLOW_CalcPredictedMoveDamage(*(u8 **)(p + 0xB4), z, y, c, 1, t);
                     if (r > best) {
                         *(u32 *)(p + 0x38) = 1;
                         break;
@@ -3269,7 +3270,7 @@ int func_0218A034(struct Cursor *a, u8 *b)
     int n;
     t = VM_GetU32(a);
     n = VM_GetU32(a);
-    if (func_021C82F4(((struct Obj13671 *)b)->fB4, func_0218A160(b, t), 3) != 0)
+    if (BTL_SERVER_FLOW_CheckFieldEffectActive(((struct Obj13671 *)b)->fB4, func_0218A160(b, t), 3) != 0)
         VM_Jump((struct Cur *)a, (u32)(*(u8 * *)&((struct Obj00005 *)a)->f14 + n));
     return ((struct Obj13671 *)b)->fC4;
 }
@@ -3489,9 +3490,9 @@ int func_0218A220(u8 *p, int k, u8 slot)
 
 
 /*
- * Resolved by the func_021B98AC label in ov069 (thumb); cross-overlay target.
+ * Resolved by the BTL_SIDE_GetPokeAtPos label in ov069 (thumb); cross-overlay target.
  */
-u8 *func_0218A2FC(u8 *p, u8 i) { return func_021B98AC(*(char *const * *)&((struct Obj00067 *)p)->fB8, i); }
+u8 *func_0218A2FC(u8 *p, u8 i) { return BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj00067 *)p)->fB8, i); }
 
 
 
@@ -3502,9 +3503,9 @@ u8 *func_0218A2FC(u8 *p, u8 i) { return func_021B98AC(*(char *const * *)&((struc
 
 
 /*
- * Resolved by the matched func_021B9C00 in ov093 (thumb); cross-overlay target.
+ * Resolved by the matched BTL_SLOT_GetPokeParam in ov093 (thumb); cross-overlay target.
  */
-u8 *func_0218A308(void *p, u32 i) { return func_021B9C00(p, i); }
+u8 *func_0218A308(void *p, u32 i) { return BTL_SLOT_GetPokeParam(p, i); }
 
 
 
@@ -3550,7 +3551,7 @@ void func_0218A324(u8 *p)
 
 
 
-int func_0218A378(void *a, int b, int c) { return func_0201BD28(b, c); }
+int func_0218A378(void *a, int b, int c) { return WAZA_TOOL_GetParam(b, c); }
 
 
 
@@ -3575,7 +3576,7 @@ int func_0218A384(void *a, int b, int c) { return WAZA_TOOL_GetFlag(b, c); }
  * note: 2026-10-04 Residue: store order only. Original stores the stack arg d ([sp,#4]) before reloading spilled a ([sp,#8]) for the first call argument; ours loads a first. Tried: struct field, ptr casts, local hoist, u32/int d, u16 callee return, while loop, temp for the 54C0 result.
  * note: 2026-10-05 (wD4 lane20): tried the first argument and the 54C0 result as separate locals before the call (c = f(b,i); q = *(a+0xB4); g(q,x,y,c,1,d)) and a u32 first parameter; same 10 bytes (ldr r0,[sp,#8] still ahead of str r7,[sp,#4]).
  * 2026-10-05 (wD5 lane20): no new variant closed it. Reading: original emits the stack argument store (str r7,[sp,#4]) before the spilled-a reload and the field address chain; ours starts the chain first. Same 10 bytes as before; the sibling func_02188D5C shows the same tie-break in its loop call, so a common cause (IR order of stack-argument stores versus argument 0) is likely.
- * 2026-10-05 (wD6 lane15): EXACT*. func_021C7E14 takes u8 a, u8 b (as in matched func_02189D48)
+ * 2026-10-05 (wD6 lane15): EXACT*. BTL_SERVER_FLOW_CalcPredictedMoveDamage takes u8 a, u8 b (as in matched func_02189D48)
  *   and x, y are u8 locals; that fixes the stack-argument store order in the loop call.
  */
 u32 func_0218A390(u8 *a, u8 *b, u8 *c, int d)
@@ -3585,7 +3586,7 @@ u32 func_0218A390(u8 *a, u8 *b, u8 *c, int d)
     u8 y = BTL_POKEPARAM_GetPokeId(c);
     int i;
     for (i = 0; i < (int)BTL_POKEPARAM_GetMoveCount((struct QG *)b); i++) {
-        u32 r = func_021C7E14(*(u8 **)(a + 0xB4), x, y, (u32)BTL_POKEPARAM_GetMoveId(b, (u8)i), 1, d);
+        u32 r = BTL_SERVER_FLOW_CalcPredictedMoveDamage(*(u8 **)(a + 0xB4), x, y, (u32)BTL_POKEPARAM_GetMoveId(b, (u8)i), 1, d);
         if (r > best)
             best = r;
     }

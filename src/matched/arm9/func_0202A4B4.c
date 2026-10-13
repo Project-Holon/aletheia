@@ -13,8 +13,8 @@
  *   g_020A76DC     0x020A76DC  data
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   func_0201A954  0x0201A954  thumb
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_InitEx  0x0201A954  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *   func_0202A3AC  0x0202A3AC  thumb
  *   func_0202A3BC  0x0202A3BC  thumb
@@ -75,8 +75,8 @@ extern u32 func_020307B0(void *p);
 struct Mon;
 struct Party;
 struct PartyMon;
-extern void func_0201A954(struct Party *p, s32 capacity);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern u32   POKE_TOOL_GetPartyParamSize(void);
 extern void func_0202A3AC(void *a0, void *a1);
 extern void func_0202A3BC(void *a0, void *a1);
@@ -100,7 +100,7 @@ void func_0202A4B4(u32 trid, void *party, u16 heap)
     int j;
     u32 iv;
 
-    func_0201A954(party, 6);
+    POKEPARTY_InitEx(party, 6);
     h = (heap & 0x7FFF) | 0x8000;
     td = func_02030734(h, 0x14, 0, g_020A76DC, 387);
     tp = func_02030734(h, 0x6C, 0, g_020A76DC, 388);
@@ -136,7 +136,7 @@ void func_0202A4B4(u32 trid, void *party, u16 heap)
                           (iv & 31) | ((iv & 31) << 5) | ((iv & 31) << 10) | ((iv & 31) << 15) | ((iv & 31) << 20) | ((iv & 31) << 25),
                           pid);
             func_0202A9F4(trid, mon, ((TrMon0 *)tp)[i].form, ((TrMon0 *)tp)[i].abil);
-            func_0201A98C(party, mon);
+            POKEPARTY_Add(party, mon);
         }
         break;
     }
@@ -165,7 +165,7 @@ void func_0202A4B4(u32 trid, void *party, u16 heap)
                 POKE_TOOL_SetMoveSlot(mon, ((TrMon1 *)tp)[i].moves[j], (u8)j);
             }
             func_0202A9F4(trid, mon, ((TrMon1 *)tp)[i].form, ((TrMon1 *)tp)[i].abil);
-            func_0201A98C(party, mon);
+            POKEPARTY_Add(party, mon);
         }
         break;
     }
@@ -192,7 +192,7 @@ void func_0202A4B4(u32 trid, void *party, u16 heap)
                           pid);
             POKE_TOOL_SetPartyValue(mon, 6, ((TrMon2 *)tp)[i].item);
             func_0202A9F4(trid, mon, ((TrMon2 *)tp)[i].form, ((TrMon2 *)tp)[i].abil);
-            func_0201A98C(party, mon);
+            POKEPARTY_Add(party, mon);
         }
         break;
     }
@@ -222,7 +222,7 @@ void func_0202A4B4(u32 trid, void *party, u16 heap)
                 POKE_TOOL_SetMoveSlot(mon, ((TrMon3 *)tp)[i].moves[j], (u8)j);
             }
             func_0202A9F4(trid, mon, ((TrMon3 *)tp)[i].form, ((TrMon3 *)tp)[i].abil);
-            func_0201A98C(party, mon);
+            POKEPARTY_Add(party, mon);
         }
         break;
     }

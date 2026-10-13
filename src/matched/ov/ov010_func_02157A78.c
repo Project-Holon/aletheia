@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   func_0217998C  0x0217998C  thumb ov015
  *   DELIVERY_IRC_SetStepAtLine  0x02157960  thumb
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 func_02039CB4(struct Link *p, u32 lo, u32 hi);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, u32 lo, u32 hi);
 extern u32 GFL_NET_IsParentAid(void);
 extern void func_0217998C(int);
 extern void DELIVERY_IRC_SetStepAtLine(int a, int b, int c);
@@ -37,7 +37,7 @@ void DELIVERY_IRC_StepWaitEndSync(u32 *p)
     int k = 0x23;
     void *h = GFL_NET_HANDLE_GetCurrentHandle();
 
-    if (func_02039CB4(h, 0x23, (u8)*p) != 0) {
+    if (GFL_NET_HANDLE_IsTimingSyncRange(h, 0x23, (u8)*p) != 0) {
         if (GFL_NET_IsParentAid() != 0) {
             k = 0x12C;
             func_0217998C(k);

@@ -11,7 +11,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02030734 0x02030734 arm
- *   func_0203630C 0x0203630C arm
+ *   KEY_GetCont 0x0203630C arm
  *   func_0200854C 0x0200854C thumb
  *   d_021D4D4C 0x021D4D4C data ov124 a1
  *   func_021D4240 0x021D4240 thumb ov124
@@ -27,7 +27,7 @@ extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 typedef unsigned char  u8;
 struct Sub0200852CObj;
 extern void *MYSTATUS_Create(int a0);
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 extern void func_0200854C(struct Sub0200852CObj *obj, u8 value);
 extern void func_021D4240(char *);
 extern const char d_021D4D4C[];
@@ -41,7 +41,7 @@ int func_021D4B14(void *a,int b,void *c)
     if (!q) {
         q = func_02030734(0x8a,8,1,d_021D4D4C,0x2f3);
         *q = MYSTATUS_Create(0x8a);
-        if (func_0203630C() & 0x100) func_0200854C(*q,1);
+        if (KEY_GetCont() & 0x100) func_0200854C(*q,1);
         else func_0200854C(*q,0);
     }
     ((struct Obj00068 *)p)->f4 = q;

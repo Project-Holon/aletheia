@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02013E40  0x02013E40  thumb
+ *   ZONEDATA_GetParentZoneId  0x02013E40  thumb
  *   GAME_DATA_GetSpecialLocation  0x02012894  thumb
  *   g_ZoneRemapTable  0x02171F2C  data  ov010  a4
  */
@@ -28,17 +28,17 @@ struct P {
     u16 f4;
 };
 
-extern u32 func_02013E40(u32 a);
+extern u32 ZONEDATA_GetParentZoneId(u32 a);
 extern struct P *GAME_DATA_GetSpecialLocation(void *a);
 extern struct E g_ZoneRemapTable[2];
 
 u32 SYMBOL_MAP_ResolveZoneId(void *a, u32 b)
 {
-    u32 v = func_02013E40(b);
+    u32 v = ZONEDATA_GetParentZoneId(b);
     u32 r;
     int i;
     if (v == 0x1A6)
-        return func_02013E40(GAME_DATA_GetSpecialLocation(a)->f4);
+        return ZONEDATA_GetParentZoneId(GAME_DATA_GetSpecialLocation(a)->f4);
     for (i = 0; i < 2; i++) {
         if (g_ZoneRemapTable[i].key == v) {
             r = (u16)*(u32 *)((char *)g_ZoneRemapTable + i * 8);

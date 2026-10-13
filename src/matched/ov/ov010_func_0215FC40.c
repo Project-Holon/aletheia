@@ -13,7 +13,7 @@
  *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   SCRCMD_NETWORK_BattleRecordLinkEventMain  0x0215FD0C  thumb  ov010
  *   SCRCMD_NETWORK_RecordLinkOnUpdate  0x0215FED4  thumb  ov010
  *   SCRCMD_NETWORK_RecordLinkOnClose  0x0215FEF0  thumb  ov010
@@ -33,7 +33,7 @@ struct Desc;
 
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_02082BCC();
+extern void MI_CpuFill8();
 struct Ctx;
 extern int SCRCMD_NETWORK_BattleRecordLinkEventMain(void *task, void *unused, struct Ctx *c);
 extern int SCRCMD_NETWORK_RecordLinkOnUpdate(void *a0, void *a1);
@@ -75,7 +75,7 @@ struct Desc *SCRCMD_NETWORK_CreateBattleRecordLinkEvent(int a0, int a1, u16 a2)
     x = FIELDMAP_GetSubscreen((u8 *)a1);
     r7 = func_020122C0((void *)a0, 0, (void *)SCRCMD_NETWORK_BattleRecordLinkEventMain, sz);
     p = (struct Rec *)func_020124E8((struct Obj *)r7);
-    func_02082BCC(p, 0, sz);
+    MI_CpuFill8(p, 0, sz);
     p->owner = a0;
     p->desc = r7;
     p->field = a1;

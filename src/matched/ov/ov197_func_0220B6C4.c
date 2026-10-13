@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_0220B1D4 0x0220B1D4 thumb ov197
@@ -16,7 +16,7 @@
 #include "../include/Obj00314.h"
 #include "../include/Obj25004.h"
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 typedef unsigned char  u8;
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -24,7 +24,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void func_0220B1D4(char *,int,int,int,unsigned short);
 void func_0220B6C4(char *p)
 {
-    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj00314 *)p)->f110)),0);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00314 *)p)->f110)),0);
     if(((struct Obj25004 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f8!=1) {
         switch(((unsigned char *)p)[0x533]) {
         case 0:func_0220B1D4(p,29,22,4,0x3c40);func_0220B1D4(p,29,23,20,0x3c40);break;

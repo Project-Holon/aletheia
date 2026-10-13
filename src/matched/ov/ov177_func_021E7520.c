@@ -16,6 +16,7 @@
  *   PMS_DRAW_Create  0x0202DB0C  thumb  arm9
  *   PMS_DRAW_SetNullColorPalette  0x0202DE5C  thumb  arm9
  *   PMS_DRAW_SetFollowBgScroll  0x0202DE68  thumb  arm9
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,7 +36,7 @@ typedef struct {
 } Record;
 extern const char d_021E8DBC[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 struct PmsDraw;
 extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 struct PmsDraw;
@@ -60,7 +61,7 @@ Work *func_021E7520(const Record *rec, void *a1, void *a2, void *a3, void *a4, v
     u32 kind;
     int alt;
     w = func_02030734(heap, 0x9c, 0, d_021E8DBC, 0x952);
-    func_02082BCC(w, 0, 0x9c);
+    MI_CpuFill8(w, 0, 0x9c);
     w->owner = owner;
     w->mode = mode;
     w->menu = PMS_DRAW_Create((u32)a1, 0, (u32)a4, (u32)a3, 5, 1, heap);

@@ -12,8 +12,8 @@
  * Walks every entry of a list and applies func_02019CA0 with 50.
  *
  * symbols:
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02019CA0  0x02019CA0  thumb
  */
 
@@ -21,14 +21,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0201AA18(void *list);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *list);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void func_02019CA0(void *p, u32 v);
 
 void MUSICAL_EVENT_SetPartyLevel50(void *list)
 {
     int i;
 
-    for (i = 0; i < (int)func_0201AA18(list); i++)
-        func_02019CA0(func_0201AB28(list, i), 50);
+    for (i = 0; i < (int)POKEPARTY_GetCount(list); i++)
+        func_02019CA0(POKEPARTY_GetMember(list, i), 50);
 }

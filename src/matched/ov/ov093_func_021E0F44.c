@@ -1,5 +1,5 @@
 /*
- * function: func_021E0F44
+ * function: HAND_WAZA_GetThunderWaveHandlers
  * address: 0x021E0F44
  * packet: pkt_ov093_021E0F44
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E0DC4.c and filed here.
  *
  * symbols:
- *   d_021F24D4 0x021F24D4 data ov093 a4
+ *   gThunderWaveHandlers 0x021F24D4 data ov093 a4
  */
 
-int *func_021E0F44(int *p);
-extern int d_021F24D4[];
+int *HAND_WAZA_GetThunderWaveHandlers(int *p);
+extern int gThunderWaveHandlers[];
 
-int *func_021E0F44(int *p)
+int *HAND_WAZA_GetThunderWaveHandlers(int *p)
 {
     *p = 1;
-    return d_021F24D4;
+    return gThunderWaveHandlers;
 }

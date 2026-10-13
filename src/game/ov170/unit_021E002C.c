@@ -16,10 +16,10 @@
  *   func_021DE5F8 0x021DE5F8 thumb ov170
  *   func_021DD930 0x021DD930 thumb ov170
  *   func_021DE66C 0x021DE66C thumb ov170
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   func_021DE158 0x021DE158 thumb ov170
  *   func_021ED6E4 0x021ED6E4 thumb ov170
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021ED55C 0x021ED55C thumb
  *   func_021EF770 0x021EF770 thumb
  *   func_021EDF5C 0x021EDF5C thumb
@@ -54,10 +54,10 @@ typedef struct {u16 id,slot,src,used;int vx,vy;short dx,dy,x,y;} Entry;
 extern void func_021DE5F8(u8 *,unsigned);
 extern int func_021DD930(u8 *);
 extern void func_021DE66C(char *,Entry *);
-extern unsigned func_0201AA18(void *p);
+extern unsigned POKEPARTY_GetCount(void *p);
 extern int func_021DE158(unsigned char *p, unsigned a, unsigned b);
 extern void func_021ED6E4(char **p, int v);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021ED55C(char **p, int flag);
 extern int func_021EF770(struct WinMgr *mgr);
 extern void func_021EDF5C(unsigned char *p);
@@ -85,7 +85,7 @@ int func_021E0068(char *p)
     s = *(char * *)&((BoxTask *)p)->f2C + 0x58;
     switch (((BoxSeq *)s)->fC) {
     case 0:
-        count = func_0201AA18((*(void *** )p)[2]) + 30;
+        count = POKEPARTY_GetCount((*(void *** )p)[2]) + 30;
         func_021DE158((unsigned char *)p, ((BoxTask *)p)->f16, count);
         func_021ED6E4((char **)p, 0);
         (((BoxSeq *)s)->fC)++;
@@ -93,7 +93,7 @@ int func_021E0068(char *p)
     case 1:
         if (func_021DD930((unsigned char *)p) == 0) {
             func_021DE66C(p, ((BoxSeq *)s)->f8);
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             ((BoxSeq *)s)->fC = 0;
             return 0;
         }

@@ -17,7 +17,7 @@
  * symbols:
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_FindFirstNonEgg  0x0201AB18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GAME_BEACON_SEARCH_SetEventBattleNameC  0x021654AC  thumb  ov010
@@ -51,7 +51,7 @@ struct BigObj;
 struct U16Vec;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 POKEPARTY_FindFirstNonEgg(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 arg);
 extern void GAME_BEACON_SEARCH_SetEventBattleNameC(void *name);
@@ -74,7 +74,7 @@ void EVENT_BATTLE_NotifyBattleEnd(BattleEndCtx *c)
 
     st = c->st;
     party = GAME_DATA_GetMyParty(c->sys);
-    mon = func_0201AB28(party, POKEPARTY_FindFirstNonEgg(party));
+    mon = POKEPARTY_GetMember(party, POKEPARTY_FindFirstNonEgg(party));
     if (st->outcome != 0 && st->outcome != 2) {
         name = STRBUF_Create(12, 0x8004);
         POKE_TOOL_GetPartyValue(mon, 0x73, (u32)name);

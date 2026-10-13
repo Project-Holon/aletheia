@@ -12,7 +12,7 @@
  * it before that call kept164 bytes but moved14 concrete bytes (iter1).
  * volatile: 0x04000008 0x04000060 0x04000580
  * symbols:
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef enum { GX_SHADING_TOON = 0, GX_SHADING_HIGHLIGHT = 1 } GXShading;
 extern u16 table[][4];
-extern void func_020434DC(u32,u32);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(u16,int,int,int,int);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
@@ -54,7 +54,7 @@ static inline void G3X_EdgeMarking(int enable) {
 void func_021B989C(void)
 {
     u32 i;
-    func_020434DC(1,1);
+    BG_SYS_SetMainPlaneVisible(1,1);
     i = 0;
     G2_SetBG0Priority(0);
     G3X_SetShading(GX_SHADING_HIGHLIGHT);

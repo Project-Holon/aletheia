@@ -16,10 +16,10 @@
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
- *   func_021C88A4  0x021C88A4  thumb  ov093
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
  *   BTLV_CORE_MakeSlotKind2Index  0x021E8940  thumb  ov093
- *   func_021C8838  0x021C8838  thumb  ov093
- *   func_021C88C8  0x021C88C8  thumb  ov093
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  *   d_021F265C     0x021F265C  data   ov093  a4
  */
 #include "../include/Obj13546.h"
@@ -30,10 +30,10 @@ typedef struct Word { u32 v; } Word;
 
 extern int BTL_EVENT_GetVar(int key);
 extern int BTL_FIELD_GetStaticSlotObject(int k);
-extern void *func_021C88A4(char *p, int a, int b);
+extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern Word BTLV_CORE_MakeSlotKind2Index(int k);
-extern void func_021C8838(void *p, int a, int b);
-extern void func_021C88C8(void *a, void *b);
+extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 extern int d_021F265C[];
 
 void func_021E7A08(int a, int b, int c)
@@ -44,15 +44,15 @@ void func_021E7A08(int a, int b, int c)
     if (c == BTL_EVENT_GetVar(3)) {
         k = 7;
         if (BTL_FIELD_GetStaticSlotObject(k) == 0) {
-            p = func_021C88A4((char *)b, 0x1b, c);
+            p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 0x1b, c);
             ((struct Obj13546 *)p)->f4 = k;
             *(Word *)(p + 8) = BTLV_CORE_MakeSlotKind2Index(5);
-            func_021C8838(p + 0x10, 1, 0xb4);
-            func_021C88C8((void *)b, p);
+            BTL_SERVER_FLOW_InitMsgRecord(p + 0x10, 1, 0xb4);
+            BTL_SERVER_FLOW_CommitCmdRecord((void *)b, p);
         } else {
-            p = func_021C88A4((char *)b, 0x1c, c);
+            p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 0x1c, c);
             ((struct Obj13546 *)p)->f4 = k;
-            func_021C88C8((void *)b, p);
+            BTL_SERVER_FLOW_CommitCmdRecord((void *)b, p);
         }
     }
 }

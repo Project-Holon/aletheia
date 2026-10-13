@@ -16,7 +16,7 @@
  *   func_02010888     0x02010888  thumb
  *   func_02030734     0x02030734  arm
  *   GFL_NET_HANDLE_GetCurrentHandle     0x020399A8  arm
- *   func_02039C68     0x02039C68  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange     0x02039C68  arm
  *   func_020307B0     0x020307B0  arm
  *   func_0200FB24     0x0200FB24  thumb
  *   GAME_DATA_SaveCancel     0x02012E08  thumb
@@ -78,7 +78,7 @@ extern void *func_02030734(u32 a, u32 b, int c, const char *file, u16 line);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *ctx, u32 id, u32 size);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *ctx, u32 id, u32 size);
 extern void func_02010888(u8 *p, u32 v);
 extern void func_0201093C(u8 *p);
 extern u32 func_020307B0(void *p);
@@ -91,7 +91,7 @@ void *func_0201088C(u32 heap, u32 a1)
 
     p = func_02030734(heap, 0x14, 1, (const char *)&sNetSaveFile, 0x75);
     p->f0c = a1;
-    func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8);
+    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8);
     func_02010888((u8 *)p, (u32)func_0201093C);
     return p;
 }
@@ -104,7 +104,7 @@ void *func_020108C4(u32 heap, u32 a1, u32 a2, u32 a3)
     p->f0 = a2;
     p->f4 = a3;
     p->f0c = a1;
-    func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8);
+    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8);
     func_02010888((u8 *)p, (u32)func_0201093C);
     return p;
 }

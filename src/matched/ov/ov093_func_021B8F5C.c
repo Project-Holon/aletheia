@@ -1,5 +1,5 @@
 /*
- * function: func_021B8F5C
+ * function: BTL_MAIN_SyncSideParty
  * address: 0x021B8F5C
  * packet: pkt_ov093_021B8F5C
  * region: ov093
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021B969C 0x021B969C thumb ov093
- *   func_021B985C 0x021B985C thumb ov093
+ *   BTL_SIDE_WriteBackParty 0x021B969C thumb ov093
+ *   BTL_SIDE_GetParty 0x021B985C thumb ov093
  */
-extern void func_021B969C(char *,char *,int,int);
-extern int func_021B985C(char *,int);
-int func_021B8F5C(char *p,int k) { func_021B969C(p+0xc8,p,k,0); return func_021B985C(p+0xc8,k); }
+extern void BTL_SIDE_WriteBackParty(char *,char *,int,int);
+extern int BTL_SIDE_GetParty(char *,int);
+int BTL_MAIN_SyncSideParty(char *p,int k) { BTL_SIDE_WriteBackParty(p+0xc8,p,k,0); return BTL_SIDE_GetParty(p+0xc8,k); }

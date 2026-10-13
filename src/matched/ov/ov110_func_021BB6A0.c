@@ -14,7 +14,7 @@
  *   func_021BAC3C 0x021BAC3C thumb ov110
  *   func_021BCF7C 0x021BCF7C thumb ov110
  *   func_021BB224 0x021BB224 thumb ov110
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   _u32_div_f 0x0209C2B0 arm
  */
@@ -31,7 +31,7 @@ extern void func_021BB224(unsigned, int *, int *);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 void func_021BB6A0(u8 *p, unsigned index)
@@ -65,6 +65,6 @@ void func_021BB6A0(u8 *p, unsigned index)
             state = 6;
         }
     }
-    func_0204B404(((struct Obj04445 *)p)->f54, (const struct Vec2 *)(&pos), 0);
+    CLACT_AddActorSurfacePos(((struct Obj04445 *)p)->f54, (const struct Vec2 *)(&pos), 0);
     CLACT_SetActorAnimSeq(((struct Obj04445 *)p)->f54, state);
 }

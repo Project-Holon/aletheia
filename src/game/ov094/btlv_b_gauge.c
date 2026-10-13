@@ -21,11 +21,11 @@
  *   func_021D59B4 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_GetActorAnimSeq  0x0204B898  arm
  *   func_0220793C  0x0220793C  thumb  ov094
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   _u32_div_f     0x0209C2B0  arm
  *   STRBUF_Create 0x020457B0 arm
  *   BMP_Create 0x02043678 arm
@@ -42,8 +42,8 @@
  *   BMP_Delete 0x020437AC arm
  *   func_0202D034 0x0202D034 thumb
  *   func_0201F35C 0x0201F35C thumb
- *   func_020061E4 0x020061E4 thumb
- *   tbl_020A1B38  0x020A1B38  data
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ *   FX_SinCosTable_  0x020A1B38  data
  *   d_0220AAF0     0x0220AAF0  data   ov094  a4
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   d_0220AAB8     0x0220AAB8  data  ov094  a2
@@ -71,7 +71,7 @@
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_02030DA8 0x02030DA8 arm
  *   func_021F896C 0x021F896C thumb ov094
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -84,7 +84,7 @@
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   func_020307B0  0x020307B0  arm
- *   func_0200616C 0x0200616C thumb
+ *   GFL_USE_PlaySeInSlot 0x0200616C thumb
  *   func_021F89BC 0x021F89BC thumb ov094
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
  *   TCBL_IsDeletePending  0x02030EE8  arm  arm9
@@ -532,11 +532,11 @@ typedef struct { Work_02209068 *owner; } Context;
 
 typedef struct { char pad[0xd8]; int fd8; } W_02209214;
 
-extern void func_0204B404(struct Obj *p, const struct Vec2_022079C0 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2_022079C0 *delta, u32 which);
 extern int func_021D59B4(u8 *p, int k);
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
 extern u32 POKE_TOOL_GetExpForLevel(u16, u16, u16);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void func_0220793C(char *p);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
@@ -555,7 +555,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_Delete(struct Obj020437AC *p);
 extern int func_0202D034(u32, u32);
 extern void func_0201F35C(void *, int, u32, u32, u32);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int GFL_USE_IsBgmFading(void);
 extern int GFL_USE_PopBgm(void);
@@ -582,7 +582,7 @@ extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -592,7 +592,7 @@ extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern u32 func_020307B0(void *p);
-extern void func_0200616C(void *, int);
+extern void GFL_USE_PlaySeInSlot(void *, int);
 extern void func_021F89BC(void *);
 extern W_02209214 **TCBL_IsDeletePending(void *h);
 void func_022079C0(W_022079C0 *p, int i, Point *off);
@@ -647,7 +647,7 @@ extern const P2 d_0220AAC0;
 extern const P6 d_0220AAD8;
 extern const P8 d_0220AB0C;
 extern const P8 d_0220AB2C;
-extern s16_02208650 tbl_020A1B38[];
+extern s16_02208650 FX_SinCosTable_[];
 extern T7 d_0220AAF0;
 extern const Pt d_0220AAB8;
 extern const Masks d_0220AB4C;
@@ -694,26 +694,26 @@ void func_022079C0(W_022079C0 *p, int i, Point *off)
     }
     pos.x = x;
     pos.y = y;
-    func_0204B404(p->e[i].h0, (const struct Vec2_022079C0 *)(&pos), 0);
+    CLACT_AddActorSurfacePos(p->e[i].h0, (const struct Vec2_022079C0 *)(&pos), 0);
     if ((i & 1) == 0 && p->e[i].state == 0) {
         pos.x = x + 16;
         pos.y = y + 13;
-        func_0204B404(p->e[i].h1, (const struct Vec2_022079C0 *)(&pos), 0);
+        CLACT_AddActorSurfacePos(p->e[i].h1, (const struct Vec2_022079C0 *)(&pos), 0);
     } else if ((i & 1) == 0 && p->e[i].state != 1) {
         pos.x = x + 16;
         pos.y = y + 7;
-        func_0204B404(p->e[i].h1, (const struct Vec2_022079C0 *)(&pos), 0);
+        CLACT_AddActorSurfacePos(p->e[i].h1, (const struct Vec2_022079C0 *)(&pos), 0);
     }
     pos.x = x + tA.p[i & 1].x;
     pos.y = y + tA.p[i & 1].y;
-    func_0204B404(p->e[i].h2, (const struct Vec2_022079C0 *)(&pos), 0);
+    CLACT_AddActorSurfacePos(p->e[i].h2, (const struct Vec2_022079C0 *)(&pos), 0);
     pos.x = x + tB.p[i & 1].x;
     pos.y = y + tB.p[i & 1].y;
-    func_0204B404(p->e[i].h3, (const struct Vec2_022079C0 *)(&pos), 0);
+    CLACT_AddActorSurfacePos(p->e[i].h3, (const struct Vec2_022079C0 *)(&pos), 0);
     if (p->e[i].h4 != 0) {
         pos.x = x + 8;
         pos.y = y + 21;
-        func_0204B404(p->e[i].h4, (const struct Vec2_022079C0 *)(&pos), 0);
+        CLACT_AddActorSurfacePos(p->e[i].h4, (const struct Vec2_022079C0 *)(&pos), 0);
     }
 }
 
@@ -835,14 +835,14 @@ void func_02207CC4(O_02207CC4 *obj, int a, int c)
 void func_02207D04(O_02207D04 *obj, int a, int idx)
 {
     obj->e[idx].flag = a;
-    func_0204B3DC((struct Obj *)obj->e[idx].f0, a);
+    CLACT_SetActorDrawEnable((struct Obj *)obj->e[idx].f0, a);
     func_02208D50((W_02208D38 *)obj, idx, a);
     if (obj->e[idx].f10 != 0) {
-        func_0204B3DC((struct Obj *)obj->e[idx].f10, a);
+        CLACT_SetActorDrawEnable((struct Obj *)obj->e[idx].f10, a);
     }
     if (obj->e[idx].f14 != 0) {
         if (CLACT_GetActorAnimSeq((struct Obj *)obj->e[idx].f14) != 0) {
-            func_0204B3DC((struct Obj *)obj->e[idx].f14, a);
+            CLACT_SetActorDrawEnable((struct Obj *)obj->e[idx].f14, a);
         }
     }
 }
@@ -907,8 +907,8 @@ void func_02207DA0(void *obj, S *q, int n)
         func_0220793C((char *)q);
         CLACT_GetActorSurfacePos(q->f8, (struct PtS *)v, 0);
         v[0] = v[0] - (s16)(0x30 - q->f78);
-        func_0204B404(q->fc, (const struct Vec2_022079C0 *)v, 0);
-        func_0204B3DC(q->fc, 1);
+        CLACT_AddActorSurfacePos(q->fc, (const struct Vec2_022079C0 *)v, 0);
+        CLACT_SetActorDrawEnable(q->fc, 1);
         func_0220868C((O_0220868C *)obj, (E_0220868C *)q, q->f78);
     }
 }
@@ -1469,7 +1469,7 @@ void func_022086F8(O_022086F8 *o, int i)
     if (e->b1 == 0) {
         switch (e->phase) {
         case 0:
-            func_020061E4(0x56e);
+            GFL_USE_PlaySeDefaultVolume(0x56e);
             e->phase++;
             break;
         case 1:
@@ -1513,7 +1513,7 @@ void func_022087C4(char *obj, int a)
     f = (Ang *)(obj + 0x440);
     v[0] = -16;
     i = f->ang;
-    v[1] = tbl_020A1B38[2 * (i >> 4)] / 0x800;
+    v[1] = FX_SinCosTable_[2 * (i >> 4)] / 0x800;
     ((Ang *)(obj + 0x440))->ang += 0x400;
     func_022079C0((W_022079C0 *)obj, a, (Point *)v);
 }
@@ -1531,10 +1531,10 @@ void func_02208814(O_02208814 *obj, int k, int idx)
 
     if (obj->e[idx].h != 0) {
         if (k == 0) {
-            func_0204B3DC((struct Obj *)obj->e[idx].h, 0);
+            CLACT_SetActorDrawEnable((struct Obj *)obj->e[idx].h, 0);
             CLACT_SetActorAnimSeq((struct Obj *)obj->e[idx].h, 0);
         } else {
-            func_0204B3DC((struct Obj *)obj->e[idx].h, 1);
+            CLACT_SetActorDrawEnable((struct Obj *)obj->e[idx].h, 1);
             CLACT_SetActorAnimSeq((struct Obj *)obj->e[idx].h, t.w[k]);
         }
     }
@@ -1715,22 +1715,22 @@ void func_02208B10(void *h, E_02208B10 *e)
     else step = -8;
     CLACT_GetActorSurfacePos(e->f0, (struct PtS *)v, 0);
     v[0] += (s16_02207EF0)step;
-    func_0204B404(e->f0, (const struct Vec2_022079C0 *)v, 0);
+    CLACT_AddActorSurfacePos(e->f0, (const struct Vec2_022079C0 *)v, 0);
     CLACT_GetActorSurfacePos(e->f8, (struct PtS *)v, 0);
     v[0] += (s16_02207EF0)step;
-    func_0204B404(e->f8, (const struct Vec2_022079C0 *)v, 0);
+    CLACT_AddActorSurfacePos(e->f8, (const struct Vec2_022079C0 *)v, 0);
     CLACT_GetActorSurfacePos(e->f14, (struct PtS *)v, 0);
     v[0] += (s16_02207EF0)step;
-    func_0204B404(e->f14, (const struct Vec2_022079C0 *)v, 0);
+    CLACT_AddActorSurfacePos(e->f14, (const struct Vec2_022079C0 *)v, 0);
     if (e->f44 == 0) {
         CLACT_GetActorSurfacePos(e->f4, (struct PtS *)v, 0);
         v[0] += (s16_02207EF0)step;
-        func_0204B404(e->f4, (const struct Vec2_022079C0 *)v, 0);
+        CLACT_AddActorSurfacePos(e->f4, (const struct Vec2_022079C0 *)v, 0);
     }
     if (e->f10 != 0) {
         CLACT_GetActorSurfacePos(e->f10, (struct PtS *)v, 0);
         v[0] += (s16_02207EF0)step;
-        func_0204B404(e->f10, (const struct Vec2_022079C0 *)v, 0);
+        CLACT_AddActorSurfacePos(e->f10, (const struct Vec2_022079C0 *)v, 0);
     }
     e->count--;
     if (e->count == 0) {
@@ -1829,11 +1829,11 @@ int func_02208D38(int a, int b, int c)
 void func_02208D50(W_02208D38 *w, int i, int b)
 {
     if ((w->r[i].state == 2 || w->r[i].state == 3) && b == 1 && (i & 1) == 0) {
-        func_0204B3DC((struct Obj *)w->r[i].h04, w->flags.b4);
-        func_0204B3DC((struct Obj *)w->r[i].h08, w->flags.b4 ? 0 : 1);
+        CLACT_SetActorDrawEnable((struct Obj *)w->r[i].h04, w->flags.b4);
+        CLACT_SetActorDrawEnable((struct Obj *)w->r[i].h08, w->flags.b4 ? 0 : 1);
     } else {
-        func_0204B3DC((struct Obj *)w->r[i].h04, b);
-        func_0204B3DC((struct Obj *)w->r[i].h08, b);
+        CLACT_SetActorDrawEnable((struct Obj *)w->r[i].h04, b);
+        CLACT_SetActorDrawEnable((struct Obj *)w->r[i].h08, b);
     }
 }
 
@@ -1873,7 +1873,7 @@ Work_022079C0 *func_02208DAC(const Arg *arg, u32 heapId)
     for (i = 0; i < 6; i++) {
         w->e[i].h = CLACT_CreateActor((void *)w->h0, w->h4, w->hc, w->h8, &pos, 0, w->heap);
         CLACT_GetActorSurfacePos(w->e[i].h, (struct PtS *)&w->e[i].pos, 0);
-        func_0204B92C(w->e[i].h, 1);
+        CLACT_SetActorAutoAnim(w->e[i].h, 1);
         CLACT_SetActorAnimSeq(w->e[i].h, d_0220AB7C[arg->side][arg->idx[i]]);
         w->e[i].frame = d_0220AB7C[2][arg->idx[i]];
         w->e[i].wait = (i + 1) * 6;
@@ -1886,7 +1886,7 @@ Work_022079C0 *func_02208DAC(const Arg *arg, u32 heapId)
     pos.y = d_0220AB6C[arg->side].y1;
     w->e[i].h = CLACT_CreateActor((void *)w->h0, w->h4, w->hc, w->h8, &pos, 0, w->heap);
     CLACT_GetActorSurfacePos(w->e[i].h, (struct PtS *)&w->e[i].pos, 0);
-    func_0204B92C(w->e[i].h, 1);
+    CLACT_SetActorAutoAnim(w->e[i].h, 1);
     CLACT_SetActorAnimSeq(w->e[i].h, d_0220AB7C[arg->side][4]);
     w->e[i].frame = d_0220AB7C[arg->side][4];
     w->e[i].wait = 0;
@@ -1897,7 +1897,7 @@ Work_022079C0 *func_02208DAC(const Arg *arg, u32 heapId)
     func_021F896C(func_02030DA8(func_021F86D4(), func_022090B4, ctx, 0), func_02209214, 0);
     w->active = 1;
     ARC_TOOL_DeleteHandle(arc);
-    func_020061E4(0x570);
+    GFL_USE_PlaySeDefaultVolume(0x570);
     return w;
     }
 }
@@ -1957,7 +1957,7 @@ void func_022090B4(void *task, void *arg)
                         c->owner->entries[i].step = 0;
                     }
                 }
-                func_0204B404(c->owner->entries[i].h, (const struct Vec2_022079C0 *)(&c->owner->entries[i].pos), 0);
+                CLACT_AddActorSurfacePos(c->owner->entries[i].h, (const struct Vec2_022079C0 *)(&c->owner->entries[i].pos), 0);
                 if (c->owner->entries[i].step == 0) {
                     CLACT_SetActorAnimSeq(c->owner->entries[i].h, c->owner->entries[i].frame);
                     switch (c->owner->entries[i].frame) {
@@ -1967,7 +1967,7 @@ void func_022090B4(void *task, void *arg)
                     default: sound = 0x571; break;
                     }
                     if (sound != 0) {
-                        func_0200616C((void *)sound, c->owner->sound);
+                        GFL_USE_PlaySeInSlot((void *)sound, c->owner->sound);
                         c->owner->sound ^= 1;
                     }
                 }
@@ -1988,7 +1988,7 @@ void func_022090B4(void *task, void *arg)
                     c->owner->entries[i].pos.x = c->owner->entries[i].home;
                 busy = 1;
             }
-            func_0204B404(c->owner->entries[i].h, (const struct Vec2_022079C0 *)(&c->owner->entries[i].pos), 0);
+            CLACT_AddActorSurfacePos(c->owner->entries[i].h, (const struct Vec2_022079C0 *)(&c->owner->entries[i].pos), 0);
         }
         if (!busy) func_021F89BC(task);
         break;

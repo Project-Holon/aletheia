@@ -1,5 +1,5 @@
 /*
- * function: func_02187D30
+ * function: EL_SCOREBOARD_IsStateDone
  * address:  0x02187D30
  * packet:   pkt_ov020_02187D30
  * region:   ov020
@@ -13,7 +13,7 @@
 
 typedef unsigned int u32;
 
-int func_02187D30(char *p)
+int EL_SCOREBOARD_IsStateDone(char *p)
 {
     if (*(u32 *)&((struct Obj01207 *)p)->f1C < ((struct Obj01207 *)p)->f18)
         return 1;

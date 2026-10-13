@@ -24,7 +24,7 @@
  *   func_020409B4 0x020409B4 arm
  *   func_021BF7C4 0x021BF7C4 thumb ov110
  *   func_021BF6D8 0x021BF6D8 thumb ov110
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021BCCA8 0x021BCCA8 thumb ov110
  */
 typedef unsigned char u8;
@@ -53,7 +53,7 @@ extern void func_021BCD44(u8 *p);
 extern void func_020409B4(u32);
 extern u32 func_021BF7C4(u8 *);
 extern u32 func_021BF6D8(u8 *);
-extern void func_0204B3DC(struct Obj *,u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 extern void func_021BCCA8(Object *);
 void func_021BCB50(Object *p)
 {
@@ -72,14 +72,14 @@ void func_021BCB50(Object *p)
     func_021BCD44((u8 *)p);
     func_020409B4(0);
     if(func_021BF7C4(p->f04)==0 && func_021BF6D8(p->f04)==2) {
-        func_0204B3DC(p->items[0],1);
-        func_0204B3DC(p->items[1],1);
-        func_0204B3DC(p->items[2],1);
-        func_0204B3DC(p->items[3],1);
-        func_0204B3DC(p->items[4],1);
-        func_0204B3DC(p->items[5],1);
-        func_0204B3DC(p->items[6],1);
-        for(i=0;i<2;i++) func_0204B3DC(p->other[i],1);
+        CLACT_SetActorDrawEnable(p->items[0],1);
+        CLACT_SetActorDrawEnable(p->items[1],1);
+        CLACT_SetActorDrawEnable(p->items[2],1);
+        CLACT_SetActorDrawEnable(p->items[3],1);
+        CLACT_SetActorDrawEnable(p->items[4],1);
+        CLACT_SetActorDrawEnable(p->items[5],1);
+        CLACT_SetActorDrawEnable(p->items[6],1);
+        for(i=0;i<2;i++) CLACT_SetActorDrawEnable(p->other[i],1);
     }
     func_021BCCA8(p);
 }

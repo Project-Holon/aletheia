@@ -22,14 +22,16 @@
  *   PM_VOICE_IsActive 0x02006BD0 thumb
  *   PM_VOICE_Play  0x02006984  thumb  arm9
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   GFL_USE_IsAnySeBusy  0x02006238  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void PLIST_PLATE_SetMon(u8 *,u8 *,int,int);
 extern int PARTICLE_GetEffectCount(int **p);
-extern int func_02006238(void);
+extern int GFL_USE_IsAnySeBusy(void);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
 extern u32 PM_VOICE_IsActive(u32 i);
@@ -46,15 +48,15 @@ void PLIST_BATTLE_UpdateEffect(u8 *p)
         p[0x268]++;
         if (p[0x268] == 1) {
             func_02040588(0,1);
-            if (W(0x264)-1 <= 1) func_020061E4(0x643);
-            else if (W(0x264) == 3) func_020061E4(0x644);
+            if (W(0x264)-1 <= 1) GFL_USE_PlaySeDefaultVolume(0x643);
+            else if (W(0x264) == 3) GFL_USE_PlaySeDefaultVolume(0x644);
         }
         if (p[0x268] > p[0x269]) {
             PLIST_PLATE_SetMon(p,*(u8 **)(p+W(0x2c)*4+0x160),W(0x38),0);
             W(0x26c) = 1;
         }
     }
-    if (PARTICLE_GetEffectCount((int **)W(0x260)) <= 0 && func_02006238() == 0) {
+    if (PARTICLE_GetEffectCount((int **)W(0x260)) <= 0 && GFL_USE_IsAnySeBusy() == 0) {
         if (W(0x270) == 0) {
             species = POKE_TOOL_GetPartyValue((void *)W(0x38),5,0);
             form = POKE_TOOL_GetPartyValue((void *)W(0x38),0x6f,0);

@@ -12,11 +12,11 @@
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_020355C4 0x020355C4 arm
  *   func_020355D8 0x020355D8 arm
- *   func_020362DC 0x020362DC arm
- *   func_0203633C 0x0203633C arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   KEY_GetRepeat 0x0203633C arm
  *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   d_021BBF9C 0x021BBF9C data a4
  */
 #include "../include/Obj00740.h"
@@ -25,12 +25,12 @@ extern const u8 d_021BBF9C[];
 extern int TOUCHPANEL_HitTrg(const void *);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8);
-extern unsigned func_020362DC(void),func_0203633C(void);
+extern unsigned KEY_GetTrg(void),KEY_GetRepeat(void);
 typedef unsigned int   u32;
 struct Obj;
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 int func_021BB53C(char *p)
 {
     int hit=TOUCHPANEL_HitTrg(d_021BBF9C);
@@ -40,48 +40,48 @@ int func_021BB53C(char *p)
             APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
         }
     } else {
-        if(func_020362DC()!=0 && !(func_020362DC()&0x402)) {
+        if(KEY_GetTrg()!=0 && !(KEY_GetTrg()&0x402)) {
             func_020355D8(0);
             APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             return 0;
         }
     }
     if(func_020355C4()==0) {
-        if(func_020362DC()&1) {
+        if(KEY_GetTrg()&1) {
             APP_TASKMENU_WIN_SetDecide(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
-            func_020061E4(0x54c);
+            GFL_USE_PlaySeDefaultVolume(0x54c);
             return 1;
-        } else if(func_0203633C()&0x40) {
+        } else if(KEY_GetRepeat()&0x40) {
             APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
             if(**(u8 * *)&((struct Obj00740 *)p)->f0==0) **(u8 * *)&((struct Obj00740 *)p)->f0=1; else **(u8 * *)&((struct Obj00740 *)p)->f0=0;
             APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
-            func_020061E4(0x548);
-        } else if(func_0203633C()&0x80) {
+            GFL_USE_PlaySeDefaultVolume(0x548);
+        } else if(KEY_GetRepeat()&0x80) {
             APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
             if(**(u8 * *)&((struct Obj00740 *)p)->f0==1) **(u8 * *)&((struct Obj00740 *)p)->f0=0; else **(u8 * *)&((struct Obj00740 *)p)->f0=1;
             APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
-            func_020061E4(0x548);
-        } else if(func_0203633C()&0x220) {
+            GFL_USE_PlaySeDefaultVolume(0x548);
+        } else if(KEY_GetRepeat()&0x220) {
             if(**(u8 * *)&((struct Obj00740 *)p)->f0==1) {
                 APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
                 **(u8 * *)&((struct Obj00740 *)p)->f0=0;
                 APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
             }
-        } else if(func_0203633C()&0x110) {
+        } else if(KEY_GetRepeat()&0x110) {
             if(**(u8 * *)&((struct Obj00740 *)p)->f0==0) {
                 APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
                 **(u8 * *)&((struct Obj00740 *)p)->f0=1;
                 APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
             }
         }
     } else if(hit>=0 && hit<=1) {
         **(u8 * *)&((struct Obj00740 *)p)->f0=hit;
         APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
         APP_TASKMENU_WIN_SetDecide(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         return 1;
     }
     return 0;

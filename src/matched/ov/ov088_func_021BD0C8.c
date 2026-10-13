@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  */
 #include "../include/Obj04351.h"
 
 struct Descriptor;
 typedef unsigned int   u32;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
 
 void STARTMENU_SaveEraseDeleteWindow(unsigned char *p)
 {
-    func_020452E8(((struct Obj04351 *)p)->f1C);
+    BMP_WIN_Delete(((struct Obj04351 *)p)->f1C);
     BMP_WIN_Exit();
 }

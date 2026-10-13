@@ -1,5 +1,5 @@
 /*
- * function: func_02177494
+ * function: NET_WHPIPE_CheckBeaconFlags
  * address:  0x02177494
  * packet:   pkt_ov014_02177494
  * region:   ov014
@@ -28,7 +28,7 @@ u16 func_0203F1FC(const u8 *src, u32 len);
 
 typedef int (*CheckFn)(u8 a, u8 b, u32 c);
 
-int func_02177494(u8 *obj, u32 flags)
+int NET_WHPIPE_CheckBeaconFlags(u8 *obj, u32 flags)
 {
     u8 *base = ((u8 *)g_pWhPipeWork);
     u8 *st = GFL_NET_GetInitParam();

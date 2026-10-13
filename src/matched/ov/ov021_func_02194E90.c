@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02045758  0x02045758  arm
- *   func_02045760  0x02045760  arm
- *   func_02045748  0x02045748  arm
- *   func_02045750  0x02045750  arm
+ *   BMP_WIN_GetPosX  0x02045758  arm
+ *   BMP_WIN_GetPosY  0x02045760  arm
+ *   BMP_WIN_GetDispWidth  0x02045748  arm
+ *   BMP_WIN_GetDispHeight  0x02045750  arm
  *   func_0206E0C4  0x0206E0C4  arm
  * Addresses are Black-image addresses.
  */
@@ -25,10 +25,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Descriptor;
-extern u8 func_02045758(struct Descriptor *p);
-extern u8 func_02045760(struct Descriptor *p);
-extern u8 func_02045748(struct Descriptor *p);
-extern u8 func_02045750(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
+extern u8 BMP_WIN_GetDispWidth(struct Descriptor *p);
+extern u8 BMP_WIN_GetDispHeight(struct Descriptor *p);
 extern void func_0206E0C4(int x, int y, void *c, int z);
 
 void TALKMSGWIN_GetAnchorWindowPoint(u8 *e, u8 *ent, int *b, int *c, void *d)
@@ -42,14 +42,14 @@ void TALKMSGWIN_GetAnchorWindowPoint(u8 *e, u8 *ent, int *b, int *c, void *d)
     int w2;
     int h2;
 
-    x1 = (func_02045758((struct Descriptor *)(((struct Obj07453 *)e)->fC)) - 1) << 3;
-    y1 = (func_02045760((struct Descriptor *)(((struct Obj07453 *)e)->fC)) - 1) << 3;
-    w1 = (func_02045748((struct Descriptor *)(((struct Obj07453 *)e)->fC)) + 2) << 3;
-    h1 = (func_02045750((struct Descriptor *)(((struct Obj07453 *)e)->fC)) + 2) << 3;
-    x2 = (func_02045758((struct Descriptor *)(((struct Obj07454 *)ent)->fC)) - 1) << 3;
-    y2 = (func_02045760((struct Descriptor *)(((struct Obj07454 *)ent)->fC)) - 1) << 3;
-    w2 = (func_02045748((struct Descriptor *)(((struct Obj07454 *)ent)->fC)) + 2) << 3;
-    h2 = (func_02045750((struct Descriptor *)(((struct Obj07454 *)ent)->fC)) + 2) << 3;
+    x1 = (BMP_WIN_GetPosX((struct Descriptor *)(((struct Obj07453 *)e)->fC)) - 1) << 3;
+    y1 = (BMP_WIN_GetPosY((struct Descriptor *)(((struct Obj07453 *)e)->fC)) - 1) << 3;
+    w1 = (BMP_WIN_GetDispWidth((struct Descriptor *)(((struct Obj07453 *)e)->fC)) + 2) << 3;
+    h1 = (BMP_WIN_GetDispHeight((struct Descriptor *)(((struct Obj07453 *)e)->fC)) + 2) << 3;
+    x2 = (BMP_WIN_GetPosX((struct Descriptor *)(((struct Obj07454 *)ent)->fC)) - 1) << 3;
+    y2 = (BMP_WIN_GetPosY((struct Descriptor *)(((struct Obj07454 *)ent)->fC)) - 1) << 3;
+    w2 = (BMP_WIN_GetDispWidth((struct Descriptor *)(((struct Obj07454 *)ent)->fC)) + 2) << 3;
+    h2 = (BMP_WIN_GetDispHeight((struct Descriptor *)(((struct Obj07454 *)ent)->fC)) + 2) << 3;
     if (x1 + w1 < x2) {
         *b = x2;
     } else if (x1 > x2 + w2) {

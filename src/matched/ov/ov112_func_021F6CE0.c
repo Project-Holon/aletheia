@@ -10,8 +10,8 @@
  * symbols:
  *   func_021F9E04 0x021F9E04 thumb ov132
  *   func_021F9E18 0x021F9E18 thumb ov132
- *   func_0204B404 0x0204B404 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   _fflt 0x0209BDBC arm
  *   _ffltu 0x0209BE04 arm
  *   _fdiv 0x0209CE10 arm
@@ -28,9 +28,9 @@ extern int func_021F9E18(char *p);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 void func_021F6CE0(char *p, char *q) {
     u16 n;
     int tmp;
@@ -41,11 +41,11 @@ void func_021F6CE0(char *p, char *q) {
     if (((struct Obj05317 *)q)->f0 == 1) {
         point.x = (short)((float)((struct Obj05317 *)q)->f8 / 4096.0f - (float)(unsigned)n);
         point.y = (short)((float)((struct Obj05317 *)q)->fC / 4096.0f);
-        func_0204B404((struct Obj *)(((struct Obj05317 *)q)->f1C), (const struct Vec2 *)(&point), 0);
+        CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj05317 *)q)->f1C), (const struct Vec2 *)(&point), 0);
         if (*(int *)&((struct Obj00771 *)p)->f4 != 0 && func_021F9E18((char *)(*(int *)&((struct Obj00771 *)p)->f4)) != 4) {
-            func_0204B3DC((struct Obj *)((struct Obj05317 *)q)->f1C, 0);
+            CLACT_SetActorDrawEnable((struct Obj *)((struct Obj05317 *)q)->f1C, 0);
             return;
         }
-        func_0204B3DC((struct Obj *)((struct Obj05317 *)q)->f1C, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj05317 *)q)->f1C, 1);
     }
 }

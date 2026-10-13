@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  */
 typedef unsigned int   u32;
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 int ITEMMENU_IsBackButtonTouched(void)
 {
     unsigned int x;
     unsigned int y;
-    if (func_02035D20(&x, &y) == 1 && x >= 0xE0 && x <= 0xF7 && y >= 0xA8 && y <= 0xBF) return 1;
+    if (TOUCHPANEL_GetPointTrg(&x, &y) == 1 && x >= 0xE0 && x <= 0xF7 && y >= 0xA8 && y <= 0xBF) return 1;
     return 0;
 }

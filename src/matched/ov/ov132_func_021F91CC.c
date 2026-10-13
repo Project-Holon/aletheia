@@ -19,7 +19,7 @@
  * arm (the else arm then recomputes the sum, as the image does); `u8 i` declared before
  * `int factor`. final push 2026-10-05 G9L6.
  * symbols:
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  *   func_02061CA4 0x02061CA4 arm
  */
 typedef unsigned char u8;
@@ -36,7 +36,7 @@ typedef struct {
     s8 db[16];
     u16 out[16];
 } Fade;
-extern const s16 d_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 extern int func_02061CA4(void *, u32, u32, int);
 void func_021F91CC(Fade *p)
 {
@@ -46,7 +46,7 @@ void func_021F91CC(Fade *p)
         p->phase = p->phase - 0xFEA0;
     else
         p->phase += 0x160;
-    factor = (d_020A1B38[(p->phase >> 4) * 2] + 0x1000) / 2;
+    factor = (FX_SinCosTable_[(p->phase >> 4) * 2] + 0x1000) / 2;
     for (i = 0; i < 16; i++) {
         u8 b = (p->base[i] & 0x7C00) >> 10;
         u8 r = p->base[i] & 0x1F;

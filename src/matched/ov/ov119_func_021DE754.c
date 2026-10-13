@@ -10,7 +10,7 @@
  * lever: Shared failure label; padded two-dimensional array members reproduce index scheduling.
  * symbols:
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021B6558 0x021B6558 thumb ov067
  *   func_021D9468 0x021D9468 thumb ov119
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
@@ -23,7 +23,7 @@
 #include "../include/Obj00251.h"
 extern unsigned POKE_TOOL_GetPartyValue(void *,unsigned,unsigned);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_021D9468(void *,int,void *);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
@@ -48,7 +48,7 @@ int func_021DE754(char *p,int idx)
     value=s->value[1-row][col];
     if(mon==0 || POKE_TOOL_GetPartyValue(mon,169,0)==0) goto fail;
     ((struct Obj00251 *)p)->f10A0=idx;
-    func_020061E4(0x54c);
+    GFL_USE_PlaySeDefaultVolume(0x54c);
     func_021B6558((unsigned char *)(*(int *)&((struct Obj00251 *)p)->f9C0),1,0);
     if(row!=0) {
         func_021D8E84(p,(int)func_021DDAD4);

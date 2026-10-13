@@ -36,8 +36,8 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   UNION_APP_Create  0x02183B60  thumb  ov022
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   UNION_COMMAND_SendAppQuitRequest  0x02173E1C  thumb  ov012
  *   UNION_APP_IsQuitAccepted  0x02183F84  thumb  ov022
  *   UNION_COMMAND_SendAppQuitCancel  0x02173EC8  thumb  ov012
@@ -66,14 +66,14 @@
  *   PLIST_COMM_Start  0x021B6100  thumb  ov090
  *   PLIST_COMM_End  0x021B6108  thumb  ov090
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200CA38  0x0200CA38  thumb
- *   func_0201A920  0x0201A920  thumb
- *   func_0201AC2C  0x0201AC2C  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
+ *   POKEPARTY_Copy  0x0201AC2C  thumb
  *   POKEPARTY_Init  0x0201A948  thumb
- *   func_0201AB28  0x0201AB28  thumb
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   func_020307B0  0x020307B0  arm
  *   COLOSSEUM_ResetParties  0x02175240  thumb  ov012
  *   COLOSSEUM_SendParty  0x02174D98  thumb  ov012
@@ -181,8 +181,8 @@ extern void  func_02034A5C(int overlayId);
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern struct UnionAppWork *UNION_APP_Create(UnionRoomWork *unionRoom, int heapId, int kind, struct MyStatus *myStatus);
 extern struct GfnetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void func_02039C68(struct GfnetHandle *handle, unsigned int timingNo, unsigned int syncRange);
-extern unsigned int func_02039CB4(struct GfnetHandle *handle, unsigned int timingNo, unsigned int syncRange);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GfnetHandle *handle, unsigned int timingNo, unsigned int syncRange);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct GfnetHandle *handle, unsigned int timingNo, unsigned int syncRange);
 extern u32 UNION_COMMAND_SendAppQuitRequest(void);
 extern u8 UNION_APP_IsQuitAccepted(struct UnionAppWork *app);
 extern int   UNION_COMMAND_SendAppQuitCancel(void);
@@ -206,14 +206,14 @@ extern void PLIST_COMM_Update(PartyListParam *listParam);
 extern void PLIST_COMM_Start(PartyListParam *listParam);
 extern void PLIST_COMM_End(PartyListParam *listParam);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern u32   func_0201AA18(struct Party *party);
+extern u32   POKEPARTY_GetCount(struct Party *party);
 extern void *func_0200CA1C(struct GameData *gameData);
 extern u32 func_0200CA38(void *a);
-extern struct Party *func_0201A920(u32 heapId);
-extern void func_0201AC2C(const struct Party *src, struct Party *dst);
+extern struct Party *POKEPARTY_Create(u32 heapId);
+extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
 extern void POKEPARTY_Init(struct Party *party);
-extern struct PokemonParam *func_0201AB28(struct Party *party, u32 index);
-extern u32 func_0201A98C(struct Party *party, const struct PokemonParam *pokemon);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
+extern u32 POKEPARTY_Add(struct Party *party, const struct PokemonParam *pokemon);
 extern u32 func_020307B0(void *p);
 extern void COLOSSEUM_ResetParties(ColosseumWork *colosseum, int arg);
 extern u32 COLOSSEUM_SendParty(struct Party *party);
@@ -415,11 +415,11 @@ int UNION_MAIN_StepGroupActivity(struct GameSystem *gameSystem, UnionRoomWork *u
             (*step)++;
         break;
     case 3:
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 9, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 9, 0x14);
         (*step)++;
         break;
     case 4:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 9, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 9, 0x14) == 1)
             *step = 7;
         break;
     case 5:
@@ -456,12 +456,12 @@ int UNION_MAIN_StepGroupActivity(struct GameSystem *gameSystem, UnionRoomWork *u
             }
         } else {
             UNION_COMM_SetGameKindByStatus(situation->status);
-            func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 10, 0x14);
+            GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 10, 0x14);
             *step = 12;
         }
         break;
     case 12:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 10, 0x14) == 1) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 10, 0x14) == 1) {
             GFL_NET_NotifyUserEvent(GFL_NET_HANDLE_GetCurrentHandle(), 1);
             *step = 13;
         }
@@ -650,7 +650,7 @@ int UNION_MAIN_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoomW
         statusParam->options = listParam->options;
         statusParam->gameData = GAMESYSTEM_GetGameData(gameSystem);
         statusParam->mode = 1;
-        statusParam->partyCount = func_0201AA18(listParam->party);
+        statusParam->partyCount = POKEPARTY_GetCount(listParam->party);
         statusParam->page = 0;
         statusParam->cursor = listParam->cursor;
         statusParam->result = 0;
@@ -679,17 +679,17 @@ int UNION_MAIN_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoomW
         if (listParam->cursor != 6)
             func_02034714(gUnionMainEmptyString, 0, gUnionMainEmptyString);
         party = colosseum->party[myNetId];
-        tmpParty = func_0201A920(0x41);
-        func_0201AC2C(party, tmpParty);
+        tmpParty = POKEPARTY_Create(0x41);
+        POKEPARTY_Copy(party, tmpParty);
         POKEPARTY_Init(party);
         for (i = 0; i < 6; i++) {
             if (listParam->selectedOrder[i] == 0)
                 break;
-            func_0201A98C(party, func_0201AB28(tmpParty, listParam->selectedOrder[i] - 1));
+            POKEPARTY_Add(party, POKEPARTY_GetMember(tmpParty, listParam->selectedOrder[i] - 1));
         }
         func_020307B0(tmpParty);
         COLOSSEUM_ResetParties(colosseum, 1);
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0x16, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x16, 0x14);
         (*step)++;
         break;
     case 9:
@@ -697,7 +697,7 @@ int UNION_MAIN_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoomW
             *step = 0x11;
             break;
         }
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x16, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x16, 0x14) == 1)
             (*step)++;
         break;
     case 10:

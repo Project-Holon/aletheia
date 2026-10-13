@@ -11,16 +11,16 @@
  * lever: u16 heap and const Config pointer restore scheduling; bounded permuter count-before-limit restores the clamp registers. Resource before font gives the original spill slots.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02034714 0x02034714 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B688 0x0204B688 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   BMP_Create 0x02043678 arm
  *   BMP_Clear 0x02043B5C arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
@@ -53,20 +53,20 @@ typedef struct {Config cfg;u32 handles[4],descriptor;u16 selected,last,index,sta
 extern const char d_02200D5C[],d_02200D68[];
 extern const Pair d_02200B0C[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_02082BCC(void *,int,u32),func_02034714(const char *,u32,const char *);
+extern void MI_CpuFill8(void *,int,u32),func_02034714(const char *,u32,const char *);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 struct Actor;
 struct Cfg;
 struct Descriptor;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
-extern void func_0204B92C(struct Obj *,u32);
-extern void func_0204B688(struct Actor *actor, u32 value);
-extern void func_0204B3DC(struct Obj *,unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
+extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 struct Bmp;
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 struct CharBuf;
@@ -95,7 +95,7 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
     int i;
     size=cfg->count*4+0x8c;
     p=func_02030734(heap,size,0,d_02200D5C,0x1a1);
-    func_02082BCC(p,0,size);
+    MI_CpuFill8(p,0,size);
     p->cfg=*cfg;
     p->selected=0;p->last=cfg->count;
     p->visible=cfg->height/cfg->spacing;
@@ -121,9 +121,9 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
     }
     p->descriptor=BMP_WIN_Create(cfg->bg,cfg->x,cfg->y,cfg->width,cfg->height,cfg->palette,1);
     BMP_WIN_MakeScreen((struct Cfg *)p->descriptor);
-    func_02041B6C(func_02045730((struct Descriptor *)p->descriptor));
+    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)p->descriptor));
     i=0;
-    func_02082BCC(&arrow,0,8);
+    MI_CpuFill8(&arrow,0,8);
     if(cfg->bg<4) {
         func_021FBE54(p->cfg.resources,7,heap);
         if(!func_021FC124(p->cfg.resources,7,&arrows)) func_02034714(d_02200D68,0,d_02200D68);
@@ -141,17 +141,17 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
         else arrow.y=i==0?64:184;
         arrow.id=i;
         p->handles[i]=(u32)CLACT_CreateActor((void *)cfg->manager,arrows.y,arrows.z,arrows.x,&arrow,resource,heap);
-        func_0204B92C((struct Obj *)p->handles[i],1);func_0204B688((struct Actor *)p->handles[i],1);
+        CLACT_SetActorAutoAnim((struct Obj *)p->handles[i],1);CLACT_SetActorObjMode((struct Actor *)p->handles[i],1);
     }
     i=0;
-    func_0204B3DC((struct Obj *)p->handles[0],0);
-    func_02082BCC(&mark,0,8);
+    CLACT_SetActorDrawEnable((struct Obj *)p->handles[0],0);
+    MI_CpuFill8(&mark,0,8);
     mark.y=72;mark.id=5;mark.flag=0;
     if(!func_021FC124(p->cfg.resources,6,&marks)) func_02034714(d_02200D68,0,d_02200D68);
     for(i=2;i<4;i++) {
         mark.x=i==2?24:232;
         p->handles[i]=(u32)CLACT_CreateActor((void *)p->cfg.manager,marks.y,marks.z,marks.x,&mark,1,heap);
-        func_0204B688((struct Actor *)p->handles[i],1);
+        CLACT_SetActorObjMode((struct Actor *)p->handles[i],1);
     }
     font=func_021FC20C(p->cfg.resources);
     for(i=0;(u32)i<p->cfg.count;i++) {
@@ -165,16 +165,16 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
     }
     func_021FCE60((char *)p,p->start);
     if(cfg->count<p->visible) {
-        p->scroll=0;func_0204B3DC((struct Obj *)p->handles[0],0);func_0204B3DC((struct Obj *)p->handles[1],0);
+        p->scroll=0;CLACT_SetActorDrawEnable((struct Obj *)p->handles[0],0);CLACT_SetActorDrawEnable((struct Obj *)p->handles[1],0);
     } else {
         p->scroll=1;
         if(p->scroll) {
-            if(p->start==0) func_0204B3DC((struct Obj *)p->handles[0],0);
-            else func_0204B3DC((struct Obj *)p->handles[0],1);
-            if(p->cfg.count==p->start+p->visible) func_0204B3DC((struct Obj *)p->handles[1],0);
-            else func_0204B3DC((struct Obj *)p->handles[1],1);
+            if(p->start==0) CLACT_SetActorDrawEnable((struct Obj *)p->handles[0],0);
+            else CLACT_SetActorDrawEnable((struct Obj *)p->handles[0],1);
+            if(p->cfg.count==p->start+p->visible) CLACT_SetActorDrawEnable((struct Obj *)p->handles[1],0);
+            else CLACT_SetActorDrawEnable((struct Obj *)p->handles[1],1);
         }
     }
-    if(func_021FCDA0((char *)p)) for(i=2;i<4;i++) func_0204B92C((struct Obj *)p->handles[i],1);
+    if(func_021FCDA0((char *)p)) for(i=2;i<4;i++) CLACT_SetActorAutoAnim((struct Obj *)p->handles[i],1);
     return p;
 }

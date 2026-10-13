@@ -22,7 +22,7 @@
  *   func_02011290  0x02011290  thumb
  *   ZONEDATA_SetEventFlag  0x02014314  thumb
  *   func_020120F4  0x020120F4  thumb
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_020127A4  0x020127A4  thumb
  *   func_02012AC8  0x02012AC8  thumb
  *   func_02030734  0x02030734  arm
@@ -42,7 +42,7 @@
  *   FLDMMDL_ACMD_ListCheckEnd  0x02197DA0  thumb
  *   FLDMMDL_ACMD_ListDelete  0x02197DAC  thumb
  *   func_02045B38 0x02045B38 arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FIELD_MSGBG_CreateMenuItems  0x02190A20  thumb  ov021
  *   BMP_MENUWORK_CountItems  0x0201F91C  thumb
  *   func_02045CAC  0x02045CAC  arm
@@ -99,7 +99,7 @@
  *   MAP_REPLACE_SetFlag  0x02159F28  thumb  ov010
  *   MAP_MATRIX_ApplyReplace  0x02159CC4  thumb  ov010
  *   func_02012974  0x02012974  thumb
- *   func_02013B44  0x02013B44  thumb
+ *   ZONEDATA_GetMatrixId  0x02013B44  thumb
  *   MAP_REPLACE_CheckFlag  0x02159F54  thumb  ov010
  *   POKE_TOOL_Create  0x020173F0  thumb
  *   func_0200CFA0  0x0200CFA0  thumb
@@ -302,7 +302,7 @@ extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern struct RecordSave *GAME_DATA_GetSaveBlock21(struct GameData *gameData);
 extern struct EventData *func_02012844(struct GameData *gameData);
 extern u32 func_02012A44(struct GameData *gameData);
-extern u32 func_02013B44(u32 zoneId);
+extern u32 ZONEDATA_GetMatrixId(u32 zoneId);
 extern void ZONEDATA_SetDirectLocation(struct Location *location, int zoneId, int direction, int x, int y, int z);
 extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
 extern void ZONEDATA_SetEventFlag(struct EventWork *eventWork, int flagId);
@@ -359,8 +359,8 @@ extern void *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSystem);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern void func_02082A7C(int value, void *dest, int size);
-extern void func_02082BCC(void *dest, int value, int size);
-extern u32 func_020362DC(void);
+extern void MI_CpuFill8(void *dest, int value, int size);
+extern u32 KEY_GetTrg(void);
 extern u32 func_020056EC(u32 range);
 extern u32 func_02025C88(u32 x);
 extern void func_02087D28(OwnerInfo *info);
@@ -643,7 +643,7 @@ void SCRCMD_WORK_InitMenu(ScrcmdWork *work, unsigned short x, unsigned short y,
 {
     ScrcmdCommonWork *common = work->common;
     ScrcmdMenu *menu = &common->menu;
-    func_02082BCC(menu, 0, 0xa0);
+    MI_CpuFill8(menu, 0, 0xa0);
     common->menu.x = x;
     menu->y = y;
     menu->cursorPos = cursorPos;
@@ -744,7 +744,7 @@ int SCRCMD_WORK_WaitMenuOrCancel(ScrcmdWork *work)
     ScrcmdMenu *menu;
     menu = &work->common->menu;
     done = SCRCMD_WORK_WaitMenu(work);
-    if (done == 0 && (func_020362DC() & 1024)) {
+    if (done == 0 && (KEY_GetTrg() & 1024)) {
         SCRCMD_WORK_DeleteMenu(menu);
         *menu->result = 65533;
         done = 1;
@@ -1020,7 +1020,7 @@ int SCRCMD_WORK_CmdSetMapReplaceFlag(struct ScriptVm *vm, ScrcmdWork *work)
     if (applyNow != 0) {
         mapMatrix = func_02012974(gameData);
         zoneId = func_02012AC8(func_020127A4(gameData));
-        matrixId = func_02013B44(zoneId);
+        matrixId = ZONEDATA_GetMatrixId(zoneId);
         heapId = SCRCMD_WORK_GetHeapId(work);
         MAP_MATRIX_Load(mapMatrix, matrixId, zoneId, heapId);
         MAP_MATRIX_ApplyReplace(mapMatrix, gameSystem, heapId);

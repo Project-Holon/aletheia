@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 #include "../include/Obj01847.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 
 void FIELD_G3D_MAPPER_BeginDrawOrder(char *p)
 {
     int v;
 
-    func_02082BCC(((struct Obj01847 *)p)->f44, 0xff, ((struct Obj01847 *)p)->f2E);
+    MI_CpuFill8(((struct Obj01847 *)p)->f44, 0xff, ((struct Obj01847 *)p)->f2E);
     ((struct Obj01847 *)p)->f41 = 0;
     ((struct Obj01847 *)p)->f42 = ((struct Obj01847 *)p)->f43;
     ((struct Obj01847 *)p)->f43 = 0;

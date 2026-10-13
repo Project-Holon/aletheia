@@ -16,7 +16,7 @@
  * is the second `ldr r1,[sp,#4]`.
  *
  * symbols:
- *   func_021B9AB0  0x021B9AB0  thumb
+ *   BTL_SLOT_GetRotateSrcIndex  0x021B9AB0  thumb
  *   BTL_POKEPARAM_GetMoveId  0x021D54C0  thumb
  *   BTL_ACTION_SetFight  0x021D82D0  thumb
  *   BTL_ACTION_SetFightSlotFlag  0x021D8318  thumb
@@ -31,7 +31,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_022030F0(u32 h, u8 *b, u32 *w);
-extern int func_021B9AB0(u32 b);
+extern int BTL_SLOT_GetRotateSrcIndex(u32 b);
 extern u32 BTL_POKEPARAM_GetMoveId(u32 a, u32 b);
 extern void BTL_ACTION_SetRotate(u8 *p, u32 b);
 extern void BTL_ACTION_SetFight();
@@ -55,7 +55,7 @@ int func_0689ABA0(int unused, u8 *s)
             if (t.b == 0)
                 t.b = 1;
             if (w != 7)
-                v = BTL_POKEPARAM_GetMoveId(*(u32 *)(*(u32 *)&((struct Obj04407 *)s)->f7C + func_021B9AB0(t.b) * 8), (u8)t.w);
+                v = BTL_POKEPARAM_GetMoveId(*(u32 *)(*(u32 *)&((struct Obj04407 *)s)->f7C + BTL_SLOT_GetRotateSrcIndex(t.b) * 8), (u8)t.w);
             else
                 v = 0xa5;
             BTL_ACTION_SetRotate(*(u8 * *)&((struct Obj04407 *)s)->f7C + 0x18, t.b);

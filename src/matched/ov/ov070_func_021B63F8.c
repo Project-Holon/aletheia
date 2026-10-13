@@ -16,7 +16,7 @@
  *   ITEMMENU_SetCursorActive  0x021B80C4  thumb  ov070
  *   func_0202EDE4  0x0202EDE4  thumb
  *   ITEMMENU_UpdateCursorFromTouch  0x021BA654  thumb  ov070
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 #include "../include/Obj00002.h"
 
@@ -30,7 +30,7 @@ struct Obj;
 extern void ITEMMENU_SetCursorActive(struct Obj *o, int flag);
 extern u32 func_0202EDE4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void ITEMMENU_UpdateCursorFromTouch(char *p);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 
 u32 ITEMMENU_HandleScrollbarTouch(u8 *p)
 {
@@ -54,7 +54,7 @@ u32 ITEMMENU_HandleScrollbarTouch(u8 *p)
         *(u32 *)&((struct Obj00002 *)p)->f814 = func_0202EDE4(k - 6, y, 0x1A, 0x8E, 0) - 1;
         ITEMMENU_UpdateCursorFromTouch((char *)p);
         if (*(u32 *)&((struct Obj00002 *)p)->f814 != old) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             return 1;
         }
     }

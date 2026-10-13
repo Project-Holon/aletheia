@@ -13,7 +13,7 @@
  *   func_02009448 0x02009448 thumb
  *   func_020092EC 0x020092EC thumb
  *   func_021E8738 0x021E8738 thumb ov177
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021DC738 0x021DC738 thumb ov175
  *   func_021DC77C 0x021DC77C thumb ov175
  *   func_021DC8A0 0x021DC8A0 thumb ov175
@@ -35,7 +35,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern u8 func_020092EC(const struct Sub02009210Obj *obj);
 extern void func_021E8738(int *p, int a, int b, int c);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern void func_021DC738(char *,unsigned);
 extern int func_021DC77C(u8 *p);
 extern void func_021DC8A0(char *,void *);
@@ -57,7 +57,7 @@ void func_021D6C54(u32 sys,int *state,u32 *p)
         else *state=5;
         break;
     case 1: func_021E8738((int *)p[0x2c/4],p[5],0x36,2); *state=2; break;
-    case 2: func_02082BCC((void *)ctx[0xc],0,8); func_021DC738((char *)p[0x34/4],87); *state=3; break;
+    case 2: MI_CpuFill8((void *)ctx[0xc],0,8); func_021DC738((char *)p[0x34/4],87); *state=3; break;
     case 3:
         r=func_021DC77C((u8 *)p[0x34/4]);
         if(r==1) { func_021DC8A0((char *)p[0x34/4],(void *)((u32 *)p[0x104/4])[0xc]); *state=4; }

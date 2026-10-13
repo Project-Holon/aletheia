@@ -30,13 +30,13 @@
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *   VEC_Fx16Normalize  0x0207CDB8  arm
  *   func_02011400  0x02011400  thumb
- *   func_0207CB68  0x0207CB68  arm
+ *   VEC_Fx16CrossProduct  0x0207CB68  arm
  *   VEC_Fx16DotProduct  0x0207CAA4  arm
  *   FX_AcosIdx  0x0207D184  arm
  *   MTX_RotAxis43  0x0207B65C  arm
  *   MTX_MultVec43  0x0207BC08  arm
  *   VEC_Normalize  0x0207CCA4  arm
- *   d_020A1B38  0x020A1B38  data  a2
+ *   FX_SinCosTable_  0x020A1B38  data  a2
  *   FIELD_FOG_SetColorRgb  0x021A01C4  thumb  ov021
  */
 #define GX_RGB(r, g, b) ((u16)(((r) << 0) | ((g) << 5) | ((b) << 10)))
@@ -163,7 +163,7 @@ extern u32 ARC_TOOL_GetMemberSize(u32 arcId, u32 memberId);
 extern void ARC_TOOL_ReadMember(void *dst, u32 arcId, u32 memberId);
 extern void VEC_Fx16Normalize(void *src, void *dst);
 extern u8 func_02011400(int season, int hour);
-extern void func_0207CB68(const s16 *a, const s16 *b, s16 *out);
+extern void VEC_Fx16CrossProduct(const s16 *a, const s16 *b, s16 *out);
 extern s32 VEC_Fx16DotProduct(const s16 *a, const s16 *b);
 extern u16 FX_AcosIdx(s32 cosine);
 extern void MTX_RotAxis43(void *mtx, const void *axis, s32 sin, s32 cos);
@@ -191,7 +191,7 @@ void FIELD_LIGHT_FADE_InitHold(FieldLightFade *fade, u16 frames, u16 color);
 s32 FIELD_LIGHT_FADE_Update(FieldLightFade *fade, FieldLightBlend *blend, FieldLightKeyframe *current, FieldLightKeyframe *target);
 int FIELD_LIGHT_FADE_IsActive(FieldLightFade *fade);
 extern u8 sFieldLightSourceName[];
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 FieldLight *FIELD_LIGHT_Create(u32 tableId, u32 seconds, u32 season, void *fog, struct LightSlot *slots, u16 heapId)
 {
@@ -436,7 +436,7 @@ void FIELD_LIGHT_InitDirLerp(FieldLightDirLerp *lerp, const s16 *from, const s16
     s16 axis[3];
 
     setVec(&lerp->start, from[0], from[1], from[2]);
-    func_0207CB68(from, to, axis);
+    VEC_Fx16CrossProduct(from, to, axis);
     setVec(&lerp->axis, axis[0], axis[1], axis[2]);
     lerp->angle = FX_AcosIdx(VEC_Fx16DotProduct(from, to));
 }
@@ -450,7 +450,7 @@ void FIELD_LIGHT_EvalDirLerp(FieldLightDirLerp *lerp, s32 step, s32 stepCount, s
     u32 sinCosIndex;
 
     sinCosIndex = (u16)(lerp->angle * step / stepCount) >> 4;
-    MTX_RotAxis43(mtx, &lerp->axis, d_020A1B38[sinCosIndex * 2], d_020A1B38[sinCosIndex * 2 + 1]);
+    MTX_RotAxis43(mtx, &lerp->axis, FX_SinCosTable_[sinCosIndex * 2], FX_SinCosTable_[sinCosIndex * 2 + 1]);
     MTX_MultVec43(lerp, mtx, vec);
     VEC_Normalize(vec, vec);
     vz = vec[2];

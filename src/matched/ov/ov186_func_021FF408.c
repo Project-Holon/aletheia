@@ -13,7 +13,7 @@
  *   ov125_id 0x0000007D data
  *   func_02034AC4 0x02034AC4 arm
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02012944 0x02012944 thumb
  *   func_0200853C 0x0200853C thumb
  *   func_021D6660 0x021D6660 thumb ov125
@@ -38,7 +38,7 @@ typedef unsigned short u16;
 typedef struct {u32 value;u32 unused;void *owner;void *arg;void *context;void (*a)(char *);void (*b)(char *);void (*c)(char *);void (*d)(char *);void (*e)(char *);void (*f)(char *);} Config;
 extern int func_02034AC4(int);
 extern void *func_02030734(unsigned int,unsigned int,int,const char *,u16);
-extern void func_02082BCC(void *,u32,u32);
+extern void MI_CpuFill8(void *,u32,u32);
 typedef unsigned char  u8;
 struct Big;
 struct GdsProfile;
@@ -62,9 +62,9 @@ char *func_021FF408(void *owner,void *arg,u32 heap)
     Config cfg;
     func_02034AC4((int)ov125_id);
     p=func_02030734(heap,0x5E4,0,d_02200D8C,0x97);
-    func_02082BCC(p,0,0x5E4);
+    MI_CpuFill8(p,0,0x5E4);
     ((struct Obj06637 *)p)->f5E0=owner;
-    func_02082BCC(&cfg,0,0x2C);
+    MI_CpuFill8(&cfg,0,0x2C);
     cfg.owner=owner;
     cfg.value=func_0200853C((const struct Sub0200852CObj *)func_02012944(owner));
     cfg.arg=arg;

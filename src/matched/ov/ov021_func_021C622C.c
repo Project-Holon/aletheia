@@ -12,7 +12,7 @@
  * symbols:
  *   SWEET_SCENT_FadeSetup  0x021C62F0  thumb  ov021
  *   SWEET_SCENT_FadeCleanup  0x021C6368  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLD_VREQ_SetMainBlendAlphaEv  0x021D3288  thumb  ov021
  *   FLD_VREQ_SetMainBlendAlpha  0x021D325C  thumb  ov021
  *   FLD_VREQ_SetBgVisible  0x021D3244  thumb  ov021
@@ -33,7 +33,7 @@ extern void SWEET_SCENT_FadeCleanup(u8 *p);
 typedef unsigned int   u32;
 struct St021D3244;
 struct St021D325C;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void FLD_VREQ_SetMainBlendAlphaEv(void *a, int b, int c);
 extern void FLD_VREQ_SetMainBlendAlpha(struct St021D325C *p, u32 a, u32 b, u32 c, u32 d);
 extern void FLD_VREQ_SetBgVisible(struct St021D3244 *p, int i, u8 v);
@@ -43,7 +43,7 @@ int SWEET_SCENT_FadeMain(void *unused, int *st, Ctx *c)
     switch (*st) {
     case 0:
         SWEET_SCENT_FadeSetup((u8 *)c);
-        func_020061E4(0x683);
+        GFL_USE_PlaySeDefaultVolume(0x683);
         *st = *st + 1;
         break;
     case 1:

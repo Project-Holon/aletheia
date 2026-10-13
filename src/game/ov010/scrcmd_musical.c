@@ -36,9 +36,9 @@
  *   d_02172914     0x02172914  data
  *   d_021F8360     0x021F8360  data
  *   func_02012934  0x02012934  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_021F675C  0x021F675C  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   MUSICAL_EVENT_GetLocalSlot  0x021568E0  thumb  ov010
  *   MUSICAL_EVENT_GetMaxScore  0x02156954  thumb  ov010
@@ -49,7 +49,7 @@
  *   MUSICAL_EVENT_GetSlotOfRank  0x0215699C  thumb  ov010
  *   MUSICAL_EVENT_GetBestAppealCategory  0x021569A4  thumb  ov010
  *   MUSICAL_EVENT_GetPortraitClass  0x021569EC  thumb  ov010
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_0200A628  0x0200A628  thumb
  *   func_0200A644  0x0200A644  thumb
  *   func_0200A75C  0x0200A75C  thumb
@@ -95,10 +95,10 @@
  *   func_02034A5C  0x02034A5C  arm
  *   func_021FC644  0x021FC644  thumb  ov132
  *   func_021FC684  0x021FC684  thumb
- *   func_020124E4 0x020124E4 thumb
+ *   GAME_EVENT_GetGameSystem 0x020124E4 thumb
  *   func_020120F4 0x020120F4 thumb
  *   GAME_EVENT_CallEvent 0x02012374 thumb
- *   func_02026454 0x02026454 thumb
+ *   GAME_COMM_GetKind 0x02026454 thumb
  *   GFL_NET_IsSessionNull 0x0203CDBC arm
  *   GAMESYSTEM_TryStartAutoComm 0x020121CC thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
@@ -110,7 +110,7 @@
  *   COMM_ENTRY_MENU_Delete  0x021CD5A4  thumb
  *   func_021FCE00  0x021FCE00  thumb
  *   func_021FD844  0x021FD844  thumb
- *   func_02026474  0x02026474  thumb
+ *   GAME_COMM_GetWork  0x02026474  thumb
  *   func_021FD910  0x021FD910  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02009448  0x02009448  thumb
@@ -172,14 +172,14 @@
  *   FLDMMDL_CheckMovedPosAtMapPos  0x0216E5B0  thumb  ov010
  *   MOVE_POKEMON_IsInSkillArea  0x0215F118  thumb  ov010
  *   ZONEDATA_IsFlyEnabled  0x02013C40  thumb
- *   func_02013C50  0x02013C50  thumb
+ *   ZONEDATA_IsWeatherEnabled  0x02013C50  thumb
  *   func_02012B38  0x02012B38  thumb
- *   func_02014470  0x02014470  thumb
+ *   FIELD_STATUS_GetMapEffectMask  0x02014470  thumb
  *   FIELD_GetPlayerAreaZoneId  0x021CD440  thumb
- *   func_02013FFC  0x02013FFC  thumb
+ *   ZONEDATA_IsZoneInTableDFB8  0x02013FFC  thumb
  *   ZONEDATA_IsRawZoneF6  0x0201400C  thumb
  *   ZONEDATA_IsRawZoneF7  0x02014018  thumb
- *   func_02013E04  0x02013E04  thumb
+ *   ZONEDATA_IsNormalFieldZone  0x02013E04  thumb
  *   func_02012B70  0x02012B70  thumb
  *   d_021711EC     0x021711EC  data
  *   d_021711F4     0x021711F4  data
@@ -422,7 +422,7 @@ extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSys);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSys);
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSys, void *parent, EventTaskFn taskFn, u32 workSize);
 extern void *func_020124E8(struct GameEvent *task);
-extern struct GameSystem *func_020124E4(struct GameEvent *task);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *task);
 extern void GAME_EVENT_CallEvent(struct GameEvent *task, struct GameEvent *callee);
 extern ScriptVm *func_02011290(ScriptVm *vm);
 /* the wait callback receives the user work of the script command */
@@ -443,7 +443,7 @@ extern struct EventWork *func_0201296C(struct GameData *gameData);
 extern struct MoveModelSys *func_02012B38(struct GameData *gameData);
 extern int func_02012B70(struct GameData *gameData);
 extern u32 TIMEZONE_GetNowTimeZone(u32 season);
-extern u16 func_02014470(struct MoveModelSys *moveModelSys);
+extern u16 FIELD_STATUS_GetMapEffectMask(struct MoveModelSys *moveModelSys);
 extern void *FIELD_STATUS_CreateSubProcCallbackEvent(struct GameSystem *gameSys, struct FieldMap *fieldMap, u32 overlayId, const void *procData, void *procArg, SubProcCallback callback, void *callbackArg);
 
 /* overlay loading, heap, string helpers */
@@ -452,7 +452,6 @@ extern u32 func_020307B0(void *ptr);
 extern int func_02034AC4(s32 overlayId);
 extern void func_02034A5C(s32 overlayId);
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
-extern void func_02082BCC(void *dst, int value, int size);
 extern u32 func_02005728(u32 range);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(struct Strbuf *dest, const u16 *src, u32 size);
@@ -498,8 +497,8 @@ extern int MUSICAL_EVENT_CheckNetError(struct MusicalEvent *event);
 extern u32 MUSICAL_EVENT_IsAborted(struct MusicalEvent *event);
 
 /* party and musical system */
-extern u32 func_0201AA18(struct PokeParty *party);
-extern struct Pokemon *func_0201AB28(struct PokeParty *party, u32 index);
+extern u32 POKEPARTY_GetCount(struct PokeParty *party);
+extern struct Pokemon *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
 extern int func_021F6744(struct Pokemon *mon);
 extern u32 func_021F675C(struct Pokemon *mon, int mode);
 extern u32 func_02008530(struct MyStatus *myStatus);
@@ -512,8 +511,8 @@ extern unsigned char *func_021FDA6C(struct GameData *gameData);
 extern u32 func_020307B0(void *ptr);
 extern void func_021FC644(int mode, void *procArg, void *comm, int arg);
 extern int func_021FC684(void *session);
-extern u32 func_02026454(struct GameComm *comm);
-extern u32 func_02026474(struct GameComm *comm);
+extern u32 GAME_COMM_GetKind(struct GameComm *comm);
+extern u32 GAME_COMM_GetWork(struct GameComm *comm);
 extern int GFL_NET_IsSessionNull(void);
 extern int func_021FC81C();
 extern int COMM_ENTRY_MENU_Main();
@@ -572,12 +571,12 @@ extern int FLDMMDL_IsMovedPosObjCode(u16 kind);
 extern int FLDMMDL_CheckMovedPosAtMapPos(void *map, const VecFx32 *pos);
 extern int MOVE_POKEMON_IsInSkillArea(const Area *area, u16 x, u16 z, u32 eventFlag, struct FieldMap *fieldMap);
 extern u32 ZONEDATA_IsFlyEnabled(u32 zoneId);
-extern u32 func_02013C50(u32 zoneId);
+extern u32 ZONEDATA_IsWeatherEnabled(u32 zoneId);
 extern int FIELD_GetPlayerAreaZoneId(struct FieldMap *fieldMap, u16 *out);
-extern u32 func_02013FFC(u32 zoneId);
+extern u32 ZONEDATA_IsZoneInTableDFB8(u32 zoneId);
 extern u32 ZONEDATA_IsRawZoneF6(u32 zoneId);
 extern u32 ZONEDATA_IsRawZoneF7(u32 zoneId);
-extern u32 func_02013E04(u32 zoneId);
+extern u32 ZONEDATA_IsNormalFieldZone(u32 zoneId);
 extern void *SWEET_SCENT_CreateEvent(struct GameSystem *gameSys, struct FieldMap *fieldMap, u8 skillId);
 
 /* field skill tables (ov010 event_field_proclink.c) */
@@ -747,10 +746,10 @@ int SCRCMD_MUSICAL_ShowPartyMonMusical(ScriptVm *vm, struct ScriptWork *scriptWo
     func_0201210C(gameSys);
     partyIndex = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     musicalSave = (u32)GAME_DATA_GetSaveBlock2A(gameData);
-    musicalSystem = func_021F675C(func_0201AB28(func_02012934(gameData), partyIndex), 4);
+    musicalSystem = func_021F675C(POKEPARTY_GetMember(func_02012934(gameData), partyIndex), 4);
     task = func_020122C0(gameSys, 0, SCRCMD_MUSICAL_TaskShowMusicalProc, 4);
     systemTask = func_020124E8(task);
-    func_02082BCC(systemTask, 0, 4);
+    MI_CpuFill8(systemTask, 0, 4);
     systemTask->args = func_02030734(4, 0xc, 1, d_02172914, 0xd7);
     systemTask->args->musicalSystem = musicalSystem;
     systemTask->args->musicalSave = musicalSave;
@@ -915,17 +914,17 @@ int SCRCMD_MUSICAL_GetValue(ScriptVm *vm, struct ScriptWork *scriptWork)
         u8 partyCount;
 
         party = func_02012934(gameData);
-        partyCount = func_0201AA18(party);
+        partyCount = POKEPARTY_GetCount(party);
 
         for (i = 0; i < partyCount; i++) {
-            if ((u32)func_021F6744(func_0201AB28(party, (int)i)) == 1)
+            if ((u32)func_021F6744(POKEPARTY_GetMember(party, (int)i)) == 1)
                 count++;
         }
         *resultVar = count;
         break;
     }
     case 12:
-        if ((u32)func_021F6744(func_0201AB28(func_02012934(gameData), (int)arg)) == 1)
+        if ((u32)func_021F6744(POKEPARTY_GetMember(func_02012934(gameData), (int)arg)) == 1)
             *resultVar = 1;
         else
             *resultVar = 0;
@@ -1372,7 +1371,7 @@ int SCRCMD_MUSICAL_TaskStartMusical(struct GameEvent *task, u32 *state, void *wo
     MusicalStartTask *startTask = work;
     struct GameData *gameData;
 
-    gameData = func_020120F4(func_020124E4(task));
+    gameData = func_020120F4(GAME_EVENT_GetGameSystem(task));
     switch (*state) {
     case 0:
         GAME_EVENT_CallEvent(task, startTask->musicalSeq);
@@ -1385,9 +1384,9 @@ int SCRCMD_MUSICAL_TaskStartMusical(struct GameEvent *task, u32 *state, void *wo
         break;
     case 2:
         {
-            struct GameComm *gameComm = func_02012138(func_020124E4(task));
+            struct GameComm *gameComm = func_02012138(GAME_EVENT_GetGameSystem(task));
             if (startTask->mode != 0) {
-                if (func_02026454(gameComm) != 0)
+                if (GAME_COMM_GetKind(gameComm) != 0)
                     break;
             }
         }
@@ -1399,7 +1398,7 @@ int SCRCMD_MUSICAL_TaskStartMusical(struct GameEvent *task, u32 *state, void *wo
                 break;
         }
         if (startTask->mode == 1) {
-            GAMESYSTEM_TryStartAutoComm(func_020124E4(task));
+            GAMESYSTEM_TryStartAutoComm(GAME_EVENT_GetGameSystem(task));
         }
         SCRCMD_MUSICAL_DeleteLinkWork(startTask->link, gameData);
         (*state)++;
@@ -1416,7 +1415,7 @@ int SCRCMD_MUSICAL_TaskStartMusical(struct GameEvent *task, u32 *state, void *wo
 int SCRCMD_MUSICAL_TaskShowMusicalProc(struct GameEvent *task, u32 *state, void *work)
 {
     MusicalSystemTask *systemTask = work;
-    struct GameSystem *gameSys = func_020124E4(task);
+    struct GameSystem *gameSys = GAME_EVENT_GetGameSystem(task);
 
     func_020120F4(gameSys);
     func_0201210C(gameSys);
@@ -1600,8 +1599,8 @@ int SCRCMD_MUSICAL_WaitCommAttach(ScriptVm *vm, struct ScriptWork *scriptWork)
     gameData = SCRCMD_WORK_GetGameData(scriptWork);
     gameComm = func_02012138(gameSys);
     link = GAME_DATA_GetExternalWork(gameData);
-    if (func_02026454(gameComm) == 4) {
-        link->session = (void *)func_02026474(gameComm);
+    if (GAME_COMM_GetKind(gameComm) == 4) {
+        link->session = (void *)GAME_COMM_GetWork(gameComm);
         return 1;
     }
     return 0;
@@ -1627,7 +1626,7 @@ int SCRCMD_MUSICAL_WaitCommIdle(ScriptVm *vm, struct ScriptWork *scriptWork)
             return 1;
         }
     }
-    if (func_02026454(gameComm) == 0) {
+    if (GAME_COMM_GetKind(gameComm) == 0) {
         return 1;
     }
     return 0;
@@ -1720,7 +1719,7 @@ int FIELD_ENCOUNT_ST_LoadEncountData(EncountRow *row, struct ArcFile *arc, u32 z
     u32 rowCount;
     int member;
 
-    func_02082BCC(row, 0, 0xe8);
+    MI_CpuFill8(row, 0, 0xe8);
     member = ZONEDATA_GetEncountId(zoneId);
     if (member == 0xffff) {
         return 0;
@@ -1934,7 +1933,7 @@ void MOVE_POKEMON_HandleBattleResult(struct GameData *gameData, BattleResultWork
         return;
     }
     func_02012AC8(func_020127A4(gameData));
-    mon = func_0201AB28(BTL_SETUP_GetParty(work, 1), 0);
+    mon = POKEPARTY_GetMember(BTL_SETUP_GetParty(work, 1), 0);
     species = func_02017E1C(mon, 5, 0);
     hp = func_02017E1C(mon, 0xA0, 0);
     status = func_02017E1C(mon, 0x9D, 0);
@@ -2118,20 +2117,20 @@ void MOVE_POKEMON_InitSkillInfo(struct FieldMap *fieldMap, FieldSkillInfo *out)
         out->usableMask |= 0x10;
         out->usableMask |= 0x40;
     }
-    if (func_02013C50(out->zoneId) == 1)
+    if (ZONEDATA_IsWeatherEnabled(out->zoneId) == 1)
         out->usableMask |= 0x80;
-    if (func_02014470(func_02012B38(func_020120F4(out->gameSys))) & 1)
+    if (FIELD_STATUS_GetMapEffectMask(func_02012B38(func_020120F4(out->gameSys))) & 1)
         out->usableMask |= 0x20;
     if (FIELD_GetPlayerAreaZoneId(fieldMap, &swimFlag) == 1)
         out->usableMask |= 0x400;
-    if (func_02013FFC(out->zoneId)) {
+    if (ZONEDATA_IsZoneInTableDFB8(out->zoneId)) {
         FIELD_PLAYER_GetNowGridPos(FIELDMAP_GetFieldPlayer(out->fieldMap), &tileX, &tileY, &tileZ);
         if (ZONEDATA_IsRawZoneF6(out->zoneId) && MOVE_POKEMON_IsInSkillArea(&d_021711EC, tileX, tileZ, 0x113, fieldMap))
             out->usableMask |= 0x20;
         if (ZONEDATA_IsRawZoneF7(out->zoneId) && MOVE_POKEMON_IsInSkillArea(&d_021711F4, tileX, tileZ, 0x112, fieldMap))
             out->usableMask |= 8;
     }
-    if (func_02013E04(out->zoneId) == 0) {
+    if (ZONEDATA_IsNormalFieldZone(out->zoneId) == 0) {
         out->usableMask = 0;
     } else {
         out->usableMask |= 0x100;

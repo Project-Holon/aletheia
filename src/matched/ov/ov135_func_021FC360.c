@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorBgPriority 0x0204B84C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  */
 #include "../include/Obj03298.h"
@@ -21,25 +21,25 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u16 x, y, z; u8 pri, f7; } ObjPos;
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 struct Obj;
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorBgPriority(void *, int);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 void func_021FC360(char *p)
 {
     ObjPos pos;
-    func_02082BCC(&pos, 0, sizeof(pos));
+    MI_CpuFill8(&pos, 0, sizeof(pos));
     pos.x = 0xd0;
     pos.y = 0x3a;
     ((struct Obj03298 *)p)->fD08 = CLACT_CreateActor(((struct Obj03298 *)p)->fBC0, (unsigned int)((struct Obj03298 *)p)->fBC4, (unsigned int)((struct Obj03298 *)p)->fBC8, (unsigned int)((struct Obj03298 *)p)->fBCC, &pos, 0, 0x48);
-    func_0204B92C(((struct Obj03298 *)p)->fD08, 1);
+    CLACT_SetActorAutoAnim(((struct Obj03298 *)p)->fD08, 1);
     CLACT_SetActorAnimSeq(((struct Obj03298 *)p)->fD08, 0x24);
     CLACT_SetActorBgPriority(((struct Obj03298 *)p)->fD08, 1);
-    func_0204B3DC(((struct Obj03298 *)p)->fD08, 1);
+    CLACT_SetActorDrawEnable(((struct Obj03298 *)p)->fD08, 1);
     GFL_NET_RestartWithDefaultTimeout(0, 0x48);
 }

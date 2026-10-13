@@ -15,7 +15,7 @@
  *   func_0217988C  0x0217988C  arm  ov009
  *   func_021798E4  0x021798E4  arm  ov009
  *   func_0215AB10  0x0215AB10  arm  ov009
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02160108  0x02160108  arm  ov009
  *   func_02162E94  0x02162E94  arm  ov009
  *   func_0215AAB0  0x0215AAB0  arm  ov009
@@ -105,7 +105,7 @@ extern void func_0217988C(DWCHttp *http);
 typedef unsigned int   u32;
 extern u32 func_021798E4(const char *p);
 extern void func_0215AB10(void);
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 typedef unsigned char  u8;
 extern void func_02160108(int a, int b);
 extern void func_02162E94(int mode);
@@ -162,7 +162,7 @@ void func_021799E8(void *arg)
     func_0215AB10();
 
     if (http->ssl_enabled == 1) {
-        func_02082BCC(con, 0, sizeof(CPSSslConnection));
+        MI_CpuFill8(con, 0, sizeof(CPSSslConnection));
         con->auth_callback = func_0217A0C8;
         con->server_name = http->hostname;
         soc->con = con;

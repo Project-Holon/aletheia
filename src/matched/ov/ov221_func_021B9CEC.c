@@ -15,7 +15,7 @@
  *   Idiom: a pool word reloaded before every field access (u32 gb = (u32)&d_X, read through a cast) from the wave brief.
  * symbols:
  *   func_02040618 0x02040618 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   d_021BA140 0x021BA140 data a2
  */
 
@@ -25,7 +25,7 @@ struct Obj;
 extern struct Vec2 d_021BA140;
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021B9CEC(char *p)
 {
     if(*(unsigned *)(*(unsigned char **)(p+4)+4)==0) {
@@ -36,7 +36,7 @@ void func_021B9CEC(char *p)
         t=(short *)&d_021BA140;
         v.x=t[0];
         v.y=t[1]-64;
-        func_0204B404(*(struct Obj **)(p+0x54),&v,0);
+        CLACT_AddActorSurfacePos(*(struct Obj **)(p+0x54),&v,0);
         p[0x44]=0;
     }
 }

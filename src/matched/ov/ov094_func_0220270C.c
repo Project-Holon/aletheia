@@ -21,7 +21,7 @@
  *   func_0220684C  0x0220684C  thumb  ov094
  *   PALANM_RequestFadeOverwrite  0x02021848  thumb
  *   CLACT_GetUnitDrawEnable  0x0204B248  arm
- *   func_0204B22C  0x0204B22C  arm
+ *   CLACT_SetUnitDrawEnable  0x0204B22C  arm
  *   func_022067E8  0x022067E8  thumb  ov094
  *   func_021F8A40  0x021F8A40  thumb  ov094
  *   func_0220680C  0x0220680C  thumb  ov094
@@ -165,7 +165,7 @@ extern void func_021F8A78(void);
 extern void func_02205E30(char *);
 extern void func_02205AB8(char *);
 extern u32 CLACT_GetUnitDrawEnable(struct Bank *bank);
-extern void func_0204B22C(struct Bank *bank, u32 mode);
+extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
 extern void func_022067E8(char *);
 extern void func_021F8A40(int);
 extern void func_0220680C(char *);
@@ -245,7 +245,7 @@ void func_0220270C(char *s, int mode, void *arg)
                 F68_(s).b5 = 0;
                 F68_(s).b9 = 15;
                 F68_(s).b13 = 1;
-                func_0204B22C(S_PTR(0x17c), 0);
+                CLACT_SetUnitDrawEnable(S_PTR(0x17c), 0);
             }
         }
         break;

@@ -9,7 +9,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb
  */
 #include "../include/Obj15806.h"
 
-int RINGTONE_SYS_StopRing(int a0){ int t0; t0 = func_020061F8((int)4); ((struct Obj15806 *)((char *)((a0 + 0))))->f4 = (unsigned short)0; return 0; }
+int RINGTONE_SYS_StopRing(int a0){ int t0; t0 = GFL_USE_StopSeSlot((int)4); ((struct Obj15806 *)((char *)((a0 + 0))))->f4 = (unsigned short)0; return 0; }

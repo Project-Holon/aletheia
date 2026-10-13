@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetRunAwayHandlers
+ * function: HAND_TOKUSEI_GetRunAwayHandlers
  * address: 0x021DB128
  * packet: pkt_ov093_021DB128
  * region: ov093
@@ -15,10 +15,10 @@
  *   gRunAwayHandlers 0x021F08B0 data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetRunAwayHandlers(int *p);
+int *HAND_TOKUSEI_GetRunAwayHandlers(int *p);
 extern int gRunAwayHandlers[];
 
-int *BTL_TOKUSEI_GetRunAwayHandlers(int *p)
+int *HAND_TOKUSEI_GetRunAwayHandlers(int *p)
 {
     *p = 2;
     return gRunAwayHandlers;

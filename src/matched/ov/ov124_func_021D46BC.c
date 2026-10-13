@@ -11,7 +11,7 @@
  *   func_02045B38 0x02045B38 arm
  *   func_02049B40 0x02049B40 arm
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -24,6 +24,7 @@
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb  arm9
  *   GF_FONT_SetTextColor  0x0201DD78  thumb  arm9
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
  */
 #include "../include/Obj00068.h"
 typedef unsigned char u8;
@@ -43,10 +44,10 @@ extern void func_02049B40(u32, u32, u32, u32, u32, u16);
 extern void func_0201F5BC(u32, u32, u32, u32, u16);
 extern u8 func_0201F548(int);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern u32 func_0201C440(void *);
+extern u32 PRINTSYS_QUE_Create(void *);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern u32 BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 struct Cfg;
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -67,15 +68,15 @@ void func_021D46BC(char *p)
     func_0201F5BC(5, 1, 13, 0, ((struct Obj00068 *)p)->f0);
     func_02049B40(5, func_0201F548(0), 4, 416, 64, ((struct Obj00068 *)p)->f0);
     GF_FONT_SetDefaultTextColor();
-    *(u32 *)&((struct Obj00068 *)p)->f30 = func_0201C440((void *)(u32)((struct Obj00068 *)p)->f0);
+    *(u32 *)&((struct Obj00068 *)p)->f30 = PRINTSYS_QUE_Create((void *)(u32)((struct Obj00068 *)p)->f0);
     ((struct Obj00068 *)p)->f34 = APP_TASKMENU_RES_Create(4, 11, *(u32 *)&((struct Obj00068 *)p)->f28, *(u32 *)&((struct Obj00068 *)p)->f30, ((struct Obj00068 *)p)->f0);
     *(u32 *)&((struct Obj00068 *)p)->f24 = BMP_WIN_Create(5, 2, 4, 28, 4, 15, 1);
     *(u32 *)&((struct Obj00068 *)p)->f20 = BMP_WIN_Create(5, 2, 9, 28, 12, 15, 1);
-    BMP_Clear(func_02045770(((struct Obj00068 *)p)->f24), 1);
+    BMP_Clear(BMP_WIN_GetBmp(((struct Obj00068 *)p)->f24), 1);
     BMP_WIN_TransferChars((struct Descriptor *)*(u32 *)&((struct Obj00068 *)p)->f24);
     BMP_WIN_MakeScreen((struct Cfg *)(*(u32 *)&((struct Obj00068 *)p)->f24));
     func_0201F73C(((struct Obj00068 *)p)->f24, 1, 1, 14);
-    BMP_Clear(func_02045770(((struct Obj00068 *)p)->f20), 0);
+    BMP_Clear(BMP_WIN_GetBmp(((struct Obj00068 *)p)->f20), 0);
     BMP_WIN_TransferChars((struct Descriptor *)*(u32 *)&((struct Obj00068 *)p)->f20);
     BMP_WIN_MakeScreen((struct Cfg *)(*(u32 *)&((struct Obj00068 *)p)->f20));
     func_020409B4(5);

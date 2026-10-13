@@ -12,8 +12,8 @@
  * ED04 legacy void leaves307B0 result live in r0 for following845A4 input;
  * preserve that return.306F0 caller explicitly truncates heap input to u16.
  * symbols:
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   func_02040588 0x02040588 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
@@ -26,7 +26,7 @@
 #include "../include/Obj05564.h"
 typedef unsigned short u16;
 struct PrintSys;struct S02031140;struct S020315D4;struct WordSet;
-extern void func_0201C6EC(struct PrintSys *),func_0201C4C0(struct PrintSys *);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *),PRINTSYS_QUE_Delete(struct PrintSys *);
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetLcdSwap(unsigned);
@@ -37,8 +37,8 @@ extern void func_021845A4(int),func_020315D4(struct S020315D4 *),func_020306F0(u
 int func_02184470(struct S020315D4 *controller,void *unused1,void *unused2,char *p)
 {
     unsigned heap=((struct Obj05564 *)p)->f0;
-    func_0201C6EC(*(struct PrintSys * *)&((struct Obj05564 *)p)->fC080);
-    func_0201C4C0(*(struct PrintSys * *)&((struct Obj05564 *)p)->fC080);
+    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj05564 *)p)->fC080);
+    PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj05564 *)p)->fC080);
     func_02040588(6,0);func_02040588(2,0);func_02040588(7,0);func_02040588(3,0);
     BG_SYS_SetLcdSwap(1);
     APP_KEYCURSOR_Delete(((struct Obj05564 *)p)->fC088);

@@ -1,5 +1,5 @@
 /*
- * function: func_02187D74
+ * function: EL_SCOREBOARD_GetHoldDuration
  * address: 0x02187D74
  * packet: pkt_ov020_02187D74
  * region: ov020
@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02187D20 0x02187D20 thumb ov020
+ *   EL_SCOREBOARD_GetMode 0x02187D20 thumb ov020
  */
 #include "../include/Obj12552.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_02187D20(char *);
-int func_02187D74(char *p)
+extern u32 EL_SCOREBOARD_GetMode(char *);
+int EL_SCOREBOARD_GetHoldDuration(char *p)
 {
-    if (func_02187D20(p) == 1) return 120;
+    if (EL_SCOREBOARD_GetMode(p) == 1) return 120;
     if (((struct Obj12552 *)p)->f15 == ((struct Obj12552 *)p)->f14) return 60;
     return 30;
 }

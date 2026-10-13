@@ -25,7 +25,7 @@
  *   func_021D8AA8  0x021D8AA8  thumb  ov119
  *   func_021D8FA4  0x021D8FA4  thumb  ov119
  *   func_02017E1C  0x02017E1C  thumb
- *   func_02006CAC  0x02006CAC  thumb
+ *   PM_VOICE_GetPerapVoiceSave  0x02006CAC  thumb
  *   PM_VOICE_Play  0x02006984  thumb
  *   func_020307B0  0x020307B0  arm
  *   MCSS_GetPosition  0x02015C30  thumb
@@ -89,9 +89,9 @@
  *   _dflt          0x0209B750  arm
  *   _dmul          0x0209B2E8  arm
  *   _dfix          0x0209C508  arm
- *   func_0201ADE4  0x0201ADE4  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
- *   func_0201AE14  0x0201AE14  thumb
+ *   POKE_PERSONAL_Create  0x0201ADE4  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
+ *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  *   func_02008530  0x02008530  thumb
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
@@ -109,9 +109,9 @@
  *   func_021E3BB0  0x021E3BB0  thumb  ov119
  *   func_021D8A24  0x021D8A24  thumb  ov119
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
- *   func_02015F2C  0x02015F2C  thumb
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
+ *   MCSS_SetAnimCallback  0x02015F2C  thumb
  *   func_021DFD0C  0x021DFD0C  thumb  ov119
  *   func_021E106C  0x021E106C  thumb  ov119
  *   func_02040EBC  0x02040EBC  arm
@@ -127,6 +127,8 @@
  *   CLACT_RegisterCellAnim  0x0204AF28  arm  arm9
  *   CLACT_CreateActor  0x0204B294  arm  arm9
  *   CLACT_RestartActorAnim  0x0204B9A0  arm  arm9
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
  */
 #include "../../matched/include/Obj13873.h"
 #include "../../matched/include/Obj22658.h"
@@ -224,7 +226,7 @@ extern void func_021D4484(u8 *p, u32 v);
 extern int func_021D8AA8(void *);
 extern void *func_021D8FA4(void *, int);
 extern u32 func_02017E1C(void *, u32, u32);
-extern void func_02006CAC(void **out);
+extern void PM_VOICE_GetPerapVoiceSave(void **out);
 extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern u32 func_020307B0(void *p);
 extern void MCSS_GetPosition(void *p, Vec *out);
@@ -283,13 +285,13 @@ extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32
 extern void *func_021DFB84(void *, int, Vec *, u32);
 extern void func_021DFA60(u32 key);
 extern void func_021DFB4C(void *, int, void *);
-extern void *func_0201ADE4(u32 a, int b, u32 heap);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *p);
+extern void *POKE_PERSONAL_Create(u32 a, int b, u32 heap);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *p);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B92C(struct Obj *, u32);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *, u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void *func_020490F4(u32 id, u32 heap);
 extern s32_021D5628 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
@@ -305,9 +307,9 @@ extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void func_021E3BB0(char *p);
 extern int func_021D8A24(void *p);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void func_02039C68(struct Link *h, u32 a, u32 b);
-extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
-extern void func_02015F2C(void *obj, void *arg, void (*cb)(void), int a);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *h, u32 a, u32 b);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *h, u32 a, u32 b);
+extern void MCSS_SetAnimCallback(void *obj, void *arg, void (*cb)(void), int a);
 extern void func_021DFD0C(char *p);
 extern void func_021E106C(char *p);
 extern void func_02040EBC(u32 a0, u32 a1);
@@ -402,7 +404,7 @@ void func_021D4664(u8 *p)
         if (func_02017E1C(mon, 0x4C, 0) == 0) {
             a = func_02017E1C(mon, 0xAB, 0);
             b = func_02017E1C(mon, 0x6F, 0);
-            func_02006CAC((void **)(&buf));
+            PM_VOICE_GetPerapVoiceSave((void **)(&buf));
             PM_VOICE_Play(a, b, 0x40, 0, 0, 0, 0, (u32)(&buf));
         }
         if (SLOT0 != 0) {
@@ -908,9 +910,9 @@ void func_021D54F0(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy)
     b = func_02017E1C(mon, 0x6F, 0);
     egg = func_02017E1C(mon, 0x4C, 0);
     if (egg == 0) {
-        h = (u32)func_0201ADE4((u16)a, (u16)b, ((TradeUp *)p)->heap);
-        flag = func_0201AE1C((const struct Personal *)h, 0x10);
-        func_0201AE14((void *)h);
+        h = (u32)POKE_PERSONAL_Create((u16)a, (u16)b, ((TradeUp *)p)->heap);
+        flag = POKE_PERSONAL_GetParam((const struct Personal *)h, 0x10);
+        POKE_PERSONAL_Delete((void *)h);
     }
     if (egg != 0) {
         *outFlag = 1;
@@ -946,8 +948,8 @@ void func_021D55AC(void *p)
                           ((TradeUp *)p)->f88C,
                           ((TradeUp *)p)->f8BC,
                           &s, 0, ((TradeUp *)p)->heap);
-        func_0204B92C((struct Obj *)((struct Obj22667 *)((char *)((TradeUp *)p)->work))->fB0, 1);
-        func_0204B3DC((struct Obj *)((struct Obj22668 *)((char *)((TradeUp *)p)->work))->fB0, 1);
+        CLACT_SetActorAutoAnim((struct Obj *)((struct Obj22667 *)((char *)((TradeUp *)p)->work))->fB0, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj22668 *)((char *)((TradeUp *)p)->work))->fB0, 1);
     } else {
         CLACT_RestartActorAnim((struct Actor *)v);
     }
@@ -1555,9 +1557,9 @@ void func_021D6544(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy)
     b = func_02017E1C(mon, 0x6F, 0);
     egg = func_02017E1C(mon, 0x4C, 0);
     if (egg == 0) {
-        h = (u32)func_0201ADE4((u16)a, (u16)b, ((TradeUp *)p)->heap);
-        flag = func_0201AE1C((const struct Personal *)h, 0x10);
-        func_0201AE14((void *)h);
+        h = (u32)POKE_PERSONAL_Create((u16)a, (u16)b, ((TradeUp *)p)->heap);
+        flag = POKE_PERSONAL_GetParam((const struct Personal *)h, 0x10);
+        POKE_PERSONAL_Delete((void *)h);
     }
     if (egg != 0) {
         *outFlag = 1;
@@ -1595,8 +1597,8 @@ void func_021D6600(void *p)
                           ((TradeUp *)p)->f88C,
                           ((TradeUp *)p)->f8BC,
                           &s, 0, ((TradeUp *)p)->heap);
-        func_0204B92C((struct Obj *)((struct Obj22684 *)((char *)((TradeUp *)p)->work))->fB0, 1);
-        func_0204B3DC((struct Obj *)((struct Obj22685 *)((char *)((TradeUp *)p)->work))->fB0, 1);
+        CLACT_SetActorAutoAnim((struct Obj *)((struct Obj22684 *)((char *)((TradeUp *)p)->work))->fB0, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj22685 *)((char *)((TradeUp *)p)->work))->fB0, 1);
     } else {
         CLACT_RestartActorAnim((struct Actor *)v);
     }
@@ -1682,7 +1684,7 @@ void func_021D6750(u8 *p)
         func_021D6544(p, p + 0x11EE, p + 0x11F0, ((TradeUp *)p)->f830, 0);
         func_021E3230(p);
         if (func_021D8A24(p) != 0) {
-            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 8);
+            GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 8);
             func_021D8E84(p, (int)func_021D67D4);
         } else {
             func_021D8E84(p, (int)func_021D67F8);
@@ -1696,7 +1698,7 @@ void func_021D6750(u8 *p)
 
 void func_021D67D4(u8 *p)
 {
-    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 8) != 0) {
+    if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 8) != 0) {
         func_021D8E84(p, (int)func_021D67F8);
     }
 }
@@ -1722,7 +1724,7 @@ void func_021D67F8(u8 *p)
     b = d_021D7CD0;
     func_021DFD24(SLOT1);
     SLOT1 = func_021DFB84(OBJ(1), func_021D6734(0x54), &b, HEAP);
-    func_02015F2C(OBJ(0), p, (void (*)(void))func_021DFD0C, 1);
+    MCSS_SetAnimCallback(OBJ(0), p, (void (*)(void))func_021DFD0C, 1);
     MCSS_SetPaletteFade(OBJ(1), 0, 0x10, (s8)(func_021D6734(0xE) / 16), 0);
     func_021E106C((char *)p);
     func_02040EBC(1, 0);

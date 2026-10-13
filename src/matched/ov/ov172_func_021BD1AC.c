@@ -30,7 +30,7 @@
  *   GAME_DATA_GetBgmInfo 0x02012A30 thumb
  *   FIELD_SOUND_SYSTEM_StopRingtone 0x02028A70 thumb
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  */
@@ -62,7 +62,7 @@ extern void func_021B80EC(int unused, char *p, const u8 *src);
 extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 extern void FIELD_SOUND_SYSTEM_StopRingtone(struct SoundSys *sys);
 extern u32 BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 #define W(o) (*(u32 *)(self + (o)))
@@ -133,7 +133,7 @@ void func_021BD1AC(char *self)
     W(0x1c0) = BMP_WIN_Create(0, 2, 0x16, 12, 2, 10, 1);
     W(0x1c4) = BMP_WIN_Create(0, 0x12, 0x16, 12, 2, 10, 1);
     for (i = 0; i < 4; i++) {
-        BMP_Clear(func_02045770((struct Descriptor *)(*(u32 *)(self + i * 4 + 0x1b8))), 0);
+        BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)(*(u32 *)(self + i * 4 + 0x1b8))), 0);
     }
     B(0x1b4) = 0;
     B(0x1b5) = 0;

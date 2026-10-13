@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B904C",
+   "name": "BTL_MAIN_GetOwnOpponentClient",
    "address": "0x021B904C",
    "kind": "game",
    "region": "ov093",

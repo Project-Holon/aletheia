@@ -15,10 +15,10 @@
  *   func_021C9544 0x021C9544 thumb ov128
  *   func_021C958C 0x021C958C thumb ov128
  *   func_021C95CC 0x021C95CC thumb ov128
- *   func_0201C6B4 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   func_02041EE4 0x02041EE4 arm
  *   func_021C9D0C 0x021C9D0C thumb ov128
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021C98EC 0x021C98EC thumb ov128
  *   func_021C6438 0x021C6438 thumb ov128
  *   func_021C9730 0x021C9730 thumb ov128
@@ -39,10 +39,10 @@ extern void func_021C958C(char *,void *,void *,int);
 extern int func_021C95CC(u8 *,void *,void *,int);
 struct Actor;
 struct PrintSys;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern int func_021C9D0C(u8 *,int);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021C98EC(char *p, u8 *q);
 extern void func_021C6438(u8 *,u8,u8);
 extern void func_021C9730(u8 *,void *,u8 *);
@@ -67,7 +67,7 @@ int func_021C9244(u8 *p,u8 *q,u8 *r,u16 heap)
         q[8]=4; break;
     case 4: if(func_021C95CC(p,q,r,heap)==1)q[8]=5; break;
     case 5:
-        if(func_0201C6B4(((struct Obj10491 *)r)->f34)==1) {
+        if(PRINTSYS_QUE_IsFinished(((struct Obj10491 *)r)->f34)==1) {
             func_02041EE4(2,0,0);func_02041EE4(3,0,0);q[8]=2;
         } break;
     case 6:
@@ -76,7 +76,7 @@ int func_021C9244(u8 *p,u8 *q,u8 *r,u16 heap)
             if(((struct Obj00773 *)p)->fC)break;
         }
         if(func_021C9D0C(q,((struct Obj00773 *)p)->f8)) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021C98EC((char *)p,r);
             func_021C6438(q,4,1);
             ((struct Obj00773 *)p)->fE=1;

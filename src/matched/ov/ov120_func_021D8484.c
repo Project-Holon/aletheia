@@ -10,7 +10,7 @@
  * symbols:
  *   d_021D8B20 0x021D8B20 data ov120 a4
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -31,7 +31,7 @@ struct Cfg;
 struct CharBuf;
 struct Descriptor;
 struct PmsDraw;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
@@ -47,7 +47,7 @@ void func_021D8484(struct Obj05353 *p, void *n)
     void *q;
     if (!p->f88) p->f88 = (void *)BMP_WIN_Create(1, 1, 15, 30, 5, 11, 1);
     q = p->f88;
-    BMP_Clear(func_02045770(q), 0);
+    BMP_Clear(BMP_WIN_GetBmp(q), 0);
     GF_FONT_SetTextColor(15, 2, 0);
     PMS_DRAW_SetNullColorPalette(p->fCC, 0);
     PMS_DRAW_SetPrintColor(p->fCC, 0x3c40);

@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA710  0x021BA710  thumb  ov093
- *   func_021BA128  0x021BA128  thumb  ov093
+ *   BTL_MAIN_GetRelativeClientIndex  0x021BA710  thumb  ov093
+ *   BTL_MAIN_SetClientParty  0x021BA128  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -23,24 +23,24 @@ struct T {
     void *f24[4];
 };
 
-extern u8 func_021BA710(int a, int b);
+extern u8 BTL_MAIN_GetRelativeClientIndex(int a, int b);
 struct S;
-extern void func_021BA128(struct S *p, int i, void *x);
+extern void BTL_MAIN_SetClientParty(struct S *p, int i, void *x);
 
 void BTL_MAIN_InitClientParties(u8 *s, struct T *t)
 {
     int a, b, c, d;
 
-    a = func_021BA710(s[0x46c], 0);
-    b = func_021BA710(s[0x46c], 1);
-    func_021BA128((struct S *)s, 0, t->f24[a]);
-    func_021BA128((struct S *)s, 1, t->f24[b]);
-    c = func_021BA710(s[0x46c], 2);
-    d = func_021BA710(s[0x46c], 3);
+    a = BTL_MAIN_GetRelativeClientIndex(s[0x46c], 0);
+    b = BTL_MAIN_GetRelativeClientIndex(s[0x46c], 1);
+    BTL_MAIN_SetClientParty((struct S *)s, 0, t->f24[a]);
+    BTL_MAIN_SetClientParty((struct S *)s, 1, t->f24[b]);
+    c = BTL_MAIN_GetRelativeClientIndex(s[0x46c], 2);
+    d = BTL_MAIN_GetRelativeClientIndex(s[0x46c], 3);
     if (t->f24[c] != 0) {
-        func_021BA128((struct S *)s, 2, t->f24[c]);
+        BTL_MAIN_SetClientParty((struct S *)s, 2, t->f24[c]);
     }
     if (t->f24[d] != 0) {
-        func_021BA128((struct S *)s, 3, t->f24[d]);
+        BTL_MAIN_SetClientParty((struct S *)s, 3, t->f24[d]);
     }
 }

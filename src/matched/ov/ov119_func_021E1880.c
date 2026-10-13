@@ -13,7 +13,7 @@
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
  */
 #include "../include/Obj00001.h"
@@ -28,7 +28,7 @@ extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
 void func_021E1880(int a, int b, int c, int d, char *p)
 {
@@ -38,6 +38,6 @@ void func_021E1880(int a, int b, int c, int d, char *p)
         MSGDATA_ReadString(((struct Obj00001 *)p)->f720, 0x28, ((struct Obj00001 *)p)->f734);
         func_0201EFA4(((struct Obj00001 *)p)->f724, 0, POKE_TOOL_GetPartyValue((void *)a, t.v[i], 0), 3, 1, 1);
         func_0201F250(((struct Obj00001 *)p)->f724, ((struct Obj00001 *)p)->f730, ((struct Obj00001 *)p)->f734);
-        PRINTSYS_Print(func_02045770((struct Descriptor *)b), (s16)c, (s16)(d + i * 16), ((struct Obj00001 *)p)->f730, ((struct Obj00001 *)p)->f728);
+        PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b), (s16)c, (s16)(d + i * 16), ((struct Obj00001 *)p)->f730, ((struct Obj00001 *)p)->f728);
     }
 }

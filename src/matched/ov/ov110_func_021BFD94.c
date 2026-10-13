@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3F4 0x0204B3F4 arm
+ *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  */
 #include "../include/Obj13803.h"
@@ -18,8 +18,8 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef struct Vec2 { s16 x,y; } Vec2;
 struct Obj;
-extern u32 func_0204B3F4(struct Obj *p);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 struct Actor;
 struct PtS;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-u32 func_021BFD94(u8 *p,Vec2 *out) { u32 result; result=func_0204B3F4(((struct Obj13803 *)p)->f1C); CLACT_GetActorSurfacePos(((struct Obj13803 *)p)->f1C,(struct PtS *)out,0); return result; }
+u32 func_021BFD94(u8 *p,Vec2 *out) { u32 result; result=CLACT_GetActorDrawEnable(((struct Obj13803 *)p)->f1C); CLACT_GetActorSurfacePos(((struct Obj13803 *)p)->f1C,(struct PtS *)out,0); return result; }

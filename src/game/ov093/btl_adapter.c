@@ -26,7 +26,7 @@
  *   BTL_NET_HasServerCmd  0x021D4C60  thumb  ov093
  *   BTL_NET_GetServerCmd  0x021D4C6C  thumb  ov093
  *   BTL_NET_SendClientReply  0x021D4C84  thumb  ov093
- *   func_021BA1A8  0x021BA1A8  thumb  ov093
+ *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
  *   func_0201EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045B38  0x02045B38  arm
@@ -35,19 +35,19 @@
  *   func_0201ED04  0x0201ED04  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_021B9940  0x021B9940  thumb  ov093
+ *   BTL_SIDE_GetPokeById  0x021B9940  thumb  ov093
  *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
  *   func_0201EEF4  0x0201EEF4  thumb
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   func_0201EE84  0x0201EE84  thumb
- *   func_021BA020  0x021BA020  thumb  ov093
+ *   BTL_MAIN_GetTrainerType  0x021BA020  thumb  ov093
  *   func_0201F0F8  0x0201F0F8  thumb
- *   func_021B9F70  0x021B9F70  thumb  ov093
+ *   BTL_MAIN_IsTrainerSlotNpc  0x021B9F70  thumb  ov093
  *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
- *   func_021BA004  0x021BA004  thumb  ov093
- *   func_021B9FAC  0x021B9FAC  thumb  ov093
- *   func_021BA064  0x021BA064  thumb  ov093
- *   func_021BA080  0x021BA080  thumb  ov093
+ *   BTL_MAIN_GetTrainerId  0x021BA004  thumb  ov093
+ *   BTL_MAIN_GetTrainerNameAndType  0x021B9FAC  thumb  ov093
+ *   BTL_MAIN_GetTrainerHandle  0x021BA064  thumb  ov093
+ *   BTL_MAIN_UpdateCommPlayerSupport  0x021BA080  thumb  ov093
  *   func_0202A3CC  0x0202A3CC  thumb
  *   func_0201EE0C  0x0201EE0C  thumb
  *   func_0201F02C  0x0201F02C  thumb
@@ -70,9 +70,9 @@
  *   func_0201EF34 0x0201EF34 thumb
  *   func_0201EF40 0x0201EF40 thumb
  *   func_0201F020 0x0201F020 thumb
- *   func_021B8DDC  0x021B8DDC  thumb  ov093
- *   func_021B8CE8  0x021B8CE8  thumb  ov093
- *   func_021B8FF4  0x021B8FF4  thumb  ov093
+ *   BTL_MAIN_PokeIdToClientIdThunk  0x021B8DDC  thumb  ov093
+ *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093
+ *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
  */
 
 #define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
@@ -163,26 +163,26 @@ extern u16 BTL_NET_GetClientReply(int channel, const u8 **outData);
 extern u8 BTL_NET_HasServerCmd(void);
 extern u16 BTL_NET_GetServerCmd(struct BtlAdapterPacket **outPacket);
 extern u32 BTL_NET_SendClientReply(const u8 *data, u32 size);
-extern int func_021BA1A8(struct BtlSystem *battle, int flag);
+extern int BTL_MAIN_CheckSetupStatusFlag(struct BtlSystem *battle, int flag);
 extern struct WordSet *func_0201EC64(u32 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_0201ED04(struct WordSet *wordSet);
 extern void STRBUF_Delete(struct Strbuf *buf);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern struct BtlPoke *func_021B9940(struct BtlPokeList *list, u8 pokeId);
+extern struct BtlPoke *BTL_SIDE_GetPokeById(struct BtlPokeList *list, u8 pokeId);
 extern void *BTL_POKEPARAM_GetDisplayMon(struct BtlPoke *poke);
 extern void func_0201EEF4(struct WordSet *wordSet, u32 slot, void *mon);
 extern void *BTL_POKEPARAM_GetMon(struct BtlPoke *poke);
 extern void func_0201EE84(struct WordSet *wordSet, u32 slot, void *mon);
-extern unsigned short func_021BA020(struct BtlSystem *battle, int clientId);
+extern unsigned short BTL_MAIN_GetTrainerType(struct BtlSystem *battle, int clientId);
 extern void func_0201F0F8(struct WordSet *wordSet, u32 slot, u32 value);
-extern int func_021B9F70(struct BtlSystem *battle, int clientId);
+extern int BTL_MAIN_IsTrainerSlotNpc(struct BtlSystem *battle, int clientId);
 extern int BTL_MAIN_GetCompetitor(struct BtlSystem *battle);
-extern u16 func_021BA004(struct BtlSystem *battle, int clientId);
-extern const void *func_021B9FAC(struct BtlSystem *battle, int clientId, u32 *outClass);
-extern struct Strbuf *func_021BA064(struct BtlSystem *battle, int clientId);
-extern struct Strbuf *func_021BA080(struct BtlSystem *battle);
+extern u16 BTL_MAIN_GetTrainerId(struct BtlSystem *battle, int clientId);
+extern const void *BTL_MAIN_GetTrainerNameAndType(struct BtlSystem *battle, int clientId, u32 *outClass);
+extern struct Strbuf *BTL_MAIN_GetTrainerHandle(struct BtlSystem *battle, int clientId);
+extern struct Strbuf *BTL_MAIN_UpdateCommPlayerSupport(struct BtlSystem *battle);
 extern u8 func_0202A3CC(u32 trainerClass);
 extern void func_0201EE0C(struct WordSet *wordSet, u32 slot, const void *src, u32 classType, u32 nameMode, u32 nameFlags);
 extern void func_0201F02C(struct WordSet *wordSet, u32 slot, struct Strbuf *src);
@@ -203,9 +203,9 @@ extern void func_0201EF8C(struct WordSet *wordSet, u32 slot, u32 value);
 extern void func_0201EF34(struct WordSet *wordSet, u32 slot, u32 value);
 extern void func_0201EF40(struct WordSet *wordSet, u32 slot, u32 value);
 extern void func_0201F020(struct WordSet *wordSet, u32 slot, u32 value);
-extern u8 func_021B8DDC(u32 clientId);
-extern int func_021B8CE8(struct BtlSystem *battle, int clientId, int side);
-extern u8 func_021B8FF4(struct BtlSystem *battle);
+extern u8 BTL_MAIN_PokeIdToClientIdThunk(u32 clientId);
+extern int BTL_MAIN_IsOpposingPos(struct BtlSystem *battle, int clientId, int side);
+extern u8 BTL_MAIN_GetOwnClientId(struct BtlSystem *battle);
 
 extern BtlAdapter *gBtlAdapterSlots[];
 extern int gBtlAdapterMode;
@@ -463,7 +463,7 @@ void BTL_MSG_Init(struct BtlSystem *battle, u32 clientId, struct BtlPokeList *po
     gBtlMsgState.pokeList = pokeList;
     gBtlMsgState.heapId = heapId;
     gBtlMsgState.clientId = clientId;
-    gBtlMsgState.plainWording = func_021BA1A8(battle, 0x200);
+    gBtlMsgState.plainWording = BTL_MAIN_CheckSetupStatusFlag(battle, 0x200);
     gBtlMsgState.useSpeciesName = 0;
     gBtlMsgState.wordSet = func_0201EC64(heapId);
     gBtlMsgState.msgBuf = STRBUF_Create(0x200 >> 1, heapId);
@@ -486,25 +486,25 @@ void BTL_MSG_Exit(void)
 
 void BTL_MSG_SetPokeName(u8 pokeId, u32 slot)
 {
-    func_0201EEF4(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetDisplayMon(func_021B9940(gBtlMsgState.pokeList, pokeId)));
+    func_0201EEF4(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetDisplayMon(BTL_SIDE_GetPokeById(gBtlMsgState.pokeList, pokeId)));
 }
 
 
 void BTL_MSG_SetPokeSpecies(u8 pokeId, u32 slot)
 {
-    func_0201EEF4(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetMon(func_021B9940(gBtlMsgState.pokeList, pokeId)));
+    func_0201EEF4(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetMon(BTL_SIDE_GetPokeById(gBtlMsgState.pokeList, pokeId)));
 }
 
 
 void BTL_MSG_SetPokeNickname(u8 pokeId, u8 slot)
 {
-    func_0201EE84(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetDisplayMon(func_021B9940(gBtlMsgState.pokeList, pokeId)));
+    func_0201EE84(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetDisplayMon(BTL_SIDE_GetPokeById(gBtlMsgState.pokeList, pokeId)));
 }
 
 
 void BTL_MSG_SetClientValue(struct WordSet *wordSet, u8 slot, u8 clientId)
 {
-    func_0201F0F8(wordSet, slot, (u8)func_021BA020(gBtlMsgState.battle, clientId));
+    func_0201F0F8(wordSet, slot, (u8)BTL_MAIN_GetTrainerType(gBtlMsgState.battle, clientId));
 }
 
 
@@ -515,20 +515,20 @@ void BTL_MSG_SetClientName(struct WordSet *wordSet, u8 slot, u8 clientId)
     const void *trainerData;
 
     if (clientId != 4) {
-        if (func_021B9F70(gBtlMsgState.battle, clientId) != 0) {
+        if (BTL_MAIN_IsTrainerSlotNpc(gBtlMsgState.battle, clientId) != 0) {
             if (BTL_MAIN_GetCompetitor(gBtlMsgState.battle) == 1) {
-                trainerId = func_021BA004(gBtlMsgState.battle, clientId);
+                trainerId = BTL_MAIN_GetTrainerId(gBtlMsgState.battle, clientId);
                 if (trainerId != 0)
                     func_0201F134(wordSet, slot, trainerId);
             } else {
-                trainerData = func_021B9FAC(gBtlMsgState.battle, clientId, &trainerClass);
+                trainerData = BTL_MAIN_GetTrainerNameAndType(gBtlMsgState.battle, clientId, &trainerClass);
                 func_0201EE0C(wordSet, slot, trainerData, func_0202A3CC(trainerClass), 1, 2);
             }
         } else {
-            func_0201F02C(wordSet, slot, func_021BA064(gBtlMsgState.battle, clientId));
+            func_0201F02C(wordSet, slot, BTL_MAIN_GetTrainerHandle(gBtlMsgState.battle, clientId));
         }
     } else {
-        func_0201F02C(wordSet, slot, func_021BA080(gBtlMsgState.battle));
+        func_0201F02C(wordSet, slot, BTL_MAIN_UpdateCommPlayerSupport(gBtlMsgState.battle));
     }
 }
 
@@ -750,7 +750,7 @@ void BTL_MSG_BuildStandard(struct Strbuf *dest, u16 msgId, u32 *args)
 static inline int BTL_MSG_GetSideVariant(u8 clientId)
 {
     int sideVariant;
-    if (gBtlMsgState.plainWording == 0 && func_021B8CE8(gBtlMsgState.battle, (u8)gBtlMsgState.clientId, func_021B8DDC(clientId))) {
+    if (gBtlMsgState.plainWording == 0 && BTL_MAIN_IsOpposingPos(gBtlMsgState.battle, (u8)gBtlMsgState.clientId, BTL_MAIN_PokeIdToClientIdThunk(clientId))) {
         if (BTL_MAIN_GetCompetitor(gBtlMsgState.battle) == 0 || BTL_MAIN_GetCompetitor(gBtlMsgState.battle) == 4) sideVariant = 1;
         else sideVariant = 2;
     } else sideVariant = 0;
@@ -876,8 +876,8 @@ void BTL_MSG_BuildClientAction(struct Strbuf *dest, u32 msgId, u32 *args)
     u8 clientId = args[0];
     int msgIndex;
 
-    if (clientId != func_021B8FF4(gBtlMsgState.battle)) {
-        if (func_021B9F70(gBtlMsgState.battle, clientId))
+    if (clientId != BTL_MAIN_GetOwnClientId(gBtlMsgState.battle)) {
+        if (BTL_MAIN_IsTrainerSlotNpc(gBtlMsgState.battle, clientId))
             msgIndex = 0x23;
         else
             msgIndex = 0x22;

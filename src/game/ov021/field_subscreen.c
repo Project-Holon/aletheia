@@ -1,7 +1,7 @@
 /*
  * file:     field_subscreen.c
  * unit:     yes
- * function: FIELD_SUBSCREEN_Create, FIELD_SUBSCREEN_Delete, FIELD_SUBSCREEN_Main, FIELD_SUBSCREEN_MainNoTransition, FIELD_SUBSCREEN_CheckModeRequest, FIELD_SUBSCREEN_IsIdle, FIELD_SUBSCREEN_ResolveMode, FIELD_SUBSCREEN_RequestMode, FIELD_SUBSCREEN_ChangeModeNow, FIELD_SUBSCREEN_RequestModeWithCallback, FIELD_SUBSCREEN_GetMode, FIELD_SUBSCREEN_GetPanelResult, FIELD_SUBSCREEN_SetPanelResult, FIELD_SUBSCREEN_ClearPanelResult, FIELD_SUBSCREEN_ResumeField, FIELD_SUBSCREEN_InitCGear, FIELD_SUBSCREEN_InitCGearWithCallback, FIELD_SUBSCREEN_ExitCGear, FIELD_3DBG_ExitCGear, FIELD_3DBG_UpdateCGear, FIELD_3DBG_HandleCGearInput, FIELD_SUBSCREEN_InitNoGear, FIELD_SUBSCREEN_ExitNoGear, FIELD_SUBSCREEN_NoGearHook, FIELD_SUBSCREEN_UpdateNoGear, FIELD_SUBSCREEN_InitMenu, FIELD_SUBSCREEN_ExitMenu, FIELD_SUBSCREEN_UpdateMenu, FIELD_SUBSCREEN_UpdateMenuNoTransition, FIELD_SUBSCREEN_GetMenuSelectedButton, FIELD_SUBSCREEN_SetMenuSelectedButton, FIELD_SUBSCREEN_LoadBackdrop, FIELD_SUBSCREEN_GetCGear, FIELD_SUBSCREEN_InitUnion, FIELD_SUBSCREEN_ExitUnion, FIELD_SUBSCREEN_UpdateUnion, FIELD_SUBSCREEN_UpdateUnionNoTransition, FIELD_SUBSCREEN_InitIntrude, FIELD_SUBSCREEN_ExitIntrude, FIELD_SUBSCREEN_UpdateIntrude, FIELD_SUBSCREEN_DrawIntrude, FIELD_SUBSCREEN_CheckIntrudeRequest, func_021A1428, func_021A1448, func_021A145C, func_021A1468, func_021A1474, func_021A1480, func_021A14A0, func_021A14B4, func_021A14C0, func_021A14CC, func_021A14EC, func_021A1500, func_021A150C, func_021A1518, func_021A1524, func_021A1530, func_021A153C, func_021A1548, func_021A1554, func_021A1560, func_021A1584, func_021A1590
+ * function: FIELD_SUBSCREEN_Create, FIELD_SUBSCREEN_Delete, FIELD_SUBSCREEN_Main, FIELD_SUBSCREEN_MainNoTransition, FIELD_SUBSCREEN_CheckModeRequest, FIELD_SUBSCREEN_IsIdle, FIELD_SUBSCREEN_ResolveMode, FIELD_SUBSCREEN_RequestMode, FIELD_SUBSCREEN_ChangeModeNow, FIELD_SUBSCREEN_RequestModeWithCallback, FIELD_SUBSCREEN_GetMode, FIELD_SUBSCREEN_GetPanelResult, FIELD_SUBSCREEN_SetPanelResult, FIELD_SUBSCREEN_ClearPanelResult, FIELD_SUBSCREEN_ResumeField, FIELD_SUBSCREEN_InitCGear, FIELD_SUBSCREEN_InitCGearWithCallback, FIELD_SUBSCREEN_ExitCGear, FIELD_3DBG_ExitCGear, FIELD_3DBG_UpdateCGear, FIELD_3DBG_HandleCGearInput, FIELD_SUBSCREEN_InitNoGear, FIELD_SUBSCREEN_ExitNoGear, FIELD_SUBSCREEN_NoGearHook, FIELD_SUBSCREEN_UpdateNoGear, FIELD_SUBSCREEN_InitMenu, FIELD_SUBSCREEN_ExitMenu, FIELD_SUBSCREEN_UpdateMenu, FIELD_SUBSCREEN_UpdateMenuNoTransition, FIELD_SUBSCREEN_GetMenuSelectedButton, FIELD_SUBSCREEN_SetMenuSelectedButton, FIELD_SUBSCREEN_LoadBackdrop, FIELD_SUBSCREEN_GetCGear, FIELD_SUBSCREEN_InitUnion, FIELD_SUBSCREEN_ExitUnion, FIELD_SUBSCREEN_UpdateUnion, FIELD_SUBSCREEN_UpdateUnionNoTransition, FIELD_SUBSCREEN_InitIntrude, FIELD_SUBSCREEN_ExitIntrude, FIELD_SUBSCREEN_UpdateIntrude, FIELD_SUBSCREEN_DrawIntrude, FIELD_SUBSCREEN_CheckIntrudeRequest, FIELD_SUBSCREEN_InitBeaconView, FIELD_SUBSCREEN_ExitBeaconView, FIELD_SUBSCREEN_UpdateBeaconView, FIELD_SUBSCREEN_UpdateBeaconViewNoTransition, FIELD_SUBSCREEN_CheckBeaconViewRequest, FIELD_SUBSCREEN_InitDowsing, FIELD_SUBSCREEN_ExitDowsing, FIELD_SUBSCREEN_UpdateDowsing, FIELD_SUBSCREEN_UpdateDowsingNoTransition, FIELD_SUBSCREEN_InitReport, FIELD_SUBSCREEN_ExitReport, FIELD_SUBSCREEN_UpdateReport, FIELD_SUBSCREEN_UpdateReportNoTransition, FIELD_SUBSCREEN_IsReportReady, FIELD_SUBSCREEN_PrepareReportSave, FIELD_SUBSCREEN_StartReportSaveAnim, FIELD_SUBSCREEN_IsReportSaveAnimDone, FIELD_SUBSCREEN_StopReportSaveAnim, FIELD_SUBSCREEN_CheckReportSaveCounter, FIELD_SUBSCREEN_InitPowerOnoff, FIELD_SUBSCREEN_UpdatePowerOnoff, FIELD_SUBSCREEN_ExitPowerOnoff
  * address:  0x021A0CF4
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -31,8 +31,8 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02009210  0x02009210  thumb
  *   func_020090E0  0x020090E0  thumb
- *   func_02013D20  0x02013D20  thumb
- *   func_02013D00  0x02013D00  thumb
+ *   ZONEDATA_IsZone34  0x02013D20  thumb
+ *   ZONEDATA_IsZone4BPair  0x02013D00  thumb
  *   FIELDMAP_GetVReq  0x02188E30  thumb  ov021
  *   FLD_VREQ_SetMainBlendBrightnessExt  0x021D3270  thumb  ov021
  *   FIELD_MSGBG_SetBlendThunk  0x02193060  thumb  ov021
@@ -60,7 +60,7 @@
  *   INTRUDE_SUBDISP_EventCheck  0x0217D4DC  thumb  ov018
  *   NO_GEAR_Create  0x021F00C8  thumb  ov030
  *   abs_id_1e      0x0000001E  data
- *   func_021E0118  0x021F0118  thumb  ov030
+ *   func_021F0118  0x021F0118  thumb  ov030
  *   NO_GEAR_Hook  0x021F0114  thumb  ov030
  *   NO_GEAR_Update  0x021F00F8  thumb  ov030
  *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
@@ -175,7 +175,7 @@ extern void *GAMESYSTEM_GetMyPlayerWork(void *gameSystem);
 extern u16 GAME_DATA_GetPlayerZoneId(void *playerLocation);
 extern void *GAME_DATA_GetEventWork(void *gameData);
 extern void *NO_GEAR_Create(void *cgearSave, FieldSubscreen *work, void *gameSystem);
-extern void func_021E0118(void *noGear);
+extern void func_021F0118(void *noGear);
 extern void NO_GEAR_Hook(void *noGear);
 extern void NO_GEAR_Update(void *noGear);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *template, u32 type);
@@ -256,28 +256,28 @@ extern unsigned REPORT_CheckSaveCounter(void *report);
 extern void *ov035_func_021EFEC0(void *work, void *gameSystem, u32 heapId);
 extern int C_GEAR_POWER_ONOFF_Update(void *powerOnoff);
 extern void C_GEAR_POWER_ONOFF_Delete(void *powerOnoff);
-void func_021A1428(FieldSubscreen *work);
-void func_021A1448(FieldSubscreen *work);
-int func_021A145C(FieldSubscreen *work);
-int func_021A1468(FieldSubscreen *work);
-int func_021A1474(FieldSubscreen *work);
-void func_021A1480(FieldSubscreen *work);
-void func_021A14A0(FieldSubscreen *work);
-int func_021A14B4(FieldSubscreen *work);
-int func_021A14C0(FieldSubscreen *work);
-void func_021A14CC(FieldSubscreen *work);
-void func_021A14EC(FieldSubscreen *work);
-void func_021A1500(FieldSubscreen *work);
-void func_021A150C(FieldSubscreen *work);
-int func_021A1518(FieldSubscreen *work);
-void func_021A1524(FieldSubscreen *work);
-void func_021A1530(FieldSubscreen *work);
-int func_021A153C(FieldSubscreen *work);
-void func_021A1548(FieldSubscreen *work);
-int func_021A1554(FieldSubscreen *work);
-void func_021A1560(FieldSubscreen *work);
-int func_021A1584(FieldSubscreen *work);
-void func_021A1590(FieldSubscreen *work);
+void FIELD_SUBSCREEN_InitBeaconView(FieldSubscreen *work);
+void FIELD_SUBSCREEN_ExitBeaconView(FieldSubscreen *work);
+int FIELD_SUBSCREEN_UpdateBeaconView(FieldSubscreen *work);
+int FIELD_SUBSCREEN_UpdateBeaconViewNoTransition(FieldSubscreen *work);
+int FIELD_SUBSCREEN_CheckBeaconViewRequest(FieldSubscreen *work);
+void FIELD_SUBSCREEN_InitDowsing(FieldSubscreen *work);
+void FIELD_SUBSCREEN_ExitDowsing(FieldSubscreen *work);
+int FIELD_SUBSCREEN_UpdateDowsing(FieldSubscreen *work);
+int FIELD_SUBSCREEN_UpdateDowsingNoTransition(FieldSubscreen *work);
+void FIELD_SUBSCREEN_InitReport(FieldSubscreen *work);
+void FIELD_SUBSCREEN_ExitReport(FieldSubscreen *work);
+void FIELD_SUBSCREEN_UpdateReport(FieldSubscreen *work);
+void FIELD_SUBSCREEN_UpdateReportNoTransition(FieldSubscreen *work);
+int FIELD_SUBSCREEN_IsReportReady(FieldSubscreen *work);
+void FIELD_SUBSCREEN_PrepareReportSave(FieldSubscreen *work);
+void FIELD_SUBSCREEN_StartReportSaveAnim(FieldSubscreen *work);
+int FIELD_SUBSCREEN_IsReportSaveAnimDone(FieldSubscreen *work);
+void FIELD_SUBSCREEN_StopReportSaveAnim(FieldSubscreen *work);
+int FIELD_SUBSCREEN_CheckReportSaveCounter(FieldSubscreen *work);
+void FIELD_SUBSCREEN_InitPowerOnoff(FieldSubscreen *work);
+int FIELD_SUBSCREEN_UpdatePowerOnoff(FieldSubscreen *work);
+void FIELD_SUBSCREEN_ExitPowerOnoff(FieldSubscreen *work);
 extern unsigned char abs_id_20[];
 extern unsigned char abs_id_21[];
 extern unsigned char abs_id_22[];
@@ -293,8 +293,8 @@ extern void *GAMESYSTEM_GetGameData(void *gameSystem);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern void *func_02009210(void *cgearSaveBase);
 extern u32 func_020090E0(void *cgearSave);
-extern u32 func_02013D20(void);
-extern u32 func_02013D00(u32);
+extern u32 ZONEDATA_IsZone34(void);
+extern u32 ZONEDATA_IsZone4BPair(u32);
 extern struct FieldVReq *FIELDMAP_GetVReq(void *fieldMap);
 extern void FLD_VREQ_SetMainBlendBrightnessExt(struct FieldVReq *vreq, int a, int b, int c, int d, int e);
 extern void FIELD_MSGBG_SetBlendThunk(u32);
@@ -429,7 +429,7 @@ u32 FIELD_SUBSCREEN_ResolveMode(FieldSubscreen *work, u32 mode)
     if (mode == FIELD_SUBSCREEN_MODE_CGEAR) {
         gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap));
         zoneId = FIELDMAP_GetZoneId(work->fieldMap);
-        if (func_02013D20() != 0 || func_02013D00(zoneId) != 0)
+        if (ZONEDATA_IsZone34() != 0 || ZONEDATA_IsZone4BPair(zoneId) != 0)
             return FIELD_SUBSCREEN_MODE_NO_CGEAR;
         cgearSave = func_02009210(GAME_DATA_GetSaveControl(gameData));
         if (func_020090E0(cgearSave) == 0)
@@ -586,7 +586,7 @@ void FIELD_SUBSCREEN_InitNoGear(FieldSubscreen *work)
 /* Mode 5 exit. */
 void FIELD_SUBSCREEN_ExitNoGear(FieldSubscreen *work)
 {
-    func_021E0118(work->cgear);
+    func_021F0118(work->cgear);
     func_02034A5C(FIELD_SUBSCREEN_OVERLAY_NO_GEAR);
 }
 
@@ -761,122 +761,122 @@ void *FIELD_SUBSCREEN_CheckIntrudeRequest(FieldSubscreen *work, int mode)
  */
 
 /* Mode 4 (beacon view, overlay 0x20) init: load the overlay and create the panel. */
-void func_021A1428(FieldSubscreen *work)
+void FIELD_SUBSCREEN_InitBeaconView(FieldSubscreen *work)
 {
     func_02034AC4((int)abs_id_20);
     work->cgear = BEACON_VIEW_Create(FIELDMAP_GetGameSystem(work->fieldMap), work);
 }
 
 /* Mode 4 exit: delete the beacon view panel and unload its overlay. */
-void func_021A1448(FieldSubscreen *work)
+void FIELD_SUBSCREEN_ExitBeaconView(FieldSubscreen *work)
 {
     func_022022FC(work->cgear);
     func_02034A5C((int)abs_id_20);
 }
 
 /* Mode 4 update. */
-int func_021A145C(FieldSubscreen *work) { return BEACON_VIEW_Update(work->cgear); }
+int FIELD_SUBSCREEN_UpdateBeaconView(FieldSubscreen *work) { return BEACON_VIEW_Update(work->cgear); }
 
 /* Mode 4 update outside transitions. */
-int func_021A1468(FieldSubscreen *work) { return func_021F23F8(work->cgear); }
+int FIELD_SUBSCREEN_UpdateBeaconViewNoTransition(FieldSubscreen *work) { return func_021F23F8(work->cgear); }
 
 /* Mode 4 request check. */
-int func_021A1474(FieldSubscreen *work) { return func_021F2404(work->cgear); }
+int FIELD_SUBSCREEN_CheckBeaconViewRequest(FieldSubscreen *work) { return func_021F2404(work->cgear); }
 
 /* Mode 6 (dowsing, overlay 0x21) init: load the overlay and create the panel. */
-void func_021A1480(FieldSubscreen *work)
+void FIELD_SUBSCREEN_InitDowsing(FieldSubscreen *work)
 {
     func_02034AC4((int)abs_id_21);
     work->cgear = DOWSING_Create(0x70, work->heapId, work, work->fieldMap);
 }
 
 /* Mode 6 exit: delete the dowsing panel and unload its overlay. */
-void func_021A14A0(FieldSubscreen *work)
+void FIELD_SUBSCREEN_ExitDowsing(FieldSubscreen *work)
 {
     func_02210124(work->cgear);
     func_02034A5C((int)abs_id_21);
 }
 
 /* Mode 6 update. */
-int func_021A14B4(FieldSubscreen *work) { return DOWSING_Update(work->cgear); }
+int FIELD_SUBSCREEN_UpdateDowsing(FieldSubscreen *work) { return DOWSING_Update(work->cgear); }
 
 /* Mode 6 update outside transitions. */
-int func_021A14C0(FieldSubscreen *work) { return DOWSING_UpdateDisplay(work->cgear); }
+int FIELD_SUBSCREEN_UpdateDowsingNoTransition(FieldSubscreen *work) { return DOWSING_UpdateDisplay(work->cgear); }
 
 /* Mode 7 (save report, overlay 0x22) init: load the overlay and create the panel. */
-void func_021A14CC(FieldSubscreen *work)
+void FIELD_SUBSCREEN_InitReport(FieldSubscreen *work)
 {
     func_02034AC4((int)abs_id_22);
     work->cgear = func_021EFEC0(FIELDMAP_GetGameSystem(work->fieldMap), work->heapId);
 }
 
 /* Mode 7 exit: delete the report panel and unload its overlay. */
-void func_021A14EC(FieldSubscreen *work)
+void FIELD_SUBSCREEN_ExitReport(FieldSubscreen *work)
 {
     REPORT_Delete(work->cgear);
     func_02034A5C((int)abs_id_22);
 }
 
 /* Mode 7 update: show the panel objects once the print queue is idle. */
-void func_021A1500(FieldSubscreen *work)
+void FIELD_SUBSCREEN_UpdateReport(FieldSubscreen *work)
 {
     REPORT_ShowPartyIcons(work->cgear);
 }
 
 /* Mode 7 update outside transitions: windows and texts of the panel. */
-void func_021A150C(FieldSubscreen *work)
+void FIELD_SUBSCREEN_UpdateReportNoTransition(FieldSubscreen *work)
 {
     REPORT_UpdateWindows(work->cgear);
 }
 
 /* Report panel: true once its windows are shown (state 3). Called by the report event. */
-int func_021A1518(FieldSubscreen *work)
+int FIELD_SUBSCREEN_IsReportReady(FieldSubscreen *work)
 {
     return REPORT_IsReady(work->cgear);
 }
 
 /* Report panel: read the save counters and reset the progress bar. */
-void func_021A1524(FieldSubscreen *work)
+void FIELD_SUBSCREEN_PrepareReportSave(FieldSubscreen *work)
 {
     REPORT_PrepareSave(work->cgear);
 }
 
 /* Report panel: start the saving animation. */
-void func_021A1530(FieldSubscreen *work)
+void FIELD_SUBSCREEN_StartReportSaveAnim(FieldSubscreen *work)
 {
     REPORT_StartSaveAnim(work->cgear);
 }
 
 /* Report panel: true when the saving animation has run to its end. */
-int func_021A153C(FieldSubscreen *work)
+int FIELD_SUBSCREEN_IsReportSaveAnimDone(FieldSubscreen *work)
 {
     return REPORT_IsSaveAnimDone(work->cgear);
 }
 
 /* Report panel: stop the saving animation (the save failed). */
-void func_021A1548(FieldSubscreen *work)
+void FIELD_SUBSCREEN_StopReportSaveAnim(FieldSubscreen *work)
 {
     REPORT_StopSaveAnim(work->cgear);
 }
 
 /* Report panel: true when the first counter reached a third of the second one. */
-int func_021A1554(FieldSubscreen *work)
+int FIELD_SUBSCREEN_CheckReportSaveCounter(FieldSubscreen *work)
 {
     return REPORT_CheckSaveCounter(work->cgear);
 }
 
 /* Mode 9 (power on/off, overlay 0x23) init: load the overlay and create the panel. */
-void func_021A1560(FieldSubscreen *work)
+void FIELD_SUBSCREEN_InitPowerOnoff(FieldSubscreen *work)
 {
     func_02034AC4((int)abs_id_23);
     work->cgear = ov035_func_021EFEC0(work, FIELDMAP_GetGameSystem(work->fieldMap), 0x70);
 }
 
 /* Mode 9 update. */
-int func_021A1584(FieldSubscreen *work) { return C_GEAR_POWER_ONOFF_Update(work->cgear); }
+int FIELD_SUBSCREEN_UpdatePowerOnoff(FieldSubscreen *work) { return C_GEAR_POWER_ONOFF_Update(work->cgear); }
 
 /* Mode 9 exit: delete the power on/off panel and unload its overlay. */
-void func_021A1590(FieldSubscreen *work)
+void FIELD_SUBSCREEN_ExitPowerOnoff(FieldSubscreen *work)
 {
     C_GEAR_POWER_ONOFF_Delete(work->cgear);
     func_02034A5C((int)abs_id_23);

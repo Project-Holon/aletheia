@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   d_021B81FC 0x021B81FC data a4
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 typedef struct {u32 id,value;} Row;
 extern struct G_021B81EC d_021B81EC[];
 extern const Row d_021B81FC[];
-extern u32 func_0201C440(void *);
+extern u32 PRINTSYS_QUE_Create(void *);
 struct MsgBank;
 struct R;
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
@@ -34,7 +34,7 @@ void func_021B6278(u8 *p)
     int i;
     const Row *r;
     u8 *q;
-    ((struct Obj00180 *)p)->f218=func_0201C440((void *)79);
+    ((struct Obj00180 *)p)->f218=PRINTSYS_QUE_Create((void *)79);
     ((struct Obj00180 *)p)->f1DC=APP_TASKMENU_RES_Create(4,10,((struct Obj00180 *)p)->f60,((struct Obj00180 *)p)->f218,79);
     for(i=0;i<2;i++) {
         r=&d_021B81FC[i];q=p+i*12;

@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   CLACT_SetUnitRenderer  0x0204B258  arm  arm9
  */
 
 typedef struct {
@@ -17,11 +20,11 @@ typedef struct {
 } Obj;
 
 struct Bank;
-extern void func_0204B258(struct Bank *bank, void *p);
+extern void CLACT_SetUnitRenderer(struct Bank *bank, void *p);
 
 void FIELD_PLACE_NAME_SetClactUnitRenderer(Obj *p, int i)
 {
     if (p->f38 != 0) {
-        func_0204B258(p->f34[i], p->f38);
+        CLACT_SetUnitRenderer(p->f34[i], p->f38);
     }
 }

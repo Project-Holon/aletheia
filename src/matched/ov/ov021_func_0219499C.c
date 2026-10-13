@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  * Addresses are Black-image addresses.
  */
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Rec3;
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern u32 PRINTSYS_PrintStream(u32, u32, u32, u32, u32, u32, u32, u32, u32, u32);
 
 void TALKMSGWIN_Reprint(u8 *p, int i, u32 b, u32 c)
@@ -31,7 +31,7 @@ void TALKMSGWIN_Reprint(u8 *p, int i, u32 b, u32 c)
 
     e = p + 0x18 + i * 100;
     if (((struct Obj02376 *)e)->f8 != 0) {
-        func_0201CE48((struct Rec3 *)(((struct Obj02376 *)e)->f8));
+        PRINTSYS_PrintStreamDelete((struct Rec3 *)(((struct Obj02376 *)e)->f8));
         ((struct Obj02376 *)e)->f8 = 0;
     }
     if (b != 0) {

@@ -14,7 +14,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
- *   func_02013B38  0x02013B38  thumb
+ *   ZONEDATA_GetAreaId  0x02013B38  thumb
  *   COMM_PLAYER_SUPPORT_GetInfoCode  0x0202E83C  thumb
  *   ZONEDATA_CreateAreaData  0x0201407C  thumb
  *   FIELDMAP_GetCtrlFuncs  0x02189BA8  thumb  ov021
@@ -34,7 +34,7 @@ unsigned char *GAMESYSTEM_GetMyPlayerWork(const struct Ctx *p);
 struct Rec44;
 unsigned short GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 typedef unsigned int   u32;
-u32 func_02013B38(u32 id);
+u32 ZONEDATA_GetAreaId(u32 id);
 int COMM_PLAYER_SUPPORT_GetInfoCode(void *a0);
 int ZONEDATA_CreateAreaData(int a, int b, int c);
 int FIELDMAP_GetCtrlFuncs(int x);
@@ -49,7 +49,7 @@ void *FIELDMAP_Create(int a, int b)
     ((struct Obj03102 *)p)->f8 = (int)GAMESYSTEM_GetGameData((const struct Ctx *)a);
     ((struct Obj03102 *)p)->fD0 = GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAMESYSTEM_GetMyPlayerWork((const struct Ctx *)a));
     {
-        int r7 = func_02013B38(((struct Obj03102 *)p)->fD0);
+        int r7 = ZONEDATA_GetAreaId(((struct Obj03102 *)p)->fD0);
         ((struct Obj03102 *)p)->fC = ZONEDATA_CreateAreaData(b, r7, COMM_PLAYER_SUPPORT_GetInfoCode((void *)a));
     }
     ((struct Obj03102 *)p)->f108 = FIELDMAP_GetCtrlFuncs(((struct Obj03102 *)p)->fD0);

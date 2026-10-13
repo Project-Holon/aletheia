@@ -44,7 +44,7 @@
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   WIPE_SYS_Start 0x0202208C thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   func_02006238 0x02006238 thumb
+ *   GFL_USE_IsAnySeBusy 0x02006238 thumb
  *   func_0200FB24 0x0200FB24 thumb
  *   d_02FFFC3C 0x02FFFC3C data a4
  *   d_021FDE80 0x021FDE80 data a4
@@ -58,7 +58,7 @@ typedef unsigned char u8;
 extern u32 d_02FFFC3C,d_021FDE80;
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern u32 WIPE_SYS_EndCheck(void),func_0200FB24(void);
-extern int func_02006238(void);
+extern int GFL_USE_IsAnySeBusy(void);
 extern void func_021FCDEC(int,int);
 struct Board;
 struct Camera;
@@ -109,7 +109,7 @@ int func_021F879C(u8 *p)
         }
         break;
     case 2:
-        if(func_02006238()==0) {
+        if(GFL_USE_IsAnySeBusy()==0) {
             WIPE_SYS_Start(0,0,0,0,6,1,((struct Obj00191 *)p)->f0);
             ((struct Obj00191 *)p)->f1C=3;
         }

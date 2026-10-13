@@ -17,7 +17,7 @@
  *   func_0207E780  0x0207E780  arm
  *   ITEMMENU_IsBrowseMode  0x021B811C  thumb  ov070
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 #include "../include/Obj09880.h"
 
@@ -35,7 +35,7 @@ extern int ITEMMENU_IsBrowseMode(u8 *p);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 void ITEMMENU_UploadSlotGraphics(char *p)
 {
@@ -55,23 +55,23 @@ void ITEMMENU_UploadSlotGraphics(char *p)
             if (((struct Obj09880 *)p)->f80C == 4) {
                 if (ITEMMENU_IsBrowseMode((u8 *)p) == 1 && *(u32 *)(p + i * 4 + 0x654) != 3) {
                     CLACT_SetActorAnimSeq((struct Obj *)(*(int *)(p + i * 4 + 0x674)), *(u32 *)(p + i * 4 + 0x654) - 1);
-                    func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x674), 1);
+                    CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + i * 4 + 0x674), 1);
                 } else {
-                    func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x674), 0);
+                    CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + i * 4 + 0x674), 0);
                 }
             } else if (((struct Obj09880 *)p)->f80C == 0 && *(u32 *)(p + i * 4 + 0x654) >= 4) {
                 CLACT_SetActorAnimSeq((struct Obj *)(*(int *)(p + i * 4 + 0x674)), *(u32 *)(p + i * 4 + 0x654) - 1);
-                func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x674), 1);
+                CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + i * 4 + 0x674), 1);
             } else if (((struct Obj09880 *)p)->f80C == 2 && *(u32 *)(p + i * 4 + 0x654) >= 7) {
                 CLACT_SetActorAnimSeq((struct Obj *)(*(int *)(p + i * 4 + 0x674)), *(u32 *)(p + i * 4 + 0x654) - 1);
-                func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x674), 1);
+                CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + i * 4 + 0x674), 1);
             } else {
-                func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x674), 0);
+                CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + i * 4 + 0x674), 0);
             }
-            func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x634), 1);
+            CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + i * 4 + 0x634), 1);
         } else {
-            func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x674), 0);
-            func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x634), 0);
+            CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + i * 4 + 0x674), 0);
+            CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + i * 4 + 0x634), 0);
         }
     }
 }

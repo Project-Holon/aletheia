@@ -13,11 +13,11 @@
  *   func_021B8000 0x021B8000 thumb ov103
  *   func_021B7FFC 0x021B7FFC thumb ov103
  *   func_021B8008 0x021B8008 thumb ov103
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C6FC 0x0201C6FC thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   func_0201F02C 0x0201F02C thumb
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201F250 0x0201F250 thumb
@@ -29,8 +29,8 @@ typedef unsigned short u16;
 typedef short s16;
 extern int func_021B8004(void *); extern int func_021B8000(void *); extern int func_021B7FFC(void *); extern int func_021B8008(void *);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *); extern void BMP_Clear(int,u8); extern void MSGDATA_ReadString(int,int,int); extern void func_0201C6EC(int); extern void func_0201C6FC(int,int,s16,s16,int,int);
+extern void *BMP_WIN_GetBmp(struct Descriptor *); extern void BMP_Clear(int,u8); extern void MSGDATA_ReadString(int,int,int); extern void PRINTSYS_QUE_Clear(int); extern void PRINTSYS_PrintQue(int,int,s16,s16,int,int);
 typedef unsigned int   u32;
 struct WordSet;
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a); extern int func_02045EC0(int,int); extern void func_0201F250(int,int,int); extern void STRBUF_Delete(int);
-void func_021B824C(u8 *p,void *q,int c,u8 *x,s16 y,s16 z,int k) {int a,b,d,e; BMP_Clear((int)func_02045770((struct Descriptor *)((struct Obj02159 *)p)->f0),((struct Obj02159 *)p)->f10); a=func_021B8008(q); b=func_021B8004(q); func_0201F02C((struct WordSet *)a,0,x+12); e=func_02045EC0(b,c); func_0201F250(a,((struct Obj02159 *)p)->fC,e); STRBUF_Delete(e); b=func_021B8000(q); d=func_021B7FFC(q); func_0201C6EC(b); func_0201C6FC(b,(int)func_02045770((struct Descriptor *)((struct Obj02159 *)p)->f4),y,z,((struct Obj02159 *)p)->fC,d); p[8]=1; }
+void func_021B824C(u8 *p,void *q,int c,u8 *x,s16 y,s16 z,int k) {int a,b,d,e; BMP_Clear((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj02159 *)p)->f0),((struct Obj02159 *)p)->f10); a=func_021B8008(q); b=func_021B8004(q); func_0201F02C((struct WordSet *)a,0,x+12); e=func_02045EC0(b,c); func_0201F250(a,((struct Obj02159 *)p)->fC,e); STRBUF_Delete(e); b=func_021B8000(q); d=func_021B7FFC(q); PRINTSYS_QUE_Clear(b); PRINTSYS_PrintQue(b,(int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj02159 *)p)->f4),y,z,((struct Obj02159 *)p)->fC,d); p[8]=1; }

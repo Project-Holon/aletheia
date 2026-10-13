@@ -14,26 +14,26 @@
  *
  * symbols:
  *   BMP_MENULIST_FILE_NAME     0x020A7390  data  a1
- *   func_020362DC  0x020362DC  arm
- *   func_0203633C  0x0203633C  arm
- *   func_020061E4  0x020061E4  thumb
- *   func_02045770  0x02045770  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   KEY_GetRepeat  0x0203633C  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
- *   func_02045738  0x02045738  arm
+ *   BMP_WIN_GetWidth  0x02045738  arm
  *   BMP_FillRect  0x02043AF4  arm
  *   BMP_GetWidth  0x020437DC  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   BMP_GetHeight  0x020437E4  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_0204169C  0x0204169C  arm
  *   BMP_CURSOR_FILE_NAME     0x020A73A0  data
  *   STRBUF_Delete  0x02045808  arm
  *   BMP_Delete  0x020437AC  arm
  *   func_020307B0  0x020307B0  arm
- *   func_0201C6FC  0x0201C6FC  thumb
+ *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   BMP_Blit  0x020439A0  arm
  *   BMP_CURSOR_TileData     0x0209E8CC  data
  *   func_0200575C  0x0200575C  thumb
@@ -254,25 +254,25 @@ struct ItemRecord {
 };
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct Bmp *func_02045770(struct BmpWin *win);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void BMP_Clear(struct Bmp *bmp, u8 color);
-extern u32  func_020362DC(void);
-extern unsigned int func_0203633C(void);
-extern void func_020061E4(u32 id);
+extern u32  KEY_GetTrg(void);
+extern unsigned int KEY_GetRepeat(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern u32 func_020307B0(void *block);
 extern void PRINTSYS_PrintQueColor(void *printer, struct Bmp *bmp, u32 x, u32 y, const void *text, u32 param, u16 color);
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, u32 x, u32 y, const void *text, u32 param, u16 color);
-extern u8 func_02045738(struct BmpWin *win);
+extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
 extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u32 h, u32 color);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
-extern u8 func_02045730(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern u8 func_0204169C(int channel);
 extern void STRBUF_Delete(void *res);
 extern void BMP_Delete(struct Bmp *bmp);
-extern void func_0201C6FC(void *printer, struct Bmp *bmp, u32 x, u32 y, void *text, u32 param);
+extern void PRINTSYS_PrintQue(void *printer, struct Bmp *bmp, u32 x, u32 y, void *text, u32 param);
 extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u32 key);
 extern struct Bmp *BMP_CreateFromBuffer(const void *pixels, u32 widthTiles, u32 heightTiles, u32 sizeBytes, u16 heap);
 extern void *func_0200575C(u32 archiveId);
@@ -387,7 +387,7 @@ struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 s
         t->win = menu->win;
         t->dirty = 0;
     }
-    BMP_Clear(func_02045770(menu->win), menu->bgColor);
+    BMP_Clear(BMP_WIN_GetBmp(menu->win), menu->bgColor);
     BMP_MENULIST_DrawItems(menu, menu->scroll, 0, menu->rows, 1);
     BMP_MENULIST_DrawCursor(menu);
     BMP_MENULIST_NotifyCursor(menu, (void *)1);
@@ -421,33 +421,33 @@ struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 s
  */
 s32 BMP_MENULIST_Main(struct BmpMenuList *menu)
 {
-    u32 pressed = func_020362DC();
+    u32 pressed = KEY_GetTrg();
     u32 okBit = 1;
-    u32 held = func_0203633C();
+    u32 held = KEY_GetRepeat();
 
     menu->moveDir = 0;
 
     if (pressed & okBit) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return menu->items[menu->scroll + menu->row].value;
     }
     if (menu->noCancel == 0) {
         u32 cancelBit = 2;
         if (pressed & cancelBit) {
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             return cancelBit - 4;
         }
     }
     if (held & 0x40) {
         if (BMP_MENULIST_MoveCursor(menu, 1, 1, 0) == 0) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             menu->moveDir = 1;
         }
         return -1;
     }
     if (held & 0x80) {
         if (BMP_MENULIST_MoveCursor(menu, 1, 1, 1) == 0) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             menu->moveDir = 2;
         }
         return -1;
@@ -471,14 +471,14 @@ s32 BMP_MENULIST_Main(struct BmpMenuList *menu)
         }
         if (pagePrev != 0) {
             if (BMP_MENULIST_MoveCursor(menu, 1, (u8)menu->rows, 0) == 0) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 menu->moveDir = 3;
             }
             return -1;
         }
         if (pageNext != 0) {
             if (BMP_MENULIST_MoveCursor(menu, 1, (u8)menu->rows, 1) == 0) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 menu->moveDir = 4;
             }
             return -1;
@@ -517,7 +517,7 @@ void BMP_MENULIST_Delete(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow)
  */
 void BMP_MENULIST_Redraw(struct BmpMenuList *menu)
 {
-    BMP_Clear(func_02045770(menu->win), menu->bgColor);
+    BMP_Clear(BMP_WIN_GetBmp(menu->win), menu->bgColor);
     BMP_MENULIST_DrawItems(menu, menu->scroll, 0, menu->rows, 1);
     BMP_MENULIST_DrawCursor(menu);
 }
@@ -692,22 +692,22 @@ void BMP_MENULIST_PrintItem(struct BmpMenuList *menu, const void *text, u32 x, u
         if (queued) {
             u32 printer = (u32)menu->printer;
             struct MenuTarget *target = menu->target;
-            PRINTSYS_PrintQueColor((void *)printer, func_02045770(target->win), x, y, text, menu->textParam,
+            PRINTSYS_PrintQueColor((void *)printer, BMP_WIN_GetBmp(target->win), x, y, text, menu->textParam,
                           COLOR(menu->ovLetter, menu->ovShadow, menu->ovBg));
             target->dirty = 1;
         } else {
-            PRINTSYS_PrintColor(func_02045770(menu->target->win), x, y, text, menu->textParam,
+            PRINTSYS_PrintColor(BMP_WIN_GetBmp(menu->target->win), x, y, text, menu->textParam,
                           COLOR(menu->ovLetter, menu->ovShadow, menu->ovBg));
         }
     } else {
         if (queued) {
             u32 printer = (u32)menu->printer;
             struct MenuTarget *target = menu->target;
-            PRINTSYS_PrintQueColor((void *)printer, func_02045770(target->win), x, y, text, menu->textParam,
+            PRINTSYS_PrintQueColor((void *)printer, BMP_WIN_GetBmp(target->win), x, y, text, menu->textParam,
                           COLOR(menu->letterColor, menu->shadowColor, menu->bgColor));
             target->dirty = 1;
         } else {
-            PRINTSYS_PrintColor(func_02045770(menu->target->win), x, y, text, menu->textParam,
+            PRINTSYS_PrintColor(BMP_WIN_GetBmp(menu->target->win), x, y, text, menu->textParam,
                           COLOR(menu->ovLetter, menu->ovShadow, menu->ovBg));
         }
     }
@@ -753,8 +753,8 @@ void BMP_MENULIST_DrawItems(struct BmpMenuList *menu, u16 item, u16 winRow, u16 
         u8 widthTiles;
         u8 bg;
         x = (menu->items[item - 1].value != MENULIST_SEPARATOR) ? menu->itemX : menu->sepX;
-        bmp = func_02045770(menu->win);
-        widthTiles = func_02045738(menu->win);
+        bmp = BMP_WIN_GetBmp(menu->win);
+        widthTiles = BMP_WIN_GetWidth(menu->win);
         BMP_FillRect(bmp, 0, 0, (u16)(widthTiles * 8),
                       (u16)(menu->originY + (winRow + 1) * rowStep * 2), menu->bgColor);
         y = (u8)(menu->originY + winRow * rowStep);
@@ -763,7 +763,7 @@ void BMP_MENULIST_DrawItems(struct BmpMenuList *menu, u16 item, u16 winRow, u16 
         BMP_MENULIST_PrintItem(menu, menu->items[item - 1].text, x, y, 0);
         bg = menu->bgColor;
         BMP_MENULIST_ShiftWindow(menu->win, 0, rowStep, (u8)((bg << 4) | bg),
-                      (u16)((rowStep * 2 / 8) * (BMP_GetWidth(func_02045770(menu->win)) / 8)));
+                      (u16)((rowStep * 2 / 8) * (BMP_GetWidth(BMP_WIN_GetBmp(menu->win)) / 8)));
     }
     end = (u16)(numRows + 1);
     for (i = 0; i < end; i++) {
@@ -822,7 +822,7 @@ void BMP_MENULIST_EraseCursor(struct BmpMenuList *menu, u32 row)
 {
     switch (menu->flags.cursorOff) {
     case 0:
-        BMP_FillRect(func_02045770(menu->win),
+        BMP_FillRect(BMP_WIN_GetBmp(menu->win),
                       menu->cursorX,
                       (s16)(u16)(menu->originY + row * (u8)(menu->rowH + menu->flags.lineGap)),
                       menu->cursorW,
@@ -940,7 +940,7 @@ void BMP_MENULIST_ScrollRows(struct BmpMenuList *menu, u16 numRows, u32 fromBott
     u8 rowStep;
 
     if (numRows >= (int)menu->rows) {
-        BMP_Clear(func_02045770(menu->win), menu->bgColor);
+        BMP_Clear(BMP_WIN_GetBmp(menu->win), menu->bgColor);
         BMP_MENULIST_DrawItems(menu, menu->scroll, 0, menu->rows, 1);
         return;
     }
@@ -1201,8 +1201,8 @@ void BMP_MENULIST_ShiftChars8bpp(struct Bmp *bmp, u32 dir, u32 startTile, u32 fi
  * this header.  EXACT* only because 0x02020CF8 has no label.
  *
  * Window-fill front end.  The window descriptor names a BG channel
- * (func_02045730, the +2 accessor) and carries the bitmap it draws into
- * (func_02045770, the +0xc handle).  func_0204169C says whether that
+ * (BMP_WIN_GetBgLayer, the +2 accessor) and carries the bitmap it draws into
+ * (BMP_WIN_GetBmp, the +0xc handle).  func_0204169C says whether that
  * channel is 8bpp; the 4bpp path calls BMP_MENULIST_ShiftChars4bpp and the 8bpp path
  * BMP_MENULIST_ShiftChars8bpp, and the caller's tile offset is converted to a byte
  * offset by the depth: (t & 0x7ff) << 5 for 4bpp, (t & 0x3ff) << 6 for
@@ -1217,8 +1217,8 @@ void BMP_MENULIST_ShiftWindow(struct BmpWin *win, u32 dir, u32 start, u32 fillCo
     int   channel;
     struct Bmp *bmp;
 
-    channel = func_02045730(win);
-    bmp = func_02045770(win);
+    channel = BMP_WIN_GetBgLayer(win);
+    bmp = BMP_WIN_GetBmp(win);
 
     if (func_0204169C(channel) == 0)
         BMP_MENULIST_ShiftChars4bpp(bmp, dir, start, fillColor, (u16)(tiles << 5));
@@ -1331,10 +1331,10 @@ void BMP_CURSOR_Draw(struct MenuCursor *cursor, u32 x, u32 y, struct MenuTarget 
                    void *printer, u32 param)
 {
     if (cursor->mode == 1) {
-        func_0201C6FC(printer, func_02045770(target->win), (s16)x, (s16)y, cursor->aux, param);
+        PRINTSYS_PrintQue(printer, BMP_WIN_GetBmp(target->win), (s16)x, (s16)y, cursor->aux, param);
         target->dirty = 1;
     } else if (cursor->tile != 0) {
-        BMP_Blit(cursor->tile, func_02045770(target->win), 0, 0,
+        BMP_Blit(cursor->tile, BMP_WIN_GetBmp(target->win), 0, 0,
                       x + 2, y + 2, 8, 8, 0xf);
         BMP_WIN_TransferChars(target->win);
     }

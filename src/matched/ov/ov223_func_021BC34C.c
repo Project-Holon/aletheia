@@ -9,7 +9,7 @@
  * status: EXACT
  * volatile: display control reads/stores 021BC356-021BC398 and 021BC3C0.
  * symbols:
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
@@ -19,7 +19,7 @@
 typedef enum { TOON, HIGHLIGHT } Shading;
 extern char d_021BC960[];
 typedef unsigned int   u32;
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(unsigned short,int,int,int,int);
 typedef unsigned short u16;
@@ -36,7 +36,7 @@ static inline void priority(int p)
 void func_021BC34C(void)
 {
     unsigned i;
-    func_020434DC(1,1);
+    BG_SYS_SetMainPlaneVisible(1,1);
     priority(0);
     shading(HIGHLIGHT);
     *(volatile unsigned short *)0x04000060=(unsigned short)((*(volatile unsigned short *)0x04000060 & ~0x3000)|16);

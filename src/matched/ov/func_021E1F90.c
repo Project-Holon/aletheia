@@ -24,7 +24,7 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_020307B0  0x020307B0  arm
  *   func_020306F0  0x020306F0  arm
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   func_02034A5C  0x02034A5C  arm
  *   ov067_id       0x00000043  data
@@ -48,7 +48,7 @@ extern int KEY_SetRepeatSpeed(int a0, int a1);
 extern void ARC_TOOL_DeleteHandle(u32 a);
 extern u32 func_020307B0(void *p);
 extern void func_020306F0(unsigned int a);
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_02034A5C(int a);
 extern u8 ov067_id[];
@@ -72,7 +72,7 @@ int func_021E1F90(u8 *p)
     *(u32 *)&((struct Obj00000 *)p)->f2C = 0;
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     func_02034A5C((int)ov067_id);
     return *(u32 *)&((struct Obj00000 *)p)->f28;

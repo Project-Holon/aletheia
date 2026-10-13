@@ -11,7 +11,7 @@
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   BMP_Create  0x02043678  arm
  *   BMP_OAM_Create  0x020255A0  thumb
  *   BMP_OAM_SetEnabled  0x02025774  thumb
@@ -66,7 +66,7 @@ struct Obj;
 struct U16Vec;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 typedef unsigned short u16;
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 struct Grid;
@@ -91,7 +91,7 @@ void INTRUDE_SUBDISP_CreateButtonActors(Work *p)
 
     sys = GAMESYSTEM_GetGameData(p->f00);
     p->f9c = CLACT_CreateActor(p->f54, (unsigned int)p->f04, (unsigned int)p->f08, (unsigned int)p->f10, d_021836AA, 0, 0x70);
-    func_0204B3DC(p->f9c, 0);
+    CLACT_SetActorDrawEnable(p->f9c, 0);
     t = d_021836F4;
     for (i = 0; i < 2; i++) {
         a = t;
@@ -105,7 +105,7 @@ void INTRUDE_SUBDISP_CreateButtonActors(Work *p)
         STRBUF_Delete(str);
     }
     if (p->f168 == 0 && GAME_DATA_GetIntrudeCount(sys) == 0) {
-        func_0204B3DC(p->f9c, 1);
+        CLACT_SetActorDrawEnable(p->f9c, 1);
         BMP_OAM_SetEnabled(p->fc0[1], 1);
     }
 }

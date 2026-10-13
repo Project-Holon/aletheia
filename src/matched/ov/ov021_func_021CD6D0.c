@@ -34,7 +34,7 @@
  *   GFL_NET_StartByNetType  0x0203D01C  arm
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GFL_NET_HANDLE_CheckNegotiation  0x02039ACC  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
@@ -43,8 +43,8 @@
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GFL_NET_IsConnectMember  0x0203D1C0  arm
  *   func_02080D24  0x02080D24  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_GetUserArg  0x0203D650  arm
  *
@@ -113,7 +113,7 @@ extern void COMM_ENTRY_MENU_PrintMessage(Work *p, int n);
 extern void GFL_NET_StartByNetType(void);
 extern int GFL_NET_SYSTEM_GetConnectNum(void);
 extern int GFL_NET_HANDLE_CheckNegotiation(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
@@ -137,8 +137,8 @@ extern u32 func_02080D24(int a);
 extern int COMM_ENTRY_SendCancel(int a);
 extern int COMM_ENTRY_SendAccept(int a);
 struct Link;
-extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
-extern unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
 extern void *GFL_NET_GetInitParam(void);
 extern u32 GFL_NET_GetUserArg(void);
 extern u32 FIELD_MSGBG_SysWinMain(u32 *p);
@@ -178,7 +178,7 @@ int COMM_ENTRY_MENU_MainRecruit(Work *p)
             if (GFL_NET_HANDLE_CheckNegotiation() == 1) {
                 p->state++;
             }
-        } else if (func_020362DC() & 2) {
+        } else if (KEY_GetTrg() & 2) {
             p->state = 7;
             p->x2C = 2;
             p->state = 0x13;
@@ -201,10 +201,10 @@ int COMM_ENTRY_MENU_MainRecruit(Work *p)
             n = COMM_ENTRY_MENU_CountAcceptedMembers(p);
             saved = p->x574;
             p->x574 = 0xFFFF;
-            if (n >= p->x51D || (n >= p->x51C && (func_020362DC() & 1))) {
+            if (n >= p->x51D || (n >= p->x51C && (KEY_GetTrg() & 1))) {
                 COMM_ENTRY_MENU_SnapshotStates(p);
                 p->state = 6;
-            } else if (func_020362DC() & 2) {
+            } else if (KEY_GetTrg() & 2) {
                 p->state = 7;
             } else if (p->x520 == 0 && GFL_NET_GetNegotiationNum() <= 1) {
                 p->state = 0x11;
@@ -282,7 +282,7 @@ int COMM_ENTRY_MENU_MainRecruit(Work *p)
             p->x2C = 1;
             p->state = 8;
             p->x573 = func_02080D24(p->x578);
-            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27);
+            GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27);
         }
         break;
     case 8:
@@ -292,7 +292,7 @@ int COMM_ENTRY_MENU_MainRecruit(Work *p)
                 p->x2C = 2;
                 p->state = 0xE;
             }
-        } else if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27) == 1) {
+        } else if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27) == 1) {
             Vtbl *v;
 
             p->x2C = 1;

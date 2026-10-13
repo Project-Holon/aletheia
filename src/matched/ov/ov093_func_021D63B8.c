@@ -11,13 +11,13 @@
  * lever: enum loop counter with unsigned bound retains the entry guard;
  *   word-array indexing settles zero/offset scratch register allocation.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef enum { SLOT_FIRST, SLOT_LIMIT=36, SLOT_UNSIGNED=0xFFFFFFFF } SlotIndex;
 struct Slot { u32 a:3; u32 rest:29; };
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 void BTL_POKEPARAM_ClearSickConts(u8 *p, int all)
 {
     SlotIndex i;
@@ -27,5 +27,5 @@ void BTL_POKEPARAM_ClearSickConts(u8 *p, int all)
         ((u32 *)(p + 0x1c))[i] = 0;
         ((struct Slot *)(p + 0x1c))[i].a = 0;
     }
-    func_02082BCC(p + 0xac, 0, 36);
+    MI_CpuFill8(p + 0xac, 0, 36);
 }

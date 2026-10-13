@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   INTRUDE_COMM_ApplyPlayerBeacon  0x02174EAC  thumb  ov011
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   GFL_NET_IsParentAid  0x0203D378  arm
@@ -33,7 +33,7 @@ typedef struct {
     u8 hit : 1;
 } C;
 
-extern unsigned int func_02026478(void *obj);
+extern unsigned int GAME_COMM_GetGameData(void *obj);
 extern void INTRUDE_COMM_ApplyPlayerBeacon(u8 *p, int idx, u8 *q);
 struct BigObj;
 extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
@@ -44,7 +44,7 @@ void INTRUDE_COMM_RecvStatusRecord(int a, int b, C *c, D *d)
 {
     int h;
 
-    h = func_02026478((void *)d->f4);
+    h = GAME_COMM_GetGameData((void *)d->f4);
     if (a < d->n) {
         INTRUDE_COMM_ApplyPlayerBeacon((u8 *)d, a, (u8 *)c);
         if (a != GAME_DATA_GetExitMode((const struct BigObj *)h) && GFL_NET_IsParentAid() == 0 && a == 0 && c->hit == 1)

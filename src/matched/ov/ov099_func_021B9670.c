@@ -19,7 +19,7 @@
  *   func_021C47E4  0x021C47E4  thumb  ov127
  *   func_021B9DD4  0x021B9DD4  thumb  ov099
  *   func_021B9E08  0x021B9E08  thumb  ov099
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 #include "../include/Obj07938.h"
 
@@ -33,7 +33,7 @@ extern void func_021C48C0(u8 *p);
 extern void func_021C47E4(u8 *p);
 extern void func_021B9DD4(void *a);
 extern void func_021B9E08(int);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 
 void func_021B9670(char *p)
 {
@@ -46,5 +46,5 @@ void func_021B9670(char *p)
     func_021C47E4((u8 *)(((struct Obj07938 *)p)->f588));
     func_021B9DD4(p + 0x14);
     func_021B9E08(((struct Obj07938 *)p)->f10);
-    func_02082BCC(p, 0, 0x5a0);
+    MI_CpuFill8(p, 0, 0x5a0);
 }

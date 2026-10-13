@@ -12,10 +12,10 @@
  * symbols:
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_021BE0B4  0x021BE0B4  thumb  ov172
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   d_021C6FB2     0x021C6FB2  data
  *   d_021C6FB4     0x021C6FB4  data
  *   d_021C6FB6     0x021C6FB6  data
@@ -31,10 +31,10 @@ struct Actor;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u32 func_021BE0B4(void *p);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
-extern void func_0204B92C(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
 extern const u8 d_021C6FB2[];
 extern const u8 d_021C6FB4[];
 extern const u8 d_021C6FB6[];
@@ -56,18 +56,18 @@ void func_021BB54C(void *ctx, u8 *p)
     }
     if (((struct Obj00024 *)p)->f28 != 0 && ((struct Obj00024 *)p)->f10 == 1) {
         ((struct Obj00024 *)p)->f10 = 0;
-        func_0204B3DC(((struct Obj00024 *)p)->f84, 0);
+        CLACT_SetActorDrawEnable(((struct Obj00024 *)p)->f84, 0);
         CLACT_RestartActorAnim(((struct Obj00024 *)p)->f84);
         CLACT_SetActorAnimFrame(((struct Obj00024 *)p)->f84, 0);
-        func_0204B92C(((struct Obj00024 *)p)->f84, 0);
-        func_0204B3DC(((struct Obj00024 *)p)->f90, 0);
+        CLACT_SetActorAutoAnim(((struct Obj00024 *)p)->f84, 0);
+        CLACT_SetActorDrawEnable(((struct Obj00024 *)p)->f90, 0);
     }
     if (((struct Obj00024 *)p)->f28 != 3 && ((struct Obj00024 *)p)->f14 == 1) {
         ((struct Obj00024 *)p)->f14 = 0;
-        func_0204B3DC(((struct Obj00024 *)p)->f88, 0);
+        CLACT_SetActorDrawEnable(((struct Obj00024 *)p)->f88, 0);
         CLACT_RestartActorAnim(((struct Obj00024 *)p)->f88);
         CLACT_SetActorAnimFrame(((struct Obj00024 *)p)->f88, 0);
-        func_0204B92C(((struct Obj00024 *)p)->f88, 0);
-        func_0204B3DC(((struct Obj00024 *)p)->f90, 0);
+        CLACT_SetActorAutoAnim(((struct Obj00024 *)p)->f88, 0);
+        CLACT_SetActorDrawEnable(((struct Obj00024 *)p)->f90, 0);
     }
 }

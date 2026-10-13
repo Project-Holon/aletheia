@@ -15,7 +15,7 @@
  *
  * symbols:
  *   d_0220AAF0     0x0220AAF0  data   ov094  a4
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  */
 
@@ -38,7 +38,7 @@ typedef struct T7 {
 
 extern T7 d_0220AAF0;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
 void func_02208814(O *obj, int k, int idx)
@@ -47,10 +47,10 @@ void func_02208814(O *obj, int k, int idx)
 
     if (obj->e[idx].h != 0) {
         if (k == 0) {
-            func_0204B3DC((struct Obj *)obj->e[idx].h, 0);
+            CLACT_SetActorDrawEnable((struct Obj *)obj->e[idx].h, 0);
             CLACT_SetActorAnimSeq((struct Obj *)obj->e[idx].h, 0);
         } else {
-            func_0204B3DC((struct Obj *)obj->e[idx].h, 1);
+            CLACT_SetActorDrawEnable((struct Obj *)obj->e[idx].h, 1);
             CLACT_SetActorAnimSeq((struct Obj *)obj->e[idx].h, t.w[k]);
         }
     }

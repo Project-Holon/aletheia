@@ -24,10 +24,10 @@
  *   func_021F1B94 0x021F1B94 thumb ov032
  *   func_021F1CF0 0x021F1CF0 thumb ov032
  *   BEACON_VIEW_SetArrowAnim 0x021F05E8 thumb ov032
- *   func_020311B8 0x020311B8 arm
+ *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
  *   TCBL_SetTaskFunc 0x02031288 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0201F184 0x0201F184 thumb
  *   GPOWER_GetPowerCost 0x02010FA0 thumb
  *   func_02007FB8 0x02007FB8 thumb
@@ -47,10 +47,10 @@ struct WordSet;
 extern void func_021F1B94(void *h, u8 *t);
 extern void func_021F1CF0(void *h, u8 *t);
 extern void BEACON_VIEW_SetArrowAnim(u8 *p, int a, u32 b);
-extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
+extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 a3);
 extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern void TCBL_SetTaskFunc(int *p, int v);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
 extern unsigned int GPOWER_GetPowerCost(struct Rec02010FA0 *p, int idx);
 extern u32 func_02007FB8(u8 *base, u16 id, u16 d);
@@ -64,9 +64,9 @@ void func_021F1A28(char *p, int b, u8 c, int *r)
     int flag;
     u8 *t;
 
-    h = func_020311B8(*(u32 *)(p + 0xa0), (void *)func_021F1B94, 0x24, 0);
+    h = TCBL_AddTask(*(u32 *)(p + 0xa0), (void *)func_021F1B94, 0x24, 0);
     t = TCBL_GetWork(h);
-    func_02082BCC(t, 0, 0x24);
+    MI_CpuFill8(t, 0, 0x24);
     p[0x7f] = 0x30;
     flag = 0;
     if (c == 0)

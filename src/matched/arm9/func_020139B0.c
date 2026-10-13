@@ -52,7 +52,7 @@
  * a/0/8/1 sub-file 13, (0x52, 1) is a/0/8/2 sub-file 1 and (0x95, 0) is
  * a/1/4/9 sub-file 0, by the same id-to-name table as above.  Each size is
  * divided by four into a companion count field (+0x40 u16, +0x42 u8,
- * +0x43 u8), and func_02013EEC, func_02013F2C and func_02013F6C walk the
+ * +0x43 u8), and ZONEDATA_GetFogId, ZONEDATA_GetLightId and ZONEDATA_GetFieldSkillMapEffect walk the
  * matching pointer as an array of 4-byte { u16 key; u16 value } entries, so
  * all three are (zone id -> value) side tables, not part of the record.
  *

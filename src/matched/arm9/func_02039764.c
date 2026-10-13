@@ -14,7 +14,7 @@
  *   GFL_NET_GetSession  0x0203D788  arm
  *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02030734  0x02030734  arm
  *   file_020A7A68  0x020A7A68  data
  *
@@ -49,7 +49,7 @@
  *
  * The allocation loop's counter is a SECOND variable from the release
  * loop's, zeroed before the wipe call rather than at the loop head: that is
- * the `mov sl, #0` at +0x50 sitting above `bl func_02082BCC`, where reusing
+ * the `mov sl, #0` at +0x50 sitting above `bl MI_CpuFill8`, where reusing
  * `i` would re-zero it after the call.
  *
  * Addresses are Black-image addresses.
@@ -69,7 +69,7 @@ extern void *GFL_NET_GetInitParam(void);
 extern void *GFL_NET_GetSession(void);
 extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 extern u32 func_020307B0(void *p);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char file_020A7A68[];
 
@@ -102,7 +102,7 @@ struct Entry *GFL_NET_HANDLE_CreateHandle(u32 idx)
     }
 
     i = 0;
-    func_02082BCC(e, 0, 0x50);
+    MI_CpuFill8(e, 0, 0x50);
 
     if (idx == 0xff) {
         for (; i < 8; i++)

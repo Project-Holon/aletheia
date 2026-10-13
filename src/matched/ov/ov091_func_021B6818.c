@@ -12,10 +12,10 @@
  * symbols:
  *   func_02030EAC  0x02030EAC  arm
  *   POKELIST_IsItemMode  0x021B9A84  thumb  ov091
- *   func_021BBE44  0x021BBE44  thumb  ov091
+ *   PLIST_MENU_DeleteTaskMenuWin  0x021BBE44  thumb  ov091
  *   PLIST_MENU_Delete  0x021BBAE0  thumb  ov091
  *   PLIST_MESSAGE_Destroy  0x021BB5FC  thumb  ov091
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   PLIST_PLATE_Delete  0x021BA890  thumb  ov091
  *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb
  *   POKELIST_DeleteFonts  0x021B7268  thumb  ov091
@@ -34,10 +34,10 @@ struct Node;
 struct TaskMenuState;
 extern void func_02030EAC(struct Node *n);
 extern int POKELIST_IsItemMode(u32 p);
-extern void func_021BBE44(int x);
+extern void PLIST_MENU_DeleteTaskMenuWin(int x);
 extern void PLIST_MENU_Delete(int a, unsigned char *b);
 extern void PLIST_MESSAGE_Destroy(void *a, int *s);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void PLIST_PLATE_Delete(void *ignored, u8 *p);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void POKELIST_DeleteFonts(unsigned p);
@@ -55,15 +55,15 @@ int POKELIST_ExitWork(u8 *p)
 
     func_02030EAC((struct Node *)W(4));
     if (POKELIST_IsItemMode((u32)p) == 1) {
-        func_021BBE44(W(0x108));
-        func_021BBE44(W(0x10c));
+        PLIST_MENU_DeleteTaskMenuWin(W(0x108));
+        PLIST_MENU_DeleteTaskMenuWin(W(0x10c));
         W(0x108) = 0;
         W(0x10c) = 0;
     }
     PLIST_MENU_Delete((int)p, (unsigned char *)W(0x154));
     PLIST_MESSAGE_Destroy(p, (int *)W(0x150));
     if (W(0x130) != 0)
-        func_020452E8((struct Descriptor *)W(0x130));
+        BMP_WIN_Delete((struct Descriptor *)W(0x130));
     for (i = 0; i < 6; i++)
         PLIST_PLATE_Delete(p, (u8 *)(((int *)(p + 0x160))[i]));
     APP_TASKMENU_RES_Delete((struct TaskMenuState *)W(0x254));

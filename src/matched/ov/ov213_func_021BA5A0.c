@@ -11,7 +11,7 @@
  * symbols:
  *   func_021BA750 0x021BA750 thumb ov213
  *   func_021BA71C 0x021BA71C thumb ov213
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  * domain: loop index is exactly 0,1,2; each switch arm initializes both coordinates before use.
  */
 typedef unsigned short u16;
@@ -20,7 +20,7 @@ extern void *func_021BA750(void *p, int kind, unsigned a);
 extern void *func_021BA71C(char *p, int a, int b, unsigned short c);
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 typedef struct {int pad0;const void *owner;void *other;u16 a,b;void *one,*two,*objects[3];char pad24[2];u8 kind;} Context;
 void func_021BA5A0(Context *p,const void *owner,void *other,u16 a,u16 b,u8 kind)
 {
@@ -36,6 +36,6 @@ void func_021BA5A0(Context *p,const void *owner,void *other,u16 a,u16 b,u8 kind)
         case 2:x=128;y=96;break;
         }
         p->objects[i]=func_021BA71C((void *)owner,x,y,7);
-        func_0204B3DC(p->objects[i],0);
+        CLACT_SetActorDrawEnable(p->objects[i],0);
     }
 }

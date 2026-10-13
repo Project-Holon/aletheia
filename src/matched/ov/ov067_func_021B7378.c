@@ -13,23 +13,23 @@
  * after the pool (filed separately).
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm
- *   func_02035D20  0x02035D20  arm
- *   func_020061E4  0x020061E4  thumb
+ *   KEY_GetTrg  0x020362DC  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_020355D8  0x020355D8  arm
  *   func_020355C4  0x020355C4  arm
  *   YESNO_MENU_GetButtonPos  0x021B76C8  thumb  ov067
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   d_021B94C4     0x021B94C4  data  a1
  *   TOUCHPANEL_HitPoint  0x02035D40  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   d_021B94D0     0x021B94D0  data  a2
- *   func_02045770  0x02045770  arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *   YESNO_MENU_CopyPalette  0x021B7718  thumb  ov067
  */
@@ -75,27 +75,27 @@ typedef struct S {
 extern const Rect12 d_021B94C4;
 extern const struct Step d_021B94D0[10];
 
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 struct Cfg;
 struct Descriptor;
 struct Obj;
-extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern void func_020061E4(u32 id);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern void func_020355D8(u8 v);
 extern u8 func_020355C4(void);
 extern u8 YESNO_MENU_GetButtonPos(u32 a, u32 b, u32 c);
 struct Ctx;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void *func_02045770(struct Descriptor *p);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct PrintSys;
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern void YESNO_MENU_CopyPalette(int which, int idx, void *data);
 
@@ -114,8 +114,8 @@ void YESNO_MENU_Update(S *p)
     void *o;
 
     update = 0;
-    keys = func_020362DC();
-    touch = func_02035D20(&x, &y);
+    keys = KEY_GetTrg();
+    touch = TOUCHPANEL_GetPointTrg(&x, &y);
     switch (p->f98) {
     case 0:
         break;
@@ -125,7 +125,7 @@ void YESNO_MENU_Update(S *p)
     case 2:
         handled = 0;
         if (keys & 2) {
-            func_020061E4(0x552);
+            GFL_USE_PlaySeDefaultVolume(0x552);
             p->f9c = 0;
             handled = 1;
             func_020355D8(0);
@@ -134,10 +134,10 @@ void YESNO_MENU_Update(S *p)
             changed = 0;
             if (keys & 1) {
                 if (p->fc0 == 0) {
-                    func_020061E4(0x54d);
+                    GFL_USE_PlaySeDefaultVolume(0x54d);
                     p->f9c = 1;
                 } else {
-                    func_020061E4(0x552);
+                    GFL_USE_PlaySeDefaultVolume(0x552);
                     p->f9c = 0;
                 }
                 handled = 1;
@@ -156,9 +156,9 @@ void YESNO_MENU_Update(S *p)
                 for (i = 0; i < 4; i++) {
                     pt[0] = YESNO_MENU_GetButtonPos(p->fc0, i, 0);
                     pt[1] = YESNO_MENU_GetButtonPos(p->fc0, i, 1);
-                    func_0204B404(p->fa0[i], (const struct Vec2 *)pt, (u16)p->f1c);
+                    CLACT_AddActorSurfacePos(p->fa0[i], (const struct Vec2 *)pt, (u16)p->f1c);
                 }
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
             }
         }
         if (!handled && touch != 0) {
@@ -167,10 +167,10 @@ void YESNO_MENU_Update(S *p)
             res = (int)TOUCHPANEL_HitPoint((struct Ctx *)(&rect), x, y);
             if (res != -1) {
                 if (res == 0) {
-                    func_020061E4(0x54d);
+                    GFL_USE_PlaySeDefaultVolume(0x54d);
                     p->f9c = 1;
                 } else if (res == 1) {
-                    func_020061E4(0x552);
+                    GFL_USE_PlaySeDefaultVolume(0x552);
                     p->f9c = 0;
                 }
                 handled = 1;
@@ -179,16 +179,16 @@ void YESNO_MENU_Update(S *p)
         }
         if (!handled && func_020355C4() == 1 && keys != 0) {
             for (i = 0; i < 4; i++) {
-                func_0204B3DC(p->fa0[i], 1);
-                func_0204B92C(p->fa0[i], 1);
+                CLACT_SetActorDrawEnable(p->fa0[i], 1);
+                CLACT_SetActorAutoAnim(p->fa0[i], 1);
             }
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_020355D8(0);
         }
         if (handled) {
             for (i = 0; i < 4; i++) {
-                func_0204B3DC(p->fa0[i], 0);
-                func_0204B92C(p->fa0[i], 0);
+                CLACT_SetActorDrawEnable(p->fa0[i], 0);
+                CLACT_SetActorAutoAnim(p->fa0[i], 0);
             }
             p->f98 = 3;
             p->fc4 = 0;
@@ -212,18 +212,18 @@ void YESNO_MENU_Update(S *p)
         break;
     }
     if (p->f98 != 0) {
-        if (p->f90 == 0 && func_0201C6C4((struct PrintSys *)p->fc, (void *)((int)func_02045770(p->f88))) == 0) {
+        if (p->f90 == 0 && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)p->fc, (void *)((int)BMP_WIN_GetBmp(p->f88))) == 0) {
             o = p->f88;
             BMP_WIN_TransferChars(o);
             BMP_WIN_MakeScreen(o);
-            func_02041B6C(func_02045730(o));
+            func_02041B6C(BMP_WIN_GetBgLayer(o));
             p->f90 = 1;
         }
-        if (p->f94 == 0 && func_0201C6C4((struct PrintSys *)p->fc, (void *)((int)func_02045770(p->f8c))) == 0) {
+        if (p->f94 == 0 && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)p->fc, (void *)((int)BMP_WIN_GetBmp(p->f8c))) == 0) {
             o = p->f8c;
             BMP_WIN_TransferChars(o);
             BMP_WIN_MakeScreen(o);
-            func_02041B6C(func_02045730(o));
+            func_02041B6C(BMP_WIN_GetBgLayer(o));
             p->f94 = 1;
         }
     }

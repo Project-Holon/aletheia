@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02026454  0x02026454  thumb
- *   func_02026460  0x02026460  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
+ *   GAME_COMM_IsTransition  0x02026460  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  * Addresses are Black-image addresses.
  */
@@ -25,15 +25,15 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct Comm;
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
-extern u32 func_02026454(void *obj);
-extern u32 func_02026460(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
+extern u32 GAME_COMM_IsTransition(void *obj);
 
 int FIELDMAP_CheckCommExit(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_02026454((void *)a) == 0) {
+if (GAME_COMM_GetKind((void *)a) == 0) {
     return 1;
 }
-if (func_02026460((void *)a) == 0) {
+if (GAME_COMM_IsTransition((void *)a) == 0) {
     GAME_COMM_RequestExitNoCallback((struct Comm *)a);
 }
 return 0;

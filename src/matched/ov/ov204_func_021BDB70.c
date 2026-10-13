@@ -9,7 +9,7 @@
  * status: EXACT
  * volatile: 021BDB80 BG0CNT; 021BDB8E..021BDBC2 DISP3DCNT repeated hardware updates; 021BDBE0 viewport.
  * symbols:
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
@@ -19,7 +19,7 @@
 #define REG3D (*(volatile unsigned short *)0x04000060)
 typedef enum { SHADING1 = 1 } GXShading;
 typedef int BOOL;
-extern void func_020434DC(unsigned, unsigned);
+extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void G3X_SetFog(BOOL, int, int, int);
 extern void G3X_SetClearColor(unsigned short, int, int, int, BOOL);
 typedef unsigned short u16;
@@ -35,7 +35,7 @@ static inline void EdgeMarking(BOOL enable) { if (enable) REG3D = (unsigned shor
 void func_021BDB70(void)
 {
     unsigned i;
-    func_020434DC(1, 1);
+    BG_SYS_SetMainPlaneVisible(1, 1);
     *(volatile unsigned short *)0x04000008 = (unsigned short)((*(volatile unsigned short *)0x04000008 & ~3) | 1);
     Shading(SHADING1);
     AntiAlias(0);

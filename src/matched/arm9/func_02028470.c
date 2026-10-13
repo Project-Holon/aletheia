@@ -12,6 +12,9 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02028470.c \\
  *       --func func_02028470 --addr 0x02028470 --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 #include "../include/Obj15794.h"
 
@@ -20,10 +23,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_02082BCC(void *p, u32 v, u32 size);
+extern void MI_CpuFill8(void *p, u32 v, u32 size);
 
 void func_02028470(u8 *p, u32 v)
 {
-    func_02082BCC(p, 0, 8);
+    MI_CpuFill8(p, 0, 8);
     ((struct Obj15794 *)p)->f4 = v;
 }

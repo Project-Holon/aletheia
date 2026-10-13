@@ -21,7 +21,7 @@
  *   func_02082AC0  0x02082AC0  arm
  *   VCT_SESSION_SetFilterEnabled  0x021B0D08  arm ov013
  *   gVctWork     0x021B3C80  data ov013
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0202EB0C  0x0202EB0C  thumb
  *   func_0208B2BC  0x0208B2BC  arm
  *   func_0208B4C8  0x0208B4C8  arm
@@ -127,7 +127,7 @@ extern void func_02073898(void *stream);
 
 /* Memory, time and error helpers. */
 extern void func_02082AC0(int value, void *dst, u32 size);
-extern void func_02082BCC(void *dst, int value, u32 size);
+extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern void func_02082B0C(const void *src, void *dst, u32 size);
 extern u64 func_020870D0(void);
 extern u16 func_02087170(void);
@@ -265,7 +265,7 @@ void VCT_MAIN_StreamCallback(int status, int channelCount, void **buffers, u32 l
 
     if (status == 0) {
         for (i = 0; i < channelCount; i++) {
-            func_02082BCC(buffers[i], 0, length);
+            MI_CpuFill8(buffers[i], 0, length);
         }
         return;
     }
@@ -499,7 +499,7 @@ void VCT_MAIN_Start(void *heap, int codecMode, int peerCount)
 
     if (gVctWork == 0) {
         gVctWork = DWC_RAPCOMMON_Alloc(heap, sizeof(VctWork), 0x20);
-        func_02082BCC(gVctWork, 0, sizeof(VctWork));
+        MI_CpuFill8(gVctWork, 0, sizeof(VctWork));
         gVctWork->frameMemory = DWC_RAPCOMMON_Alloc(heap, peerCount * VCT_PEER_QUEUE_BYTES + 0x20, 0x20);
         gVctWork->exitCallback = 0;
         VCT_MAIN_InitAudio();

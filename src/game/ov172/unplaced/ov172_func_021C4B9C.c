@@ -41,6 +41,7 @@
  *   func_021C2D24  0x021C2D24  arm  ov172
  *   func_021C2D9C  0x021C2D9C  arm  ov172
  *   OS_IsRunOnTwl  0x02085D3C  arm  arm9
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -70,7 +71,7 @@ extern struct Ae90 g_021CAE90;
 extern struct Adf0 g_021CADF0;
 extern u8  g_021CAEC6[];
 
-void func_02082BCC(void *dst, int val, u32 n);
+void MI_CpuFill8(void *dst, int val, u32 n);
 int  OS_IsRunOnTwl(void);
 void func_02082D44(void *src, void *dst, u32 n);
 void func_02087A04(u32 x);
@@ -96,7 +97,7 @@ u32 func_021C4B9C(int a0, int a1, int a2, u8 *a3, u32 a4)
     g_021CAE90.fc = 0;
     g_021CAE90.f10 = 0;
     g_021CAE90.f14 = 0;
-    func_02082BCC(g_021CAEC6, 0, g_021CAE90.count);
+    MI_CpuFill8(g_021CAEC6, 0, g_021CAE90.count);
 
     local = 0;
     if (OS_IsRunOnTwl() == 1)

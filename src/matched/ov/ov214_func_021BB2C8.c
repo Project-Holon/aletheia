@@ -9,7 +9,7 @@
  * lang: c99
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
@@ -26,7 +26,7 @@ typedef unsigned char u8;
 struct Record { u32 id; u8 template_data[32]; u32 type; u32 enabled; };
 extern u32 config[];
 extern const struct Record records[];
-extern void func_02082BCC(void *,u32,u32);
+extern void MI_CpuFill8(void *,u32,u32);
 extern void func_0203F8F4(u32);
 extern void BMP_WIN_Init(u32);
 struct BgTemplate;
@@ -38,7 +38,7 @@ extern void func_02040588(u8,u8);
 void func_021BB2C8(void *p,u32 heap)
 {
     u32 i;
-    func_02082BCC(p,0,4);
+    MI_CpuFill8(p,0,4);
     func_0203F8F4(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)config);

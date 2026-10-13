@@ -16,7 +16,7 @@
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_02202670  0x02202670  thumb
  *   func_02020F84  0x02020F84  thumb
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_021F91A0  0x021F91A0  thumb
  *   func_021FC8A8  0x021FC8A8  thumb
@@ -50,7 +50,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 func_02202670(u32 a, u32 b, u32 c, u32 d);
 extern void func_02020F84(void *dst, u32 entry, u32 heap);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern int func_021F91A0(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
 extern u16 func_021FC8A8(int mode);
@@ -90,7 +90,7 @@ void func_021FC8CC(void *bank, void *names, void *words, void **win, void *mon, 
     func_02020F84(ot, (u16)lv, 0x48);
     s41 = func_02045EC0(bank, 0x41);
     for (i = 0; i < 6; i++) {
-        BMP_Clear(func_02045770(win[i]), 0);
+        BMP_Clear(BMP_WIN_GetBmp(win[i]), 0);
     }
     func_021F91A0(win[0], nick, 0, 0, 0, 0x440, g);
     if (mode != 3 && flag != 0) {

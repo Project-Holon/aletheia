@@ -13,7 +13,7 @@
  *   func_020403F4  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   func_0203F9B4  0x0203F9B4  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   d_021E8B5C     0x021E8B5C  data a4
  */
 
@@ -29,7 +29,7 @@ extern const Entry d_021E8B5C[];
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
 void func_021E55C8(void *p)
 {
@@ -38,5 +38,5 @@ void func_021E55C8(void *p)
         func_020403F4((u8)d_021E8B5C[i].id);
     BMP_WIN_Exit();
     func_0203F9B4();
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
 }

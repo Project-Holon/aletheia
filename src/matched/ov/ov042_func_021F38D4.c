@@ -15,7 +15,7 @@
  *
  * symbols:
  *   GIMMICK42_EventSetState  0x021F38D4  thumb
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
@@ -37,7 +37,7 @@ typedef unsigned short u16;
 
 struct Ctx;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetExpObj(int *p);
 extern int *FIELDMAP_GetCommonWork(char *p, int idx);
@@ -64,7 +64,7 @@ int GIMMICK42_EventSetState(void *a, int *st)
     u8 x;
     int z;
 
-    s = GAMESYSTEM_GetFieldMap(func_020124E4(a));
+    s = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(a));
     t = FIELDMAP_GetExpObj(s);
     p = (u8 *)FIELDMAP_GetCommonWork(s, 1);
     GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(s))), 4);

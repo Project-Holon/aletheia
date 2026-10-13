@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0208F400",
+   "name": "WM_Reset",
    "address": "0x0208F400",
    "kind": "sdk",
    "region": "arm9",

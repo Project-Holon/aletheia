@@ -10,14 +10,17 @@
  * status:   EXACT
  *
  *
- * Thunk: func_02082BCC(a, 0, 20).
+ * Thunk: MI_CpuFill8(a, 0, 20).
+ *
+ * symbols:
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_02082BCC(int, int, int);
+extern void MI_CpuFill8(int, int, int);
 
 void func_021CACD0(int a)
 {
-    func_02082BCC(a, 0, 0x14);
+    MI_CpuFill8(a, 0, 0x14);
 }

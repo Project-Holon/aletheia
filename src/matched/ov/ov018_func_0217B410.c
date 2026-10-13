@@ -14,7 +14,7 @@
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
- *   func_02013D5C  0x02013D5C  thumb
+ *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   INTRUDE_FIELD_CreateExitConfirmEvent  0x0217B5DC  thumb  ov018
  *   FIELD_G3D_MAP_CreateSymbolEntryEvent  0x0216B340  thumb  ov010
@@ -33,7 +33,7 @@ extern unsigned short GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *p);
 typedef unsigned int   u32;
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
-extern u32 func_02013D5C(u32 id);
+extern u32 ZONEDATA_IsZone117(u32 id);
 struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern int INTRUDE_FIELD_CreateExitConfirmEvent();
@@ -52,7 +52,7 @@ int INTRUDE_FIELD_CreateTileEvent(int a0, int a1, int a2)
 
     h = GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAMESYSTEM_GetMyPlayerWork((const struct Ctx *)a1));
     w = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((const struct Ctx *)a1));
-    if (func_02013D5C(h) == 0)
+    if (ZONEDATA_IsZone117(h) == 0)
         return 0;
     FIELD_PLAYER_GetPos((unsigned char *)a2, (struct VecFx32 *)&pos);
     for (i = 0; i < 3; i++) {

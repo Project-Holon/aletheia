@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_BlockSickIfTargeted
+ * function: HAND_TOKUSEI_BlockSickIfTargeted
  * address: 0x021D9648
  * packet: pkt_ov093_021D9648
  * region: ov093
@@ -14,7 +14,7 @@
  */
 extern int BTL_EVENT_GetVar(int);
 extern int BTL_EVENT_OverwriteVar(int, unsigned int);
-int BTL_TOKUSEI_BlockSickIfTargeted(int a, int b, int c)
+int HAND_TOKUSEI_BlockSickIfTargeted(int a, int b, int c)
 {
     if (b == BTL_EVENT_GetVar(4) && c == BTL_EVENT_GetVar(0x1d))
         return BTL_EVENT_OverwriteVar(0x41, 1);

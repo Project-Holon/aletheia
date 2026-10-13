@@ -1,5 +1,5 @@
 /*
- * function: func_021E112C
+ * function: HAND_WAZA_SecretPowerGetGroundEffect
  * address:  0x021E112C
  * packet:   pkt_ov093_021E112C
  * region:   ov093
@@ -10,23 +10,23 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C8174  0x021C8174  thumb  ov093
+ *   BTL_SERVER_FLOW_GetFieldSituationType  0x021C8174  thumb  ov093
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021C8174(int *p);
+extern int BTL_SERVER_FLOW_GetFieldSituationType(int *p);
 
-u8 func_021E112C(int *a, u8 *p1, u8 *p2)
+u8 HAND_WAZA_SecretPowerGetGroundEffect(int *a, u8 *p1, u8 *p2)
 {
     u8 r;
     u8 x;
     u8 y;
     int n;
 
-    n = func_021C8174(a);
+    n = BTL_SERVER_FLOW_GetFieldSituationType(a);
     switch (n) {
     case 1:
     case 2:

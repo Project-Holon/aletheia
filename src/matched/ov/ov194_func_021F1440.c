@@ -13,9 +13,9 @@
  *   func_0200C104  0x0200C104  thumb
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
- *   func_0201C450  0x0201C450  thumb
+ *   PRINTSYS_QUE_CreateEx  0x0201C450  thumb
  *   func_02045B38  0x02045B38  arm
  *   func_0201EC64  0x0201EC64  thumb
  *   func_021F4AE4  0x021F4AE4  thumb  ov194
@@ -59,9 +59,9 @@ extern u8 func_0200C104(struct Blk34 *p, u32 i);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *, u32, u32);
+extern void MI_CpuFill8(void *, u32, u32);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern void *func_0201C450(u16 n, u32 heap);
+extern void *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern unsigned char *func_021F4AE4(unsigned swap, unsigned short heap);
@@ -107,10 +107,10 @@ u32 func_021F1440(struct Obj0203159C *a, u32 b, u8 *args)
     }
     GFL_HEAP_CreateChildHeap(1, 0x1e, 0x70000);
     w = PROCSYS_AllocProcWork(a, 0x2d4, 0x1e);
-    func_02082BCC(w, 0, 0x2d4);
+    MI_CpuFill8(w, 0, 0x2d4);
     *(u8 **)(w + 0x2c4) = args;
     *(u32 *)(w + 0x2b0) = (u32)GF_FONT_Create(0x17, 0, 1, 0, 0x1e);
-    *(u32 *)(w + 0x2b4) = (u32)func_0201C450(0x1000, 0x1e);
+    *(u32 *)(w + 0x2b4) = (u32)PRINTSYS_QUE_CreateEx(0x1000, 0x1e);
     *(u32 *)(w + 0x2b8) = (u32)func_02045B38(1, 2, 0x51, 0x1e);
     *(u32 *)(w + 0x2bc) = (u32)func_0201EC64(0x1e);
     *(u32 *)w = (u32)func_021F4AE4(0, 0x1e);

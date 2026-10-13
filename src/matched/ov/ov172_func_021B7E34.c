@@ -23,8 +23,8 @@
  *   GFL_NET_HANDLE_IsNegotiationDone 0x020399B8 arm
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   d_021C6ED4 0x021C6ED4 data a4
- *   func_02039C68 0x02039C68 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   func_021B8154 0x021B8154 thumb ov172
  *   func_021B8448 0x021B8448 thumb ov172
  *   GFL_NET_Exit 0x0203CEAC arm
@@ -58,8 +58,8 @@ extern u32 GFL_NET_HANDLE_IsNegotiationDone(u8 *p);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
 extern u8 d_021C6ED4[];
 struct Link;
-extern void func_02039C68(struct Link *p, u32 a, u32 b);
-extern u32 func_02039CB4(struct Link *p, u32 a, u32 b);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, u32 a, u32 b);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, u32 a, u32 b);
 extern void func_021B8154(void *p, char *q);
 extern void func_021B8448(void *p, char *q);
 extern int GFL_NET_Exit(int a0);
@@ -125,11 +125,11 @@ void func_021B7E34(void *p, char *q)
     case 5:
         h = (u32)GFL_NET_HANDLE_GetCurrentHandle();
         GFL_NET_COMMAND_AddCommandTable(0x2000, (u32)d_021C6ED4, 4, (u32)q);
-        func_02039C68((struct Link *)h, 8, 0x20);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)h, 8, 0x20);
         ((struct Obj00289 *)q)->f8 = 6;
         break;
     case 6:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 8, 0x20) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 8, 0x20) == 1)
             ((struct Obj00289 *)q)->f8 = 7;
         break;
     case 7:
@@ -152,11 +152,11 @@ void func_021B7E34(void *p, char *q)
             ((struct Obj00289 *)q)->f8 = 1;
         break;
     case 9:
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 9, 0x20);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 9, 0x20);
         ((struct Obj00289 *)q)->f8 = 10;
         break;
     case 10:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 9, 0x20) == 1) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 9, 0x20) == 1) {
             GFL_NET_COMMAND_DeleteCommandTable(0x2000);
             ((struct Obj00289 *)q)->f8 = 12;
         }

@@ -11,18 +11,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201CE30  0x0201CE30  thumb
- *   func_0201CE38  0x0201CE38  thumb
- *   func_0201CE5C  0x0201CE5C  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb
+ *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb
+ *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_020284F4  0x020284F4  thumb
  *   func_02028528  0x02028528  thumb
  *   func_0202855C  0x0202855C  thumb
  *
  * Per-frame service step for one handle attached to a state block: reads
- * the handle's state word with func_0201CE30 and dispatches on it as a
+ * the handle's state word with PRINTSYS_PrintStreamGetState and dispatches on it as a
  * switch. State 1 finishes the handle (func_020284F4 on the block's flags
- * word, then a fixed-id notify through func_020061E4 and a teardown call);
+ * word, then a fixed-id notify through GFL_USE_PlaySeDefaultVolume and a teardown call);
  * state 0 runs a two-phase step, gated on bit 10 of the same flags word,
  * where func_0202855C latches the block's first byte and func_02028528
  * later releases the handle. Both state-0 callees take the flags word in
@@ -44,11 +44,11 @@ typedef struct Blk {
     u32 flags;
 } Blk;
 
-extern u32 func_0201CE30(void *h);
-extern void func_0201CE38(void *h);
+extern u32 PRINTSYS_PrintStreamGetState(void *h);
+extern void PRINTSYS_PrintStreamReleasePause(void *h);
 struct Rec;
-extern void func_0201CE5C(struct Rec *p, s32 v);
-extern void func_020061E4(u32 id);
+extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern u32 func_020284F4(u32 a);
 extern u32 func_02028528(u32 a);
 extern u32 func_0202855C(u32 a);
@@ -58,13 +58,13 @@ s32 func_02028484(Blk *blk, void *h)
     u32 mask;
 
     if (h != 0) {
-        switch (func_0201CE30(h)) {
+        switch (PRINTSYS_PrintStreamGetState(h)) {
         case 2:
             return 1;
         case 1:
             if (func_020284F4(blk->flags) != 0) {
-                func_020061E4(0x547);
-                func_0201CE38(h);
+                GFL_USE_PlaySeDefaultVolume(0x547);
+                PRINTSYS_PrintStreamReleasePause(h);
             }
             break;
         case 0:
@@ -76,7 +76,7 @@ s32 func_02028484(Blk *blk, void *h)
                     }
                 } else {
                     if (func_02028528(blk->flags) != 0) {
-                        func_0201CE5C(h, 0);
+                        PRINTSYS_PrintStreamShortWait(h, 0);
                     }
                 }
             }

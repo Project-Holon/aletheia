@@ -15,7 +15,7 @@
  *   func_021F4E8C 0x021F4E8C thumb ov112
  *   func_021F4ED4 0x021F4ED4 thumb ov112
  *   func_021F4E6C 0x021F4E6C thumb ov112
- *   func_020061F8 0x020061F8 thumb
+ *   GFL_USE_StopSeSlot 0x020061F8 thumb
  *   table 0x020A1B38 data a2
  *   _ll_mul 0x0209C054 arm
  */
@@ -30,7 +30,7 @@ extern void func_021F4EA4(u32,u32,u32);
 extern void func_021F4E8C(u32,void *,const int *);
 extern void func_021F4ED4(u32,u32,u16);
 extern void func_021F4E6C(u8 *,u8 *,u32);
-extern void func_020061F8(int);
+extern void GFL_USE_StopSeSlot(int);
 static inline long fxmul(long a,long b)
 {
     return (long)(((s64)a*b+2048)>>12);
@@ -55,6 +55,6 @@ void func_021F7D30(u8 *p,u8 *q)
         offset+=55;
         *(int *)(q+offset)=0;
         *(u8 *)(p+0x43c)-=1;
-        if(*(u8 *)(p+0x43c)==0) func_020061F8(2);
+        if(*(u8 *)(p+0x43c)==0) GFL_USE_StopSeSlot(2);
     }
 }

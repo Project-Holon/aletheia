@@ -11,13 +11,13 @@
  * symbols:
  *   g_pWhPipeWork     0x021797A4  data   a4
  *   g_ParentConnectModes     0x0217967C  data   a2
- *   func_02178E4C  0x02178E4C  thumb  ov014
+ *   WIH_GetSysState  0x02178E4C  thumb  ov014
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_02179024  0x02179024  thumb  ov014
  *   func_0208F1B4  0x0208F1B4  arm
- *   func_0217778C  0x0217778C  thumb  ov014
+ *   NET_WHPIPE_PublishBeacon  0x0217778C  thumb  ov014
  *   func_02179288  0x02179288  thumb  ov014
- *   func_0217727C  0x0217727C  thumb  ov014
+ *   NET_WHPIPE_SetTask  0x0217727C  thumb  ov014
  */
 #include "../include/Obj03088.h"
 #include "../include/G_W.h"
@@ -28,13 +28,13 @@ typedef unsigned int u32;
 
 extern struct W *g_pWhPipeWork;
 extern u16 g_ParentConnectModes[2];
-extern int func_02178E4C(void);
+extern int WIH_GetSysState(void);
 extern void *GFL_NET_GetInitParam(void);
 extern u16 func_02179024(void);
 extern u16 func_0208F1B4(void);
-extern void func_0217778C(void);
+extern void NET_WHPIPE_PublishBeacon(void);
 extern int func_02179288(int mode, u16 a, int b, u16 c);
-extern void func_0217727C(u32 *p, u32 v);
+extern void NET_WHPIPE_SetTask(u32 *p, u32 v);
 
 void NET_WHPIPE_TaskConnectParent(u8 *p)
 {
@@ -42,7 +42,7 @@ void NET_WHPIPE_TaskConnectParent(u8 *p)
     u8 *st;
     int r6;
 
-    int mode = func_02178E4C();
+    int mode = WIH_GetSysState();
 
     buf[0] = g_ParentConnectModes[0];
     buf[1] = g_ParentConnectModes[1];
@@ -59,8 +59,8 @@ void NET_WHPIPE_TaskConnectParent(u8 *p)
             r6 = p[0xCE6];
         if (st[0x66] != 0)
             ((struct Obj03088 *)p)->fC68 = func_0208F1B4();
-        func_0217778C();
+        NET_WHPIPE_PublishBeacon();
         func_02179288(buf[st[0x64]], ((struct Obj03088 *)p)->fC68, r6, st[0x60] - 1);
-        func_0217727C((u32 *)((u8 *)g_pWhPipeWork), 0);
+        NET_WHPIPE_SetTask((u32 *)((u8 *)g_pWhPipeWork), 0);
     }
 }

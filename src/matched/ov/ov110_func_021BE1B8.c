@@ -15,7 +15,7 @@
  *   func_021BD740 0x021BD740 thumb ov110
  *   func_021BDAA4 0x021BDAA4 thumb ov110
  *   func_021BF680 0x021BF680 thumb ov110
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021B9BEC 0x021B9BEC thumb ov110
  *   func_021BD6F8 0x021BD6F8 thumb ov110
  *   func_021BD6B4 0x021BD6B4 thumb ov110
@@ -43,7 +43,7 @@ extern int func_021BDB50(u32 *);
 extern void func_021BD740(u8 *p, void *out, int v);
 extern int func_021BDAA4(u8 *);
 extern int func_021BF680(u8 *);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_021B9BEC(u8 *,int);
 extern void func_021BD6F8(State *,void *);
 extern void func_021BD6B4(State *,void *);
@@ -72,27 +72,27 @@ int func_021BE1B8(u8 *p,u32 *q)
             ((struct Obj00012 *)p)->f4A=0;
             func_021BD740((u8 *)(p+0x64),p+8,index);
             func_021B9BEC(*(u8 * *)&((struct Obj00012 *)p)->f14,3);
-            func_020061E4(1352);
+            GFL_USE_PlaySeDefaultVolume(1352);
             *q=3;
         } else {
             hit=func_021BDAA4(p);
             switch(hit) {
             case 0:
-                if(func_021BF680(p)) func_020061E4(1356);
-                else func_020061E4(1367);
+                if(func_021BF680(p)) GFL_USE_PlaySeDefaultVolume(1356);
+                else GFL_USE_PlaySeDefaultVolume(1367);
                 ((struct Obj00012 *)p)->f48=0;
                 func_021B9BEC(*(u8 * *)&((struct Obj00012 *)p)->f14,8);
                 *q=hit+4;
                 break;
             case 1:
-                func_020061E4(1361);
+                GFL_USE_PlaySeDefaultVolume(1361);
                 ((struct Obj00012 *)p)->f48=1;
                 func_021B9BEC(*(u8 * *)&((struct Obj00012 *)p)->f14,8);
                 *q=hit+4;
                 break;
             case 2:
             case 4:
-                func_020061E4(1636);
+                GFL_USE_PlaySeDefaultVolume(1636);
                 ((struct Obj00012 *)p)->f4A=0;
                 func_021BD6F8((State *)(p+0x64),p+8);
                 func_021B9BEC(*(u8 * *)&((struct Obj00012 *)p)->f14,3);
@@ -101,7 +101,7 @@ int func_021BE1B8(u8 *p,u32 *q)
                 break;
             case 3:
             case 5:
-                func_020061E4(1636);
+                GFL_USE_PlaySeDefaultVolume(1636);
                 ((struct Obj00012 *)p)->f4A=0;
                 func_021BD6B4((State *)(p+0x64),p+8);
                 func_021B9BEC(*(u8 * *)&((struct Obj00012 *)p)->f14,3);
@@ -110,7 +110,7 @@ int func_021BE1B8(u8 *p,u32 *q)
                 break;
             case 6:
             case 7:
-                func_020061E4(1356);
+                GFL_USE_PlaySeDefaultVolume(1356);
                 func_021BF82C(p);
                 ((struct Obj00012 *)p)->f4A=hit-6;
                 func_021B9BEC(*(u8 * *)&((struct Obj00012 *)p)->f14,10);

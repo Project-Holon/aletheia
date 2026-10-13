@@ -14,7 +14,7 @@
  *   block-constant register over 0x20. With the literal zero stores the zero stays a plain constant
  *   and -40 is built fresh (`movs r1,#0; subs r1,#0x28`) while 0x20 keeps r7.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021B8D8C 0x021B8D8C thumb ov106
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_0201EC64 0x0201EC64 thumb
@@ -37,7 +37,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct GfFont;
 struct WordSet;
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern u32 func_021B8D8C(u8 *);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
@@ -58,7 +58,7 @@ void func_021B80D0(u8 *p,u32 a1,u8 a2,u8 a3,u8 s0,u32 s1,void *s2,void *s3,u8 *s
     int i;
     int m;
     i = 0;
-    func_02082BCC(p,0,0x59C);
+    MI_CpuFill8(p,0,0x59C);
     *(u32 *)(p+0x54C) = s1;
     *(u8 *)(p+0x548) = a1;
     *(u8 *)(p+0x549) = a2;

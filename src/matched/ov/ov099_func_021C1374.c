@@ -10,7 +10,7 @@
  * symbols:
  *   func_021C1154 0x021C1154 thumb ov099
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   func_021BA8EC 0x021BA8EC thumb ov099
  *   MYSTATUS_GetSize  0x02008468  thumb  arm9
@@ -22,7 +22,7 @@ extern int func_021C1154(char *p);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, unsigned int, unsigned int);
 extern int MYSTATUS_GetSize(void);
 typedef unsigned char  u8;
 extern u8 *GAME_DATA_GetMyStatus(void *p);
@@ -35,7 +35,7 @@ int func_021C1374(char *p, int ret)
     unsigned count;
     void *q;
     if (func_021C1154(p) == 0) {
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 14, 10) != 0) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 14, 10) != 0) {
             h = (int)GFL_NET_HANDLE_GetCurrentHandle();
             count = MYSTATUS_GetSize();
             q = GAME_DATA_GetMyStatus(((struct Obj13702 *)p)->fC4);

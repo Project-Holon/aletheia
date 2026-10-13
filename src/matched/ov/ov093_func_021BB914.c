@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9234  0x021B9234  thumb  ov093
+ *   BTL_MAIN_SetDoubleMoney  0x021B9234  thumb  ov093
  *
  * blocker: target 0x021B9234 is unlabelled in ov093 and in all 11 overlapping
  * overlays, with no outside branch; the pool relocation has no witness.
  * All bytes correct.
  
  *
- * UNBLOCKED: func_021B9234 is now an EXACT entry in layout/matched/ov093;
+ * UNBLOCKED: BTL_MAIN_SetDoubleMoney is now an EXACT entry in layout/matched/ov093;
  * the call site resolves as matched, verdict promoted to EXACT.
 */
 
-void func_021B9234(unsigned char *p);
+void BTL_MAIN_SetDoubleMoney(unsigned char *p);
 
 void BTL_SERVER_FinishMainCounter(int *p)
 {
-    func_021B9234((unsigned char *)p[3]);
+    BTL_MAIN_SetDoubleMoney((unsigned char *)p[3]);
 }

@@ -18,15 +18,16 @@
  *   func_021BA014 0x021BA014 thumb ov222
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb  arm9
  *   GFL_USE_IsBgmFading  0x02005E50  thumb  arm9
  *   GFL_USE_PushBgm  0x02005E64  thumb  arm9
  *   GFL_USE_PopBgm  0x02005E9C  thumb  arm9
+ *   GFL_USE_IsBgmPlaying  0x02005F38  thumb  arm9
  */
 #include "../include/Obj02560.h"
 #include "../include/Obj26077.h"
@@ -42,14 +43,14 @@ extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_SetBgmPlayerParam(void*);
 extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,unsigned short);
-extern int func_02005F38(void);
+extern int GFL_USE_IsBgmPlaying(void);
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_FadeInBgmFull(u32);
 extern void FADE_Start(u32,int,int,int);
 extern int FADE_IsActive(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_020355D8(unsigned char);
-extern u32 func_02035D20(u32*,u32*);
+extern u32 TOUCHPANEL_GetPointTrg(u32*,u32*);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
 {
@@ -70,12 +71,12 @@ int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
   break;
  case 2: if(func_021B9E44((char *)p)) *state=3; break;
  case 3:
-  if(!func_02005F38()) {GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);GFL_USE_FadeInBgmFull(6);*state=4;}
+  if(!GFL_USE_IsBgmPlaying()) {GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);GFL_USE_FadeInBgmFull(6);*state=4;}
   break;
  case 4:
   ready=0;
-  if(func_020362DC()&3) {func_020355D8(0);ready=1;}
-  else if(func_02035D20(&x,&y)) {func_020355D8(1);ready=1;}
+  if(KEY_GetTrg()&3) {func_020355D8(0);ready=1;}
+  else if(TOUCHPANEL_GetPointTrg(&x,&y)) {func_020355D8(1);ready=1;}
   if(ready) {*state=5;FADE_Start(3,0,16,0);}
   break;
  case 5: if(!FADE_IsActive()) *state=6; break;

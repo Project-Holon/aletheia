@@ -19,7 +19,7 @@
  *   WIPE_ResetWndMask  0x02022224  thumb
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020355C4  0x020355C4  arm
  *   func_02012FFC  0x02012FFC  thumb
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
@@ -36,7 +36,7 @@
  *   func_021C6000  0x021C6000  thumb  ov111
  *   func_021C6D98  0x021C6D98  thumb  ov111
  *   d_021C8564     0x021C8564  data  a4
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *   CLACT_IsActorAnimActive  0x0204B98C  arm
  *   CLACT_DrawSystem  0x0204A600  arm
@@ -92,7 +92,7 @@
  *   func_0202762C  0x0202762C  thumb
  *   func_020413B0  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   func_02040618  0x02040618  arm
  *   func_020403F4  0x020403F4  arm
@@ -113,16 +113,16 @@
  *   FX_Inv  0x0207C778  arm
  *   func_0207D59C  0x0207D59C  arm
  *   TOUCHPANEL_GetCont  0x02035C38  arm
- *   func_0203630C  0x0203630C  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetCont  0x0203630C  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   TOUCHPANEL_HitCont  0x02035BA4  arm
  *   d_021C8544     0x021C8544  data  a1
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
- *   func_02035D20  0x02035D20  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   d_021C8554     0x021C8554  data  a1
  *   d_021C8594     0x021C8594  data  a1
  *   sub_02008A00  0x02008A00  thumb
@@ -1006,7 +1006,7 @@ extern void WIPE_SetBrightnessFadeOut(u32 a, u32 b);
 extern u32 WIPE_ResetWndMask(void *win);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern u8 func_020355C4(void);
 extern signed char func_02012FFC(void);
 extern int GFL_NET_GetNegotiationNum(void);
@@ -1022,7 +1022,7 @@ extern void func_021C6804(Work_021C3CC0 *p, Info_021C3CC0 *info);
 extern void func_021C6E8C(Anim_021C3CC0 *a);
 extern void func_021C6000(Work_021C3CC0 *p);
 extern void func_021C6D98(Work_021C3CC0 *p, void *bg, u32 a, void *b);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern u32 WIPE_SYS_EndCheck(void);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void CLACT_DrawSystem(void);
@@ -1070,7 +1070,7 @@ extern u32 func_02027628(void);
 extern u32 func_0202762C(void);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 layer);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void func_02040618(u32 bgId, u32 which, u32 value);
 extern void func_020403F4(u32 bgId);
@@ -1088,15 +1088,15 @@ extern void func_0207D658(u32 addr, int plane, int brightness);
 extern fx32 FX_Inv(fx32 v);
 extern void func_0207D59C(void *reg, struct Mtx *m, u32 a, u32 b, u32 x, u32 y);
 extern int TOUCHPANEL_GetCont(void);
-extern unsigned int func_0203630C(void);
-extern u32 func_020362DC(void);
+extern unsigned int KEY_GetCont(void);
+extern u32 KEY_GetTrg(void);
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int TOUCHPANEL_HitCont(const void *p);
 extern int TOUCHPANEL_HitTrg(const void *rect);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_02035D20(u32 *x, u32 *y);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *x, u32 *y);
 extern struct Sub020089A8Obj *sub_02008A00(struct Sub020089A8Obj *obj);
 extern void func_021C61EC(Work_021C5718 *p, int v, int a);
 extern void func_021C628C(Work_021C5718 *p, int v, int a);
@@ -1209,7 +1209,7 @@ int func_021C3CC0(void *man, int *state, Args_v3CC0 *args)
     WIPE_ResetWndMask((void *)1);
     GFL_HEAP_CreateChildHeap(1, 0x27, 0x50000);
     p = PROCSYS_AllocProcWork(man, sizeof(Work_021C3CC0), 0x27);
-    func_02082BCC(p, 0, sizeof(Work_021C3CC0));
+    MI_CpuFill8(p, 0, sizeof(Work_021C3CC0));
     p->heap = 0x27;
     p->anim.heap = 0x27;
     p->args = args;
@@ -1308,9 +1308,9 @@ void func_021C3F18(Work_021C3F18 *p, int speed)
     if (speed > 5) {
         p->cooldown = 5;
         if (p->b32F6 == 0) {
-            func_020061E4(0x65C);
+            GFL_USE_PlaySeDefaultVolume(0x65C);
         } else {
-            func_020061E4(0x7CF);
+            GFL_USE_PlaySeDefaultVolume(0x7CF);
         }
     }
 }
@@ -1667,7 +1667,7 @@ void func_021C453C(Work_v3CC0 *p)
 
 void func_021C46F0(void)
 {
-    func_020434DC(0x1F, 0);
+    BG_SYS_SetMainPlaneVisible(0x1F, 0);
     BG_SYS_SetSubPlaneVisible(0x1F, 0);
     func_02040618(5, 0, 0);
     func_02040618(5, 3, 0);
@@ -1883,7 +1883,7 @@ int func_021C4B9C(Work_021C4B9C *p)
         p->angle = 0;
         p->scaleX = 0x103D;
         p->scaleY = 0x103D;
-        func_020061E4(0x65A);
+        GFL_USE_PlaySeDefaultVolume(0x65A);
         if (p->f3034 == 0) {
             PMS_DRAW_SetDecoVisible(p->f32B0, 0, 0);
         }
@@ -2132,12 +2132,12 @@ int func_021C5008(Work_021C5008 *p)
         if (TOUCHPANEL_GetCont()) {
             return 0;
         }
-        if (func_0203630C()) {
+        if (KEY_GetCont()) {
             p->mode = 0;
             return 1;
         }
     } else {
-        if (func_0203630C()) {
+        if (KEY_GetCont()) {
             return 0;
         }
         if (TOUCHPANEL_GetCont()) {
@@ -2156,19 +2156,19 @@ int func_021C5008(Work_021C5008 *p)
 
 int func_021C5054(Work_v4858 *p)
 {
-    u32 key = func_020362DC();
+    u32 key = KEY_GetTrg();
 
     if (key & 2) {
         if (p->h305E == 0) {
             func_021C6FA0(&p->anim, 0, 9, 1);
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             func_020355D8((u32)0);
             return 4;
         }
     } else if (key & 0x400) {
         if (p->h305E == 0 && !p->info->f4_7) {
             func_021C6FA0(&p->anim, 1, 8, 1);
-            func_020061E4(0x556);
+            GFL_USE_PlaySeDefaultVolume(0x556);
             return 5;
         }
     } else if (key & 0x30) {
@@ -2182,7 +2182,7 @@ int func_021C5054(Work_v4858 *p)
         }
     } else if (key & 1) {
         if (!p->info->f4_7 && p->f3034 == 0) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             func_021C6FA0(&p->anim, 2, 0x11, 1);
             return 10;
         }
@@ -2200,7 +2200,7 @@ void func_021C513C(Work_v4858 *p)
 {
     int v;
 
-    func_020061E4(0x646);
+    GFL_USE_PlaySeDefaultVolume(0x646);
     if (p->f3034 == 0) {
         v = GAME_DATA_CheckSaveFlag((int)p->args->f4, 0x15) ^ 1;
         func_021C6FA0(&p->anim, 7, v + 6, 1);
@@ -2238,12 +2238,12 @@ void func_021C51E4(Work_021C51E4 *p, int flag)
 {
     if (flag == 0) {
         func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 2, 0xB, 1);
-        func_0204B3DC(p->anim.obj[4], 0);
-        func_0204B3DC(p->anim.obj[5], 0);
+        CLACT_SetActorDrawEnable(p->anim.obj[4], 0);
+        CLACT_SetActorDrawEnable(p->anim.obj[5], 0);
     } else {
         func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 2, 0xD, 1);
-        func_0204B3DC(p->anim.obj[4], 1);
-        func_0204B3DC(p->anim.obj[5], 1);
+        CLACT_SetActorDrawEnable(p->anim.obj[4], 1);
+        CLACT_SetActorDrawEnable(p->anim.obj[5], 1);
     }
 }
 
@@ -2290,12 +2290,12 @@ int func_021C5280(Work_v51B4 *p, int hit)
     switch (hit) {
     case 0:
         func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 0, 9, 1);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_020355D8((u32)1);
         return 4;
     case 1:
         func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 1, 8, 1);
-        func_020061E4(0x556);
+        GFL_USE_PlaySeDefaultVolume(0x556);
         return 5;
     case 2:
         TOUCHPANEL_GetPointCont(&p->f32D8, &p->f32DC);
@@ -2308,10 +2308,10 @@ int func_021C5280(Work_v51B4 *p, int hit)
                 p->info->f4_4 ^= 1;
                 func_021C4754((Work_021C4754 *)p, p->info->kind);
                 func_021C523C((Work_021C523C *)p, p->info->f4_4);
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
             }
         } else {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 2, 0x11, 1);
             return 10;
         }
@@ -2320,11 +2320,11 @@ int func_021C5280(Work_v51B4 *p, int hit)
         if (p->f3034 != 0 && !p->info->f4_4 && p->args->info->f4_6) {
             if (p->h305E == 0) {
                 func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 4, 0x13, 1);
-                func_020061E4(0x648);
+                GFL_USE_PlaySeDefaultVolume(0x648);
                 p->b32C6 = 0;
             } else {
                 func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 4, 0x15, 1);
-                func_020061E4(0x649);
+                GFL_USE_PlaySeDefaultVolume(0x649);
                 p->b32C6 = 3;
             }
             return 8;
@@ -2332,7 +2332,7 @@ int func_021C5280(Work_v51B4 *p, int hit)
         break;
     case 5:
         if (p->f3034 != 0 && p->args->info->f4_6 && !p->info->f4_4) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021C6FA0((Anim_v4858 *)((Anim_v51B4 *)((Anim_021C51B4 *)(&p->anim))), 5, 9 - p->b32F6 * 2, 1);
             p->b32F6 ^= 1;
         }
@@ -2369,14 +2369,14 @@ int func_021C5484(Work_021C5484 *p, int hit)
     case 4:
         if (p->f3034 != 0) {
             func_021C6FA0((Anim_v4858 *)(&p->anim), 4, 0x15, 1);
-            func_020061E4(0x649);
+            GFL_USE_PlaySeDefaultVolume(0x649);
             p->b32C6 = 3;
             return 8;
         }
         break;
     case 5:
         if (p->f3034 != 0) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021C6FA0((Anim_v4858 *)(&p->anim), 5, 9 - p->b32F6 * 2, 1);
             p->b32F6 ^= 1;
         }
@@ -2386,14 +2386,14 @@ int func_021C5484(Work_021C5484 *p, int hit)
         break;
     case 10:
         if (p->h305C == 0) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             p->b32C6 = 9;
             return 8;
         }
         break;
     case 11:
         if (p->h305C == 1) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             p->b32C6 = 6;
             return 8;
         }
@@ -2429,7 +2429,7 @@ void func_021C55A4(Work_v5484 *p)
     }
     if (p->b330E != 0 && !TOUCHPANEL_HitCont(d_021C8544)) {
         if (TOUCHPANEL_GetTrg()) {
-            func_02035D20(&x, &y);
+            TOUCHPANEL_GetPointTrg(&x, &y);
             p->grabY = y;
             p->grabScroll = p->scroll;
         }
@@ -2446,7 +2446,7 @@ void func_021C55A4(Work_v5484 *p)
         if (p->prevScroll != p->scroll) {
             p->b32F7 = 1;
             func_021C6874((Work_v4754 *)p, p->scroll, 1, 1);
-            func_020061E4(0x645);
+            GFL_USE_PlaySeDefaultVolume(0x645);
         }
         p->prevScroll = p->scroll;
     }
@@ -2517,7 +2517,7 @@ void func_021C5718(Work_021C5718 *p, int sel, int *seq)
         break;
     case 9:
         if (p->args->cfg->f4_6) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             p->b32C6 = 0;
             *seq = 6;
         }
@@ -2535,14 +2535,14 @@ void func_021C5718(Work_021C5718 *p, int sel, int *seq)
     case 6:
         if (p->args->cfg->f4_6) {
             sub_02008A00(GAME_DATA_GetSaveBlock21(p->args->f4));
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021C3EF8((Info_021C3EF8 *)p->info);
             func_021C61EC(p, p->info->b6, 1);
         }
         break;
     case 7:
         if (p->args->cfg->f4_6) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             p->info->f48++;
             if (p->info->f48 > 0x18) {
                 p->info->f48 = 0;

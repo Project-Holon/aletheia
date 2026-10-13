@@ -18,6 +18,10 @@
  *   func_021F68A4  0x021F68A4  thumb
  *   func_021F5F60  0x021F5F60  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   KEY_GetTrg  0x020362DC  arm  arm9
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
  */
 
 typedef signed char s8;
@@ -40,13 +44,13 @@ typedef struct {
 
 extern const u8 tbl_02202DA4[][4];
 
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern u8 func_020355C4(void);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void func_020355D8(u8 v);
-extern void func_020061E4(u32 se);
-extern void func_0204B92C(struct Obj *obj, u32 v);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
+extern void CLACT_SetActorAutoAnim(struct Obj *obj, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int func_021F5F9C(int a, int b, int c);
 extern void func_021F68A4(Work *p, int box);
@@ -58,19 +62,19 @@ void func_021F5E44(Work *p)
     int dir = 0;
     u8 k;
 
-    if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+    if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
         func_020355D8(moved);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return;
     }
-    if (func_020362DC() & 0x40) {
+    if (KEY_GetTrg() & 0x40) {
         dir = 1;
-    } else if (func_020362DC() & 0x80) {
+    } else if (KEY_GetTrg() & 0x80) {
         dir = 2;
-    } else if (func_020362DC() & 0x20) {
+    } else if (KEY_GetTrg() & 0x20) {
         dir = 3;
-    } else if (func_020362DC() & 0x10) {
+    } else if (KEY_GetTrg() & 0x10) {
         dir = 4;
     }
     if (dir != 0) {
@@ -78,11 +82,11 @@ void func_021F5E44(Work *p)
         if (dir != p->slot) {
             if (dir == 0x63 || dir == 0x65) {
                 k = dir == 0x65 ? 0 : 1;
-                func_0204B92C((struct Obj *)p->arrows[k], 1);
+                CLACT_SetActorAutoAnim((struct Obj *)p->arrows[k], 1);
                 CLACT_SetActorAnimSeq((struct Obj *)p->arrows[k], k + 0x26);
                 p->box = func_021F5F9C(p->box, p->boxes, dir - 0x64);
                 func_021F68A4(p, p->box);
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
             } else {
                 moved = 1;
                 p->slot = dir;
@@ -90,7 +94,7 @@ void func_021F5E44(Work *p)
         }
     }
     if (moved) {
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
     }
     func_021F5F60(p->cursor, p->slot);
 }

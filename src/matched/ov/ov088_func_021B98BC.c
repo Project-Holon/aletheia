@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0207D534  0x0207D534  arm
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  */
 
@@ -20,14 +20,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 
 void STARTMENU_ResetDisplayState(void)
 {
     func_0207D534((volatile u16 *)0x0400006C, -16);
     func_0207D534((volatile u16 *)0x0400106C, -16);
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(u16 *)0x04000050 = 0;
     *(u16 *)0x04001050 = 0;

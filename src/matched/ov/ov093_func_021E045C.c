@@ -1,5 +1,5 @@
 /*
- * function: func_021E045C
+ * function: HAND_WAZA_GetConversionHandlers
  * address: 0x021E045C
  * packet: pkt_ov093_021E045C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E0284.c and filed here.
  *
  * symbols:
- *   d_021F261C 0x021F261C data ov093 a4
+ *   gHandWazaConversionHandlers 0x021F261C data ov093 a4
  */
 
-int *func_021E045C(int *p);
-extern int d_021F261C[];
+int *HAND_WAZA_GetConversionHandlers(int *p);
+extern int gHandWazaConversionHandlers[];
 
-int *func_021E045C(int *p)
+int *HAND_WAZA_GetConversionHandlers(int *p)
 {
     *p = 1;
-    return d_021F261C;
+    return gHandWazaConversionHandlers;
 }

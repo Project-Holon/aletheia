@@ -18,7 +18,7 @@
  *   STARTMENU_SetRowActorY  0x021BB5E0  thumb  ov088
  *   STARTMENU_PaintRowPalette  0x021BB810  thumb  ov088
  *   func_0200C308  0x0200C308  thumb
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   gStartMenuRowInfo     0x021BD5EC  data  a4
  */
 #include "../include/Obj00014.h"
@@ -42,7 +42,7 @@ struct Blk34;
 struct Obj;
 extern void STARTMENU_PaintRowPalette(void *p, u8 row, int y, int pal);
 extern u8 func_0200C308(struct Blk34 *p, u32 i);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
 void STARTMENU_LayoutRows(char *p)
 {
@@ -84,7 +84,7 @@ void STARTMENU_LayoutRows(char *p)
         } else {
             goto next;
         }
-        func_0204B3DC(obj, 1);
+        CLACT_SetActorDrawEnable(obj, 1);
     next:
         y += (s8)gStartMenuRowInfo[(u8)(p + i)[0x120]].f2;
     }

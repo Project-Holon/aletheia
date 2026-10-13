@@ -15,6 +15,7 @@
  *   d_0220AAD8  0x0220AAD8  data  ov094  a2
  *   d_0220AB0C  0x0220AB0C  data  ov094  a2
  *   d_0220AB2C  0x0220AB2C  data  ov094  a2
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
  */
 
 typedef short s16;
@@ -45,7 +46,7 @@ extern const P8 d_0220AB2C;
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_022079C0(W *p, int i, Point *off)
 {
@@ -79,25 +80,25 @@ void func_022079C0(W *p, int i, Point *off)
     }
     pos.x = x;
     pos.y = y;
-    func_0204B404(p->e[i].h0, (const struct Vec2 *)(&pos), 0);
+    CLACT_AddActorSurfacePos(p->e[i].h0, (const struct Vec2 *)(&pos), 0);
     if ((i & 1) == 0 && p->e[i].state == 0) {
         pos.x = x + 16;
         pos.y = y + 13;
-        func_0204B404(p->e[i].h1, (const struct Vec2 *)(&pos), 0);
+        CLACT_AddActorSurfacePos(p->e[i].h1, (const struct Vec2 *)(&pos), 0);
     } else if ((i & 1) == 0 && p->e[i].state != 1) {
         pos.x = x + 16;
         pos.y = y + 7;
-        func_0204B404(p->e[i].h1, (const struct Vec2 *)(&pos), 0);
+        CLACT_AddActorSurfacePos(p->e[i].h1, (const struct Vec2 *)(&pos), 0);
     }
     pos.x = x + tA.p[i & 1].x;
     pos.y = y + tA.p[i & 1].y;
-    func_0204B404(p->e[i].h2, (const struct Vec2 *)(&pos), 0);
+    CLACT_AddActorSurfacePos(p->e[i].h2, (const struct Vec2 *)(&pos), 0);
     pos.x = x + tB.p[i & 1].x;
     pos.y = y + tB.p[i & 1].y;
-    func_0204B404(p->e[i].h3, (const struct Vec2 *)(&pos), 0);
+    CLACT_AddActorSurfacePos(p->e[i].h3, (const struct Vec2 *)(&pos), 0);
     if (p->e[i].h4 != 0) {
         pos.x = x + 8;
         pos.y = y + 21;
-        func_0204B404(p->e[i].h4, (const struct Vec2 *)(&pos), 0);
+        CLACT_AddActorSurfacePos(p->e[i].h4, (const struct Vec2 *)(&pos), 0);
     }
 }

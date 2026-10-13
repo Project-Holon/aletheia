@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E314C",
-    "func_021E3184"
+    "HAND_WAZA_EarthquakeOnDamageRatio",
+    "HAND_WAZA_AddJudgment"
+   ],
+   "addresses": [
+    "0x021E314C",
+    "0x021E3184"
    ],
    "evidence": {
     "sole-ref": [

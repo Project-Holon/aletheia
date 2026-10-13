@@ -15,11 +15,11 @@
  *   func_021D9E04 0x021D9E04 thumb ov121
  *   func_021DA8B0 0x021DA8B0 thumb ov121
  *   func_021DC08C 0x021DC08C thumb ov121
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_0207D658 0x0207D658 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   func_021DBCC8 0x021DBCC8 thumb ov121
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021DB938 0x021DB938 thumb ov121
  *   func_021DB54C 0x021DB54C thumb ov121
  *   func_020409B4 0x020409B4 arm
@@ -33,10 +33,10 @@ extern void func_021D9E04(u8 *);
 extern void func_021DA8B0(u32 *,u32);
 extern void func_021DC08C(void *,u32 *,char *);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void func_0207D658(u32,int,int);
 extern void func_021DBCC8(struct Obj *o, u32 a, u32 b);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_021DB938(char *,int,u16);
 extern void func_021DB54C(char *,int,int,int,u16,u16);
 extern void func_020409B4(u32);
@@ -85,7 +85,7 @@ void func_021DC9CC(void *task,u32 *state,char *p)
         if(P(0xabc)) {func_021D9E04(P(0xabc));P(0xabc)=0;}
         W(0xae0)=0;
         if(index==H(0xade)) {
-            func_0204B3DC((struct Obj *)P(0xaf0),0);
+            CLACT_SetActorDrawEnable((struct Obj *)P(0xaf0),0);
             func_021DA8B0(task,(u32)func_021DC08C);
             return;
         }
@@ -110,7 +110,7 @@ void func_021DC9CC(void *task,u32 *state,char *p)
         func_0207D658(0x04000050,30,W(0xae8)*16/30);
         if(W(0xae8)++>30) {W(0xae8)=0;*state=3;}break;
     case 3:
-        func_021DBCC8((struct Obj *)p,index,H(0xade));func_020061E4(0x670);
+        func_021DBCC8((struct Obj *)p,index,H(0xade));GFL_USE_PlaySeDefaultVolume(0x670);
         row=(u32)H(0xade)>>2;col=H(0xade)%4;
         there=((*(int *)(p+0xac8))==row);
         here=((*(int *)(p+0xac8))==(index>>2));
@@ -128,7 +128,7 @@ void func_021DC9CC(void *task,u32 *state,char *p)
         if(W(0xae8)++>30) {W(0xae8)=0;*state=5;}break;
     case 5:*(volatile u32 *)0x04000000 &=~0xe000;*state=6;break;
     case 6:
-        W(0xae0)=0;func_0204B3DC((struct Obj *)P(0xaf0),0);
+        W(0xae0)=0;CLACT_SetActorDrawEnable((struct Obj *)P(0xaf0),0);
         if(P(0xabc)) {func_021D9E04(P(0xabc));P(0xabc)=0;}
         func_021DA8B0(task,(u32)func_021DC08C);break;
     }

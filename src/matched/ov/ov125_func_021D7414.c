@@ -12,7 +12,7 @@
  * symbols:
  *   func_021D85E8 0x021D85E8 arm ov125
  *   func_02034714 0x02034714 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0203F1FC 0x0203F1FC arm
  *   d_021D8D2C 0x021D8D2C data a4
  */
@@ -23,7 +23,7 @@ typedef unsigned long long u64;
 typedef struct { u32 w[49]; } Rec;
 extern char *func_021D85E8(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern char d_021D8D2C[];
 
@@ -40,7 +40,7 @@ int func_021D7414(char *unused, char *dst, int n)
         cnt = n;
         func_02034714(d_021D8D2C, 0, d_021D8D2C);
     }
-    func_02082BCC(dst, 0, n * 0xC4);
+    MI_CpuFill8(dst, 0, n * 0xC4);
     i = 0;
     base = (char *)hdr + 4;
     for (i = 0; i < cnt; i++) {

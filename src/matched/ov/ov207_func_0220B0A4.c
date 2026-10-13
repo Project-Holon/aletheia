@@ -15,7 +15,7 @@
  *   FADE_IsActive 0x0204E804 arm
  *   func_021BA544 0x021BA544 thumb ov206
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  *   func_021BA514 0x021BA514 thumb ov206
  *   func_021BA524 0x021BA524 thumb ov206
@@ -40,7 +40,7 @@ extern int func_0220B72C(char *);
 extern int FADE_IsActive(void);
 extern void func_021BA544(char *);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8);
 extern void func_021BA514(char *);
 extern int func_021BA524(char *);
@@ -71,7 +71,7 @@ int func_0220B0A4(void *unused,int unused2,u32 *args,u32 *p)
         case 1:
             flag=0;
             input=TOUCHPANEL_GetTrg();
-            if(func_020362DC()&3) { func_020355D8(0); flag=1; }
+            if(KEY_GetTrg()&3) { func_020355D8(0); flag=1; }
             if(input!=0) { func_020355D8(1); flag=1; }
             if(flag!=0) { func_021BA514((char *)p[8]); p[5]=2; }
             break;

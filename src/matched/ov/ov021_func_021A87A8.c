@@ -12,7 +12,7 @@
  * symbols:
  *   CLACT_SetSurfacePos  0x0204B09C  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 
 typedef unsigned char u8;
@@ -48,7 +48,7 @@ struct PtS;
 typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
-extern void func_0204B3DC(struct Obj *h, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *h, unsigned int v);
 
 void FIELD_MENU_UpdateActorsForScroll(S *s)
 {
@@ -64,16 +64,16 @@ void FIELD_MENU_UpdateActorsForScroll(S *s)
         if (s->e[i].f10 != 0 && s->e[i].f0 != 7) {
             CLACT_GetActorSurfacePos((struct Actor *)s->e[i].f10, (struct PtS *)&p4, 0);
             if (p4.y < 0xd0) {
-                func_0204B3DC((struct Obj *)s->e[i].f10, 1);
+                CLACT_SetActorDrawEnable((struct Obj *)s->e[i].f10, 1);
             } else {
-                func_0204B3DC((struct Obj *)s->e[i].f10, 0);
+                CLACT_SetActorDrawEnable((struct Obj *)s->e[i].f10, 0);
             }
         }
     }
     CLACT_GetActorSurfacePos((struct Actor *)s->f124, (struct PtS *)&p0, 0);
     if (s->f2c != 0 && p0.y < 0xd6) {
-        func_0204B3DC((struct Obj *)s->f124, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)s->f124, 1);
     } else {
-        func_0204B3DC((struct Obj *)s->f124, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)s->f124, 0);
     }
 }

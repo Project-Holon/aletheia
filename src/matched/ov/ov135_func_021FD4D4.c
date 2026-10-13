@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  */
 #include "../include/Obj08187.h"
 typedef unsigned int u32;
 struct Obj;
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 int func_021FD4D4(unsigned char *p)
 {
-    func_0204B3DC((struct Obj *)((struct Obj08187 *)p)->fD34, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj08187 *)p)->fD34, 0);
     if (((struct Obj08187 *)p)->f20 != 15) {
         if (((struct Obj08187 *)p)->f20 == 6)
             WIPE_SYS_Start(0, 0, 0, 0, 6, 1, 0x48);

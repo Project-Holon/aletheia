@@ -10,7 +10,7 @@
  * lever: SDK BG0 priority uses explicit (u16) assignment; compound &= pools 0xfffc.
  * volatile: 021B9E7A..021B9EB8 BG0CNT/DISP3DCNT re-reads; 021B9ED6 VIEWPORT
  * symbols:
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u16 d_021BA2AC[][4];
-extern void func_020434DC(u32,u32);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(u16,int,int,int,int);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
@@ -31,7 +31,7 @@ extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
 void func_021B9E6C(void)
 {
  u32 i;
- func_020434DC(1,1);
+ BG_SYS_SetMainPlaneVisible(1,1);
  *(volatile u16*)0x04000008 = (u16)(*(volatile u16*)0x04000008 & ~3);
  R=(R & ~0x3002)|2;
  R &= ~0x3010;

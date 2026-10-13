@@ -12,7 +12,7 @@
  * symbols:
  *   GFL_NET_HANDLE_SetBitMask  0x0203A28C  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_NET_SYSTEM_ResetMachineBuffer  0x02037BE8  arm
  *
  * Reset one slot entry while KEEPING its eight resource pointers.  The eight
@@ -51,7 +51,7 @@ typedef unsigned int   u32;
 
 extern u16 GFL_NET_HANDLE_SetBitMask(u16 mask, u32 idx, u32 set);
 extern u32 func_020307B0(void *p);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void GFL_NET_SYSTEM_ResetMachineBuffer(u32 idx);
 
 struct Entry {
@@ -76,7 +76,7 @@ void GFL_NET_HANDLE_ResetHandle(struct Entry *e, u32 idx)
 
     for (i = 0; i < 8; i++) {
         if (e->slot[i] != 0)
-            func_02082BCC(e->slot[i], 0, 0x10);
+            MI_CpuFill8(e->slot[i], 0, 0x10);
         saved[i] = e->slot[i];
     }
 
@@ -85,7 +85,7 @@ void GFL_NET_HANDLE_ResetHandle(struct Entry *e, u32 idx)
         e->obj = 0;
     }
 
-    func_02082BCC(e, 0, 0x50);
+    MI_CpuFill8(e, 0, 0x50);
 
     for (i = 0; i < 8; i++)
         e->slot[i] = saved[i];

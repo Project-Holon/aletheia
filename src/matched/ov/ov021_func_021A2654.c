@@ -11,7 +11,7 @@
  *
  * symbols:
  *   WEATHER_TASK_GetParticleActorPtr  0x021A2C28  thumb  ov021
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   _s32_div_f     0x0209C0A4  arm
  */
 
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 struct Obj;
 struct Vec2;
 u32 WEATHER_TASK_GetParticleActorPtr(u8 *p);
-void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void WEATHER_TASK_SetParticlePosWrapped(int obj, unsigned short *src)
 {
@@ -42,5 +42,5 @@ void WEATHER_TASK_SetParticlePosWrapped(int obj, unsigned short *src)
     } else if (pt[1] < -64) {
         pt[1] = pt[1] + 256;
     }
-    func_0204B404((struct Obj *)WEATHER_TASK_GetParticleActorPtr((u8 *)obj), (const struct Vec2 *)pt, 0);
+    CLACT_AddActorSurfacePos((struct Obj *)WEATHER_TASK_GetParticleActorPtr((u8 *)obj), (const struct Vec2 *)pt, 0);
 }

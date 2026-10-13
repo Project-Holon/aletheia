@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02045B38  0x02045B38  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FLD_BTL_INST_TOOL_LoadTrainerGroup  0x0216880C  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_ToChars  0x02045A38  arm
@@ -27,7 +27,7 @@ struct MsgBank;
 struct Rec;
 struct U16Vec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void *FLD_BTL_INST_TOOL_LoadTrainerGroup(u32 group, u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct U16Vec;
@@ -49,7 +49,7 @@ u16 *FLD_BTL_INST_TOOL_InitTrainerHeader(Blk *a, int b, int c)
     int h = (int)func_02045B38(0, 2, 11, c);
     u16 *r;
     int t;
-    func_02082BCC(a, 0, 0x120);
+    MI_CpuFill8(a, 0, 0x120);
     r = FLD_BTL_INST_TOOL_LoadTrainerGroup(b, c);
     a->f0 = b + 1;
     a->f18 = 0xFFFF;

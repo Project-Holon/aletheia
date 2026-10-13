@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E072C",
-    "func_021E080C"
+    "HAND_WAZA_DefogLowerEvasionRemoveSideEffects",
+    "HAND_WAZA_GetBrickBreakHandlers"
+   ],
+   "addresses": [
+    "0x021E072C",
+    "0x021E080C"
    ],
    "evidence": {
     "sole-ref": [

@@ -1,5 +1,5 @@
 /*
- * function: func_021C8494
+ * function: BTL_SERVER_FLOW_ReleaseBindingTargetById
  * address:  0x021C8494
  * packet:   pkt_021C7EC4
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C8494   0x021C8494  thumb  ov093
+ *   BTL_SERVER_FLOW_ReleaseBindingTargetById   0x021C8494  thumb  ov093
  *   BTL_SERVER_FLOW_ReleaseBindingTarget   0x021BFF60  thumb  ov093
- *   func_021B9934   0x021B9934  thumb  ov093
+ *   BTL_SIDE_GetPokeByIdThunk   0x021B9934  thumb  ov093
  * Wrapper family member; the body is the hand-checked shape of the family's first instance with only the member's constants substituted, per the family uniformity assertion in o36/report.md.
  */
 #include "../include/Obj00003.h"
@@ -26,8 +26,8 @@ typedef signed int s32;
 
 typedef struct { u32 f0; u8 pad[60]; } E64;
 
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void BTL_SERVER_FLOW_ReleaseBindingTarget(u8 *p, u8 *a, int z);
 
-void func_021C8494(u8 *p, int i) { BTL_SERVER_FLOW_ReleaseBindingTarget(p, func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, i), 1); }
+void BTL_SERVER_FLOW_ReleaseBindingTargetById(u8 *p, int i) { BTL_SERVER_FLOW_ReleaseBindingTarget(p, BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00003 *)p)->f8, i), 1); }
 

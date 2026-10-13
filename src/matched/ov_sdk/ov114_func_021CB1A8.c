@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_021CADAC  0x021CADAC  arm  ov114
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021CAC8C  0x021CAC8C  arm  ov114
  */
 
@@ -26,7 +26,7 @@ typedef struct {
 } BIGNUM;
 
 extern BIGNUM *func_021CADAC(BIGNUM *a, int words);
-extern void func_02082BCC(void *dst, int data, unsigned long size);
+extern void MI_CpuFill8(void *dst, int data, unsigned long size);
 extern void func_021CAC8C(BIGNUM *a);
 
 int func_021CB1A8(BIGNUM *r, BIGNUM *a, int n)
@@ -53,7 +53,7 @@ int func_021CB1A8(BIGNUM *r, BIGNUM *a, int n)
 			t[nw + i + 1] |= (l >> rb);
 			t[nw + i] = (l << lb);
 		}
-	func_02082BCC(t, 0, nw * 4);
+	MI_CpuFill8(t, 0, nw * 4);
 	r->top = a->top + nw + 1;
 	func_021CAC8C(r);
 	return 1;

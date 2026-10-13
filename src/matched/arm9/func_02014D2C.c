@@ -43,7 +43,7 @@
  *   G3_RotX          0x0207D810  arm
  *   G3_RotZ          0x0207D888  arm
  *   G3_MultMtx44     0x0207D8FC  arm
- *   sub_0207C768     0x0207C768  arm
+ *   FX_Div     0x0207C768  arm
  *   MCSS_MulVecMtx44    0x02016FC8  thumb
  *   MCSS_InitEdgeColor     0x020169D4  thumb
  *   MCSS_DrawShadow    0x020155A0  thumb
@@ -87,7 +87,7 @@ extern void G3i_LookAt_(const VecFx32 *camPos, const VecFx32 *camUp,
 extern void G3_RotX(fx32 s, fx32 c);
 extern void G3_RotZ(fx32 s, fx32 c);
 extern void G3_MultMtx44(const MtxFx44 *m);
-extern u32 sub_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 struct McssSys;
 struct McssWork;
 struct MtxFx44;
@@ -350,8 +350,8 @@ void MCSS_Draw(struct McssSys *sys)
             MTX_Copy43To44_(&g_renderStateDrawParams, &m);
             MTX_Concat44(&m, &SCREENTEX_ProjectionMatrix, &m);
             MCSS_MulVecMtx44((const struct VecFx32 *)(&pos), (const struct MtxFx44 *)(&m), (struct VecFx32 *)(&pos), &wv);
-            pos.x = FX_MUL(sub_0207C768(pos.x, wv), 0x80000);
-            pos.y = FX_MUL(sub_0207C768(pos.y, wv), 0x60000);
+            pos.x = FX_MUL(FX_Div(pos.x, wv), 0x80000);
+            pos.y = FX_MUL(FX_Div(pos.y, wv), 0x60000);
             pos.z = -pos.z;
             tx = FX_F32_TO_FX32(pose.ox);
             ty = FX_F32_TO_FX32(-pose.oy);

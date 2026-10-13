@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B60
+ * function: BTL_SLOT_CompactLiving
  * address: 0x021B9B60
  * packet: pkt_ov093_021B9B60
  * region: ov093
@@ -9,19 +9,19 @@
  * status: EXACT* (2 bytes alignment padding)
  * symbols:
  *   BTL_POKEPARAM_IsAbleToBattle 0x021D5B7C thumb ov093
- *   func_021B9C24 0x021B9C24 thumb ov093
+ *   BTL_SLOT_MoveToEnd 0x021B9C24 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int BTL_POKEPARAM_IsAbleToBattle(void *);
-extern void func_021B9C24(u8 *p, u8 i);
-void func_021B9B60(u8 *p) {
+extern void BTL_SLOT_MoveToEnd(u8 *p, u8 i);
+void BTL_SLOT_CompactLiving(u8 *p) {
     unsigned int j;
     int i;
     j=0;
     i=0;
     for(;j<p[24];j++) {
         if(BTL_POKEPARAM_IsAbleToBattle(*(void **)((u32)p+(u32)i*4))) i++;
-        else func_021B9C24(p,i);
+        else BTL_SLOT_MoveToEnd(p,i);
     }
 }

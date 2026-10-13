@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -18,12 +18,12 @@ struct Ov208Menu {
     u32 slot[5];
     u32 print[5];
 };
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 void func_021C4AC4(u16 *heap, struct Ov208Menu *p)
 {
     u8 i;
     for (i = 0; i < 5; i++) {
-        p->print[i] = func_0201C440((void *)(*heap));
+        p->print[i] = PRINTSYS_QUE_Create((void *)(*heap));
         p->slot[i] = 0;
     }
 }

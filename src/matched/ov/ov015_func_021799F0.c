@@ -1,5 +1,5 @@
 /*
- * function: func_021799F0
+ * function: IRCNET_IsRunning
  * address:  0x021799F0
  * packet:   pkt_ov015_021799F0
  * region:   ov015
@@ -21,7 +21,7 @@
 
 extern struct State d_0217AB80;
 
-unsigned char func_021799F0(void)
+unsigned char IRCNET_IsRunning(void)
 {
     return ((unsigned char *)&d_0217AB80)[0xc];
 }

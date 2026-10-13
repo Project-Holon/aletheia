@@ -11,7 +11,7 @@
  * volatile: hardware display registers re-read at 021C163C and 021C1646.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
@@ -32,7 +32,7 @@ typedef unsigned short u16;
 extern const char d_021C3C98[];
 extern const unsigned d_021C3A44[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -48,7 +48,7 @@ extern void *func_020056A0(void *,void *,unsigned);
 void *func_021C1610(unsigned arg, u16 heap) {
     u8 *p;
     p=func_02030734(heap,16,0,d_021C3C98,0x151);
-    func_02082BCC(p,0,16);
+    MI_CpuFill8(p,0,16);
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;

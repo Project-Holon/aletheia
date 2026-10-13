@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021EA784 0x021EA784 thumb ov170
  *   func_021ED888 0x021ED888 thumb ov170
  *   func_021ECB20 0x021ECB20 thumb ov170
  *   func_021DEFEC 0x021DEFEC thumb ov170
  *   func_021EF670 0x021EF670 thumb ov170
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   func_021EE364 0x021EE364 thumb ov170
  *   func_021EF68C 0x021EF68C thumb ov170
  *   func_021EE038 0x021EE038 thumb ov170
@@ -25,14 +25,14 @@
 #include "../include/Obj23887.h"
 #include "../include/Obj23888.h"
 typedef unsigned char u8;
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern void func_021EA784(int p);
 extern void func_021ED888(char *,int);
 extern void func_021ECB20(char *p, int f, int c);
 extern void func_021DEFEC(char *p, int b);
 extern void func_021EF670(char *);
 typedef unsigned int   u32;
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 extern void func_021EE364(char **,int,int);
 extern void func_021EF68C(char *);
 extern void func_021EE038(char *p, int a, int b, int c);
@@ -41,7 +41,7 @@ extern int func_021E22B8(int p);
 #define NEXT(p) (*(int *)(W(p)+0xA198))
 int func_021E21A0(u8 *p)
 {
-    func_020061E4(0x55C);
+    GFL_USE_PlaySeDefaultVolume(0x55C);
     switch(((struct Obj23887 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24) {
     case 0:
         func_021EA784((int)p);
@@ -66,7 +66,7 @@ int func_021E21A0(u8 *p)
         NEXT(p)=0x39;
         break;
     case 4:
-        if(func_0201AA18(((struct Obj23888 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f8)==0) {
+        if(POKEPARTY_GetCount(((struct Obj23888 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f8)==0) {
             func_021EF670(W(p));
             func_021DEFEC((char *)p,0);
             func_021EE364((char **)p,13,0);

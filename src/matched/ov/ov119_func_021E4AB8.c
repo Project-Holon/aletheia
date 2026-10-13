@@ -12,15 +12,16 @@
  * Normalise the third argument to 0 or 1 and tail call the setter.
  *
  * symbols:
+ *   CLACT_SetActorObjMode  0x0204B688  arm  arm9
  *   (none)
  */
 
 typedef unsigned int   u32;
 struct Actor;
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
 void func_021E4AB8(int a0, int a1, int a2)
 {
-    func_0204B688((struct Actor *)a1, a2 != 0);
+    CLACT_SetActorObjMode((struct Actor *)a1, a2 != 0);
 }
 

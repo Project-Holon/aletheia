@@ -13,8 +13,8 @@
  * score share against the party's summed stat 0xA1. First draft.
  *
  * symbols:
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   _s32_div_f     0x0209C0A4  arm
  */
@@ -38,8 +38,8 @@ typedef struct Record {
     u16 f14a;           /* 0x14A */
 } Record;
 
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
 void FLD_BTL_INST_TOOL_AddBattleTally(Record *r, Result *s)
@@ -61,9 +61,9 @@ void FLD_BTL_INST_TOOL_AddBattleTally(Record *r, Result *s)
     r->f134[9] += s->fb6[9];
     r->f14a += s->fb6[10];
     party = s->party;
-    n = func_0201AA18(party);
+    n = POKEPARTY_GetCount(party);
     sum = 0;
     for (i = 0; i < n; i++)
-        sum += POKE_TOOL_GetPartyValue(func_0201AB28(party, i), 0xA1, 0);
+        sum += POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(party, i), 0xA1, 0);
     r->f148 += (u16)(s->fb4 * 100 / sum);
 }

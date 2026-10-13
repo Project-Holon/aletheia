@@ -1,5 +1,5 @@
 /*
- * function: func_0217723C
+ * function: GFL_NET_DEVWIRELESS_GetLastErrorCode
  * address:  0x0217723C
  * packet:   pkt_0217723C
  * region:   ov014
@@ -14,7 +14,7 @@
  *
  * symbols:
  *   DWCi_MOV_WH_GetLastError  0x02178E68  thumb  ov014
- *   func_02177AEC  0x02177AEC  thumb  ov014
+ *   NET_WHPIPE_IsDisconnectDetected  0x02177AEC  thumb  ov014
  */
 
 typedef unsigned char  u8;
@@ -22,15 +22,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 int DWCi_MOV_WH_GetLastError(void);
-int func_02177AEC(void);
+int NET_WHPIPE_IsDisconnectDetected(void);
 
-int func_0217723C(void)
+int GFL_NET_DEVWIRELESS_GetLastErrorCode(void)
 {
     int r4 = DWCi_MOV_WH_GetLastError();
 
     if (r4 == 5)
         r4 = 0;
-    if (func_02177AEC() != 0 && r4 == 0)
+    if (NET_WHPIPE_IsDisconnectDetected() != 0 && r4 == 0)
         r4 = 0x14;
     return r4;
 }

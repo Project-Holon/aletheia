@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   MSGDATA_ReadString 0x02045CAC arm
  *   func_0201F250 0x0201F250 thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   func_02012FFC 0x02012FFC thumb
@@ -23,7 +23,7 @@
 typedef unsigned short u16;
 typedef unsigned u32;
 struct Rec3;
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 typedef unsigned char  u8;
 struct CharBuf;
 struct MsgBank;
@@ -31,7 +31,7 @@ struct WordSet;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern signed char func_02012FFC(void);
@@ -40,10 +40,10 @@ extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 #define I(k) (*(u32 *)((char *)p+(k)))
 void func_021D8010(void *p,u32 a) {
- if(I(0x9a4)!=0) {func_0201CE48((void *)I(0x9a4)); I(0x9a4)=0;}
+ if(I(0x9a4)!=0) {PRINTSYS_PrintStreamDelete((void *)I(0x9a4)); I(0x9a4)=0;}
  MSGDATA_ReadString((struct MsgBank *)I(0x990),a,(void *)I(0x99c));
  func_0201F250((struct WordSet *)I(0x994),(void *)I(0x9a0),(void *)I(0x99c));
- BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)I(0x97c))),15);
+ BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)I(0x97c))),15);
  GF_FONT_SetTextColor(1,2,15);
  I(0x9a4)=(u32)PRINTSYS_PrintStream(I(0x97c),0,0,I(0x9a0),I(0x998),func_02012FFC(),I(0x9a8),2,((struct Obj22630 *)p)->f4,15);
  func_0201F73C((void *)I(0x97c),1,(u16)I(0x984),13);

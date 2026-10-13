@@ -14,7 +14,7 @@
  *
  * symbols:
  *   count_digits                     0x02163f24 arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021641FC  0x021641FC  arm  ov009
  *   MI_CpuFill8                      0x02082bcc arm
  *   func_02082D44  0x02082D44  arm
@@ -41,7 +41,7 @@ typedef unsigned long long u64;
 typedef unsigned char  u8;
 
 int count_digits(unsigned short *a, int digits);
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void func_021641FC(unsigned short *a, unsigned long b, int i, int digits);
 void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void func_02082D44(const void *srcp, void *dstp, u32 size);
@@ -131,7 +131,7 @@ void func_02163F7C(unsigned short *c, unsigned short *a, unsigned short *b, int 
 		carry = tmp >> 16;
 	}
 	if (c != a && c != b) {
-		func_02082BCC(c + i, 0, (digits - i) * 2);
+		MI_CpuFill8(c + i, 0, (digits - i) * 2);
 	}
 }
 
@@ -201,7 +201,7 @@ void func_021640B8(unsigned short *c, unsigned short *a, unsigned short *b, int 
 		borrow = (int)tmp >> 16;
 	}
 	if (c != a && c != b) {
-		func_02082BCC(c + i, 0, (digits - i) * 2);
+		MI_CpuFill8(c + i, 0, (digits - i) * 2);
 	}
 }
 
@@ -275,7 +275,7 @@ void func_02164230(unsigned short *c, unsigned short *a, unsigned short *b, int 
 	int i;
 	int j;
 
-	func_02082BCC(c, 0, digits * 2);
+	MI_CpuFill8(c, 0, digits * 2);
 	digits_a = func_02163F24(a, digits);
 	digits_b = func_02163F24(b, digits);
 	for (i = 0; i < digits_b; i++) {
@@ -326,7 +326,7 @@ void func_02164358(unsigned short *c, unsigned short *a, int digits)
 
     digits_a = func_02163F24(a, digits);
     if (digits > digits_a * 2)
-        func_02082BCC(c + digits_a * 2, 0, (digits - digits_a * 2) * 2);
+        MI_CpuFill8(c + digits_a * 2, 0, (digits - digits_a * 2) * 2);
     for (i = 0; i < digits_a; i++) {
         j = i * 2;
         if (j >= digits)
@@ -420,7 +420,7 @@ void func_021644D0(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work)
 
     ca = work + digits;
     cca = ca + digits;
-    func_02082BCC(ca, 0, digits * 4);
+    MI_CpuFill8(ca, 0, digits * 4);
     digits_a = func_02163F24(a, digits);
     digits_b = func_02163F24(b, digits);
     if (digits_a > 0 && digits_b > 0) {
@@ -481,7 +481,7 @@ void func_0216469C(u16 *c, u16 *a, u16 *b, int digits, u16 *n)
     if (tmp == 0)
         return;
     divwork = tmp + digits;
-    func_02082BCC(c + 1, 0, (digits - 1) * sizeof(u16));
+    MI_CpuFill8(c + 1, 0, (digits - 1) * sizeof(u16));
     c[0] = 1;
     for (i = (digits - func_02163F24(b, digits)) * 16; i < digits * sizeof(u16) * 8; i++) {
         if (b[digits - (i >> 4) - 1] & (0x8000u >> (i & 15))) {
@@ -560,14 +560,14 @@ static void func_0216497C(unsigned short *c, unsigned short *a, unsigned short *
     else if (b != 0)
         func_02164230(c, a, b, digits);
     func_02164230(m, c, np, rdigits);
-    func_02082BCC(m + rdigits, 0, (digits - rdigits) * 2);
+    MI_CpuFill8(m + rdigits, 0, (digits - rdigits) * 2);
     func_02164230(m2, m, n, digits);
     func_02163F7C(c, c, m2, digits);
     func_02092364(c, c + rdigits, (digits - rdigits) * 2);
-    func_02082BCC(c + digits - rdigits, 0, rdigits * 2);
+    MI_CpuFill8(c + digits - rdigits, 0, rdigits * 2);
     switch (func_021641C4(c, n, digits)) {
     case 0:
-        func_02082BCC(c, 0, digits * 2);
+        MI_CpuFill8(c, 0, digits * 2);
         break;
     case 1:
         func_021640B8(c, c, n, digits);

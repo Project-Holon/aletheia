@@ -10,7 +10,7 @@
  * tail: two zero alignment bytes at 021F31B6 before 31B8.
  * prototype: 256C retains fifth heap input visibly stored by caller; heap forwards use full words without caller-side truncation.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   ARC_UTIL_LoadPaletteDataFromArchive 0x02049EB4 arm
  *   func_02040AE0 0x02040AE0 arm
  *   func_02040588 0x02040588 arm
@@ -21,7 +21,7 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_021F26F0 0x021F26F0 thumb ov194
  *   func_020355C4 0x020355C4 arm
  *   func_021F2818 0x021F2818 thumb ov194
@@ -33,7 +33,7 @@ typedef unsigned short u16;
 typedef unsigned u32;
 typedef struct {int x,y,z,w;} Box;
 typedef struct {int x,y;} Pair;
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32,u32,u32,u32,u32);
 extern void func_02040AE0(u32,const void *,u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -47,7 +47,7 @@ struct Cfg;
 struct Rect;
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_021F26F0(char *,char *,void *,void *,u32);
 extern u8 func_020355C4(void);
 extern int func_021F2818(char *,Pair *,Box *);
@@ -57,7 +57,7 @@ void func_021F3008(u8 *p,int mode,void *font,void *window,void *data,void *palet
  Box box;
  void *bg;
  int index;
- func_02082BCC(p,0,0x130);
+ MI_CpuFill8(p,0,0x130);
  ((struct Obj00733 *)p)->fD8=0;((struct Obj00733 *)p)->fDC=0;
  ((struct Obj00733 *)p)->fF4=font;((struct Obj00733 *)p)->fF8=window;((struct Obj00733 *)p)->fFE=heap;
  ((struct Obj00733 *)p)->f100=mode;((struct Obj00733 *)p)->f114=mode;((struct Obj00733 *)p)->f12C=data;
@@ -71,7 +71,7 @@ void func_021F3008(u8 *p,int mode,void *font,void *window,void *data,void *palet
  func_021F256C((char *)p,mode,index,((struct Obj00733 *)p)->f12C,heap);
  bg=(void *)BMP_WIN_Create(3,3,5,26,15,15,1);
  ((struct Obj00733 *)p)->fE0=bg;
- BMP_WIN_TransferChars(bg);BMP_WIN_MakeScreen(bg);func_020409B4(func_02045730(bg));
+ BMP_WIN_TransferChars(bg);BMP_WIN_MakeScreen(bg);func_020409B4(BMP_WIN_GetBgLayer(bg));
  ((struct Obj00733 *)p)->fEC=((struct Obj00733 *)p)->fE0;p[0xf0]=0;
  func_021F26F0((char *)p,(char *)p+0xec,window,font,heap);
  if(func_020355C4()==0){

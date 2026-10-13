@@ -25,7 +25,7 @@
  *   MYSTERY_DATA_HasCardSpace 0x0200A0C8 thumb
  *   MYSTERY_DATA_SaveStart 0x0200A2B8 thumb
  *   MYSTERY_DATA_SaveMain 0x0200A2D8 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj00253.h"
 typedef unsigned short u16;
@@ -48,7 +48,7 @@ extern int MYSTERY_ALBUM_IsIntroIdle(char *p);
 extern u32 MYSTERY_DATA_HasCardSpace(u8 *p);
 extern void MYSTERY_DATA_SaveStart(void *a0, int a1);
 extern int MYSTERY_DATA_SaveMain(void *a0, int a1);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 void func_021DCCE4(void *arg,u32 *state,char *p)
 {
     Desc d;
@@ -73,7 +73,7 @@ void func_021DCCE4(void *arg,u32 *state,char *p)
         break;
     case 3:
         if (func_021D9FF8(((struct Obj00253 *)p)->fABC)) {
-            func_02082BCC(&d,0,36);
+            MI_CpuFill8(&d,0,36);
             d.v[0]=*(u32 *)&((struct Obj00253 *)p)->f1C;
             d.v[1]=*(u32 *)&((struct Obj00253 *)p)->f10;
             d.v[2]=*(u32 *)&((struct Obj00253 *)p)->f14;

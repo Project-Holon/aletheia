@@ -9,7 +9,10 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 #include "../include/Obj04065.h"
 
-int GFL_NET_QUEUE_Reset(int a0){ int t0; t0 = func_02082BCC((int)((struct Obj04065 *)((char *)(a0)))->f18, (int)0, (int)(((struct Obj04065 *)((char *)(a0)))->f1C * 0x14)); ((struct Obj04065 *)((char *)(a0)))->f0 = (int)0; ((struct Obj04065 *)((char *)(a0)))->f4 = (int)0; ((struct Obj04065 *)((char *)(a0)))->f8 = (int)0; ((struct Obj04065 *)((char *)(a0)))->fC = (int)0; ((struct Obj04065 *)((char *)(a0)))->f10 = (int)0; return t0; }
+int GFL_NET_QUEUE_Reset(int a0){ int t0; t0 = MI_CpuFill8((int)((struct Obj04065 *)((char *)(a0)))->f18, (int)0, (int)(((struct Obj04065 *)((char *)(a0)))->f1C * 0x14)); ((struct Obj04065 *)((char *)(a0)))->f0 = (int)0; ((struct Obj04065 *)((char *)(a0)))->f4 = (int)0; ((struct Obj04065 *)((char *)(a0)))->f8 = (int)0; ((struct Obj04065 *)((char *)(a0)))->fC = (int)0; ((struct Obj04065 *)((char *)(a0)))->f10 = (int)0; return t0; }

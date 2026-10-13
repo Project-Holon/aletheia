@@ -6,7 +6,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   PROCSYS_Create 0x02031324 arm
  *   func_021F9CA4 0x021F9CA4 thumb
  *   func_021F9BF4 0x021F9BF4 thumb
@@ -15,7 +15,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *, int, unsigned);
+extern void MI_CpuFill8(void *, int, unsigned);
 extern void *PROCSYS_Create(int a0);
 extern void func_021F9CA4(void *);
 extern void func_021F9BF4(unsigned *ctx, unsigned index);
@@ -35,7 +35,7 @@ Context *func_021F99CC(unsigned fallback, void *base, unsigned count, unsigned a
     Context *ctx;
     unsigned i = 0;
     ctx = func_02030734(heap, 0x70, 0, d_02200D04, 0x77);
-    func_02082BCC(ctx, 0, 0x70);
+    MI_CpuFill8(ctx, 0, 0x70);
     ctx->heap = heap;
     ctx->count = count;
     ctx->arg = arg;
@@ -49,7 +49,7 @@ Context *func_021F99CC(unsigned fallback, void *base, unsigned count, unsigned a
         for (i = 0; i < ctx->list[6]; i++) {
             func_021F9BF4((unsigned int *)ctx, (unsigned short)ctx->list[i]);
         }
-        func_02082BCC(ctx->list, 0, 0x1c);
+        MI_CpuFill8(ctx->list, 0, 0x1c);
         ctx->loaded = 1;
     } else {
         func_021F9BF4((unsigned int *)ctx, fallback);

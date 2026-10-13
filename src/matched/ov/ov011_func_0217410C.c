@@ -20,7 +20,7 @@
  * a-field-offset-derived-from-a-live-base-after-an-if-is-the-stores-repeated-in-each-arm.
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
@@ -43,7 +43,7 @@ struct Rec {
 
 struct Entry;
 struct Link;
-extern u32 func_02026478(void *obj);
+extern u32 GAME_COMM_GetGameData(void *obj);
 extern void *GAME_DATA_GetLastBattleRecSlot(void *p);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
@@ -62,7 +62,7 @@ void INTRUDE_CMD_RecvResultRecord(int a0, int a1, u8 *b, u8 *s)
     int r7;
     int r6;
 
-    x = (void *)func_02026478(*(void **)(s + 4));
+    x = (void *)GAME_COMM_GetGameData(*(void **)(s + 4));
     y = GAME_DATA_GetLastBattleRecSlot(x);
     buf[1] = 0;
     flag = 0;

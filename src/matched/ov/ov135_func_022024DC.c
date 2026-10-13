@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021F6DE8  0x021F6DE8  thumb
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  */
 
 typedef signed char s8;
@@ -32,14 +32,14 @@ typedef struct {
 } Work;
 
 extern int func_021F6DE8(u32 handle);
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 
 int func_022024DC(Work *p, void *mon)
 {
-    if (func_021F6DE8((u32)mon) != 0 && func_0201AA18(p->ctx->party) == 6) {
+    if (func_021F6DE8((u32)mon) != 0 && POKEPARTY_GetCount(p->ctx->party) == 6) {
         return 2;
     }
-    if (p->species == 0x2D0 && func_0201AA18(p->ctx->party) == 6) {
+    if (p->species == 0x2D0 && POKEPARTY_GetCount(p->ctx->party) == 6) {
         return 1;
     }
     return 0;

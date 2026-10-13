@@ -11,9 +11,9 @@
  * lever: split records/record pointer steps, expand immutable position at4B88, record/id declaration swap (permuter183).
  * symbols:
  *   func_021F5204 0x021F5204 thumb ov112
- *   func_0201ADE4 0x0201ADE4 thumb
- *   func_0201AE1C 0x0201AE1C thumb
- *   func_0201AE14 0x0201AE14 thumb
+ *   POKE_PERSONAL_Create 0x0201ADE4 thumb
+ *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
+ *   POKE_PERSONAL_Delete 0x0201AE14 thumb
  *   func_021F77EC 0x021F77EC thumb ov112
  *   func_021F4B3C 0x021F4B3C thumb ov112
  *   func_021F4B88 0x021F4B88 thumb ov112
@@ -32,10 +32,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 extern u8 *func_021F5204(void *,u8 *,u32);
-extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
+extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
 struct Personal;
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *);
 extern void func_021F77EC(u32,u8 *,u32);
 extern void *func_021F4B3C(int type);
 extern void *func_021F4B88(void *,int,u32,int *);
@@ -71,10 +71,10 @@ void func_021F760C(u8 *p,u8 *input)
     ((struct Obj00723 *)q)->f14=0;
     ((struct Obj00723 *)q)->f104=0;
     *(u8 * *)&((struct Obj00723 *)q)->f58=func_021F5204(((struct Obj03762 *)p)->fC,input,1);
-    personal=func_0201ADE4((u32)((struct Obj10319 *)input)->f8,(u32)input[11],(u32)((struct Obj03762 *)p)->f0);
-    if(func_0201AE1C(personal,16)==1) ((struct Obj00723 *)q)->f10=1;
-    if(func_0201AE1C(personal,34)==1) ((struct Obj00723 *)q)->f14=1;
-    func_0201AE14(personal);
+    personal=POKE_PERSONAL_Create((u32)((struct Obj10319 *)input)->f8,(u32)input[11],(u32)((struct Obj03762 *)p)->f0);
+    if(POKE_PERSONAL_GetParam(personal,16)==1) ((struct Obj00723 *)q)->f10=1;
+    if(POKE_PERSONAL_GetParam(personal,34)==1) ((struct Obj00723 *)q)->f14=1;
+    POKE_PERSONAL_Delete(personal);
     ((struct Obj00723 *)q)->f18=0;
     ((struct Obj00723 *)q)->f1C=0;
     ((struct Obj00723 *)q)->f20=0;

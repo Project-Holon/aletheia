@@ -13,14 +13,14 @@
  * to the symbols line); the bl at +0x0E now resolves via `matched`.
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb
  */
 
 struct Ctx;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int *FIELDMAP_GetCommonWork(char *, int);
 
@@ -28,7 +28,7 @@ int GIMMICK65_WaitEffectEventMain(void *task)
 {
     void *a;
     int r;
-    a = GAMESYSTEM_GetFieldMap(func_020124E4(task));
+    a = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(task));
     r = 1;
     if (*FIELDMAP_GetCommonWork(a, 1) != 0)
         r = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D10B8
+ * function: BTL_CLIENT_StepAskSwitchBeforeSendOut
  * address: 0x021D10B8
  * packet: pkt_ov093_021D10B8
  * region: ov093
@@ -50,7 +50,7 @@ extern int func_021D121C(void *);
 extern u32 func_021D122C(void *);
 extern void BTL_ACTION_SetChange(void *, u8, u32);
 extern void BTL_CALC_ActionSetNone(u32 *p);
-int func_021D10B8(u8 *p, int *state)
+int BTL_CLIENT_StepAskSwitchBeforeSendOut(u8 *p, int *state)
 {
     u8 *args;
     int choice;

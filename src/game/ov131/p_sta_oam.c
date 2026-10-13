@@ -23,11 +23,11 @@
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   func_02030734 0x02030734 arm
- *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   BMP_GetPixels 0x020437D4 arm
  *   P_STA_OAM_FileName 0x021DC854 data a1
  *   BMP_GetWidth 0x020437DC arm
@@ -58,11 +58,11 @@ extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void CLACT_ReleaseCharacter(u32 charRes);
 extern void CLACT_ReleaseCellAnim(u32 cellRes);
 extern struct Actor *CLACT_CreateActor(void *unit, unsigned int chrRes, unsigned int plttRes, unsigned int cellRes, const void *pos, u16 space, u16 heapId);
-extern void func_0204B3DC(struct Actor *actor, u32 enable);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
 extern void CLACT_DeleteActor(struct Actor *actor);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_0204B6F4(struct Actor *actor, u32 animSeq, u32 flag);
-extern void func_0204B404(struct Actor *actor, const struct StaOamPoint *delta, u32 space);
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 animSeq, u32 flag);
+extern void CLACT_AddActorSurfacePos(struct Actor *actor, const struct StaOamPoint *delta, u32 space);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
@@ -132,7 +132,7 @@ struct StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(struct StaOamManager *mg
             pos.drawPriority = desc->drawPriority;
             pos.bgPriority = desc->bgPriority;
             grid->actor[i * cols + j] = CLACT_CreateActor(mgr->clunit, (u32)grid->charRes[i * cols + j], desc->plttRes, mgr->cellRes[mode], &pos, desc->space, mgr->heapId);
-            func_0204B6F4(grid->actor[j], (u8)desc->animSeq, 0);
+            CLACT_SetActorPaletteOffset(grid->actor[j], (u8)desc->animSeq, 0);
         }
     }
     ARC_TOOL_DeleteHandle(arc);
@@ -156,7 +156,7 @@ void P_STA_OAM_SetBitmapActorsEnabled(struct StaOamBitmapActors *grid, int enabl
     u8 i, j;
     for (i = 0; i < grid->rows; i++) {
         for (j = 0; j < grid->cols; j++) {
-            func_0204B3DC(grid->actor[j + i * grid->cols], enable);
+            CLACT_SetActorDrawEnable(grid->actor[j + i * grid->cols], enable);
         }
     }
 }
@@ -203,7 +203,7 @@ void P_STA_OAM_SetBitmapActorsPos(struct StaOamBitmapActors *grid, s16 x, s16 y)
         for (j = 0; j < grid->cols; j++) {
             pt.x = (s16)(x + (j << 6));
             pt.y = (s16)(y + (i << 5));
-            func_0204B404(grid->actor[j + i * grid->cols], &pt, grid->space);
+            CLACT_AddActorSurfacePos(grid->actor[j + i * grid->cols], &pt, grid->space);
         }
     }
 }

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * Message pointer y is passed live in r1 to 06898B40, whose fixed veneer
- * targets two-argument func_021C88C8. Omitting y lost its r0-to-r1 copy.
+ * targets two-argument BTL_SERVER_FLOW_CommitCmdRecord. Omitting y lost its r0-to-r1 copy.
  * symbols:
  *   func_06898A80 0x06898A80 thumb ov095
  *   func_06898A90 0x06898A90 thumb ov095

@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  * Addresses are Black-image addresses.
  */
@@ -29,13 +29,13 @@ extern u32 func_020409B4(u32);
 struct CharBuf;
 struct Descriptor;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
 int FIELD_MSGBG_ClearMsgPrint(u32 a)
 {
-BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj12064 *)((u8 *)(a)))->f14)), 255);
-return func_020409B4(func_02045730((struct Descriptor *)(((struct Obj12064 *)((u8 *)(a)))->f14)));
+BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj12064 *)((u8 *)(a)))->f14)), 255);
+return func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)(((struct Obj12064 *)((u8 *)(a)))->f14)));
 }
 

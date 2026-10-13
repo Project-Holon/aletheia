@@ -19,7 +19,7 @@
  *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
  *   FIELD_CAMERA_SetEyeRaw  0x0218ECF4  thumb  ov021
  *   _ll_mul        0x0209C054  arm
- *   d_020A1B38     0x020A1B38  data  a2
+ *   FX_SinCosTable_     0x020A1B38  data  a2
  * Addresses are Black-image addresses.
  */
 
@@ -39,7 +39,7 @@ void func_0207CA00(const V *a, const V *b, V *c);
 void VEC_Normalize(const V *a, V *b);
 void FIELD_CAMERA_SetTarget(u32 a, V *v);
 void FIELD_CAMERA_SetEyeRaw(u32 a, V *v);
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 static inline int FX_MUL(int a, int b)
 {
@@ -68,8 +68,8 @@ void FIELD_RAIL_CAMERA_SetOrbit(u32 p, u16 ang, int r, V *pos)
     func_0207CA00(&d, &c, &d);
     VEC_Normalize(&d, &n);
     i = (ang >> 4) * 2;
-    out.y = FX_MUL(d_020A1B38[i], r);
-    cr = FX_MUL(d_020A1B38[i + 1], r);
+    out.y = FX_MUL(FX_SinCosTable_[i], r);
+    cr = FX_MUL(FX_SinCosTable_[i + 1], r);
     out.x = FX_MUL(n.x, cr);
     out.z = FX_MUL(n.z, cr);
     out.x += c.x;

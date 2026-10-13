@@ -119,7 +119,7 @@ void func_021E9760(char *p, u8 *a, int b, int c)
 
 
 /*
- * Tail-call thunk to func_021E9928 (ldr r3 pool, bx r3). Unlabelled leaf filed as the witness for the call in func_021CE4D0.
+ * Tail-call thunk to func_021E9928 (ldr r3 pool, bx r3). Unlabelled leaf filed as the witness for the call in BTL_CLIENT_StepSelectAction.
  */
 void func_021E979C(char *p) { func_021E9928(p); }
 

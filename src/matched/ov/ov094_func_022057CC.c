@@ -24,13 +24,13 @@
  *   func_0220684C 0x0220684C thumb ov094
  *   func_02204BCC 0x02204BCC thumb ov094
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
- *   func_0201BB5C 0x0201BB5C thumb
+ *   POKE_TOOL_CalcIconPalette 0x0201BB5C thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B404 0x0204B404 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0204B6F4 0x0204B6F4 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 typedef unsigned char u8;
@@ -78,15 +78,15 @@ extern void *func_020056A0(void *cb, void *ctx, int a);
 extern void func_0220684C(char *p, int a, int b);
 extern void func_02204BCC(void *a0, int *c);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
-extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
+extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
 extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void ARC_TOOL_DeleteHandle(void *);
 void func_022057CC(Main *m, Info *q)
 {
@@ -120,8 +120,8 @@ void func_022057CC(Main *m, Info *q)
         if (q->species[i] != 0) {
             m->h1b0[i] = CLACT_RegisterCharacter(arc, POKE_TOOL_CalcGraphicIndex(q->species[i], q->form[i], q->gender[i], 0), 0, 1, m->heap);
             m->h1c8[i].obj = CLACT_CreateActor((void *)m->h1c4, m->h1b0[i], m->h1bc, m->h1c0, d_0220A392, 1, m->heap);
-            func_0204B404(m->h1c8[i].obj, (const struct Vec2 *)(&d_0220A50C[m->mode][i]), 1);
-            func_0204B92C(m->h1c8[i].obj, 1);
+            CLACT_AddActorSurfacePos(m->h1c8[i].obj, (const struct Vec2 *)(&d_0220A50C[m->mode][i]), 1);
+            CLACT_SetActorAutoAnim(m->h1c8[i].obj, 1);
             if (q->sel == i) {
                 CLACT_SetActorAnimSeq(m->h1c8[i].obj, 1);
             } else if (k == 0) {
@@ -138,7 +138,7 @@ void func_022057CC(Main *m, Info *q)
                 *(volatile u16 *)0x04001042 = (((x - 16) << 8) & 0xff00) | (u8)(x + 16);
                 *(volatile u16 *)0x04001046 = (((y - 16) << 8) & 0xff00) | (u8)(y + 16);
             }
-            func_0204B6F4(m->h1c8[i].obj, func_0201BB5C(q->species[i], q->form[i], q->gender[i], 0), 0);
+            CLACT_SetActorPaletteOffset(m->h1c8[i].obj, POKE_TOOL_CalcIconPalette(q->species[i], q->form[i], q->gender[i], 0), 0);
         }
     }
     ARC_TOOL_DeleteHandle(arc);

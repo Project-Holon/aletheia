@@ -19,10 +19,10 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B688 0x0204B688 arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   sDowsingPartIds 0x021F0DBC data ov033 a1
  */
 
@@ -74,12 +74,12 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 struct Obj;
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 struct Actor;
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void ARC_TOOL_DeleteHandle(void *);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void DOWSING_CreateParts(Obj *p)
 {
@@ -99,8 +99,8 @@ void DOWSING_CreateParts(Obj *p)
         }
         s.d = i;
         p->rec[i].obj = (u32)CLACT_CreateActor((void *)p->fC, p->rec[i].chr, p->f2C, p->rec[i].cell, &s, 1, p->heap);
-        func_0204B92C((struct Obj *)p->rec[i].obj, 1);
-        func_0204B688((struct Actor *)p->rec[i].obj, 1);
+        CLACT_SetActorAutoAnim((struct Obj *)p->rec[i].obj, 1);
+        CLACT_SetActorObjMode((struct Actor *)p->rec[i].obj, 1);
     }
     ARC_TOOL_DeleteHandle(arc);
     {
@@ -108,12 +108,12 @@ void DOWSING_CreateParts(Obj *p)
 
         pt.x = 0x50;
         pt.y = 0x60;
-        func_0204B404((struct Obj *)p->rec[0].obj, (const struct Vec2 *)(&pt), 1);
+        CLACT_AddActorSurfacePos((struct Obj *)p->rec[0].obj, (const struct Vec2 *)(&pt), 1);
         pt.x = 0xB0;
         pt.y = 0x60;
-        func_0204B404((struct Obj *)p->rec[1].obj, (const struct Vec2 *)(&pt), 1);
+        CLACT_AddActorSurfacePos((struct Obj *)p->rec[1].obj, (const struct Vec2 *)(&pt), 1);
         pt.x = 0x80;
         pt.y = 0x60;
-        func_0204B404((struct Obj *)p->rec[3].obj, (const struct Vec2 *)(&pt), 1);
+        CLACT_AddActorSurfacePos((struct Obj *)p->rec[3].obj, (const struct Vec2 *)(&pt), 1);
     }
 }

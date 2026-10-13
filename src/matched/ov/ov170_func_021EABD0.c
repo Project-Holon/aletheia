@@ -9,7 +9,7 @@
  * status: EXACT*
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  */
@@ -20,7 +20,7 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 typedef unsigned short u16;
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -28,7 +28,7 @@ void func_021EABD0(unsigned char *w,int i,void *bank,unsigned idx,int x,int y,un
  void *s; unsigned print;
  s=func_02045EC0(bank,idx);
  print=((struct Obj23962 *)w)->f8C;
- PRINTSYS_PrintQueColor((void *)print,(u32)func_02045770(*(void **)(w+0x94+i*8)),(short)x,(short)y,(u32)s,font,color);
+ PRINTSYS_PrintQueColor((void *)print,(u32)BMP_WIN_GetBmp(*(void **)(w+0x94+i*8)),(short)x,(short)y,(u32)s,font,color);
  *(w+i*8+0x98)=1;
  STRBUF_Delete(s);
 }

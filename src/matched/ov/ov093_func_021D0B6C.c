@@ -1,5 +1,5 @@
 /*
- * function: func_021D0B6C
+ * function: BTL_CLIENT_SetChangeActionsFromChoice
  * address:  0x021D0B6C
  * packet:   pkt_ov093_021D0B6C
  * region:   ov093
@@ -18,7 +18,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern void BTL_ACTION_SetChange(void *dst, u8 a, u8 b);
 
-void func_021D0B6C(u8 *g, u8 *s)
+void BTL_CLIENT_SetChangeActionsFromChoice(u8 *g, u8 *s)
 {
     u8 i;
 

@@ -11,10 +11,10 @@
  *
  * symbols:
  *   ENV_SetResourceSet  0x020307B0  arm
- *   func_020452E8       0x020452E8  arm
+ *   BMP_WIN_Delete       0x020452E8  arm
  *   BGWINFRM_Delete       0x0202CA0C  thumb
  *   func_0202EA20       0x0202EA20  thumb
- *   func_0201C4C0       0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Delete       0x0201C4C0  thumb
  */
 
 typedef unsigned char u8;
@@ -45,10 +45,10 @@ extern void ENV_SetResourceSet(void *p);
 struct Descriptor;
 struct Obj0202EA20;
 struct PrintSys;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
 extern u32 func_0202EA20(struct Obj0202EA20 *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 
 void FRAME_LIST_Delete(struct S *s)
 {
@@ -56,7 +56,7 @@ void FRAME_LIST_Delete(struct S *s)
 
     ENV_SetResourceSet(s->f2c);
     for (i = 0; i < s->count44; i++)
-        func_020452E8((struct Descriptor *)((int)s->arr38[i].p));
+        BMP_WIN_Delete((struct Descriptor *)((int)s->arr38[i].p));
     ENV_SetResourceSet(s->arr38);
     BGWINFRM_Delete(s->f3c);
     if (s->cnt16 != 0) {
@@ -66,6 +66,6 @@ void FRAME_LIST_Delete(struct S *s)
     }
     ENV_SetResourceSet(s->f28);
     func_0202EA20((struct Obj0202EA20 *)((int)s->f30));
-    func_0201C4C0((struct PrintSys *)((int)s->f34));
+    PRINTSYS_QUE_Delete((struct PrintSys *)((int)s->f34));
     ENV_SetResourceSet(s);
 }

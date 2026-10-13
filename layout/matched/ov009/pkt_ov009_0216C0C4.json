@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216C0C4",
+   "name": "DWCi_GPRecvBuddyMessageCallback",
    "address": "0x0216C0C4",
    "kind": "sdk",
    "region": "ov009",

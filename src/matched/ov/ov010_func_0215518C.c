@@ -18,12 +18,12 @@
  *   func_0200BAC8  0x0200BAC8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
- *   func_0201AC2C  0x0201AC2C  thumb
+ *   POKEPARTY_Copy  0x0201AC2C  thumb
  *   func_020307B0  0x020307B0  arm
  *   POKE_TOOL_HealParty  0x0201BA34  thumb
  *   MUSICAL_EVENT_SetPartyLevel50  0x02155160  thumb  ov010
@@ -48,12 +48,12 @@ struct PartyMon;
 struct Rec534;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern void *func_0200BAF4(int a, int b);
-extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
+extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
 extern u32 func_020307B0(void *p);
 extern void POKE_TOOL_HealParty(void *p);
 extern void MUSICAL_EVENT_SetPartyLevel50(void *list);
@@ -68,14 +68,14 @@ void MUSICAL_EVENT_BuildParty(int mode, struct Ctx *ctx)
     t = (int)func_0200BAC8(ctx->f4c);
     if (mode == 0) {
         list = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(ctx->f00));
-        for (i = 0; i < (int)func_0201AA18(list); i++) {
-            e = func_0201AB28(list, i);
+        for (i = 0; i < (int)POKEPARTY_GetCount(list); i++) {
+            e = POKEPARTY_GetMember(list, i);
             if (POKE_TOOL_GetPartyValue(e, 0x4c, 0) == 0)
-                func_0201A98C(ctx->f38, e);
+                POKEPARTY_Add(ctx->f38, e);
         }
     } else {
         h = func_0200BAF4(t, 4);
-        func_0201AC2C(h, ctx->f38);
+        POKEPARTY_Copy(h, ctx->f38);
         func_020307B0(h);
     }
     POKE_TOOL_HealParty(ctx->f38);

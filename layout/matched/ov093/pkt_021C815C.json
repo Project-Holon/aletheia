@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021C815C",
-    "func_021C8168"
+    "BTL_SERVER_FLOW_GetRule",
+    "BTL_SERVER_FLOW_GetCompetitor"
+   ],
+   "addresses": [
+    "0x021C815C",
+    "0x021C8168"
    ]
   }
  ]

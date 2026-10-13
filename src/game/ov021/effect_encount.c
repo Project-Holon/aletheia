@@ -16,7 +16,7 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02005728  0x02005728  thumb
  *   func_02030734  0x02030734  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
@@ -117,7 +117,7 @@ typedef struct MmdlObjSize {
 } MmdlObjSize;
 
 extern u32 func_020307B0(void *memory);
-extern u32 func_02082BCC(void *dest, int value, int size);
+extern u32 MI_CpuFill8(void *dest, int value, int size);
 extern u32 func_02005728(u32 range);
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern void *func_02030734(u32 heapId, u32 size, int mode, const char *fileName, u16 line);
@@ -201,7 +201,7 @@ EffectEncount *EFFECT_ENCOUNT_Create(int heapId)
 
 int EFFECT_ENCOUNT_Delete(EffectEncount *effectEncount)
 {
-    func_02082BCC(effectEncount, 0, sizeof(EffectEncount));
+    MI_CpuFill8(effectEncount, 0, sizeof(EffectEncount));
     return func_020307B0(effectEncount);
 }
 
@@ -436,7 +436,7 @@ void EFFECT_ENCOUNT_RestoreSpot(FieldEncount *encount, EffectEncount *effectEnco
     spot->needsRestore = 0;
     zoneId = FIELDMAP_GetZoneId(encount->fieldMap);
     if (zoneId != spot->zoneId || spot->consumed != 0)
-        func_02082BCC(spot, 0, 0x10);
+        MI_CpuFill8(spot, 0, 0x10);
     else
         EFFECT_ENCOUNT_CreateEffectObj(encount, effectEncount, spot);
 }
@@ -514,7 +514,7 @@ void EFFECT_ENCOUNT_CollectCandidates(FieldEncount *encount, EffectEncount *effe
     int kind;
 
     mapper = FIELDMAP_GetG3dMapper(encount->fieldMap);
-    func_02082BCC(&effectEncount->candidateCount, 0, 0x5B0);
+    MI_CpuFill8(&effectEncount->candidateCount, 0, 0x5B0);
     cellPos.y = 0;
     blockIndex = FIELD_G3D_MAPPER_GetFocusSlot(mapper);
     if (FIELD_G3D_MAPPER_CheckSlotReady(mapper, blockIndex) == 0)
@@ -620,7 +620,7 @@ void EFFECT_ENCOUNT_ClearSpot(FieldEncount *encount, EffectEncount *effectEncoun
 {
     EncountGimmickWork *gimmick = func_02012A38(encount->gameData);
     EFFECT_ENCOUNT_DeleteEffectObj(effectEncount);
-    func_02082BCC(&gimmick->spot, 0, 0x10);
+    MI_CpuFill8(&gimmick->spot, 0, 0x10);
 }
 
 /* Creates the effect object of the spot; clears the spot when the effect cannot start. */
@@ -630,7 +630,7 @@ void EFFECT_ENCOUNT_CreateEffectObj(FieldEncount *encount, EffectEncount *effect
         /* stand-in: the (u16) casts make the loads ldrh as the original has them; the spot fields are s16 elsewhere */
         effectEncount->effectObj = FLDEFF_ENCOUNT_Start(encount, effectEncount->fieldEffectSys, (u16)spot->gridX, (u16)spot->gridZ, spot->heightFx, spot->kind);
         if (effectEncount->effectObj == 0) {
-            func_02082BCC(spot, 0, 0x10);
+            MI_CpuFill8(spot, 0, 0x10);
         }
     }
 }

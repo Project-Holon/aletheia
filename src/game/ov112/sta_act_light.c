@@ -30,8 +30,8 @@
  *   func_020307B0 0x020307B0 arm
  *   func_021F9E04 0x021F9E04 thumb ov132
  *   func_021F9E18 0x021F9E18 thumb ov132
- *   func_0204B404 0x0204B404 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   _fflt 0x0209BDBC arm
  *   _ffltu 0x0209BE04 arm
  *   _fdiv 0x0209CE10 arm
@@ -86,9 +86,9 @@
  *   BILLBOARD_SetElemPos 0x0204F638 arm
  *   _fadd 0x0209C95C arm
  *   func_021F5204 0x021F5204 thumb ov112
- *   func_0201ADE4 0x0201ADE4 thumb
- *   func_0201AE1C 0x0201AE1C thumb
- *   func_0201AE14 0x0201AE14 thumb
+ *   POKE_PERSONAL_Create 0x0201ADE4 thumb
+ *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
+ *   POKE_PERSONAL_Delete 0x0201AE14 thumb
  *   func_021F4B3C 0x021F4B3C thumb ov112
  *   func_021F4B88 0x021F4B88 thumb ov112
  *   BILLBOARD_AddElem 0x0204F428 arm
@@ -98,7 +98,7 @@
  *   func_021F5330 0x021F5330 thumb ov112
  *   func_021F4F10 0x021F4F10 thumb ov112
  *   func_021F514C 0x021F514C thumb ov112
- *   func_0200616C 0x0200616C thumb
+ *   GFL_USE_PlaySeInSlot 0x0200616C thumb
  *   d_021F832C 0x021F832C data a4
  *   func_021F9DC0 0x021F9DC0 thumb ov132
  *   func_021F9EDC 0x021F9EDC thumb ov132
@@ -107,7 +107,7 @@
  *   func_021F9FD0 0x021F9FD0 thumb ov132
  *   func_021F9FB4 0x021F9FB4 thumb ov132
  *   func_021F9F58 0x021F9F58 thumb ov132
- *   func_020061F8 0x020061F8 thumb
+ *   GFL_USE_StopSeSlot 0x020061F8 thumb
  *   _ll_mul 0x0209C054 arm
  *   func_021F4EC4 0x021F4EC4 thumb ov112
  *   func_021F539C 0x021F539C thumb ov112
@@ -282,8 +282,8 @@ extern void CLACT_DeleteUnit(void *);
 extern void func_020307B0(void *);
 extern u16 func_021F9E04(u8 *p);
 extern int func_021F9E18(char *p);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void *func_021F9DA0(char *p);
 extern void *func_021F9DA4(char *p, u32 i);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
@@ -326,9 +326,9 @@ extern void func_021F4EB4(u32 unused, u32 p, s16_021F6BC0 a, s16_021F6BC0 b);
 extern void func_021F4E6C(u8 *, u8 *, u32);
 extern void BILLBOARD_SetElemPos(u8 *a0, int i, struct Trip *src);
 extern u8 *func_021F5204(void *,u8 *,u32);
-extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *);
+extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *);
 extern void *func_021F4B3C(int type);
 extern void *func_021F4B88(void *,int,u32,int *);
 extern s32_021F760C BILLBOARD_AddElem(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
@@ -338,8 +338,8 @@ extern void func_021F4B4C(struct Tagged *a0);
 extern void func_021F5330(int, int);
 extern u32 func_021F4F10(u8 *);
 extern unsigned char func_021F514C(void *p, int i);
-extern void func_0200616C(void *,int);
-extern void func_020061F8(int);
+extern void GFL_USE_PlaySeInSlot(void *,int);
+extern void GFL_USE_StopSeSlot(int);
 extern void *func_021F9DC0(void *p);
 extern char *func_021F9EDC(char *p, u32 a);
 extern void func_021F9F74(int, int, Vec_021F6F64 *);
@@ -474,12 +474,12 @@ void func_021F6CE0(char *p, char *q) {
     if (((struct Obj05317 *)q)->f0 == 1) {
         point.x = (short)((float)((struct Obj05317 *)q)->f8 / 4096.0f - (float)(unsigned)n);
         point.y = (short)((float)((struct Obj05317 *)q)->fC / 4096.0f);
-        func_0204B404((struct Obj *)(((struct Obj05317 *)q)->f1C), (const struct Vec2 *)(&point), 0);
+        CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj05317 *)q)->f1C), (const struct Vec2 *)(&point), 0);
         if (*(int *)&((struct Obj00771 *)p)->f4 != 0 && func_021F9E18((char *)(*(int *)&((struct Obj00771 *)p)->f4)) != 4) {
-            func_0204B3DC((struct Obj *)((struct Obj05317 *)q)->f1C, 0);
+            CLACT_SetActorDrawEnable((struct Obj *)((struct Obj05317 *)q)->f1C, 0);
             return;
         }
-        func_0204B3DC((struct Obj *)((struct Obj05317 *)q)->f1C, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj05317 *)q)->f1C, 1);
     }
 }
 
@@ -506,7 +506,7 @@ void func_021F6D68(char *p)
         d.b=2;
         a=CLACT_CreateActor((void *)((struct Obj00771 *)p)->fA8,((struct Obj00771 *)p)->fB0,((struct Obj00771 *)p)->fAC,((struct Obj00771 *)p)->fB4,&d.x,0,((struct Obj00771 *)p)->f0);
         ((struct Obj00771 *)p)->fA4=a;
-        func_0204B3DC(a,1);
+        CLACT_SetActorDrawEnable(a,1);
     }
     if(((struct Obj00771 *)p)->f88==1) {
         if(func_021F9E18(*(char * *)&((struct Obj00771 *)p)->f4)==4) {
@@ -520,7 +520,7 @@ void func_021F6D68(char *p)
         func_021F8044(ctx,(u32 *)model,(u32 *)(&v));
         d.pos.x=(short)((float)v.x/4096.0f-(float)(unsigned)n);
         d.pos.y=(short)((float)v.y/4096.0f-32.0f);
-        func_0204B404(((struct Obj00771 *)p)->fA4,(const struct Vec2 *)(&d.pos),0);
+        CLACT_AddActorSurfacePos(((struct Obj00771 *)p)->fA4,(const struct Vec2 *)(&d.pos),0);
     }
 }
 
@@ -552,7 +552,7 @@ u8 *func_021F6E78(u8 *p, int v)
     pos.b = 2;
     o = CLACT_CreateActor(*(void **)(p + 0xa8), *(u32 *)(p + 0xb0), *(u32 *)(p + 0xac), *(u32 *)(p + 0xb4), &pos, 0, *(u16 *)p);
     *(struct Obj **)(q + 0x1c) = o;
-    func_0204B3DC(o, 1);
+    CLACT_SetActorDrawEnable(o, 1);
     return q;
 }
 
@@ -969,10 +969,10 @@ void func_021F760C(u8 *p,u8 *input)
     ((struct Obj00723 *)q)->f14=0;
     ((struct Obj00723 *)q)->f104=0;
     *(u8 * *)&((struct Obj00723 *)q)->f58=func_021F5204(((struct Obj03762 *)p)->fC,input,1);
-    personal=func_0201ADE4((u32)((struct Obj10319 *)input)->f8,(u32)input[11],(u32)((struct Obj03762 *)p)->f0);
-    if(func_0201AE1C(personal,16)==1) ((struct Obj00723 *)q)->f10=1;
-    if(func_0201AE1C(personal,34)==1) ((struct Obj00723 *)q)->f14=1;
-    func_0201AE14(personal);
+    personal=POKE_PERSONAL_Create((u32)((struct Obj10319 *)input)->f8,(u32)input[11],(u32)((struct Obj03762 *)p)->f0);
+    if(POKE_PERSONAL_GetParam(personal,16)==1) ((struct Obj00723 *)q)->f10=1;
+    if(POKE_PERSONAL_GetParam(personal,34)==1) ((struct Obj00723 *)q)->f14=1;
+    POKE_PERSONAL_Delete(personal);
     ((struct Obj00723 *)q)->f18=0;
     ((struct Obj00723 *)q)->f1C=0;
     ((struct Obj00723 *)q)->f20=0;
@@ -1104,7 +1104,7 @@ void func_021F79A8(char *p,char *q,int index)
     ((struct Obj03248 *)q)->fF0=0;
     ((struct Obj03248 *)q)->fF4=index;
     ((struct Obj03248 *)q)->fF8=0;
-    func_0200616C(d_021F832C[v],2);
+    GFL_USE_PlaySeInSlot(d_021F832C[v],2);
     ((struct Obj13841 *)p)->f43C+=1;
     switch(v) {
     case 0: func_021F7A94(p,q); *(void (**)(char *,char *))(q+260)=func_021F7A98; break;
@@ -1148,7 +1148,7 @@ void func_021F7A98(char *p, char *q) {
     if (tail->count >= 0xc0) {
         ((struct Obj22559 *)q)->f104 = 0;
         ((struct Obj13842 *)p)->f43C -= 1;
-        if (((struct Obj13842 *)p)->f43C == 0) func_020061F8(2);
+        if (((struct Obj13842 *)p)->f43C == 0) GFL_USE_StopSeSlot(2);
     }
 }
 
@@ -1205,7 +1205,7 @@ void func_021F7BA8(u8 *p,u8 *q)
         func_021F9F58((void *)a,(void *)t->a);
         ((struct Obj06409 *)q)->f104=0;
         ((struct Obj08028 *)p)->f43C-=1;
-        if(((struct Obj08028 *)p)->f43C==0) func_020061F8(2);
+        if(((struct Obj08028 *)p)->f43C==0) GFL_USE_StopSeSlot(2);
     }
 }
 
@@ -1268,7 +1268,7 @@ void func_021F7D30(u8 *p,u8 *q)
         offset+=55;
         *(int *)(q+offset)=0;
         *(u8 *)(p+0x43c)-=1;
-        if(*(u8 *)(p+0x43c)==0) func_020061F8(2);
+        if(*(u8 *)(p+0x43c)==0) GFL_USE_StopSeSlot(2);
     }
 }
 
@@ -1319,7 +1319,7 @@ void func_021F7ECC(char *p,char *q)
         func_021F4E6C((u8 *)(((struct Obj04463 *)p)->f10),(u8 *)(*(int *)(q+0x84+t->index*4)),0);
         ((struct Obj22565 *)q)->f104=0;
         ((struct Obj04463 *)p)->f43C-=1;
-        if(((struct Obj04463 *)p)->f43C==0) func_020061F8(2);
+        if(((struct Obj04463 *)p)->f43C==0) GFL_USE_StopSeSlot(2);
     }
 }
 
@@ -1342,7 +1342,7 @@ void func_021F7FAC(char *p, char *q) {
     if (t->count >= 0xb4) {
         ((struct Obj22566 *)q)->f104 = 0;
         ((struct Obj10324 *)p)->f43C -= 1;
-        if (((struct Obj10324 *)p)->f43C == 0) func_020061F8(2);
+        if (((struct Obj10324 *)p)->f43C == 0) GFL_USE_StopSeSlot(2);
         return;
     }
     func_021F4EB4(((struct Obj10324 *)p)->f10, *(int *)(q + 0x84 + t->index * 4),

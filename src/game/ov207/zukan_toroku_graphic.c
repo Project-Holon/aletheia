@@ -18,9 +18,9 @@
  *   overlay206 0x000000CE data
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_021B9DE0 0x021B9DE0 thumb ov206
  *   func_0220B55C 0x0220B55C thumb ov207
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
@@ -37,7 +37,7 @@
  *   FADE_IsActive 0x0204E804 arm
  *   func_021BA544 0x021BA544 thumb ov206
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  *   func_021BA514 0x021BA514 thumb ov206
  *   func_021BA524 0x021BA524 thumb ov206
@@ -84,13 +84,15 @@
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  */
 #include "../../matched/include/Obj00162.h"
 #include "../../matched/include/Obj14641.h"
@@ -121,9 +123,9 @@ struct Entry { unsigned id; char fields[32]; unsigned a,b; };
 extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern u32 func_0201C440(void *);
+extern u32 PRINTSYS_QUE_Create(void *);
 extern void *func_021B9DE0(u16,void *,u32,u32,u32,u32,u8,u32,u32,u32,u32,u32,u32);
 extern char *func_0220B55C(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
@@ -132,8 +134,8 @@ extern void FADE_Start(u32,int,int,int);
 extern void func_02030EAC(struct Node *n);
 extern void func_0220B6E4(unsigned *p);
 extern void func_021BA2CC(char *p);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
@@ -143,7 +145,7 @@ extern int func_0220B72C(char *);
 extern int FADE_IsActive(void);
 extern void func_021BA544(char *);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8);
 extern void func_021BA514(char *);
 extern int func_021BA524(char *);
@@ -186,7 +188,7 @@ extern void func_020419E4(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
@@ -234,11 +236,11 @@ int func_0220AF40(void *owner,int unused,u32 *args)
     func_02034AC4((int)overlay206);
     GFL_HEAP_CreateChildHeap((u32)((void *)1),0x6a,0x80000);
     p=PROCSYS_AllocProcWork(owner,0x34,0x6a);
-    func_02082BCC(p,0,0x34);
+    MI_CpuFill8(p,0,0x34);
     p->heap=0x6a;
     p->display=func_0220B318(1,p->heap);
     p->font=GF_FONT_Create(0x17,0,0,0,p->heap);
-    p->gfx=func_0201C440((void *)(u32)p->heap);
+    p->gfx=PRINTSYS_QUE_Create((void *)(u32)p->heap);
     if(args[0]==0) { p->enabled=0; p->zero=0; } else { p->enabled=1; p->zero=0; }
     flag=0;
     if(args[0]!=0) flag=1;
@@ -265,8 +267,8 @@ int func_0220B048(void *a,int b,int c,unsigned *p)
     func_0220B2E0(p);
     func_0220B6E4((void *)p[9]);
     func_021BA2CC((void *)p[8]);
-    func_0201C6EC((void *)p[3]);
-    func_0201C4C0((void *)p[3]);
+    PRINTSYS_QUE_Clear((void *)p[3]);
+    PRINTSYS_QUE_Delete((void *)p[3]);
     GF_FONT_Delete((void *)p[2]);
     func_0220B3B8((void *)p[1]);
     func_020315D4(a);
@@ -299,7 +301,7 @@ int func_0220B0A4(void *unused,int unused2,u32 *args,u32 *p)
         case 1:
             flag=0;
             input=TOUCHPANEL_GetTrg();
-            if(func_020362DC()&3) { func_020355D8(0); flag=1; }
+            if(KEY_GetTrg()&3) { func_020355D8(0); flag=1; }
             if(input!=0) { func_020355D8(1); flag=1; }
             if(flag!=0) { func_021BA514((char *)p[8]); p[5]=2; }
             break;
@@ -407,7 +409,7 @@ void func_0220B2F8(int unused, char *p)
 void *func_0220B318(int a,int heap)
 {
     unsigned *p=func_02030734(heap,16,0,d_0220BC20,455);
-    func_02082BCC(p,0,16);
+    MI_CpuFill8(p,0,16);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;
@@ -443,7 +445,7 @@ void func_0220B3B8(unsigned *p)
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
-    func_02082BCC(p,0,16);
+    MI_CpuFill8(p,0,16);
     func_020307B0(p);
 }
 
@@ -481,7 +483,7 @@ void func_0220B434(void*unused,u8*p){func_0220B4E4(p);func_0220B550(p+4);}
 void func_0220B448(void *p,int heap)
 {
     unsigned i;
-    func_02082BCC(p,0,4);
+    MI_CpuFill8(p,0,4);
     func_0203F8F4(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)d_0220BABC);
@@ -495,7 +497,7 @@ void func_0220B448(void *p,int heap)
 }
 
 
-void func_0220B4A8(void*p){u32 i;for(i=0;i<4;i++)func_020403F4((u8)d_0220BB18[i].id);BMP_WIN_Exit();func_0203F9B4();func_02082BCC(p,0,4);}
+void func_0220B4A8(void*p){u32 i;for(i=0;i<4;i++)func_020403F4((u8)d_0220BB18[i].id);BMP_WIN_Exit();func_0203F9B4();MI_CpuFill8(p,0,4);}
 
 
 
@@ -510,17 +512,17 @@ void func_0220B4E4(void*p){func_020419E4();}
 
 void func_0220B4EC(unsigned char *p, int a, int b)
 {
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x0220BACC, a, b);
     ((struct Obj14642 *)p)->f0 = CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer(((struct Obj14642 *)p)->f0);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
 
 
-void func_0220B52C(struct Bank**p){CLACT_DeleteUnit(*p);CLACT_ExitSystem();func_02082BCC(p,0,4);}
+void func_0220B52C(struct Bank**p){CLACT_DeleteUnit(*p);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
 
 
 

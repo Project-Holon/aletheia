@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: the signed byte step derives -8 from live 64 with subs #72; u8 emits movs #248.
  * symbols:
- *   sub_020311B8 0x020311B8 arm
+ *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_021BD6BC 0x021BD6BC thumb ov216
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 struct Tcbl;
 struct TcblNode;
 struct S02030FB4;
-extern struct TcblNode *sub_020311B8(struct Tcbl *, void (*)(struct TcblNode *, void *), u32, u32);
+extern struct TcblNode *TCBL_AddTask(struct Tcbl *, void (*)(struct TcblNode *, void *), u32, u32);
 extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void MI_CpuFill8(void *, int, int);
 extern void func_021BD6BC(struct TcblNode *task, u8 *p);
@@ -31,7 +31,7 @@ extern void func_021BCD00(int);
 void func_021BD668(char *owner, int direction, int *counter)
 {
     char *work;
-    work = TCBL_GetWork((struct S02030FB4 *)sub_020311B8(*(struct Tcbl * *)&((struct Obj25779 *)owner)->f18, (void (*)(struct TcblNode *, void *))func_021BD6BC, 12, 0));
+    work = TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(*(struct Tcbl * *)&((struct Obj25779 *)owner)->f18, (void (*)(struct TcblNode *, void *))func_021BD6BC, 12, 0));
     MI_CpuFill8(work, 0, 12);
     ((struct Obj03943 *)work)->f0 = direction;
     if (((struct Obj03943 *)work)->f0 == 0) {

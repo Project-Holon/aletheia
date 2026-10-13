@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 
 int FIELD_MSGBG_KeyWaitCheckAdvance(u8 *p, u32 q)
 {
-    int r = func_020362DC();
+    int r = KEY_GetTrg();
     int lim;
 
     if (q == 0) {

@@ -23,12 +23,12 @@
  * header that asks for the double assignment is superseded.
  *
  * symbols:
- *   func_02177B2C  0x02177B2C  thumb  ov014
- *   func_02177BAC  0x02177BAC  thumb  ov014
+ *   NET_WHPIPE_GetEntryBeaconData  0x02177B2C  thumb  ov014
+ *   NET_WHPIPE_ReleaseEntrySlot  0x02177BAC  thumb  ov014
  *   func_0203F1FC  0x0203F1FC  arm
  *   NET_WHPIPE_SelectEntry  0x021780C4  thumb  ov014
  *   func_02082D44  0x02082D44  arm
- *   func_02177BCC  0x02177BCC  thumb  ov014
+ *   NET_WHPIPE_ReleaseAllEntrySlots  0x02177BCC  thumb  ov014
  */
 #include "../include/Obj04145.h"
 #include "../include/Obj04913.h"
@@ -37,12 +37,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 *func_02177B2C(int);
-extern void func_02177BAC(u32 idx);
+extern u8 *NET_WHPIPE_GetEntryBeaconData(int);
+extern void NET_WHPIPE_ReleaseEntrySlot(u32 idx);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void NET_WHPIPE_SelectEntry(u32 i);
 extern void func_02082D44(void *, void *, u32);
-extern void func_02177BCC(void);
+extern void NET_WHPIPE_ReleaseAllEntrySlots(void);
 
 typedef struct P {
     u8 pad00[0x31B8];
@@ -62,15 +62,15 @@ void DELIVERY_BEACON_StepCollectPieces(u8 *q)
     base = q + 0x7C;
 
     for (i = 0; i < 16; i++) {
-        e = func_02177B2C(i);
+        e = NET_WHPIPE_GetEntryBeaconData(i);
         if (e == 0)
             continue;
         if (e[0x5F] != ((struct Obj04145 *)q)->f10) {
-            func_02177BAC(i);
+            NET_WHPIPE_ReleaseEntrySlot(i);
         } else if ((((struct Obj04913 *)e)->f60 & ((struct Obj04145 *)q)->f14) == 0) {
-            func_02177BAC(i);
+            NET_WHPIPE_ReleaseEntrySlot(i);
         } else if (e[0x5E] != p->sel && p->sel != 0xFF) {
-            func_02177BAC(i);
+            NET_WHPIPE_ReleaseEntrySlot(i);
         } else {
             idx = e[0x5C] - 1;
             if (idx >= 0x12)
@@ -79,13 +79,13 @@ void DELIVERY_BEACON_StepCollectPieces(u8 *q)
                 continue;
             crc = func_0203F1FC(e + 8, 0x54);
             if (crc != ((struct Obj04913 *)e)->f0) {
-                func_02177BAC(i);
+                NET_WHPIPE_ReleaseEntrySlot(i);
             } else {
                 if (p->sel == 0xFF)
                     p->sel = e[0x5E];
                 NET_WHPIPE_SelectEntry(i);
                 func_02082D44(e, base + idx * 100, 100);
-                func_02177BCC();
+                NET_WHPIPE_ReleaseAllEntrySlots();
             }
         }
     }

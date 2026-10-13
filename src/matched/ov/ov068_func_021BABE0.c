@@ -16,7 +16,7 @@
  * symbols:
  *   func_02040804  0x02040804  arm
  *   func_02041EE4  0x02041EE4  arm
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   gOptionMenuChoices     0x021BB704  data  a4
  */
 #include "../include/Obj04326.h"
@@ -31,7 +31,7 @@ extern u32 func_02040804(u32 layer);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u32  gOptionMenuChoices[][6];
 
 void OPTION_MENU_ScrollList(u8 *p, int a1, int a2, int a3)
@@ -56,6 +56,6 @@ void OPTION_MENU_ScrollList(u8 *p, int a1, int a2, int a3)
     for (i = 0; i < 11; i++) {
         pt.x = gOptionMenuChoices[i][2];
         pt.y = ((struct Obj04326 *)p)->f34 + gOptionMenuChoices[i][3];
-        func_0204B404((struct Obj *)(*(u32 *)(p + i * 4 + 8)), (const struct Vec2 *)(&pt), 0);
+        CLACT_AddActorSurfacePos((struct Obj *)(*(u32 *)(p + i * 4 + 8)), (const struct Vec2 *)(&pt), 0);
     }
 }

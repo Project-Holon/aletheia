@@ -1,5 +1,5 @@
 /*
- * function: func_021EE908
+ * function: WEATHER_SANDSTORM_EndFade
  * address:  0x021EE908
  * packet:   pkt_ov027_021EE908
  * region:   ov027
@@ -15,7 +15,7 @@
  *   WEATHER_TASK_ChangeFogOffset  0x021A2390  thumb  ov021
  *   WEATHER_TASK_IsFogIdle  0x021A23B0  thumb  ov021
  *   WEATHER_TASK_GetParticleCount  0x021A21BC  thumb  ov021
- *   func_021EEAF4  0x021EEAF4  thumb  ov027
+ *   WEATHER_SANDSTORM_ScrollBillboards  0x021EEAF4  thumb  ov027
  */
 
 typedef unsigned int   u32;
@@ -24,9 +24,9 @@ int WEATHER_TASK_StepSpawner(unsigned char *o, int arg);
 void WEATHER_TASK_ChangeFogOffset(u32 *p, int a, int b, int c);
 int WEATHER_TASK_IsFogIdle(u32 a);
 int WEATHER_TASK_GetParticleCount(unsigned char *o);
-void func_021EEAF4(int a, int *p);
+void WEATHER_SANDSTORM_ScrollBillboards(int a, int *p);
 
-int func_021EE908(int a, int b, int c)
+int WEATHER_SANDSTORM_EndFade(int a, int b, int c)
 {
     int *p = WEATHER_TASK_GetWorkBuffer((int *)a);
     int t = WEATHER_TASK_StepSpawner((unsigned char *)a, c);
@@ -46,6 +46,6 @@ int func_021EE908(int a, int b, int c)
                 return 1;
         }
     }
-    func_021EEAF4(a, p);
+    WEATHER_SANDSTORM_ScrollBillboards(a, p);
     return 0;
 }

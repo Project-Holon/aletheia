@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020056A0  0x020056A0  thumb
  *   func_02030EAC  0x02030EAC  arm
  *   func_020490F4  0x020490F4  arm
@@ -21,18 +21,18 @@
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_StopActorAnim  0x0204B974  arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
- *   func_02035D20  0x02035D20  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   CLACT_IsActorAnimActive  0x0204B98C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CLACT_StartActorAnim  0x0204B95C  arm
- *   func_0204B404  0x0204B404  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   func_02030734  0x02030734  arm
@@ -40,15 +40,15 @@
  *   BMP_WIN_Create  0x020450F0  arm
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_020452E8 0x020452E8 arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_Delete 0x020452E8 arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_02013E4C  0x02013E4C  thumb
+ *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
  *   func_02045CAC  0x02045CAC  arm
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
@@ -83,7 +83,7 @@
  *   CLACT_InitSystem  0x0204A48C  arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   CLACT_RegisterPalette  0x0204ABF0  arm
  *   sTownMapGrhClactInit     0x021BBC0C  data  a4
@@ -104,7 +104,7 @@
 
 #define TOWNMAP_GRH_BG_COUNT 7
 
-extern void func_02082BCC(void *dst, int value, int size);
+extern void MI_CpuFill8(void *dst, int value, int size);
 extern u32 func_020056A0(void (*task)(void *, void *), void *arg, int priority);
 extern void func_02030EAC(u32 task);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -112,18 +112,18 @@ extern u32 CLACT_RegisterCharacter(void *arc, u32 id, u32 a, u32 b, u32 heap);
 extern u32 CLACT_RegisterCellAnim(void *arc, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *unit, u32 chr, u32 pal, u32 cell, const SpriteInit *init, u16 drawArea, u16 heap);
-extern void func_0204B92C(struct ClactActor *actor, u32 value);
+extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 value);
 extern void CLACT_StopActorAnim(struct ClactActor *actor);
 extern void CLACT_DeleteActor(struct ClactActor *actor);
 extern void CLACT_ReleaseCellAnim(u32 cellId);
 extern void CLACT_ReleaseCharacter(u32 charId);
 extern void CLACT_ReleasePalette(u32 palId);
-extern u32 func_02035D20(u32 *outX, u32 *outY);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outX, u32 *outY);
 extern u32 CLACT_IsActorAnimActive(struct ClactActor *actor);
 extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 animSeq);
 extern void CLACT_StartActorAnim(struct ClactActor *actor);
-extern void func_0204B404(struct ClactActor *actor, const ScreenPos *pos, u32 which);
-extern void func_0204B3DC(struct ClactActor *actor, u32 enable);
+extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const ScreenPos *pos, u32 which);
+extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 enable);
 extern void CLACT_SetActorBgPriority(struct ClactActor *actor, int value);
 extern void CLACT_SetActorDrawPriority(struct ClactActor *actor, u32 priority);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
@@ -131,15 +131,15 @@ extern u32 func_020307B0(void *p);
 extern struct BmpWin *BMP_WIN_Create(u32 bgId, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 baseTile);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct StrBuf *text);
-extern u32 func_020452E8(struct BmpWin *win);
-extern struct Bitmap *func_02045770(struct BmpWin *win);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
+extern struct Bitmap *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void BMP_Clear(struct Bitmap *bitmap, u8 value);
-extern u32 func_02013E4C(u32 townId);
+extern u32 ZONEDATA_GetPlaceNameId(u32 townId);
 extern void func_02045CAC(struct MsgBank *msg, u32 index, struct StrBuf *dest);
 extern void PRINTSYS_Print(struct Bitmap *bitmap, s16 x, s16 y, struct StrBuf *text, void *font);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 func_02045730(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void func_02041B6C(u32 bgBit);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
@@ -170,7 +170,7 @@ extern void func_020419E4(void);
 extern void CLACT_InitSystem(const TownMapClactInit *init, const struct DispVram *banks, u32 heapId);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *unit);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern u32 CLACT_RegisterPalette(void *arc, u32 id, u32 a, u32 b, u32 heap);
 extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
@@ -208,7 +208,7 @@ int TOWNMAP_GRH_GetSpriteResourceId(TownMapSprites *sprites, int i);
 /* Text box. */
 void TOWNMAP_GRH_InitTextBox(TownMapTextBox *box, int bgId, void *font, void *msg, u8 x, u8 y, u8 width, u8 height, u16 heapId)
 {
-    func_02082BCC(box, 0, sizeof(TownMapTextBox));
+    MI_CpuFill8(box, 0, sizeof(TownMapTextBox));
     box->font = font;
     box->msg = msg;
     box->win = BMP_WIN_Create(bgId, x, y, width, height, 0xe, 0);
@@ -218,21 +218,21 @@ void TOWNMAP_GRH_InitTextBox(TownMapTextBox *box, int bgId, void *font, void *ms
 void TOWNMAP_GRH_ExitTextBox(TownMapTextBox *box)
 {
     STRBUF_Delete(box->text);
-    func_020452E8(box->win);
-    func_02082BCC(box, 0, sizeof(TownMapTextBox));
+    BMP_WIN_Delete(box->win);
+    MI_CpuFill8(box, 0, sizeof(TownMapTextBox));
 }
 
 void TOWNMAP_GRH_PrintTextBoxMessage(TownMapTextBox *box, u32 msgId, int x, int y)
 {
     struct BmpWin *win;
 
-    BMP_Clear(func_02045770(box->win), 0);
+    BMP_Clear(BMP_WIN_GetBmp(box->win), 0);
     func_02045CAC(box->msg, msgId, box->text);
-    PRINTSYS_Print(func_02045770(box->win), x, y, box->text, box->font);
+    PRINTSYS_Print(BMP_WIN_GetBmp(box->win), x, y, box->text, box->font);
     win = box->win;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(func_02045730(win));
+    func_02041B6C(BMP_WIN_GetBgLayer(win));
 }
 
 void TOWNMAP_GRH_ClearTextBox(TownMapTextBox *box)
@@ -240,7 +240,7 @@ void TOWNMAP_GRH_ClearTextBox(TownMapTextBox *box)
     struct BmpWin *win = box->win;
 
     BMP_WIN_ClearScreen(win);
-    func_02041B6C(func_02045730(win));
+    func_02041B6C(BMP_WIN_GetBgLayer(win));
 }
 
 /* Hover label. */
@@ -248,24 +248,24 @@ void TOWNMAP_GRH_InitLabel(TownMapLabel *label, int bgId, void *font, void *msg,
 {
     ScreenPos pos;
 
-    func_02082BCC(label, 0, sizeof(TownMapLabel));
+    MI_CpuFill8(label, 0, sizeof(TownMapLabel));
     label->marker = marker;
     TOWNMAP_GRH_InitTextBox(&label->box, bgId, font, msg, 0, 0, 0x18, 3, heapId);
     pos.x = 0x80;
     pos.y = 0x60;
-    func_0204B404(label->marker, &pos, 0);
+    CLACT_AddActorSurfacePos(label->marker, &pos, 0);
     CLACT_SetActorBgPriority(label->marker, 1);
     CLACT_SetActorDrawPriority(label->marker, 1);
-    func_0204B3DC(label->marker, 1);
+    CLACT_SetActorDrawEnable(label->marker, 1);
     CLACT_SetActorAnimSeq(label->marker, 0);
-    func_0204B92C(label->marker, 1);
+    CLACT_SetActorAutoAnim(label->marker, 1);
     CLACT_StopActorAnim(label->marker);
 }
 
 void TOWNMAP_GRH_ExitLabel(TownMapLabel *label)
 {
     TOWNMAP_GRH_ExitTextBox(&label->box);
-    func_02082BCC(label, 0, sizeof(TownMapLabel));
+    MI_CpuFill8(label, 0, sizeof(TownMapLabel));
 }
 
 void TOWNMAP_GRH_UpdateLabel(TownMapLabel *label)
@@ -274,12 +274,12 @@ void TOWNMAP_GRH_UpdateLabel(TownMapLabel *label)
         label->requested = 0;
         CLACT_SetActorAnimSeq(label->marker, 0);
         CLACT_StartActorAnim(label->marker);
-        func_0204B3DC(label->marker, 1);
+        CLACT_SetActorDrawEnable(label->marker, 1);
         TOWNMAP_GRH_ClearTextBox(&label->box);
         label->animating = 1;
     }
     if (label->animating != 0 && CLACT_IsActorAnimActive(label->marker) == 0) {
-        TOWNMAP_GRH_PrintTextBoxMessage(&label->box, func_02013E4C((u16)TOWNMAP_TownGetField(label->town, 0)), 0x10, 2);
+        TOWNMAP_GRH_PrintTextBoxMessage(&label->box, ZONEDATA_GetPlaceNameId((u16)TOWNMAP_TownGetField(label->town, 0)), 0x10, 2);
         CLACT_StopActorAnim(label->marker);
         label->animating = 0;
     }
@@ -293,7 +293,7 @@ void TOWNMAP_GRH_SetLabelTown(TownMapLabel *label, TownMapTown *town)
 
 void TOWNMAP_GRH_SetLabelVisible(TownMapLabel *label, u32 visible)
 {
-    func_0204B3DC(label->marker, visible);
+    CLACT_SetActorDrawEnable(label->marker, visible);
     if (visible == 0) {
         label->requested = 0;
         label->animating = 0;
@@ -304,12 +304,12 @@ void TOWNMAP_GRH_SetLabelVisible(TownMapLabel *label, u32 visible)
 /* Touch drag tracking. */
 void TOWNMAP_GRH_InitTouch(TownMapTouch *touch, int heapId)
 {
-    func_02082BCC(touch, 0, sizeof(TownMapTouch));
+    MI_CpuFill8(touch, 0, sizeof(TownMapTouch));
 }
 
 void TOWNMAP_GRH_ClearTouch(TownMapTouch *touch)
 {
-    func_02082BCC(touch, 0, sizeof(TownMapTouch));
+    MI_CpuFill8(touch, 0, sizeof(TownMapTouch));
 }
 
 void TOWNMAP_GRH_UpdateTouch(TownMapTouch *touch)
@@ -318,7 +318,7 @@ void TOWNMAP_GRH_UpdateTouch(TownMapTouch *touch)
     u32 touchY;
 
     touch->dragged = 0;
-    if (func_02035D20(&touchX, &touchY)) {
+    if (TOUCHPANEL_GetPointTrg(&touchX, &touchY)) {
         if (touchY <= 0xA8) {
             touch->prev.x = touchX << 12;
             touch->prev.y = touchY << 12;
@@ -381,7 +381,7 @@ TownMapGfx *TOWNMAP_GRH_Create(u16 heapId)
     TownMapGfx *gfx;
 
     gfx = func_02030734(heapId, sizeof(TownMapGfx), 0, sTownMapGrhFileName, 0xEC);
-    func_02082BCC(gfx, 0, sizeof(TownMapGfx));
+    MI_CpuFill8(gfx, 0, sizeof(TownMapGfx));
     TOWNMAP_GRH_ResetDisplay();
     TOWNMAP_GRH_InitBgLayers(gfx, heapId);
     TOWNMAP_GRH_InitSprites(&gfx->sprites, &sTownMapGrhVramBanks, heapId);
@@ -452,7 +452,7 @@ void TOWNMAP_GRH_InitBgLayers(TownMapGfx *gfx, u16 heapId)
     void *arc;
 
     i = 0;
-    func_02082BCC(&gfx->bgReady, 0, sizeof(gfx->bgReady));
+    MI_CpuFill8(&gfx->bgReady, 0, sizeof(gfx->bgReady));
     func_0203F8F4(heapId);
     BMP_WIN_Init(heapId);
     func_0203FC28(&sTownMapGrhDispConfig);
@@ -490,7 +490,7 @@ void TOWNMAP_GRH_ExitBgLayers(TownMapGfx *gfx)
     }
     BMP_WIN_Exit();
     func_0203F9B4();
-    func_02082BCC(&gfx->bgReady, 0, sizeof(gfx->bgReady));
+    MI_CpuFill8(&gfx->bgReady, 0, sizeof(gfx->bgReady));
 }
 
 void TOWNMAP_GRH_TransferBgData(TownMapGfx *gfx)
@@ -506,19 +506,19 @@ void TOWNMAP_GRH_InitSprites(TownMapSprites *sprites, const struct DispVram *ban
     SpriteInit actorInit;
 
     i = 0;
-    func_02082BCC(sprites, 0, sizeof(TownMapSprites));
+    MI_CpuFill8(sprites, 0, sizeof(TownMapSprites));
     init = sTownMapGrhClactInit;
     CLACT_InitSystem(&init, banks, heapId);
     sprites->unit = CLACT_CreateUnit(0x80, 0, heapId);
     CLACT_SetUnitDefaultRenderer(sprites->unit);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     arc = func_020490F4(0x55, heapId);
     sprites->palId = CLACT_RegisterPalette(arc, 2, 0, 0, heapId);
     sprites->charId = CLACT_RegisterCharacter(arc, 8, 0, 0, heapId);
     sprites->cellId = CLACT_RegisterCellAnim(arc, 0xc, 0x13, heapId);
     ARC_TOOL_DeleteHandle(arc);
-    func_02082BCC(&actorInit, 0, sizeof(SpriteInit));
+    MI_CpuFill8(&actorInit, 0, sizeof(SpriteInit));
     for (; i < 4; i++) {
         sprites->actor[i] = CLACT_CreateActor(sprites->unit, sprites->charId, sprites->palId, sprites->cellId, &actorInit, 1, heapId);
     }
@@ -527,7 +527,7 @@ void TOWNMAP_GRH_InitSprites(TownMapSprites *sprites, const struct DispVram *ban
     CLACT_SetActorAnimSeq(sprites->actor[2], 5);
     CLACT_SetActorAnimSeq(sprites->actor[3], 6);
     for (i = 0; i < 4; i++) {
-        func_0204B3DC(sprites->actor[i], 0);
+        CLACT_SetActorDrawEnable(sprites->actor[i], 0);
     }
 }
 
@@ -547,7 +547,7 @@ void TOWNMAP_GRH_ExitSprites(TownMapSprites *sprites)
         CLACT_DeleteUnit(sprites->unit);
     }
     CLACT_ExitSystem();
-    func_02082BCC(sprites, 0, sizeof(TownMapSprites));
+    MI_CpuFill8(sprites, 0, sizeof(TownMapSprites));
 }
 
 /* Thumb long-branch veneer to CLACT_DrawSystem, declared as an ordinary call. */

@@ -11,6 +11,7 @@
  *
  * symbols:
  *   BMP_WIN_Exit  0x020450C8  arm  arm9
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -21,12 +22,12 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
-extern void func_02082BCC(u8 *, u32, u32);
+extern void MI_CpuFill8(u8 *, u32, u32);
 
 void func_021BDDF8(u8 *p)
 {
     BMP_WIN_Exit();
     func_0203F9B4();
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
 }
 

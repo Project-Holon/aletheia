@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
@@ -43,7 +43,7 @@
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
@@ -68,17 +68,17 @@
  *   d_021F7340 0x021F7340 data a4
  *   d_021F7314 0x021F7314 data a4
  *   sub_02030EAC 0x02030EAC arm
- *   func_020061E4 0x020061E4 thumb
- *   func_02006238 0x02006238 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ *   GFL_USE_IsAnySeBusy 0x02006238 thumb
  *   GFL_USE_IsSeSlotBusy 0x02006224 thumb
  *   GFL_USE_GetSeSlot 0x02006148 thumb
- *   func_0200616C 0x0200616C thumb
- *   func_020061F8 0x020061F8 thumb
+ *   GFL_USE_PlaySeInSlot 0x0200616C thumb
+ *   GFL_USE_StopSeSlot 0x020061F8 thumb
  *   func_021F70F8 0x021F70F8 thumb ov215
  *   func_021F7100 0x021F7100 thumb ov215
  *   func_021F7110 0x021F7110 thumb ov215
  *   PM_VOICE_Play 0x02006984 thumb
- *   func_02006650 0x02006650 thumb
+ *   PM_VOICE_IsAnyActive 0x02006650 thumb
  *   MCSS_Main 0x02014C08 thumb
  *   MCSS_Draw 0x02014D2C thumb
  *   MCSS_SetVanishFlag 0x02015EA0 thumb
@@ -219,7 +219,7 @@ struct Pair { unsigned archive,member; };
 typedef struct { int x,y,z; } Vec_021F6D7C;
 
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0204363C(unsigned);
@@ -244,7 +244,7 @@ extern void func_020419E4(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
@@ -262,17 +262,17 @@ extern void G3D_SYSTEM_DrawEnd(void);
 extern void func_0207ADC4(void *);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void sub_02030EAC(struct Node *);
-extern void func_020061E4(u32);
-extern int func_02006238(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
+extern int GFL_USE_IsAnySeBusy(void);
 extern int GFL_USE_IsSeSlotBusy(u32);
 extern int GFL_USE_GetSeSlot(u32);
-extern void func_0200616C(void *,int);
-extern void func_020061F8(int);
+extern void GFL_USE_PlaySeInSlot(void *,int);
+extern void GFL_USE_StopSeSlot(int);
 extern void func_021F70F8(char *);
 extern int func_021F7100(char *);
 extern void func_021F7110(char *);
 extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
-extern int func_02006650(void);
+extern int PM_VOICE_IsAnyActive(void);
 extern void MCSS_Main(char *);
 extern void MCSS_Draw(struct McssSys *);
 extern void MCSS_SetVanishFlag(void *);
@@ -404,7 +404,7 @@ char *func_021F63CC(unsigned mode,u16 heap)
 {
     char *p;
     p=func_02030734(heap,16,0,d_021F73E0,466);
-    func_02082BCC(p,0,16);
+    MI_CpuFill8(p,0,16);
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &=0xFFFF1FFF;
@@ -440,7 +440,7 @@ void func_021F6474(char *p)
     *(volatile u16 *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &= 0xFFFF1FFF;
-    func_02082BCC(p,0,16);
+    MI_CpuFill8(p,0,16);
     func_020307B0(p);
 }
 
@@ -503,7 +503,7 @@ void func_021F6508(int a, char *b)
 void func_021F651C(void *out,unsigned heap)
 {
     unsigned i;
-    func_02082BCC(out,0,4);
+    MI_CpuFill8(out,0,4);
     func_0203F8F4(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)d_021F7178);
@@ -526,7 +526,7 @@ void func_021F651C(void *out,unsigned heap)
  * lever: a named unsigned byte-address base keeps the table in r4 and
  * index in r5; the inline address swaps them, and word indexing adds lsl #2.
  */
-void func_021F657C(void *p){unsigned base=(unsigned)d_021F71F4;unsigned i;for(i=0;i<6;i++)func_020403F4((unsigned char)(*(const unsigned *)(base+i*44)));BMP_WIN_Exit();func_0203F9B4();func_02082BCC(p,0,4);}
+void func_021F657C(void *p){unsigned base=(unsigned)d_021F71F4;unsigned i;for(i=0;i<6;i++)func_020403F4((unsigned char)(*(const unsigned *)(base+i*44)));BMP_WIN_Exit();func_0203F9B4();MI_CpuFill8(p,0,4);}
 
 
 
@@ -556,11 +556,11 @@ void func_021F65B8(void *a0){func_020419E4();}
 
 void func_021F65C0(unsigned char *p, int a, u32 b)
 {
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021F7188, a, b);
     ((struct Obj14709 *)p)->f0 = CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer(((struct Obj14709 *)p)->f0);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
@@ -570,7 +570,7 @@ void func_021F65C0(unsigned char *p, int a, u32 b)
 
 
 
-void func_021F6600(char *p){CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25751 *)p)->f0);CLACT_ExitSystem();func_02082BCC(p,0,4);}
+void func_021F6600(char *p){CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25751 *)p)->f0);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
 
 
 
@@ -740,19 +740,19 @@ void func_021F67E0(char *p)
         W(24)++;
         if(((struct Obj01083 *)p)->f8==490) {
             switch(W(40)) {
-            case 0: if(W(24)==10){func_020061E4(1955);W(40)=1;}break;
-            case 1: if(!func_02006238()){func_020061E4(1960);W(40)=2;}break;
-            case 2: if(!func_02006238())W(40)=3;break;
+            case 0: if(W(24)==10){GFL_USE_PlaySeDefaultVolume(1955);W(40)=1;}break;
+            case 1: if(!GFL_USE_IsAnySeBusy()){GFL_USE_PlaySeDefaultVolume(1960);W(40)=2;}break;
+            case 2: if(!GFL_USE_IsAnySeBusy())W(40)=3;break;
             case 3:break;
             }
         }else{
-            if(W(24)==20)func_020061E4(1954);
-            else if(W(24)==109)func_020061E4(1954);
-            else if(W(24)==218)func_020061E4(1488);
-            if(W(24)==10)func_020061E4(1968);
-            else if(W(24)==15)func_020061E4(1968);
-            else if(W(24)==85)func_020061E4(1968);
-            else if(W(24)==90)func_020061E4(1968);
+            if(W(24)==20)GFL_USE_PlaySeDefaultVolume(1954);
+            else if(W(24)==109)GFL_USE_PlaySeDefaultVolume(1954);
+            else if(W(24)==218)GFL_USE_PlaySeDefaultVolume(1488);
+            if(W(24)==10)GFL_USE_PlaySeDefaultVolume(1968);
+            else if(W(24)==15)GFL_USE_PlaySeDefaultVolume(1968);
+            else if(W(24)==85)GFL_USE_PlaySeDefaultVolume(1968);
+            else if(W(24)==90)GFL_USE_PlaySeDefaultVolume(1968);
             if(W(28)&&!GFL_USE_IsSeSlotBusy(W(32))) {
                 W(28)=0;
                 if(W(24)>=150&&W(24)<309)W(36)=20;
@@ -762,16 +762,16 @@ void func_021F67E0(char *p)
                 if(!W(28)) {
                     if(!W(36)) {
                         W(32)=GFL_USE_GetSeSlot(1967);
-                        func_0200616C((void *)1967,W(32));
+                        GFL_USE_PlaySeInSlot((void *)1967,W(32));
                         W(28)=1;
                     }else W(36)--;
                 }
             }else if(W(24)==limit&&W(28)&&GFL_USE_IsSeSlotBusy(W(32))) {
-                func_020061F8(W(32));W(28)=0;
+                GFL_USE_StopSeSlot(W(32));W(28)=0;
             }
         }
         if(W(24)==limit) {
-            func_021F6D58(p);func_021F70F8(p);func_020061E4(1935);W(12)=2;
+            func_021F6D58(p);func_021F70F8(p);GFL_USE_PlaySeDefaultVolume(1935);W(12)=2;
         }
         break;
     case 2:if(func_021F6D7C(p))W(12)=3;break;
@@ -788,7 +788,7 @@ void func_021F67E0(char *p)
             PM_VOICE_Play(a,b,64,0,0,0,0,0);
         }
         break;
-    case 8:if(!func_02006650())W(12)=9;break;
+    case 8:if(!PM_VOICE_IsAnyActive())W(12)=9;break;
     case 9:break;
     }
     func_021F6D1C(p);

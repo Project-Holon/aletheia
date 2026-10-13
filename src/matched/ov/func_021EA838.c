@@ -12,7 +12,7 @@
  * symbols:
  *   func_021EA838   0x021EA838  thumb  ov093
  *   func_021ED56C   0x021ED56C  thumb  ov093
- *   func_021B8E70   0x021B8E70  thumb  ov093
+ *   BTL_MAIN_GetViewPosOfSlot   0x021B8E70  thumb  ov093
  * Wrapper family member; the body is the hand-checked shape of the family's first instance with only the member's constants substituted, per the family uniformity assertion in o36/report.md.
  */
 
@@ -25,8 +25,8 @@ typedef signed int s32;
 
 typedef struct { u32 f0; u8 pad[60]; } E64;
 
-extern u8 func_021B8E70(u8 *p, u32 k);
+extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k);
 extern void func_021ED56C(int a, int b);
 
-void func_021EA838(u32 *p, u32 k) { func_021ED56C(p[0x5f], func_021B8E70((u8 *)p[0], k)); }
+void func_021EA838(u32 *p, u32 k) { func_021ED56C(p[0x5f], BTL_MAIN_GetViewPosOfSlot((u8 *)p[0], k)); }
 

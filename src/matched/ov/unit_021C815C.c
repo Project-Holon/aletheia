@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021C815C, func_021C8168
+ * function: BTL_SERVER_FLOW_GetRule, BTL_SERVER_FLOW_GetCompetitor
  * address:  0x021C815C
  * packet:   pkt_021C815C
  * region:   ov093
@@ -23,12 +23,12 @@ typedef unsigned int   u32;
 extern u32 BTL_MAIN_GetRule(void **p);
 extern void *BTL_MAIN_GetCompetitor(void ***p);
 
-int func_021C815C(int *p)
+int BTL_SERVER_FLOW_GetRule(int *p)
 {
     return BTL_MAIN_GetRule((void **)(((struct Obj26329 *)p)->f4));
 }
 
-void func_021C8168(int *p)
+void BTL_SERVER_FLOW_GetCompetitor(int *p)
 {
     BTL_MAIN_GetCompetitor((void ***)(((struct Obj26330 *)p)->f4));
 }

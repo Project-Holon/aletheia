@@ -14,7 +14,7 @@
  *   func_020419E4 0x020419E4 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  */
 #include "../include/Obj06692.h"
@@ -24,7 +24,7 @@ extern void func_020419E4(void);
 extern void CLACT_VBlankSystem(void);
 struct S02021D50;
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
-extern void func_020434DC(unsigned,unsigned);
+extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned,unsigned);
 void func_021BC2B8(void *unused,unsigned char *p)
 {
@@ -32,11 +32,11 @@ void func_021BC2B8(void *unused,unsigned char *p)
     CLACT_VBlankSystem();
     PALANM_TransferPalettes((struct S02021D50 *)(*(struct S_02021D50 * *)&((struct Obj06692 *)p)->fC));
     if (p[0x2b8]==1) {
-        func_020434DC(10,1);
+        BG_SYS_SetMainPlaneVisible(10,1);
         BG_SYS_SetSubPlaneVisible(2,1);
         p[0x2b8]=0;
     } else if (p[0x2b8]==2) {
-        func_020434DC(10,0);
+        BG_SYS_SetMainPlaneVisible(10,0);
         BG_SYS_SetSubPlaneVisible(2,0);
         p[0x2b8]=0;
     }

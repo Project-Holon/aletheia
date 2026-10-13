@@ -11,6 +11,7 @@
  *
  * symbols:
  *   func_021F4EC0  0x021F4EC0  thumb  ov135
+ *   KEY_GetTrg  0x020362DC  arm  arm9
 
  * Test bit 1 of the callee result; the odd branch re-latches state 2 before state 3.
  */
@@ -20,12 +21,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 
 int func_021F7A4C(u8 *p)
 {
-    u32 v = func_020362DC();
+    u32 v = KEY_GetTrg();
 
     if (v & 2) {
         func_021F4EC0(p, 5, 5);

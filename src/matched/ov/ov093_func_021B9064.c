@@ -1,5 +1,5 @@
 /*
- * function: func_021B9064
+ * function: BTL_MAIN_GetOpponentClient
  * address: 0x021B9064
  * packet: pkt_ov093_021B9064
  * region: ov093
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int BTL_MAIN_IsClientUsed(unsigned char *p, unsigned char k);
-u32 func_021B9064(u8 *p, int k, int x) { u8 m; k &= 1; k ^= 1; if(x) { m=k+((x&1)<<1); if(BTL_MAIN_IsClientUsed(p,m)) k=m; } return k; }
+u32 BTL_MAIN_GetOpponentClient(u8 *p, int k, int x) { u8 m; k &= 1; k ^= 1; if(x) { m=k+((x&1)<<1); if(BTL_MAIN_IsClientUsed(p,m)) k=m; } return k; }

@@ -7,11 +7,11 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "OS_KillThread",
+   "name": "WORLDTRADE_CopyPokemon",
    "address": "0x0200AD9C",
-   "kind": "sdk",
+   "kind": "game",
    "region": "arm9",
-   "source": "src/matched/arm9_sdk/OS_KillThread.c",
+   "source": "src/matched/arm9/WORLDTRADE_CopyPokemon.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

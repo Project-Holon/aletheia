@@ -12,12 +12,12 @@
  * symbols:
  *   func_021F50EC  0x021F50EC  thumb
  *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02202608  0x02202608  thumb
  *   func_020120F4  0x020120F4  thumb
  *   func_0200ADB4  0x0200ADB4  thumb
  *   func_021F72C4  0x021F72C4  thumb
- *   func_0200AD9C  0x0200AD9C  thumb
+ *   WORLDTRADE_CopyPokemon  0x0200AD9C  thumb
  *   func_02019CE0  0x02019CE0  thumb
  *   func_02034714  0x02034714  arm
  *   PROCSYS_Push  0x02031348  arm
@@ -90,12 +90,12 @@ extern void func_021F50EC(u8 *p);
 struct Ctx;
 struct RecDC;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void *func_02202608(u32 heap);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0200ADB4(void *sys);
 extern void *func_021F72C4(void *e);
-extern void func_0200AD9C(void *sys, void *mon);
+extern void WORLDTRADE_CopyPokemon(void *sys, void *mon);
 extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void PROCSYS_Push(void *h, u32 id, void *a, void *b);
@@ -107,7 +107,7 @@ int func_021F6E58(Work *p)
 
     func_021F50EC((u8 *)p);
     p->req = func_02030734(0x48, 0x44, 0, str_02203B6C, 0x5E);
-    func_02082BCC(p->req, 0, 0x44);
+    MI_CpuFill8(p->req, 0, 0x44);
     d = p->req;
     p->saveMon = func_02202608(0x48);
     d->f30 = func_020120F4(p->ctx->f40);
@@ -134,7 +134,7 @@ int func_021F6E58(Work *p)
         } else {
             d->f38 = func_0200ADB4(p->ctx->sys);
         }
-        func_0200AD9C(p->ctx->sys, p->saveMon);
+        WORLDTRADE_CopyPokemon(p->ctx->sys, p->saveMon);
         d->f34 = p->saveMon;
         d->f40 = p->info = func_021F72C4(p->mon);
         tmpl = d_021E75CC;

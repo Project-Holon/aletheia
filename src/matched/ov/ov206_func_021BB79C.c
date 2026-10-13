@@ -18,11 +18,11 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B6F4 0x0204B6F4 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   CLACT_SetActorDrawPriority 0x0204B800 arm
- *   func_0204B688 0x0204B688 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   ARC_UTIL_LoadBgCharDataFromHandle 0x02049DF4 arm
  *   CLACT_TransferCharacterPart 0x0204AA94 arm
  *   func_020307B0 0x020307B0 arm
@@ -76,11 +76,11 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern struct Obj *CLACT_CreateActor(void *, u32, u32, u32, const void *, unsigned short, unsigned short);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
-extern void func_0204B688(struct Actor *actor, u32 value);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 typedef struct {
     unsigned short f0;
@@ -163,9 +163,9 @@ void func_021BB79C(Ent *p, unsigned x, unsigned y, int z, int row)
     for (j = 0; j < 2; j++) {
         if (p->m[row][j] != -1) {
             p->n[row][j] = CLACT_CreateActor(p->f24, (u32)p->m[row][j], (u32)p->fc8, (u32)p->fcc, &rr[j], (unsigned short)tern, p->f0);
-            func_0204B6F4(p->n[row][j], func_020275EC(sel[j]), 1);
+            CLACT_SetActorPaletteOffset(p->n[row][j], func_020275EC(sel[j]), 1);
             CLACT_SetActorDrawPriority(p->n[row][j], 2);
-            func_0204B688(p->n[row][j], 1);
+            CLACT_SetActorObjMode(p->n[row][j], 1);
         }
     }
 }

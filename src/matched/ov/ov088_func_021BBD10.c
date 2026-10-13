@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   STARTMENU_ClearFrameBox  0x021BBB84  thumb  ov088
  *   func_02041570  0x02041570  arm
  *   func_02041EE4  0x02041EE4  arm
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 typedef unsigned short u16;
 struct Descriptor;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void STARTMENU_ClearFrameBox(u8 x, u8 y, u8 w, u8 h, u8 bg);
 extern void func_02041570(int channel, u16 val);
 extern void func_02041EE4(u32, u32, u32);
@@ -31,7 +31,7 @@ extern void STARTMENU_ShowRowActors(char *, int);
 
 void STARTMENU_CloseDescWindow(char *p, int mode)
 {
-    func_020452E8(((struct Obj00263 *)p)->fF0);
+    BMP_WIN_Delete(((struct Obj00263 *)p)->fF0);
     if (mode != 1) {
         STARTMENU_ClearFrameBox(0x20, 1, 0x20, 0x16, 2);
         func_02041570(0, 0);

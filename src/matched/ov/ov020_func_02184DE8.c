@@ -19,7 +19,7 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_020142A4  0x020142A4  thumb
+ *   ZONEDATA_DirToExitDir  0x020142A4  thumb
  *   ZONEDATA_SetDirectRailLocation  0x020141A8  thumb
  *   EVENT_MAPCHANGE_InitWork  0x02184CEC  thumb  ov020
  *   EVENT_MAPCHANGE_DetachedTailEvent  0x02184504  thumb  ov020
@@ -38,7 +38,7 @@ struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 void EVENT_MAPCHANGE_InitWork(void **o, void *p);
-u32 func_020142A4(u32 idx);
+u32 ZONEDATA_DirToExitDir(u32 idx);
 int EVENT_MAPCHANGE_DetachedTailEvent(int a, int *state, u8 *p);
 struct t;
 void ZONEDATA_SetDirectRailLocation(struct t *p, int b, int d, u16 g, u16 i, s16 h);
@@ -49,7 +49,7 @@ void *EVENT_MAPCHANGE_CreateRailWarpEventWithTransition(void *p, int unused, int
     char *r4 = func_020124E8(r0v);
 
     EVENT_MAPCHANGE_InitWork((void **)r4, p);
-    s = func_020142A4(s);
+    s = ZONEDATA_DirToExitDir(s);
     ZONEDATA_SetDirectRailLocation((struct t *)(r4 + 0x10), a, (s16)s, q->f0, q->f6, q->f4);
     ((struct Obj00248 *)r4)->f2C = 0;
     ((struct Obj00248 *)r4)->f40 = t;

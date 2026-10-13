@@ -24,7 +24,7 @@
  *   func_020306F0  0x020306F0  arm
  *   func_02034A5C  0x02034A5C  arm
  *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb
- *   func_0201C4C0  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   ov067_id       0x00000043  data
  */
@@ -52,7 +52,7 @@ extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 extern void func_02034A5C(int a);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u8 ov067_id[];
 
@@ -69,7 +69,7 @@ int OPTION_MENU_Exit(void *a, u32 b, u32 c, u8 *w)
     MSGDATA_Delete(((struct Obj05149 *)w)->f25C);
     APP_TASKMENU_RES_Delete(((struct Obj05149 *)w)->f264);
     APP_TASKMENU_RES_Delete(((struct Obj05149 *)w)->f260);
-    func_0201C4C0(((struct Obj05149 *)w)->f258);
+    PRINTSYS_QUE_Delete(((struct Obj05149 *)w)->f258);
     GF_FONT_Delete(((struct Obj05149 *)w)->f254);
     OPTION_MENU_ExitScreen(w);
     func_020315D4(a);

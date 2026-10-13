@@ -22,7 +22,7 @@
  *   MAP_ATTR_GetFlags  0x021AB0F8  thumb  ov021
  *   MAP_ATTR_IsSandVariant  0x021AB37C  thumb  ov021
  *   FIELDMAP_GetAreaData  0x02188D58  thumb  ov021
- *   func_020140D8  0x020140D8  thumb
+ *   ZONEDATA_GetAreaInnerOuter  0x020140D8  thumb
  *   d_021DB7E0     0x021DB7E0  data  ov021  a2
  *   d_021DB7F6     0x021DB7F6  data  ov021  a1
  * Addresses are Black-image addresses.
@@ -46,7 +46,7 @@ extern u16 MAP_ATTR_GetTerrainId(u32 attr);
 extern u16 MAP_ATTR_GetFlags(u32 attr);
 extern int MAP_ATTR_IsSandVariant(u32 id);
 extern u32 FIELDMAP_GetAreaData(u8 *p);
-extern u8 func_020140D8(struct Sub020140BCObj *p);
+extern u8 ZONEDATA_GetAreaInnerOuter(struct Sub020140BCObj *p);
 
 void func_021CF748(u32 a, u32 x, int *out, u16 *out2)
 {
@@ -70,7 +70,7 @@ void func_021CF748(u32 a, u32 x, int *out, u16 *out2)
         } else if (MAP_ATTR_IsSandVariant(z) != 0) {
             code = 8;
         } else {
-            if (func_020140D8((struct Sub020140BCObj *)FIELDMAP_GetAreaData((u8 *)x)) == 0) {
+            if (ZONEDATA_GetAreaInnerOuter((struct Sub020140BCObj *)FIELDMAP_GetAreaData((u8 *)x)) == 0) {
                 flag = 0;
             }
             code = 5;

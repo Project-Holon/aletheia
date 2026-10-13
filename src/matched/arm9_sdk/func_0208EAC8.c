@@ -1,5 +1,5 @@
 /*
- * function: func_0208EAC8
+ * function: WM_SetIndCallback
  * address:  0x0208EAC8
  * packet:   pkt_0208EAC8
  * region:   arm9
@@ -63,7 +63,7 @@ extern WMErrCode WMi_CheckInitialized(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern WMArm9Buf *WMi_GetSystemWork(void);
 
-WMErrCode func_0208EAC8(WMCallbackFunc callback)
+WMErrCode WM_SetIndCallback(WMCallbackFunc callback)
 {
     OSIntrMode e;
     WMErrCode result;

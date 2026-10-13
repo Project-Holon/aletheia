@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetRockIncenseHandlers
+ * function: HAND_ITEM_GetRockIncenseHandlers
  * address: 0x021DF8DC
  * packet: pkt_ov093_021DF8DC
  * region: ov093
@@ -15,10 +15,10 @@
  *   gRockIncenseHandlers 0x021F1404 data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetRockIncenseHandlers(int *p);
+int *HAND_ITEM_GetRockIncenseHandlers(int *p);
 extern int gRockIncenseHandlers[];
 
-int *BTL_HANDLER_ITEM_GetRockIncenseHandlers(int *p)
+int *HAND_ITEM_GetRockIncenseHandlers(int *p)
 {
     *p = 1;
     return gRockIncenseHandlers;

@@ -13,7 +13,7 @@
  *   ZONEDATA_IsZoneInTable  0x02013B10  thumb
  *   d_0209DFC0     0x0209DFC0  data  a4
  *
- * Unlabelled Thumb leaf inside func_02013D9C's listing extent: a tail call
+ * Unlabelled Thumb leaf inside ZONEDATA_IsZoneGroup118To120's listing extent: a tail call
  * to ZONEDATA_IsZoneInTable with a fixed table and count. Filed as the witness for
  * the ov021 and ov018 callers.
  */

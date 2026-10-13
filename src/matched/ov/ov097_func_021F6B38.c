@@ -11,8 +11,8 @@
  *
  * symbols:
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
- *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045770  0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  */
 #include "../include/Obj07928.h"
@@ -23,9 +23,9 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 
 void func_021F6B38(char *p)
@@ -39,7 +39,7 @@ void func_021F6B38(char *p)
         q = ((struct Obj10194 *)p)->f1C;
         e = p + i * 8;
         if (((struct Obj07928 *)e)->f24 != 0) {
-            if (func_0201C6C4((struct PrintSys *)q, (void *)((int)func_02045770((struct Descriptor *)((struct Obj07928 *)e)->f20))) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)q, (void *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj07928 *)e)->f20))) == 0) {
                 BMP_WIN_TransferChars((struct Descriptor *)((struct Obj07928 *)e)->f20);
                 ((struct Obj07928 *)e)->f24 = 0;
             }

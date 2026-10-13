@@ -1,5 +1,5 @@
 /*
- * function: func_02187CEC
+ * function: EL_SCOREBOARD_OnStart
  * address: 0x02187CEC
  * packet: pkt_ov020_02187CEC
  * region: ov020
@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void FIELDMAP_SetSubscreenBusy(char *p, int v);
-void func_02187CEC(char *p)
+void EL_SCOREBOARD_OnStart(char *p)
 {
     void *q;
     q = *(void **)(p + 4);

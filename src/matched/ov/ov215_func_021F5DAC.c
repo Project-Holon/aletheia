@@ -19,7 +19,7 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_021F64FC 0x021F64FC thumb ov215
  *   table 0x021F7124 data ov215
  */
@@ -34,7 +34,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 extern int func_021F64FC(char *p);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B92C(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
 extern const unsigned int table[][2];
 struct Context {
     unsigned short heap;
@@ -68,6 +68,6 @@ void func_021F5DAC(int unused, struct Context *p)
         tmp2 = (unsigned int)table[i];
         o = (unsigned int)CLACT_CreateActor((void *)func_021F64FC((char *)p->owner), p->resource1, p->resource2, p->resource3, (const void *)tmp2, 0, p->heap);
         out->objects[0] = o;
-        func_0204B92C((struct Obj *)o, 0);
+        CLACT_SetActorAutoAnim((struct Obj *)o, 0);
     }
 }

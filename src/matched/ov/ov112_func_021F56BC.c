@@ -398,7 +398,7 @@
  *   d_021F831C 0x021F831C data ov112
  *   d_021F8304 0x021F8304 data ov112
  *   d_02148B98 0x02148B98 data
- *   d_020A1B38 0x020A1B38 data
+ *   FX_SinCosTable_ 0x020A1B38 data
  *   d_02148B54 0x02148B54 data
  */
 
@@ -463,7 +463,7 @@ typedef struct { int m[12]; } Mtx43;
 typedef struct { int m[16]; } Mtx44;
 typedef struct { int m[9]; } Mtx33;
 
-extern const s16 d_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 extern const Vec d_02148D8C, d_02148D98, d_02148DA4;
 extern const Vec d_021F8310, d_021F831C, d_021F8304;
 extern const Mtx43 d_02148B98;
@@ -649,7 +649,7 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
         G3_Translate(ox, oy, 0);
         {
             u16 a = (flag & 1) ? 0x10000 - pose.rot : pose.rot;
-            func_0207D888(-d_020A1B38[(a >> 4) * 2], d_020A1B38[(a >> 4) * 2 + 1]);
+            func_0207D888(-FX_SinCosTable_[(a >> 4) * 2], FX_SinCosTable_[(a >> 4) * 2 + 1]);
         }
 
         {
@@ -659,7 +659,7 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
         }
         {
             u16 a = *(u16 *)(obj + 0xFC);
-            func_0207AF38(&m5, -d_020A1B38[(a >> 4) * 2], d_020A1B38[(a >> 4) * 2 + 1]);
+            func_0207AF38(&m5, -FX_SinCosTable_[(a >> 4) * 2], FX_SinCosTable_[(a >> 4) * 2 + 1]);
             func_0207B51C(obj + 0x100, &m5, obj + 0x10C);
             func_0207CA00(obj + 0x100, obj + 0x10C, obj + 0x10C);
             *(int *)(obj + 0x10C) = func_0207C768(*(int *)(obj + 0x10C), *(int *)(obj + 0xD4));
@@ -695,8 +695,8 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
                 ang = (u16)(pr + sub.rot);
                 fx = (*(Part **)(obj + 0x24))[b].x;
                 fz = (*(Part **)(obj + 0x24))[b].z;
-                s = d_020A1B38[(ang >> 4) * 2];
-                c = d_020A1B38[(ang >> 4) * 2 + 1];
+                s = FX_SinCosTable_[(ang >> 4) * 2];
+                c = FX_SinCosTable_[(ang >> 4) * 2 + 1];
                 psx = pose.sx;
                 psy = pose.sy;
                 rx = FxMul(fx * c - fz * s, FxMul(psx, sub.sx));
@@ -705,9 +705,9 @@ void func_021F56BC(int *p, void (*arg)(u8, Vec *, u32))
                 X += pose.dx;
                 Z = (*(Tab **)(*(char **)(obj + 0x6C) + 4))[pose.id].ents[j].z;
                 Z += pose.dz;
-                s2 = d_020A1B38[(pr >> 4) * 2];
-                rx += FxMul(X * d_020A1B38[(pr >> 4) * 2 + 1] - Z * s2, psx);
-                rz += FxMul(X * s2 + d_020A1B38[(pr >> 4) * 2 + 1] * Z, psy);
+                s2 = FX_SinCosTable_[(pr >> 4) * 2];
+                rx += FxMul(X * FX_SinCosTable_[(pr >> 4) * 2 + 1] - Z * s2, psx);
+                rz += FxMul(X * s2 + FX_SinCosTable_[(pr >> 4) * 2 + 1] * Z, psy);
                 rx += RoundF(sub.dx);
                 rz += RoundF(sub.dz);
                 cb.pos = pos;

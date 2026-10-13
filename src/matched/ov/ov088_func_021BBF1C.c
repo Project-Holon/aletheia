@@ -14,14 +14,14 @@
  *
  * symbols:
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_0201F73C  0x0201F73C  thumb
  *   func_02012FFC  0x02012FFC  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  */
 #include "../include/Obj02427.h"
@@ -32,7 +32,7 @@ typedef unsigned int u32;
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, unsigned char value);
 typedef unsigned char  u8;
@@ -44,14 +44,14 @@ extern u32 PRINTSYS_PrintStream(u32 a0, u32 a1, u32 a2, u32 a3, u32 a5, u32 a6, 
                          u32 a8, u16 a9, u16 a10);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
 void STARTMENU_StartMessage(char *p, u32 a1)
 {
     void *h;
     MSGDATA_ReadString((struct MsgBank *)(((struct Obj02427 *)p)->f5C), a1, (void *)(((struct Obj02427 *)p)->f64));
-    BMP_Clear((struct CharBuf *)func_02045770((struct Descriptor *)*(u32 *)&((struct Obj02427 *)p)->fE8), 0xf);
+    BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((struct Obj02427 *)p)->fE8), 0xf);
     func_0201F73C(((struct Obj02427 *)p)->fE8, 2, 1, 0xe);
     ((struct Obj02427 *)p)->f6C = PRINTSYS_PrintStream(*(u32 *)&((struct Obj02427 *)p)->fE8, 0, 0, ((struct Obj02427 *)p)->f64,
                                        ((struct Obj02427 *)p)->f58, func_02012FFC(),
@@ -60,5 +60,5 @@ void STARTMENU_StartMessage(char *p, u32 a1)
     h = ((struct Obj02427 *)p)->fE8;
     BMP_WIN_TransferChars(h);
     BMP_WIN_MakeScreen(h);
-    func_02041B6C(func_02045730(h));
+    func_02041B6C(BMP_WIN_GetBgLayer(h));
 }

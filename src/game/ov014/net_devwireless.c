@@ -1,7 +1,7 @@
 /*
  * file:     net_devwireless.c
  * unit:     yes
- * function: func_02177020, func_02177028, func_02177080, func_02177094, func_021770A8, func_021770CC, func_021770EC
+ * function: GFL_NET_DEVWIRELESS_GetDeviceTable, GFL_NET_DEVWIRELESS_Setup, GFL_NET_DEVWIRELESS_Begin, GFL_NET_DEVWIRELESS_Update, GFL_NET_DEVWIRELESS_OnShutdownDone, GFL_NET_DEVWIRELESS_Cleanup, GFL_NET_DEVWIRELESS_ClearScanList
  * address:  0x02177020
  * region:   ov014
  * compiler: dsi/1.1p1
@@ -18,13 +18,13 @@
  *   sFileNetDevWireless 0x0217976C  data   a1
  *   func_02030734  0x02030734  arm
  *   GFL_NET_GetInitParam  0x0203D798  arm
- *   func_02177280  0x02177280  thumb  ov014
- *   func_02177AA8 0x02177AA8 thumb ov014
- *   func_0217796C 0x0217796C thumb ov014
- *   func_021776C4 0x021776C4 thumb ov014
+ *   NET_WHPIPE_Create  0x02177280  thumb  ov014
+ *   NET_WHPIPE_IsIdle 0x02177AA8 thumb ov014
+ *   NET_WHPIPE_Update 0x0217796C thumb ov014
+ *   NET_WHPIPE_RequestFinalize 0x021776C4 thumb ov014
  *   func_020307B0 0x020307B0 arm
  *   NET_WHPIPE_RequestEnd 0x02177EB0 thumb ov014
- *   func_02177560 0x02177560 thumb ov014
+ *   NET_WHPIPE_ClearEntries 0x02177560 thumb ov014
  */
 typedef unsigned char u8;
 
@@ -40,13 +40,13 @@ typedef struct DevWirelessWork {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 *GFL_NET_GetInitParam(void);
-extern int func_02177280(int a, int b, u32 c, int d);
-extern int func_02177AA8(void);
-extern void func_0217796C(u32);
-extern int func_021776C4(void);
+extern int NET_WHPIPE_Create(int a, int b, u32 c, int d);
+extern int NET_WHPIPE_IsIdle(void);
+extern void NET_WHPIPE_Update(u32);
+extern int NET_WHPIPE_RequestFinalize(void);
 extern u32 func_020307B0(void *p);
 extern int NET_WHPIPE_RequestEnd(int a);
-extern void func_02177560(void);
+extern void NET_WHPIPE_ClearEntries(void);
 void *GFL_NET_DEVWIRELESS_GetDeviceTable(void);
 int GFL_NET_DEVWIRELESS_Setup(int heapId, u32 setupParam, int wmParam, int userData);
 int GFL_NET_DEVWIRELESS_Begin(void (*doneCallback)(void));
@@ -84,7 +84,7 @@ int GFL_NET_DEVWIRELESS_Setup(int heapId, u32 setupParam, int wmParam, int userD
     work->setupParam = setupParam;
     if (GFL_NET_GetInitParam()[0x65] != 5)
         forListening = 0;
-    return func_02177280(heapId, wmParam, userData, forListening);
+    return NET_WHPIPE_Create(heapId, wmParam, userData, forListening);
 }
 
 
@@ -95,10 +95,10 @@ int GFL_NET_DEVWIRELESS_Setup(int heapId, u32 setupParam, int wmParam, int userD
 int GFL_NET_DEVWIRELESS_Begin(void (*doneCallback)(void))
 {
     if (doneCallback != 0) {
-        func_02177AA8();
+        NET_WHPIPE_IsIdle();
         doneCallback();
     }
-    return func_02177AA8();
+    return NET_WHPIPE_IsIdle();
 }
 
 
@@ -108,7 +108,7 @@ int GFL_NET_DEVWIRELESS_Begin(void (*doneCallback)(void))
  */
 int GFL_NET_DEVWIRELESS_Update(u32 tick)
 {
-    func_0217796C(tick);
+    NET_WHPIPE_Update(tick);
     return 1;
 }
 
@@ -116,7 +116,7 @@ int GFL_NET_DEVWIRELESS_Update(u32 tick)
 /* Slot 4: asks the pipe to shut down (same target as slot 21). */
 int GFL_NET_DEVWIRELESS_RequestDisconnect(void)
 {
-    return func_021776C4();
+    return NET_WHPIPE_RequestFinalize();
 }
 
 
@@ -143,7 +143,7 @@ int GFL_NET_DEVWIRELESS_Cleanup(void (*endCallback)(void *))
 
 
 /* Slot 6: forgets all scanned parents. */
-int GFL_NET_DEVWIRELESS_ClearScanList(void) { func_02177560(); return 1; }
+int GFL_NET_DEVWIRELESS_ClearScanList(void) { NET_WHPIPE_ClearEntries(); return 1; }
 
 
 int GFL_NET_DEVWIRELESS_UnusedSlot7(void) { return 1; }

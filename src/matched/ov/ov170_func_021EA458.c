@@ -27,7 +27,7 @@
  *   func_021E8FC0 0x021E8FC0 thumb
  *   func_021E1324 0x021E1324 thumb
  *   func_021ED198 0x021ED198 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_020260E4 0x020260E4 thumb
  */
 
@@ -84,7 +84,7 @@ extern void func_021EEF74(char *w, int k, int v);
 extern int func_021E0ABC(unsigned char *p);
 extern int func_021E1324(char *p);
 extern void func_021ED198(char *w, int i, int v);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void func_020260E4(struct Sound *obj, u8 sel);
 extern int func_021E0A40(char *p);
 

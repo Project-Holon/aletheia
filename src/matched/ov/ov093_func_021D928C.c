@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_BlockIndirectDamage
+ * function: HAND_TOKUSEI_BlockIndirectDamage
  * address:  0x021D928C
  * packet:   pkt_ov093_021D928C
  * region:   ov093
@@ -19,7 +19,7 @@ extern int BTL_EVENT_GetVar(int);
 typedef unsigned int   u32;
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void BTL_ABILITY_BlockIndirectDamage(int a, int b, int c, int d)
+void HAND_TOKUSEI_BlockIndirectDamage(int a, int b, int c, int d)
 {
     if (b == BTL_EVENT_GetVar(2) && b != BTL_EVENT_GetVar(3)) {
         if (d == 8 || d == BTL_EVENT_GetVar(0x1f)) {

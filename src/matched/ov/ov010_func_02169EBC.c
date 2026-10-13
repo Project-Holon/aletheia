@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_0201F73C  0x0201F73C  thumb
  *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
@@ -18,7 +18,7 @@
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  */
 
@@ -59,7 +59,7 @@ typedef struct Work {
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern u32 FIELD_MSGBG_GetFont(u8 *p);
@@ -67,7 +67,7 @@ extern signed char func_02012FFC(void);
 extern void *PRINTSYS_PrintStream(void *a0, u32 a1, u32 a2, void *a3, u32 a4, u32 a5, void *a6, u32 a7, u16 a8, u32 a9);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
 void REPORT_EVENT_StartPrintStream(Work *w)
@@ -76,7 +76,7 @@ void REPORT_EVENT_StartPrintStream(Work *w)
     u32 a;
     void *p;
 
-    BMP_Clear(func_02045770(w->f18->f08), 15);
+    BMP_Clear(BMP_WIN_GetBmp(w->f18->f08), 15);
     func_0201F73C(w->f18->f08, 2, 1, 13);
     r = w->f18;
     a = FIELD_MSGBG_GetFont(w->f0C);
@@ -85,5 +85,5 @@ void REPORT_EVENT_StartPrintStream(Work *w)
     p = w->f18->f08;
     BMP_WIN_TransferChars(p);
     BMP_WIN_MakeScreen(p);
-    func_02041B6C(func_02045730(p));
+    func_02041B6C(BMP_WIN_GetBgLayer(p));
 }

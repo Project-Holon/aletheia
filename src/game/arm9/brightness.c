@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0207D658  0x0207D658  arm
  *   G2x_SetBlendBrightness_   0x0207D658  arm
  *   g_brightnessMain    0x0214691C  data
@@ -43,7 +43,7 @@ struct BrightnessChange {
     u32 active;
 };
 
-extern void  func_02082BCC(void *p, u32 v, u32 n);
+extern void  MI_CpuFill8(void *p, u32 v, u32 n);
 extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 void BRIGHTNESS_ChangeStep(struct BrightnessChange *p);
@@ -332,11 +332,11 @@ void BRIGHTNESS_Set(u32 a0, u32 a1, u32 mask)
 void BRIGHTNESS_ChangeReset(u32 mask)
 {
     if (mask & 1) {
-        func_02082BCC(&g_brightnessMain, 0, 0x20);
+        MI_CpuFill8(&g_brightnessMain, 0, 0x20);
         g_brightnessRecords[1].active = 0;
     }
     if (mask & 2) {
-        func_02082BCC(&g_brightnessSub, 0, 0x20);
+        MI_CpuFill8(&g_brightnessSub, 0, 0x20);
         g_brightnessRecords[0].active = 0;
     }
 }

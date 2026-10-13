@@ -24,7 +24,7 @@
  *   func_021DA8B0 0x021DA8B0 thumb ov121
  *   func_021D9E50 0x021D9E50 thumb ov121
  *   func_021DC08C 0x021DC08C thumb ov121
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   MYSTERY_DATA_HasAnyCard 0x0200A170 thumb
  *   func_0207D658 0x0207D658 arm
  *   _u32_div_f 0x0209C2B0 arm
@@ -49,7 +49,7 @@ extern void func_021DA2F0(u8 *p, u32 i);
 extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021D9E50(u8 *);
 extern void func_021DC08C(void *task, u32 *state, char *p);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern int MYSTERY_DATA_HasAnyCard(char *p);
 extern void func_0207D658(u32,int,int);
 extern u8 d_021DF86E[],d_021DF86F[];
@@ -83,7 +83,7 @@ void func_021DC734(void *task,u32 *state,char *p)
     case 0:func_021D9F08(P(0xabc),W(28),123,1);*state=1;break;
     case 1:
         if(func_021D9FF8(P(0xabc))) {
-            func_02082BCC(&d,0,36);
+            MI_CpuFill8(&d,0,36);
             d.v[0]=W(28);d.v[1]=W(16);d.v[2]=W(20);
             d.v[3]=124;d.v[4]=125;d.v[6]=2;
             d.a=0;d.b=15;d.c=13;d.d=1;

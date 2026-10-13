@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DC104",
-    "func_021DC130"
+    "HAND_TOKUSEI_Multiscale_HalveDamageAtFullHp",
+    "HAND_TOKUSEI_GetMultiscaleHandlers"
+   ],
+   "addresses": [
+    "0x021DC104",
+    "0x021DC130"
    ],
    "evidence": {
     "sole-ref": [

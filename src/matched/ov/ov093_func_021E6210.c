@@ -1,5 +1,5 @@
 /*
- * function: func_021E6210
+ * function: HAND_WAZA_FlyChargeEndNoOp
  * address: 0x021E6210
  * packet: pkt_ov093_021E6210
  * region: ov093
@@ -12,8 +12,8 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E61BC.c and filed here.
  */
 
-void func_021E6210(void);
+void HAND_WAZA_FlyChargeEndNoOp(void);
 
-void func_021E6210(void)
+void HAND_WAZA_FlyChargeEndNoOp(void)
 {
 }

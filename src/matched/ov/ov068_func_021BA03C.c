@@ -12,25 +12,25 @@
  * Touch and key input to a command code in p[0].
  *
  * symbols:
- *   func_02035D20  0x02035D20  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
- *   func_020362DC  0x020362DC  arm
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   func_020355C4  0x020355C4  arm
  *   func_020355D8  0x020355D8  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 
 typedef unsigned int u32;
 
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-extern u32  func_020362DC(void);
-extern unsigned int func_0203630C(void);
+extern u32  KEY_GetTrg(void);
+extern unsigned int KEY_GetCont(void);
 typedef unsigned char  u8;
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8 v);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 
 void OPTION_MENU_ReadInput(int *p)
 {
@@ -41,7 +41,7 @@ void OPTION_MENU_ReadInput(int *p)
     int d;
 
     p[0] = 0;
-    if (func_02035D20((u32 *)(&x), (u32 *)(&y))) {
+    if (TOUCHPANEL_GetPointTrg((u32 *)(&x), (u32 *)(&y))) {
         p[0] = 3;
         p[1] = x;
         p[2] = y;
@@ -62,12 +62,12 @@ void OPTION_MENU_ReadInput(int *p)
     } else {
         p[7] = 0;
     }
-    trg = func_020362DC();
-    cont = func_0203630C();
+    trg = KEY_GetTrg();
+    cont = KEY_GetCont();
     if (trg != 0 && func_020355C4() == 1 && (trg & 0xc02) == 0) {
         func_020355D8(0);
         p[0] = 0xe;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return;
     }
     if (trg & 0x40) {

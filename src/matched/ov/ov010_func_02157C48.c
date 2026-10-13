@@ -15,8 +15,8 @@
  *
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039CB4  0x02039CB4  arm
- *   func_02039C68  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   func_0203F328  0x0203F328  arm
  *   func_020056EC  0x020056EC  thumb
  *   DELIVERY_IRC_SetStepAtLine  0x02157960  thumb
@@ -37,8 +37,8 @@ typedef struct Object {
 struct Entry;
 struct Link;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u32 func_02039CB4(struct Link *, u32, u32);
-extern void func_02039C68(struct Link *, u32, u32);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, u32, u32);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, u32, u32);
 extern void func_0203F328(u16 *, u32, u32);
 extern u32 func_020056EC(u32 range);
 extern void DELIVERY_IRC_SetStepAtLine(int, int, int);
@@ -51,7 +51,7 @@ void DELIVERY_IRC_StepSearchEntry(Object *p)
     int *e;
     u32 i;
     unsigned long n;
-    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x17, (u8)p->f00) == 0)
+    if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x17, (u8)p->f00) == 0)
         return;
     if (b[0x675] != 0) {
         e = 0;
@@ -74,6 +74,6 @@ void DELIVERY_IRC_StepSearchEntry(Object *p)
         }
         return;
     }
-    func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, (u8)p->f00);
+    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, (u8)p->f00);
     DELIVERY_IRC_SetStepAtLine((int)p, (int)DELIVERY_IRC_StepSendData, 0x193);
 }

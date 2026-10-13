@@ -1,5 +1,5 @@
 /*
- * function: func_021878C0
+ * function: EL_SCOREBOARD_SetupStandaloneDisplay
  * address:  0x021878C0
  * packet:   pkt_ov020_021878C0
  * region:   ov020
@@ -39,7 +39,7 @@ void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 void func_0204047C(int idx, unsigned short val);
 void func_020414AC(int a);
 
-void func_021878C0(char *o)
+void EL_SCOREBOARD_SetupStandaloneDisplay(char *o)
 {
     BG_SYS_SetVramBanks((const struct DispVram *)EL_SCOREBOARD_VramBankConfig);
     func_0203F8F4(((struct Obj19478 *)o)->f8);

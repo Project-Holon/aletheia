@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_GetInfiltratorHandlers
+ * function: HAND_TOKUSEI_GetInfiltratorHandlers
  * address: 0x021DC87C
  * packet: pkt_ov093_021DC87C
  * region: ov093
@@ -15,10 +15,10 @@
  *   gInfiltratorHandlers 0x021F0A00 data ov093 a4
  */
 
-int *BTL_ABILITY_GetInfiltratorHandlers(int *p);
+int *HAND_TOKUSEI_GetInfiltratorHandlers(int *p);
 extern int gInfiltratorHandlers[];
 
-int *BTL_ABILITY_GetInfiltratorHandlers(int *p)
+int *HAND_TOKUSEI_GetInfiltratorHandlers(int *p)
 {
     *p = 2;
     return gInfiltratorHandlers;

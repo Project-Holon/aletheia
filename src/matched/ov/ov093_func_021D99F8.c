@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: BTL_TOKUSEI_StatLossGuard_BlockIfFlagged, BTL_TOKUSEI_GetStatLossGuardHandlers
+ * function: HAND_TOKUSEI_StatLossGuard_BlockIfFlagged, HAND_TOKUSEI_GetStatLossGuardHandlers
  * address: 0x021D99F8
  * packet: pkt_ov093_021D99F8
  * region: ov093
@@ -18,6 +18,6 @@
 extern int BTL_EVENT_GetVar(int);
 extern int BTL_EVENT_OverwriteVar(int, unsigned int);
 extern int func_021E85F8(int);
-void BTL_TOKUSEI_StatLossGuard_BlockIfFlagged(int a,int b,int c) { if(func_021E85F8(c)!=0 && BTL_EVENT_GetVar(5)==1) BTL_EVENT_OverwriteVar(0x47,1); }
+void HAND_TOKUSEI_StatLossGuard_BlockIfFlagged(int a,int b,int c) { if(func_021E85F8(c)!=0 && BTL_EVENT_GetVar(5)==1) BTL_EVENT_OverwriteVar(0x47,1); }
 extern unsigned int gStatLossGuardHandlers;
-void *BTL_TOKUSEI_GetStatLossGuardHandlers(int *p) { *p=5; return &gStatLossGuardHandlers; }
+void *HAND_TOKUSEI_GetStatLossGuardHandlers(int *p) { *p=5; return &gStatLossGuardHandlers; }

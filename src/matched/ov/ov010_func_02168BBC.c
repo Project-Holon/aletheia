@@ -11,7 +11,7 @@
  *   func_020120F4 0x020120F4 thumb
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   FLD_BTL_INST_TOOL_CommResetEventMain 0x02168B20 thumb ov010
  */
 typedef unsigned int   u32;
@@ -21,7 +21,7 @@ struct Obj;
 extern void *func_020120F4(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_02082BCC(void *, int, unsigned int);
+extern void MI_CpuFill8(void *, int, unsigned int);
 extern int FLD_BTL_INST_TOOL_CommResetEventMain(int a, int *b, int *c);
 void *FLD_BTL_INST_TOOL_CreateCommResetEvent(void *a, void *b)
 {
@@ -30,7 +30,7 @@ void *FLD_BTL_INST_TOOL_CreateCommResetEvent(void *a, void *b)
     func_020120F4(a);
     h = func_020122C0(a, 0, FLD_BTL_INST_TOOL_CommResetEventMain, 0xc);
     p = func_020124E8(h);
-    func_02082BCC(p, 0, 0xc);
+    MI_CpuFill8(p, 0, 0xc);
     p[2] = a;
     p[1] = b;
     return h;

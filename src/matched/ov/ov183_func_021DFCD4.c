@@ -11,9 +11,9 @@
  * lever: A separate result!=3 guard around the three-case switch removes the extra 8-byte dense dispatch (460 to 452 B).
  * symbols:
  *   func_021E04C8 0x021E04C8 thumb ov183
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021FD860 0x021FD860 thumb ov186
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021E03B0 0x021E03B0 thumb ov183
  *   func_021FD170 0x021FD170 thumb ov186
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
@@ -31,9 +31,9 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 extern int func_021E04C8(void);
 struct Sub0200852CObj;
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void func_021FD860(int,int,int *);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021E03B0(char *,char *,int);
 extern void func_021FD170(char *p, char *q, void *text);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
@@ -51,9 +51,9 @@ int func_021DFCD4(char *p,char *q)
     case 0: {
         u32 x,y;
         int args[2];
-        func_02035D20(&x,&y);args[0]=x;args[1]=y;
+        TOUCHPANEL_GetPointTrg(&x,&y);args[0]=x;args[1]=y;
         func_021FD860(((struct Obj00277 *)p)->f40,1,args);
-        func_020061E4(0x703);
+        GFL_USE_PlaySeDefaultVolume(0x703);
         ((struct Obj00351 *)q)->f18=19;
         func_021E03B0(p,q,0);
         func_021FD170(((struct Obj00277 *)p)->f38,(char *)(*(int *)&((struct Obj00351 *)q)->f8),(void *)105);
@@ -63,9 +63,9 @@ int func_021DFCD4(char *p,char *q)
     case 1: {
         u32 x,y;
         int args[2];
-        func_02035D20(&x,&y);args[0]=x;args[1]=y;
+        TOUCHPANEL_GetPointTrg(&x,&y);args[0]=x;args[1]=y;
         func_021FD860(((struct Obj00277 *)p)->f40,1,args);
-        func_020061E4(0x703);
+        GFL_USE_PlaySeDefaultVolume(0x703);
         ((struct Obj00351 *)q)->f14=0xffff;
         func_021E03B0(p,q,1);
         func_021FD170(((struct Obj00277 *)p)->f38,(char *)(*(int *)&((struct Obj00351 *)q)->f8),(void *)106);
@@ -81,12 +81,12 @@ int func_021DFCD4(char *p,char *q)
         a=func_0200856C(v);b=func_02008570(v);
         if(!a && !b) {
             func_021FD170(((struct Obj00277 *)p)->f38,(char *)(*(int *)&((struct Obj00351 *)q)->f8),(void *)120);
-            func_020061E4(0x704);
+            GFL_USE_PlaySeDefaultVolume(0x704);
             break;
         }
-        func_02035D20(&x,&y);args[0]=x;args[1]=y;
+        TOUCHPANEL_GetPointTrg(&x,&y);args[0]=x;args[1]=y;
         func_021FD860(((struct Obj00277 *)p)->f40,1,args);
-        func_020061E4(0x703);
+        GFL_USE_PlaySeDefaultVolume(0x703);
         if(((struct Obj00351 *)q)->f16==255){((struct Obj00351 *)q)->f16=a;((struct Obj00351 *)q)->f17=b;}
         else{((struct Obj00351 *)q)->f16=255;((struct Obj00351 *)q)->f17=255;}
         func_021E03B0(p,q,2);
@@ -96,7 +96,7 @@ int func_021DFCD4(char *p,char *q)
     }
     {
         u32 x,y;
-        if(func_02035D20(&x,&y)) {
+        if(TOUCHPANEL_GetPointTrg(&x,&y)) {
             if(func_021FB4B4((unsigned int *)(((struct Obj00277 *)p)->fC),x,y)) {
                 int args[2];
                 args[0]=x;args[1]=y;
@@ -109,13 +109,13 @@ int func_021DFCD4(char *p,char *q)
                 if(((struct Obj00351 *)q)->f14!=0xffff || ((struct Obj00351 *)q)->f17!=255 || ((struct Obj00351 *)q)->f18!=19) {
                     int args[2];
                     args[0]=x;args[1]=y;
-                    func_020061E4(0x703);
+                    GFL_USE_PlaySeDefaultVolume(0x703);
                     func_021FD860(((struct Obj00277 *)p)->f40,1,args);
                     ((struct Obj00277 *)p)->f50=-1;
                     func_021F9BF4(*(unsigned * *)&((struct Obj00351 *)q)->fC,5);
                     return 1;
                 }
-                func_020061E4(0x704);
+                GFL_USE_PlaySeDefaultVolume(0x704);
                 func_021FD170(((struct Obj00277 *)p)->f38,(char *)(*(int *)&((struct Obj00351 *)q)->f8),(void *)108);
             }
         }

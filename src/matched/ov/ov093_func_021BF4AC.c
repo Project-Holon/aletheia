@@ -25,7 +25,7 @@
  *   func_021BF6B8 0x021BF6B8 thumb ov093
  *   func_021BF6C8 0x021BF6C8 thumb ov093
  *   func_021BF6D8 0x021BF6D8 thumb ov093
- *   func_021BF324 0x021BF324 thumb ov093
+ *   BTL_SERVER_FLOW_CheckNoGuardHit 0x021BF324 thumb ov093
  *   BTL_SERVER_FLOW_ProcNoEffectCheck 0x021BF6E8 thumb ov093
  *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
  *   BTL_SERVER_FLOW_QueryActionCancelEvent 0x021C6668 thumb ov093
@@ -54,7 +54,7 @@ extern void func_021BF6A8(void *);
 extern u8 *func_021BF6B8(void *);
 extern void func_021BF6C8(void *, u8 *);
 extern u8 *func_021BF6D8(void *);
-extern int func_021BF324(u8 *, u8 *, u8 *);
+extern int BTL_SERVER_FLOW_CheckNoGuardHit(u8 *, u8 *, u8 *);
 extern int BTL_SERVER_FLOW_ProcNoEffectCheck(u8 *, u8 *, u8 *, u8 *, void *, int);
 extern u32 WAZA_TOOL_GetFlag(u16, u32);
 struct UtilWork;
@@ -68,7 +68,7 @@ void BTL_SERVER_FLOW_ProcNoEffectChecks(u8 *p, u8 *b, u8 *a, void *d, void *e)
     EVENT_APPEAR_CreateSpinZoomAlt(d);
     q = func_021BF5F8(d);
     while (q) {
-        if (func_021BF324(p, a, q) == 0 && BTL_SERVER_FLOW_ProcNoEffectCheck(p, b, a, q, e, 43))
+        if (BTL_SERVER_FLOW_CheckNoGuardHit(p, a, q) == 0 && BTL_SERVER_FLOW_ProcNoEffectCheck(p, b, a, q, e, 43))
             func_021BF608(d, q);
         q = func_021BF618(d);
     }

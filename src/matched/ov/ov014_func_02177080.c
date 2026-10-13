@@ -1,5 +1,5 @@
 /*
- * function: func_02177080
+ * function: GFL_NET_DEVWIRELESS_Begin
  * address: 0x02177080
  * packet: pkt_ov014_02177080
  * region: ov014
@@ -10,14 +10,14 @@
  * status: EXACT*
  * extent: trailing two-byte zero alignment padding.
  * symbols:
- *   func_02177AA8 0x02177AA8 thumb ov014
+ *   NET_WHPIPE_IsIdle 0x02177AA8 thumb ov014
  */
-extern int func_02177AA8(void);
-int func_02177080(void (*cb)(void))
+extern int NET_WHPIPE_IsIdle(void);
+int GFL_NET_DEVWIRELESS_Begin(void (*cb)(void))
 {
     if (cb != 0) {
-        func_02177AA8();
+        NET_WHPIPE_IsIdle();
         cb();
     }
-    return func_02177AA8();
+    return NET_WHPIPE_IsIdle();
 }

@@ -12,8 +12,8 @@
  * symbols:
  *   func_021BC30C 0x021BC30C thumb ov211
  *   func_021BC43C 0x021BC43C thumb ov211
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  */
-extern void func_021BC30C(unsigned char *),func_021BC43C(void),func_02043534(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned);
-int func_021BC6CC(unsigned char *p){func_021BC30C(p);func_021BC43C();*(volatile unsigned short *)0x04000050=0;*(volatile unsigned short *)0x04001050=0;func_02043534(0);BG_SYS_SetSubVisiblePlanes(0);return 6;}
+extern void func_021BC30C(unsigned char *),func_021BC43C(void),BG_SYS_SetMainVisiblePlanes(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned);
+int func_021BC6CC(unsigned char *p){func_021BC30C(p);func_021BC43C();*(volatile unsigned short *)0x04000050=0;*(volatile unsigned short *)0x04001050=0;BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);return 6;}

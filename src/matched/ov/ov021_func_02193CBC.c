@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FIELD_WFBC_PEOPLE_Clear  0x02193F6C  thumb  ov021
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FIELD_WFBC_BLOCK_ClearGrid  0x02193FE8  thumb  ov021
  *   FIELD_WFBC_BLOCK_ClearRand  0x02194078  thumb  ov021
  */
@@ -19,7 +19,7 @@
 
 struct E50;
 extern void FIELD_WFBC_PEOPLE_Clear(struct E50 *e);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void FIELD_WFBC_BLOCK_ClearGrid(void *p);
 typedef unsigned int   u32;
 extern void FIELD_WFBC_BLOCK_ClearRand(u32 a);
@@ -37,7 +37,7 @@ void FIELD_WFBC_Clear(unsigned char *p)
             FIELD_WFBC_PEOPLE_Clear((struct E50 *)(*(unsigned char * *)&((struct Obj04214 *)p)->f4 + i * 0x50));
     }
     if (((struct Obj04214 *)p)->f14 != 0)
-        func_02082BCC(((struct Obj04214 *)p)->f14, 0, 0x600);
+        MI_CpuFill8(((struct Obj04214 *)p)->f14, 0, 0x600);
     FIELD_WFBC_BLOCK_ClearGrid(p + 0x18);
     FIELD_WFBC_BLOCK_ClearRand((u32)(p + 0x11c));
 }

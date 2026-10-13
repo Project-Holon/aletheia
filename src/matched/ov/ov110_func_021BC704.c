@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021BC69C 0x021BC69C thumb ov110
  */
 #include "../include/Obj01393.h"
@@ -17,11 +17,11 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void func_021BC69C(u8 *, int);
 void func_021BC704(u8 *p, u32 flag)
 {
-    func_0204B3DC(((struct Obj01393 *)p)->f14, flag);
-    func_0204B3DC(((struct Obj01393 *)p)->f18, flag);
+    CLACT_SetActorDrawEnable(((struct Obj01393 *)p)->f14, flag);
+    CLACT_SetActorDrawEnable(((struct Obj01393 *)p)->f18, flag);
     func_021BC69C(p, 1);
 }

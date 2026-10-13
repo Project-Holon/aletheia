@@ -11,11 +11,11 @@
  *
  * symbols:
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *   func_02040C14  0x02040C14  arm
  *   tbl_022037A8   0x022037A8  data  a2
@@ -50,13 +50,13 @@ extern const Pos tbl_022037BC[];
 
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct Cfg;
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 v);
 extern void func_02040C14(u32 a, u32 b, u32 c, u32 d);
 
@@ -66,34 +66,34 @@ void func_021FDF2C(Menu *p)
     u32 v;
 
     p->frame = BMP_WIN_Create(0, (u8)2, (u8)0x15, (u8)0x1b, 2, 0xd, (u16)1);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->frame)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->frame)), 0);
     v = p->frame;
     BMP_WIN_TransferChars((struct Descriptor *)v);
     BMP_WIN_MakeScreen((struct Cfg *)v);
-    func_020409B4(func_02045730((struct Descriptor *)v));
+    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)v));
     func_02040C14(3, 0, 1, 0);
     for (i = 0; i < 6; i++) {
         p->item[i] = BMP_WIN_Create(3, (u8)tbl_022037BC[i].x, (u8)tbl_022037BC[i].y, (u8)0xb, 2, 0xd, (u16)0);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->item[i])), 0);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->item[i])), 0);
         v = p->item[i];
         BMP_WIN_TransferChars((struct Descriptor *)v);
         BMP_WIN_MakeScreen((struct Cfg *)v);
-        func_020409B4(func_02045730((struct Descriptor *)v));
+        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)v));
     }
     for (i = 0; i < 2; i++) {
         p->tab[i] = BMP_WIN_Create(3, (u8)tbl_022037A8[i].x, (u8)tbl_022037A8[i].y, (u8)0x1c, 2, 0xd, (u16)0);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->tab[i])), 0);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->tab[i])), 0);
         v = p->tab[i];
         BMP_WIN_TransferChars((struct Descriptor *)v);
         BMP_WIN_MakeScreen((struct Cfg *)v);
-        func_020409B4(func_02045730((struct Descriptor *)v));
+        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)v));
     }
     for (i = 0; i < 3; i++) {
         p->page[i] = BMP_WIN_Create(3, (u8)tbl_022037B0[i].x, (u8)tbl_022037B0[i].y, (u8)0xa, 2, 0xd, (u16)0);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->page[i])), 0);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->page[i])), 0);
         v = p->page[i];
         BMP_WIN_TransferChars((struct Descriptor *)v);
         BMP_WIN_MakeScreen((struct Cfg *)v);
-        func_020409B4(func_02045730((struct Descriptor *)v));
+        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)v));
     }
 }

@@ -13,7 +13,7 @@
  * function at the same address in src/matched/ov/FLD3D_CI_RestoreVisiblePlanes.c.)
  *
  * symbols:
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj20174.h"
@@ -21,9 +21,9 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern void func_02043534(u32 a);
+extern void BG_SYS_SetMainVisiblePlanes(u32 a);
 
 void FLD3D_CI_RestoreVisiblePlanes(u8 *p)
 {
-    func_02043534(((struct Obj20174 *)p)->f68);
+    BG_SYS_SetMainVisiblePlanes(((struct Obj20174 *)p)->f68);
 }

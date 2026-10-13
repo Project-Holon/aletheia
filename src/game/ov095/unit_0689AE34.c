@@ -14,11 +14,11 @@
  *
  * symbols:
  *   POKE_TOOL_GetGender  0x02017F00  thumb
- *   func_0201BD28  0x0201BD28  thumb
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   func_02082A48  0x02082A48  arm
  *   func_021B8D8C  0x021B8D8C  thumb
- *   func_021B8E70  0x021B8E70  thumb
+ *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb
  *   func_021B98AC  0x021B98AC  thumb
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
  *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb
@@ -47,8 +47,8 @@ typedef struct { Row rows[6]; u8 mode, type; u16 pad; } Desc;
 extern void func_02082A48(u32, void *, u32);
 extern u8 BTL_POKEPARAM_GetPokeId(void *);
 extern int func_021B8D8C(void *, void *, u32);
-extern u8 func_021B8E70(void *, u32);
-extern u32 func_0201BD28(u16, u32);
+extern u8 BTL_MAIN_GetViewPosOfSlot(void *, u32);
+extern u32 WAZA_TOOL_GetParam(u16, u32);
 extern int BTL_CALC_GetCurseTargetKind(void *);
 extern u32 WAZA_TOOL_GetFlag(u16, u32);
 extern void *func_021B98AC(char *const *, u8);
@@ -71,14 +71,14 @@ void func_0689AE34(u8 *list, u8 n, int unused, u8 *s)
     int status;
     key = (*(Q * *)&((struct Obj03219 *)s)->f70)->id;
     func_02082A48(0, &desc, sizeof(desc));
-    desc.mode = func_021B8E70(((struct Obj03219 *)s)->fA0, func_021B8D8C(((struct Obj03219 *)s)->fA0, ((struct Obj03219 *)s)->fA4, BTL_POKEPARAM_GetPokeId(((struct Obj03219 *)s)->f6C)));
-    desc.type = func_0201BD28(key, 0x1b);
+    desc.mode = BTL_MAIN_GetViewPosOfSlot(((struct Obj03219 *)s)->fA0, func_021B8D8C(((struct Obj03219 *)s)->fA0, ((struct Obj03219 *)s)->fA4, BTL_POKEPARAM_GetPokeId(((struct Obj03219 *)s)->f6C)));
+    desc.type = WAZA_TOOL_GetParam(key, 0x1b);
     if (key == 0xae) desc.type = BTL_CALC_GetCurseTargetKind(((struct Obj03219 *)s)->f6C);
     if (desc.type == 0 && WAZA_TOOL_GetFlag(key, 0xb)) desc.type = 14;
     while (n-- != 0) {
         mon = func_021B98AC(*(char *const * *)&((struct Obj03219 *)s)->fA4, *list);
         word = BTL_POKEPARAM_GetDisplayMon(mon);
-        idx = func_021B8E70(((struct Obj03219 *)s)->fA0, *list) - 2;
+        idx = BTL_MAIN_GetViewPosOfSlot(((struct Obj03219 *)s)->fA0, *list) - 2;
         r = &desc.rows[idx];
         r->hp = func_021D59B4(mon, 0xd);
         r->flags |= 4;

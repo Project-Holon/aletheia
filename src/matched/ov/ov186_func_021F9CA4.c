@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 #include "../include/Obj24813.h"
 
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 
 void func_021F9CA4(void *p)
 {
-    func_02082BCC(p, 0, 0x10);
+    MI_CpuFill8(p, 0, 0x10);
     ((struct Obj24813 *)p)->fC = -1;
 }

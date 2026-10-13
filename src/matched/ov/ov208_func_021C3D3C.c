@@ -25,7 +25,7 @@
  *   ov208_func_021C5664  0x021C5664  thumb  ov208
  *   ov208_func_021C52F0  0x021C52F0  thumb  ov208
  *   ov208_func_021C580C  0x021C580C  thumb  ov208
- *   func_0204B688  0x0204B688  arm
+ *   CLACT_SetActorObjMode  0x0204B688  arm
  *   MCSS_SetVanishFlag  0x02015EA0  thumb
  *   MCSS_SetPaletteFade  0x02015F50  thumb
  *   ov208_func_021BC9BC  0x021BC9BC  thumb  ov208
@@ -97,7 +97,7 @@ extern void ov208_func_021C580C(u16 *heap, u8 *p, int key);
 struct Actor;
 struct Ctx;
 struct McssFade;
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void MCSS_SetVanishFlag(void *p);
 extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
 extern u32  ov208_func_021BC9BC(int skip, u16 heap, u8 layer, u8 count, u8 pal, u8 palOfs,
@@ -188,7 +188,7 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
         ov208_func_021C5664(heap, p, key);
         ov208_func_021C52F0(heap, p, key);
         ov208_func_021C580C(heap, p, key);
-        func_0204B688((struct Actor *)(*(u32 *)(p + W(0x144) * 4 + 0x13c)), 1);
+        CLACT_SetActorObjMode((struct Actor *)(*(u32 *)(p + W(0x144) * 4 + 0x13c)), 1);
         MCSS_SetVanishFlag((void *)W(0xc));
         MCSS_SetPaletteFade((struct McssFade *)W(0xc), 16, 16, 0, 0);
         if (W(0x94) != 0) {

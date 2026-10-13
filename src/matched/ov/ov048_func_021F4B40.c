@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02187684 0x02187684 thumb ov020
+ *   EL_SCOREBOARD_DeleteLamp 0x02187684 thumb ov020
  *   func_020307B0 0x020307B0 arm
  */
-extern void func_02187684(void *p);
+extern void EL_SCOREBOARD_DeleteLamp(void *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void GIMMICK_OBJ_ELBOARD_DeleteLine(int *p) { func_02187684((void *)p[3]); func_020307B0(p); }
+void GIMMICK_OBJ_ELBOARD_DeleteLine(int *p) { EL_SCOREBOARD_DeleteLamp((void *)p[3]); func_020307B0(p); }

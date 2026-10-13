@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_SendValueNow  0x02176850  thumb  ov011
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
@@ -35,7 +35,7 @@ int FIELD_G3D_MAP_IntrudeRequestEventMain(int a0, int *state, u8 **work)
     int r;
     u16 *p;
 
-    r = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((const struct Ctx *)func_020124E4((struct Obj *)a0)));
+    r = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((const struct Ctx *)GAME_EVENT_GetGameSystem((struct Obj *)a0)));
     if (r == 0) {
         p = *(u16 * *)&((struct Obj09327 *)work)->f0;
         if (p != 0)

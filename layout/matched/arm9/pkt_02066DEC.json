@@ -7,11 +7,11 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "CARD_SetPulledOutCallback",
+   "name": "OAMREND_SetZOffsetEnabled",
    "address": "0x02066DEC",
-   "kind": "sdk",
+   "kind": "game",
    "region": "arm9",
-   "source": "src/matched/arm9_sdk/CARD_SetPulledOutCallback.c",
+   "source": "src/matched/arm9/OAMREND_SetZOffsetEnabled.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

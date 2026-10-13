@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
@@ -31,7 +31,7 @@ typedef struct {
 
 struct Evt;
 struct Obj;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 struct Ctx;
 unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *p);
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
@@ -47,7 +47,7 @@ int EVENT_COMM_COMMON_TalkStartEventMain(int a, int *state, Req *req)
     int s;
     u8 *w;
 
-    s = (int)func_020124E4((struct Obj *)a);
+    s = (int)GAME_EVENT_GetGameSystem((struct Obj *)a);
     w = (u8 *)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((const struct Ctx *)s));
     switch (*state) {
     case 0:

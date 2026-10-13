@@ -1,5 +1,5 @@
 /*
- * function: func_021B8E70
+ * function: BTL_MAIN_GetViewPosOfSlot
  * address:  0x021B8E70
  * packet:   pkt_ov093_021B8E70
  * region:   ov093
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 extern u8 d_021EFCF4[2][3];
 extern u8 d_021EFCFA[2][3];
 
-u8 func_021B8E70(u8 *p, u32 k)
+u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k)
 {
     int s0 = 1;
     u8 s;

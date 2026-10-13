@@ -16,7 +16,7 @@
  *   EVENT_DISAPPEAR_CreateFadeOut  0x021C01F8  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_TASK_MANAGER_IsEmpty  0x021C6E48  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   EVENT_DISAPPEAR_EndZoomIn  0x021C01E4  thumb  ov021
  *
  * Same family as EVENT_APPEAR_RunSpinZoom: FIELD_TASK_MANAGER_IsEmpty takes FIELDMAP_GetTaskManager's result,
@@ -32,7 +32,7 @@ extern int EVENT_DISAPPEAR_CreateFadeOut(u32 *p);
 struct Evt;
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int FIELD_TASK_MANAGER_IsEmpty(void *p);
-extern void func_020061E4(unsigned int a);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned int a);
 extern int EVENT_DISAPPEAR_EndZoomIn(void **a);
 
 int EVENT_DISAPPEAR_RunSpinZoom(void *task, int *state, void **q)
@@ -58,7 +58,7 @@ int EVENT_DISAPPEAR_RunSpinZoom(void *task, int *state, void **q)
         }
     case 2:
         if (FIELD_TASK_MANAGER_IsEmpty(d) != 0) {
-            func_020061E4(0x559);
+            GFL_USE_PlaySeDefaultVolume(0x559);
             (*state)++;
         }
         break;

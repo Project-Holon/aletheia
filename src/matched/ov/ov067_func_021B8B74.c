@@ -14,7 +14,7 @@
  * narrows to s8 after the negate, the other arm reads it as (s8) (ldrsb).
  *
  * symbols:
- *   func_0201C6B4  0x0201C6B4  thumb
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   TOUCHPANEL_HitCont  0x02035BA4  arm
  *   FRAME_LIST_GetScrollBarRow  0x021B8A44  thumb  ov067
  *   FRAME_LIST_StartScroll  0x021B8434  thumb  ov067
@@ -45,7 +45,7 @@ struct S {
 };
 
 struct PrintSys;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern int TOUCHPANEL_HitCont(const void *p);
 extern u32 FRAME_LIST_GetScrollBarRow(struct S *s);
 extern void FRAME_LIST_StartScroll(u8 *p, int a, u8 b, u16 c, u32 d);
@@ -55,7 +55,7 @@ int FRAME_LIST_StepScrollBarDrag(struct S *s)
     u32 x;
     u32 d;
 
-    if (func_0201C6B4((const struct PrintSys *)s->f34) == 0)
+    if (PRINTSYS_QUE_IsFinished((const struct PrintSys *)s->f34) == 0)
         return 1;
     if (TOUCHPANEL_HitCont(&s->f74) == -1 && s->f80 == -1) {
         s->f7f = 0;

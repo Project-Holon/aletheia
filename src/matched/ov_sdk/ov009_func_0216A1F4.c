@@ -12,7 +12,7 @@
  * sdk:      DWCi_LoginInit (libdwcmatch.TWL.HYB.a(dwc_login.o))
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02178F30  0x02178F30  arm  ov009
  *   g_021AA874  0x021AA874  data
  */
@@ -36,13 +36,13 @@ typedef struct LoginCnt {
 extern LoginCnt *g_021AA874;
 
 
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int func_02178F30(void);
 
 void func_0216A1F4(LoginCnt *logcnt, void *userdata, void **pGpObj, int productID, unsigned long gamecode, unsigned short *playerName, void *callback, void *param)
 {
 	g_021AA874 = logcnt;
-	func_02082BCC(g_021AA874, 0, 0x260);
+	MI_CpuFill8(g_021AA874, 0, 0x260);
 	g_021AA874->connection = pGpObj;
 	g_021AA874->state = 0;
 	g_021AA874->productID = productID;

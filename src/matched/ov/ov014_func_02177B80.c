@@ -1,5 +1,5 @@
 /*
- * function: func_02177B80
+ * function: NET_WHPIPE_GetEntryBeaconKind
  * address:  0x02177B80
  * packet:   pkt_ov014_02177B80
  * region:   ov014
@@ -26,7 +26,7 @@ typedef unsigned short u16;
 extern u8 *g_pWhPipeWork;
 
 
-u8 func_02177B80(int i)
+u8 NET_WHPIPE_GetEntryBeaconKind(int i)
 {
     u8 *base = g_pWhPipeWork;
 

@@ -15,7 +15,7 @@
  *   func_021D4480  0x021D4480  thumb  ov118
  *   func_021DFD24  0x021DFD24  thumb  ov119
  *   func_021DFB84  0x021DFB84  thumb  ov119
- *   func_02015F2C  0x02015F2C  thumb
+ *   MCSS_SetAnimCallback  0x02015F2C  thumb
  *   func_021DFD0C  0x021DFD0C  thumb  ov119
  *   MCSS_SetPaletteFade  0x02015F50  thumb
  *   func_021E106C  0x021E106C  thumb  ov119
@@ -45,7 +45,7 @@ extern int func_021D4480(int);
 struct McssFade;
 extern void func_021DFD24(u32 *p);
 extern void *func_021DFB84(void *a0, void *a1, void *a2, u32 heapId);
-extern void func_02015F2C(u32 obj, void *arg, void (*cb)(void), int a);
+extern void MCSS_SetAnimCallback(u32 obj, void *arg, void (*cb)(void), int a);
 extern void func_021DFD0C(char *p);
 extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
 extern void func_021E106C(char *p);
@@ -79,7 +79,7 @@ void func_021D4544(u8 *p)
     b = d_021D7C9C;
     func_021DFD24((u32 *)SLOT1);
     SLOT1 = (u32)func_021DFB84((void *)OBJ(1), (void *)func_021D4480(0x54), &b, HEAP);
-    func_02015F2C(OBJ(0), p, (void (*)(void))func_021DFD0C, 1);
+    MCSS_SetAnimCallback(OBJ(0), p, (void (*)(void))func_021DFD0C, 1);
     MCSS_SetPaletteFade((struct McssFade *)OBJ(1), 0, 0x10, (s8)(func_021D4480(0xE) / 16), 0);
     func_021E106C((char *)p);
     func_02040EBC(1, 0);

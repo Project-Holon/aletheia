@@ -12,7 +12,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   d_02172978     0x02172978  data  a1
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020120F4  0x020120F4  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_02012944  0x02012944  thumb
@@ -31,7 +31,7 @@ typedef struct T { void *a; void *b; u8 *c; u16 h; } T;
 
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern u8 d_02172978[];
-extern void func_02082BCC();
+extern void MI_CpuFill8();
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0200CA1C(void *a);
 extern u8 *func_02012944(void *p);
@@ -47,7 +47,7 @@ T *EVENT_FIELD_PROCLINK_CreateZukanParam(int *a0, int a1)
     int s;
 
     p = func_02030734(4, 0x10, 0, (const char *)d_02172978, 0x49b);
-    func_02082BCC(p, 0, 0x10);
+    MI_CpuFill8(p, 0, 0x10);
     sys = func_020120F4((const struct Ctx *)*(int *)a0[6]);
     p->a = sys;
     p->b = func_0200CA1C(sys);

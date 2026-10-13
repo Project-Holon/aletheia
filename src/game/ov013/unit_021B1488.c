@@ -1,6 +1,6 @@
 /*
  * file:     unit_021B1488.c
- * function: OS_IsThreadAvailable
+ * function: VCT_AUDIO_GetPendingHead
  * address:  0x021B1488
  * packet:   pkt_ov013_021B1488
  * region:   ov013
@@ -17,7 +17,7 @@
 #include "vct_types.h"
 
 /* Head of the list of received packets that wait for decoding. */
-VctRxPacket *OS_IsThreadAvailable(void)
+VctRxPacket *VCT_AUDIO_GetPendingHead(void)
 {
     return gVctPendingList.head;
 }

@@ -15,7 +15,7 @@
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021BD148  0x021BD148  thumb
  *   func_021BD3C0  0x021BD3C0  thumb
  *   data_021C8390  0x021C8390  data
@@ -91,7 +91,7 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *h);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern u32  func_021BD148(struct Ov208ActList *list, u32 heap);
 extern int func_021BD3C0(void *mgr, int key);
 extern struct Ov208ActSrc data_021C8390[];
@@ -117,7 +117,7 @@ void ov208_func_021BE3C4(struct Ov208Scene *p)
         descs[i].y = p->slots[i].src->y;
         descs[i].h8 = p->slots[i].src->h8;
     }
-    func_02082BCC(&list, 0, sizeof(list));
+    MI_CpuFill8(&list, 0, sizeof(list));
     list.descs = descs;
     list.count = 1;
     list.f8 = p->f28;

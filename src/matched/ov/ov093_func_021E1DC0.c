@@ -1,5 +1,5 @@
 /*
- * function: func_021E1DC0
+ * function: HAND_WAZA_SelfDestructGetHandlers
  * address: 0x021E1DC0
  * packet: pkt_ov093_021E1DC0
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E1C8C.c and filed here.
  *
  * symbols:
- *   d_021F2C60 0x021F2C60 data ov093 a4
+ *   gSelfDestructHandlers 0x021F2C60 data ov093 a4
  */
 
-int *func_021E1DC0(int *p);
-extern int d_021F2C60[];
+int *HAND_WAZA_SelfDestructGetHandlers(int *p);
+extern int gSelfDestructHandlers[];
 
-int *func_021E1DC0(int *p)
+int *HAND_WAZA_SelfDestructGetHandlers(int *p)
 {
     *p = 3;
-    return d_021F2C60;
+    return gSelfDestructHandlers;
 }

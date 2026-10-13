@@ -12,7 +12,7 @@
  *
  * symbols:
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_020355D8  0x020355D8  arm
  *   FIELD_MENU_StartLeave  0x021A90A4  thumb  ov021
  *   gFieldMenuTouchTable     0x021D8C2C  data  ov021  a1
@@ -57,7 +57,7 @@ extern struct Buf32 gFieldMenuTouchTable;
 
 extern int TOUCHPANEL_HitTrg(const void *p);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void func_020355D8(u8 v);
 extern void FIELD_MENU_StartLeave(struct W *w, u32 v);
 
@@ -72,7 +72,7 @@ void FIELD_MENU_HandleTouch(struct W *w)
         w->f1F = r / 2;
         z = 0;
         w->f2C = z;
-        func_0204B3DC(w->f124, 0);
+        CLACT_SetActorDrawEnable(w->f124, 0);
         if (r == 6) {
             FIELD_MENU_StartLeave(w, 1);
             return;

@@ -14,10 +14,10 @@
  *   func_021BA898 0x021BA898 thumb ov225
  *   func_021BAA44 0x021BAA44 thumb ov225
  *   func_02041EE4 0x02041EE4 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021BB074 0x021BB074 thumb ov225
  *   func_021BB258 0x021BB258 thumb ov225
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_020056A0 0x020056A0 thumb
  *   func_021BA894 0x021BA894 thumb ov225
  *   func_021BA068 0x021BA068 thumb ov225
@@ -65,10 +65,10 @@ extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_021BA898(char *);
 extern void func_021BAA44(struct Work *);
 extern void func_02041EE4(u32, u32, u32);
-extern void func_0204B3DC(struct Obj *, u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *, u32);
 extern u16 func_021BB074(u16 **);
 extern u16 func_021BB258(void *, u16, u16);
-extern void func_0204B404(struct Obj *, const struct Vec2 *, u32);
+extern void CLACT_AddActorSurfacePos(struct Obj *, const struct Vec2 *, u32);
 extern void *func_020056A0(u32, u32, u32);
 extern void func_021BA894(void);
 extern void func_021BA068(char *, unsigned);
@@ -101,13 +101,13 @@ void *func_021BA65C(char *owner, struct Data *data)
   flag = 0;
   if ((*((u16 *) (p->owner + 4))) > 6)
     flag = 1;
-  func_0204B3DC(p->obj, flag);
+  CLACT_SetActorDrawEnable(p->obj, flag);
   n = func_021BB074((u16 **) p);
   n = n + 1;
   y = func_021BB258(p, n, *((u16 *) (p->owner + 0xc)));
   v.x = 240;
   v.y = y;
-  func_0204B404(p->obj, &v, 1);
+  CLACT_AddActorSurfacePos(p->obj, &v, 1);
   p->task = func_020056A0((u32) func_021BA894, (u32) p, 1);
   p->field84 = 0;
   p->field88 = 0;

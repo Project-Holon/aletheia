@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E1320",
+   "name": "HAND_WAZA_TrapOnDecideAddSick",
    "address": "0x021E1320",
    "kind": "game",
    "region": "ov093",

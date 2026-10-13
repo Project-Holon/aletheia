@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_GetSwarmHandlers
+ * function: HAND_TOKUSEI_GetSwarmHandlers
  * address: 0x021D8CA0
  * packet: pkt_ov093_021D8CA0
  * region: ov093
@@ -15,10 +15,10 @@
  *   gSwarmHandlers 0x021F0640 data ov093 a4
  */
 
-int *BTL_CALC_GetSwarmHandlers(int *p);
+int *HAND_TOKUSEI_GetSwarmHandlers(int *p);
 extern int gSwarmHandlers[];
 
-int *BTL_CALC_GetSwarmHandlers(int *p)
+int *HAND_TOKUSEI_GetSwarmHandlers(int *p)
 {
     *p = 1;
     return gSwarmHandlers;

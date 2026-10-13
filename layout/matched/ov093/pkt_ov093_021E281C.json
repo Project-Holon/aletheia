@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E281C",
-    "func_021E288C"
+    "HAND_WAZA_RevengeDoublePowerOnHit",
+    "HAND_WAZA_FlailGetHandlers"
+   ],
+   "addresses": [
+    "0x021E281C",
+    "0x021E288C"
    ],
    "evidence": {
     "sole-ref": [

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CFDCC",
+   "name": "BTL_CLIENT_IsCountdownEndingNext",
    "address": "0x021CFDCC",
    "kind": "game",
    "region": "ov093",

@@ -17,6 +17,7 @@
  *   func_021D62B4 0x021D62B4 thumb ov123
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D8130 0x021D8130 thumb ov123
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj03795.h"
 typedef unsigned char u8;
@@ -28,7 +29,7 @@ extern void func_021D6650(u8 *p, int flag);
 extern void func_021D62BC(u8 *, int, unsigned int);
 extern void func_021D62B4(u8 *p, unsigned int i);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D8130(char *p);
 void func_021D8154(char *p)
@@ -41,6 +42,6 @@ void func_021D8154(char *p)
     func_021D62BC(*(u8 * *)&((struct Obj03795 *)p)->f14, 6, 5);
     func_021D62B4((u8 *)(*(char * *)&((struct Obj03795 *)p)->f14), 0);
     func_021D62B4((u8 *)(*(char * *)&((struct Obj03795 *)p)->f14), 12);
-    func_020061E4(0x657);
+    GFL_USE_PlaySeDefaultVolume(0x657);
     func_021D6EE0((u8 *)p, (int)func_021D8130, 0x5c3);
 }

@@ -34,7 +34,7 @@
  *   python tools/match.py tu --src src/matched/NATSUKI_Apply.c \
  *       --addr 0x0201B850 --thumb
  * symbols:
- *   func_02013E4C   0x02013E4C  thumb
+ *   ZONEDATA_GetPlaceNameId   0x02013E4C  thumb
  *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
  *   POKE_TOOL_SetPartyValue   0x02017E40  thumb
  *   func_02020FE4   0x02020FE4  thumb
@@ -47,7 +47,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed char    s8;
 
-extern u32 func_02013E4C(u32 id);
+extern u32 ZONEDATA_GetPlaceNameId(u32 id);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 func_02020FE4(void *a, u32 sel, u32 id);
@@ -62,7 +62,7 @@ void NATSUKI_Apply(void *mon, const s8 *tbl, int a2, u32 a3)
     int n;
     u8 idx;
 
-    t = func_02013E4C(a2);
+    t = ZONEDATA_GetPlaceNameId(a2);
     idx = 0;
     species = (u16)POKE_TOOL_GetPartyValue(mon, 0xAB, 0);
     if (species == 0 || species == 650) {

@@ -12,6 +12,7 @@
  * symbols:
  *   sMysteryDataFile      0x020A71A4  data
  *   MYSTERY_DATA_Load  0x0200A358  thumb
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
 typedef unsigned int u32;
@@ -19,14 +20,14 @@ typedef unsigned short u16;
 
 extern char sMysteryDataFile[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_02082BCC(void *p, int c, u32 n);
+extern void  MI_CpuFill8(void *p, int c, u32 n);
 extern void  MYSTERY_DATA_Load(unsigned char *p, void *ctrl, int mode, int heap);
 
 void *MYSTERY_DATA_Create(void *a0, void *a1, void *a2)
 {
     void *p = func_02030734((u32)a2, 0xc, 0, sMysteryDataFile, 0x260);
 
-    func_02082BCC(p, 0, 0xc);
+    MI_CpuFill8(p, 0, 0xc);
     MYSTERY_DATA_Load(p, a0, (int)a1, (int)a2);
     return p;
 }

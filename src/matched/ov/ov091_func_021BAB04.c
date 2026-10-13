@@ -19,7 +19,7 @@
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
  *   func_0202136C  0x0202136C  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   POKELIST_PrintExpandedTextMain  0x021B9CF4  thumb  ov091
  *   POKELIST_PrintTextMain  0x021B9C1C  thumb  ov091
  *   POKELIST_PrintTextSub  0x021B9C64  thumb  ov091
@@ -46,7 +46,7 @@ extern u32 POKE_TOOL_GetStatusCondition(void *p);
 extern u32 POKE_TOOL_CalcLevel(void *p);
 extern u32 func_0202136C(u16 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void POKELIST_PrintExpandedTextMain(u8 *p, u32 win, void *set, u32 idx, s16 x, s16 y, u16 color);
 extern void POKELIST_PrintTextMain(u8 *p, u32 win, u32 id, int x, s16 y, u16 color);
 extern void POKELIST_PrintTextSub(u8 *p, u32 win, u32 idx, u32 x, s16 y, u16 color);
@@ -102,7 +102,7 @@ void PLIST_PLATE_DrawMonInfo(u8 *a, u8 *s, int k)
                 POKELIST_PrintExpandedTextSubDirect(a, W(0x20), (void *)ws2, 2, 9, 0x23, 0x440);
             }
             func_0201ED04((struct WordSet *)ws2);
-            func_0204B3DC((struct Obj *)W(0x40), 0);
+            CLACT_SetActorDrawEnable((struct Obj *)W(0x40), 0);
         } else {
             if (*(u16 *)(s + 6) == 0) {
                 CLACT_SetActorAnimSeq((struct Obj *)W(0x40), 6);
@@ -115,7 +115,7 @@ void PLIST_PLATE_DrawMonInfo(u8 *a, u8 *s, int k)
                 case 5: CLACT_SetActorAnimSeq((struct Obj *)W(0x40), 4); break;
                 }
             }
-            func_0204B3DC((struct Obj *)W(0x40), 1);
+            CLACT_SetActorDrawEnable((struct Obj *)W(0x40), 1);
         }
     }
     m = W(0x1c);
@@ -128,7 +128,7 @@ void PLIST_PLATE_DrawMonInfo(u8 *a, u8 *s, int k)
             m = m + 0x83;
         }
         POKELIST_PrintTextMain(a, W(0x20), (u16)m, 0x2e, 0x1f, 0x440);
-        func_0204B3DC((struct Obj *)W(0x38), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)W(0x38), 0);
     } else if (f == 1) {
         switch (POKELIST_GetMoveLearnStatus(a, *(void **)s, s[4])) {
         case 0:
@@ -137,7 +137,7 @@ void PLIST_PLATE_DrawMonInfo(u8 *a, u8 *s, int k)
         case 3: code = 0x8b; break;
         }
         POKELIST_PrintTextMain(a, W(0x20), (u16)code, 0x1d, 0x1f, 0x440);
-        func_0204B3DC((struct Obj *)W(0x38), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)W(0x38), 0);
     } else {
         obj = *(u8 **)(a + 0x280);
         if (*(int *)(obj + 0x34) == 0x10) {
@@ -147,7 +147,7 @@ void PLIST_PLATE_DrawMonInfo(u8 *a, u8 *s, int k)
                 m = 0x8c;
             }
             POKELIST_PrintTextMain(a, W(0x20), (u16)m, 0x2e, 0x1f, 0x440);
-            func_0204B3DC((struct Obj *)W(0x38), 0);
+            CLACT_SetActorDrawEnable((struct Obj *)W(0x38), 0);
         } else {
             ws2 = (u32)func_0201EC64(*(u16 *)a);
             func_0201EFA4((struct WordSet *)ws2, 0, POKE_TOOL_GetPartyValue(*(void **)s, 0xa1, 0), 3, 0, 1);
@@ -174,14 +174,14 @@ void PLIST_PLATE_DrawMonInfo(u8 *a, u8 *s, int k)
     }
     r5 = POKE_TOOL_GetPartyValue(*(void **)s, 6, 0);
     if (r5 != 0) {
-        func_0204B3DC((struct Obj *)W(0x3c), 1);
+        CLACT_SetActorDrawEnable((struct Obj *)W(0x3c), 1);
         if (func_0202136C(r5) == 1) {
             CLACT_SetActorAnimSeq((struct Obj *)W(0x3c), 1);
         } else {
             CLACT_SetActorAnimSeq((struct Obj *)W(0x3c), 0);
         }
     } else {
-        func_0204B3DC((struct Obj *)W(0x3c), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)W(0x3c), 0);
     }
     r6 = PLIST_PLATE_GetHpBarColor((u32)s);
     r = 1;

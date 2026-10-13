@@ -12,7 +12,7 @@
  * symbols:
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   ZONEDATA_IsZoneInTableDFC0  0x02013DD0  thumb
- *   func_0201444C  0x0201444C  thumb
+ *   FIELD_STATUS_GetMapMode  0x0201444C  thumb
  *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
  *   func_020127D0  0x020127D0  thumb
  *   FIELD_G3D_MAPPER_SetupWfbc  0x0218DC74  thumb  ov021
@@ -34,7 +34,7 @@ struct BigObj;
 struct Sub02014444Obj;
 extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 extern int ZONEDATA_IsZoneInTableDFC0(int v);
-extern u32 func_0201444C(struct Sub02014444Obj *o);
+extern u32 FIELD_STATUS_GetMapMode(struct Sub02014444Obj *o);
 extern u8 *GAME_DATA_GetSecondUnionInfo(void *p);
 extern u8 *func_020127D0(u8 *o, u32 idx);
 extern int FIELD_G3D_MAPPER_SetupWfbc(u32 a, u32 b, u32 c);
@@ -54,7 +54,7 @@ void FIELDMAP_SetupWfbc(void *p, char *q, u16 id)
 
     t = GAME_DATA_GetMoveModelSys(p);
     if (ZONEDATA_IsZoneInTableDFC0(((struct Obj00571 *)q)->fD0) != 0) {
-        k = func_0201444C(t);
+        k = FIELD_STATUS_GetMapMode(t);
         if (k == 0)
             m = GAME_DATA_GetSecondUnionInfo(((struct Obj00571 *)q)->f8);
         else

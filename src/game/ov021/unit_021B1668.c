@@ -41,7 +41,7 @@
  *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   SCRIPT_WORK_GetTargetObj  0x02158F90  thumb  ov010
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_SysSearchMoveCode  0x0216DE54  thumb  ov010
  *   VM_GetU32  0x0201134C  thumb
  *   FLDMMDL_ACMD_ListCreate  0x02197D3C  thumb  ov021
@@ -149,7 +149,7 @@ extern struct EventDataSystem *GAME_DATA_GetEventData(const struct GameData *gam
 extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
 extern void *GAME_DATA_GetMyPlayerWork(const struct GameData *gameData);
 extern u16 GAME_DATA_GetPlayerZoneId(const void *playerWork);
-extern void func_020061E4(u32 seId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern int FLDMMDL_GetGridNowX(Mmdl *mmdl);
 extern int FLDMMDL_GetGridNowZ(Mmdl *mmdl);
 extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
@@ -1013,7 +1013,7 @@ int SCRCMD_FLDMMDL_StartMmdlSpinRise(ScriptVm *vm, ScrcmdWork *cmdWork)
     mmdl = FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo(cmdWork), objId);
     fieldMap = SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem;
     taskManager = FIELDMAP_GetTaskManager(fieldMap);
-    func_020061E4(0x676);
+    GFL_USE_PlaySeDefaultVolume(0x676);
     riseOffset.x = 0;
     riseOffset.y = 0x96 << 12;
     riseOffset.z = 0;

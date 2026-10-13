@@ -11,7 +11,7 @@
  * symbols:
  *   func_021F3358 0x021F3358 thumb ov194
  *   func_021F25F8 0x021F25F8 thumb ov194
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_021F26F0 0x021F26F0 thumb ov194
  */
@@ -19,7 +19,7 @@
 typedef unsigned int   u32;
 extern u32 func_021F3358(u32 a, u32 b, u32 c);extern void func_021F25F8(int *,int,void *);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);extern void BMP_Clear(int,unsigned);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);extern void BMP_Clear(int,unsigned);
 typedef unsigned short u16;
 extern void func_021F26F0(char *p, char *target, void *window, void *font, u16 heap);
 void func_021F366C(char *p,int index,int variant) {
@@ -28,7 +28,7 @@ void func_021F366C(char *p,int index,int variant) {
  if(((struct Obj00117 *)p)->f108==variant && ((struct Obj00117 *)p)->f104==index)return;
  selected=(int)func_021F3358((int)(*(volatile int *)&((struct Obj00117 *)p)->f100),(int)index,(unsigned char)variant);
  func_021F25F8((int *)p,selected,((struct Obj00117 *)p)->f12C);
- BMP_Clear((int)func_02045770((struct Descriptor *)((struct Obj00117 *)p)->fE0),0);
+ BMP_Clear((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00117 *)p)->fE0),0);
  func_021F26F0(p,p+0xEC,(void *)(((struct Obj00117 *)p)->fF8),(void *)(((struct Obj00117 *)p)->fF4),((struct Obj00117 *)p)->fFE);
  ((struct Obj00117 *)p)->f104=index;((struct Obj00117 *)p)->f108=variant;
 }

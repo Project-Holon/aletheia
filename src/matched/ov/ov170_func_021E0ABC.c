@@ -39,7 +39,7 @@
  *   func_021EF36C 0x021EF36C thumb
  *   func_021EC5A0 0x021EC5A0 thumb
  *   func_021ECB20 0x021ECB20 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021EE364 0x021EE364 thumb
  *   func_02026124 0x02026124 thumb
  *   func_021EE038 0x021EE038 thumb
@@ -85,7 +85,7 @@ extern void func_021EF35C(struct WinMgr *mgr);
 extern void func_021EF36C(struct WinMgr *mgr);
 extern void func_021EC5A0(char **p, int flag);
 extern void func_021ECB20(char *p, int f, int c);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void func_021EE364(char **p, int idx, int v);
 typedef unsigned int   u32;
 struct Sound;
@@ -180,7 +180,7 @@ int func_021E0ABC(unsigned char *p)
             func_021EF36C(MGR(p));
             func_021EC5A0((char **)p, 1);
             func_021ECB20((char *)p, 0x82, 1);
-            func_020061E4(0x669);
+            GFL_USE_PlaySeDefaultVolume(0x669);
             func_021EE364((char **)p, 6, p[0x16]);
             func_02026124(*(void **)(WORK(p) + 0x70), 0x27);
             func_02026124(*(void **)(WORK(p) + 0x70), 0x28);
@@ -193,11 +193,11 @@ int func_021E0ABC(unsigned char *p)
         if (b->timer == 0) {
             int dir = func_021EF1B4();
             if (dir == 0) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021DD16C(p, 0);
                 b->state = 3;
             } else if (dir == 1) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021DD16C(p, 1);
                 b->state = 4;
             }
@@ -230,13 +230,13 @@ int func_021E0ABC(unsigned char *p)
         break;
     case 7:
         if (func_021DEAFC((int)p) == 0) {
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 9;
         }
         break;
     case 8:
         if (func_021DEAFC((int)p) == 0) {
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             if (CNT(p) != 0) {
                 func_021ED108(WORK(p), 0);
                 func_021ED2F4(WORK(p));

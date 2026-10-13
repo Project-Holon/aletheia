@@ -42,7 +42,7 @@
  *   NNSi_G2dOamSoftEmuEnd  0x02067CB0  arm
  *   func_02067B50  0x02067B50  arm
  *   func_02067B64  0x02067B64  arm
- *   g_020A1B38     0x020A1B38  data  a2
+ *   FX_SinCosTable_     0x020A1B38  data  a2
  *   func_02067A60  0x02067A60  arm
  *   func_02082AC0  0x02082AC0  arm
  *   MIi_CpuClear16   0x02082A48  arm
@@ -323,7 +323,7 @@ extern MCRenderState g_02148718;
 extern MCMMtxState g_02147C18[];
 extern NNSG2dRndCore2DMtxCache g_02148318[];
 extern fx32 g_02147B98[];
-extern s16 g_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern MtxFx32 g_02148018[];
 
 
@@ -672,7 +672,7 @@ void func_02065878(struct Obj02065878 *c)
     if ((c->unk_4e & 4) != 0) {
         int i = c->unk_4c >> 4;
 
-        func_02066620(g_020A1B38[i * 2], g_020A1B38[i * 2 + 1]);
+        func_02066620(FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
     }
 
     if ((c->unk_4e & 2) != 0)
@@ -718,7 +718,7 @@ void func_020659D4(struct Cmd020659D4 *c)
     if ((c->unk_1e & 4) != 0) {
         int i = c->unk_1c >> 4;
 
-        func_02066620(g_020A1B38[i * 2], g_020A1B38[i * 2 + 1]);
+        func_02066620(FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
     }
 
     if ((c->unk_1e & 2) != 0)
@@ -1145,7 +1145,7 @@ void func_02066080(struct Obj02066080 *c)
     if ((c->unk_5a & 4) != 0) {
         int i = c->unk_58 >> 4;
 
-        func_02066620(g_020A1B38[i * 2], g_020A1B38[i * 2 + 1]);
+        func_02066620(FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
     }
 
     if ((c->unk_5a & 2) != 0)

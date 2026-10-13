@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetSleepGuardHandlers
+ * function: HAND_TOKUSEI_GetSleepGuardHandlers
  * address: 0x021D9478
  * packet: pkt_ov093_021D9478
  * region: ov093
@@ -15,12 +15,12 @@
  *   gSleepGuardHandlers 0x021F0D3C data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetSleepGuardHandlers(int *p);
+int *HAND_TOKUSEI_GetSleepGuardHandlers(int *p);
 
-/* 021D9484  shape F5: out-param store of BTL_TOKUSEI_BlockSickIfTargeted(..., 3) */
+/* 021D9484  shape F5: out-param store of HAND_TOKUSEI_BlockSickIfTargeted(..., 3) */
 extern int gSleepGuardHandlers[];
 
-int *BTL_TOKUSEI_GetSleepGuardHandlers(int *p)
+int *HAND_TOKUSEI_GetSleepGuardHandlers(int *p)
 {
     *p = 6;
     return gSleepGuardHandlers;

@@ -63,7 +63,7 @@
  *   func_021D7184 0x021D7184 thumb ov116
  *   BMP_WIN_Create 0x020450F0 arm
  *   func_0201F73C 0x0201F73C thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -73,10 +73,10 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   STRBUF_Create 0x020457B0 arm
  *   TCBL_Create 0x0203101C arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   func_0201ED04 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
@@ -84,8 +84,8 @@
  *   TCBL_Destroy 0x02031140 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_020452E8 0x020452E8 arm
- *   func_02082BCC 0x02082BCC arm
+ *   BMP_WIN_Delete 0x020452E8 arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   TCBL_Main 0x020310C4 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -112,10 +112,10 @@
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   func_02012FFC 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
- *   func_0201CE30 0x0201CE30 thumb
- *   func_020362DC 0x020362DC arm
+ *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_0201CE38 0x0201CE38 thumb
+ *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   BMP_MENU_CreateYesNo 0x0201FDA0 thumb
  *   d_021D8560 0x021D8560 data a4
@@ -319,7 +319,7 @@ extern int func_021D7200(int *p);
 extern int func_021D7184(int *p);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -329,19 +329,19 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *TCBL_Create(u32, u32, u32, u32);
-extern void func_020434DC(u32, u32);
+extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern unsigned int func_0201ED04(struct WordSet *p);
 extern u32_021D7C58 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_MENU_DeleteYesNo(u8 *o);
-extern u32_021D7C58 func_020452E8(struct Descriptor *d);
+extern u32_021D7C58 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_0201DD68(void);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void TCBL_Main(struct Tcbl *p);
 extern void *func_020490F4(u32_021D7D0C, u32_021D7D0C);
 extern void func_02049B68(void *, int, int, int, int, u32_021D7D0C);
@@ -368,10 +368,10 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void GF_FONT_SetTextColor(u32_021D8010 r, u32_021D8010 g, u32_021D8010 b);
 extern signed char func_02012FFC(void);
 extern void *PRINTSYS_PrintStream(u32_021D8010,int,int,u32_021D8010,u32_021D8010,u32_021D8010,u32_021D8010,int,u16,int);
-extern u32_021D80CC func_0201CE30(void *p);
-extern u32_021D80CC func_020362DC(void);
+extern u32_021D80CC PRINTSYS_PrintStreamGetState(void *p);
+extern u32_021D80CC KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_0201CE38(void *);
+extern void PRINTSYS_PrintStreamReleasePause(void *);
 extern void func_0201EFA4(struct WordSet *p, u32_021D8118 i, u32_021D8118 a, u32_021D8118 b, u32_021D8118 c, u32_021D8118 d);
 extern struct BmpMenu *BMP_MENU_CreateYesNo(const struct WinDat *,u16,u8,u8,u16);
 extern u32_021D8168 BMP_MENU_ProcessYesNo(u8 *);
@@ -735,7 +735,7 @@ void func_021D7B70(u8 *p, short heap)
     func_021D7D0C(p, heap);
     P(0x97c) = (void *)BMP_WIN_Create(1, 1, 19, 30, 4, 12, 1);
     func_0201F73C(P(0x97c), 1, (u16)(((struct Obj10342 *)p)->f984), 13);
-    BMP_Clear(func_02045770(P(0x97c)), 15);
+    BMP_Clear(BMP_WIN_GetBmp(P(0x97c)), 15);
     BMP_WIN_MakeScreen(P(0x97c));
     BMP_WIN_TransferChars(P(0x97c));
     func_02041B6C(1);
@@ -746,7 +746,7 @@ void func_021D7B70(u8 *p, short heap)
     P(0x9a0) = STRBUF_Create(128, heap);
     P(0x9a8) = TCBL_Create(heap, heap, 1, 0);
     ((struct Obj10342 *)p)->f0 = 1;
-    func_020434DC(16, 1);
+    BG_SYS_SetMainPlaneVisible(16, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
     GFL_NET_RestartWithDefaultTimeout(1, heap);
 }
@@ -754,7 +754,7 @@ void func_021D7B70(u8 *p, short heap)
 
 void func_021D7C58(u8 *p) {
     if(((struct Obj01721 *)p)->f0!=0) {
-        if(((struct Obj01721 *)p)->f9A4) func_0201CE48(((struct Obj01721 *)p)->f9A4);
+        if(((struct Obj01721 *)p)->f9A4) PRINTSYS_PrintStreamDelete(((struct Obj01721 *)p)->f9A4);
         TCBL_Destroy(((struct Obj01721 *)p)->f9A8);
         MSGDATA_Delete(((struct Obj01721 *)p)->f990);
         func_0201ED04(((struct Obj01721 *)p)->f994);
@@ -767,10 +767,10 @@ void func_021D7C58(u8 *p) {
             BMP_MENU_DeleteYesNo(((struct Obj01721 *)p)->f980);
             ((struct Obj01721 *)p)->f980=0;
         }
-        func_020452E8(((struct Obj01721 *)p)->f97C);
+        BMP_WIN_Delete(((struct Obj01721 *)p)->f97C);
         func_021D82AC(((struct Obj01721 *)p)->f8);
         func_0201DD68();
-        func_02082BCC(p,0,0x9ac);
+        MI_CpuFill8(p,0,0x9ac);
     }
 }
 
@@ -809,7 +809,7 @@ void func_021D7D0C(u8 *p, short heap) {
     func_02049B68(arc, 3, 0, 0, j, heap);
     func_02049990(arc, 5, 0, 0, (u16)func_02049740(arc, 4, 0, 0, j, heap), j, j, heap);
     func_02049990(arc, 7, 3, 0, (u16)func_02049740(arc, 4, 3, 0, j, heap), j, j, heap);
-    func_02082BCC(p + 0xc, 0, 0x970);
+    MI_CpuFill8(p + 0xc, 0, 0x970);
     blk = func_02049F78(arc, 2, (u32_021D7D0C)(&res), (u16)heap);
     func_02082D44(res->fC, p + 0x14, 0x1e0);
     func_02082D44(res->fC, p + 0x1f4, 0x1e0);
@@ -880,10 +880,10 @@ void func_021D7FC4(u8 *p) {
 
 
 void func_021D8010(void *p,u32_021D8010 a) {
- if(I(0x9a4)!=0) {func_0201CE48((void *)I(0x9a4)); I(0x9a4)=0;}
+ if(I(0x9a4)!=0) {PRINTSYS_PrintStreamDelete((void *)I(0x9a4)); I(0x9a4)=0;}
  func_02045CAC((struct MsgBank *)I(0x990),a,(void *)I(0x99c));
  func_0201F250((struct WordSet *)I(0x994),(void *)I(0x9a0),(void *)I(0x99c));
- BMP_Clear((struct CharBuf *)((u32_021D8010)func_02045770((struct Descriptor *)I(0x97c))),15);
+ BMP_Clear((struct CharBuf *)((u32_021D8010)BMP_WIN_GetBmp((struct Descriptor *)I(0x97c))),15);
  GF_FONT_SetTextColor(1,2,15);
  I(0x9a4)=(u32_021D8010)PRINTSYS_PrintStream(I(0x97c),0,0,I(0x9a0),I(0x998),func_02012FFC(),I(0x9a8),2,((struct Obj22630 *)p)->f4,15);
  func_0201F73C((void *)I(0x97c),1,(u16)I(0x984),13);
@@ -894,9 +894,9 @@ void func_021D8010(void *p,u32_021D8010 a) {
 int func_021D80CC(void *p) {
  int v;
  if(((struct Obj06418 *)p)->f9A4==0) return 1;
- v=func_0201CE30(((struct Obj06418 *)p)->f9A4);
- if(v==2) { func_0201CE48(((struct Obj06418 *)p)->f9A4); ((struct Obj06418 *)p)->f9A4=0; return 1; }
- if(v==1) { if(func_020362DC()==1 || TOUCHPANEL_GetTrg()!=0) func_0201CE38(((struct Obj06418 *)p)->f9A4); }
+ v=PRINTSYS_PrintStreamGetState(((struct Obj06418 *)p)->f9A4);
+ if(v==2) { PRINTSYS_PrintStreamDelete(((struct Obj06418 *)p)->f9A4); ((struct Obj06418 *)p)->f9A4=0; return 1; }
+ if(v==1) { if(KEY_GetTrg()==1 || TOUCHPANEL_GetTrg()!=0) PRINTSYS_PrintStreamReleasePause(((struct Obj06418 *)p)->f9A4); }
  return 0;
 }
 
@@ -935,7 +935,7 @@ int func_021D81EC(u8 *p) { if(((struct Obj10346 *)p)->fB6A==0) return 1; if(GAME
 void *func_021D821C(int a,unsigned heap) {
  void *p;
  p=func_02030734(heap,16,0,d_021D858C,0x1bc);
- func_02082BCC(p,0,16);
+ MI_CpuFill8(p,0,16);
  *(volatile unsigned short *)0x04000050=0;
  *(volatile unsigned short *)0x04001050=0;
  *(volatile unsigned *)0x04000000 &= 0xffff1fff;
@@ -956,7 +956,7 @@ void func_021D82AC(void *p) {
  *(volatile unsigned *)0x04000000 &= 0xffff1fff;
  *(volatile unsigned *)0x04001000 &= 0xffff1fff;
 
- func_02082BCC(p,0,16); func_020307B0(p);
+ MI_CpuFill8(p,0,16); func_020307B0(p);
 }
 
 
@@ -965,7 +965,7 @@ void func_021D82F8(void *a,void *b) {func_021D839C(b);}
 
 void func_021D8304(void *p,unsigned heap) {
  unsigned i; char *q; unsigned n;
- func_02082BCC(p,0,4);
+ MI_CpuFill8(p,0,4);
  func_0203F8F4(heap); BMP_WIN_Init(heap); func_0203FC28((struct DispConfig *)d_021D83B0);
  for(i=0;i<8;i++) {
  q=d_021D83F0+i*44; n=((struct Obj10347 *)q)->f0;
@@ -985,5 +985,5 @@ void func_021D8364(void *a0)
     }
     BMP_WIN_Exit();
     func_0203F9B4();
-    func_02082BCC(a0, 0, 4);
+    MI_CpuFill8(a0, 0, 4);
 }

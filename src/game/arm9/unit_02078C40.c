@@ -153,7 +153,6 @@ extern s32 FS_ReadFile(FSFile *file, void *buffer, s32 length);
 extern BOOL FS_CloseFile(FSFile *file);
 extern u32 FS_GetFileImageTop(FSFile *file);
 extern u32 FS_GetFileLength(FSFile *file);
-extern void func_02082BCC(void *, int, u32);
 extern void func_02082D44(u32, void *, u32);
 extern void func_0209125C(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
 extern u32 func_0208139C(u32);

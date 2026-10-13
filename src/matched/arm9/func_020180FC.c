@@ -17,7 +17,7 @@
  * symbols:
  *   func_02017DBC  0x02017DBC  thumb
  *   func_02017E88  0x02017E88  thumb
- *   func_0201BD28  0x0201BD28  thumb
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   func_02017DE4  0x02017DE4  thumb
  */
@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 struct Sav;
 extern u32 func_02017DBC(struct Sav *p);
 extern u32 func_02017E88(void *p, u32 k, u32 x);
-extern u32 func_0201BD28(u16 id, u32 field);
+extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern void POKE_TOOL_SetBoxValue(void *p, u32 k, u32 v);
 extern u32 func_02017DE4(struct Sav *p, u32 f);
 
@@ -59,7 +59,7 @@ void POKE_TOOL_PushBoxMove(void *p, u16 v)
     }
 
     a[3] = v;
-    b[3] = func_0201BD28(v, 5);
+    b[3] = WAZA_TOOL_GetParam(v, 5);
     c[3] = 0;
 
     for (j = 0; j < 4; j++) {

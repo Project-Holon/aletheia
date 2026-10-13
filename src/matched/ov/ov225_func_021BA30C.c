@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_02045770 0x02045770 arm
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -24,8 +24,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct PrintSys;struct Descriptor;struct CharBuf;struct MsgBank;struct U16Vec;
-extern void func_0201C6EC(struct PrintSys *);
-extern void *func_02045770(struct Descriptor *);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void *func_02045EC0(struct MsgBank *,unsigned);
 extern void PRINTSYS_PrintQueColor(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
@@ -34,9 +34,9 @@ extern void func_021BA240(char *);
 void func_021BA30C(char *p)
 {
     void *s;
-    func_0201C6EC(*(struct PrintSys * *)&((struct Obj26158 *)(*(char * *)&((struct Obj04653 *)p)->f0))->f18);
-    BMP_Clear(func_02045770(*(struct Descriptor * *)&((struct Obj04653 *)p)->f14),0);
+    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26158 *)(*(char * *)&((struct Obj04653 *)p)->f0))->f18);
+    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj04653 *)p)->f14),0);
     s=func_02045EC0(*(struct MsgBank * *)&((struct Obj26159 *)(*(char * *)&((struct Obj04653 *)p)->f0))->f1C,3);
-    PRINTSYS_PrintQueColor(((struct Obj26160 *)(*(char * *)&((struct Obj04653 *)p)->f0))->f18,(unsigned)func_02045770(*(struct Descriptor * *)&((struct Obj04653 *)p)->f14),0,4,(unsigned)s,((struct Obj26161 *)(*(char * *)&((struct Obj04653 *)p)->f0))->fC,0x3c40);
+    PRINTSYS_PrintQueColor(((struct Obj26160 *)(*(char * *)&((struct Obj04653 *)p)->f0))->f18,(unsigned)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj04653 *)p)->f14),0,4,(unsigned)s,((struct Obj26161 *)(*(char * *)&((struct Obj04653 *)p)->f0))->fC,0x3c40);
     STRBUF_Delete(s);((struct Obj04653 *)p)->f1C=1;func_021BA240(p);
 }

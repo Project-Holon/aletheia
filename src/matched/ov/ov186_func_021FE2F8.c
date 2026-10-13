@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  */
 #include "../include/Obj01284.h"
-extern const short d_020A1B38[];
+extern const short FX_SinCosTable_[];
 int func_021FE2F8(char *p, int *out, int step)
 {
     unsigned short angle_delta;
@@ -32,8 +32,8 @@ int func_021FE2F8(char *p, int *out, int step)
     if (radius_delta < 0) radius_delta = -radius_delta;
     radius = initial_radius + direction * (step * radius_delta / duration);
     if (radius < 0) radius = 0;
-    x = (d_020A1B38[(angle >> 4) * 2 + 1] * radius) >> 12;
-    y = (d_020A1B38[(angle >> 4) * 2] * radius) >> 12;
+    x = (FX_SinCosTable_[(angle >> 4) * 2 + 1] * radius) >> 12;
+    y = (FX_SinCosTable_[(angle >> 4) * 2] * radius) >> 12;
     x += ((struct Obj01284 *)p)->f0;
     y += ((struct Obj01284 *)p)->f4;
     ((struct Obj01284 *)p)->f8 = x;

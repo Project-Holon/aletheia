@@ -17,7 +17,7 @@
  *   func_02049B40 0x02049B40 arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   TCBL_Create 0x0203101C arm
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   func_02028590 0x02028590 thumb
  *   func_02034AC4 0x02034AC4 arm
@@ -76,7 +76,7 @@ extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void GF_FONT_SetDefaultTextColor(void);
 struct Tcbl;
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern unsigned func_02028590(int, int, int, unsigned);
 extern int func_02034AC4(int);
@@ -107,7 +107,7 @@ struct Work *func_021F1404(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e)
     w->f18 = 0;
     w->f20 = 0;
     w->f24 = 0;
-    w->f30 = func_0201C440((void *)w->f0);
+    w->f30 = PRINTSYS_QUE_Create((void *)w->f0);
     w->f40 = (u32)APP_TASKMENU_RES_Create(w->f3, 10, w->f14, w->f30, w->f0);
     w->f3C = 0;
     w->f50 = 0;

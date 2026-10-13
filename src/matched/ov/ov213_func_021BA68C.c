@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_ChangeActorAnimSeq 0x0204B8A0 arm
  */
 struct Obj;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_ChangeActorAnimSeq(struct Obj *p, u16 v);
-void func_021BA68C(char *p,unsigned i,int kind){int n;switch(kind){case 0:n=7;break;case 1:n=8;break;case 2:n=9;break;}p+=24;func_0204B3DC(*(void **)((unsigned)p+i*4),1);func_0204B92C(*(void **)((unsigned)p+i*4),1);CLACT_ChangeActorAnimSeq(*(void **)((unsigned)p+i*4),n);}
+void func_021BA68C(char *p,unsigned i,int kind){int n;switch(kind){case 0:n=7;break;case 1:n=8;break;case 2:n=9;break;}p+=24;CLACT_SetActorDrawEnable(*(void **)((unsigned)p+i*4),1);CLACT_SetActorAutoAnim(*(void **)((unsigned)p+i*4),1);CLACT_ChangeActorAnimSeq(*(void **)((unsigned)p+i*4),n);}

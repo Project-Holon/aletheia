@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   func_02007610 0x02007610 thumb
  *   func_021DD25C 0x021DD25C thumb
  *   func_021DD330 0x021DD330 thumb
@@ -47,7 +47,7 @@ typedef struct {
     unsigned b;
 } Move;
 
-extern unsigned func_0201AA18(void *party);
+extern unsigned POKEPARTY_GetCount(void *party);
 extern void func_02007610(void *save, unsigned b1, unsigned a, unsigned b2, unsigned c);
 extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern void func_021DD330(unsigned char *p, unsigned short *q, unsigned short *t);
@@ -67,7 +67,7 @@ void func_021DD530(unsigned char *p)
     unsigned short n;
     if (m->a == 0xFF)
         return;
-    n = func_0201AA18(((void **)((struct Obj00000 *)p)->f0)[2]);
+    n = POKEPARTY_GetCount(((void **)((struct Obj00000 *)p)->f0)[2]);
     if (m->b >= 0x24) {
         if (m->a < 0x1E)
             func_021DD464(p, p[0x17], m->a, m->b - 0x24);

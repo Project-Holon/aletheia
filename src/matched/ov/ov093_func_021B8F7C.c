@@ -1,5 +1,5 @@
 /*
- * function: func_021B8F7C
+ * function: BTL_MAIN_SyncPartnerSideParty
  * address:  0x021B8F7C
  * packet:   pkt_ov093_021B8F7C
  * region:   ov093
@@ -12,8 +12,8 @@
  * symbols:
  *   BTL_MAIN_IsMultiMode  0x021B86C8  thumb  ov093
  *   BTL_MAIN_IsClientUsed  0x021B8B9C  thumb  ov093
- *   func_021B969C  0x021B969C  thumb  ov093
- *   func_021B985C  0x021B985C  thumb  ov093
+ *   BTL_SIDE_WriteBackParty  0x021B969C  thumb  ov093
+ *   BTL_SIDE_GetParty  0x021B985C  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -22,16 +22,16 @@ typedef unsigned int u32;
 
 extern int BTL_MAIN_IsMultiMode(unsigned char **p);
 extern int BTL_MAIN_IsClientUsed(u8 *p, u32 k);
-extern void func_021B969C(char *a, char *b, int k, int flag);
-extern int func_021B985C(char *p, int i);
+extern void BTL_SIDE_WriteBackParty(char *a, char *b, int k, int flag);
+extern int BTL_SIDE_GetParty(char *p, int i);
 
-int func_021B8F7C(u8 *p, u32 k)
+int BTL_MAIN_SyncPartnerSideParty(u8 *p, u32 k)
 {
     if (BTL_MAIN_IsMultiMode((unsigned char **)p)) {
         k = (u8)((k + 2) & 3);
         if (BTL_MAIN_IsClientUsed(p, k)) {
-            func_021B969C((char *)(p + 0xc8), (char *)p, k, 0);
-            return func_021B985C((char *)(p + 0xc8), k);
+            BTL_SIDE_WriteBackParty((char *)(p + 0xc8), (char *)p, k, 0);
+            return BTL_SIDE_GetParty((char *)(p + 0xc8), k);
         }
     }
     return 0;

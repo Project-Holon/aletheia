@@ -1,5 +1,5 @@
 /*
- * function: func_021E1404
+ * function: HAND_WAZA_AddWhirlpool
  * address: 0x021E1404
  * packet: pkt_ov093_021E1404
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E12A4.c and filed here.
  *
  * symbols:
- *   d_021F2D98 0x021F2D98 data ov093 a4
+ *   gWhirlpoolHandlers 0x021F2D98 data ov093 a4
  */
 
-int *func_021E1404(int *p);
-extern int d_021F2D98[];
+int *HAND_WAZA_AddWhirlpool(int *p);
+extern int gWhirlpoolHandlers[];
 
-int *func_021E1404(int *p)
+int *HAND_WAZA_AddWhirlpool(int *p)
 {
     *p = 4;
-    return d_021F2D98;
+    return gWhirlpoolHandlers;
 }

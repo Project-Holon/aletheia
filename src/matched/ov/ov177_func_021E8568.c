@@ -51,15 +51,15 @@
  *   docs/idioms/a-u16-heap-parameter-with-u16-callees-loads-as-a-word-and-keeps-the-entry-order.md.
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
- *   func_0201C440  0x0201C440  thumb
+ *   MI_CpuFill8  0x02082BCC  arm
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *   TCBL_Create  0x0203101C  arm
  *   func_0201F73C  0x0201F73C  thumb
@@ -94,15 +94,15 @@ struct Descriptor;
 struct Tcbl;
 struct U16Vec;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_02082BCC(void *, int, int);
-extern u32 func_0201C440(void *p);
+extern void  MI_CpuFill8(void *, int, int);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
@@ -113,21 +113,21 @@ S *func_021E8568(int a, int b, unsigned short c, unsigned short d, int e, int f,
     int h;
 
     w = func_02030734(heap, 0x40, 0, (const char *)d_021E8DD4, 0x5e);
-    func_02082BCC(w, 0, 0x40);
+    MI_CpuFill8(w, 0, 0x40);
     w->f1c = 0xf;
     w->f4 = f;
-    w->f28 = func_0201C440((void *)heap);
+    w->f28 = PRINTSYS_QUE_Create((void *)heap);
     w->f2c = 3;
     w->f1e = heap;
     w->f18 = (int)STRBUF_Create(0x300, heap);
     w->f14 = BMP_WIN_Create((unsigned char)a, 1, 0x13, 0x1e, 4, (unsigned char)b, 1);
     w->f20 = w->f14;
     w->f24 = 0;
-    BMP_Clear(func_02045770((struct Descriptor *)w->f14), (unsigned char)w->f1c);
+    BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)w->f14), (unsigned char)w->f1c);
     h = w->f14;
     BMP_WIN_TransferChars((struct Descriptor *)h);
     BMP_WIN_MakeScreen((struct Cfg *)h);
-    func_020409B4(func_02045730((struct Descriptor *)h));
+    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     w->fc = (int)TCBL_Create(heap, heap, 1, 0x20);
     func_0201F73C((void *)w->f14, 0, d, (unsigned char)c);
     return w;

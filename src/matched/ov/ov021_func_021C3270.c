@@ -15,7 +15,7 @@
  *   func_0200BCD8  0x0200BCD8  thumb
  *   SODATEYA_GrantExp  0x021C3530  thumb  ov021
  *   SODATEYA_ReturnHeldItem  0x021C32BC  thumb  ov021
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   func_0200BC88  0x0200BC88  thumb
  *   SODATEYA_CompactSlots  0x021C36B0  thumb  ov021
  * Addresses are Black-image addresses.
@@ -32,7 +32,7 @@ extern void SODATEYA_GrantExp(void *mon, u32 b);
 extern void SODATEYA_ReturnHeldItem(void **p, void *mon);
 struct Party;
 struct PartyMon;
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern void func_0200BC88(struct Obj *p, s32 i);
 extern void SODATEYA_CompactSlots(void *e);
 
@@ -44,7 +44,7 @@ void SODATEYA_WithdrawPokemon(u32 *p, u32 b, u32 c)
         m = func_0200BC2C(p[2], b);
         SODATEYA_GrantExp((void *)m, func_0200BCD8((struct Obj *)p[2], b));
         SODATEYA_ReturnHeldItem((void **)p, (void *)m);
-        func_0201A98C((void *)c, (void *)m);
+        POKEPARTY_Add((void *)c, (void *)m);
         func_0200BC88((struct Obj *)p[2], b);
         SODATEYA_CompactSlots((void *)p[2]);
     }

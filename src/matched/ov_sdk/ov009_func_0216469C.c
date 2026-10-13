@@ -12,7 +12,7 @@
  * sdk:      CPSi_big_power (libssl.TWL.HYB.a(biginteger.o))
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02163F24  0x02163F24  arm  ov009
  *   func_02082D44  0x02082D44  arm
  *   func_02164358  0x02164358  arm  ov009
@@ -26,7 +26,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned long  u32;
 
-extern void func_02082BCC(void *dstp, u8 data, u32 size);
+extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern int func_02163F24(const unsigned short *p, int n);
 extern void func_02082D44(void *srcp, void *dstp, u32 size);
 extern void func_02164358(u16 *c, u16 *a, int digits);
@@ -45,7 +45,7 @@ void func_0216469C(u16 *c, u16 *a, u16 *b, int digits, u16 *n)
     if (tmp == 0)
         return;
     divwork = tmp + digits;
-    func_02082BCC(c + 1, 0, (digits - 1) * sizeof(u16));
+    MI_CpuFill8(c + 1, 0, (digits - 1) * sizeof(u16));
     c[0] = 1;
     for (i = (digits - func_02163F24(b, digits)) * 16; i < digits * sizeof(u16) * 8; i++) {
         if (b[digits - (i >> 4) - 1] & (0x8000u >> (i & 15))) {

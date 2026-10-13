@@ -11,7 +11,7 @@
  *   unsigned moved the spill to +0010 and reloaded it before stack args.
  * symbols:
  *   STRBUF_Create 0x020457B0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   func_0201F02C 0x0201F02C thumb
@@ -31,7 +31,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
@@ -44,7 +44,7 @@ void func_021B99E4(char *p,unsigned entry,unsigned index,u16 kind)
 {
     void *buffer;
     buffer=STRBUF_Create(1024,((struct Obj01777 *)p)->f0);
-    BMP_Clear(func_02045770(((struct Obj01777 *)p)->f1C),15);
+    BMP_Clear(BMP_WIN_GetBmp(((struct Obj01777 *)p)->f1C),15);
     MSGDATA_ReadString(((struct Obj01777 *)p)->f14,entry,buffer);
     func_0201F02C(((struct Obj01777 *)p)->f18,0,((struct Obj01777 *)p)->f8);
     func_0201F250(((struct Obj01777 *)p)->f18,((struct Obj01777 *)p)->fC,buffer);

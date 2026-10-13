@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Unlabelled leaf (saves no lr, so disasm.py prints it as .word data):
- * a tail call through a pool word, the sole blocker of ov020 func_02183DE4.
+ * a tail call through a pool word, the sole blocker of ov020 EVENT_MAPCHANGE_ContinueEvent.
  *
  * symbols:
  *   MOVE_POKEMON_MoveActiveEntries  0x0215E364  thumb  ov010

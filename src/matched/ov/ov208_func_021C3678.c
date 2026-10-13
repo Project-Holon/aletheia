@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_FillRect 0x02043AF4 arm
  *   func_021C3A24 0x021C3A24 thumb ov208
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Descriptor; struct CharBuf; struct Bmp;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *p, u8 v);
 extern void BMP_FillRect(struct Bmp *p,u32 a,u32 b,u32 c,u32 d,u32 e);
 extern void func_021C3A24(u16 *heap,u8 *p,int key);
@@ -34,7 +34,7 @@ void func_021C3678(u16 *heap,u8 *p,int key)
     ((struct Obj00146 *)p)->f30 = 0;
     ((struct Obj00146 *)p)->f32 = *(s16 *)&((struct Obj00146 *)p)->f30;
     ((struct Obj00146 *)p)->f38 = 0;
-    bmp = func_02045770(*(struct Descriptor * *)&((struct Obj00146 *)p)->f20);
+    bmp = BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj00146 *)p)->f20);
     BMP_Clear((struct CharBuf *)bmp,0);
     BMP_FillRect(bmp,0,0x37,0xee,1,0xf);
     func_021C3A24(heap,p,key);

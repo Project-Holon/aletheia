@@ -21,6 +21,7 @@
  *   func_021C9154 0x021C9154 thumb ov128
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj03813.h"
 typedef unsigned char u8;
@@ -29,7 +30,7 @@ extern void func_021C8E24(void *, void *, void *, int);
 extern void func_021C9180(char *p, char *q, char *r);
 extern int func_021C8F2C(void *, int *);
 struct Actor;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021CA3A0(char *p);
 extern void func_021CA3C4(char *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
@@ -51,11 +52,11 @@ int func_021C8E2C(void *p, u8 *q, u8 *r, int heap)
     case 1:
         v = func_021C8F2C(p, (int *)q);
         if (v == 0) {
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             func_021CA3A0((char *)r);
             q[8] = 2;
         } else if (v == 1) {
-            func_020061E4(0x556);
+            GFL_USE_PlaySeDefaultVolume(0x556);
             func_021CA3C4((char *)r);
             q[8] = 3;
         }

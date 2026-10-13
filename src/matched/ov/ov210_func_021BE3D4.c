@@ -18,8 +18,8 @@
  *
  * symbols:
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_02045770 0x02045770 arm
- *   func_0201C6C4 0x0201C6C4 thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  */
 #include "../include/Obj08413.h"
@@ -27,8 +27,8 @@ typedef unsigned char u8;
 struct PrintSys;
 struct Descriptor;
 extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
-extern void *func_02045770(struct Descriptor *);
-extern unsigned func_0201C6C4(struct PrintSys *, void *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
+extern unsigned PRINTSYS_QUE_IsExistTarget(struct PrintSys *, void *);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 void func_021BE3D4(u8 *p)
 {
@@ -42,7 +42,7 @@ void func_021BE3D4(u8 *p)
     for (i = 0; i < 16; i++) {
         struct PrintSys *ps = *(struct PrintSys * *)&((struct Obj08413 *)p)->f1DC;
         u8 *record = p + i * 8;
-        if (record[flag] != 0 && func_0201C6C4(ps, func_02045770(*(struct Descriptor **)(record + get))) == 0) {
+        if (record[flag] != 0 && PRINTSYS_QUE_IsExistTarget(ps, BMP_WIN_GetBmp(*(struct Descriptor **)(record + get))) == 0) {
             BMP_WIN_TransferChars(*(struct Descriptor **)(record + release));
             record[clear] = 0;
         }

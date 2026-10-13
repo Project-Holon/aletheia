@@ -1,5 +1,5 @@
 /*
- * function: func_021CD924
+ * function: BTL_CLIENT_ReadRecorderEntry
  * address: 0x021CD924
  * packet: pkt_ov093_021CD924
  * region: ov093
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u16 *BTL_REC_ReadEntry(u16 *, u32 *);
-u16 *func_021CD924(u8 *p, u32 *out) { if (*(u16 * *)&((struct Obj13352 *)p)->f10) return BTL_REC_ReadEntry(*(u16 * *)&((struct Obj13352 *)p)->f10,out); return 0; }
+u16 *BTL_CLIENT_ReadRecorderEntry(u8 *p, u32 *out) { if (*(u16 * *)&((struct Obj13352 *)p)->f10) return BTL_REC_ReadEntry(*(u16 * *)&((struct Obj13352 *)p)->f10,out); return 0; }

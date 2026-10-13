@@ -16,11 +16,11 @@
  *   FIELD_MSGBG_CreateCursor  0x02192788  thumb  ov021
  *   FIELD_MSGBG_IsMsgWinTransDone  0x0219077C  thumb  ov021
  *   FIELD_MSGBG_GetMsgWinBmpWin  0x021907C0  thumb  ov021
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   FIELD_MSGBG_AnimateCursor  0x021928C0  thumb  ov021
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_020362DC  0x020362DC  arm
- *   func_020061E4  0x020061E4  thumb
+ *   KEY_GetTrg  0x020362DC  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELD_MSGBG_DeleteCursor  0x021927B0  thumb  ov021
  *   PDW_POSTMAN_DeleteListWin  0x021B7494  thumb  ov021
  *   func_020307B0  0x020307B0  arm
@@ -58,11 +58,11 @@ extern struct G *FIELD_MSGBG_CreateCursor(struct Fx *a);
 extern int FIELD_MSGBG_IsMsgWinTransDone(u8 *p);
 extern u32 FIELD_MSGBG_GetMsgWinBmpWin(u8 *p);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void FIELD_MSGBG_AnimateCursor(struct Cur *c, u32 win, u32 col);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern u32 func_020362DC(void);
-extern void func_020061E4(u32 a);
+extern u32 KEY_GetTrg(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void FIELD_MSGBG_DeleteCursor(u8 *p);
 extern int PDW_POSTMAN_DeleteListWin(void *a);
 extern u32 func_020307B0(void *p);
@@ -91,10 +91,10 @@ int PDW_POSTMAN_ListEvent(void *task, int *st, Work *w)
         break;
     case 2:
         h = FIELD_MSGBG_GetMsgWinBmpWin((u8 *)w->f4->fC);
-        FIELD_MSGBG_AnimateCursor((struct Cur *)w->f4->f10, (u32)func_02045770((struct Descriptor *)h), 15);
+        FIELD_MSGBG_AnimateCursor((struct Cur *)w->f4->f10, (u32)BMP_WIN_GetBmp((struct Descriptor *)h), 15);
         BMP_WIN_TransferChars((struct Descriptor *)h);
-        if (func_020362DC() & 1) {
-            func_020061E4(0x547);
+        if (KEY_GetTrg() & 1) {
+            GFL_USE_PlaySeDefaultVolume(0x547);
             (*st)++;
         }
         break;

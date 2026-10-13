@@ -1,5 +1,5 @@
 /*
- * function: func_021A1530
+ * function: FIELD_SUBSCREEN_StartReportSaveAnim
  * address:  0x021A1530
  * packet:   pkt_ov021_021A1530
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern void REPORT_StartSaveAnim(int *p);
 
-void func_021A1530(u32 *p)
+void FIELD_SUBSCREEN_StartReportSaveAnim(u32 *p)
 {
     REPORT_StartSaveAnim((int *)p[8]);
 }

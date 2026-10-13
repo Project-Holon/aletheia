@@ -23,10 +23,10 @@
  *   func_021E8AB8 0x021E8AB8 thumb ov177
  *   func_0217E078 0x0217E078 thumb ov176
  *   func_021E7E0C 0x021E7E0C thumb ov177
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_0217E0A8 0x0217E0A8 thumb ov176
  *   func_0217E0B0 0x0217E0B0 thumb ov176
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_0217E158 0x0217E158 thumb ov176
  *   func_0217E178 0x0217E178 thumb ov176
  *   func_0217D388 0x0217D388 thumb ov176
@@ -38,8 +38,8 @@
  *   func_0200E994 0x0200E994 thumb
  *   GFL_USE_StopAllSe 0x02006210 thumb
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039C68 0x02039C68 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   func_0217E2C0 0x0217E2C0 thumb ov176
  *   func_0217E2F8 0x0217E2F8 thumb ov176
  *   func_0217E1B8 0x0217E1B8 thumb ov176
@@ -71,10 +71,10 @@ extern int func_0217D000(u8 *);
 extern void func_021E8AB8(u32);
 extern int func_0217E078(u8 *p);
 extern void func_021E7E0C(void **,int);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int func_0217E0A8(int *);
 extern int func_0217E0B0(unsigned *);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_0217E158(unsigned *);
 extern int func_0217E178(int *);
 extern void func_0217D388(int *,int *);
@@ -88,8 +88,8 @@ extern void GFL_USE_StopAllSe(void);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *,u32,u32);
-extern u32 func_02039CB4(struct Link *,u32,u32);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,u32,u32);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,u32,u32);
 extern u32 func_0217E2C0(int unused, int a);
 extern int func_0217E2F8(u8 *p, const void *q);
 extern int func_0217E1B8(int *);
@@ -106,9 +106,9 @@ void func_0217C628(int *sys,u32 *state,u8 *p)
     }
     switch(*state){
     case 0:func_0217CFE8(p,20,1);*state=40;func_021E8AB4((u32)sys,1);break;
-    case 1:func_0217CFE8(p,33,0);func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,1);func_020061E4(0x80d);((struct Obj00241 *)p)->f1D4=0;((struct Obj00241 *)p)->f1D8=0;*state=40;func_021E8AB4((u32)sys,2);break;
+    case 1:func_0217CFE8(p,33,0);func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,1);GFL_USE_PlaySeDefaultVolume(0x80d);((struct Obj00241 *)p)->f1D4=0;((struct Obj00241 *)p)->f1D8=0;*state=40;func_021E8AB4((u32)sys,2);break;
     case 2:if(func_0217E0A8(*(int * *)&((struct Obj00241 *)p)->fC))*state=3;break;
-    case 3:switch(func_0217E0B0(*(unsigned * *)&((struct Obj00241 *)p)->fC)){case 1:*state=13;break;case 2:*state=9;break;}if(func_020362DC()&2)*state=4;break;
+    case 3:switch(func_0217E0B0(*(unsigned * *)&((struct Obj00241 *)p)->fC)){case 1:*state=13;break;case 2:*state=9;break;}if(KEY_GetTrg()&2)*state=4;break;
     case 4:func_0217E158(*(unsigned * *)&((struct Obj00241 *)p)->fC);*state=5;break;
     case 5:if(func_0217E178(*(int * *)&((struct Obj00241 *)p)->fC))*state=6;break;
     case 6:func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);func_0217CFE8(p,21,1);*state=40;func_021E8AB4((u32)sys,7);break;
@@ -137,13 +137,13 @@ void func_0217C628(int *sys,u32 *state,u8 *p)
             *state=16;
         }else{func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);GFL_USE_StopAllSe();*state=21;}
         break;
-    case 16:func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x48,0x1f);*state=17;break;
-    case 17:if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x48,0x1f))*state=18;break;
+    case 16:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x48,0x1f);*state=17;break;
+    case 17:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x48,0x1f))*state=18;break;
     case 18:if(func_0217E2C0((int)(((struct Obj00241 *)p)->fC),(int)((u32 *)(p+0x1d4))))*state=19;break;
     case 19:if(func_0217E2F8(((struct Obj00241 *)p)->fC,(u32 *)(p+0x1d8)))*state=20;break;
     case 20:
         func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);GFL_USE_StopAllSe();
-        if(((struct Obj00241 *)p)->f1D8&&((struct Obj00241 *)p)->f1D4){func_020061E4(0x63a);*state=27;}else *state=24;break;
+        if(((struct Obj00241 *)p)->f1D8&&((struct Obj00241 *)p)->f1D4){GFL_USE_PlaySeDefaultVolume(0x63a);*state=27;}else *state=24;break;
     case 21:if(func_0217E1B8(*(int * *)&((struct Obj00241 *)p)->fC))*state=22;break;
     case 22:if(func_0217E1C0(*(int * *)&((struct Obj00241 *)p)->fC))*state=23;break;
     case 23:func_0217CFE8(p,22,1);*state=40;func_021E8AB4((u32)sys,39);break;
@@ -157,8 +157,8 @@ void func_0217C628(int *sys,u32 *state,u8 *p)
     case 31:if((((struct Obj00241 *)p)->f1CC)++>300){((struct Obj00241 *)p)->f1CC=0;*state=32;}break;
     case 32:func_02040588(0,1);func_0217CFE8(p,24,1);*state=40;func_021E8AB4((u32)sys,33);break;
     case 33:func_0217CFE8(p,35,2);*state=40;func_021E8AB4((u32)sys,34);break;
-    case 34:func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x47,0x1f);*state=35;break;
-    case 35:if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x47,0x1f))*state=36;break;
+    case 34:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x47,0x1f);*state=35;break;
+    case 35:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x47,0x1f))*state=36;break;
     case 36:func_02040588(0,1);func_0217CFE8(p,38,2);*state=40;func_021E8AB4((u32)sys,37);break;
     case 37:
         if((((struct Obj00241 *)p)->f1CC)++>60){

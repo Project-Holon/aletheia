@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B04
+ * function: BTL_SIDE_CountLivingOfClient
  * address:  0x021B9B04
  * packet:   pkt_021B9B04
  * region:   ov093
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9AF8  0x021B9AF8  thumb  ov093
- *   func_021B9B98  0x021B9B98  thumb  ov093
+ *   BTL_SIDE_GetSlotOfClientThunk  0x021B9AF8  thumb  ov093
+ *   BTL_SLOT_CountLiving  0x021B9B98  thumb  ov093
  */
 
-char *func_021B9AF8(char *, int);
+char *BTL_SIDE_GetSlotOfClientThunk(char *, int);
 typedef unsigned char  u8;
-u8 func_021B9B98(u8 *p);
+u8 BTL_SLOT_CountLiving(u8 *p);
 
-unsigned char func_021B9B04(int a, int b)
+unsigned char BTL_SIDE_CountLivingOfClient(int a, int b)
 {
-    return func_021B9B98((u8 *)func_021B9AF8((char *)a, b));
+    return BTL_SLOT_CountLiving((u8 *)BTL_SIDE_GetSlotOfClientThunk((char *)a, b));
 }

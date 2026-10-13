@@ -10,7 +10,7 @@
  * lever: emit case 5 before cases 1/2/3 as in the original jump table.
  * symbols:
  *   func_021BE7F0 0x021BE7F0 thumb ov110
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021B9BEC 0x021B9BEC thumb ov110
  *   func_021BE4C0 0x021BE4C0 thumb ov110
  *   func_021BF08C 0x021BF08C thumb ov110
@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef int (*Handler)(u8 *, void *);
 extern int func_021BE7F0(void);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_021B9BEC(u8 *, int);
 extern int func_021BE4C0(u8 *, unsigned *);
 extern int func_021BF08C(u8 *);
@@ -35,7 +35,7 @@ extern int func_021BD894(u8 *, void *);
 void func_021BF0C0(u8 *p, u32 *q)
 {
     if (!func_021BE7F0()) {
-        func_020061E4(1361);
+        GFL_USE_PlaySeDefaultVolume(1361);
         func_021B9BEC(*(u8 * *)&((struct Obj00493 *)p)->f14, 13);
         *(Handler *)&((struct Obj00493 *)p)->f28 = (Handler)func_021BE4C0;
         *q = 4;
@@ -58,7 +58,7 @@ void func_021BF0C0(u8 *p, u32 *q)
     switch (func_021BEF4C(p)) {
     case 0: break;
     case 5:
-        func_020061E4(1356);
+        GFL_USE_PlaySeDefaultVolume(1356);
         func_021BF444(p);
         *(Handler *)&((struct Obj00493 *)p)->f28 = func_021BD894;
         func_021B9BEC(*(u8 * *)&((struct Obj00493 *)p)->f14, 34);
@@ -66,16 +66,16 @@ void func_021BF0C0(u8 *p, u32 *q)
         *q = 4;
         break;
     case 1:
-        func_020061E4(1352);
+        GFL_USE_PlaySeDefaultVolume(1352);
         func_021B9BEC(*(u8 * *)&((struct Obj00493 *)p)->f14, 19);
         break;
     case 2:
-        func_020061E4(1352);
+        GFL_USE_PlaySeDefaultVolume(1352);
         func_021B9BEC(*(u8 * *)&((struct Obj00493 *)p)->f14, 31);
         *q = 3;
         break;
     case 3:
-        func_020061E4(1352);
+        GFL_USE_PlaySeDefaultVolume(1352);
         func_021B9BEC(*(u8 * *)&((struct Obj00493 *)p)->f14, 20);
         func_021B9BEC(*(u8 * *)&((struct Obj00493 *)p)->f14, 19);
         *q = 2;

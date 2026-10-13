@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021FB4B4 0x021FB4B4 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
  *   func_021FD73C 0x021FD73C thumb ov186
@@ -22,7 +22,7 @@
 #include "../include/Obj02525.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(int,int,int *);
 extern int *func_021FD73C(int *p, int v);
@@ -35,7 +35,7 @@ extern void func_021F8B5C(int *task, int *state, char *p);
 void func_021F86E4(int a,int b,char *p)
 {
     int x,y;
-    if (func_02035D20((u32 *)(&x),(u32 *)(&y))) {
+    if (TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y))) {
         if (func_021FB4B4((unsigned int *)(((struct Obj02525 *)p)->f18),x,y)) {
             int pair[2];
             pair[0]=x; pair[1]=y;

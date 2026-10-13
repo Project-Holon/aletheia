@@ -13,7 +13,7 @@
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
  *   func_02034A5C  0x02034A5C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
 typedef unsigned short u16;
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 u32 func_020307B0(void *p);
 void func_02030EAC(struct Node *n);
 void func_02034A5C(int a);
-void func_02082BCC(void *p, int v, int n);
+void MI_CpuFill8(void *p, int v, int n);
 
 void FIELD_SUBPROC_End(int *p)
 {
@@ -44,5 +44,5 @@ void FIELD_SUBPROC_End(int *p)
     if (p[5] != -1) {
         func_02034A5C(p[5]);
     }
-    func_02082BCC(p, 0, 0x18);
+    MI_CpuFill8(p, 0, 0x18);
 }

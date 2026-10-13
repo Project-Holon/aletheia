@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetAmuletCoinHandlers
+ * function: HAND_ITEM_GetAmuletCoinHandlers
  * address: 0x021DF3F8
  * packet: pkt_ov093_021DF3F8
  * region: ov093
@@ -15,10 +15,10 @@
  *   gAmuletCoinHandlers 0x021F161C data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetAmuletCoinHandlers(int *p);
+int *HAND_ITEM_GetAmuletCoinHandlers(int *p);
 extern int gAmuletCoinHandlers[];
 
-int *BTL_HANDLER_ITEM_GetAmuletCoinHandlers(int *p)
+int *HAND_ITEM_GetAmuletCoinHandlers(int *p)
 {
     *p = 2;
     return gAmuletCoinHandlers;

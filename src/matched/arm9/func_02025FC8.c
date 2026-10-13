@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020362DC   0x020362DC  arm
+ *   KEY_GetTrg   0x020362DC  arm
  *   func_02025FA4   0x02025FA4  thumb
  *
  * Poll the pending-interrupt word and answer with the slot a matching mask
@@ -27,19 +27,19 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 struct Struct_02025CD0;
 extern int func_02025FA4(struct Struct_02025CD0 *obj);
 
 int func_02025FC8(u8 *a0)
 {
     if (((struct Obj04105 *)a0)->f8 == 1) {
-        if (func_020362DC() & 0xf3) {
+        if (KEY_GetTrg() & 0xf3) {
             return func_02025FA4((struct Struct_02025CD0 *)a0);
         }
-    } else if (func_020362DC() & 0xf1) {
+    } else if (KEY_GetTrg() & 0xf1) {
         return func_02025FA4((struct Struct_02025CD0 *)a0);
-    } else if (func_020362DC() & 2) {
+    } else if (KEY_GetTrg() & 2) {
         func_02025FA4((struct Struct_02025CD0 *)a0);
         return -2;
     }

@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201AA18 0x0201AA18 thumb
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_02017E88 0x02017E88 thumb
  *   func_02007A18 0x02007A18 thumb
  */
 
-extern unsigned func_0201AA18(void *p);
-extern void *func_0201AB28(void *party, unsigned i);
+extern unsigned POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *party, unsigned i);
 extern unsigned POKE_TOOL_GetPartyValue(void *p, unsigned id, unsigned v);
 extern unsigned func_02017E88(void *p, unsigned id, unsigned v);
 typedef unsigned int   u32;
@@ -30,8 +30,8 @@ unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsign
     if (a >= 0x1E) {
         if (a >= 0x1E)
             a -= 0x1E;
-        if ((int)func_0201AA18((*p)[2]) > a)
-            return POKE_TOOL_GetPartyValue(func_0201AB28((*p)[2], a), id, v);
+        if ((int)POKEPARTY_GetCount((*p)[2]) > a)
+            return POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((*p)[2], a), id, v);
     } else if (a != 0xFF) {
         void *m = func_02007A18((*p)[1], box, a);
         if (m != 0)

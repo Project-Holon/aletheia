@@ -12,7 +12,7 @@
  * sdk:      DWC_Auth_Create (libdwcauth.TWL.HYB.a dwc_auth.o)
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021782B4  0x021782B4  arm  ov009
  *   func_02177FFC  0x02177FFC  arm  ov009
  *   g_021AB184  0x021AB184  data  ov009
@@ -42,7 +42,7 @@ typedef struct DWCAuth
 
 typedef struct DWCWFCUtil DWCWFCUtil;
 
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int func_021782B4(int getwifiinfofromflash);
 extern void func_02177FFC(void);
 
@@ -57,10 +57,10 @@ int func_02177EE8(DWCAuthParam *param, void *http)
     g_021AB184.auth = (DWCAuth *)alloc(0, sizeof(DWCAuth));
     if (g_021AB184.auth == 0)
         return 2;
-    func_02082BCC(g_021AB184.auth, 0, sizeof(DWCAuth));
+    MI_CpuFill8(g_021AB184.auth, 0, sizeof(DWCAuth));
     ((DWCAuth *)g_021AB184.auth)->http = http;
     g_021AB184.state = 0;
-    func_02082BCC((char *)((DWCAuth *)g_021AB184.auth) + 0x1008, 0, 0x1c4);
+    MI_CpuFill8((char *)((DWCAuth *)g_021AB184.auth) + 0x1008, 0, 0x1c4);
     ((DWCAuth *)g_021AB184.auth)->error = 20100;
     ((DWCAuth *)g_021AB184.auth)->param = *param;
     ((DWCAuth *)g_021AB184.auth)->param.ingamesn[25] = 0;

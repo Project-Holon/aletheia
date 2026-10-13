@@ -9,26 +9,29 @@
  * status: EXACT*
  * extent: two zero alignment bytes follow the return.
  * symbols:
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
+ *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
  */
 #include "../include/Obj06470.h"
 
 typedef unsigned int u32;
 struct Rec3;
-extern u32 func_0201CE30(void *p);
-extern void func_0201CE48(struct Rec3 *p);
-extern void func_0201CE38(void *);
-extern u32 func_020362DC(void);
+extern u32 PRINTSYS_PrintStreamGetState(void *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamReleasePause(void *);
+extern u32 KEY_GetTrg(void);
 int func_021D95F0(char *p)
 {
     if (((struct Obj06470 *)p)->f80) {
-        switch (func_0201CE30(((struct Obj06470 *)p)->f80)) {
+        switch (PRINTSYS_PrintStreamGetState(((struct Obj06470 *)p)->f80)) {
         case 2:
-            func_0201CE48(((struct Obj06470 *)p)->f80);
+            PRINTSYS_PrintStreamDelete(((struct Obj06470 *)p)->f80);
             ((struct Obj06470 *)p)->f80=0;
             break;
         case 1:
-            if (func_020362DC()==1) func_0201CE38(((struct Obj06470 *)p)->f80);
+            if (KEY_GetTrg()==1) PRINTSYS_PrintStreamReleasePause(((struct Obj06470 *)p)->f80);
             break;
         }
         return 0;

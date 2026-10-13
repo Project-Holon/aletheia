@@ -32,6 +32,9 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm  arm9
  *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm  arm9
  *   CLACT_CreateActor  0x0204B294  arm  arm9
+ *   BMP_WIN_GetBmp  0x02045770  arm  arm9
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -78,11 +81,11 @@ extern void func_02040618(u32 a, u32 b, u32 c);
 extern void ARC_TOOL_DeleteHandle(void *a);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(struct Obj *o, unsigned int k);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *o, unsigned int k);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *w);
+extern void *BMP_WIN_GetBmp(struct Descriptor *w);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -140,9 +143,9 @@ void func_021BA2C4(void *a0, u8 *p)
     d.y = 0xc0;
     d.z = 0x1;
     ((struct Obj00276 *)p)->f6C = (u32)CLACT_CreateActor((void *)func_021BE024(a0), func_021BE018(a0, 7), func_021BE018(a0, 3), func_021BE018(a0, 10), &d, 0, v);
-    func_0204B92C((struct Obj *)((struct Obj00276 *)p)->f6C, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)((struct Obj00276 *)p)->f6C, 1);
     for (i = 0; i < 6; i++) {
-        func_0204B3DC((struct Obj *)*(u32 *)(p + i * 4 + 0x58), 1);
+        CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(p + i * 4 + 0x58), 1);
     }
     d.x = 0x38;
     d.y = 0x48;
@@ -162,25 +165,25 @@ void func_021BA2C4(void *a0, u8 *p)
     d.z = 0x1;
     ((struct Obj00276 *)p)->f80 = (u32)CLACT_CreateActor((void *)func_021BE024(a0), func_021BE018(a0, 6), func_021BE018(a0, 2), func_021BE018(a0, 10), &d, 1, v);
     for (i = 0; i < 5; i++) {
-        func_0204B3DC((struct Obj *)*(u32 *)(p + i * 4 + 0x70), 0);
+        CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(p + i * 4 + 0x70), 0);
     }
     d.x = 0x10;
     d.y = 0xa0;
     d.z = 0xf;
     ((struct Obj00276 *)p)->f84 = (u32)CLACT_CreateActor((void *)func_021BE024(a0), func_021BE018(a0, 4), func_021BE018(a0, 0), func_021BE018(a0, 8), &d, 0, v);
-    func_0204B3DC((struct Obj *)((struct Obj00276 *)p)->f84, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00276 *)p)->f84, 0);
     d.x = 0x88;
     d.y = 0xa0;
     d.z = 0x10;
     ((struct Obj00276 *)p)->f88 = (u32)CLACT_CreateActor((void *)func_021BE024(a0), func_021BE018(a0, 4), func_021BE018(a0, 0), func_021BE018(a0, 8), &d, 0, v);
-    func_0204B3DC((struct Obj *)((struct Obj00276 *)p)->f88, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00276 *)p)->f88, 0);
     d.a = 0;
     ((struct Obj00276 *)p)->f8C = (u32)CLACT_CreateActor((void *)func_021BE024(a0), func_021BE018(a0, 4), func_021BE018(a0, 0), func_021BE018(a0, 8), &d, 0, v);
-    func_0204B3DC((struct Obj *)((struct Obj00276 *)p)->f8C, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00276 *)p)->f8C, 0);
     d.z = 0x19;
     d.a = 2;
     ((struct Obj00276 *)p)->f90 = (u32)CLACT_CreateActor((void *)func_021BE024(a0), func_021BE018(a0, 4), func_021BE018(a0, 0), func_021BE018(a0, 8), &d, 0, v);
-    func_0204B3DC((struct Obj *)((struct Obj00276 *)p)->f90, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00276 *)p)->f90, 0);
     func_021BB54C(a0, p);
     ((struct Obj00276 *)p)->f48 = 0;
     ((struct Obj00276 *)p)->f50 = 0;
@@ -188,9 +191,9 @@ void func_021BA2C4(void *a0, u8 *p)
     s = (void *)func_021BE03C(a0);
     t3 = func_021BE044(a0);
     *(u32 *)&((struct Obj00276 *)p)->f4C = (u32)BMP_WIN_Create(4, 3, 1, 0x1c, 2, 0xa, 1);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770(((struct Obj00276 *)p)->f4C)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp(((struct Obj00276 *)p)->f4C)), 0);
     s = func_02045EC0(s, 0xb);
-    PRINTSYS_PrintQueColor((void *)t3, (u32)func_02045770(((struct Obj00276 *)p)->f4C), 1, 0, (u32)s, t1, 0x440);
+    PRINTSYS_PrintQueColor((void *)t3, (u32)BMP_WIN_GetBmp(((struct Obj00276 *)p)->f4C), 1, 0, (u32)s, t1, 0x440);
     STRBUF_Delete(s);
     ((struct Obj00276 *)p)->f40 = 1;
     ((struct Obj00276 *)p)->f0 = 0;

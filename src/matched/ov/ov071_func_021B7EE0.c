@@ -16,10 +16,10 @@
  *   func_021B82FC  0x021B82FC  thumb  ov071
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   func_020355D8  0x020355D8  arm
- *   func_0203633C  0x0203633C  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetRepeat  0x0203633C  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_021B6B98  0x021B6B98  thumb  ov071
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb  ov011
  *   func_021B83CC  0x021B83CC  thumb  ov071
  *   func_021B6BEC  0x021B6BEC  thumb  ov071
@@ -71,10 +71,10 @@ extern void func_021B82A4(int *a, char *p);
 extern void func_021B82FC(void *p);
 extern int TOUCHPANEL_HitTrg(const void *p);
 extern void func_020355D8(u8 v);
-extern unsigned int func_0203633C(void);
-extern u32 func_020362DC(void);
+extern unsigned int KEY_GetRepeat(void);
+extern u32 KEY_GetTrg(void);
 extern void func_021B6B98(void *p, int *tbl, int n, int sel, int c);
-extern void func_020061E4(unsigned int);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned int);
 extern int INTRUDE_COMM_IsSessionActive(u8 *);
 extern void func_021B83CC(void *w, void *x, unsigned y);
 extern void func_021B6BEC(void *p, int *tbl, int n, int sel, int c);
@@ -109,13 +109,13 @@ int MONOLITH_TOOL_MENU_Update(int a, int *state, C *c, D *d)
             (*state)++;
             break;
         }
-        keys = func_0203633C();
-        t = func_020362DC();
+        keys = KEY_GetRepeat();
+        t = KEY_GetTrg();
         if (t > 0 && d->armed == 1) {
             func_020355D8(0);
             d->armed = 0;
             func_021B6B98(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             break;
         }
         if (t & 1) {
@@ -130,14 +130,14 @@ int MONOLITH_TOOL_MENU_Update(int a, int *state, C *c, D *d)
                 d->sel = 0;
             }
             func_021B6B98(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
         } else if (keys & 0x40) {
             d->sel--;
             if (d->sel < 0) {
                 d->sel = d_021BA978[d->kind] - 1;
             }
             func_021B6B98(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
         }
         break;
     case 1:
@@ -147,7 +147,7 @@ int MONOLITH_TOOL_MENU_Update(int a, int *state, C *c, D *d)
                 break;
             }
             if (r != 0 && INTRUDE_COMM_IsSessionActive(r + 0x1ac) == 1) {
-                func_020061E4(0x54c);
+                GFL_USE_PlaySeDefaultVolume(0x54c);
                 func_021B83CC(d, c->f4, 4);
                 *state = 3;
                 break;
@@ -155,10 +155,10 @@ int MONOLITH_TOOL_MENU_Update(int a, int *state, C *c, D *d)
         }
         if (d->res != 3) {
             func_021B6BEC(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
-            func_020061E4(0x54c);
+            GFL_USE_PlaySeDefaultVolume(0x54c);
         } else {
             MONOLITH_TOOL_StartBlink(d->f34);
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
         }
         (*state)++;
         break;
@@ -177,9 +177,9 @@ int MONOLITH_TOOL_MENU_Update(int a, int *state, C *c, D *d)
         break;
     case 3:
         if (func_021B8434(c->f4, (u8 *)d) == 1) {
-            if (TOUCHPANEL_GetTrg() != 0 || (func_020362DC() & 3) != 0) {
+            if (TOUCHPANEL_GetTrg() != 0 || (KEY_GetTrg() & 3) != 0) {
                 func_021B8440(d);
-                func_020061E4(0x547);
+                GFL_USE_PlaySeDefaultVolume(0x547);
                 *state = 0;
             }
         }

@@ -59,7 +59,7 @@
  *   UNION_CHAT_LOG_Add 0x021BBA70  thumb  ov021
  *   UNION_COMM_SetSituationParam 0x021734A8  thumb  ov012
  *   func_02012138 0x02012138 thumb
- *   func_02026474 0x02026474 thumb
+ *   GAME_COMM_GetWork 0x02026474 thumb
  *   func_0217413C 0x0217413C thumb ov012
  *   gUnionOneselfActionStart  0x02180074  data  a4
  *   gUnionOneselfActionMain  0x02180078  data  a4
@@ -84,7 +84,7 @@
  *   FLDMMDL_GetObjId  0x0216D588  thumb  ov010
  *   FLDMMDL_SysSearchGridPos  0x0216DDC0  thumb  ov010
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_0217F7E4  0x0217F7E4  thumb  ov019
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
  *   func_02012124  0x02012124  thumb
@@ -152,7 +152,7 @@ extern u32 *FLDMMDL_ClearStatusBit(u32 *mmdl, u32 bit);
 extern void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *outValue, u8 mode);
 extern void UNION_COMM_SetSituationParam(UnionRoomWork *work, u32 id, u32 value);
 extern unsigned int func_02012138(struct GameSystem *gameSystem);
-extern u32 func_02026474(void *gameComm);
+extern u32 GAME_COMM_GetWork(void *gameComm);
 extern int func_0217413C(struct GameSystem *gameSystem, void *fieldMap, UnionRoomWork *work);
 extern void *func_0200BAC8(void *saveControl);
 extern unsigned int func_0200BBA8(void *battleTeam);
@@ -173,7 +173,7 @@ extern int   UNION_COMM_IsResetting(UnionRoomWork *work);
 extern u16   FLDMMDL_GetObjId(void *mmdl);
 extern void *FLDMMDL_SysSearchGridPos(u32 mmdlSys, u32 gridX, u32 gridZ, u32 gridY);
 extern int   GFL_NET_GetNegotiationNum(void);
-extern u32   func_020362DC(void);
+extern u32   KEY_GetTrg(void);
 extern int func_0217F7E4(u32 fieldMap);
 extern unsigned int UNION_MSG_CheckTalkPrintEnd(UnionRoomWork *work);
 extern void func_02012124(struct GameSystem *gameSystem, u32 state);
@@ -851,7 +851,7 @@ int UNION_ONESELF_TryStartSubEvent(struct GameSystem *gameSystem, void *fieldMap
     UnionRoomWork *work;
     UnionSubEvent *subEvent;
     int result;
-    work = (UnionRoomWork *)func_02026474((void *)func_02012138(gameSystem));
+    work = (UnionRoomWork *)GAME_COMM_GetWork((void *)func_02012138(gameSystem));
     result = 0;
     subEvent = &work->subEvent;
     if (subEvent->id != 0 && subEvent->active == 0) result = func_0217413C(gameSystem, fieldMap, work);
@@ -1172,7 +1172,7 @@ int UNION_ONESELF_IdleMain(UnionRoomWork *work, UnionMySituation *situation, voi
         UNION_COMM_RequestRestart(work);
         return 0;
     }
-    if (func_020362DC() & 1) {
+    if (KEY_GetTrg() & 1) {
         FIELD_PLAYER_GetFrontGridPos((u32)fieldPlayer, (u32)(&gridX), (u32)(&gridY), (u32)(&gridZ));
         mmdl = FLDMMDL_SysSearchGridPos((u32)mmdlSys, gridX, gridZ, 0);
         if (mmdl == 0) {

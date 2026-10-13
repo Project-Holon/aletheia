@@ -37,14 +37,14 @@
  *   func_021FE784 0x021FE784 thumb ov186
  *   func_021FE7B0 0x021FE7B0 thumb ov186
  *   func_021D7540 0x021D7540 thumb ov125
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BATTLE_REC_GetHeader 0x0200B928 thumb
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   func_021FF54C 0x021FF54C thumb ov186
  *   func_021FF648 0x021FF648 thumb ov186
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_02035D20 0x02035D20 arm
- *   func_020061E4 0x020061E4 thumb
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021FD15C 0x021FD15C thumb ov186
  *   func_021FD744 0x021FD744 thumb ov186
  */
@@ -60,14 +60,14 @@ extern void func_021FD860(int,int,Pair *);
 extern void func_021FE784(int,int,int,int);
 extern int func_021FE7B0(int *);
 extern int func_021D7540(void *a, int x, int mode, u16 *state, u16 *b, u16 c);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern u8 *BATTLE_REC_GetHeader(void);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 extern void func_021FF54C(char *p, int kind, const int *values);
 extern int func_021FF648(char *);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern void func_020061E4(u32 a);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021FD15C(void *,int);
 extern int func_021FD744(int *a);
 void func_021E2C2C(int *task,unsigned *state,char *p)
@@ -98,7 +98,7 @@ void func_021E2C2C(int *task,unsigned *state,char *p)
         }
         ++*(int *)(p+0x44);break;
     case 4:
-        func_02082BCC(&cfg,0,8);
+        MI_CpuFill8(&cfg,0,8);
         cfg.wide=BATTLE_REC_GetHeaderParam(BATTLE_REC_GetHeader(),4,0);
         func_021FF54C(*(char **)(*(char **)(p+0x3c)+12),8,(const int *)(&cfg));
         func_021FD170(*(void **)(p+8),(char *)(*(int *)(*(char **)(p+0x3c)+8)),(void *)0x13f);
@@ -112,9 +112,9 @@ void func_021E2C2C(int *task,unsigned *state,char *p)
         }break;
     case 6:
         if(TOUCHPANEL_GetTrg()) {
-            func_02035D20((u32 *)(&x),(u32 *)(&y));pair.x=x;pair.y=y;
+            TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y));pair.x=x;pair.y=y;
             func_021FD860(*(int *)(p+0x34),1,&pair);
-            func_020061E4((int)0x703);++*state;
+            GFL_USE_PlaySeDefaultVolume((int)0x703);++*state;
         }break;
     case 7:func_021FE784(**(int **)(p+0x3c),2,3,1);++*state;break;
     case 8:if(func_021FE7B0(**(int ***)(p+0x3c))) ++*state;break;

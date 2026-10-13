@@ -24,7 +24,7 @@
  *   MTX_RotY33_    0x0207AF1C  thumb
  *   FIELD_G3D_MAP_TestModelBox  0x021699A0  thumb  ov010
  *   G3D_SYSTEM_DrawRenderObj  0x02047C8C  arm
- *   tbl_020A1B38   0x020A1B38  data
+ *   FX_SinCosTable_   0x020A1B38  data
  *   g_renderStateDrawParams     0x02148B98  data
  */
 
@@ -68,7 +68,7 @@ typedef struct Obj {
     u16 nents;      /* 0xA4 */
 } Obj;
 
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern char g_renderStateDrawParams[];
 
 extern int G3D_SYSTEM_GetObjectRender(int *p);
@@ -107,8 +107,8 @@ void FIELD_G3D_MAP_DrawPlacedModels(Obj *obj)
             continue;
         }
         a = obj->ents[i].angle >> 4;
-        s = tbl_020A1B38[a * 2];
-        c = tbl_020A1B38[a * 2 + 1];
+        s = FX_SinCosTable_[a * 2];
+        c = FX_SinCosTable_[a * 2 + 1];
         func_0206DDA4(0x17, g_renderStateDrawParams, 12);
         VEC_Add(&obj->pos, &obj->ents[i].pos, &m.t);
         MTX_RotY33_(&m, s, c);

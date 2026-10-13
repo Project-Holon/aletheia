@@ -28,7 +28,7 @@
  *   SCRIPT_WORK_CheckFlag  0x02159190  thumb  ov010
  *   SCRCMD_WORK_GetMsgWindow  0x0215A61C  thumb  ov010
  *   FIELD_MSGBG_TalkWinPrintStr  0x02191348  thumb  ov021
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   SCRCMD_WORK_GetWindowState  0x0215A654  thumb  ov010
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   SCRCMD_MSGWIN_GetBalloonSide  0x021B0A40  thumb  ov021
@@ -75,7 +75,7 @@ extern u8 *SCRCMD_WORK_GetWordSetWork(u8 *p);
 extern int SCRIPT_WORK_CheckFlag(int a0);
 extern int SCRCMD_WORK_GetMsgWindow(int a0);
 extern u32 FIELD_MSGBG_TalkWinPrintStr(u32 *a, u32 b);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern u32 SCRCMD_WORK_GetWindowState(u8 *p);
 struct Actor;
 struct VecFx32;
@@ -124,7 +124,7 @@ int SCRCMD_MSGWIN_OpenBalloonWinMsg(u32 b, u16 id, u16 c, u16 d, u16 e, int f)
     if (SCRIPT_WORK_CheckFlag(2) != 0) {
         FIELD_MSGBG_TalkWinPrintStr((u32 *)SCRCMD_WORK_GetMsgWindow(b), r7);
     } else {
-        func_02082BCC(s, 0, 0x28);
+        MI_CpuFill8(s, 0, 0x28);
         s->id = id;
         if (e == 0) {
             SCRCMD_WORK_GetWindowState((u8 *)b);

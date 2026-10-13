@@ -12,9 +12,9 @@
  *   BGWINFRM_SetFrameDataArc 0x0202CAE4 thumb
  *   BGWINFRM_PutFrame 0x0202CB4C thumb
  *   func_020355C4 0x020355C4 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_021F9260 0x021F9260 thumb ov135
  *   func_021F8908 0x021F8908 thumb ov135
  *   func_021FB364 0x021FB364 thumb ov135
@@ -43,8 +43,8 @@ extern u8 func_020355C4(void);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Obj;
-extern void func_0204B3DC(struct Obj *,unsigned int);
-extern void func_0204B92C(struct Obj *,u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 extern void func_021F9260(void *,u32);
 extern int func_021F8908(void **menu, void *msg, int id);
 extern void func_021FB364(void *,int,int);
@@ -69,9 +69,9 @@ int func_021FBA84(u8 *p)
     func_021F4FF4(((struct Obj00437 *)p)->fC,0xB0,0x88);
     func_021F4FF4(((struct Obj00437 *)p)->f10,0x58,0x88);
     if(func_020355C4()==1)
-        func_0204B3DC((struct Obj *)((struct Obj00437 *)p)->f8,0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00437 *)p)->f8,0);
     else
-        func_0204B3DC((struct Obj *)((struct Obj00437 *)p)->f8,1);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00437 *)p)->f8,1);
     if(pages==1) {
         CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00437 *)p)->fC),0x3D);
         CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00437 *)p)->f10),0x3E);
@@ -79,10 +79,10 @@ int func_021FBA84(u8 *p)
         CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00437 *)p)->fC),0x26);
         CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00437 *)p)->f10),0x27);
     }
-    func_0204B92C((struct Obj *)((struct Obj00437 *)p)->fC,0);
-    func_0204B92C((struct Obj *)((struct Obj00437 *)p)->f10,0);
-    func_0204B3DC((struct Obj *)((struct Obj00437 *)p)->fC,1);
-    func_0204B3DC((struct Obj *)((struct Obj00437 *)p)->f10,1);
+    CLACT_SetActorAutoAnim((struct Obj *)((struct Obj00437 *)p)->fC,0);
+    CLACT_SetActorAutoAnim((struct Obj *)((struct Obj00437 *)p)->f10,0);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00437 *)p)->fC,1);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00437 *)p)->f10,1);
     ((struct Obj00437 *)p)->f48=27;
     return -1;
 }

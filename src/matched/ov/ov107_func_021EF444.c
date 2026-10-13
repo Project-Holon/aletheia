@@ -20,14 +20,14 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_021F1B04 0x021F1B04 thumb ov107
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   d_021F6EA0 0x021F6EA0 data a4
@@ -49,15 +49,15 @@ extern void func_020413B0(u32,u8,u8,u8,u8,u8),func_020409B4(u32),ARC_TOOL_Delete
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
 extern void *func_02045EC0(struct MsgBank *,u32);
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern unsigned int func_021F1B04(unsigned char *p);
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *),BMP_WIN_MakeScreen(struct Cfg *);
-extern u8 func_02045730(struct Descriptor *);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void STRBUF_Delete(struct U16Vec *);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 void func_021EF444(u8 *p) {
  u32 bg,window;
  void *archive,*text;
@@ -74,10 +74,10 @@ void func_021EF444(u8 *p) {
  window=BMP_WIN_Create(bg,1,4,30,8,7,1);
  bank=func_02045B38(0,2,0x52,((struct Obj00057 *)p)->f0);
  text=func_02045EC0(bank,1);
- BMP_Clear(func_02045770((struct Descriptor *)window),7);
- PRINTSYS_PrintColor(func_02045770((struct Descriptor *)window),0,0,text,(void *)func_021F1B04(*(u8 * *)&((struct Obj00057 *)p)->f68),0x1167);
+ BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)window),7);
+ PRINTSYS_PrintColor(BMP_WIN_GetBmp((struct Descriptor *)window),0,0,text,(void *)func_021F1B04(*(u8 * *)&((struct Obj00057 *)p)->f68),0x1167);
  BMP_WIN_TransferChars((struct Descriptor *)window);BMP_WIN_MakeScreen((struct Cfg *)window);
- func_020409B4(func_02045730((struct Descriptor *)window));
- STRBUF_Delete((struct U16Vec *)text);MSGDATA_Delete((struct Rec *)bank);func_020452E8((struct Descriptor *)window);
+ func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)window));
+ STRBUF_Delete((struct U16Vec *)text);MSGDATA_Delete((struct Rec *)bank);BMP_WIN_Delete((struct Descriptor *)window);
  *(volatile u16 *)0x05000000=0x7eea;*(volatile u16 *)0x05000400=0x7eea;
 }

@@ -12,7 +12,7 @@
  * symbols:
  *   TOUCHPANEL_GetCont   0x02035C38  arm
  *   func_020355D8   0x020355D8  arm
- *   func_020362DC   0x020362DC  arm
+ *   KEY_GetTrg   0x020362DC  arm
  *   func_021C93C4   0x021C93C4  thumb ov212
  */
 #include "../include/Obj06700.h"
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern int  TOUCHPANEL_GetCont(void);
 extern void func_020355D8(u8 v);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_021C93C4(u32 heap);
 
 int func_021BC720(char *p)
@@ -37,18 +37,18 @@ int func_021BC720(char *p)
         func_020355D8(1);
         return 5;
     }
-    if (func_020362DC() & 1) {
+    if (KEY_GetTrg() & 1) {
         func_020355D8(0);
         return 5;
     }
-    if (func_020362DC() & 2) {
+    if (KEY_GetTrg() & 2) {
         func_020355D8(0);
         v = 0;
         *(u32 *)(((struct Obj06700 *)p)->f0 + 8) = v;
         func_021C93C4(0x7E);
         return 3;
     }
-    if (func_020362DC() & 0x400) {
+    if (KEY_GetTrg() & 0x400) {
         func_020355D8(0);
         *(u32 *)(((struct Obj06700 *)p)->f0 + 8) = v;
         func_021C93C4(0x7E);

@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: caller truncates x to u8 despite callee's wider x type.
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_02027748 0x02027748 thumb
  *   func_0202774C 0x0202774C thumb
  *   func_02027750 0x02027750 thumb
@@ -25,7 +25,7 @@ typedef unsigned char u8;
 typedef struct { int f0,f4,f8,fC,f10,f14,f18; u8 b1c,b1d,b1e; } In;
 extern unsigned int POKERUS_IsCured(void *a);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 typedef unsigned int   u32;
 extern u32 func_020275E4(void);
 extern int func_02027748(void);
@@ -41,8 +41,8 @@ void func_021E6008(char *p, int b, void *c)
     int a = POKERUS_IsCured(c);
     if (a == 0) return;
     if (((struct Obj08074 *)q)->f10) {
-        if (a == 0) func_0204B3DC((struct Obj *)((struct Obj08074 *)q)->f10, 0);
-        else func_0204B3DC((struct Obj *)((struct Obj08074 *)q)->f10, 1);
+        if (a == 0) CLACT_SetActorDrawEnable((struct Obj *)((struct Obj08074 *)q)->f10, 0);
+        else CLACT_SetActorDrawEnable((struct Obj *)((struct Obj08074 *)q)->f10, 1);
         return;
     }
     in.f0 = 1; in.b1c = 14; in.f4 = 0;

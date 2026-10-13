@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleasePalette  0x0204ADA4  arm
@@ -25,7 +25,7 @@ struct Bank;
 struct Descriptor;
 struct Obj;
 struct Obj020437AC;
-extern unsigned int func_020452E8(struct Descriptor *d);
+extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern void CLACT_DeleteActor(struct Obj *p);
 typedef unsigned int   u32;
 extern void CLACT_ReleaseCharacter(u32 i);
@@ -38,13 +38,13 @@ extern void CLACT_ExitSystem(void);
 void ITEMMENU_FreeGraphics(char *p)
 {
     int i;
-    func_020452E8((struct Descriptor *)(((struct Obj01682 *)p)->f73C));
-    func_020452E8((struct Descriptor *)(((struct Obj01682 *)p)->f74C));
-    func_020452E8((struct Descriptor *)(((struct Obj01682 *)p)->f744));
-    func_020452E8((struct Descriptor *)(((struct Obj01682 *)p)->f734));
-    func_020452E8((struct Descriptor *)(((struct Obj01682 *)p)->f754));
-    func_020452E8((struct Descriptor *)(((struct Obj01682 *)p)->f76C));
-    func_020452E8((struct Descriptor *)(((struct Obj01682 *)p)->f774));
+    BMP_WIN_Delete((struct Descriptor *)(((struct Obj01682 *)p)->f73C));
+    BMP_WIN_Delete((struct Descriptor *)(((struct Obj01682 *)p)->f74C));
+    BMP_WIN_Delete((struct Descriptor *)(((struct Obj01682 *)p)->f744));
+    BMP_WIN_Delete((struct Descriptor *)(((struct Obj01682 *)p)->f734));
+    BMP_WIN_Delete((struct Descriptor *)(((struct Obj01682 *)p)->f754));
+    BMP_WIN_Delete((struct Descriptor *)(((struct Obj01682 *)p)->f76C));
+    BMP_WIN_Delete((struct Descriptor *)(((struct Obj01682 *)p)->f774));
     CLACT_DeleteActor((struct Obj *)(((struct Obj01682 *)p)->f6A8));
     if (((struct Obj01682 *)p)->f6A0 != 0) {
         CLACT_DeleteActor((struct Obj *)(((struct Obj01682 *)p)->f6A0));

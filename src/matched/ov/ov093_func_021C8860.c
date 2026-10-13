@@ -1,5 +1,5 @@
 /*
- * function: func_021C8860
+ * function: BTL_SERVER_FLOW_AppendMsgRecordArg
  * address:  0x021C8860
  * packet:   pkt_ov093_021C8860
  * region:   ov093
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Named by the parked ov093 files (BTL_HANDLER_ITEM_DestinyKnot_Infatuate / BTL_HANDLER_ITEM_RockyHelmetDamageReaction /
+ * Named by the parked ov093 files (HAND_ITEM_DestinyKnot_Infatuate / HAND_ITEM_RockyHelmetDamageReaction /
  * func_021E7388).  Appends `val` to the record at p: the count in bits 8..14
  * of the +2 halfword (max 7 entries) is incremented and `val` stored at
  * p + 4 + idx*4.  The 7-bit unsigned bitfield is what makes the count
@@ -28,7 +28,7 @@ struct S {
     u32 arr[8];
 };
 
-void func_021C8860(struct S *p, u32 val)
+void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 val)
 {
     unsigned int idx = p->n;
 

@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetRainDishHandlers
+ * function: HAND_TOKUSEI_GetRainDishHandlers
  * address: 0x021D9874
  * packet: pkt_ov093_021D9874
  * region: ov093
@@ -15,13 +15,13 @@
  *   gRainDishHandlers 0x021F0670 data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetRainDishHandlers(int *p);
+int *HAND_TOKUSEI_GetRainDishHandlers(int *p);
 extern int gRainDishHandlers[];
 
 /*
  * tail: 021D98B6..021D98B8 is two zero alignment bytes.
  */
-int *BTL_TOKUSEI_GetRainDishHandlers(int *p)
+int *HAND_TOKUSEI_GetRainDishHandlers(int *p)
 {
     *p = 1;
     return gRainDishHandlers;

@@ -12,7 +12,7 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_0201F73C 0x0201F73C thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   GAME_DATA_GetWifiList 0x0201283C thumb
@@ -24,7 +24,7 @@
  */
 #include "../include/Obj01246.h"
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 typedef signed short   s16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -52,11 +52,11 @@ void func_021BA454(int text,int a) {
   BMP_WIN_MakeScreen((struct Cfg *)v);
   func_0201F73C((void *)(((struct Obj01246 *)a)->f280),0,(unsigned short)(((struct Obj01246 *)a)->f304),14);
  }
- BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj01246 *)a)->f280)),255);
+ BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01246 *)a)->f280)),255);
  MSGDATA_ReadString((struct MsgBank *)(((struct Obj01246 *)a)->f288),text,(void *)(((struct Obj01246 *)a)->f294));
  func_0201EFA4((struct WordSet *)(((struct Obj01246 *)a)->f28C),0,func_02009A34((struct Sub020097BCObj *)GAME_DATA_GetWifiList((const struct BigObj *)(**(int * *)&((struct Obj01246 *)a)->f244))),2,1,1);
  func_0201EFA4((struct WordSet *)(((struct Obj01246 *)a)->f28C),1,32,2,1,1);
  func_0201F250((struct WordSet *)(((struct Obj01246 *)a)->f28C),(void *)(((struct Obj01246 *)a)->f298),(void *)(((struct Obj01246 *)a)->f294));
- PRINTSYS_Print((void *)((int)func_02045770((struct Descriptor *)((struct Obj01246 *)a)->f280)),0,2,(void *)(((struct Obj01246 *)a)->f298),(void *)(((struct Obj01246 *)a)->f290));
+ PRINTSYS_Print((void *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01246 *)a)->f280)),0,2,(void *)(((struct Obj01246 *)a)->f298),(void *)(((struct Obj01246 *)a)->f290));
  BMP_WIN_TransferChars((struct Descriptor *)((struct Obj01246 *)a)->f280);
 }

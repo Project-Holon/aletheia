@@ -18,7 +18,7 @@
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   func_020355D8  0x020355D8  arm
  *   APP_TASKMENU_SetWinActive  0x02027B30  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 #include "../include/Obj00104.h"
 
@@ -30,7 +30,7 @@ extern int  TOUCHPANEL_HitTrg(const void *key);
 extern void func_020355D8(u8 v);
 struct S;
 extern void APP_TASKMENU_SetWinActive(u32 a0, struct S *s, int mode);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 
 void APP_TASKMENU_UpdateTouch(u8 *m)
 {
@@ -68,12 +68,12 @@ void APP_TASKMENU_UpdateTouch(u8 *m)
     *(int *)&((struct Obj00104 *)m)->fC = one;
     APP_TASKMENU_SetWinActive(((u32 *)*(u32 * *)&((struct Obj00104 *)m)->f18)[m[0]], (struct S *)(*(u32 *)&((struct Obj00104 *)m)->f34), one);
     if (m[0] == 0) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return;
     }
     if (*(int *)(*(u8 * *)&((struct Obj00104 *)m)->f1C + m[0] * 0xC + 8) == 1) {
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return;
     }
-    func_020061E4(0x54C);
+    GFL_USE_PlaySeDefaultVolume(0x54C);
 }

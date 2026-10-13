@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021F4D94 0x021F4D94 thumb ov194
  *   func_021F299C 0x021F299C thumb ov194
  *   func_021F2BC8 0x021F2BC8 thumb ov194
@@ -19,7 +19,7 @@
  *   d_021F555C 0x021F555C data a4
  */
 #include "../include/Obj02530.h"
-extern void func_02082BCC(void *,unsigned,unsigned);
+extern void MI_CpuFill8(void *,unsigned,unsigned);
 typedef unsigned int   u32;
 extern u32 func_021F4D94(const unsigned char *p, u32 i);
 extern int func_021F299C(int *,int *);extern void func_021F2BC8(int *,int *,void *);
@@ -29,7 +29,7 @@ extern void func_021F2A88(int *p, int *delta, u8 *saved);extern int func_021F2F6
 extern const unsigned char d_021F555C[];
 void func_021F256C(char *p, unsigned mode, int index, void *table, u32 a4) {
  int i;
- func_02082BCC(p,0,36);((struct Obj02530 *)p)->f0=(void *)func_021F4D94(table,index);
+ MI_CpuFill8(p,0,36);((struct Obj02530 *)p)->f0=(void *)func_021F4D94(table,index);
  switch(mode) {
  case 3:
  ((struct Obj02530 *)p)->f20=11;((struct Obj02530 *)p)->f22=4;

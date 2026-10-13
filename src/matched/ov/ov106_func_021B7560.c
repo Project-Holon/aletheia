@@ -14,7 +14,7 @@
  *   fill 0x02082BCC arm
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_Create 0x020124F4 thumb
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   func_021B8B9C 0x021B8B9C thumb ov106
@@ -54,7 +54,7 @@ struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_Create(u16);
 struct GfFont;
-extern u32 func_0201C440(void *);
+extern u32 PRINTSYS_QUE_Create(void *);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -84,7 +84,7 @@ int func_021B7560(void *sys,u32 unused,void **args) {
     fill(p,0,0x648);
     if(*args)((struct Obj00978 *)p)->f628=GAMESYSTEM_GetGameData(*args);
     else ((struct Obj00978 *)p)->f628=GAME_DATA_Create(1);
-    *(u32 *)&((struct Obj00978 *)p)->f61C=func_0201C440((void *)67);
+    *(u32 *)&((struct Obj00978 *)p)->f61C=PRINTSYS_QUE_Create((void *)67);
     ((struct Obj00978 *)p)->f618=(u32)GF_FONT_Create(23,0,0,0,67);
     ((struct Obj00978 *)p)->f620=func_02045B38(0,2,50,67);
     ((struct Obj00978 *)p)->f63C=(unsigned int)func_021B8B9C(((struct Obj00978 *)p)->f628,67);

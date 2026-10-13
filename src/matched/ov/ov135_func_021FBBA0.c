@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021FA85C 0x021FA85C thumb ov135
@@ -21,7 +21,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct WinMgr;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int on);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int on);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int func_021FA85C(void *p);
@@ -32,7 +32,7 @@ int func_021FBBA0(u8 *p)
     r = func_021FA85C(p);
     switch (r) {
     case -2:
-        func_0204B3DC((struct Obj *)((struct Obj02201 *)p)->f8, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj02201 *)p)->f8, 1);
         CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02201 *)p)->f8), CLACT_GetActorAnimSeq((struct Obj *)(((struct Obj02201 *)p)->f8)) + 9);
         BGWINFRM_SetFrameDataArc(((struct Obj02201 *)p)->f18, 0, 0x60, 0x18, 1);
         ((struct Obj02201 *)p)->f48 = 5;
@@ -40,7 +40,7 @@ int func_021FBBA0(u8 *p)
         break;
     case -1: break;
     default:
-        func_0204B3DC((struct Obj *)((struct Obj02201 *)p)->f8, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj02201 *)p)->f8, 1);
         CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02201 *)p)->f8), CLACT_GetActorAnimSeq((struct Obj *)(((struct Obj02201 *)p)->f8)) + 9);
         ((struct Obj02201 *)p)->f48 = 3;
         ((struct Obj02201 *)p)->f4C = 29;

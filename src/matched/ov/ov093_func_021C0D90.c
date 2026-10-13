@@ -17,7 +17,7 @@
  *   func_021C0F04 0x021C0F04 thumb ov093
  *   BTL_SERVER_FLOW_ProcDamageRecordIfAny 0x021C11A4 thumb ov093
  *   BTL_SERVER_FLOW_IsPlayerSidePoke 0x021BEC08 thumb ov093
- *   func_021BA1B4 0x021BA1B4 thumb ov093
+ *   BTL_MAIN_TrainerRecordAdd 0x021BA1B4 thumb ov093
  *   func_021C0F14 0x021C0F14 thumb ov093
  */
 #include "../include/Obj01373.h"
@@ -33,7 +33,7 @@ extern u32 BTL_SERVER_CMD_Reserve(u8 *, u32);
 extern u32 func_021C0F04(u8 *);
 extern u32 BTL_SERVER_FLOW_ProcDamageRecordIfAny(u8 *, u8 *, u8 *, u8 *, u8 *, u8 *, u32, Flags);
 extern int BTL_SERVER_FLOW_IsPlayerSidePoke(u8 *p, u8 *a);
-extern void func_021BA1B4(char **p, int i);
+extern void BTL_MAIN_TrainerRecordAdd(char **p, int i);
 extern u32 func_021C0F14(u8 *);
 u32 BTL_SERVER_FLOW_ProcDamageTargets(u8 *p, u8 *q, u8 *a, u8 *b, u32 c, u32 *out, u32 d)
 {
@@ -53,7 +53,7 @@ u32 BTL_SERVER_FLOW_ProcDamageTargets(u8 *p, u8 *q, u8 *a, u8 *b, u32 c, u32 *ou
     if (func_021C0F04(*(u8 * *)&((struct Obj01373 *)p)->f858) != 0) {
         result += BTL_SERVER_FLOW_ProcDamageRecordIfAny(p, q, a, *(u8 * *)&((struct Obj01373 *)p)->f858, *(u8 * *)&((struct Obj01373 *)p)->f86C, *(u8 * *)&((struct Obj01373 *)p)->f4B4, k, f);
         if (result != 0 && BTL_SERVER_FLOW_IsPlayerSidePoke(p, a) != 0)
-            func_021BA1B4((char **)(*(u8 * *)&((struct Obj01373 *)p)->f4), 0x4d);
+            BTL_MAIN_TrainerRecordAdd((char **)(*(u8 * *)&((struct Obj01373 *)p)->f4), 0x4d);
     }
     if (func_021C0F14(*(u8 * *)&((struct Obj01373 *)p)->f85C) != 0)
         result += BTL_SERVER_FLOW_ProcDamageRecordIfAny(p, q, a, *(u8 * *)&((struct Obj01373 *)p)->f85C, *(u8 * *)&((struct Obj01373 *)p)->f870, *(u8 * *)&((struct Obj01373 *)p)->f4B4, k, f);

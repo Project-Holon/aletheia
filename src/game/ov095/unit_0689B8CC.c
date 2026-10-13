@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021C8838  0x021C8838  thumb
- *   func_021C8860  0x021C8860  thumb
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb
  *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb
@@ -30,9 +30,9 @@ typedef unsigned char u8;
 
 typedef struct Word { int v; } Word;
 
-extern void func_021C8838(void *, int, u16);
+extern void BTL_SERVER_FLOW_InitMsgRecord(void *, int, u16);
 extern u32 BTL_POKEPARAM_GetPokeId(u32);
-extern void func_021C8860(void *, u32);
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(void *, u32);
 extern int BTL_POKEPARAM_IsFainted(void *);
 extern void BTL_POKEPARAM_GetSickContRaw(void *, int);
 extern Word BTLV_CORE_GetSlotLow(void);
@@ -47,8 +47,8 @@ int func_0689B8CC(void *p, u32 b, int kind)
     int message;
     message = func_0689B92C(kind);
     if (message > 0) {
-        func_021C8838(p, 2, message);
-        func_021C8860(p, BTL_POKEPARAM_GetPokeId(b));
+        BTL_SERVER_FLOW_InitMsgRecord(p, 2, message);
+        BTL_SERVER_FLOW_AppendMsgRecordArg(p, BTL_POKEPARAM_GetPokeId(b));
     }
     return 0;
 }

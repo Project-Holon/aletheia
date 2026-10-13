@@ -17,8 +17,8 @@
  *   MONOLITH_TOOL_GetSlotIconStates  0x021B6F40  thumb  ov071
  *   STRBUF_Create  0x020457B0  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_02045770  0x02045770  arm
- *   func_0201C6FC  0x0201C6FC  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
  *   _ll_sdiv       0x0209BE5C  arm
@@ -75,9 +75,9 @@ struct U16Vec;
 struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct PrintSys;
-extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
+extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern int TOWN_MAP_SPOT_CountVisited(void *, void *, u8 *);
@@ -86,7 +86,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 static inline void Draw(Q *q, void *h, u32 x, u32 y, void *buf)
 {
     void *w = q->f8;
-    func_0201C6FC(w, (u32)func_02045770(h), x, y, buf, (u32)q->fc);
+    PRINTSYS_PrintQue(w, (u32)BMP_WIN_GetBmp(h), x, y, buf, (u32)q->fc);
 }
 
 void func_021B8C0C(C *c, Q *q, P *d)

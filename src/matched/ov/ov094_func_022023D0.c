@@ -17,7 +17,7 @@
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   INFOWIN_Exit 0x02024DCC thumb
  *   func_022025B4 0x022025B4 thumb ov094
  *   func_02030EAC 0x02030EAC arm
@@ -36,7 +36,7 @@ extern void CLACT_ReleaseCellAnim(u32);
 extern void CLACT_DeleteUnit(int);
 struct Descriptor;
 struct Node;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern int INFOWIN_Exit(void);
 extern void func_022025B4(void);
 extern void func_02030EAC(struct Node *n);
@@ -71,8 +71,8 @@ void func_022023D0(char *p)
     DROP_ZERO_ID(0x1c4, CLACT_DeleteUnit);
     DROP_ZERO_ID(0x20c, CLACT_DeleteUnit);
     DROP_ZERO_ID(0x218, CLACT_DeleteUnit);
-    DROP_PTR(0x228, func_020452E8);
-    DROP_PTR(0x230, func_020452E8);
+    DROP_PTR(0x228, BMP_WIN_Delete);
+    DROP_PTR(0x230, BMP_WIN_Delete);
     INFOWIN_Exit();
     func_022025B4();
     DROP_PTR(0x238, func_02030EAC);

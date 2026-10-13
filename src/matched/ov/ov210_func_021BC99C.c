@@ -11,7 +11,7 @@
  *
  * symbols:
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201C4C0  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   func_0201ED04  0x0201ED04  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   MSGDATA_Delete  0x02045C04  arm
@@ -30,7 +30,7 @@ struct Rec;
 struct U16Vec;
 struct WordSet;
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 func_0201ED04(struct WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -38,7 +38,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 u32 func_021BC99C(u8 *p)
 {
     STRBUF_Delete((struct U16Vec *)(((struct Obj00085 *)p)->f1D8));
-    func_0201C4C0((struct PrintSys *)(((struct Obj00085 *)p)->f1DC));
+    PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj00085 *)p)->f1DC));
     func_0201ED04((struct WordSet *)(((struct Obj00085 *)p)->f1D4));
     GF_FONT_Delete((void *)(((struct Obj00085 *)p)->f1CC));
     return MSGDATA_Delete((struct Rec *)(((struct Obj00085 *)p)->f1D0));

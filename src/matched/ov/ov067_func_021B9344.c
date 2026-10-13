@@ -11,8 +11,8 @@
  *
  * symbols:
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
- *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045770  0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  */
 
@@ -35,9 +35,9 @@ struct S {
 
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
 void FRAME_LIST_UpdateWindows(struct S *s)
@@ -50,7 +50,7 @@ void FRAME_LIST_UpdateWindows(struct S *s)
         int a = s->f34;
 
         if (e->flag != 0) {
-            if (func_0201C6C4((struct PrintSys *)a, (void *)((int)func_02045770((struct Descriptor *)e->p))) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)a, (void *)((int)BMP_WIN_GetBmp((struct Descriptor *)e->p))) == 0) {
                 BMP_WIN_TransferChars((struct Descriptor *)e->p);
                 e->flag = 0;
             }

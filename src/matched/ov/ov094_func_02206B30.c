@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *
  * lane S13 leaf of func_0220648C
  */
 #include "../include/Obj00823.h"
 
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 void func_02206B30(char *p)
 {
     if (((struct Obj00823 *)p)->f58 != 6) {
         if (((struct Obj00823 *)p)->f54 != 3) {
-            func_020061E4(0x54d);
+            GFL_USE_PlaySeDefaultVolume(0x54d);
         }
     } else {
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
     }
 }

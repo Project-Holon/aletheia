@@ -18,7 +18,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   d_021CA564 0x021CA564 data a4
  *   d_021CA688 0x021CA688 data a4
  *   d_021CA650 0x021CA650 data a4
@@ -41,7 +41,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern struct Obj *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_0204B3DC(struct Obj *, u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *, u32);
 typedef struct { s16 x, y, z; } V3;
 typedef struct { u32 a, b; } W2;
 extern const V3 d_021CA564[];
@@ -91,7 +91,7 @@ void func_021C7ACC(u8 *p, void *unused, u8 *ctx, u16 heap)
     *(struct U16Vec **)(p + 0x110) = STRBUF_Create(0x80, heap);
     r1 = d_021CA650;
     *(struct Obj **)(p + 0x1a0) = CLACT_CreateActor(*(void **)(ctx + 0x138), *(u32 *)(ctx + 0x144), *(u32 *)(ctx + 0x14c), *(u32 *)(ctx + 0x154), &r1, 0, heap);
-    func_0204B3DC(*(struct Obj **)(p + 0x1a0), 0);
+    CLACT_SetActorDrawEnable(*(struct Obj **)(p + 0x1a0), 0);
     r2 = d_021CA638;
     *(struct Obj **)(p + 0x1a4) = CLACT_CreateActor(*(void **)(ctx + 0x138), *(u32 *)(ctx + 0x144), *(u32 *)(ctx + 0x14c), *(u32 *)(ctx + 0x154), &r2, 0, heap);
 }

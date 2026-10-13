@@ -14,7 +14,7 @@
  * symbols:
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   STRBUF_Delete  0x02045808  arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
@@ -41,7 +41,7 @@ typedef struct {
 } Owner;
 extern struct U16Vec *STRBUF_Create(u32, u32);
 extern void *func_02045EC0(struct MsgBank *, u32);
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void STRBUF_Delete(struct U16Vec *);
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 extern void func_0201EFA4(struct WordSet *, u32, u32, u32, u32, u32);
@@ -52,7 +52,7 @@ static inline void print_window(Owner *a, Index b, void *t)
 {
     void *owner = a->renderer;
     PRINTSYS_PrintQueColor(owner,
-                  (u32)func_02045770(a->window[(u32)b].text), 8, 0x20, (u32)t,
+                  (u32)BMP_WIN_GetBmp(a->window[(u32)b].text), 8, 0x20, (u32)t,
                   a->ink, 0x3dc0);
     a->window[(u32)b].dirty = 1;
 }

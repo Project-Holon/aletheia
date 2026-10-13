@@ -16,7 +16,7 @@
  *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
  *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
  *   _ll_mul        0x0209C054  arm
- *   tbl_020A1B38   0x020A1B38  data  a2
+ *   FX_SinCosTable_   0x020A1B38  data  a2
  *   gFldeffKemuriObjFuncs     0x021D90AC  data  a4
  * Addresses are Black-image addresses.
  */
@@ -37,7 +37,7 @@ struct VecFx32;
 extern void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *v);
 extern int FIELD_EFFECT_GetResource(u32 a, u32 b);
 extern void FIELD_EFFECT_AddObject(u32 a, u8 *b, u32 c, u32 d, Arg *e, u32 f);
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern u8 gFldeffKemuriObjFuncs[];
 
 void FLDEFF_KEMURI_StartFacing(u32 a, u32 b)
@@ -49,8 +49,8 @@ void FLDEFF_KEMURI_StartFacing(u32 a, u32 b)
     FLDMMDL_GetPos((const struct Actor *)a, (struct VecFx32 *)&v);
     v.y += 0x1000;
     i = (i >> 4) * 2;
-    v.z += (s32)(((long long)tbl_020A1B38[i + 1] * 0x6000 + 0x800) >> 12);
-    v.x += (s32)(((long long)tbl_020A1B38[i] * 0x6000 + 0x800) >> 12);
+    v.z += (s32)(((long long)FX_SinCosTable_[i + 1] * 0x6000 + 0x800) >> 12);
+    v.x += (s32)(((long long)FX_SinCosTable_[i] * 0x6000 + 0x800) >> 12);
     s.a = FIELD_EFFECT_GetResource(b, 1);
     s.v = v;
     FIELD_EFFECT_AddObject(b, gFldeffKemuriObjFuncs, 0, 0, &s, 0);

@@ -1,5 +1,5 @@
 /*
- * function: func_021CF89C
+ * function: BTL_CLIENT_IsHeldItemEffective
  * address: 0x021CF89C
  * packet: pkt_ov093_021CF89C
  * region: ov093
@@ -19,7 +19,7 @@ extern void *func_021EFCE4(char *, int);
 struct Unk021D62A8;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern int func_021D59B4(u8 *p, int k);
-int func_021CF89C(u8 *p, void *q)
+int BTL_CLIENT_IsHeldItemEffective(u8 *p, void *q)
 {
     if (func_021EFCE4(*(char * *)&((struct Obj01894 *)p)->f34, 7)) return 0;
     if (BTL_POKEPARAM_HasSick(q, 19)) return 0;

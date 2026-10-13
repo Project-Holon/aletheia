@@ -9,6 +9,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
 typedef unsigned char u8;
@@ -29,12 +32,12 @@ struct Sub0200852CObj {
     u8 unk1D;
 };
 
-extern void func_02082BCC(void *dst, u8 value, u32 size);
+extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 extern void func_02008560(struct Sub0200852CObj *obj, u8 value);
 
 void MYSTATUS_Init(struct Sub0200852CObj *obj)
 {
-    func_02082BCC(obj, 0, 0x20);
+    MI_CpuFill8(obj, 0, 0x20);
     obj->unk1A = 2;
     func_02008560(obj, 0x15);
 }

@@ -29,7 +29,7 @@
  *   d_021728CC  0x021728CC  data
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200CA38  0x0200CA38  thumb
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -95,7 +95,7 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void *func_0200CA1C(void *a);
 extern u32 func_0200CA38(struct Blk37 *p);
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *, void *, int, int);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *, void *, int, int, int, int, int);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
@@ -178,7 +178,7 @@ void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(int gameSystem, int retDecid
     statusParam->config = gameData;
     statusParam->ppt = 1;
     statusParam->mode = 1;
-    statusParam->max = func_0201AA18(party);
+    statusParam->max = POKEPARTY_GetCount(party);
     statusParam->page = 0;
     statusParam->isNationalDex = func_0200CA38((struct Blk37 *)zukanSave);
     statusParam->canUseButtons = 0;
@@ -246,7 +246,7 @@ int EVENT_POKE_STATUS_CreateMoveSelectEvent(int gameSystem, int fieldMap, int po
 
     param->ppd = party;
     param->ppt = 1;
-    param->max = func_0201AA18(party);
+    param->max = POKEPARTY_GetCount(party);
     param->pos = pos;
     param->page = 1;
     param->newMove = newMove;

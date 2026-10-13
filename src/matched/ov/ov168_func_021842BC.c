@@ -10,7 +10,7 @@
  * symbols:
  *   func_02045B38 0x02045B38 arm
  *   BMP_WIN_CreateAt 0x02045180 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -18,7 +18,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   d_02184888 0x02184888 data a1
  *   d_02184868 0x02184868 data a2
@@ -36,7 +36,7 @@ struct CharBuf;
 struct Descriptor;
 struct MsgBank;
 struct U16Vec;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -44,7 +44,7 @@ extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(unsigned);
 extern const u8 d_02184888[];
 extern u16 d_02184868[];
@@ -59,7 +59,7 @@ void func_021842BC(void **p, int heap)
     for (i=0;i<3;i++) {
         row = d_02184888+i*12;
         p[i] = (void *)BMP_WIN_CreateAt((int)row[0],(int)row[1],(int)row[2],(int)row[3],row[4],row[5],(int)(((struct Obj03845 *)row)->f6));
-        a = func_02045770(p[i]);
+        a = BMP_WIN_GetBmp(p[i]);
         BMP_Clear(a,0);
         BMP_WIN_ClearScreen(p[i]);
         b = func_02045EC0(p[3],i);
@@ -68,6 +68,6 @@ void func_021842BC(void **p, int heap)
         s = p[i];
         BMP_WIN_TransferChars(s);
         BMP_WIN_MakeScreen(s);
-        func_020409B4(func_02045730(s));
+        func_020409B4(BMP_WIN_GetBgLayer(s));
     }
 }

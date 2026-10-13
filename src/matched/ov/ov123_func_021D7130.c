@@ -15,7 +15,7 @@
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  */
 typedef unsigned char u8;
@@ -26,7 +26,7 @@ extern void func_021D70BC(char *);
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern void GFL_USE_FadeInBgmFull(u32 v);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 void func_021D7130(char *p)
 {
@@ -39,7 +39,7 @@ void func_021D7130(char *p)
                 GFL_USE_SetBgmPlayerParam(0);
                 GFL_USE_FadeInBgmFull(6);
             }
-            if (func_020362DC() != 0 || TOUCHPANEL_GetTrg() != 0) {
+            if (KEY_GetTrg() != 0 || TOUCHPANEL_GetTrg() != 0) {
                 func_021D6EE0((u8 *)p, (int)func_021D70BC, 0x20B);
             }
         }

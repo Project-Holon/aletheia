@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02084FA8",
+   "name": "OS_VSNPrintf",
    "address": "0x02084FA8",
    "kind": "game",
    "region": "arm9",

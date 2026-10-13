@@ -21,7 +21,7 @@
  *   PLIST_PLATE_SetPalette  0x021BB050  thumb  ov091
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   PLIST_PLATE_GetActorOffset  0x021BB56C  thumb  ov091
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  */
 #include "../include/Obj00009.h"
 #include "../include/Obj03679.h"
@@ -37,7 +37,7 @@ extern int POKELIST_IsItemMode(u32 p);
 extern void PLIST_PLATE_SetPalette(int unused, u8 *s, int k);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void PLIST_PLATE_GetActorOffset(u32 p, int x, int y, u16 *out);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 static inline s16 *get(u8 *s, int x, int y, s16 *buf)
 {
@@ -71,6 +71,6 @@ void PLIST_PLATE_SetSelected(u8 *a, u8 *s, int k)
         CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj03679 *)s)->f34), 0);
         p = get(s, 0x18, 0x10, b0);
     }
-    func_0204B404((struct Obj *)(((struct Obj03679 *)s)->f30), (const struct Vec2 *)p, 0);
+    CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj03679 *)s)->f30), (const struct Vec2 *)p, 0);
     ((struct Obj03679 *)s)->f10 = k;
 }

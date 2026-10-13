@@ -10,11 +10,11 @@
  * note: a3 is u16 here (u16 field, strh); the matched caller ov206_func_021B9DE0 declares it unsigned.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
- *   func_0201C440 0x0201C440 thumb
+ *   MI_CpuFill8 0x02082BCC arm
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_0204047C 0x0204047C arm
  *   func_021BBE5C 0x021BBE5C thumb ov206
- *   func_0201AE1C 0x0201AE1C thumb
+ *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
  *   func_02049B68 0x02049B68 arm
  *   func_02049740 0x02049740 arm
  *   func_020498F4 0x020498F4 arm
@@ -51,13 +51,13 @@ struct ArcFile;
 struct NitroFileHeader;
 struct Personal;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *p, int v, int n);
-extern u32 func_0201C440(void *p);
+extern void MI_CpuFill8(void *p, int v, int n);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern void func_0204047C(int idx, unsigned short val);
 struct S;
 struct State;
 extern void func_021BBE5C(struct S *p);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -115,7 +115,7 @@ void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u3
     u32 hh;
 
     p = func_02030734(heap, 0x2b4, 0, d_021BC220, 0x42f);
-    func_02082BCC(p, 0, 0x2b4);
+    MI_CpuFill8(p, 0, 0x2b4);
     ((struct Obj00022 *)p)->f0 = heap;
     ((struct Obj00022 *)p)->fC = a1;
     ((struct Obj00022 *)p)->fE = a2;
@@ -129,7 +129,7 @@ void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u3
     ((struct Obj00022 *)p)->f20 = a10;
     ((struct Obj00022 *)p)->f24 = a11;
     ((struct Obj00022 *)p)->f28 = a12;
-    ((struct Obj00022 *)p)->f2C = (void *)func_0201C440((void *)(((struct Obj00022 *)p)->f0));
+    ((struct Obj00022 *)p)->f2C = (void *)PRINTSYS_QUE_Create((void *)(((struct Obj00022 *)p)->f0));
     *(u32 *)&((struct Obj00022 *)p)->f1B8 = a14;
     *(u32 *)&((struct Obj00022 *)p)->f1BC = a15;
     *(u32 *)&((struct Obj00022 *)p)->f1C0 = a16;
@@ -171,7 +171,7 @@ void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u3
         ((struct Obj00022 *)p)->f1B4 = 0;
     }
     func_021BBE5C((struct S *)p);
-    hh = (u16)func_0201AE1C(((struct Obj00022 *)p)->f26C, 0x20);
+    hh = (u16)POKE_PERSONAL_GetParam(((struct Obj00022 *)p)->f26C, 0x20);
     if (((struct Obj00022 *)p)->fE >= hh) ((struct Obj00022 *)p)->fE = 0;
     h = ((struct Obj00022 *)p)->f1C4;
     func_02049B68(h, 9, ((struct Obj00022 *)p)->f48, 0, 0x60, ((struct Obj00022 *)p)->f0);

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201C6B4 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   PMS_DRAW_IsPrintEnd 0x0202DC98 thumb
  */
 #include "../include/Obj13806.h"
@@ -20,7 +20,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Obj0202DC98;
 struct PrintSys;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern u32 PMS_DRAW_IsPrintEnd(struct Obj0202DC98 *o);
-int func_021C022C(u8 *p) { if(func_0201C6B4(((struct Obj13806 *)p)->f5C) && PMS_DRAW_IsPrintEnd(((struct Obj13806 *)p)->f8C)) return 1; return 0; }
+int func_021C022C(u8 *p) { if(PRINTSYS_QUE_IsFinished(((struct Obj13806 *)p)->f5C) && PMS_DRAW_IsPrintEnd(((struct Obj13806 *)p)->f8C)) return 1; return 0; }
 void func_021C0250(int *out,u8 *p,int value) { *out=value; ((struct Obj22406 *)p)->f9C=0; }

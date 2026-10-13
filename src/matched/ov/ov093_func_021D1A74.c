@@ -1,5 +1,5 @@
 /*
- * function: func_021D1A74
+ * function: BTL_CLIENT_StepRunServerCommands
  * address: 0x021D1A74
  * packet: pkt_ov093_021D1A74
  * region: ov093
@@ -10,12 +10,12 @@
  * symbols:
  *   BTL_ADAPTER_GetRecvData 0x021EEC20 thumb ov093
  *   BTL_SERVER_CompareFlowOutput 0x021BB570 thumb ov093
- *   func_021B9184 0x021B9184 thumb ov093
+ *   BTL_MAIN_SetRecordInvalid 0x021B9184 thumb ov093
  *   func_02082A90 0x02082A90 arm
  *   func_021EA824 0x021EA824 thumb ov093
  *   func_021D3F4C 0x021D3F4C thumb ov093
  *   BTL_SERVER_CMD_ReadNext 0x021CD5E0 thumb ov093
- *   d_021F00DC 0x021F00DC data a4
+ *   gServerCommandHandlers 0x021F00DC data a4
  */
 #include "../include/Obj01237.h"
 typedef unsigned char u8;
@@ -25,15 +25,15 @@ typedef struct { u32 wpos, rpos; } Buf;
 typedef struct { u8 pad[0x1B2]; unsigned char f0:3; unsigned char flag:1; unsigned char f4:4; } Flags;
 typedef int (*Callback)(u8 *, int *, int *);
 typedef struct { int code; Callback fn; } Entry;
-extern const Entry d_021F00DC[];
+extern const Entry gServerCommandHandlers[];
 extern int BTL_ADAPTER_GetRecvData(int, u8 **);
 extern int BTL_SERVER_CompareFlowOutput(u8 *, int, void *, u32);
-extern void func_021B9184(void *);
+extern void BTL_MAIN_SetRecordInvalid(void *);
 extern void func_02082A90(const void *, void *, u32);
 extern void func_021EA824(char *p);
 extern int func_021D3F4C(void *);
 extern int BTL_SERVER_CMD_ReadNext(Buf *, int *);
-int func_021D1A74(u8 *p, int *state, void *a2)
+int BTL_CLIENT_StepRunServerCommands(u8 *p, int *state, void *a2)
 {
     u8 *args;
     int size;
@@ -47,7 +47,7 @@ again:
         size = BTL_ADAPTER_GetRecvData(((struct Obj01237 *)p)->f50, &args);
         if (*(u8 * *)&((struct Obj01237 *)p)->fA0 != 0 && p[0x1AE] != 0 && ((Flags *)p)->flag != 0) {
             if (BTL_SERVER_CompareFlowOutput(*(u8 * *)&((struct Obj01237 *)p)->fA0, p[0x1AE], args, size) != 0) {
-                func_021B9184(((struct Obj01237 *)p)->f0);
+                BTL_MAIN_SetRecordInvalid(((struct Obj01237 *)p)->f0);
                 ((Flags *)p)->flag = 0;
             }
             p[0x1AE] = 0;
@@ -75,13 +75,13 @@ again:
         ((struct Obj01237 *)p)->f178 = code;
         if (code == 0x5E) return 1;
         for (i = 0; i < 0x5D; i++) {
-            if (code == d_021F00DC[i].code) break;
+            if (code == gServerCommandHandlers[i].code) break;
         }
         if (i == 0x5D) {
             *state = 1;
             goto again;
         }
-        *(Callback *)&((struct Obj01237 *)p)->f17C = d_021F00DC[i].fn;
+        *(Callback *)&((struct Obj01237 *)p)->f17C = gServerCommandHandlers[i].fn;
         ((struct Obj01237 *)p)->f180 = 0;
         (*state)++;
     case 3:

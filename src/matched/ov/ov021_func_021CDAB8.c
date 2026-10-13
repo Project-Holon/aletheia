@@ -24,8 +24,8 @@
  *   COMM_ENTRY_SendReady  0x021CF32C  thumb  ov021
  *   COMM_ENTRY_MENU_RefreshNames  0x021CE9A0  thumb  ov021
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_GetUserArg  0x0203D650  arm
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_02082D44  0x02082D44  arm
@@ -62,8 +62,8 @@ extern void COMM_ENTRY_MENU_RefreshNames(u8 *p);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *h, u32 a, u32 b);
-extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *h, u32 a, u32 b);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *h, u32 a, u32 b);
 extern u32 GFL_NET_GetUserArg(void);
 extern void *GFL_NET_GetInitParam(void);
 extern void func_02082D44(void *src, void *dst, int n);
@@ -157,11 +157,11 @@ int COMM_ENTRY_MENU_MainMode1(u8 *p)
             COMM_ENTRY_MENU_PrintMessage(p, 0x1e);
         }
         p[0x51E] = 7;
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27);
         break;
     case 7:
         if (p[0x520] != 0 || FIELD_MSGBG_SysWinMain((u32 *)U32(0x14)) == 1) {
-            if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27) == 1) {
+            if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27) == 1) {
                 U32(0x2c) = 1;
                 p[0x51E] = 0xf;
             } else if (p[0x51A] == 1) {

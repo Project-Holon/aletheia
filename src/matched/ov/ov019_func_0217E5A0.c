@@ -25,8 +25,8 @@
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   d_021807E8     0x021807E8  data  a4
@@ -91,8 +91,8 @@ struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 u32 GFL_NET_GetHandleNetID(struct Link *p);
 int GFL_NET_GetNegotiationNum(void);
 struct Link;
-void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
-unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
+void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
+unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
 void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 u32 func_020307B0(void *p);
 extern int d_021807E8[];
@@ -147,12 +147,12 @@ int UNION_ONESELF_ColosseumBattleMain(u8 *w, u8 *obj, u8 *a2, u8 *state)
         break;
     case 1:
         if (UNION_MSG_CheckTalkPrintEnd(w) == 1) {
-            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 0x14);
+            GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 0x14);
             (*state)++;
         }
         break;
     case 2:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 0x14) == 1) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 0x14) == 1) {
             UNION_MSG_CloseAllWindows(w);
             (*state)++;
         }

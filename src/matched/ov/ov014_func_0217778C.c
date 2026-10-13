@@ -1,5 +1,5 @@
 /*
- * function: func_0217778C
+ * function: NET_WHPIPE_PublishBeacon
  * address:  0x0217778C
  * packet:   pkt_ov014_0217778C
  * region:   ov014
@@ -35,7 +35,7 @@ extern void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len);
 typedef int (*SizeFn)(u32 a);
 typedef u32 (*DataFn)(u32 a);
 
-void func_0217778C(void)
+void NET_WHPIPE_PublishBeacon(void)
 {
     u8 *e;
     u8 *st;

@@ -26,10 +26,10 @@
  *   func_021E0848 0x021E0848 thumb ov137
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   CLACT_DrawSystem 0x0204A600 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_0201C6C4 0x0201C6C4 thumb
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   TIME_ICON_Update 0x0202F0B0 thumb
  */
 typedef unsigned char u8;
@@ -44,8 +44,8 @@ extern void func_021E0698(u8 *),func_021E05D4(u8 *),func_021E0848(u8 *);
 struct Descriptor;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void *func_02045770(struct Descriptor *p);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void TIME_ICON_Update(u8 *p);
 void func_021DF864(u8 *p)
@@ -66,7 +66,7 @@ void func_021DF864(u8 *p)
     PRINTSYS_QUE_Main(*(void **)(p+0xd38));
     r=*(void **)(p+0xd38);
     if(*(u8 *)(p+0xd0c)) {
-        if(!func_0201C6C4(r,func_02045770(*(void **)(p+0xd08)))) {
+        if(!PRINTSYS_QUE_IsExistTarget(r,BMP_WIN_GetBmp(*(void **)(p+0xd08)))) {
             BMP_WIN_TransferChars(*(void **)(p+0xd08));
             *(u8 *)(p+0xd0c)=0;
         }
@@ -74,7 +74,7 @@ void func_021DF864(u8 *p)
     for(i=0;i<5;i++) {
         r=*(void **)(p+0xd38);
         if(*(u8 *)(p+i*8+0xd14)) {
-            if(!func_0201C6C4(r,func_02045770(*(void **)(p+i*8+0xd10)))) {
+            if(!PRINTSYS_QUE_IsExistTarget(r,BMP_WIN_GetBmp(*(void **)(p+i*8+0xd10)))) {
                 BMP_WIN_TransferChars(*(void **)(p+i*8+0xd10));
                 *(u8 *)(p+i*8+0xd14)=0;
             }

@@ -13,7 +13,7 @@
  * the Ov018Obj at +0x10.
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb  ov018
@@ -52,7 +52,7 @@ typedef struct {
 
 struct Obj;
 struct Ctx;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *p);
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
 void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, int a);
@@ -64,7 +64,7 @@ int EVENT_COMM_COMMON_MsgEventMain(void *a, int *state, Outer *c)
 {
     u8 *v;
 
-    v = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(func_020124E4(a))));
+    v = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(a))));
     switch (*state) {
     case 0:
         EVENT_COMM_COMMON_PrintMsg(&c->obj, c->f9C);

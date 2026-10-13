@@ -1,5 +1,5 @@
 /*
- * function: func_021C9F6C
+ * function: BTL_SERVER_FLOW_ProcHandExUseMoveOnTarget
  * address: 0x021C9F6C
  * packet: pkt_ov093_021C9F6C
  * region: ov093
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B9934 0x021B9934 thumb ov093
+ *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   BTL_SERVER_FLOW_GetMoveParam 0x021C64B4 thumb ov093
  *   func_021CA0B8 0x021CA0B8 thumb ov093
  *   func_021CA0C8 0x021CA0C8 thumb ov093
@@ -33,7 +33,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Out { u16 h0,h2,h4; u8 b6,pad7; u32 w8,wc,w10; };
 struct State { u16 h0; u8 b2,b3,b4; u8 flag:1; u8 rest:7; };
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 struct Out64B4;
 struct Unk021BD1E0;
 struct Unk021BD200;
@@ -53,13 +53,13 @@ extern int func_021CA118(void *);
 extern void BTL_SERVER_FLOW_InitTurnState(struct Unk021BD1E0 *p);
 extern void BTL_SERVER_FLOW_SetupTurnState(struct Unk021BD200 *p, u8 *q, u8 *a, int t);
 extern void BTL_SERVER_FLOW_ProcMoveHitTargets(u8 *, u8 *, u8 *, u8 *, u32, u32);
-u8 func_021C9F6C(u8 *p, u8 *q)
+u8 BTL_SERVER_FLOW_ProcHandExUseMoveOnTarget(u8 *p, u8 *q)
 {
     u8 work[28];
     struct Out *out = (struct Out *)(work + 8);
     u16 *saved;
-    u8 *a = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, q[4]);
-    u8 *b = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, q[5]);
+    u8 *a = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00003 *)p)->f8, q[4]);
+    u8 *b = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00003 *)p)->f8, q[5]);
     struct State *state;
     u32 flag;
     BTL_SERVER_FLOW_GetMoveParam(p, *(u16 *)(q + 6), a, (struct Out64B4 *)out);

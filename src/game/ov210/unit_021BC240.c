@@ -15,14 +15,14 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021BCF50  0x021BCF50  thumb  ov210
  *   func_02030EAC  0x02030EAC  arm
  *   d_02FE0000 0x02FE0000 data a4
  *   func_020419E4 0x020419E4 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
@@ -53,7 +53,7 @@ typedef signed int     s32;
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern u32 func_021BCF50(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32);
@@ -62,7 +62,7 @@ extern u32 func_02030EAC(u32 a);
 extern void func_020419E4(void);
 extern void CLACT_VBlankSystem(void);
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
-extern void func_020434DC(unsigned,unsigned);
+extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned,unsigned);
 extern void *func_02005624(u32 a, u32 b, u32 c);
 extern void BG_SYS_ClearGraphicsMemory(u32 a);
@@ -87,7 +87,7 @@ u32 func_021BC240(void *man, u32 b, u32 arg)
     u32 *p;
     GFL_HEAP_CreateChildHeap(1, 0x7b, 0x60000);
     p = PROCSYS_AllocProcWork(man, 0x2d4, 0x7b);
-    func_02082BCC(p, 0, 0x2d4);
+    MI_CpuFill8(p, 0, 0x2d4);
     *p = arg;
     return 1;
 }
@@ -127,11 +127,11 @@ void func_021BC2B8(void *unused,unsigned char *p)
     CLACT_VBlankSystem();
     PALANM_TransferPalettes((struct S02021D50 *)(*(struct S_02021D50 * *)&((struct Obj06692 *)p)->fC));
     if (p[0x2b8]==1) {
-        func_020434DC(10,1);
+        BG_SYS_SetMainPlaneVisible(10,1);
         BG_SYS_SetSubPlaneVisible(2,1);
         p[0x2b8]=0;
     } else if (p[0x2b8]==2) {
-        func_020434DC(10,0);
+        BG_SYS_SetMainPlaneVisible(10,0);
         BG_SYS_SetSubPlaneVisible(2,0);
         p[0x2b8]=0;
     }

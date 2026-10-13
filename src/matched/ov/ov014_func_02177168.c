@@ -12,13 +12,13 @@
  * interface: 02177190 forwards r1 unchanged to 02177C30; that leaf
  * performs the u16 truncation itself. Its matched signature uses full width.
  * symbols:
- *   func_02178E4C 0x02178E4C thumb ov014
+ *   WIH_GetSysState 0x02178E4C thumb ov014
  *   func_021793B8 0x021793B8 thumb ov014
  *   func_02179394 0x02179394 thumb ov014
  *   NET_WHPIPE_SendData 0x02177C30 thumb ov014
  */
-extern int func_02178E4C(void);
-int GFL_NET_DEVWIRELESS_IsDataSharing(void) { if (func_02178E4C() == 5) return 1; return 0; }
+extern int WIH_GetSysState(void);
+int GFL_NET_DEVWIRELESS_IsDataSharing(void) { if (WIH_GetSysState() == 5) return 1; return 0; }
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021793B8(int);

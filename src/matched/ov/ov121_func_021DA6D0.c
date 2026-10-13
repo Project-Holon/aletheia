@@ -10,13 +10,14 @@
  * arithmetic: direct division helper uses quotient r0/remainder r1 as a scalar u64;
  *             the caller admits count zero, so ordinary C remainder is not used.
  * symbols:
- *   func_020362DC 0x020362DC arm
- *   func_0203633C 0x0203633C arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   KEY_GetRepeat 0x0203633C arm
  *   _u32_div_f 0x0209C2B0 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021DAAA4 0x021DAAA4 thumb ov121
  *   d_021DF76C 0x021DF76C data a4
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj00360.h"
 #include "../include/Obj06450.h"
@@ -28,20 +29,20 @@ typedef unsigned long long u64;
 typedef struct {s16 x,y;} Position;
 typedef struct {int x,y;} TablePair;
 extern const TablePair d_021DF76C[];
-extern u32 func_020362DC(void);
-extern u32 func_0203633C(void);
+extern u32 KEY_GetTrg(void);
+extern u32 KEY_GetRepeat(void);
 struct Obj;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern u64 _u32_div_f(u32,u32);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 typedef signed int     s32;
 extern s32 func_021DAAA4(int a, u16 *p, int angle, int bank, u8 index, u16 c1, u16 c2);
 int func_021DA6D0(u8 *p)
 {
-    u32 keys=func_020362DC();
-    u32 repeat=func_0203633C();
+    u32 keys=KEY_GetTrg();
+    u32 repeat=KEY_GetRepeat();
     int changed=0;
     int i;
     int phase;
@@ -51,18 +52,18 @@ int func_021DA6D0(u8 *p)
     if(repeat&64) {
         index=((struct Obj00360 *)p)->f8==0 ? ((struct Obj00360 *)p)->fC-1 : ((struct Obj00360 *)p)->f8-1;
         ((struct Obj00360 *)p)->f8=index;
-        if(((struct Obj00360 *)p)->fC!=1) func_020061E4(0x548);
+        if(((struct Obj00360 *)p)->fC!=1) GFL_USE_PlaySeDefaultVolume(0x548);
         changed=1;
     } else if(repeat&128) {
-        if(((struct Obj00360 *)p)->fC!=1) func_020061E4(0x548);
+        if(((struct Obj00360 *)p)->fC!=1) GFL_USE_PlaySeDefaultVolume(0x548);
         ((struct Obj00360 *)p)->f8+=1;
         ((struct Obj00360 *)p)->f8=(u32)(_u32_div_f(((struct Obj00360 *)p)->f8,((struct Obj00360 *)p)->fC)>>32);
         changed=1;
     } else if(keys&1) {
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         return ((struct Obj00360 *)p)->f8;
     } else if(keys&2) {
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         if(((struct Obj00360 *)p)->fC==1) return -2;
         if(((struct Obj00360 *)p)->f8!=3) **(u32 * *)&((struct Obj00360 *)p)->f60=((struct Obj00360 *)p)->f8;
         ((struct Obj00360 *)p)->f8=((struct Obj00360 *)p)->fC-1;
@@ -71,7 +72,7 @@ int func_021DA6D0(u8 *p)
     if(changed) {
         pos.x=d_021DF76C[*(u32 *)(p+8)].x;
         pos.y=d_021DF76C[*(u32 *)(p+8)].y+((struct Obj00360 *)p)->f2E*8;
-        func_0204B404(((struct Obj00360 *)p)->f4,(const struct Vec2 *)(&pos),0);
+        CLACT_AddActorSurfacePos(((struct Obj00360 *)p)->f4,(const struct Vec2 *)(&pos),0);
         if(((struct Obj00360 *)p)->f8==3) CLACT_SetActorAnimSeq(((struct Obj00360 *)p)->f4,2);
         else CLACT_SetActorAnimSeq(((struct Obj00360 *)p)->f4,((struct Obj00360 *)p)->f30);
         if(*(void (**)(u32))(p+0x34)) (*(void (**)(u32))(p+0x34))(((struct Obj00360 *)p)->f38);

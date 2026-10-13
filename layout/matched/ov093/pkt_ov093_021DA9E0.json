@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_ABILITY_DrySkinWeatherEffect",
+   "name": "HAND_TOKUSEI_DrySkinWeatherEffect",
    "address": "0x021DA9E0",
    "kind": "game",
    "region": "ov093",

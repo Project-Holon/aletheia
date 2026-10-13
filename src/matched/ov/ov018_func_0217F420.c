@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  */
-extern unsigned int func_020362DC(void);
+extern unsigned int KEY_GetTrg(void);
 int EVENT_COMM_COMMON_IsKeyTrg(void)
 {
-    if (func_020362DC() & 0xf3) return 1;
+    if (KEY_GetTrg() & 0xf3) return 1;
     return 0;
 }

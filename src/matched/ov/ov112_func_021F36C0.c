@@ -18,7 +18,7 @@
  *   func_02030734 0x02030734 arm
  *   func_0203F4E4 0x0203F4E4 arm
  *   STRBUF_GetEosChar 0x02045A98 arm
- *   func_0203630C 0x0203630C arm
+ *   KEY_GetCont 0x0203630C arm
  *   func_020056A0 0x020056A0 thumb
  *   func_021F3A4C 0x021F3A4C thumb ov112
  *   func_021F3A54 0x021F3A54 thumb ov112
@@ -47,7 +47,7 @@ extern void *func_02030734(u32,u32,int,const char *,u16);
 struct RtcDate;
 extern void func_0203F4E4(struct RtcDate *date);
 extern u16 STRBUF_GetEosChar(void);
-extern u32 func_0203630C(void);
+extern u32 KEY_GetCont(void);
 extern void *func_020056A0(u32,u32,u32);
 extern void func_021F3A4C(void);
 extern void func_021F3A54(u8 *);
@@ -99,7 +99,7 @@ int func_021F36C0(void *owner,int unused,const Save *save)
    ((struct Obj00587 *)q)->f44=11;((struct Obj00587 *)q)->f46=0;q[72]=1;
    ((struct Obj00587 *)q)->f4C=11;((struct Obj00587 *)q)->f4E=0;q[80]=0;
   }
-  if(func_0203630C()&256)p->save->a=1;else p->save->a=0;
+  if(KEY_GetCont()&256)p->save->a=1;else p->save->a=0;
   p->save->c=0;
  }else p->save=(Save *)save;
  if(p->save->b==1)func_02034AC4((u32)ov132_id);

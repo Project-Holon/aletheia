@@ -19,6 +19,10 @@
  *   func_021F7B9C  0x021F7B9C  thumb
  *   func_021F8098  0x021F8098  thumb
  *   BMP_Clear  0x02043B5C  arm  arm9
+ *   POKE_PERSONAL_Create  0x0201ADE4  thumb  arm9
+ *   POKE_PERSONAL_Delete  0x0201AE14  thumb  arm9
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb  arm9
+ *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  */
 
 typedef signed char s8;
@@ -65,13 +69,13 @@ extern void func_021FF570(u32 v);
 struct CharBuf;
 struct Descriptor;
 extern void func_021F89A8(u8 *p, int i, u16 a, u16 b);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_021F7F9C(void *win, void *bank, u32 index, u32 y, u32 x, u16 color, void *g);
-extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
+extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
 struct Personal;
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *p);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *p);
 extern int func_021F7B9C(u8 *p, int event);
 extern void func_021F8098(void *win, void *bank, int mode, int force, u32 x, int y, u16 color, void *g);
 
@@ -93,15 +97,15 @@ int func_021FEC00(Work *p)
         func_021FF570(0);
         p->sel = r;
         p->state = 0;
-        BMP_Clear(func_02045770(p->winA), 0);
+        BMP_Clear(BMP_WIN_GetBmp(p->winA), 0);
         func_021F7F9C(p->winA, p->bankB, r, 0, 0, 0x3C40, p->g);
-        h = (u32)func_0201ADE4((u16)r, 0, 0x48);
-        v = func_0201AE1C((const struct Personal *)h, 0x14);
-        func_0201AE14((void *)h);
+        h = (u32)POKE_PERSONAL_Create((u16)r, 0, 0x48);
+        v = POKE_PERSONAL_GetParam((const struct Personal *)h, 0x14);
+        POKE_PERSONAL_Delete((void *)h);
         p->target->x20 = v;
         func_021F89A8(p->area, p->target->x6 + p->target->x4, p->target->xA, p->target->x8);
         if (func_021F7B9C((u8 *)(&p->sel), p->target->x20) != 0) {
-            BMP_Clear(func_02045770(p->winB), 0);
+            BMP_Clear(BMP_WIN_GetBmp(p->winB), 0);
             func_021F8098(p->winB, p->bankA, p->mode, 1, 0, 0, 0x3C40, p->g);
         }
         break;

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   BTL_POKEPARAM_ResetMoveHistory  0x021D5364  thumb  ov093
  *   BTL_POKEPARAM_ClearSubstitute  0x021D6D70  thumb  ov093
  *   BTL_POKEPARAM_ClearSickConts  0x021D63B8  thumb  ov093
@@ -26,7 +26,7 @@ typedef struct {
     u8 f1b_lo : 5;
     u8 f1b_b5 : 1;
 } Obj;
-extern void func_02082BCC(void *dst, u8 v, u32 n);
+extern void MI_CpuFill8(void *dst, u8 v, u32 n);
 struct S;
 struct UtilWork;
 extern void BTL_POKEPARAM_ResetMoveHistory(struct UtilWork *p);
@@ -38,8 +38,8 @@ extern void BTL_POKEPARAM_InitStatStages(unsigned char *p);
 void BTL_POKEPARAM_ReloadAndResetEffects(Obj *p)
 {
     BTL_POKEPARAM_ReloadFromMon((struct S *)p, p->w, 0, 1);
-    func_02082BCC((u8 *)p + 0x155, 0, 2);
-    func_02082BCC((u8 *)p + 0x153, 0, 2);
+    MI_CpuFill8((u8 *)p + 0x155, 0, 2);
+    MI_CpuFill8((u8 *)p + 0x153, 0, 2);
     BTL_POKEPARAM_ClearSubstitute((unsigned char *)p);
     BTL_POKEPARAM_ResetMoveHistory((struct UtilWork *)p);
     BTL_POKEPARAM_ClearSickConts((u8 *)p, 0);

@@ -10,7 +10,7 @@
  * status: EXACT
  * extent: includes the 8-byte setter follower at 021B8794.
  * symbols:
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020413B0 0x020413B0 arm
  *   func_020409B4 0x020409B4 arm
  */
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020413B0(u32, u8, u8, u8, u8, u8);
 extern void func_020409B4(u32);
 void func_021B8724(u8 *p)
@@ -33,7 +33,7 @@ void func_021B8724(u8 *p)
     ((struct Obj07978 *)p)->f34 = 0;
     ((struct Obj07978 *)p)->f32 = 0;
     for (i = 0; i < ((struct Obj07978 *)p)->f2C; i++) {
-        win = func_02045730((struct Descriptor *)(*(int *)(p + i * 4 + 4)));
+        win = BMP_WIN_GetBgLayer((struct Descriptor *)(*(int *)(p + i * 4 + 4)));
         row = (u16 *)(*(u8 * *)&((struct Obj07978 *)p)->f28 + i * 12);
         a = row[1];
         b = row[2];

@@ -21,7 +21,7 @@
  *   FIELD_CAMERA_RestartDelay  0x0218F05C  thumb  ov021
  *   G3D_CAMERA_Delete  0x02048AC4  arm
  *   ICA_ANIME_Delete  0x02011558  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 #include "../include/Obj01680.h"
 
@@ -41,7 +41,7 @@ extern void FIELD_CAMERA_SetSetting(u32 *p, u32 v);
 extern void FIELD_CAMERA_RestartDelay(u8 *a);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void ICA_ANIME_Delete(struct IcaAnime *p);
-extern void func_02082BCC(void *, unsigned, unsigned);
+extern void MI_CpuFill8(void *, unsigned, unsigned);
 
 void FIELD_FK_DEMO_ExitCamera(u8 *p)
 {
@@ -55,5 +55,5 @@ void FIELD_FK_DEMO_ExitCamera(u8 *p)
     FIELD_CAMERA_RestartDelay(*(u8 * *)&((struct Obj01680 *)p)->f8);
     G3D_CAMERA_Delete((void *)(((struct Obj01680 *)p)->f4));
     ICA_ANIME_Delete((struct IcaAnime *)(((struct Obj01680 *)p)->f0));
-    func_02082BCC(p, 0, 0x30);
+    MI_CpuFill8(p, 0, 0x30);
 }

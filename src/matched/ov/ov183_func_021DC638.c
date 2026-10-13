@@ -16,7 +16,7 @@
  *   func_021DCE48 0x021DCE48 thumb ov183
  *   func_021DD054 0x021DD054 thumb ov183
  *   func_021DD128 0x021DD128 thumb ov183
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021DD2FC 0x021DD2FC thumb ov183
  *   func_021DD33C 0x021DD33C thumb ov183
  *   func_021DD1D4 0x021DD1D4 thumb ov183
@@ -56,7 +56,7 @@ extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *);
 extern void func_021DCE28(char *,char *),func_021DCE48(char *,char *),func_021DD054(char *,char *),func_021DD128(char *,char *),func_021DD1D4(char *,char *);
 extern void func_021DD0AC(char *,char *),func_021DD0F4(char *,char *);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int func_021DD2FC(char *,int,int),func_021DD33C(char *,int,int);
 extern void func_021FD170(char *p, char *q, void *text);
 extern int GAME_DATA_SaveStart(int),GAME_DATA_SaveMain(u8 *);
@@ -80,7 +80,7 @@ void func_021DC638(int *a,int *state,char *p)
     case 4: if(func_021FE7B0(*(int * *)&((struct Obj24558 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC)) ++*state;break;
     case 5: ++*state;break;
     case 6:
-        if(func_02035D20(&x,&y)) {
+        if(TOUCHPANEL_GetPointTrg(&x,&y)) {
             if(func_021DD2FC(p,x,y)) *state=7;
             else if(func_021DD33C(p,x,y)) *state=10;
         }

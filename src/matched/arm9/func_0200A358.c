@@ -20,7 +20,7 @@
  *   SAVE_CONTROL_HasFlashSave   0x020071EC  thumb
  *   MYSTERY_DATA_Encrypt   0x0200A480  thumb
  *   func_02034AC4  0x02034AC4  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021DFC20  0x021DFC20  thumb  ov228
  *   func_021DFE90  0x021DFE90  thumb  ov228
  *   func_021DFEAC  0x021DFEAC  thumb  ov228
@@ -62,7 +62,7 @@ extern u8    SAVE_CONTROL_HasFlashSave(const struct Sub020071E4Ctrl *ctrl);
 struct Obj;
 extern void  MYSTERY_DATA_Encrypt(struct Obj *p);
 extern int func_02034AC4(int id);
-extern void  func_02082BCC(void *dst, int val, unsigned n);
+extern void  MI_CpuFill8(void *dst, int val, unsigned n);
 extern void *func_021DFC20(u32 heap);
 extern u8 func_021DFE90(u8 *p);
 extern void *func_021DFEAC(u8 *p);
@@ -73,7 +73,7 @@ void MYSTERY_DATA_Load(u8 *p, void *ctrl, int a2, int a3)
     int t;
     void *w;
 
-    func_02082BCC(p, 0, 0xc);
+    MI_CpuFill8(p, 0, 0xc);
     switch (a2) {
     case 0:
         t = 1;
@@ -96,7 +96,7 @@ void MYSTERY_DATA_Load(u8 *p, void *ctrl, int a2, int a3)
     ((struct Obj04037 *)p)->f0 = (u32)func_021DFEAC(w);
     ((struct Obj04037 *)p)->f4 = 0;
     if (func_021DFE90((void *)((struct Obj04037 *)p)->f8) == 0) {
-        func_02082BCC((void *)((struct Obj04037 *)p)->f0, 0, 0x368);
+        MI_CpuFill8((void *)((struct Obj04037 *)p)->f0, 0, 0x368);
         MYSTERY_DATA_Encrypt((struct Obj *)p);
     }
 }

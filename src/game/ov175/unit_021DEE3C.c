@@ -47,7 +47,7 @@
  *   func_021DFE08  0x021DFE08  arm
  *   func_021DFE14  0x021DFE14  arm
  *   func_02084F80  0x02084F80  arm
- *   func_02084FA8  0x02084FA8  arm
+ *   OS_VSNPrintf  0x02084FA8  arm
  *   g_021E3F68  0x021E3F68  data
  *   func_021BF8C0  0x021BF8C0  arm  ov114
  *   unit_02092344  0x02092344  arm
@@ -149,7 +149,7 @@ extern s32 func_021DFDFC(s32);
 extern s32 func_021DFE08(s32);
 extern int func_021DFE14(u32 *a0);
 extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
-extern int func_02084FA8(char *s, unsigned int n, const char *format, void *arg);
+extern int OS_VSNPrintf(char *s, unsigned int n, const char *format, void *arg);
 extern int func_021BF8C0(int result);
 extern void *unit_02092344(void *dst, void *src, unsigned long n);
 extern int func_021BF520(int a);
@@ -607,7 +607,7 @@ void func_021DF4A4(int line, char *fmt, ...)
 	va_list args;
 	str_len = func_02084F80(str_buf, 256, g_021E3F68, line);
 	va_start(args, fmt);
-	func_02084FA8(str_buf + str_len, 256 - str_len, fmt, args);
+	OS_VSNPrintf(str_buf + str_len, 256 - str_len, fmt, args);
 }
 
 

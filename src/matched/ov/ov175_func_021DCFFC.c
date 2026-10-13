@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  *   (none)
  *
  * Tail call: clears the second and third arguments to 0 and 0x20 and
@@ -19,10 +20,10 @@
 
 typedef unsigned long u32;
 
-extern void func_02082BCC(void *p, int a, int len);
+extern void MI_CpuFill8(void *p, int a, int len);
 
 void func_021DCFFC(void *p)
 {
-    func_02082BCC(p, 0, 0x20);
+    MI_CpuFill8(p, 0, 0x20);
 }
 

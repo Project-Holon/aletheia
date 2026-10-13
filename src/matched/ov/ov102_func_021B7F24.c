@@ -33,7 +33,7 @@
  * func_021B8320 0x021B8320 thumb ov102
  * func_021B82DC 0x021B82DC thumb ov102
  * func_021B83E0 0x021B83E0 thumb ov102
- * func_020061E4 0x020061E4 thumb
+ * GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  * func_020409B4 0x020409B4 arm
  * GAMESYSTEM_GetGameData 0x020120F4 thumb
  * GAME_DATA_GetSaveControl 0x02012EBC thumb
@@ -78,7 +78,7 @@ extern void func_021B8724(u8 *);
 extern void func_021B8320(u8 *,u16 *);
 extern void func_021B82DC(u8 *,u16 *);
 extern void func_021B83E0(u8 *p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_020409B4(u32);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
@@ -101,7 +101,7 @@ void func_021B7F24(u8 *p,u16 *state)
     switch(*state) {
     case 0: func_021B63BC(C); *state=1; break;
     case 1:
-        if(func_021B6150(C)) { func_020061E4(1620); func_021B72A0((int)((void *)W(0x468)),1); *state=2; }
+        if(func_021B6150(C)) { GFL_USE_PlaySeDefaultVolume(1620); func_021B72A0((int)((void *)W(0x468)),1); *state=2; }
         break;
     case 2: if(func_021B6254(C)) *state=3; break;
     case 3: func_021B7DFC(p+0xac,p+0x9c,4,0,0); *state=4; break;
@@ -127,7 +127,7 @@ void func_021B7F24(u8 *p,u16 *state)
     case 12: func_021B63CC(C,1); if(func_021B6424((int)C)) *state=13; break;
     case 13: if(func_021B630C(C,1)) { func_021B72A0((int)((void *)W(0x468)),0); *state=14; } break;
     case 14:
-        if(H(0x486)>=60) { func_020061E4(1611); func_021B7DFC(p+0xac,p+0x9c,2,0,0); *state=15; }
+        if(H(0x486)>=60) { GFL_USE_PlaySeDefaultVolume(1611); func_021B7DFC(p+0xac,p+0x9c,2,0,0); *state=15; }
         break;
     case 15:
         if(W(0x49c)++>=30) { *(u32 *)(O+12)=0; func_021B7F08((unsigned int)p,(unsigned int)func_021B82DC); }

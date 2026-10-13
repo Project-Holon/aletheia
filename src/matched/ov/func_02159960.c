@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 
 int SCRIPT_WORK_WaitKeyDecide(int a0, int a1)
 {
 
-    a0 = func_020362DC();
+    a0 = KEY_GetTrg();
 loc_02159966:
 a1 = 3;
     if ((a0 & a1) == 0) goto loc_02159970;

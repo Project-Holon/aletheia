@@ -14,7 +14,7 @@
  * nothing, so `disasm.py` never labels it.  Byte coverage ends at +0x76.
  *
  * symbols:
- *   func_02082BCC 0x02082BCC  arm
+ *   MI_CpuFill8 0x02082BCC  arm
  *
  * Counted eight-entry bank: pop the next live 12-byte record at
  * base + base[0x48] * 12, publish it as the caller's 0x10-byte snapshot,
@@ -32,7 +32,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02082BCC(void *dst, int val, int size);
+extern void MI_CpuFill8(void *dst, int val, int size);
 
 typedef struct {
     u16 h0;      /* +0x00 */
@@ -52,7 +52,7 @@ int GAME_COMM_PopInfoMessage(u8 *p, u8 *out)
     if (r->live == 0) {
         return 0;
     }
-    func_02082BCC(out, 0, 0x10);
+    MI_CpuFill8(out, 0, 0x10);
     ((struct Obj04054 *)out)->f0 = r->w4;
     out[8] = 0;
     out[0xa] = r->f1;

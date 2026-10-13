@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetWaveIncenseHandlers
+ * function: HAND_ITEM_GetWaveIncenseHandlers
  * address: 0x021DF90C
  * packet: pkt_ov093_021DF90C
  * region: ov093
@@ -15,10 +15,10 @@
  *   gWaveIncenseHandlers 0x021F14DC data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetWaveIncenseHandlers(int *p);
+int *HAND_ITEM_GetWaveIncenseHandlers(int *p);
 extern int gWaveIncenseHandlers[];
 
-int *BTL_HANDLER_ITEM_GetWaveIncenseHandlers(int *p)
+int *HAND_ITEM_GetWaveIncenseHandlers(int *p)
 {
     *p = 1;
     return gWaveIncenseHandlers;

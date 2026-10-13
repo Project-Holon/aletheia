@@ -12,7 +12,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   KEY_GetRepeatSpeed  0x02036370  arm
  *   func_02045B38  0x02045B38  arm
  *   STRBUF_Create  0x020457B0  arm
@@ -26,7 +26,7 @@
  *   func_02007FA0  0x02007FA0  thumb
  *   func_02008288  0x02008288  thumb
  *   func_0201EC64  0x0201EC64  thumb
- *   func_0201C450  0x0201C450  thumb
+ *   PRINTSYS_QUE_CreateEx  0x0201C450  thumb
  *   func_02028590  0x02028590  thumb
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_020056A0  0x020056A0  thumb
@@ -84,9 +84,9 @@ typedef struct Work {
     u8 pad85C[0x86C - 0x85C];
     int f86C, f870;
 } Work;
-extern void GFL_HEAP_CreateChildHeap(); extern void *PROCSYS_AllocProcWork(); extern void func_02082BCC(); extern void KEY_GetRepeatSpeed();
+extern void GFL_HEAP_CreateChildHeap(); extern void *PROCSYS_AllocProcWork(); extern void MI_CpuFill8(); extern void KEY_GetRepeatSpeed();
 extern void func_0200816C(); extern int func_02008284(struct MyItemSave *p); extern void func_02008270(struct MyItemSave *p, int i, s16 *a, s16 *b); extern int func_02007FA0(); extern void func_02008288(struct MyItemSave *p, int i, s16 a, s16 b);
-extern int func_02045B38(); extern int STRBUF_Create(); extern int func_0201EC64(); extern int func_0201C450();
+extern int func_02045B38(); extern int STRBUF_Create(); extern int func_0201EC64(); extern int PRINTSYS_QUE_CreateEx();
 extern int func_02028590(); extern int GF_FONT_Create(); extern int BUTTON_MAN_Create(); extern int func_020056A0(); extern int TCBL_Create();
 extern int APP_TASKMENU_RES_Create(); extern void GFL_NET_RestartWithDefaultTimeout(); extern int func_020355C4();
 extern void ITEMMENU_SetupGraphics(), ITEMMENU_InitWindows(), ITEMMENU_LoadPocketGraphics(), ITEMMENU_CreateTabActors(), func_021B6120(), ITEMMENU_CreateCursorActors(), ITEMMENU_CreateBlinkPalAnm(), ITEMMENU_AllocPalAnmSlots(), ITEMMENU_PrintPocketName(), ITEMMENU_SetCursorActive(), ITEMMENU_ResetDisplayLayers(), func_021B6100();
@@ -96,7 +96,7 @@ int ITEMMENU_Init(void *proc, int st, Args *a)
     Work *o; u16 i; s16 scr, cur;
     GFL_HEAP_CreateChildHeap(1, 0xe, 0x34000);
     o = PROCSYS_AllocProcWork(proc, 0x874, 0xe);
-    func_02082BCC(o, 0, 0x874);
+    MI_CpuFill8(o, 0, 0x874);
     KEY_GetRepeatSpeed(&o->f86C, &o->f870);
     o->f544 = 0xe;
     o->f858 = 1;
@@ -124,7 +124,7 @@ int ITEMMENU_Init(void *proc, int st, Args *a)
     o->f528 = STRBUF_Create(0xc8, o->f544);
     o->f52C = STRBUF_Create(0x40, o->f544);
     o->f520 = func_0201EC64(o->f544);
-    o->f50C = func_0201C450(0x40 << 6, o->f544);
+    o->f50C = PRINTSYS_QUE_CreateEx(0x40 << 6, o->f544);
     o->f518 = func_02028590(0xf, 1, 1, o->f544);
     o->f530 = GF_FONT_Create(0x17, 0, 0, 0, o->f544);
     ITEMMENU_SetupGraphics(o); ITEMMENU_InitWindows(o); ITEMMENU_LoadPocketGraphics(o); ITEMMENU_CreateTabActors(o); func_021B6120(o); ITEMMENU_CreateCursorActors(o);

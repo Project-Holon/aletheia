@@ -48,7 +48,7 @@
  *   func_021BF9FC 0x021BF9FC thumb ov217
  *   func_021BF9F0 0x021BF9F0 thumb ov217
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   d_021C37A4  0x021C37A4  data  a4
  *   BMP_Create  0x02043678  arm
@@ -143,7 +143,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern u32 func_021BF9FC(void *,u32);
 extern u32 func_021BF9F0(void *,u32);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B3DC(struct Obj *,u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct Bmp *BMP_CreateFromArchive(u32,u32,u32,u32);
@@ -567,7 +567,7 @@ void func_021C0408(u8 *p)
         d=func_021BF9F0(p,q->f);
         dest=p+i*4;
         *(u32 *)&((struct Obj14752 *)dest)->f394=(u32)CLACT_CreateActor((void *)a,b,c,d,&arg,q->g,((struct Obj25962 *)p)->f4);
-        func_0204B3DC(*(struct Obj * *)&((struct Obj14752 *)dest)->f394,0);
+        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj14752 *)dest)->f394,0);
     }
 }
 

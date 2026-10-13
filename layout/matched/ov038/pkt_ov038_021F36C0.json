@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "DAILY_LAYOUT_Generate",
+   "name": "GIMMICK38_Init",
    "address": "0x021F36C0",
    "kind": "game",
    "region": "ov038",

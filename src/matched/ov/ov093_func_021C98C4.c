@@ -1,5 +1,5 @@
 /*
- * function: func_021C98C4
+ * function: BTL_SERVER_FLOW_ExecCmdExpireFieldEffect
  * address: 0x021C98C4
  * packet: pkt_ov093_021C98C4
  * region: ov093
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern int BTL_FIELD_QueryStaticSlotA(int);
 extern void BTL_SERVER_FLOW_PushFieldEffectExpireMessage(u8 *, int);
-int func_021C98C4(u8 *p, u8 *q)
+int BTL_SERVER_FLOW_ExecCmdExpireFieldEffect(u8 *p, u8 *q)
 {
     if (BTL_FIELD_QueryStaticSlotA(*(int *)(q + 4))) {
         BTL_SERVER_FLOW_PushFieldEffectExpireMessage(p, *(int *)(q + 4));

@@ -19,7 +19,7 @@
  *
  * note: 2026-10-05 (wD4 lane20): constant-in-a-local lever applied: int off = 0x588; p+off, p+off+4, p+off+0xC, p+off+0x14. Instruction forms now match the image (adds r1,r6,#4 style and the in-place add of 0x14) and the byte count is unchanged; only the heap/off colour swap remains (heap r6, off r4; image heap r4, off r6). Tried off declared first, assigned late, u32 off: no change.
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021B9DC0  0x021B9DC0  thumb  ov099
  *   func_021B9E04  0x021B9E04  thumb  ov099
  *   func_021BA810  0x021BA810  thumb  ov099
@@ -38,7 +38,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u16 w, h; } WH;
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void func_021B9DC0(void *a, u32 b, u32 c);
 extern void func_021B9E04(void *a, int heap);
 extern WH func_021BA810(int i);
@@ -57,7 +57,7 @@ void func_021B95A0(char *p, int heap, u32 x2, u32 x3, u32 a4, u32 a5, u32 a6, u3
 {
     WH t;
     u32 n = 0;
-    func_02082BCC(p, 0, 0x5A0);
+    MI_CpuFill8(p, 0, 0x5A0);
     if (a4 != 0) n = (a4 - 1) >> 3;
     *(u32 *)(p + 0x14) = a6;
     *(u32 *)(p + 4) = heap;

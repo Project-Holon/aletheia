@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
@@ -24,7 +24,7 @@
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_IsStepToOwnArea  0x021584A4  thumb
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
@@ -83,7 +83,7 @@ typedef struct {
     u16 h2;
 } Tmp;
 
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 struct BigObj;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
@@ -99,7 +99,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
 struct Rec;
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern int INTRUDE_COMM_IsStepToOwnArea();
 extern int FLDMMDL_CheckPossibleAcmd(int a0);
@@ -132,7 +132,7 @@ int INTRUDE_FIELD_TaskAreaChange(int a0, int *state, Obj *o)
     void *b;
     Tmp tmp;
 
-    w = func_020124E4((struct Obj *)a0);
+    w = GAME_EVENT_GetGameSystem((struct Obj *)a0);
     h = GAMESYSTEM_GetGameComm(w);
     ctx = GAMESYSTEM_GetGameData(w);
     p = (Peer *)INTRUDE_COMM_GetWorkIfRunning(h);
@@ -199,7 +199,7 @@ int INTRUDE_FIELD_TaskAreaChange(int a0, int *state, Obj *o)
         }
         break;
     case 5:
-        if (func_020362DC() & 0xF3)
+        if (KEY_GetTrg() & 0xF3)
             *state += 1;
         break;
     case 6:

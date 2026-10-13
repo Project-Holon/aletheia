@@ -61,11 +61,11 @@
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B688 0x0204B688 arm
- *   func_0201BB5C 0x0201BB5C thumb
- *   func_0204B6F4 0x0204B6F4 arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
+ *   POKE_TOOL_CalcIconPalette 0x0201BB5C thumb
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   d_021E32F0 0x021E32F0 data a2
  */
@@ -84,12 +84,12 @@ extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern int func_021DD228(void *);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
-extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32),POKE_TOOL_CalcIconPalette(u32,u32,u32,u32);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
-extern void func_0204B688(struct Actor *actor, u32 value);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern const Pair d_021E32F0[];
 void func_021DCBD8(char *p,void *manager,void *party,u16 heap)
@@ -139,11 +139,11 @@ void func_021DCBD8(char *p,void *manager,void *party,u16 heap)
         if(v2) {
             h2=half[j];f2=forms[j];
             *(u32 *)(slot+0x50)=CLACT_RegisterCharacter(archive,POKE_TOOL_CalcGraphicIndex(v2,f2,h2,0),0,0,heap);
-            func_02082BCC(&pos,0,8);
+            MI_CpuFill8(&pos,0,8);
             pos.x=coords[j].x+8;pos.y=coords[j].y-12;pos.z=1;pos.a=12-count;
             *(void **)(p+count*4+0x80)=CLACT_CreateActor(manager,(u32)(*(void **)(slot+0x50)),(u32)(*(void **)(p+0x48)),(u32)(*(void **)(p+0x4c)),&pos,0,heap);
-            func_0204B688(*(void **)(count*4+p+0x80),1);
-            func_0204B6F4(*(void **)(p+count*4+0x80),func_0201BB5C(v2,f2,h2,0),0);
+            CLACT_SetActorObjMode(*(void **)(count*4+p+0x80),1);
+            CLACT_SetActorPaletteOffset(*(void **)(p+count*4+0x80),POKE_TOOL_CalcIconPalette(v2,f2,h2,0),0);
             count++;
         }
     }

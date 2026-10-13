@@ -15,7 +15,7 @@
  *   func_020275E4 0x020275E4 thumb
  *   func_020490F4 0x020490F4 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   d_021B85E0 0x021B85E0 data a4
  */
 #include "../include/Obj00180.h"
@@ -32,7 +32,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 void func_021B7A00(char *p,void *arg)
 {
     u32 i;
@@ -47,10 +47,10 @@ void func_021B7A00(char *p,void *arg)
         pos.a=d_021B85E0[i].a;
         pos.b=d_021B85E0[i].h;
         *(void **)(p+i*4+0x104)=CLACT_CreateActor((void *)((struct Obj00180 *)p)->f100,*(u32 *)(p+d_021B85E0[i].d*4+0x70),*(u32 *)(p+d_021B85E0[i].e*4+0x94),*(u32 *)(p+d_021B85E0[i].f*4+0xb8),&pos,d_021B85E0[i].c,79);
-        func_0204B92C(*(void **)(p+i*4+0x104),0);
+        CLACT_SetActorAutoAnim(*(void **)(p+i*4+0x104),0);
     }
-    func_0204B92C(((struct Obj00180 *)p)->f138,1);
-    func_0204B92C(((struct Obj00180 *)p)->f10C,1);
-    func_0204B92C(((struct Obj00180 *)p)->f108,1);
-    func_0204B92C(((struct Obj00180 *)p)->f104,1);
+    CLACT_SetActorAutoAnim(((struct Obj00180 *)p)->f138,1);
+    CLACT_SetActorAutoAnim(((struct Obj00180 *)p)->f10C,1);
+    CLACT_SetActorAutoAnim(((struct Obj00180 *)p)->f108,1);
+    CLACT_SetActorAutoAnim(((struct Obj00180 *)p)->f104,1);
 }

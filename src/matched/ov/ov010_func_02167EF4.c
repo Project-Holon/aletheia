@@ -21,8 +21,8 @@
  *   POKE_REGULATION_LoadInto 0x0201A364 thumb
  *   func_020120F4 0x020120F4 thumb
  *   func_0200CA1C 0x0200CA1C thumb
- *   func_02082BCC 0x02082BCC arm
- *   func_0201AA18 0x0201AA18 thumb
+ *   MI_CpuFill8 0x02082BCC arm
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   func_0200CA38 0x0200CA38 thumb
  *   FLD_BTL_INST_TOOL_PokeListEventMain 0x02167FB4 thumb
  */
@@ -74,8 +74,8 @@ extern void *func_020124E8(struct Obj *p);
 extern void POKE_REGULATION_LoadInto(int a, unsigned int b);
 extern void *func_020120F4(const struct Ctx *p);
 extern int func_0200CA1C(void);
-extern void func_02082BCC(void *, int, int);
-extern u32 func_0201AA18(void *p);
+extern void MI_CpuFill8(void *, int, int);
+extern u32 POKEPARTY_GetCount(void *p);
 extern u32 func_0200CA38(struct Blk37 *p);
 struct SeqWork;
 extern int FLD_BTL_INST_TOOL_PokeListEventMain(void *evt, u32 *seq, struct SeqWork *w);
@@ -115,10 +115,10 @@ int FLD_BTL_INST_TOOL_CreatePokeListEvent(int a, int b, int c, int d, int e, int
   t = (T *) (((u8 *) p) + 8);
   r7 = (int)func_020120F4((const struct Ctx *)a);
   s = func_0200CA1C();
-  func_02082BCC(t, 0, 0x28);
+  MI_CpuFill8(t, 0, 0x28);
   p->f8 = e;
   t->fc = 1;
-  tmp = func_0201AA18((void *)e);
+  tmp = POKEPARTY_GetCount((void *)e);
   t->fe = tmp;
   t->fd = 0;
   t->f10 = 0;

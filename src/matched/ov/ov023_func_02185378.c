@@ -14,7 +14,7 @@
  *   OEKAKI_PrintMessage  0x021861C4  thumb  ov023
  *   OEKAKI_SetNextScene  0x02186444  thumb  ov023
  *   OEKAKI_CloseMenuIfOpen  0x02186480  thumb  ov023
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_0207D658  0x0207D658  arm
  *   OEKAKI_ApplyRemoteStrokes  0x02185354  thumb  ov023
  */
@@ -27,7 +27,7 @@ typedef unsigned char  u8;
 extern void OEKAKI_PrintMessage(u8 *w, u32 msg, int mode);
 extern void OEKAKI_SetNextScene(char *p, u32 v);
 extern void OEKAKI_CloseMenuIfOpen(char *p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void OEKAKI_ApplyRemoteStrokes(char *p);
 
@@ -39,7 +39,7 @@ int OEKAKI_StepStart(char *p, int x)
         OEKAKI_PrintMessage((u8 *)p, 0, 0);
     OEKAKI_SetNextScene(p, 2);
     OEKAKI_CloseMenuIfOpen(p);
-    func_020061E4(0x54c);
+    GFL_USE_PlaySeDefaultVolume(0x54c);
     func_0207D658(0x04000050, 14, -6);
     OEKAKI_ApplyRemoteStrokes(p);
     return x;

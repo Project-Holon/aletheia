@@ -9,33 +9,33 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0201CE30  0x0201CE30  thumb
- *   func_020362DC  0x020362DC  arm
- *   func_0201CE38  0x0201CE38  thumb
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb
+ *   KEY_GetTrg  0x020362DC  arm
+ *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  */
 #include "../include/Obj00525.h"
 
 typedef unsigned int u32;
 
 struct Rec3;
-extern u32 func_0201CE30(void *p);
-extern u32 func_020362DC(void);
-extern void func_0201CE38(void *h);
-extern void func_0201CE48(struct Rec3 *p);
+extern u32 PRINTSYS_PrintStreamGetState(void *p);
+extern u32 KEY_GetTrg(void);
+extern void PRINTSYS_PrintStreamReleasePause(void *h);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 
 int OEKAKI_IsMessageDone(char *p)
 {
-    int r = func_0201CE30(((struct Obj00525 *)p)->f16C);
+    int r = PRINTSYS_PrintStreamGetState(((struct Obj00525 *)p)->f16C);
 
     if (r == 1) {
-        if (func_020362DC() & 1) {
-            func_0201CE38(((struct Obj00525 *)p)->f16C);
+        if (KEY_GetTrg() & 1) {
+            PRINTSYS_PrintStreamReleasePause(((struct Obj00525 *)p)->f16C);
         }
         return 0;
     }
     if (r == 2) {
-        func_0201CE48(((struct Obj00525 *)p)->f16C);
+        PRINTSYS_PrintStreamDelete(((struct Obj00525 *)p)->f16C);
         ((struct Obj00525 *)p)->f16C = 0;
         return 1;
     }

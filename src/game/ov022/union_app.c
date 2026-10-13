@@ -15,7 +15,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02087C6C  0x02087C6C  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
@@ -54,7 +54,7 @@ struct Sub0200852CObj;
 
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, unsigned short line);
 extern u32 GFL_NET_IsParentAid(void);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void func_02087C6C(void *p);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
@@ -124,7 +124,7 @@ UnionAppWork *UNION_APP_Create(UnionRoomWork *work, int heapId, int maxMembers, 
     app->maxMembers = maxMembers;
     app->quitRequester = UNION_APP_NO_MEMBER;
     app->quitAcceptTarget = UNION_APP_NO_MEMBER;
-    func_02082BCC(&entry, 0, sizeof(UnionAppEntry));
+    MI_CpuFill8(&entry, 0, sizeof(UnionAppEntry));
     entry.status = *myStatus;
     func_02087C6C(entry.mac);
     UNION_APP_SetMemberEntry(app, work, GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())), &entry);

@@ -1,7 +1,7 @@
 /*
  * file:     tcbl.c
  * unit:     yes
- * function: func_020306F0, func_02030734, func_020307B0, func_020307C8, func_020307E0, func_02030830, func_0203084C, func_02030880, func_020308B8, func_02030958, func_02030984, func_020309B8, func_02030A00, func_02030A2C, func_02030A5C, func_02030A7C, func_02030B50, func_02030BA4, func_02030BBC, func_02030BC8, sub_02030BD4, func_02030C44, func_02030C68, func_02030CB0, func_02030CBC, sub_02030CF4, func_02030D28, func_02030DA4, func_02030DA8, func_02030DC8, func_02030EAC, TCBL_IsDeletePending, TCBL_GetTaskSlot, TCBL_PopFreeTask, TCBL_PushFreeTask, TCBL_InitTaskLinks, TCBL_FreeTask, TCBL_GetTaskWork, TCBL_BuildFreeList, TCBL_Create, TCBL_Main, TCBL_Destroy, TCBL_DeleteAllTasks, TCBL_DeleteTask, func_020311B8, TCBL_SetTaskFunc, TCBL_GetWork
+ * function: func_020306F0, func_02030734, func_020307B0, func_020307C8, func_020307E0, func_02030830, func_0203084C, func_02030880, func_020308B8, func_02030958, func_02030984, func_020309B8, func_02030A00, func_02030A2C, func_02030A5C, func_02030A7C, func_02030B50, func_02030BA4, func_02030BBC, func_02030BC8, sub_02030BD4, func_02030C44, func_02030C68, func_02030CB0, func_02030CBC, sub_02030CF4, func_02030D28, func_02030DA4, func_02030DA8, func_02030DC8, func_02030EAC, TCBL_IsDeletePending, TCBL_GetTaskSlot, TCBL_PopFreeTask, TCBL_PushFreeTask, TCBL_InitTaskLinks, TCBL_FreeTask, TCBL_GetTaskWork, TCBL_BuildFreeList, TCBL_Create, TCBL_Main, TCBL_Destroy, TCBL_DeleteAllTasks, TCBL_DeleteTask, TCBL_AddTask, TCBL_SetTaskFunc, TCBL_GetWork
  * address:  0x020306F0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -193,7 +193,7 @@ void TCBL_Main(struct TcblSystem *tcbl);
 void TCBL_Destroy(struct TcblSystem *tcbl);
 void TCBL_DeleteAllTasks(struct TcblSystem *tcbl);
 void TCBL_DeleteTask(struct TcblTask *task);
-struct TcblTask *sub_020311B8(struct TcblSystem *tcbl, TcblFunc func, u32 workSize, u32 priority);
+struct TcblTask *TCBL_AddTask(struct TcblSystem *tcbl, TcblFunc func, u32 workSize, u32 priority);
 void TCBL_SetTaskFunc(struct TcblTask *task, TcblFunc func);
 void *TCBL_GetWork(struct TcblTask *task);
 extern s32 gWatchedHeapId;
@@ -1925,10 +1925,10 @@ void TCBL_DeleteTask(struct TcblTask *task)
  * at 0x02031288.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020311B8.c \
- *       --func sub_020311B8 --addr 0x020311B8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/TCBL_AddTask.c \
+ *       --func TCBL_AddTask --addr 0x020311B8 --cc 1.1p1 --arm
  */
-struct TcblTask *sub_020311B8(struct TcblSystem *tcbl, TcblFunc func, u32 workSize,
+struct TcblTask *TCBL_AddTask(struct TcblSystem *tcbl, TcblFunc func, u32 workSize,
                               u32 priority)
 {
     struct TcblTask *task;

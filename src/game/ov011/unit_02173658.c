@@ -17,7 +17,7 @@
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
- *   func_02026478 0x02026478 thumb
+ *   GAME_COMM_GetGameData 0x02026478 thumb
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   func_02012B4C 0x02012B4C thumb
  *   GFL_NET_SendData  0x0203D3F8  arm
@@ -32,7 +32,7 @@
  *   GAME_COMM_UpdatePlayerStatus  0x020264B4  thumb
  *   INTRUDE_COMM_StorePlayerRecord  0x02174F54  thumb ov011
  *   INTRUDE_COMM_TryStartRequest 0x021753D0 thumb ov011
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   INTRUDE_COMM_SetRequestResult 0x021754E8 thumb ov011
  *   INTRUDE_COMM_SetRequestResultAccepted  0x02175508  thumb ov011
  */
@@ -59,7 +59,7 @@ int INTRUDE_COMM_HasConnectedPeers(void);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_SendToHandle(GFLNetHandle *handle, u32 command, u32 size, const void *data);
-extern struct GameData *func_02026478(struct GameComm *gameComm);
+extern struct GameData *GAME_COMM_GetGameData(struct GameComm *gameComm);
 extern unsigned int GFL_NET_GetHandleNetID(GFLNetHandle *handle);
 extern void func_02012B4C(struct GameData *gameData, u8 enterMode);
 extern u32 GFL_NET_SendData(GFLNetHandle *handle, u32 sendId, u32 command, u32 size, const void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
@@ -74,7 +74,7 @@ extern void COMM_PLAYER_Del(struct CommPlayerWork *commPlayer, int netId);
 void GAME_COMM_UpdatePlayerStatus(struct GameComm *gameComm, int netId, u16 zoneId, u8 intrudeId, u32 fieldStatus, int quiet);
 void INTRUDE_COMM_StorePlayerRecord(u8 *work, int netId, const IntrudePeer *peer, int arg);
 int INTRUDE_COMM_TryStartRequest(IntrudeCommSys *work, int netId, u8 seq);
-void func_02082BCC(void *dst, int value, int size);
+void MI_CpuFill8(void *dst, int value, int size);
 void INTRUDE_COMM_SetRequestResult(IntrudeCommSys *work, int netId, int answer, int seq);
 void INTRUDE_COMM_SetRequestResultAccepted(IntrudeCommSys *work, int netId, int value);
 void INTRUDE_COMM_AgeFoundList(IntrudeCommSys *work);
@@ -190,7 +190,7 @@ void INTRUDE_COMM_RecvMemberCount(unsigned int netId, int size, u8 *data, Intrud
 {
     struct GameData *gameData;
     unsigned int count;
-    gameData = func_02026478(work->gameComm);
+    gameData = GAME_COMM_GetGameData(work->gameComm);
     if (netId != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
         count = *data;
         work->memberCount = count;
@@ -237,7 +237,7 @@ void INTRUDE_COMM_RecvStatusRecord(int netId, int size, IntrudeStatusRecord *rec
 {
     int gameData;
 
-    gameData = (int)func_02026478(work->gameComm);
+    gameData = (int)GAME_COMM_GetGameData(work->gameComm);
     if (netId < work->memberCount) {
         INTRUDE_COMM_ApplyPlayerBeacon((u8 *)work, netId, (u8 *)record);
         if (netId != func_02012B58((const struct GameData *)gameData) && GFL_NET_IsParentAid() == 0 && netId == 0 && record->peer.startFlag == 1)
@@ -378,7 +378,7 @@ int INTRUDE_COMM_SendRequest(IntrudeCommSys *work, int destNetId, IntrudeMemberR
     if (work->nextRequestSeq == 0) {
         work->nextRequestSeq++;
     }
-    func_02082BCC(&message, 0, 0x38);
+    MI_CpuFill8(&message, 0, 0x38);
     message.type = type;
     message.data = *data;
     message.seq = work->nextRequestSeq;
@@ -473,7 +473,7 @@ int INTRUDE_COMM_SendNoticeBytes(int destNetId, int value)
     if (INTRUDE_COMM_IsLinked() == 0) {
         return 0;
     }
-    func_02082BCC(message, 0, 4);
+    MI_CpuFill8(message, 0, 4);
     message[0] = 1;
     message[1] = value;
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), (unsigned char)destNetId, 0x20B, 4, message, 0, 0, 0);

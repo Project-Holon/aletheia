@@ -12,7 +12,7 @@
  * symbols:
  *   func_022019F4  0x022019F4  thumb  ov094
  *   func_021F8754  0x021F8754  thumb  ov094
- *   func_021B994C  0x021B994C  thumb
+ *   BTL_MAIN_GetVoiceOfSlot  0x021B994C  thumb
  *   PM_VOICE_Play  0x02006984  thumb
  *   PM_VOICE_AddVolume  0x02006A8C  thumb
  *   PM_VOICE_AddFrequency  0x02006AEC  thumb
@@ -54,7 +54,7 @@ extern u32 d_0220A068[];
 
 extern int func_022019F4(char *p, int key);
 extern int func_021F8754(void);
-extern int func_021B994C(void *p, int key, u32 *out);
+extern int BTL_MAIN_GetVoiceOfSlot(void *p, int key, u32 *out);
 extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern void PM_VOICE_AddVolume(u32 idx, int delta);
 extern void PM_VOICE_AddFrequency(u32 idx, u32 delta);
@@ -101,7 +101,7 @@ u32 func_02200218(Work *w, int key, int pitch, int pan, u32 a4, u32 a5, u32 a6)
     out = &buf;
     flag = 0;
     if (p != 0) {
-        if (func_021B994C(p, key, out) == 0)
+        if (BTL_MAIN_GetVoiceOfSlot(p, key, out) == 0)
             out = 0;
     } else {
         out = 0;

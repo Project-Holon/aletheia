@@ -9,11 +9,11 @@
  * status: EXACT
  * symbols:
  *   BTL_MAIN_IsMultiMode 0x021B86C8 thumb ov093
- *   func_021B8FE4 0x021B8FE4 thumb ov093
- *   func_021B8FF4 0x021B8FF4 thumb ov093
- *   func_021B9000 0x021B9000 thumb ov093
- *   func_021BA020 0x021BA020 thumb ov093
- *   func_021B904C 0x021B904C thumb ov093
+ *   BTL_MAIN_IsOwnClientSecondTeam 0x021B8FE4 thumb ov093
+ *   BTL_MAIN_GetOwnClientId 0x021B8FF4 thumb ov093
+ *   BTL_MAIN_GetOwnPartnerClient 0x021B9000 thumb ov093
+ *   BTL_MAIN_GetTrainerType 0x021BA020 thumb ov093
+ *   BTL_MAIN_GetOwnOpponentClient 0x021B904C thumb ov093
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   BTL_MAIN_GetFieldSituation 0x021B8714 thumb ov093
@@ -24,11 +24,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int w[4]; } Q;
 extern int BTL_MAIN_IsMultiMode(unsigned char **p);
-extern u8 func_021B8FE4(u8 *p);
-extern u8 func_021B8FF4(u8 *);
-extern u8 func_021B9000(u8 *p);
-extern u16 func_021BA020(char *, int);
-extern u8 func_021B904C(u8 *p, int k);
+extern u8 BTL_MAIN_IsOwnClientSecondTeam(u8 *p);
+extern u8 BTL_MAIN_GetOwnClientId(u8 *);
+extern u8 BTL_MAIN_GetOwnPartnerClient(u8 *p);
+extern u16 BTL_MAIN_GetTrainerType(char *, int);
+extern u8 BTL_MAIN_GetOwnOpponentClient(u8 *p, int k);
 extern u32 BTL_MAIN_GetRule(void **p);
 extern void *BTL_MAIN_GetCompetitor(void ***);
 extern char *BTL_MAIN_GetFieldSituation(char **);
@@ -43,16 +43,16 @@ void *func_021F745C(u8 *p, int a, u16 heap)
     Q *q;
     for (i = 0; i < 4; i++) h[i] = 0;
     if (BTL_MAIN_IsMultiMode((unsigned char **)p) == 1) {
-        side = func_021B8FE4(p);
-        idx = func_021B8FF4(p);
-        other = func_021B9000(p);
-        h[side * 2] = func_021BA020((char *)p, idx);
-        if (other != 4) h[(side ^ 1) * 2] = func_021BA020((char *)p, other);
-        h[1] = func_021BA020((char *)p, func_021B904C(p, 0));
-        h[3] = func_021BA020((char *)p, func_021B904C(p, 1));
+        side = BTL_MAIN_IsOwnClientSecondTeam(p);
+        idx = BTL_MAIN_GetOwnClientId(p);
+        other = BTL_MAIN_GetOwnPartnerClient(p);
+        h[side * 2] = BTL_MAIN_GetTrainerType((char *)p, idx);
+        if (other != 4) h[(side ^ 1) * 2] = BTL_MAIN_GetTrainerType((char *)p, other);
+        h[1] = BTL_MAIN_GetTrainerType((char *)p, BTL_MAIN_GetOwnOpponentClient(p, 0));
+        h[3] = BTL_MAIN_GetTrainerType((char *)p, BTL_MAIN_GetOwnOpponentClient(p, 1));
     } else {
-        h[0] = func_021BA020((char *)p, func_021B8FF4(p));
-        h[1] = func_021BA020((char *)p, func_021B904C(p, 0));
+        h[0] = BTL_MAIN_GetTrainerType((char *)p, BTL_MAIN_GetOwnClientId(p));
+        h[1] = BTL_MAIN_GetTrainerType((char *)p, BTL_MAIN_GetOwnOpponentClient(p, 0));
         h[2] = 0;
         h[3] = 0;
     }

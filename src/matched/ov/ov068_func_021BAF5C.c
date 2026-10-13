@@ -18,7 +18,7 @@
  * EXACT in src/matched/arm9/. Needs shard seeding by the integrator.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   CONFIG_GetTextSpeed  0x02008374  thumb
  *   CONFIG_GetBattleScene  0x020083AC  thumb
  *   CONFIG_GetBattleStyle  0x020083C8  thumb
@@ -29,7 +29,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern unsigned int CONFIG_GetTextSpeed(int a0);
 extern u32 CONFIG_GetBattleScene(u32 a);
 extern u32 CONFIG_GetBattleStyle(u32 a);
@@ -38,7 +38,7 @@ extern int CONFIG_GetButtonMode(unsigned short *p);
 
 void OPTION_MENU_InitSettings(u8 *p, short unsigned int *a)
 {
-    func_02082BCC(p, 0, 12);
+    MI_CpuFill8(p, 0, 12);
     p[5] = 11;
     *(u32 *)(p + 8) = (u32)a;
     p[0] = CONFIG_GetTextSpeed((int)a);

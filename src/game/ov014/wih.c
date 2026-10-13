@@ -1,7 +1,7 @@
 /*
  * file:     wih.c
  * unit:     yes
- * function: func_02178138, func_0217814C, func_02178168, func_02178198, func_021781BC, func_02178204, func_02178304, func_021783FC, func_021784AC, func_021784D0, func_021784F0, func_0217850C, DWCi_MOV_WH_ChildConnectAuto, DWCi_MOV_WH_StartScan, DWCi_MOV_WH_StateInStartScan, WIH_SetScanTarget, WIH_IsMatchingParent, DWCi_MOV_WH_StateOutStartScan, DWCi_MOV_WH_EndScan, func_02178964, DWCi_MOV_WH_StateOutEndScan, DWCi_MOV_WH_StateInStartChild, DWCi_MOV_WH_StateOutStartChild, DWCi_MOV_WH_StateInStartChildMP, DWCi_MOV_WH_StateOutStartChildMP, func_02178C50, func_02178C74, func_02178C98, func_02178CC4, func_02178CDC, func_02178D00, DWCi_MOV_WH_StateInSetMPData, func_02178D74, DWCi_MOV_WH_PortReceiveCallback, func_02178DE0, func_02178E1C, func_02178E28, func_02178E38, func_02178E4C, DWCi_MOV_WH_GetLastError, func_02178E84, func_02178F1C, func_02178F8C, func_02179010, func_02179024, WIH_PickRandomChannel, func_021790E4, WIH_FreeWork, func_02179188, func_021791A0, DWCi_MOV_WH_StateOutSetLifeTime, func_021791F8, func_02179288, func_02179328, DWCi_MOV_WH_SetReceiver, DWCi_MOV_WH_SendData, func_02179394, func_021793B8, WIH_UpdateScanTimer, DWCi_MOV_WH_StateInEndKeyShare, func_02179498, func_02179570, WIH_GetOwnAid, WIH_SetJudgeScanFunc, WIH_SetBeaconGameInfo, WIH_GetBeaconSendCount, WIH_SetConnectCallback, WIH_SetBeaconFoundCallback, WIH_SetScanWaitFrames
+ * function: func_02178138, func_0217814C, func_02178168, func_02178198, func_021781BC, func_02178204, func_02178304, func_021783FC, func_021784AC, func_021784D0, func_021784F0, func_0217850C, DWCi_MOV_WH_ChildConnectAuto, DWCi_MOV_WH_StartScan, DWCi_MOV_WH_StateInStartScan, WIH_SetScanTarget, WIH_IsMatchingParent, DWCi_MOV_WH_StateOutStartScan, DWCi_MOV_WH_EndScan, func_02178964, DWCi_MOV_WH_StateOutEndScan, DWCi_MOV_WH_StateInStartChild, DWCi_MOV_WH_StateOutStartChild, DWCi_MOV_WH_StateInStartChildMP, DWCi_MOV_WH_StateOutStartChildMP, func_02178C50, func_02178C74, func_02178C98, func_02178CC4, func_02178CDC, func_02178D00, DWCi_MOV_WH_StateInSetMPData, func_02178D74, DWCi_MOV_WH_PortReceiveCallback, func_02178DE0, func_02178E1C, func_02178E28, func_02178E38, WIH_GetSysState, DWCi_MOV_WH_GetLastError, func_02178E84, func_02178F1C, func_02178F8C, func_02179010, func_02179024, WIH_PickRandomChannel, func_021790E4, WIH_FreeWork, func_02179188, func_021791A0, DWCi_MOV_WH_StateOutSetLifeTime, func_021791F8, func_02179288, func_02179328, DWCi_MOV_WH_SetReceiver, DWCi_MOV_WH_SendData, func_02179394, func_021793B8, WIH_UpdateScanTimer, DWCi_MOV_WH_StateInEndKeyShare, func_02179498, func_02179570, WIH_GetOwnAid, WIH_SetJudgeScanFunc, WIH_SetBeaconGameInfo, WIH_GetBeaconSendCount, WIH_SetConnectCallback, WIH_SetBeaconFoundCallback, WIH_SetScanWaitFrames
  * address:  0x02178138
  * region:   ov014
  * compiler: dsi/1.1p1
@@ -38,7 +38,7 @@
  *   WM_EndParent                 0x0208F654  arm
  *   DWCi_MOV_WH_SetError             0x0217814C  thumb
  *   DWCi_MOV_WH_ChangeSysState       0x02178138  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   WM_GetAllowedChannel         0x0208EE60  arm
  *   WM_GetDispersionScanPeriod   0x0208EFC4  arm
  *   WM_StartScanEx               0x0208F698  arm
@@ -54,7 +54,7 @@
  *   WM_EndScan                     0x0208F808  arm
  *   WM_StartConnectEx  0x0208F84C  arm
  *   func_02178CC4 0x02178CC4 thumb ov014
- *   func_0208F400 0x0208F400 arm
+ *   WM_Reset 0x0208F400 arm
  *   WM_SetMPDataToPortEx  0x0208FCB4  arm
  *   func_02087C6C  0x02087C6C  arm
  *   func_02179010  0x02179010  thumb  ov014
@@ -62,7 +62,7 @@
  *   WM_MeasureChannel            0x02090E50  arm
  *   WM_Initialize  0x0208F370  arm
  *   WM_InitializeForListening  0x0208F380  arm
- *   func_0208EAC8  0x0208EAC8  arm
+ *   WM_SetIndCallback  0x0208EAC8  arm
  *   WM_SetLifeTime  0x02090DEC  arm
  *   WM_GetDispersionBeaconPeriod  0x0208EF30  arm
  *   GFL_NET_GetParentSendSize  0x0203D6CC  arm
@@ -72,7 +72,7 @@
  *   WM_EndDataSharing 0x0209028C arm
  *   WM_EndDataSharing   0x0209028C  arm
  *   WM_End 0x0208F43C arm
- *   func_02090CD4  0x02090CD4  arm
+ *   WM_SetGameInfo  0x02090CD4  arm
  *   NET_WHPIPE_OnChildDisconnected 0x0217807C thumb ov014
  */
 struct WMDataSet;
@@ -304,7 +304,7 @@ u32 GFL_NET_GetMaxConnectNum(void);
 int WM_StartDataSharing(void *dataSharingInfo, u32 aidCount, u32 aidBitmap, u16 myAid, u32 isParent);
 extern int WM_EndMP(void *callback);
 extern int WM_EndParent(void *callback);
-void func_02082BCC(void *p, u32 value, u32 n);
+void MI_CpuFill8(void *p, u32 value, u32 n);
 extern u16 WM_GetAllowedChannel(void);
 extern u16 WM_GetDispersionScanPeriod(void);
 extern int WM_StartScanEx(void (*cb)(void *), void *scanParam);
@@ -317,14 +317,14 @@ int func_02087988(void);
 void func_0208799C(int irqState);
 extern int WM_EndScan(void *callback);
 int WM_StartConnectEx(void *callback, void *bssDesc, void *ssid, int powerSave, int authMode);
-extern int func_0208F400(void *callback);
+extern int WM_Reset(void *callback);
 int WM_SetMPDataToPortEx(void *callback, u32 userCallback, u32 data, u32 size, u32 destBitmap, u32 port, u32 priority);
 void func_02087C6C(u16 *p);
 u16 func_0208EE60(void);
 extern int WM_MeasureChannel(void *callback, unsigned short ccaMode, unsigned short edThreshold, unsigned short channel, unsigned short measureTime);
 extern int WM_Initialize(void *wmWork, void (*callback)(void *), int dmaNo);
 extern int WM_InitializeForListening(void *wmWork, void (*callback)(void *), int dmaNo, int x);
-extern int func_0208EAC8(void (*callback)(void));
+extern int WM_SetIndCallback(void (*callback)(void));
 extern void WM_SetLifeTime(void (*callback)(void), int tmptt, int camp, int frame, int ccaWait);
 extern u16 WM_GetDispersionBeaconPeriod(void);
 extern u32 GFL_NET_GetParentSendSize(void);
@@ -334,7 +334,7 @@ extern int WM_StepDataSharing(struct WMDataSharingInfo *dsInfo, const u16 *sendD
 extern int WM_EndDataSharing(void *dataSharingInfo);
 extern int WM_EndDataSharing(void *info);
 extern int WM_End(void *callback);
-extern void func_02090CD4(int callback, int userGameInfo, u16 size, int ggid, u16 tgid, int attr);
+extern void WM_SetGameInfo(int callback, int userGameInfo, u16 size, int ggid, u16 tgid, int attr);
 
 /* functions of this file (and its ov014 neighbours) */
 void NET_WHPIPE_OnChildDisconnected(void);
@@ -395,7 +395,7 @@ void func_02178DE0(WMCallback *arg);
 void func_02178E1C(u32 ggid);
 void DWCi_MOV_WH_SetUserGameInfo(void *userGameInfo, unsigned short length);
 u16 func_02178E38(void);
-int func_02178E4C(void);
+int WIH_GetSysState(void);
 int DWCi_MOV_WH_GetLastError(void);
 int func_02178E84(void);
 int func_02178F1C(u16 channel);
@@ -723,7 +723,7 @@ int DWCi_MOV_WH_ChildConnectAuto(u32 mode, const u16 *macAddr, u32 channel)
         g_021797A8->scanParam.bssid[1] = macAddr[1];
         g_021797A8->scanParam.bssid[0] = macAddr[0];
     } else {
-        func_02082BCC(g_021797A8->scanParam.bssid, 0xff, 6);
+        MI_CpuFill8(g_021797A8->scanParam.bssid, 0xff, 6);
     }
     g_021797A8->connectMode = mode;
     g_021797A8->judgeScanFunc = 0;
@@ -750,7 +750,7 @@ int DWCi_MOV_WH_StartScan(u32 judgeScanFunc, u16 *macAddr, u32 channel)
         g_021797A8->scanParam.bssid[1] = macAddr[1];
         g_021797A8->scanParam.bssid[0] = macAddr[0];
     } else {
-        func_02082BCC(g_021797A8->scanParam.bssid, 0xff, 6);
+        MI_CpuFill8(g_021797A8->scanParam.bssid, 0xff, 6);
     }
     if (DWCi_MOV_WH_StateInStartScan() == 0) {
         func_02178138(9);
@@ -1136,7 +1136,7 @@ int func_02178CDC(void)
 {
     int result;
     func_02178138(3);
-    result = func_0208F400(func_02178D00);
+    result = WM_Reset(func_02178D00);
     if (result != 2) {
         func_0217814C(result);
         return 0;
@@ -1218,7 +1218,7 @@ u16 func_02178E38(void)
     return g_021797A8->aidBitmap;
 }
 
-int func_02178E4C(void)
+int WIH_GetSysState(void)
 {
     if (g_021797A8 == 0)
         return 0;
@@ -1365,7 +1365,7 @@ BOOL func_021790E4(u32 heapId, int unused, int listening)
     if (g_021797A8 != 0)
         return 0;
     g_021797A8 = GFL_NET_AllocAligned(heapId, 0x1F00, sWihFileName, 0xC33);
-    func_02082BCC(g_021797A8, 0, 0x1EE0);
+    MI_CpuFill8(g_021797A8, 0, 0x1EE0);
     g_021797A8->scanWaitFrames = 1;
     g_021797A8->aidBitmap = 1;
     g_021797A8->lastError = 0;
@@ -1434,7 +1434,7 @@ void func_021791F8(WMCallback *arg)
             callback(0);
         return;
     }
-    result = func_0208EAC8((void (*)(void))func_02179188);
+    result = WM_SetIndCallback((void (*)(void))func_02179188);
     if (result != 0) {
         func_0217814C(result);
         func_02178138(10);
@@ -1617,7 +1617,7 @@ void WIH_SetJudgeScanFunc(unsigned judgeScanFunc)
 void WIH_SetBeaconGameInfo(int userGameInfo, int size, int ggid, int tgid)
 {
     if (g_021797A8 != 0 && (unsigned)(g_021797A8->sysState - 4) <= 1)
-        func_02090CD4(0, userGameInfo, (u16)size, ggid, (u16)tgid, 1);
+        WM_SetGameInfo(0, userGameInfo, (u16)size, ggid, (u16)tgid, 1);
 }
 
 unsigned short WIH_GetBeaconSendCount(void)

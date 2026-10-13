@@ -22,7 +22,7 @@
  *   func_021EF60C 0x021EF60C thumb
  *   func_021ED6E4 0x021ED6E4 thumb
  *   func_021DE5C8 0x021DE5C8 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021EF3A0 0x021EF3A0 thumb
  *   func_021EF180 0x021EF180 thumb
  *   func_021EF35C 0x021EF35C thumb
@@ -60,7 +60,7 @@ extern void func_021DE530(unsigned char *p, int a, int b);
 extern int func_021EF60C(struct WinMgr *mgr);
 extern void func_021ED6E4(char **p, int v);
 extern int func_021DE5C8(char *p, unsigned id);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void func_021EF3A0(struct WinMgr *mgr);
 extern int func_021EF180(int a, int b);
 extern void func_021EF35C(struct WinMgr *mgr);
@@ -104,14 +104,14 @@ int func_021E0470(unsigned char *p)
                 break;
             }
             if (wait == 1 || func_021EF45C(MGR(p)) == 1) {
-                func_020061E4(0x669);
+                GFL_USE_PlaySeDefaultVolume(0x669);
                 func_021EF3A0(MGR(p));
             }
             b->state = 2;
             break;
         }
         if (busy == 0 && wait == 0 && func_021EF45C(MGR(p)) == 0 && p[0x16] != func_021EF180(x, y)) {
-            func_020061E4(0x669);
+            GFL_USE_PlaySeDefaultVolume(0x669);
             func_021EF35C(MGR(p));
             func_021EF36C(MGR(p));
             func_021EE038((char *)p, 2, 2, 1);
@@ -121,7 +121,7 @@ int func_021E0470(unsigned char *p)
         break;
     case 2:
         if (func_021DD930(p) == 0) {
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 3;
         }
         if (wait == 0)
@@ -144,8 +144,8 @@ int func_021E0470(unsigned char *p)
     case 5:
         if (func_021DD930(p) == 0) {
             func_021DE66C(p, b->entry);
-            func_020061E4(0x667);
-            func_020061E4(0x669);
+            GFL_USE_PlaySeDefaultVolume(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x669);
             p[0x16] = 0xFF;
             func_021EF3A0(MGR(p));
             b->state = 6;

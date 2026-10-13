@@ -1,5 +1,5 @@
 /*
- * function: func_021E6E2C
+ * function: HAND_WAZA_AddMeFirst
  * address: 0x021E6E2C
  * packet: pkt_ov093_021E6E2C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E6DAC.c and filed here.
  *
  * symbols:
- *   d_021F2968 0x021F2968 data a4
+ *   gMeFirstHandlers 0x021F2968 data a4
  */
 
-int *func_021E6E2C(int *p);
-extern int d_021F2968[];
+int *HAND_WAZA_AddMeFirst(int *p);
+extern int gMeFirstHandlers[];
 
-int *func_021E6E2C(int *p)
+int *HAND_WAZA_AddMeFirst(int *p)
 {
     *p = 2;
-    return d_021F2968;
+    return gMeFirstHandlers;
 }

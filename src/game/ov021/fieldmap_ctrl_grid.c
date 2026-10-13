@@ -24,8 +24,8 @@
  *   FIELDMAP_SetCtrlWork  0x02188CAC  thumb  ov021
  *   gFieldMapCtrlGridFileName     0x021DDE90  data  a4
  *   FIELDMAP_GetCtrlWork  0x02188CA4  thumb  ov021
- *   func_020362DC  0x020362DC  arm
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FIELD_PLAYER_CheckMoveRestrictFlag  0x021A35BC  thumb  ov021
  *   FIELD_PLAYER_CreateGrid  0x021A35E0  thumb  ov021
@@ -50,8 +50,8 @@ typedef struct FieldMapCtrlGridWork {
 
 extern u32 func_020307B0(void *memory);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
-extern u32 func_020362DC(void);
-extern unsigned int func_0203630C(void);
+extern u32 KEY_GetTrg(void);
+extern unsigned int KEY_GetCont(void);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern void FIELDMAP_SetCtrlWork(FieldMap *fieldMap, void *ctrlWork);
@@ -104,8 +104,8 @@ void FIELDMAP_CTRL_GRID_Main(FieldMap *fieldMap, VecFx32 *pos)
     struct FieldPlayer *player = FIELDMAP_GetFieldPlayer(fieldMap);
 
     if (work->busy == 0) {
-        u32 keyTrg = func_020362DC();
-        u32 keyCont = func_0203630C();
+        u32 keyTrg = KEY_GetTrg();
+        u32 keyCont = KEY_GetCont();
         u32 flags = 0;
 
         if (FIELD_PLAYER_CheckMoveRestrictFlag(player) == 1)

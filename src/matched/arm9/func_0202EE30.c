@@ -18,7 +18,7 @@
  * that call's result lands at +0; otherwise +0 is zeroed.
  *
  * Sibling of TIME_ICON_CreateNode (docs/notes/pkt_0202EE0C.c.txt), which builds
- * the same record through the func_020311B8 allocator instead.
+ * the same record through the TCBL_AddTask allocator instead.
  *
  * symbols:
  *   g_020A7814     0x020A7814  data

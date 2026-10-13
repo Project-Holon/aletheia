@@ -23,7 +23,7 @@
  *   func_020056EC  0x020056EC  thumb
  *   func_0203F0A8  0x0203F0A8  arm
  *   MSGDATA_ReadUnits  0x02045F5C  arm
- *   func_0201AE1C  0x0201AE1C  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   func_02019C7C  0x02019C7C  thumb
  *   gDefaultLanguage      0x0209DF0C  data  a1
  *   gSpeciesNameBank       0x020A7370  data
@@ -31,11 +31,11 @@
  *   gGameVersion      0x0209DF08  data  a1
  *   sRotomFormMoves       0x0209E298  data  a2
  *   func_0202F1B4  0x0202F1B4  thumb
- *   func_0201AF6C  0x0201AF6C  thumb
+ *   POKE_PERSONAL_IsPlaceholderAbility  0x0201AF6C  thumb
  *   func_02019A9C  0x02019A9C  thumb
- *   func_0201ADD0  0x0201ADD0  thumb
+ *   POKE_PERSONAL_LoadDataDirect  0x0201ADD0  thumb
  *   gLevelUpMoveBuf      0x02146330  data
- *   func_0201BD28  0x0201BD28  thumb
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   WAZA_TOOL_GetMaxPP  0x0201C158  thumb
  *   gNameCompareBuf  0x021462B0  data
  *   gExpTableBuf  0x02146398  data
@@ -402,13 +402,13 @@ extern struct PersonalData *func_02019C54(u32 species, u16 form);
 extern u32   func_020056EC(u32 range);
 extern u32   func_0203F0A8(void);
 extern void MSGDATA_ReadUnits(struct MsgData *msgData, u32 msgIndex, u16 *dest, u32 maxLen);
-extern u32 func_0201AE1C(const struct PersonalData *personal, u32 field);
+extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *personal, u32 field);
 extern u32   func_02019C7C(const struct PersonalData *personal);
 extern void func_0202F1B4(u32 box, u32 mode, u32 trainer, u32 location, u32 arg);
-extern u32  func_0201AF6C(u32 genderRatio);
+extern u32  POKE_PERSONAL_IsPlaceholderAbility(u32 genderRatio);
 extern u16 func_02019A9C(const u16 *data, u32 size);
-extern void func_0201ADD0(u32 species, int form, struct LevelUpMove *dest);
-extern u32 func_0201BD28(u16 move, u32 field);
+extern void POKE_PERSONAL_LoadDataDirect(u32 species, int form, struct LevelUpMove *dest);
+extern u32 WAZA_TOOL_GetParam(u16 move, u32 field);
 extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUps);
 extern u32 func_02008530(const struct MyStatus *status);
 extern u8 func_02008550(const struct MyStatus *status);
@@ -824,7 +824,7 @@ void POKE_TOOL_SetupBoxParamEx(struct BoxPokemon *box, u16 species, u16 level, u
     MSGDATA_ReadUnits(gSpeciesNameBank, species, gNameBuf, 0x20);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_NICKNAME, (u32)gNameBuf);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_EXP, func_02018584(species, 0, level));
-    POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_FRIENDSHIP, func_0201AE1C(personal, 0x16));
+    POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_FRIENDSHIP, POKE_PERSONAL_GetParam(personal, 0x16));
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_MET_LEVEL, level);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_ORIGIN_GAME, gGameVersion);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_BALL, 4);
@@ -849,7 +849,7 @@ void POKE_TOOL_SetupBoxParamEx(struct BoxPokemon *box, u16 species, u16 level, u
     if (func_02019C7C(personal) == 2 && (personality & 0x10000) != 0) {
         abilitySlot = 0x1b;
     }
-    POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_ABILITY, func_0201AE1C(personal, abilitySlot));
+    POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_ABILITY, POKE_PERSONAL_GetParam(personal, abilitySlot));
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_GENDER, POKE_TOOL_GetBoxGender(box));
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_NATURE, func_020056EC(0x19));
     POKE_TOOL_SetBoxDefaultMoves(box);
@@ -1224,7 +1224,7 @@ void POKE_TOOL_UpdateAbilityForSpecies(struct BoxPokemon *box, int newSpecies, i
     } else if (func_02019C7C(personal) == 2 && (personality & mask) != 0) {
         abilitySlot = 0x1b;
     }
-    POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_ABILITY, func_0201AE1C(personal, abilitySlot));
+    POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_ABILITY, POKE_PERSONAL_GetParam(personal, abilitySlot));
 }
 
 
@@ -1239,10 +1239,10 @@ void POKE_TOOL_UpdateAbilityForSpecies(struct BoxPokemon *box, int newSpecies, i
 void POKE_TOOL_UpdateGenderForSpecies(struct BoxPokemon *box, u32 newSpecies, u32 oldSpecies)
 {
     u32 form = func_02017E88(box, POKE_TOOL_PARAM_FORM, 0);
-    u32 newRatio = func_0201AE1C(func_02019C54(newSpecies, form), 0x14);
-    u32 oldRatio = func_0201AE1C(func_02019C54(oldSpecies, form), 0x14);
+    u32 newRatio = POKE_PERSONAL_GetParam(func_02019C54(newSpecies, form), 0x14);
+    u32 oldRatio = POKE_PERSONAL_GetParam(func_02019C54(oldSpecies, form), 0x14);
 
-    if (func_0201AF6C(newRatio) == 1 && oldRatio != 0xff) {
+    if (POKE_PERSONAL_IsPlaceholderAbility(newRatio) == 1 && oldRatio != 0xff) {
         return;
     }
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_GENDER, POKE_TOOL_CalcGender(newSpecies, form, func_02017E88(box, POKE_TOOL_PARAM_PERSONALITY, 0)));
@@ -1391,7 +1391,7 @@ void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value)
  * epilogue, while the switch puts the three bodies after the compare chain and
  * shares one `pop`, which is what the original does.  The `lsls`/`lsrs` pair
  * that truncates the call result is only emitted when the callee is declared
- * wider than `u8`, so func_0201AE1C returns a word and the source assigns it to
+ * wider than `u8`, so POKE_PERSONAL_GetParam returns a word and the source assigns it to
  * a byte local.
  */
 void POKE_TOOL_SetBoxValue(struct BoxPokemon *box, u32 paramId, u32 value)
@@ -1459,7 +1459,7 @@ u8 POKE_TOOL_GetBoxGender(struct BoxPokemon *box)
 
 u8 POKE_TOOL_CalcGender(u32 species, u16 form, u32 personality)
 {
-    u8 genderRatio = func_0201AE1C(func_02019C54(species, form), 0x14);
+    u8 genderRatio = POKE_PERSONAL_GetParam(func_02019C54(species, form), 0x14);
     u8 gender;
 
     switch (genderRatio) {
@@ -1537,7 +1537,7 @@ u32 POKE_TOOL_SetBoxDefaultMoves(struct BoxPokemon *box)
     species = func_02017E88(box, POKE_TOOL_PARAM_SPECIES, 0);
     form = func_02017E88(box, POKE_TOOL_PARAM_FORM, 0);
     level = POKE_TOOL_CalcBoxLevel(box);
-    func_0201ADD0(species, (u16)form, gLevelUpMoveBuf);
+    POKE_PERSONAL_LoadDataDirect(species, (u16)form, gLevelUpMoveBuf);
 
     for (i = 0; i < 4; i++) {
         POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_MOVE1 + i, 0);
@@ -1663,7 +1663,7 @@ void POKE_TOOL_PushBoxMove(struct BoxPokemon *box, u16 move)
     }
 
     moves[3] = move;
-    pps[3] = func_0201BD28(move, 5);
+    pps[3] = WAZA_TOOL_GetParam(move, 5);
     ppUps[3] = 0;
 
     for (j = 0; j < 4; j++) {
@@ -1883,7 +1883,7 @@ void POKE_TOOL_ReplaceBoxMoveSlot(struct BoxPokemon *box, u16 move, u8 slot)
 
 
 /*
- * Level-up learnset scan: load the species/form learnset (func_0201ADD0) into
+ * Level-up learnset scan: load the species/form learnset (POKE_PERSONAL_LoadDataDirect) into
  * a 0x68-byte heap block (poke_tool.c line 0x644), then walk it from *idx
  * until the {0xFFFF, 0xFFFF} terminator.  For an entry at the record's
  * level, try to teach it (POKE_TOOL_AddMove): 0xFFFF (no free slot) answers the
@@ -1893,7 +1893,7 @@ void POKE_TOOL_ReplaceBoxMoveSlot(struct BoxPokemon *box, u16 move, u8 slot)
  * Load-bearing, found by hand after the permuter's hill (800, --types) and
  * the r12 lane's register swap:
  *   - `species` is u16 (truncated at the assignment) but `form` is u32 and
- *     the (u16) lands at the func_0201ADD0 call; `level` is u8.
+ *     the (u16) lands at the POKE_PERSONAL_LoadDataDirect call; `level` is u8.
  *   - FIVE 4-byte struct copies live in the frame, in this declaration
  *     order (later declaration at the lower address): e, d, f, t, cur.
  *     They are by-value copies of the entry (e for the level test, d for the
@@ -1922,7 +1922,7 @@ u16 POKE_TOOL_GetLevelUpMove(struct PokemonParam *pp, u32 *tableIndex, u32 heapI
     species = func_02017E1C(pp, POKE_TOOL_PARAM_SPECIES, 0);
     form = func_02017E1C(pp, POKE_TOOL_PARAM_FORM, 0);
     level = func_02017E1C(pp, POKE_TOOL_PARAM_LEVEL, 0);
-    func_0201ADD0(species, (u16)form, table);
+    POKE_PERSONAL_LoadDataDirect(species, (u16)form, table);
 
     while (cur = table[*tableIndex], endCheck = cur, !POKE_TOOL_IsLevelUpMoveEnd(&endCheck)) {
         levelEntry = cur;
@@ -2102,7 +2102,7 @@ u32 POKE_TOOL_CalcLevelFromExp(u16 species, u16 form, u32 exp)
 {
     u16 level;
 
-    func_02019B94((u16)func_0201AE1C(func_02019C54(species, form), 0x17),
+    func_02019B94((u16)POKE_PERSONAL_GetParam(func_02019C54(species, form), 0x17),
                   gExpTableBuf);
     for (level = 1; level < 0x65; level = (u16)(level + 1)) {
         if (gExpTableBuf[level] > exp) {
@@ -2236,9 +2236,9 @@ struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp)
 u32 POKE_TOOL_GetGenderRatioClass(int species, u16 form, int ratioMode)
 {
     u32 result = 8;
-    u8 genderRatio = (u8)func_0201AE1C(func_02019C54(species, form), 0x14);
+    u8 genderRatio = (u8)POKE_PERSONAL_GetParam(func_02019C54(species, form), 0x14);
 
-    if (func_0201AF6C(genderRatio) != 1) {
+    if (POKE_PERSONAL_IsPlaceholderAbility(genderRatio) != 1) {
         if (ratioMode == 0) {
             result = genderRatio;
         } else {
@@ -2278,13 +2278,13 @@ u32 POKE_TOOL_AdjustPersonalRnd(u32 otId, u16 species, u16 form, u8 ratioMode, u
             otId ^= 0x10000u;
         }
     } else {
-        u8 genderRatio = (u8)func_0201AE1C(func_02019C54(species, form), 0x14);
+        u8 genderRatio = (u8)POKE_PERSONAL_GetParam(func_02019C54(species, form), 0x14);
 
         otId = (0xFF00u ^ ((((otId & 0xFFFF0000u) >> 16) ^ (u16)otId) & 0xFF00u)) << 16;
         if ((otId & 0x10000u) != ((u32)shinyWanted << 16)) {
             otId ^= 0x10000u;
         }
-        if (func_0201AF6C(genderRatio) == 1) {
+        if (POKE_PERSONAL_IsPlaceholderAbility(genderRatio) == 1) {
             goto done;
         }
         otId |= genderRatio;
@@ -2322,13 +2322,13 @@ u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, u16 form, int ratioMode, 
 
         personality = POKE_TOOL_GetGenderRatioClass(species, form, (u8)ratioMode);
         if (ratioMode == 0) {
-            if (func_0201AF6C(personality) == 0) {
+            if (POKE_PERSONAL_IsPlaceholderAbility(personality) == 0) {
                 personality = personality + func_020056EC(0xFE - personality);
                 goto L;
             }
         }
         if (ratioMode == 1) {
-            if (func_0201AF6C(personality) == 0) {
+            if (POKE_PERSONAL_IsPlaceholderAbility(personality) == 0) {
                 personality = func_020056EC(personality) + 1;
             }
         }
@@ -2632,7 +2632,7 @@ void POKE_TOOL_SetBoxAbility(struct BoxPokemon *box, u32 species, u32 form)
     if (func_02019C7C(personal) == 2 && (personality & (1 << 16))) {
         abilitySlot = 0x1B;
     }
-    POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_ABILITY, func_0201AE1C(personal, abilitySlot));
+    POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_ABILITY, POKE_PERSONAL_GetParam(personal, abilitySlot));
 }
 
 

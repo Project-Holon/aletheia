@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_CALC_SandVeilBlockSandDamage",
+   "name": "HAND_TOKUSEI_SandVeilBlockSandDamage",
    "address": "0x021D8A8C",
    "kind": "game",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_CALC_SnowCloakBlockHailDamage",
+   "name": "HAND_TOKUSEI_SnowCloakBlockHailDamage",
    "address": "0x021D8AD0",
    "kind": "game",
    "region": "ov093",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ABILITY_IndirectGuardCause1Block",
+   "name": "HAND_TOKUSEI_IndirectGuardCause1Block",
    "address": "0x021D9214",
    "kind": "game",
    "region": "ov093",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ABILITY_IndirectGuardCause1ShowMessage",
+   "name": "HAND_TOKUSEI_IndirectGuardCause1ShowMessage",
    "address": "0x021D9224",
    "kind": "game",
    "region": "ov093",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ABILITY_IndirectGuardCause6Block",
+   "name": "HAND_TOKUSEI_IndirectGuardCause6Block",
    "address": "0x021D9240",
    "kind": "game",
    "region": "ov093",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ABILITY_IndirectGuardCause6ShowMessage",
+   "name": "HAND_TOKUSEI_IndirectGuardCause6ShowMessage",
    "address": "0x021D9250",
    "kind": "game",
    "region": "ov093",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ABILITY_IndirectGuardCause8Block",
+   "name": "HAND_TOKUSEI_IndirectGuardCause8Block",
    "address": "0x021D926C",
    "kind": "game",
    "region": "ov093",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_ABILITY_IndirectGuardCause8ShowMessage",
+   "name": "HAND_TOKUSEI_IndirectGuardCause8ShowMessage",
    "address": "0x021D927C",
    "kind": "game",
    "region": "ov093",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTL_TOKUSEI_SickGuard_ShowBlockedMessage",
+   "name": "HAND_TOKUSEI_SickGuard_ShowBlockedMessage",
    "address": "0x021D96CC",
    "kind": "game",
    "region": "ov093",

@@ -52,7 +52,7 @@
  *   FIELD_RAIL_LINE_IsConsistent  0x021B963C  thumb
  *   FIELD_RAIL_KEY_TurnLeft  0x021B9434  thumb
  *   FIELD_RAIL_KEY_TurnRight  0x021B9404  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02082D44  0x02082D44  arm
  *   gRailDefaultCamera     0x021D9A0C  data  a4
  *   gRailDefaultLinePos     0x021D9A30  data  a4
@@ -80,7 +80,7 @@
  *   FX_AcosIdx       0x0207D184  arm
  *   VEC_Add          0x0207C9D0  arm
  *   BUTTON_MAN_ScaleVec    0x020520A4  arm
- *   d_020A1B38       0x020A1B38  data   a2
+ *   FX_SinCosTable_       0x020A1B38  data   a2
  *   func_0207CBD0  0x0207CBD0  arm
  *   func_0207CEE4  0x0207CEE4  arm
  *   FIELD_RAIL_WORK_GetSpot  0x021B82F4  thumb  ov021
@@ -219,7 +219,7 @@
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *mem);
 extern s32 func_0203EFC8(const void *a, const void *b, u32 size);
-extern void func_02082BCC(void *dst, u32 value, u32 size);
+extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
 extern void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
@@ -351,7 +351,7 @@ extern void FIELD_CAMERA_StopTargetTrace(struct FieldCamera *camera);
 extern void FIELD_CAMERA_SetTarget(struct FieldCamera *camera, const VecFx32 *target);
 extern void FIELD_CAMERA_SetTargetShift(struct FieldCamera *camera, const VecFx32 *shift);
 extern void FIELD_CAMERA_RestartDelay(struct FieldCamera *camera);
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern VecFx32 d_021D9A54;
 extern VecFx32 d_021D9A60;
 extern const char d_021DE2B0[];
@@ -1291,7 +1291,7 @@ void FIELD_RAIL_GetNeighbourLimits(FieldRailSetting *setting, const RailLine *li
 
 void FIELD_RAIL_SETTING_Clear(FieldRailSetting *setting)
 {
-    func_02082BCC(setting, 0, 48);
+    MI_CpuFill8(setting, 0, 48);
 }
 
 void FIELD_RAIL_SETTING_Copy(FieldRailSetting *dst, const FieldRailSetting *src)
@@ -2202,14 +2202,14 @@ void FIELD_RAIL_SlerpDir(VecFx32 *out, VecFx32 *from, VecFx32 *to, int t)
     VEC_Normalize(from, &unitFrom);
     VEC_Normalize(to, &unitTo);
     angle = FX_AcosIdx(VEC_DotProduct(&unitFrom, &unitTo));
-    sinAngle = ((u16 *)d_020A1B38)[(angle >> 4) * 2];
+    sinAngle = ((u16 *)FX_SinCosTable_)[(angle >> 4) * 2];
     if (sinAngle == 0) {
         *out = unitTo;
         return;
     }
     angleFx = angle << 12;
-    BUTTON_MAN_ScaleVec(&unitFrom, FX_Div(((u16 *)d_020A1B38)[(FX_Mul(angleFx, FX32_ONE - t) >> 16) * 2], sinAngle), &unitFrom);
-    BUTTON_MAN_ScaleVec(&unitTo, FX_Div(((u16 *)d_020A1B38)[(FX_Mul(angleFx, t) >> 16) * 2], sinAngle), &unitTo);
+    BUTTON_MAN_ScaleVec(&unitFrom, FX_Div(((u16 *)FX_SinCosTable_)[(FX_Mul(angleFx, FX32_ONE - t) >> 16) * 2], sinAngle), &unitFrom);
+    BUTTON_MAN_ScaleVec(&unitTo, FX_Div(((u16 *)FX_SinCosTable_)[(FX_Mul(angleFx, t) >> 16) * 2], sinAngle), &unitTo);
     VEC_Add(&unitFrom, &unitTo, out);
     VEC_Normalize(out, out);
 }
@@ -2822,8 +2822,8 @@ void FIELD_RAIL_CAMERA_SetOrbit(RailManager *manager, u16 pitch, int distance, V
     VEC_Subtract(&toFocus, &anchor, &toFocus);
     VEC_Normalize(&toFocus, &dir);
     i = (pitch >> 4) * 2;
-    eye.y = FX_Mul(d_020A1B38[i], distance);
-    horizontalDist = FX_Mul(d_020A1B38[i + 1], distance);
+    eye.y = FX_Mul(FX_SinCosTable_[i], distance);
+    horizontalDist = FX_Mul(FX_SinCosTable_[i + 1], distance);
     eye.x = FX_Mul(dir.x, horizontalDist);
     eye.z = FX_Mul(dir.z, horizontalDist);
     eye.x += anchor.x;

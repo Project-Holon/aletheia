@@ -14,8 +14,8 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   func_02026454  0x02026454  thumb
- *   func_02026474  0x02026474  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
+ *   GAME_COMM_GetWork  0x02026474  thumb
  *   INTRUDE_FIELD_ResetExtraAreaCount  0x0217BBCC  thumb  ov018
  *   INTRUDE_FIELD_AddAreaMaps  0x0217BBD8  thumb  ov018
  *   INTRUDE_FIELD_AddAreaMapCount  0x0217BC94  thumb  ov018
@@ -30,8 +30,8 @@ typedef unsigned int   u32;
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 typedef unsigned char  u8;
-extern u32 func_02026454(void *obj);
-extern u32 func_02026474(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
+extern u32 GAME_COMM_GetWork(void *obj);
 extern void INTRUDE_FIELD_ResetExtraAreaCount(int a, int b, char *p);
 extern void INTRUDE_FIELD_AddAreaMaps(u8 *a, int b, u8 *c);
 extern void INTRUDE_FIELD_AddAreaMapCount(int a, int n);
@@ -49,8 +49,8 @@ int INTRUDE_SUBDISP_ScriptApplyCommState(int a0, int a1)
     c = GAMESYSTEM_GetFieldMap((void *)w);
     h = GAMESYSTEM_GetGameComm(w);
     v = 0;
-    if (func_02026454((void *)h) == 2)
-        v = func_02026474((void *)h);
+    if (GAME_COMM_GetKind((void *)h) == 2)
+        v = GAME_COMM_GetWork((void *)h);
     if (v != 0) {
         INTRUDE_FIELD_ResetExtraAreaCount((int)c, (int)w, (char *)v);
         INTRUDE_FIELD_AddAreaMaps((u8 *)c, (int)w, (u8 *)v);

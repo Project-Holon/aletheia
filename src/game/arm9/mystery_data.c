@@ -1,7 +1,7 @@
 /*
  * file:     mystery_data.c
  * unit:     yes
- * function: sub_02009A34, sub_02009A54, sub_02009A74, sub_02009AE4, sub_02009B3C, sub_02009B80, sub_02009BB8, sub_02009C24, sub_02009CA8, func_02009CB0, func_02009CC0, sub_02009CE4, sub_02009D08, sub_02009D1C, sub_02009D50, sub_02009D9C, sub_02009DA4, sub_02009DB8, sub_02009DE8, sub_02009E40, sub_02009E54, sub_02009E74, sub_02009E8C, sub_02009EA8, sub_02009EB0, func_02009EC8, MYSTERY_DATA_GetWorkSize, MYSTERY_DATA_Init, MYSTERY_DATA_IsValidGiftType, MYSTERY_DATA_CheckCardSpace, MYSTERY_DATA_CheckCardExist, MYSTERY_DATA_CloseCardGap, MYSTERY_DATA_GetCardPtr, MYSTERY_DATA_GetCard, MYSTERY_DATA_AddCard, MYSTERY_DATA_DeleteCard, MYSTERY_DATA_HasCardSpace, MYSTERY_DATA_IsCardExist, MYSTERY_DATA_IsCardReceived, MYSTERY_DATA_SetCardReceived, MYSTERY_DATA_HasAnyCard, MYSTERY_DATA_IsEventFlag, MYSTERY_DATA_SetEventFlag, MYSTERY_DATA_CheckPacketCrc, MYSTERY_DATA_SwapCards, MYSTERY_DATA_SaveStart, MYSTERY_DATA_SaveMain, MYSTERY_DATA_Create, MYSTERY_DATA_Delete, MYSTERY_DATA_GetCardSlotNum, MYSTERY_DATA_IsMainSave, MYSTERY_DATA_Load, MYSTERY_DATA_Unload, MYSTERY_DATA_GetSaveType, MYSTERY_DATA_GetCardMax, MYSTERY_DATA_GetBuffer, MYSTERY_DATA_GetEventFlags, MYSTERY_DATA_GetCardSlot, MYSTERY_DATA_Encrypt, MYSTERY_DATA_Decrypt, MYSTERY_DATA_EncryptBuffer, MYSTERY_DATA_DecryptBuffer, func_0200A53C, func_0200A544, func_0200A5F8, func_0200A604, func_0200A628, func_0200A630, func_0200A640, func_0200A644, func_0200A680, func_0200A6BC, func_0200A6F8, func_0200A714, func_0200A73C, func_0200A750, func_0200A75C, func_0200A768, func_0200A780, func_0200A788, func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0, func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC, func_0200A7F8, func_0200A800, func_0200A81C, func_0200A828, func_0200A834, func_0200A840, func_0200A848, func_0200A864, func_0200A870, func_0200A884, func_0200A890, func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8, func_0200A8D0, func_0200A8E4, func_0200A8F8, func_0200A908, func_0200A930, sub_0200A940, sub_0200A9A4, sub_0200A9D4, func_0200AA00, sub_0200AA68, sub_0200AB04, sub_0200AB24, func_0200AB2C, func_0200AB50, func_0200ABE0, sub_0200AC14, func_0200ACD0, sub_0200AD00, func_0200AD6C, func_0200AD78, func_0200AD7C, func_0200AD8C, func_0200AD94, func_0200AD9C, func_0200ADB4, func_0200ADB8, func_0200ADD0, func_0200ADD8, func_0200ADE0, func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14, func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8, func_0200AFD4, func_0200B040, func_0200B074, func_0200B078, func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4, func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214, func_0200B254
+ * function: sub_02009A34, sub_02009A54, sub_02009A74, sub_02009AE4, sub_02009B3C, sub_02009B80, sub_02009BB8, sub_02009C24, sub_02009CA8, func_02009CB0, func_02009CC0, sub_02009CE4, sub_02009D08, sub_02009D1C, sub_02009D50, sub_02009D9C, sub_02009DA4, sub_02009DB8, sub_02009DE8, sub_02009E40, sub_02009E54, sub_02009E74, sub_02009E8C, sub_02009EA8, sub_02009EB0, func_02009EC8, MYSTERY_DATA_GetWorkSize, MYSTERY_DATA_Init, MYSTERY_DATA_IsValidGiftType, MYSTERY_DATA_CheckCardSpace, MYSTERY_DATA_CheckCardExist, MYSTERY_DATA_CloseCardGap, MYSTERY_DATA_GetCardPtr, MYSTERY_DATA_GetCard, MYSTERY_DATA_AddCard, MYSTERY_DATA_DeleteCard, MYSTERY_DATA_HasCardSpace, MYSTERY_DATA_IsCardExist, MYSTERY_DATA_IsCardReceived, MYSTERY_DATA_SetCardReceived, MYSTERY_DATA_HasAnyCard, MYSTERY_DATA_IsEventFlag, MYSTERY_DATA_SetEventFlag, MYSTERY_DATA_CheckPacketCrc, MYSTERY_DATA_SwapCards, MYSTERY_DATA_SaveStart, MYSTERY_DATA_SaveMain, MYSTERY_DATA_Create, MYSTERY_DATA_Delete, MYSTERY_DATA_GetCardSlotNum, MYSTERY_DATA_IsMainSave, MYSTERY_DATA_Load, MYSTERY_DATA_Unload, MYSTERY_DATA_GetSaveType, MYSTERY_DATA_GetCardMax, MYSTERY_DATA_GetBuffer, MYSTERY_DATA_GetEventFlags, MYSTERY_DATA_GetCardSlot, MYSTERY_DATA_Encrypt, MYSTERY_DATA_Decrypt, MYSTERY_DATA_EncryptBuffer, MYSTERY_DATA_DecryptBuffer, func_0200A53C, func_0200A544, func_0200A5F8, func_0200A604, func_0200A628, func_0200A630, func_0200A640, func_0200A644, func_0200A680, func_0200A6BC, func_0200A6F8, func_0200A714, func_0200A73C, func_0200A750, func_0200A75C, func_0200A768, func_0200A780, func_0200A788, func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0, func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC, func_0200A7F8, func_0200A800, func_0200A81C, func_0200A828, func_0200A834, func_0200A840, func_0200A848, func_0200A864, func_0200A870, func_0200A884, func_0200A890, func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8, func_0200A8D0, func_0200A8E4, func_0200A8F8, func_0200A908, func_0200A930, sub_0200A940, sub_0200A9A4, sub_0200A9D4, func_0200AA00, sub_0200AA68, sub_0200AB04, sub_0200AB24, func_0200AB2C, func_0200AB50, func_0200ABE0, sub_0200AC14, func_0200ACD0, sub_0200AD00, func_0200AD6C, func_0200AD78, func_0200AD7C, func_0200AD8C, func_0200AD94, WORLDTRADE_CopyPokemon, func_0200ADB4, func_0200ADB8, func_0200ADD0, func_0200ADD8, func_0200ADE0, func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14, func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8, func_0200AFD4, func_0200B040, func_0200B074, func_0200B078, func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4, func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214, func_0200B254
  * address:  0x02009A34
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -38,7 +38,7 @@
  *   EVENT_FIELD_PROCLINK_InitIdList    0x02161EEC  thumb  ov010
  *   EVENT_FIELD_PROCLINK_InitReturnHeader    0x02161F00  thumb  ov010
  *   GFL_USE_GetRandom   0x020056EC  thumb
- *   tbl_020A1B38   0x020A1B38  data
+ *   FX_SinCosTable_   0x020A1B38  data
  *   _u32_div_f     0x0209C2B0  arm
  *   sub_0201F41C   0x0201F41C  thumb
  *   MIi_CpuClearFast  0x02082AC0  arm
@@ -502,7 +502,7 @@ int func_0200AD78(void);
 void func_0200AD7C(struct WorldTradeData *trade);
 u16 func_0200AD8C(const struct WorldTradeData *trade);
 void func_0200AD94(struct WorldTradeData *trade, u16 isDeposited);
-void func_0200AD9C(struct WorldTradeData *trade, void *outPokemon);
+void WORLDTRADE_CopyPokemon(struct WorldTradeData *trade, void *outPokemon);
 void func_0200ADB4(void);
 void func_0200ADB8(struct WorldTradeData *trade, const void *pokemon, u32 boxPos);
 void func_0200ADD0(struct WorldTradeData *trade, u32 tradeId);
@@ -531,7 +531,7 @@ s32 func_0200B214(struct RegulationParty *party, u32 id, u8 member);
 void func_0200B254(struct RegulationParty *party, int id, u8 member, s32 value);
 extern char sMysteryDataFile[];
 extern u8   ov_id_E4[];
-extern s16  tbl_020A1B38[];
+extern s16  FX_SinCosTable_[];
 extern const char func_0200ADF0_File[];
 
 
@@ -2272,7 +2272,7 @@ u8 func_0200AA00(u32 month, u32 day, struct RTCDate *today)
     }
     {
         s32 phase = (s32)((((dayNum - todayNum) % 30) * 0xFFFF) / 30);
-        return (u8)((tbl_020A1B38[2 * (phase >> 4)] + 0x1000) * 50 >> 12);
+        return (u8)((FX_SinCosTable_[2 * (phase >> 4)] + 0x1000) * 50 >> 12);
     }
 }
 
@@ -2633,7 +2633,7 @@ void func_0200AD94(struct WorldTradeData *trade, u16 isDeposited)
 }
 
 
-void func_0200AD9C(struct WorldTradeData *trade, void *outPokemon)
+void WORLDTRADE_CopyPokemon(struct WorldTradeData *trade, void *outPokemon)
 {
     u32 size = func_020173EC();
     MI_CpuCopy8(trade, outPokemon, size);

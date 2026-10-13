@@ -12,7 +12,7 @@
  * symbols:
  *   func_021BB054 0x021BB054 thumb ov110
  *   func_021BD868 0x021BD868 thumb ov110
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021B9BEC 0x021B9BEC thumb ov110
  *   func_021BF82C 0x021BF82C thumb ov110
  *   func_021BAFAC 0x021BAFAC thumb ov110
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 typedef int (*Handler)(u8 *,void *);
 extern int func_021BB054(u8 *);
 extern void func_021BD868(u8 *);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_021B9BEC(u8 *,int);
 extern void func_021BF82C(u8 *);
 extern int func_021BAFAC(u32 p);
@@ -45,12 +45,12 @@ void func_021BE580(u8 *p,u32 *q)
             *q=2;
             return;
         }
-        func_020061E4(1367);
+        GFL_USE_PlaySeDefaultVolume(1367);
         func_021B9BEC(*(u8 * *)&((struct Obj00189 *)p)->f14,18);
         return;
     }
     if(((struct Obj00189 *)p)->f3C==0 || (((struct Obj00189 *)p)->f34&4)) {
-        func_020061E4(1355);
+        GFL_USE_PlaySeDefaultVolume(1355);
         p[0x69]^=1;
         func_021BF82C(p);
         func_021B9BEC(*(u8 * *)&((struct Obj00189 *)p)->f14,25);
@@ -65,7 +65,7 @@ void func_021BE580(u8 *p,u32 *q)
                 ((struct Obj00189 *)p)->f4C=253;
                 func_021B9BEC(*(u8 * *)&((struct Obj00189 *)p)->f14,18);
             }
-            func_020061E4(1363);
+            GFL_USE_PlaySeDefaultVolume(1363);
             func_021B9BEC(*(u8 * *)&((struct Obj00189 *)p)->f14,32);
             func_021BB054(*(u8 * *)&((struct Obj00189 *)p)->f1C);
             func_021B9BEC(*(u8 * *)&((struct Obj00189 *)p)->f14,30);
@@ -75,7 +75,7 @@ void func_021BE580(u8 *p,u32 *q)
             ((struct Obj00189 *)p)->f4C=254;
             func_021B9BEC(*(u8 * *)&((struct Obj00189 *)p)->f14,18);
         }
-        func_020061E4(1361);
+        GFL_USE_PlaySeDefaultVolume(1361);
         func_021B9BEC(*(u8 * *)&((struct Obj00189 *)p)->f14,11);
         *(Handler *)&((struct Obj00189 *)p)->f28=func_021BD894;
         *q=2;
@@ -88,22 +88,22 @@ void func_021BE580(u8 *p,u32 *q)
                 *q=2;
                 return;
             }
-            func_020061E4(1367);
+            GFL_USE_PlaySeDefaultVolume(1367);
             return;
         } else if(((struct Obj00189 *)p)->f4C==253) {
             if(p[0x69]==1 && func_021BAFAC((u32)(*(u8 * *)&((struct Obj00189 *)p)->f1C))) {
                 ((struct Obj00189 *)p)->f50=((struct Obj00189 *)p)->f4C;
                 *q=1;
-                func_020061E4(1363);
+                GFL_USE_PlaySeDefaultVolume(1363);
                 func_021B9BEC(*(u8 * *)&((struct Obj00189 *)p)->f14,32);
                 func_021BB054(*(u8 * *)&((struct Obj00189 *)p)->f1C);
                 func_021B9BEC(*(u8 * *)&((struct Obj00189 *)p)->f14,30);
                 return;
             }
-            func_020061E4(1367);
+            GFL_USE_PlaySeDefaultVolume(1367);
             return;
         } else if(((struct Obj00189 *)p)->f4C==254) {
-            func_020061E4(1361);
+            GFL_USE_PlaySeDefaultVolume(1361);
             func_021B9BEC(*(u8 * *)&((struct Obj00189 *)p)->f14,11);
             *(Handler *)&((struct Obj00189 *)p)->f28=func_021BD894;
             *q=2;
@@ -115,11 +115,11 @@ void func_021BE580(u8 *p,u32 *q)
                 *q=2;
                 return;
             }
-            func_020061E4(1367);
+            GFL_USE_PlaySeDefaultVolume(1367);
             return;
         } else {
             func_021BAF7C((unsigned int)(*(u8 * *)&((struct Obj00189 *)p)->f1C),((struct Obj00189 *)p)->f4C);
-            func_020061E4(1356);
+            GFL_USE_PlaySeDefaultVolume(1356);
             func_021BB054(*(u8 * *)&((struct Obj00189 *)p)->f1C);
             func_021B9BEC(*(u8 * *)&((struct Obj00189 *)p)->f14,30);
             func_021B9BEC(*(u8 * *)&((struct Obj00189 *)p)->f14,33);
@@ -127,7 +127,7 @@ void func_021BE580(u8 *p,u32 *q)
         }
     }
     if(func_021BEB60(p)) {
-        func_020061E4(1352);
+        GFL_USE_PlaySeDefaultVolume(1352);
         func_021B9BEC(*(u8 * *)&((struct Obj00189 *)p)->f14,18);
     }
 }

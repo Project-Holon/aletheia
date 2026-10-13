@@ -1,5 +1,5 @@
 /*
- * function: func_021C82F4
+ * function: BTL_SERVER_FLOW_CheckFieldEffectActive
  * address:  0x021C82F4
  * packet:   pkt_ov093_021C82F4
  * region:   ov093
@@ -25,7 +25,7 @@ typedef int s32;
 
 extern int func_068982AC(int);
 
-int func_021C82F4(int a, int b, int c)
+int BTL_SERVER_FLOW_CheckFieldEffectActive(int a, int b, int c)
 {
     return func_068982AC(c);
 }

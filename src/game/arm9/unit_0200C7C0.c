@@ -16,9 +16,9 @@
  *   func_0200C7C0_Table  0x0209DE4C  data
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_0200CA98_Table  0x0209DE4C  data
- *   func_0201ADE4        0x0201ADE4  thumb
- *   func_0201AE1C        0x0201AE1C  thumb
- *   func_0201AE14        0x0201AE14  thumb
+ *   POKE_PERSONAL_Create        0x0201ADE4  thumb
+ *   POKE_PERSONAL_GetParam        0x0201AE1C  thumb
+ *   POKE_PERSONAL_Delete        0x0201AE14  thumb
  *   func_0200C720  0x0200C720  thumb
  *   sub_0200C7A0   0x0200C7A0  thumb
  *   sub_0200CED4   0x0200CED4  thumb
@@ -112,9 +112,9 @@ struct Blk38 {
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0201ADE4(u32 a, int b, u32 c);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *p);
+extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *p);
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern u32   func_02017E1C(void *m, u32 field, u32 arg);
@@ -728,7 +728,7 @@ static inline u32 TestSpecies(const u8 *row, u32 id)
  * The reader half of func_0200CA98: find which form bit (rows +0x30E /
  * +0x317) and which of the four per-species rows (+0x1AC/+0x200/+0x254/
  * +0x2A8) are set for species `id`, report them through out1/out2/outForm,
- * then look the result up through func_0201ADE4 (docs/notes/
+ * then look the result up through POKE_PERSONAL_Create (docs/notes/
  * pkt_0200CC40.c.txt has the decode and the wave-11 form-loop work).
  *
  * Closed in wave 13 by two declaration facts:
@@ -790,11 +790,11 @@ void func_0200CC40(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5)
             *out2 = 1;
         }
     }
-    h = func_0201ADE4(id, (u16)*outForm, a5);
-    if (func_0201AE1C(h, 0x14) == 0xFF) {
+    h = POKE_PERSONAL_Create(id, (u16)*outForm, a5);
+    if (POKE_PERSONAL_GetParam(h, 0x14) == 0xFF) {
         *out1 = 2;
     }
-    func_0201AE14(h);
+    POKE_PERSONAL_Delete(h);
 }
 
 

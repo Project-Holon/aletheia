@@ -17,8 +17,8 @@
  *   func_021E1708 0x021E1708 thumb ov183
  *   func_021E1850 0x021E1850 thumb ov183
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_02035D20 0x02035D20 arm
- *   func_020061E4 0x020061E4 thumb
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021FD860 0x021FD860 thumb ov186
  *   _u32_div_f 0x0209C2B0 arm
  */
@@ -31,8 +31,8 @@ extern int func_021E0E40(int,int);
 extern void func_021E1708(char *);
 extern void func_021E1850(char *);
 extern void CLACT_SetActorAnimSeq(struct Obj *, u16);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern void func_020061E4(u32);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_021FD860(int,int,int *);
 void func_021E19EC(u32 idx, int arg, char *p)
 {
@@ -49,7 +49,7 @@ void func_021E19EC(u32 idx, int arg, char *p)
             *(int *)(p + 0x318) = 1;
             *(int *)(p + 0x31C) = rec[idx].value;
         }
-        func_020061E4(0x703);
+        GFL_USE_PlaySeDefaultVolume(0x703);
         return;
     }
     if (idx == 0x16) {
@@ -57,8 +57,8 @@ void func_021E19EC(u32 idx, int arg, char *p)
         int args[2];
         *(u16 *)(p + 0x1B8) = 0;
         *(u16 *)(p + 0x1BA) = 2;
-        func_020061E4(0x703);
-        func_02035D20(&x, &y);
+        GFL_USE_PlaySeDefaultVolume(0x703);
+        TOUCHPANEL_GetPointTrg(&x, &y);
         args[0] = x;
         args[1] = y;
         func_021FD860(*(int *)(p + 0x348), 1, args);
@@ -67,21 +67,21 @@ void func_021E19EC(u32 idx, int arg, char *p)
         int args[2];
         *(u16 *)(p + 0x1B8) = 3;
         *(u16 *)(p + 0x1BA) = 2;
-        func_020061E4(0x703);
-        func_02035D20(&x, &y);
+        GFL_USE_PlaySeDefaultVolume(0x703);
+        TOUCHPANEL_GetPointTrg(&x, &y);
         args[0] = x;
         args[1] = y;
         func_021FD860(*(int *)(p + 0x348), 1, args);
     } else {
         *(u16 *)(p + 0x1B8) = (idx - 12) % 5;
         *(u16 *)(p + 0x1BA) = (idx - 12) / 5;
-        func_020061E4(0x703);
+        GFL_USE_PlaySeDefaultVolume(0x703);
     }
     if (idx >= 12 && idx <= 21) {
         u32 x, y;
         int args[2];
         if (*(int *)(p + 0x240) != 0) {
-        func_02035D20(&x, &y);
+        TOUCHPANEL_GetPointTrg(&x, &y);
         args[0] = x;
         args[1] = y;
         func_021FD860(*(int *)(p + 0x348), 1, args);

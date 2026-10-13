@@ -12,7 +12,7 @@
  *           bytes, the rest of the handed 772 is data.
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
@@ -47,7 +47,7 @@ struct Ctx;
 struct Obj;
 struct Rec44;
 struct SaveBlock;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetExpObj(int *p);
 extern int *FIELDMAP_GetCommonWork(char *p, int idx);
@@ -84,7 +84,7 @@ int SP_POKE_GIMMICK_SwapNpcEventMain(void *a)
     void *e;
     int r;
 
-    o = func_020124E4(a);
+    o = GAME_EVENT_GetGameSystem(a);
     t = GAMESYSTEM_GetFieldMap(o);
     s = (void *)FIELDMAP_GetExpObj(t);
     w = (W *)FIELDMAP_GetCommonWork(t, 1);

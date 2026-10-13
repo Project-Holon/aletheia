@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_FlowerGiftRevertFormIfOwner
+ * function: HAND_TOKUSEI_FlowerGiftRevertFormIfOwner
  * address: 0x021D8F1C
  * packet: pkt_ov093_021D8F1C
  * region: ov093
@@ -10,14 +10,14 @@
  * status: EXACT
  * symbols:
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
- *   BTL_ABILITY_IsCherrim 0x021D8E00 thumb ov093
- *   BTL_ABILITY_ChangeCherrimForm 0x021D8E7C thumb ov093
+ *   HAND_TOKUSEI_IsCherrim 0x021D8E00 thumb ov093
+ *   HAND_TOKUSEI_ChangeCherrimForm 0x021D8E7C thumb ov093
  */
 extern int BTL_EVENT_GetVar(int);
-extern int BTL_ABILITY_IsCherrim(void *, int);
-extern void BTL_ABILITY_ChangeCherrimForm(int, void *, unsigned int, unsigned int, unsigned char);
-void BTL_ABILITY_FlowerGiftRevertFormIfOwner(int a, void *b, int c, int *d)
+extern int HAND_TOKUSEI_IsCherrim(void *, int);
+extern void HAND_TOKUSEI_ChangeCherrimForm(int, void *, unsigned int, unsigned int, unsigned char);
+void HAND_TOKUSEI_FlowerGiftRevertFormIfOwner(int a, void *b, int c, int *d)
 {
-    if (*d && c == BTL_EVENT_GetVar(2) && BTL_ABILITY_IsCherrim(b, c))
-        BTL_ABILITY_ChangeCherrimForm(a, b, c, 0, 0);
+    if (*d && c == BTL_EVENT_GetVar(2) && HAND_TOKUSEI_IsCherrim(b, c))
+        HAND_TOKUSEI_ChangeCherrimForm(a, b, c, 0, 0);
 }

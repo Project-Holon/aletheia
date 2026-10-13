@@ -14,7 +14,7 @@
  *   FLDMMDL_SetAcmd  0x0216D410  thumb
  *   FIELD_PLAYER_CORE_SetStepKind  0x021A3964  thumb
  *   FIELD_PLAYER_NOGRID_HasConnectionAhead  0x021A6C6C  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 
 typedef unsigned short u16;
@@ -32,7 +32,7 @@ typedef unsigned char  u8;
 extern void FIELD_PLAYER_CORE_SetStepKind(u8 *p, u32 v);
 
 extern int FIELD_PLAYER_NOGRID_HasConnectionAhead(u8 *p, u32 k);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 void FIELD_PLAYER_NOGRID_StartWalkBlocked(S *a, void *b, int c, int d, u16 e)
 {
@@ -40,6 +40,6 @@ void FIELD_PLAYER_NOGRID_StartWalkBlocked(S *a, void *b, int c, int d, u16 e)
     a->f0 = 3;
     FIELD_PLAYER_CORE_SetStepKind(a->f14, 0);
     if (FIELD_PLAYER_NOGRID_HasConnectionAhead((u8 *)a, e) == 0) {
-        func_020061E4(0x55a);
+        GFL_USE_PlaySeDefaultVolume(0x55a);
     }
 }

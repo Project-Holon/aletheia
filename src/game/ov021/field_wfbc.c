@@ -43,7 +43,7 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm  arm9
  *   FIELD_WFBC_DATA_LOCAL_CloseNpcData  0x02186804  thumb  ov020
  *   FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable  0x0218683C  thumb  ov020
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FIELD_WFBC_DATA_LOCAL_IsDataComplete  0x0218625C  thumb  ov020
  *   EVENT_FIELD_PROCLINK_IsReturnEntryValid  0x02161ECC  thumb  ov010
  *   FIELD_WFBC_DATA_LOCAL_LoadNpcData  0x02186818  thumb  ov020
@@ -101,7 +101,7 @@ extern u8 *FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(struct WfbcNpcData *npcDa
 extern void FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(u8 *posTable);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
 extern void FIELD_WFBC_DATA_LOCAL_CloseNpcData(struct WfbcNpcData *npcData);
-extern u32 func_02082BCC(void *dst, int value, int size);
+extern u32 MI_CpuFill8(void *dst, int value, int size);
 extern int FIELD_WFBC_DATA_LOCAL_IsDataComplete(WfbcData *data);
 extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(const WfbcPerson *person);
 extern void FIELD_WFBC_DATA_LOCAL_LoadNpcData(struct WfbcNpcData *npcData, u32 npcId);
@@ -392,7 +392,7 @@ void FIELD_WFBC_Clear(FieldWfbc *wfbc)
             FIELD_WFBC_PEOPLE_Clear(&wfbc->people[i]);
     }
     if (wfbc->blockTable != 0)
-        func_02082BCC(wfbc->blockTable, 0, sizeof(FieldWfbcBlockTable));
+        MI_CpuFill8(wfbc->blockTable, 0, sizeof(FieldWfbcBlockTable));
     FIELD_WFBC_BLOCK_ClearGrid(wfbc->blocks);
     FIELD_WFBC_BLOCK_ClearRand(&wfbc->blockRand);
 }
@@ -509,7 +509,7 @@ FieldWfbcPeople *FIELD_WFBC_FindPeopleByNpcId(FieldWfbc *wfbc, u32 npcId)
 
 void FIELD_WFBC_PEOPLE_Clear(FieldWfbcPeople *people)
 {
-    func_02082BCC(people, 0, sizeof(FieldWfbcPeople));
+    MI_CpuFill8(people, 0, sizeof(FieldWfbcPeople));
     people->isActive = 0;
 }
 
@@ -581,7 +581,7 @@ int FIELD_WFBC_BLOCK_IsPlaced(FieldWfbcBlock (*blocks)[8], u16 type, u16 blockId
 
 void FIELD_WFBC_BLOCK_ClearRand(FieldWfbcBlockRand *blockRand)
 {
-    func_02082BCC(blockRand, 0, sizeof(FieldWfbcBlockRand));
+    MI_CpuFill8(blockRand, 0, sizeof(FieldWfbcBlockRand));
 }
 
 /*

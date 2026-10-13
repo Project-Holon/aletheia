@@ -13,7 +13,7 @@
  *
  * symbols:
  *   TALKMSGWIN_ClearFrame  0x02195E90  thumb  ov021
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  * Addresses are Black-image addresses.
  */
 
@@ -23,13 +23,13 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Descriptor;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 struct FrameStyle;
 extern void TALKMSGWIN_ClearFrame(struct FrameStyle *style, void *win);
 
 u32 TALKMSGWIN_DeleteFrameWindow(u32 a, struct Descriptor *b)
 {
 TALKMSGWIN_ClearFrame((struct FrameStyle *)a, (void *)b);
-return func_020452E8(b);
+return BMP_WIN_Delete(b);
 }
 

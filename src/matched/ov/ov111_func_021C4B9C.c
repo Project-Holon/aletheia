@@ -11,7 +11,7 @@
  * closed:   blocking arm9 callees labelled and matched by seeds_3 (2026-09-28)
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   PMS_DRAW_SetDecoVisible  0x0202DCD4  thumb
  *   PMS_DRAW_SetVisible  0x0202DCB0  thumb
  *   func_021C479C  0x021C479C  thumb  ov111
@@ -57,7 +57,7 @@ typedef struct {
 extern s16 FX_SinCosTable_[];
 struct Obj0202DC98;
 struct Obj0202DCC4;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void PMS_DRAW_SetDecoVisible(struct Obj0202DCC4 *p, u32 i, u32 val);
 extern void PMS_DRAW_SetVisible(struct Obj0202DC98 *o, int i, u32 a1);
 extern void func_021C479C(Work *p);
@@ -80,7 +80,7 @@ int func_021C4B9C(Work *p)
         p->angle = 0;
         p->scaleX = 0x103D;
         p->scaleY = 0x103D;
-        func_020061E4(0x65A);
+        GFL_USE_PlaySeDefaultVolume(0x65A);
         if (p->f3034 == 0) {
             PMS_DRAW_SetDecoVisible(p->f32B0, 0, 0);
         }

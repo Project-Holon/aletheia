@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_AdaptabilityBoostSameType
+ * function: HAND_TOKUSEI_AdaptabilityBoostSameType
  * address:  0x021D8C0C
  * packet:   pkt_021B75A8
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   BTL_CALC_AdaptabilityBoostSameType   0x021D8C0C  thumb ov093
+ *   HAND_TOKUSEI_AdaptabilityBoostSameType   0x021D8C0C  thumb ov093
  *   BTL_EVENT_GetVar   0x021D775C  thumb ov093
  *   BTL_EVENT_OverwriteVar   0x021D76BC  thumb ov093
  *
@@ -28,7 +28,7 @@ typedef signed int s32;
 int BTL_EVENT_GetVar(int a);
 int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void BTL_CALC_AdaptabilityBoostSameType(void *a, void *b, int c)
+void HAND_TOKUSEI_AdaptabilityBoostSameType(void *a, void *b, int c)
 {
     if (c == BTL_EVENT_GetVar(2)) {
         if (BTL_EVENT_GetVar(0x44) != 0)

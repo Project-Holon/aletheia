@@ -13,7 +13,7 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020173EC  0x020173EC  thumb
  *   func_0203F1FC  0x0203F1FC  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -36,7 +36,7 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 struct Work;
 extern void *func_020124E8(struct Obj *p);
-extern void func_02082BCC();
+extern void MI_CpuFill8();
 extern u32 func_020173EC(void);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
@@ -53,7 +53,7 @@ struct Desc *SCRCMD_SYMBOL_CreateViewEvent(int a0, int a1, int a2, int a3, u16 *
     h = func_020120F4((const struct Ctx *)a0);
     r = func_020122C0((void *)a0, 0, (void *)SCRCMD_SYMBOL_ViewEventMain, 0x3C);
     p = func_020124E8((struct Obj *)r);
-    func_02082BCC(p, 0, 0x3C);
+    MI_CpuFill8(p, 0, 0x3C);
     ((struct Obj03543 *)p)->f0 = a1;
     *(u16 * *)&((struct Obj03543 *)p)->f28 = a4;
     ((struct Obj03543 *)p)->f24 = a5;

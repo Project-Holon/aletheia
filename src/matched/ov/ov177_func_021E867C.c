@@ -9,8 +9,8 @@
  * status: EXACT
  * symbols:
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_02045770 0x02045770 arm
- *   func_0201C6C4 0x0201C6C4 thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
  *   func_02028484 0x02028484 thumb
@@ -23,8 +23,8 @@ struct Descriptor;
 struct PrintSys;
 struct Tcbl;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void *func_02045770(struct Descriptor *);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 typedef signed int     s32;
@@ -38,13 +38,13 @@ void func_021E867C(char *p)
  switch(((struct Obj00842 *)p)->f2C) {
  case 2:
  q=((struct Obj00842 *)p)->f28;
- if(((struct Obj00842 *)p)->f24!=0 && func_0201C6C4(q,(void *)((unsigned)func_02045770(((struct Obj00842 *)p)->f20)))==0) {
+ if(((struct Obj00842 *)p)->f24!=0 && PRINTSYS_QUE_IsExistTarget(q,(void *)((unsigned)BMP_WIN_GetBmp(((struct Obj00842 *)p)->f20)))==0) {
  BMP_WIN_TransferChars(((struct Obj00842 *)p)->f20);((struct Obj00842 *)p)->f24=0;
  }
  break;
  case 0:
  q=((struct Obj00842 *)p)->f28;
- if(((struct Obj00842 *)p)->f24!=0 && func_0201C6C4(q,(void *)((unsigned)func_02045770(((struct Obj00842 *)p)->f20)))==0) {
+ if(((struct Obj00842 *)p)->f24!=0 && PRINTSYS_QUE_IsExistTarget(q,(void *)((unsigned)BMP_WIN_GetBmp(((struct Obj00842 *)p)->f20)))==0) {
  BMP_WIN_TransferChars(((struct Obj00842 *)p)->f20);((struct Obj00842 *)p)->f24=0;
  }
  ((struct Obj00842 *)p)->f30=((struct Obj00842 *)p)->f24==0;

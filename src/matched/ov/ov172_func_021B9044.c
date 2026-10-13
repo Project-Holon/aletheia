@@ -46,13 +46,13 @@
  *   func_021BA254 0x021BA254 thumb ov172
  *   WIPE_SYS_Start 0x0202208C thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   func_0201C6C4 0x0201C6C4 thumb
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0203630C 0x0203630C arm
+ *   KEY_GetCont 0x0203630C arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020362DC 0x020362DC arm
- *   func_02045770 0x02045770 arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_020409B4 0x020409B4 arm
@@ -138,13 +138,13 @@ extern int func_021BA24C(void *t);
 extern int func_021BA254(void *t);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 WIPE_SYS_EndCheck(void);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern u32 func_0203630C(void);
+extern u32 KEY_GetCont(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_020362DC(void);
-extern void *func_02045770(struct Descriptor *p);
+extern u32 KEY_GetTrg(void);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_020409B4(u32 index);
@@ -197,7 +197,7 @@ u32 func_021B9044(void *p, S *s)
     case 6:
         if (func_021B9DF8(p, (int *)s) != 0)
             break;
-        if (func_021B9F4C((int)p, (int)s, 1) == 1 || (func_0203630C() & 0x101)) {
+        if (func_021B9F4C((int)p, (int)s, 1) == 1 || (KEY_GetCont() & 0x101)) {
             if (func_021B8740((int)p, func_021BDFE4(p), 6, 0) == 1)
                 s->state = 7;
             break;
@@ -210,7 +210,7 @@ u32 func_021B9044(void *p, S *s)
         b = func_021BDFE4(p);
         a = func_021B8B68((int)p, (char *)b);
         b = func_021B8B5C(p, b);
-        if (func_021B9F4C((int)p, (int)s, 1) == 1 || (func_0203630C() & 0x101)) {
+        if (func_021B9F4C((int)p, (int)s, 1) == 1 || (KEY_GetCont() & 0x101)) {
             if (a != 0xFF) {
                 if (a == b) {
                     s->state = 8;
@@ -255,7 +255,7 @@ u32 func_021B9044(void *p, S *s)
         s->f8 = 1;
         break;
     case 14:
-        if (TOUCHPANEL_GetTrg() == 1 || (func_020362DC() & 3)) {
+        if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3)) {
             s->f4 = 7;
             s->state = 3;
             func_021B7578((int)p, (char *)func_021BDFDC(p));
@@ -281,7 +281,7 @@ u32 func_021B9044(void *p, S *s)
         break;
     case 17:
         s->f88++;
-        if (TOUCHPANEL_GetTrg() == 1 || (func_020362DC() & 3) || s->f88 >= 300)
+        if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3) || s->f88 >= 300)
             s->state = 18;
         break;
     case 18:
@@ -307,7 +307,7 @@ u32 func_021B9044(void *p, S *s)
         s->f8 = 1;
         break;
     case 21:
-        if (TOUCHPANEL_GetTrg() == 1 || (func_020362DC() & 3)) {
+        if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3)) {
             s->f4 = 7;
             s->state = 3;
             func_021BE0B0(p, 1);
@@ -320,7 +320,7 @@ u32 func_021B9044(void *p, S *s)
     func_021BA050(s->f10);
     if (s->f28 == 1) {
         void *h = (void *)func_021BE044(p);
-        if (func_0201C6C4(h, func_02045770(s->f7C)) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget(h, BMP_WIN_GetBmp(s->f7C)) == 0) {
             BMP_WIN_TransferChars(s->f7C);
             BMP_WIN_MakeScreen(s->f7C);
             func_020409B4(4);
@@ -349,7 +349,7 @@ u32 func_021B9044(void *p, S *s)
     if (s->f8C == 1) {
         if (func_021BA244(s->f10) == 0) {
             s->f8C = 0;
-            BMP_Clear(func_02045770(s->f2C), 0);
+            BMP_Clear(BMP_WIN_GetBmp(s->f2C), 0);
             BMP_WIN_TransferChars(s->f2C);
         } else {
             short *base = (short *)(func_021B8B84((int)p, (char *)func_021BDFE4(p)) + 0x800);

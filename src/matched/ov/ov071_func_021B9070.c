@@ -12,15 +12,15 @@
  * lever: state9 writes its state10 tail twice, one reached by goto, preserving the cross-jump.
  * symbols:
  *   GAMESYSTEM_GetGameComm 0x02012138 thumb
- *   func_0201C6C4 0x0201C6C4 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_0201F184 0x0201F184 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
- *   func_02005F38 0x02005F38 thumb
+ *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
@@ -55,12 +55,12 @@
  *   MONOLITH_TOOL_LIST_ShowFormattedMessage 0x021B9818 thumb ov071
  *   MONOLITH_TOOL_IsBlinking 0x021B7114 thumb ov071
  *   MONOLITH_TOOL_UpdateScrollArrows 0x021B9C30 thumb ov071
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetCont 0x02035C38 arm
- *   func_020362DC 0x020362DC arm
- *   func_0203630C 0x0203630C arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   KEY_GetCont 0x0203630C arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_020355D8 0x020355D8 arm
  *   func_02034714 0x02034714 arm
@@ -78,23 +78,23 @@ extern void func_021B6C7C(int *p, int idx);
 extern void MONOLITH_TOOL_UpdateMarker(char *p);
 extern void MONOLITH_TOOL_UpdateBackButton(void *p, int a);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 typedef signed int     s32;
 typedef unsigned short u16;
 struct Big;
 struct BigObj;
 struct PrintSys;
 struct WordSet;
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void MONOLITH_TOOL_LIST_ShowMessage(char *a, char *b, u32 c);
 extern int MONOLITH_TOOL_LIST_IsMessageDone(u8 *a, u8 *b);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_GetCont(void);
-extern u32 func_020362DC(void);
-extern u32 func_0203630C(void);
+extern u32 KEY_GetTrg(void);
+extern u32 KEY_GetCont(void);
 extern void MONOLITH_TOOL_LIST_HideMessage(char *a);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int MONOLITH_TOOL_SetCursor(u8 *p, int i, int v);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern void MONOLITH_TOOL_StartBlink(void *);
@@ -121,7 +121,7 @@ extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
-extern int func_02005F38(void);
+extern int GFL_USE_IsBgmPlaying(void);
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
@@ -147,7 +147,7 @@ int MONOLITH_TOOL_LIST_Main(int unused,int *state,u8 *c,u8 *o)
     func_021B6C7C((int *)c,1); func_021B6C7C((int *)c,3);
     MONOLITH_TOOL_UpdateMarker((char *)o); MONOLITH_TOOL_UpdateBackButton(CP(4),(u32)o);
     handle=*(u32 *)(CP(4)+8);
-    if (o[0x28c]!=0 && func_0201C6C4((struct PrintSys *)handle,(void *)((u32)func_02045770((struct Descriptor *)W(0x288))))==0) {
+    if (o[0x28c]!=0 && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)handle,(void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x288))))==0) {
         BMP_WIN_TransferChars((struct Descriptor *)W(0x288)); o[0x28c]=0;
     }
     if (c[0x2e]==1 && *state==4) return 1;
@@ -155,22 +155,22 @@ int MONOLITH_TOOL_LIST_Main(int unused,int *state,u8 *c,u8 *o)
     case 0: *state=1; break;
     case 1: MONOLITH_TOOL_LIST_ShowMessage((char *)o,(char *)CP(4),0x25); ++*state; break;
     case 2:
-        if (MONOLITH_TOOL_LIST_IsMessageDone(CP(4),o)==1 && (TOUCHPANEL_GetTrg()!=0 || (func_020362DC()&3))) {
-            MONOLITH_TOOL_LIST_HideMessage((char *)o); func_020061E4(0x547);
+        if (MONOLITH_TOOL_LIST_IsMessageDone(CP(4),o)==1 && (TOUCHPANEL_GetTrg()!=0 || (KEY_GetTrg()&3))) {
+            MONOLITH_TOOL_LIST_HideMessage((char *)o); GFL_USE_PlaySeDefaultVolume(0x547);
             if (TOUCHPANEL_GetTrg()==0) MONOLITH_TOOL_SetCursor(o,1,0);
             else MONOLITH_TOOL_SetCursor(o,0xffff,0);
             ++*state;
         } break;
     case 3:
-        if (TOUCHPANEL_GetCont()==0 && !(func_0203630C()&3)) *state=4;
+        if (TOUCHPANEL_GetCont()==0 && !(KEY_GetCont()&3)) *state=4;
         break;
     case 4:
-        mask=func_020362DC(); active=TOUCHPANEL_HitTrg(d_021BAAFC);
+        mask=KEY_GetTrg(); active=TOUCHPANEL_HitTrg(d_021BAAFC);
         if (active==0 || (mask&2)) {
             MONOLITH_TOOL_StartBlink(o+0x298);
             if (active==0) func_020355D8(TRUE);
             else func_020355D8(FALSE);
-            func_020061E4(0x551); *state=17; break;
+            GFL_USE_PlaySeDefaultVolume(0x551); *state=17; break;
         }
         MONOLITH_TOOL_ProcessListInput(c,o); MONOLITH_TOOL_ClearPrevHighlight((char *)o);
         off=0x2e0;
@@ -188,7 +188,7 @@ int MONOLITH_TOOL_LIST_Main(int unused,int *state,u8 *c,u8 *o)
         }
         func_021B6B58((void **)(o+8),0);
 selected:
-        if (W(0x300)!=0xffff) { func_020061E4(0x54c); *state=5; }
+        if (W(0x300)!=0xffff) { GFL_USE_PlaySeDefaultVolume(0x54c); *state=5; }
         break;
     case 5:
         if (func_021B6C74(c,1)!=2 && func_021B6C74(c,3)!=2) {
@@ -225,11 +225,11 @@ write10:
         break;
     case 12: GFL_USE_CancelChangeAndPlayBgm(0x531,0xffff); ++*state; break;
     case 13:
-        if (func_02005F38()==0) { GFL_USE_PopBgm(); GFL_USE_SetBgmPlayerParam(0); GFL_USE_FadeInBgmFull(6); ++*state; }
+        if (GFL_USE_IsBgmPlaying()==0) { GFL_USE_PopBgm(); GFL_USE_SetBgmPlayerParam(0); GFL_USE_FadeInBgmFull(6); ++*state; }
         break;
     case 14: if (GFL_USE_IsBgmFading()==0) *state=15; break;
     case 15:
-        if (TOUCHPANEL_GetTrg()!=0 || (func_020362DC()&3)) {
+        if (TOUCHPANEL_GetTrg()!=0 || (KEY_GetTrg()&3)) {
             MONOLITH_TOOL_LIST_HideMessage((char *)o);
             func_0200BF08((struct Rec1B0 *)func_0200BE48(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((const struct Ctx *)(*(u32 *)CP(0))))),*(u32 *)(o+(W(0x300)<<2)+0xec));
             save=GAMESYSTEM_GetGameComm((const struct Ctx *)*(u32 *)CP(0));

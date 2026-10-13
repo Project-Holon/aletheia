@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E52D4",
+   "name": "HAND_WAZA_ReflectOnUncategorizedMoveNoTarget",
    "address": "0x021E52D4",
    "kind": "game",
    "region": "ov093",

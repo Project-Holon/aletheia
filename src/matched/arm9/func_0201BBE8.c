@@ -16,11 +16,11 @@
  *   POKE_TOOL_DecodeBoxParam   0x02017DBC  thumb
  *   func_02017E88   0x02017E88  thumb
  *   POKE_TOOL_EncodeBoxParam   0x02017DE4  thumb
- *   func_0201BB5C   0x0201BB5C  thumb
+ *   POKE_TOOL_CalcIconPalette   0x0201BB5C  thumb
  *
  * Five reads of the same save block, one flag read that is kept raw (no
  * truncation) and handed back to POKE_TOOL_EncodeBoxParam as the second argument, then
- * the four values are forwarded to func_0201BB5C and its result returned.
+ * the four values are forwarded to POKE_TOOL_CalcIconPalette and its result returned.
  * Four arguments means the call cannot become a tail call, so it stays a
  * `bl` and the function keeps a real epilogue.
  *
@@ -35,7 +35,7 @@ struct Sav;
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32  func_02017E88(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
-extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
+extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
 
 int POKE_TOOL_GetIconPalette(void *a0)
 {
@@ -46,5 +46,5 @@ int POKE_TOOL_GetIconPalette(void *a0)
     u32 d = func_02017E88(a0, 0x4C, 0);
 
     POKE_TOOL_EncodeBoxParam(a0, f);
-    return func_0201BB5C(a, b, c, d);
+    return POKE_TOOL_CalcIconPalette(a, b, c, d);
 }

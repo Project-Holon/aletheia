@@ -13,7 +13,7 @@
  *   func_021BAC44 0x021BAC44 thumb ov110
  *   BMP_WIN_Create 0x020450F0 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_021BB1F4 0x021BB1F4 thumb ov110
  *   func_021BB1F8 0x021BB1F8 thumb ov110
@@ -33,7 +33,7 @@ struct CharBuf;
 struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern int func_021BB1F4(void);
 extern void func_021BB1F8(u32,void *);
@@ -50,13 +50,13 @@ u8 *func_021BB4F4(u8 *p,u8 *q) {
     w=func_021BAC44(*(u8 * *)&((struct Obj03240 *)p)->f0);
     a=BMP_WIN_Create(1,1,8,30,14,12,1);
     str=STRBUF_Create(4,42);
-    BMP_Clear(func_02045770((struct Descriptor *)a),15);
+    BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)a),15);
     n=func_021BB1F4();
     for(i=0;i<n;i++) {
         func_021BB1F8(i,str);
         func_021BB224(i,&x,&y);
         GF_FONT_SetTextColor(1,2,15);
-        PRINTSYS_Print(func_02045770((struct Descriptor *)a),x+5,y,str,(void *)w);
+        PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)a),x+5,y,str,(void *)w);
     }
     BMP_WIN_TransferChars((struct Descriptor *)a);
     STRBUF_Delete(str);

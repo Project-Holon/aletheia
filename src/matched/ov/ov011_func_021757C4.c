@@ -12,7 +12,7 @@
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb  ov011
  *   INTRUDE_COMM_GetSessionElapsed  0x02175894  thumb  ov011
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   INTRUDE_COMM_PromoteRequestToResult  0x02175D34  thumb  ov011
  *   INTRUDE_COMM_SendProposalReplies  0x02176158  thumb  ov011
@@ -53,7 +53,7 @@ extern u32 GFL_NET_IsParentAid(void);
 extern int INTRUDE_COMM_IsSessionActive(u8 *p);
 extern int INTRUDE_COMM_GetSessionElapsed(u8 *p);
 struct BigObj;
-extern u32 func_02026478(void *obj);
+extern u32 GAME_COMM_GetGameData(void *obj);
 extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 extern void INTRUDE_COMM_PromoteRequestToResult(Ctx *c, Work *w, int a);
 extern void INTRUDE_COMM_SendProposalReplies(int a, u8 *p);
@@ -72,7 +72,7 @@ void INTRUDE_COMM_UpdateSession(Ctx *c, Work *w)
                     w->b19C = 1;
                 }
             } else if (w->f1 == 1 && INTRUDE_COMM_GetSessionElapsed((u8 *)w) > w->hAA) {
-                x = func_02026478((void *)c->w4);
+                x = GAME_COMM_GetGameData((void *)c->w4);
                 if (w->bE3 == 0) {
                     INTRUDE_COMM_PromoteRequestToResult(c, w, GAME_DATA_GetExitMode((const struct BigObj *)x));
                 }

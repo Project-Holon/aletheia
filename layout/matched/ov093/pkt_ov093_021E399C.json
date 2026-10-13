@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E399C",
+   "name": "HAND_WAZA_SurfHitDiving",
    "address": "0x021E399C",
    "kind": "game",
    "region": "ov093",

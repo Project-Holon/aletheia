@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetWeatherLockHandlers
+ * function: HAND_TOKUSEI_GetWeatherLockHandlers
  * address: 0x021D983C
  * packet: pkt_ov093_021D983C
  * region: ov093
@@ -15,10 +15,10 @@
  *   gWeatherLockHandlers 0x021F0910 data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetWeatherLockHandlers(int *p);
+int *HAND_TOKUSEI_GetWeatherLockHandlers(int *p);
 extern int gWeatherLockHandlers[];
 
-int *BTL_TOKUSEI_GetWeatherLockHandlers(int *p)
+int *HAND_TOKUSEI_GetWeatherLockHandlers(int *p)
 {
     *p = 2;
     return gWeatherLockHandlers;

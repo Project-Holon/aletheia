@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  */
 
 struct Descriptor;
 typedef unsigned int   u32;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 void func_021BA43C(int unused, char *p)
 {
     unsigned char i;
     for (i = 0; i < 4; i++)
     {
-        func_020452E8(*(void **)(p + 0x8c + i * 4));
+        BMP_WIN_Delete(*(void **)(p + 0x8c + i * 4));
     }
 }

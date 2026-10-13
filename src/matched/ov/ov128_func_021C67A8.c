@@ -13,7 +13,7 @@
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   CLACT_CreateRenderer 0x0204B034 arm
- *   func_0204B258 0x0204B258 arm
+ *   CLACT_SetUnitRenderer 0x0204B258 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -42,7 +42,7 @@ struct Obj;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
-extern void func_0204B258(struct Bank *bank, void *p);
+extern void CLACT_SetUnitRenderer(struct Bank *bank, void *p);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u32);
 extern int CLACT_RegisterPalette(void *,u32,u32,u32,u32);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
@@ -67,7 +67,7 @@ void func_021C67A8(char *p,int heap)
     ((struct Obj01936 *)p)->f140=CLACT_CreateRenderer(d_021CA7D0,1,heap);
     bank=CLACT_CreateUnit(18,1,heap);
     ((struct Obj01936 *)p)->f13C=bank;
-    func_0204B258(bank,((struct Obj01936 *)p)->f140);
+    CLACT_SetUnitRenderer(bank,((struct Obj01936 *)p)->f140);
     ((struct Obj01936 *)p)->f144=CLACT_RegisterCharacter(((struct Obj01936 *)p)->f8,4,0,0,heap);
     ((struct Obj01936 *)p)->f14C=CLACT_RegisterPalette(((struct Obj01936 *)p)->f8,1,0,0,heap);
     ((struct Obj01936 *)p)->f154=CLACT_RegisterCellAnim(((struct Obj01936 *)p)->f8,15,16,heap);

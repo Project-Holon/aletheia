@@ -20,7 +20,7 @@
  *   GAME_DATA_GetFieldWork  0x02012974  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
- *   func_02013B44  0x02013B44  thumb
+ *   ZONEDATA_GetMatrixId  0x02013B44  thumb
  */
 
 typedef unsigned char u8;
@@ -40,7 +40,7 @@ extern u32 GAME_DATA_GetFieldWork(const struct BigObj *p);
 struct SaveBlock;
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
-extern u32 func_02013B44(u32 id);
+extern u32 ZONEDATA_GetMatrixId(u32 id);
 
 int SCRCMD_WORK_CmdSetMapReplaceFlag(int a0, int a1)
 {
@@ -54,7 +54,7 @@ int SCRCMD_WORK_CmdSetMapReplaceFlag(int a0, int a1)
     if (flag != 0) {
         q = GAME_DATA_GetFieldWork(p);
         r = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct SaveBlock *)p));
-        s = func_02013B44(r);
+        s = ZONEDATA_GetMatrixId(r);
         t = SCRCMD_WORK_GetHeapId((void *)a1);
         MAP_MATRIX_Load(q, s, r, t);
         MAP_MATRIX_ApplyReplace((u32 *)q, (int)v0, t);

@@ -13,7 +13,7 @@
  * char *f(int i, char *p) { return p + 0x7ec0 + i * 0x3f0; }
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   func_02082B0C  0x02082B0C  arm
  *   UNION_APP_GetJoinedBits  0x021841A0  thumb  ov022
@@ -26,7 +26,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *a);
+extern void *BMP_WIN_GetBmp(struct Descriptor *a);
 typedef signed int     s32;
 struct Bmp;
 struct Entry;
@@ -44,7 +44,7 @@ u32 OEKAKI_SendCanvasChunk(char *p, int x, int y)
     u32 sum;
     u8 c;
 
-    t = (u32)BMP_GetPixels((const struct Bmp *)((u32)func_02045770((struct Descriptor *)((struct Obj01674 *)p)->f118)));
+    t = (u32)BMP_GetPixels((const struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01674 *)p)->f118)));
     func_02082B0C(t + x * 1000, p + 0x7ad0, 1000);
     q = (u32 *)(p + 0x7ad0);
     sum = 0;

@@ -20,7 +20,7 @@
  *   func_02009794  0x02009794  thumb
  *   sWifilistFile  0x020A7198  data
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02034A5C  0x02034A5C  arm
  *   func_02034AC4  0x02034AC4  arm
  *   DWC_RAPCOMMON_InitUserData  0x02157138  thumb ov009
@@ -122,7 +122,7 @@ extern u32 func_02009794(const struct WifiHistory *history, u32 country);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void func_02009800(struct WifiList *list);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern void func_02082BCC(void *dst, int val, unsigned n);
+extern void MI_CpuFill8(void *dst, int val, unsigned n);
 extern void func_02034A5C(int handle);
 extern int func_02034AC4(int id);
 extern void DWC_RAPCOMMON_InitUserData(void *p);
@@ -689,7 +689,7 @@ void WIFILIST_Copy(const struct WifiList *src, struct WifiList *dest)
  */
 void WIFILIST_Init(struct WifiList *list)
 {
-    func_02082BCC(list, 0, sizeof(struct WifiList));
+    MI_CpuFill8(list, 0, sizeof(struct WifiList));
     func_02034A5C((int)ov_id_0A);
     func_02034A5C((int)ov_id_0B);
     func_02034AC4((int)ov_id_0D);

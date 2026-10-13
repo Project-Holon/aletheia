@@ -22,7 +22,7 @@
  *   func_02019C54  0x02019C54  thumb
  *   func_02019C7C  0x02019C7C  thumb
  *   func_02019C90  0x02019C90  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  */
 
 typedef unsigned short u16;
@@ -34,7 +34,7 @@ struct Personal;
 extern void *func_02019C54(u32 a, u32 b);
 extern u32  func_02019C7C(void *h);
 extern u32  func_02019C90(u16 a, u16 b, u32 i);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 
 void POKE_TOOL_SetBoxAbility(void *p, u32 a, u32 b);
 
@@ -62,5 +62,5 @@ void POKE_TOOL_SetBoxAbility(void *p, u32 a, u32 b)
     if (func_02019C7C(h) == 2 && (t & (1 << 16))) {
         k = 0x1B;
     }
-    POKE_TOOL_SetBoxValue(p, 0xA, func_0201AE1C(h, k));
+    POKE_TOOL_SetBoxValue(p, 0xA, POKE_PERSONAL_GetParam(h, k));
 }

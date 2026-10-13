@@ -12,13 +12,14 @@
  * Clears 0x28 bytes of the argument.
  *
  * symbols:
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
 
  */
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 
 void func_0217656C(void *p)
 {
-    func_02082BCC(p, 0, 0x28);
+    MI_CpuFill8(p, 0, 0x28);
 }
 

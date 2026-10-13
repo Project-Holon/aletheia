@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DC630",
-    "func_021DC658"
+    "HAND_TOKUSEI_SandRush_DoubleSpeedInSand",
+    "HAND_TOKUSEI_GetWonderSkinHandlers"
+   ],
+   "addresses": [
+    "0x021DC630",
+    "0x021DC658"
    ],
    "evidence": {
     "sole-ref": [

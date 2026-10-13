@@ -1,5 +1,5 @@
 /*
- * function: func_021E14FC
+ * function: HAND_WAZA_AddEndeavor
  * address: 0x021E14FC
  * packet: pkt_ov093_021E14FC
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E14E4.c and filed here.
  *
  * symbols:
- *   d_021F2938 0x021F2938 data ov093 a4
+ *   gEndeavorHandlers 0x021F2938 data ov093 a4
  */
 
-int *func_021E14FC(int *p);
-extern int d_021F2938[];
+int *HAND_WAZA_AddEndeavor(int *p);
+extern int gEndeavorHandlers[];
 
-int *func_021E14FC(int *p)
+int *HAND_WAZA_AddEndeavor(int *p)
 {
     *p = 2;
-    return d_021F2938;
+    return gEndeavorHandlers;
 }

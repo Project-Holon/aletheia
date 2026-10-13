@@ -10,7 +10,7 @@
  * status:   EXACT
  * function: WAZA_TOOL_IsDamaging
  *
- * A boolean wrapper around sub_0201BD28 (see src/matched/unit_0201C1C8.c),
+ * A boolean wrapper around WAZA_TOOL_GetParam (see src/matched/unit_0201C1C8.c),
  * id 3 again, this time reduced to 0/1 rather than truncated to a halfword.
  *
  * Verified with:
@@ -18,15 +18,16 @@
  *       --addr 0x0201C314 --thumb
  *
  * symbols:
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  */
 
 typedef unsigned int u32;
 
-extern u32 sub_0201BD28(void *p, u32 id);
+extern u32 WAZA_TOOL_GetParam(void *p, u32 id);
 
 u32 WAZA_TOOL_IsDamaging(void *p)
 {
-    if (sub_0201BD28(p, 3) == 0) {
+    if (WAZA_TOOL_GetParam(p, 3) == 0) {
         return 0;
     }
     return 1;

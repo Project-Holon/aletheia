@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_MagicBounceReflectMove
+ * function: HAND_TOKUSEI_MagicBounceReflectMove
  * address: 0x021DCAD8
  * packet: pkt_ov093_021DCAD8
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 void BTLV_CORE_EventRedirectMove(int u, void *a, int b, int d);
-void BTL_ABILITY_MagicBounceReflectMove(int u, void *a, int b, int d);
+void HAND_TOKUSEI_MagicBounceReflectMove(int u, void *a, int b, int d);
 
-void BTL_ABILITY_MagicBounceReflectMove(int u, void *a, int b, int d)
+void HAND_TOKUSEI_MagicBounceReflectMove(int u, void *a, int b, int d)
 {
     BTLV_CORE_EventRedirectMove(u, a, b, d);
 }

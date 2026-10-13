@@ -18,7 +18,7 @@
  *   func_021BDA54 0x021BDA54 thumb ov216
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   d_021BDD8A 0x021BDD8A data a2
  */
@@ -36,7 +36,7 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021BDA54(char *owner, char *record, u32 b, u16 c, u32 d, u16 f);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(unsigned int);
 
 struct Rec { void *d; int h; int u, v; };
@@ -46,7 +46,7 @@ struct Win { struct Rec a[4]; struct Rec32 b; struct Rec32 c; };
 #define REC1(w, j, i) ((struct Rec *)((char *)(w) + (j) * 0x80 + (i) * 16))
 #define HANDLE(p, k) (*(int *)((p) + (k)))
 #define ARG(p, k) (*(int *)((p) + (k) + 0xC))
-#define CALLS(r) do { void *d = (r)->d; BMP_WIN_TransferChars(d); BMP_WIN_MakeScreen(d); func_020409B4(func_02045730(d)); } while (0)
+#define CALLS(r) do { void *d = (r)->d; BMP_WIN_TransferChars(d); BMP_WIN_MakeScreen(d); func_020409B4(BMP_WIN_GetBgLayer(d)); } while (0)
 
 #pragma opt_lifetimes off
 #pragma opt_propagation off

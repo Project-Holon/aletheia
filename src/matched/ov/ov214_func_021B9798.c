@@ -16,8 +16,8 @@
  *   func_021BAC3C 0x021BAC3C thumb ov214
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_02030EAC 0x02030EAC arm
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   func_021BB220 0x021BB220 thumb ov214
  *   func_020315D4 0x020315D4 arm
@@ -39,8 +39,8 @@ extern unsigned int MSGDATA_Delete(struct Rec *rec);
 struct Node;
 struct PrintSys;
 extern void func_02030EAC(struct Node *n);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_021BB220(char *p);
@@ -58,14 +58,14 @@ int func_021B9798(void *owner,int unused,int state,char *p)
     func_021BAC3C(state,(u8 *)p);
     MSGDATA_Delete(*(struct Rec * *)&((struct Obj00636 *)p)->f58);
     func_02030EAC((struct Node *)(((struct Obj00636 *)p)->f4C));
-    func_0201C6EC((struct PrintSys *)(((struct Obj00636 *)p)->f18));
-    func_0201C4C0((struct PrintSys *)(((struct Obj00636 *)p)->f18));
-    func_0201C6EC((struct PrintSys *)(((struct Obj00636 *)p)->f14));
-    func_0201C4C0((struct PrintSys *)(((struct Obj00636 *)p)->f14));
-    func_0201C6EC((struct PrintSys *)(((struct Obj00636 *)p)->f10));
-    func_0201C4C0((struct PrintSys *)(((struct Obj00636 *)p)->f10));
-    func_0201C6EC((struct PrintSys *)(((struct Obj00636 *)p)->fC));
-    func_0201C4C0((struct PrintSys *)(((struct Obj00636 *)p)->fC));
+    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj00636 *)p)->f18));
+    PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj00636 *)p)->f18));
+    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj00636 *)p)->f14));
+    PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj00636 *)p)->f14));
+    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj00636 *)p)->f10));
+    PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj00636 *)p)->f10));
+    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj00636 *)p)->fC));
+    PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj00636 *)p)->fC));
     GF_FONT_Delete(((struct Obj00636 *)p)->f8);
     func_021BB220(*(char * *)&((struct Obj00636 *)p)->f4);
     func_020315D4(owner);

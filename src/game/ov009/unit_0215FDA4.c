@@ -26,7 +26,7 @@
  *   func_02088864  0x02088864  arm
  *   func_0208890C  0x0208890C  arm
  *   func_02089004  0x02089004  arm
- *   func_02085A30  0x02085A30  arm
+ *   OS_GetThreadPriority  0x02085A30  arm
  *   func_02085988  0x02085988  arm
  *   g_021A1D40  0x021A1D40  data
  *   OS_SetThreadPriority  0x02085988  arm
@@ -54,7 +54,7 @@
  *   auth_cert          0x0216090C  arm  ov009
  *   compare_fqdn       0x02160A10  arm  ov009
  *   validate_signature 0x02160764  arm  ov009
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   CPSi_big_from_char  0x02164CC4 arm ov009
  *   CPSi_big_montpower  0x02164AA8 arm ov009
  *   CPSi_big_sub        0x021640B8 arm ov009
@@ -133,7 +133,7 @@ extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int func_02088864(struct RTCDate *date);
 extern int func_0208890C(struct RTCTime *time);
 extern long long func_02089004(struct RTCDate *date, struct RTCTime *time);
-extern void *func_02085A30(OSThread *p);
+extern void *OS_GetThreadPriority(OSThread *p);
 extern int func_02085988(void *thread, unsigned long prio);
 extern void OS_SetThreadPriority(OSThread *thread, u32 prio);
 extern int func_020948E0(const char *s1, const char *s2);
@@ -155,7 +155,7 @@ extern int RTC_GetDate(RTCDate *date);
 extern int auth_cert(CPSSslConnection *con);
 extern int compare_fqdn(char *name, char *pat);
 extern int validate_signature(CPSSslConnection *con, SOCLCaInfo *ca);
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void CPSi_big_from_char(unsigned short *d, unsigned char *s, int numbytes, int digits);
 extern void CPSi_big_montpower(unsigned short *c, unsigned short *m, unsigned short *e, int digits, unsigned short *n);
 extern void CPSi_big_sub(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
@@ -403,7 +403,7 @@ unsigned long func_0216009C(void)
 		return -1;
 	}
 	thread = OSi_ThreadInfo.current;
-	old_priority = (long unsigned int)func_02085A30(thread);
+	old_priority = (long unsigned int)OS_GetThreadPriority(thread);
 	func_02085988(thread, g_021A1D40.priority);
 	return old_priority;
 }
@@ -1031,7 +1031,7 @@ static void func_02160E1C(CPSSslConnection *con, unsigned char *s)
     if (random_len >= 0x20) {
         func_02082D44(s + offset, con->client_random, 0x20);
     } else {
-        func_02082BCC(con->client_random, 0, 0x20 - random_len);
+        MI_CpuFill8(con->client_random, 0, 0x20 - random_len);
         func_02082D44(s + offset, con->client_random + 0x20 - random_len, random_len);
     }
     con->state = 1;
@@ -1228,12 +1228,12 @@ void func_021614BC(CPSSslConnection *con, unsigned char *d, int flag)
     else
         func_02163438(p, &g_021A1DA0, 4);
     func_02163438(p, con->master_secret, 48);
-    func_02082BCC(tmp, 0x36, 48);
+    MI_CpuFill8(tmp, 0x36, 48);
     func_02163438(p, tmp, 48);
     func_021634F0(p, d);
     func_021633F0(p);
     func_02163438(p, con->master_secret, 48);
-    func_02082BCC(tmp, 0x5c, 48);
+    MI_CpuFill8(tmp, 0x5c, 48);
     func_02163438(p, tmp, 48);
     func_02163438(p, d, 16);
     func_021634F0(p, d);
@@ -1253,12 +1253,12 @@ void func_02161598(CPSSslConnection *con, unsigned char *d, int flag)
     else
         func_02163CF0(p, &g_021A1DA0, 4);
     func_02163CF0(p, con->master_secret, 48);
-    func_02082BCC(tmp, 0x36, 40);
+    MI_CpuFill8(tmp, 0x36, 40);
     func_02163CF0(p, tmp, 40);
     func_02163DA8(p, d);
     func_02163C9C(p);
     func_02163CF0(p, con->master_secret, 48);
-    func_02082BCC(tmp, 0x5c, 40);
+    MI_CpuFill8(tmp, 0x5c, 40);
     func_02163CF0(p, tmp, 40);
     func_02163CF0(p, d, 20);
     func_02163DA8(p, d);
@@ -2199,5 +2199,5 @@ void func_02162EC4(unsigned long now)
 
 void func_02162FA4(void)
 {
-    func_02082BCC(g_021AA664, 0, 0x170);
+    MI_CpuFill8(g_021AA664, 0, 0x170);
 }

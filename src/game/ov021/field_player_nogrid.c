@@ -16,10 +16,10 @@
  * symbols:
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
- *   func_020061E4  0x020061E4  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_USE_GetSeSlot  0x02006148  thumb
- *   func_020061F8  0x020061F8  thumb
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb
  *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   FLDMMDL_RAIL_GetNextLocation  0x0219E2F4  thumb
@@ -83,10 +83,10 @@ typedef signed int s32;
 /* Heap, sound and memory helpers. */
 extern u32 func_020307B0(void *block);
 extern void *func_02030734(u32 heapId, u32 size, int a, const char *file, u16 line);
-void func_020061E4(u32 seId);
-void func_02082BCC(void *dst, int value, int size);
+void GFL_USE_PlaySeDefaultVolume(u32 seId);
+void MI_CpuFill8(void *dst, int value, int size);
 int GFL_USE_GetSeSlot(u32 seId);
-void func_020061F8(int slot);
+void GFL_USE_StopSeSlot(int slot);
 
 /* Field model (ov010). */
 void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
@@ -655,7 +655,7 @@ void FIELD_PLAYER_NOGRID_StartWalkBlocked(FieldPlayerNogrid *player, Mmdl *mmdl,
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_BLOCKED;
     FIELD_PLAYER_CORE_SetStepKind(player->core, 0);
     if (FIELD_PLAYER_NOGRID_HasConnectionAhead(player, dir) == 0) {
-        func_020061E4(0x55a);
+        GFL_USE_PlaySeDefaultVolume(0x55a);
     }
 }
 
@@ -825,7 +825,7 @@ void FIELD_PLAYER_NOGRID_StartSlowBlocked(FieldPlayerNogrid *player, Mmdl *mmdl,
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_BLOCKED;
     FIELD_PLAYER_CORE_SetStepKind(player->core, 0);
     if (FIELD_PLAYER_NOGRID_HasConnectionAhead(player, dir) == 0) {
-        func_020061E4(0x55a);
+        GFL_USE_PlaySeDefaultVolume(0x55a);
     }
 }
 
@@ -890,7 +890,7 @@ void FIELD_PLAYER_NOGRID_StartRailBlocked(FieldPlayerNogrid *player, Mmdl *mmdl,
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_BLOCKED;
     FIELD_PLAYER_CORE_SetStepKind(player->core, 0);
     if (FIELD_PLAYER_NOGRID_HasConnectionAhead(player, dir) == 0) {
-        func_020061E4(0x55a);
+        GFL_USE_PlaySeDefaultVolume(0x55a);
     }
 }
 
@@ -1224,7 +1224,7 @@ u32 FIELD_PLAYER_NOGRID_ForcedSlideSpinB(FieldPlayerNogrid *player, u32 dir)
 int FIELD_PLAYER_NOGRID_ForcedSlideWarnDir2(FieldPlayerNogrid *player, int dir, int skipTileKind)
 {
     if (FLDMMDL_GetDirMove(player->mmdl) == 2) {
-        func_020061E4(0x55e);
+        GFL_USE_PlaySeDefaultVolume(0x55e);
     }
     return FIELD_PLAYER_NOGRID_ForcedSlide(player, dir, skipTileKind);
 }
@@ -1234,7 +1234,7 @@ int FIELD_PLAYER_NOGRID_ForcedSlideWarnDir2(FieldPlayerNogrid *player, int dir, 
 int FIELD_PLAYER_NOGRID_ForcedSlideWarnDir3(FieldPlayerNogrid *player, int dir, int skipTileKind)
 {
     if (FLDMMDL_GetDirMove(player->mmdl) == 3) {
-        func_020061E4(0x55e);
+        GFL_USE_PlaySeDefaultVolume(0x55e);
     }
     return FIELD_PLAYER_NOGRID_ForcedSlide(player, dir, skipTileKind);
 }
@@ -1275,7 +1275,7 @@ u32 FIELD_PLAYER_NOGRID_ForcedInputHold(FieldPlayerNogrid *player, u32 dir)
 void FIELD_PLAYER_NOGRID_StartSpin(NogridSpin *spin, u8 variant)
 {
     if (spin->active != 1 || variant != spin->variant) {
-        func_020061E4(0x6d1);
+        GFL_USE_PlaySeDefaultVolume(0x6d1);
         spin->active = 1;
         spin->variant = variant;
         spin->phase = 0;
@@ -1288,7 +1288,7 @@ void FIELD_PLAYER_NOGRID_StopSpin(NogridSpin *spin)
     if (spin->active) {
         spin->active = 0;
         spin->phase = 0;
-        func_020061F8(GFL_USE_GetSeSlot(0x6d1));
+        GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(0x6d1));
     }
 }
 
@@ -1305,7 +1305,7 @@ void FIELD_PLAYER_NOGRID_AdvanceSpin(NogridSpin *spin, Mmdl *mmdl)
 
 int FIELD_PLAYER_NOGRID_InitInputHold(NogridInputHold *hold)
 {
-    func_02082BCC(hold, 0, 8);
+    MI_CpuFill8(hold, 0, 8);
     hold->heldDir = FIELD_PLAYER_NOGRID_DIR_NONE;
     return 9;
 }

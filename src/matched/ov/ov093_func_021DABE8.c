@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_GetSoundproofHandlers
+ * function: HAND_TOKUSEI_GetSoundproofHandlers
  * address: 0x021DABE8
  * packet: pkt_ov093_021DABE8
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DA624_p01.c and filed here.
  *
  * symbols:
- *   gSoundproofHandlerTable 0x021F0788 data ov093 a4
+ *   gSoundproofHandlers 0x021F0788 data ov093 a4
  */
 
-int *BTL_ABILITY_GetSoundproofHandlers(int *p);
-extern int gSoundproofHandlerTable[];
+int *HAND_TOKUSEI_GetSoundproofHandlers(int *p);
+extern int gSoundproofHandlers[];
 
-int *BTL_ABILITY_GetSoundproofHandlers(int *p)
+int *HAND_TOKUSEI_GetSoundproofHandlers(int *p)
 {
     *p = 1;
-    return gSoundproofHandlerTable;
+    return gSoundproofHandlers;
 }

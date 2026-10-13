@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_ABILITY_LevitateClearFlag",
-    "BTL_ABILITY_GetLevitateHandlers"
+    "HAND_TOKUSEI_LevitateClearFlag",
+    "HAND_TOKUSEI_GetLevitateHandlers"
    ],
    "addresses": [
     "0x021DAC6C",

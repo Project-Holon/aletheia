@@ -14,7 +14,7 @@
  *   data_021C85A4  0x021C85A4  data
  *   ARC_UTIL_UploadPaletteFromArchive  0x02049B90  arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_02045B38  0x02045B38  arm
@@ -50,7 +50,7 @@ extern const struct WinCfg4 data_021C85A4;
 extern void ARC_UTIL_UploadPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *win);
+extern void *BMP_WIN_GetBmp(struct Descriptor *win);
 struct CharBuf;
 struct MsgBank;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -71,12 +71,12 @@ void ov208_func_021C0788(u16 *heap, u8 *p, int key)
     ARC_UTIL_UploadPaletteFromArchive(0x17, 5, 0, 0, 0, 0x20, *heap);
     for (i = 0; i < 2; i++) {
         *(u32 *)(p + i * 4 + 0x44) = BMP_WIN_Create(a.e[i].bg, a.e[i].x, a.e[i].y, a.e[i].w, a.e[i].h, a.e[i].pal, a.e[i].base);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + i * 4 + 0x44))), 0);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)(p + i * 4 + 0x44))), 0);
         BMP_WIN_TransferChars((struct Descriptor *)*(u32 *)(p + i * 4 + 0x44));
     }
     for (i = 0; i < 4; i++) {
         *(u32 *)(p + i * 4 + 0x14) = BMP_WIN_Create(b.e[i].bg, b.e[i].x, b.e[i].y, b.e[i].w, b.e[i].h, b.e[i].pal, b.e[i].base);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + i * 4 + 0x14))), 0);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)(p + i * 4 + 0x14))), 0);
         BMP_WIN_TransferChars((struct Descriptor *)*(u32 *)(p + i * 4 + 0x14));
     }
     W(0xc) = (u32)func_02045B38(0, 2, 0xea, *heap);

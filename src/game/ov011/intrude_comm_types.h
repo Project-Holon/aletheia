@@ -295,7 +295,7 @@ typedef struct IntrudeCommSys {
     u8 unionInfoReceived;                       /* 0x90C */
     u8 entryReceived;                           /* 0x90D */
     s16 waitFrames;                             /* 0x90E */
-    u8 specialZoneEntered;                      /* 0x910: set once the player enters a zone of func_02013D5C */
+    u8 specialZoneEntered;                      /* 0x910: set once the player enters a zone of ZONEDATA_IsZone117 */
     u8 ownNetId;                                /* 0x911: own net ID, the value INTRUDE_COMM_GetPlayerNetId answers while the work exists */
     u8 pad912[2];
     IntrudeRemoteRecord remoteRecord;           /* 0x914 */

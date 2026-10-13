@@ -1,5 +1,5 @@
 /*
- * function: func_021C84F4
+ * function: BTL_SERVER_FLOW_AddSeenPoke
  * address:  0x021C84F4
  * packet:   pkt_ov093_021C84F4
  * region:   ov093
@@ -15,7 +15,7 @@
  * and bumps the count at p+0x785.
  */
 
-void func_021C84F4(unsigned char *p, unsigned int v)
+void BTL_SERVER_FLOW_AddSeenPoke(unsigned char *p, unsigned int v)
 {
     unsigned int i;
     unsigned int n = p[0x785];

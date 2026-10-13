@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_020355C4  0x020355C4  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_020355D8  0x020355D8  arm
- *   func_020061E4  0x020061E4  thumb
- *   func_0203633C  0x0203633C  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
+ *   KEY_GetRepeat  0x0203633C  arm
  *   func_021FA7C4  0x021FA7C4  thumb
  *   func_021F4FF4  0x021F4FF4  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
@@ -44,13 +44,13 @@ typedef struct {
 
 extern const CurPos tbl_02203236[];
 
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern u8 func_020355C4(void);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void func_020355D8(u8 v);
-extern void func_020061E4(u32 se);
-extern unsigned int func_0203633C(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
+extern unsigned int KEY_GetRepeat(void);
 extern void func_021FA7C4(Menu *m, int dir);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
@@ -63,31 +63,31 @@ int func_021FA85C(Menu *m)
     int r;
 
     old = m->cur;
-    if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC((struct Obj *)m->cursor, 1);
+    if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
+        CLACT_SetActorDrawEnable((struct Obj *)m->cursor, 1);
         func_020355D8(0);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return -1;
     }
-    if (func_0203633C() & 0x40) {
+    if (KEY_GetRepeat() & 0x40) {
         if (m->cur != 0) {
             m->cur = m->cur - 1;
         } else {
             m->cur = 5;
         }
-    } else if (func_0203633C() & 0x80) {
+    } else if (KEY_GetRepeat() & 0x80) {
         if (m->cur != 5) {
             m->cur = m->cur + 1;
         } else {
             m->cur = 0;
         }
-    } else if (func_0203633C() & 0x20) {
+    } else if (KEY_GetRepeat() & 0x20) {
         func_021FA7C4(m, -1);
-    } else if (func_0203633C() & 0x10) {
+    } else if (KEY_GetRepeat() & 0x10) {
         func_021FA7C4(m, 1);
     }
     if (old != m->cur) {
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021F4FF4(m->cursor, tbl_02203236[m->cur].x, tbl_02203236[m->cur].y);
         if (m->cur == 5) {
             CLACT_SetActorAnimSeq((struct Obj *)m->cursor, 5);
@@ -108,16 +108,16 @@ int func_021FA85C(Menu *m)
         }
         r = func_021FA760(m, r);
         if (r == -1 && func_020355C4() == 0) {
-            func_0204B3DC((struct Obj *)m->cursor, 0);
+            CLACT_SetActorDrawEnable((struct Obj *)m->cursor, 0);
         }
         func_020355D8(1);
         return r;
     }
-    if (func_020362DC() & 1) {
+    if (KEY_GetTrg() & 1) {
         return func_021FA760(m, m->cur);
     }
-    if (func_020362DC() & 2) {
-        func_020061E4(0x551);
+    if (KEY_GetTrg() & 2) {
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021F4FF4(m->cursor, 0xC0, 0x88);
         CLACT_SetActorAnimSeq((struct Obj *)m->cursor, 5);
         return -2;

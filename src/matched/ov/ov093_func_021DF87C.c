@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetCharcoalHandlers
+ * function: HAND_ITEM_GetCharcoalHandlers
  * address: 0x021DF87C
  * packet: pkt_ov093_021DF87C
  * region: ov093
@@ -15,10 +15,10 @@
  *   gCharcoalHandlers 0x021F15E4 data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetCharcoalHandlers(int *p);
+int *HAND_ITEM_GetCharcoalHandlers(int *p);
 extern int gCharcoalHandlers[];
 
-int *BTL_HANDLER_ITEM_GetCharcoalHandlers(int *p)
+int *HAND_ITEM_GetCharcoalHandlers(int *p)
 {
     *p = 1;
     return gCharcoalHandlers;

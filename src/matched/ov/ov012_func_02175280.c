@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02034714  0x02034714  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
- *   func_02175358  0x02175358  thumb  ov012
+ *   COLOSSEUM_SetupBattleMember  0x02175358  thumb  ov012
  *   func_020120F4  0x020120F4  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  */
@@ -23,14 +23,14 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 struct Ctx;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
-extern void func_02175358(u8 *a, u8 *slot, u8 i, int d);
+extern void COLOSSEUM_SetupBattleMember(u8 *a, u8 *slot, u8 i, int d);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 
@@ -44,7 +44,7 @@ void COLOSSEUM_SetupBattleInfo(u8 *a, void *b, u8 *out, int d)
     int y;
 
     count = 0;
-    func_02082BCC(out, 0, 0x58);
+    MI_CpuFill8(out, 0, 0x58);
     ((struct Obj07341 *)out)->f44 = 3;
     for (i = 0; i < 4; i++) {
         if (a[0x158 + i] == 0) {
@@ -70,7 +70,7 @@ void COLOSSEUM_SetupBattleInfo(u8 *a, void *b, u8 *out, int d)
         if (v >= count) {
             func_02034714((void *)0x0217563C, 0, (void *)0x0217563C);
         }
-        func_02175358(a, out + v * 16, (u8)i, d);
+        COLOSSEUM_SetupBattleMember(a, out + v * 16, (u8)i, d);
     }
     ((struct Obj07341 *)out)->f54 = (int)GAME_DATA_GetTrainerRecord(func_020120F4(b));
 }

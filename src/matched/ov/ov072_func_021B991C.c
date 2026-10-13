@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   TOWNMAP_ProcSetStep 0x021B995C thumb ov072
  */
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void TOWNMAP_ProcSetStep(int *, int);
 void TOWNMAP_ProcInit(int *p, int a, int b) {
-    func_02082BCC(p, 0, 16);
+    MI_CpuFill8(p, 0, 16);
     p[3] = a;
     TOWNMAP_ProcSetStep(p, b);
 }

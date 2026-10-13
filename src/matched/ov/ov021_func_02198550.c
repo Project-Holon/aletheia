@@ -20,7 +20,7 @@
  *   FLDMMDL_MOVE_UpdateOldGridPos  0x02163F10  thumb  ov010
  *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
  *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb  ov010
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj01032.h"
@@ -42,7 +42,7 @@ extern void FLDMMDL_SetDrawOffset(u32, Vec *);
 extern int FLDMMDL_MOVE_UpdateOldGridPos(int a0);
 extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
 extern void FLDMMDL_IncAcmdSeq(u8 *p);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 
 int FLDMMDL_ACMD_JumpMove(u32 a)
 {
@@ -86,6 +86,6 @@ int FLDMMDL_ACMD_JumpMove(u32 a)
     FLDMMDL_MOVE_UpdateOldGridPos(a);
     FLDMMDL_SetDrawStatus((void *)a, 0);
     FLDMMDL_IncAcmdSeq((u8 *)a);
-    func_020061E4(0x67B);
+    GFL_USE_PlaySeDefaultVolume(0x67B);
     return 1;
 }

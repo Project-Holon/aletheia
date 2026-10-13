@@ -25,7 +25,7 @@
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   func_020413B0 0x020413B0 arm
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -52,7 +52,7 @@ struct CharBuf;
 struct Descriptor;
 struct MsgBank;
 struct U16Vec;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
@@ -85,9 +85,9 @@ void func_021C060C(u8 *p,u16 heap,u32 font,void *print,void *bank)
     func_020498F4((void *)((u32)h),24,5,0,0,0,heap);
     func_020413B0(5,0,0,32,32,8);
     *(u32 *)&((struct Obj02466 *)p)->f24=BMP_WIN_Create(5,3,5,26,7,8,1);
-    BMP_Clear(func_02045770(((struct Obj02466 *)p)->f24),7);
+    BMP_Clear(BMP_WIN_GetBmp(((struct Obj02466 *)p)->f24),7);
     str=func_02045EC0(bank,21);
-    PRINTSYS_PrintQueColor(print,(u32)func_02045770(((struct Obj02466 *)p)->f24),2,4,(u32)str,font,0x39e7);
+    PRINTSYS_PrintQueColor(print,(u32)BMP_WIN_GetBmp(((struct Obj02466 *)p)->f24),2,4,(u32)str,font,0x39e7);
     ((struct Obj02466 *)p)->f28=1;
     STRBUF_Delete(str);
     ARC_TOOL_DeleteHandle(h);

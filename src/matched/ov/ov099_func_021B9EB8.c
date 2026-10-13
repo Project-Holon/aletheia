@@ -11,8 +11,8 @@
  *
  * symbols:
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,8 +35,8 @@ typedef struct {
 
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *a, unsigned int b, unsigned int c, unsigned int d, const void *e, u16 f, u16 g);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204B92C(struct Obj *a, u32 b);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *a, u32 b);
 
 void func_021B9EB8(Obj *o, int a)
 {
@@ -52,8 +52,8 @@ void func_021B9EB8(Obj *o, int a)
     r.d = 0xfe;
     r.e = 3;
     o->f18 = (u32)CLACT_CreateActor((void *)o->f0, o->f8, o->fc, o->f10, &r, 0, a);
-    func_0204B3DC((struct Obj *)o->f14, 0);
-    func_0204B3DC((struct Obj *)o->f18, 0);
-    func_0204B92C((struct Obj *)o->f14, 1);
-    func_0204B92C((struct Obj *)o->f18, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)o->f14, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)o->f18, 0);
+    CLACT_SetActorAutoAnim((struct Obj *)o->f14, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)o->f18, 1);
 }

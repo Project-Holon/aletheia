@@ -690,7 +690,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215FBAC",
+   "name": "SOC_U32to4U8",
    "address": "0x0215FBAC",
    "kind": "sdk",
    "region": "ov009",
@@ -2531,7 +2531,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02185848",
+   "name": "GSMD5_memset",
    "address": "0x02185848",
    "kind": "game",
    "region": "ov009",
@@ -2985,7 +2985,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02195E60",
+   "name": "gt2GetSocketSOCKET",
    "address": "0x02195E60",
    "kind": "game",
    "region": "ov009",

@@ -1,5 +1,5 @@
 /*
- * function: func_021E061C
+ * function: HAND_WAZA_GetGravityHandlers
  * address: 0x021E061C
  * packet: pkt_ov093_021E061C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E0518.c and filed here.
  *
  * symbols:
- *   d_021F2424 0x021F2424 data ov093 a4
+ *   gGravityHandlers 0x021F2424 data ov093 a4
  */
 
-int *func_021E061C(int *p);
-extern int d_021F2424[];
+int *HAND_WAZA_GetGravityHandlers(int *p);
+extern int gGravityHandlers[];
 
-int *func_021E061C(int *p)
+int *HAND_WAZA_GetGravityHandlers(int *p)
 {
     *p = 1;
-    return d_021F2424;
+    return gGravityHandlers;
 }

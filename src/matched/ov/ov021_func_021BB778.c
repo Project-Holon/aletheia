@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 
 typedef unsigned int   u32;
-void func_020061E4(u32 a);
+void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 void FLDEFF_GYOE_PlaySe(int n)
 {
@@ -33,5 +33,5 @@ void FLDEFF_GYOE_PlaySe(int n)
     case 3:
         return;
     }
-    func_020061E4(id);
+    GFL_USE_PlaySeDefaultVolume(id);
 }

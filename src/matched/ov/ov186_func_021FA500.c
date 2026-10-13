@@ -13,7 +13,7 @@
  *   func_021FA020 0x021FA020 thumb ov186
  *   func_021FAF24 0x021FAF24 thumb ov186
  *   func_021FA1DC 0x021FA1DC thumb ov186
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FA0FC 0x021FA0FC thumb ov186
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021FA210 0x021FA210 thumb ov186
@@ -35,7 +35,7 @@ extern void func_021FA020(u8 *,int,int);
 extern int func_021FAF24(char *,int);
 extern void func_021FA1DC(char *p, int x, int y);
 extern void func_021FA210(char *p);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern void func_021FA0FC(u8 *,int,const int *);
 extern int func_021FA0A8(u8 *,Record *);
 typedef unsigned int   u32;
@@ -58,7 +58,7 @@ void func_021FA500(void *p,int *state,u8 *ctx)
   index=((struct Obj00684 *)ctx)->f2C;
   value=func_021FAF24(*(char * *)&((struct Obj00684 *)ctx)->f40+index*0x44,4);
   func_021FA1DC(((struct Obj00684 *)ctx)->f5C,(u16)value,(u16)index);
-  func_02082BCC(*(char * *)&((struct Obj00684 *)ctx)->f40+((struct Obj00684 *)ctx)->f2C*0x44,0,0x44);
+  MI_CpuFill8(*(char * *)&((struct Obj00684 *)ctx)->f40+((struct Obj00684 *)ctx)->f2C*0x44,0,0x44);
   pos[1]=-32;
   func_021FA0FC(ctx,section,pos);
   func_021FD73C(p,(int)func_021FA7FC);
@@ -83,7 +83,7 @@ void func_021FA500(void *p,int *state,u8 *ctx)
   index=((struct Obj00684 *)ctx)->f2C;
   value=func_021FAF24(*(char * *)&((struct Obj00684 *)ctx)->f40+index*0x44,4);
   func_021FA1DC(((struct Obj00684 *)ctx)->f5C,(u16)value,(u16)index);
-  func_02082BCC(*(char * *)&((struct Obj00684 *)ctx)->f40+((struct Obj00684 *)ctx)->f2C*0x44,0,0x44);
+  MI_CpuFill8(*(char * *)&((struct Obj00684 *)ctx)->f40+((struct Obj00684 *)ctx)->f2C*0x44,0,0x44);
   for(i=0;i<ctx[0x39];i++)func_021FACE0(*(char * *)&((struct Obj00684 *)ctx)->f40+i*0x44);
   func_021FD73C(p,(int)func_021FA7FC);
  }

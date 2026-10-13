@@ -14,10 +14,10 @@
  *   func_02049B40  0x02049B40  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   func_0201F7A8  0x0201F7A8  thumb
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_02045CAC  0x02045CAC  arm
  *   func_0201D304  0x0201D304  thumb
@@ -60,11 +60,11 @@ struct MsgBank;
 struct StrObj;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_0201F7A8(void *desc, u32 kind);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
@@ -89,14 +89,14 @@ void IRCBATTLEMENU_CreateButtonWindows(int n, u32 *msg, Obj *a, Desc *d, int *xs
         if (a->w[i] != 0) {
             BMP_WIN_ClearScreen((struct Descriptor *)a->w[i]);
             func_0201F7A8((void *)a->w[i], 2);
-            func_020452E8((struct Descriptor *)a->w[i]);
+            BMP_WIN_Delete((struct Descriptor *)a->w[i]);
         }
         a->w[i] = 0;
     }
     for (i = 0; i < n; i++) {
         GF_FONT_SetTextColor(15, 2, 0);
         a->w[i] = BMP_WIN_Create(7, (u8)d[i].x0, (u8)d[i].x4, (u8)d[i].x8, (u8)d[i].xc, 8, 0);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)a->w[i])), 0);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)a->w[i])), 0);
         func_02045CAC((struct MsgBank *)a->x28, msg[i], (void *)a->x38);
         if (xs != 0) {
             x = xs[i] - (func_0201D304((struct StrObj *)a->x38, a->x2c, 0) >> 1);
@@ -108,7 +108,7 @@ void IRCBATTLEMENU_CreateButtonWindows(int n, u32 *msg, Obj *a, Desc *d, int *xs
         } else {
             y = 0;
         }
-        PRINTSYS_Print((void *)((u32)func_02045770((struct Descriptor *)a->w[i])), x, y, (void *)a->x38, (void *)a->x2c);
+        PRINTSYS_Print((void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)a->w[i])), x, y, (void *)a->x38, (void *)a->x2c);
         BMP_WIN_TransferChars((struct Descriptor *)a->w[i]);
         BMP_WIN_MakeScreen((struct Cfg *)a->w[i]);
     }

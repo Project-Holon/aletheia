@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C7CD4",
+   "name": "BTL_SERVER_FLOW_GetPlayerResistedCount",
    "address": "0x021C7CD4",
    "kind": "game",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C812C",
+   "name": "BTL_SERVER_FLOW_GetTurnRecord",
    "address": "0x021C812C",
    "kind": "game",
    "region": "ov093",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C8130",
+   "name": "BTL_SERVER_FLOW_GetHistoryList",
    "address": "0x021C8130",
    "kind": "game",
    "region": "ov093",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C8138",
+   "name": "BTL_SERVER_FLOW_GetTurnCount",
    "address": "0x021C8138",
    "kind": "game",
    "region": "ov093",

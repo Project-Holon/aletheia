@@ -7,11 +7,11 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * lever: repeat func_0204B3DC in both arms to retain branch to next.
+ * lever: repeat CLACT_SetActorDrawEnable in both arms to retain branch to next.
  * symbols:
  *   P_STA_SKILL_GetSlotPos 0x021DBA54 thumb ov131
- *   func_0204B404 0x0204B404 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   P_STA_SKILL_SetSlotAnim 0x021DBA78 thumb ov131
  *   P_STA_SKILL_RefreshMoveDetail 0x021D9EE8 thumb ov131
  */
@@ -20,19 +20,19 @@ typedef unsigned char u8;
 extern void P_STA_SKILL_GetSlotPos(unsigned char *p, unsigned short *o);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, unsigned int which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, unsigned int which);
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void P_STA_SKILL_SetSlotAnim(u8 *,int);
 extern void P_STA_SKILL_RefreshMoveDetail(u8 *,u8 *);
 void P_STA_SKILL_SetCursor(u8 *a,u8 *b,u8 c,int d) {
     u8 box[4];
     if(a[28]==0) {
         P_STA_SKILL_GetSlotPos(b+176+c*24,(short unsigned int *)box);
-        func_0204B404(((struct Obj00536 *)b)->f98,(const struct Vec2 *)box,0);
-        func_0204B3DC(((struct Obj00536 *)b)->f98,0);
-    } else func_0204B3DC(((struct Obj00536 *)b)->f98,0);
+        CLACT_AddActorSurfacePos(((struct Obj00536 *)b)->f98,(const struct Vec2 *)box,0);
+        CLACT_SetActorDrawEnable(((struct Obj00536 *)b)->f98,0);
+    } else CLACT_SetActorDrawEnable(((struct Obj00536 *)b)->f98,0);
     if(b[41]!=b[42] || ((struct Obj00536 *)b)->f14==0) {
         if(b[41]!=255) P_STA_SKILL_SetSlotAnim(b+176+b[41]*24,0);
     } else P_STA_SKILL_SetSlotAnim(b+176+b[41]*24,2);

@@ -1,5 +1,5 @@
 /*
- * function: func_021E0150
+ * function: HAND_ITEM_GetDarkGemHandlers
  * address: 0x021E0150
  * packet: pkt_ov093_021E0150
  * region: ov093
@@ -12,16 +12,16 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DFCE8.c and filed here.
  *
  * symbols:
- *   d_021F188C 0x021F188C data ov093 a4
+ *   gHandItemDarkGemHandlers 0x021F188C data ov093 a4
  */
 
-int *func_021E0150(int *p);
+int *HAND_ITEM_GetDarkGemHandlers(int *p);
 
-/* 021E015C  stack-arg wrapper: func_021E0284(a, b, c, d, 0x10) */
-extern int d_021F188C[];
+/* 021E015C  stack-arg wrapper: HAND_ITEM_GemMovePower(a, b, c, d, 0x10) */
+extern int gHandItemDarkGemHandlers[];
 
-int *func_021E0150(int *p)
+int *HAND_ITEM_GetDarkGemHandlers(int *p)
 {
     *p = 3;
-    return d_021F188C;
+    return gHandItemDarkGemHandlers;
 }

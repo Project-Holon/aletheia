@@ -16,7 +16,7 @@
  * symbols:
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
@@ -154,7 +154,7 @@ typedef int (*FieldPlayerGridForcedMoveFunc)(FieldPlayerGrid *grid, int dir);
 
 extern u32 func_020307B0(void *memory);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020061E4(u32 soundId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 soundId);
 extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
 extern void FLDMMDL_GetPos(Mmdl *mmdl, VecFx32 *out);
 extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
@@ -494,7 +494,7 @@ int FIELD_PLAYER_GRID_PlayTileSound(FieldPlayerGrid *grid, int unused, VecFx32 *
             grid->soundRepeat = grid->soundRepeat + 1;
         }
         if (soundId != FIELD_PLAYER_GRID_SOUND_NONE) {
-            func_020061E4(soundId);
+            GFL_USE_PlaySeDefaultVolume(soundId);
             return 1;
         }
     }
@@ -1150,7 +1150,7 @@ void FIELD_PLAYER_GRID_StartBlockedOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, Fie
     grid->state = FIELD_PLAYER_GRID_STATE_BLOCKED;
     FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
     if (FIELD_PLAYER_GRID_CheckMapConnectAhead(grid, request->dir) == 0)
-        func_020061E4(FIELD_PLAYER_GRID_SE_BLOCKED);
+        GFL_USE_PlaySeDefaultVolume(FIELD_PLAYER_GRID_SE_BLOCKED);
 }
 
 
@@ -1159,7 +1159,7 @@ void FIELD_PLAYER_GRID_StartLedgeJumpOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, F
     FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(request->dir, FIELD_PLAYER_GRID_ACMD_LEDGE_JUMP));
     grid->state = FIELD_PLAYER_GRID_STATE_WALK;
     FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_WALK);
-    func_020061E4(FIELD_PLAYER_GRID_SE_LEDGE_JUMP);
+    GFL_USE_PlaySeDefaultVolume(FIELD_PLAYER_GRID_SE_LEDGE_JUMP);
 }
 
 
@@ -1300,7 +1300,7 @@ void FIELD_PLAYER_GRID_StartBlockedOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, Fi
     grid->state = FIELD_PLAYER_GRID_STATE_BLOCKED;
     FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
     if (FIELD_PLAYER_GRID_CheckMapConnectAhead(grid, request->dir) == 0)
-        func_020061E4(FIELD_PLAYER_GRID_SE_BLOCKED);
+        GFL_USE_PlaySeDefaultVolume(FIELD_PLAYER_GRID_SE_BLOCKED);
 }
 
 
@@ -1309,7 +1309,7 @@ void FIELD_PLAYER_GRID_StartLedgeJumpOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, 
     FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(request->dir, FIELD_PLAYER_GRID_ACMD_LEDGE_JUMP));
     grid->state = FIELD_PLAYER_GRID_STATE_WALK;
     FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_WALK);
-    func_020061E4(FIELD_PLAYER_GRID_SE_LEDGE_JUMP);
+    GFL_USE_PlaySeDefaultVolume(FIELD_PLAYER_GRID_SE_LEDGE_JUMP);
 }
 
 
@@ -1368,7 +1368,7 @@ void FIELD_PLAYER_GRID_StartBlockedOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, Fie
     grid->state = FIELD_PLAYER_GRID_STATE_BLOCKED;
     FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
     if (FIELD_PLAYER_GRID_CheckMapConnectAhead(grid, request->dir) == 0)
-        func_020061E4(FIELD_PLAYER_GRID_SE_BLOCKED);
+        GFL_USE_PlaySeDefaultVolume(FIELD_PLAYER_GRID_SE_BLOCKED);
 }
 
 

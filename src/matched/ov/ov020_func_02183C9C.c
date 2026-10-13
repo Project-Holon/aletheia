@@ -1,5 +1,5 @@
 /*
- * function: func_02183C9C
+ * function: EVENT_MAPCHANGE_NewGameStartEvent
  * address:  0x02183C9C
  * packet:   pkt_ov020_02183C9C
  * region:   ov020
@@ -69,7 +69,7 @@ extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, in
 extern u32 FIELDMAP_GetPlaceName(u8 *p);
 extern void FIELD_PLACE_NAME_ShowForZone(void *p, int v);
 
-int func_02183C9C(void *obj, int *state, Arg *arg)
+int EVENT_MAPCHANGE_NewGameStartEvent(void *obj, int *state, Arg *arg)
 {
     u32 x = arg->f0;
     u32 t = (u32)GAMESYSTEM_GetGameData((const struct Ctx *)x);

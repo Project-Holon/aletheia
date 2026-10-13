@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_IronBallSpeedRatio
+ * function: HAND_ITEM_IronBallSpeedRatio
  * address:  0x021DFA20
  * packet:   pkt_ov093_021DFA20
  * region:   ov093
@@ -17,7 +17,7 @@
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_MultiplyVar(int key, int m);
 
-void BTL_HANDLER_ITEM_IronBallSpeedRatio(int a, int b, int c)
+void HAND_ITEM_IronBallSpeedRatio(int a, int b, int c)
 {
     int n = 2;
 

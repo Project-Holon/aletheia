@@ -14,7 +14,7 @@
  *
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02082D44  0x02082D44  arm
  *   func_0203F8F4  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
@@ -55,7 +55,7 @@ typedef struct {
 extern u8 gOptionMenuDispConfig[];
 extern Row gOptionMenuBgLayers[];
 
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void func_02082D44(void *src, void *dst, u32 n);
 extern void func_0203F8F4(u16 heap);
 extern void BMP_WIN_Init(u16 heap);
@@ -86,7 +86,7 @@ void OPTION_MENU_InitGfx(u8 *p, u16 heap)
     int i;
     u32 id;
 
-    func_02082BCC(p, 0, 0x7c);
+    MI_CpuFill8(p, 0, 0x7c);
     func_0203F8F4(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)gOptionMenuDispConfig);

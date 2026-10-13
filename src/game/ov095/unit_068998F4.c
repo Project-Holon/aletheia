@@ -14,14 +14,14 @@
  *
  * symbols:
  *   func_021B9A40  0x021B9A40  thumb
- *   func_021C7CF4  0x021C7CF4  thumb
- *   func_021C8010  0x021C8010  thumb
- *   func_021C814C  0x021C814C  thumb
- *   func_021C83D4  0x021C83D4  thumb
- *   func_021C8838  0x021C8838  thumb
- *   func_021C8860  0x021C8860  thumb
- *   func_021C88A4  0x021C88A4  thumb
- *   func_021C88C8  0x021C88C8  thumb
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb
+ *   BTL_SERVER_FLOW_GetPokeViewPos  0x021C8010  thumb
+ *   BTL_SERVER_FLOW_IsPokeInPosTable  0x021C814C  thumb
+ *   BTL_SERVER_FLOW_CheckShowdownThunk  0x021C83D4  thumb
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb
  *   BTL_POKEPARAM_HasType  0x021D5814  thumb
  *   BTL_EVENT_GetVar  0x021D775C  thumb
  *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb
@@ -36,17 +36,17 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 
 extern int BTL_EVENT_GetVar(int a);
-extern int func_021C814C(int a, int b);
-extern int func_021C83D4(int a);
+extern int BTL_SERVER_FLOW_IsPokeInPosTable(int a, int b);
+extern int BTL_SERVER_FLOW_CheckShowdownThunk(int a);
 extern int func_021B9A40(int a);
-extern int func_021C7CF4(int a, int b);
+extern int BTL_SERVER_FLOW_GetPokeParam(int a, int b);
 extern int BTL_POKEPARAM_HasType(int a, int b);
-extern u8 *func_021C88A4(int a, int b, int c);
-extern int func_021C8010(int a, int b);
-extern void func_021C88C8(int a, u8 *q);
+extern u8 *BTL_SERVER_FLOW_AllocCmdRecord(int a, int b, int c);
+extern int BTL_SERVER_FLOW_GetPokeViewPos(int a, int b);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(int a, u8 *q);
 extern int BTL_CALC_DivideMaxHpMin1(int a, int b);
-extern void func_021C8838(u8 *p, int n, int c);
-extern void func_021C8860(u8 *p, int v);
+extern void BTL_SERVER_FLOW_InitMsgRecord(u8 *p, int n, int c);
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(u8 *p, int v);
 unsigned char *func_068998F4(u32 *p);
 void func_06899900(int a0, int p, int x);
 extern unsigned char d_0689D6F8[];
@@ -68,21 +68,21 @@ void func_06899900(int a0, int p, int x)
     u8 *t;
 
     v = BTL_EVENT_GetVar(2);
-    if (v != 0x1f && func_021C814C(p, v) != 0 && func_021C83D4(p) == 0
+    if (v != 0x1f && BTL_SERVER_FLOW_IsPokeInPosTable(p, v) != 0 && BTL_SERVER_FLOW_CheckShowdownThunk(p) == 0
         && x == func_021B9A40(v)) {
-        w = func_021C7CF4(p, v);
+        w = BTL_SERVER_FLOW_GetPokeParam(p, v);
         if (BTL_POKEPARAM_HasType(w, 9) == 0) {
-            t = func_021C88A4(p, 0x37, v);
-            t[6] = func_021C8010(p, v);
+            t = BTL_SERVER_FLOW_AllocCmdRecord(p, 0x37, v);
+            t[6] = BTL_SERVER_FLOW_GetPokeViewPos(p, v);
             t[7] = 6;
             ((struct Obj06335 *)t)->f4 = 0x28e;
-            func_021C88C8(p, t);
-            t = func_021C88A4(p, 7, 0x1f);
+            BTL_SERVER_FLOW_CommitCmdRecord(p, t);
+            t = BTL_SERVER_FLOW_AllocCmdRecord(p, 7, 0x1f);
             t[6] = v;
             ((struct Obj06335 *)t)->f4 = BTL_CALC_DivideMaxHpMin1(w, 8);
-            func_021C8838(t + 0xc, 2, 0x484);
-            func_021C8860(t + 0xc, v);
-            func_021C88C8(p, t);
+            BTL_SERVER_FLOW_InitMsgRecord(t + 0xc, 2, 0x484);
+            BTL_SERVER_FLOW_AppendMsgRecordArg(t + 0xc, v);
+            BTL_SERVER_FLOW_CommitCmdRecord(p, t);
         }
     }
 }

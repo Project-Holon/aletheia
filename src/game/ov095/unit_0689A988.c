@@ -11,7 +11,7 @@
  * symbols:
  *   BTL_MAIN_GetRule  0x021B8588  thumb
  *   func_021B8D8C  0x021B8D8C  thumb
- *   func_021B8E70  0x021B8E70  thumb
+ *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
  *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb
  *   BTL_POKEPARAM_GetMoveId  0x021D54C0  thumb
@@ -32,7 +32,7 @@ typedef unsigned int u32;
 extern const char d_0689D880[], d_0689D91C[], d_0689E128[], d_0689E054[];
 extern u8 BTL_POKEPARAM_GetPokeId(void *);
 extern int func_021B8D8C(void *, void *, u32);
-extern u8 func_021B8E70(void *, u32);
+extern u8 BTL_MAIN_GetViewPosOfSlot(void *, u32);
 extern u32 BTL_MAIN_GetRule(void *);
 extern int func_02202DC4(char *, const char *, int);
 extern void BTL_CALC_ActionSetNone(void *);
@@ -46,7 +46,7 @@ int func_0689A988(int unused, u8 *s)
     int r;
     const char *q, *n;
     int flag;
-    r = func_021B8E70(((struct Obj01703 *)s)->fA0, func_021B8D8C(((struct Obj01703 *)s)->fA0, ((struct Obj01703 *)s)->fA4, BTL_POKEPARAM_GetPokeId(((struct Obj01703 *)s)->f6C)));
+    r = BTL_MAIN_GetViewPosOfSlot(((struct Obj01703 *)s)->fA0, func_021B8D8C(((struct Obj01703 *)s)->fA0, ((struct Obj01703 *)s)->fA4, BTL_POKEPARAM_GetPokeId(((struct Obj01703 *)s)->f6C)));
     if (BTL_MAIN_GetRule(((struct Obj01703 *)s)->fA0) == 2 && r != 4) q = d_0689D880;
     else q = d_0689D91C;
     if (BTL_MAIN_GetRule(((struct Obj01703 *)s)->fA0) == 2 && r != 4) n = d_0689E128;

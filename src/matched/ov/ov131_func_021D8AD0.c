@@ -16,11 +16,11 @@
  *   021D9440 returns s16, so subtracting 128 or 8 fits int; outgoing
  *   deltas preserve the original u8 and s16 narrowing respectively.
  * symbols:
- *   func_020362DC 0x020362DC arm
- *   func_0203633C 0x0203633C arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   KEY_GetRepeat 0x0203633C arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_020061E4 0x020061E4 thumb
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   P_STATUS_SetInputEnable 0x021D5A9C thumb ov131
  *   P_STA_RIBBON_FreeDetailWindows 0x021D964C thumb ov131
  *   P_STA_RIBBON_HideDetail 0x021D9670 thumb ov131
@@ -36,12 +36,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern u32 func_020362DC(void);
-extern unsigned int func_0203633C(void);
+extern u32 KEY_GetTrg(void);
+extern unsigned int KEY_GetRepeat(void);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_020061E4(u32 a);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void P_STATUS_SetInputEnable(char *p, int a);
 extern void P_STA_RIBBON_FreeDetailWindows(u8 *,u8 *);
 extern void P_STA_RIBBON_HideDetail(u8 *,u8 *);
@@ -55,21 +55,21 @@ int P_STA_RIBBON_UpdateKeys(u8 *a,u8 *p)
     u8 i,index,narrowDelta;
     s16 shortDelta;
     int position;
-    if(func_020362DC()==2) {
+    if(KEY_GetTrg()==2) {
         P_STATUS_SetInputEnable((char *)a,1);
         CLACT_SetActorAnimSeq(((struct Obj00136 *)a)->f194,9);
-        func_0204B3DC(((struct Obj00091 *)p)->f54,0);
+        CLACT_SetActorDrawEnable(((struct Obj00091 *)p)->f54,0);
         p[0x58]=255;
         p[0x59]=255;
         ((struct Obj00091 *)p)->f68=1;
         P_STA_RIBBON_FreeDetailWindows(a,p);
         P_STA_RIBBON_HideDetail(a,p);
         a[0x1c]=0;
-        func_020061E4(1361);
+        GFL_USE_PlaySeDefaultVolume(1361);
         return 1;
     }
     if(a[0x1c]==1) {
-        if(func_020362DC()==1 || func_020362DC()==128 || func_020362DC()==64) {
+        if(KEY_GetTrg()==1 || KEY_GetTrg()==128 || KEY_GetTrg()==64) {
             position=-16;
             ((struct Obj00091 *)p)->f5C=0;
             *(int *)&((struct Obj00091 *)p)->f64=0;
@@ -79,11 +79,11 @@ int P_STA_RIBBON_UpdateKeys(u8 *a,u8 *p)
             if(position < -4 || position >144) P_STA_RIBBON_SnapCursorToScroll(a,p);
             P_STA_RIBBON_FreeDetailWindows(a,p);
             P_STA_RIBBON_PrintDetail(a,p);
-            func_020061E4(1352);
+            GFL_USE_PlaySeDefaultVolume(1352);
             a[0x1c]=0;
             return 1;
         }
-    } else if(func_0203633C()==128) {
+    } else if(KEY_GetRepeat()==128) {
         index=p[0x58]+1;
         if(index>=10) index-=10;
         if(*(u16 *)(p+0x70+index*20)!=0xffff) {
@@ -96,10 +96,10 @@ int P_STA_RIBBON_UpdateKeys(u8 *a,u8 *p)
             P_STA_RIBBON_SelectRow(a,p,p[0x58]);
             P_STA_RIBBON_FreeDetailWindows(a,p);
             P_STA_RIBBON_PrintDetail(a,p);
-            func_020061E4(1352);
+            GFL_USE_PlaySeDefaultVolume(1352);
         }
         return 1;
-    } else if(func_0203633C()==64) {
+    } else if(KEY_GetRepeat()==64) {
         index=p[0x58];
         if(index==0) index=9;
         else index-=1;
@@ -113,7 +113,7 @@ int P_STA_RIBBON_UpdateKeys(u8 *a,u8 *p)
             P_STA_RIBBON_SelectRow(a,p,p[0x58]);
             P_STA_RIBBON_FreeDetailWindows(a,p);
             P_STA_RIBBON_PrintDetail(a,p);
-            func_020061E4(1352);
+            GFL_USE_PlaySeDefaultVolume(1352);
         }
         return 1;
     }

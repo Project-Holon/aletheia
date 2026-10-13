@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021E4C74, func_021E4D8C
+ * function: HAND_WAZA_HeartSwapOnUncategorizedMove, HAND_WAZA_AddPowerSwap
  * address: 0x021E4C74
  * packet: pkt_ov093_021E4C74
  * region: ov093
@@ -10,29 +10,29 @@
  * status: EXACT
  * symbols:
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
- *   func_021C7CF4 0x021C7CF4 thumb ov093
- *   func_021C8120 0x021C8120 thumb ov093
+ *   BTL_SERVER_FLOW_GetPokeParam 0x021C7CF4 thumb ov093
+ *   BTL_SERVER_FLOW_GetScratchBuffer 0x021C8120 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
- *   func_021C88A4 0x021C88A4 thumb ov093
- *   func_021C88C8 0x021C88C8 thumb ov093
- *   func_021C8838 0x021C8838 thumb ov093
- *   func_021C8860 0x021C8860 thumb ov093
- *   d_021F2724 0x021F2724 data a4
+ *   BTL_SERVER_FLOW_AllocCmdRecord 0x021C88A4 thumb ov093
+ *   BTL_SERVER_FLOW_CommitCmdRecord 0x021C88C8 thumb ov093
+ *   BTL_SERVER_FLOW_InitMsgRecord 0x021C8838 thumb ov093
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg 0x021C8860 thumb ov093
+ *   gPowerSwapHandlers 0x021F2724 data a4
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int BTL_EVENT_GetVar(int);
-extern void *func_021C7CF4(int *p, int i);
-extern u8 *func_021C8120(u8 *p, int b);
+extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
+extern u8 *BTL_SERVER_FLOW_GetScratchBuffer(u8 *p, int b);
 extern int func_021D59B4(u8 *p, int k);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *, void *);
-extern void func_021C8838(void *, int, int);
+extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *, void *);
+extern void BTL_SERVER_FLOW_InitMsgRecord(void *, int, int);
 struct S;
-extern void func_021C8860(struct S *p, u32 val);
-extern int d_021F2724[];
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 val);
+extern int gPowerSwapHandlers[];
 
-void func_021E4C74(int unused, void *s, int k)
+void HAND_WAZA_HeartSwapOnUncategorizedMove(int unused, void *s, int k)
 {
     u8 v;
     void *a;
@@ -42,13 +42,13 @@ void func_021E4C74(int unused, void *s, int k)
     u8 *p;
     if (k == BTL_EVENT_GetVar(3)) {
         v = BTL_EVENT_GetVar(6);
-        a = func_021C7CF4(s, v);
-        b = func_021C7CF4(s, k);
-        t = (u32 *)func_021C8120(s, 28);
+        a = BTL_SERVER_FLOW_GetPokeParam(s, v);
+        b = BTL_SERVER_FLOW_GetPokeParam(s, k);
+        t = (u32 *)BTL_SERVER_FLOW_GetScratchBuffer(s, 28);
         for (i = 1; i <= 7; i++) {
             t[i - 1] = func_021D59B4(b, i);
         }
-        p = func_021C88A4(s, 15, k);
+        p = BTL_SERVER_FLOW_AllocCmdRecord(s, 15, k);
         p[4] = k;
         p[5] = func_021D59B4(a, 1);
         p[6] = func_021D59B4(a, 2);
@@ -57,8 +57,8 @@ void func_021E4C74(int unused, void *s, int k)
         p[9] = func_021D59B4(a, 5);
         p[10] = func_021D59B4(a, 6);
         p[11] = func_021D59B4(a, 7);
-        func_021C88C8(s, p);
-        p = func_021C88A4(s, 15, k);
+        BTL_SERVER_FLOW_CommitCmdRecord(s, p);
+        p = BTL_SERVER_FLOW_AllocCmdRecord(s, 15, k);
         p[4] = v;
         p[5] = t[0];
         p[6] = t[1];
@@ -67,16 +67,16 @@ void func_021E4C74(int unused, void *s, int k)
         p[9] = t[4];
         p[10] = t[5];
         p[11] = t[6];
-        func_021C88C8(s, p);
-        p = func_021C88A4(s, 4, k);
-        func_021C8838(p + 4, 2, 673);
-        func_021C8860((struct S *)(p + 4), k);
-        func_021C88C8(s, p);
+        BTL_SERVER_FLOW_CommitCmdRecord(s, p);
+        p = BTL_SERVER_FLOW_AllocCmdRecord(s, 4, k);
+        BTL_SERVER_FLOW_InitMsgRecord(p + 4, 2, 673);
+        BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(p + 4), k);
+        BTL_SERVER_FLOW_CommitCmdRecord(s, p);
     }
 }
 
-int *func_021E4D8C(int *p)
+int *HAND_WAZA_AddPowerSwap(int *p)
 {
     *p = 1;
-    return d_021F2724;
+    return gPowerSwapHandlers;
 }

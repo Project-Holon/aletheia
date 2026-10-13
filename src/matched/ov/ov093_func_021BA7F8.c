@@ -1,5 +1,5 @@
 /*
- * function: func_021BA7F8
+ * function: BTL_MAIN_StartClientMainSteps
  * address: 0x021BA7F8
  * packet: pkt_ov093_021BA7F8
  * region: ov093
@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 extern int BTL_MAIN_IsClientUsed(unsigned char *p, unsigned char k);
 extern void BTL_CLIENT_StartMainStep(u8 *p);
-void func_021BA7F8(char *p)
+void BTL_MAIN_StartClientMainSteps(char *p)
 {
  unsigned int i;
  for (i = 0; i < 4; i++) {

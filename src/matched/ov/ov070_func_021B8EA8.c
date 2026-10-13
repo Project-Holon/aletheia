@@ -13,7 +13,7 @@
  *   CLACT_IsActorAnimActive  0x0204B98C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   ITEMMENU_SortAndRedraw  0x021B809C  thumb  ov070
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   ITEMMENU_ShowMessage  0x021BACF0  thumb  ov070
  *   ITEMMENU_SetBackButtonAnim  0x021BB580  thumb  ov070
@@ -33,7 +33,7 @@ extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void ITEMMENU_SortAndRedraw(u8 *p);
 struct Obj;
-extern void func_0204B92C(struct Obj *, unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void ITEMMENU_ShowMessage(int p, int mode);
 extern void ITEMMENU_SetBackButtonAnim(char *p, int v);
@@ -46,7 +46,7 @@ void ITEMMENU_TaskInputGuardMessage(int p)
     if (CLACT_IsActorAnimActive((struct Actor *)(*(int *)&((struct Obj00002 *)p)->f72C)) == 0) {
         CLACT_SetActorAnimSeq((struct Obj *)(*(int *)&((struct Obj00002 *)p)->f72C), 0);
         ITEMMENU_SortAndRedraw((u8 *)p);
-        func_0204B92C((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A8, 0);
+        CLACT_SetActorAutoAnim((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A8, 0);
         MSGDATA_ReadString((struct MsgBank *)(*(int *)&((struct Obj00002 *)p)->f51C), 0x8A, (void *)(*(int *)&((struct Obj00002 *)p)->f528));
         ITEMMENU_ShowMessage(p, 0);
         ITEMMENU_SetBackButtonAnim((char *)p, 0);

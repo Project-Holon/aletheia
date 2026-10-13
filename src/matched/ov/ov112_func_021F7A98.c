@@ -7,13 +7,16 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
+ *
+ * symbols:
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb  arm9
  */
 #include "../include/Obj13842.h"
 #include "../include/Obj22559.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
-extern void func_020061F8(int);
+extern void GFL_USE_StopSeSlot(int);
 typedef struct { u16 count, pad; int index; } Tail;
 void func_021F7A98(char *p, char *q) {
     Tail *tail = (Tail *)(q + 0xf0);
@@ -23,6 +26,6 @@ void func_021F7A98(char *p, char *q) {
     if (tail->count >= 0xc0) {
         ((struct Obj22559 *)q)->f104 = 0;
         ((struct Obj13842 *)p)->f43C -= 1;
-        if (((struct Obj13842 *)p)->f43C == 0) func_020061F8(2);
+        if (((struct Obj13842 *)p)->f43C == 0) GFL_USE_StopSeSlot(2);
     }
 }

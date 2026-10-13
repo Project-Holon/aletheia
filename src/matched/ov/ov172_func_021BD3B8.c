@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_02030EAC 0x02030EAC arm
  *   func_021B6C34 0x021B6C34 thumb ov172
  *   func_021BBA88 0x021BBA88 thumb ov172
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 struct Descriptor;
 struct Node;
 struct TaskMenuState;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_02030EAC(struct Node *n);
 extern void func_021B6C34(char *);
 extern void func_021BBA88(int unused, int v);
@@ -42,7 +42,7 @@ extern void func_021BD7D0(void *);
 void func_021BD3B8(u8 *p)
 {
     u8 i;
-    for (i=0; i<4; i++) func_020452E8((struct Descriptor *)(*(u32 *)(p + i*4 + 0x1b8)));
+    for (i=0; i<4; i++) BMP_WIN_Delete((struct Descriptor *)(*(u32 *)(p + i*4 + 0x1b8)));
     func_02030EAC((struct Node *)(((struct Obj03855 *)p)->f4));
     func_021B6C34(*(char * *)&((struct Obj03855 *)p)->f1F4);
     func_021BBA88((int)p, ((struct Obj03855 *)p)->f1F0);

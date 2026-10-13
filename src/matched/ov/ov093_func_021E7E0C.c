@@ -11,22 +11,22 @@
  *
  * symbols:
  *   BTLV_CORE_MakeSlotKind2Index  0x021E8940  thumb  ov093
- *   func_021B9A40  0x021B9A40  thumb  ov093
- *   func_021E556C  0x021E556C  thumb  ov093
- *   func_021E3C5C  0x021E3C5C  thumb  ov093
+ *   BTL_MAIN_IsPokeIdInSecondPair  0x021B9A40  thumb  ov093
+ *   HAND_WAZA_AddSideEffect  0x021E556C  thumb  ov093
+ *   HAND_WAZA_ProtectIncrementStreak  0x021E3C5C  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef struct Word { u32 v; } Word;
 
 extern Word BTLV_CORE_MakeSlotKind2Index(int v);
-extern unsigned char func_021B9A40(unsigned int x);
-extern void func_021E556C(int a, int b, int c, int d, int e, int f, Word g, int h);
-extern void func_021E3C5C(void *a, int b, int c);
+extern unsigned char BTL_MAIN_IsPokeIdInSecondPair(unsigned int x);
+extern void HAND_WAZA_AddSideEffect(int a, int b, int c, int d, int e, int f, Word g, int h);
+extern void HAND_WAZA_ProtectIncrementStreak(void *a, int b, int c);
 
 void func_021E7E0C(int a, int b, int c, int d)
 {
     Word t = BTLV_CORE_MakeSlotKind2Index(1);
-    int e = func_021B9A40(c);
-    func_021E556C(a, b, c, d, e, 10, t, 0xa2);
-    func_021E3C5C((void *)b, c, 1);
+    int e = BTL_MAIN_IsPokeIdInSecondPair(c);
+    HAND_WAZA_AddSideEffect(a, b, c, d, e, 10, t, 0xa2);
+    HAND_WAZA_ProtectIncrementStreak((void *)b, c, 1);
 }

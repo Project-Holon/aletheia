@@ -1,5 +1,5 @@
 /*
- * function: func_021C83E8
+ * function: BTL_SERVER_FLOW_TryAddMainCounter
  * address: 0x021C83E8
  * packet: pkt_ov093_021C83E8
  * region: ov093
@@ -16,7 +16,7 @@
 #include "../include/Obj13342.h"
 extern void *BTL_MAIN_GetCompetitor(void ***);
 extern void BTL_SERVER_AddMainCounter(int *, int);
-int func_021C83E8(unsigned char *p, int i, int b)
+int BTL_SERVER_FLOW_TryAddMainCounter(unsigned char *p, int i, int b)
 {
     if ((unsigned int)BTL_MAIN_GetCompetitor(*(void *** *)&((struct Obj13342 *)p)->f4) <= 1) {
         BTL_SERVER_AddMainCounter(*(int * *)&((struct Obj13342 *)p)->f0, i);

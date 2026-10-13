@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FF54C 0x021FF54C thumb ov186
  *   func_021FF648 0x021FF648 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
@@ -17,8 +17,8 @@
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021FD170 0x021FD170 thumb ov186
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_02035D20 0x02035D20 arm
- *   func_020061E4 0x020061E4 thumb
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021F88B0 0x021F88B0 thumb ov185
  *   func_021F8A0C 0x021F8A0C thumb ov185
  */
@@ -32,7 +32,7 @@
 typedef unsigned short u16;
 typedef struct Cfg {u16 heap;unsigned char rest[6];} Cfg;
 typedef struct Pair {int x,y;} Pair;
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 typedef unsigned int   u32;
 extern void func_021FF54C(char *p, int kind, const int *values);
 extern int func_021FF648(char *),func_021FF72C(char *,int *),func_021FF660(char *,int,int,int *);
@@ -40,8 +40,8 @@ extern void func_021FD860(int,int,Pair *);
 extern int *func_021FD73C(int *p, int v);
 extern void func_021FD170(char *p, char *q, void *text);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern void func_020061E4(u32 a);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021F88B0(int a, int *state, char *p);
 extern void func_021F8A0C(int *sys, int *state, char *p);
 void func_021F8790(int *task,unsigned *state,char *p)
@@ -51,7 +51,7 @@ void func_021F8790(int *task,unsigned *state,char *p)
     Pair pair;
     switch(*state) {
     case 0:
-        func_02082BCC(&cfg,0,8);
+        MI_CpuFill8(&cfg,0,8);
         cfg.heap=((struct Obj01276 *)p)->f8;
         ((struct Obj01276 *)p)->fA=0;
         func_021FF54C(*(char * *)&((struct Obj24723 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14,1,(const int *)(&cfg));
@@ -79,10 +79,10 @@ void func_021F8790(int *task,unsigned *state,char *p)
         break;
     case 3:
         if(TOUCHPANEL_GetTrg()) {
-            func_02035D20((u32 *)(&x),(u32 *)(&y));
+            TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y));
             pair.x=x;pair.y=y;
             func_021FD860(((struct Obj01276 *)p)->f3C,1,&pair);
-            func_020061E4(0x703);
+            GFL_USE_PlaySeDefaultVolume(0x703);
             func_021FD73C(task,(int)func_021F8A0C);
         }
         break;

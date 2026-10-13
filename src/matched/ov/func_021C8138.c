@@ -1,5 +1,5 @@
 /*
- * function: func_021C8138
+ * function: BTL_SERVER_FLOW_GetTurnCount
  * address:  0x021C8138
  * packet:   pkt_021C7CD4
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C8138   0x021C8138  thumb
+ *   BTL_SERVER_FLOW_GetTurnCount   0x021C8138  thumb
  *
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: ldr r0, [r0, #0x10]; lsls r0, r0, #0x10; lsrs r0, r0, #0x10; bx lr.
  */
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 /* 021C8138  ldr r0,[r0,#0x10]; lsls r0,#0x10; lsrs r0,#0x10 */
 struct Q7 { u8 pad[0x10]; u32 v; };
-u16 func_021C8138(struct Q7 *p) { return (u16)p->v; }
+u16 BTL_SERVER_FLOW_GetTurnCount(struct Q7 *p) { return (u16)p->v; }
 

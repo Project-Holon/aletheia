@@ -12,6 +12,7 @@
  * symbols:
  *   func_021DE898  0x021DE898  thumb  ov170
  *   func_021E8F90  0x021E8F90  thumb  ov170
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *
  * Set the id, re-key the queue, store 0x69 as the frame, then
  *   arm the flag.
@@ -20,12 +21,12 @@
 
 
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021DE898(int *q);
 extern int func_021E8F90(void *p, int a);
 int func_021E9284(char *p)
 {
-    func_020061E4(0x55D);
+    GFL_USE_PlaySeDefaultVolume(0x55D);
     func_021DE898((int *)p);
     ((struct Obj18472 *)p)->f28 = 0x69;
     return func_021E8F90(p, 1);

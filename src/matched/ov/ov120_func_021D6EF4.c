@@ -14,8 +14,8 @@
  *   d_021D893C 0x021D893C data a2
  *   d_021D8934 0x021D8934 data a2
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj06439.h"
 typedef unsigned char u8;
@@ -26,8 +26,8 @@ typedef struct Record { u16 x,y,z; u8 a,b; } Record;
 extern const Triple d_021D892C,d_021D8924,d_021D893C,d_021D8934;
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 void func_021D6EF4(u8 *p,int flag)
 {
     Record r;
@@ -40,8 +40,8 @@ void func_021D6EF4(u8 *p,int flag)
         if(flag || i!=0) {
             r.x=x.a[i]; r.y=y.a[i]; r.z=z.a[i]; r.a=i; r.b=b.a[i];
             *(void **)(p+i*4+0x140)=CLACT_CreateActor((void *)((struct Obj06439 *)p)->f10,((struct Obj06439 *)p)->f28,((struct Obj06439 *)p)->f18,((struct Obj06439 *)p)->f74,&r,1,((struct Obj06439 *)p)->fF4);
-            func_0204B92C(*(void **)(p+i*4+0x140),1);
-            func_0204B3DC(*(void **)(p+i*4+0x140),1);
+            CLACT_SetActorAutoAnim(*(void **)(p+i*4+0x140),1);
+            CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x140),1);
         }
     }
 }

@@ -13,9 +13,9 @@
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   func_0200FB24  0x0200FB24  thumb
  *   WIH_IsMatchingParent  0x0217873C  thumb  ov014
- *   func_02177494  0x02177494  thumb  ov014
- *   func_02177BFC  0x02177BFC  thumb  ov014
- *   func_02013D5C  0x02013D5C  thumb
+ *   NET_WHPIPE_CheckBeaconFlags  0x02177494  thumb  ov014
+ *   NET_WHPIPE_GetEntryBeacon  0x02177BFC  thumb  ov014
+ *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   INTRUDE_COMM_IsListedId  0x02158570  thumb  ov010
  *   GAME_BEACON_ACCESSOR_GetPlayerName  0x02165C34  thumb  ov010
  *   GAME_BEACON_ACCESSOR_GetSex  0x02165D08  thumb  ov010
@@ -60,9 +60,9 @@ typedef struct Obj {
 extern int GFL_NET_GetNegotiationNum(void);
 extern u32 func_0200FB24(void);
 extern int WIH_IsMatchingParent(u8 *p);
-extern int func_02177494(u8 *obj, u32 flags);
-extern Rec *func_02177BFC(void *, u8 *);
-extern u32 func_02013D5C(u32 id);
+extern int NET_WHPIPE_CheckBeaconFlags(u8 *obj, u32 flags);
+extern Rec *NET_WHPIPE_GetEntryBeacon(void *, u8 *);
+extern u32 ZONEDATA_IsZone117(u32 id);
 extern int INTRUDE_COMM_IsListedId(u16);
 extern void GAME_BEACON_ACCESSOR_GetPlayerName(struct Rec *r, void *buf);
 extern u8 GAME_BEACON_ACCESSOR_GetSex(struct Rec *r);
@@ -89,10 +89,10 @@ void INTRUDE_COMM_ScanCallback(void *a0, Obj *s)
     if (WIH_IsMatchingParent(a0) == 0) {
         return;
     }
-    if (func_02177494(a0, ~0x10) == 0) {
+    if (NET_WHPIPE_CheckBeaconFlags(a0, ~0x10) == 0) {
         return;
     }
-    rec = func_02177BFC(a0, &kind);
+    rec = NET_WHPIPE_GetEntryBeacon(a0, &kind);
     if (kind != 3) {
         return;
     }
@@ -104,7 +104,7 @@ void INTRUDE_COMM_ScanCallback(void *a0, Obj *s)
             return;
         }
     }
-    if ((int)func_02013D5C((u16)rec->mon) == 1) {
+    if ((int)ZONEDATA_IsZone117((u16)rec->mon) == 1) {
         return;
     }
     if (INTRUDE_COMM_IsListedId(rec->mon) == 0) {

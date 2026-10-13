@@ -16,9 +16,9 @@
  *   TOWNMAP_GRH_GetTownInfoValue  0x021BBB3C  thumb  ov072
  *   SYMBOL_MAP_CheckEventFlag  0x02166CD0  thumb
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B688  0x0204B688  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorObjMode  0x0204B688  arm
  */
 
 typedef unsigned char  u8;
@@ -41,9 +41,9 @@ struct Obj;
 extern unsigned short TOWNMAP_GRH_GetTownInfoValue(char *p, int a, int b);
 extern int  SYMBOL_MAP_CheckEventFlag(int a, u32 msg);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
 #define W(o) (*(u32 *)(p + (o)))
 
@@ -71,9 +71,9 @@ void ov208_func_021C0544(u16 *heap, u8 *p, int key)
                 pos.f7 = 2;
                 *(u32 *)(p + i * 8 + 0x1e0) = 2;
                 *(u32 *)(p + i * 8 + 0x1e4) = (u32)CLACT_CreateActor((void *)W(0x1d0), W(0x98), W(0x9c), W(0xa0), &pos, 0, *heap);
-                func_0204B92C((struct Obj *)(*(u32 *)(p + i * 8 + 0x1e4)), 1);
-                func_0204B3DC((struct Obj *)(*(u32 *)(p + i * 8 + 0x1e4)), 1);
-                func_0204B688((struct Actor *)(*(u32 *)(p + i * 8 + 0x1e4)), 1);
+                CLACT_SetActorAutoAnim((struct Obj *)(*(u32 *)(p + i * 8 + 0x1e4)), 1);
+                CLACT_SetActorDrawEnable((struct Obj *)(*(u32 *)(p + i * 8 + 0x1e4)), 1);
+                CLACT_SetActorObjMode((struct Actor *)(*(u32 *)(p + i * 8 + 0x1e4)), 1);
             }
         } else {
             *(u32 *)(p + i * 8 + 0x1e0) = 0;

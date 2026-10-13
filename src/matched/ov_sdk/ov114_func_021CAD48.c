@@ -11,17 +11,20 @@
  *
  *
  * Clears a 0x110-byte record and both of its end markers.
+ *
+ * symbols:
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 
 void func_021CAD48(u8 *p)
 {
-    func_02082BCC(p, 0, 0x110);
+    MI_CpuFill8(p, 0, 0x110);
     *(u32 *)p = 0;
     *(u32 *)(p + 0x108) = 0;
 }

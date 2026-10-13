@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_TOKUSEI_UnnerveOnOwnerEnter
+ * function: HAND_TOKUSEI_UnnerveOnOwnerEnter
  * address: 0x021DCC5C
  * packet: pkt_ov093_021DCC5C
  * region: ov093
@@ -10,8 +10,8 @@
  * status: EXACT*
  * symbols:
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
- *   BTL_HANDLER_TOKUSEI_UnnerveAnnounce 0x021DCC80 thumb ov093
+ *   HAND_TOKUSEI_UnnerveAnnounce 0x021DCC80 thumb ov093
  */
 extern int BTL_EVENT_GetVar(int);
-extern void BTL_HANDLER_TOKUSEI_UnnerveAnnounce(void *,void *,int,int *);
-void BTL_HANDLER_TOKUSEI_UnnerveOnOwnerEnter(void *a,void *b,int c,int *d) { if(c==BTL_EVENT_GetVar(2)) BTL_HANDLER_TOKUSEI_UnnerveAnnounce(a,b,c,d); }
+extern void HAND_TOKUSEI_UnnerveAnnounce(void *,void *,int,int *);
+void HAND_TOKUSEI_UnnerveOnOwnerEnter(void *a,void *b,int c,int *d) { if(c==BTL_EVENT_GetVar(2)) HAND_TOKUSEI_UnnerveAnnounce(a,b,c,d); }

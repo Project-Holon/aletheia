@@ -12,7 +12,7 @@
  * symbols:
  *   GAMESYSTEM_IsNetOffBySleep  0x02012204  thumb
  *   BEACON_VIEW_RequestTransition  0x021F253C  thumb  ov032
- *   func_02035D20  0x02035D20  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   func_021F0A18  0x021F0A18  thumb  ov032
  *   func_021F08E4  0x021F08E4  thumb  ov032
  *   func_021F1F00  0x021F1F00  thumb  ov032
@@ -29,7 +29,7 @@ typedef struct { u32 x, y; } Pair;
 struct Ctx;
 extern u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *p);
 extern void BEACON_VIEW_RequestTransition(char *p, int v);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int func_021F0A18(u8 *p, u32 *v);
 extern int func_021F08E4(u8 *p, void *pt);
 extern void func_021F1F00(char *p, int a);
@@ -46,7 +46,7 @@ int func_021F055C(u8 *p)
         BEACON_VIEW_RequestTransition((char *)p, 1);
         return 6;
     }
-    if (func_02035D20(&v.x, &v.y) == 0)
+    if (TOUCHPANEL_GetPointTrg(&v.x, &v.y) == 0)
         return 2;
     if (func_021F0A18(p, (u32 *)(&v)) == 2)
         return 6;

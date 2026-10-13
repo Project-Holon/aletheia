@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 typedef struct {
     char pad[0x1008];
@@ -16,13 +16,13 @@ typedef struct {
 } Work;
 
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 void func_021E6308(Work *p, int a, int v)
 {
     int i;
     for (i = 0; i < 3; i++) {
         if (p->h[a][i])
-            func_0204B3DC((struct Obj *)p->h[a][i], v);
+            CLACT_SetActorDrawEnable((struct Obj *)p->h[a][i], v);
     }
 }

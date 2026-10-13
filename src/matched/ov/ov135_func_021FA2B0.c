@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_021F9EEC  0x021F9EEC  thumb
- *   func_020061E4  0x020061E4  thumb
- *   func_0204B92C  0x0204B92C  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_021FB2F0  0x021FB2F0  thumb
  *   func_021FBF04  0x021FBF04  thumb
@@ -48,9 +48,9 @@ typedef struct {
 
 struct Obj;
 extern u32 func_021F9EEC(u8 *p, u32 n);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 struct Obj;
-extern void func_0204B92C(struct Obj *v, u32 k);
+extern void CLACT_SetActorAutoAnim(struct Obj *v, u32 k);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021FB2F0(Menu *m, int page, int total);
 extern void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages);
@@ -58,8 +58,8 @@ extern void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages);
 void func_021FA2B0(Menu *m, int dir)
 {
     if (dir < 0) {
-        func_020061E4(0x548);
-        func_0204B92C((struct Obj *)m->down, 1);
+        GFL_USE_PlaySeDefaultVolume(0x548);
+        CLACT_SetActorAutoAnim((struct Obj *)m->down, 1);
         CLACT_SetActorAnimSeq((struct Obj *)m->down, 0x27);
         if (m->page != 0) {
             m->page = m->page - 1;
@@ -67,8 +67,8 @@ void func_021FA2B0(Menu *m, int dir)
             m->page = 2;
         }
     } else {
-        func_020061E4(0x548);
-        func_0204B92C((struct Obj *)m->up, 1);
+        GFL_USE_PlaySeDefaultVolume(0x548);
+        CLACT_SetActorAutoAnim((struct Obj *)m->up, 1);
         CLACT_SetActorAnimSeq((struct Obj *)m->up, 0x26);
         if (m->page < 2) {
             m->page = m->page + 1;

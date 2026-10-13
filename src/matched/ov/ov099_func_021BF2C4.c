@@ -32,12 +32,12 @@
  *   GFL_NET_STATE_SetError 0x0203C9AC arm
  *   GFL_NET_STATE_GetWifiState 0x0203C3EC arm
  *   GFL_NET_STATE_WifiDisconnect 0x0203C554 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   GFL_NET_SetAutoExit 0x0203D7B0 arm
  *   GFL_NET_SetLoginOption 0x0203D7BC arm
  *   func_02005728 0x02005728 thumb
- *   func_020061E4 0x020061E4 thumb
- *   func_0200616C 0x0200616C thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ *   GFL_USE_PlaySeInSlot 0x0200616C thumb
  *   func_02082D44 0x02082D44 arm
  *   DWC_RAP_GetTargetFriendIndex 0x02156A3C thumb ov009
  *   DWC_RAP_GetNewClientAid 0x02156B8C thumb ov009
@@ -86,12 +86,12 @@ extern void GFL_NET_STATE_SetError(int, u32, u32, u32);
 extern int GFL_NET_STATE_GetWifiState(void);
 typedef signed short   s16;
 extern void GFL_NET_STATE_WifiDisconnect(u32 a);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void GFL_NET_SetAutoExit(u8 a0);
 extern void GFL_NET_SetLoginOption(u8 a0);
 extern u32 func_02005728(u32);
-extern void func_020061E4(u32 a);
-extern void func_0200616C(void *arg, int i);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+extern void GFL_USE_PlaySeInSlot(void *arg, int i);
 extern void func_02082D44(void *, void *, int);
 extern int DWC_RAP_GetTargetFriendIndex(void);
 extern int DWC_RAP_GetNewClientAid(void);
@@ -153,10 +153,10 @@ int func_021BF2C4(char *p, int ret)
     func_021C1BEC((u8 *)p);
     func_021B9B54(p + 0x274);
     if (func_021B98FC(p + 0x274) == 0) {
-        if (DWC_RAP_GetNewClientAid() == -1 && (func_020362DC() & 0x400)) {
+        if (DWC_RAP_GetNewClientAid() == -1 && (KEY_GetTrg() & 0x400)) {
             if (func_021C1968(p)) func_021BAADC(p, 57, 0);
             else func_021BAADC(p, 58, 0);
-            func_020061E4(0x54c);
+            GFL_USE_PlaySeDefaultVolume(0x54c);
             func_021BAEDC(p);
             *(int *)(p + 0x1cc) = 12;
             func_021C1A30((u8 *)p, 33);
@@ -177,14 +177,14 @@ int func_021BF2C4(char *p, int ret)
             func_021BDD48(p, (void *)func_021C23B8(index));
             func_021BDD54(p, (void *)func_021C23B8(index));
             *(u16 *)(p + 0x242) = index + 1;
-            func_0200616C((void *)0x806, 0);
+            GFL_USE_PlaySeInSlot((void *)0x806, 0);
             *(int *)(p + 0x1cc) = 63;
             return ret;
             }
         }
     }
     if (func_021BF03C(p) && *(int *)(p + 0x1f0) != -1) {
-        func_0200616C((void *)0x806, 0);
+        GFL_USE_PlaySeInSlot((void *)0x806, 0);
         GFL_NET_SetAutoExit(1);
         GFL_NET_SetLoginOption(1);
         *(int *)(p + 0x1cc) = 40;
@@ -217,8 +217,8 @@ int func_021BF2C4(char *p, int ret)
     }
     kind = func_021BDD48(p, *(void **)(p + 8));
     if (*(int *)(p + 0x1f0) == -1) {
-        if ((func_020362DC() & 2) && func_021BDDA8(kind)) {
-            func_020061E4(0x54c);
+        if ((KEY_GetTrg() & 2) && func_021BDDA8(kind)) {
+            GFL_USE_PlaySeDefaultVolume(0x54c);
             *(int *)(p + 0x1cc) = 31;
             func_021C19DC(p, 33);
             return ret;
@@ -229,7 +229,7 @@ int func_021BF2C4(char *p, int ret)
     switch (action) {
     case 0: return ret;
     case 1:
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         if (func_021BDDA8(kind)) *(int *)(p + 0x1cc) = 31;
         else {
             *(int *)(p + 0x1d0) = 0;
@@ -241,7 +241,7 @@ int func_021BF2C4(char *p, int ret)
     case 3:
         if (kind == 1) {
             *(int *)(p + 0x135c) = 1;
-            func_020061E4(0x54c);
+            GFL_USE_PlaySeDefaultVolume(0x54c);
             func_021B9B24(p + 0x274);
             *(int *)(p + 0x1cc) = 28;
             func_021C1A30((u8 *)p, 33);
@@ -252,7 +252,7 @@ int func_021BF2C4(char *p, int ret)
     case 2:
         if (kind == 1) {
             index = func_021B97F4(p + 0x274);
-            func_020061E4(0x54c);
+            GFL_USE_PlaySeDefaultVolume(0x54c);
             func_02082D44((void *)func_021C23B8(index - 1), p + 0x24c, 32);
             *(int *)(p + 0x1cc) = 34;
             func_021C1A30((u8 *)p, 33);

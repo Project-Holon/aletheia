@@ -33,7 +33,7 @@
  *   func_020664CC  0x020664CC  arm
  *   func_02066380  0x02066380  arm
  *   g_02147B88     0x02147B88  data
- *   g_020A1B38     0x020A1B38  data
+ *   FX_SinCosTable_     0x020A1B38  data
  */
 
 typedef unsigned char  u8;
@@ -69,7 +69,7 @@ extern void  func_02066620(fx32 sn, fx32 cs);
 extern void  func_020664CC(fx32 sx, fx32 sy, fx32 sz);
 extern void  func_02066380(int a);
 extern struct B8802066080 g_02147B88;
-extern s16 g_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 void func_02066080(struct Obj02066080 *c)
 {
@@ -97,7 +97,7 @@ void func_02066080(struct Obj02066080 *c)
     if ((c->unk_5a & 4) != 0) {
         int i = c->unk_58 >> 4;
 
-        func_02066620(g_020A1B38[i * 2], g_020A1B38[i * 2 + 1]);
+        func_02066620(FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
     }
 
     if ((c->unk_5a & 2) != 0)

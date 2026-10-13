@@ -16,7 +16,7 @@
  *   func_0200B358 0x0200B358 thumb
  *   BATTLE_REC_ClearWork 0x0200B480 thumb
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
@@ -49,7 +49,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200B358(void *);
 extern void BATTLE_REC_ClearWork(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *, int, unsigned);
+extern void MI_CpuFill8(void *, int, unsigned);
 struct Entry;
 struct Reg;
 struct Reg2;
@@ -99,12 +99,12 @@ struct Out *func_02212AF8(int unused, u32 heap, struct In *p)
     int flag = 0;
     sys = func_0200B358(GAME_DATA_GetSaveControl(p->f4));
     out = func_02030734(heap, 0x10, 0, d_02213D04, 0x3e0);
-    func_02082BCC(out, 0, 0x10);
+    MI_CpuFill8(out, 0, 0x10);
     out->f0 = p->f4;
     BATTLE_REC_ClearWork();
-    func_02082BCC((u8 *)p + 0x1b4, 0, 0x18);
+    MI_CpuFill8((u8 *)p + 0x1b4, 0, 0x18);
     out->f8 = func_02030734(heap, 0x58, 0, d_02213D04, 0x3eb);
-    func_02082BCC(out->f8, 0, 0x58);
+    MI_CpuFill8(out->f8, 0, 0x58);
     out->f8->f54 = GAME_DATA_GetTrainerRecord(p->f4);
     out->f8->f50 = 0;
     {
@@ -121,7 +121,7 @@ struct Out *func_02212AF8(int unused, u32 heap, struct In *p)
         b->f9 = p->f2c->f44;
     }
     out->f4 = func_02030734(heap, 0xf0, 0, d_02213D04, 0x403);
-    func_02082BCC(out->f4, 0, 0xf0);
+    MI_CpuFill8(out->f4, 0, 0xf0);
     func_02034AC4((int)ov093_id);
     if (p->f1c == 2 || p->f1c == 3) {
         id = 16;

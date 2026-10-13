@@ -12,8 +12,8 @@
  *   func_020490F4 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb  arm9
  */
@@ -29,8 +29,8 @@ extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isE
 typedef signed int     s32;
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void ARC_TOOL_DeleteHandle(void *);
 void func_021D6CD8(u8 *p)
 {
@@ -42,7 +42,7 @@ void func_021D6CD8(u8 *p)
     ((struct Obj02474 *)p)->f44=(void *)CLACT_RegisterCharacter(h,n,0,0,((struct Obj02474 *)p)->f43C4);
     pt.x=133; pt.y=128; pt.f4=0; pt.f6=3; pt.f7=2;
     ((struct Obj02474 *)p)->fB4=CLACT_CreateActor((void *)((struct Obj02474 *)p)->fC,(u32)((struct Obj02474 *)p)->f44,((struct Obj02474 *)p)->f28,((struct Obj02474 *)p)->f5C,&pt,0,((struct Obj02474 *)p)->f43C4);
-    func_0204B92C(((struct Obj02474 *)p)->fB4,0);
-    func_0204B3DC(((struct Obj02474 *)p)->fB4,0);
+    CLACT_SetActorAutoAnim(((struct Obj02474 *)p)->fB4,0);
+    CLACT_SetActorDrawEnable(((struct Obj02474 *)p)->fB4,0);
     ARC_TOOL_DeleteHandle(h);
 }

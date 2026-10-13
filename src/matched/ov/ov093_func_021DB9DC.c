@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: BTL_TOKUSEI_Stench_SetFlinchChance, BTL_TOKUSEI_GetShadowTagHandlers
+ * function: HAND_TOKUSEI_Stench_SetFlinchChance, HAND_TOKUSEI_GetShadowTagHandlers
  * address: 0x021DB9DC
  * packet: pkt_ov093_021DB9DC
  * region: ov093
@@ -17,5 +17,5 @@
 extern int gShadowTagHandlers;
 extern int BTL_EVENT_GetVar(int);
 extern int BTL_EVENT_OverwriteVar(int,unsigned int);
-void BTL_TOKUSEI_Stench_SetFlinchChance(int a,int b,int c) { if(c==BTL_EVENT_GetVar(3) && (unsigned char)BTL_EVENT_GetVar(0x25)==0) BTL_EVENT_OverwriteVar(0x26,10); }
-int *BTL_TOKUSEI_GetShadowTagHandlers(int *p) { *p=1; return &gShadowTagHandlers; }
+void HAND_TOKUSEI_Stench_SetFlinchChance(int a,int b,int c) { if(c==BTL_EVENT_GetVar(3) && (unsigned char)BTL_EVENT_GetVar(0x25)==0) BTL_EVENT_OverwriteVar(0x26,10); }
+int *HAND_TOKUSEI_GetShadowTagHandlers(int *p) { *p=1; return &gShadowTagHandlers; }

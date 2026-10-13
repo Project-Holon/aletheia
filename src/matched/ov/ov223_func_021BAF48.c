@@ -11,11 +11,11 @@
  * before fixed field offsets retains the observed invariant constants;
  * computing p + constant + i*4 instead hoists pointer bases and spills p.
  * symbols:
- *   func_02045770 0x02045770 arm
- *   func_0201C6C4 0x0201C6C4 thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
 #include "../include/Obj08461.h"
@@ -24,11 +24,11 @@ typedef unsigned char u8;
 struct Descriptor;
 struct Cfg;
 struct PrintSys;
-extern void *func_02045770(struct Descriptor *);
-extern unsigned func_0201C6C4(struct PrintSys *, void *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
+extern unsigned PRINTSYS_QUE_IsExistTarget(struct PrintSys *, void *);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
-extern u8 func_02045730(struct Descriptor *);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(unsigned);
 int func_021BAF48(char *p)
 {
@@ -37,14 +37,14 @@ int func_021BAF48(char *p)
     for (i = 0; i < 3; i++) {
         char *q = p + i * 4;
         if (((struct Obj08461 *)q)->f244 == 0) {
-            if (func_0201C6C4(*(struct PrintSys * *)&((struct Obj26093 *)p)->f1C,
-                            func_02045770(*(struct Descriptor * *)&((struct Obj08461 *)q)->f238)) != 0) {
+            if (PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct Obj26093 *)p)->f1C,
+                            BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj08461 *)q)->f238)) != 0) {
                 finished = 0;
             } else {
                 struct Descriptor *d = *(struct Descriptor * *)&((struct Obj08461 *)q)->f238;
                 BMP_WIN_TransferChars(d);
                 BMP_WIN_MakeScreen((struct Cfg *)d);
-                func_02041B6C(func_02045730(d));
+                func_02041B6C(BMP_WIN_GetBgLayer(d));
                 ((struct Obj08461 *)q)->f244 = 1;
             }
         }

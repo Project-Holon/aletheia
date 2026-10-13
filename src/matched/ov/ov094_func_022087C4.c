@@ -14,7 +14,7 @@
  * reloaded instead of CSE'd.
  *
  * symbols:
- *   tbl_020A1B38  0x020A1B38  data
+ *   FX_SinCosTable_  0x020A1B38  data
  *   func_022079C0 0x022079C0  thumb  ov094
  */
 
@@ -27,7 +27,7 @@ typedef struct Ang {
     u32 hi : 11;
 } Ang;
 
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern void func_022079C0(char *obj, int a, s16 *v);
 
 void func_022087C4(char *obj, int a)
@@ -39,7 +39,7 @@ void func_022087C4(char *obj, int a)
     f = (Ang *)(obj + 0x440);
     v[0] = -16;
     i = f->ang;
-    v[1] = tbl_020A1B38[2 * (i >> 4)] / 0x800;
+    v[1] = FX_SinCosTable_[2 * (i >> 4)] / 0x800;
     ((Ang *)(obj + 0x440))->ang += 0x400;
     func_022079C0(obj, a, v);
 }

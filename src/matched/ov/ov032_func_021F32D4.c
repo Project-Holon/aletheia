@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  */
 #include "../include/Obj13069.h"
 struct Obj;
-extern void func_0204B3DC(struct Obj *, unsigned);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned);
 extern void CLACT_DeleteActor(struct Obj *);
 void func_021F32D4(char *p)
 {
@@ -22,7 +22,7 @@ void func_021F32D4(char *p)
     char *q;
     for (i = 0; i < 6; i++) {
         q = p + i * 4;
-        func_0204B3DC(*(struct Obj * *)&((struct Obj13069 *)q)->f2BC, 0);
+        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj13069 *)q)->f2BC, 0);
         CLACT_DeleteActor(*(struct Obj * *)&((struct Obj13069 *)q)->f2BC);
     }
 }

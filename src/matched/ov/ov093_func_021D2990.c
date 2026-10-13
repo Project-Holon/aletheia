@@ -1,5 +1,5 @@
 /*
- * function: func_021D2990
+ * function: BTL_CLIENT_StepChangeBgm
  * address:  0x021D2990
  * packet:   pkt_ov093_021D2990
  * region:   ov093
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 void func_021F878C(u32 a);
 
-int func_021D2990(int a, int b, int *c)
+int BTL_CLIENT_StepChangeBgm(int a, int b, int *c)
 {
     func_021F878C(*c);
     return 1;

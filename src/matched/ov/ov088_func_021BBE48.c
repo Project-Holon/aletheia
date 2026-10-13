@@ -13,7 +13,7 @@
  *   func_02045B38  0x02045B38  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -37,7 +37,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -56,7 +56,7 @@ void STARTMENU_OpenNoticeWindow(char *p)
     ((struct Obj05167 *)p)->fF0 = BMP_WIN_Create(0, 2, 2, 0x1e, 0x14, 5, 1);
     s = (u32)func_02045EC0((struct MsgBank *)msg, 0x20);
     a = ((struct Obj05167 *)p)->f68;
-    PRINTSYS_PrintQueColor((void *)a, (u32)func_02045770((struct Descriptor *)((struct Obj05167 *)p)->fF0), 0, 0, s, ((struct Obj05167 *)p)->f58, 0x440);
+    PRINTSYS_PrintQueColor((void *)a, (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj05167 *)p)->fF0), 0, 0, s, ((struct Obj05167 *)p)->f58, 0x440);
     ((struct Obj05167 *)p)->fF4 = 1;
     STRBUF_Delete((struct U16Vec *)s);
     MSGDATA_Delete((struct Rec *)msg);

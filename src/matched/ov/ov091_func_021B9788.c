@@ -12,7 +12,7 @@
  * symbols:
  *   PLIST_MESSAGE_OpenWindow  0x021BB714  thumb  ov091
  *   PLIST_MESSAGE_StartStream  0x021BB860  thumb  ov091
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 
 typedef unsigned char u8;
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 extern void PLIST_MESSAGE_OpenWindow(void *a, u32 *s, u32 k);
 extern void PLIST_MESSAGE_StartStream(u8 *a, u32 *s, u32 x, u32 y);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 #define W(o) (*(int *)(p + (o)))
 
@@ -32,6 +32,6 @@ void POKELIST_ShowMessage(u8 *p, int a1, int a2, int a3)
     W(0x148) = a3;
     PLIST_MESSAGE_OpenWindow(p, (u32 *)W(0x150), 3);
     PLIST_MESSAGE_StartStream(p, (u32 *)W(0x150), a1, a2);
-    func_0204B3DC((struct Obj *)W(0x1e0), 0);
-    func_0204B3DC((struct Obj *)W(0x1e4), 0);
+    CLACT_SetActorDrawEnable((struct Obj *)W(0x1e0), 0);
+    CLACT_SetActorDrawEnable((struct Obj *)W(0x1e4), 0);
 }

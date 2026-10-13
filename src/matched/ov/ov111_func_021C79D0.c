@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201C6B4  0x0201C6B4  thumb
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   func_021C7E48  0x021C7E48  thumb
  *   func_021C8364  0x021C8364  thumb
  *
@@ -24,13 +24,13 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct PrintSys;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void func_021C7E48(Work *p);
 extern void func_021C8364(Work *p);
 
 int func_021C79D0(Work *p)
 {
-    if (func_0201C6B4(p->f14) == 0) {
+    if (PRINTSYS_QUE_IsFinished(p->f14) == 0) {
         return 1;
     }
     func_021C7E48(p);

@@ -11,7 +11,7 @@
  * symbols:
  *   func_021C940C 0x021C940C thumb ov212
  *   CLACT_SetActorVisible 0x0204BA20 arm
- *   func_0204B688 0x0204B688 arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
  *   func_021BD908 0x021BD908 thumb ov209
  *   func_021BD8D8 0x021BD8D8 thumb ov209
  *   d_021BE9A4 0x021BE9A4 data a4
@@ -25,7 +25,7 @@ struct Obj;
 extern struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap);
 struct Actor;
 extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void func_021BD908(char *, u32, u32);
 extern void func_021BD8D8(char *, u32, u32);
 void func_021BE010(char *p) {
@@ -58,7 +58,7 @@ void func_021BE010(char *p) {
         pb = (u32 *)(p + 0xA70);
         *(u32 *)(p + j * 4 + 0xB1C) = (u32)func_021C940C(*pb, (const u8 *)(&b), 0x6b);
         CLACT_SetActorVisible((struct Actor *)(*(u32 *)(p + j * 4 + 0xB1C)), 0);
-        func_0204B688((struct Actor *)(*(u32 *)(p + j * 4 + 0xB1C)), 2);
+        CLACT_SetActorObjMode((struct Actor *)(*(u32 *)(p + j * 4 + 0xB1C)), 2);
     }
     for (k = 0; k < 16; k++) func_021BD8D8(p, k + 0xa, 0);
     for (i = 0; i < 16; i++) {

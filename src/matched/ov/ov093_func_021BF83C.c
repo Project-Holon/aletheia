@@ -14,7 +14,7 @@
  *   func_021BF8A4  0x021BF8A4  thumb  ov093
  *   func_021BF8B4  0x021BF8B4  thumb  ov093
  *   func_021BF8C4  0x021BF8C4  thumb  ov093
- *   func_021BF324  0x021BF324  thumb  ov093
+ *   BTL_SERVER_FLOW_CheckNoGuardHit  0x021BF324  thumb  ov093
  *   BTL_SERVER_FLOW_QuerySemiInvulnerableHit  0x021C6948  thumb  ov093
  *   BTL_SERVER_FLOW_PushMoveBlockedMessage  0x021C572C  thumb  ov093
  */
@@ -24,7 +24,7 @@ extern void func_021BF894(int d);
 extern u8 *func_021BF8A4(int d);
 extern void func_021BF8B4(int d, u8 *x);
 extern u8 *func_021BF8C4(int d);
-extern int func_021BF324(u8 *p, u8 *a, u8 *b);
+extern int BTL_SERVER_FLOW_CheckNoGuardHit(u8 *p, u8 *a, u8 *b);
 extern int BTL_SERVER_FLOW_QuerySemiInvulnerableHit(u8 *p, u8 *a, u8 *b, u32 v);
 extern void BTL_SERVER_FLOW_PushMoveBlockedMessage(u8 *p, u8 *x, u32 v);
 
@@ -34,7 +34,7 @@ void BTL_SERVER_FLOW_RemoveImmuneTargets(u8 *p, u16 *b, u8 *c, int d)
     func_021BF894(d);
     x = func_021BF8A4(d);
     while (x != 0) {
-        if (func_021BF324(p, c, x) == 0) {
+        if (BTL_SERVER_FLOW_CheckNoGuardHit(p, c, x) == 0) {
             if (BTL_SERVER_FLOW_QuerySemiInvulnerableHit(p, c, x, *b) != 0) {
                 func_021BF8B4(d, x);
                 BTL_SERVER_FLOW_PushMoveBlockedMessage(p, x, *b);

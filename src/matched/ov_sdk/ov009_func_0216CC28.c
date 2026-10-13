@@ -17,7 +17,7 @@
  *   func_02175F1C  0x02175F1C  arm  ov009
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   func_02175F4C  0x02175F4C  arm  ov009
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0217601C  0x0217601C  arm  ov009
  *   func_0217653C  0x0217653C  arm  ov009
  *   func_02173B18  0x02173B18  arm  ov009
@@ -27,7 +27,7 @@
 extern void  func_02175F1C(int a0);
 extern int func_02175F3C(void);
 extern void  func_02175F4C(int a0);
-extern void  func_02082BCC(void *p, int v, int n);
+extern void  MI_CpuFill8(void *p, int v, int n);
 extern void  func_0217601C(void);
 extern void  func_0217653C(void);
 extern void  func_02173B18(void);
@@ -52,7 +52,7 @@ int func_0216CC28(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7
     *(int *)(func_02175F3C() + 0x688) = a5;
     *(int *)(func_02175F3C() + 0x68c) = a6;
     *(int *)(func_02175F3C() + 0x690) = a7;
-    func_02082BCC((void *)(func_02175F3C() + 0x694), 0, 0x40);
+    MI_CpuFill8((void *)(func_02175F3C() + 0x694), 0, 0x40);
     *(int *)(func_02175F3C() + 0x6d4) = 0;
     *(int *)(func_02175F3C() + 0x770) = 0;
     *(int *)(func_02175F3C() + 0x774) = 0;

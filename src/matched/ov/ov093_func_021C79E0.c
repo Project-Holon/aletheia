@@ -1,5 +1,5 @@
 /*
- * function: func_021C79E0
+ * function: BTL_SERVER_FLOW_CalcRecoverHpAmount
  * address:  0x021C79E0
  * packet:   pkt_ov093_021C79E0
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201BD28  0x0201BD28  thumb
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
@@ -25,7 +25,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u32 func_0201BD28(u32 v, u32 n);
+extern u32 WAZA_TOOL_GetParam(u32 v, u32 n);
 extern int func_021D59B4(u8 *p, int k);
 extern void BTL_EVENT_PushVarFrame(int line);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
@@ -37,9 +37,9 @@ extern void BTL_EVENT_PopVarFrame(int line);
 extern u32 BTL_CALC_MulRatio(u32 a, u32 b);
 extern u32 BTL_CALC_MulPercent(u32 a, u32 b);
 
-u32 func_021C79E0(u8 *p, u32 x, u8 *a)
+u32 BTL_SERVER_FLOW_CalcRecoverHpAmount(u8 *p, u32 x, u8 *a)
 {
-    u32 s = func_0201BD28(x, 0x1a);
+    u32 s = WAZA_TOOL_GetParam(x, 0x1a);
     int c;
     u32 m;
     u32 r;

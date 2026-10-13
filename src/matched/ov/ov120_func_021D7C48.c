@@ -15,7 +15,7 @@
  * the address after the call and frees r7 (132-136 bytes).
  * symbols:
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
@@ -31,7 +31,7 @@ struct CharBuf;
 struct MsgBank;
 struct Cfg;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
@@ -45,9 +45,9 @@ int func_021D7C48(u8 *p, int n, int a, int b, int c, int d)
         if(!*(void **)(p+i*4+0x38)) {
             ((void **)(p+0x38))[i]=(void *)BMP_WIN_Create((u8)d,(u8)a,(u8)b,(u8)c,2,11,1);
             q=((void **)(p+0x38))[i];
-            BMP_Clear((struct CharBuf *)func_02045770((struct Descriptor *)q),0);
+            BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp((struct Descriptor *)q),0);
             MSGDATA_ReadString(*(struct MsgBank **)(p+0xc),n,*(void **)(p+0x18));
-            PRINTSYS_Print(func_02045770((struct Descriptor *)q),2,2,*(void **)(p+0x18),*(void **)(p+0x14));
+            PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)q),2,2,*(void **)(p+0x18),*(void **)(p+0x14));
             BMP_WIN_TransferChars((struct Descriptor *)q);
             BMP_WIN_MakeScreen((struct Cfg *)q);
             return i;

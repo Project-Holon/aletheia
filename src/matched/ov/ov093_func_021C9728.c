@@ -1,5 +1,5 @@
 /*
- * function: func_021C9728
+ * function: BTL_SERVER_FLOW_ExecCmdSetTurnFlag
  * address: 0x021C9728
  * packet: pkt_ov093_021C9728
  * region: ov093
@@ -10,7 +10,7 @@
  * status: EXACT*
  * extent: two bytes of trailing alignment padding.
  * symbols:
- *   func_021B9934 0x021B9934 thumb ov093
+ *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_POKEPARAM_SetTurnFlag 0x021D5FC0 thumb ov093
  */
@@ -18,12 +18,12 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct UtilWork;
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern int BTL_POKEPARAM_IsFainted(void *);
 extern void BTL_POKEPARAM_SetTurnFlag(struct UtilWork *, u32);
-int func_021C9728(u8 *p, u8 *q)
+int BTL_SERVER_FLOW_ExecCmdSetTurnFlag(u8 *p, u8 *q)
 {
-    u8 *a = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, q[8]);
+    u8 *a = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00003 *)p)->f8, q[8]);
     if (!BTL_POKEPARAM_IsFainted(a)) {
         BTL_POKEPARAM_SetTurnFlag((struct UtilWork *)a, *(u32 *)(q + 4));
         return 1;

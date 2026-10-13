@@ -32,7 +32,7 @@
  *   final push 2026-10-05 G5L9 (40 compiles, all 22 B, same pure swap): the (u16) cast on the
  *   third blit argument is dropped (callee takes u16; same bytes, now plain). Tried, no change:
  *   block-scoped t/x/i, declarations at the point of use, u8* text, key decl first/last, i/x
- *   first, STRBUF_AppendChar u16 value, func_021C63AC with u8 fourth parameter, func_02045738 as u8
+ *   first, STRBUF_AppendChar u16 value, func_021C63AC with u8 fourth parameter, BMP_WIN_GetWidth as u8
  *   (same bytes) with n u32/int/u8, named constants ten/two (int, u8; with opt_propagation off 449 B),
  *   constants as locals in both orders, text/buf2/key as declaration initialisers (30 B, only slot
  *   order moves), inline put()/blit() helpers, struct view of p (two windows), i++ as body statement
@@ -62,7 +62,7 @@
  *   func_02009860 0x02009860 thumb
  *   DWC_CreateFriendKey 0x0205994C arm
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_02045738 0x02045738 arm
+ *   BMP_WIN_GetWidth 0x02045738 arm
  *   STRBUF_Clear 0x0204581C arm
  *   STRBUF_AppendChar 0x02045AFC arm
  *   STRBUF_Delete 0x02045808 arm
@@ -91,7 +91,7 @@ struct Sub020097BCObj;
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern u8 func_02045738(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern void STRBUF_Clear(struct U16Vec *vec);
 extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -125,7 +125,7 @@ void func_021C8F88(u8 *p, u8 *q, u8 *ctx, u16 heap)
         gfx = *(u32 *)(ctx + 0x34);
         t = d_021CA674;
         x = 0;
-        n = func_02045738(*(void **)(p + 8));
+        n = BMP_WIN_GetWidth(*(void **)(p + 8));
         w1 = second(p);
         for (i = 1; i <= 12; i++) {
             STRBUF_Clear((void *)text);

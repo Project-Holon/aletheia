@@ -17,7 +17,7 @@
  *   FIELD_MSGBG_RewriteMenuFunc  0x02190A14  thumb  ov021
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GFL_NET_HANDLE_CheckNegotiation  0x02039ACC  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   COMM_ENTRY_MENU_PrintMessage  0x021CE9E4  thumb  ov021
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
@@ -44,7 +44,7 @@ struct Handle;
 extern void FIELD_MSGBG_RewriteMenuFunc(u8 *p);
 extern int GFL_NET_SYSTEM_GetConnectNum(void);
 extern int GFL_NET_HANDLE_CheckNegotiation(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void COMM_ENTRY_MENU_PrintMessage(u8 *p, int n);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -92,7 +92,7 @@ u32 COMM_ENTRY_MENU_MainYesNo(u8 *p)
                 s->state++;
             }
         } else {
-            if (func_020362DC() & 2) {
+            if (KEY_GetTrg() & 2) {
                 s->prev = s->state;
                 s->state = 4;
             }
@@ -109,7 +109,7 @@ u32 COMM_ENTRY_MENU_MainYesNo(u8 *p)
             if (COMM_ENTRY_SendJoinRequest((u32)(p + 0x30), 0, p[0x51b]) == 1) {
                 s->state = 2;
             }
-        } else if (func_020362DC() & 2) {
+        } else if (KEY_GetTrg() & 2) {
             s->prev = s->state;
             s->state = 4;
         }
@@ -125,7 +125,7 @@ u32 COMM_ENTRY_MENU_MainYesNo(u8 *p)
         } else if (((struct Obj00011 *)p)->f52C == 2) {
             s->result = 2;
             s->state = 3;
-        } else if (func_020362DC() & 2) {
+        } else if (KEY_GetTrg() & 2) {
             s->prev = s->state;
             s->state = 4;
         }

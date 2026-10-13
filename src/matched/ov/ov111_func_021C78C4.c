@@ -12,7 +12,7 @@
  * symbols:
  *   BMP_WIN_Init  0x02045088  arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *
  * Addresses are Black-image addresses.
@@ -66,12 +66,12 @@ struct CharBuf;
 struct Descriptor;
 extern void BMP_WIN_Init(u16 heapId);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
 void func_021C78C4(Work *p)
 {
     BMP_WIN_Init(0x27);
     p->f8 = (void *)BMP_WIN_Create(4, 2, 10, 0x1C, 0xC, 0xF, 1);
-    BMP_Clear(func_02045770(p->f8), 0xF);
+    BMP_Clear(BMP_WIN_GetBmp(p->f8), 0xF);
 }

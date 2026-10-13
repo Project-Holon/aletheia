@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9114  0x021B9114  thumb  ov093
- *   func_021BA54C  0x021BA54C  thumb  ov093
- *   func_021BA6C0  0x021BA6C0  thumb  ov093
- *   func_021BA878  0x021BA878  thumb  ov093
- *   func_021BA2E4  0x021BA2E4  thumb  ov093
+ *   BTL_MAIN_GetOwnsSlots  0x021B9114  thumb  ov093
+ *   BTL_MAIN_JudgeResult  0x021BA54C  thumb  ov093
+ *   BTL_MAIN_StoreRecorderEntry  0x021BA6C0  thumb  ov093
+ *   BTL_MAIN_StoreResultStats  0x021BA878  thumb  ov093
+ *   BTL_MAIN_WriteBackResults  0x021BA2E4  thumb  ov093
  *   BTL_MAIN_IsRecordPlaybackDone  0x021B64CC  thumb  ov093
  */
 
@@ -40,11 +40,11 @@ struct S {
     int (*f464)(struct S *);
 };
 
-extern u8 func_021B9114(u8 **p);
-extern int func_021BA54C(char *p);
-extern void func_021BA6C0(char *p);
-extern void func_021BA878(u8 *p);
-extern void func_021BA2E4(char *p);
+extern u8 BTL_MAIN_GetOwnsSlots(u8 **p);
+extern int BTL_MAIN_JudgeResult(char *p);
+extern void BTL_MAIN_StoreRecorderEntry(char *p);
+extern void BTL_MAIN_StoreResultStats(u8 *p);
+extern void BTL_MAIN_WriteBackResults(char *p);
 extern int BTL_MAIN_IsRecordPlaybackDone(u8 *p);
 
 int BTL_MAIN_ProcMain(int a0, int a1, int a2, struct S *s)
@@ -56,11 +56,11 @@ int BTL_MAIN_ProcMain(int a0, int a1, int a2, struct S *s)
         return 1;
     }
     if (s->f464(s) != 0) {
-        if (func_021B9114((u8 **)s) == 0) {
-            t = func_021BA54C((char *)s);
-            func_021BA6C0((char *)s);
-            func_021BA878((u8 *)s);
-            func_021BA2E4((char *)s);
+        if (BTL_MAIN_GetOwnsSlots((u8 **)s) == 0) {
+            t = BTL_MAIN_JudgeResult((char *)s);
+            BTL_MAIN_StoreRecorderEntry((char *)s);
+            BTL_MAIN_StoreResultStats((u8 *)s);
+            BTL_MAIN_WriteBackResults((char *)s);
             switch (t) {
             case 1:
                 s->f00->f88 = s->f430 + s->f434;

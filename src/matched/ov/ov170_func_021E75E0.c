@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_021DD25C 0x021DD25C thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021EF5E8 0x021EF5E8 thumb
  *   func_021DEFEC 0x021DEFEC thumb
  *   func_021DF040 0x021DF040 thumb
@@ -72,7 +72,7 @@ typedef struct {
 
 struct WinMgr;
 extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern int func_021EF5E8(struct WinMgr *mgr);
 extern void func_021DEFEC(char *p, int b);
 typedef unsigned char  u8;
@@ -116,29 +116,29 @@ int func_021E75E0(Obj *p)
         func_021DF0BC((unsigned char *)p);
         break;
     case 0x1F:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DF0BC((unsigned char *)p);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
         return func_021E9C94((char *)p, 0, 0x4B);
     case 0x20:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DF0BC((unsigned char *)p);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
         return func_021E9CE0((char *)p, 0, 0x4B);
     case 0x21:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p->top->h28 = 0;
         p->top->b2A = 0xFF;
         p->top->b2B = 0xFF;
         return func_021E954C(p, 6, 9, 0x68);
     case 0x22:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x4D));
     case 0x23: {
         unsigned char k;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         k = p->b16;
         func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
@@ -146,20 +146,20 @@ int func_021E75E0(Obj *p)
     }
     case -6:
         if (func_020260E0(OBJ(p)) == 0x1E) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021DF0BC((unsigned char *)p);
             return func_021E9C94((char *)p, 0, 0x4B);
         }
         break;
     case -5:
         if (func_020260E0(OBJ(p)) == 0x1E) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021DF0BC((unsigned char *)p);
             return func_021E9CE0((char *)p, 0, 0x4B);
         }
         break;
     case -4:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3: {
         unsigned char v = func_020260E0(OBJ(p));
@@ -167,11 +167,11 @@ int func_021E75E0(Obj *p)
             func_021DEFEC((char *)p, v);
         else if (v != 0x22 && v != 0x23)
             func_021DF040((char *)p);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x4B));
     }
     case -2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
             unsigned char k = p->b16;
             func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
@@ -188,7 +188,7 @@ int func_021E75E0(Obj *p)
         break;
     default:
         if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             p->b16 = r;
             func_021EB988(p, d_021EF8EC, 2);
             func_021DEFEC((char *)p, r);
@@ -200,7 +200,7 @@ int func_021E75E0(Obj *p)
             func_021EF534(MGR(p));
             return func_021E8FC0((char *)p, (int)func_021E070C, func_021E8FE0((char *)p, 0x4C));
         }
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DEFEC((char *)p, r);
         if (func_021EF5E8(MGR(p)) == 1) {
             func_021EF57C(MGR(p));

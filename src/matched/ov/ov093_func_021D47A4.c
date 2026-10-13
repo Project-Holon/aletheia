@@ -12,8 +12,8 @@
  * symbols:
  *   gBtlNet     0x021F3B88  data  ov093
  *   BTL_NET_FindNetIdByClient  0x021D4394  thumb ov093
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  */
 
 typedef unsigned char u8;
@@ -29,8 +29,8 @@ struct S {
 
 extern struct S *gBtlNet;
 extern u8 BTL_NET_FindNetIdByClient(u32 a);
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 
 void *BTL_NET_GetParty(u8 a)
 {
@@ -44,9 +44,9 @@ void *BTL_NET_GetParty(u8 a)
     }
     p = gBtlNet->tblC[a];
     if (p != 0) {
-        n = func_0201AA18(p);
+        n = POKEPARTY_GetCount(p);
         for (i = 0; i < n; i++) {
-            func_0201AB28(p, i);
+            POKEPARTY_GetMember(p, i);
         }
         return p;
     }

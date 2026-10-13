@@ -1,5 +1,5 @@
 /*
- * function: func_021EE7F0
+ * function: WEATHER_CLEAR_BeginPlain
  * address:  0x021EE7F0
  * packet:   pkt_ov024_021EE7F0
  * region:   ov024
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_021EE7F0  0x021EE7F0  thumb  ov024
+ *   WEATHER_CLEAR_BeginPlain  0x021EE7F0  thumb  ov024
  *   WEATHER_TASK_CheckZoneFogA  0x021A23E8  thumb  ov021
  *   WEATHER_TASK_GetZoneFogC  0x021A2400  thumb  ov021
  *   WEATHER_TASK_GetZoneFogD  0x021A240C  thumb  ov021
@@ -28,7 +28,7 @@ int WEATHER_TASK_CheckZoneFogB(int *p);
 int WEATHER_TASK_GetZoneFogE(int *p);
 int WEATHER_TASK_SetLight(u32 a, int b, u32 c);
 
-int func_021EE7F0(int p, int v)
+int WEATHER_CLEAR_BeginPlain(int p, int v)
 {
     int t;
 

@@ -12,7 +12,7 @@
  * symbols:
  *   sPartyMenuActorIndex     0x021D3F9C  data  ov021  a1
  *   IRCBATTLEMENU_HookPartyMenuPressed  0x02196CD8  thumb  ov021
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_ApplyActorAnimCommand  0x0204BA00  arm
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   IRCBATTLEMENU_SetSeq  0x02196034  thumb  ov021
@@ -32,7 +32,7 @@ typedef struct { u8 v[3]; } Tbl3;
 extern const Tbl3 sPartyMenuActorIndex;
 struct Actor;
 extern void IRCBATTLEMENU_HookPartyMenuPressed(u8 *p);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 struct Cmd;
 extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
 extern void CLACT_RestartActorAnim(struct Actor *a);
@@ -49,7 +49,7 @@ void IRCBATTLEMENU_SeqPressPartyButton(Obj *a)
     r.x0 = 0;
     r.a = a;
     r.cb = IRCBATTLEMENU_HookPartyMenuPressed;
-    func_0204B92C(a->objs[i], 1);
+    CLACT_SetActorAutoAnim(a->objs[i], 1);
     CLACT_ApplyActorAnimCommand(a->objs[i], (const struct Cmd *)(&r));
     CLACT_RestartActorAnim(a->objs[i]);
     IRCBATTLEMENU_SetSeq(a, IRCBATTLEMENU_SeqIdleParty, 0x504);

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021D6C58 0x021D6C58 thumb ov121
  *   func_021D83CC 0x021D83CC thumb ov121
  *   STRBUF_Create 0x020457B0 arm
@@ -33,7 +33,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 typedef struct { u32 w[9]; s16 h[7]; u16 pad; void *callback,*arg,*result; } Desc;
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 struct U16Vec;
 extern void *func_021D6C58(u8 *p, int i);
 extern void func_021D83CC(char *p);
@@ -58,7 +58,7 @@ void func_021D81B0(u8 *p,u32 which,int heap)
     void *archive;
     int i;
     if(((struct Obj00326 *)p)->f270) return;
-    func_02082BCC(&d,0,64);
+    MI_CpuFill8(&d,0,64);
     d.w[1]=((struct Obj00326 *)p)->f398;
     d.w[2]=((struct Obj00326 *)p)->f39C;
     d.w[3]=(u32)func_021D6C58(p+660,0);

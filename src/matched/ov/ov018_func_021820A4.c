@@ -13,7 +13,7 @@
  * the Ov018Obj at +0x10.
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   func_0201F02C  0x0201F02C  thumb
@@ -57,7 +57,7 @@ extern u16 d_0218398E[];
 typedef unsigned int   u32;
 struct Obj;
 struct WordSet;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 struct Ctx;
 unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *);
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
@@ -71,7 +71,7 @@ int EVENT_COMM_COMMON_TalkedGreetingTargetEventMain(void *a, int *state, Outer *
 {
     u8 *v;
 
-    v = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(func_020124E4(a))));
+    v = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(a))));
     switch (*state) {
     case 0:
         func_0201F02C(c->obj.f00, 0, c->f78);

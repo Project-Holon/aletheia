@@ -11,7 +11,7 @@
  * symbols:
  *   func_021D48A4 0x021D48A4 thumb ov124
  *   func_021D49C8 0x021D49C8 thumb ov124
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_02041B6C 0x02041B6C arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -24,6 +24,7 @@
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
  *   APP_TASKMENU_WIN_Update  0x02028178  thumb  arm9
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb  arm9
  */
 #include "../include/Obj00122.h"
 typedef unsigned char u8;
@@ -36,12 +37,12 @@ struct Obj;
 struct PrintSys;
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void func_021D48A4(char *);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_02041B6C(u32 bit);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void CLACT_DrawSystem(void);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_021D49C8(char *,u32);
 extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
@@ -69,7 +70,7 @@ int func_021D42A0(char *p)
         break;
     case 4:
         if(!((struct Obj00122 *)p)->f1C) func_021D48A4(p);
-        if(func_020362DC()&4) func_02041B6C(4);
+        if(KEY_GetTrg()&4) func_02041B6C(4);
         break;
     }
     PRINTSYS_QUE_Main(((struct Obj00122 *)p)->f30);
@@ -77,7 +78,7 @@ int func_021D42A0(char *p)
     if(((struct Obj00122 *)p)->f3C) APP_TASKMENU_WIN_Update(((struct Obj00122 *)p)->f3C);
     if(((struct Obj00122 *)p)->f38) APP_TASKMENU_WIN_Update(((struct Obj00122 *)p)->f38);
     APP_TASKMENU_WIN_Update(((struct Obj00122 *)p)->f40);
-    if(((struct Obj00122 *)p)->f1C==1 && func_0201C6B4(((struct Obj00122 *)p)->f30)==1 &&
+    if(((struct Obj00122 *)p)->f1C==1 && PRINTSYS_QUE_IsFinished(((struct Obj00122 *)p)->f30)==1 &&
        (APP_TASKMENU_WIN_IsFinish(((struct Obj00122 *)p)->f3C)==1 || APP_TASKMENU_WIN_IsFinish(((struct Obj00122 *)p)->f38)==1 || ((struct Obj00122 *)p)->fC==1)) {
         BMP_WIN_TransferChars(((struct Obj00122 *)p)->f20);
         BMP_WIN_TransferChars(((struct Obj00122 *)p)->f24);

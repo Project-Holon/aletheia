@@ -19,7 +19,7 @@
  *   WCMi_SetPhase  0x02165A4C  arm  ov009
  *   func_0208F2A0  0x0208F2A0  arm
  *   func_0208F328  0x0208F328  arm
- *   func_0208F400  0x0208F400  arm
+ *   WM_Reset  0x0208F400  arm
  *   func_02166F24  0x02166F24  arm  ov009
  *   func_021679C0  0x021679C0  arm  ov009
  *
@@ -44,7 +44,7 @@ extern long WM_Finish(void);
 extern void WCMi_SetPhase(unsigned char phase);
 extern long func_0208F2A0(void (*callback)(void *));
 extern long func_0208F328(void (*callback)(void *));
-extern long func_0208F400(void (*callback)(void *));
+extern long WM_Reset(void (*callback)(void *));
 extern void func_02166F24(void *arg);
 extern void func_021679C0(void *arg);
 
@@ -74,7 +74,7 @@ long func_02166C44(void)
         break;
     default:
         wcmw->resetting = 1;
-        wmResult = func_0208F400(func_021679C0);
+        wmResult = WM_Reset(func_021679C0);
         break;
     }
     switch (wmResult) {

@@ -25,7 +25,7 @@
  *   func_02089004 0x02089004 arm
  *   func_020891E0 0x020891E0 arm
  *   func_02088F58 0x02088F58 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0200FA84 0x0200FA84 thumb
  *   func_0200B078 0x0200B078 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
@@ -71,7 +71,7 @@ extern unsigned int func_0200BBFC(struct Obj *,unsigned int);
 extern void func_0200BBD8(struct Obj *p, int v);
 extern void func_0200B110(struct Reg2 *,unsigned int,int);
 extern int GAME_DATA_SaveStart(int),GAME_DATA_SaveMain(u8 *);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 void func_021D9090(u32 sys,int *state,char *p)
 {
     char *q=*(char * *)&((struct Obj00728 *)p)->f104;
@@ -124,7 +124,7 @@ void func_021D9090(u32 sys,int *state,char *p)
         *state=14;func_021E8AB4(sys,10);break;
     case 10:func_021E8738((int *)(((struct Obj00728 *)p)->f2C),((struct Obj00728 *)p)->f14,70,2);
         *state=14;func_021E8AB4(sys,11);break;
-    case 11:func_02082BCC(&req,0,8);req.b=3;
+    case 11:MI_CpuFill8(&req,0,8);req.b=3;
         req.id=func_021DD020(*(char * *)&((struct Obj00728 *)p)->f34);
         (*(u8 **)(*(char * *)&((struct Obj00728 *)p)->f104+48))[5]=3;
         func_021DC8B4(*(char * *)&((struct Obj00728 *)p)->f34,&req,87);*state=12;break;

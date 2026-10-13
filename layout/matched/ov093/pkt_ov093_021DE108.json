@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_HANDLER_ITEM_RememberAttackerOfCategory",
+   "name": "HAND_ITEM_RememberAttackerOfCategory",
    "address": "0x021DE108",
    "kind": "game",
    "region": "ov093",

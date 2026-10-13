@@ -1,5 +1,5 @@
 /*
- * function: func_021E54E0
+ * function: HAND_WAZA_AddStealthRock
  * address: 0x021E54E0
  * packet: pkt_ov093_021E54E0
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E54AC.c and filed here.
  *
  * symbols:
- *   d_021F26B4 0x021F26B4 data ov093 a4
+ *   gStealthRockHandlers 0x021F26B4 data ov093 a4
  */
 
-extern int d_021F26B4[];
-int *func_021E54E0(int *p);
+extern int gStealthRockHandlers[];
+int *HAND_WAZA_AddStealthRock(int *p);
 
-int *func_021E54E0(int *p)
+int *HAND_WAZA_AddStealthRock(int *p)
 {
     *p = 1;
-    return d_021F26B4;
+    return gStealthRockHandlers;
 }

@@ -16,7 +16,7 @@
  *   func_0201ED04 0x0201ED04 thumb
  *   func_021FCC80 0x021FCC80 thumb ov186
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj02522.h"
 typedef unsigned short u16;
@@ -31,7 +31,7 @@ extern void BMP_Delete(struct Obj020437AC *p);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void func_021FCC80(char *p);
 extern u32 BMP_MENUWORK_Delete(void *p);
-extern void func_02082BCC(void *, int, unsigned int);
+extern void MI_CpuFill8(void *, int, unsigned int);
 void func_021DF388(char *p)
 {
     unsigned int i;
@@ -42,5 +42,5 @@ void func_021DF388(char *p)
     func_0201ED04(((struct Obj02522 *)p)->f8);
     func_021FCC80(((struct Obj02522 *)p)->f4);
     BMP_MENUWORK_Delete(((struct Obj02522 *)p)->f0);
-    func_02082BCC(p, 0, 0xD4);
+    MI_CpuFill8(p, 0, 0xD4);
 }

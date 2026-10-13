@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetSilkScarfHandlers
+ * function: HAND_ITEM_GetSilkScarfHandlers
  * address: 0x021DF8AC
  * packet: pkt_ov093_021DF8AC
  * region: ov093
@@ -15,10 +15,10 @@
  *   gSilkScarfHandlers 0x021F159C data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetSilkScarfHandlers(int *p);
+int *HAND_ITEM_GetSilkScarfHandlers(int *p);
 extern int gSilkScarfHandlers[];
 
-int *BTL_HANDLER_ITEM_GetSilkScarfHandlers(int *p)
+int *HAND_ITEM_GetSilkScarfHandlers(int *p)
 {
     *p = 1;
     return gSilkScarfHandlers;

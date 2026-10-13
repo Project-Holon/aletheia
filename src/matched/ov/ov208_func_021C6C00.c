@@ -12,13 +12,13 @@
  * symbols:
  *   func_021BC3B4  0x021BC3B4  thumb
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
- *   func_02035D20  0x02035D20  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   func_021BDC48  0x021BDC48  thumb
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   ov208_func_021C6DD8  0x021C6DD8  thumb
  *   ov208_func_021C6E60  0x021C6E60  thumb
  *   ov208_func_021C5C64  0x021C5C64  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_020355D8  0x020355D8  arm
  */
 
@@ -31,13 +31,13 @@ struct Obj;
 struct Vec2;
 extern int func_021BC3B4(int *p);
 extern u32  TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void func_021BDC48(void *scene, u32 on);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u16  ov208_func_021C6DD8(u16 n, u8 x);
 extern u16  ov208_func_021C6E60(void *a0, u8 *p, int key, u16 skip, u16 want);
 extern void ov208_func_021C5C64(void *a0, u8 *p, int key);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_020355D8(u8 v);
 
 #define W(o) (*(u32 *)(p + (o)))
@@ -60,7 +60,7 @@ u32 ov208_func_021C6C00(void *a0, u8 *p, int key)
             func_021BDC48(scene, 1);
         }
     } else if (H(0x548) >= 3) {
-        if (func_02035D20(&x, &y) != 0 && x >= 0x90 && x <= 0xe7 && y >= 0x28 && y <= 0x3f) {
+        if (TOUCHPANEL_GetPointTrg(&x, &y) != 0 && x >= 0x90 && x <= 0xe7 && y >= 0x28 && y <= 0x3f) {
             W(0x69c) = 1;
             func_021BDC48(scene, 0);
             moved = 1;
@@ -71,7 +71,7 @@ u32 ov208_func_021C6C00(void *a0, u8 *p, int key)
         x = x > 0xdc ? 0xdc : (x < 0x9c ? 0x9c : x);
         pos[0] = x;
         pos[1] = 0x30;
-        func_0204B404((struct Obj *)W(0x5e8), (const struct Vec2 *)pos, 0);
+        CLACT_AddActorSurfacePos((struct Obj *)W(0x5e8), (const struct Vec2 *)pos, 0);
         H(0x550) = ov208_func_021C6E60(a0, p, key, H(0x54e),
                                        ov208_func_021C6DD8(H(0x548) - 1, x));
         if (old != H(0x550)) {
@@ -80,7 +80,7 @@ u32 ov208_func_021C6C00(void *a0, u8 *p, int key)
         }
     }
     if (moved)
-        func_020061E4(0x645);
+        GFL_USE_PlaySeDefaultVolume(0x645);
     if (W(0x69c) != 0)
         func_020355D8(1);
     return W(0x69c);

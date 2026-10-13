@@ -16,7 +16,7 @@
  *   GFL_NET_SetChangeoverModeWrapper  0x0203D14C  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   UNION_COMM_RequestRestart  0x02172D20  thumb ov012
  *   UNION_COMM_IsResetting  0x02172D68  thumb ov012
  *   UNION_COMM_SetSituationParam  0x021734A8  thumb ov012
@@ -47,7 +47,7 @@ void func_02034714(const char *expr, u32 line, const char *file);
 void GFL_NET_SetChangeoverModeWrapper(int a, int b, void *c);
 int GFL_NET_GetNegotiationNum(void);
 void GFL_NET_SetLoginOption(u8 a0);
-u32 func_020362DC(void);
+u32 KEY_GetTrg(void);
 void UNION_COMM_RequestRestart(u8 *p);
 int UNION_COMM_IsResetting(u8 *p);
 void UNION_COMM_SetSituationParam(u8 *self, u32 id, u32 v);
@@ -76,7 +76,7 @@ int UNION_ONESELF_ConnectChildMain(void *ctx, Obj *obj, u8 *a2, u8 *state)
             break;
         }
         obj->f6c++;
-        if (obj->f6c > 600 || (func_020362DC() & 2)) {
+        if (obj->f6c > 600 || (KEY_GetTrg() & 2)) {
             UNION_COMM_RequestRestart(ctx);
             UNION_ONESELF_SetNextPlayCategory(ctx, 0);
             UNION_COMM_SetSituationParam(ctx, 2, 0);
@@ -88,7 +88,7 @@ int UNION_ONESELF_ConnectChildMain(void *ctx, Obj *obj, u8 *a2, u8 *state)
         }
         break;
     case 2:
-        if (UNION_COMM_IsResetting(ctx) == 0 && UNION_MSG_CheckTalkPrintEnd(ctx) == 1 && (func_020362DC() & 0xf3))
+        if (UNION_COMM_IsResetting(ctx) == 0 && UNION_MSG_CheckTalkPrintEnd(ctx) == 1 && (KEY_GetTrg() & 0xf3))
             return 1;
         break;
     case 3:
@@ -111,7 +111,7 @@ int UNION_ONESELF_ConnectChildMain(void *ctx, Obj *obj, u8 *a2, u8 *state)
         }
         break;
     case 5:
-        if (UNION_COMM_IsResetting(ctx) == 0 && UNION_MSG_CheckTalkPrintEnd(ctx) == 1 && (func_020362DC() & 0xf3)) {
+        if (UNION_COMM_IsResetting(ctx) == 0 && UNION_MSG_CheckTalkPrintEnd(ctx) == 1 && (KEY_GetTrg() & 0xf3)) {
             UNION_ONESELF_SetNextPlayCategory(ctx, 0);
             return 1;
         }

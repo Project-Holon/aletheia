@@ -16,6 +16,7 @@
  *   func_021C860C 0x021C860C thumb ov128
  *   d_021CA7C0 0x021CA7C0 data a4
  *   cb_021CA7C0 0x021CA7C0 data a4
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb  arm9
  */
 #include "../include/Obj00179.h"
 #include "../include/Obj10484.h"
@@ -29,7 +30,7 @@ extern Config d_021CA7C0;
 extern Callback cb_021CA7C0[];
 typedef unsigned int   u32;
 struct PrintSys;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void CLACT_SetSurfacePos(void *, int, Pair *);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern void func_021C8A50(char *p, int unused);
@@ -40,7 +41,7 @@ int func_021C8240(u8 *p, u8 *a, u8 *b, u16 h)
     int delta;
     Callback cb;
     int mode;
-    if (func_0201C6B4(((struct Obj10484 *)b)->f34) == 0) return 0;
+    if (PRINTSYS_QUE_IsFinished(((struct Obj10484 *)b)->f34) == 0) return 0;
     if (((struct Obj00179 *)p)->f100 > 24) {
         pos.x = d_021CA7C0.pos.x;
         pos.y = d_021CA7C0.pos.y;

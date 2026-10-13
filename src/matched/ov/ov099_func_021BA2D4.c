@@ -18,7 +18,7 @@
  *
  *   typedef unsigned long u32;
  *   typedef signed short s16;
- *   extern const s16 d_020A1B38[];   (0x020A1B38 data a2)
+ *   extern const s16 FX_SinCosTable_[];   (0x020A1B38 data a2)
  *   int func_0203F5FC(u32 a)
  *   {
  *       int t;
@@ -26,7 +26,7 @@
  *           return 0;
  *       }
  *       t = (int)(a * 65535) / 360;
- *       return d_020A1B38[(t >> 4) * 2];
+ *       return FX_SinCosTable_[(t >> 4) * 2];
  *   }
  *
  * Lever here: the FX multiply constant -786432 (0xFFF40000) is a

@@ -1,5 +1,5 @@
 /*
- * function: func_02183DD4
+ * function: EVENT_MAPCHANGE_RefreshUnionInfo
  * address: 0x02183DD4
  * packet: pkt_ov020_02183DD4
  * region: ov020
@@ -19,7 +19,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 typedef unsigned char  u8;
 extern u8 *GAME_DATA_GetSecondUnionInfo(void *p);
 extern int EVENT_FIELD_PROCLINK_CheckZoneFlag(int a0);
-void func_02183DD4(void *p)
+void EVENT_MAPCHANGE_RefreshUnionInfo(void *p)
 {
     EVENT_FIELD_PROCLINK_CheckZoneFlag((int)GAME_DATA_GetSecondUnionInfo(GAMESYSTEM_GetGameData(p)));
 }

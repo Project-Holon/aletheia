@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200CFA0  0x0200CFA0  thumb
@@ -26,9 +26,9 @@ struct S {
     u8 *f04;
 };
 
-extern u32 func_0201AA18(void *party);
+extern u32 POKEPARTY_GetCount(void *party);
 struct Blk37;
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 buf);
 extern void *func_0200CA1C(void *a);
 extern void func_0200CFA0(struct Blk37 *p, void *m);
@@ -43,9 +43,9 @@ void EVENT_BATTLE_RETURN_RegisterShayminForms(struct S *s, void *party)
     switch (t) {
     case 0:
     case 1:
-        for (i = 0; i < (int)func_0201AA18(party); i++) {
+        for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
             if (s->f04[0xc2 + i] != 0) {
-                mon = func_0201AB28(party, i);
+                mon = POKEPARTY_GetMember(party, i);
                 if (POKE_TOOL_GetPartyValue(mon, 5, 0) == 0x1ec) {
                     func_0200CFA0(func_0200CA1C((void *)s->f00), mon);
                 }

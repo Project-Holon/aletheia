@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
@@ -56,7 +56,7 @@ typedef struct Obj {
 
 struct BigObj;
 struct Work;
-extern u32 func_02026478(void *obj);
+extern u32 GAME_COMM_GetGameData(void *obj);
 extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
@@ -78,7 +78,7 @@ void INTRUDE_COMM_SyncPlayers(u8 *a0, Obj *p, int a2)
     if (p == 0) {
         return;
     }
-    h = func_02026478((void *)(((struct Obj19161 *)a0)->f4));
+    h = GAME_COMM_GetGameData((void *)(((struct Obj19161 *)a0)->f4));
     me = GAME_DATA_GetExitMode((const struct BigObj *)h);
     if (GAME_DATA_GetIntrudeCount((const struct BigObj *)h) == 0) {
         if (INTRUDE_FIELD_IsListedZone(FIELDMAP_GetZoneId((u8 *)a2)) == 1) {

@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   TALKMSGWIN_ClearWindowFrame  0x02194A34  thumb
  *   func_020409B4  0x020409B4  arm
@@ -34,7 +34,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct CharBuf;
 struct Descriptor;
-void *func_02045770(struct Descriptor *p);
+void *BMP_WIN_GetBmp(struct Descriptor *p);
 void BMP_Clear(struct CharBuf *buf, u8 value);
 int TALKMSGWIN_ClearWindowFrame(void *, void *);
 void func_020409B4(u32 index);
@@ -43,7 +43,7 @@ void TIME_ICON_Delete(u8 *p);
 
 void func_021F1898(Ov107Ctx *p)
 {
-    BMP_Clear(func_02045770(p->f10), 0);
+    BMP_Clear(BMP_WIN_GetBmp(p->f10), 0);
     if (p->f04 == 8) {
         TALKMSGWIN_ClearWindowFrame(p->f54, p->f10);
         func_020409B4(p->f02);

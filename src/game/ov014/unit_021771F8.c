@@ -1,6 +1,6 @@
 /*
  * file:     unit_021771F8.c
- * function: DWC_GHTTPCleanupRootCAList, func_0217720C, func_02177214
+ * function: NET_WHPIPE_IsWhIdle, func_0217720C, func_02177214
  * address:  0x021771F8
  * packet:   pkt_ov014_021771F8
  * region:   ov014
@@ -10,23 +10,23 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * sdk:      DWC_GHTTPCleanupRootCAList (libdwcghttp.TWL.HYB.thumb.a(dwc_ghttp.o))
+ * sdk:      NET_WHPIPE_IsWhIdle (libdwcghttp.TWL.HYB.thumb.a(dwc_ghttp.o))
  *
  * symbols:
- *   ghttpCleanupRootCAList  0x02178E4C  thumb  ov014
+ *   WIH_GetSysState  0x02178E4C  thumb  ov014
  *   NET_WHPIPE_GetConnectBitmap  0x02177C3C  thumb  ov014
  *   NET_WHPIPE_GetOwnAid  0x02177C44  thumb  ov014
  */
 
-extern int ghttpCleanupRootCAList(char *url);
+extern int WIH_GetSysState(void);
 extern unsigned int NET_WHPIPE_GetConnectBitmap(void);
 extern int NET_WHPIPE_GetOwnAid(void);
 unsigned int func_0217720C(void);
 int func_02177214(void);
 
-int DWC_GHTTPCleanupRootCAList(char *url)
+int NET_WHPIPE_IsWhIdle(void)
 {
-    if (ghttpCleanupRootCAList(url) == 1)
+    if (WIH_GetSysState() == 1)
         return 1;
     return 0;
 }

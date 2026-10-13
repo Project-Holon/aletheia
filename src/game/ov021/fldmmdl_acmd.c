@@ -16,7 +16,7 @@
  * Joined by lane L138c with the former unit_02198D24.c and fldmmdl_acmd_p01.c (02198D24..0219A07C).
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
@@ -179,9 +179,9 @@
  *   EVENT_TRAINER_EYE_GetPlayerDistance  0x021AE198  thumb  ov021
  *   FLDMMDL_ChangeMoveCode  0x0216E0E8  thumb  ov010
  *   gMmdlSwapMoveCodePairs  0x021D4F90  data    a2
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   FLDMMDL_SysSearchPlayer  0x0216DEE0  thumb  ov010
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_020056EC  0x020056EC  thumb
  *   gMmdlDirSets  0x021D50F8  data  a4
  *   FLDMMDL_MOVE_GetDirFromPoints  0x021642B4  thumb  ov010
@@ -431,7 +431,7 @@ extern u32 FLDEFF_GYOE_SetMMdl(void *fieldEffectSys, Mmdl *mmdl, u32 type, u32 s
 extern int FLDEFF_GYOE_IsFinished(u32 effect);
 extern void FIELD_EFFECT_DeleteObject(u32 effect);
 
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern int func_020307B0(void *mem);
 extern void func_02030DA8(void *tcbSys, void (*func)(void *, MmdlAcmdListWork *), void *work, u32 priority);
@@ -1134,7 +1134,7 @@ void FLDMMDL_ACMD_JumpInit(Mmdl *mmdl, u32 dir, u32 speed, u32 frames, u16 drawS
     FLDMMDL_SetDrawStatus(mmdl, drawStatus);
     FLDMMDL_IncAcmdSeq(mmdl);
     if (se != 0) {
-        func_020061E4(se);
+        GFL_USE_PlaySeDefaultVolume(se);
     }
 }
 
@@ -1185,7 +1185,7 @@ int FLDMMDL_ACMD_JumpMove(Mmdl *mmdl)
     FLDMMDL_MOVE_UpdateOldGridPos(mmdl);
     FLDMMDL_SetDrawStatus(mmdl, 0);
     FLDMMDL_IncAcmdSeq(mmdl);
-    func_020061E4(SE_LAND);
+    GFL_USE_PlaySeDefaultVolume(SE_LAND);
     return 1;
 }
 
@@ -1424,7 +1424,7 @@ int FLDMMDL_ACMD_FallInit(Mmdl *mmdl)
     work = FLDMMDL_InitMoveCmdWork(mmdl, sizeof(AcmdRiseWork));
     work->height = 0x140000;
     work->step = -ACMD_GRID_FIXED;
-    func_020061E4(SE_FALL);
+    GFL_USE_PlaySeDefaultVolume(SE_FALL);
     FLDMMDL_SetDrawStatus(mmdl, 0);
     FLDMMDL_IncAcmdSeq(mmdl);
     return 1;
@@ -1761,13 +1761,13 @@ int FLDMMDL_ACMD_AnimeDash2FStart(Mmdl *mmdl)
 
 int FLDMMDL_ACMD_AnimeDash4FStartSe(Mmdl *mmdl)
 {
-    func_020061E4(SE_DASH_START);
+    GFL_USE_PlaySeDefaultVolume(SE_DASH_START);
     return FLDMMDL_ACMD_AnimeDash4FStart(mmdl);
 }
 
 int FLDMMDL_ACMD_AnimeDash6FStartSe(Mmdl *mmdl)
 {
-    func_020061E4(SE_DASH_START);
+    GFL_USE_PlaySeDefaultVolume(SE_DASH_START);
     return FLDMMDL_ACMD_AnimeDash6FStart(mmdl);
 }
 
@@ -2497,17 +2497,17 @@ int FLDMMDL_ACMD_FlyUpMove(Mmdl *mmdl)
             case 7:
             case 12:
             case 17:
-                func_020061E4(SE_FLY_FLAP_A);
+                GFL_USE_PlaySeDefaultVolume(SE_FLY_FLAP_A);
                 break;
             case 10:
             case 15:
             case 20:
-                func_020061E4(SE_FLY_FLAP_B);
+                GFL_USE_PlaySeDefaultVolume(SE_FLY_FLAP_B);
                 break;
             }
         }
     } else if (work->elapsed == ACMD_FLY_TAKEOFF_FRAMES) {
-        func_020061E4(SE_FLY_TAKEOFF);
+        GFL_USE_PlaySeDefaultVolume(SE_FLY_TAKEOFF);
     }
     if (work->elapsed < ACMD_FLY_TAKEOFF_FRAMES)
         return 0;
@@ -2597,10 +2597,10 @@ int FLDMMDL_ACMD_FlyReadyMove(Mmdl *mmdl)
         work->lastFrame = animeFrame;
         switch (animeFrame) {
         case 0:
-            func_020061E4(SE_FLY_FLAP_A);
+            GFL_USE_PlaySeDefaultVolume(SE_FLY_FLAP_A);
             break;
         case 3:
-            func_020061E4(SE_FLY_FLAP_B);
+            GFL_USE_PlaySeDefaultVolume(SE_FLY_FLAP_B);
             break;
         }
     }

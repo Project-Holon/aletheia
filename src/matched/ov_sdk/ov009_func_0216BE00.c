@@ -1,5 +1,5 @@
 /*
- * function: func_0216BE00
+ * function: DWCi_HandleGT2Error
  * address:  0x0216BE00
  * packet:   pkt_ov009_0216BE00
  * region:   ov009
@@ -42,7 +42,7 @@ extern struct DwcGlobal g_021AA878;
 
 extern void func_0216A3B8(int error, int errorCode);
 
-int func_0216BE00(int result)
+static int DWCi_HandleGT2Error(int result)
 {
 	int dwcError;
 	int errorCode;

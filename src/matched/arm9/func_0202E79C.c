@@ -9,20 +9,20 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   MYSTATUS_Init  0x020084A0  thumb
  */
 #include "../include/Obj08810.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 struct Sub0200852CObj;
 extern void MYSTATUS_Init(struct Sub0200852CObj *p);
 
 void COMM_PLAYER_SUPPORT_Init(u8 *p)
 {
-    func_02082BCC(p, 0, 0x4c);
+    MI_CpuFill8(p, 0, 0x4c);
     ((struct Obj08810 *)p)->f0 = 0;
     ((struct Obj08810 *)p)->f4 = 0;
     ((struct Obj08810 *)p)->f8 = 0;

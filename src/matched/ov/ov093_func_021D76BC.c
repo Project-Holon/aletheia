@@ -11,7 +11,7 @@
  *
  * symbols:
  *   gBtlEventVarStack     0x021F3ECC  data
- *   func_021D77E8  0x021D77E8  thumb  ov093
+ *   BTL_EVENT_FindVar  0x021D77E8  thumb  ov093
  */
 
 #include "../include/G_Tbl.h"
@@ -28,12 +28,12 @@ typedef struct {
 } Tbl;
 
 extern struct Tbl gBtlEventVarStack;
-extern int func_021D77E8(Tbl *p, int key);
+extern int BTL_EVENT_FindVar(Tbl *p, int key);
 
 int BTL_EVENT_OverwriteVar(int key, u32 val)
 {
     Tbl *t = ((Tbl *)&gBtlEventVarStack);
-    int i = func_021D77E8(t, key);
+    int i = BTL_EVENT_FindVar(t, key);
 
     if (i >= 0 && t->c[i] <= 1) {
         t->keys[i] = key;

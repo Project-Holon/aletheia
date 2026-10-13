@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   STRBUF_Create  0x020457B0  arm
  */
@@ -25,7 +25,7 @@ typedef struct {
     int f10;
 } W;
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -34,7 +34,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
 void TOWNMAP_InitSelection(W *p, int a, int b, int c, int d, u16 e)
 {
-    func_02082BCC(p, 0, 0x14);
+    MI_CpuFill8(p, 0, 0x14);
     p->f8 = b;
     p->f10 = d;
     p->fc = c;

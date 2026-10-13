@@ -65,7 +65,7 @@
  *   GFL_NET_ClearExitFlag  0x0203CF04  arm
  *   GFL_NET_Exit  0x0203CEAC  arm
  *   GFL_NET_IRC_WIRELESS_Exit  0x0203D0D0  arm
- *   func_02178E4C  0x02178E4C  thumb
+ *   WIH_GetSysState  0x02178E4C  thumb
  *   GFL_NET_RequestDisconnect  0x0203CFA0  arm
  *   GX_HBlankIntr  0x0207D3AC  arm
  *   func_020101D4  0x020101D4  thumb
@@ -335,7 +335,7 @@ extern void func_020306F0(u32 heapId);
 extern void GFL_NET_ClearExitFlag(void);
 extern int GFL_NET_Exit(int arg);
 extern void GFL_NET_IRC_WIRELESS_Exit(void);
-extern u32  func_02178E4C(void);
+extern u32  WIH_GetSysState(void);
 extern void GFL_NET_RequestDisconnect(void);
 extern u32  GX_HBlankIntr(BOOL on);
 extern void func_020101D4(u32 screenIndex, u32 isWifiLink);
@@ -1084,7 +1084,7 @@ void GFL_NET_ERR_ResetState(void)
  * Wait for the link to close: returns 1 at once when GFL_NET_GetRunState reports 0.
  * Otherwise it resets the link counters, then polls GFL_NET_IsSessionNull once per
  * frame until it stops returning 0. For net type 0 or 5 each frame first asks
- * func_02178E4C and returns 0 on answer 0xa.
+ * WIH_GetSysState and returns 0 on answer 0xa.
  */
 u32 GFL_NET_ERR_WaitLinkClosed(void)
 {
@@ -1102,7 +1102,7 @@ u32 GFL_NET_ERR_WaitLinkClosed(void)
             if (netInit != 0) {
                 u8 netType = netInit->bNetType;
                 if (netType == GFL_NET_TYPE_WIRELESS || netType == GFL_NET_TYPE_IRC) {
-                    if (func_02178E4C() == 0xa) {
+                    if (WIH_GetSysState() == 0xa) {
                         return 0;
                     }
                 }

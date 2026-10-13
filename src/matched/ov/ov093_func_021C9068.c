@@ -1,5 +1,5 @@
 /*
- * function: func_021C9068
+ * function: BTL_SERVER_FLOW_ExecCmdCureSick
  * address: 0x021C9068
  * packet: pkt_ov093_021C9068
  * region: ov093
@@ -45,7 +45,7 @@
  *   a-spilled-pointer-plus-constant-argument-is-the-sum-stored-in-the-local,
  *   a-const-record-pointer-moves-the-outgoing-stack-store-below-the-register-copies.
  * final push 2026-10-05 G5L5 (37 compiles, 3 rounds, 18 B -> 8 B): the entry spill residue is closed
- *   by the shape of matched func_021C9250 (same prologue): p as u8 * with raw offsets
+ *   by the shape of matched BTL_SERVER_FLOW_ExecCmdChangeStatStage (same prologue): p as u8 * with raw offsets
  *   (*(char **)(p + 8), p + 0x1ae4), const Ent *e, u16 arg with the callee still taking unsigned long.
  *   Any one of the three alone keeps 18 B (struct p with const e and u16 arg: 18 B; u16 arg without const e: 18 B).
  *   Remaining: the original computes the work address (ldr pool; adds r7) before movs #1/str result;
@@ -66,15 +66,15 @@
  *   calls is hoisted out of the outer for loop (54 B); the expression form puts the hoisted
  *   address after result (8 B).
  * symbols:
- *   func_021B9934 0x021B9934 thumb ov093
+ *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   BTL_SERVER_FLOW_PushAbilityPopupIn 0x021C5A1C thumb ov093
  *   BTL_SERVER_FLOW_PushAbilityPopupOut 0x021C5A34 thumb ov093
  *   BTL_POKEPARAM_IsAbleToBattle 0x021D5B7C thumb ov093
  *   BTL_SERVER_FLOW_ResolveCureSickId 0x021C56A8 thumb ov093
  *   BTL_SERVER_FLOW_CureSick 0x021C5620 thumb ov093
  *   func_021C9168 0x021C9168 thumb ov093
- *   func_021C99A0 0x021C99A0 thumb ov093
- *   func_021C8810 0x021C8810 thumb ov093
+ *   BTL_SERVER_FLOW_PushMsgRecord 0x021C99A0 thumb ov093
+ *   BTL_SERVER_FLOW_ClearMsgRecord 0x021C8810 thumb ov093
  *   BTL_SERVER_FLOW_ProcDamagedItemReaction 0x021C195C thumb ov093
  */
 typedef unsigned char u8;
@@ -94,18 +94,18 @@ typedef struct {
     u8 gap[2];
     struct Msg msg;
 } Ent;
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void BTL_SERVER_FLOW_PushAbilityPopupIn(u8 *, u8 *);
 extern void BTL_SERVER_FLOW_PushAbilityPopupOut(u8 *, u8 *);
 extern int BTL_POKEPARAM_IsAbleToBattle(void *);
 extern int BTL_SERVER_FLOW_ResolveCureSickId(u8 *, int *);
 extern void BTL_SERVER_FLOW_CureSick(u8 *, u8 *, int, struct Slot *);
 extern int func_021C9168(int, struct Slot, u8 *, unsigned long, struct Msg *);
-extern int func_021C99A0(void *, const struct Msg *);
-extern void func_021C8810(u8 *p);
+extern int BTL_SERVER_FLOW_PushMsgRecord(void *, const struct Msg *);
+extern void BTL_SERVER_FLOW_ClearMsgRecord(u8 *p);
 extern void BTL_SERVER_FLOW_ProcDamagedItemReaction(u8 *, u8 *, u32);
 
-u8 func_021C9068(u8 *p, const Ent *e, u16 arg)
+u8 BTL_SERVER_FLOW_ExecCmdCureSick(u8 *p, const Ent *e, u16 arg)
 {
     const struct Msg *msg;
     u8 *first;
@@ -116,11 +116,11 @@ u8 func_021C9068(u8 *p, const Ent *e, u16 arg)
     int k;
     struct Slot slot;
     struct Msg *w;
-    first = (u8 *)func_021B9934(*(char **)(p + 8), (u8)e->idx);
+    first = (u8 *)BTL_SIDE_GetPokeByIdThunk(*(char **)(p + 8), (u8)e->idx);
     result = 0;
     if (e->fl) BTL_SERVER_FLOW_PushAbilityPopupIn(p, first);
     for (i = 0; i < e->count; i++) {
-        a = (u8 *)func_021B9934(*(char **)(p + 8), (u8)e->targets[i]);
+        a = (u8 *)BTL_SIDE_GetPokeByIdThunk(*(char **)(p + 8), (u8)e->targets[i]);
         if (BTL_POKEPARAM_IsAbleToBattle(a)) {
           value = e->value;
           k = BTL_SERVER_FLOW_ResolveCureSickId(a, &value);
@@ -131,11 +131,11 @@ u8 func_021C9068(u8 *p, const Ent *e, u16 arg)
             BTL_SERVER_FLOW_CureSick(p, a, k, &slot);
             if (!e->flag) {
                 if (func_021C9168(k, slot, a, arg, w)) {
-                    func_021C99A0(p, (struct Msg *)(p + 0x1ae4));
-                    func_021C8810((u8 *)(p + 0x1ae4));
+                    BTL_SERVER_FLOW_PushMsgRecord(p, (struct Msg *)(p + 0x1ae4));
+                    BTL_SERVER_FLOW_ClearMsgRecord((u8 *)(p + 0x1ae4));
                 }
             } else {
-                func_021C99A0(p, msg);
+                BTL_SERVER_FLOW_PushMsgRecord(p, msg);
             }
             result = 1;
             if (k == 0x13) BTL_SERVER_FLOW_ProcDamagedItemReaction(p, a, 0);

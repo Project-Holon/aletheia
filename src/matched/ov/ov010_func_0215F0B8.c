@@ -8,18 +8,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02013FFC 0x02013FFC thumb
+ *   ZONEDATA_IsZoneInTableDFB8 0x02013FFC thumb
  *   d_02171254 0x02171254 data a4
  *   d_021711FC 0x021711FC data a4
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_02013FFC(u32 id);
+extern u32 ZONEDATA_IsZoneInTableDFB8(u32 id);
 extern int d_02171254[];
 extern int d_021711FC[];
 int MOVE_POKEMON_GetSkillEventFunc(u16 *p, int i)
 {
     if (i >= 11) return 0;
-    if (func_02013FFC(*p)) return *(int *)((u32)d_02171254 + ((u32)i << 3));
+    if (ZONEDATA_IsZoneInTableDFB8(*p)) return *(int *)((u32)d_02171254 + ((u32)i << 3));
     return *(int *)((u32)d_021711FC + ((u32)i << 3));
 }

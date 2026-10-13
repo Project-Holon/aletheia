@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_020077B8 0x020077B8 thumb
  *   func_021EA1C0 0x021EA1C0 thumb
  *   func_021E8FC0 0x021E8FC0 thumb
@@ -24,7 +24,7 @@ typedef struct {
     void *x4;
 } Top;
 
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern int func_020077B8(void *save, unsigned box);
 extern void func_021EA1C0(void *p);
 extern int func_021E8FC0(char *p, int a, int b);
@@ -37,11 +37,11 @@ int func_021EA14C(unsigned char *p, unsigned i, int v)
         if (k >= p[0x15])
             k -= p[0x15];
         if (k == p[0x14]) {
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
             return 0x15;
         }
         if (func_020077B8((*(Top * *)&((struct Obj00000 *)p)->f0)->x4, k) == 0) {
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
             return 0x15;
         }
     }

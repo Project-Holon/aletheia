@@ -12,9 +12,9 @@
  * symbols:
  *   func_021EDBE8  0x021EDBE8  thumb  ov093
  *   func_021ED988  0x021ED988  thumb  ov093
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   func_020403F4  0x020403F4  arm
- *   func_0201C4C0  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   func_020307B0  0x020307B0  arm
  */
@@ -39,9 +39,9 @@ extern void func_021ED988(u8 *p);
 struct Descriptor;
 struct PrintSys;
 struct U16Vec;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_020403F4(u32 i);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020307B0(void *p);
 
@@ -50,18 +50,18 @@ void BTLV_SCU_Delete(Obj *p)
     func_021EDBE8((char *)p);
     func_021ED988((u8 *)p);
     if (p->f08 != 0) {
-        func_020452E8((struct Descriptor *)p->f08);
+        BMP_WIN_Delete((struct Descriptor *)p->f08);
         p->f08 = 0;
     }
     if (p->f00 != 0) {
-        func_020452E8((struct Descriptor *)p->f00);
+        BMP_WIN_Delete((struct Descriptor *)p->f00);
         p->f00 = 0;
     }
     func_020403F4(1);
     func_020403F4(2);
     func_020403F4(3);
     if (p->f18 != 0) {
-        func_0201C4C0((struct PrintSys *)p->f18);
+        PRINTSYS_QUE_Delete((struct PrintSys *)p->f18);
         p->f18 = 0;
     }
     if (p->f3c != 0) {

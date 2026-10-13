@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
@@ -18,7 +18,7 @@
 #include "../include/Obj18451.h"
 typedef unsigned int u32;
 
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 struct Sav;
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern void POKE_TOOL_RecalcParam(void *p);
@@ -31,7 +31,7 @@ void func_021DD8A8(void **pp, u32 idx)
 
     if (idx < 0x1e)
         return;
-    h = func_0201AB28(((struct Obj18451 *)((char *)*pp))->f8, idx - 0x1e);
+    h = POKEPARTY_GetMember(((struct Obj18451 *)((char *)*pp))->f8, idx - 0x1e);
     v = POKE_TOOL_DecodePartyParam(h);
     POKE_TOOL_RecalcParam(h);
     POKE_TOOL_EncodePartyParam(h, v);

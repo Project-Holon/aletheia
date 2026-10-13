@@ -12,15 +12,15 @@
  * symbols:
  *   func_0202EB0C  0x0202EB0C  thumb
  *   STARTMENU_OpenNoticeWindow  0x021BBE48  thumb  ov088
- *   func_0201C6B4  0x0201C6B4  thumb
- *   func_020362DC  0x020362DC  arm
- *   func_020061E4  0x020061E4  thumb
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
+ *   KEY_GetTrg  0x020362DC  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   STARTMENU_CloseDescWindow  0x021BBD10  thumb  ov088
  *   STARTMENU_RowTileY  0x021BB840  thumb  ov088
  *   STARTMENU_PaintRowPalette  0x021BB810  thumb  ov088
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
- *   func_02045770  0x02045770  arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  */
 #include "../include/Obj00263.h"
@@ -32,15 +32,15 @@ struct Descriptor;
 struct PrintSys;
 extern u32 func_0202EB0C(void);
 extern void STARTMENU_OpenNoticeWindow(char *p);
-extern u32 func_0201C6B4(const struct PrintSys *p);
-extern u32 func_020362DC(void);
-extern void func_020061E4(u32);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
+extern u32 KEY_GetTrg(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void STARTMENU_CloseDescWindow(char *p, int mode);
 extern int STARTMENU_RowTileY(char *p, int y);
 extern void STARTMENU_PaintRowPalette(void *p, u8 row, int y, int pal);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void *func_02045770(struct Descriptor *p);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
 int STARTMENU_StateInfoMessage(char *p)
@@ -53,12 +53,12 @@ int STARTMENU_StateInfoMessage(char *p)
             ((struct Obj00263 *)p)->f12A = ((struct Obj00263 *)p)->f12A + 1;
             break;
         case 1:
-            if (func_0201C6B4(((struct Obj00263 *)p)->f68) == 1)
+            if (PRINTSYS_QUE_IsFinished(((struct Obj00263 *)p)->f68) == 1)
                 ((struct Obj00263 *)p)->f12A = ((struct Obj00263 *)p)->f12A + 1;
             break;
         case 2:
-            if (func_020362DC() & 3) {
-                func_020061E4(0x54c);
+            if (KEY_GetTrg() & 3) {
+                GFL_USE_PlaySeDefaultVolume(0x54c);
                 STARTMENU_CloseDescWindow(p, 0);
                 STARTMENU_PaintRowPalette(p, *(u8 *)(p + ((struct Obj00263 *)p)->f128 + 0x120),
                               STARTMENU_RowTileY(p, ((struct Obj00263 *)p)->f12F), 2);
@@ -69,7 +69,7 @@ int STARTMENU_StateInfoMessage(char *p)
         }
         PRINTSYS_QUE_Main(((struct Obj00263 *)p)->f68);
         t = ((struct Obj00263 *)p)->f68;
-        if (((struct Obj00263 *)p)->fF4 != 0 && func_0201C6C4(t, func_02045770(((struct Obj00263 *)p)->fF0)) == 0) {
+        if (((struct Obj00263 *)p)->fF4 != 0 && PRINTSYS_QUE_IsExistTarget(t, BMP_WIN_GetBmp(((struct Obj00263 *)p)->fF0)) == 0) {
             BMP_WIN_TransferChars(((struct Obj00263 *)p)->fF0);
             ((struct Obj00263 *)p)->fF4 = 0;
         }

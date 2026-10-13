@@ -13,7 +13,7 @@
  *   func_021EC768 0x021EC768 thumb
  *   func_021ECB84 0x021ECB84 thumb
  *   func_021ED594 0x021ED594 thumb
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_021EA1C0 0x021EA1C0 thumb
  *   func_021EE038 0x021EE038 thumb
  *   func_021EBA5C 0x021EBA5C thumb
@@ -29,7 +29,7 @@
 extern void func_021EC768(char *w, unsigned i, int flag);
 extern void func_021ECB84(char *w, unsigned i);
 extern void func_021ED594(char *p, unsigned i);
-extern void *func_0201AB28(void *party, unsigned i);
+extern void *POKEPARTY_GetMember(void *party, unsigned i);
 extern void func_021EA1C0(void *p);
 extern void func_021EE038(char *p, int a, int b, int c);
 extern void func_021EBA5C(char *w, int v);
@@ -49,7 +49,7 @@ void func_021E9FA8(unsigned char *p, unsigned char i)
     func_021ED594((char *)p, 0x24);
     func_021ECB20((char *)p, 2, 1);
     func_021ECB60(WORK(p), 0x24, 0);
-    func_0201AB28(((struct Obj23954 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f8, i - 0x1E);
+    POKEPARTY_GetMember(((struct Obj23954 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f8, i - 0x1E);
     func_021EA1C0(p);
     func_021EE038((char *)p, 2, 2, 1);
     func_021EBA5C(WORK(p), 0x18);

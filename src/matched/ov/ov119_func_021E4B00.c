@@ -13,7 +13,7 @@
  *           (operand order of 0x06600000 + addr, as in ov094_func_02204CC0).
  * symbols:
  *   func_020355C4 0x020355C4 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021E4984 0x021E4984 thumb ov119
  *   func_021E49DC 0x021E49DC thumb ov119
  *   func_021E4AD0 0x021E4AD0 thumb ov119
@@ -25,8 +25,8 @@
  *   func_02061CA4 0x02061CA4 arm
  *   func_02082D44 0x02082D44 arm
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
- *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_02017E88 0x02017E88 thumb
  *   func_021E4A84 0x021E4A84 thumb ov119
  */
@@ -40,7 +40,7 @@ typedef struct { s16 x, y; } Pt;
 typedef struct { int a, b, c, d[6]; } Info;
 struct Obj;
 extern u8 func_020355C4(void);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern int func_021E4984(int v, int a, int b, char *p, int *out);
 struct Struct36;
 extern char *func_021E49DC(int a, int b, char *p);
@@ -56,8 +56,8 @@ typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void func_02082D44(int src, int dst, int n);
 extern int POKE_TOOL_GetIconPalette(void *a0);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern int func_021E4A84(char *p, int i);
 void func_021E4B00(char *p, int v, int a, int row, int flag)
@@ -70,7 +70,7 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
     Pt pt;
     enum { VRAM_BASE = 0x06600000 } vram;
     if (a == ((struct Obj00001 *)p)->fF74 && func_020355C4() == 0) {
-        func_0204B3DC(((void **)(p + row * 20 + 0xbb0))[((struct Obj00001 *)p)->fF78], 1);
+        CLACT_SetActorDrawEnable(((void **)(p + row * 20 + 0xbb0))[((struct Obj00001 *)p)->fF78], 1);
     }
     for (j = 0; j < 5; j++) {
         rec = func_021E4984(v, a, j, p, &kind);
@@ -89,7 +89,7 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
         b3 = e->b3;
         if (id == *(u16 *)(p + row * 10 + j * 2 + 0xca0) && b2 == ((u8 *)(p + row * 5) + j)[0xd18]
             && b3 == ((u8 *)(p + row * 5) + j)[0xd54]) {
-            func_0204B3DC(*(void **)(p + row * 20 + j * 4 + 0xac0), 1);
+            CLACT_SetActorDrawEnable(*(void **)(p + row * 20 + j * 4 + 0xac0), 1);
             func_021E4AD0(p, a, j, rec, kind, row);
         } else if (id != *(u16 *)(p + row * 10 + j * 2 + 0xca0)
             || (id == *(u16 *)(p + row * 10 + j * 2 + 0xca0) && b2 != ((u8 *)(p + row * 5) + j)[0xd18])
@@ -113,9 +113,9 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
                 func_02082D44(*(int *)&((struct Obj00001 *)p)->f1184 + idx * 0x200, vram + info.c, 0x200);
             }
             func_021E4AD0(p, a, j, rec, kind, row);
-            func_0204B6F4(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), POKE_TOOL_GetIconPalette((void *)rec), 1);
-            func_0204B92C(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 0);
-            func_0204B3DC(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 1);
+            CLACT_SetActorPaletteOffset(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), POKE_TOOL_GetIconPalette((void *)rec), 1);
+            CLACT_SetActorAutoAnim(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 0);
+            CLACT_SetActorDrawEnable(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 1);
         }
         if (func_02017E88((void *)rec, 0x4c, 0) == 0 && func_021E4A84(p, id)) {
             ((u8 *)(p + row * 5) + j)[0xebc] = 1;

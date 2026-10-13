@@ -18,7 +18,7 @@
  *   SCRIPT_WORK_ReadWorkPointer 0x02159AE8 thumb ov010
  *   SCRIPT_WORK_ReadWorkValue 0x02159B10 thumb ov010
  *   GAME_DATA_GetMyParty 0x02012934 thumb
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   WAZA_OSHIE_CreateMoveList 0x0216F948 thumb ov010
  *   WAZA_OSHIE_Create 0x0216F918 thumb ov010
@@ -54,7 +54,7 @@ extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern u32 SCRIPT_WORK_ReadWorkValue(void *c, void *vm);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern void *func_0201AB28(void *list, u32 i);
+extern void *POKEPARTY_GetMember(void *list, u32 i);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u16 *WAZA_OSHIE_CreateMoveList(void *mon, u32 heap);
 extern void *WAZA_OSHIE_Create(u32 heap);
@@ -97,7 +97,7 @@ int SCRCMD_PROC_CallMoveRelearn(void *c, void *vm)
     x = GAMESYSTEM_GetFieldMap(sys);
     a = (u32)SCRIPT_WORK_ReadWorkPointer(c, vm);
     idx = SCRIPT_WORK_ReadWorkValue(c, vm);
-    mon = func_0201AB28(GAME_DATA_GetMyParty(w), idx);
+    mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(w), idx);
     sess = GAME_DATA_GetMyStatus(w);
     moves = WAZA_OSHIE_CreateMoveList(mon, 4);
     r = WAZA_OSHIE_Create(4);

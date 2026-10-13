@@ -11,6 +11,7 @@
  *
  * symbols:
  *   EVENT_FIELD_PROCLINK_CheckZoneFlag  0x02161D64  thumb  ov010
+ *   MI_CpuFill8  0x02082BCC  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/GAME_DATA_ClearUnionInfo.c \
@@ -23,11 +24,11 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef signed char s8;
 
-extern void func_02082BCC(void *dst, int c, u32 n);
+extern void MI_CpuFill8(void *dst, int c, u32 n);
 extern int EVENT_FIELD_PROCLINK_CheckZoneFlag(int a0);
 
 void GAME_DATA_ClearUnionInfo(u8 *obj)
 {
-    func_02082BCC(obj + 0x214, 0, 0x1e8);
+    MI_CpuFill8(obj + 0x214, 0, 0x1e8);
     EVENT_FIELD_PROCLINK_CheckZoneFlag((int)(obj + 0x3fc));
 }

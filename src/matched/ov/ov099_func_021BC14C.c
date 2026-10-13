@@ -22,7 +22,7 @@
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
- *   func_02039C68  0x02039C68  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   func_021BA874  0x021BA874  thumb  ov099
  *   func_021BAAB8  0x021BAAB8  thumb  ov099
  *   func_021BC090  0x021BC090  thumb  ov099
@@ -35,7 +35,7 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void GFL_NET_NotifyUserEvent(u32 unused, void *arg);
 extern u32 GFL_NET_IsParentAid(void);
-extern void func_02039C68(struct Link *p, u32 lo, u32 hi);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, u32 lo, u32 hi);
 extern void func_021BA874(char *p, int id);
 extern void func_021BAAB8(char *p, int a, int b);
 extern void func_021BC090(char *p);
@@ -59,7 +59,7 @@ int func_021BC14C(char *p, int v)
         func_021BA874(p, *(u16 *)(p + off) - 1);
         func_021BAAB8(p, 0x7E, z);
         func_021BC090(p);
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1B, 0xA);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1B, 0xA);
         off -= 0x76;
         *(int *)(p + off) = 0x49;
     }

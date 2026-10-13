@@ -9,27 +9,27 @@
  * status: EXACT
  * symbols:
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 #include "../include/Obj00000.h"
 
 typedef unsigned int u32;
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 typedef unsigned char  u8;
 extern void func_020355D8(u8 v);
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 int func_021E2094(char *p)
 {
     if (TOUCHPANEL_GetTrg() == 1) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         func_020355D8(1);
         return ((struct Obj00000 *)p)->f28;
     }
-    if (func_020362DC() & 3) {
-        func_020061E4(0x54C);
+    if (KEY_GetTrg() & 3) {
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         func_020355D8(0);
         return ((struct Obj00000 *)p)->f28;
     }

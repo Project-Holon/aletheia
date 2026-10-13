@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_ABILITY_DampBlockExplosion",
+   "name": "HAND_TOKUSEI_DampBlockExplosion",
    "address": "0x021DAE04",
    "kind": "game",
    "region": "ov093",

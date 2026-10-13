@@ -16,7 +16,7 @@
  *   func_021F9DC0 0x021F9DC0 thumb ov132
  *   func_021F9FB4 0x021F9FB4 thumb ov132
  *   func_021F9F58 0x021F9F58 thumb ov132
- *   func_020061F8 0x020061F8 thumb
+ *   GFL_USE_StopSeSlot 0x020061F8 thumb
  */
 #include "../include/Obj06409.h"
 #include "../include/Obj08028.h"
@@ -34,7 +34,7 @@ extern void func_021F9FD0(char *,int,int);
 extern void *func_021F9DC0(void *p);
 extern void func_021F9FB4(char *,int);
 extern void func_021F9F58(u8 *unused, u8 *p);
-extern void func_020061F8(int);
+extern void GFL_USE_StopSeSlot(int);
 void func_021F7BA8(u8 *p,u8 *q)
 {
     Tail *t=(Tail *)(q+240);
@@ -60,6 +60,6 @@ void func_021F7BA8(u8 *p,u8 *q)
         func_021F9F58((void *)a,(void *)t->a);
         ((struct Obj06409 *)q)->f104=0;
         ((struct Obj08028 *)p)->f43C-=1;
-        if(((struct Obj08028 *)p)->f43C==0) func_020061F8(2);
+        if(((struct Obj08028 *)p)->f43C==0) GFL_USE_StopSeSlot(2);
     }
 }

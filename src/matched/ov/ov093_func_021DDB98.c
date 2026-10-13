@@ -1,5 +1,5 @@
 /*
- * function: BTL_ITEM_GetWeakenDamageGroundHandlers
+ * function: HAND_ITEM_GetWeakenDamageGroundHandlers
  * address: 0x021DDB98
  * packet: pkt_ov093_021DDB98
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int gBtlItemWeakenDamageGroundHandlers[];
-int *BTL_ITEM_GetWeakenDamageGroundHandlers(int *p);
+int *HAND_ITEM_GetWeakenDamageGroundHandlers(int *p);
 
-int *BTL_ITEM_GetWeakenDamageGroundHandlers(int *p)
+int *HAND_ITEM_GetWeakenDamageGroundHandlers(int *p)
 {
     *p = 2;
     return gBtlItemWeakenDamageGroundHandlers;

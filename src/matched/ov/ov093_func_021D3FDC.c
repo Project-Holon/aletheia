@@ -20,7 +20,7 @@
  *   GFL_USE_SetPlayersAudible 0x02005CA4 thumb
  *   PM_VOICE_SetMasterVolume 0x02006734 thumb
  *   func_021F8B10 0x021F8B10 thumb ov094
- *   func_021B92A0 0x021B92A0 thumb ov093
+ *   BTL_MAIN_SetKeepBgm 0x021B92A0 thumb ov093
  *   func_021EAE14 0x021EAE14 thumb ov093
  */
 typedef unsigned char u8;
@@ -40,7 +40,7 @@ extern void GFL_USE_FadeOutBgm(u32);
 extern void GFL_USE_SetPlayersAudible(int,u32);
 extern void PM_VOICE_SetMasterVolume(u8);
 extern int func_021F8B10(void);
-extern void func_021B92A0(u8 *p);
+extern void BTL_MAIN_SetKeepBgm(u8 *p);
 extern int func_021EAE14(u32 *p);
 void func_021D3FDC(u8 *p, struct Q *q)
 {
@@ -82,7 +82,7 @@ void func_021D3FDC(u8 *p, struct Q *q)
             GFL_USE_SetPlayersAudible(0,62);
             PM_VOICE_SetMasterVolume(0);
             func_021F8B10();
-            func_021B92A0((u8 *)(*(u32 *)p));
+            BTL_MAIN_SetKeepBgm((u8 *)(*(u32 *)p));
             break;
         case 0:
             if (q->target > 1) { --q->target; adjusted = 1; }

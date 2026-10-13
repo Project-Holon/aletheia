@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   MYSTATUS_GetSize  0x02008468  thumb
  *   func_02082D44  0x02082D44  arm
@@ -33,7 +33,7 @@ typedef struct F86 {
     u16 rest : 13;
 } F86;
 
-unsigned int func_02026478(void *obj);
+unsigned int GAME_COMM_GetGameData(void *obj);
 u8 *GAME_DATA_GetMyStatus(void *p);
 int MYSTATUS_GetSize(void);
 void func_02082D44(int a, u8 *b, int c);
@@ -47,7 +47,7 @@ void INTRUDE_COMM_RefreshSelfRecord(u8 *p)
 {
     int v;
 
-    v = func_02026478((void *)(((struct Obj09349 *)p)->f4));
+    v = GAME_COMM_GetGameData((void *)(((struct Obj09349 *)p)->f4));
     func_02082D44((int)GAME_DATA_GetMyStatus((void *)v), p + 0x160, MYSTATUS_GetSize());
     func_02082D44((int)GAME_DATA_GetLastBattleRecSlot((void *)v), p + 0x180, 0x10);
     INTRUDE_COMM_UpdateSelfRecord(p);

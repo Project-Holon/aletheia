@@ -11,8 +11,8 @@
  *   func_021E4E64 0x021E4E64 thumb ov119
  *   func_021E42B4 0x021E42B4 thumb ov119
  *   func_021E4598 0x021E4598 thumb ov119
- *   func_02006238 0x02006238 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_IsAnySeBusy 0x02006238 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021D8A24 0x021D8A24 thumb ov119
  *   GFL_NET_IsNetTypeWifi 0x0203D29C arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
@@ -23,8 +23,8 @@ typedef unsigned u32;
 extern void func_021E4E64(int,char *,int);
 extern void func_021E42B4(char *);
 extern void func_021E4598(char *);
-extern void func_020061E4(u32 a);
-extern int func_02006238(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+extern int GFL_USE_IsAnySeBusy(void);
 extern int func_021D8A24(void *);
 extern u32 GFL_NET_IsNetTypeWifi(void);
 struct Entry;
@@ -39,7 +39,7 @@ void func_021DB7AC(char *p,int a,int b)
     func_021E4E64(I(0x828),p,1);
     func_021E42B4(p);
     func_021E4598(p);
-    if(func_02006238()==0 && a) func_020061E4(0x72b);
+    if(GFL_USE_IsAnySeBusy()==0 && a) GFL_USE_PlaySeDefaultVolume(0x72b);
     if(func_021D8A24(p) && b) {
         if(GFL_NET_IsNetTypeWifi()) {
             if(H(0x107c)%16==0) {

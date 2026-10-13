@@ -26,7 +26,7 @@
  *   func_02030DA8  0x02030DA8  arm
  *   func_020056A0  0x020056A0  thumb
  *   gFldFaceupFileName     0x021F5920  data  a1
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
  *   func_0207D63C  0x0207D63C  arm
@@ -52,7 +52,7 @@
  *   FIELD_PLACE_NAME_RestoreWindow  0x021BC5D4  thumb  ov021
  *   func_020416D4 0x020416D4 arm
  *   BG_SYS_GetMainVisiblePlanes  0x02043658  arm
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   SCRIPT_WORK_CheckFlag  0x02159190  thumb  ov010
  *   SCRCMD_WORK_GetMsgWindow  0x0215A61C  thumb  ov010
  *   FIELD_MSGBG_GetPlainWinStreamState  0x021917C0  thumb  ov021
@@ -123,7 +123,7 @@ extern struct GameEvent *func_020122C0(const struct GameSystem *gameSystem, stru
 extern struct TcbSys *FIELDMAP_GetTcblSys(struct FieldMap *fieldMap);
 extern void *func_02030DA8(struct TcbSys *tcbSys, void (*proc)(void *tcb, FaceupWork *work), FaceupWork *work, int priority);
 extern void *func_020056A0(void (*proc)(void *tcb, FaceupWork *work), FaceupWork *work, int priority);
-extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void FADE_Start(u32 screens, s32 start, s32 end, s32 speed);
 extern int FADE_IsActive(void);
 extern void func_0207D63C(volatile void *reg, int plane1, int plane2, int ev1, int ev2);
@@ -148,7 +148,7 @@ extern void func_020414AC(int bgId);
 extern void FIELD_PLACE_NAME_RestoreWindow(struct FieldPlaceName *placeName);
 extern u8 func_020416D4(u32 bgId);
 u32 BG_SYS_GetMainVisiblePlanes(void);
-void func_02043534(u32 planes);
+void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern int SCRIPT_WORK_CheckFlag(int flagId);
 extern struct FieldMsgWindow *SCRCMD_WORK_GetMsgWindow(void *scrcmdWork);
 extern int FIELD_MSGBG_GetPlainWinStreamState(struct FieldMsgWindow *window);
@@ -220,7 +220,7 @@ int FLD_FACEUP_OpenEventMain(struct GameEvent *event, int *seq)
     struct FieldMap *fieldMap;
     FaceupWork *work;
 
-    fieldMap = GAMESYSTEM_GetFieldMap(func_020124E4(event));
+    fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     work = *FIELDMAP_GetFaceUpWorkPtr(fieldMap);
     switch (*seq) {
     case 0:
@@ -372,7 +372,7 @@ int FLD_FACEUP_CloseEventMain(struct GameEvent *event, int *seq)
     FaceupWork *work;
     int fadeBothScreens;
 
-    fieldMap = GAMESYSTEM_GetFieldMap(func_020124E4(event));
+    fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     work = *FIELDMAP_GetFaceUpWorkPtr(fieldMap);
     switch (*seq) {
     case 0:
@@ -473,7 +473,7 @@ void FLD_FACEUP_RestoreBgPriorities(FaceupWork *work)
 
 void FLD_FACEUP_RestoreVisiblePlanes(FaceupWork *work)
 {
-    func_02043534(work->savedVisiblePlanes);
+    BG_SYS_SetMainVisiblePlanes(work->savedVisiblePlanes);
 }
 
 

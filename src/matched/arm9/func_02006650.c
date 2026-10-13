@@ -1,5 +1,5 @@
 /*
- * function: func_02006650
+ * function: PM_VOICE_IsAnyActive
  * address:  0x02006650
  * packet:   pkt_02006650
  * region:   arm9
@@ -24,7 +24,7 @@ typedef unsigned char u8;
 
 extern struct Sub02006544State d_02140484;
 
-int func_02006650(void)
+int PM_VOICE_IsAnyActive(void)
 {
     int i;
 

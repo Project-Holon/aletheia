@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_HANDLER_ITEM_HpBerryCheckAtTurnEnd",
+   "name": "HAND_ITEM_HpBerryCheckAtTurnEnd",
    "address": "0x021DDDC4",
    "kind": "game",
    "region": "ov093",

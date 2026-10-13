@@ -10,7 +10,7 @@
  * status:   EXACT*
  * symbols:
  *   C_GEAR_FindCellOfKind  0x021F133C  thumb  ov029
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
  */
 
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 struct Node;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 
 void C_GEAR_UpdateTileMarkers(char *p)
@@ -35,13 +35,13 @@ void C_GEAR_UpdateTileMarkers(char *p)
             b = b * 8;
             s[0] = a + 0x10;
             s[1] = b + 0xf;
-            func_0204B404((struct Obj *)(*(int *)(p + i * 4 + 0x158)), (const struct Vec2 *)s, 0);
+            CLACT_AddActorSurfacePos((struct Obj *)(*(int *)(p + i * 4 + 0x158)), (const struct Vec2 *)s, 0);
             a += 0x20;
             CLACT_SetActorDrawPriority((struct Node *)(*(int *)(p + i * 4 + 0x158)), (a / 8) & 0xff);
         } else {
             s[0] = -0x40;
             s[1] = 0;
-            func_0204B404((struct Obj *)(*(int *)(p + i * 4 + 0x158)), (const struct Vec2 *)s, 0);
+            CLACT_AddActorSurfacePos((struct Obj *)(*(int *)(p + i * 4 + 0x158)), (const struct Vec2 *)s, 0);
         }
     }
 }

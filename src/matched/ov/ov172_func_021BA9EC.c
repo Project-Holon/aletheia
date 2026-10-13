@@ -44,12 +44,17 @@
  *   func_021BAEE0  0x021BAEE0  thumb  ov172
  *   func_021BB4D0  0x021BB4D0  thumb  ov172
  *   func_021BB288  0x021BB288  thumb  ov172
- *   d_020A1B38     0x020A1B38  data a2
+ *   FX_SinCosTable_     0x020A1B38  data a2
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
  *   TOUCHPANEL_GetTrg  0x02035C60  arm  arm9
  *   BMP_WIN_TransferChars  0x02045334  arm  arm9
  *   BMP_WIN_MakeScreen  0x02045374  arm  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb  arm9
+ *   KEY_GetTrg  0x020362DC  arm  arm9
+ *   BMP_WIN_GetBmp  0x02045770  arm  arm9
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -90,21 +95,21 @@ extern void func_021BB288(void *ctx, u8 *p);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32  WIPE_SYS_EndCheck(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32  func_020362DC(void);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32  KEY_GetTrg(void);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *w);
+extern void *BMP_WIN_GetBmp(struct Descriptor *w);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 a);
 extern void func_020409B4(u32 a);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 struct Obj;
-extern void func_0204B3DC(struct Obj *a, unsigned int b);
+extern void CLACT_SetActorDrawEnable(struct Obj *a, unsigned int b);
 
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 int func_021BA9EC(void *a0, char *p)
 {
@@ -173,7 +178,7 @@ int func_021BA9EC(void *a0, char *p)
         ((struct Obj00140 *)p)->f20 = flag;
         break;
     case 7:
-        if (TOUCHPANEL_GetTrg() == 1 || (func_020362DC() & 3) != 0) {
+        if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3) != 0) {
             ((struct Obj00140 *)p)->f1C = flag = 1;
             ((struct Obj00140 *)p)->f0 = 2;
             func_021BE0B0(a0, 1);
@@ -198,7 +203,7 @@ int func_021BA9EC(void *a0, char *p)
         break;
     case 10:
         ((struct Obj00140 *)p)->f54 = ((struct Obj00140 *)p)->f54 + 1;
-        if (TOUCHPANEL_GetTrg() == 1 || (func_020362DC() & 3) != 0
+        if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3) != 0
             || ((struct Obj00140 *)p)->f54 >= 300) {
             ((struct Obj00140 *)p)->f0 = 11;
         }
@@ -226,7 +231,7 @@ int func_021BA9EC(void *a0, char *p)
         ((struct Obj00140 *)p)->f20 = flag;
         break;
     case 14:
-        if (TOUCHPANEL_GetTrg() == 1 || (func_020362DC() & 3) != 0) {
+        if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3) != 0) {
             ((struct Obj00140 *)p)->f1C = flag = 1;
             ((struct Obj00140 *)p)->f0 = 2;
             func_021BE0B0(a0, 1);
@@ -241,7 +246,7 @@ int func_021BA9EC(void *a0, char *p)
     }
     if (((struct Obj00140 *)p)->f38 == 1) {
         t = func_021BE044(a0);
-        if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj00140 *)p)->f48))) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)t, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00140 *)p)->f48))) == 0) {
             func_0201F73C((void *)(((struct Obj00140 *)p)->f48), 2, 0x140, 9);
             BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00140 *)p)->f48);
             BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj00140 *)p)->f48));
@@ -251,19 +256,19 @@ int func_021BA9EC(void *a0, char *p)
             if (((struct Obj00140 *)p)->f3C == 1) {
                 k = 1;
                 for (i = 0; i < 5; i++) {
-                    func_0204B3DC((struct Obj *)*(u32 *)(p + i * 4 + 0x70), k);
+                    CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(p + i * 4 + 0x70), k);
                 }
             } else {
                 k = i;
                 for (i = 0; i < 5; i++) {
-                    func_0204B3DC((struct Obj *)*(u32 *)(p + i * 4 + 0x70), k);
+                    CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(p + i * 4 + 0x70), k);
                 }
             }
         }
     }
     if (((struct Obj00140 *)p)->f40 == 1) {
         t = func_021BE044(a0);
-        if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj00140 *)p)->f4C))) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)t, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00140 *)p)->f4C))) == 0) {
             BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00140 *)p)->f4C);
             BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj00140 *)p)->f4C));
             func_020409B4(4);
@@ -272,7 +277,7 @@ int func_021BA9EC(void *a0, char *p)
     }
     if (((struct Obj00140 *)p)->f44 == 1 && ((struct Obj00140 *)p)->f50 != 0) {
         t = func_021BE044(a0);
-        if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj00140 *)p)->f50))) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)t, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00140 *)p)->f50))) == 0) {
             BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00140 *)p)->f50);
             BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj00140 *)p)->f50));
             func_020409B4(0);
@@ -281,28 +286,28 @@ int func_021BA9EC(void *a0, char *p)
     }
     if (*(s32 *)&((struct Obj00140 *)p)->f0 <= 5 && func_021BE0B4(a0) == 0) {
         v = func_021BDFDC(a0);
-        if (func_020362DC() & 0x40) {
+        if (KEY_GetTrg() & 0x40) {
             func_021B7B3C((int)a0, v, 0);
         }
-        if (func_020362DC() & 0x10) {
+        if (KEY_GetTrg() & 0x10) {
             func_021B7B3C((int)a0, v, 5);
         }
-        if (func_020362DC() & 0x80) {
+        if (KEY_GetTrg() & 0x80) {
             func_021B7B3C((int)a0, v, 1);
         }
-        if (func_020362DC() & 0x20) {
+        if (KEY_GetTrg() & 0x20) {
             func_021B7B3C((int)a0, v, 3);
         }
     }
-    if (func_021BE0A4(a0) == 0 && (func_020362DC() & 0x200)) {
+    if (func_021BE0A4(a0) == 0 && (KEY_GetTrg() & 0x200)) {
         if (func_021B77B4((int)a0, (void *)func_021BDFDC(a0)) == 0) {
             func_021BE08C(a0);
-            func_020061E4(0x66C);
+            GFL_USE_PlaySeDefaultVolume(0x66C);
         }
     }
     t = *(volatile u16 *)&((struct Obj00140 *)p)->f96;
     ((struct Obj00140 *)p)->f96 = ((s32)(t + 0x400) >= 0x10000) ? t - 0xFC00 : *(volatile u16 *)&((struct Obj00140 *)p)->f96 + 0x400;
-    s = d_020A1B38[(((struct Obj00140 *)p)->f96 >> 4) * 2 + 1];
+    s = FX_SinCosTable_[(((struct Obj00140 *)p)->f96 >> 4) * 2 + 1];
     s = (s16)((s32)(s + 0x1000) / 2);
     s = (u8)(((s32)s * -9 >> 12) + 0x1c);
     ((struct Obj00140 *)p)->f94 = s | (s << 5) | (s << 10);

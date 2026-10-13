@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * Lever: func_0202648C reads its pointer argument in the matched ARM9
+ * Lever: GAME_COMM_GetCounter reads its pointer argument in the matched ARM9
  * unit_02026454.c. The original forwards GAMESYSTEM_GetGameComm(a) in r0 with
  * no intervening argument setup. Explicitly passing h restores the
  * return-value spill and all frame/register choices (DIFF22 -> EXACT).
@@ -24,9 +24,9 @@
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
  *   func_0200BFA4  0x0200BFA4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   func_0202648C  0x0202648C  thumb
- *   func_02026454  0x02026454  thumb
- *   func_02026484  0x02026484  thumb
+ *   GAME_COMM_GetCounter  0x0202648C  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
+ *   GAME_COMM_ClearCounter  0x02026484  thumb
  *   GAME_DATA_SetIntrudeCount  0x02012B78  thumb
  *   GAME_DATA_SetExitMode  0x02012B64  thumb
  *   GAME_DATA_SetIntrudeId  0x02012B8C  thumb
@@ -56,9 +56,9 @@ u16 *func_0200BE48(void *p);
 int GAME_DATA_GetPlayTime(int p0);
 u64 func_0200BFA4(u8 *p, void *x, u32 n);
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
-u32 func_0202648C(void *p);
-u32 func_02026454(void *obj);
-void func_02026484(void *p);
+u32 GAME_COMM_GetCounter(void *p);
+u32 GAME_COMM_GetKind(void *obj);
+void GAME_COMM_ClearCounter(void *p);
 struct BigObj *GAME_DATA_SetIntrudeCount(struct BigObj *p, u8 v);
 void GAME_DATA_SetExitMode(struct BigObj *p, u8 v);
 void GAME_DATA_SetIntrudeId(struct BigObj *p, u32 v);
@@ -80,9 +80,9 @@ static inline void *finish(void *a, void *r4, void *r6, void *ret)
     t = func_0200BE48(GAME_DATA_GetSaveControl(r4));
     func_0200BFA4((u8 *)t, (void *)GAME_DATA_GetPlayTime((int)r4), 1);
     h = (void *)GAMESYSTEM_GetGameComm(a);
-    func_0202648C(h);
-    if (func_02026454(h) == 0)
-        func_02026484(h);
+    GAME_COMM_GetCounter(h);
+    if (GAME_COMM_GetKind(h) == 0)
+        GAME_COMM_ClearCounter(h);
     if (FIELD_PLAYER_CheckFormModel(FIELDMAP_GetFieldPlayer(r6)) == 0)
         INTRUDE_FIELD_ChangePlayerLook(0, a, 0, 0, 0);
     GAME_DATA_SetIntrudeCount(r4, 0);

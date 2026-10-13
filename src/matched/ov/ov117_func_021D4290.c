@@ -13,9 +13,9 @@
  *   func_021D8AA8  0x021D8AA8  thumb  ov119
  *   func_021D8FA4  0x021D8FA4  thumb  ov119
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_0201ADE4  0x0201ADE4  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
- *   func_0201AE14  0x0201AE14  thumb
+ *   POKE_PERSONAL_Create  0x0201ADE4  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
+ *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  *   func_02008530  0x02008530  thumb
  *
  * Addresses are Black-image addresses.
@@ -29,11 +29,11 @@ typedef unsigned char u8;
 extern int func_021D8AA8(void *p);
 extern void *func_021D8FA4(void *p, int which);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 arg);
-extern void *func_0201ADE4(u32 a, int b, u32 heap);
+extern void *POKE_PERSONAL_Create(u32 a, int b, u32 heap);
 struct Personal;
 struct Sub0200852CObj;
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *p);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *p);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 
 void func_021D4290(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy)
@@ -66,9 +66,9 @@ void func_021D4290(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy)
     b = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
     egg = POKE_TOOL_GetPartyValue(mon, 0x4C, 0);
     if (egg == 0) {
-        h = (u32)func_0201ADE4((u16)a, (int)(u16)b, ((struct Obj22634 *)p)->f5F4);
-        flag = func_0201AE1C((const struct Personal *)h, 0x10);
-        func_0201AE14((void *)h);
+        h = (u32)POKE_PERSONAL_Create((u16)a, (int)(u16)b, ((struct Obj22634 *)p)->f5F4);
+        flag = POKE_PERSONAL_GetParam((const struct Personal *)h, 0x10);
+        POKE_PERSONAL_Delete((void *)h);
     }
     if (egg != 0) {
         *outFlag = 1;

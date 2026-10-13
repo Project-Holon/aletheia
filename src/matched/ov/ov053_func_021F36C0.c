@@ -1,5 +1,5 @@
 /*
- * function: FIELD_GIMMICK_BSUBWAY_Init
+ * function: GIMMICK53_Init
  * address:  0x021F36C0
  * packet:   pkt_ov053_021F36C0
  * region:   ov053
@@ -44,7 +44,7 @@ extern void GIMMICK53_CreateSoundObjs(struct O *o, u32 q);
 extern void GIMMICK53_RestoreAnimeFrames(char *a, int b);
 extern void ISS_3DS_SYS_SetVolume(struct Obj *o, u32 v);
 
-void FIELD_GIMMICK_BSUBWAY_Init(u32 a)
+void GIMMICK53_Init(u32 a)
 {
     u32 r6;
     u32 r5;

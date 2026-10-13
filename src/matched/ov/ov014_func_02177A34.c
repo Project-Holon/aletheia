@@ -1,5 +1,5 @@
 /*
- * function: func_02177A34
+ * function: NET_WHPIPE_IsAidConnected
  * address:  0x02177A34
  * packet:   pkt_ov014_02177A34
  * region:   ov014
@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   g_pWhPipeWork     0x021797A4  data   a4
- *   func_02178E4C  0x02178E4C  thumb  ov014
+ *   WIH_GetSysState  0x02178E4C  thumb  ov014
  *   func_02178E38  0x02178E38  thumb  ov014
  */
 
@@ -20,15 +20,15 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern struct W *g_pWhPipeWork;
-extern int func_02178E4C(void);
+extern int WIH_GetSysState(void);
 typedef unsigned short u16;
 extern u16 func_02178E38(void);
 
-int func_02177A34(u16 n)
+int NET_WHPIPE_IsAidConnected(u16 n)
 {
     if (((u8 *)g_pWhPipeWork) == 0)
         return 0;
-    if (func_02178E4C() != 4 && func_02178E4C() != 5)
+    if (WIH_GetSysState() != 4 && WIH_GetSysState() != 5)
         return 0;
     if (func_02178E38() & (1 << n))
         return 1;

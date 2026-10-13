@@ -21,7 +21,7 @@
  *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   SCRCMD_WORK_GetWordSetWork  0x0215A63C  thumb  ov010
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
@@ -62,7 +62,7 @@ extern void *SCRCMD_WORK_GetOccupyInfo(void *p);
 extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
 struct Q;
 extern u8 *SCRCMD_WORK_GetWordSetWork(u8 *p);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
@@ -102,7 +102,7 @@ int SCRCMD_MSGWIN_CmdBalloonWinSavedText(void *a, int b)
     }
     s = (S *)SCRCMD_WORK_GetWordSetWork((u8 *)b);
     flag = 0;
-    func_02082BCC(s, 0, 0x28);
+    MI_CpuFill8(s, 0, 0x28);
     s->id = k2;
     x = FIELDMAP_GetFieldPlayer((struct Obj00020 *)q[1]);
     y = (int)SCRCMD_WORK_GetOccupyInfo((void *)b);

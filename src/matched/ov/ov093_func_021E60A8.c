@@ -1,5 +1,5 @@
 /*
- * function: func_021E60A8
+ * function: HAND_WAZA_FindBeatUpMember
  * address:  0x021E60A8
  * packet:   pkt_ov093_021E60A8
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C7FCC  0x021C7FCC  thumb  ov093
- *   func_021B9B94  0x021B9B94  thumb  ov093
- *   func_021B9C00  0x021B9C00  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPartyOfPoke  0x021C7FCC  thumb  ov093
+ *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
+ *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_POKEPARAM_IsAbleToBattle  0x021D5B7C  thumb  ov093
  *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
@@ -21,28 +21,28 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 struct Q1;
 struct S2;
-extern char *func_021C7FCC(u8 *p, int i);
-extern u8 func_021B9B94(struct Q1 *p);
-extern u8 *func_021B9C00(struct S2 *p, u32 i);
+extern char *BTL_SERVER_FLOW_GetPartyOfPoke(u8 *p, int i);
+extern u8 BTL_SLOT_GetCount(struct Q1 *p);
+extern u8 *BTL_SLOT_GetPokeParam(struct S2 *p, u32 i);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int BTL_POKEPARAM_IsAbleToBattle(void *m);
 struct Unk021D62A8;
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
 
-u8 *func_021E60A8(void *a, u32 b, u8 c)
+u8 *HAND_WAZA_FindBeatUpMember(void *a, u32 b, u8 c)
 {
     void *s;
     u32 n;
     u32 i;
     u8 *t;
     int r;
-    s = func_021C7FCC(a, b);
-    n = func_021B9B94(s);
+    s = BTL_SERVER_FLOW_GetPartyOfPoke(a, b);
+    n = BTL_SLOT_GetCount(s);
     if (c >= n)
         return 0;
     for (i = 0; i < n; i++) {
         r = 0;
-        t = func_021B9C00(s, (u8)i);
+        t = BTL_SLOT_GetPokeParam(s, (u8)i);
         if (b == BTL_POKEPARAM_GetPokeId(t))
             r = 1;
         else if (BTL_POKEPARAM_IsAbleToBattle(t) != 0 && BTL_POKEPARAM_GetMajorStatusIndex((struct Unk021D62A8 *)t) == 0)

@@ -10,7 +10,7 @@
  * lever: i before n gives n the earlier spill slot.
  * symbols:
  *   func_021E4DBC 0x021E4DBC thumb ov119
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021E5164 0x021E5164 thumb ov119
  *   func_021E5158 0x021E5158 thumb ov119
  *   func_021E4B00 0x021E4B00 thumb ov119
@@ -20,7 +20,7 @@
 typedef short s16;
 extern int func_021E4DBC(char *);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void func_021E5164(int p);
 extern int func_021E5158(int);
 extern void func_021E4B00(char *, int, int, int, int);
@@ -33,7 +33,7 @@ void func_021E4E64(int a, char *p, int b)
         ((struct Obj00001 *)p)->f1080 = n;
         for (i = 0; i < 12; i++) {
             for (j = 0; j < 5; j++) {
-                func_0204B3DC((struct Obj *)*(int *)(p + i * 20 + j * 4 + 0xbb0), 0);
+                CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + i * 20 + j * 4 + 0xbb0), 0);
                 *(unsigned char *)(p + i * 5 + j + 0xebc) = 0;
             }
         }

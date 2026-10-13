@@ -13,18 +13,18 @@
  *
  * symbols:
  *   g_021AA860    0x021AA860  data
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
 #include "../include/G_FriendGlobal.h"
 
 extern struct FriendGlobal g_021AA860;
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 
 void func_0216959C(void *friendData, int deleteIndex, int otherIndex)
 {
     if (*(char **)(((char *)&g_021AA860) + 0xc) == 0) return;
-    func_02082BCC((char *)friendData + deleteIndex * 0xc, 0, 0xc);
+    MI_CpuFill8((char *)friendData + deleteIndex * 0xc, 0, 0xc);
     if (*(int *)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x3c) == 0) return;
     (*(void (*)(int, int, int))(*(int *)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x3c)))(
         deleteIndex, otherIndex, *(int *)(*(char **)(((char *)&g_021AA860) + 0xc) + 0x40));

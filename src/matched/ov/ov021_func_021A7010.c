@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FIELD_PLAYER_ChooseMoveDirFromKeys  0x021A2FA4  thumb  ov021
  *   FLDMMDL_GetDirMove  0x0216D608  thumb  ov010
@@ -34,8 +34,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_020362DC(void);
-extern unsigned int func_0203630C(void);
+extern u32 KEY_GetTrg(void);
+extern unsigned int KEY_GetCont(void);
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
 extern u16 FIELD_PLAYER_ChooseMoveDirFromKeys(u8 *p, u32 a1);
 extern u16 FLDMMDL_GetDirMove(void *p);
@@ -62,8 +62,8 @@ void FIELDMAP_CTRL_HYBRID_UpdateNogrid(u32 a, u32 *b)
     u32 r6;
     u32 r7;
     u32 r4;
-    v14 = func_020362DC();
-    r6 = func_0203630C();
+    v14 = KEY_GetTrg();
+    r6 = KEY_GetCont();
     v10 = FIELD_PLAYER_GetMmdl((unsigned char *)b[1]);
     if (b[2] == 0) {
         r4 = FIELD_PLAYER_ChooseMoveDirFromKeys((u8 *)b[1], r6);

@@ -10,7 +10,7 @@
  * symbols:
  *   func_021F2614 0x021F2614 thumb ov194
  *   func_021F3364 0x021F3364 thumb ov194
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021F2818 0x021F2818 thumb ov194
  *   func_021F1A1C 0x021F1A1C thumb ov194
  */
@@ -18,7 +18,7 @@
 extern unsigned func_021F2614(char *,int *,unsigned short *);
 extern int func_021F3364(char *,int);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int func_021F2818(char *,int,int);
 struct Rect;
 extern void func_021F1A1C(char *p, int mode, const struct Rect *rect, int flag, int selected);
@@ -31,7 +31,7 @@ void func_021F3C40(char *p,int *input) {
     case 0: case 1: break;
     case 2: case 3: case 4: case 5:
         if (func_021F3364(p,code-2)) {
-            func_020061E4(1611);
+            GFL_USE_PlaySeDefaultVolume(1611);
             ((struct Obj00117 *)p)->fE4=2; ((struct Obj00117 *)p)->fE8=6;
         }
         break;

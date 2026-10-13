@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_HANDLER_ITEM_GetBindingBandHandlers",
+   "name": "HAND_ITEM_GetBindingBandHandlers",
    "address": "0x021DFCDC",
    "kind": "game",
    "region": "ov093",

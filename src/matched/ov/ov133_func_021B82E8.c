@@ -26,7 +26,7 @@
  *   func_021BA23C 0x021BA23C thumb ov133
  *   func_021BA24C 0x021BA24C thumb ov133
  *   func_021B7A18 0x021B7A18 thumb ov133
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   d_021BA588 0x021BA588 data a4
  *   d_021BA568 0x021BA568 data a4
  *   _fflt 0x0209BDBC arm
@@ -60,7 +60,7 @@ extern int func_021BA248(char *p);
 extern void func_021BA23C(u8 *p, u32 value);
 extern void func_021BA24C(char *p, u32 v);
 extern void func_021B7A18(u8 *);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void func_021B82E8(u8 *p, int unused)
 {
     Vec v;
@@ -102,5 +102,5 @@ void func_021B82E8(u8 *p, int unused)
     func_021BA24C((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38), 10);
     ((struct Obj14149 *)data)->fC = 0;
     func_021B7A18(p);
-    func_020061E4(1574);
+    GFL_USE_PlaySeDefaultVolume(1574);
 }

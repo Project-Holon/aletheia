@@ -9,11 +9,11 @@
  * status:   EXACT
  *
  * symbols:
- *   tbl_020A1B38   0x020A1B38  data
+ *   FX_SinCosTable_   0x020A1B38  data
  *   NNS_GfdRegisterNewVramTransferTask   0x02061CA4  arm
  *
  * Sibling of APP_TASKMENU_UpdateCursorColor: advance the u16 phase by 0x400 (wrapping at
- * 0x10000), take the sine-table value tbl_020A1B38[2*(phase>>4)+1], and
+ * 0x10000), take the sine-table value FX_SinCosTable_[2*(phase>>4)+1], and
  * lerp channel by channel between two BGR555 colours c0 and c1 (the fifth
  * and sixth, stack, arguments); write the packed colour to *out and hand
  * it to NNS_GfdRegisterNewVramTransferTask with 0xf (mode <= 3) or 0x1f.
@@ -34,7 +34,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 
 void APP_TASKMENU_UpdateCursorColorBlend(u16 *phase, u16 *out, u16 mode, u32 slot,
@@ -58,7 +58,7 @@ void APP_TASKMENU_UpdateCursorColorBlend(u16 *phase, u16 *out, u16 mode, u32 slo
         *phase = (u16)(*phase + 0x400);
     }
 
-    s = (s16)((tbl_020A1B38[2 * (*phase >> 4) + 1] + 0x1000) / 2);
+    s = (s16)((FX_SinCosTable_[2 * (*phase >> 4) + 1] + 0x1000) / 2);
 
     b = (u8)(b0c + ((s * (b1c - b0c)) >> 12));
     r = (u8)(r0c + ((s * (r1c - r0c)) >> 12));

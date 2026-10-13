@@ -14,8 +14,8 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   SCRCMD_PROC_CheckMonKnowsMove  0x0215B500  thumb  ov010
  */
 
@@ -28,8 +28,8 @@ struct BigObj;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern int SCRCMD_PROC_CheckMonKnowsMove(int a0, int a1);
 
 int SCRCMD_PROC_FindPartyMonWithMove(void *a0, void *a1)
@@ -38,11 +38,11 @@ int SCRCMD_PROC_FindPartyMonWithMove(void *a0, void *a1)
     u16 *out = SCRIPT_WORK_ReadWorkPointer(a0, a1);
     void *key = (void *)SCRIPT_WORK_ReadWorkValue(a0, a1);
     int i;
-    int n = func_0201AA18(list);
+    int n = POKEPARTY_GetCount(list);
 
     *out = 6;
     for (i = 0; i < n; i++) {
-        if (SCRCMD_PROC_CheckMonKnowsMove((int)func_0201AB28(list, i), (int)key) == 1) {
+        if (SCRCMD_PROC_CheckMonKnowsMove((int)POKEPARTY_GetMember(list, i), (int)key) == 1) {
             *out = i;
             break;
         }

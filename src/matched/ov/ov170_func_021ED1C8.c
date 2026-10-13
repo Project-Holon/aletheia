@@ -14,7 +14,7 @@
  *   CLACT_GetActorDrawPriority 0x0204B838 arm
  *   CLACT_GetActorBgPriority 0x0204B864 arm
  *   func_021EBEE0 0x021EBEE0 thumb
- *   func_0204B6F4 0x0204B6F4 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   func_021EC08C 0x021EC08C thumb
  *   func_021EC048 0x021EC048 thumb
  *   func_021EC030 0x021EC030 thumb
@@ -49,7 +49,7 @@ typedef unsigned char  u8;
 struct Obj;
 extern u32 CLACT_GetActorBgPriority(u8 *a0);
 extern void *func_021EBEE0(char *w, const Desc *s);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern void func_021EC048(char *p, int i, int c);
 extern void func_021EC030(char *p, int i, int c);
@@ -83,7 +83,7 @@ void func_021ED1C8(char *w)
             d.x = xy[1] + d_021EFCD0[j];
             d.y = xy[0] + d_021EFCC8[j];
             *(void **)(w + j * 4 + 0x9FD4) = func_021EBEE0(w, &d);
-            func_0204B6F4(*(void **)(w + j * 4 + 0x9FD4), (unsigned char)d.e, 1);
+            CLACT_SetActorPaletteOffset(*(void **)(w + j * 4 + 0x9FD4), (unsigned char)d.e, 1);
             func_021EC000(w, j + 0x58, 0);
         }
     } else {

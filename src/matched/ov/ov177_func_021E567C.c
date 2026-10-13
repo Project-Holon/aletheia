@@ -12,7 +12,7 @@
  * symbols:
  *   d_021E8DBC 0x021E8DBC data a1
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02082D44 0x02082D44 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -35,7 +35,7 @@ typedef unsigned char  u8;
 extern const char d_021E8DBC[];
 typedef signed int     s32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *, u32, u32);
+extern void MI_CpuFill8(void *, u32, u32);
 extern void func_02082D44(const void *, void *, u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -63,7 +63,7 @@ u32 *func_021E567C(int unused, int mode, int heap)
     u8 *data;
     u32 l, m;
     w = func_02030734(heap, 0x7c, 0, d_021E8DBC, 0x7d);
-    func_02082BCC(w, 0, 0x7c);
+    MI_CpuFill8(w, 0, 0x7c);
     k = 0x85;
     c = (heap & 0x7fff) | 0x8000;
     h = func_020490F4(k, (u16)c);

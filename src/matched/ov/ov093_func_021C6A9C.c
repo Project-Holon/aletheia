@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_021D59B4  0x021D59B4  thumb  ov093
- *   func_021BF324  0x021BF324  thumb  ov093
- *   sub_0201BD28  0x0201BD28  thumb
+ *   BTL_SERVER_FLOW_CheckNoGuardHit  0x021BF324  thumb  ov093
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
@@ -26,8 +26,8 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D59B4(u8 *p, int k);
-extern int func_021BF324(u8 *p, u8 *a, u8 *b);
-extern u32 sub_0201BD28(u16 id, u32 field);
+extern int BTL_SERVER_FLOW_CheckNoGuardHit(u8 *p, u8 *a, u8 *b);
+extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern void BTL_EVENT_PushVarFrame(int line);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
@@ -53,10 +53,10 @@ int BTL_SERVER_FLOW_CheckOneHitKoHit(u8 *p, u8 *a, u8 *b, u16 id)
     t = BTL_EVENT_GetVar(0x41);
     BTL_EVENT_PopVarFrame(0x2E60);
     if (t) return r;
-    if (func_021BF324(p, a, b)) {
+    if (BTL_SERVER_FLOW_CheckNoGuardHit(p, a, b)) {
         r = 1;
     } else {
-        c = sub_0201BD28(id, 4);
+        c = WAZA_TOOL_GetParam(id, 4);
         c += (u8)(x - y);
         if (BTL_CALC_Random(100) < c) r = 1;
     }

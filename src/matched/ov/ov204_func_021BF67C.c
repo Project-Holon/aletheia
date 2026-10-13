@@ -19,6 +19,7 @@
  *   MCSS_Add  0x020159C8  thumb  arm9
  *   MCSS_TOOL_MakeAddWorkFromPP  0x02017100  thumb  arm9
  *   POKE_TOOL_Create  0x020173F0  thumb  arm9
+ *   MCSS_SetAnimCallback  0x02015F2C  thumb  arm9
  */
 #include "../include/Obj10881.h"
 
@@ -38,7 +39,7 @@ extern void MCSS_SetAnmStopFlag(void *);
 extern unsigned int func_0203F0A8(void);
 typedef unsigned char  u8;
 extern void func_021BF7F0(u8 *p);
-extern void func_02015F2C(void *, void *, void (*)(void *, void *), int);
+extern void MCSS_SetAnimCallback(void *, void *, void (*)(void *, void *), int);
 
 void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int species, unsigned char i)
 {
@@ -55,5 +56,5 @@ void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsi
     *(unsigned int *)(p + off + 12) = 0;
     *(unsigned int *)(p + off + 16) = 1;
     ((struct Obj10881 *)p)->f68 = 20 * (unsigned int)(((unsigned long long)func_0203F0A8() * 5) >> 32) + 200;
-    func_02015F2C(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
+    MCSS_SetAnimCallback(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
 }

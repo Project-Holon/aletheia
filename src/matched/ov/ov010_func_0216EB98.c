@@ -57,7 +57,7 @@
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   GAME_DATA_GetPmsWork  0x02012F20  thumb
  *   GAME_DATA_GetListCursor  0x02012F50  thumb
- *   func_0201447C  0x0201447C  thumb
+ *   FIELD_STATUS_SwapSeasonDispFlag  0x0201447C  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask  0x02029B28  thumb
@@ -139,7 +139,7 @@ extern void GAME_EVENT_CallProc(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 extern int GAME_DATA_GetPmsWork(int p0);
 extern void *GAME_DATA_GetListCursor(void *base);
-extern u8 func_0201447C(struct Sub02014444Obj *o, u8 v);
+extern u8 FIELD_STATUS_SwapSeasonDispFlag(struct Sub02014444Obj *o, u8 v);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *sys);
 extern void *FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask(void *a, u16 b);
@@ -189,7 +189,7 @@ int EVENT_BATTLE_ProcBattleTask(void *evt, u32 *state, Work *w)
         (*state)++;
         break;
     case 3:
-        func_0201447C(GAME_DATA_GetMoveModelSys(p04), 1);
+        FIELD_STATUS_SwapSeasonDispFlag(GAME_DATA_GetMoveModelSys(p04), 1);
         COMM_PLAYER_SUPPORT_Init((u8 *)GAME_DATA_GetPmsWork((int)p04));
         GAME_EVENT_CallProc(evt, (u32)ov093_id, (u32)d_021EFDAC, (u32)w->f08);
         (*state)++;
@@ -202,7 +202,7 @@ int EVENT_BATTLE_ProcBattleTask(void *evt, u32 *state, Work *w)
         break;
     case 5:
         func_02034AC4((s32)ov230_id);
-        func_0201447C(GAME_DATA_GetMoveModelSys(p04), 0);
+        FIELD_STATUS_SwapSeasonDispFlag(GAME_DATA_GetMoveModelSys(p04), 0);
         COMM_PLAYER_SUPPORT_StashMode((void *)GAME_DATA_GetPmsWork((int)p04));
         (*state)++;
         break;

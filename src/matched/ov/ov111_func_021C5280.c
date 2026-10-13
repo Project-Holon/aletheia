@@ -12,7 +12,7 @@
  * symbols:
  *   func_021C5264  0x021C5264  thumb  ov111
  *   func_021C6FA0  0x021C6FA0  thumb  ov111
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_020355D8  0x020355D8  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_021C51E4  0x021C51E4  thumb  ov111
@@ -70,7 +70,7 @@ typedef struct {
 } Work;
 
 extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int func_021C5264(Work *p, int hit);
 extern void func_020355D8(u8 v);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
@@ -87,12 +87,12 @@ int func_021C5280(Work *p, int hit)
     switch (hit) {
     case 0:
         func_021C6FA0(&p->anim, 0, 9, 1);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_020355D8(1);
         return 4;
     case 1:
         func_021C6FA0(&p->anim, 1, 8, 1);
-        func_020061E4(0x556);
+        GFL_USE_PlaySeDefaultVolume(0x556);
         return 5;
     case 2:
         TOUCHPANEL_GetPointCont(&p->f32D8, &p->f32DC);
@@ -105,10 +105,10 @@ int func_021C5280(Work *p, int hit)
                 p->info->f4_4 ^= 1;
                 func_021C4754(p, p->info->kind);
                 func_021C523C(p, p->info->f4_4);
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
             }
         } else {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             func_021C6FA0(&p->anim, 2, 0x11, 1);
             return 10;
         }
@@ -117,11 +117,11 @@ int func_021C5280(Work *p, int hit)
         if (p->f3034 != 0 && !p->info->f4_4 && p->args->info->f4_6) {
             if (p->h305E == 0) {
                 func_021C6FA0(&p->anim, 4, 0x13, 1);
-                func_020061E4(0x648);
+                GFL_USE_PlaySeDefaultVolume(0x648);
                 p->b32C6 = 0;
             } else {
                 func_021C6FA0(&p->anim, 4, 0x15, 1);
-                func_020061E4(0x649);
+                GFL_USE_PlaySeDefaultVolume(0x649);
                 p->b32C6 = 3;
             }
             return 8;
@@ -129,7 +129,7 @@ int func_021C5280(Work *p, int hit)
         break;
     case 5:
         if (p->f3034 != 0 && p->args->info->f4_6 && !p->info->f4_4) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021C6FA0(&p->anim, 5, 9 - p->b32F6 * 2, 1);
             p->b32F6 ^= 1;
         }

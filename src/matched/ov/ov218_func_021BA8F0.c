@@ -14,7 +14,7 @@
  *   func_021BAA64 0x021BAA64 thumb ov218
  *   func_021BA9E0 0x021BA9E0 thumb ov218
  *   func_0201DD68 0x0201DD68 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj26050.h"
@@ -24,7 +24,7 @@ extern void func_021BAB00(int *);
 extern void func_021BAA64(char *);
 extern void func_021BA9E0(void *p);
 extern void func_0201DD68(void);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void func_021BA8F0(char *ctx)
@@ -38,6 +38,6 @@ void func_021BA8F0(char *ctx)
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= ~0xe000u;
     *(volatile unsigned *)0x04001000 &= ~0xe000u;
-    func_02082BCC(ctx, 0, 16);
+    MI_CpuFill8(ctx, 0, 16);
     func_020307B0(ctx);
 }

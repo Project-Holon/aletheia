@@ -13,51 +13,51 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
- *   func_0204B3DC  0x0204B3DC  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   func_0202136C 0x0202136C thumb
  *   func_020307B0 0x020307B0 arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   STRBUF_Create  0x020457B0  arm
  *   func_0201F250  0x0201F250  thumb
  *   func_02030734 0x02030734 arm
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_020490F4  0x020490F4  arm
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
- *   func_0201BA68  0x0201BA68  thumb
+ *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb
- *   func_0204B6F4  0x0204B6F4  arm
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   func_0201EC64  0x0201EC64  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201ED04  0x0201ED04  thumb
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
  *   BMP_Clear  0x02043B5C  arm
- *   func_02006238  0x02006238  thumb
+ *   GFL_USE_IsAnySeBusy  0x02006238  thumb
  *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_0201D304 0x0201D304 thumb
  *   STRBUF_SetString 0x02045924 arm
  *   d_021BED48 0x021BED48 data ov091 a1
  *   func_02061CA4 0x02061CA4 arm
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  *   func_02040588 0x02040588 arm
  *   POKELIST_ShutdownBgPlane0 0x021B7034 thumb ov091
  *   POKELIST_SetupLight 0x021B6F28 thumb ov091
@@ -73,7 +73,7 @@
  *   POKELIST_ShowMessage  0x021B9788  thumb
  *   POKELIST_PrintTextMain  0x021B9C1C  thumb
  *   POKELIST_PrintExpandedTextSub  0x021B9D58  thumb
- *   func_021B9E20  0x021B9E20  thumb
+ *   POKELIST_CloseMessageToList  0x021B9E20  thumb
  *   POKELIST_EndMessageToExit  0x021B9E3C  thumb
  *   POKELIST_ForceSelectionEnd  0x021BA4F8  thumb
  *   PLIST_PLATE_SetMon  0x021BB200  thumb
@@ -105,56 +105,57 @@ typedef unsigned int   u32;
 typedef short s16;
 typedef signed int     s32;
 
+#include "pokelist_types.h"
 #include "plist_battle_types.h"
 
-extern void func_020061E4(u32 id);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_02041B6C(u32 bit);
 extern u32 func_02017E1C(void *,u32,u32);
 extern u32 func_0202136C(u16);
 extern u32 func_020307B0(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, short b, short c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 BMP_WIN_Create(int,u8,u8,int,u8,u8,u8);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCharacter(u32);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
-extern void func_0204B92C(struct Obj *,unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Obj *,unsigned int);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *POKE_TOOL_GetBoxParam(void *p);
-extern u32 func_0201BA68(void *mon);
+extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *a);
 extern int POKE_TOOL_GetIconPalette(void *a0);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 func_0201ED04(struct WordSet *p);
 extern u32 POKE_TOOL_CalcLevel(void *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern int func_02006238(void);
+extern int GFL_USE_IsAnySeBusy(void);
 void APP_TASKMENU_WIN_SetDecide(char *p, int v);
-extern u32 func_0201AA18(void *);
+extern u32 POKEPARTY_GetCount(void *);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern int func_02061CA4(void *,u32,u32,int);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void POKELIST_ShutdownBgPlane0(PlistWork *work);
-extern void POKELIST_SetupLight(PlistWork *work);
-extern void POKELIST_ShutdownLight(PlistWork *work);
-extern void POKELIST_SetupBgPlanes(PlistWork *work);
+extern void POKELIST_ShutdownBgPlane0(PokelistWork *work);
+extern void POKELIST_SetupLight(PokelistWork *work);
+extern void POKELIST_ShutdownLight(PokelistWork *work);
+extern void POKELIST_SetupBgPlanes(PokelistWork *work);
 extern int PARTICLE_GetEffectCount(int **p);
 extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
 extern u32 func_02006BD0(u32 i);
@@ -163,41 +164,41 @@ extern void func_02047964(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern int PARTICLE_DrawAllSystems(void);
 extern void G3D_SYSTEM_DrawEnd(void);
-void POKELIST_ShowMessage(PlistWork *work, int a1, int a2, int a3);
-void POKELIST_PrintTextMain(PlistWork *work, u32 win, u32 id, int x, s16 y, u16 color);
-void POKELIST_PrintExpandedTextSub(PlistWork *work, u32 win, void *set, u32 idx, s16 x, s16 y, u16 color);
-void func_021B9E20(PlistWork *work);
-void POKELIST_EndMessageToExit(PlistWork *work);
-void POKELIST_ForceSelectionEnd(PlistWork *work);
-void PLIST_PLATE_SetMon(PlistWork *work, u8 *plate, int mon, int q);
-void PLIST_MESSAGE_OpenWindow(PlistWork *work, u32 *window, u32 k);
-int PLIST_MESSAGE_IsWindowOpen(PlistWork *work, u32 window);
-void PLIST_MESSAGE_PrintText(PlistWork *work, u32 *window, u32 x);
-void PLIST_MESSAGE_CreateWordSet(PlistWork *work, u32 window);
-void PLIST_MESSAGE_DestroyWordSet(PlistWork *work, u32 window);
-void PLIST_MESSAGE_SetWordSetPokemon(PlistWork *work, u32 window, int c, u32 mon);
-void PLIST_MESSAGE_SetWordSetString(PlistWork *work, u32 window, int c, const void *text, int gender);
-void PLIST_MESSAGE_LoadWindowFrame(PlistWork *work, u32 window);
-PlistTeamPanel *PLIST_BATTLE_CreateTeamPanel(PlistWork *work, PlistTeamSource *source, u8 x, u8 y, u8 width);
-void PLIST_BATTLE_DeleteTeamPanel(PlistWork *work, PlistTeamPanel *panel);
-void PLIST_BATTLE_UpdateTeamPanel(PlistWork *work, PlistTeamPanel *panel);
-PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PlistWork *work, void *mon, s16 x, u16 y);
-void PLIST_BATTLE_DeleteMiniCell(PlistWork *unusedWork, PlistMiniCell *cell);
-void PLIST_BATTLE_UpdateMiniCell(PlistWork *work, PlistMiniCell *cell);
-void PLIST_BATTLE_RefreshOpponentMessage(PlistWork *work);
-void PLIST_BATTLE_PrintOpponentMessage(PlistWork *work);
-void PLIST_BATTLE_CreateTimerWindows(PlistWork *work);
-void PLIST_BATTLE_DeleteTimerWindows(PlistWork *work);
-void PLIST_BATTLE_UpdateTimer(PlistWork *work);
-void PLIST_BATTLE_StartEffect(PlistWork *work);
-void PLIST_BATTLE_FinishEffect(PlistWork *work);
-void PLIST_BATTLE_UpdateEffect(PlistWork *work);
-void PLIST_DEMO_CreateParticles(PlistWork *work);
-void PLIST_DEMO_DeleteParticles(PlistWork *work);
+void POKELIST_ShowMessage(PokelistWork *work, int a1, int a2, int a3);
+void POKELIST_PrintTextMain(PokelistWork *work, u32 win, u32 id, int x, s16 y, u16 color);
+void POKELIST_PrintExpandedTextSub(PokelistWork *work, u32 win, void *set, u32 idx, s16 x, s16 y, u16 color);
+void POKELIST_CloseMessageToList(PokelistWork *work);
+void POKELIST_EndMessageToExit(PokelistWork *work);
+void POKELIST_ForceSelectionEnd(PokelistWork *work);
+void PLIST_PLATE_SetMon(PokelistWork *work, u8 *plate, int mon, int q);
+void PLIST_MESSAGE_OpenWindow(PokelistWork *work, u32 *window, u32 k);
+int PLIST_MESSAGE_IsWindowOpen(PokelistWork *work, u32 window);
+void PLIST_MESSAGE_PrintText(PokelistWork *work, u32 *window, u32 x);
+void PLIST_MESSAGE_CreateWordSet(PokelistWork *work, u32 window);
+void PLIST_MESSAGE_DestroyWordSet(PokelistWork *work, u32 window);
+void PLIST_MESSAGE_SetWordSetPokemon(PokelistWork *work, u32 window, int c, u32 mon);
+void PLIST_MESSAGE_SetWordSetString(PokelistWork *work, u32 window, int c, const void *text, int gender);
+void PLIST_MESSAGE_LoadWindowFrame(PokelistWork *work, u32 window);
+PlistTeamPanel *PLIST_BATTLE_CreateTeamPanel(PokelistWork *work, PlistTeamSource *source, u8 x, u8 y, u8 width);
+void PLIST_BATTLE_DeleteTeamPanel(PokelistWork *work, PlistTeamPanel *panel);
+void PLIST_BATTLE_UpdateTeamPanel(PokelistWork *work, PlistTeamPanel *panel);
+PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PokelistWork *work, void *mon, s16 x, u16 y);
+void PLIST_BATTLE_DeleteMiniCell(PokelistWork *unusedWork, PlistMiniCell *cell);
+void PLIST_BATTLE_UpdateMiniCell(PokelistWork *work, PlistMiniCell *cell);
+void PLIST_BATTLE_RefreshOpponentMessage(PokelistWork *work);
+void PLIST_BATTLE_PrintOpponentMessage(PokelistWork *work);
+void PLIST_BATTLE_CreateTimerWindows(PokelistWork *work);
+void PLIST_BATTLE_DeleteTimerWindows(PokelistWork *work);
+void PLIST_BATTLE_UpdateTimer(PokelistWork *work);
+void PLIST_BATTLE_StartEffect(PokelistWork *work);
+void PLIST_BATTLE_FinishEffect(PokelistWork *work);
+void PLIST_BATTLE_UpdateEffect(PokelistWork *work);
+void PLIST_DEMO_CreateParticles(PokelistWork *work);
+void PLIST_DEMO_DeleteParticles(PokelistWork *work);
 extern const char d_021BED48[];
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
-PlistTeamPanel *PLIST_BATTLE_CreateTeamPanel(PlistWork *work, PlistTeamSource *source, u8 x, u8 y, u8 width)
+PlistTeamPanel *PLIST_BATTLE_CreateTeamPanel(PokelistWork *work, PlistTeamSource *source, u8 x, u8 y, u8 width)
 {
     PlistTeamPanel *panel;
     u8 count;
@@ -206,7 +207,7 @@ PlistTeamPanel *PLIST_BATTLE_CreateTeamPanel(PlistWork *work, PlistTeamSource *s
     u32 active;
 
     panel = (PlistTeamPanel *)func_02030734(work->heapId, 0x20, 0, d_021BED48, 0x143);
-    count = func_0201AA18(source->party);
+    count = POKEPARTY_GetCount(source->party);
     for (i = 0; i < 6; i++) {
         if (i < count) {
             int column = i % 2;
@@ -214,7 +215,7 @@ PlistTeamPanel *PLIST_BATTLE_CreateTeamPanel(PlistWork *work, PlistTeamSource *s
             u8 cellY = y + (i / 2) * 6 + 4;
             int pixelOffset = 4;
             if (column != 0) pixelOffset = 0;
-            panel->cells[i] = PLIST_BATTLE_CreateMiniCell(work, func_0201AB28(source->party, i), (u8)((u8)pixelOffset + (cellX << 3)), (u8)(cellY << 3));
+            panel->cells[i] = PLIST_BATTLE_CreateMiniCell(work, POKEPARTY_GetMember(source->party, i), (u8)((u8)pixelOffset + (cellX << 3)), (u8)(cellY << 3));
         } else {
             panel->cells[i] = 0;
         }
@@ -223,24 +224,24 @@ PlistTeamPanel *PLIST_BATTLE_CreateTeamPanel(PlistWork *work, PlistTeamSource *s
     panel->nameWindow = BMP_WIN_Create((int)4, (u8)(x + 1 + ((u32)width >> 1)), (u8)(y + 1), (int)10, 2, 0xe, active);
     nameBuf = (u32)STRBUF_Create(0x10, work->heapId);
     STRBUF_SetString((struct Strbuf *)nameBuf, source->name);
-    PRINTSYS_PrintQueColor(work->printSys, (u32)func_02045770((struct Descriptor *)panel->nameWindow), 0, 0, nameBuf, work->fontMain, 0x3c40);
+    PRINTSYS_PrintQueColor(work->printSys, (u32)BMP_WIN_GetBmp((struct Descriptor *)panel->nameWindow), 0, 0, nameBuf, (u32)work->fontMain, 0x3c40);
     STRBUF_Delete((struct U16Vec *)nameBuf);
     panel->active = active;
     return panel;
 }
 
-void PLIST_BATTLE_DeleteTeamPanel(PlistWork *work, PlistTeamPanel *panel)
+void PLIST_BATTLE_DeleteTeamPanel(PokelistWork *work, PlistTeamPanel *panel)
 {
     u8 i;
     for (i = 0; i < 6; i++) {
         PlistMiniCell *cell = panel->cells[i];
         if (cell) PLIST_BATTLE_DeleteMiniCell(work, cell);
     }
-    func_020452E8((struct Descriptor *)panel->nameWindow);
+    BMP_WIN_Delete((struct Descriptor *)panel->nameWindow);
     func_020307B0(panel);
 }
 
-void PLIST_BATTLE_UpdateTeamPanel(PlistWork *work, PlistTeamPanel *panel)
+void PLIST_BATTLE_UpdateTeamPanel(PokelistWork *work, PlistTeamPanel *panel)
 {
     u8 i;
     u32 window;
@@ -248,19 +249,19 @@ void PLIST_BATTLE_UpdateTeamPanel(PlistWork *work, PlistTeamPanel *panel)
         if (panel->cells[i] != 0)
             PLIST_BATTLE_UpdateMiniCell(work, panel->cells[i]);
     }
-    if (panel->active == 1 && func_0201C6C4((struct PrintSys *)work->printSys, (void *)func_02045770((struct Descriptor *)panel->nameWindow)) == 0) {
+    if (panel->active == 1 && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)work->printSys, (void *)BMP_WIN_GetBmp((struct Descriptor *)panel->nameWindow)) == 0) {
         window = panel->nameWindow;
         panel->active = 0;
         BMP_WIN_TransferChars((struct Descriptor *)window);
         BMP_WIN_MakeScreen((struct Cfg *)window);
-        func_02041B6C(func_02045730((struct Descriptor *)window));
+        func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)window));
     }
 }
 
 /*
  * lever: u16 y pins x's front spill; declare the u8 offset before gx to restore r7/r6 allocation.
  */
-PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PlistWork *work, void *mon, s16 x, u16 y)
+PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PokelistWork *work, void *mon, s16 x, u16 y)
 {
     PlistActorParam iconParam;
     PlistActorParam markParam;
@@ -281,24 +282,24 @@ PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PlistWork *work, void *mon, s16 x, u1
     isEgg = func_02017E1C(mon, PLIST_MON_EGG_FLAG, 0);
     iconFile = func_020490F4(7, work->heapId);
     boxMon = (int)POKE_TOOL_GetBoxParam(mon);
-    cell->iconRes = CLACT_RegisterCharacter(iconFile, func_0201BA68((void *)boxMon), 0, 1, work->heapId);
+    cell->iconRes = CLACT_RegisterCharacter(iconFile, POKE_TOOL_GetGraphicIndex((void *)boxMon), 0, 1, work->heapId);
     ARC_TOOL_DeleteHandle(iconFile);
     paletteIndex = POKE_TOOL_GetIconPalette((void *)boxMon);
     iconParam.x = x + 16; iconParam.y = y + 8; iconParam.animNo = 1; iconParam.softPriority = 16; iconParam.bgPriority = 2;
     {
         int actor = (int)CLACT_CreateActor(work->actorSystem, cell->iconRes, work->charRes[7], work->cellRes[7], &iconParam, 1, work->heapId);
         cell->iconActor = actor;
-        func_0204B6F4((struct Obj *)actor, paletteIndex, 1);
+        CLACT_SetActorPaletteOffset((struct Obj *)actor, paletteIndex, 1);
     }
-    func_0204B92C((struct Obj *)cell->iconActor, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)cell->iconActor, 1);
     heldItem = func_02017E1C(mon, PLIST_MON_HELD_ITEM, 0);
     markParam.x = x + 32; markParam.y = y + 16; markParam.animNo = 0; markParam.softPriority = 8; markParam.bgPriority = 2;
     cell->itemMarkActor = (u32)CLACT_CreateActor(work->actorSystem, work->palRes[4], work->charRes[3], work->cellRes[4], &markParam, 1, work->heapId);
     if (heldItem != 0) {
-        func_0204B3DC((struct Obj *)cell->itemMarkActor, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)cell->itemMarkActor, 1);
         if (func_0202136C(heldItem) == 1) CLACT_SetActorAnimSeq((struct Obj *)cell->itemMarkActor, 1);
         else CLACT_SetActorAnimSeq((struct Obj *)cell->itemMarkActor, 0);
-    } else func_0204B3DC((struct Obj *)cell->itemMarkActor, 0);
+    } else CLACT_SetActorDrawEnable((struct Obj *)cell->itemMarkActor, 0);
     sex = func_02017E1C(mon, PLIST_MON_SEX, 0);
     xOffset = x % 8;
     xShift = xOffset;
@@ -322,41 +323,41 @@ PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PlistWork *work, void *mon, s16 x, u1
     return cell;
 }
 
-void PLIST_BATTLE_DeleteMiniCell(PlistWork *unusedWork, PlistMiniCell *cell)
+void PLIST_BATTLE_DeleteMiniCell(PokelistWork *unusedWork, PlistMiniCell *cell)
 {
-    func_020452E8((struct Descriptor *)cell->sexWindow);
-    func_020452E8((struct Descriptor *)cell->levelWindow);
+    BMP_WIN_Delete((struct Descriptor *)cell->sexWindow);
+    BMP_WIN_Delete((struct Descriptor *)cell->levelWindow);
     CLACT_DeleteActor((struct Obj *)cell->itemMarkActor);
     CLACT_DeleteActor((struct Obj *)cell->iconActor);
     CLACT_ReleaseCharacter(cell->iconRes);
     func_020307B0(cell);
 }
 
-void PLIST_BATTLE_UpdateMiniCell(PlistWork *work, PlistMiniCell *cell)
+void PLIST_BATTLE_UpdateMiniCell(PokelistWork *work, PlistMiniCell *cell)
 {
     u32 window;
     if (cell->active == 1
-        && func_0201C6C4((struct PrintSys *)work->printSys, (void *)func_02045770((struct Descriptor *)cell->sexWindow)) == 0
-        && func_0201C6C4((struct PrintSys *)work->printSys, (void *)func_02045770((struct Descriptor *)cell->levelWindow)) == 0) {
+        && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)work->printSys, (void *)BMP_WIN_GetBmp((struct Descriptor *)cell->sexWindow)) == 0
+        && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)work->printSys, (void *)BMP_WIN_GetBmp((struct Descriptor *)cell->levelWindow)) == 0) {
         window = cell->sexWindow;
         cell->active = 0;
         BMP_WIN_TransferChars((struct Descriptor *)window);
         BMP_WIN_MakeScreen((struct Cfg *)window);
-        func_02041B6C(func_02045730((struct Descriptor *)window));
+        func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)window));
         window = cell->levelWindow;
         BMP_WIN_TransferChars((struct Descriptor *)window);
         BMP_WIN_MakeScreen((struct Cfg *)window);
-        func_02041B6C(func_02045730((struct Descriptor *)window));
+        func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)window));
     }
 }
 
-void PLIST_BATTLE_RefreshOpponentMessage(PlistWork *work)
+void PLIST_BATTLE_RefreshOpponentMessage(PokelistWork *work)
 {
     PLIST_BATTLE_PrintOpponentMessage(work);
     work->timerShown = work->arg->timerExpired;
 }
 
-void PLIST_BATTLE_PrintOpponentMessage(PlistWork *work)
+void PLIST_BATTLE_PrintOpponentMessage(PokelistWork *work)
 {
     int text;
     if (work->arg->timerExpired == 0)
@@ -365,9 +366,9 @@ void PLIST_BATTLE_PrintOpponentMessage(PlistWork *work)
         PLIST_MESSAGE_OpenWindow(work, (u32 *)work->messageWindow, 1);
     if (work->arg->battleKind == 1) {
         text = (int)STRBUF_Create(0x10, work->heapId);
-        STRBUF_SetString((struct Strbuf *)text, work->arg->rivalName);
+        STRBUF_SetString((struct Strbuf *)text, work->arg->entries[1].name);
         PLIST_MESSAGE_CreateWordSet(work, work->messageWindow);
-        PLIST_MESSAGE_SetWordSetString(work, work->messageWindow, 0, (const void *)text, work->arg->rivalGender);
+        PLIST_MESSAGE_SetWordSetString(work, work->messageWindow, 0, (const void *)text, work->arg->entries[1].gender);
         PLIST_MESSAGE_PrintText(work, (u32 *)work->messageWindow, 0xA9);
         PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
         STRBUF_Delete((struct U16Vec *)text);
@@ -376,29 +377,29 @@ void PLIST_BATTLE_PrintOpponentMessage(PlistWork *work)
     }
 }
 
-void PLIST_BATTLE_CreateTimerWindows(PlistWork *work)
+void PLIST_BATTLE_CreateTimerWindows(PokelistWork *work)
 {
     int text;
     work->timerLabelWindow = (void *)BMP_WIN_Create(4, 7, 0x15, 0xB, 3, 0xE, 1);
     work->timerValueWindow = (void *)BMP_WIN_Create(4, 0x14, 0x15, 5, 3, 0xE, 1);
     text = (int)func_02045EC0((struct MsgBank *)work->msgBank, 0xAD);
-    PRINTSYS_PrintQueColor(work->printSys, (int)func_02045770((struct Descriptor *)work->timerLabelWindow), 0, 4, text,
-                  work->fontMain, 0x3C40);
+    PRINTSYS_PrintQueColor(work->printSys, (int)BMP_WIN_GetBmp((struct Descriptor *)work->timerLabelWindow), 0, 4, text,
+                  (u32)work->fontMain, 0x3C40);
     STRBUF_Delete((struct U16Vec *)text);
     work->timerLabelPrinting = 1;
 }
 
-void PLIST_BATTLE_DeleteTimerWindows(PlistWork *work)
+void PLIST_BATTLE_DeleteTimerWindows(PokelistWork *work)
 {
-    func_020452E8((struct Descriptor *)work->timerLabelWindow);
-    func_020452E8((struct Descriptor *)work->timerValueWindow);
+    BMP_WIN_Delete((struct Descriptor *)work->timerLabelWindow);
+    BMP_WIN_Delete((struct Descriptor *)work->timerValueWindow);
 }
 
 /*
  * note: minute and second are u8 locals: widening the explicit byte casts
  *   to u32 keeps the size but moves the text spill before outgoing stores.
  */
-void PLIST_BATTLE_UpdateTimer(PlistWork *work)
+void PLIST_BATTLE_UpdateTimer(PokelistWork *work)
 {
     u32 width;
     u8 minute;
@@ -429,10 +430,10 @@ void PLIST_BATTLE_UpdateTimer(PlistWork *work)
             func_0201EFA4(words, 0, minute, 2, 1, 1);
             func_0201EFA4(words, 1, second, 2, 2, 1);
         }
-        BMP_Clear(func_02045770(work->timerValueWindow), 0);
+        BMP_Clear(BMP_WIN_GetBmp(work->timerValueWindow), 0);
         func_0201F250(words, buf, text);
-        width = func_0201D304((struct StrObj *)buf, work->fontMain, 0);
-        PRINTSYS_PrintQueColor(work->printSys, (u32)func_02045770(work->timerValueWindow), (s16)(36 - width), 4, (u32)buf, work->fontMain, 0x3c40);
+        width = func_0201D304((struct StrObj *)buf, (u32)work->fontMain, 0);
+        PRINTSYS_PrintQueColor(work->printSys, (u32)BMP_WIN_GetBmp(work->timerValueWindow), (s16)(36 - width), 4, (u32)buf, (u32)work->fontMain, 0x3c40);
         func_0201ED04(words);
         STRBUF_Delete(buf);
         STRBUF_Delete(text);
@@ -441,25 +442,25 @@ void PLIST_BATTLE_UpdateTimer(PlistWork *work)
     }
     if (work->arg->timeLeft == 0) POKELIST_ForceSelectionEnd(work);
     if (work->timerValuePrinting == 1) {
-        if (func_0201C6C4(work->printSys, func_02045770(work->timerValueWindow)) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget(work->printSys, BMP_WIN_GetBmp(work->timerValueWindow)) == 0) {
             work->timerValuePrinting = 0;
             window = work->timerValueWindow;
             BMP_WIN_TransferChars(window);
             BMP_WIN_MakeScreen((struct Cfg *)window);
-            func_02041B6C(func_02045730(window));
+            func_02041B6C(BMP_WIN_GetBgLayer(window));
         }
     }
     if (work->timerLabelPrinting == 1) {
-        if (func_0201C6C4(work->printSys, func_02045770(work->timerLabelWindow)) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget(work->printSys, BMP_WIN_GetBmp(work->timerLabelWindow)) == 0) {
             work->timerLabelPrinting = 0;
             window = work->timerLabelWindow;
             BMP_WIN_TransferChars(window);
             BMP_WIN_MakeScreen((struct Cfg *)window);
-            func_02041B6C(func_02045730(window));
+            func_02041B6C(BMP_WIN_GetBgLayer(window));
         }
     }
     if (work->arg->timeLeft <= 10) {
-        amount = (d_020A1B38[(((work->timerPalPhase << 16) / 60) >> 4) * 2 + 1] + 4096) * 32 / 8192;
+        amount = (FX_SinCosTable_[(((work->timerPalPhase << 16) / 60) >> 4) * 2 + 1] + 4096) * 32 / 8192;
         for (i = 0; i < 16; i++) {
             color = work->timerPalSrc[i];
             green = (color & 0x3e0) >> 5;
@@ -476,7 +477,7 @@ void PLIST_BATTLE_UpdateTimer(PlistWork *work)
     }
 }
 
-void PLIST_BATTLE_StartEffect(PlistWork *work)
+void PLIST_BATTLE_StartEffect(PokelistWork *work)
 {
     work->effectFrame = 0;
     work->effectStarted = 0;
@@ -488,23 +489,23 @@ void PLIST_BATTLE_StartEffect(PlistWork *work)
     work->phase = 15;
 }
 
-void PLIST_BATTLE_FinishEffect(PlistWork *work)
+void PLIST_BATTLE_FinishEffect(PokelistWork *work)
 {
-    void (*callback)(PlistWork *);
+    void (*callback)(PokelistWork *);
     PLIST_DEMO_DeleteParticles(work);
     POKELIST_ShutdownLight(work);
     POKELIST_SetupBgPlanes(work);
     PLIST_MESSAGE_LoadWindowFrame(work, work->messageWindow);
     if (work->evolveCheckKind == 1) {
         callback = POKELIST_EndMessageToExit;
-        if (work->arg->mode == 0) callback = func_021B9E20;
+        if (work->arg->mode == 0) callback = POKELIST_CloseMessageToList;
         PLIST_MESSAGE_CreateWordSet(work, work->messageWindow);
         PLIST_MESSAGE_SetWordSetPokemon(work, work->messageWindow, 0, work->selectedMon);
         POKELIST_ShowMessage(work, 0xa6, 1, (int)callback);
         PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
     } else if (work->evolveCheckKind == 2) {
         callback = POKELIST_EndMessageToExit;
-        if (work->arg->mode == 0) callback = func_021B9E20;
+        if (work->arg->mode == 0) callback = POKELIST_CloseMessageToList;
         PLIST_MESSAGE_CreateWordSet(work, work->messageWindow);
         PLIST_MESSAGE_SetWordSetPokemon(work, work->messageWindow, 0, work->selectedMon);
         POKELIST_ShowMessage(work, 0xa6, 1, (int)callback);
@@ -522,22 +523,22 @@ void PLIST_BATTLE_FinishEffect(PlistWork *work)
 /*
  *   unsigned int PARTICLE_GetEffectCount(unsigned int **p) { return (*p)[2]; }
  */
-void PLIST_BATTLE_UpdateEffect(PlistWork *work)
+void PLIST_BATTLE_UpdateEffect(PokelistWork *work)
 {
     u32 species, form;
     if (work->effectStarted == 0) {
         work->effectFrame++;
         if (work->effectFrame == 1) {
             func_02040588(0, 1);
-            if (work->evolveCheckKind - 1 <= 1) func_020061E4(0x643);
-            else if (work->evolveCheckKind == 3) func_020061E4(0x644);
+            if (work->evolveCheckKind - 1 <= 1) GFL_USE_PlaySeDefaultVolume(0x643);
+            else if (work->evolveCheckKind == 3) GFL_USE_PlaySeDefaultVolume(0x644);
         }
         if (work->effectFrame > work->effectLength) {
             PLIST_PLATE_SetMon(work, (u8 *)work->plates[work->selectedSlot], work->selectedMon, 0);
             work->effectStarted = 1;
         }
     }
-    if (PARTICLE_GetEffectCount((int **)work->particleSystem) <= 0 && func_02006238() == 0) {
+    if (PARTICLE_GetEffectCount((int **)work->particleSystem) <= 0 && GFL_USE_IsAnySeBusy() == 0) {
         if (work->cryStarted == 0) {
             species = func_02017E1C((void *)work->selectedMon, PLIST_MON_SPECIES, 0);
             form = func_02017E1C((void *)work->selectedMon, PLIST_MON_FORM, 0);

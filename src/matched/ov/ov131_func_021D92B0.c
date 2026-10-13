@@ -18,8 +18,8 @@
  *   P_STA_RIBBON_DrawRow 0x021D91F0 thumb ov131
  *   P_STA_OAM_SetBitmapActorsEnabled 0x021DBCA4 thumb ov131
  *   P_STA_OAM_TransferBitmap 0x021DBCF4 thumb ov131
- *   func_0201C6C4 0x0201C6C4 thumb
- *   func_0200616C 0x0200616C thumb
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
+ *   GFL_USE_PlaySeInSlot 0x0200616C thumb
  */
 #include "../include/Obj00091.h"
 #include "../include/Obj03816.h"
@@ -35,8 +35,8 @@ extern void P_STA_RIBBON_DrawRow(u8 *,u8 *,u8 *);
 extern void P_STA_OAM_SetBitmapActorsEnabled(u8 *,int);
 struct PrintSys;
 extern void P_STA_OAM_TransferBitmap(u8 *p);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_0200616C(void *,int);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
+extern void GFL_USE_PlaySeInSlot(void *,int);
 void P_STA_RIBBON_UpdateRows(u8 *a,u8 *p)
 {
     int changed;
@@ -64,13 +64,13 @@ void P_STA_RIBBON_UpdateRows(u8 *a,u8 *p)
             }
         }
         entry=p+i*20;
-        if(((struct Obj08147 *)entry)->f78==1 && func_0201C6C4(((struct Obj03816 *)a)->f84,((struct Obj08147 *)entry)->f7C)==0) {
+        if(((struct Obj08147 *)entry)->f78==1 && PRINTSYS_QUE_IsExistTarget(((struct Obj03816 *)a)->f84,((struct Obj08147 *)entry)->f7C)==0) {
             ((struct Obj08147 *)entry)->f78=0;
             P_STA_OAM_TransferBitmap(((struct Obj08147 *)entry)->f80);
         }
     }
     if(changed==1 && p[0x60]==0) {
-        func_0200616C((void *)1605,1);
+        GFL_USE_PlaySeInSlot((void *)1605,1);
         p[0x60]=3;
     }
     if(((struct Obj00091 *)p)->f68==1) {

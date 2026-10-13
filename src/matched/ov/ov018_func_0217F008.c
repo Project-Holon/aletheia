@@ -12,7 +12,7 @@
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   func_02012B58  0x02012B58  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02080D24  0x02080D24  arm
  *   EVENT_COMM_COMMON_GetMissionState  0x0217F5A0  thumb  ov018
  *   INTRUDE_COMM_GetSessionRemaining  0x021758C8  thumb  ov011
@@ -39,7 +39,7 @@ struct BigObj;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 func_02012B58(const struct BigObj *p);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern int func_02080D24(unsigned int x);
 extern int EVENT_COMM_COMMON_GetMissionState(char *);
 extern int INTRUDE_COMM_GetSessionRemaining(u8 *o);
@@ -56,7 +56,7 @@ void INTRUDE_SUBDISP_UpdateTownState(char *p, char *q)
     o = (O *)(p + 0xd8);
     h = (int)func_020120F4((const struct Ctx *)(*(int *)&((struct Obj00399 *)p)->f0));
     if (q == 0) {
-        func_02082BCC(p + 0xd8, 0, 0x14);
+        MI_CpuFill8(p + 0xd8, 0, 0x14);
         *(p + 0x11e) = 1;
         return;
     }

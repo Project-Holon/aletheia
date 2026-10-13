@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj08325.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Pair;struct PrintSys;
-extern void func_02082BCC(void *,int,unsigned);
-void func_021F9C84(char *p,int a,int b) { int zero=0;func_02082BCC(p,0,16);((struct Obj08325 *)p)->f0=1;((struct Obj08325 *)p)->f4=zero;((struct Obj08325 *)p)->fC=a;((struct Obj08325 *)p)->f8=b; }
+extern void MI_CpuFill8(void *,int,unsigned);
+void func_021F9C84(char *p,int a,int b) { int zero=0;MI_CpuFill8(p,0,16);((struct Obj08325 *)p)->f0=1;((struct Obj08325 *)p)->f4=zero;((struct Obj08325 *)p)->fC=a;((struct Obj08325 *)p)->f8=b; }

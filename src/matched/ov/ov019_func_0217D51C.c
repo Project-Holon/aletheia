@@ -18,7 +18,7 @@
  *   UNION_COMM_SetSituationParam  0x021734A8  thumb  ov012
  *   UNION_COMM_RequestStart  0x02172D50  thumb  ov012
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  */
 
 typedef unsigned char u8;
@@ -32,7 +32,7 @@ extern void UNION_COMM_RemoveMemberOfBeaconPc(int a, u8 *b);
 extern void UNION_COMM_SetSituationParam(u8 *self, u32 id, u32 v);
 extern void UNION_COMM_RequestStart(u8 *a);
 extern u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 
 int UNION_ONESELF_ConnectGroupMain(u8 *a, int *b, int c, u8 *d)
 {
@@ -64,7 +64,7 @@ int UNION_ONESELF_ConnectGroupMain(u8 *a, int *b, int c, u8 *d)
         break;
     case 3:
         if (UNION_MSG_CheckTalkPrintEnd(a) == 1) {
-            if (func_020362DC() & 0xf3)
+            if (KEY_GetTrg() & 0xf3)
                 return 1;
         }
         break;

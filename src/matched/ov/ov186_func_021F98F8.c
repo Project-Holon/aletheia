@@ -17,7 +17,7 @@
  * symbols:
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BATTLE_REC_Load 0x0200B570 thumb
  *   BATTLE_REC_GetWork 0x0200B910 thumb
  *   GDS_PROFILE_Init 0x0200D5D0 thumb
@@ -44,7 +44,7 @@ extern struct ObjC4 *BATTLE_REC_GetWork(void);
 extern u8 *BATTLE_REC_GetHeader(void);
 extern void *func_0200A5F8(void *);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern u32 BATTLE_REC_Load(void *,u16,u32 *,u32);
 extern void GDS_PROFILE_Init(struct GdsProfile *p, void *sys);
 extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
@@ -70,7 +70,7 @@ void func_021F98F8(char *p, int skip, void *sys, int heap)
                 }
             }
         }
-        func_02082BCC(p,0,0x58);
+        MI_CpuFill8(p,0,0x58);
         tag=(heap&0x7fff)|0x8000;
         for(i=0;i<4;i++) {
             BATTLE_REC_Load((void *)save,tag,&result,i);

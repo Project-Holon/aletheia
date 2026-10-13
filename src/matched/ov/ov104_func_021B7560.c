@@ -11,7 +11,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021B78EC 0x021B78EC thumb ov104
  *   func_021B7D28 0x021B7D28 thumb ov104
  *   func_02012138 0x02012138 thumb
@@ -48,7 +48,7 @@ struct Obj0203159C;
 struct Ctx;
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,u32,u32);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void func_021B78EC(u8 *,int);
 extern void func_021B7D28(unsigned *p, int mode, u16 heap);
 extern u32 func_02012138(const struct Ctx *);
@@ -80,7 +80,7 @@ int func_021B7560(struct Obj0203159C *obj,void *state,u8 *context) {
  u8 *p; u32 bank; int tag; int font;
  GFL_HEAP_CreateChildHeap(1,0x38,0x20000);
  p=PROCSYS_AllocProcWork(obj,0x8b4,0x38);
- func_02082BCC(p,0,0x8b4);
+ MI_CpuFill8(p,0,0x8b4);
  CTX(p)=context;
  func_021B78EC(p,0x38);
  func_021B7D28((unsigned int *)(p+0xbc),0,(u32)0x38);

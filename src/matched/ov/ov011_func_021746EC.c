@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   func_020127D0  0x020127D0  thumb
  *   GAME_DATA_GetMyStatusByNetId  0x021583EC  thumb ov010
  *   FIELD_WFBC_DATA_LOCAL_Sanitize  0x021861F4  thumb ov020
@@ -21,7 +21,7 @@
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-u32 func_02026478(void *obj);
+u32 GAME_COMM_GetGameData(void *obj);
 u8 *func_020127D0(u8 *o, u32 idx);
 int GAME_DATA_GetMyStatusByNetId(void *a0, int a1);
 typedef unsigned short u16;
@@ -34,7 +34,7 @@ void INTRUDE_COMM_RecvUnionInfo(int a, int b, void *c, char *d)
     int h;
     int s;
 
-    h = func_02026478((void *)(((struct Obj12421 *)d)->f4));
+    h = GAME_COMM_GetGameData((void *)(((struct Obj12421 *)d)->f4));
     s = (int)func_020127D0((u8 *)h, 0);
     FIELD_WFBC_DATA_LOCAL_Sanitize(c, GAME_DATA_GetMyStatusByNetId((void *)h, a));
     func_02082D44(c, (void *)s, 0x1E8);

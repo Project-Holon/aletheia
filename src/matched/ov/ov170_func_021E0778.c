@@ -12,7 +12,7 @@
  *   func_021ED544 0x021ED544 thumb ov170
  *   func_021EC0B0 0x021EC0B0 thumb ov170
  *   func_021EC08C 0x021EC08C thumb ov170
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021ED7C4 0x021ED7C4 thumb ov170
  */
 #include "../include/Obj02502.h"
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 extern void func_021ED544(char *p, int b);
 extern void func_021EC0B0(char *,int,short *,short *,u16);
 extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern void func_021ED7C4(char *,int);
 #define W(p) (*(char **)((p)+0x2C))
 int func_021E0778(u8 *p)
@@ -44,7 +44,7 @@ int func_021E0778(u8 *p)
         (((struct Obj02502 *)s)->fE)++;
         break;
     case 2:
-        func_020061E4(0x666);
+        GFL_USE_PlaySeDefaultVolume(0x666);
         func_021ED544((char *)p,8);
         (((struct Obj02502 *)s)->fC)++;
     case 3:

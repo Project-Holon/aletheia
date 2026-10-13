@@ -13,7 +13,7 @@
  * by its own EXACT shard, pkt_02008494.
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   INTRUDE_COMM_HasUnlockFlags  0x02158590  thumb  ov010
  *   func_02030734  0x02030734  arm
@@ -62,7 +62,7 @@ typedef struct Work {
 } Work;
 
 extern char  str_02177000[];
-extern u32 func_02026478(void *obj);
+extern u32 GAME_COMM_GetGameData(void *obj);
 struct BigObj;
 struct Rec44;
 struct Sub24;
@@ -91,7 +91,7 @@ Work *INTRUDE_COMM_Create(void *unused, Param *p)
     int i;
     u8 j;
 
-    sv = (void *)func_02026478(p->field04);
+    sv = (void *)GAME_COMM_GetGameData(p->field04);
     bag = GAME_DATA_GetMyStatus(sv);
     mode = 3;
     if (p->field0e == 1 && INTRUDE_COMM_HasUnlockFlags(sv) == 0) {

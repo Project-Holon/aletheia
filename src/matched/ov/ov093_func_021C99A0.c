@@ -1,5 +1,5 @@
 /*
- * function: func_021C99A0
+ * function: BTL_SERVER_FLOW_PushMsgRecord
  * address:  0x021C99A0
  * packet:   pkt_ov093_021C99A0
  * region:   ov093
@@ -32,7 +32,7 @@ extern void BTL_SERVER_FLOW_PushMsgSet(u8 *p, u32 a, int n, const int *v);
 extern void BTL_SERVER_FLOW_PushMsgStdSe(u8 *p, u32 a, u32 b, int n, int *v);
 extern void BTL_SERVER_FLOW_PushMsgSetSe(u8 *p, u32 a, u32 b, int n, int *v);
 
-int func_021C99A0(void *w, const struct Msg *m)
+int BTL_SERVER_FLOW_PushMsgRecord(void *w, const struct Msg *m)
 {
     if (!m->flag) {
         switch (m->kind) {

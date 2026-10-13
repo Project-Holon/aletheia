@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021DEEA4  0x021DEEA4  thumb
  *
  * Addresses are Black-image addresses.
@@ -19,12 +19,12 @@
 
 typedef unsigned int u32;
 
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void func_021DEEA4(u32 *p, void *f);
 
 void func_021DEE68(void *p, int a, void *b)
 {
-    func_02082BCC(p, 0, 0x10);
+    MI_CpuFill8(p, 0, 0x10);
     ((struct Obj22920 *)p)->fC = (u32)a;
     func_021DEEA4(p, b);
 }

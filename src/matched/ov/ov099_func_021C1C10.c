@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   TOUCHBAR_Update  0x021B63D0  thumb  ov067
  *   TOUCHBAR_GetPressedButtonIdIfDone  0x021B6448  thumb  ov067
  */
@@ -28,8 +28,8 @@ typedef struct {
 struct S;
 extern void TOUCHBAR_Update(struct S *p);
 extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *p);
-extern unsigned int func_0203630C(void);
-extern u32 func_020362DC(void);
+extern unsigned int KEY_GetCont(void);
+extern u32 KEY_GetTrg(void);
 
 int func_021C1C10(Work *w)
 {
@@ -40,7 +40,7 @@ int func_021C1C10(Work *w)
         if (TOUCHBAR_GetPressedButtonIdIfDone(w->f9ac) == 1)
             return 1;
     }
-    if ((func_0203630C() & 0xf0) || (func_020362DC() & 0x403))
+    if ((KEY_GetCont() & 0xf0) || (KEY_GetTrg() & 0x403))
         return 1;
     return 0;
 }

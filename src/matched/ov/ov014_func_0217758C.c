@@ -1,5 +1,5 @@
 /*
- * function: func_0217758C
+ * function: NET_WHPIPE_ResetState
  * address: 0x0217758C
  * packet: pkt_ov014_0217758C
  * region: ov014
@@ -10,7 +10,7 @@
  * status: EXACT
  */
 typedef unsigned char u8;
-void func_0217758C(u8 *p)
+void NET_WHPIPE_ResetState(u8 *p)
 {
     p[0xCEA] = 0;
     p[0xCEF] = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021CF2F0
+ * function: BTL_CLIENT_StepSendActions
  * address:  0x021CF2F0
  * packet:   pkt_ov093_021CF2F0
  * region:   ov093
@@ -28,7 +28,7 @@ extern int func_021EA814(u32 *p);
 extern int func_021F7EB4(void);
 extern void BTL_CLIENT_StopTimeLimit(u8 *p);
 
-u32 func_021CF2F0(u8 *p, s32 *st)
+u32 BTL_CLIENT_StepSendActions(u8 *p, s32 *st)
 {
     switch (*st) {
     case 0:

@@ -12,7 +12,7 @@
  * sdk:      DWC_Auth_GetCalInfoFromWiFiInfo (libdwcauth.TWL.HYB.a dwc_cal.o)
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02084F80  0x02084F80  arm
  *   func_02088234  0x02088234  arm
  *   func_02082D44  0x02082D44  arm
@@ -86,7 +86,7 @@ typedef struct OSOwnerInfo {
     unsigned short commentLength;
 } OSOwnerInfo;
 
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
 extern void func_02088234(void);
 extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
@@ -122,7 +122,7 @@ int func_02178F78(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo)
     unsigned short wcmessidlen;
     unsigned char aptype;
 
-    func_02082BCC(cal, 0, sizeof(DWCCalInfo));
+    MI_CpuFill8(cal, 0, sizeof(DWCCalInfo));
 
     if (wifiinfo->attestedUserId != 0)
         func_02084F80(cal->userid, sizeof(cal->userid), g_021A2490, wifiinfo->attestedUserId);

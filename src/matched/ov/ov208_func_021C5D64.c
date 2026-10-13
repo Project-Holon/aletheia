@@ -17,11 +17,11 @@
  *   ov208_func_021C51D4  0x021C51D4  thumb
  *   ov208_func_021C7448  0x021C7448  thumb
  *   ov208_func_021C5F34  0x021C5F34  thumb
- *   func_020362DC  0x020362DC  arm
- *   func_02035D20  0x02035D20  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   ov208_func_021C7CE8  0x021C7CE8  thumb
  *   ov208_func_021C7534  0x021C7534  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_020355D8  0x020355D8  arm
  *   ov208_func_021BDC48  0x021BDC48  thumb
  */
@@ -43,11 +43,11 @@ extern void ov208_func_021C5B00(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C51D4(struct Ov208Mdl *m);
 extern void ov208_func_021C7448(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C5F34(u16 *heap, u8 *p, int key, int ev);
-extern u32  func_020362DC(void);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32  KEY_GetTrg(void);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void ov208_func_021C7CE8(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C7534(u16 *heap, u8 *p, int key);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void func_020355D8(int v);
 extern void ov208_func_021BDC48(void *scene, u32 on);
 
@@ -94,10 +94,10 @@ void ov208_func_021C5D64(u16 *heap, u8 *p, int key)
             }
         } else {
             ok = 0;
-            if (func_020362DC() & 1) {
+            if (KEY_GetTrg() & 1) {
                 ok = 1;
                 touch = 0;
-            } else if (func_02035D20(&x, &y) != 0 && y < 0xa8) {
+            } else if (TOUCHPANEL_GetPointTrg(&x, &y) != 0 && y < 0xa8) {
                 ok = 1;
                 touch = 1;
             }
@@ -108,7 +108,7 @@ void ov208_func_021C5D64(u16 *heap, u8 *p, int key)
                     ov208_func_021C7534(heap, p, key);
                 }
                 ov208_func_021C5F34(heap, p, key, 2);
-                func_020061E4(0x54c);
+                GFL_USE_PlaySeDefaultVolume(0x54c);
                 func_020355D8(touch);
                 ov208_func_021BDC48(scene, 0);
                 return;

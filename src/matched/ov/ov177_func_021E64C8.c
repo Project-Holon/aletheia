@@ -10,6 +10,8 @@
  *
  * symbols:
  *   CLACT_GetActorSurfacePos  0x0204B454  arm  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
  */
 typedef struct { short x, y; } Pt;
 typedef struct {
@@ -26,8 +28,8 @@ struct Actor;
 struct PtS;
 typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void func_0204B404(void *, const Pt *, unsigned short);
-extern void func_020061E4(unsigned);
+extern void CLACT_AddActorSurfacePos(void *, const Pt *, unsigned short);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern unsigned func_0209C2B0(unsigned, unsigned);
 typedef unsigned int   u32;
 extern u32 func_020407E8(u32 layer);
@@ -48,14 +50,14 @@ int func_021E64C8(Work *w)
                 w->baseX[i] = cur.x;
             }
         }
-        func_020061E4(0x63b);
+        GFL_USE_PlaySeDefaultVolume(0x63b);
     }
     level = func_0209C2B0(w->count << 8, 20) - 0x100;
     for (i = 0; i < 22; i++) {
         if (w->objs[i] != 0) {
             CLACT_GetActorSurfacePos(w->objs[i], (struct PtS *)&pos, (unsigned short)w->layer);
             pos.x = w->baseX[i] - func_0209C2B0(w->count << 8, 20);
-            func_0204B404(w->objs[i], &pos, w->layer);
+            CLACT_AddActorSurfacePos(w->objs[i], &pos, w->layer);
         }
     }
     if (w->count++ >= 20) {

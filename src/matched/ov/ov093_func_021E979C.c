@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * Tail-call thunk to func_021E9928 (ldr r3 pool, bx r3). Unlabelled leaf filed as the witness for the call in func_021CE4D0.
+ * Tail-call thunk to func_021E9928 (ldr r3 pool, bx r3). Unlabelled leaf filed as the witness for the call in BTL_CLIENT_StepSelectAction.
  * symbols:
  *   func_021E979C 0x021E979C thumb ov093
  *   func_021E9928 0x021E9928 thumb ov093

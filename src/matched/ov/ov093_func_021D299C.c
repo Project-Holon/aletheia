@@ -1,5 +1,5 @@
 /*
- * function: func_021D299C
+ * function: BTL_CLIENT_StepPlayViewSequence
  * address: 0x021D299C
  * packet: pkt_ov093_021D299C
  * region: ov093
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_021EA8E4(u32 *p);
 extern int func_021EA8F4(u32 *p);
-int func_021D299C(char *p, int *state)
+int BTL_CLIENT_StepPlayViewSequence(char *p, int *state)
 {
     switch (*state) {
     case 0:

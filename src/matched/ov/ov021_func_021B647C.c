@@ -17,7 +17,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FLD_TRADE_Create  0x021CBFB0  thumb  ov021
@@ -41,7 +41,7 @@ struct Obj;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern u16 FIELDMAP_GetHeapId(u8 *p);
 extern struct Obj *FLD_TRADE_Create(u32 a, u32 b);
@@ -68,7 +68,7 @@ int SCRCMD_POKEMON_FLD_CheckTradeMon(void *a, void *b)
     out = SCRIPT_WORK_ReadWorkPointer(a, b);
     i2 = SCRIPT_WORK_ReadWorkValue(a, b);
     idx = SCRIPT_WORK_ReadWorkValue(a, b);
-    mon = func_0201AB28(GAME_DATA_GetMyParty(w), idx);
+    mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(w), idx);
     obj = FLD_TRADE_Create(heap, i2);
     *out = 0;
     if (*out == 0 && POKE_TOOL_GetPartyValue(mon, 0x4c, 0) == 1) {

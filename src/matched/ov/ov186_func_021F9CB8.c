@@ -10,9 +10,9 @@
  * symbols:
  *   func_02034714 0x02034714 arm
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BMP_OAM_CreateSys 0x02025538 thumb
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_021FB5E4 0x021FB5E4 thumb ov186
  *   func_021FB788 0x021FB788 thumb ov186
@@ -66,10 +66,10 @@ extern char d_02200D18[];
 extern char d_02200D1C[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 struct U16Vec;
 extern void *BMP_OAM_CreateSys(u32 a0, void *a1);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_021FB5E4(int *ctx, int heap);
 extern unsigned func_021FB788(void *);
@@ -98,16 +98,16 @@ struct Obj *func_021F9CB8(int a, int b, int c, int d, int e, int f, u32 heap)
     u8 buf[0x44];
     if (a >= 12) func_02034714(d_02200D18, 0, d_02200D18);
     p = func_02030734(heap, 0x60, 0, d_02200D1C, 0x13F);
-    func_02082BCC(p, 0, 0x60);
+    MI_CpuFill8(p, 0, 0x60);
     p->f4 = c;
     p->f8 = b;
     p->heap = heap;
     p->f5c = (struct Set *)e;
     p->f48 = BMP_OAM_CreateSys(heap, (void *)b);
-    p->f4c = func_0201C440((void *)heap);
+    p->f4c = PRINTSYS_QUE_Create((void *)heap);
     p->f58 = f;
     p->f14 = 1;
-    func_02082BCC(&tmp, 0, 4);
+    MI_CpuFill8(&tmp, 0, 4);
     tmp = d;
     p->f44 = func_021FB5E4(&tmp, heap);
     if (a >= 10) p->f10 = 2;
@@ -117,17 +117,17 @@ struct Obj *func_021F9CB8(int a, int b, int c, int d, int e, int f, u32 heap)
     p->f38 = func_021FB788(p->f44);
     size = p->f38 * 0x44;
     p->f40 = func_02030734(heap, size, 0, d_02200D1C, 0x167);
-    func_02082BCC(p->f40, 0, size);
+    MI_CpuFill8(p->f40, 0, size);
     p->f3a = 6;
     p->f3c = func_02030734(heap, 0x198, 0, d_02200D1C, 0x171);
-    func_02082BCC(p->f3c, 0, 0x198);
+    MI_CpuFill8(p->f3c, 0, 0x198);
     p->fC = func_021FD6D8((int)p, (int)func_021FA274, heap);
     if (p->f5c->count != 0) {
         arch = func_021FC214((char *)c);
         for (i = 0; i < p->f5c->count; i++) {
             void *q = func_021FB704(p->f44, p->f5c->rec[i].a, (unsigned short)p->f5c->rec[i].b);
             void *rec = func_021FB7D0(p->f44, q, (struct MsgBank *)arch, (heap & 0x7FFF) | 0x8000);
-            func_02082BCC(buf, 0, 0x44);
+            MI_CpuFill8(buf, 0, 0x44);
             func_021FAC20(buf, q, b, p->f48, c, rec, p->f10, heap);
             func_021FA020((u8 *)p, (int)buf, 0);
             STRBUF_Delete(rec);

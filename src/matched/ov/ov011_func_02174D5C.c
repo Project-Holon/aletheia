@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E0B0  0x0200E0B0  thumb
  *   func_0216749C  0x0216749C  thumb ov010
@@ -32,7 +32,7 @@ typedef struct Blk {
 } Blk;
 
 struct Big;
-u32 func_02026478(void *obj);
+u32 GAME_COMM_GetGameData(void *obj);
 void *GAME_DATA_GetSaveControl(struct Big *p);
 void *func_0200E0B0(void *p);
 struct Entry32;
@@ -50,7 +50,7 @@ void INTRUDE_COMM_BuildSymbolPage(int *p, const u8 *q)
     u8 buf[4];
 
     b = (Blk *)((u8 *)p + 0x880);
-    x = func_0200E0B0(GAME_DATA_GetSaveControl((struct Big *)func_02026478((void *)p[1])));
+    x = func_0200E0B0(GAME_DATA_GetSaveControl((struct Big *)GAME_COMM_GetGameData((void *)p[1])));
     func_0216749C(x, (struct Entry32 *)b, 0x14, q[0], buf);
     b->a = buf[0];
     b->b = func_021673C4(x);

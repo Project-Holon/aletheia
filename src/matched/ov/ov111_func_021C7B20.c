@@ -13,7 +13,7 @@
  *
  * symbols:
  *   STRBUF_Create  0x020457B0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   sub_02008A54  0x02008A54  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
@@ -115,7 +115,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern Rec sub_02008A54(void *obj, int i);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -133,7 +133,7 @@ void func_021C7B20(Work *p, int mode, int idx)
     int i;
 
     str = STRBUF_Create(0x68, 0x27);
-    BMP_Clear(func_02045770(p->f8), 0xF);
+    BMP_Clear(BMP_WIN_GetBmp(p->f8), 0xF);
     switch (mode) {
     case 0:
         r = sub_02008A54(p->f184, idx);
@@ -143,12 +143,12 @@ void func_021C7B20(Work *p, int mode, int idx)
         MSGDATA_ReadString(p->f20, idx * 3 + 0x58, str);
         func_0201F250(p->f24, p->f28, str);
         v = p->f14;
-        PRINTSYS_PrintQueColor(v, (u32)func_02045770(p->fC), (int)0, (s16)0, (u32)p->f28, (u32)p->f4, (int)0x44F);
+        PRINTSYS_PrintQueColor(v, (u32)BMP_WIN_GetBmp(p->fC), (int)0, (s16)0, (u32)p->f28, (u32)p->f4, (int)0x44F);
         p->f10 = 1;
         for (i = 1; i < 3; i++) {
             MSGDATA_ReadString(p->f20, i + (idx * 3 + 0x58), str);
             v = p->f14;
-            PRINTSYS_PrintQueColor(v, (u32)func_02045770(p->fC), (int)0, (s16)(i << 5), (u32)str, (u32)p->f4, (int)0x44F);
+            PRINTSYS_PrintQueColor(v, (u32)BMP_WIN_GetBmp(p->fC), (int)0, (s16)(i << 5), (u32)str, (u32)p->f4, (int)0x44F);
             p->f10 = 1;
         }
         break;

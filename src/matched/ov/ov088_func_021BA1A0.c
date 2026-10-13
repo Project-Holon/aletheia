@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_NET_IsIdle  0x0203D210  arm
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   STARTMENU_RemoveVblankTask  0x021BA9C8  thumb  ov088
  *   STARTMENU_DeleteBlinkPalette  0x021BAC64  thumb  ov088
@@ -26,7 +26,7 @@
 
 typedef unsigned int   u32;
 extern u32 GFL_NET_IsIdle(void);
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void STARTMENU_RemoveVblankTask(int *p);
 extern void STARTMENU_DeleteBlinkPalette(char *p);
@@ -56,7 +56,7 @@ int STARTMENU_StateWaitStart(char *p)
             STARTMENU_TeardownBackgrounds();
             *(unsigned short *)0x04000050 = 0;
             *(unsigned short *)0x04001050 = 0;
-            func_02043534(0);
+            BG_SYS_SetMainVisiblePlanes(0);
             BG_SYS_SetSubVisiblePlanes(0);
             return 12;
         }

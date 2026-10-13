@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
-void func_02082BCC(void *p, int v, int n);
+void MI_CpuFill8(void *p, int v, int n);
 
 void func_0689ACCC(void *p)
 {
-    func_02082BCC(p, 0, 9);
+    MI_CpuFill8(p, 0, 9);
 }

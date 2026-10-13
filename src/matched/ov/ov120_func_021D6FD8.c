@@ -9,7 +9,7 @@
  * status: EXACT*
  * symbols:
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  */
 #include "../include/Obj10395.h"
 typedef unsigned char u8;
@@ -18,11 +18,11 @@ typedef unsigned int u32;
 struct Actor;
 struct Obj;
 extern void CLACT_RestartActorAnim(struct Actor *a);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 void func_021D6FD8(u8 *p, u32 flag)
 {
     if (((struct Obj10395 *)p)->f140 != 0) {
         CLACT_RestartActorAnim(((struct Obj10395 *)p)->f140);
-        func_0204B92C(((struct Obj10395 *)p)->f140, flag);
+        CLACT_SetActorAutoAnim(((struct Obj10395 *)p)->f140, flag);
     }
 }

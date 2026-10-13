@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E4340",
-    "func_021E43FC"
+    "HAND_WAZA_AcupressureRaiseRandomStat",
+    "HAND_WAZA_GetRestHandlers"
+   ],
+   "addresses": [
+    "0x021E4340",
+    "0x021E43FC"
    ],
    "evidence": {
     "sole-ref": [

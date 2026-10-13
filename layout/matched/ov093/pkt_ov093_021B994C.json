@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B994C",
+   "name": "BTL_MAIN_GetVoiceOfSlot",
    "address": "0x021B994C",
    "kind": "game",
    "region": "ov093",

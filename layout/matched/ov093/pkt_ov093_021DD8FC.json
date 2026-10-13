@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_ITEM_GetRaiseCriticalRateHandlers",
+   "name": "HAND_ITEM_GetRaiseCriticalRateHandlers",
    "address": "0x021DD8FC",
    "kind": "game",
    "region": "ov093",

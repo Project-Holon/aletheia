@@ -10,12 +10,12 @@
  * status: EXACT*
  * extent: Two alignment bytes at 02175EFA before EFC.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 typedef unsigned char u8;
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 void INTRUDE_COMM_ResetMemberName(u8 *p)
 {
-    func_02082BCC(p, 0, 0x14);
+    MI_CpuFill8(p, 0, 0x14);
     p[0x10] = 4;
 }

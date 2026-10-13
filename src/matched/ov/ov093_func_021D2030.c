@@ -1,5 +1,5 @@
 /*
- * function: func_021D2030
+ * function: BTL_CLIENT_StepPlayMoveAnim
  * address: 0x021D2030
  * packet: pkt_ov093_021D2030
  * region: ov093
@@ -15,7 +15,7 @@
  * symbols:
  *   BTL_CLIENT_IsMainStepActive 0x021CD9E0 thumb ov093
  *   BTL_MAIN_CheckSceneOff 0x021B8590 thumb ov093
- *   func_021D2000 0x021D2000 thumb ov093
+ *   BTL_CLIENT_GetMoveAnimTarget 0x021D2000 thumb ov093
  *   func_021EA0A0 0x021EA0A0 thumb ov093
  *   func_021EA0E4 0x021EA0E4 thumb ov093
  */
@@ -29,10 +29,10 @@ typedef struct {
 } Seq;
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern unsigned int BTL_MAIN_CheckSceneOff(unsigned char *p);
-extern u32 func_021D2000(Seq *s, u32 k, u32 b);
+extern u32 BTL_CLIENT_GetMoveAnimTarget(Seq *s, u32 k, u32 b);
 extern void func_021EA0A0(u32 *p, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u8 s7);
 extern int func_021EA0E4(u32 *p);
-int func_021D2030(Seq *s, int *state, const u32 *a)
+int BTL_CLIENT_StepPlayMoveAnim(Seq *s, int *state, const u32 *a)
 {
     u32 t2;
     u32 v;
@@ -49,7 +49,7 @@ int func_021D2030(Seq *s, int *state, const u32 *a)
             t1 = (u8)a[1];
             t2 = (u16)a[2];
             t3 = (u8)a[3];
-            result = func_021D2000(s, t2, v);
+            result = BTL_CLIENT_GetMoveAnimTarget(s, t2, v);
             func_021EA0A0(s->win, v, t1, t2, result, t3, 0);
             *state = *state + 1;
         } else {

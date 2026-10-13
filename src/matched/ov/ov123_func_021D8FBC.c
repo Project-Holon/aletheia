@@ -15,7 +15,7 @@
  *   func_02034AC4 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02034714 0x02034714 arm
  *   func_020092EC 0x020092EC thumb
  *   func_021D6EE0 0x021D6EE0 thumb ov123
@@ -43,7 +43,7 @@ extern int func_02034AC4(signed int);
 extern void GFL_HEAP_CreateChildHeap(u32 src, u32 dst, u32 size);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,u8,u32);
+extern void MI_CpuFill8(void *,u8,u32);
 struct Big;
 struct BigObj;
 struct Sub02009448Obj;
@@ -74,7 +74,7 @@ int func_021D8FBC(void *a,int b,char *q)
     func_02034AC4((int)ov114_id);
     GFL_HEAP_CreateChildHeap(1,98,0x88000);
     p=PROCSYS_AllocProcWork(a,0xb0,98);
-    func_02082BCC(p,0,0xb0);
+    MI_CpuFill8(p,0,0xb0);
     ((struct Obj01059 *)p)->f0=98;
     if (!q) func_02034714(d_021DABA4,0,d_021DABA4);
     if (q) {

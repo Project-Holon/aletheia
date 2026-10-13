@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02006238  0x02006238  thumb
- *   func_020362DC  0x020362DC  arm
+ *   GFL_USE_IsAnySeBusy  0x02006238  thumb
+ *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_020212B0  0x020212B0  thumb
@@ -35,8 +35,8 @@ typedef struct Obj {
     unsigned int f84C;
 } Obj;
 
-extern int func_02006238(void);
-extern u32 func_020362DC(void);
+extern int GFL_USE_IsAnySeBusy(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -50,9 +50,9 @@ extern void ITEMMENU_TaskOpenActionMenu(int p);
 
 void ITEMMENU_TaskRegisterResultMessage(Obj *o)
 {
-    if (func_02006238() == 1)
+    if (GFL_USE_IsAnySeBusy() == 1)
         return;
-    if ((func_020362DC() & 3) == 0 && TOUCHPANEL_GetTrg() == 0)
+    if ((KEY_GetTrg() & 3) == 0 && TOUCHPANEL_GetTrg() == 0)
         return;
     MSGDATA_ReadString(o->f51C, 0x3E, (void *)o->f524);
     func_0201EF34(o->f520, 0, func_020212B0(o->f84C));

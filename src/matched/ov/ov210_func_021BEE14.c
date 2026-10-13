@@ -11,17 +11,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B688 0x0204B688 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  */
 
 typedef unsigned int   u32;
 struct Actor;
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Actor; struct PtS;
 typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
@@ -30,11 +30,11 @@ void func_021BEE14(char *p, int idx, int flag)
 {
     if (flag == 1)
     {
-        func_0204B688(*(void **)(p + 0x28 + idx * 4), 1);
+        CLACT_SetActorObjMode(*(void **)(p + 0x28 + idx * 4), 1);
     }
     else
     {
-        func_0204B688(*(void **)(p + 0x28 + idx * 4), 0);
+        CLACT_SetActorObjMode(*(void **)(p + 0x28 + idx * 4), 0);
     }
 }
 
@@ -43,7 +43,7 @@ void func_021BEE38(char *p, int idx, int a, short b, unsigned short c)
     unsigned short buf[2];
     buf[0] = a;
     buf[1] = b;
-    func_0204B404(*(void **)(p + idx * 4 + 0x28), (const struct Vec2 *)buf, c);
+    CLACT_AddActorSurfacePos(*(void **)(p + idx * 4 + 0x28), (const struct Vec2 *)buf, c);
 }
 
 void func_021BEE58(char *p, int idx, short *outA, short *outB, unsigned short in)

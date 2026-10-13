@@ -11,19 +11,19 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   func_02006D44  0x02006D44  thumb
+ *   SND_MIC_Exit  0x02006D44  thumb
  *   func_02034FB8  0x02034FB8  arm
  */
 #include "../include/Obj23822.h"
 
 extern unsigned int func_020307B0(void *p);
-extern void func_02006D44(void);
+extern void SND_MIC_Exit(void);
 typedef unsigned int   u32;
 extern void func_02034FB8(u32 v);
 
 void func_02184408(int *p)
 {
     func_020307B0((void *)(((struct Obj23822 *)p)->f1C));
-    func_02006D44();
+    SND_MIC_Exit();
     func_02034FB8(8);
 }

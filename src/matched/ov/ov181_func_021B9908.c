@@ -13,7 +13,7 @@
  *   func_0203FCA0 0x0203FCA0 arm
  *   BUTTON_MAN_RotScaleMtx22 0x02051E74 arm
  *   sub_02040860 0x02040860 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021BAC74 0x021BAC74 data a4
  *   d_021BACC4 0x021BACC4 data a4
@@ -34,7 +34,7 @@ extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
 extern void sub_02040860(unsigned, unsigned, unsigned, unsigned);
-extern void func_020434DC(unsigned, unsigned);
+extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 void func_021B9908(void)
 {
@@ -53,6 +53,6 @@ void func_021B9908(void)
     sub_02040860(3, (unsigned)&d, 0x80, 0x60);
     e = d_021BACA4;
     func_0203FCA0(5, (const struct BgTemplate *)(&e), 0);
-    func_020434DC(2, 1);
+    BG_SYS_SetMainPlaneVisible(2, 1);
     BG_SYS_SetSubPlaneVisible(2, 1);
 }

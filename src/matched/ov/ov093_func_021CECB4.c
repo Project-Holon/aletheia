@@ -1,5 +1,5 @@
 /*
- * function: func_021CECB4
+ * function: BTL_CLIENT_BuildMoveUsableTable
  * address:  0x021CECB4
  * packet:   pkt_ov093_021CECB4
  * region:   ov093
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9C00  0x021B9C00  thumb  ov093
+ *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb  ov093
  *   BTL_POKEPARAM_GetMovePPChecked  0x021D5584  thumb  ov093
  *   BTL_POKEPARAM_GetMoveId  0x021D54C0  thumb  ov093
- *   func_021CF5B0  0x021CF5B0  thumb  ov093
+ *   BTL_CLIENT_IsMoveSelectionBlocked  0x021CF5B0  thumb  ov093
  */
 #include "../include/Obj21136.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -24,16 +24,16 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 typedef struct { u8 *q; u8 f[4]; } Ent;
 
 struct S2;
-extern u8 *func_021B9C00(struct S2 *p, u32 i);
+extern u8 *BTL_SLOT_GetPokeParam(struct S2 *p, u32 i);
 extern int BTL_POKEPARAM_IsFainted(void *q);
 struct QG;
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 struct UtilWork;
 extern u8 BTL_POKEPARAM_GetMovePPChecked(struct UtilWork *p, u32 i);
 extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
-extern int func_021CF5B0(u8 *g, void *m, u32 move, void *out);
+extern int BTL_CLIENT_IsMoveSelectionBlocked(u8 *g, void *m, u32 move, void *out);
 
-void func_021CECB4(u8 *p, Ent *out)
+void BTL_CLIENT_BuildMoveUsableTable(u8 *p, Ent *out)
 {
     u32 i;
     u32 j;
@@ -42,7 +42,7 @@ void func_021CECB4(u8 *p, Ent *out)
     u32 k;
     Ent *e;
     for (i = 0; i < 3; i++) {
-        q = func_021B9C00(((struct Obj21136 *)p)->f118, (u8)i);
+        q = BTL_SLOT_GetPokeParam(((struct Obj21136 *)p)->f118, (u8)i);
         e = out + i;
         e->q = q;
         for (j = 0; j < 4; j++) {
@@ -51,7 +51,7 @@ void func_021CECB4(u8 *p, Ent *out)
         if (BTL_POKEPARAM_IsFainted(q) == 0) {
             n = BTL_POKEPARAM_GetMoveCount((struct QG *)q);
             for (k = 0; k < n; k++) {
-                if (BTL_POKEPARAM_GetMovePPChecked((struct UtilWork *)q, (u8)k) == 0 || func_021CF5B0(p, q, (u32)BTL_POKEPARAM_GetMoveId(q, (u8)k), 0) != 0) {
+                if (BTL_POKEPARAM_GetMovePPChecked((struct UtilWork *)q, (u8)k) == 0 || BTL_CLIENT_IsMoveSelectionBlocked(p, q, (u32)BTL_POKEPARAM_GetMoveId(q, (u8)k), 0) != 0) {
                     e->f[k] = 0;
                 } else {
                     e->f[k] = 1;

@@ -16,7 +16,7 @@
  *   gClActorInitParam     0x020A1448  data  a4
  *   sRecordListVramBanks     0x021BA620  data  a4
  *   CLACT_CreateUnit  0x0204B100  arm
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterPalette  0x0204ABF0  arm
@@ -43,7 +43,7 @@ struct Bank;
 struct Cfg;
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 typedef signed int     s32;
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
@@ -65,7 +65,7 @@ void BSUBWAY_RECORD_LIST_SetupActors(u8 *p)
     CLACT_InitSystem((const struct Cfg *)gClActorInitParam, (u32)sRecordListVramBanks, 0x80);
     ((struct Obj02418 *)p)->f11C = (u32)CLACT_CreateUnit(4, 1, 0x80);
     ((struct Obj02418 *)p)->f120 = (u32)CLACT_CreateUnit(2, 1, 0x80);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     ((struct Obj02418 *)p)->f138 = CLACT_RegisterCharacter(((struct Obj02418 *)p)->f0, 7, 1, 2, 0x80);
     ((struct Obj02418 *)p)->f134 = CLACT_RegisterPalette(((struct Obj02418 *)p)->f0, 10, 2, 0, 0x80);

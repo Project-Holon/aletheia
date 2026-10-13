@@ -20,8 +20,8 @@
  *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_020061E4  0x020061E4  thumb
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   OEKAKI_SelectColorButton  0x021852B4  thumb  ov023
  *   OEKAKI_GetJoinedBits  0x02186558  thumb  ov023
  *   OEKAKI_PrintMessage  0x021861C4  thumb  ov023
@@ -71,8 +71,8 @@ extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_020061E4(u32 a);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void OEKAKI_SelectColorButton(u32 *p, int n);
 extern int  OEKAKI_GetJoinedBits(char *p);
 extern void OEKAKI_PrintMessage(u8 *w, u32 msg, int mode);
@@ -90,7 +90,7 @@ static inline u8 activate(char *p, int value)
     OEKAKI_PrintMessage((u8 *)p, value, value);
     OEKAKI_SetNextScene(p, 5);
     OEKAKI_SetQuitButtonPressed((void *)(((struct Obj00525 *)p)->f100), 1);
-    func_020061E4(0x551);
+    GFL_USE_PlaySeDefaultVolume(0x551);
     return value;
 }
 
@@ -121,7 +121,7 @@ void OEKAKI_HandleTouch(char *p)
             if (((struct Obj01221 *)p)->f420A != r) {
                 ((struct Obj01221 *)p)->f420A = r;
                 OEKAKI_SelectColorButton((u32 *)(p + 0xd0), r);
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
             }
             break;
         case 8:
@@ -129,14 +129,14 @@ void OEKAKI_HandleTouch(char *p)
                 break;
             if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
                 if (((struct Obj01221 *)p)->f1B0 != OEKAKI_GetJoinedBits(p)) {
-                    func_020061E4(0x54b);
+                    GFL_USE_PlaySeDefaultVolume(0x54b);
                 } else {
                     ((struct Obj01221 *)p)->f9E6C = 2;
                     k = activate(p, 1);
                 }
             } else {
                 if (((struct Obj01221 *)p)->f4217 == 2) {
-                    func_020061E4(0x54b);
+                    GFL_USE_PlaySeDefaultVolume(0x54b);
                 } else {
                     k = activate(p, 1);
                 }
@@ -153,17 +153,17 @@ void OEKAKI_HandleTouch(char *p)
             }
             if (((struct Obj01221 *)p)->f420B != r - 9) {
                 ((struct Obj01221 *)p)->f420B = r - 9;
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
             }
             break;
         }
     }
     r = TOUCHPANEL_HitCont(gOekakiCanvasHitTable);
-    func_0204B3DC((struct Obj *)*(u32 *)(p + 0x60 + GFL_NET_SYSTEM_GetCurrentAid() * 4), 0);
+    CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(p + 0x60 + GFL_NET_SYSTEM_GetCurrentAid() * 4), 0);
     if (r != -1) {
         TOUCHPANEL_GetPointCont((u32 *)(&tx), (u32 *)(&ty));
         OEKAKI_SetCursorPosition((void *)(*(int *)(p + 0x60 + GFL_NET_SYSTEM_GetCurrentAid() * 4)), tx, ty);
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x60 + GFL_NET_SYSTEM_GetCurrentAid() * 4), 1);
+        CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(p + 0x60 + GFL_NET_SYSTEM_GetCurrentAid() * 4), 1);
     }
     x = 0;
     y = 0;

@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  */
@@ -20,21 +20,21 @@ struct CharBuf;
 struct Descriptor;
 struct Rec3;
 struct U16Vec;
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 void func_021F94B0(u8 *p)
 {
     if (((struct Obj03817 *)p)->fD8) {
-        func_0201CE48(((struct Obj03817 *)p)->fD8);
+        PRINTSYS_PrintStreamDelete(((struct Obj03817 *)p)->fD8);
         ((struct Obj03817 *)p)->fD8 = 0;
     }
     if (((struct Obj03817 *)p)->fE0) {
         STRBUF_Delete(((struct Obj03817 *)p)->fE0);
         ((struct Obj03817 *)p)->fE0 = 0;
     }
-    BMP_Clear(func_02045770(((struct Obj03817 *)p)->fD0), 0);
+    BMP_Clear(BMP_WIN_GetBmp(((struct Obj03817 *)p)->fD0), 0);
     BMP_WIN_TransferChars(((struct Obj03817 *)p)->fD0);
 }

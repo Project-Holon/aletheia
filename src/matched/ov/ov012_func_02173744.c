@@ -11,7 +11,7 @@
  * symbols:
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   func_02034714  0x02034714  arm
  *   func_02030734  0x02030734  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
@@ -25,7 +25,7 @@ struct Ctx;
 extern unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *a);
 typedef unsigned char  u8;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern unsigned int func_02026454(void *obj);
+extern unsigned int GAME_COMM_GetKind(void *obj);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -45,7 +45,7 @@ void UNION_MAIN_StartComm(int a)
 
     r5 = GAMESYSTEM_GetGameComm((const struct Ctx *)a);
     r7 = (int)GAMESYSTEM_GetGameData((const struct Ctx *)a);
-    if (func_02026454((void *)r5) != 0) {
+    if (GAME_COMM_GetKind((void *)r5) != 0) {
         func_02034714(d_02175610, 0, d_02175610);
     }
     p = func_02030734(5, 0x10, 1, d_02175614, 0x37);

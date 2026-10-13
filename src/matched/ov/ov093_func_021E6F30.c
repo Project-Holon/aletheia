@@ -1,5 +1,5 @@
 /*
- * function: func_021E6F30
+ * function: HAND_WAZA_AddCopycat
  * address: 0x021E6F30
  * packet: pkt_ov093_021E6F30
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E6F14_p01.c and filed here.
  *
  * symbols:
- *   d_021F26C4 0x021F26C4 data a4
+ *   gCopycatHandlers 0x021F26C4 data a4
  */
 
-int *func_021E6F30(int *p);
-extern int d_021F26C4[];
+int *HAND_WAZA_AddCopycat(int *p);
+extern int gCopycatHandlers[];
 
-int *func_021E6F30(int *p)
+int *HAND_WAZA_AddCopycat(int *p)
 {
     *p = 1;
-    return d_021F26C4;
+    return gCopycatHandlers;
 }

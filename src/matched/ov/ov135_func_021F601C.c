@@ -25,6 +25,7 @@
  *   func_021F6C28  0x021F6C28  thumb
  *   func_021F6B34  0x021F6B34  thumb
  *   BMP_MENUWORK_Delete  0x0201F868  thumb  arm9
+ *   POKEPARTY_GetMember  0x0201AB28  thumb  arm9
  */
 
 typedef signed char s8;
@@ -67,7 +68,7 @@ extern void func_021F4E98(u8 *p, u32 a, u32 b);
 extern int func_021F6BFC(u32 handle);
 extern int func_021F6C28(u32 handle);
 extern int func_021F6B34(int v);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 
 int func_021F601C(Work *p)
 {
@@ -100,7 +101,7 @@ int func_021F601C(Work *p)
             func_021F4E98((u8 *)p, 4, 1);
         } else {
             if (func_021F6B34(p->box) != 0) {
-                func_0201AB28(p->ctx->party, p->slot);
+                POKEPARTY_GetMember(p->ctx->party, p->slot);
             }
             p->mon = func_021F6B40(p->ctx->party, p->ctx->save, p->box, p->slot);
             p->state = 2;

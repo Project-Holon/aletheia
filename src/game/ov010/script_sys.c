@@ -25,7 +25,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
- *   func_020124E4 0x020124E4 thumb
+ *   GAME_EVENT_GetGameSystem 0x020124E4 thumb
  *   func_020124E8 0x020124E8 thumb
  *   GAME_EVENT_CallEvent 0x02012374 thumb
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
@@ -38,7 +38,7 @@
  *   ZONEDATA_ClearEventWorkRange  0x020143D8  thumb
  *   GAME_DATA_GetEventData 0x02012844 thumb
  *   EVENTDATA_SYSTEM_GetSpecialScriptData 0x02162450 thumb ov010
- *   func_020143CC  0x020143CC  thumb
+ *   ZONEDATA_GetEventWorkAddress  0x020143CC  thumb
  *   SCRCMD_WORK_Create  0x0215A55C  thumb  ov010
  *   VM_Create  0x0201121C  thumb
  *   VM_Init  0x0201126C  thumb
@@ -124,7 +124,7 @@ extern int func_020307B0();
 extern void *GAMESYSTEM_GetGameData(const void *p);
 extern void *GAME_DATA_GetEventWork(const void *p);
 int GFL_NET_IsSessionNull();
-extern void *func_020124E4(GameEvent *event);
+extern void *GAME_EVENT_GetGameSystem(GameEvent *event);
 extern void *func_020124E8(GameEvent *event);
 extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 extern int GAME_EVENT_ChangeEvent();
@@ -136,7 +136,7 @@ extern int ZONEDATA_ResetEventFlagRange(void *eventFlags, int first, int last);
 extern int ZONEDATA_ClearEventWorkRange(void *eventFlags, int first, int last);
 extern void *GAME_DATA_GetEventData(const void *p);
 extern void *EVENTDATA_SYSTEM_GetSpecialScriptData(void *p);
-extern u16 *func_020143CC(void *eventFlags, u32 id);
+extern u16 *ZONEDATA_GetEventWorkAddress(void *eventFlags, u32 id);
 extern void *SCRCMD_WORK_Create(const ScriptVmStart *, int heapId);
 extern ScriptVm *VM_Create(u32 heapId, const ScriptVmParams *params);
 extern void VM_Init(ScriptVm *vm, void *user);
@@ -220,7 +220,7 @@ GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void
 
 void *SCRIPT_SYS_CallScriptEvent(void *parentEvent, u16 scriptId, void *target, void *parentWork, u16 reserved)
 {
-    GameEvent *scriptEvent = SCRIPT_SYS_CreateScriptEvent(func_020124E4(parentEvent), reserved, scriptId, target, parentWork);
+    GameEvent *scriptEvent = SCRIPT_SYS_CreateScriptEvent(GAME_EVENT_GetGameSystem(parentEvent), reserved, scriptId, target, parentWork);
     ScriptEventWork *eventWork = func_020124E8(scriptEvent);
     GAME_EVENT_CallEvent(parentEvent, scriptEvent);
     return eventWork->scriptWork;
@@ -232,7 +232,7 @@ void *SCRIPT_SYS_ChangeScriptEvent(void *event, u16 scriptId, void *target, int 
     void *fieldSys;
     void *eventWork;
     GameEvent *scriptEvent;
-    fieldSys = func_020124E4(event);
+    fieldSys = GAME_EVENT_GetGameSystem(event);
     scriptEvent = SCRIPT_SYS_CreateScriptEvent(fieldSys, reserved, scriptId, target, 0);
     eventWork = func_020124E8(scriptEvent);
     GAME_EVENT_ChangeEvent(event, scriptEvent);
@@ -568,7 +568,7 @@ u16 SCRIPT_SYS_FindSceneScript(const void *eventWork, const u8 *list, u32 key)
     if (workId == 0)
       return 0xFFFF;
     expected = RD16(p + 2);
-    if (expected == *func_020143CC(eventFlags, workId))
+    if (expected == *ZONEDATA_GetEventWorkAddress(eventFlags, workId))
       return RD16(p + 4);
   }
 

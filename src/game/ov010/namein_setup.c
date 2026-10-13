@@ -16,7 +16,7 @@
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Copy  0x02045838  arm
  *   d_02172A60     0x02172A60  data  ov010  a1
@@ -31,7 +31,7 @@
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   ICA_ANIME_CreateFull  0x020114D0  thumb
  *   GFL_USE_GetSeSlot  0x02006148  thumb
- *   func_0200616C  0x0200616C  thumb
+ *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
  *   func_02011610  0x02011610  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb
@@ -54,7 +54,7 @@
  *   FLDMMDL_MOVE_GetMapHeight  0x02163E58  thumb  ov010
  *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
  *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
- *   GIMMICK49_InitModels  0x021F3714  thumb  ov050
+ *   GIMMICK50_InitModelsB  0x021F3714  thumb  ov050
  *   GIMMICK50_ShowModel1  0x021F37B8  thumb  ov050
  *   GIMMICK50_IsModel0AnimeDone  0x021F3758  thumb  ov050
  *   GIMMICK50_IsModel1AnimeDone  0x021F3808  thumb  ov050
@@ -63,8 +63,8 @@
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
  *   FIELD_CAMERA_CreateShakeTask  0x021D2D50  thumb
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
- *   func_020061F8  0x020061F8  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02014910  0x02014910  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
@@ -75,14 +75,14 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   POKE_REGULATION_Load  0x0201A354  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_0200CA38  0x0200CA38  thumb
  *   BATTLE_REC_AllocWork  0x0200B400  thumb
  *   func_021CBD08  0x021CBD08  thumb  ov021
  *   EVENT_BATTLE_CreateResultOnlyTask  0x0216E8CC  thumb  ov010
  *   FIELD_MSGBG_TalkWinMain  0x02191388  thumb  ov021
  *   FIELD_MSGBG_TalkWinDrawCursor  0x021914CC  thumb  ov021
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   FIELD_MSGBG_DeleteTalkWin  0x021912D8  thumb  ov021
  *   FIELD_MSGBG_WaitTalkWinClose  0x021912F8  thumb  ov021
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
@@ -352,7 +352,7 @@ extern void FIELD_CAMERA_ANIME_Delete(void *playerObj);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
 extern void *ICA_ANIME_CreateFull(u32 heap, u32 a1, u32 a2);
 extern int GFL_USE_GetSeSlot(u32 a0);
-extern void func_0200616C(void *arg, int i);
+extern void GFL_USE_PlaySeInSlot(void *arg, int i);
 extern u32 func_02011610(struct IcaAnime *anim, VecFx32 *out);
 extern void *FIELDMAP_GetExpObj(FieldMap *fieldMap);
 extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *p, int a, int b);
@@ -374,7 +374,7 @@ extern void FIELD_CAMERA_ANIME_SetData(void *playerObj, CameraMoveParam *param);
 extern void FLDMMDL_MOVE_GetMapHeight(void *mapObj, VecFx32 *pos, fx32 *groundY);
 extern void FIELD_CAMERA_EndDelay(void *camera);
 extern u32 FIELD_CAMERA_IsDelayEnabled(void *camera);
-extern void GIMMICK49_InitModels(FieldMap *fieldMap);
+extern void GIMMICK50_InitModelsB(FieldMap *fieldMap);
 extern void GIMMICK50_ShowModel1(FieldMap *fieldMap);
 extern int GIMMICK50_IsModel0AnimeDone(FieldMap *fieldMap);
 extern int GIMMICK50_IsModel1AnimeDone(FieldMap *fieldMap);
@@ -383,8 +383,8 @@ extern void GIMMICK50_HideModel1(FieldMap *fieldMap);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *, FieldMap *, u32, u32, u32, u32, u32);
 extern void *FIELD_CAMERA_CreateShakeTask(GameSystem *gameSystem, ScreenChangeParam *param);
 extern void *FIELD_PLAYER_GetMmdl(void *playerObj);
-extern void func_020061F8(int i);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_StopSeSlot(int i);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern GameEvent *FIELD_STATUS_CreateFieldCloseEvent(GameSystem *gameSystem, FieldMap *fieldMap);
 extern GameEvent *func_02014910(GameSystem *gameSystem, FieldMap *fieldMap, PartyScreenArgs *partyScreen, SummaryArgs *summary);
 extern GameEvent *FIELD_STATUS_CreateFieldOpenEvent(GameSystem *gameSystem);
@@ -395,14 +395,14 @@ extern void *func_02012934(GameData *gameData);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void *POKE_REGULATION_Load(int a, int b);
 extern void *func_0200CA1C(GameData *gameData);
-extern u32 func_0201AA18(void *party);
+extern u32 POKEPARTY_GetCount(void *party);
 extern u32 func_0200CA38(void *p);
 extern void BATTLE_REC_AllocWork(u32 heap);
 extern u32 func_021CBD08(EncounterContext *ctx, GameSystem *gameSystem);
 extern int EVENT_BATTLE_CreateResultOnlyTask(GameSystem *, FieldMap *, int);
 extern int FIELD_MSGBG_TalkWinMain();
 extern void FIELD_MSGBG_TalkWinDrawCursor(void *balloon);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int FIELD_MSGBG_DeleteTalkWin(void *balloon);
 extern int FIELD_MSGBG_WaitTalkWinClose();
 extern void *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
@@ -505,7 +505,7 @@ extern char d_02172548[];
 NameInArgs *NAMEIN_SETUP_CreateArgs(unsigned short heapId, int kind, short species, short traits, int maxLen, Strbuf *initialName, void *pokedex)
 {
     NameInArgs *args = func_02030734(heapId, sizeof(NameInArgs), 0, d_02172A60, 0x37);
-    func_02082BCC(args, 0, sizeof(NameInArgs));
+    MI_CpuFill8(args, 0, sizeof(NameInArgs));
     args->kind = kind;
     args->maxLen = maxLen;
     args->species = species;
@@ -529,7 +529,7 @@ NameInArgs *NAMEIN_SETUP_CreateArgs(unsigned short heapId, int kind, short speci
 NameInArgs *NAMEIN_SETUP_CreateMonArgs(unsigned short heapId, void *mon, int maxLen, Strbuf *initialName, void *pokedex)
 {
     NameInArgs *args = func_02030734(heapId, sizeof(NameInArgs), 0, d_02172A60, 0x59);
-    func_02082BCC(args, 0, sizeof(NameInArgs));
+    MI_CpuFill8(args, 0, sizeof(NameInArgs));
     args->kind = 1;
     args->maxLen = maxLen;
     args->mon = mon;
@@ -624,7 +624,7 @@ int NAMEIN_SETUP_RunFallEvent(GameEvent *event, u32 *state, FallEventWork *work)
         break;
     case 2:
         work->anim = ICA_ANIME_CreateFull(FIELDMAP_GetHeapId(fieldMap), 0x9D, 0x18);
-        func_0200616C((void *)1953, GFL_USE_GetSeSlot(1953));
+        GFL_USE_PlaySeInSlot((void *)1953, GFL_USE_GetSeSlot(1953));
         (*state)++;
         break;
     case 3:
@@ -793,7 +793,7 @@ int NAMEIN_SETUP_RunLandEvent(GameEvent *event, u32 *state, LandEventWork *work)
             (*state)++;
         break;
     case 2:
-        GIMMICK49_InitModels(work->fieldMap);
+        GIMMICK50_InitModelsB(work->fieldMap);
         GIMMICK50_ShowModel1(work->fieldMap);
         GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(work->gameSystem, work->fieldMap, 0, 0, 1, 0, 0));
         (*state)++;
@@ -806,8 +806,8 @@ int NAMEIN_SETUP_RunLandEvent(GameEvent *event, u32 *state, LandEventWork *work)
         }
         if (landed != 0) {
             ICA_ANIME_Delete(work->anim);
-            func_020061F8(GFL_USE_GetSeSlot(1953));
-            func_020061E4(1775);
+            GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(1953));
+            GFL_USE_PlaySeDefaultVolume(1775);
             param.mode = 2;
             param.variant = 0;
             param.effectKind = 3;
@@ -980,7 +980,7 @@ GameEvent *NAMEIN_SETUP_StartPartyPickEvent(EncounterContext *ctx, GameSystem *g
     MI_CpuFill8(summary, 0, sizeof(SummaryArgs));
     summary->party = party;
     summary->mode = 1;
-    summary->partyCount = func_0201AA18(party);
+    summary->partyCount = POKEPARTY_GetCount(party);
     summary->startSlot = 0;
     summary->startPage = 0;
     summary->gameData = gameData;
@@ -1030,9 +1030,9 @@ int NAMEIN_SETUP_RunNameBalloonEvent(GameEvent *event, int *state, NameBalloonWo
         (*state)++;
     case 1:
         FIELD_MSGBG_TalkWinDrawCursor(work->balloon);
-        if ((func_020362DC() & 3) == 0)
+        if ((KEY_GetTrg() & 3) == 0)
             break;
-        func_020061E4(0x547);
+        GFL_USE_PlaySeDefaultVolume(0x547);
         FIELD_MSGBG_DeleteTalkWin(work->balloon);
         (*state)++;
         break;
@@ -1446,7 +1446,7 @@ int NAMEIN_SETUP_RunNameBalloonWaitEvent(GameEvent *event, int *state, NameBallo
             (*state)++;
         break;
     case 1:
-        if ((func_020362DC() & 3) == 0)
+        if ((KEY_GetTrg() & 3) == 0)
             break;
         FIELD_MSGBG_DeleteTalkWin(work->balloon);
         (*state)++;

@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  */
 
 typedef unsigned int   u32;
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
 int func_021BAAC0(void)
 {
-    func_020434DC(1, 1);
+    BG_SYS_SetMainPlaneVisible(1, 1);
     return 1;
 }

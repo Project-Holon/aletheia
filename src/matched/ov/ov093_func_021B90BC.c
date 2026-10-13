@@ -1,5 +1,5 @@
 /*
- * function: func_021B90BC
+ * function: BTL_MAIN_SubItemFromBag
  * address: 0x021B90BC
  * packet: pkt_ov093_021B90BC
  * region: ov093
@@ -17,4 +17,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_02007E50(void *,u32,int,u16);
-void func_021B90BC(u8 *p,u8 k,u32 x) { u8 *q; q=*(u8 * *)&((struct Obj09939 *)p)->f0; if(q[0x23]==0 && k==p[0x46c]) func_02007E50(((struct Obj13273 *)q)->f60,x,1,((struct Obj09939 *)p)->f468); }
+void BTL_MAIN_SubItemFromBag(u8 *p,u8 k,u32 x) { u8 *q; q=*(u8 * *)&((struct Obj09939 *)p)->f0; if(q[0x23]==0 && k==p[0x46c]) func_02007E50(((struct Obj13273 *)q)->f60,x,1,((struct Obj09939 *)p)->f468); }

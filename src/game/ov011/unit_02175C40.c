@@ -16,14 +16,14 @@
  *   func_0203EFC8  0x0203EFC8  arm
  *   INTRUDE_COMM_GetPartnerTallyValid 0x021756A4 thumb ov011
  *   INTRUDE_COMM_IsSessionActive 0x02175B14 thumb ov011
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   func_02012B58  0x02012B58  thumb
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   func_02012950  0x02012950  thumb
  *   func_02008530  0x02008530  thumb
  *   INTRUDE_COMM_NormalizeVersion  0x021584F4  thumb  ov010
  *   INTRUDE_COMM_GetSessionResult 0x02175BCC thumb ov011
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GAME_DATA_GetMyStatusByNetId 0x021583EC thumb ov010
  *   func_020084F8 0x020084F8 thumb
  *   func_02008550 0x02008550 thumb
@@ -52,11 +52,11 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_02012934  0x02012934  thumb
  *   POKE_TOOL_HealParty  0x0201BA34  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201A920  0x0201A920  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
  *   POKEPARTY_IsMemberBattleReady  0x0201AB34  thumb
- *   func_0201AB28  0x0201AB28  thumb
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   func_02019CA0  0x02019CA0  thumb
  *   func_02034714  0x02034714  arm
  *   d_02177010     0x02177010  data  ov011  a1
@@ -69,7 +69,7 @@
  *   BTL_SETUP_SetParty  0x02013128  thumb
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   GFL_NET_HANDLE_SetUserInfo  0x0203A424  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   func_02034AC4  0x02034AC4  arm
  *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
  *   PROCSYS_Push  0x02031348  arm
@@ -155,14 +155,14 @@ typedef struct IntrudeJoinReply {
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern u8 INTRUDE_COMM_GetPartnerTallyValid(IntrudeCommSys *w);
 extern int INTRUDE_COMM_IsSessionActive(IntrudeSession *session);
-extern void *func_02026478(struct GameComm *gameComm);
+extern void *GAME_COMM_GetGameData(struct GameComm *gameComm);
 extern u8 func_02012B58(const struct SaveData *saveData);
 extern IntrudeSaveSlot *GAME_DATA_GetLastBattleRecSlot(void *saveData);
 extern struct MemberRecord *func_02012950(void *saveData, u32 index);
 extern u32 func_02008530(const struct MemberRecord *record);
 extern int INTRUDE_COMM_NormalizeVersion(int a0, int a1);
 extern IntrudeResultRecord *INTRUDE_COMM_GetSessionResult(IntrudeSession *session);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern int GAME_DATA_GetMyStatusByNetId(void *saveData, int index);
 extern u32 func_020084F8(void *record, void *dest, u32 count);
 extern int func_02008550(const struct MemberRecord *);
@@ -190,11 +190,11 @@ extern void *PROCSYS_Create(int heap);
 extern void *func_020120F4(const struct GameSystem *p);
 extern void *func_02012934(const void *p);
 extern void POKE_TOOL_HealParty(void *p);
-extern u32 func_0201AA18(void *p);
-extern struct Party *func_0201A920(u32 heap);
+extern u32 POKEPARTY_GetCount(void *p);
+extern struct Party *POKEPARTY_Create(u32 heap);
 extern u32 POKEPARTY_IsMemberBattleReady(void *p, u32 idx);
-extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern void func_02019CA0(void *p, u32 v);
 extern void func_02034714(const char *file, u32 line, const char *expr);
 extern u32 func_02012138(const struct GameSystem *a);
@@ -206,7 +206,7 @@ extern void BTL_SETUP_SetupCommSingle(u32 work, void *h, GFLNetHandle *handle, u
 extern void BTL_SETUP_SetParty(void *p, void *src, int i);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void GFL_NET_HANDLE_SetUserInfo(GFLNetHandle *handle, int timingLow, int timingHigh, int netID);
-extern u32 func_02039CB4(GFLNetHandle *handle, u32 lo, u32 hi);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(GFLNetHandle *handle, u32 lo, u32 hi);
 extern int func_02034AC4(int id);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum, u32 userData);
 extern void PROCSYS_Push(u32 task, int b, void *c, IntrudePartyWork *w);
@@ -372,7 +372,7 @@ int INTRUDE_COMM_GetResultCount(IntrudeCommSys *w, IntrudeSession *session)
     void *saveData;
     int i;
 
-    saveData = func_02026478(w->gameComm);
+    saveData = GAME_COMM_GetGameData(w->gameComm);
     result = &w->session.result;
     if (result->confirmed == 1) {
         return 0;
@@ -446,7 +446,7 @@ int INTRUDE_COMM_GetLeaveFlag(IntrudeSession *session)
  */
 void INTRUDE_COMM_ResetMemberName(IntrudeMemberName *name)
 {
-    func_02082BCC(name, 0, 0x14);
+    MI_CpuFill8(name, 0, 0x14);
     name->netId = 4;
 }
 
@@ -454,7 +454,7 @@ void INTRUDE_COMM_FillMemberName(IntrudeCommSys *w, IntrudeMemberName *name, u8 
 {
     int record;
     name->netId = netId;
-    record = GAME_DATA_GetMyStatusByNetId(func_02026478(w->gameComm), name->netId);
+    record = GAME_DATA_GetMyStatusByNetId(GAME_COMM_GetGameData(w->gameComm), name->netId);
     func_020084F8((void *)record, name, 8);
     name->gender = func_02008550((const struct MemberRecord *)record);
 }
@@ -471,7 +471,7 @@ void INTRUDE_COMM_SetMemberEntry(IntrudeCommSys *w, IntrudeSession *session, u32
     int gender;
     u8 genderFlag;
 
-    saveData = func_02026478(w->gameComm);
+    saveData = GAME_COMM_GetGameData(w->gameComm);
     entry = &session->members[memberIndex];
     if (entry->filled != 1) {
         name = (IntrudeNameChars *)GAME_DATA_GetBattleRecSlotByNetId(saveData, memberIndex);
@@ -519,7 +519,7 @@ int INTRUDE_COMM_ReceiveJoinRequest(IntrudeCommSys *w, IntrudeSession *session, 
 {
     IntrudeMemberRecord *pending = &session->request;
 
-    func_02082BCC(&session->slots[senderNetId], 0, sizeof(IntrudeProposalSlot));
+    MI_CpuFill8(&session->slots[senderNetId], 0, sizeof(IntrudeProposalSlot));
     if (INTRUDE_COMM_IsSessionActive(&w->session) == 1) {
         session->slots[senderNetId].state = 2;
         return 0;
@@ -633,7 +633,7 @@ int INTRUDE_COMM_IsRequestFromNetId(IntrudeSession *session, int netId)
 u8 INTRUDE_COMM_GetRequesterNetId(IntrudeCommSys *w, IntrudeSession *session)
 {
     if (INTRUDE_COMM_IsSessionActive(session) == 0) {
-        return (int)func_02012B58(func_02026478(w->gameComm));
+        return (int)func_02012B58(GAME_COMM_GetGameData(w->gameComm));
     }
     return session->request.name.netId;
 }
@@ -643,7 +643,7 @@ u8 INTRUDE_COMM_GetRequesterNetId(IntrudeCommSys *w, IntrudeSession *session)
  */
 int INTRUDE_COMM_IsRequestFromSelf(IntrudeCommSys *w)
 {
-    if (INTRUDE_COMM_IsRequestFromNetId(&w->session, func_02012B58(func_02026478(w->gameComm))) == 1) return 1;
+    if (INTRUDE_COMM_IsRequestFromNetId(&w->session, func_02012B58(GAME_COMM_GetGameData(w->gameComm))) == 1) return 1;
     return 0;
 }
 
@@ -760,19 +760,19 @@ int INTRUDE_COMM_PartyProcInit(struct Proc *proc, int unused, IntrudePartyParam 
 
     count = 0;
     work = PROCSYS_AllocProcWork(proc, 0x100, 4);
-    func_02082BCC(work, 0, 0x100);
+    MI_CpuFill8(work, 0, 0x100);
     work->asyncTask = PROCSYS_Create(4);
     list = func_02012934(func_020120F4(param->gameSystem));
     POKE_TOOL_HealParty(list);
-    memberCount = func_0201AA18(list);
-    work->party = func_0201A920(4);
+    memberCount = POKEPARTY_GetCount(list);
+    work->party = POKEPARTY_Create(4);
     for (i = 0; i < memberCount; i++) {
         if (count >= param->maxCount) {
             break;
         }
         if (POKEPARTY_IsMemberBattleReady(list, i) == 1) {
-            func_0201A98C(work->party, func_0201AB28(list, i));
-            func_02019CA0(func_0201AB28(work->party, count), param->level);
+            POKEPARTY_Add(work->party, POKEPARTY_GetMember(list, i));
+            func_02019CA0(POKEPARTY_GetMember(work->party, count), param->level);
             count++;
         }
     }
@@ -820,7 +820,7 @@ int INTRUDE_COMM_PartyProcMain(void *proc, int *state, IntrudePartyParam *param,
         (*state)++;
         break;
     case 2:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x15, 2) == 1) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x15, 2) == 1) {
             func_02034AC4((int)ov093_id);
             work->overlayLoaded = 1;
             GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
@@ -832,7 +832,7 @@ int INTRUDE_COMM_PartyProcMain(void *proc, int *state, IntrudePartyParam *param,
         (*state)++;
         break;
     case 4:
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x16, 2) == 1) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x16, 2) == 1) {
             (*state)++;
         }
         break;

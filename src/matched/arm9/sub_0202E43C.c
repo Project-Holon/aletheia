@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *
  * A pool-word-and-bx tail call that supplies two constant arguments
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md); r3 holds the target,
@@ -29,9 +29,9 @@
 
 typedef unsigned int u32;
 
-extern void func_02082BCC(void *p, u32 a, u32 b);
+extern void MI_CpuFill8(void *p, u32 a, u32 b);
 
 void sub_0202E43C(void *p)
 {
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
 }

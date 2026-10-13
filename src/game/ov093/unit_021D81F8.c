@@ -15,7 +15,7 @@
  * symbols:
  *   d_021F6368 0x021F6368 data a4
  *   BTL_CALC_DecideMoveTarget 0x021D80BC thumb ov093
- *   func_021B902C  0x021B902C  thumb
+ *   BTL_MAIN_IsSameTeamClient  0x021B902C  thumb
  *   gBtlCalcWork  0x021F6360  data
  */
 #include "btl_calc_types.h"
@@ -25,7 +25,7 @@
 struct BtlPokeParam;
 
 extern int BTL_CALC_DecideMoveTarget(void *main, void *posTable, struct BtlPokeParam *attacker, u16 moveId);
-extern int func_021B902C(int clientId, int otherClientId);
+extern int BTL_MAIN_IsSameTeamClient(int clientId, int otherClientId);
 extern struct BtlCalcWork gBtlCalcWork;
 int BTL_CALC_PeekMoveTarget(void *main, void *posTable, struct BtlPokeParam *attacker, u16 moveId, BtlRngState *savedRng);
 void BTL_CLIENT_SET_Clear(struct BtlClientSet *set);
@@ -85,7 +85,7 @@ int BTL_CLIENT_SET_JudgeResult(struct BtlClientSet *set, u8 localClientId, u32 r
     int friendDefeated = 0;
     u32 index;
     for (index = 0; index < set->count; index++) {
-        if (func_021B902C(set->ids[index], localClientId))
+        if (BTL_MAIN_IsSameTeamClient(set->ids[index], localClientId))
             friendDefeated = 1;
         else
             foeDefeated = 1;

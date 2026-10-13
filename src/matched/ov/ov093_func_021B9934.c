@@ -1,5 +1,5 @@
 /*
- * function: func_021B9934
+ * function: BTL_SIDE_GetPokeByIdThunk
  * address:  0x021B9934
  * packet:   pkt_021B9934
  * region:   ov093
@@ -12,7 +12,7 @@
 
 typedef unsigned char u8;
 
-u8 *func_021B9934(char *p, int i)
+u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i)
 {
     return *(u8 **)(p + i * 4 + 0x84);
 }

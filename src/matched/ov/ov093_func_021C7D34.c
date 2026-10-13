@@ -1,5 +1,5 @@
 /*
- * function: func_021C7D34
+ * function: BTL_SERVER_FLOW_GetPokeIdAtPos
  * address: 0x021C7D34
  * packet: pkt_ov093_021C7D34
  * region: ov093
@@ -17,4 +17,4 @@
  */
 typedef unsigned char u8;
 extern int func_0689D5F4(u8 *p, int i);
-int func_021C7D34(char *p, int i) { return func_0689D5F4((u8 *)(p + 0x1ab8), i); }
+int BTL_SERVER_FLOW_GetPokeIdAtPos(char *p, int i) { return func_0689D5F4((u8 *)(p + 0x1ab8), i); }

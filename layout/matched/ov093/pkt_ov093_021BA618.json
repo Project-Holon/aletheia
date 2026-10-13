@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA618",
+   "name": "BTL_MAIN_CheckOwnWindowDone",
    "address": "0x021BA618",
    "kind": "game",
    "region": "ov093",

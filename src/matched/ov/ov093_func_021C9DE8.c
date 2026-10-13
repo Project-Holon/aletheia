@@ -1,5 +1,5 @@
 /*
- * function: func_021C9DE8
+ * function: BTL_SERVER_FLOW_ExecCmdActivateHeldItem
  * address:  0x021C9DE8
  * packet:   pkt_ov093_021C9DE8
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B9934  0x021B9934  thumb  ov093
+ *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb  ov093
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   BTL_POKEPARAM_IsHpFull  0x021D5B48  thumb  ov093
  *   BTL_SERVER_FLOW_ProcHeldItemActivate  0x021C2128  thumb  ov093
@@ -27,14 +27,14 @@ struct Cmd {
     u32 f1 : 1;
 };
 
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern int BTL_POKEPARAM_IsFainted(void *p);
 extern int BTL_POKEPARAM_IsHpFull(u8 *p);
 extern int BTL_SERVER_FLOW_ProcHeldItemActivate(u8 *p, u8 *a);
 
-int func_021C9DE8(u8 *w, struct Cmd *c)
+int BTL_SERVER_FLOW_ExecCmdActivateHeldItem(u8 *w, struct Cmd *c)
 {
-    u8 *r = func_021B9934(*(char * *)&((struct Obj00003 *)w)->f8, (u8)c->id);
+    u8 *r = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00003 *)w)->f8, (u8)c->id);
     if (BTL_POKEPARAM_IsFainted(r) == 0 || c->f1) {
         if (c->f0 && BTL_POKEPARAM_IsHpFull(r) != 0) return 0;
         if (BTL_SERVER_FLOW_ProcHeldItemActivate(w, r) != 0) return 1;

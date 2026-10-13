@@ -63,11 +63,11 @@
  *   MONOLITH_TOOL_SLOT_SELECT_IsMessageDone 0x021B7A08 thumb ov071
  *   MONOLITH_TOOL_SLOT_SELECT_HideMessage 0x021B7A14 thumb ov071
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_020355D8 0x020355D8 arm
  *   func_020355D8x 0x020355D8 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   INTRUDE_COMM_IsSessionActive 0x02175B14 thumb ov011
  *   INTRUDE_COMM_AcceptSession 0x02175B4C thumb ov011
  *   INTRUDE_COMM_TakeJoinReply 0x021761EC thumb ov011
@@ -102,11 +102,11 @@ extern void MONOLITH_TOOL_SLOT_SELECT_ShowMessage(void **p, int *c, int idx);
 extern int MONOLITH_TOOL_SLOT_SELECT_IsMessageDone(char *p, char *q);
 extern void MONOLITH_TOOL_SLOT_SELECT_HideMessage(void **p);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern void func_020355D8(int);
 extern void func_020355D8x(int);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int INTRUDE_COMM_IsSessionActive(u8 *);
 extern void INTRUDE_COMM_AcceptSession(u8 *,u8 *);
 extern u8 INTRUDE_COMM_TakeJoinReply(char *p);
@@ -143,16 +143,16 @@ int MONOLITH_TOOL_SLOT_SELECT_Main(int a,int *state,C *c,D *d)
   ++*state;break;
  case 2:
   if(MONOLITH_TOOL_SLOT_SELECT_IsMessageDone((char *)c->f4,(char *)d)!=1) break;
-  if(TOUCHPANEL_GetTrg()==0 && (func_020362DC()&3)==0) break;
-  MONOLITH_TOOL_SLOT_SELECT_HideMessage((void **)d);func_020061E4(0x547);
+  if(TOUCHPANEL_GetTrg()==0 && (KEY_GetTrg()&3)==0) break;
+  MONOLITH_TOOL_SLOT_SELECT_HideMessage((void **)d);GFL_USE_PlaySeDefaultVolume(0x547);
   if(TOUCHPANEL_GetTrg()!=0) {d->f83=1;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0xff,3);}
   else {d->f83=0;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0,3);}
   if(d->f82==0) *state=3;else *state=4;
   break;
  case 3:
-  keys=func_020362DC();res=TOUCHPANEL_HitTrg(d_021BA87C);
+  keys=KEY_GetTrg();res=TOUCHPANEL_HitTrg(d_021BA87C);
   if(r!=0 && INTRUDE_COMM_IsSessionActive(r+0x1ac)==1) {MONOLITH_TOOL_SLOT_SELECT_SetMode((int *)c,(char *)d,1);d->f80=1;*state=4;break;}
-  if(keys>0 && d->f83==1) {d->f83=0;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0,3);func_020061E4(0x548);break;}
+  if(keys>0 && d->f83==1) {d->f83=0;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0,3);GFL_USE_PlaySeDefaultVolume(0x548);break;}
   if(keys&0xf0) {
    next=0xff;
    for(i=0;(i<6)?1:0;i++) if(d_021BA85C[i]==*c->f8) break;
@@ -162,24 +162,24 @@ int MONOLITH_TOOL_SLOT_SELECT_Main(int a,int *state,C *c,D *d)
    else if(keys&0x20) {row=d_021BA862[i];next=row[2];}
    else if(keys&0x10) {row=d_021BA862[i];next=row[3];}
    if(next!=0xff) i=next;
-   *c->f8=i;func_020061E4(0x548);
+   *c->f8=i;GFL_USE_PlaySeDefaultVolume(0x548);
   }
-  if(res>=0 && res<6) {*c->f8=res;d->f83=1;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0xff,3);func_020061E4(0x548);break;}
+  if(res>=0 && res<6) {*c->f8=res;d->f83=1;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0xff,3);GFL_USE_PlaySeDefaultVolume(0x548);break;}
   if(res==6 || (keys&1)) {
    func_020355D8(res==6);
    if(INTRUDE_COMM_HasUnlockFlags(GAMESYSTEM_GetGameData(*c->f0))==0) {
     t=d_021BAA4C[*c->f8];
     if(t!=2 && t!=1) {*state=9;break;}
    }
-   func_021B6BEC(c,(int *)((u8 *)d+0x2c),1,0,3);func_020061E4(0x736);*state=5;
+   func_021B6BEC(c,(int *)((u8 *)d+0x2c),1,0,3);GFL_USE_PlaySeDefaultVolume(0x736);*state=5;
   } else if(res==7 || (keys&2)) {
-   MONOLITH_TOOL_StartBlink((u8 *)d+0x24);func_020355D8(res==7);func_020061E4(0x551);*state=11;
+   MONOLITH_TOOL_StartBlink((u8 *)d+0x24);func_020355D8(res==7);GFL_USE_PlaySeDefaultVolume(0x551);*state=11;
   }
   break;
  case 4: {
   int keys4,res4;
-  keys4=func_020362DC();res4=TOUCHPANEL_HitTrg(d_021BA87C);
-  if(res4==7 || (keys4&2)) {func_020355D8x(res4==7);func_020061E4(0x551);*state=11;}
+  keys4=KEY_GetTrg();res4=TOUCHPANEL_HitTrg(d_021BA87C);
+  if(res4==7 || (keys4&2)) {func_020355D8x(res4==7);GFL_USE_PlaySeDefaultVolume(0x551);*state=11;}
   break;}
 
  case 5:
@@ -202,16 +202,16 @@ int MONOLITH_TOOL_SLOT_SELECT_Main(int a,int *state,C *c,D *d)
   if(MONOLITH_TOOL_SLOT_SELECT_IsMessageDone((char *)c->f4,(char *)d)!=1) break;
   if(*state==7) {
   } else if(*state==8) {
-   if(TOUCHPANEL_GetTrg()==0 && !(func_020362DC()&3)) break;
+   if(TOUCHPANEL_GetTrg()==0 && !(KEY_GetTrg()&3)) break;
   } else break;
   if(*state==7 && r!=0 && INTRUDE_COMM_IsSessionActive(r+0x1ac)==0) break;
-  MONOLITH_TOOL_SLOT_SELECT_HideMessage((void **)d);func_020061E4(0x547);
+  MONOLITH_TOOL_SLOT_SELECT_HideMessage((void **)d);GFL_USE_PlaySeDefaultVolume(0x547);
   if(*state==7) {if(r!=0) INTRUDE_COMM_AcceptSession(r,r+0x1ac);d->f81=1;*state=11;}
   else *state=11;
   break;
  case 9:MONOLITH_TOOL_SLOT_SELECT_ShowMessage((void **)d,(int *)c->f4,0x17);++*state;break;
  case 10:
-  if(MONOLITH_TOOL_SLOT_SELECT_IsMessageDone((char *)c->f4,(char *)d)==1 && (TOUCHPANEL_GetTrg()!=0 || (func_020362DC()&3)!=0)) {MONOLITH_TOOL_SLOT_SELECT_HideMessage((void **)d);*state=3;}
+  if(MONOLITH_TOOL_SLOT_SELECT_IsMessageDone((char *)c->f4,(char *)d)==1 && (TOUCHPANEL_GetTrg()!=0 || (KEY_GetTrg()&3)!=0)) {MONOLITH_TOOL_SLOT_SELECT_HideMessage((void **)d);*state=3;}
   break;
  case 11:
   if(func_021B6C74(c,3)==2) break;

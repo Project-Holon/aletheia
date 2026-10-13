@@ -18,8 +18,8 @@
  *   function 021B6C84 at +0x8C. No follower or unit.
  * symbols:
  *   func_0201D304 0x0201D304 thumb
- *   func_02045738 0x02045738 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetWidth 0x02045738 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  */
 #include "../include/Obj10668.h"
@@ -30,8 +30,8 @@ typedef unsigned int u32;
 struct Descriptor;
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern u8 func_02045738(struct Descriptor *p);
-extern void *func_02045770(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u32 PRINTSYS_PrintColor(void *, s16, s16, void *, u8, u16);
 u32 func_021B6BF8(char *p, int index, u8 font, u16 w, int align, u8 y)
 {
@@ -41,12 +41,12 @@ u32 func_021B6BF8(char *p, int index, u8 font, u16 w, int align, u8 y)
     case 0: x = 0; break;
     case 1:
         width = (u8)func_0201D304(((struct Obj10668 *)p)->f4C, font, 0);
-        x = (u8)((u8)(func_02045738(*(void **)(p + index * 4 + 4)) * 8) - width);
+        x = (u8)((u8)(BMP_WIN_GetWidth(*(void **)(p + index * 4 + 4)) * 8) - width);
         break;
     case 2:
         width = (u8)func_0201D304(((struct Obj10668 *)p)->f4C, font, 0);
-        x = (u8)(((int)(u8)(func_02045738(*(void **)(p + index * 4 + 4)) * 8) - width) / 2);
+        x = (u8)(((int)(u8)(BMP_WIN_GetWidth(*(void **)(p + index * 4 + 4)) * 8) - width) / 2);
         break;
     }
-    return PRINTSYS_PrintColor(func_02045770(*(void **)(p + index * 4 + 4)), x, y, ((struct Obj10668 *)p)->f4C, font, w);
+    return PRINTSYS_PrintColor(BMP_WIN_GetBmp(*(void **)(p + index * 4 + 4)), x, y, ((struct Obj10668 *)p)->f4C, font, w);
 }

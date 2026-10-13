@@ -15,12 +15,12 @@
  * symbols:
  *   func_021F6CCC 0x021F6CCC thumb ov215
  *   func_021F6EEC 0x021F6EEC thumb ov215
- *   func_020061E4 0x020061E4 thumb
- *   func_02006238 0x02006238 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ *   GFL_USE_IsAnySeBusy 0x02006238 thumb
  *   GFL_USE_IsSeSlotBusy 0x02006224 thumb
  *   GFL_USE_GetSeSlot 0x02006148 thumb
- *   func_0200616C 0x0200616C thumb
- *   func_020061F8 0x020061F8 thumb
+ *   GFL_USE_PlaySeInSlot 0x0200616C thumb
+ *   GFL_USE_StopSeSlot 0x020061F8 thumb
  *   func_021F6D58 0x021F6D58 thumb ov215
  *   func_021F70F8 0x021F70F8 thumb ov215
  *   func_021F6D7C 0x021F6D7C thumb ov215
@@ -30,7 +30,7 @@
  *   func_021F7110 0x021F7110 thumb ov215
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   PM_VOICE_Play 0x02006984 thumb
- *   func_02006650 0x02006650 thumb
+ *   PM_VOICE_IsAnyActive 0x02006650 thumb
  *   func_021F6D1C 0x021F6D1C thumb ov215
  *   MCSS_Main 0x02014C08 thumb
  *   func_021F6E5C 0x021F6E5C thumb ov215
@@ -41,12 +41,12 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_021F6CCC(char *,unsigned,int);
 extern void func_021F6EEC(char *);
-extern void func_020061E4(u32);
-extern int func_02006238(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
+extern int GFL_USE_IsAnySeBusy(void);
 extern int GFL_USE_IsSeSlotBusy(u32);
 extern int GFL_USE_GetSeSlot(u32);
-extern void func_0200616C(void *,int);
-extern void func_020061F8(int);
+extern void GFL_USE_PlaySeInSlot(void *,int);
+extern void GFL_USE_StopSeSlot(int);
 extern void func_021F6D58(char *);
 extern void func_021F70F8(char *);
 extern int func_021F6D7C(char *);
@@ -56,7 +56,7 @@ extern void func_021F6D90(char *);
 extern void func_021F7110(char *);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
-extern int func_02006650(void);
+extern int PM_VOICE_IsAnyActive(void);
 extern void func_021F6D1C(char *);
 extern void MCSS_Main(char *);
 extern void func_021F6E5C(char *);
@@ -78,19 +78,19 @@ void func_021F67E0(char *p)
         W(24)++;
         if(((struct Obj01083 *)p)->f8==490) {
             switch(W(40)) {
-            case 0: if(W(24)==10){func_020061E4(1955);W(40)=1;}break;
-            case 1: if(!func_02006238()){func_020061E4(1960);W(40)=2;}break;
-            case 2: if(!func_02006238())W(40)=3;break;
+            case 0: if(W(24)==10){GFL_USE_PlaySeDefaultVolume(1955);W(40)=1;}break;
+            case 1: if(!GFL_USE_IsAnySeBusy()){GFL_USE_PlaySeDefaultVolume(1960);W(40)=2;}break;
+            case 2: if(!GFL_USE_IsAnySeBusy())W(40)=3;break;
             case 3:break;
             }
         }else{
-            if(W(24)==20)func_020061E4(1954);
-            else if(W(24)==109)func_020061E4(1954);
-            else if(W(24)==218)func_020061E4(1488);
-            if(W(24)==10)func_020061E4(1968);
-            else if(W(24)==15)func_020061E4(1968);
-            else if(W(24)==85)func_020061E4(1968);
-            else if(W(24)==90)func_020061E4(1968);
+            if(W(24)==20)GFL_USE_PlaySeDefaultVolume(1954);
+            else if(W(24)==109)GFL_USE_PlaySeDefaultVolume(1954);
+            else if(W(24)==218)GFL_USE_PlaySeDefaultVolume(1488);
+            if(W(24)==10)GFL_USE_PlaySeDefaultVolume(1968);
+            else if(W(24)==15)GFL_USE_PlaySeDefaultVolume(1968);
+            else if(W(24)==85)GFL_USE_PlaySeDefaultVolume(1968);
+            else if(W(24)==90)GFL_USE_PlaySeDefaultVolume(1968);
             if(W(28)&&!GFL_USE_IsSeSlotBusy(W(32))) {
                 W(28)=0;
                 if(W(24)>=150&&W(24)<309)W(36)=20;
@@ -100,16 +100,16 @@ void func_021F67E0(char *p)
                 if(!W(28)) {
                     if(!W(36)) {
                         W(32)=GFL_USE_GetSeSlot(1967);
-                        func_0200616C((void *)1967,W(32));
+                        GFL_USE_PlaySeInSlot((void *)1967,W(32));
                         W(28)=1;
                     }else W(36)--;
                 }
             }else if(W(24)==limit&&W(28)&&GFL_USE_IsSeSlotBusy(W(32))) {
-                func_020061F8(W(32));W(28)=0;
+                GFL_USE_StopSeSlot(W(32));W(28)=0;
             }
         }
         if(W(24)==limit) {
-            func_021F6D58(p);func_021F70F8(p);func_020061E4(1935);W(12)=2;
+            func_021F6D58(p);func_021F70F8(p);GFL_USE_PlaySeDefaultVolume(1935);W(12)=2;
         }
         break;
     case 2:if(func_021F6D7C(p))W(12)=3;break;
@@ -126,7 +126,7 @@ void func_021F67E0(char *p)
             PM_VOICE_Play(a,b,64,0,0,0,0,0);
         }
         break;
-    case 8:if(!func_02006650())W(12)=9;break;
+    case 8:if(!PM_VOICE_IsAnyActive())W(12)=9;break;
     case 9:break;
     }
     func_021F6D1C(p);

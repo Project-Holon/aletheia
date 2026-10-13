@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  * Addresses are Black-image addresses.
@@ -25,7 +25,7 @@ typedef signed char    s8;
 
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *a);
@@ -37,7 +37,7 @@ u32 TALKMSGWIN_AddBmpWin(Obj *a, u32 b, u32 c, u32 d, u8 e)
     u32 w;
 
     w = BMP_WIN_Create((u8)a->x10, b, c, d, e, a->x15, 1);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)w)), 15);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)w)), 15);
     BMP_WIN_TransferChars((struct Descriptor *)w);
     return w;
 }

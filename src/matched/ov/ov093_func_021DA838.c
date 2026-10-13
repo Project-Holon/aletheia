@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_GetUnawareHandlers
+ * function: HAND_TOKUSEI_GetUnawareHandlers
  * address: 0x021DA838
  * packet: pkt_ov093_021DA838
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DA624_p01.c and filed here.
  *
  * symbols:
- *   gUnawareHandlerTable 0x021F0B18 data ov093 a4
+ *   gUnawareHandlers 0x021F0B18 data ov093 a4
  */
 
-int *BTL_ABILITY_GetUnawareHandlers(int *p);
-extern int gUnawareHandlerTable[];
+int *HAND_TOKUSEI_GetUnawareHandlers(int *p);
+extern int gUnawareHandlers[];
 
-int *BTL_ABILITY_GetUnawareHandlers(int *p)
+int *HAND_TOKUSEI_GetUnawareHandlers(int *p)
 {
     *p = 3;
-    return gUnawareHandlerTable;
+    return gUnawareHandlers;
 }

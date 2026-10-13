@@ -15,7 +15,7 @@
  * superseded.
  *
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_021EAC28 0x021EAC28 thumb ov170
  *   func_021EABD0 0x021EABD0 thumb ov170
@@ -31,7 +31,7 @@ struct CharBuf;
 struct Descriptor;
 struct MsgBank;
 struct Rec;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_021EAC28(char *, int, void *, unsigned, int, int, unsigned, unsigned short);
 extern void func_021EABD0(unsigned char *w, int i, void *bank, unsigned idx, int x, int y, unsigned font, unsigned short color);
@@ -46,7 +46,7 @@ void func_021EB208(char *p, Entry *e, int i)
     unsigned j;
     void *bank;
     windows = (void **)(p + 0x94);
-    BMP_Clear(func_02045770(windows[i * 2]), 0);
+    BMP_Clear(BMP_WIN_GetBmp(windows[i * 2]), 0);
     j = 0;
     bank = func_02045B38(0, 2, 203, 0x804c);
     if (!e->flag) {

@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 
 typedef unsigned char  u8;
@@ -17,10 +20,10 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_02082BCC(void *dst, int val, u32 size);
+extern void MI_CpuFill8(void *dst, int val, u32 size);
 
 void FIELD_CAMERA_ClearAreas(u8 *a)
 {
-    func_02082BCC(a + 0x88, 0, 0x60);
+    MI_CpuFill8(a + 0x88, 0, 0x60);
     *(a + 0xe8) = 0;
 }

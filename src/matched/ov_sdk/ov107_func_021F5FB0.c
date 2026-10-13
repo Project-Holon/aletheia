@@ -13,7 +13,7 @@
  *
  * symbols:
  *   WM_Disconnect  0x0208F938  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021F6850  0x021F6850  arm  ov107
  *   func_021F46C8  0x021F46C8  arm  ov107
  *   g_021F6F90     0x021F6F90  data
@@ -67,7 +67,7 @@ typedef struct MBiFileSlot {
 #define FILEINFO(id)     (((MBiFileSlot *)((u8 *)((MBiParam *)g_021F6F90.ext) + (id) * sizeof(MBiFileInfo)))->fi)
 
 extern int WM_Disconnect(void (*callback)(void *), u16 aid);
-extern void func_02082BCC(void *dstp, u8 data, u32 size);
+extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void func_021F6850(u16 child_aid);
 extern void func_021F46C8(void *arg);
 extern struct WmBase g_021F6F90;
@@ -79,8 +79,8 @@ void func_021F5FB0(u16 aid)
     if (aid == 0 || aid >= 16)
         return;
     ((MBiParam *)g_021F6F90.ext)->childversion[aid - 1] = 0;
-    func_02082BCC(&((MBiParam *)g_021F6F90.ext)->childggid[aid - 1], 0, sizeof(u32));
-    func_02082BCC(((MBiParam *)g_021F6F90.ext)->childInfo[aid - 1], 0, 0x16);
+    MI_CpuFill8(&((MBiParam *)g_021F6F90.ext)->childggid[aid - 1], 0, sizeof(u32));
+    MI_CpuFill8(((MBiParam *)g_021F6F90.ext)->childInfo[aid - 1], 0, 0x16);
     func_021F6850(aid);
     ((MBiParam *)g_021F6F90.ext)->child_seq[aid - 1] = 0;
     if (((MBiParam *)g_021F6F90.ext)->req_fid[aid - 1] != -1) {

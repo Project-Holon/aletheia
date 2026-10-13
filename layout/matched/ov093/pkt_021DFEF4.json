@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DFEF4",
+   "name": "HAND_ITEM_FireGemMovePower",
    "address": "0x021DFEF4",
    "kind": "game",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DFF04",
+   "name": "HAND_ITEM_FireGemMoveUsed",
    "address": "0x021DFF04",
    "kind": "game",
    "region": "ov093",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DFF20",
+   "name": "HAND_ITEM_WaterGemMovePower",
    "address": "0x021DFF20",
    "kind": "game",
    "region": "ov093",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DFF30",
+   "name": "HAND_ITEM_WaterGemMoveUsed",
    "address": "0x021DFF30",
    "kind": "game",
    "region": "ov093",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DFF4C",
+   "name": "HAND_ITEM_ElectricGemMovePower",
    "address": "0x021DFF4C",
    "kind": "game",
    "region": "ov093",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DFF5C",
+   "name": "HAND_ITEM_ElectricGemMoveUsed",
    "address": "0x021DFF5C",
    "kind": "game",
    "region": "ov093",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DFF78",
+   "name": "HAND_ITEM_GrassGemMovePower",
    "address": "0x021DFF78",
    "kind": "game",
    "region": "ov093",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DFF88",
+   "name": "HAND_ITEM_GrassGemMoveUsed",
    "address": "0x021DFF88",
    "kind": "game",
    "region": "ov093",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DFFA4",
+   "name": "HAND_ITEM_IceGemMovePower",
    "address": "0x021DFFA4",
    "kind": "game",
    "region": "ov093",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DFFB4",
+   "name": "HAND_ITEM_IceGemMoveUsed",
    "address": "0x021DFFB4",
    "kind": "game",
    "region": "ov093",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DFFD0",
+   "name": "HAND_ITEM_FightingGemMovePower",
    "address": "0x021DFFD0",
    "kind": "game",
    "region": "ov093",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DFFE0",
+   "name": "HAND_ITEM_FightingGemMoveUsed",
    "address": "0x021DFFE0",
    "kind": "game",
    "region": "ov093",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DFFFC",
+   "name": "HAND_ITEM_PoisonGemMovePower",
    "address": "0x021DFFFC",
    "kind": "game",
    "region": "ov093",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E000C",
+   "name": "HAND_ITEM_PoisonGemMoveUsed",
    "address": "0x021E000C",
    "kind": "game",
    "region": "ov093",
@@ -175,7 +175,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E0028",
+   "name": "HAND_ITEM_GroundGemMovePower",
    "address": "0x021E0028",
    "kind": "game",
    "region": "ov093",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E0038",
+   "name": "HAND_ITEM_GroundGemMoveUsed",
    "address": "0x021E0038",
    "kind": "game",
    "region": "ov093",
@@ -199,7 +199,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E0054",
+   "name": "HAND_ITEM_FlyingGemMovePower",
    "address": "0x021E0054",
    "kind": "game",
    "region": "ov093",
@@ -211,7 +211,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E0064",
+   "name": "HAND_ITEM_FlyingGemMoveUsed",
    "address": "0x021E0064",
    "kind": "game",
    "region": "ov093",
@@ -223,7 +223,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E0080",
+   "name": "HAND_ITEM_PsychicGemMovePower",
    "address": "0x021E0080",
    "kind": "game",
    "region": "ov093",
@@ -235,7 +235,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E0090",
+   "name": "HAND_ITEM_PsychicGemMoveUsed",
    "address": "0x021E0090",
    "kind": "game",
    "region": "ov093",
@@ -247,7 +247,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E00AC",
+   "name": "HAND_ITEM_BugGemMovePower",
    "address": "0x021E00AC",
    "kind": "game",
    "region": "ov093",
@@ -259,7 +259,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E00BC",
+   "name": "HAND_ITEM_BugGemMoveUsed",
    "address": "0x021E00BC",
    "kind": "game",
    "region": "ov093",
@@ -271,7 +271,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E00D8",
+   "name": "HAND_ITEM_RockGemMovePower",
    "address": "0x021E00D8",
    "kind": "game",
    "region": "ov093",
@@ -283,7 +283,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E00E8",
+   "name": "HAND_ITEM_RockGemMoveUsed",
    "address": "0x021E00E8",
    "kind": "game",
    "region": "ov093",
@@ -295,7 +295,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E0104",
+   "name": "HAND_ITEM_GhostGemMovePower",
    "address": "0x021E0104",
    "kind": "game",
    "region": "ov093",
@@ -307,7 +307,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E0114",
+   "name": "HAND_ITEM_GhostGemMoveUsed",
    "address": "0x021E0114",
    "kind": "game",
    "region": "ov093",
@@ -319,7 +319,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E0130",
+   "name": "HAND_ITEM_DragonGemMovePower",
    "address": "0x021E0130",
    "kind": "game",
    "region": "ov093",
@@ -331,7 +331,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E0140",
+   "name": "HAND_ITEM_DragonGemMoveUsed",
    "address": "0x021E0140",
    "kind": "game",
    "region": "ov093",
@@ -343,7 +343,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E015C",
+   "name": "HAND_ITEM_DarkGemMovePower",
    "address": "0x021E015C",
    "kind": "sdk",
    "region": "ov093",
@@ -355,7 +355,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E016C",
+   "name": "HAND_ITEM_DarkGemMoveUsed",
    "address": "0x021E016C",
    "kind": "sdk",
    "region": "ov093",
@@ -367,7 +367,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E0188",
+   "name": "HAND_ITEM_SteelGemMovePower",
    "address": "0x021E0188",
    "kind": "game",
    "region": "ov093",
@@ -379,7 +379,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E0198",
+   "name": "HAND_ITEM_SteelGemMoveUsed",
    "address": "0x021E0198",
    "kind": "game",
    "region": "ov093",
@@ -391,7 +391,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E01B4",
+   "name": "HAND_ITEM_NormalGemMoveUsed",
    "address": "0x021E01B4",
    "kind": "sdk",
    "region": "ov093",
@@ -403,7 +403,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E01C4",
+   "name": "HAND_ITEM_NormalGemMovePower",
    "address": "0x021E01C4",
    "kind": "sdk",
    "region": "ov093",
@@ -415,7 +415,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E03D8",
+   "name": "HAND_WAZA_RemoveMoveHandlerOfPoke",
    "address": "0x021E03D8",
    "kind": "game",
    "region": "ov093",

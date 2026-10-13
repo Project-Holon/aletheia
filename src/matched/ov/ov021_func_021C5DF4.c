@@ -12,7 +12,7 @@
  *   FIELD_PLAYER_StartFormChange  0x021A2F48  thumb  ov021
  *   FIELD_PLAYER_StepFormChange  0x021A2F54  thumb  ov021
  *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FISHING_StepCounter  0x021C5FA8  thumb  ov021
  *   FISHING_StartRodEffect  0x021C602C  thumb  ov021
  *   func_02005728  0x02005728  thumb
@@ -54,7 +54,7 @@ extern void FIELD_PLAYER_StartFormChange(u8 *p, u32 a1);
 struct Sub02008C20Obj;
 extern int FIELD_PLAYER_StepFormChange(u8 *p);
 extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int FISHING_StepCounter(Work *w, u32 n);
 extern void FISHING_StartRodEffect(u8 *p);
 extern u32 func_02005728(u32 v);
@@ -86,7 +86,7 @@ int FISHING_EventMain(void *task, int *state, Work *w)
         if (FIELD_PLAYER_StepFormChange((u8 *)w->f18) != 1)
             break;
         FLDMMDL_SetDrawStatus((void *)w->f1C, 0);
-        func_020061E4(0x684);
+        GFL_USE_PlaySeDefaultVolume(0x684);
         (*state)++;
         break;
     case 2:

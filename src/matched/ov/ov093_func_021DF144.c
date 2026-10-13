@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetStickyBarbHandlers
+ * function: HAND_ITEM_GetStickyBarbHandlers
  * address: 0x021DF144
  * packet: pkt_ov093_021DF144
  * region: ov093
@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F16FC 0x021F16FC data
+ *   gStickyBarbHandlers 0x021F16FC data
  */
-extern unsigned char d_021F16FC[];
+extern unsigned char gStickyBarbHandlers[];
 
-void *BTL_HANDLER_ITEM_GetStickyBarbHandlers(int *p)
+void *HAND_ITEM_GetStickyBarbHandlers(int *p)
 {
     *p = 2;
-    return d_021F16FC;
+    return gStickyBarbHandlers;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A1448
+ * function: FIELD_SUBSCREEN_ExitBeaconView
  * address:  0x021A1448
  * packet:   pkt_ov021_021A1448
  * region:   ov021
@@ -25,7 +25,7 @@ extern unsigned char abs_id_20[];
 extern void func_022022FC(char *p);
 extern void func_02034A5C(int);
 
-void func_021A1448(u32 *p)
+void FIELD_SUBSCREEN_ExitBeaconView(u32 *p)
 {
     func_022022FC((char *)p[8]);
     func_02034A5C((int)abs_id_20);

@@ -26,15 +26,15 @@
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   func_02018584  0x02018584  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   sub_0209E280_Map  0x0209E280  data
  *   d_0209E42C 0x0209E42C data a2
  *   func_0200AE54   0x0200AE54  thumb
  *   func_0200AFD4   0x0200AFD4  thumb
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_0201AB28  0x0201AB28  thumb
- *   func_0201AA50   0x0201AA50  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
+ *   POKEPARTY_GetBattleReadyCount   0x0201AA50  thumb
  *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   func_0201EFA4   0x0201EFA4  thumb
  *   STRBUF_Create   0x020457B0  arm
@@ -134,13 +134,13 @@ extern u32  func_02017E1C(struct Pokemon *mon, u32 paramId, u32 value);
 extern void POKE_TOOL_SetPartyValue(struct Pokemon *mon, u32 paramId, u32 value);
 extern u32  func_02018584(u16 species, u16 form, u16 level);
 extern void POKE_TOOL_RecalcParam(struct Pokemon *mon);
-extern u32 func_0201AE1C(const struct PersonalData *data, u32 field);
+extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *data, u32 field);
 extern u32 func_0200AE54(const struct Regulation *reg, u32 ruleId);
 extern u32 func_0200AFD4(const struct Regulation *reg, u32 ruleId, s32 value);
-extern u32 func_0201AA18(struct Party *party);
+extern u32 POKEPARTY_GetCount(struct Party *party);
 extern void MI_CpuFill8(void *dst, u8 v, u32 n);
-extern struct Pokemon *func_0201AB28(struct Party *party, u32 index);
-extern u32 func_0201AA50(struct Party *party);
+extern struct Pokemon *POKEPARTY_GetMember(struct Party *party, u32 index);
+extern u32 POKEPARTY_GetBattleReadyCount(struct Party *party);
 extern void *ARC_TOOL_LoadMember(unsigned int archiveId, unsigned int memberId, unsigned int heapId);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 slot, u32 number, u32 digits, u32 padMode, u32 flags);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
@@ -649,7 +649,7 @@ void *func_02019C54(u32 species, u32 form)
  */
 u32 func_02019C7C(const struct PersonalData *data)
 {
-    if (func_0201AE1C(data, 0x1B) != 0) {
+    if (POKE_PERSONAL_GetParam(data, 0x1B) != 0) {
         return 2;
     }
     return 1;
@@ -665,7 +665,7 @@ u32 func_02019C7C(const struct PersonalData *data)
 
 u32 func_02019C90(u16 species, u16 form, u32 field)
 {
-    return func_0201AE1C(func_02019C54(species, form), field);
+    return POKE_PERSONAL_GetParam(func_02019C54(species, form), field);
 }
 
 
@@ -988,11 +988,11 @@ int POKE_REGULATION_CheckPartyUsable(const struct Regulation *reg, struct Party 
     int last;
     int result;
 
-    partyCount = func_0201AA18(party);
+    partyCount = POKEPARTY_GetCount(party);
     usable = partyCount;
     MI_CpuFill8(unused, 0, 12);
     for (i = 0; i < partyCount; i++) {
-        struct Pokemon *mon = func_0201AB28(party, i);
+        struct Pokemon *mon = POKEPARTY_GetMember(party, i);
 
         species[i] = (u16)func_02017E1C(mon, 5, 0);
         levels[i] = (u16)func_02017E1C(mon, 0x9E, 0);
@@ -1153,13 +1153,13 @@ int POKE_REGULATION_CheckParty(const struct Regulation *reg, struct Party *party
         levels[i] = 0;
         item[i] = 0;
     }
-    total = func_0201AA50(party);
+    total = POKEPARTY_GetBattleReadyCount(party);
     if (total < (int)func_0200AE54(reg, 2)) {
         *flags |= 1;
         error = 4;
     }
-    for (i = 0; i < (int)func_0201AA18(party); i++) {
-        mon = func_0201AB28(party, i);
+    for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
+        mon = POKEPARTY_GetMember(party, i);
         if (POKE_REGULATION_CheckPokemonFlags(reg, mon, flags) == 0)
             error = 5;
         if (func_02017E1C(mon, 0x4c, 0) == 0) {
@@ -1275,8 +1275,8 @@ void POKE_REGULATION_AdjustPartyLevels(const struct Regulation *reg, struct Part
     u32 levelValue = func_0200AE54(reg, 4);
     int i;
 
-    for (i = 0; i < (int)func_0201AA18(party); i++) {
-        struct Pokemon *mon = func_0201AB28(party, i);
+    for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
+        struct Pokemon *mon = POKEPARTY_GetMember(party, i);
 
         if (func_02017E1C(mon, 0xA9, 0) != 0) {
             u32 level = func_02017E1C(mon, 0x9E, 0);
@@ -1317,8 +1317,8 @@ void POKE_REGULATION_ResetPartyNicknames(const struct Regulation *reg, struct Pa
     if (func_0200AE54(reg, 0x11) != 0)
         return;
 
-    for (i = 0; i < (int)func_0201AA18(party); i++) {
-        struct Pokemon *mon = func_0201AB28(party, i);
+    for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
+        struct Pokemon *mon = POKEPARTY_GetMember(party, i);
 
         if (func_02017E1C(mon, 0xA9, 0) != 0)
             func_02019B58(mon);
@@ -1680,9 +1680,9 @@ int POKE_REGULATION_CheckOrder(const struct Regulation *reg, struct Party *party
         if (order[i] == 0)
             continue;
         slot = (u8)(order[i] - 1);
-        if ((int)slot >= (int)func_0201AA18(party))
+        if ((int)slot >= (int)POKEPARTY_GetCount(party))
             continue;
-        mon = func_0201AB28(party, slot);
+        mon = POKEPARTY_GetMember(party, slot);
         species = func_02017E1C(mon, 5, 0);
         item = func_02017E1C(mon, 6, 0);
         levelCost = (u32)POKE_REGULATION_AdjustLevel(reg, func_02017E1C(mon, 0x9e, 0));

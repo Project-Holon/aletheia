@@ -16,17 +16,17 @@
  *   local i = (angle >> 4) * 2 then gives the shared index the pragma no
  *   longer finds. Earlier lanes: 26 (P19 lane 5), 15 (G6L8).
  * symbols:
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  */
 #pragma opt_common_subs off
-extern const short d_020A1B38[];
+extern const short FX_SinCosTable_[];
 int func_021FE3E4(char *p, int *out, int step)
 {
     int angle, i, x, y;
     angle = (unsigned short)(*(unsigned short *)(p + 0x12) + 0xFFFF * step / *(int *)(p + 0x14));
     i = (angle >> 4) * 2;
-    x = (d_020A1B38[i + 1] * *(unsigned short *)(p + 0x10)) >> 12;
-    y = (d_020A1B38[i] * *(unsigned short *)(p + 0x10)) >> 12;
+    x = (FX_SinCosTable_[i + 1] * *(unsigned short *)(p + 0x10)) >> 12;
+    y = (FX_SinCosTable_[i] * *(unsigned short *)(p + 0x10)) >> 12;
     x += *(int *)p;
     y += *(int *)(p + 4);
     *(int *)(p + 8) = x;

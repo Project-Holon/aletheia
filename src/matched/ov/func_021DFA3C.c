@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_IronBallGroundCheck
+ * function: HAND_ITEM_IronBallGroundCheck
  * address:  0x021DFA3C
  * packet:   pkt_021DFA3C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   BTL_HANDLER_ITEM_IronBallGroundCheck   0x021DFA3C  thumb
+ *   HAND_ITEM_IronBallGroundCheck   0x021DFA3C  thumb
  *   BTL_EVENT_OverwriteVar   0x021D76BC  thumb
  *   BTL_EVENT_GetVar   0x021D775C  thumb
  * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #2; adds r4, r2, #0; bl BTL_EVENT_GetVar; cmp r4, r0; bne loc_021DFA52; movs r0, #0x41; movs r1, #1; bl BTL_EVENT_OverwriteVar; pop {r4, pc}.
@@ -24,7 +24,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021DFA3C  shape F1: gate on BTL_EVENT_GetVar(2) */
-void BTL_HANDLER_ITEM_IronBallGroundCheck(int a, int b, int c)
+void HAND_ITEM_IronBallGroundCheck(int a, int b, int c)
 {
     if (c == BTL_EVENT_GetVar(2))
         BTL_EVENT_OverwriteVar(0x41, 1);

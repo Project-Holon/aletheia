@@ -1,5 +1,5 @@
 /*
- * function: func_021E54A0
+ * function: HAND_WAZA_AddToxicSpikes
  * address: 0x021E54A0
  * packet: pkt_ov093_021E54A0
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E53E4.c and filed here.
  *
  * symbols:
- *   d_021F243C 0x021F243C data ov093 a4
+ *   gToxicSpikesHandlers 0x021F243C data ov093 a4
  */
 
-int *func_021E54A0(int *p);
-extern int d_021F243C[];
+int *HAND_WAZA_AddToxicSpikes(int *p);
+extern int gToxicSpikesHandlers[];
 
-int *func_021E54A0(int *p)
+int *HAND_WAZA_AddToxicSpikes(int *p)
 {
     *p = 1;
-    return d_021F243C;
+    return gToxicSpikesHandlers;
 }

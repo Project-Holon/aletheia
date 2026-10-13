@@ -23,8 +23,8 @@
  *   FIELDMAP_SetTargetPos  0x02188D40  thumb  ov021
  *   FIELDMAP_SetCtrlWork  0x02188CAC  thumb  ov021
  *   FIELDMAP_GetCtrlWork  0x02188CA4  thumb  ov021
- *   func_020362DC  0x020362DC  arm
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb
@@ -124,8 +124,8 @@ typedef struct FieldMapCtrlHybridModeTable {
 
 extern u32 func_020307B0(void *memory);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
-extern u32 func_020362DC(void);
-extern unsigned int func_0203630C(void);
+extern u32 KEY_GetTrg(void);
+extern unsigned int KEY_GetCont(void);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern void FIELDMAP_SetCtrlWork(FieldMap *fieldMap, void *ctrlWork);
@@ -306,8 +306,8 @@ void FIELDMAP_CTRL_HYBRID_UpdateGrid(FieldMap *fieldMap, FieldMapCtrlHybridWork 
     u32 flags;
     u16 dir;
 
-    keyTrg = func_020362DC();
-    keyCont = func_0203630C();
+    keyTrg = KEY_GetTrg();
+    keyCont = KEY_GetCont();
     flags = 0;
     mmdl = FIELD_PLAYER_GetMmdl(work->player);
     dir = FIELD_PLAYER_ChooseMoveDirFromKeys(work->player, keyCont);
@@ -345,8 +345,8 @@ void FIELDMAP_CTRL_HYBRID_UpdateNogrid(FieldMap *fieldMap, FieldMapCtrlHybridWor
     u32 useDir;
     u16 dir;
 
-    keyTrg = func_020362DC();
-    keyCont = func_0203630C();
+    keyTrg = KEY_GetTrg();
+    keyCont = KEY_GetCont();
     mmdl = FIELD_PLAYER_GetMmdl(work->player);
     if (work->stepActive == 0) {
         dir = FIELD_PLAYER_ChooseMoveDirFromKeys(work->player, keyCont);

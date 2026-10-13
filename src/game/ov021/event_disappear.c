@@ -39,9 +39,9 @@
  *   FLDEFF_KEMURI_Start  0x021AC528  thumb  ov021
  *   FIELD_TASK_CreatePlayerSpinLinear  0x021C71D4  thumb  ov021
  *   FIELD_TASK_CreatePlayerDrawOffsetTween  0x021C7858  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GFL_USE_GetSeSlot  0x02006148  thumb
- *   func_0200616C  0x0200616C  thumb
+ *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
  *   FIELD_G3D_MAPPER_GetBuildModel  0x0218DC6C  thumb  ov021
  *   FIELD_BUILDMODEL_CollectEntriesInRect  0x0218C584  thumb  ov021
@@ -51,11 +51,11 @@
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELD_TASK_CreatePlayerPosTween  0x021C754C  thumb  ov021
  *   FIELD_BUILDMODEL_IsNodeSlotIdle  0x0218C8FC  thumb  ov021
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
  *   FIELD_TASK_CreateCameraDistanceTween  0x021C6F00  thumb  ov021
  *   FIELD_TASK_CreateFade  0x021C7814  thumb  ov021
- *   func_020061F8  0x020061F8  thumb
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb
  *   FIELD_BUILDMODEL_DeleteNode  0x0218C860  thumb  ov021
  *   FIELD_TASK_CreatePlayerSpinEaseIn  0x021C7260  thumb  ov021
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
@@ -230,11 +230,11 @@ extern int FIELD_BUILDMODEL_IsNodeSlotIdle(struct BuildModelNode *node, int slot
 extern void FIELD_BUILDMODEL_DeleteNode(struct BuildModelNode *node);
 extern void FLDEFF_KEMURI_Start(Mmdl *mmdl, struct FieldEffectCtrl *effectCtrl);
 extern unsigned int func_020307B0(void *block);
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 extern int FADE_IsActive(void);
-extern void func_020061E4(u32 seId);
-extern void func_020061F8(int slot);
-extern void func_0200616C(u32 seqNo, int slot);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+extern void GFL_USE_StopSeSlot(int slot);
+extern void GFL_USE_PlaySeInSlot(u32 seqNo, int slot);
 extern int GFL_USE_GetSeSlot(u32 seqNo);
 
 GameEvent *EVENT_DISAPPEAR_CreateWalkFall(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, const VecFx32 *targetPos);
@@ -373,7 +373,7 @@ int EVENT_DISAPPEAR_RunWalkFall(GameEvent *event, int *seq, EventDisappearWork *
         *seq = EVENT_DISAPPEAR_WALK_FIND_NODE;
         break;
     case EVENT_DISAPPEAR_WALK_FIND_NODE:
-        func_0200616C(EVENT_DISAPPEAR_SE_WALK_LOOP, GFL_USE_GetSeSlot(EVENT_DISAPPEAR_SE_WALK_LOOP));
+        GFL_USE_PlaySeInSlot(EVENT_DISAPPEAR_SE_WALK_LOOP, GFL_USE_GetSeSlot(EVENT_DISAPPEAR_SE_WALK_LOOP));
         buildModelMan = FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(work->fieldMap));
         rect.xMin = work->targetPos.x - 0x20000;
         rect.xMax = work->targetPos.x + 0x20000;
@@ -415,7 +415,7 @@ int EVENT_DISAPPEAR_RunWalkFall(GameEvent *event, int *seq, EventDisappearWork *
     case EVENT_DISAPPEAR_WALK_WAIT:
         if (work->buildNode != 0 && FIELD_BUILDMODEL_IsNodeSlotIdle(work->buildNode, 0) != 0)
             FIELD_BUILDMODEL_PlayNodeSlot(work->buildNode, 0, 0);
-        keys = func_0203630C();
+        keys = KEY_GetCont();
         if (keys & EVENT_DISAPPEAR_PAD_UP)
             FLDMMDL_SetAcmd(mmdl, EVENT_DISAPPEAR_ACMD_WALK_UP);
         if (keys & EVENT_DISAPPEAR_PAD_DOWN)
@@ -432,7 +432,7 @@ int EVENT_DISAPPEAR_RunWalkFall(GameEvent *event, int *seq, EventDisappearWork *
             *seq = EVENT_DISAPPEAR_WALK_FALL;
         break;
     case EVENT_DISAPPEAR_WALK_FALL:
-        func_020061E4(EVENT_DISAPPEAR_SE_FALL);
+        GFL_USE_PlaySeDefaultVolume(EVENT_DISAPPEAR_SE_FALL);
         FLDMMDL_SetMoveBit(mmdl, MMDL_MOVEBIT_SHOAL_SET);
         fallOffset.x = 0;
         fallOffset.y = -0x1E000;
@@ -454,7 +454,7 @@ int EVENT_DISAPPEAR_RunWalkFall(GameEvent *event, int *seq, EventDisappearWork *
             *seq = EVENT_DISAPPEAR_WALK_END;
         break;
     case EVENT_DISAPPEAR_WALK_END:
-        func_020061F8(GFL_USE_GetSeSlot(EVENT_DISAPPEAR_SE_WALK_LOOP));
+        GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(EVENT_DISAPPEAR_SE_WALK_LOOP));
         FIELD_CAMERA_SetMode(camera, work->savedCameraMode);
         if (work->buildNode != 0)
             FIELD_BUILDMODEL_DeleteNode(work->buildNode);
@@ -490,7 +490,7 @@ int EVENT_DISAPPEAR_RunSpinZoom(GameEvent *event, int *seq, EventDisappearWork *
         }
     case EVENT_DISAPPEAR_ZOOM_WAIT:
         if (FIELD_TASK_MANAGER_IsEmpty(taskManager) != 0) {
-            func_020061E4(EVENT_DISAPPEAR_SE_SPIN_END);
+            GFL_USE_PlaySeDefaultVolume(EVENT_DISAPPEAR_SE_SPIN_END);
             (*seq)++;
         }
         break;
@@ -568,7 +568,7 @@ int EVENT_DISAPPEAR_RunSpinZoomEffect(GameEvent *event, int *seq, EventDisappear
     case EVENT_DISAPPEAR_ZOOM_START:
         EVENT_DISAPPEAR_StartSpinAndEffect(work);
         EVENT_DISAPPEAR_StartZoomInAlt(work);
-        func_020061E4(EVENT_DISAPPEAR_SE_SPIN_START);
+        GFL_USE_PlaySeDefaultVolume(EVENT_DISAPPEAR_SE_SPIN_START);
         *seq = *seq + 1;
         break;
     case EVENT_DISAPPEAR_ZOOM_COUNT:
@@ -581,7 +581,7 @@ int EVENT_DISAPPEAR_RunSpinZoomEffect(GameEvent *event, int *seq, EventDisappear
         }
     case EVENT_DISAPPEAR_ZOOM_WAIT:
         if (FIELD_TASK_MANAGER_IsEmpty(taskManager)) {
-            func_020061E4(EVENT_DISAPPEAR_SE_SPIN_END);
+            GFL_USE_PlaySeDefaultVolume(EVENT_DISAPPEAR_SE_SPIN_END);
             *seq = *seq + 1;
         }
         break;
@@ -682,9 +682,9 @@ int EVENT_DISAPPEAR_RunSpinFade(GameEvent *event, int *seq, EventDisappearWork *
         FIELD_TASK_MANAGER_AddTask(taskManager, waitTask, 0);
         FIELD_TASK_MANAGER_AddTask(taskManager, fadeTask, waitTask);
         if (work->soundVariant != 0)
-            func_020061E4(EVENT_DISAPPEAR_SE_FADE_ALT);
+            GFL_USE_PlaySeDefaultVolume(EVENT_DISAPPEAR_SE_FADE_ALT);
         else
-            func_020061E4(EVENT_DISAPPEAR_SE_FADE);
+            GFL_USE_PlaySeDefaultVolume(EVENT_DISAPPEAR_SE_FADE);
         anime = FIELD_CAMERA_ANIME_Create(fieldMap);
         work->cameraAnime.frames = EVENT_DISAPPEAR_ZOOM_FRAMES;
         work->cameraAnime.detachTarget = 1;
@@ -746,7 +746,7 @@ int EVENT_DISAPPEAR_RunRisingSpin(GameEvent *event, int *seq, EventDisappearWork
         FIELD_TASK_MANAGER_AddTask(taskManager, spinTask, 0);
         FIELD_TASK_MANAGER_AddTask(taskManager, offsetTask, 0);
         FIELD_TASK_MANAGER_AddTask(taskManager, fadeTask, offsetTask);
-        func_020061E4(EVENT_DISAPPEAR_SE_FADE);
+        GFL_USE_PlaySeDefaultVolume(EVENT_DISAPPEAR_SE_FADE);
         (*seq)++;
         break;
     case EVENT_DISAPPEAR_RISE_WAIT:

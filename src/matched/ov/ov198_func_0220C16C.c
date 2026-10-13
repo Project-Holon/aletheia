@@ -98,7 +98,7 @@
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201D304 0x0201D304 thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_0201EFA4 0x0201EFA4 thumb
@@ -118,7 +118,7 @@ struct U16Vec;
 struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(u32, u32, s16, s16, void *, u32, u32);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -151,7 +151,7 @@ void func_0220C16C(u8 *p, int slot, int index, u8 x0, u8 extra)
     slot = slot * 8;
     tab = p + 0x1F70;
     fl = p + 0x1F74;
-    PRINTSYS_PrintQueColor(ctx1, (u32)func_02045770(*(void **)(tab + slot)), x0, ex, text, P->f1E9C, 0x3DC0);
+    PRINTSYS_PrintQueColor(ctx1, (u32)BMP_WIN_GetBmp(*(void **)(tab + slot)), x0, ex, text, P->f1E9C, 0x3DC0);
     fl[slot] = 1;
     STRBUF_Delete(text);
     text2 = func_02045EC0(P->f1EA0, 13);
@@ -161,14 +161,14 @@ void func_0220C16C(u8 *p, int slot, int index, u8 x0, u8 extra)
     B = P->f1EA8;
     y = x0 - func_0201D304(B, A, 0);
     ctx2 = P->f1EAC;
-    PRINTSYS_PrintQueColor(ctx2, (u32)func_02045770(*(void **)(tab + slot)), y, ex, B, A, 0x3DC0);
+    PRINTSYS_PrintQueColor(ctx2, (u32)BMP_WIN_GetBmp(*(void **)(tab + slot)), y, ex, B, A, 0x3DC0);
     fl[slot] = 1;
     STRBUF_Delete(text2);
     text3 = func_02045EC0(P->f1EA0, 13);
     func_0201EFA4(P->f1EA4, 0, *(u16 *)(elem + 0x12), 3, 0, 1);
     func_0201F250(P->f1EA4, P->f1EA8, text3);
     ctx3 = P->f1EAC;
-    PRINTSYS_PrintQueColor(ctx3, (u32)func_02045770(*(void **)(tab + slot)), x0 + n, ex, P->f1EA8, P->f1E9C, 0x3DC0);
+    PRINTSYS_PrintQueColor(ctx3, (u32)BMP_WIN_GetBmp(*(void **)(tab + slot)), x0 + n, ex, P->f1EA8, P->f1E9C, 0x3DC0);
     fl[slot] = 1;
     STRBUF_Delete(text3);
 }

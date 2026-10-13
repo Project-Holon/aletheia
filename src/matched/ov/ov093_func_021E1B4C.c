@@ -1,5 +1,5 @@
 /*
- * function: func_021E1B4C
+ * function: HAND_WAZA_LastResortOnMoveFailCheck
  * address:  0x021E1B4C
  * packet:   pkt_ov093_021E1B4C
  * region:   ov093
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C7CF4  0x021C7CF4  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb  ov093
  *   BTL_POKEPARAM_GetMoveId  0x021D54C0  thumb  ov093
  *   BTL_POKEPARAM_GetMoveUsedFlag  0x021D54E0  thumb  ov093
@@ -22,13 +22,13 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int BTL_EVENT_GetVar(int key);
 struct QG;
-extern void *func_021C7CF4(int *p, int i);
+extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 extern u32 BTL_POKEPARAM_GetMoveUsedFlag(u8 *p, u32 i);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E1B4C(int a, void *p, int id)
+void HAND_WAZA_LastResortOnMoveFailCheck(int a, void *p, int id)
 {
     void *q;
     u8 n;
@@ -36,7 +36,7 @@ void func_021E1B4C(int a, void *p, int id)
     u8 cnt;
     int flag;
     if (id == BTL_EVENT_GetVar(2)) {
-        q = func_021C7CF4(p, id);
+        q = BTL_SERVER_FLOW_GetPokeParam(p, id);
         n = BTL_POKEPARAM_GetMoveCount(q);
         cnt = 0;
         flag = 0;

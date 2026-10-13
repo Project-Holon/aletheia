@@ -13,7 +13,7 @@
  * src/matched/ov/ov012_func_021736A0.c (pkt_ov012_021736A0), which resolves its call.
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_02030734  0x02030734  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
@@ -27,7 +27,7 @@
 typedef unsigned char u8;
 
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 typedef unsigned short u16;
 struct Big;
@@ -48,7 +48,7 @@ int UNION_ONESELF_ChatInputMain(u8 *a, int b, int c, u8 *d)
         if (a[0x282E] == 0)
             return 1;
         a[0x282E] = 0;
-        func_020061E4(0x54B);
+        GFL_USE_PlaySeDefaultVolume(0x54B);
         p = func_02030734(4, 12, 1, (const char *)d_021807E8, 0x41A);
         *p = (int)GAME_DATA_GetSaveControl((struct Big *)(*(int *)(((struct Obj04183 *)a)->f0 + 8)));
         *(int * *)&((struct Obj04183 *)a)->f3558 = p;

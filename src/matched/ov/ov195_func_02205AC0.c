@@ -12,7 +12,7 @@
  * symbols:
  *   d_02208CA0 0x02208CA0 data a4
  *   d_02208D1C 0x02208D1C data a4
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
@@ -38,7 +38,7 @@ typedef struct {
 
 extern u8 d_02208CA0[];
 extern struct G_02208D1C d_02208D1C[];
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void func_0203F8F4(void *);
 extern void BMP_WIN_Init(void *);
 struct BgTemplate;
@@ -52,7 +52,7 @@ void func_02205AC0(void *a, void *b)
 {
     u32 i;
 
-    func_02082BCC(a, 0, 4);
+    MI_CpuFill8(a, 0, 4);
     func_0203F8F4(b);
     BMP_WIN_Init(b);
     func_0203FC28((struct DispConfig *)d_02208CA0);

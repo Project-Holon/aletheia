@@ -34,16 +34,16 @@
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_02049990 0x02049990 arm
  *   func_020355C4 0x020355C4 arm
  *   func_021D8FA4 0x021D8FA4 thumb ov119
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
- *   func_0201BA68 0x0201BA68 thumb
+ *   POKE_TOOL_GetGraphicIndex 0x0201BA68 thumb
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
- *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   func_02040588 0x02040588 arm
  *   func_02041B6C 0x02041B6C arm
@@ -51,13 +51,13 @@
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045CAC 0x02045CAC arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   d_021E81D4 0x021E81D4 data a4
  *   BMP_WIN_ClearScreen 0x020456F8 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_02027694 0x02027694 thumb
  *   func_02027698 0x02027698 thumb
@@ -198,16 +198,16 @@ extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern u8 func_020355C4(void);
 extern void *func_021D8FA4(void *p, int a);
 extern void *POKE_TOOL_GetBoxParam(void *a);
-extern u32 func_0201BA68(void *mon);
+extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
 extern int POKE_TOOL_GetIconPalette(void *);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02041B6C(u32 bit);
@@ -215,13 +215,13 @@ extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_0201F7A8(void *desc, u32 kind);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_02017E1C(void *,u32,u32);
 extern u32 func_0202136C(u16);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
@@ -406,8 +406,8 @@ void func_021E58A0(int p)
     ARC_TOOL_DeleteHandle(a);
     s.x = 0x80; s.y = 0xb4; s.z = 2; s.a = 0xe; s.b = 0;
     ((TradeWork *)p)->fF04 = (int)CLACT_CreateActor((void *)((TradeWork *)p)->f9C4, ((TradeWork *)p)->f894, ((TradeWork *)p)->f880, ((TradeWork *)p)->f8B0, &s, 1, ((TradeWork *)p)->f5F4);
-    func_0204B92C((struct Obj *)((TradeWork *)p)->fF04, 0);
-    func_0204B3DC((struct Obj *)((TradeWork *)p)->fF04, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)((TradeWork *)p)->fF04, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)((TradeWork *)p)->fF04, 1);
 }
 
 
@@ -442,8 +442,8 @@ void func_021E5998(char *p)
     u.mode = 1;
     ((TradeWork *)p)->fF08 = CLACT_CreateActor((*(void * *)&((TradeWork *)p)->f9C4), (unsigned int)(*(void * *)&((TradeWork *)p)->f894), (unsigned int)(*(void * *)&((TradeWork *)p)->f880),
         (unsigned int)(*(void * *)&((TradeWork *)p)->f8B0), &u, 1, ((TradeWork *)p)->f5F4);
-    func_0204B92C(((TradeWork *)p)->fF08, 1);
-    func_0204B3DC(((TradeWork *)p)->fF08, 1);
+    CLACT_SetActorAutoAnim(((TradeWork *)p)->fF08, 1);
+    CLACT_SetActorDrawEnable(((TradeWork *)p)->fF08, 1);
     u.x = 0x60;
     u.y = 0x10;
     u.prio = 0;
@@ -451,16 +451,16 @@ void func_021E5998(char *p)
     u.mode = 1;
     (*(void * *)&((TradeWork *)p)->fF0C) = CLACT_CreateActor((*(void * *)&((TradeWork *)p)->f9C4), (unsigned int)(*(void * *)&((TradeWork *)p)->f894), (unsigned int)(*(void * *)&((TradeWork *)p)->f880),
         (unsigned int)(*(void * *)&((TradeWork *)p)->f8B0), &u, 1, ((TradeWork *)p)->f5F4);
-    func_0204B92C((*(void * *)&((TradeWork *)p)->fF0C), 1);
+    CLACT_SetActorAutoAnim((*(void * *)&((TradeWork *)p)->fF0C), 1);
     if (func_020355C4()) {
-        func_0204B3DC((*(void * *)&((TradeWork *)p)->fF0C), 0);
+        CLACT_SetActorDrawEnable((*(void * *)&((TradeWork *)p)->fF0C), 0);
     }
     arc = func_020490F4(7, ((TradeWork *)p)->f5F4);
     z = 0;
     a = POKE_TOOL_GetBoxParam(func_021D8FA4(p, 0));
     b = POKE_TOOL_GetBoxParam(func_021D8FA4(p, 1));
-    (*(void * *)&((TradeWork *)p)->f89C) = (void *)CLACT_RegisterCharacter(arc, func_0201BA68(a), z, 1, ((TradeWork *)p)->f5F4);
-    (*(void * *)&((TradeWork *)p)->f8A0) = (void *)CLACT_RegisterCharacter(arc, func_0201BA68(b), z, 1, ((TradeWork *)p)->f5F4);
+    (*(void * *)&((TradeWork *)p)->f89C) = (void *)CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex(a), z, 1, ((TradeWork *)p)->f5F4);
+    (*(void * *)&((TradeWork *)p)->f8A0) = (void *)CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex(b), z, 1, ((TradeWork *)p)->f5F4);
     t.x = 0x60;
     t.y = 0xc;
     t.prio = z;
@@ -468,15 +468,15 @@ void func_021E5998(char *p)
     t.mode = 1;
     (*(void * *)&((TradeWork *)p)->fF10) = CLACT_CreateActor((*(void * *)&((TradeWork *)p)->f9C4), (unsigned int)(*(void * *)&((TradeWork *)p)->f89C), (unsigned int)((TradeWork *)p)->f87C,
         (unsigned int)((TradeWork *)p)->f8AC, &t, 1, ((TradeWork *)p)->f5F4);
-    func_0204B92C((*(void * *)&((TradeWork *)p)->fF10), 0);
-    func_0204B3DC((*(void * *)&((TradeWork *)p)->fF10), 1);
-    func_0204B6F4((*(void * *)&((TradeWork *)p)->fF10), POKE_TOOL_GetIconPalette(a), 1);
+    CLACT_SetActorAutoAnim((*(void * *)&((TradeWork *)p)->fF10), 0);
+    CLACT_SetActorDrawEnable((*(void * *)&((TradeWork *)p)->fF10), 1);
+    CLACT_SetActorPaletteOffset((*(void * *)&((TradeWork *)p)->fF10), POKE_TOOL_GetIconPalette(a), 1);
     t.x = 0xa0;
     (*(void * *)&((TradeWork *)p)->fF14) = CLACT_CreateActor((*(void * *)&((TradeWork *)p)->f9C4), (unsigned int)(*(void * *)&((TradeWork *)p)->f8A0), (unsigned int)((TradeWork *)p)->f87C,
         (unsigned int)((TradeWork *)p)->f8AC, &t, 1, ((TradeWork *)p)->f5F4);
-    func_0204B92C((*(void * *)&((TradeWork *)p)->fF14), 0);
-    func_0204B3DC((*(void * *)&((TradeWork *)p)->fF14), 1);
-    func_0204B6F4((*(void * *)&((TradeWork *)p)->fF14), POKE_TOOL_GetIconPalette(b), 1);
+    CLACT_SetActorAutoAnim((*(void * *)&((TradeWork *)p)->fF14), 0);
+    CLACT_SetActorDrawEnable((*(void * *)&((TradeWork *)p)->fF14), 1);
+    CLACT_SetActorPaletteOffset((*(void * *)&((TradeWork *)p)->fF14), POKE_TOOL_GetIconPalette(b), 1);
     ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -494,14 +494,14 @@ void func_021E5B6C(int p, int b, int c)
     Pos_021E5680 pos;
     if (c) {
         pos.x = 96; pos.y = 12;
-        func_0204B404((struct Obj *)(((TradeWork *)p)->fF10), (const struct Vec2 *)(&pos), 1);
+        CLACT_AddActorSurfacePos((struct Obj *)(((TradeWork *)p)->fF10), (const struct Vec2 *)(&pos), 1);
         pos.x = 160; pos.y = 12;
-        func_0204B404((struct Obj *)(((TradeWork *)p)->fF14), (const struct Vec2 *)(&pos), 1);
+        CLACT_AddActorSurfacePos((struct Obj *)(((TradeWork *)p)->fF14), (const struct Vec2 *)(&pos), 1);
     } else {
         pos.x = 96; pos.y = b == 0 ? 8 : 12;
-        func_0204B404((struct Obj *)(((TradeWork *)p)->fF10), (const struct Vec2 *)(&pos), 1);
+        CLACT_AddActorSurfacePos((struct Obj *)(((TradeWork *)p)->fF10), (const struct Vec2 *)(&pos), 1);
         pos.x = 160; pos.y = b ? 8 : 12;
-        func_0204B404((struct Obj *)(((TradeWork *)p)->fF14), (const struct Vec2 *)(&pos), 1);
+        CLACT_AddActorSurfacePos((struct Obj *)(((TradeWork *)p)->fF14), (const struct Vec2 *)(&pos), 1);
     }
 }
 
@@ -556,7 +556,7 @@ void func_021E5C64(char *p)
     for (i = 0; i < 26; i++) {
         *(void **)(p + i * 4 + 0x750) = (void *)BMP_WIN_Create(6, (u8)d_021E81D4[i].x, (u8)d_021E81D4[i].y, 2, 2, 14, 0);
         func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720), i + 0x35, (void *)(((TradeWork *)p)->f730));
-        PRINTSYS_Print(func_02045770(*(void **)(p + i * 4 + 0x750)), 0, 0, (*(void * *)&((TradeWork *)p)->f730), ((TradeWork *)p)->f728);
+        PRINTSYS_Print(BMP_WIN_GetBmp(*(void **)(p + i * 4 + 0x750)), 0, 0, (*(void * *)&((TradeWork *)p)->f730), ((TradeWork *)p)->f728);
         BMP_WIN_MakeScreen(*(void **)(p + i * 4 + 0x750));
         BMP_WIN_TransferChars(*(void **)(p + i * 4 + 0x750));
     }
@@ -580,13 +580,13 @@ void func_021E5D84(char *p)
     func_02040588(4, 0);
     func_02040618(4, 0, 0);
     func_02040618(6, 0, 0);
-    if (((TradeWork *)p)->fF04) func_0204B3DC((struct Obj *)((TradeWork *)p)->fF04, 1);
-    if (((TradeWork *)p)->fF18) func_0204B3DC((struct Obj *)((TradeWork *)p)->fF18, 1);
+    if (((TradeWork *)p)->fF04) CLACT_SetActorDrawEnable((struct Obj *)((TradeWork *)p)->fF04, 1);
+    if (((TradeWork *)p)->fF18) CLACT_SetActorDrawEnable((struct Obj *)((TradeWork *)p)->fF18, 1);
     for (i = 0; i < 26; i++) {
         if (*(int *)(p + i * 4 + 0x750)) {
             BMP_WIN_ClearScreen((struct Descriptor *)(*(int *)(p + i * 4 + 0x750)));
             func_0201F7A8((void *)(*(int *)(p + i * 4 + 0x750)), 2);
-            func_020452E8((struct Descriptor *)(*(int *)(p + i * 4 + 0x750)));
+            BMP_WIN_Delete((struct Descriptor *)(*(int *)(p + i * 4 + 0x750)));
             *(int *)(p + i * 4 + 0x750) = 0;
         }
     }
@@ -618,10 +618,10 @@ void func_021E5DFC(char *p, int side, void *mon)
     u32 species = func_02017E1C(mon,6,0);
     if (func_0202136C(species)) flag = 1;
     if (((struct Obj06428 *)q)->f10) {
-        if (!species) func_0204B3DC((struct Obj *)((struct Obj06428 *)q)->f10,0);
+        if (!species) CLACT_SetActorDrawEnable((struct Obj *)((struct Obj06428 *)q)->f10,0);
         else {
             CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj06428 *)q)->f10),flag);
-            func_0204B3DC((struct Obj *)((struct Obj06428 *)q)->f10,1);
+            CLACT_SetActorDrawEnable((struct Obj *)((struct Obj06428 *)q)->f10,1);
         }
         return;
     }
@@ -680,8 +680,8 @@ void func_021E5F14(char *p, int side, int flag, void *mon)
     In_021E5680 in;
     u32 a = POKERUS_IsInfected(mon);
     if (((struct Obj06429 *)q)->f10) {
-        if (!a) func_0204B3DC((struct Obj *)((struct Obj06429 *)q)->f10,0);
-        else func_0204B3DC((struct Obj *)((struct Obj06429 *)q)->f10,1);
+        if (!a) CLACT_SetActorDrawEnable((struct Obj *)((struct Obj06429 *)q)->f10,0);
+        else CLACT_SetActorDrawEnable((struct Obj *)((struct Obj06429 *)q)->f10,1);
         return;
     }
     if (!a) {
@@ -716,8 +716,8 @@ void func_021E6008(char *p, int b, void *c)
     int a = POKERUS_IsCured(c);
     if (a == 0) return;
     if (((struct Obj08074 *)q)->f10) {
-        if (a == 0) func_0204B3DC((struct Obj *)((struct Obj08074 *)q)->f10, 0);
-        else func_0204B3DC((struct Obj *)((struct Obj08074 *)q)->f10, 1);
+        if (a == 0) CLACT_SetActorDrawEnable((struct Obj *)((struct Obj08074 *)q)->f10, 0);
+        else CLACT_SetActorDrawEnable((struct Obj *)((struct Obj08074 *)q)->f10, 1);
         return;
     }
     in.f0 = 1; in.b1c = 14; in.f4 = 0;
@@ -781,14 +781,14 @@ void func_021E60BC(char *p,void *mon,int flag)
         if (bits&(1<<i)) { row=states.v[(unsigned)i]; state=states.v[i][0]; }
         else { row=states.v[i]; state=row[1]; }
         if (sprite) {
-            if (state==-1) func_0204B3DC((struct Obj *)sprite,0);
-            else if (flag && i==6) func_0204B3DC((struct Obj *)sprite,0);
-            else { CLACT_SetActorAnimSeq((struct Obj *)sprite,state); func_0204B3DC((struct Obj *)sprite,1); }
+            if (state==-1) CLACT_SetActorDrawEnable((struct Obj *)sprite,0);
+            else if (flag && i==6) CLACT_SetActorDrawEnable((struct Obj *)sprite,0);
+            else { CLACT_SetActorAnimSeq((struct Obj *)sprite,state); CLACT_SetActorDrawEnable((struct Obj *)sprite,1); }
         } else {
             *(int *)(p+(unsigned long)i*4+offStore)=UI_SCENE_CreateActor((void *)(p+0x98c),*(int *)(p+offOwner),coords.v[(unsigned long)i]*8,101,state==-1?row[0]:state,((TradeWork *)p)->f5F4);
             sprite=*(int *)(p+(unsigned long)i*4+offLoad);
-            if (state==-1) func_0204B3DC((struct Obj *)sprite,0);
-            else if (flag && i==6) func_0204B3DC((struct Obj *)sprite,0);
+            if (state==-1) CLACT_SetActorDrawEnable((struct Obj *)sprite,0);
+            else if (flag && i==6) CLACT_SetActorDrawEnable((struct Obj *)sprite,0);
         }
     }
 }
@@ -843,7 +843,7 @@ void func_021E6308(Work_021E6308 *p, int a, int v)
     int i;
     for (i = 0; i < 3; i++) {
         if (p->h[a][i])
-            func_0204B3DC((struct Obj *)p->h[a][i], v);
+            CLACT_SetActorDrawEnable((struct Obj *)p->h[a][i], v);
     }
 }
 
@@ -868,11 +868,11 @@ void func_021E6334(char *p,int i,int j,void *mon,int selected,u32 visible)
         c.x=d_021E7DA0[i*3+j][0]; c.y=d_021E7DA0[i*3+j][1]; n=1;
     }
     c.z=1; c.a=16; c.b=1;
-    *(int *)(p+0x1020+i*12+j*4) = CLACT_RegisterCharacter((void *)((u32)h),func_0201BA68(q),0,n,((TradeWork *)p)->f5F4);
+    *(int *)(p+0x1020+i*12+j*4) = CLACT_RegisterCharacter((void *)((u32)h),POKE_TOOL_GetGraphicIndex(q),0,n,((TradeWork *)p)->f5F4);
     *(int *)(p+0x1008+i*12+j*4) = (int)CLACT_CreateActor((void *)((TradeWork *)p)->f9C4,*(int *)(p+0x1020+i*12+j*4),*(int *)&((TradeWork *)p)->f890,*(int *)&((TradeWork *)p)->f8C0,&c,n,((TradeWork *)p)->f5F4);
-    func_0204B6F4((struct Obj *)(*(int *)(p+0x1008+i*12+j*4)),POKE_TOOL_GetIconPalette(q),1);
-    func_0204B92C((struct Obj *)*(int *)(p+0x1008+i*12+j*4),0);
-    func_0204B3DC((struct Obj *)*(int *)(p+0x1008+i*12+j*4),visible);
+    CLACT_SetActorPaletteOffset((struct Obj *)(*(int *)(p+0x1008+i*12+j*4)),POKE_TOOL_GetIconPalette(q),1);
+    CLACT_SetActorAutoAnim((struct Obj *)*(int *)(p+0x1008+i*12+j*4),0);
+    CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p+0x1008+i*12+j*4),visible);
     ARC_TOOL_DeleteHandle((void *)((int)h));
 }
 
@@ -886,7 +886,7 @@ void func_021E6440(int p, int a, int b) {
             if (*(int *)(p+i*12+j*4+0x1008)) {
                 pos.x=d_021E7DA0[i*3+j][0]; pos.y=d_021E7DA0[i*3+j][1];
                 if (i==a && j==b) pos.y-=4;
-                func_0204B404((struct Obj *)(*(int *)(p+i*12+j*4+0x1008)),(const struct Vec2 *)(&pos),1);
+                CLACT_AddActorSurfacePos((struct Obj *)(*(int *)(p+i*12+j*4+0x1008)),(const struct Vec2 *)(&pos),1);
             }
         }
     }
@@ -910,7 +910,7 @@ void func_021E64DC(int p, int i, int j, int x, int y, void *q) {
     Create c;
     c.x=x; c.y=y; c.z=1; c.a=0; c.b=0;
     ((TradeWork *)p)->fF20=(int)CLACT_CreateActor((void *)((TradeWork *)p)->f9C4,*(int *)(p+i*20+j*4+0x9cc),(*(int *)&((TradeWork *)p)->f87C),(*(int *)&((TradeWork *)p)->f8AC),&c,1,((TradeWork *)p)->f5F4);
-    func_0204B6F4((struct Obj *)(((TradeWork *)p)->fF20),POKE_TOOL_GetIconPalette(q),1);
+    CLACT_SetActorPaletteOffset((struct Obj *)(((TradeWork *)p)->fF20),POKE_TOOL_GetIconPalette(q),1);
 }
 
 
@@ -956,7 +956,7 @@ int func_021E665C(char *p) {
             func_021E729C((struct Curve *)(p+0x1190));
             pos.x=((TradeWork *)p)->f1190/4096;
             pos.y=((TradeWork *)p)->f1194/4096;
-            func_0204B404((struct Obj *)(((TradeWork *)p)->fF20),(const struct Vec2 *)(&pos),1);
+            CLACT_AddActorSurfacePos((struct Obj *)(((TradeWork *)p)->fF20),(const struct Vec2 *)(&pos),1);
         }
     }
     return 0;
@@ -989,15 +989,15 @@ void func_021E6718(char *p, int i) {
         c.x=i*24+8; c.y=144; c.z=i+11; c.a=50; c.b=1;
         *(int *)(p+0x10bc+i*4)=(int)CLACT_CreateActor((void *)((TradeWork *)p)->f9C4,((TradeWork *)p)->f894,((TradeWork *)p)->f880,((TradeWork *)p)->f8B0,&c,1,((TradeWork *)p)->f5F4);
     }
-    func_0204B92C((struct Obj *)*(int *)(p+0x10bc+i*4),1);
-    func_0204B3DC((struct Obj *)*(int *)(p+0x10bc+i*4),1);
+    CLACT_SetActorAutoAnim((struct Obj *)*(int *)(p+0x10bc+i*4),1);
+    CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p+0x10bc+i*4),1);
 }
 
 
 
 void func_021E6790(void *p, int i, int a)
 {
-    func_0204B3DC((struct Obj *)*(int *)((char *)p + i * 4 + 0x10bc), a);
+    CLACT_SetActorDrawEnable((struct Obj *)*(int *)((char *)p + i * 4 + 0x10bc), a);
 }
 
 
@@ -1023,16 +1023,16 @@ void func_021E67E0(Work *p, int z, int i) {
     c.x=i*206+8; c.y=160; c.z=4; c.a=1; c.b=0;
     if (!p->slot[i*2]) {
         p->slot[i*2]=(int)CLACT_CreateActor((void *)p->g9c4,p->g898,p->g884,p->g8b4,&c,0,p->heap);
-        func_0204B92C((struct Obj *)p->slot[i*2],1);
-        func_0204B3DC((struct Obj *)p->slot[i*2],1);
+        CLACT_SetActorAutoAnim((struct Obj *)p->slot[i*2],1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->slot[i*2],1);
     } else {
-        func_0204B3DC((struct Obj *)p->slot[i*2],1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->slot[i*2],1);
     }
     if (!p->slot[i*2+1]) {
         c.a=0; c.z=z;
         p->slot[i*2+1]=(int)CLACT_CreateActor((void *)p->g9c4,p->g898,p->g884,p->g8b4,&c,0,p->heap);
-        func_0204B92C((struct Obj *)p->slot[i*2+1],1);
-        func_0204B3DC((struct Obj *)p->slot[i*2+1],1);
+        CLACT_SetActorAutoAnim((struct Obj *)p->slot[i*2+1],1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->slot[i*2+1],1);
     } else {
         CLACT_SetActorAnimSeq((struct Obj *)p->slot[i*2+1],z);
     }
@@ -1061,15 +1061,15 @@ void func_021E68F4(int p, int i) {
     Table t=d_021E7DEC;
     Create c;
     if(i==-1) {
-        if(((TradeWork *)p)->fFD4) func_0204B3DC((struct Obj *)((TradeWork *)p)->fFD4,0);
+        if(((TradeWork *)p)->fFD4) CLACT_SetActorDrawEnable((struct Obj *)((TradeWork *)p)->fFD4,0);
     } else {
         if(!((TradeWork *)p)->fFD4) {
             c.x=64;c.y=48;c.z=23;c.a=0;c.b=1;
             ((TradeWork *)p)->fFD4=(int)CLACT_CreateActor((void *)((TradeWork *)p)->f9C4,((TradeWork *)p)->f894,((TradeWork *)p)->f880,((TradeWork *)p)->f8B0,&c,1,((TradeWork *)p)->f5F4);
         }
-        func_0204B92C((struct Obj *)((TradeWork *)p)->fFD4,1);
-        func_0204B3DC((struct Obj *)((TradeWork *)p)->fFD4,1);
-        func_0204B404((struct Obj *)(((TradeWork *)p)->fFD4),(const struct Vec2 *)(&t.pos[i]),1);
+        CLACT_SetActorAutoAnim((struct Obj *)((TradeWork *)p)->fFD4,1);
+        CLACT_SetActorDrawEnable((struct Obj *)((TradeWork *)p)->fFD4,1);
+        CLACT_AddActorSurfacePos((struct Obj *)(((TradeWork *)p)->fFD4),(const struct Vec2 *)(&t.pos[i]),1);
     }
 }
 
@@ -1098,20 +1098,20 @@ int func_021E69C0(char *p)
     for(i=0;i<8;i++) {
         CLACT_GetActorSurfacePos(*(void **)(p+i*4+0x10cc),(struct PtS *)&a,1);
         if(i/4) a.x+=4; else a.x-=4;
-        func_0204B404(*(void **)(p+i*4+0x10cc),(const struct Vec2 *)(&a),1);
+        CLACT_AddActorSurfacePos(*(void **)(p+i*4+0x10cc),(const struct Vec2 *)(&a),1);
     }
     for(i=0;i<3;i++) {
         if(*(void **)(p+i*4+0x1008)) {
             CLACT_GetActorSurfacePos(*(void **)(p+i*4+0x1008),(struct PtS *)&b,1);
             b.x-=4;
-            func_0204B404(*(void **)(p+i*4+0x1008),(const struct Vec2 *)(&b),1);
+            CLACT_AddActorSurfacePos(*(void **)(p+i*4+0x1008),(const struct Vec2 *)(&b),1);
         }
     }
     for(i=0;i<3;i++) {
         if(*(void **)(p+i*4+0x1014)) {
             CLACT_GetActorSurfacePos(*(void **)(p+i*4+0x1014),(struct PtS *)&c,1);
             c.x+=4;
-            func_0204B404(*(void **)(p+i*4+0x1014),(const struct Vec2 *)(&c),1);
+            CLACT_AddActorSurfacePos(*(void **)(p+i*4+0x1014),(const struct Vec2 *)(&c),1);
         }
     }
     func_02040618(5,0,-((TradeWork *)p)->f11DE);
@@ -1139,7 +1139,7 @@ void func_021E6AB0(const char *p)
             a.x-=128;
             CLACT_SetActorBgPriority(*(void **)(p+i*4+0x10cc),3);
         } else a.x+=128;
-        func_0204B404(*(void **)(p+i*4+0x10cc),(const struct Vec2 *)(&a),1);
+        CLACT_AddActorSurfacePos(*(void **)(p+i*4+0x10cc),(const struct Vec2 *)(&a),1);
     }
     for(i=0;i<3;i++) {
         if(*(void **)(p+i*4+0x1008)) {
@@ -1147,14 +1147,14 @@ void func_021E6AB0(const char *p)
             b.x+=128;
             tmp=i;
             tmp=tmp*4;
-            func_0204B404(*(void **)(p+tmp+0x1008),(const struct Vec2 *)(&b),1);
+            CLACT_AddActorSurfacePos(*(void **)(p+tmp+0x1008),(const struct Vec2 *)(&b),1);
         }
     }
     for(j=0;j<3;j++) {
         if(*(void **)(p+j*4+0x1014)) {
             CLACT_GetActorSurfacePos(*(void **)(p+j*4+0x1014),(struct PtS *)&c,1);
             c.x-=128;
-            func_0204B404(*(void **)(p+j*4+0x1014),(const struct Vec2 *)(&c),1);
+            CLACT_AddActorSurfacePos(*(void **)(p+j*4+0x1014),(const struct Vec2 *)(&c),1);
             CLACT_SetActorBgPriority(*(void **)(p+j*4+0x1014),3);
         }
     }

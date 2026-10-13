@@ -24,7 +24,7 @@
  *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
  *   func_020355C4 0x020355C4 arm
  *   func_021C0F14 0x021C0F14 thumb ov110
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   PMS_WORD_GetSaveEntry 0x02024910 thumb
  *   PMSI_PARAM_IsComplete 0x02024464 thumb
  */
@@ -40,7 +40,7 @@ extern u8 func_020355C4(void);
 extern int func_021C0F14(u8 *);
 typedef unsigned int   u32;
 struct T;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void *PMS_WORD_GetSaveEntry(char *p, int idx);
 extern int PMSI_PARAM_IsComplete(struct T *p, u32 a1);
 int func_021C133C(void *unused,u8 *p)
@@ -71,7 +71,7 @@ int func_021C133C(void *unused,u8 *p)
         }
         if(*(int *)(p+0xa4)) input=func_021C0F14(p);
         if(input) {
-            func_020061E4(1356);
+            GFL_USE_PlaySeDefaultVolume(1356);
             *(int *)(p+0x40)=1;
         }
     } else {

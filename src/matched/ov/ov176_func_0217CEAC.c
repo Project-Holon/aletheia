@@ -12,7 +12,7 @@
  * function_starts: 0217CFD0,0217CFDC
  * ABI: coordinates are byte locals; X/width/height externs are widened because original has no call-site narrowing.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021E88B0 0x021E88B0 thumb ov177
  *   func_021E89D0 0x021E89D0 thumb ov177
  *   func_021E8A00 0x021E8A00 thumb ov177
@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 f00, f04, f08, option0, option1, option2, f18, count; u16 f20, f22, f24, f26; u32 f28; u16 f2c, f2e; } Menu;
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern void *func_021E88B0(Menu *, int, u8, int, int, int);
 extern void func_021E89D0(void *);
 extern int func_021E8A00(void *);
@@ -33,7 +33,7 @@ void func_0217CEAC(u8 *p, int mode)
     Menu rec;
     int layout;
     u8 x, y, width, height;
-    func_02082BCC(&rec, 0, 0x30);
+    MI_CpuFill8(&rec, 0, 0x30);
     rec.f00 = ((struct Obj00053 *)p)->f20;
     rec.f04 = *(u32 *)&((struct Obj00053 *)p)->f1A8;
     rec.f08 = *(u32 *)&((struct Obj00053 *)p)->f1AC;

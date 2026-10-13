@@ -31,7 +31,7 @@
  *   MOVE_POKEMON_CreateSkillEvent  0x0215EA38  thumb  ov010
  *   EVENT_SHORTCUT_MENU_CreateProcEvent  0x0216075C  thumb  ov010
  *   EVENTDATA_SYSTEM_CreateFieldLinkEvent  0x021644F4  thumb  ov010
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_SetFrameRate  0x020129D0  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
@@ -96,7 +96,7 @@ extern int MOVE_POKEMON_CreateSkillEvent(int a0, int a1, int a2);
 struct Owner;
 extern void *EVENT_SHORTCUT_MENU_CreateProcEvent(struct Owner *o, u16 id);
 extern int EVENTDATA_SYSTEM_CreateFieldLinkEvent(int i, void *a, void *p);
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void GAME_DATA_SetFrameRate(struct BigObj *p, u8 v);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
@@ -117,7 +117,7 @@ int SCRCMD_NETWORK_BattleRecordLinkEventMain(void *task, void *unused, Ctx *c)
     case 0:
         if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(c->field)) == 1) {
             map = FIELDMAP_GetMmdlSys(c->field);
-            sys = GAMESYSTEM_GetGameData(func_020124E4(task));
+            sys = GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(task));
             FLDMMDL_SysPauseMove(map);
             GAME_DATA_SetFrameRate(sys, 1);
             FIELD_SUBSCREEN_RequestMode(FIELDMAP_GetSubscreen(c->field), 1);
@@ -135,7 +135,7 @@ int SCRCMD_NETWORK_BattleRecordLinkEventMain(void *task, void *unused, Ctx *c)
         }
         break;
     case 2:
-        sys = GAMESYSTEM_GetGameData(func_020124E4(task));
+        sys = GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(task));
         n = FIELD_SUBSCREEN_GetMenuSelectedButton((void *)FIELDMAP_GetSubscreen(c->field));
         GAME_DATA_SetFrameRate(sys, n);
         c->f10 = FIELD_SUBSCREEN_GetMenuSelectedButton((void *)FIELDMAP_GetSubscreen(c->field));
@@ -145,7 +145,7 @@ int SCRCMD_NETWORK_BattleRecordLinkEventMain(void *task, void *unused, Ctx *c)
     case 3:
         FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(c->field));
         if (c->f40 != 1 && c->f40 != 4) {
-            GAME_EVENT_ChangeEvent(task, func_021945A4(func_020124E4(task), (u32)c->field, c->f18));
+            GAME_EVENT_ChangeEvent(task, func_021945A4(GAME_EVENT_GetGameSystem(task), (u32)c->field, c->f18));
             return 0;
         }
         return 1;

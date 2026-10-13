@@ -23,7 +23,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   CODEIN_PARAM_Create 0x0202E4EC thumb
  *   func_020307B0 0x020307B0 arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
@@ -56,7 +56,7 @@ struct Param;
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
 extern u32 func_020307B0(void *p);
 extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
@@ -84,7 +84,7 @@ int func_021D85C0(void *obj,void *unused,const Param *cfg)
     Param *q;
     GFL_HEAP_CreateChildHeap((u32)((void *)1),50,0x40000);
     p=PROCSYS_AllocProcWork(obj,0x34C,50);
-    func_02082BCC(p,0,0x34C);
+    MI_CpuFill8(p,0,0x34C);
     if(cfg==0) {
         sizes[0]=4; sizes[1]=4; sizes[2]=4;
         q=(Param *)CODEIN_PARAM_Create(50,0,0,12,sizes);

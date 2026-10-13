@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetMysticWaterHandlers
+ * function: HAND_ITEM_GetMysticWaterHandlers
  * address: 0x021DF7AC
  * packet: pkt_ov093_021DF7AC
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int gMysticWaterHandlers[];
-int *BTL_HANDLER_ITEM_GetMysticWaterHandlers(int *p);
+int *HAND_ITEM_GetMysticWaterHandlers(int *p);
 
-int *BTL_HANDLER_ITEM_GetMysticWaterHandlers(int *p)
+int *HAND_ITEM_GetMysticWaterHandlers(int *p)
 {
     *p = 1;
     return gMysticWaterHandlers;

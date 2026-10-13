@@ -26,7 +26,7 @@
  * func_021B8364 0x021B8364 thumb ov103
  * func_021B8A44 0x021B8A44 thumb ov103
  * func_021B6480 0x021B6480 thumb ov101
- * func_020061E4 0x020061E4 thumb
+ * GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  * d_021B925C 0x021B925C data a4
  * d_021B926C 0x021B926C data a4
  */
@@ -54,7 +54,7 @@ extern void func_021B8CB0(u8 *,int,int,int);
 extern void func_021B8338(u32 p, u32 a);
 extern void func_021B8728(u8 *,u16 *),func_021B8364(u8 *,u16 *),func_021B8A44(u8 *,u16 *);
 extern int func_021B6480(int *);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u32 d_021B925C[],d_021B926C[];
 void func_021B856C(u8 *p,u16 *state)
 {
@@ -97,7 +97,7 @@ void func_021B856C(u8 *p,u16 *state)
                 q=func_021B7954(p);
                 func_021B8CA0((u8 **)q,1,1);
                 func_021B8CB0(q,1,pos[0],pos[1]);
-                func_020061E4(0x656);
+                GFL_USE_PlaySeDefaultVolume(0x656);
             } else if(!func_021B8D9C(d_021B925C,xy)) *state=2;
             break;
         case 2:

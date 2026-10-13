@@ -12,7 +12,7 @@
  * lever: enum tag 0x24F remains live and becomes offset 0x1B4.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02213804 0x02213804 thumb ov199
  *   func_02034714 0x02034714 arm
  *   GFL_USE_GetBgmNo 0x02005C44 thumb
@@ -22,7 +22,7 @@
  */
 #include "../include/Obj08368.h"
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern unsigned char func_02213804(char *p);
@@ -35,7 +35,7 @@ int *func_02212740(void *obj, unsigned heap, char *ctx)
 {
     Offset2740 offset = tag_2740;
     int *p = func_02030734(heap, 0x18, 0, d_02213D04, tag_2740);
-    func_02082BCC(p, 0, 0x18);
+    MI_CpuFill8(p, 0, 0x18);
     p[0] = ((struct Obj08368 *)ctx)->f4;
     offset -= 0x9b;
     p[3] = ((struct Obj08368 *)ctx)->f28;

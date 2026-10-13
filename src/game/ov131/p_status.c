@@ -51,7 +51,7 @@
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
@@ -94,48 +94,48 @@
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   _ButtonPlacement 0x021DBFA0 data ov131
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   func_02049B40 0x02049B40 arm
- *   func_0201C450 0x0201C450 thumb
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_CreateEx 0x0201C450 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   _TouchHitRects 0x021DC114 data a1
- *   func_0201C6B4 0x0201C6B4 thumb
- *   func_0203633C 0x0203633C arm
- *   func_020362DC 0x020362DC arm
- *   func_020061E4 0x020061E4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
+ *   KEY_GetRepeat 0x0203633C arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_02061CA4 0x02061CA4 arm
  *   _CursorColorsFrom 0x021DBFA8 data a2
  *   _CursorColorsTo 0x021DBFB8 data a2
  *   FX_SinCosTable_ 0x020A1B38 data
  *   PM_VOICE_StopSlot 0x02006BB4 thumb
  *   func_02017E1C 0x02017E1C thumb
- *   func_02006CAC 0x02006CAC thumb
+ *   PM_VOICE_GetPerapVoiceSave 0x02006CAC thumb
  *   PM_VOICE_Play 0x02006984 thumb
  *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Create 0x020457B0 arm
  *   func_02017E88 0x02017E88 thumb
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02030734 0x02030734 arm
- *   func_0203630C 0x0203630C arm
- *   func_0201A920 0x0201A920 thumb
- *   func_0201A954 0x0201A954 thumb
+ *   KEY_GetCont 0x0203630C arm
+ *   POKEPARTY_Create 0x0201A920 thumb
+ *   POKEPARTY_InitEx 0x0201A954 thumb
  *   POKE_TOOL_Create 0x020173F0 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
- *   func_0201A98C 0x0201A98C thumb
+ *   POKEPARTY_Add 0x0201A98C thumb
  *   POKE_TOOL_ClearBoxParam 0x02017550 thumb
  *   func_02005728 0x02005728 thumb
  *   POKE_TOOL_SetupBoxParam 0x02017600 thumb
@@ -313,7 +313,7 @@ extern void func_0207D63C(u32 *,u32,u32,u32,u32);
 extern void CLACT_InitSystem(const struct ClactSysSetup *cfg, u32 arg, u32 heapId);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *bank);
-extern void func_020434DC(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u16,void (*)(void));
 extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct Vec3 *,struct Vec3 *,struct Vec3 *,u16);
 extern void func_02048AD0(struct Camera *l);
@@ -374,31 +374,31 @@ extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern struct ClactObj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
-extern void func_0204B92C(struct ClactObj *p, u32 v);
-extern void func_0204B3DC(struct ClactObj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct ClactObj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct ClactObj *p, u32 v);
 extern void CLACT_DeleteActor(struct ClactObj *p);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
-extern void *func_0201C450(u16,u32);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void *PRINTSYS_QUE_CreateEx(u16,u32);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern unsigned int MSGDATA_Delete(struct MsgBank *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern int TOUCHPANEL_HitTrg(const void *key);
-extern u32 func_0201C6B4(const struct PrintSys *p);
-extern unsigned int func_0203633C(void);
-extern u32 func_020362DC(void);
-extern void func_020061E4(u32);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
+extern unsigned int KEY_GetRepeat(void);
+extern u32 KEY_GetTrg(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void POKE_TOOL_ClearPartyParam(struct PokePara *p);
 extern u32 func_02017E88(void *p, int id, void *v);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void PM_VOICE_StopSlot(u32);
-extern void func_02006CAC(void **);
+extern void PM_VOICE_GetPerapVoiceSave(void **);
 extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
 extern void *func_020185F0(void *);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern u32 POKE_TOOL_DecodePartyParam(struct PokePara *p);
 extern u32 POKE_TOOL_EncodePartyParam(struct PokePara *p, u32 f);
@@ -407,20 +407,20 @@ extern u32 func_02017DE4(struct PokePara *p, u32 f);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct StrBuf *vec);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *func_02045770(struct BmpWin *p);
+extern void *BMP_WIN_GetBmp(struct BmpWin *p);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 extern void *PROCSYS_AllocProcWork(struct HeapSys *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_0203630C(void);
-extern struct Party *func_0201A920(u32 heap);
-extern void func_0201A954(struct Party *p, s32 capacity);
+extern u32 KEY_GetCont(void);
+extern struct Party *POKEPARTY_Create(u32 heap);
+extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
 extern void *POKE_TOOL_Create(u16,u16,u32,u32,u32);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern void POKE_TOOL_ClearBoxParam(struct PokePara *p);
 extern u32 func_02005728(u32 range);
 extern void POKE_TOOL_SetupBoxParam(void *obj,u16 species,u16 level,u64 id);
@@ -842,7 +842,7 @@ void P_STATUS_InitGraphics(PStatusWork *wk)
     CLACT_InitSystem(&setup,(u32)(&_VramBankConfig),wk->heapId);
     wk->clunit=CLACT_CreateUnit(96,0,wk->heapId);
     CLACT_SetUnitDefaultRenderer(wk->clunit);
-    func_020434DC(16,1);BG_SYS_SetSubPlaneVisible(16,1);
+    BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);
     G3D_SYSTEM_Init(0,2,0,1,0,wk->heapId,0);
     wk->camera=G3D_CAMERA_Create(2,0xc0000,0,0,0x100000,0x80000,0x200000,0,&_CameraVecs[0],&_CameraVecs[2],&_CameraVecs[1],wk->heapId);
     func_02048AD0(wk->camera);
@@ -1078,15 +1078,15 @@ void P_STATUS_CreateButtonActors(PStatusWork *wk)
         else{chrRes=wk->objRes[PSTATUS_RES_CHR_START + 1];cellRes=wk->objRes[PSTATUS_RES_CELL_START + 1];}
         init.x=posX.v[i];init.y=(i==3)?172:168;init.animSeq=anmSeq.v[i];
         wk->buttonActor[i]=CLACT_CreateActor(wk->clunit,chrRes,wk->objRes[PSTATUS_RES_PLTT_START + 0],cellRes,&init,0,wk->heapId);
-        func_0204B92C(wk->buttonActor[i],1);
-        func_0204B3DC(wk->buttonActor[i],1);
+        CLACT_SetActorAutoAnim(wk->buttonActor[i],1);
+        CLACT_SetActorDrawEnable(wk->buttonActor[i],1);
     }
     init.x=0;init.y=0;init.animSeq=0;
     wk->typeIconActor[0]=CLACT_CreateActor(wk->clunit,wk->typeChrRes[0],wk->objRes[PSTATUS_RES_PLTT_START + 3],wk->objRes[PSTATUS_RES_CELL_START + 4],&init,0,wk->heapId);
     wk->typeIconActor[1]=CLACT_CreateActor(wk->clunit,wk->typeChrRes[0],wk->objRes[PSTATUS_RES_PLTT_START + 3],wk->objRes[PSTATUS_RES_CELL_START + 4],&init,0,wk->heapId);
-    for(j=0;j<2;j++)func_0204B3DC(wk->typeIconActor[j],0);
-    if(wk->param->mode==2)for(i=0;i<8;i++)if(i!=7)func_0204B3DC(wk->buttonActor[i],0);
-    if(P_STATUS_CanUseButtons(wk)==0){func_0204B3DC(wk->buttonActor[6],0);func_0204B3DC(wk->buttonActor[3],0);}
+    for(j=0;j<2;j++)CLACT_SetActorDrawEnable(wk->typeIconActor[j],0);
+    if(wk->param->mode==2)for(i=0;i<8;i++)if(i!=7)CLACT_SetActorDrawEnable(wk->buttonActor[i],0);
+    if(P_STATUS_CanUseButtons(wk)==0){CLACT_SetActorDrawEnable(wk->buttonActor[6],0);CLACT_SetActorDrawEnable(wk->buttonActor[3],0);}
     P_STA_SUB_CreateObjects(wk,wk->subWork);
     P_STA_RIBBON_CreateObjects(wk,wk->ribbonWork);
     P_STA_SKILL_CreateObjects(wk,wk->skillWork);
@@ -1144,7 +1144,7 @@ void P_STATUS_InitMessage(PStatusWork *wk)
         ((TextPalette *)base)->fontColor=color;
         ((TextPalette *)base)->shadowColor=0x6a52;
     }
-    wk->printQue=func_0201C450(4096,wk->heapId);
+    wk->printQue=PRINTSYS_QUE_CreateEx(4096,wk->heapId);
 }
 
 
@@ -1164,8 +1164,8 @@ void P_STATUS_InitMessage(PStatusWork *wk)
 
 void P_STATUS_ExitMessage(PStatusWork *wk)
 {
-    func_0201C6EC(wk->printQue);
-    func_0201C4C0(wk->printQue);
+    PRINTSYS_QUE_Clear(wk->printQue);
+    PRINTSYS_QUE_Delete(wk->printQue);
     MSGDATA_Delete(wk->msgData);
     GF_FONT_Delete(wk->font);
 }
@@ -1208,7 +1208,7 @@ void P_STATUS_UpdateTouch(PStatusWork *wk)
 
 void P_STATUS_UpdateInput(PStatusWork *wk)
 {
-    if (wk->isInputEnabled == 1 && func_0201C6B4(wk->printQue) == 1 && P_STATUS_CheckKey(wk) == 0) {
+    if (wk->isInputEnabled == 1 && PRINTSYS_QUE_IsFinished(wk->printQue) == 1 && P_STATUS_CheckKey(wk) == 0) {
         P_STATUS_CheckTouch(wk);
     }
 }
@@ -1231,65 +1231,65 @@ void P_STATUS_UpdateInput(PStatusWork *wk)
 int P_STATUS_CheckKey(PStatusWork *wk)
 {
     int lastPage;
-    if (func_0203633C() & 0x80) {
+    if (KEY_GetRepeat() & 0x80) {
         if (P_STATUS_ChangePokemon(wk,1)==1) {
             P_STATUS_RequestRefresh(wk);
             CLACT_SetActorAnimSeq(wk->buttonActor[4],3);
             CLACT_SetActorAnimSeq(wk->buttonActor[5],10);
             wk->prevButtonAnim=0;
             wk->nextButtonAnim=1;
-            func_020061E4(1636);
+            GFL_USE_PlaySeDefaultVolume(1636);
             wk->inputType=0;
             return 1;
         }
-    } else if (func_0203633C() & 0x40) {
+    } else if (KEY_GetRepeat() & 0x40) {
         if (P_STATUS_ChangePokemon(wk,0)==1) {
             P_STATUS_RequestRefresh(wk);
             CLACT_SetActorAnimSeq(wk->buttonActor[4],11);
             CLACT_SetActorAnimSeq(wk->buttonActor[5],2);
             wk->prevButtonAnim=1;
             wk->nextButtonAnim=0;
-            func_020061E4(1636);
+            GFL_USE_PlaySeDefaultVolume(1636);
             wk->inputType=0;
             return 1;
         }
-    } else if (func_0203633C() & 0x10) {
+    } else if (KEY_GetRepeat() & 0x10) {
         lastPage=2;
         if (wk->hasRibbon==0) lastPage=1;
         if (wk->page<lastPage && wk->isEgg==0) {
             wk->page++;
             P_STATUS_RequestRefresh(wk);
-            func_020061E4(1637);
+            GFL_USE_PlaySeDefaultVolume(1637);
             wk->inputType=0;
             return 1;
         }
-    } else if (func_0203633C() & 0x20) {
+    } else if (KEY_GetRepeat() & 0x20) {
         if (wk->page>0 && wk->isEgg==0) {
             wk->page--;
             P_STATUS_RequestRefresh(wk);
-            func_020061E4(1637);
+            GFL_USE_PlaySeDefaultVolume(1637);
             wk->inputType=0;
             return 1;
         }
-    } else if (func_020362DC() & 2) {
+    } else if (KEY_GetTrg() & 2) {
         wk->retCode=1;
         wk->param->retSel=1;
         wk->seq=2;
         CLACT_SetActorAnimSeq(wk->buttonActor[7],9);
         wk->pushedButton=wk->buttonActor[7];
-        func_020061E4(1361);
+        GFL_USE_PlaySeDefaultVolume(1361);
         wk->inputType=0;
         return 1;
-    } else if ((func_020362DC() & 0x400) && P_STATUS_CanUseButtons(wk)==1) {
+    } else if ((KEY_GetTrg() & 0x400) && P_STATUS_CanUseButtons(wk)==1) {
         wk->retCode=2;
         wk->param->retSel=2;
         wk->seq=2;
         CLACT_SetActorAnimSeq(wk->buttonActor[6],8);
         wk->pushedButton=wk->buttonActor[6];
-        func_020061E4(1366);
+        GFL_USE_PlaySeDefaultVolume(1366);
         wk->inputType=0;
         return 1;
-    } else if ((func_020362DC() & 0x800) && P_STATUS_CanUseButtons(wk)==1) {
+    } else if ((KEY_GetTrg() & 0x800) && P_STATUS_CanUseButtons(wk)==1) {
         if (wk->page<3) {
             if (wk->pageToggle[wk->page]==1) {
                 wk->pageToggle[wk->page]=0;
@@ -1298,7 +1298,7 @@ int P_STATUS_CheckKey(PStatusWork *wk)
                 wk->pageToggle[wk->page]=1;
                 CLACT_SetActorAnimSeq(wk->buttonActor[3],7);
             }
-            func_020061E4(1606);
+            GFL_USE_PlaySeDefaultVolume(1606);
             wk->inputType=0;
         }
         return 1;
@@ -1332,7 +1332,7 @@ void P_STATUS_CheckTouch(PStatusWork *wk)
         if (wk->page!=0) {
             wk->page=0;
             P_STATUS_RequestRefresh(wk);
-            func_020061E4(1637);
+            GFL_USE_PlaySeDefaultVolume(1637);
             wk->inputType=1;
         }
         break;
@@ -1340,7 +1340,7 @@ void P_STATUS_CheckTouch(PStatusWork *wk)
         if (wk->page!=1 && wk->isEgg==0) {
             wk->page=1;
             P_STATUS_RequestRefresh(wk);
-            func_020061E4(1637);
+            GFL_USE_PlaySeDefaultVolume(1637);
             wk->inputType=1;
         }
         break;
@@ -1348,7 +1348,7 @@ void P_STATUS_CheckTouch(PStatusWork *wk)
         if (wk->page!=2 && wk->isEgg==0 && wk->hasRibbon==1) {
             wk->page=2;
             P_STATUS_RequestRefresh(wk);
-            func_020061E4(1637);
+            GFL_USE_PlaySeDefaultVolume(1637);
             wk->inputType=1;
         }
         break;
@@ -1361,7 +1361,7 @@ void P_STATUS_CheckTouch(PStatusWork *wk)
                 wk->pageToggle[wk->page]=1;
                 CLACT_SetActorAnimSeq(wk->buttonActor[3],7);
             }
-            func_020061E4(1606);
+            GFL_USE_PlaySeDefaultVolume(1606);
             wk->inputType=1;
         }
         break;
@@ -1372,7 +1372,7 @@ void P_STATUS_CheckTouch(PStatusWork *wk)
             CLACT_SetActorAnimSeq(wk->buttonActor[5],2);
             wk->prevButtonAnim=1;
             wk->nextButtonAnim=0;
-            func_020061E4(1636);
+            GFL_USE_PlaySeDefaultVolume(1636);
             wk->inputType=1;
         }
         break;
@@ -1383,7 +1383,7 @@ void P_STATUS_CheckTouch(PStatusWork *wk)
             CLACT_SetActorAnimSeq(wk->buttonActor[5],10);
             wk->prevButtonAnim=0;
             wk->nextButtonAnim=1;
-            func_020061E4(1636);
+            GFL_USE_PlaySeDefaultVolume(1636);
             wk->inputType=1;
         }
         break;
@@ -1394,7 +1394,7 @@ void P_STATUS_CheckTouch(PStatusWork *wk)
             wk->seq=2;
             CLACT_SetActorAnimSeq(wk->buttonActor[6],8);
             wk->pushedButton=wk->buttonActor[6];
-            func_020061E4(1366);
+            GFL_USE_PlaySeDefaultVolume(1366);
             wk->inputType=1;
         }
         break;
@@ -1404,7 +1404,7 @@ void P_STATUS_CheckTouch(PStatusWork *wk)
         wk->seq=2;
         CLACT_SetActorAnimSeq(wk->buttonActor[7],9);
         wk->pushedButton=wk->buttonActor[7];
-        func_020061E4(1361);
+        GFL_USE_PlaySeDefaultVolume(1361);
         wk->inputType=1;
         break;
     }
@@ -1535,22 +1535,22 @@ void P_STATUS_SetInputEnable(PStatusWork *wk,int enable)
 {
     wk->isInputEnabled=enable;
     if(enable==0){
-        func_0204B3DC(wk->buttonActor[0],0);
-        func_0204B3DC(wk->buttonActor[1],0);
-        func_0204B3DC(wk->buttonActor[2],0);
-        func_0204B3DC(wk->buttonActor[3],0);
-        func_0204B3DC(wk->buttonActor[4],0);
-        func_0204B3DC(wk->buttonActor[5],0);
-        func_0204B3DC(wk->buttonActor[6],0);
+        CLACT_SetActorDrawEnable(wk->buttonActor[0],0);
+        CLACT_SetActorDrawEnable(wk->buttonActor[1],0);
+        CLACT_SetActorDrawEnable(wk->buttonActor[2],0);
+        CLACT_SetActorDrawEnable(wk->buttonActor[3],0);
+        CLACT_SetActorDrawEnable(wk->buttonActor[4],0);
+        CLACT_SetActorDrawEnable(wk->buttonActor[5],0);
+        CLACT_SetActorDrawEnable(wk->buttonActor[6],0);
     }else{
-        func_0204B3DC(wk->buttonActor[0],1);
-        func_0204B3DC(wk->buttonActor[1],1);
-        if(wk->hasRibbon==1) func_0204B3DC(wk->buttonActor[2],1);
-        func_0204B3DC(wk->buttonActor[4],1);
-        func_0204B3DC(wk->buttonActor[5],1);
+        CLACT_SetActorDrawEnable(wk->buttonActor[0],1);
+        CLACT_SetActorDrawEnable(wk->buttonActor[1],1);
+        if(wk->hasRibbon==1) CLACT_SetActorDrawEnable(wk->buttonActor[2],1);
+        CLACT_SetActorDrawEnable(wk->buttonActor[4],1);
+        CLACT_SetActorDrawEnable(wk->buttonActor[5],1);
         if(P_STATUS_CanUseButtons(wk)==1){
-            func_0204B3DC(wk->buttonActor[3],1);
-            func_0204B3DC(wk->buttonActor[6],1);
+            CLACT_SetActorDrawEnable(wk->buttonActor[3],1);
+            CLACT_SetActorDrawEnable(wk->buttonActor[6],1);
         }
     }
 }
@@ -1753,7 +1753,7 @@ void P_STATUS_UpdateRefresh(PStatusWork *wk)
             return;
         }
     }
-    if (func_0201C6B4(wk->printQue)==1 &&
+    if (PRINTSYS_QUE_IsFinished(wk->printQue)==1 &&
         (wk->mosaicSeq==2 || wk->mosaicSeq==0)) {
         if (wk->dispPos!=wk->pos) {
             if (wk->dispPos!=255) P_STA_SUB_HideSprite(wk,wk->subWork);
@@ -1773,12 +1773,12 @@ void P_STATUS_UpdateRefresh(PStatusWork *wk)
         case 3: P_STA_SKILL_ShowMovesPage(wk,wk->skillWork); break;
         }
         if (wk->isEgg==0 && wk->param->mode!=2) {
-            func_0204B3DC(wk->buttonActor[1],1);
-            if (wk->hasRibbon==0) func_0204B3DC(wk->buttonActor[2],0);
-            else func_0204B3DC(wk->buttonActor[2],1);
+            CLACT_SetActorDrawEnable(wk->buttonActor[1],1);
+            if (wk->hasRibbon==0) CLACT_SetActorDrawEnable(wk->buttonActor[2],0);
+            else CLACT_SetActorDrawEnable(wk->buttonActor[2],1);
         } else {
-            func_0204B3DC(wk->buttonActor[1],0);
-            func_0204B3DC(wk->buttonActor[2],0);
+            CLACT_SetActorDrawEnable(wk->buttonActor[1],0);
+            CLACT_SetActorDrawEnable(wk->buttonActor[2],0);
         }
         if (wk->prevButtonAnim==0) {
             if (P_STATUS_SearchPokemon(wk,0,0)==1) CLACT_SetActorAnimSeq(wk->buttonActor[4],3);
@@ -1800,7 +1800,7 @@ void P_STATUS_UpdateRefresh(PStatusWork *wk)
                 ppSrc=(void *)P_STATUS_GetPokeParaSource(wk);
                 species=func_02017E1C(ppSrc,5,0);
                 form=func_02017E1C(ppSrc,111,0);
-                func_02006CAC(&voicePlayer);
+                PM_VOICE_GetPerapVoiceSave(&voicePlayer);
                 PM_VOICE_Play(species,form,64,0,0,0,0,(u32)&voicePlayer);
             }
         }
@@ -1832,7 +1832,7 @@ void *P_STATUS_GetPokePara(PStatusWork *wk)
 {
  switch(wk->param->ppt) {
  case 0: return func_020185F0(wk->param->ppd);
- case 1: return func_020185F0(func_0201AB28(wk->param->ppd,wk->pos));
+ case 1: return func_020185F0(POKEPARTY_GetMember(wk->param->ppd,wk->pos));
  case 2: return (unsigned char *)wk->param->ppd+POKE_TOOL_GetBoxParamSize()* wk->pos;
  default: return 0;
  }
@@ -1858,7 +1858,7 @@ int P_STATUS_GetPokeParaSource(PStatusWork *wk)
     case 0:
         return (int)param->ppd;
     case 1:
-        return (int)func_0201AB28(param->ppd, wk->pos);
+        return (int)POKEPARTY_GetMember(param->ppd, wk->pos);
     case 2:
         return (int)wk->tempPP;
     default:
@@ -1888,7 +1888,7 @@ void P_STATUS_SetFastMode(PStatusWork *wk,int fastMode)
  if(fastMode==1) POKE_TOOL_DecodePartyParam(pp); else POKE_TOOL_EncodePartyParam(pp,1);
  break;
  case 1:
- pp=func_0201AB28(wk->param->ppd,wk->pos);
+ pp=POKEPARTY_GetMember(wk->param->ppd,wk->pos);
  if(fastMode==1) POKE_TOOL_DecodePartyParam(pp); else POKE_TOOL_EncodePartyParam(pp,1);
  break;
  case 2:
@@ -1929,7 +1929,7 @@ void P_STATUS_PrintMsg(PStatusWork *wk,int bmpWin,int msgId,int x,unsigned short
 
 void P_STATUS_PrintMsgToWin(PStatusWork *wk,unsigned int bmpWinData,int msgId,int x,unsigned short y,unsigned short color)
 {
- P_STATUS_PrintMsg(wk,(int)func_02045770((struct BmpWin *)bmpWinData),msgId,x,y,color);
+ P_STATUS_PrintMsg(wk,(int)BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),msgId,x,y,color);
 }
 
 
@@ -1963,7 +1963,7 @@ void P_STATUS_PrintWordSetMsg(PStatusWork *wk,int bmpWin,void *wordSet,int msgId
 
 void P_STATUS_PrintWordSetMsgToWin(PStatusWork *wk,unsigned int bmpWinData,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color)
 {
- P_STATUS_PrintWordSetMsg(wk,(int)func_02045770((struct BmpWin *)bmpWinData),wordSet,msgId,x,y,color);
+ P_STATUS_PrintWordSetMsg(wk,(int)BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),wordSet,msgId,x,y,color);
 }
 
 
@@ -2002,7 +2002,7 @@ void P_STATUS_PrintWordSetMsgRight(PStatusWork *wk,int bmpWin,void *wordSet,int 
 
 void P_STATUS_PrintWordSetMsgRightToWin(PStatusWork *wk,unsigned int bmpWinData,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color)
 {
- P_STATUS_PrintWordSetMsgRight(wk,(int)func_02045770((struct BmpWin *)bmpWinData),wordSet,msgId,x,y,color);
+ P_STATUS_PrintWordSetMsgRight(wk,(int)BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),wordSet,msgId,x,y,color);
 }
 
 
@@ -2100,21 +2100,21 @@ int P_STATUS_ProcInit(void *proc,int *seq,PStatusParam *pwk,PStatusWork *mywk)
         u8 i;
         GFL_HEAP_CreateChildHeap(1,0x42,0x50000);
         wk=PROCSYS_AllocProcWork(proc,0x264,0x42);
-        func_02082BCC(wk,0,0x264);
+        MI_CpuFill8(wk,0,0x264);
         wk->heapId=0x42;
         i=0;
         if(param==0) {
             param=func_02030734(1,0x28,0,_SourceFileName,0x4d);
-            if((func_0203630C()&0x400)==0) {
+            if((KEY_GetCont()&0x400)==0) {
                 void *party;
                 void *pokePara;
-                party=func_0201A920(1);
-                func_0201A954(party,6);
+                party=POKEPARTY_Create(1);
+                POKEPARTY_InitEx(party,6);
                 for(i=0;i<5;i++) {
                     pokePara=POKE_TOOL_Create(i+3,10,-1,0,1);
                     SetPartyMoves(pokePara,_DebugMovesParty);
                     POKE_TOOL_SetPartyValue(pokePara,0x9a,0);
-                    func_0201A98C(party,pokePara);
+                    POKEPARTY_Add(party,pokePara);
                     func_020307B0(pokePara);
                 }
                 param->pos=0;
@@ -2149,12 +2149,12 @@ int P_STATUS_ProcInit(void *proc,int *seq,PStatusParam *pwk,PStatusWork *mywk)
             param->canUseButtons=1;
             param->isNationalDex=1;
             param->config=GAME_DATA_Create(1);
-            if(func_0203630C()&0x400) {
+            if(KEY_GetCont()&0x400) {
                 param->mode=2;
                 param->canUseButtons=i;
                 param->newMove=10;
             }
-            if(func_0203630C()&0x100) {
+            if(KEY_GetCont()&0x100) {
                 param->mode=1;
                 param->canUseButtons=0;
             }

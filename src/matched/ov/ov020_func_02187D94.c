@@ -1,5 +1,5 @@
 /*
- * function: func_02187D94
+ * function: EL_SCOREBOARD_CallFinishCallback
  * address:  0x02187D94
  * packet:   pkt_02187D94
  * region:   ov020
@@ -16,7 +16,7 @@ typedef struct {
     int arg;
 } T_02187D94;
 
-void func_02187D94(T_02187D94 *p)
+void EL_SCOREBOARD_CallFinishCallback(T_02187D94 *p)
 {
     if (p->fn)
         p->fn(p->arg);

@@ -15,13 +15,13 @@
  *   func_021FD12C 0x021FD12C thumb ov186
  *   func_021FD170 0x021FD170 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FF54C 0x021FF54C thumb ov186
  *   func_021FF648 0x021FF648 thumb ov186
  *   func_021FF72C 0x021FF72C thumb ov186
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_02035D20 0x02035D20 arm
- *   func_020061E4 0x020061E4 thumb
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021FD744 0x021FD744 thumb ov186
  *   func_021F9BA0 0x021F9BA0 thumb ov186
  */
@@ -44,13 +44,13 @@ extern void func_021F88E0(char *,char *);
 extern void *func_021FD12C(int a, void *owner, u16 heap);
 extern void func_021FD170(char *p, char *q, void *text);
 extern void func_021FD860(int,int,Pair *);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern void func_021FF54C(char *p, int kind, const int *values);
 extern int func_021FF648(char *);
 extern int func_021FF72C(char *,int *);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern void func_020061E4(u32 a);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int func_021FD744(int *a);
 extern void func_021F9BA0(unsigned *ctx);
 void func_021F86EC(int *task,unsigned *state,char *p)
@@ -73,7 +73,7 @@ void func_021F86EC(int *task,unsigned *state,char *p)
     case 3:func_021FE784(**(int * *)&((struct Obj00548 *)p)->f30,4,3,0);*state=4;break;
     case 4:if(func_021FE7B0(**(int ** *)&((struct Obj00548 *)p)->f30)) *state=5;break;
     case 5:
-        func_02082BCC(&cfg,0,8);
+        MI_CpuFill8(&cfg,0,8);
         cfg.a=((struct Obj00548 *)p)->f28;
         func_021FF54C(*(char * *)&((struct Obj24708 *)(*(char * *)&((struct Obj00548 *)p)->f30))->f14,0,(const int *)(&cfg));
         *(int *)&((struct Obj00548 *)p)->f2C=0;
@@ -89,9 +89,9 @@ void func_021F86EC(int *task,unsigned *state,char *p)
         break;
     case 8:
         if(TOUCHPANEL_GetTrg()) {
-            func_02035D20((u32 *)(&x),(u32 *)(&y));pair.x=x;pair.y=y;
+            TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y));pair.x=x;pair.y=y;
             func_021FD860(((struct Obj00548 *)p)->f18,1,&pair);
-            func_020061E4(0x703);*state=9;
+            GFL_USE_PlaySeDefaultVolume(0x703);*state=9;
         }break;
     case 9:func_021FE784(**(int * *)&((struct Obj00548 *)p)->f30,2,3,1);*state=10;break;
     case 10:if(func_021FE7B0(**(int ** *)&((struct Obj00548 *)p)->f30)) *state=11;break;

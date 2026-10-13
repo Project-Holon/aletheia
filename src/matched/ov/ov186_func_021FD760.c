@@ -11,15 +11,15 @@
  * prototype: B294 returns live r0 and receives full-width heap without truncation.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FD6D8 0x021FD6D8 thumb ov186
  *   func_021FD964 0x021FD964 thumb ov186
  *   func_021FBE54 0x021FBE54 thumb ov186
  *   func_021FC124 0x021FC124 thumb ov186
  *   func_02034714 0x02034714 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B688 0x0204B688 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
  *   d_02200D5C 0x02200D5C data a4
  *   d_02200D68 0x02200D68 data a4
  */
@@ -29,7 +29,7 @@ typedef struct { char pad[0xC];int index;int task;char *resources;char pad18[0x1
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 typedef unsigned char  u8;
 struct Actor;
@@ -39,8 +39,8 @@ extern void func_021FD964(void *unused, int *state, u8 *p);
 extern void func_021FBE54(char *,unsigned,unsigned);
 extern int CLACT_CreateActor(unsigned,unsigned,unsigned,unsigned,Pair *,unsigned short,int);
 struct Obj;
-extern void func_0204B3DC(struct Obj *,unsigned int);
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern const char d_02200D5C[],d_02200D68[];
 char *func_021FD760(unsigned owner,char *resources,int index,int heap)
 {
@@ -50,18 +50,18 @@ char *func_021FD760(unsigned owner,char *resources,int index,int heap)
     char *p;
     int i;
     p=func_02030734(heap,0x264,0,d_02200D5C,0x7CA);
-    func_02082BCC(p,0,0x264);
+    MI_CpuFill8(p,0,0x264);
     ((Handles *)p)->resources=resources;((Handles *)p)->index=index;
     ((Handles *)p)->task=(int)func_021FD6D8((int)p,(int)func_021FD964,heap);
     func_021FBE54(((Handles *)p)->resources,index+9,heap);
-    func_02082BCC(&pair,0,8);
+    MI_CpuFill8(&pair,0,8);
     if(!func_021FC124(((Handles *)p)->resources,index+9,&triple)) func_02034714(d_02200D68,0,d_02200D68);
     i=0;
     res=index;
     for(;i<12;i++) {
         ((Handles *)p)->handles[i]=CLACT_CreateActor(owner,triple.y,triple.z,triple.x,&pair,res,heap);
-        func_0204B3DC((struct Obj *)((Handles *)p)->handles[i],0);
-        func_0204B688((struct Actor *)(((Handles *)p)->handles[i]),1);
+        CLACT_SetActorDrawEnable((struct Obj *)((Handles *)p)->handles[i],0);
+        CLACT_SetActorObjMode((struct Actor *)(((Handles *)p)->handles[i]),1);
     }
     return p;
 }

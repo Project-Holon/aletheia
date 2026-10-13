@@ -10,20 +10,20 @@
  * status:   EXACT
  * symbols:
  *   func_02021288  0x02021288  thumb
- *   func_0201ADE4  0x0201ADE4  thumb
+ *   POKE_PERSONAL_Create  0x0201ADE4  thumb
  *   func_0202130C  0x0202130C  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
- *   func_0201AE14  0x0201AE14  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
+ *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  */
 
 typedef unsigned int u32;
 
 extern u32 func_02021288(u32 a);
-extern void *func_0201ADE4(u32 species, int form, u32 heap);
+extern void *POKE_PERSONAL_Create(u32 species, int form, u32 heap);
 extern u32 func_0202130C(u32 a);
 struct Personal;
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *p);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *p);
 
 int SODATEYA_CanLearnTm(u32 a, u32 b, u32 c, u32 d)
 {
@@ -33,20 +33,20 @@ int SODATEYA_CanLearnTm(u32 a, u32 b, u32 c, u32 d)
         return 0;
     if (func_02021288(d) == 0)
         return 0;
-    x = (u32)func_0201ADE4(b, c, a);
+    x = (u32)POKE_PERSONAL_Create(b, c, a);
     y = func_0202130C(d);
     if (y < 0x20) {
-        v = func_0201AE1C((const struct Personal *)x, 0x27);
+        v = POKE_PERSONAL_GetParam((const struct Personal *)x, 0x27);
     } else if (y < 0x40) {
-        v = func_0201AE1C((const struct Personal *)x, 0x28);
+        v = POKE_PERSONAL_GetParam((const struct Personal *)x, 0x28);
         y -= 0x20;
     } else if (y < 0x60) {
-        v = func_0201AE1C((const struct Personal *)x, 0x29);
+        v = POKE_PERSONAL_GetParam((const struct Personal *)x, 0x29);
         y -= 0x40;
     } else {
-        v = func_0201AE1C((const struct Personal *)x, 0x2a);
+        v = POKE_PERSONAL_GetParam((const struct Personal *)x, 0x2a);
         y -= 0x60;
     }
-    func_0201AE14((void *)x);
+    POKE_PERSONAL_Delete((void *)x);
     return v & (1 << y);
 }

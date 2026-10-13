@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   OEKAKI_PrintMessage  0x021861C4  thumb  ov023
  *   OEKAKI_CloseMenuIfOpen  0x02186480  thumb  ov023
@@ -23,7 +23,7 @@
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 typedef unsigned char  u8;
 extern void OEKAKI_PrintMessage(u8 *w, u32 msg, int mode);
@@ -38,7 +38,7 @@ int OEKAKI_StepShowSyncMessage(char *p, int a1)
     OEKAKI_PrintMessage((u8 *)p, 2, 1);
     OEKAKI_CloseMenuIfOpen(p);
     OEKAKI_SetNextScene(p, 0x19);
-    func_020061E4(0x54c);
+    GFL_USE_PlaySeDefaultVolume(0x54c);
     if (GFL_NET_SYSTEM_GetCurrentAid() == 0)
         OEKAKI_NotifyHostSync(p, 0);
     ((struct Obj00336 *)p)->f927C = OEKAKI_GetJoinedCount(p);

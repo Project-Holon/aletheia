@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   func_0201D304  0x0201D304  thumb
  *
@@ -22,7 +22,7 @@ typedef short s16;
 typedef unsigned int u32;
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
@@ -37,5 +37,5 @@ void func_021C6C38(Work *p, void *a, int x, int dx, int y, void *s)
     u32 w;
 
     w = func_0201D304(s, (u32)p->f31FC, 0);
-    PRINTSYS_Print(func_02045770(a), x - (w + dx), y, s, p->f31FC);
+    PRINTSYS_Print(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->f31FC);
 }

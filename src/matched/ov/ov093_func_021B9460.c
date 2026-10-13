@@ -1,5 +1,5 @@
 /*
- * function: func_021B9460
+ * function: BTL_SIDE_SetupClientParty
  * address: 0x021B9460
  * packet: pkt_ov093_021B9460
  * region: ov093
@@ -10,24 +10,24 @@
  * status: EXACT
  *
  * 2026-10-05 (wave P5, pengy share): EXACT. Needs #pragma opt_lifetimes off (per-function
- * pragma) and the clear of nw written AFTER the func_021BA178 call (l2 = f(...); nw = 0;).
+ * pragma) and the clear of nw written AFTER the BTL_MAIN_GetClientParty call (l2 = f(...); nw = 0;).
  * Written before the call, the zero took r0 instead of the original r1. Other levers: raw
  * offsets, early locals qs = a + 4 and qo = c * 0x1c, declaration order qo, qs, list, n, v, nw,
- * x, j, i, y, cnt, comma-form loop headers, e = func_0201AB28() as its own statement.
+ * x, j, i, y, cnt, comma-form loop headers, e = POKEPARTY_GetMember() as its own statement.
  * symbols:
- *   func_021BA178 0x021BA178 thumb ov093
- *   func_0201AA18 0x0201AA18 thumb
- *   func_0201AB28 0x0201AB28 thumb
+ *   BTL_MAIN_GetClientParty 0x021BA178 thumb ov093
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   BTL_POKEPARAM_Create 0x021D4D84 thumb ov093
- *   func_021B9B54 0x021B9B54 thumb ov093
- *   func_021B9634 0x021B9634 thumb ov093
+ *   BTL_SLOT_Add 0x021B9B54 thumb ov093
+ *   BTL_MAIN_FindLastLivingPartyIndex 0x021B9634 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_SetFakeMon 0x021D5848 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_Create 0x020173F0 thumb
- *   func_021B9B60 0x021B9B60 thumb ov093
+ *   BTL_SLOT_CompactLiving 0x021B9B60 thumb ov093
  *   data_021EFCF0 0x021EFCF0 data ov093
  */
 typedef unsigned char u8;
@@ -35,25 +35,25 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 extern const u8 data_021EFCF0[4];
-extern void *func_021BA178(void *p, int i, int mode);
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *BTL_MAIN_GetClientParty(void *p, int i, int mode);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 struct Q1;
 struct QF;
 struct QH;
 struct S;
 extern struct S *BTL_POKEPARAM_Create(void *a, u8 b, u32 c);
-extern void func_021B9B54(struct Q1 *p, u32 v);
-extern int func_021B9634(void *a);
+extern void BTL_SLOT_Add(struct Q1 *p, u32 v);
+extern int BTL_MAIN_FindLastLivingPartyIndex(void *a);
 extern int func_021D59B4(u8 *p, int k);
 extern void BTL_POKEPARAM_SetFakeMon(struct QH *p, void *v);
 extern void *BTL_MAIN_GetCompetitor(void ***p);
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void *POKE_TOOL_Create(u16 species, u16 level, u64 id, u16 heap);
-extern void func_021B9B60(u8 *p);
+extern void BTL_SLOT_CompactLiving(u8 *p);
 #pragma opt_lifetimes off
-void func_021B9460(char *a, char *b, u8 c)
+void BTL_SIDE_SetupClientParty(char *a, char *b, u8 c)
 {
     u32 qo;
     char *qs;
@@ -67,22 +67,22 @@ void func_021B9460(char *a, char *b, u8 c)
     int i;
     u8 y;
     int cnt;
-    list = func_021BA178(b, c, *(u32 *)(a + 0xe4));
+    list = BTL_MAIN_GetClientParty(b, c, *(u32 *)(a + 0xe4));
     qs = a + 4;
     qo = c * 0x1c;
-    n = func_0201AA18(list);
+    n = POKEPARTY_GetCount(list);
     x = data_021EFCF0[c];
     *(void **)(a + c * 4 + 0x74) = list;
     for (i = 0, y = x; i < n; i++, y++) {
-        e = func_0201AB28(list, i);
+        e = POKEPARTY_GetMember(list, i);
         *(void **)(a + y * 4 + 0x84) = BTL_POKEPARAM_Create(e, y, 0x12);
-        func_021B9B54((struct Q1 *)(qs + qo), (u32)(*(void **)(a + y * 4 + 0x84)));
+        BTL_SLOT_Add((struct Q1 *)(qs + qo), (u32)(*(void **)(a + y * 4 + 0x84)));
     }
-    cnt = func_021B9634(list);
+    cnt = BTL_MAIN_FindLastLivingPartyIndex(list);
     if (cnt > 0) {
         for (i = 0, y = x; i < cnt; i++, y++) {
                 if (func_021D59B4(*(u8 **)(a + y * 4 + 0x84), 0x11) == 0x95)
-                    BTL_POKEPARAM_SetFakeMon(*(void **)(a + y * 4 + 0x84), func_0201AB28(list, cnt));
+                    BTL_POKEPARAM_SetFakeMon(*(void **)(a + y * 4 + 0x84), POKEPARTY_GetMember(list, cnt));
             }
     }
     if (BTL_MAIN_GetCompetitor((void ***)b) == 0 && c == 1) {
@@ -91,11 +91,11 @@ void func_021B9460(char *a, char *b, u8 c)
             if (BTL_POKEPARAM_GetSpecies((struct QF *)v) == 0x23B && func_021D59B4(v, 0x11) == 0x95) {
                 void *l2;
                 u8 m, q;
-                l2 = func_021BA178(b, 0, *(u32 *)(a + 0xe4));
+                l2 = BTL_MAIN_GetClientParty(b, 0, *(u32 *)(a + 0xe4));
                 nw = 0;
-                m = func_0201AA18(l2);
+                m = POKEPARTY_GetCount(l2);
                 for (q = 0; q < m; q++) {
-                    u16 s = POKE_TOOL_GetPartyValue(func_0201AB28(l2, q), 5, 0);
+                    u16 s = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(l2, q), 5, 0);
                     if (s == 0xf3) { nw = 0xf4; break; }
                     if (s == 0xf4) { nw = 0xf5; break; }
                     if (s == 0xf5) { nw = 0xf3; break; }
@@ -108,6 +108,6 @@ void func_021B9460(char *a, char *b, u8 c)
             }
         }
     }
-    func_021B9B60((u8 *)(qs + qo));
+    BTL_SLOT_CompactLiving((u8 *)(qs + qo));
 }
 #pragma opt_lifetimes reset

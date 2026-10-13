@@ -1,5 +1,5 @@
 /*
- * function: func_021B9114
+ * function: BTL_MAIN_GetOwnsSlots
  * address:  0x021B9114
  * packet:   pkt_021B85A0
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9114   0x021B9114  thumb
+ *   BTL_MAIN_GetOwnsSlots   0x021B9114  thumb
  *
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: ldr r0, [r0]; adds r0, #0x23; ldrb r0, [r0]; bx lr.
  */
@@ -24,5 +24,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021B9114  ldr r0,[r0]; adds r0,#0x23; ldrb r0,[r0] */
-u8 func_021B9114(u8 **p) { return ((struct Obj18137 *)(*p))->f23; }
+u8 BTL_MAIN_GetOwnsSlots(u8 **p) { return ((struct Obj18137 *)(*p))->f23; }
 

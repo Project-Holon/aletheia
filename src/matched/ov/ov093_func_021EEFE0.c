@@ -29,7 +29,7 @@
  *   BTL_MSG_SetPokeNickname 0x021EED48 thumb ov093
  *   BTL_MSG_SetClientValue 0x021EED6C thumb ov093
  *   BTL_MSG_SetClientName 0x021EED90 thumb ov093
- *   d_021F63D8 0x021F63D8 data ov093 a4
+ *   gBtlMsgFlags 0x021F63D8 data ov093 a4
  */
 
 #include "../include/G_H.h"
@@ -37,7 +37,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern struct H d_021F63D8;
+extern struct H gBtlMsgFlags;
 extern u16 STRBUF_GetEosChar(void);
 struct U16Vec;
 struct WordSet;
@@ -109,7 +109,7 @@ void BTL_MSG_ExpandTags(void *s, const u32 *values, void *w)
                         BTL_MSG_SetClientName(w, slot, values[index]);
                         break;
                     case 2:
-                        if (d_021F63D8.f1a == 0)
+                        if (gBtlMsgFlags.f1a == 0)
                             BTL_MSG_SetPokeName(values[index], slot);
                         else
                             BTL_MSG_SetPokeSpecies(values[index], slot);

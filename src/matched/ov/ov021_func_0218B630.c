@@ -16,6 +16,8 @@
  * symbols:
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
+ *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
+ *   POKEPARTY_GetMember  0x0201AB28  thumb  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -26,8 +28,8 @@ typedef signed short   s16;
 
 struct BigObj;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 
 int FIELD_EVENT_CHECK_FindPartyMemberWithMove(void *sys, u32 move)
@@ -37,10 +39,10 @@ int FIELD_EVENT_CHECK_FindPartyMemberWithMove(void *sys, u32 move)
     int i;
 
     party = GAME_DATA_GetMyParty(sys);
-    n = func_0201AA18(party);
+    n = POKEPARTY_GetCount(party);
 
     for (i = 0; i < n; i++) {
-        void *mon = func_0201AB28(party, i);
+        void *mon = POKEPARTY_GetMember(party, i);
 
         if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {
             if (move == POKE_TOOL_GetPartyValue(mon, 0x36, 0) || move == POKE_TOOL_GetPartyValue(mon, 0x37, 0)

@@ -14,7 +14,7 @@
  * resident in ov172, so the packet id is region-qualified.
  *
  * symbols:
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 #include "../include/Obj20610.h"
 #include "../include/Obj20611.h"
@@ -30,8 +30,8 @@ typedef unsigned int   u32;
 struct Obj;
 void func_021B69BC(void *p, unsigned int v)
 {
-    void func_0204B3DC(struct Obj *p, u32 v);
-    func_0204B3DC(((struct Obj20611 *)p)->f0, v);
+    void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+    CLACT_SetActorDrawEnable(((struct Obj20611 *)p)->f0, v);
 }
 
 int TOUCHBAR_CallSetEnabled(void *p, int a)

@@ -15,11 +15,11 @@
  * symbols:
  *   GAME_DATA_GetEntranceLocation  0x02012870  thumb
  *   GAME_DATA_GetStartLocation  0x0201284C  thumb
- *   func_02014068  0x02014068  thumb
+ *   ZONEDATA_IsParentZoneD6  0x02014068  thumb
  *   GAME_DATA_SetEscapeLocation  0x020128C0  thumb
  *   ZONEDATA_SetZoneStartLocation  0x02014204  thumb
- *   func_02013C50  0x02013C50  thumb
- *   func_02013FEC 0x02013FEC thumb
+ *   ZONEDATA_IsWeatherEnabled  0x02013C50  thumb
+ *   ZONEDATA_IsZoneInTableDFDC 0x02013FEC thumb
  *   GAME_DATA_GetSpecialLocation 0x02012894 thumb
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetPlayerObjectCode 0x02012B28 thumb
@@ -44,7 +44,7 @@
  *   d_02187DAC  0x02187DAC  data  ov020  a4
  *   d_02187DB4  0x02187DB4  data  ov020  a4
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0201AD0C 0x0201AD0C thumb
+ *   POKEPARTY_GetSaveData 0x0201AD0C thumb
  *   GAME_DATA_GetSeason 0x02012984 thumb
  *   func_02008B14 0x02008B14 thumb
  *   FORMCHANGE_RevertShayminAtNight 0x0216A358 thumb ov010
@@ -102,9 +102,9 @@
  *   FIELDMAP_GetGameSystem 0x02188C80 thumb ov021
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_0203F4E4  0x0203F4E4  arm
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   FIELD_WFBC_GetCityType  0x0219391C  thumb  ov021
  *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
@@ -138,7 +138,7 @@
  *   FIELD_MSGBG_AddTalkWin  0x0219129C  thumb  ov021
  *   d_02187E04     0x02187E04  data  ov020  a2
  *   FIELD_MSGBG_TalkWinMain  0x02191388  thumb  ov021
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   FIELD_MSGBG_CreateYesNoMenu  0x02190BE4  thumb  ov021
  *   FIELD_MSGBG_YesNoMenuMain  0x02190C78  thumb  ov021
  *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
@@ -154,7 +154,7 @@
  *   func_0202E8B8  0x0202E8B8  thumb
  *   BG_SYS_GetMainVisiblePlanes 0x02043658 arm
  *   FIELDMAP_SetBgMode 0x02188DA0 thumb ov021
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   func_0204047C 0x0204047C arm
  *   func_020414AC 0x020414AC arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
@@ -279,9 +279,9 @@ extern int FIELD_WFBC_GetPeopleNum(FieldWfbc *wfbc);
 extern struct GameSystem *FIELDMAP_GetGameSystem(void *fieldSystem);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 void *GAME_DATA_GetMyParty(const struct GameData *p);
-u32 func_0201AA18(void *a);
+u32 POKEPARTY_GetCount(void *a);
 void func_0203F4E4(struct RtcDate *date);
-void *func_0201AB28(void *a, u32 i);
+void *POKEPARTY_GetMember(void *a, u32 i);
 u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern unsigned char FIELD_WFBC_GetCityType(FieldWfbc *wfbc);
 extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
@@ -314,7 +314,7 @@ extern void MSGDATA_ReadString(struct MsgData *bank, u32 index, struct Strbuf *d
 extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern struct FieldMsgHandle *FIELD_MSGBG_AddTalkWin(int msgBgSys, int speed, int *playerPos, struct Strbuf *message, u32 c, u32 d);
 extern u32 FIELD_MSGBG_TalkWinMain(struct FieldMsgHandle *handle);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern struct FieldYesNoHandle *FIELD_MSGBG_CreateYesNoMenu(int msgBgSys, u32 b);
 extern int FIELD_MSGBG_YesNoMenuMain(struct FieldYesNoHandle *h);
 extern int FIELD_MSGBG_DeleteMenuFunc(struct FieldYesNoHandle *handle);
@@ -1292,14 +1292,14 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdFindTargetPokemonInParty(ScriptVm *vm, struct Sc
     f0 = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
     f1 = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
     f2 = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
-    n = func_0201AA18(b);
+    n = POKEPARTY_GetCount(b);
     key = FIELD_WFBC_DATA_LOCAL_ReadValue((const WfbcDailyState *)(w));
     func_0203F4E4((struct RtcDate *)d);
     *f0 = 0;
     *f1 = 0;
     *f2 = 0xFFFF;
     for (i = 0; i < n; i++) {
-        e = func_0201AB28(b, i);
+        e = POKEPARTY_GetMember(b, i);
         v5 = POKE_TOOL_GetPartyValue(e, 5, 0);
         v92 = POKE_TOOL_GetPartyValue(e, 0x92, 0);
         v93 = POKE_TOOL_GetPartyValue(e, 0x93, 0);
@@ -1576,7 +1576,7 @@ int FIELD_WFBC_DATA_LOCAL_UpdateTalkMessage(WfbcTalkEvent *talk)
         talk->msgState = talk->msgState + 1;
         break;
     case 1:
-        if ((func_020362DC() & 0xf3) == 0)
+        if ((KEY_GetTrg() & 0xf3) == 0)
             break;
         if (talk->askYesNo == 0)
             talk->msgState = 4;

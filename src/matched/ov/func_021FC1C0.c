@@ -22,6 +22,7 @@
  *   g_022034DC  0x022034DC  data  ov135
  *   g_022034BC  0x022034BC  data  ov135
  *   g_022034FC  0x022034FC  data  ov135
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm  arm9
  *
  * Three-layer bring-up after the display restore, with engine-B plane 0x16
  * toggled and layers 2 and 3 both 020414EC'd and tilemap-cleared.
@@ -59,7 +60,7 @@ extern u32 BG_SYS_GetSubVisiblePlanes(void);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);

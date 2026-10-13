@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_CMD_SendProposal  0x0217405C  thumb  ov011
@@ -19,7 +19,7 @@
  *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
  *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb
  *   EVENT_COMM_COMMON_IsKeyTrg  0x0217F420  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   EVENT_COMM_COMMON_ExitCommonWork  0x0217FE38  thumb
  *   EVENT_COMM_COMMON_CreateMissionResultEvent  0x021804F8  thumb
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
@@ -69,7 +69,7 @@ extern const u16 d_02183964[];
 
 struct Obj;
 struct S0201235C;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 struct Ctx;
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
@@ -80,7 +80,7 @@ void INTRUDE_COMM_SetWordSetRequest(void *, void *, void *, u32);
 void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, u16 a);
 int EVENT_COMM_COMMON_IsPrintFinished(Ov018Obj *p);
 int EVENT_COMM_COMMON_IsKeyTrg(void);
-void func_020061E4(u32 a);
+void GFL_USE_PlaySeDefaultVolume(u32 a);
 void EVENT_COMM_COMMON_ExitCommonWork(void *v, Ov018Outer *c);
 void *EVENT_COMM_COMMON_CreateMissionResultEvent(void *, int);
 void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
@@ -91,7 +91,7 @@ int EVENT_COMM_COMMON_SearchFoundEventMain(void *a, int *state, Ov018Outer *c)
     u8 *v;
     int r;
 
-    sub = func_020124E4(a);
+    sub = GAME_EVENT_GetGameSystem(a);
     v = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(sub)));
     if (v == 0 && *state <= 2 && *state < 6) {
         EVENT_COMM_COMMON_PrintMsg(&c->obj, 4);
@@ -130,7 +130,7 @@ int EVENT_COMM_COMMON_SearchFoundEventMain(void *a, int *state, Ov018Outer *c)
     case 4:
         if (EVENT_COMM_COMMON_IsPrintFinished(&c->obj) == 1) {
             EVENT_COMM_COMMON_PrintMsg(&c->obj, d_0218395A[c->f42]);
-            func_020061E4(0x5E0);
+            GFL_USE_PlaySeDefaultVolume(0x5E0);
             *state = 6;
         }
         break;

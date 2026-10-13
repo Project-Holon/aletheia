@@ -16,7 +16,7 @@
  * symbols:
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  *   func_02017E88 0x02017E88 thumb
- *   func_0201BD28 0x0201BD28 thumb
+ *   WAZA_TOOL_GetParam 0x0201BD28 thumb
  *   BMP_Create 0x02043678 arm
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -50,7 +50,7 @@ struct WordSet;
 extern const Pair P_STA_SKILL_SlotTilePos[];
 extern void *P_STATUS_GetPokePara(u8 *);
 extern u32 func_02017E88(void *,u32,u32);
-extern u32 func_0201BD28(u16,u32);
+extern u32 WAZA_TOOL_GetParam(u16,u32);
 struct Bmp;
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
@@ -80,7 +80,7 @@ void P_STA_SKILL_InitSlotText(u8 *p,u8 *q,u8 *entry)
         value=func_02017E88(mon,entry[0]+66,0);
     } else {
         id=((struct Obj23172 *)(*(u8 * *)&((struct Obj02846 *)p)->f8))->f14;
-        count=func_0201BD28(id,5);
+        count=WAZA_TOOL_GetParam(id,5);
         value=count;
     }
     *(Bmp * *)&((struct Obj01409 *)entry)->f10=(Bmp *)BMP_Create(11,4,32,((struct Obj02846 *)p)->f0);

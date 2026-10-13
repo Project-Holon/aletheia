@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -25,7 +25,7 @@ typedef struct {
 } Work;
 
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 void func_021C3F18(Work *p, int speed)
 {
@@ -36,9 +36,9 @@ void func_021C3F18(Work *p, int speed)
     if (speed > 5) {
         p->cooldown = 5;
         if (p->b32F6 == 0) {
-            func_020061E4(0x65C);
+            GFL_USE_PlaySeDefaultVolume(0x65C);
         } else {
-            func_020061E4(0x7CF);
+            GFL_USE_PlaySeDefaultVolume(0x7CF);
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D215C
+ * function: BTL_CLIENT_StepPlayMultiMonAnim
  * address:  0x021D215C
  * packet:   pkt_ov093_021D215C
  * region:   ov093
@@ -30,7 +30,7 @@ extern u8 BTL_SERVER_CMD_ReadU8Wrapper(u8 *p);
 extern void func_021EA280(char *ctx, u32 n, int b, const u8 *c, u16 e);
 extern int func_021EA2BC(char *ctx);
 
-int func_021D215C(Seq *s, int *state, u32 *a)
+int BTL_CLIENT_StepPlayMultiMonAnim(Seq *s, int *state, u32 *a)
 {
     u8 buf[8];
     u8 i;

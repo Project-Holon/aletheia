@@ -16,6 +16,9 @@
  *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm  arm9
  *   CLACT_RegisterCellAnim  0x0204AF28  arm  arm9
  *   CLACT_CreateActor  0x0204B294  arm  arm9
+ *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb  arm9
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm  arm9
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -56,10 +59,10 @@ extern u32 func_02027698(void);
 extern u32 func_0202769C(u32);
 extern u32 func_020276A0(u32);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern void func_02082BCC(void *, u32, u32);
+extern void MI_CpuFill8(void *, u32, u32);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
-extern u32 func_0201BB5C(u32, u32, u32, u32);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern u32 POKE_TOOL_CalcIconPalette(u32, u32, u32, u32);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
 {
     u8 form;
@@ -84,7 +87,7 @@ void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
     w->chr2 = (void *)CLACT_RegisterCharacter(h, func_02027698(), 0, w->layer, (heap & 0x7fff) | 0x8000);
     w->cell2 = (void *)CLACT_RegisterCellAnim(h, func_0202769C(2), func_020276A0(2), heap);
     ARC_TOOL_DeleteHandle(h);
-    func_02082BCC(&req, 0, 8);
+    MI_CpuFill8(&req, 0, 8);
     req.y = 0xa8;
     req.id = 1;
     req.flag = 1;
@@ -97,7 +100,7 @@ void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
         if (species != 0) {
             req.x = (i << 5) + 0x120;
             w->objs[i] = CLACT_CreateActor(owner, (unsigned int)w->chr[i], (unsigned int)w->pal, (unsigned int)w->cell, &req, w->layer, heap);
-            func_0204B6F4(w->objs[i], func_0201BB5C(species, form, gender, 0), 0);
+            CLACT_SetActorPaletteOffset(w->objs[i], POKE_TOOL_CalcIconPalette(species, form, gender, 0), 0);
             if (shown != 0) {
                 sub = req;
                 sub.x += 12;

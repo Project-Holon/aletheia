@@ -18,12 +18,14 @@
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm  arm9
  *   CLACT_RegisterCellAnim  0x0204AF28  arm  arm9
  *   CLACT_CreateActor  0x0204B294  arm  arm9
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm  arm9
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 #include "../include/Obj00133.h"
 typedef struct { short x, y; unsigned short id; unsigned char a, flag; } Request;
 typedef unsigned short u16;
 
-extern void func_02082BCC(void *, unsigned, unsigned);
+extern void MI_CpuFill8(void *, unsigned, unsigned);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Obj;
@@ -39,7 +41,7 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern const unsigned char d_021E8CBE[];
 void func_021E7270(char *p)
 {

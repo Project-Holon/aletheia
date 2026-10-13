@@ -17,7 +17,7 @@
  *   func_0220E340  0x0220E340  thumb  ov198
  *   func_020490F4  0x020490F4  arm
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
- *   func_0201BA68  0x0201BA68  thumb
+ *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   func_0201BC3C  0x0201BC3C  thumb
@@ -33,7 +33,7 @@ typedef signed int s32;
 typedef unsigned int u32;
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *POKE_TOOL_GetBoxParam(void *p);
-extern u32 func_0201BA68(void *mon);
+extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern int func_0201BC3C(void);
@@ -52,7 +52,7 @@ void func_0220E340(u8 *p)
     for (i = 0; i < 6; i++) {
         u8 *e = p + i * 0x4C;
         if (*(u16 *)(e + 8) != 0) {
-            *(int *)((u32)p + 0x24A4 + i * 4) = CLACT_RegisterCharacter(arc, func_0201BA68(POKE_TOOL_GetBoxParam(*(void **)(e + 4))), 0, 1, *(u16 *)(*(u8 **)p + 0x10));
+            *(int *)((u32)p + 0x24A4 + i * 4) = CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex(POKE_TOOL_GetBoxParam(*(void **)(e + 4))), 0, 1, *(u16 *)(*(u8 **)p + 0x10));
         } else {
             *(int *)((u32)p + 0x24A4 + i * 4) = CLACT_RegisterCharacter(arc, POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0), 0, 1, *(u16 *)(*(u8 **)p + 0x10));
         }

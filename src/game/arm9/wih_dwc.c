@@ -58,19 +58,19 @@
  *   func_0205FAA8  0x0205FAA8  arm
  *   GFL_NET_GetRunState     0x0203CD98  arm
  *   OS_GetMacAddress  0x02087C6C  arm
- *   func_02177B80     0x02177B80  thumb  ov014
+ *   NET_WHPIPE_GetEntryBeaconKind     0x02177B80  thumb  ov014
  *   sub_0202E8D8      0x0202E8D8  thumb
  *   sNetSaveFile       0x020A725C  data
  *   sWihBeaconSsidTag        0x020A7250  data
  *   func_02030734     0x02030734  arm
  *   GFL_NET_HANDLE_GetCurrentHandle     0x020399A8  arm
- *   func_02039C68     0x02039C68  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange     0x02039C68  arm
  *   func_020307B0     0x020307B0  arm
  *   func_0200FB24     0x0200FB24  thumb
  *   GAME_DATA_SaveCancel     0x02012E08  thumb
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   sub_020124F4   0x020124F4  thumb
  *   sub_02012EBC   0x02012EBC  thumb
  *   sub_02009448   0x02009448  thumb
@@ -87,6 +87,7 @@
  *   PM_VOICE_StopFinished  0x020065FC  thumb
  *   GAME_DATA_SaveStart  0x02012DAC  thumb
  *   GAME_DATA_SaveMain  0x02012DD0  thumb
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  */
 
 typedef unsigned char  u8;
@@ -266,21 +267,21 @@ extern int  func_0205D01C(void *work, struct WihBssDesc *beacon, struct WihSsidI
 extern void func_0205FAA8(u8 *filterState, u32 value);
 extern int  GFL_NET_GetRunState(void);
 extern void OS_GetMacAddress(u8 *mac);
-extern u8 func_02177B80(int slot);
+extern u8 NET_WHPIPE_GetEntryBeaconKind(int slot);
 extern int sub_0202E8D8(char *record, int key, char *mac);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern struct Link *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void func_02039C68(struct Link *link, u32 timingId, u32 size);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *link, u32 timingId, u32 size);
 extern u32 func_020307B0(void *task);
 extern u32  func_0200FB24(void);
 extern void GAME_DATA_SaveCancel(u32 gameData);
-extern u32 func_02039CB4(struct Link *link, u32 timingId, u32 size);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *link, u32 timingId, u32 size);
 extern int GAME_DATA_SaveStart(u32 gameData);
 extern int  GAME_DATA_SaveMain(u32 gameData);
 extern u32  func_020056EC(u32 frames);
 extern void  GFL_HEAP_CreateChildHeap(u32 a, u32 heapId, u32 size);
 extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
-extern void  func_02082BCC(void *dst, int val, unsigned n);
+extern void  MI_CpuFill8(void *dst, int val, unsigned n);
 extern void *sub_020124F4(u16 heapId);
 extern struct SaveControl *sub_02012EBC(void *gameData);
 extern struct GameSyncData *sub_02009448(struct SaveControl *saveControl);
@@ -1027,7 +1028,7 @@ int WIH_DWC_FindSlotByKey(void *searchKey)
         GFL_NET_GetInitParam();
         OS_GetMacAddress(mac);
         for (slot = 0; slot < 0x10; slot++) {
-            if (func_02177B80(slot) == 0x20 && sub_0202E8D8((void *)GFL_NET_GetScanResult(slot), (int)searchKey, (char *)mac) != 0) {
+            if (NET_WHPIPE_GetEntryBeaconKind(slot) == 0x20 && sub_0202E8D8((void *)GFL_NET_GetScanResult(slot), (int)searchKey, (char *)mac) != 0) {
                 return slot;
             }
         }
@@ -1157,7 +1158,7 @@ struct NetSaveTask *func_0201088C(u32 heapId, u32 gameData)
 
     task = func_02030734(heapId, 0x14, 1, (const char *)&sNetSaveFile, 0x75);
     task->gameData = gameData;
-    func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8);
+    GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8);
     func_02010888(task, func_0201093C);
     return task;
 }
@@ -1171,7 +1172,7 @@ struct NetSaveTask *func_020108C4(u32 heapId, u32 gameData, void (*callback)(u32
     task->progressCallback = callback;
     task->callbackArg = callbackArg;
     task->gameData = gameData;
-    func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8);
+    GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8);
     func_02010888(task, func_0201093C);
     return task;
 }
@@ -1204,7 +1205,7 @@ void func_02010934(struct NetSaveTask *task)
  */
 void func_0201093C(struct NetSaveTask *task)
 {
-    if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8) != 0) {
+    if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8) != 0) {
         GAME_DATA_SaveStart(task->gameData);
         func_02010888(task, func_02010964);
     }
@@ -1219,7 +1220,7 @@ void func_0201093C(struct NetSaveTask *task)
 void func_02010964(struct NetSaveTask *task)
 {
     if (GAME_DATA_SaveMain(task->gameData) == 1) {
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0x72, 8);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x72, 8);
         task->delayFrames = func_020056EC(0x3c);
         func_02010888(task, func_02010994);
     }
@@ -1233,7 +1234,7 @@ void func_02010964(struct NetSaveTask *task)
  */
 void func_02010994(struct NetSaveTask *task)
 {
-    if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x72, 8) != 0) {
+    if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x72, 8) != 0) {
         func_02010888(task, func_020109B8);
     }
 }
@@ -1250,7 +1251,7 @@ void func_020109B8(struct NetSaveTask *task)
 
     task->delayFrames = framesLeft;
     if (framesLeft < 0) {
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0x73, 8);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x73, 8);
         func_02010888(task, func_020109E0);
     }
 }
@@ -1263,7 +1264,7 @@ void func_020109B8(struct NetSaveTask *task)
  */
 void func_020109E0(struct NetSaveTask *task)
 {
-    if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x73, 8) != 0) {
+    if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x73, 8) != 0) {
         func_02010888(task, func_02010A04);
     }
 }
@@ -1281,7 +1282,7 @@ void func_02010A04(struct NetSaveTask *task)
     }
     if (GAME_DATA_SaveMain(task->gameData) == 2) {
         task->gameData = 0;
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0x74, 8);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x74, 8);
         func_02010888(task, func_02010A3C);
     }
 }
@@ -1294,7 +1295,7 @@ void func_02010A04(struct NetSaveTask *task)
  */
 void func_02010A3C(struct NetSaveTask *task)
 {
-    if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x74, 8) != 0) {
+    if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x74, 8) != 0) {
         func_02010888(task, 0);
     }
 }
@@ -1307,7 +1308,7 @@ int sub_02010A5C(void *proc)
 
     GFL_HEAP_CreateChildHeap(1, 0x67, 0x78000);
     work = PROCSYS_AllocProcWork(proc, 0x1d8, 0x67);
-    func_02082BCC(work, 0, 0x1d8);
+    MI_CpuFill8(work, 0, 0x1d8);
     work->heapId = 0x67;
     gameData = sub_020124F4(0x67);
     work->gameData = gameData;

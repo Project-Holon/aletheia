@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   SCRCMD_WORK_GetMsgWindow  0x0215A61C  thumb  ov010
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   SCRIPT_WORK_CheckFlag  0x02159190  thumb  ov010
  *   FIELD_MSGBG_SysWinDrawCursor  0x02191134  thumb  ov021
  *   FIELD_MSGBG_PlainWinDrawCursor  0x02191794  thumb  ov021
@@ -21,9 +21,9 @@
 
 typedef unsigned int u32;
 
-u32 func_020362DC(void);
+u32 KEY_GetTrg(void);
 int SCRCMD_WORK_GetMsgWindow(int a);
-void func_020061E4(u32 a);
+void GFL_USE_PlaySeDefaultVolume(u32 a);
 int SCRIPT_WORK_CheckFlag(int a);
 struct P;
 struct R;
@@ -37,10 +37,10 @@ int SCRCMD_MSGWIN_WaitKeyWithCursor(int a, int b)
     int r5;
     int r4;
 
-    r5 = func_020362DC();
+    r5 = KEY_GetTrg();
     r4 = SCRCMD_WORK_GetMsgWindow(b);
     if (r5 & 3) {
-        func_020061E4(0x547);
+        GFL_USE_PlaySeDefaultVolume(0x547);
         return 1;
     }
     if (SCRIPT_WORK_CheckFlag(1)) {

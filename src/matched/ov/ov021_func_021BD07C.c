@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   BMP_WIN_Delete  0x020452E8  arm  arm9
  */
 
 typedef struct {
@@ -17,12 +20,12 @@ typedef struct {
 
 struct Descriptor;
 typedef unsigned int   u32;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 void FIELD_PLACE_NAME_DeleteBmpWin(Obj *p)
 {
     if (p->f24 != 0) {
-        func_020452E8(p->f24);
+        BMP_WIN_Delete(p->f24);
         p->f24 = 0;
     }
 }

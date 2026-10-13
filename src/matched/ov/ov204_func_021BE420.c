@@ -11,14 +11,14 @@
  *
  * symbols:
  *   GFL_USE_GetSeSlot 0x02006148 thumb
- *   func_020061F8 0x020061F8 thumb
+ *   GFL_USE_StopSeSlot 0x020061F8 thumb
  */
 
 extern int GFL_USE_GetSeSlot(unsigned int);
-extern void func_020061F8(int);
+extern void GFL_USE_StopSeSlot(int);
 
 int func_021BE420(int a, int b, int *p)
 {
-    func_020061F8(GFL_USE_GetSeSlot(*p));
+    GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(*p));
     return 1;
 }

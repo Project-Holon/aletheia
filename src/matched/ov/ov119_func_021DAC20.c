@@ -12,7 +12,7 @@
  *   func_021D8A24 0x021D8A24 thumb ov119
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039C68 0x02039C68 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  *   func_021DABE8 0x021DABE8 thumb ov119
  *   func_021DAB34 0x021DAB34 thumb ov119
  */
@@ -23,13 +23,13 @@ extern void func_021D8E84(void *, int);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *,unsigned int,unsigned int);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned int,unsigned int);
 extern void func_021DABE8(char *p);
 extern void func_021DAB34(char *p);
 void func_021DAC20(void *p) {
  if(WIPE_SYS_EndCheck()) {
   if(func_021D8A24(p)) {
-   func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),22,8);
+   GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),22,8);
    func_021D8E84(p,(int)func_021DABE8);
   } else { func_021D8E84(p,(int)func_021DAB34); }
  }

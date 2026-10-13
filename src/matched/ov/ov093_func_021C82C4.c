@@ -1,5 +1,5 @@
 /*
- * function: func_021C82C4
+ * function: BTL_SERVER_FLOW_CheckSideEffectActive
  * address:  0x021C82C4
  * packet:   pkt_021C82C4
  * region:   ov093
@@ -18,7 +18,7 @@
 
 int func_06898CF4(int a, int b);
 
-int func_021C82C4(int a, int b, int c)
+int BTL_SERVER_FLOW_CheckSideEffectActive(int a, int b, int c)
 {
     (void)a;
     return func_06898CF4(b, c);

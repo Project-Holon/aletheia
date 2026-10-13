@@ -1,5 +1,5 @@
 /*
- * function: func_021E3414
+ * function: HAND_WAZA_AddKnockOff
  * address: 0x021E3414
  * packet: pkt_ov093_021E3414
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E324C.c and filed here.
  *
  * symbols:
- *   d_021F2844 0x021F2844 data ov093 a4
+ *   gKnockOffHandlers 0x021F2844 data ov093 a4
  */
 
-extern int d_021F2844[];
-int *func_021E3414(int *p);
+extern int gKnockOffHandlers[];
+int *HAND_WAZA_AddKnockOff(int *p);
 
-int *func_021E3414(int *p)
+int *HAND_WAZA_AddKnockOff(int *p)
 {
     *p = 1;
-    return d_021F2844;
+    return gKnockOffHandlers;
 }

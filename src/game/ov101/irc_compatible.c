@@ -15,7 +15,7 @@
  *
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GFL_NET_IsParentAid 0x0203D378 arm
  *   func_020120F4 0x020120F4 thumb
  *   func_020307B0 0x020307B0 arm
@@ -165,7 +165,7 @@ typedef struct IrcHelpArgs {
 struct DateBytes { unsigned year, month, day, weekday; };
 
 extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u16 line);
-extern void func_02082BCC(void *dst, int value, u32 size);
+extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern u32 func_020307B0(void *mem);
 extern u32 GFL_NET_IsParentAid(void);
 extern void *func_020120F4(const struct GameSystem *gameSystem);
@@ -236,11 +236,11 @@ int IRC_COMPATIBLE_ProcInit(struct Proc *proc, int seq, IrcCompatibleParam *para
     int gameData;
     GFL_HEAP_CreateChildHeap(1, IRC_COMPATIBLE_HEAP_ID, 0x8000);
     work = PROCSYS_AllocProcWork(proc, 64, IRC_COMPATIBLE_HEAP_ID);
-    func_02082BCC(work, 0, 64);
+    MI_CpuFill8(work, 0, 64);
     gameData = 0;
     work->param = param;
     work->partnerProfile = func_02030734(IRC_COMPATIBLE_HEAP_ID, 44, 0, IRC_COMPATIBLE_SourceFileName, 0x119);
-    func_02082BCC(work->partnerProfile, 0, 44);
+    MI_CpuFill8(work->partnerProfile, 0, 44);
     IRC_COMPATIBLE_StepRunnerInit(&work->runner, IRC_COMPATIBLE_HEAP_ID);
     if (work->param->gameSystem) gameData = (int)func_020120F4(work->param->gameSystem);
     work->view = func_021B6100(-1, gameData, IRC_COMPATIBLE_HEAP_ID, 0);
@@ -413,7 +413,7 @@ void IRC_COMPATIBLE_HandleHelp(IrcCompatibleWork *work, u16 *state) { switch(*st
 
 
 
-void IRC_COMPATIBLE_StepRunnerInit(IrcStepRunner *runner, int heapId) { func_02082BCC(runner, 0, 12); runner->queue=PROCSYS_Create(heapId); }
+void IRC_COMPATIBLE_StepRunnerInit(IrcStepRunner *runner, int heapId) { MI_CpuFill8(runner, 0, 12); runner->queue=PROCSYS_Create(heapId); }
 
 
 
@@ -430,7 +430,7 @@ unsigned int IRC_COMPATIBLE_StepRunnerIsBusy(IrcStepRunner *runner) { return PRO
 
 
 
-void IRC_COMPATIBLE_StepRunnerExit(IrcStepRunner *runner) { func_0203133C(runner->queue); func_02082BCC(runner, 0, 12); }
+void IRC_COMPATIBLE_StepRunnerExit(IrcStepRunner *runner) { func_0203133C(runner->queue); MI_CpuFill8(runner, 0, 12); }
 
 
 
@@ -471,13 +471,13 @@ int IRC_COMPATIBLE_StepRunnerRun(IrcStepRunner *runner, int stepIndex, int heapI
 /*
  * func_02030734 0x02030734 arm
  * func_020307B0 0x020307B0 arm
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * IRC_COMPATIBLE_SourceFileName 0x021B753C data a1
  */
 void *IRC_COMPATIBLE_MenuStepCreateArgs(u32 heapId, IrcCompatibleWork *work) {
  IrcMenuArgs *args;
  args=func_02030734(heapId,0x14,0,IRC_COMPATIBLE_SourceFileName,0x36e);
- func_02082BCC(args,0,0x14);
+ MI_CpuFill8(args,0,0x14);
  args->gameSystem=work->param->gameSystem;
  args->view=work->view;
  args->profile=work->partnerProfile;
@@ -511,7 +511,7 @@ void IRC_COMPATIBLE_MenuStepDestroyArgs(void *args, IrcCompatibleWork *work) {
 void *IRC_COMPATIBLE_SecondTestCreateArgs(u32 heapId, IrcCompatibleWork *work) {
  IrcSecondTestArgs *args;
  args=func_02030734(heapId,0x14,0,IRC_COMPATIBLE_SourceFileName,0x3af);
- func_02082BCC(args,0,0x14);
+ MI_CpuFill8(args,0,0x14);
  args->gameSystem=work->param->gameSystem;
  args->view=work->view;
  args->profile=work->partnerProfile;
@@ -537,7 +537,7 @@ void IRC_COMPATIBLE_SecondTestDestroyArgs(void *args, IrcCompatibleWork *work) {
 void *IRC_COMPATIBLE_FirstTestCreateArgs(u32 heapId, IrcCompatibleWork *work) {
  IrcFirstTestArgs *args;
  args=func_02030734(heapId,0x18,0,IRC_COMPATIBLE_SourceFileName,0x3e4);
- func_02082BCC(args,0,0x18);
+ MI_CpuFill8(args,0,0x18);
  args->gameSystem=work->param->gameSystem;
  args->view=work->view;
  args->profile=work->partnerProfile;
@@ -561,7 +561,7 @@ void IRC_COMPATIBLE_FirstTestDestroyArgs(void *args, IrcCompatibleWork *work) {
  * prototype: 6ECC reads eight arguments, but original caller explicitly supplies ninth 58; preserve it.
  * func_02030734 0x02030734 arm
  * func_020307B0 0x020307B0 arm
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * func_020120F4 0x020120F4 thumb
  * GAME_DATA_GetSaveControl 0x02012EBC thumb
  * func_0200A8A0 0x0200A8A0 thumb
@@ -581,7 +581,7 @@ void *IRC_COMPATIBLE_ResultStepCreateArgs(u32 heapId, IrcCompatibleWork *work)
     int useBonus,isNewPartner=0;
     u32 packedDate;
     args=func_02030734(heapId,16,0,IRC_COMPATIBLE_SourceFileName,0x418);
-    func_02082BCC(args,0,16);
+    MI_CpuFill8(args,0,16);
     args->gameSystem=work->param->gameSystem;
     args->view=work->view;
     args->profile=work->partnerProfile;
@@ -609,7 +609,7 @@ void IRC_COMPATIBLE_ResultStepDestroyArgs(void *args, IrcCompatibleWork *work)
 
 
 
-void *IRC_COMPATIBLE_HelpStepCreateArgs(u32 heapId, IrcCompatibleWork *work) { IrcHelpArgs *args; args=func_02030734(heapId,4,0,IRC_COMPATIBLE_SourceFileName,0x49b); func_02082BCC(args,0,4); args->gameSystem=work->param->gameSystem; return args; }
+void *IRC_COMPATIBLE_HelpStepCreateArgs(u32 heapId, IrcCompatibleWork *work) { IrcHelpArgs *args; args=func_02030734(heapId,4,0,IRC_COMPATIBLE_SourceFileName,0x49b); MI_CpuFill8(args,0,4); args->gameSystem=work->param->gameSystem; return args; }
 
 
 

@@ -14,7 +14,7 @@
  *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
  *   ITEMMENU_CloseYesNoList  0x021BB1AC  thumb  ov070
  *   func_020414EC  0x020414EC  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   ITEMMENU_RemoveSelectedItems  0x021B7D20  thumb  ov070
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   ITEMMENU_RegisterItemNameCounted  0x021B6204  thumb  ov070
@@ -23,7 +23,7 @@
  *   ITEMMENU_ShowMessageDefault  0x021BADAC  thumb  ov070
  *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
  *   ITEMMENU_TaskBeginReturnToList  0x021B76E4  thumb  ov070
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   ITEMMENU_UpdateSideButtons  0x021BB3F4  thumb  ov070
  *   func_020355C4  0x020355C4  arm
  *   ITEMMENU_SetCursorActive  0x021B80C4  thumb  ov070
@@ -54,7 +54,7 @@ extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 extern void ITEMMENU_CloseYesNoList(char *p);
 extern void func_020414EC(u32 i);
-extern void func_020061E4(unsigned int se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned int se);
 extern void ITEMMENU_RemoveSelectedItems(struct Obj *o, int x);
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -64,7 +64,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void ITEMMENU_ShowMessageDefault(void *p);
 extern void ITEMMENU_SetTask(char *p, int k);
 extern void ITEMMENU_TaskBeginReturnToList(int p);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void ITEMMENU_UpdateSideButtons(int p, int mode);
 extern u8 func_020355C4(void);
 extern void ITEMMENU_SetCursorActive(Obj *o, int v);
@@ -81,7 +81,7 @@ void ITEMMENU_TaskTossConfirmInput(Obj *o)
     ITEMMENU_CloseYesNoList((char *)o);
     func_020414EC(3);
     if (r == 0) {
-        func_020061E4(0x647);
+        GFL_USE_PlaySeDefaultVolume(0x647);
         ITEMMENU_RemoveSelectedItems(o, o->f7F4);
         MSGDATA_ReadString(o->f51C, 0x36, (void *)o->f524);
         ITEMMENU_RegisterItemNameCounted((u8 *)o, 0, o->f84C, o->f7F4 > 1, 0);
@@ -90,7 +90,7 @@ void ITEMMENU_TaskTossConfirmInput(Obj *o)
         ITEMMENU_ShowMessageDefault(o);
         ITEMMENU_SetTask((char *)o, (int)((void *)ITEMMENU_TaskBeginReturnToList));
     } else {
-        func_0204B92C(o->f6A8, 1);
+        CLACT_SetActorAutoAnim(o->f6A8, 1);
         v = 1;
         ITEMMENU_UpdateSideButtons((int)o, 1);
         if (func_020355C4() != 0)

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_HANDLER_ITEM_SpellTagBoostPower",
+   "name": "HAND_ITEM_SpellTagBoostPower",
    "address": "0x021DF858",
    "kind": "game",
    "region": "ov093",

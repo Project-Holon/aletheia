@@ -20,9 +20,9 @@
  *   FLD_TRADE_DumpPokemonParams  0x021CC23C  thumb  ov021
  *   FLD_TRADE_GetMessageString  0x021CC070  thumb  ov021
  *   STRBUF_Delete  0x02045808  arm
- *   func_0201ADE4  0x0201ADE4  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
- *   func_0201AE14  0x0201AE14  thumb
+ *   POKE_PERSONAL_Create  0x0201ADE4  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
+ *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_0202F190  0x0202F190  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
@@ -64,9 +64,9 @@ struct U16Vec;
 extern void FLD_TRADE_DumpPokemonParams(int obj);
 extern void *FLD_TRADE_GetMessageString(u32 file, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *p);
+extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void func_0202F190(void *mon, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void POKE_TOOL_RecalcParam(void *mon);
@@ -91,11 +91,11 @@ void FLD_TRADE_BuildPokemon(void *sys, u16 b, void *mon, Spec *d)
     POKE_TOOL_SetPartyValue(mon, 0x49, d->f10[3]);
     POKE_TOOL_SetPartyValue(mon, 0x4A, d->f10[4]);
     POKE_TOOL_SetPartyValue(mon, 0x4B, d->f10[5]);
-    x = (u32)func_0201ADE4((u16)d->species, (u16)d->level, b);
-    v[0] = func_0201AE1C((const struct Personal *)x, 0x1A);
-    v[1] = func_0201AE1C((const struct Personal *)x, 0x1B);
-    v[2] = func_0201AE1C((const struct Personal *)x, 0x1C);
-    func_0201AE14((void *)x);
+    x = (u32)POKE_PERSONAL_Create((u16)d->species, (u16)d->level, b);
+    v[0] = POKE_PERSONAL_GetParam((const struct Personal *)x, 0x1A);
+    v[1] = POKE_PERSONAL_GetParam((const struct Personal *)x, 0x1B);
+    v[2] = POKE_PERSONAL_GetParam((const struct Personal *)x, 0x1C);
+    POKE_PERSONAL_Delete((void *)x);
     switch (d->sel) {
     case 0:
         break;

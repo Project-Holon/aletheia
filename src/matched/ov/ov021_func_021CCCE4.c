@@ -18,12 +18,12 @@
  *
  * symbols:
  *   d_021DB40C  0x021DB40C  data
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_0202136C  0x0202136C  thumb
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  * Addresses are Black-image addresses.
  */
 
@@ -54,12 +54,12 @@ typedef struct {
 
 extern const IconPos d_021DB40C;
 struct Obj;
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 arg);
 extern u32 func_0202136C(u16 v);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
 void PARTY_SELECT_LIST_CreateStatusIcons(Work *w)
 {
@@ -69,9 +69,9 @@ void PARTY_SELECT_LIST_CreateStatusIcons(Work *w)
     int i;
     u32 species;
 
-    n0 = func_0201AA18(w->party[0]);
+    n0 = POKEPARTY_GetCount(w->party[0]);
     for (i = 0; i < n0; i++) {
-        species = POKE_TOOL_GetPartyValue(func_0201AB28(w->party[0], i), 6, 0);
+        species = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(w->party[0], i), 6, 0);
         if (species != 0) {
             if (func_0202136C(species) == 1) {
                 pos.alt = 1;
@@ -80,13 +80,13 @@ void PARTY_SELECT_LIST_CreateStatusIcons(Work *w)
             }
             pos.x = i * 0x28 + 0x20;
             w->icon[0][i] = CLACT_CreateActor(w->sys, w->h9C, w->h98, w->h9A, &pos, 0, w->hC);
-            func_0204B3DC(w->icon[0][i], 0);
+            CLACT_SetActorDrawEnable(w->icon[0][i], 0);
         }
     }
     if (w->party[1] != 0) {
-        n1 = func_0201AA18(w->party[1]);
+        n1 = POKEPARTY_GetCount(w->party[1]);
         for (i = 0; i < n1; i++) {
-            species = POKE_TOOL_GetPartyValue(func_0201AB28(w->party[1], i), 6, 0);
+            species = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(w->party[1], i), 6, 0);
             if (species != 0) {
                 if (func_0202136C(species) == 1) {
                 pos.alt = 1;
@@ -95,7 +95,7 @@ void PARTY_SELECT_LIST_CreateStatusIcons(Work *w)
             }
                 pos.x = i * 0x28 + 0x20;
                 w->icon[1][i] = CLACT_CreateActor(w->sys, w->h9C, w->h98, w->h9A, &pos, 0, w->hC);
-                func_0204B3DC(w->icon[1][i], 0);
+                CLACT_SetActorDrawEnable(w->icon[1][i], 0);
             }
         }
     }

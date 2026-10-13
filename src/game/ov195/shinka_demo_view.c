@@ -16,17 +16,17 @@
  *   d_02208F50 0x02208F50 data a4
  *   d_02208CEC 0x02208CEC data a4
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   func_0204363C 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   GF_FONT_ResetTextColor 0x0201DD60 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_02030EAC 0x02030EAC arm
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   func_020307B0 0x020307B0 arm
  *   d_02208CA0 0x02208CA0 data a4
  *   d_02208D1C 0x02208D1C data a4
@@ -44,7 +44,7 @@
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
@@ -60,16 +60,16 @@
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
  *   func_02047964 0x02047964 arm
- *   func_02048AD0 0x02048AD0 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   d_02208F68 0x02208F68 data
- *   func_020173EC 0x020173EC thumb
+ *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   func_02019CE0 0x02019CE0 thumb
  *   POKE_TOOL_ChangeSpecies 0x020178D8 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   PM_VOICE_Play 0x02006984 thumb
- *   func_02006650 0x02006650 thumb
+ *   PM_VOICE_IsAnyActive 0x02006650 thumb
  *   MCSS_SetPaletteFade 0x02015F50 thumb
  *   MCSS_SetAnmStopFlag 0x02015E04 thumb
  *   MCSS_CheckPaletteFade 0x0201600C thumb
@@ -123,8 +123,8 @@
  *   POKEGRA_GetArcID 0x0202D060 thumb
  *   POKEGRA_GetCgrArcIndex 0x0202D064 thumb
  *   POKEGRA_GetPalArcIndex 0x0202D0D4 thumb
- *   func_02049E34 0x02049E34 arm
- *   func_02049F34 0x02049F34 arm
+ *   ARC_UTIL_LoadScreenDataFromArchive 0x02049E34 arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive 0x02049F34 arm
  *   BMP_GetPixels 0x020437D4 arm
  *   func_02082A7C 0x02082A7C arm
  *   func_02082A90 0x02082A90 arm
@@ -135,7 +135,7 @@
  *   _ll_mul 0x0209C054 arm
  *   FX_Sqrt 0x0207C7B4 arm
  *   func_0207C768 0x0207C768 arm
- *   d_020A1B38 0x020A1B38 data
+ *   FX_SinCosTable__Alt 0x020A1B38 data
  *   func_0207B640 0x0207B640 thumb
  *   MTX_MultVec43 0x0207BC08 arm
  *   func_0207C7E8 0x0207C7E8 arm
@@ -557,17 +557,17 @@ typedef struct Anim_02208C28 {
 } Anim_02208C28;
 
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void func_0204363C(u32);
+extern void BG_SYS_SetLcdSwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_ResetTextColor(void);
 extern u32 func_020056A0(void *, void *, int);
 extern void func_02030EAC(struct Node *n);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 func_020307B0(void *p);
 extern void func_0203FC6C(const struct BgVramReq *req, u32 which);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
@@ -583,7 +583,7 @@ extern void func_020419E4(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(int);
@@ -595,15 +595,15 @@ extern u32 G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, voi
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(int);
 extern void func_02047964(void);
-extern void func_02048AD0(struct Light *l);
+extern void G3D_CAMERA_Reset(struct Light *l);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawEnd(void);
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
 extern void POKE_TOOL_ChangeSpecies(void *p, u32 a);
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
-extern int func_02006650(void);
+extern int PM_VOICE_IsAnyActive(void);
 extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
 extern void MCSS_SetAnmStopFlag(void *);
 extern int MCSS_CheckPaletteFade(void *);
@@ -644,8 +644,8 @@ extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern int POKEGRA_GetArcID(void);
 extern s32 POKEGRA_GetCgrArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 extern void func_02082A90(const void *src, void *dst, u32 size);
@@ -799,7 +799,7 @@ extern const VecFx32 d_02208E80;
 extern const s16 FX_SinCosTable_[];
 extern const VecFx32 d_02208E8C;
 extern GlbState d_02148BCC;
-extern const SC d_020A1B38[];
+extern const SC FX_SinCosTable__Alt[];
 extern const s16 d_02208E4C[];
 extern const u8 d_02208E38[];
 extern char d_02208F7C[];
@@ -819,18 +819,18 @@ char *func_022058F8(u32 a, u32 b)
 {
     char *p = func_02030734(b, 0x10, 0, (const char *)d_02208F50, 0x1df);
 
-    func_02082BCC(p, 0, 0x10);
+    MI_CpuFill8(p, 0, 0x10);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
     *(volatile u32 *)0x04000000 &= 0xffff1fff;
     *(volatile u32 *)0x04001000 &= 0xffff1fff;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_02208CEC);
-    func_0204363C(a);
+    BG_SYS_SetLcdSwap(a);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    func_0201DD60();
+    GF_FONT_ResetTextColor();
     func_02205AC0(p, (void *)b);
     func_02205B6C((unsigned char *)(p + 4), (int)d_02208CEC, b);
     func_02205BDC((u32 *)(p + 8), (void *)b);
@@ -852,12 +852,12 @@ void func_022059A0(char *p)
     func_02205C48((int *)(p + 8));
     func_02205BAC(p + 4);
     func_02205B24(p);
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
-    func_02082BCC(p, 0, 0x10);
+    MI_CpuFill8(p, 0, 0x10);
     func_020307B0(p);
 }
 
@@ -983,7 +983,7 @@ void func_02205AC0(void *a, void *b)
 {
     u32 i;
 
-    func_02082BCC(a, 0, 4);
+    MI_CpuFill8(a, 0, 4);
     func_0203F8F4(b);
     BMP_WIN_Init(b);
     func_0203FC28((struct DispConfig *)d_02208CA0);
@@ -1005,7 +1005,7 @@ void func_02205AC0(void *a, void *b)
 
 
 
-void func_02205B24(void *p) {u32 i;for(i=0;i<6;i++){u32 id=d_02208D1C[i].id;if(id<=3)func_020403F4((u8)id);}BMP_WIN_Exit();func_0203F9B4();func_02082BCC(p,0,4);}
+void func_02205B24(void *p) {u32 i;for(i=0;i<6;i++){u32 id=d_02208D1C[i].id;if(id<=3)func_020403F4((u8)id);}BMP_WIN_Exit();func_0203F9B4();MI_CpuFill8(p,0,4);}
 
 
 
@@ -1039,11 +1039,11 @@ void func_02205B64(void *a0){func_020419E4();}
 
 void func_02205B6C(unsigned char *p, int a, u32 b)
 {
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x02208CB0, a, b);
     ((struct Obj14529 *)p)->f0 = CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer(((struct Obj14529 *)p)->f0);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
@@ -1058,7 +1058,7 @@ void func_02205B6C(unsigned char *p, int a, u32 b)
 void func_02205BAC(char *a)
 {
     CLACT_ExitSystem(CLACT_DeleteUnit((struct Bank *)(((struct Obj24953 *)a)->f0)));
-    func_02082BCC(a, 0, 4);
+    MI_CpuFill8(a, 0, 4);
 }
 
 
@@ -1130,7 +1130,7 @@ void func_02205C48(int *p)
 void func_02205C58(char *a)
 {
     func_02047964();
-    func_02048AD0((struct Light *)((struct Obj24957 *)a)->f0);
+    G3D_CAMERA_Reset((struct Light *)((struct Obj24957 *)a)->f0);
     G3D_SYSTEM_ApplyLookAt();
 }
 
@@ -1165,7 +1165,7 @@ Owner *func_02205C74(u16 heap, u32 f08, void *res0, u16 f0c)
     o->f0c = f0c;
     o->res1 = 0;
     if (f08 == 0) {
-        o->res1 = func_02030734(o->heap, func_020173EC(), 1, d_02208F68, 0x213);
+        o->res1 = func_02030734(o->heap, POKE_TOOL_GetPartyParamSize(), 1, d_02208F68, 0x213);
         func_02019CE0(o->res0, o->res1);
         POKE_TOOL_ChangeSpecies(o->res1, o->f0c);
     }
@@ -1216,13 +1216,13 @@ void func_02205D50(char *p)
         if(W(0x1c)) {
             u32 a,b;
             W(0x14)=1;
-            a=func_02017E1C(P(4),5,0);
-            b=func_02017E1C(P(4),0x6f,0);
+            a=POKE_TOOL_GetPartyValue(P(4),5,0);
+            b=POKE_TOOL_GetPartyValue(P(4),0x6f,0);
             PM_VOICE_Play(a,b,0x40,0,0,0,0,0);
         }
         break;
     case 1:
-        if(!func_02006650()){W(0x14)=2;W(0x20)=1;}
+        if(!PM_VOICE_IsAnyActive()){W(0x14)=2;W(0x20)=1;}
         break;
     case 2:if(W(0x24))W(0x14)=3;break;
     case 3:
@@ -1289,12 +1289,12 @@ void func_02205D50(char *p)
             u32 a,b;
             W(0x14)=20;
             if(W(0x40))obj=P(4);else obj=P(0x10);
-            a=func_02017E1C(obj,5,0);
-            b=func_02017E1C(obj,0x6f,0);
+            a=POKE_TOOL_GetPartyValue(obj,5,0);
+            b=POKE_TOOL_GetPartyValue(obj,0x6f,0);
             PM_VOICE_Play(a,b,0x40,0,0,0,0,0);
         }
         break;
-    case 20:if(!func_02006650()){W(0x14)=21;W(0x18)=0;W(0x34)=1;}break;
+    case 20:if(!PM_VOICE_IsAnyActive()){W(0x14)=21;W(0x18)=0;W(0x34)=1;}break;
     case 21:case 22:break;
     }
     if(W(0x5c))MCSS_Main(P(0x4c));
@@ -1506,7 +1506,7 @@ void func_022060BC(char *p){MCSS_Exit(((struct Obj02911 *)p)->f4C);}
 
 fx32_02205AC0 func_022060C8(void *p)
 {
-    int v = func_02017E1C(p, 5, 0);
+    int v = POKE_TOOL_GetPartyValue(p, 5, 0);
     fx32_02205AC0 r = -0x12000;
 
     switch (v) {
@@ -1715,8 +1715,8 @@ void func_022063E0(Owner *o)
     else
         w->f00 = 3;
 
-    a = func_02017E1C(o->res0, 5, 0);
-    b = func_02017E1C(o->res0, 0x6f, 0);
+    a = POKE_TOOL_GetPartyValue(o->res0, 5, 0);
+    b = POKE_TOOL_GetPartyValue(o->res0, 0x6f, 0);
     c = POKE_TOOL_GetGender(o->res0);
     g = w->grid[0] = func_0220685C(a, b, c, func_02017EAC(o->res0), 0, 0, 0x26000, 0x960, o->heap);
     if (o->f08 == 0) {
@@ -1728,8 +1728,8 @@ void func_022063E0(Owner *o)
     }
 
     if (o->f08 == 0) {
-        a = func_02017E1C(o->res1, 5, 0);
-        b = func_02017E1C(o->res1, 0x6f, 0);
+        a = POKE_TOOL_GetPartyValue(o->res1, 5, 0);
+        b = POKE_TOOL_GetPartyValue(o->res1, 0x6f, 0);
         c = POKE_TOOL_GetGender(o->res1);
         g = w->grid[1] = func_0220685C(a, b, c, func_02017EAC(o->res1), 0, 0, 0x28000, 0x980, o->heap);
         func_02206A5C(g, o->heap);
@@ -1827,7 +1827,7 @@ void func_02206664(Owner *o)
         d_02148BCC.flag &= ~0xa4;
         NNS_G3dGlbBaseScale(&scale);
     }
-    func_02048AD0((struct Light *)w->camera);
+    G3D_CAMERA_Reset((struct Light *)w->camera);
     G3D_SYSTEM_ApplyLookAt();
     func_0206DB80();
     REG_MTX_MODE = 3;
@@ -2012,8 +2012,8 @@ Grid *func_0220685C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 tex, u32
     plttFile = POKEGRA_GetPalArcIndex(POKEGRA_GetArcID(), a0, a1, a2, a3, a4, a5);
     g->chr = 0;
     g->pltt = 0;
-    g->chrRes = func_02049E34(POKEGRA_GetArcID(), chrFile, 1, (u32)(&g->chr), heap);
-    g->plttRes = func_02049F34(POKEGRA_GetArcID(), plttFile, (u32)(&g->pltt), heap);
+    g->chrRes = ARC_UTIL_LoadScreenDataFromArchive(POKEGRA_GetArcID(), chrFile, 1, (u32)(&g->chr), heap);
+    g->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(POKEGRA_GetArcID(), plttFile, (u32)(&g->pltt), heap);
     src = g->chr->raw;
     buf = BMP_GetPixels(g->canvas);
     func_02082A7C(0, buf, 0x2000);
@@ -2151,8 +2151,8 @@ void func_02206A5C(Grid *p, u16 heap)
             t = (float)e->f54 / 4096.0f;
             s = 10.0f + 2.0f * (2.0f * (t * (10.0f * t) / 44.0f / 44.0f));
             e->f50 = FX_F32_TO_FX32(s);
-            e->f58 = FX_Mul(e->f50, d_020A1B38[e->f4c >> 4].c);
-            e->f60 = FX_Mul(e->f50, d_020A1B38[e->f4c >> 4].s);
+            e->f58 = FX_Mul(e->f50, FX_SinCosTable__Alt[e->f4c >> 4].c);
+            e->f60 = FX_Mul(e->f50, FX_SinCosTable__Alt[e->f4c >> 4].s);
             e->f5c = e->f54;
             dx = e->f58 - e->cur.x;
             dy = e->f5c - e->cur.y;

@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   GSMD5_memset  0x02185848  arm
  */
 
 typedef unsigned char u8;
@@ -17,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_021857F0(u32 *dst, const u8 *src, u32 count);
-extern void *func_02185848(void *p, int c, u32 n);
+extern void *GSMD5_memset(void *p, int c, u32 n);
 
 #define S11 7
 #define S12 12
@@ -154,5 +155,5 @@ void func_02184AB4(u32 state[4], const u8 block[64])
     state[2] += c;
     state[3] += d;
 
-    func_02185848(x, 0, 64);
+    GSMD5_memset(x, 0, 64);
 }

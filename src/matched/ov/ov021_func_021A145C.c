@@ -1,5 +1,5 @@
 /*
- * function: func_021A145C
+ * function: FIELD_SUBSCREEN_UpdateBeaconView
  * address: 0x021A145C
  * packet: pkt_ov021_021A145C
  * region: ov021
@@ -17,6 +17,6 @@
 
 typedef struct { unsigned char pad[0x20]; void *f20; } Obj_021A145C;
 extern int BEACON_VIEW_Update(void *p);
-int func_021A145C(Obj_021A145C *p);
+int FIELD_SUBSCREEN_UpdateBeaconView(Obj_021A145C *p);
 
-int func_021A145C(Obj_021A145C *p) { return BEACON_VIEW_Update(p->f20); }
+int FIELD_SUBSCREEN_UpdateBeaconView(Obj_021A145C *p) { return BEACON_VIEW_Update(p->f20); }

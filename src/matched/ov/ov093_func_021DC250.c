@@ -1,5 +1,5 @@
 /*
- * function: func_021DC250
+ * function: HAND_TOKUSEI_GetToxicBoostHandlers
  * address: 0x021DC250
  * packet: pkt_ov093_021DC250
  * region: ov093
@@ -15,10 +15,10 @@
  *   gToxicBoostHandlers 0x021F0768 data ov093 a4
  */
 
-int *func_021DC250(int *p);
+int *HAND_TOKUSEI_GetToxicBoostHandlers(int *p);
 extern int gToxicBoostHandlers[];
 
-int *func_021DC250(int *p)
+int *HAND_TOKUSEI_GetToxicBoostHandlers(int *p)
 {
     *p = 1;
     return gToxicBoostHandlers;

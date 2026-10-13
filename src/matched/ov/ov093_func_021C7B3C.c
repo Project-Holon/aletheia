@@ -1,5 +1,5 @@
 /*
- * function: func_021C7B3C
+ * function: BTL_SERVER_FLOW_NotifyAbilityChangeEvent
  * address:  0x021C7B3C
  * packet:   pkt_ov093_021C7B3C
  * region:   ov093
@@ -23,7 +23,7 @@ extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
 extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern void BTL_EVENT_PopVarFrame(int line);
 
-void func_021C7B3C(u8 *p, u32 a, u16 b, u16 c)
+void BTL_SERVER_FLOW_NotifyAbilityChangeEvent(u8 *p, u32 a, u16 b, u16 c)
 {
     BTL_EVENT_PushVarFrame(13068);
     BTL_EVENT_SetVarReadOnly(2, a);

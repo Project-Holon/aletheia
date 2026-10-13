@@ -11,7 +11,7 @@
  * symbols:
  *   func_021B9A80 0x021B9A80 thumb ov181
  *   func_0207D63C 0x0207D63C arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   func_0207D534 0x0207D534 arm
  *   BUTTON_MAN_RotScaleMtx22 0x02051E74 arm
  *   func_02040860 0x02040860 arm
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 struct Mtx22 { int m[4]; };
 extern void func_021B9A80(void *, int);
 extern void func_0207D63C(unsigned, int, int, int, int);
-extern void func_020434DC(unsigned, unsigned);
+extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *, unsigned, const void *, const void *, u8);
 extern void func_02040860(unsigned, unsigned, unsigned, unsigned);
@@ -36,7 +36,7 @@ int func_021BA83C(char *p)
     case 0:
         func_021B9A80(p, 1);
         func_0207D63C(0x04000050, 8, 0x20, 0, 16);
-        func_020434DC(8, 1);
+        BG_SYS_SetMainPlaneVisible(8, 1);
         func_0207D534((void *)0x0400006c, 0);
         func_0207D534((void *)0x0400106c, 0);
         *(u8 *)&((struct Obj00682 *)p)->f2D0 = 0;
@@ -74,7 +74,7 @@ int func_021BA83C(char *p)
         v = ((struct Obj00682 *)p)->f2D0;
         if (v >= 16) {
             *(volatile u16 *)0x04000050 = 0;
-            func_020434DC(8, 0);
+            BG_SYS_SetMainPlaneVisible(8, 0);
             BUTTON_MAN_RotScaleMtx22(&matrix, 0, (const void *)0x1000, (const void *)0x1000, 0);
             func_02040860(3, (unsigned)&matrix, 0x80, 0x60);
             func_021B9A80(p, 0);

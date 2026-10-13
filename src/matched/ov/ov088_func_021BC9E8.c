@@ -18,7 +18,7 @@
  * volatile: DISPCNT 0x04000000 and DB_DISPCNT 0x04001000 read-modify-written by the SDK inlines GX_SetVisibleWnd/GXS_SetVisibleWnd (0x021BCA3A, 0x021BCA46)
  *
  * symbols:
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   func_0203F8F4  0x0203F8F4  arm
@@ -33,7 +33,7 @@
  *   BG_SYS_ResetSubDisplay  0x0204361C  arm
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_020409B4  0x020409B4  arm
  *   func_0203F9B4  0x0203F9B4  arm
  *   d_021BD944     0x021BD944  data  a4
@@ -70,7 +70,7 @@ typedef struct {
 } St;
 
 typedef signed int     s32;
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 struct BgTemplate;
 struct DispConfig;
@@ -88,7 +88,7 @@ extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_020409B4(u32 layer);
 extern void func_0203F9B4(void);
 
@@ -103,7 +103,7 @@ int STARTMENU_LogoScreenMain(int a0, int a1, int *mode, St *st)
 
     switch (st->state) {
     case 0:
-        func_02043534(0);
+        BG_SYS_SetMainVisiblePlanes(0);
         BG_SYS_SetSubVisiblePlanes(0);
         reg_G2_BLDCNT = 0;
         reg_G2S_DB_BLDCNT = 0;
@@ -148,7 +148,7 @@ int STARTMENU_LogoScreenMain(int a0, int a1, int *mode, St *st)
     case 3:
         if (++st->count > 0x5a)
             st->state = 4;
-        if (func_020362DC() & 0xb)
+        if (KEY_GetTrg() & 0xb)
             st->state = 4;
         break;
     case 4:

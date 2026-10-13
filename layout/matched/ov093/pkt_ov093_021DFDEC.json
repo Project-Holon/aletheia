@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DFDEC",
+   "name": "HAND_ITEM_CellBatteryUse",
    "address": "0x021DFDEC",
    "kind": "game",
    "region": "ov093",

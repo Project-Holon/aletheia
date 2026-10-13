@@ -46,7 +46,7 @@
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *   func_0200F128 0x0200F128 thumb
  *   ARC_TOOL_ReadHandleMemberRange 0x0204944C arm
- *   func_020143CC 0x020143CC thumb
+ *   ZONEDATA_GetEventWorkAddress 0x020143CC thumb
  *   d_021D5E04  0x021D5E04  data  ov021  a4
  *   d_021D770C  0x021D770C  data  ov021  a4
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
@@ -104,7 +104,7 @@ extern void FLDMMDL_MOVE_UpdateHeight(Mmdl *mmdl);
 extern void ARC_TOOL_ReadMember(void *dst, u32 arcId, u32 member);
 extern u32 func_0200F128(u32 objCode);
 extern void ARC_TOOL_ReadHandleMemberRange(void *arc, u32 member, u32 offset, u32 size, void *dst);
-extern u16 *func_020143CC(void *evWork, unsigned int workId);
+extern u16 *ZONEDATA_GetEventWorkAddress(void *evWork, unsigned int workId);
 extern unsigned int ZONEDATA_CheckEventFlag(void *evWork, int flag);
 MmdlSys *FLDMMDL_CreateSys(int heapId, int mmdlMax, void *saveData);
 void FLDMMDL_DeleteSys(MmdlSys *sys);
@@ -2153,7 +2153,7 @@ u32 FLDMMDL_GetEventWorkObjCode(void *evWork, u32 objCode)
         if (evWork == 0)
             objCode = 10;
         else
-            objCode = *func_020143CC(evWork, (u16)(objCode + 0x3f7e));
+            objCode = *ZONEDATA_GetEventWorkAddress(evWork, (u16)(objCode + 0x3f7e));
     }
     return objCode;
 }

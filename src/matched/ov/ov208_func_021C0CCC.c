@@ -12,8 +12,8 @@
  * symbols:
  *   func_021C0C14  0x021C0C14  thumb  ov208
  *   TOWNMAP_GRH_GetTownInfoValue  0x021BBB3C  thumb  ov072
- *   func_0204B404  0x0204B404  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   data_021C8554  0x021C8554  data
  */
 
@@ -32,9 +32,9 @@ extern u8   func_021C0C14(u16 *heap, u8 *p, int key);
 extern unsigned short TOWNMAP_GRH_GetTownInfoValue(char *p, int a, int b);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
-extern void func_0204B3DC(struct Obj *obj, unsigned int on);
+extern void CLACT_SetActorDrawEnable(struct Obj *obj, unsigned int on);
 
 #define W(o) (*(u32 *)(p + (o)))
 
@@ -48,6 +48,6 @@ void func_021C0CCC(u16 *heap, u8 *p, int key)
         pt.x = TOWNMAP_GRH_GetTownInfoValue((char *)W(0x3c8), p[0x79], 2);
         pt.y = TOWNMAP_GRH_GetTownInfoValue((char *)W(0x3c8), p[0x79], 3);
     }
-    func_0204B404((struct Obj *)W(0xcc), (const struct Vec2 *)(&pt), 0);
-    func_0204B3DC((struct Obj *)W(0xcc), 1);
+    CLACT_AddActorSurfacePos((struct Obj *)W(0xcc), (const struct Vec2 *)(&pt), 0);
+    CLACT_SetActorDrawEnable((struct Obj *)W(0xcc), 1);
 }

@@ -15,7 +15,7 @@
  *
  * symbols:
  *   sHideEndSeIds     0x021DB934  data  a4
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELD_EFFECT_GetObjectWork  0x021AC1E0  thumb  ov021
  */
 #include "../include/Obj13000.h"
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int FIELD_EFFECT_GetObjectWork(u32 a);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int sHideEndSeIds[];
 
 void FLDEFF_HIDE_RequestEnd(void *a)
@@ -35,6 +35,6 @@ void FLDEFF_HIDE_RequestEnd(void *a)
     if (a != 0) {
         e = (u8 *)FIELD_EFFECT_GetObjectWork((u32)a);
         ((struct Obj13000 *)e)->f1A = 1;
-        func_020061E4(sHideEndSeIds[((struct Obj13000 *)e)->fC]);
+        GFL_USE_PlaySeDefaultVolume(sHideEndSeIds[((struct Obj13000 *)e)->fC]);
     }
 }

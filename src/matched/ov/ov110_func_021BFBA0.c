@@ -10,7 +10,7 @@
  * volatile: 0x021BFBD8 reads WINOUT; 0x021BFBFC reads DISPCNT.
  * symbols:
  *   func_021BC898 0x021BC898 thumb ov110
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_02040588 0x02040588 arm
  */
 #include "../include/Obj13800.h"
@@ -20,7 +20,7 @@ typedef struct { unsigned char plane:5; unsigned char effect:1; unsigned char re
 typedef unsigned int   u32;
 struct Obj;
 extern int func_021BC898(u8 *p);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void func_02040588(unsigned char which, unsigned char enable);
 static inline void outside(int wnd,int effect) {
     unsigned tmp=*(volatile u16 *)0x0400004a & ~0x3f;
@@ -35,7 +35,7 @@ int func_021BFBA0(u8 *p) {
     int i;
     if(((struct Obj13800 *)p)->f88==0) {
     if(func_021BC898(p+0x4c)) {
-        for(i=0;i<10;i++) func_0204B3DC(*(void **)(p+0x20+4*i),0);
+        for(i=0;i<10;i++) CLACT_SetActorDrawEnable(*(void **)(p+0x20+4*i),0);
         func_02040588(2,0);
         outside(((Wnd *)(p+0x8c))->plane,((Wnd *)(p+0x8c))->effect);
         visible(((struct Obj13800 *)p)->f90);

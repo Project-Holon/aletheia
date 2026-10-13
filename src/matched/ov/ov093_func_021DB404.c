@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetForecastHandlers
+ * function: HAND_TOKUSEI_GetForecastHandlers
  * address: 0x021DB404
  * packet: pkt_ov093_021DB404
  * region: ov093
@@ -15,10 +15,10 @@
  *   gForecastHandlers 0x021F0DD4 data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetForecastHandlers(int *p);
+int *HAND_TOKUSEI_GetForecastHandlers(int *p);
 extern int gForecastHandlers[];
 
-int *BTL_TOKUSEI_GetForecastHandlers(int *p)
+int *HAND_TOKUSEI_GetForecastHandlers(int *p)
 {
     *p = 9;
     return gForecastHandlers;

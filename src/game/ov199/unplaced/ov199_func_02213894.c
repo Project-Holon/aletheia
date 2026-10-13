@@ -24,6 +24,8 @@
  *   GFL_NET_COMMAND_DeleteCommandTable  0x0203A5E4  arm  arm9
  *   GFL_NET_GetRunState  0x0203CD98  arm  arm9
  *   GFL_NET_GetInitParam  0x0203D798  arm  arm9
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm  arm9
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -59,8 +61,8 @@ extern void func_02034A5C(int);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void func_02039C68(struct Link *, u32, u32);
-extern u32 func_02039CB4(struct Link *, u32, u32);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, u32, u32);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, u32, u32);
 extern int GFL_NET_GetRunState(void);
 extern void *GFL_NET_GetInitParam(void);
 extern u32 func_0200FB24(void);
@@ -87,11 +89,11 @@ int func_02213894(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
         wk->f8 = 1;
         GFL_NET_COMMAND_AddCommandTable(0x100, (u32)data_021F03C4, 9, 0);
         wk->fC = 1;
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc8, 0x24);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc8, 0x24);
         *seq = 3;
         break;
     case 3:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc8, 0x24)) *seq = 4;
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc8, 0x24)) *seq = 4;
         break;
     case 4:
         PROCSYS_Push(wk->f0, -1, data_021EFDAC, pw->f4);
@@ -105,12 +107,12 @@ int func_02213894(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
         *seq = 7;
         break;
     case 7:
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd2, 0x24);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd2, 0x24);
         wk->f4 = 0;
         *seq = 8;
         break;
     case 8:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd2, 0x24)) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd2, 0x24)) {
             GFL_NET_COMMAND_DeleteCommandTable(0x100);
             wk->fC = 0;
             func_02034A5C((int)ov093_id);
@@ -129,12 +131,12 @@ int func_02213894(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
         }
         break;
     case 9:
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd3, 0x24);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd3, 0x24);
         *seq = 10;
         wk->f4 = 0;
         break;
     case 10:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd3, 0x24)) *seq = 11;
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd3, 0x24)) *seq = 11;
         if (GFL_NET_GetRunState() && *(u8 *)((u8 *)GFL_NET_GetInitParam() + 0x65) == 3) {
             if (wk->f4++ > 600) {
                 *seq = 11;

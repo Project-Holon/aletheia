@@ -14,7 +14,7 @@
  *   func_021F89BC  0x021F89BC  thumb  ov094
  *   func_021F9260  0x021F9260  thumb  ov094
  *   func_02200108  0x02200108  thumb  ov094
- *   func_02015F2C  0x02015F2C  thumb
+ *   MCSS_SetAnimCallback  0x02015F2C  thumb
  *   func_02201718  0x02201718  thumb  ov094
  */
 #include "../include/Obj05243.h"
@@ -24,7 +24,7 @@ extern int func_022019F4(char *p, int key);
 extern void func_021F89BC(void *o);
 extern int func_021F9260(void *m, int *out);
 extern void func_02200108(char *p, int key, int x);
-extern void func_02015F2C(void *a, int i, void (*fn)(int), int one);
+extern void MCSS_SetAnimCallback(void *a, int i, void (*fn)(int), int one);
 extern void func_02201718(int i);
 
 void func_02201234(void *o, char *q)
@@ -52,7 +52,7 @@ void func_02201234(void *o, char *q)
     r = func_021F9260(q + 0x14, (int *)(q + 8));
     func_02200108(p, ((struct Obj05243 *)q)->f4, ((struct Obj05243 *)q)->f8 >> 12);
     if (r == 1) {
-        func_02015F2C(*(void **)(e + off), i, func_02201718, 1);
+        MCSS_SetAnimCallback(*(void **)(e + off), i, func_02201718, 1);
         func_021F89BC(o);
     }
 }

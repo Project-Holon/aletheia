@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
  *   ENCEFF_GetWork  0x021CF560  thumb  ov021
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 typedef signed int     s32;
 struct Ctx;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetEncEff(unsigned char *p);
 extern u32 ENCEFF_GetWork(u32 *p);
@@ -39,7 +39,7 @@ int ENCEFF_CellGridEventMain(void *task, int *st)
 {
     u8 *w;
 
-    w = (u8 *)ENCEFF_GetWork((u32 *)FIELDMAP_GetEncEff((unsigned char *)((int)GAMESYSTEM_GetFieldMap(func_020124E4(task)))));
+    w = (u8 *)ENCEFF_GetWork((u32 *)FIELDMAP_GetEncEff((unsigned char *)((int)GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(task)))));
     switch (*st) {
     case 0:
         if (ENCEFF_StepCellGrid(w) == 0)

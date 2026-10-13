@@ -16,7 +16,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0201A920  0x0201A920  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
  */
 #include "../include/Obj05876.h"
 
@@ -44,7 +44,7 @@ extern void GAME_EVENT_Change(char *p, int a1, int a2);
 extern void *func_020124E8(struct Obj *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern struct Party *func_0201A920(u32 heap);
+extern struct Party *POKEPARTY_Create(u32 heap);
 
 void *func_021559E4(void *a, int b, void *c, int d)
 {
@@ -60,7 +60,7 @@ void *func_021559E4(void *a, int b, void *c, int d)
     t->f04 = GAMESYSTEM_GetGameData(a);
     t->f00 = a;
     for (i = 0; i < 4; i++)
-        t->f3c[i] = func_0201A920(4);
-    t->f38 = func_0201A920(4);
+        t->f3c[i] = POKEPARTY_Create(4);
+    t->f38 = POKEPARTY_Create(4);
     return c;
 }

@@ -16,7 +16,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0204047C 0x0204047C arm
  *   FADE_Start 0x0204E720 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
@@ -39,7 +39,7 @@ struct Work {
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,u32,u32);
+extern void MI_CpuFill8(void *,u32,u32);
 extern void *func_021B9D18(void *,u16);
 extern void func_0204047C(int,u16);
 extern void func_021B98FC(void *,char *);
@@ -52,7 +52,7 @@ int func_021B95A0(void *proc, void *unused, struct Args *args)
     struct Work *p;
     GFL_HEAP_CreateChildHeap(1,0x90,0x50000);
     p = PROCSYS_AllocProcWork(proc,0x78,0x90);
-    func_02082BCC(p,0,0x78);
+    MI_CpuFill8(p,0,0x78);
     p->heap = 0x90;
     p->args = args;
     args->flag = 1;

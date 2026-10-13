@@ -17,6 +17,7 @@
  *
  * symbols:
  *   STRBUF_Delete  0x02045808  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 #include "../include/Obj15764.h"
 
@@ -25,12 +26,12 @@ typedef unsigned int  u32;
 
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_02082BCC(void *p, u32 v, u32 size);
+extern void MI_CpuFill8(void *p, u32 v, u32 size);
 extern u32 func_020307B0(void *p);
 
 void BEACON_STATUS_Delete(u8 *p)
 {
     STRBUF_Delete((struct U16Vec *)(((struct Obj15764 *)p)->fB08));
-    func_02082BCC(p, 0, 0xb10);
+    MI_CpuFill8(p, 0, 0xb10);
     func_020307B0(p);
 }

@@ -13,7 +13,7 @@
  *   func_021C181C 0x021C181C thumb ov110
  *   func_021C1798 0x021C1798 thumb ov110
  *   func_0201DD68 0x0201DD68 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj22415.h"
@@ -24,7 +24,7 @@ extern void func_02030EAC(struct Node *n);
 extern void func_021C181C(void **p);
 extern void func_021C1798(void *);
 extern void func_0201DD68(void);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void func_021C16B0(u8 *p) {
@@ -36,6 +36,6 @@ void func_021C16B0(u8 *p) {
     *(volatile u16 *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
-    func_02082BCC(p,0,16);
+    MI_CpuFill8(p,0,16);
     func_020307B0(p);
 }

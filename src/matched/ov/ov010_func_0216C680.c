@@ -12,8 +12,8 @@
  * symbols:
  *   FIELD_MSGBG_TalkWinMain  0x02191388  thumb  ov021
  *   FIELD_MSGBG_TalkWinDrawCursor  0x021914CC  thumb  ov021
- *   func_020362DC  0x020362DC  arm
- *   func_020061E4  0x020061E4  thumb
+ *   KEY_GetTrg  0x020362DC  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELD_MSGBG_DeleteTalkWin  0x021912D8  thumb  ov021
  *   FIELD_MSGBG_WaitTalkWinClose  0x021912F8  thumb  ov021
  *   STRBUF_Delete  0x02045808  arm
@@ -25,8 +25,8 @@ struct S;
 struct U16Vec;
 extern u32 FIELD_MSGBG_TalkWinMain(u32 *a);
 extern void FIELD_MSGBG_TalkWinDrawCursor(struct S *s);
-extern u32 func_020362DC(void);
-extern void func_020061E4(u32 a);
+extern u32 KEY_GetTrg(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int FIELD_MSGBG_DeleteTalkWin(u32 a);
 extern int FIELD_MSGBG_WaitTalkWinClose(u32 a, u32 b, u32 c, u32 d);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -40,9 +40,9 @@ int NAMEIN_SETUP_RunNameBalloonEvent(int a, int *st, int *o, u32 a3)
         (*st)++;
     case 1:
         FIELD_MSGBG_TalkWinDrawCursor((struct S *)o[5]);
-        if ((func_020362DC() & 3) == 0)
+        if ((KEY_GetTrg() & 3) == 0)
             break;
-        func_020061E4(0x547);
+        GFL_USE_PlaySeDefaultVolume(0x547);
         FIELD_MSGBG_DeleteTalkWin(o[5]);
         (*st)++;
         break;

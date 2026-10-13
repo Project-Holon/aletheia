@@ -11,7 +11,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 
 typedef struct { int w[8]; } W;
@@ -19,5 +19,5 @@ extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 typedef unsigned int   u32;
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,int);
-int TRCARD_SYS_InitMinimal(void *a,int b,int c) { W *w; GFL_HEAP_CreateChildHeap(1,38,0x18000); w=PROCSYS_AllocProcWork(a,32,38); func_02082BCC(w,0,32); w->w[0]=38; w->w[6]=c; return 1; }
+extern void MI_CpuFill8(void *,int,int);
+int TRCARD_SYS_InitMinimal(void *a,int b,int c) { W *w; GFL_HEAP_CreateChildHeap(1,38,0x18000); w=PROCSYS_AllocProcWork(a,32,38); MI_CpuFill8(w,0,32); w->w[0]=38; w->w[6]=c; return 1; }

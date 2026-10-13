@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetArenaTrapHandlers
+ * function: HAND_TOKUSEI_GetArenaTrapHandlers
  * address: 0x021DBA74
  * packet: pkt_ov093_021DBA74
  * region: ov093
@@ -15,10 +15,10 @@
  *   gArenaTrapHandlers 0x021F06E0 data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetArenaTrapHandlers(int *p);
+int *HAND_TOKUSEI_GetArenaTrapHandlers(int *p);
 extern int gArenaTrapHandlers[];
 
-int *BTL_TOKUSEI_GetArenaTrapHandlers(int *p)
+int *HAND_TOKUSEI_GetArenaTrapHandlers(int *p)
 {
     *p = 1;
     return gArenaTrapHandlers;

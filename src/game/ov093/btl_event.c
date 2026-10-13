@@ -1,7 +1,7 @@
 /*
  * file:     btl_event.c
  * unit:     yes
- * function: BTL_EVENT_InitFactorList, BTL_EVENT_ClearSuspendedFlags, BTL_EVENT_DebugPrintFactorList, BTL_EVENT_AddFactor, BTL_EVENT_RemoveDeadFactors, BTL_EVENT_RemoveFactor, BTL_EVENT_MarkFactorDead, BTL_EVENT_IsFactorDead, BTL_EVENT_GetFactorKey, BTL_EVENT_GetFactorPokeId, BTL_EVENT_GetFactorWork, BTL_EVENT_EnableFactorSpecialEvent, BTL_EVENT_KeepFactorRunning, BTL_EVENT_SetFactorWork, func_021D70E4, func_021D70F0, BTL_EVENT_DispatchEventToType, BTL_EVENT_DispatchEventNested, BTL_EVENT_DispatchToFactors, BTL_EVENT_IsEventBlocked, BTL_EVENT_SetFactorSkipCheck, BTL_EVENT_ClearFactorSkipCheck, BTL_EVENT_FindFactor, BTL_EVENT_FindNextFactor, BTL_EVENT_SuspendPokeFactors, BTL_EVENT_ResumePokeFactors, BTL_EVENT_DisablePokeFactors, BTL_EVENT_EnablePokeFactors, BTL_EVENT_AllocFactor, BTL_EVENT_FreeFactor, BTL_EVENT_ClearFactor, BTL_EVENT_ResetVarStack, BTL_EVENT_ResetVarStackIfUsed, BTL_EVENT_PushVarFrame, BTL_EVENT_PopVarFrame, BTL_EVENT_SetVar, BTL_EVENT_SetVarReadOnly, BTL_EVENT_SetVarOnce, BTL_EVENT_SetVarRanged, BTL_EVENT_OverwriteVar, BTL_EVENT_MultiplyVar, BTL_EVENT_GetVar, BTL_EVENT_TryGetVar, BTL_EVENT_FindVarSlot, func_021D77E8, BTL_EVENT_ClampVar
+ * function: BTL_EVENT_InitFactorList, BTL_EVENT_ClearSuspendedFlags, BTL_EVENT_DebugPrintFactorList, BTL_EVENT_AddFactor, BTL_EVENT_RemoveDeadFactors, BTL_EVENT_RemoveFactor, BTL_EVENT_MarkFactorDead, BTL_EVENT_IsFactorDead, BTL_EVENT_GetFactorKey, BTL_EVENT_GetFactorPokeId, BTL_EVENT_GetFactorWork, BTL_EVENT_EnableFactorSpecialEvent, BTL_EVENT_KeepFactorRunning, BTL_EVENT_SetFactorWork, func_021D70E4, func_021D70F0, BTL_EVENT_DispatchEventToType, BTL_EVENT_DispatchEventNested, BTL_EVENT_DispatchToFactors, BTL_EVENT_IsEventBlocked, BTL_EVENT_SetFactorSkipCheck, BTL_EVENT_ClearFactorSkipCheck, BTL_EVENT_FindFactor, BTL_EVENT_FindNextFactor, BTL_EVENT_SuspendPokeFactors, BTL_EVENT_ResumePokeFactors, BTL_EVENT_DisablePokeFactors, BTL_EVENT_EnablePokeFactors, BTL_EVENT_AllocFactor, BTL_EVENT_FreeFactor, BTL_EVENT_ClearFactor, BTL_EVENT_ResetVarStack, BTL_EVENT_ResetVarStackIfUsed, BTL_EVENT_PushVarFrame, BTL_EVENT_PopVarFrame, BTL_EVENT_SetVar, BTL_EVENT_SetVarReadOnly, BTL_EVENT_SetVarOnce, BTL_EVENT_SetVarRanged, BTL_EVENT_OverwriteVar, BTL_EVENT_MultiplyVar, BTL_EVENT_GetVar, BTL_EVENT_TryGetVar, BTL_EVENT_FindVarSlot, BTL_EVENT_FindVar, BTL_EVENT_ClampVar
  * address:  0x021D6EAC
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -18,12 +18,12 @@
  *   gBtlEventFactorFreePool  0x021F3CBC  data  a4
  *   gBtlEventFactorList  0x021F3CB0  data  a4
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_021C7CF4 0x021C7CF4 thumb ov093
+ *   BTL_SERVER_FLOW_GetPokeParam 0x021C7CF4 thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
  *   BTL_FIELD_GetStaticSlotObject 0x021EF948 thumb ov093
- *   func_021E03E8  0x021E03E8  thumb  ov093
- *   func_02082BCC  0x02082BCC  arm
+ *   HAND_WAZA_IsKeptOnSuspend  0x021E03E8  thumb  ov093
+ *   MI_CpuFill8_Alt  0x02082BCC  arm
  *   gBtlEventVarStack 0x021F3ECC data a4
  *   gBtlEventEmptyString  0x021F3AB4  data
  *   func_02034714  0x02034714  arm
@@ -33,12 +33,12 @@
 typedef signed long long s64;
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void *func_021C7CF4(void *context, int pokeId);
+extern void *BTL_SERVER_FLOW_GetPokeParam(void *context, int pokeId);
 extern int BTL_POKEPARAM_HasSick(void *poke, int condition);
 extern int BTL_POKEPARAM_TestTurnFlag(void *poke, u32 condition);
 extern int BTL_FIELD_GetStaticSlotObject(int);
-extern int func_021E03E8(void *factor, u32 *work);
-void func_02082BCC(int, int, int);
+extern int HAND_WAZA_IsKeptOnSuspend(void *factor, u32 *work);
+void MI_CpuFill8_Alt(int, int, int);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 void BTL_EVENT_InitFactorList(void);
 void BTL_EVENT_ClearSuspendedFlags(void);
@@ -84,7 +84,7 @@ void BTL_EVENT_MultiplyVar(int key, s32 multiplier);
 int BTL_EVENT_GetVar(int key);
 int BTL_EVENT_TryGetVar(int key, int *out);
 u32 BTL_EVENT_FindVarSlot(struct BtlEventVarStack *stack, int key);
-int func_021D77E8(struct BtlEventVarStack *stack, int key);
+int BTL_EVENT_FindVar(struct BtlEventVarStack *stack, int key);
 int BTL_EVENT_ClampVar(struct BtlEventVarStack *stack, int index, int value);
 extern struct BtlEventFactor gBtlEventFactorStorage[BTL_EVENT_FACTOR_MAX];
 extern struct BtlEventFactorList gBtlEventFactorList;
@@ -324,7 +324,7 @@ int BTL_EVENT_IsEventBlocked(void *context, struct BtlEventFactor *target, int e
 {
     void *poke = 0;
     struct BtlEventFactor *factor;
-    if (target->pokeId != BTL_EVENT_NO_POKE) poke = func_021C7CF4(context, target->pokeId);
+    if (target->pokeId != BTL_EVENT_NO_POKE) poke = BTL_SERVER_FLOW_GetPokeParam(context, target->pokeId);
     if (target->factorType == 4 && poke != 0 && BTL_POKEPARAM_HasSick(poke, 0x10)) return 1;
     if (target->factorType == 5) {
         if (BTL_FIELD_GetStaticSlotObject(7)) return 1;
@@ -334,7 +334,7 @@ int BTL_EVENT_IsEventBlocked(void *context, struct BtlEventFactor *target, int e
     for (factor = gBtlEventFactorList.head; factor != 0; factor = factor->next) {
         if (factor->skipCheck == 0) continue;
         if (factor->factorType == 4) {
-            poke = func_021C7CF4(context, factor->pokeId);
+            poke = BTL_SERVER_FLOW_GetPokeParam(context, factor->pokeId);
             if (poke != 0 && BTL_POKEPARAM_HasSick(poke, 0x10)) continue;
         }
         if (factor->disabled) continue;
@@ -382,7 +382,7 @@ void BTL_EVENT_SuspendPokeFactors(int pokeId)
 {
     struct BtlEventFactor *factor;
     for (factor = gBtlEventFactorList.head; factor != 0; factor = factor->next) {
-        if (factor->factorType == 0 && factor->pokeId == pokeId && func_021E03E8(factor, factor->work) != 0) factor->suspended = 1;
+        if (factor->factorType == 0 && factor->pokeId == pokeId && HAND_WAZA_IsKeptOnSuspend(factor, factor->work) != 0) factor->suspended = 1;
     }
 }
 
@@ -419,7 +419,7 @@ void BTL_EVENT_FreeFactor(void *factor) { if (gBtlEventFactorList.usedCount) { B
 
 void BTL_EVENT_ClearFactor(int factor)
 {
-    func_02082BCC(factor, 0, 0x3c);
+    MI_CpuFill8_Alt(factor, 0, 0x3c);
 }
 
 
@@ -519,7 +519,7 @@ void BTL_EVENT_SetVarRanged(int key, u32 value, u32 minValue, u32 maxValue)
 int BTL_EVENT_OverwriteVar(int key, u32 value)
 {
     struct BtlEventVarStack *stack = &gBtlEventVarStack;
-    int i = func_021D77E8(stack, key);
+    int i = BTL_EVENT_FindVar(stack, key);
 
     if (i >= 0 && stack->modes[i] <= 1) {
         stack->keys[i] = key;
@@ -535,7 +535,7 @@ int BTL_EVENT_OverwriteVar(int key, u32 value)
 void BTL_EVENT_MultiplyVar(int key, s32 multiplier)
 {
     struct BtlEventVarStack *stack = &gBtlEventVarStack;
-    int i = func_021D77E8(stack, key);
+    int i = BTL_EVENT_FindVar(stack, key);
 
     if (i >= 0 && stack->modes[i] == 3) {
         s32 value = stack->values[i];
@@ -580,7 +580,7 @@ u32 BTL_EVENT_FindVarSlot(struct BtlEventVarStack *stack, int key)
 }
 
 
-int func_021D77E8(struct BtlEventVarStack *stack, int key) { unsigned int i; for (i=stack->frameTop; i<BTL_EVENT_VAR_MAX && stack->keys[i]!=0; i++) { if(key==stack->keys[i]) return i; } return -1; }
+int BTL_EVENT_FindVar(struct BtlEventVarStack *stack, int key) { unsigned int i; for (i=stack->frameTop; i<BTL_EVENT_VAR_MAX && stack->keys[i]!=0; i++) { if(key==stack->keys[i]) return i; } return -1; }
 
 
 int BTL_EVENT_ClampVar(struct BtlEventVarStack *stack, int index, int value) { int maxValue = stack->maxValues[index]; if (maxValue || stack->minValues[index]) { if ((int)stack->minValues[index] > value) value = stack->minValues[index]; if (maxValue < value) value=maxValue; } return value; }

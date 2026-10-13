@@ -11,11 +11,11 @@
  * symbols:
  *   d_021E8DBC 0x021E8DBC data a1
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0207D63C 0x0207D63C arm
  *   func_020413B0 0x020413B0 arm
  *   func_020409B4 0x020409B4 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_021E6940 0x021E6940 thumb ov177
  *   func_021E6F20 0x021E6F20 thumb ov177
  *   func_021E72FC 0x021E72FC thumb ov177
@@ -38,7 +38,7 @@ typedef struct Work Work;
 typedef struct Info Info;
 extern const char d_021E8DBC[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_02082BCC(void *, u32, u32);
+extern void MI_CpuFill8(void *, u32, u32);
 extern void func_0207D63C(void *, int, int, int, int);
 extern void func_020413B0(u8, u8, u8, u8, u8, u8);
 extern void func_020409B4(u32);
@@ -46,7 +46,7 @@ extern void func_021E6940(Work *, u32, const Info *, void *, int, void *, void *
 extern void func_021E6F20(Work *, void *, void *, u16);
 extern void func_021E72FC(u8 *, unsigned, unsigned, unsigned);
 extern void func_021E73E4(char *, unsigned, void *, unsigned);
-extern void func_0204B404(void *, const Pt *, u16);
+extern void CLACT_AddActorSurfacePos(void *, const Pt *, u16);
 char *func_021E5D68(char *info, u32 a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap)
 {
   char *w;
@@ -54,7 +54,7 @@ char *func_021E5D68(char *info, u32 a, void *b, void *owner, void *table, int c,
   Pt pos;
   Info *tmp;
   w = func_02030734(heap, 0x244, 0, d_021E8DBC, 0x27f);
-  func_02082BCC(w, 0, 0x244);
+  MI_CpuFill8(w, 0, 0x244);
   *((void **) (w + 0x238)) = record;
   *((u16 *) (w + 0x23c)) = heap;
   *((void **) (w + 0x240)) = owner;
@@ -101,7 +101,7 @@ char *func_021E5D68(char *info, u32 a, void *b, void *owner, void *table, int c,
   func_021E72FC((u8 *) w, *((u32 *) info), (u32) owner, heap);
   pos.x = 0x120;
   pos.y = 0x6e;
-  func_0204B404(*((void **) (w + 0x188)), &pos, *((u32 *) (w + 0x234)));
+  CLACT_AddActorSurfacePos(*((void **) (w + 0x188)), &pos, *((u32 *) (w + 0x234)));
   func_021E73E4(w, (u32) owner, table, heap);
   return w;
 }

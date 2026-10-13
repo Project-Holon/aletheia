@@ -1,5 +1,5 @@
 /*
- * function: func_021E00A0
+ * function: HAND_ITEM_GetBugGemHandlers
  * address: 0x021E00A0
  * packet: pkt_ov093_021E00A0
  * region: ov093
@@ -12,16 +12,16 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DFCE8.c and filed here.
  *
  * symbols:
- *   d_021F185C 0x021F185C data ov093 a4
+ *   gHandItemBugGemHandlers 0x021F185C data ov093 a4
  */
 
-int *func_021E00A0(int *p);
+int *HAND_ITEM_GetBugGemHandlers(int *p);
 
-/* 021E00AC  stack-arg wrapper: func_021E0284(a, b, c, d, 0x6) */
-extern int d_021F185C[];
+/* 021E00AC  stack-arg wrapper: HAND_ITEM_GemMovePower(a, b, c, d, 0x6) */
+extern int gHandItemBugGemHandlers[];
 
-int *func_021E00A0(int *p)
+int *HAND_ITEM_GetBugGemHandlers(int *p)
 {
     *p = 3;
-    return d_021F185C;
+    return gHandItemBugGemHandlers;
 }

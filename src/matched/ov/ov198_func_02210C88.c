@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201C6B4 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   func_0220BDD4 0x0220BDD4 thumb ov198
  *   func_0220BC70 0x0220BC70 thumb ov198
  *   func_0220BE2C 0x0220BE2C thumb ov198
@@ -30,7 +30,7 @@ typedef unsigned int u32;
 typedef struct State { u8 pad[0x2177]; u8 step:4; u8 flags:4; } State;
 typedef unsigned short u16;
 struct PrintSys;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void func_0220BDD4(char *);
 extern void func_0220BC70(u8 *,u32);
 extern int func_0220BE2C(char *,int);
@@ -46,7 +46,7 @@ int func_02210C88(u8 *p,unsigned mode)
 {
     switch(((State *)p)->step) {
     case 0:
-        if(func_0201C6B4(((struct Obj03351 *)p)->f1EAC)==1) {
+        if(PRINTSYS_QUE_IsFinished(((struct Obj03351 *)p)->f1EAC)==1) {
             func_0220BDD4((char *)p);
             func_0220BC70(p,mode);
             func_0220BE2C((char *)p,mode);
@@ -54,7 +54,7 @@ int func_02210C88(u8 *p,unsigned mode)
         }
         break;
     case 1:
-        if(func_0201C6B4(((struct Obj03351 *)p)->f1EAC)==1) {
+        if(PRINTSYS_QUE_IsFinished(((struct Obj03351 *)p)->f1EAC)==1) {
             func_02210D4C(p,mode);
             func_02041570(4,0);
             func_02041570(5,0);

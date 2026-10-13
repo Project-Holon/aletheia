@@ -1,5 +1,5 @@
 /*
- * function: func_021E6DAC
+ * function: HAND_WAZA_MirrorMovePickMove
  * address:  0x021E6DAC
  * packet:   pkt_ov093_021E6DAC
  * region:   ov093
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C7D00  0x021C7D00  thumb  ov093
- *   func_021C815C  0x021C815C  thumb  ov093
+ *   BTL_SERVER_FLOW_GetFrontPosOfPoke  0x021C7D00  thumb  ov093
+ *   BTL_SERVER_FLOW_GetRule  0x021C815C  thumb  ov093
  *   BTL_MAIN_GetEnemyLanePos  0x021B8C20  thumb  ov093
- *   func_021C7F68  0x021C7F68  thumb  ov093
- *   func_021C7CF4  0x021C7CF4  thumb  ov093
+ *   BTL_SERVER_FLOW_CollectAlivePokeIds  0x021C7F68  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_POKEPARAM_GetLastUsedMoveId  0x021D67A8  thumb  ov093
  *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
@@ -26,17 +26,17 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int key);
-extern int func_021C7D00(u8 *p, int b);
-extern int func_021C815C(int *p);
+extern int BTL_SERVER_FLOW_GetFrontPosOfPoke(u8 *p, int b);
+extern int BTL_SERVER_FLOW_GetRule(int *p);
 extern u8 BTL_MAIN_GetEnemyLanePos(int kind, u32 flags, u32 v);
-extern u8 func_021C7F68(int *p, int b, u8 *out);
-extern void *func_021C7CF4(int *p, int i);
+extern u8 BTL_SERVER_FLOW_CollectAlivePokeIds(int *p, int b, u8 *out);
+extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 struct QL;
 extern u16 BTL_POKEPARAM_GetLastUsedMoveId(struct QL *p);
 extern u32 WAZA_TOOL_GetFlag(u16 id, u32 bit);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E6DAC(int x, int a, int c, u8 *d)
+void HAND_WAZA_MirrorMovePickMove(int x, int a, int c, u8 *d)
 {
     u8 k;
     u16 t;
@@ -45,11 +45,11 @@ void func_021E6DAC(int x, int a, int c, u8 *d)
     if (c == BTL_EVENT_GetVar(2)) {
         k = BTL_EVENT_GetVar(0xe);
         if (k == 6) {
-            fl = func_021C7D00((u8 *)a, c);
-            k = BTL_MAIN_GetEnemyLanePos(func_021C815C((int *)a), fl, 0);
+            fl = BTL_SERVER_FLOW_GetFrontPosOfPoke((u8 *)a, c);
+            k = BTL_MAIN_GetEnemyLanePos(BTL_SERVER_FLOW_GetRule((int *)a), fl, 0);
         }
-        if (func_021C7F68((int *)a, k, d) != 0) {
-            t = BTL_POKEPARAM_GetLastUsedMoveId(func_021C7CF4((int *)a, *d));
+        if (BTL_SERVER_FLOW_CollectAlivePokeIds((int *)a, k, d) != 0) {
+            t = BTL_POKEPARAM_GetLastUsedMoveId(BTL_SERVER_FLOW_GetPokeParam((int *)a, *d));
             if (t == 0 || WAZA_TOOL_GetFlag(t, 6) == 0) {
                 BTL_EVENT_OverwriteVar(0x41, 1);
                 return;

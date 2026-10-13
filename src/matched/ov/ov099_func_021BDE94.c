@@ -12,7 +12,7 @@
  * volatile: RMW display registers read at 021BDEB4/021BDEC0 and written at 021BDEBC/021BDEC4.
  * symbols:
  *   func_02030EAC 0x02030EAC arm
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -28,7 +28,7 @@
  *   func_020056A0 0x020056A0 thumb
  *   func_021BE5B4 0x021BE5B4 thumb ov099
  *   func_021BE5B8 0x021BE5B8 thumb ov099
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  */
 #include "../include/Obj03222.h"
 typedef unsigned short u16;
@@ -38,7 +38,7 @@ struct MsgBank;
 struct Node;
 struct WordSet;
 extern void func_02030EAC(struct Node *n);
-extern void func_02043534(u32);
+extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -54,12 +54,12 @@ extern void func_021BE028(void);
 extern void *func_020056A0(u32, u32, u32);
 extern void func_021BE5B4(void *);
 extern void func_021BE5B8(char *, void *);
-extern void func_020434DC(u32, u32);
+extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 void func_021BDE94(char *p)
 {
     void *h;
     if (((struct Obj03222 *)p)->f0 != 0) func_02030EAC(((struct Obj03222 *)p)->f0);
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u32 *)0x04000000 &= 0xffffe0ff;
     *(volatile u32 *)0x04001000 &= 0xffffe0ff;
@@ -77,6 +77,6 @@ void func_021BDE94(char *p)
     ((struct Obj03222 *)p)->f0 = func_020056A0((u32)func_021BE028, (u32)p, 1);
     func_021BE5B4(((struct Obj03222 *)p)->f0);
     func_021BE5B8(p, h);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     ARC_TOOL_DeleteHandle(h);
 }

@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_GetRivalryHandlers
+ * function: HAND_TOKUSEI_GetRivalryHandlers
  * address: 0x021D90DC
  * packet: pkt_ov093_021D90DC
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D8D40.c and filed here.
  *
  * symbols:
- *   gRivalryHandlerTable 0x021F07E0 data ov093 a4
+ *   gRivalryHandlers 0x021F07E0 data ov093 a4
  */
 
-int *BTL_ABILITY_GetRivalryHandlers(int *p);
-extern int gRivalryHandlerTable[];
+int *HAND_TOKUSEI_GetRivalryHandlers(int *p);
+extern int gRivalryHandlers[];
 
-int *BTL_ABILITY_GetRivalryHandlers(int *p)
+int *HAND_TOKUSEI_GetRivalryHandlers(int *p)
 {
     *p = 1;
-    return gRivalryHandlerTable;
+    return gRivalryHandlers;
 }

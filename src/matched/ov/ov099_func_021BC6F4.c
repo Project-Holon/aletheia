@@ -13,7 +13,7 @@
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   func_021BAAB8  0x021BAAB8  thumb  ov099
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039C68  0x02039C68  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *
  * Levers: the word index 0x73 of the first arm is an enum-typed local set
  * before the call (it keeps r6 = 0x73 live across it); the stores are written
@@ -31,7 +31,7 @@ extern void func_021BAAB8(char *p, int a, int b);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *h, unsigned int a, unsigned int b);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *h, unsigned int a, unsigned int b);
 
 int func_021BC6F4(char *p, int v)
 {
@@ -41,7 +41,7 @@ int func_021BC6F4(char *p, int v)
     if (GFL_NET_IsParentAid() != 0) {
         k = K73;
         func_021BAAB8(p, 0x73, 0);
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1b, 0xa);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1b, 0xa);
         a[k] = 0x49;
     } else {
         func_021BAAB8(p, 0x72, 0);

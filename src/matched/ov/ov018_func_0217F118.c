@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0204B6F4  0x0204B6F4  arm
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  */
 
 typedef unsigned char u8;
@@ -28,7 +28,7 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct Obj;
-void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 
 void INTRUDE_SUBDISP_SetTownCursor(Ov018Sel *p, int n)
 {
@@ -37,14 +37,14 @@ void INTRUDE_SUBDISP_SetTownCursor(Ov018Sel *p, int n)
     c = p->f11B;
     if (c != n && p->f114 != 1) {
         if (c < 8) {
-            func_0204B6F4(p->tbl[c], 6, 1);
+            CLACT_SetActorPaletteOffset(p->tbl[c], 6, 1);
         } else if (c == 8) {
-            func_0204B6F4(p->tbl[8], 6, 1);
+            CLACT_SetActorPaletteOffset(p->tbl[8], 6, 1);
         }
         if (n < 8) {
-            func_0204B6F4(p->tbl[n], 8, 1);
+            CLACT_SetActorPaletteOffset(p->tbl[n], 8, 1);
         } else if (n == 8) {
-            func_0204B6F4(p->tbl[8], 8, 1);
+            CLACT_SetActorPaletteOffset(p->tbl[8], 8, 1);
         }
         p->f11B = n;
         p->f118 = 0;

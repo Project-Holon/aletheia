@@ -1,6 +1,6 @@
 /*
  * file:     unit_02078C28.c
- * function: FS_GetLength, func_02078C34
+ * function: FS_GetLength, FS_ChangeDir
  * address:  0x02078C28
  * packet:   pkt_02078C28
  * region:   arm9
@@ -16,10 +16,10 @@ typedef unsigned int   u32;
 struct FSFile;
 extern u32 func_02078A94(struct FSFile *file);
 extern int func_02077F44(const char *path);
-int func_02078C34(const char *path);
+int FS_ChangeDir(const char *path);
 u32 FS_GetLength(struct FSFile *file){ return func_02078A94(file); }
 
-int func_02078C34(const char *path)
+int FS_ChangeDir(const char *path)
 {
     return func_02077F44(path);
 }

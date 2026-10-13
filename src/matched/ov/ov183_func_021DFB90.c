@@ -17,7 +17,7 @@
  *   func_021FC6A4 0x021FC6A4 thumb ov186
  *   func_021FC754 0x021FC754 thumb ov186
  *   func_021FD170 0x021FD170 thumb ov186
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   d_021E3734 0x021E3734 data a2
  *   d_021E3740 0x021E3740 data a4
  */
@@ -39,7 +39,7 @@ extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
 extern void *func_021FC6A4(u16,unsigned,u16,u16,u8,u8,void *,u16);
 extern void func_021FC754(char *,void *,void *,void *,u16);
 extern void func_021FD170(char *p, char *q, void *text);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 int func_021DFB90(char *p,char *q)
 {
     int first,second,i;
@@ -50,7 +50,7 @@ int func_021DFB90(char *p,char *q)
     first=func_021FC20C(*(char * *)&((struct Obj05478 *)q)->f8);
     second=func_021FC214(*(char * *)&((struct Obj05478 *)q)->f8);
     func_021FB964((void *)(*(int *)&((struct Obj05478 *)q)->f8),26,((struct Obj05477 *)p)->f54);
-    func_02082BCC(&req,0,8);
+    MI_CpuFill8(&req,0,8);
     func_021FC124(*(int *)&((struct Obj05478 *)q)->f8,6,&triple);
     for(i=0;i<2;i++) {
         r=&d_021E3734[i];

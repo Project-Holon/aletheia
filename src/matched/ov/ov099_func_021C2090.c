@@ -10,7 +10,7 @@
  * status: EXACT
  * Logic read from the listing: state at p+0x8F4 (1 -> clear, flag = 1, call func_020414AC(7)); loop i over 8 slots, idx = i + row(p+0x8EC)*8 + 1; mode = byte p[0x8CB+idx] ? (func_02009864(p->f4, idx-1, 9) != 0) : 2; sel = idx == p[0x8ED] 
  * 
- *  idx == p[0x8F3]; slot = idx == p[0x8ED] ? p[0x8EE] : 0; redraw when flag == 1 or sel; func_021C2224 then (mode != 2) func_021C2274 + BMP_WIN_MakeScreen + func_021C22E8, else the clear loop (func_02045770, BMP_Clear(.,0), BMP_WIN_TransferChars over the slot object and 2 sub objects at p+0x918+i*8+j*4). End: func_02041B6C(7), (6), BG_SYS_SetSubPlaneVisible(2,1), (8,1). Pool words verified against the listing.
+ *  idx == p[0x8F3]; slot = idx == p[0x8ED] ? p[0x8EE] : 0; redraw when flag == 1 or sel; func_021C2224 then (mode != 2) func_021C2274 + BMP_WIN_MakeScreen + func_021C22E8, else the clear loop (BMP_WIN_GetBmp, BMP_Clear(.,0), BMP_WIN_TransferChars over the slot object and 2 sub objects at p+0x918+i*8+j*4). End: func_02041B6C(7), (6), BG_SYS_SetSubPlaneVisible(2,1), (8,1). Pool words verified against the listing.
  * 2026-10-05 wave D4 lane 04: EXACT. Fixes: window loads written as *(void **)(p + i*4 + 0x8F8) at each use (no w locals), px*16 and py*6 written inline at both calls (CSE temps, not named locals), px/py declared before sel.
  * func_021C2274 is called with 5 arguments here (p, obj, idx, slot, i) though its matched C reads 3; func_021C22E8 takes (p, window, idx, slot, x, y).
  * symbols:
@@ -20,7 +20,7 @@
  *   func_021C22E8 0x021C22E8 thumb ov099
  *   func_020414AC 0x020414AC arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_02041B6C 0x02041B6C arm
@@ -38,7 +38,7 @@ extern void func_021C2274(char *p, void *window, int id, int slot, int i);
 extern void func_021C22E8(char *p, void *window, int id, int flag, int x, int y);
 extern void func_020414AC(u32 a);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
@@ -93,10 +93,10 @@ void func_021C2090(char *p)
                 func_021C22E8(p, p + 0x918 + i * 8, idx, slot, px * 16, py * 6);
             } else {
                 int j;
-                BMP_Clear(func_02045770(*(void **)(p + i * 4 + 0x8F8)), 0);
+                BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + i * 4 + 0x8F8)), 0);
                 BMP_WIN_TransferChars(*(void **)(p + i * 4 + 0x8F8));
                 for (j = 0; j < 2; j++) {
-                    BMP_Clear(func_02045770(*(void **)(p + i * 8 + j * 4 + 0x918)), 0);
+                    BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + i * 8 + j * 4 + 0x918)), 0);
                     BMP_WIN_TransferChars(*(void **)(p + i * 8 + j * 4 + 0x918));
                 }
             }

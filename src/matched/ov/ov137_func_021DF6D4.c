@@ -9,12 +9,12 @@
  * status: EXACT*
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039C68 0x02039C68 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  *   func_021E0130 0x021E0130 thumb ov137
  */
 #include "../include/Obj14227.h"
 typedef unsigned char u8;
 struct Entry;
 struct Link;
-extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);extern void func_02039C68(struct Link *,unsigned int,unsigned int);extern void func_021E0130(u8 *,int);
-int func_021DF6D4(u8 *p){void *ctx=GFL_NET_HANDLE_GetCurrentHandle();if(!((struct Obj14227 *)p)->f18)func_02039C68(ctx,206,40);func_021E0130(p,10);((struct Obj14227 *)p)->f0=48;return 0;}
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned int,unsigned int);extern void func_021E0130(u8 *,int);
+int func_021DF6D4(u8 *p){void *ctx=GFL_NET_HANDLE_GetCurrentHandle();if(!((struct Obj14227 *)p)->f18)GFL_NET_HANDLE_SetTimingSyncRange(ctx,206,40);func_021E0130(p,10);((struct Obj14227 *)p)->f0=48;return 0;}

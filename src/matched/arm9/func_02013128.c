@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201AC2C  0x0201AC2C  thumb
+ *   POKEPARTY_Copy  0x0201AC2C  thumb
  *
  * Unlabelled Thumb thunk in the ARM9 module (zonedata.c). Tail-calls
- * func_0201AC2C (the 0x534-byte container copy in unit_0201AC2C.c,
+ * POKEPARTY_Copy (the 0x534-byte container copy in unit_0201AC2C.c,
  * prototype (src, dst)) with the second argument as source and the i-th
  * pointer of the table at +0x24 as destination.
  *
@@ -21,9 +21,9 @@
  */
 
 struct Rec534;
-extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
+extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
 
 void BTL_SETUP_SetParty(void *p, void *src, int i)
 {
-    func_0201AC2C(src, ((void **)((char *)p + 0x24))[i]);
+    POKEPARTY_Copy(src, ((void **)((char *)p + 0x24))[i]);
 }

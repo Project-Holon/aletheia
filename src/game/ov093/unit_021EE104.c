@@ -14,10 +14,10 @@
  *
  * symbols:
  *   func_06898020  0x06898020  thumb
- *   func_02082BCC 0x02082BCC arm
- *   func_021B9AF8 0x021B9AF8 thumb ov093
- *   func_021B9B94 0x021B9B94 thumb ov093
- *   func_021B9C00 0x021B9C00 thumb ov093
+ *   MI_CpuFill8 0x02082BCC arm
+ *   BTL_SIDE_GetSlotOfClientThunk 0x021B9AF8 thumb ov093
+ *   BTL_SLOT_GetCount 0x021B9B94 thumb ov093
+ *   BTL_SLOT_GetPokeParam 0x021B9C00 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
  *   BTL_POKEPARAM_IsAbleToBattle 0x021D5B7C thumb ov093
@@ -30,16 +30,16 @@
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_DrawFrame 0x020454E0 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   func_02040618 0x02040618 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BTL_POKEPARAM_ReadStatsFromMon  0x021D590C  thumb  ov093
- *   func_02045758  0x02045758  arm
- *   func_02045760  0x02045760  arm
- *   func_02045738  0x02045738  arm
- *   func_02045740  0x02045740  arm
+ *   BMP_WIN_GetPosX  0x02045758  arm
+ *   BMP_WIN_GetPosY  0x02045760  arm
+ *   BMP_WIN_GetWidth  0x02045738  arm
+ *   BMP_WIN_GetHeight  0x02045740  arm
  *   func_02041300  0x02041300  arm
  *   func_02030734  0x02030734  arm
  *   gBtlRecFileName  0x021F3ADC  data  a4
@@ -58,29 +58,29 @@
  *   BTL_NET_HasServerCmd  0x021D4C60  thumb  ov093
  *   BTL_NET_GetServerCmd  0x021D4C6C  thumb  ov093
  *   BTL_NET_SendClientReply  0x021D4C84  thumb  ov093
- *   func_021BA1A8  0x021BA1A8  thumb  ov093
+ *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
  *   func_0201EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045B38  0x02045B38  arm
  *   gBtlMsgState     0x021F6398  data  ov093  a4
- *   d_021F63D8     0x021F63D8  data  ov093  a4
+ *   gBtlMsgFlags     0x021F63D8  data  ov093  a4
  *   sBtlMsgBankFileIds     0x021F3990  data  ov093  a2
  *   func_0201ED04  0x0201ED04  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_021B9940  0x021B9940  thumb  ov093
+ *   BTL_SIDE_GetPokeById  0x021B9940  thumb  ov093
  *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
  *   func_0201EEF4  0x0201EEF4  thumb
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   func_0201EE84  0x0201EE84  thumb
- *   func_021BA020  0x021BA020  thumb  ov093
+ *   BTL_MAIN_GetTrainerType  0x021BA020  thumb  ov093
  *   func_0201F0F8  0x0201F0F8  thumb
- *   func_021B9F70  0x021B9F70  thumb  ov093
+ *   BTL_MAIN_IsTrainerSlotNpc  0x021B9F70  thumb  ov093
  *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
- *   func_021BA004  0x021BA004  thumb  ov093
- *   func_021B9FAC  0x021B9FAC  thumb  ov093
- *   func_021BA064  0x021BA064  thumb  ov093
- *   func_021BA080  0x021BA080  thumb  ov093
+ *   BTL_MAIN_GetTrainerId  0x021BA004  thumb  ov093
+ *   BTL_MAIN_GetTrainerNameAndType  0x021B9FAC  thumb  ov093
+ *   BTL_MAIN_GetTrainerHandle  0x021BA064  thumb  ov093
+ *   BTL_MAIN_UpdateCommPlayerSupport  0x021BA080  thumb  ov093
  *   func_0202A3CC  0x0202A3CC  thumb
  *   func_0201EE0C  0x0201EE0C  thumb
  *   func_0201F02C  0x0201F02C  thumb
@@ -105,9 +105,9 @@
  *   func_0201EF34 0x0201EF34 thumb
  *   func_0201EF40 0x0201EF40 thumb
  *   func_0201F020 0x0201F020 thumb
- *   func_021B8DDC  0x021B8DDC  thumb  ov093
- *   func_021B8CE8  0x021B8CE8  thumb  ov093
- *   func_021B8FF4  0x021B8FF4  thumb  ov093
+ *   BTL_MAIN_PokeIdToClientIdThunk  0x021B8DDC  thumb  ov093
+ *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093
+ *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
  *   BTLV_CORE_GetZeroMasked  0x021E8918  thumb  ov093
  *   gBtlFieldCountdown  0x021F63F4  data  a4
  *   func_021EFA94  0x021EFA94  thumb  ov093
@@ -177,10 +177,10 @@ typedef struct {
     TextCanvas *canvas;
 } BtlvWaitWindow;
 
-extern void func_02082BCC(void *dst, u8 value, u32 size);
-extern void *func_021B9AF8(void *partyLists, int clientIndex);
-extern u8 func_021B9B94(void *party);
-extern void *func_021B9C00(void *party, u32 index);
+extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+extern void *BTL_SIDE_GetSlotOfClientThunk(void *partyLists, int clientIndex);
+extern u8 BTL_SLOT_GetCount(void *party);
+extern void *BTL_SLOT_GetPokeParam(void *party, u32 index);
 extern int BTL_POKEPARAM_IsFainted(void *mon);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(void *mon);
 extern int BTL_POKEPARAM_IsAbleToBattle(void *mon);
@@ -193,16 +193,16 @@ extern u32 func_021EB318(void);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern void BMP_WIN_MakeScreen(BmpWin *window);
 extern void BMP_WIN_DrawFrame(BmpWin *window, u16 base, u32 pal);
-extern u8 func_02045730(BmpWin *window);
+extern u8 BMP_WIN_GetBgLayer(BmpWin *window);
 extern void func_020409B4(u32 index);
 extern void PRINTSYS_Print(void *canvas, s16 x, s16 y, void *textBuf, void *drawParam);
 extern void func_02040618(u32 layer, u32 arg1, u32 arg2);
-extern void func_020061E4(u32 soundId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 soundId);
 extern void BTL_POKEPARAM_ReadStatsFromMon(void **source, u16 *out);
-extern u8 func_02045738(BmpWin *window);
-extern u8 func_02045740(BmpWin *window);
-extern u8 func_02045758(BmpWin *window);
-extern u8 func_02045760(BmpWin *window);
+extern u8 BMP_WIN_GetWidth(BmpWin *window);
+extern u8 BMP_WIN_GetHeight(BmpWin *window);
+extern u8 BMP_WIN_GetPosX(BmpWin *window);
+extern u8 BMP_WIN_GetPosY(BmpWin *window);
 extern void func_02041300(u32 index, u32 arg1, u32 left, u32 top, u8 width, u8 height, u8 fill);
 void BTL_MSG_GetUiString(u32 textBuf, u32 msgId);
 void BTL_MSG_BuildBallStatusOpen(u32 textBuf, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
@@ -223,12 +223,12 @@ void BTLV_SCU_GetBallStates(BtlvScuWork *work, u32 *outStates, u32 clientA, u32 
     int side;
     s8 slot;
     void *mon;
-    func_02082BCC(outStates, 0, 28);
-    partyLists[0] = func_021B9AF8(work->partyLists, clientA);
-    partyCounts[0] = func_021B9B94(partyLists[0]);
+    MI_CpuFill8(outStates, 0, 28);
+    partyLists[0] = BTL_SIDE_GetSlotOfClientThunk(work->partyLists, clientA);
+    partyCounts[0] = BTL_SLOT_GetCount(partyLists[0]);
     if (clientB < 4) {
-        partyLists[1] = func_021B9AF8(work->partyLists, clientB);
-        partyCounts[1] = func_021B9B94(partyLists[1]);
+        partyLists[1] = BTL_SIDE_GetSlotOfClientThunk(work->partyLists, clientB);
+        partyCounts[1] = BTL_SLOT_GetCount(partyLists[1]);
         if (partyCounts[0] > 3) partyCounts[0] = 3;
         if (partyCounts[1] > 3) partyCounts[1] = 3;
     }
@@ -237,7 +237,7 @@ void BTLV_SCU_GetBallStates(BtlvScuWork *work, u32 *outStates, u32 clientA, u32 
         if (i < partyCounts[0] + partyCounts[1]) {
             if (i < partyCounts[0]) { side = 0; slot = i; }
             else { side = 1; slot = i - partyCounts[0]; }
-            mon = func_021B9C00(partyLists[side], (u8)slot);
+            mon = BTL_SLOT_GetPokeParam(partyLists[side], (u8)slot);
             if (BTL_POKEPARAM_IsFainted(mon)) outStates[side * 3 + slot + 1] = 2;
             else if (BTL_POKEPARAM_GetMajorStatusIndex(mon)) outStates[side * 3 + slot + 1] = 3;
             else if (!BTL_POKEPARAM_IsAbleToBattle(mon)) outStates[side * 3 + slot + 1] = 0;
@@ -383,7 +383,7 @@ int BTLV_SCU_StepBallWindowOpen(int *state, BtlvBallWindow *window)
         BMP_WIN_MakeScreen(window->window);
         BMP_WIN_DrawFrame(window->window, window->frameBase, 3);
         BMP_Clear(window->canvas, 12);
-        func_020409B4(func_02045730(window->window));
+        func_020409B4(BMP_WIN_GetBgLayer(window->window));
         (*state)++;
         break;
     case 1:
@@ -398,7 +398,7 @@ int BTLV_SCU_StepBallWindowOpen(int *state, BtlvBallWindow *window)
     case 3:
         func_02040618(3, 0, 0);
         func_02040618(3, 3, 0x100);
-        func_020061E4(0x547);
+        GFL_USE_PlaySeDefaultVolume(0x547);
         (*state)++;
         break;
     case 4:
@@ -420,7 +420,7 @@ int BTLV_SCU_StepBallWindowRefresh(int *state, BtlvBallWindow *window)
         break;
     case 1:
         BMP_WIN_TransferChars(window->window);
-        func_020061E4(0x547);
+        GFL_USE_PlaySeDefaultVolume(0x547);
         (*state)++;
         break;
     case 2:
@@ -440,14 +440,14 @@ int BTLV_SCU_StepBallWindowClose(int *state, BtlvBallWindow *window)
 
     switch (*state) {
     case 0:
-        left = func_02045758(window->window) - 1;
-        top = func_02045760(window->window) - 1;
-        width = func_02045738(window->window) + 2;
-        height = func_02045740(window->window) + 2;
-        index = func_02045730(window->window);
+        left = BMP_WIN_GetPosX(window->window) - 1;
+        top = BMP_WIN_GetPosY(window->window) - 1;
+        width = BMP_WIN_GetWidth(window->window) + 2;
+        height = BMP_WIN_GetHeight(window->window) + 2;
+        index = BMP_WIN_GetBgLayer(window->window);
         func_02041300(index, 0, (u8)left, (u8)top, (u8)width, (u8)height, 0);
         func_020409B4(index);
-        func_020061E4(0x547);
+        GFL_USE_PlaySeDefaultVolume(0x547);
         (*state)++;
         break;
     case 1:

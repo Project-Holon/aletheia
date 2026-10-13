@@ -17,7 +17,7 @@
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   func_021F37B8  0x021F37B8  thumb  ov060
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
  *   GIMMICK60_IsEffectActive  0x021F37D8  thumb  ov060
  *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
@@ -58,7 +58,7 @@ extern void FLDMMDL_SetAcmd(void *, u16);
 struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *, struct VecFx32 *);
 extern void func_021F37B8(int, Vec *);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void FLDMMDL_SetStatusBitVanish(unsigned int *, unsigned int);
 extern int GIMMICK60_IsEffectActive(void *);
 extern int FLDMMDL_CheckEndAcmd(int);
@@ -86,7 +86,7 @@ int INTRUDE_FIELD_MainMmdlCopyAnime(Rec *r)
         else
             v.x -= 0x8000;
         func_021F37B8((int)r->f4, &v);
-        func_020061E4(0x774);
+        GFL_USE_PlaySeDefaultVolume(0x774);
         r->f10++;
         break;
     case 1:

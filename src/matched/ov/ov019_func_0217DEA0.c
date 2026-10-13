@@ -20,7 +20,7 @@
  *   UNION_ONESELF_SetFieldBusy  0x0217BAF0  thumb  ov019
  *   COLOSSEUM_IsAnyFinished  0x0217FEF4  thumb  ov019
  *   COLOSSEUM_IsOnCounterPos  0x0217FF14  thumb  ov019
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   FIELD_PLAYER_GetFrontGridPos  0x021A3460  thumb  ov021
  *   COMM_PLAYER_ForwardRequest  0x021679A4  thumb  ov010
  */
@@ -47,7 +47,7 @@ extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
 extern void UNION_ONESELF_SetFieldBusy(char *p, int x, unsigned int v);
 extern int COLOSSEUM_IsAnyFinished(u8 *p);
 extern int COLOSSEUM_IsOnCounterPos(void *a);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int FIELD_PLAYER_GetFrontGridPos(u32 a, u32 b, u32 c, u32 d);
 extern int COMM_PLAYER_ForwardRequest(void *a0, int a1, int a2, int a3, int a4, int a5);
 
@@ -83,7 +83,7 @@ int UNION_ONESELF_ColosseumFreeMoveMain(void *ctx, Obj *obj, int a2, u8 *state)
             UNION_ONESELF_SetFieldBusy(ctx, a2, 1);
             return 1;
         }
-        if (func_020362DC() & 1) {
+        if (KEY_GetTrg() & 1) {
             k = 0;
             FIELD_PLAYER_GetFrontGridPos((u32)a, (u32)(&v[2]), (u32)(&v[1]), (u32)(&v[0]));
             if (COMM_PLAYER_ForwardRequest((void *)(((struct Obj12527 *)w)->f0), v[2], v[1], v[0], (int)(&m), (int)(&k)) == 1) {

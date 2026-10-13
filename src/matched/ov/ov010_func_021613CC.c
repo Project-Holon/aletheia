@@ -14,7 +14,7 @@
  *   func_02034AC4  0x02034AC4  arm
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0202138C  0x0202138C  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_021C3CC0  0x021C3CC0  thumb  ov136
  *   func_021C3D44  0x021C3D44  thumb  ov136
  *   func_021C3DA4  0x021C3DA4  thumb  ov136
@@ -54,7 +54,7 @@ struct BigObj;
 extern int func_02034AC4(s32 handle);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u8 func_0202138C(u16 v);
-extern void *func_0201AB28(void *a, u32 b);
+extern void *POKEPARTY_GetMember(void *a, u32 b);
 extern void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap);
 extern void *func_021C3D44(void *a, void *b, unsigned heap);
 extern void *func_021C3DA4(void *a, void *b, unsigned heap);
@@ -78,7 +78,7 @@ int EVENT_FIELD_PROCLINK_CreateMailParam(Ctx *c, int a1, int mode, const Src *sr
         if (src->f40 == 6)
             return (int)func_021C3CC0(sv, 2, (u8)src->f3c, func_0202138C(h), 4);
         c->f68 = 1;
-        return (int)func_021C3D44(sv, func_0201AB28(t, v), 4);
+        return (int)func_021C3D44(sv, POKEPARTY_GetMember(t, v), 4);
     }
     if (src->f2c == 2) {
         r = (int)func_021C3CC0(sv, 2, (u8)src->f38, func_0202138C((u16)src->f38), 4);

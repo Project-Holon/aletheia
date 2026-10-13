@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   sub_0201BD28 0x0201BD28 thumb
+ *   WAZA_TOOL_GetParam 0x0201BD28 thumb
  *   WAZA_TOOL_GetSickCont 0x0201BF58 thumb
  *   BTL_CALC_MakeSickContFromSpec 0x021D7C70 thumb ov093
  *   BTL_EVENT_PushVarFrame 0x021D74F8 thumb ov093
@@ -20,7 +20,7 @@
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   BTL_EVENT_PopVarFrame 0x021D7540 thumb ov093
  *   BTL_CALC_Random 0x021D78AC thumb ov093
- *   func_021B911C 0x021B911C thumb ov093
+ *   BTL_MAIN_ReturnZero 0x021B911C thumb ov093
  */
 #include "../include/Obj21082.h"
 typedef unsigned char u8;
@@ -28,7 +28,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u16 v; } W;
 typedef struct { u32 v; } Word;
-extern u32 sub_0201BD28(u16, u32);
+extern u32 WAZA_TOOL_GetParam(u16, u32);
 extern W WAZA_TOOL_GetSickCont(u16);
 extern void BTL_CALC_MakeSickContFromSpec(W, u32, Word *);
 extern void BTL_EVENT_PushVarFrame(int);
@@ -40,7 +40,7 @@ extern void func_021D70F0(void *a, int id);
 extern u32 BTL_EVENT_GetVar(int);
 extern void BTL_EVENT_PopVarFrame(int);
 extern u32 BTL_CALC_Random(u32);
-extern int func_021B911C(void *, int);
+extern int BTL_MAIN_ReturnZero(void *, int);
 static inline int chance(u32 n)
 {
     return BTL_CALC_Random(100) < n;
@@ -54,9 +54,9 @@ u32 BTL_SERVER_FLOW_RollMoveAddedSick(u8 *p, u16 id, u8 *a, u8 *b, Word *dest)
     u32 result;
     u8 changedRate;
     u8 veto;
-    s = sub_0201BD28(id, 11);
+    s = WAZA_TOOL_GetParam(id, 11);
     w = WAZA_TOOL_GetSickCont(id);
-    rate = sub_0201BD28(id, 12);
+    rate = WAZA_TOOL_GetParam(id, 12);
     BTL_CALC_MakeSickContFromSpec(w, (u32)a, &out);
     BTL_EVENT_PushVarFrame(0x1d7c);
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(b));
@@ -78,7 +78,7 @@ u32 BTL_SERVER_FLOW_RollMoveAddedSick(u8 *p, u16 id, u8 *a, u8 *b, Word *dest)
             *dest = out;
             return result;
         }
-        if (func_021B911C(((struct Obj21082 *)p)->f4, 0)) {
+        if (BTL_MAIN_ReturnZero(((struct Obj21082 *)p)->f4, 0)) {
             *dest = out;
             return result;
         }

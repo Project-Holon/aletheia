@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   INTRUDE_COMM_AdjustRemotePosition  0x021751D4  thumb ov011
  */
@@ -27,7 +27,7 @@ typedef struct C12 {
 typedef unsigned int   u32;
 struct BigObj;
 struct Ent;
-u32 func_02026478(void *obj);
+u32 GAME_COMM_GetGameData(void *obj);
 u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 void INTRUDE_COMM_AdjustRemotePosition(u8 *p, u16 a, int b, struct Ent *c);
 
@@ -39,7 +39,7 @@ void INTRUDE_COMM_AdjustAllRemotePositions(u8 *p, int arg)
     int i;
     u8 *e;
 
-    n = GAME_DATA_GetExitMode((const struct BigObj *)func_02026478((void *)(((struct Obj12425 *)p)->f4)));
+    n = GAME_DATA_GetExitMode((const struct BigObj *)GAME_COMM_GetGameData((void *)(((struct Obj12425 *)p)->f4)));
     h = p + 0x70;
     i = 0;
     arr = p + 0x8C;

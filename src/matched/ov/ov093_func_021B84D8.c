@@ -13,7 +13,7 @@
  *   BTL_NET_HasCommError  0x021D4270  thumb  ov093
  *   BTL_MAIN_MarkClientsDisconnected  0x021B8548  thumb  ov093
  *   BTL_CLIENT_RunTick  0x021CD97C  thumb  ov093
- *   func_021CDD94  0x021CDD94  thumb  ov093
+ *   BTL_CLIENT_GetCursor  0x021CDD94  thumb  ov093
  *   func_021E908C  0x021E908C  thumb  ov093
  */
 #include "../include/Obj20950.h"
@@ -31,7 +31,7 @@ typedef struct {
 extern int BTL_NET_HasCommError(void);
 extern void BTL_MAIN_MarkClientsDisconnected(u8 *);
 extern int BTL_CLIENT_RunTick(int);
-extern void func_021CDD94(char *p, int *o);
+extern void BTL_CLIENT_GetCursor(char *p, int *o);
 extern void func_021E908C(char *p);
 
 int BTL_MAIN_StepChild(u8 *p)
@@ -49,7 +49,7 @@ int BTL_MAIN_StepChild(u8 *p)
     for (i = 0; i < 4; i++) {
         if (*(int *)(p + i * 4 + 0x10) != 0 &&
             BTL_CLIENT_RunTick(*(int *)(p + i * 4 + 0x10)) != 0) {
-            func_021CDD94((char *)(*(int *)(p + i * 4 + 0x10)), (int *)(p + 0x448));
+            BTL_CLIENT_GetCursor((char *)(*(int *)(p + i * 4 + 0x10)), (int *)(p + 0x448));
             r = 1;
         }
     }

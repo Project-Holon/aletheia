@@ -15,7 +15,7 @@
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
  *   GAME_DATA_GetMyParty 0x02012934 thumb
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_0203F4E4 0x0203F4E4 arm
  */
@@ -34,7 +34,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void MYSTATUS_Copy(void *,void *);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void func_0203F4E4(struct RtcDate *date);
 void func_021B658C(void *p,Data *out)
@@ -50,7 +50,7 @@ void func_021B658C(void *p,Data *out)
     out->f04=config.bytes[2];
     out->f05=config.bytes[3];
     MYSTATUS_Copy(p,out->tail);
-    record=func_0201AB28(GAME_DATA_GetMyParty(sub),0);
+    record=POKEPARTY_GetMember(GAME_DATA_GetMyParty(sub),0);
     flag=0;
     out->f06=POKE_TOOL_GetPartyValue(record,5,0);
     out->f08=POKE_TOOL_GetPartyValue(record,111,0);

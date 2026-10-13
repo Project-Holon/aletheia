@@ -11,7 +11,7 @@
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_020355C4 0x020355C4 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_0220053C 0x0220053C thumb ov135
  */
 #include "../include/Obj01749.h"
@@ -24,16 +24,16 @@ extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u8 func_020355C4(void);
 struct Obj;
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern void func_0220053C(u8 *p, int mode);
 int func_022008B0(u8 *p)
 {
     if (CLACT_IsActorAnimActive((struct Actor *)(((struct Obj01749 *)p)->fBF4)) == 0) {
         CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj01749 *)p)->fBF4), 0);
         if (func_020355C4() == 1)
-            func_0204B3DC((struct Obj *)((struct Obj01749 *)p)->fBF4, 0);
+            CLACT_SetActorDrawEnable((struct Obj *)((struct Obj01749 *)p)->fBF4, 0);
         else
-            func_0204B3DC((struct Obj *)((struct Obj01749 *)p)->fBF4, 1);
+            CLACT_SetActorDrawEnable((struct Obj *)((struct Obj01749 *)p)->fBF4, 1);
         func_0220053C(p, ((struct Obj01749 *)p)->fC0);
     }
     return 2;

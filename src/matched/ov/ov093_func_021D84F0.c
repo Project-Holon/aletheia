@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_PackAbilityHandlerInfo
+ * function: HAND_TOKUSEI_PackAbilityHandlerInfo
  * address:  0x021D84F0
  * packet:   pkt_ov093_021D84F0
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT* (extent runs past compiled, trailing padding)
  */
 
-unsigned int BTL_CALC_PackAbilityHandlerInfo(unsigned int a, unsigned int b)
+unsigned int HAND_TOKUSEI_PackAbilityHandlerInfo(unsigned int a, unsigned int b)
 {
     return (a << 16) | b;
 }

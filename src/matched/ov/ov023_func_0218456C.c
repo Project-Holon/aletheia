@@ -14,7 +14,7 @@
  *   BG_SYS_ClearSubPlanes  0x02043588  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0203F8F4  0x0203F8F4  arm
  *   func_0201EC64  0x0201EC64  thumb
  *   func_02045B38  0x02045B38  arm
@@ -56,7 +56,7 @@ extern void BG_SYS_ClearSubPlanes(void);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 struct GfFont;
 struct MsgBank;
 extern void func_0203F8F4(u16 heapId);
@@ -93,7 +93,7 @@ int OEKAKI_Init(void *task, int *state, u32 arg)
         BG_SYS_ClearSubPlanes();
         GFL_HEAP_CreateChildHeap(1, 0x28, 0x50000);
         w = PROCSYS_AllocProcWork(task, 0x9e84, 0x28);
-        func_02082BCC(w, 0, 0x9e84);
+        MI_CpuFill8(w, 0, 0x9e84);
         func_0203F8F4(0x28);
         w->f10 = (u32)func_0201EC64(0x28);
         w->f14 = func_02045B38(0, 2, 0x53, 0x28);

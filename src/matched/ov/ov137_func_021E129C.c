@@ -10,7 +10,7 @@
  * symbols:
  *   d_021E22B8 0x021E22B8 data a1
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
  *   func_02030DA8 0x02030DA8 arm
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern const char d_021E22B8[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
@@ -32,7 +32,7 @@ void func_021E129C(char *p)
 {
     struct { u16 x, y, z; u8 a, b; } pos;
     int *q = func_02030734(0x8072, 24, 0, d_021E22B8, 5638);
-    func_02082BCC(q, 0, 24);
+    MI_CpuFill8(q, 0, 24);
     pos.x = 128;
     pos.y = 100;
     pos.z = 0;

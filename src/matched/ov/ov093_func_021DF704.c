@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetSoftSandHandlers
+ * function: HAND_ITEM_GetSoftSandHandlers
  * address: 0x021DF704
  * packet: pkt_ov093_021DF704
  * region: ov093
@@ -15,10 +15,10 @@
  *   gSoftSandHandlers 0x021F13FC data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetSoftSandHandlers(int *p);
+int *HAND_ITEM_GetSoftSandHandlers(int *p);
 extern int gSoftSandHandlers[];
 
-int *BTL_HANDLER_ITEM_GetSoftSandHandlers(int *p)
+int *HAND_ITEM_GetSoftSandHandlers(int *p)
 {
     *p = 1;
     return gSoftSandHandlers;

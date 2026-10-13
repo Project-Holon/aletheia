@@ -15,7 +15,7 @@
  *   GFL_NET_ClearExitFlag  0x0203CF04  arm
  *   GFL_NET_Exit  0x0203CEAC  arm
  *   GFL_NET_IRC_WIRELESS_Exit  0x0203D0D0  arm
- *   func_02178E4C  0x02178E4C  thumb
+ *   WIH_GetSysState  0x02178E4C  thumb
  *   GFL_NET_RequestDisconnect  0x0203CFA0  arm
  *   func_0201034C  0x0201034C  thumb
  *   func_0208459C  0x0208459C  arm
@@ -26,7 +26,7 @@
  * (GFL_NET_GetInitParam, offset +0x65), resets three link-state counters, then
  * polls GFL_NET_IsSessionNull() once per iteration, quitting the moment it stops
  * returning zero. Each iteration checks the status byte first: 0 or 5
- * means "ready to ask", and if func_02178E4C() then answers 0xa the
+ * means "ready to ask", and if WIH_GetSysState() then answers 0xa the
  * function returns 0 straight out of the loop.
  *
  * Every concrete byte matches; GFL_NET_RequestDisconnect is called from exactly this
@@ -51,7 +51,7 @@ extern void *GFL_NET_GetInitParam(void);
 extern void GFL_NET_ClearExitFlag(void);
 extern int GFL_NET_Exit(int a0);
 extern void GFL_NET_IRC_WIRELESS_Exit(void);
-extern u32  func_02178E4C(void);
+extern u32  WIH_GetSysState(void);
 extern void GFL_NET_RequestDisconnect(void);
 extern int func_0201034C(void);
 extern void func_0208459C(int clear, u32 irqFlags);
@@ -73,7 +73,7 @@ u32 GFL_NET_ERR_WaitLinkClosed(void)
             if (obj != 0) {
                 u8 v = obj[0x65];
                 if (v == 0 || v == 5) {
-                    if (func_02178E4C() == 0xa) {
+                    if (WIH_GetSysState() == 0xa) {
                         return 0;
                     }
                 }

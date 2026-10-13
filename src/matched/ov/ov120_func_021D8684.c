@@ -10,7 +10,7 @@
  * follower: two zero padding bytes at 021D8782.
  * symbols:
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -29,7 +29,7 @@ struct CharBuf;
 struct Descriptor;
 struct MsgBank;
 struct WordSet;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
@@ -44,9 +44,9 @@ void func_021D8684(char *p,int unused,u32 n)
     MSGDATA_ReadString(((struct Obj00131 *)p)->fC,40,((struct Obj00131 *)p)->f18);
     if(!((struct Obj00131 *)p)->f8C) ((struct Obj00131 *)p)->f8C=(void *)BMP_WIN_Create(1,21,4,10,2,4,1);
     q=((struct Obj00131 *)p)->f8C;
-    BMP_Clear(func_02045770(q),0);
+    BMP_Clear(BMP_WIN_GetBmp(q),0);
     GF_FONT_SetTextColor(15,14,0);
-    PRINTSYS_Print(func_02045770(q),0,3,((struct Obj00131 *)p)->f18,((struct Obj00131 *)p)->f14);
+    PRINTSYS_Print(BMP_WIN_GetBmp(q),0,3,((struct Obj00131 *)p)->f18,((struct Obj00131 *)p)->f14);
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
     func_0201EFA4(((struct Obj00131 *)p)->f10,0,n,5,1,1);
@@ -54,9 +54,9 @@ void func_021D8684(char *p,int unused,u32 n)
     func_0201F250(((struct Obj00131 *)p)->f10,((struct Obj00131 *)p)->f18,((struct Obj00131 *)p)->f20);
     if(!((struct Obj00131 *)p)->f90) ((struct Obj00131 *)p)->f90=(void *)BMP_WIN_Create(1,21,6,10,3,11,1);
     q=((struct Obj00131 *)p)->f90;
-    BMP_Clear(func_02045770(q),0);
+    BMP_Clear(BMP_WIN_GetBmp(q),0);
     GF_FONT_SetTextColor(15,2,0);
-    PRINTSYS_Print(func_02045770(q),0,5,((struct Obj00131 *)p)->f18,((struct Obj00131 *)p)->f14);
+    PRINTSYS_Print(BMP_WIN_GetBmp(q),0,5,((struct Obj00131 *)p)->f18,((struct Obj00131 *)p)->f14);
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
 }

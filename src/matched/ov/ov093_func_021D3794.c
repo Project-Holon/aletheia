@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B9934 0x021B9934 thumb ov093
+ *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   BTL_POKEPARAM_RestoreMovePP 0x021D5674 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern u16 BTL_POKEPARAM_RestoreMovePP(u8 *p, u32 i, u8 n);
 int BTL_CLIENT_CmdPpPlusOriginal(u32 *a, int b, u32 *c)
 {
     u8 *m;
 
-    m = func_021B9934((char *)a[1], (u8)c[0]);
+    m = BTL_SIDE_GetPokeByIdThunk((char *)a[1], (u8)c[0]);
     BTL_POKEPARAM_RestoreMovePP(m, (u8)c[1], c[2]);
     return 1;
 }

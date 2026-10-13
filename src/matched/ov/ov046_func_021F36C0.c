@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK45_Init
+ * function: GIMMICK46_Init
  * address:  0x021F36C0
  * packet:   pkt_ov046_021F36C0
  * region:   ov046
@@ -79,7 +79,7 @@ extern V sGimmick46LeverPos[];
 extern V sGimmick46ButtonPos[];
 extern V sGimmick46ExtraModelPos;
 
-void GIMMICK45_Init(void *a0)
+void GIMMICK46_Init(void *a0)
 {
     V tmp;
     int vec[3];

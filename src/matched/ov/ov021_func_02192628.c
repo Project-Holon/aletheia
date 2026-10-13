@@ -11,16 +11,16 @@
  *
  * symbols:
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_02045758  0x02045758  arm
- *   func_02045760  0x02045760  arm
- *   func_02045738  0x02045738  arm
- *   func_02045740  0x02045740  arm
+ *   BMP_WIN_GetPosX  0x02045758  arm
+ *   BMP_WIN_GetPosY  0x02045760  arm
+ *   BMP_WIN_GetWidth  0x02045738  arm
+ *   BMP_WIN_GetHeight  0x02045740  arm
  *   func_02041300  0x02041300  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_020409B4  0x020409B4  arm
  *   FIELD_MSGBG_ExitCursor  0x021927E8  thumb  ov021
  *   BMP_Delete  0x020437AC  arm
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -31,17 +31,17 @@ typedef unsigned int   u32;
 struct Descriptor;
 struct Obj020437AC;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern u8 func_02045758(struct Descriptor *p);
-extern u8 func_02045760(struct Descriptor *p);
-extern u8 func_02045738(struct Descriptor *p);
-extern u8 func_02045740(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
+extern u8 BMP_WIN_GetHeight(struct Descriptor *p);
 extern void func_02041300(u32 layer, u32 tile, u32 x, u32 y, u32 w, u32 h, u32 mode);
 struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *w);
 extern void func_020409B4(u32 layer);
 extern void FIELD_MSGBG_ExitCursor(u32 *p);
 extern void BMP_Delete(struct Obj020437AC *p);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
 
 void FIELD_MSGBG_DeleteSpWin(u32 *a)
@@ -52,15 +52,15 @@ void FIELD_MSGBG_DeleteSpWin(u32 *a)
     u32 h;
 
     BMP_WIN_ClearScreen((struct Descriptor *)a[0]);
-    x = func_02045758((struct Descriptor *)a[0]);
-    y = func_02045760((struct Descriptor *)a[0]);
-    w = func_02045738((struct Descriptor *)a[0]);
-    h = func_02045740((struct Descriptor *)a[0]);
+    x = BMP_WIN_GetPosX((struct Descriptor *)a[0]);
+    y = BMP_WIN_GetPosY((struct Descriptor *)a[0]);
+    w = BMP_WIN_GetWidth((struct Descriptor *)a[0]);
+    h = BMP_WIN_GetHeight((struct Descriptor *)a[0]);
     func_02041300((u8)((u16 *)a[2])[1], 0, x, y, w, h, 0x11);
     BMP_WIN_TransferChars((struct Descriptor *)a[0]);
     func_020409B4((u8)((u16 *)a[2])[1]);
     FIELD_MSGBG_ExitCursor(a + 4);
     BMP_Delete((struct Obj020437AC *)a[3]);
-    func_020452E8((struct Descriptor *)a[0]);
+    BMP_WIN_Delete((struct Descriptor *)a[0]);
     func_020307B0(a);
 }

@@ -18,7 +18,7 @@
  *   FLDMMDL_SetDirAll  0x0216D60C  thumb  ov010
  *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
  *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb  ov010
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj05013.h"
@@ -45,7 +45,7 @@ extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
 extern int FLDMMDL_SetDirAll(int a0, int a1);
 extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
 extern void FLDMMDL_IncAcmdSeq(u8 *p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 void FLDMMDL_RAIL_MOVE_AcJumpSetSe(u32 o, u32 id, u32 p, u8 q, S s, u32 fn)
 {
@@ -69,6 +69,6 @@ void FLDMMDL_RAIL_MOVE_AcJumpSetSe(u32 o, u32 id, u32 p, u8 q, S s, u32 fn)
     FLDMMDL_SetDrawStatus((void *)o, s.a);
     FLDMMDL_IncAcmdSeq((u8 *)o);
     if (fn) {
-        func_020061E4(fn);
+        GFL_USE_PlaySeDefaultVolume(fn);
     }
 }

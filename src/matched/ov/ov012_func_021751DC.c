@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Recursive MATCH unblocker: callee of func_0217FF78 (ov019) +0024. Only ov012
+ * Recursive MATCH unblocker: callee of COLOSSEUM_UpdateCommPlayers (ov019) +0024. Only ov012
  * has a function start here (ov011 holds the interior of a larger function,
  * ov009 ARM data), so the ov012 shard makes that site attest as `matched`.
  * The caller's scratch buffer is u32[5] and this leaf copies exactly 0x14

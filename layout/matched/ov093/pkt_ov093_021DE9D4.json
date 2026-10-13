@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_HANDLER_ITEM_Choice_LockMove",
+   "name": "HAND_ITEM_Choice_LockMove",
    "address": "0x021DE9D4",
    "kind": "game",
    "region": "ov093",

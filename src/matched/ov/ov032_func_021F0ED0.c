@@ -11,15 +11,15 @@
  *
  * symbols:
  *   func_021F0ED0 0x021F0ED0 thumb
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj20418.h"
 
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
 void func_021F0ED0(char *p, int a)
 {
-    func_0204B3DC(((struct Obj20418 *)p)->f14, a);
+    CLACT_SetActorDrawEnable(((struct Obj20418 *)p)->f14, a);
 }

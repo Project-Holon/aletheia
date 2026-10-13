@@ -12,7 +12,7 @@
  *
  * symbols:
  *   CLACT_SetActorAnimIndex 0x0204B908 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  */
 
@@ -26,7 +26,7 @@ extern void CLACT_SetActorAnimIndex(int a0, int a1);
 typedef unsigned int   u32;
 struct Actor;
 struct Obj;
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
 void func_021F5E68(int unused, struct S021F5E68 *p)
@@ -35,7 +35,7 @@ void func_021F5E68(int unused, struct S021F5E68 *p)
     for (i = 0; i < 6; i++)
     {
         CLACT_SetActorAnimIndex((int)p->slots[i], 0);
-        func_0204B92C(p->slots[i], 1);
+        CLACT_SetActorAutoAnim(p->slots[i], 1);
     }
 }
 

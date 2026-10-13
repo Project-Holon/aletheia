@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetPoisonBarbHandlers
+ * function: HAND_ITEM_GetPoisonBarbHandlers
  * address: 0x021DF7DC
  * packet: pkt_ov093_021DF7DC
  * region: ov093
@@ -15,10 +15,10 @@
  *   gPoisonBarbHandlers 0x021F170C data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetPoisonBarbHandlers(int *p);
+int *HAND_ITEM_GetPoisonBarbHandlers(int *p);
 extern int gPoisonBarbHandlers[];
 
-int *BTL_HANDLER_ITEM_GetPoisonBarbHandlers(int *p)
+int *HAND_ITEM_GetPoisonBarbHandlers(int *p)
 {
     *p = 2;
     return gPoisonBarbHandlers;

@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_GetRattledHandlers
+ * function: HAND_TOKUSEI_GetRattledHandlers
  * address: 0x021DC954
  * packet: pkt_ov093_021DC954
  * region: ov093
@@ -15,10 +15,10 @@
  *   gRattledHandlers 0x021F05B0 data ov093 a4
  */
 
-int *BTL_ABILITY_GetRattledHandlers(int *p);
+int *HAND_TOKUSEI_GetRattledHandlers(int *p);
 extern int gRattledHandlers[];
 
-int *BTL_ABILITY_GetRattledHandlers(int *p)
+int *HAND_TOKUSEI_GetRattledHandlers(int *p)
 {
     *p = 1;
     return gRattledHandlers;

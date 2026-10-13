@@ -16,12 +16,12 @@
  *   func_0200C274 0x0200C274 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   STRBUF_Delete 0x02045808 arm
  */
@@ -47,12 +47,12 @@ extern u32 func_0200C274(struct Blk34 *p);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void BMP_WIN_TransferChars(struct Descriptor *a);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 a);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -70,13 +70,13 @@ void SCRCMD_PROC_FLD_PrintMoneyWindow(char *w)
         func_0201EFA4((struct WordSet *)(*(u32 *)&((struct Obj00037 *)w)->f190), 0, func_0200C274((struct Blk34 *)(((struct Obj00037 *)w)->fC)), 7, 1, 1);
     }
     func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00037 *)w)->f190), (void *)t6, (void *)t7);
-    s = (u32)func_02045770((struct Descriptor *)((struct Obj00037 *)w)->f168);
+    s = (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00037 *)w)->f168);
     BMP_Clear((struct CharBuf *)s, 0);
     PRINTSYS_PrintColor((void *)s, 0, 0, (void *)t6, (void *)(((struct Obj00037 *)w)->f8), 0x3C4F);
     bg = ((struct Obj00037 *)w)->f168;
     BMP_WIN_TransferChars((struct Descriptor *)bg);
     BMP_WIN_MakeScreen((struct Cfg *)bg);
-    func_020409B4(func_02045730((struct Descriptor *)bg));
+    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)bg));
     STRBUF_Delete((struct U16Vec *)t6);
     STRBUF_Delete((struct U16Vec *)t7);
 }

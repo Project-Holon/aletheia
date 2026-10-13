@@ -10,6 +10,8 @@
  *
  * symbols:
  *   CLACT_GetActorSurfacePos  0x0204B454  arm  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
  */
 typedef struct { short x, y; } Pos;
 typedef struct {
@@ -27,11 +29,11 @@ typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, unsigned int which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, unsigned int which);
 extern int func_0209C2B0(int, int);
 typedef unsigned int   u32;
 extern void func_02041EE4(u32 index, u32 a, u32 b);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 int func_021E777C(Work *p)
 {
     int done;
@@ -50,19 +52,19 @@ int func_021E777C(Work *p)
                 p->objBase[i] = pos[1].x;
             }
         }
-        func_020061E4(0x63B);
+        GFL_USE_PlaySeDefaultVolume(0x63B);
     }
     shift = func_0209C2B0(p->count << 8, 20) - 0x100;
     if (p->main != 0) {
         CLACT_GetActorSurfacePos(p->main, (struct PtS *)&pos[0], 0);
         pos[0].x = p->base - func_0209C2B0(p->count << 8, 20);
-        func_0204B404(p->main, (const struct Vec2 *)(&pos[0]), 0);
+        CLACT_AddActorSurfacePos(p->main, (const struct Vec2 *)(&pos[0]), 0);
     }
     for (i = 0; i < 5; i++) {
         if (p->obj[i] != 0) {
             CLACT_GetActorSurfacePos(p->obj[i], (struct PtS *)&pos[0], 0);
             pos[0].x = p->objBase[i] - func_0209C2B0(p->count << 8, 20);
-            func_0204B404(p->obj[i], (const struct Vec2 *)(&pos[0]), 0);
+            CLACT_AddActorSurfacePos(p->obj[i], (const struct Vec2 *)(&pos[0]), 0);
         }
     }
     if (p->count++ >= 20) {

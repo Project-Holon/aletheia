@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_ABILITY_RunAwayCheckEscape",
+   "name": "HAND_TOKUSEI_RunAwayCheckEscape",
    "address": "0x021DB0DC",
    "kind": "game",
    "region": "ov093",

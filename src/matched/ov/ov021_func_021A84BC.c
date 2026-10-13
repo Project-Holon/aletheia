@@ -21,8 +21,8 @@
  *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   func_02040618  0x02040618  arm
  *   func_020403F4  0x020403F4  arm
- *   func_0201C6EC  0x0201C6EC  thumb
- *   func_0201C4C0  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -72,8 +72,8 @@ extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_020403F4(u32 i);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 func_020307B0(void *p);
 
 void FIELD_MENU_Delete(Obj *p)
@@ -99,7 +99,7 @@ void FIELD_MENU_Delete(Obj *p)
     func_020403F4(7);
     func_020403F4(5);
     func_020403F4(6);
-    func_0201C6EC(p->f12C);
-    func_0201C4C0(p->f12C);
+    PRINTSYS_QUE_Clear(p->f12C);
+    PRINTSYS_QUE_Delete(p->f12C);
     func_020307B0(p);
 }

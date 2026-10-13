@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   d_021B9540     0x021B9540  data  a1
  *   func_020307B0 0x020307B0 arm
  *   func_020490F4  0x020490F4  arm
@@ -43,7 +43,7 @@ typedef unsigned int u32;
 #define ACTOR_GFX_FLAG_PLTT_OPTION 0x2   /* passed to the palette loader as its option */
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern u32 func_020307B0(void *p);
 extern void *func_020490F4(u32 id, u32 heap);
 extern int CLACT_RegisterPaletteCompressed(void *arc, u32 charId, u32 screen, u32 plttOffset, u16 heapId);
@@ -73,7 +73,7 @@ struct UiScene *UI_SCENE_Create(u32 heapId, const struct UiSceneEntry *entries, 
     struct UiScene *scene;
 
     scene = func_02030734(heapId, UI_SCENE_SIZE, 0, d_021B9540, 0x4e);
-    func_02082BCC(scene, 0, UI_SCENE_SIZE);
+    MI_CpuFill8(scene, 0, UI_SCENE_SIZE);
     scene->entries = entries;
     scene->param = param;
     scene->userData = userData;

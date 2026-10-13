@@ -21,6 +21,8 @@
  *   CLACT_CreateUnit  0x0204B100  arm  arm9
  *   CLACT_CreateActor  0x0204B294  arm  arm9
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -47,9 +49,9 @@ struct Bank;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void *func_02030DA8(void *, void (*)(void *, Res *), void *, u32);
 extern void func_0220684C(char *p, int a, int b);
@@ -79,9 +81,9 @@ void func_02204698(Obj *p, int a, int b)
             r->e[i] = 0;
         } else {
             r->e[i] = CLACT_CreateActor(r->h, p->h104, p->h108, p->h10c, &quad, 1, p->heap);
-            func_0204B404(r->e[i], (const struct Vec2 *)(&row->pos[i]), 1);
+            CLACT_AddActorSurfacePos(r->e[i], (const struct Vec2 *)(&row->pos[i]), 1);
             CLACT_SetActorAffineMode(r->e[i], 2);
-            func_0204B92C(r->e[i], 1);
+            CLACT_SetActorAutoAnim(r->e[i], 1);
             CLACT_SetActorAnimSeq(r->e[i], v);
         }
     }

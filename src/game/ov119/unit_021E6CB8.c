@@ -19,7 +19,7 @@
  *   BMP_Create 0x02043678 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   d_021E7E64 0x021E7E64 data a2
  *   CLACT_DeleteActor 0x0204B3B4 arm
@@ -38,7 +38,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_0204047C 0x0204047C arm
  *   func_02041B6C 0x02041B6C arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_ApplyActorAnimCommand 0x0204BA00 arm
  *   PALANM_Create 0x02021518 thumb
  *   PALANM_AllocSlotBuffers 0x0202155C thumb
@@ -53,7 +53,7 @@
  *   func_0207E3D0 0x0207E3D0 arm
  *   func_02082D44  0x02082D44  arm
  *   func_020056BC  0x020056BC  thumb
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   func_02030EAC 0x02030EAC arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  */
@@ -113,7 +113,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void BMP_Delete(struct Obj020437AC *p);
@@ -130,7 +130,7 @@ extern void func_02041090(u32, u32, u32, u32, u8, u8);
 extern u32 func_020307B0(void *p);
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_02041B6C(u32 bit);
-extern void func_0204B92C(struct Obj *,unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Obj *,unsigned int);
 extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
 extern void *PALANM_Create(u32 heap);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
@@ -146,7 +146,7 @@ extern void func_0207E3D0(void *,u32,u32);
 extern void func_02082D44(void *dst, void *src, int n);
 extern u32 func_020056BC(void);
 extern void func_02030DA8(u32, void (*)(void), int, int);
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void func_02030EAC(struct Node *n);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 void func_021E6CB8(char *p);
@@ -183,7 +183,7 @@ void func_021E6CB8(char *p)
     for (i = 0; i < 8; i++) {
         c.x = *(short *)((char *)&t + i * 4); c.y = *(short *)((char *)&t + i * 4 + 2); c.z = 0; c.a = 0; c.b = 1;
         *(int *)(p + i * 4 + 0x10cc) = (int)CLACT_CreateActor((void *)((TradeWork *)p)->f9C4, *(int *)(p + i * 4 + 0x1114), *(int *)(p + 0x10ec), *(int *)(p + 0x10f0), &c, 1, ((TradeWork *)p)->f5F4);
-        func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x10cc), 1);
+        CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + i * 4 + 0x10cc), 1);
     }
     ARC_TOOL_DeleteHandle(h);
 }
@@ -251,8 +251,8 @@ void func_021E6FD4(char *p, int x, int y) {
     c.x=x+12;c.y=y+12;c.z=24;c.a=0;c.b=0;
     func_021E7058(p);
     ((TradeWork *)p)->fF24=(int)CLACT_CreateActor((void *)((TradeWork *)p)->f9C4,((TradeWork *)p)->f894,((TradeWork *)p)->f880,((TradeWork *)p)->f8B0,&c,1,((TradeWork *)p)->f5F4);
-    func_0204B3DC((struct Obj *)((TradeWork *)p)->fF24,1);
-    func_0204B92C((struct Obj *)((TradeWork *)p)->fF24,1);
+    CLACT_SetActorDrawEnable((struct Obj *)((TradeWork *)p)->fF24,1);
+    CLACT_SetActorAutoAnim((struct Obj *)((TradeWork *)p)->fF24,1);
     p[0x11f5]=0;
     cb.v=0;cb.p=p;cb.fn=(void (*)(void *))func_021E6FC8;
     CLACT_ApplyActorAnimCommand((struct Actor *)(((TradeWork *)p)->fF24),(const struct Cmd *)(&cb));
@@ -359,7 +359,7 @@ void func_021E7208(void *p, int a)
 
 void func_021E7220(void *p, int a)
 {
-    func_02043534(a);
+    BG_SYS_SetMainVisiblePlanes(a);
     func_02030EAC(p);
 }
 

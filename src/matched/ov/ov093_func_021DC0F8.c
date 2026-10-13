@@ -1,5 +1,5 @@
 /*
- * function: func_021DC0F8
+ * function: HAND_TOKUSEI_GetDefeatistHandlers
  * address: 0x021DC0F8
  * packet: pkt_ov093_021DC0F8
  * region: ov093
@@ -15,10 +15,10 @@
  *   gDefeatistHandlers 0x021F07A8 data ov093 a4
  */
 
-int *func_021DC0F8(int *p);
+int *HAND_TOKUSEI_GetDefeatistHandlers(int *p);
 extern int gDefeatistHandlers[];
 
-int *func_021DC0F8(int *p)
+int *HAND_TOKUSEI_GetDefeatistHandlers(int *p)
 {
     *p = 1;
     return gDefeatistHandlers;

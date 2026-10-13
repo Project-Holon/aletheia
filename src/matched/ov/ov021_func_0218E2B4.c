@@ -15,7 +15,7 @@
  *   VEC_Normalize  0x0207CCA4  arm
  *   func_0207CEE4  0x0207CEE4  arm
  *   _ll_mul        0x0209C054  arm
- *   d_020A1B38     0x020A1B38  data   a2
+ *   FX_SinCosTable_     0x020A1B38  data   a2
  * Addresses are Black-image addresses.
  */
 
@@ -24,7 +24,7 @@ typedef struct { int x, y, z; } V;
 
 extern void VEC_Normalize(V *a, V *b);
 extern void func_0207CEE4(int e, V *v, V *a, V *o);
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 void FIELD_CAMERA_CalcOffsetPoint(V *a, V *out, int i, int j, int e)
 {
@@ -34,10 +34,10 @@ void FIELD_CAMERA_CalcOffsetPoint(V *a, V *out, int i, int j, int e)
     int k;
 
     k = (i >> 4) * 2;
-    x = d_020A1B38[k];
-    y = d_020A1B38[k + 1];
-    p = d_020A1B38[(j >> 4) * 2];
-    q = d_020A1B38[(j >> 4) * 2 + 1];
+    x = FX_SinCosTable_[k];
+    y = FX_SinCosTable_[k + 1];
+    p = FX_SinCosTable_[(j >> 4) * 2];
+    q = FX_SinCosTable_[(j >> 4) * 2 + 1];
     if (q < 0) q = -q;
     if (q < 0x200) q = 0x200;
     v.x = (int)(((long long)x * q + 0x800) >> 12);

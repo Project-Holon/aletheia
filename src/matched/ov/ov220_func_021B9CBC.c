@@ -24,7 +24,7 @@
  *   ARC_UTIL_UploadPaletteFromArchive 0x02049B90 arm
  *   func_02045B38 0x02045B38 arm
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   STRBUF_Create 0x020457B0 arm
@@ -39,7 +39,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_0201ED04 0x0201ED04 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_021BA068 0x021BA068 thumb ov220
  *   func_021BA01C 0x021BA01C thumb ov220
@@ -73,7 +73,7 @@ struct U16Vec;
 struct WordSet;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -88,7 +88,7 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
 extern u8 func_021BA068(u32);
 extern void func_021BA01C(struct Obj *o);
@@ -123,7 +123,7 @@ void func_021B9CBC(struct Obj *p)
     p->bank = func_02045B38(0, 3, 0x1CD, p->heap);
     for (i = 0; i < 4; i++) {
         p->ptr[i] = (void *)BMP_WIN_Create(d_021BA354[i*7], d_021BA354[i*7+1], d_021BA354[i*7+2], d_021BA354[i*7+3], d_021BA354[i*7+4], d_021BA354[i*7+5], d_021BA354[i*7+6]);
-        BMP_Clear(func_02045770(p->ptr[i]), (u32)0);
+        BMP_Clear(BMP_WIN_GetBmp(p->ptr[i]), (u32)0);
         BMP_WIN_TransferChars(p->ptr[i]);
     }
     if (p->info->flag) {
@@ -139,11 +139,11 @@ void func_021B9CBC(struct Obj *p)
     w1 = (u16)func_0201D304(x, (u32)p->str, 0);
     h = (u16)func_0201D304(y, (u32)p->str, 0);
     n = w1 + 8 + h;
-    h = (u32)BMP_GetWidth(func_02045770(p->ptr[1]));
+    h = (u32)BMP_GetWidth(BMP_WIN_GetBmp(p->ptr[1]));
     if (h >= n) off = ((int)(h - n)) / 2;
     k = d_021BA314[1];
-    PRINTSYS_PrintQueColor(p->bmp, (u32)func_02045770(p->ptr[1]), (s16)off, k, (u32)x, (u32)p->str, 0x440);
-    PRINTSYS_PrintQueColor(p->bmp, (u32)func_02045770(p->ptr[1]), (s16)(u16)(off + w1 + 8), k, (u32)y, (u32)p->str, 0x440);
+    PRINTSYS_PrintQueColor(p->bmp, (u32)BMP_WIN_GetBmp(p->ptr[1]), (s16)off, k, (u32)x, (u32)p->str, 0x440);
+    PRINTSYS_PrintQueColor(p->bmp, (u32)BMP_WIN_GetBmp(p->ptr[1]), (s16)(u16)(off + w1 + 8), k, (u32)y, (u32)p->str, 0x440);
     STRBUF_Delete(y);
     STRBUF_Delete(x);
     m = *(u16 *)(b + 2);
@@ -158,26 +158,26 @@ void func_021B9CBC(struct Obj *p)
     w1 = (u16)func_0201D304(z, (u32)p->str, 0);
     h = (u16)func_0201D304(q, (u32)p->str, 0);
     n = w1 + 8 + h;
-    h = (u32)BMP_GetWidth(func_02045770(p->ptr[2]));
+    h = (u32)BMP_GetWidth(BMP_WIN_GetBmp(p->ptr[2]));
     if (h >= n) off = ((int)(h - n)) / 2;
     k = d_021BA314[2];
-    PRINTSYS_PrintQueColor(p->bmp, (u32)func_02045770(p->ptr[2]), (s16)off, k, (u32)z, (u32)p->str, 0x440);
-    PRINTSYS_PrintQueColor(p->bmp, (u32)func_02045770(p->ptr[2]), (s16)(u16)(off + w1 + 8), k, (u32)q, (u32)p->str, 0x440);
+    PRINTSYS_PrintQueColor(p->bmp, (u32)BMP_WIN_GetBmp(p->ptr[2]), (s16)off, k, (u32)z, (u32)p->str, 0x440);
+    PRINTSYS_PrintQueColor(p->bmp, (u32)BMP_WIN_GetBmp(p->ptr[2]), (s16)(u16)(off + w1 + 8), k, (u32)q, (u32)p->str, 0x440);
     STRBUF_Delete(q);
     STRBUF_Delete(z);
     STRBUF_Delete(t);
     func_0201ED04(g);
     y = func_02045EC0(p->bank, d_021BA3A8[func_021BA068(*(u16 *)(b + 2))].msg);
     w1 = (u16)func_0201D304(y, (u32)p->str, 0);
-    h = (u32)BMP_GetWidth(func_02045770(p->ptr[3]));
+    h = (u32)BMP_GetWidth(BMP_WIN_GetBmp(p->ptr[3]));
     off = ((int)(h - w1)) / 2;
-    PRINTSYS_PrintQueColor(p->bmp, (u32)func_02045770(p->ptr[3]), (s16)off, d_021BA314[3], (u32)y, (u32)p->str, 0x440);
+    PRINTSYS_PrintQueColor(p->bmp, (u32)BMP_WIN_GetBmp(p->ptr[3]), (s16)off, d_021BA314[3], (u32)y, (u32)p->str, 0x440);
     STRBUF_Delete(y);
     for (i = 1; i < 4; i++) {
         void *d = p->ptr[i];
         BMP_WIN_TransferChars(d);
         BMP_WIN_MakeScreen(d);
-        func_02041B6C(func_02045730(d));
+        func_02041B6C(BMP_WIN_GetBgLayer(d));
     }
     func_021BA01C(p);
 }

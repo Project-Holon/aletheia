@@ -13,7 +13,7 @@
  *   func_0201F73C  0x0201F73C  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *
  * Addresses are Black-image addresses.
@@ -48,7 +48,7 @@ struct Cfg;
 struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(unsigned int index);
 
 void func_021C7908(Work *p)
@@ -59,5 +59,5 @@ void func_021C7908(Work *p)
     v = p->f8;
     BMP_WIN_TransferChars(v);
     BMP_WIN_MakeScreen(v);
-    func_020409B4(func_02045730(v));
+    func_020409B4(BMP_WIN_GetBgLayer(v));
 }

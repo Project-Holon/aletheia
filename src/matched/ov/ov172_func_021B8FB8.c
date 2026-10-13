@@ -15,9 +15,9 @@
  * symbols:
  *   APP_TASKMENU_CloseMenu  0x02027858  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   func_020414EC  0x020414EC  arm
  *
@@ -34,9 +34,9 @@ struct Obj;
 struct TaskMenu;
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void func_020414EC(u32 i);
 
@@ -49,14 +49,14 @@ void func_021B8FB8(void *a0, char *a1)
 
     p = ((struct Obj02505 *)a1)->f2C;
     BMP_WIN_ClearScreen(p);
-    func_020409B4(func_02045730(p));
+    func_020409B4(BMP_WIN_GetBgLayer(p));
 
     p = ((struct Obj02505 *)a1)->f7C;
     BMP_WIN_ClearScreen(p);
-    func_020409B4(func_02045730(p));
+    func_020409B4(BMP_WIN_GetBgLayer(p));
 
-    func_020452E8(((struct Obj02505 *)a1)->f2C);
-    func_020452E8(((struct Obj02505 *)a1)->f7C);
+    BMP_WIN_Delete(((struct Obj02505 *)a1)->f2C);
+    BMP_WIN_Delete(((struct Obj02505 *)a1)->f7C);
     CLACT_DeleteActor(((struct Obj02505 *)a1)->f98);
     CLACT_DeleteActor(((struct Obj02505 *)a1)->fA0);
     CLACT_DeleteActor(((struct Obj02505 *)a1)->f9C);

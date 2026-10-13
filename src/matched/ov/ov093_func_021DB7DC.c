@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetKlutzHandlers
+ * function: HAND_TOKUSEI_GetKlutzHandlers
  * address: 0x021DB7DC
  * packet: pkt_ov093_021DB7DC
  * region: ov093
@@ -15,10 +15,10 @@
  *   gKlutzHandlers 0x021F0D9C data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetKlutzHandlers(int *p);
+int *HAND_TOKUSEI_GetKlutzHandlers(int *p);
 extern int gKlutzHandlers[];
 
-int *BTL_TOKUSEI_GetKlutzHandlers(int *p)
+int *HAND_TOKUSEI_GetKlutzHandlers(int *p)
 {
     *p = 7;
     return gKlutzHandlers;

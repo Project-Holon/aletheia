@@ -1,7 +1,7 @@
 /*
  * file:     touchbar.c
  * unit:     yes
- * function: TOUCHBAR_Create, TOUCHBAR_Delete, TOUCHBAR_Update, TOUCHBAR_GetPressedButtonIdIfDone, TOUCHBAR_GetPressedButtonIdIfPressing, TOUCHBAR_IsBusy, TOUCHBAR_SetAllButtonsEnabled, func_021B64D0, func_021B64F8, TOUCHBAR_SetAllButtonsPriority, TOUCHBAR_SetButtonEnabled, func_021B6558, TOUCHBAR_SetButtonSound, TOUCHBAR_SetButtonKeyMask, func_021B6588, TOUCHBAR_SetButtonToggled, func_021B65A8, TOUCHBAR_ResetAndEnableButton, TOUCHBAR_FindButton, TOUCHBAR_GetButton, TOUCHBAR_LoadGfx, TOUCHBAR_FreeGfx, TOUCHBAR_GetGfxWord, TOUCHBAR_LoadCharToBg, TOUCHBAR_InitButton, TOUCHBAR_FreeButton, TOUCHBAR_CheckButtonPressed, TOUCHBAR_IsButtonActorIdle, func_021B69B8, func_021B69BC, func_021B69C8, func_021B69D0, func_021B69D4, TOUCHBAR_SetButtonToggle, TOUCHBAR_IsButtonDown, func_021B6A10, func_021B6A1C, TOUCHBAR_OnPressPlain, func_021B6A44, TOUCHBAR_SetEnabledPlain, TOUCHBAR_SetEnabledToggle, TOUCHBAR_PrintAligned, TOUCHBAR_PrintYesNoCancelLabels, TOUCHBAR_GetStringAlignOffset
+ * function: TOUCHBAR_Create, TOUCHBAR_Delete, TOUCHBAR_Update, TOUCHBAR_GetPressedButtonIdIfDone, TOUCHBAR_GetPressedButtonIdIfPressing, TOUCHBAR_IsBusy, TOUCHBAR_SetAllButtonsEnabled, func_021B64D0, func_021B64F8, TOUCHBAR_SetAllButtonsPriority, TOUCHBAR_SetButtonEnabled, func_021B6558, TOUCHBAR_SetButtonSound, TOUCHBAR_SetButtonKeyMask, func_021B6588, TOUCHBAR_SetButtonToggled, func_021B65A8, TOUCHBAR_ResetAndEnableButton, TOUCHBAR_FindButton, TOUCHBAR_GetButton, TOUCHBAR_LoadGfx, TOUCHBAR_FreeGfx, TOUCHBAR_GetGfxWord, TOUCHBAR_LoadCharToBg, TOUCHBAR_InitButton, TOUCHBAR_FreeButton, TOUCHBAR_CheckButtonPressed, TOUCHBAR_IsButtonActorIdle, func_021B69B8, func_021B69BC, func_021B69C8, func_021B69D0, func_021B69D4, TOUCHBAR_SetButtonToggle, TOUCHBAR_IsButtonDown, func_021B6A10, func_021B6A1C, TOUCHBAR_OnPressPlain, TOUCHBAR_OnPressToggle, TOUCHBAR_SetEnabledPlain, TOUCHBAR_SetEnabledToggle, TOUCHBAR_PrintAligned, TOUCHBAR_PrintYesNoCancelLabels, TOUCHBAR_GetStringAlignOffset
  * address:  0x021B62E0
  * region:   ov067
  * compiler: dsi/1.1p1
@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020307B0 0x020307B0 arm
  *   func_020490F4  0x020490F4  arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
@@ -46,18 +46,18 @@
  *   func_020413B0  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
  *   gTouchBarButtonLooks     0x021B942C  data  ov067  a4
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
- *   func_0204B3F4  0x0204B3F4  arm
- *   func_02035D20  0x02035D20  arm
+ *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   func_020355D8  0x020355D8  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
- *   func_020061E4 0x020061E4 thumb
- *   func_02045770  0x02045770  arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   func_02045B38  0x02045B38  arm
  *   func_0201EC64  0x0201EC64  thumb
@@ -95,7 +95,7 @@ typedef struct {
 } TouchBarWindow;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *dst, u32 value, u32 size);
+extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern u32 func_020307B0(void *ptr);
 extern void *func_020490F4(u32 arcId, u32 heapId);
 extern s32 CLACT_RegisterPaletteEx(void *arc, u32 fileId, u32 screen, u32 offset, u16 count, u16 mode, u32 heapId);
@@ -125,17 +125,17 @@ extern u32 func_0204162C(int bgLayer);
 extern void func_020410D0(u8 bgLayer, u32 dstX, u32 dstY, u32 dstWidth, u8 dstHeight, u32 src, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight);
 extern void func_020413B0(u8 bgLayer, u8 x, u8 y, u8 width, u8 height, u8 plttSlot);
 extern void func_020409B4(u8 bgLayer);
-extern void func_0204B92C(struct Actor *actor, u32 enable);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 extern void CLACT_DeleteActor(struct Actor *actor);
-extern u32 func_0204B3F4(struct Actor *actor);
-extern u32 func_02035D20(u32 *outX, u32 *outY);
+extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outX, u32 *outY);
 extern void func_020355D8(u8 usedTouch);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
-extern void func_020061E4(u32 soundId);
-extern void *func_02045770(struct BmpData *bitmap);
+extern void GFL_USE_PlaySeDefaultVolume(u32 soundId);
+extern void *BMP_WIN_GetBmp(struct BmpData *bitmap);
 extern void PRINTSYS_PrintQueColor(void *textCtx, u32 bitmapBuffer, u32 x, u32 y, u32 str, u32 fontId, u16 color);
-extern void func_0204B3DC(struct Actor *actor, u32 enable);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
 extern void CLACT_SetActorDrawPriority(struct Actor *actor, u32 priority);
 extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int bgPriority);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -186,7 +186,7 @@ u32 TOUCHBAR_IsButtonDown(TouchBarButton *button);
 void func_021B6A10(TouchBarButton *button, unsigned int priority);
 void func_021B6A1C(TouchBarButton *button, unsigned int bgPriority);
 void TOUCHBAR_OnPressPlain(TouchBarButton *button);
-void func_021B6A44(TouchBarButton *button);
+void TOUCHBAR_OnPressToggle(TouchBarButton *button);
 void TOUCHBAR_SetEnabledPlain(TouchBarButton *button, u32 enabled);
 void TOUCHBAR_SetEnabledToggle(TouchBarButton *button, u32 enabled);
 void TOUCHBAR_PrintAligned(TouchBarWindow *window, void *textCtx, u16 x, u16 y, u32 str, u32 fontId, u16 color, u32 alignMode);
@@ -207,7 +207,7 @@ TouchBar *TOUCHBAR_Create(TouchBarParams *params, u16 heapId)
     size = params->count * sizeof(TouchBarButton) + 0x20;
     bar = func_02030734(heapId, size, 0, gTouchBarSourceName, 0x123);
     screen = 0;
-    func_02082BCC(bar, 0, size);
+    MI_CpuFill8(bar, 0, size);
     bar->buttonCount = params->count;
     bar->state = screen;
     if (params->bgLayer >= 4) {
@@ -409,7 +409,7 @@ void TOUCHBAR_LoadGfx(TouchBarGfx *gfx, u8 bgLayer, u32 screen, u32 bgPlttTarget
     void *arc;
     u32 cellFile;
 
-    func_02082BCC(gfx, 0, sizeof(TouchBarGfx));
+    MI_CpuFill8(gfx, 0, sizeof(TouchBarGfx));
     gfx->bgLayer = bgLayer;
     arc = func_020490F4(func_020275E4(), heapId);
     if (skipBgGfx == 0) {
@@ -432,7 +432,7 @@ void TOUCHBAR_FreeGfx(TouchBarGfx *gfx)
     CLACT_ReleaseCharacter(gfx->charHandle);
     CLACT_ReleasePalette(gfx->plttHandle);
     func_0203FB44(gfx->bgLayer, (u16)gfx->tileAlloc, (u16)(gfx->tileAlloc >> 16));
-    func_02082BCC(gfx, 0, sizeof(TouchBarGfx));
+    MI_CpuFill8(gfx, 0, sizeof(TouchBarGfx));
 }
 
 
@@ -499,10 +499,10 @@ void TOUCHBAR_InitButton(TouchBarButton *button, struct Unit *actorSys, const To
     u32 animRes;
     int i;
 
-    func_02082BCC(button, 0, sizeof(TouchBarButton));
+    MI_CpuFill8(button, 0, sizeof(TouchBarButton));
     button->def = *def;
     button->enabled = 1;
-    func_02082BCC(&init, 0, sizeof(TouchBarActorInit));
+    MI_CpuFill8(&init, 0, sizeof(TouchBarActorInit));
     init.x = def->x;
     init.y = def->y;
     if (def->kind >= TOUCHBAR_KIND_CUSTOM) {
@@ -526,14 +526,14 @@ void TOUCHBAR_InitButton(TouchBarButton *button, struct Unit *actorSys, const To
     button->anim = button->def.animIdle;
     init.animSeq = button->anim;
     button->actor = CLACT_CreateActor(actorSys, charRes, plttRes, animRes, &init, screen, heapId);
-    func_0204B92C(button->actor, 1);
+    CLACT_SetActorAutoAnim(button->actor, 1);
     switch (button->style) {
     case 0:
         button->onPress = TOUCHBAR_OnPressPlain;
         button->setEnabled = TOUCHBAR_SetEnabledPlain;
         break;
     case 1:
-        button->onPress = func_021B6A44;
+        button->onPress = TOUCHBAR_OnPressToggle;
         button->setEnabled = TOUCHBAR_SetEnabledToggle;
         break;
     }
@@ -546,7 +546,7 @@ void TOUCHBAR_InitButton(TouchBarButton *button, struct Unit *actorSys, const To
 void TOUCHBAR_FreeButton(TouchBarButton *button)
 {
     CLACT_DeleteActor(button->actor);
-    func_02082BCC(button, 0, sizeof(TouchBarButton));
+    MI_CpuFill8(button, 0, sizeof(TouchBarButton));
 }
 
 
@@ -556,14 +556,14 @@ int TOUCHBAR_CheckButtonPressed(TouchBarButton *button)
     u32 touchY;
     int hit = 0;
 
-    if (func_0204B3F4(button->actor) & button->enabled) {
-        if (func_02035D20(&touchX, &touchY)) {
+    if (CLACT_GetActorDrawEnable(button->actor) & button->enabled) {
+        if (TOUCHPANEL_GetPointTrg(&touchX, &touchY)) {
             if (touchX - button->def.x <= 0x18 && touchY - button->def.y <= 0x18) {
                 hit = 1;
                 func_020355D8(1);
             }
         }
-        if (button->def.keyMask != 0 && (func_020362DC() & button->def.keyMask)) {
+        if (button->def.keyMask != 0 && (KEY_GetTrg() & button->def.keyMask)) {
             func_020355D8(0);
             hit = 1;
         }
@@ -595,7 +595,7 @@ int func_021B69B8(TouchBarButton *button)
 
 void func_021B69BC(TouchBarButton *button, unsigned int visible)
 {
-    func_0204B3DC(button->actor, visible);
+    CLACT_SetActorDrawEnable(button->actor, visible);
 }
 
 
@@ -657,11 +657,11 @@ void TOUCHBAR_OnPressPlain(TouchBarButton *button)
 {
     button->anim = button->def.animDown;
     CLACT_SetActorAnimSeq(button->actor, button->anim);
-    if (button->def.soundId) func_020061E4(button->def.soundId);
+    if (button->def.soundId) GFL_USE_PlaySeDefaultVolume(button->def.soundId);
 }
 
 
-void func_021B6A44(TouchBarButton *button)
+void TOUCHBAR_OnPressToggle(TouchBarButton *button)
 {
     u32 isDown = TOUCHBAR_IsButtonDown(button);
     int down = 1;
@@ -671,7 +671,7 @@ void func_021B6A44(TouchBarButton *button)
     }
     TOUCHBAR_SetButtonToggle(button, down);
     if (button->def.soundId != 0) {
-        func_020061E4(button->def.soundId);
+        GFL_USE_PlaySeDefaultVolume(button->def.soundId);
     }
 }
 
@@ -722,7 +722,7 @@ void TOUCHBAR_SetEnabledToggle(TouchBarButton *button, u32 enabled)
 void TOUCHBAR_PrintAligned(TouchBarWindow *window, void *textCtx, u16 x, u16 y, u32 str, u32 fontId, u16 color, u32 alignMode)
 {
     x = x - TOUCHBAR_GetStringAlignOffset((struct StrObj *)str, fontId, alignMode);
-    PRINTSYS_PrintQueColor(textCtx, (u32)func_02045770(window->bitmap), (short)x, (short)y, str, fontId, color);
+    PRINTSYS_PrintQueColor(textCtx, (u32)BMP_WIN_GetBmp(window->bitmap), (short)x, (short)y, str, fontId, color);
     window->redraw = 1;
 }
 

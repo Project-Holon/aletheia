@@ -1,5 +1,5 @@
 /*
- * function: func_021CF58C
+ * function: BTL_CLIENT_SetStruggleAction
  * address: 0x021CF58C
  * packet: pkt_ov093_021CF58C
  * region: ov093
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct Unk021D82D0 { u32 kind : 4; u32 sub : 3; u32 id : 16; u32 rest : 9; };
 extern u32 BTL_CALC_PeekMoveTarget(void *, void *, void *, u32, void *);
 extern void BTL_ACTION_SetFight(struct Unk021D82D0 *, u32, u32);
-void func_021CF58C(struct Unk021D82D0 *out, u8 *p, void *q)
+void BTL_CLIENT_SetStruggleAction(struct Unk021D82D0 *out, u8 *p, void *q)
 {
     u32 v;
     v = BTL_CALC_PeekMoveTarget(((struct Obj01894 *)p)->f0, ((struct Obj01894 *)p)->f4, q, 165, p+0x38);

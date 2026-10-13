@@ -13,7 +13,7 @@
  *   func_021C1718 0x021C1718 thumb ov110
  *   func_021C0C44 0x021C0C44 thumb ov110
  *   func_021C0D34 0x021C0D34 thumb ov110
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   PMS_WORD_GetSaveEntry 0x02024910 thumb
  *   PMSI_PARAM_IsComplete  0x02024464  thumb  arm9
@@ -29,7 +29,7 @@ struct T;
 extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 extern void *PMS_WORD_GetSaveEntry(char *p, int idx);
 extern int PMSI_PARAM_IsComplete(struct T *p, u32 a1);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_021C0C44(void *);
 extern void func_021C0D34(char *p, int force);
@@ -45,7 +45,7 @@ void func_021C0B54(char *p) {
     v=*(u8 *)(p+0x97);
     *(u8 *)(p+0x98)=v;
     if(v<20) (*(u8 *)(p+0x98))++;
-    func_0204B3DC(*(void **)(p+8),(int)(*(u8 *)(p+0x98)>3));
+    CLACT_SetActorDrawEnable(*(void **)(p+8),(int)(*(u8 *)(p+0x98)>3));
     for(i=0;i<4;i++) *(void **)(p+0x6c+i*4)=(void *)BMP_WIN_Create((int)2,(int)2,(u8)(i*6+2),(int)25,(int)4,(int)9,(int)1);
     func_021C0C44(p);
     func_021C0D34(p,1);

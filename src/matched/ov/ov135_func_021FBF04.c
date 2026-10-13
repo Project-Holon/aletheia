@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_02202A50  0x02202A50  thumb
  *   func_02202B20  0x02202B20  thumb
@@ -28,7 +28,7 @@ struct WinMgr;
 struct CharBuf;
 struct Descriptor;
 struct Obj;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_02202A50(void *ctx, u32 num, u32 digits, u32 mode, void *win, int x, int y);
 extern void func_02202B20(struct Obj *p, int arg1, void *arg2, int arg3, int arg4);
@@ -37,7 +37,7 @@ extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
 
 void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages)
 {
-    BMP_Clear(func_02045770(win), 8);
+    BMP_Clear(BMP_WIN_GetBmp(win), 8);
     func_02202A50(ctx, page + 1, 2, 1, win, 0, 0);
     func_02202B20(ctx, 0, win, 0x10, 0);
     func_02202A50(ctx, pages, 2, 0, win, 0x18, 0);

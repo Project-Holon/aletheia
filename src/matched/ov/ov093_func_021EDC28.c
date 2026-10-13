@@ -13,7 +13,7 @@
  *           at the bitfield store.
  *
  * symbols:
- *   func_021B98AC  0x021B98AC  thumb  ov093
+ *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021EDF4C  0x021EDF4C  thumb  ov093
@@ -37,7 +37,7 @@ struct W {
     u8 f22_1 : 1;
 };
 
-extern u8 *func_021B98AC(char *const *q, u8 b);
+extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 extern int func_021D59B4(u8 *p, int k);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void func_021EDF4C(struct W *w);
@@ -50,7 +50,7 @@ void func_021EDC28(struct W *w, u8 a1, int flag)
     u16 h;
     u8 k;
 
-    t = func_021B98AC(*(char *const **)(w->f00 + 0x138), a1);
+    t = BTL_SIDE_GetPokeAtPos(*(char *const **)(w->f00 + 0x138), a1);
     h = func_021D59B4(t, 0x10);
     k = BTL_POKEPARAM_GetPokeId(t);
     if (w->f22_0) {

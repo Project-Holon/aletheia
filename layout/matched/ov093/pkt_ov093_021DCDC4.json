@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_HANDLER_TOKUSEI_AddIllusion",
+   "name": "HAND_TOKUSEI_AddIllusion",
    "address": "0x021DCDC4",
    "kind": "game",
    "region": "ov093",

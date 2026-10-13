@@ -30,7 +30,7 @@
  *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
  *   UI_SCENE_CreateActor 0x021B629C thumb ov067
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   d_021E7EC4 0x021E7EC4 data a4
  *   d_021E7F84 0x021E7F84 data a4
  */
@@ -55,7 +55,7 @@ extern int func_02027754(int);
 extern void UI_SCENE_LoadActorGfx(void *,In *,int,u16);
 extern int UI_SCENE_CreateActor(void *,int,u8,u16,u8,u16);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
-extern void func_0204B3DC(struct Obj *,u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 void func_021E60BC(char *p,void *mon,int flag)
 {
     In in;
@@ -91,14 +91,14 @@ void func_021E60BC(char *p,void *mon,int flag)
         if (bits&(1<<i)) { row=states.v[(unsigned)i]; state=states.v[i][0]; }
         else { row=states.v[i]; state=row[1]; }
         if (sprite) {
-            if (state==-1) func_0204B3DC((struct Obj *)sprite,0);
-            else if (flag && i==6) func_0204B3DC((struct Obj *)sprite,0);
-            else { CLACT_SetActorAnimSeq((struct Obj *)sprite,state); func_0204B3DC((struct Obj *)sprite,1); }
+            if (state==-1) CLACT_SetActorDrawEnable((struct Obj *)sprite,0);
+            else if (flag && i==6) CLACT_SetActorDrawEnable((struct Obj *)sprite,0);
+            else { CLACT_SetActorAnimSeq((struct Obj *)sprite,state); CLACT_SetActorDrawEnable((struct Obj *)sprite,1); }
         } else {
             *(int *)(p+(unsigned long)i*4+offStore)=UI_SCENE_CreateActor((void *)(p+0x98c),*(int *)(p+offOwner),coords.v[(unsigned long)i]*8,101,state==-1?row[0]:state,((struct Obj00001 *)p)->f5F4);
             sprite=*(int *)(p+(unsigned long)i*4+offLoad);
-            if (state==-1) func_0204B3DC((struct Obj *)sprite,0);
-            else if (flag && i==6) func_0204B3DC((struct Obj *)sprite,0);
+            if (state==-1) CLACT_SetActorDrawEnable((struct Obj *)sprite,0);
+            else if (flag && i==6) CLACT_SetActorDrawEnable((struct Obj *)sprite,0);
         }
     }
 }

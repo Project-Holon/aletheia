@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
- *   func_021B8E70  0x021B8E70  thumb  ov093
+ *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
  *   func_021EA3E8  0x021EA3E8  thumb  ov093
  *   func_021EA3F8  0x021EA3F8  thumb  ov093
  */
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
-extern u8 func_021B8E70(u8 *p, u32 k);
+extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k);
 extern void func_021EA3E8(void *ctx, int a, int b, u32 c);
 extern int func_021EA3F8(int a);
 
@@ -34,8 +34,8 @@ int BTL_CLIENT_CmdSwapViewPositions(u32 *a, int *b, u32 *c)
         if (BTL_CLIENT_IsMainStepActive((u8 *)a) != 0) {
             return 1;
         }
-        x = func_021B8E70((u8 *)a[0], (u8)c[0]);
-        y = func_021B8E70((u8 *)a[0], (u8)c[1]);
+        x = BTL_MAIN_GetViewPosOfSlot((u8 *)a[0], (u8)c[0]);
+        y = BTL_MAIN_GetViewPosOfSlot((u8 *)a[0], (u8)c[1]);
         func_021EA3E8((void *)a[0x15], x, y, (u16)c[2]);
         (*b)++;
     } else {

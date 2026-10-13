@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E2C88",
+   "name": "HAND_WAZA_PresentOnHealEffect",
    "address": "0x021E2C88",
    "kind": "game",
    "region": "ov093",

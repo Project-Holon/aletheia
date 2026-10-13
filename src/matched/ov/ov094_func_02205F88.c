@@ -28,6 +28,8 @@
  *   STRBUF_Delete  0x02045808  arm  arm9
  *   CLACT_CreateActor  0x0204B294  arm  arm9
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
  */
 #include "../include/Obj01384.h"
 
@@ -42,14 +44,14 @@ struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 struct Struct36;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Bmp;
 struct CharBuf;
 struct MsgBank;
 struct Obj;
 struct Obj020437AC;
 struct U16Vec;
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -89,8 +91,8 @@ void func_02205F88(char *p)
     ((struct Obj01384 *)p)->f21C = CLACT_CreateActor((void *)((struct Obj01384 *)p)->f218, ((struct Obj01384 *)p)->f104, ((struct Obj01384 *)p)->f108, ((struct Obj01384 *)p)->f10C, d_0220A392, 1, ((struct Obj01384 *)p)->f240);
     pos.x = 0x80;
     pos.y = 0x50;
-    func_0204B404(((struct Obj01384 *)p)->f21C, (const struct Vec2 *)(&pos), 1);
-    func_0204B92C(((struct Obj01384 *)p)->f21C, 1);
+    CLACT_AddActorSurfacePos(((struct Obj01384 *)p)->f21C, (const struct Vec2 *)(&pos), 1);
+    CLACT_SetActorAutoAnim(((struct Obj01384 *)p)->f21C, 1);
     CLACT_SetActorAnimSeq(((struct Obj01384 *)p)->f21C, 0x14);
     str = STRBUF_Create(0x10, ((struct Obj01384 *)p)->f240);
     msg = func_02045EC0(((struct Obj01384 *)p)->f5C, 0);

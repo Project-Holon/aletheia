@@ -14,7 +14,7 @@
  *   _u32_div_f     0x0209C2B0  arm
  *   WEATHER_TASK_SetParticlePos  0x021A26C4  thumb  ov021
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
  */
 
@@ -29,7 +29,7 @@ struct Actor;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Obj;
-extern void func_0204B92C(struct Obj *, u32);
+extern void CLACT_SetActorAutoAnim(struct Obj *, u32);
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
 
 void WEATHER_STORM_InitFastSideStreak(int a, s16 *b, s16 *c, int d)
@@ -50,6 +50,6 @@ void WEATHER_STORM_InitFastSideStreak(int a, s16 *b, s16 *c, int d)
     c[1] = v[1] << 3;
     CLACT_SetActorAnimSeq((struct Obj *)d, 2);
     one = 1;
-    func_0204B92C((struct Obj *)d, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)d, 1);
     CLACT_SetActorAutoAnimSpeed((struct Actor *)d, one << 13);
 }

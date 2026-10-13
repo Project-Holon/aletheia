@@ -82,7 +82,7 @@
  *   func_0207AF1C 0x0207AF1C thumb
  *   func_0207AF38 0x0207AF38 thumb
  *   func_0207D934 0x0207D934 arm
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  *   d_021F5A58 0x021F5A58 data a4
  */
 typedef unsigned char u8;
@@ -94,7 +94,7 @@ typedef struct { s32 x, y, z; } Vec;
 typedef struct { s32 words[9]; } Matrix;
 
 #define R(a) (*(volatile u32 *)(a))
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern void func_0207AF1C(Matrix *, int, int);
 extern void func_0207AF38(Matrix *, int, int);
 extern void func_0207D934(const void *);
@@ -149,10 +149,10 @@ void ENCEFF_DrawCellGrid(u8 *p)
             Trans(pos.x, pos.y, pos.z);
             Scale(sc.x, sc.y, sc.z);
             k = *(s32 *)(e + 0x1C) >> 4;
-            func_0207AF1C(&m, d_020A1B38[k * 2], d_020A1B38[k * 2 + 1]);
+            func_0207AF1C(&m, FX_SinCosTable_[k * 2], FX_SinCosTable_[k * 2 + 1]);
             func_0207D934(&m);
             k = *(s32 *)(e + 0x20) >> 4;
-            func_0207AF38(&m, d_020A1B38[k * 2], d_020A1B38[k * 2 + 1]);
+            func_0207AF38(&m, FX_SinCosTable_[k * 2], FX_SinCosTable_[k * 2 + 1]);
             func_0207D934(&m);
             R(0x04000500) = 1;
             R(0x04000484) = 0x20000000;

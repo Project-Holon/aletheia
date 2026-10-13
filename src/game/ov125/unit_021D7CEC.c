@@ -57,7 +57,7 @@
  *   d_021D8CD0 0x021D8CD0 data a4
  *   func_02088168 0x02088168 arm
  *   func_02162248 0x02162248 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   d_021DAA8C 0x021DAA8C data a4
  *   d_021DAA88 0x021DAA88 data a4
  *   d_021DAAAC 0x021DAAAC data a4
@@ -151,7 +151,7 @@ extern int func_021D7A10(int id, void *buf, int x, int sz);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
 extern void func_02088168(u32 *buffer);
 extern void func_02162248(void *, u32);
-extern void func_02082BCC(void *, u32, u32);
+extern void MI_CpuFill8(void *, u32, u32);
 extern void func_02082D44(const void *, void *, u32);
 extern u32 func_0208CC78(const char *);
 extern char *func_021D7C7C(u32);
@@ -884,7 +884,7 @@ void func_021D8B44(void)
     func_02088168((u32 *)d_021DAA8C);
     func_02162248(d_021DAA8C, 32);
     if (d_021DAA88) return;
-    func_02082BCC(d_021DAAAC, 0, 0x830);
+    MI_CpuFill8(d_021DAAAC, 0, 0x830);
     *(u32 *)(d_021DAAAC + 0x800) = 0;
     func_021D8BC0((u32)d_021DAAAC);
     func_021D8BF8((int)((void *)d_021D8D38), 1);

@@ -23,8 +23,8 @@
  *   INTRUDE_COMM_SendBusyBegin  0x0217440C  thumb  ov011
  *   INTRUDE_COMM_SendBusyEnd  0x0217446C  thumb  ov011
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
- *   func_0202648C  0x0202648C  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetCounter  0x0202648C  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   PROCSYS_Push  0x02031348  arm
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   PROCSYS_Main  0x02031330  arm
@@ -55,8 +55,8 @@ extern u32 func_0200FB24(void);
 extern u32 INTRUDE_COMM_SendBusyBegin(void);
 extern u32 INTRUDE_COMM_SendBusyEnd(void);
 extern u32 WIPE_SYS_EndCheck(void);
-extern u32 func_0202648C(void *obj);
-extern u32 func_02026454(void *obj);
+extern u32 GAME_COMM_GetCounter(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
 extern void PROCSYS_Push(int h, int id, int a, void *b);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern u32 PROCSYS_Main(void *h);
@@ -90,7 +90,7 @@ int MONOLITH_TOOL_Main(int a, int *seq, void **pwk, u8 *mywk)
             (*seq)++;
         break;
     case 3:
-        if (func_0200FB24() != 0 || (r == 0 && func_0202648C(h) != 0) || (r == 0 && func_02026454(h) == 2))
+        if (func_0200FB24() != 0 || (r == 0 && GAME_COMM_GetCounter(h) != 0) || (r == 0 && GAME_COMM_GetKind(h) == 2))
             mywk[0x126] = 1;
         if (mywk[0x126] == 0) {
             if (mywk[0x135] == 0) {

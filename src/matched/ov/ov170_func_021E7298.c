@@ -20,7 +20,7 @@
  *   func_021ED55C 0x021ED55C thumb ov170
  *   func_0202136C 0x0202136C thumb
  *   func_021ECB60 0x021ECB60 thumb ov170
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021E8F50 0x021E8F50 thumb ov170
  *   func_021ED6E4 0x021ED6E4 thumb ov170
  *   func_021ED108 0x021ED108 thumb ov170
@@ -37,7 +37,7 @@ extern void func_021EE3E4(char **p, unsigned idx);
 extern void func_021ED55C(char **p, int flag);
 extern unsigned func_0202136C(u16);
 extern void func_021ECB60(char *p, int i, int f);
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern int func_021E8F50(char *p, int v);
 extern void func_021ED6E4(char **p, int v);
 extern void func_021ED108(char *p, int on);
@@ -63,7 +63,7 @@ int func_021E7298(u8 *p)
         if (func_0202136C(*(u16 *)(W(p) + 0xa16c)) == 1 && second != p[22]) {
             func_021ECB60((char *)W(p), p[22], 0);
             func_021EBCB4(p, 7, 24);
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
             *(int *)(p + 40) = 14;
             return func_021E8F50((char *)p, 6);
         }
@@ -73,10 +73,10 @@ int func_021E7298(u8 *p)
     }
     if (func_0202136C(item) == 1) {
         func_021EA750((char *)p);
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_021ECB60((char *)W(p), p[22], 0);
         func_021EBCB4(p, 7, 24);
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_020260E4(*(void **)(W(p) + 112), 9);
         func_021EE3E4((char **)p, 9);
         func_021ED55C((char **)p, 1);

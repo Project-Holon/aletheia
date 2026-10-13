@@ -10,7 +10,7 @@
  * status: EXACT
  * lever: both display updates belong inside the counter reset guard; byte counter is +18c1, flag word +18d0. Correct pointer base +187c and descriptor +18ec; typed sentinel/window fields prevent raw-offset CSE.
  * symbols:
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
@@ -45,17 +45,17 @@
  *   func_0204047C 0x0204047C arm
  *   func_0204989C 0x0204989C arm
  *   func_02041B6C 0x02041B6C arm
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_020452E8 0x020452E8 arm
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_021BA20C 0x021BA20C thumb ov133
  *   func_021B9CBC 0x021B9CBC thumb ov133
- *   func_0201C6B4 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_0200FB24 0x0200FB24 thumb
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -65,7 +65,7 @@ typedef struct { u8 prefix[0x18c1]; u8 counter; u16 timer,pad18c4; u8 brightness
 #define H(k) (*(u16 *)((u8 *)p+(k)))
 #define B(k) (*(u8 *)((u8 *)p+(k)))
 #define P(k) (*(u8 **)((u8 *)p+(k)))
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u32 WIPE_SYS_EndCheck(void);
 extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_FadeOutBgm(u32);
@@ -95,19 +95,19 @@ extern void func_0204152C(int,u16);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void func_021B9C90(u8 *),func_0201F73C(void *,int,int,int),func_021BA0C8(u8 *,u8);
 extern void func_0204047C(int,u16),func_0204989C(u32,u32,u32,u32,u32,u32,u16),func_02041B6C(u32);
-extern void func_0201C6EC(struct PrintSys *p);
-extern u32 func_020452E8(struct Descriptor *d);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 struct Descriptor;
 extern u32 func_021BA20C(u8 *p);
 extern void func_021B9CBC(u8 *,u8 *);
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern u32 func_0200FB24(void);
 struct Obj;
-extern void func_0204B3DC(struct Obj *,unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 static inline void brightness(u8 *value)
 {
     func_02041EE4(6,0,128-*value);
@@ -118,7 +118,7 @@ int func_021B63BC(Context *p)
     void *desc;
     switch(W(0x0c)) {
     case 7:
-        func_020061E4(1358); W(0x0c)=8;
+        GFL_USE_PlaySeDefaultVolume(1358); W(0x0c)=8;
     case 8:
         if(WIPE_SYS_EndCheck()==1) {
             if(W(0x1840)==1) func_021B9818((u8 *)p);
@@ -143,7 +143,7 @@ int func_021B63BC(Context *p)
         if((int)W(0x10)<0) { W(0x10)=0; W(0x0c)=1; }
         func_021B918C((u8 *)p); break;
     case 3:
-        if(func_021B940C((u8 *)p)==2) { W(0x0c)=10; B(0x18c0)=0; func_0204B3DC((struct Obj *)P(0x18b0),1); }
+        if(func_021B940C((u8 *)p)==2) { W(0x0c)=10; B(0x18c0)=0; CLACT_SetActorDrawEnable((struct Obj *)P(0x18b0),1); }
         break;
     case 10:
         B(0x18c0)++; func_021B9784((u8 *)p);
@@ -185,7 +185,7 @@ int func_021B63BC(Context *p)
             func_021BA0C8((u8 *)p,2); p->flag=0;
             func_0204047C(7,3); func_0204047C(4,0); func_0204047C(5,1); func_0204047C(6,2);
             func_021BA0C8((u8 *)p,4); func_0204989C(46,13,7,0,0,0,H(0)); func_02041B6C(7);
-            p->busy=0; func_0201C6EC((struct PrintSys *)P(0x18e8)); func_020452E8((struct Descriptor *)p->window); p->window=0; func_021BA0C8((u8 *)p,6);
+            p->busy=0; PRINTSYS_QUE_Clear((struct PrintSys *)P(0x18e8)); BMP_WIN_Delete((struct Descriptor *)p->window); p->window=0; func_021BA0C8((u8 *)p,6);
         } else if(p->brightness!=0) {
             func_021BA0C8((u8 *)p,p->brightness+96); p->brightness-=8; brightness(&p->brightness);
         }
@@ -197,9 +197,9 @@ int func_021B63BC(Context *p)
         } else if(p->sentinel!=255 && P(0x38)==0) { func_021B9C90((u8 *)p); p->sentinel=255; }
     }
     func_021BA0C8((u8 *)p,10);
-    if(p->busy==1 && func_0201C6B4((const struct PrintSys *)P(0x18e8))==1) {
+    if(p->busy==1 && PRINTSYS_QUE_IsFinished((const struct PrintSys *)P(0x18e8))==1) {
         p->busy=0; desc=(u8 *)p->window;
-        BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); func_02041B6C(func_02045730(desc));
+        BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); func_02041B6C(BMP_WIN_GetBgLayer(desc));
         func_0204047C(4,1); func_0204047C(5,2); func_0204047C(6,3); func_0204047C(7,0);
     }
     func_021BA0C8((u8 *)p,12);

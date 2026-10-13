@@ -17,8 +17,8 @@
  *
  * symbols:
  *   func_02019C54  0x02019C54  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
- *   func_0201AF6C  0x0201AF6C  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
+ *   POKE_PERSONAL_IsPlaceholderAbility  0x0201AF6C  thumb
  */
 
 typedef unsigned char  u8;
@@ -27,8 +27,8 @@ typedef unsigned int   u32;
 
 struct Personal;
 extern void *func_02019C54(u32 a, u32 b);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern u32  func_0201AF6C(u32 n);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern u32  POKE_PERSONAL_IsPlaceholderAbility(u32 n);
 
 void POKE_TOOL_Dummy(void)
 {
@@ -42,9 +42,9 @@ void *POKE_TOOL_GetBoxParam(void *p)
 u32 POKE_TOOL_GetGenderRatioClass(int a, int b, int c)
 {
     u32 r = 8;
-    u8 n = (u8)func_0201AE1C(func_02019C54(a, b), 0x14);
+    u8 n = (u8)POKE_PERSONAL_GetParam(func_02019C54(a, b), 0x14);
 
-    if (func_0201AF6C(n) != 1) {
+    if (POKE_PERSONAL_IsPlaceholderAbility(n) != 1) {
         if (c == 0) {
             r = n;
         } else {

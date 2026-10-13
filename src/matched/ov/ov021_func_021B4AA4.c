@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203633C 0x0203633C arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetRepeat 0x0203633C arm
+ *   KEY_GetTrg 0x020362DC arm
  *   SCRCMD_PROC_FLD_AdjustQuantity 0x021B49EC thumb ov021
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   SCRCMD_PROC_FLD_PrintQuantityWindow 0x021B42D0 thumb ov021
  *   SCRCMD_PROC_FLD_ShowConfirmMessage 0x021B4804 thumb ov021
  */
@@ -24,44 +24,44 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern unsigned int func_0203633C(void);
-extern u32 func_020362DC(void);
+extern unsigned int KEY_GetRepeat(void);
+extern u32 KEY_GetTrg(void);
 extern int SCRCMD_PROC_FLD_AdjustQuantity(s16 *p, int max, int key);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void SCRCMD_PROC_FLD_PrintQuantityWindow(char *w, u32 a, u32 b);
 extern void SCRCMD_PROC_FLD_ShowConfirmMessage(char *w, u32 b);
 
 int SCRCMD_PROC_FLD_StepQuantitySelect(char *w)
 {
-    if (func_0203633C() & 0x40) {
+    if (KEY_GetRepeat() & 0x40) {
         if (SCRCMD_PROC_FLD_AdjustQuantity((s16 *)(w + 0x208), (u16)((struct Obj00030 *)w)->f204, 1) != 0) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             SCRCMD_PROC_FLD_PrintQuantityWindow(w, ((struct Obj00030 *)w)->f208, ((struct Obj00030 *)w)->f200);
         }
-    } else if (func_0203633C() & 0x80) {
+    } else if (KEY_GetRepeat() & 0x80) {
         if (SCRCMD_PROC_FLD_AdjustQuantity((s16 *)(w + 0x208), (u16)((struct Obj00030 *)w)->f204, -1) != 0) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             SCRCMD_PROC_FLD_PrintQuantityWindow(w, ((struct Obj00030 *)w)->f208, ((struct Obj00030 *)w)->f200);
         }
-    } else if (func_0203633C() & 0x20) {
+    } else if (KEY_GetRepeat() & 0x20) {
         if (SCRCMD_PROC_FLD_AdjustQuantity((s16 *)(w + 0x208), (u16)((struct Obj00030 *)w)->f204, -10) != 0) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             SCRCMD_PROC_FLD_PrintQuantityWindow(w, ((struct Obj00030 *)w)->f208, ((struct Obj00030 *)w)->f200);
         }
-    } else if (func_0203633C() & 0x10) {
+    } else if (KEY_GetRepeat() & 0x10) {
         if (SCRCMD_PROC_FLD_AdjustQuantity((s16 *)(w + 0x208), (u16)((struct Obj00030 *)w)->f204, 10) != 0) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             SCRCMD_PROC_FLD_PrintQuantityWindow(w, ((struct Obj00030 *)w)->f208, ((struct Obj00030 *)w)->f200);
         }
     }
-    if (func_020362DC() & 1) {
-        func_020061E4(0x54C);
+    if (KEY_GetTrg() & 1) {
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         SCRCMD_PROC_FLD_ShowConfirmMessage(w, ((struct Obj00030 *)w)->f162);
         *(u8 *)&((struct Obj00030 *)w)->f1 = 6;
         return 10;
     }
-    if (func_020362DC() & 2) {
-        func_020061E4(0x551);
+    if (KEY_GetTrg() & 2) {
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return 4;
     }
     return 3;

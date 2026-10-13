@@ -1,5 +1,5 @@
 /*
- * function: func_021EEAF4
+ * function: WEATHER_SANDSTORM_ScrollBillboards
  * address:  0x021EEAF4
  * packet:   pkt_ov027_021EEAF4
  * region:   ov027
@@ -26,7 +26,7 @@ extern void WEATHER_TASK_ShiftParticles(int, int, int);
 extern void WEATHER_TASK_SetBillboardParam0C(unsigned char *o, unsigned int v, int i);
 extern void WEATHER_TASK_SetBillboardParam10(unsigned char *o, unsigned int v, int i);
 
-void func_021EEAF4(int a, int *s)
+void WEATHER_SANDSTORM_ScrollBillboards(int a, int *s)
 {
     int x;
     int y;

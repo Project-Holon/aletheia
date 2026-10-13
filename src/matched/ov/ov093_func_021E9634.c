@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8ED8  0x021B8ED8  thumb  ov093
- *   func_021B98AC  0x021B98AC  thumb  ov093
+ *   BTL_MAIN_GetSlotFromViewPos  0x021B8ED8  thumb  ov093
+ *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u8 func_021B8ED8(u8 *p, u8 k);
-extern u8 *func_021B98AC(char *const *q, u8 b);
+extern u8 BTL_MAIN_GetSlotFromViewPos(u8 *p, u8 k);
+extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 
 struct Pair {
     u8 *a;
@@ -27,5 +27,5 @@ struct Pair {
 
 u8 *func_021E9634(struct Pair *s, u32 k)
 {
-    return func_021B98AC(s->q, func_021B8ED8(s->a, k));
+    return BTL_SIDE_GetPokeAtPos(s->q, BTL_MAIN_GetSlotFromViewPos(s->a, k));
 }

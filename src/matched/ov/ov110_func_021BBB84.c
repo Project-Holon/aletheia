@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3F4 0x0204B3F4 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021BF6DC 0x021BF6DC thumb ov110
  *   _u32_div_f 0x0209C2B0 arm
  *   func_021BB224 0x021BB224 thumb ov110
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 #include "../include/Obj05290.h"
@@ -23,20 +23,20 @@ typedef signed short s16;
 typedef struct { s16 x, y; } Vec2;
 typedef unsigned int   u32;
 struct Obj;
-extern u32 func_0204B3F4(struct Obj *p);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern u8 func_021BF6DC(u8 *);
 extern void func_021BB224(unsigned, int *, int *);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 void func_021BBB84(u8 *p, unsigned index)
 {
     Vec2 pos;
     int x, y;
     int state;
-    ((struct Obj05290 *)p)->f58 = func_0204B3F4(((struct Obj05290 *)p)->f54);
-    func_0204B3DC(((struct Obj05290 *)p)->f54, 1);
+    ((struct Obj05290 *)p)->f58 = CLACT_GetActorDrawEnable(((struct Obj05290 *)p)->f54);
+    CLACT_SetActorDrawEnable(((struct Obj05290 *)p)->f54, 1);
     if (func_021BF6DC(*(u8 * *)&((struct Obj05290 *)p)->f4) == 0 && index != 254) {
         pos.x = 48 + 80 * (index % 3U);
         pos.y = 64 + 24 * (index / 3U);
@@ -53,6 +53,6 @@ void func_021BBB84(u8 *p, unsigned index)
             break;
         }
     }
-    func_0204B404(((struct Obj05290 *)p)->f54, (const struct Vec2 *)(&pos), 0);
+    CLACT_AddActorSurfacePos(((struct Obj05290 *)p)->f54, (const struct Vec2 *)(&pos), 0);
     CLACT_SetActorAnimSeq(((struct Obj05290 *)p)->f54, state);
 }

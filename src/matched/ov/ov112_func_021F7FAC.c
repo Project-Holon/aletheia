@@ -10,6 +10,7 @@
  * symbols:
  *   func_021F4EB4 0x021F4EB4 thumb ov112
  *   table 0x020A1B38 data a2
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb  arm9
  */
 #include "../include/Obj10324.h"
 #include "../include/Obj22566.h"
@@ -18,7 +19,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef struct { u16 count, pad; int index; } Tail;
 extern s16 table[];
-extern void func_020061F8(int);
+extern void GFL_USE_StopSeSlot(int);
 typedef unsigned int   u32;
 extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
 void func_021F7FAC(char *p, char *q) {
@@ -28,7 +29,7 @@ void func_021F7FAC(char *p, char *q) {
     if (t->count >= 0xb4) {
         ((struct Obj22566 *)q)->f104 = 0;
         ((struct Obj10324 *)p)->f43C -= 1;
-        if (((struct Obj10324 *)p)->f43C == 0) func_020061F8(2);
+        if (((struct Obj10324 *)p)->f43C == 0) GFL_USE_StopSeSlot(2);
         return;
     }
     func_021F4EB4(((struct Obj10324 *)p)->f10, *(int *)(q + 0x84 + t->index * 4),

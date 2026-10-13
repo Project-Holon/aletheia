@@ -15,8 +15,8 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_021BA028 0x021BA028 thumb ov222
  *   d_021BA1D8 0x021BA1D8 data a4
  */
@@ -34,8 +34,8 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void*);
 extern u32 func_021BA028(char *p);
 extern struct Obj *CLACT_CreateActor(void*,u32,u32,u32,const void*,u16,u16);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 void func_021B9CE4(char*p)
 {
  u32 t;
@@ -47,6 +47,6 @@ void func_021B9CE4(char*p)
  ARC_TOOL_DeleteHandle((void*)h);
  t=func_021BA028(*(void* *)&((struct Obj01593 *)p)->f8);
  *(void* *)&((struct Obj01593 *)p)->f54=CLACT_CreateActor((void*)t,((struct Obj01593 *)p)->f48,((struct Obj01593 *)p)->f4C,((struct Obj01593 *)p)->f50,d_021BA1D8,0,((struct Obj01593 *)p)->f0);
- func_0204B3DC(*(void* *)&((struct Obj01593 *)p)->f54,1);
- func_0204B92C(*(void* *)&((struct Obj01593 *)p)->f54,1);
+ CLACT_SetActorDrawEnable(*(void* *)&((struct Obj01593 *)p)->f54,1);
+ CLACT_SetActorAutoAnim(*(void* *)&((struct Obj01593 *)p)->f54,1);
 }

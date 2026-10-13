@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FLDEFF_ENCOUNT_Start  0x021ADAAC  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
 typedef unsigned char u8;
@@ -34,14 +34,14 @@ typedef struct {
 } D;
 
 extern u8 FLDEFF_ENCOUNT_Start(int a, u8 *b, int c, int d, int e, int f);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 
 void EFFECT_ENCOUNT_CreateEffectObj(int a, D *d, R *r)
 {
     if (d->f5b4 == 0) {
         d->f5b4 = FLDEFF_ENCOUNT_Start(a, (u8 *)d->f0, r->h2, r->h6, r->f8, r->bc);
         if (d->f5b4 == 0) {
-            func_02082BCC(r, 0, 0x10);
+            MI_CpuFill8(r, 0, 0x10);
         }
     }
 }

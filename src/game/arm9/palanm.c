@@ -1,7 +1,7 @@
 /*
  * file:     palanm.c
  * unit:     yes
- * function: PALANM_IsColorCodeKnown, PALANM_IsOutsideReservedIdRange, PALANM_LookupPairedCode, PALANM_GetPairedCodeForFirst, PALANM_StopTimer, PALANM_StartTimer, PALANM_UpdateTimer, PALANM_Create, PALANM_Delete, PALANM_SetSlotBuffers, PALANM_AllocSlotBuffers, PALANM_FreeSlotBuffers, PALANM_CopyToSlot, PALANM_LoadArcPaletteToSlotAt, PALANM_LoadArcPaletteToSlot, PALANM_LoadHandlePaletteToSlotAt, PALANM_LoadHandlePaletteToSlot, PALANM_CopyHwPaletteToSlot, PALANM_GetDefaultWork, PALANM_GetTransWork, PALANM_RequestFade, PALANM_RequestFadeOverwrite, PALANM_CheckBit, PALANM_SetTransBit, PALANM_MaskColorBits, PALANM_SetFadeParam, PALANM_FadeTask, PALANM_ForceStopFade, PALANM_StepBgFades, PALANM_StepObjFades, PALANM_StepFadeWait, PALANM_ApplyFade, PALANM_CalcFadeColors, PALANM_StepFadeValue, PALANM_TransferPalettes, PALANM_GetFadeRequestBits, PALANM_SetAutoTransfer, PALANM_RequestFullTransfer, PALANM_GetColor, PALANM_BlendColors, PALANM_BlendChannel, PALANM_BlendChannelMask, PALANM_ConvertGrayTable
+ * function: ITEM_IsBerry, PALANM_IsOutsideReservedIdRange, PALANM_LookupPairedCode, PALANM_GetPairedCodeForFirst, PALANM_StopTimer, PALANM_StartTimer, PALANM_UpdateTimer, PALANM_Create, PALANM_Delete, PALANM_SetSlotBuffers, PALANM_AllocSlotBuffers, PALANM_FreeSlotBuffers, PALANM_CopyToSlot, PALANM_LoadArcPaletteToSlotAt, PALANM_LoadArcPaletteToSlot, PALANM_LoadHandlePaletteToSlotAt, PALANM_LoadHandlePaletteToSlot, PALANM_CopyHwPaletteToSlot, PALANM_GetDefaultWork, PALANM_GetTransWork, PALANM_RequestFade, PALANM_RequestFadeOverwrite, PALANM_CheckBit, PALANM_SetTransBit, PALANM_MaskColorBits, PALANM_SetFadeParam, PALANM_FadeTask, PALANM_ForceStopFade, PALANM_StepBgFades, PALANM_StepObjFades, PALANM_StepFadeWait, PALANM_ApplyFade, PALANM_CalcFadeColors, PALANM_StepFadeValue, PALANM_TransferPalettes, PALANM_GetFadeRequestBits, PALANM_SetAutoTransfer, PALANM_RequestFullTransfer, PALANM_GetColor, PALANM_BlendColors, PALANM_BlendChannel, PALANM_BlendChannelMask, PALANM_ConvertGrayTable
  * address:  0x020213C0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -89,7 +89,7 @@ extern u32 func_020307B0(void *block);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
-int PALANM_IsColorCodeKnown(u32 colorCode);
+int ITEM_IsBerry(u32 colorCode);
 u32 PALANM_IsOutsideReservedIdRange(u16 id);
 u16 PALANM_LookupPairedCode(int value, int column);
 unsigned short PALANM_GetPairedCodeForFirst(int value);
@@ -241,7 +241,7 @@ void PALANM_BlendChannelMask(PaletteFadeWork *a0, u32 a1, u16 m, u8 a3, u16 a4);
 
 void PALANM_ConvertGrayTable(u16 *pal, int n, const u8 *table);
 
-int PALANM_IsColorCodeKnown(u32 colorCode)
+int ITEM_IsBerry(u32 colorCode)
 {
     u32 i;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021E02C0
+ * function: HAND_ITEM_GemMoveDamageEnd
  * address:  0x021E02C0
  * packet:   pkt_ov093_021E02C0
  * region:   ov093
@@ -15,7 +15,7 @@
 
 extern int BTL_EVENT_GetVar(int key);
 
-void func_021E02C0(int a, int b, int c, int *d)
+void HAND_ITEM_GemMoveDamageEnd(int a, int b, int c, int *d)
 {
     if (c == BTL_EVENT_GetVar(3) && *d == 1)
         *d = 2;

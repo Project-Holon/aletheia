@@ -1,5 +1,5 @@
 /*
- * function: func_021B9674
+ * function: BTL_SIDE_DeletePokeParams
  * address: 0x021B9674
  * packet: pkt_ov093_021B9674
  * region: ov093
@@ -12,7 +12,7 @@
  *   BTL_POKEPARAM_Delete 0x021D53B8 thumb ov093
  */
 extern void BTL_POKEPARAM_Delete(void *);
-void func_021B9674(char *p)
+void BTL_SIDE_DeletePokeParams(char *p)
 {
     unsigned int i;
     for (i = 0; i < 24; i++) {

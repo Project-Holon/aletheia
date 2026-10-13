@@ -12,7 +12,7 @@
  * recoup 2026-10-05: the 8-byte payload copy as one struct assignment (W = two ints) gives the original r2/r1 load colours; two int stores gave r1/r1 (2 bytes off). Struct copy is a plausible human form. EXACT* only because of the 276 vs 252 listing extent.
  * symbols:
  *   func_02034714 0x02034714 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FFB68 0x021FFB68 thumb ov186
  *   d_02200D98 0x02200D98 data a1
  *   func_021FF900 0x021FF900 thumb ov186
@@ -28,7 +28,7 @@
 typedef struct {int a,b;} W;
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02082BCC(void *,unsigned,unsigned);
+extern void MI_CpuFill8(void *,unsigned,unsigned);
 extern void func_021FFB68(char *,int);
 extern const char d_02200D98[];
 extern void func_021FF900(char *,int,char *);
@@ -46,7 +46,7 @@ void func_021FF54C(char *p,int kind,const int *values)
     if(values){
         *(W *)(p+0x5B0)=*(const W *)values;
     }
-    func_02082BCC(p+0x5B8,0,0x24);
+    MI_CpuFill8(p+0x5B8,0,0x24);
     switch(kind){
     case 0:func_021FFB68(*(char **)(p+0x5AC),(int)func_021FF900);break;
     case 1:func_021FFB68(*(char **)(p+0x5AC),(int)func_021FF938);break;

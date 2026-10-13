@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   func_02026474  0x02026474  thumb
+ *   GAME_COMM_GetWork  0x02026474  thumb
  *   PMS_DRAW_Delete  0x0202DC08  thumb
  *   UNION_SUBDISP_FreeFrameBgChar  0x021F0420  thumb  ov031
  *   UNION_SUBDISP_DeleteActors  0x021F056C  thumb  ov031
@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 
 struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
-extern u32 func_02026474(void *obj);
+extern u32 GAME_COMM_GetWork(void *obj);
 struct Obj;
 extern void PMS_DRAW_Delete(struct Obj *p);
 extern void UNION_SUBDISP_FreeFrameBgChar(char *p);
@@ -48,7 +48,7 @@ void UNION_SUBDISP_Delete(u32 *p)
 {
     u8 *q;
 
-    q = (u8 *)func_02026474((void *)GAMESYSTEM_GetGameComm((const struct Ctx *)p[0]));
+    q = (u8 *)GAME_COMM_GetWork((void *)GAMESYSTEM_GetGameComm((const struct Ctx *)p[0]));
     if (q != 0)
         q[0x282E] = 0;
     PMS_DRAW_Delete((void *)p[0x1F]);

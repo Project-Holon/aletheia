@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_ChangeForm  0x02017988  thumb
  *   func_0200CFA0  0x0200CFA0  thumb
@@ -23,8 +23,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_0200CA1C(void *a);
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 struct Blk37;
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
@@ -42,9 +42,9 @@ void FORMCHANGE_RevertShayminAndRegister(int a0, int a1)
 
     l4 = func_0200CA1C((void *)a0);
     found = 0;
-    n = func_0201AA18((void *)a1);
+    n = POKEPARTY_GetCount((void *)a1);
     for (i = 0; i < n; i++) {
-        e = func_0201AB28((void *)a1, i);
+        e = POKEPARTY_GetMember((void *)a1, i);
         v = POKE_TOOL_GetPartyValue(e, 5, 0);
         w = POKE_TOOL_GetPartyValue(e, 0x6f, 0);
         if (v == 0x1EC && w == 1) {

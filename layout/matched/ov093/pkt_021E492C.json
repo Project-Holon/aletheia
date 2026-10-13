@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E492C",
+   "name": "HAND_WAZA_AromatherapyOnUncategorizedMoveNoTarget",
    "address": "0x021E492C",
    "kind": "game",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E4948",
+   "name": "HAND_WAZA_HealBellOnUncategorizedMoveNoTarget",
    "address": "0x021E4948",
    "kind": "game",
    "region": "ov093",

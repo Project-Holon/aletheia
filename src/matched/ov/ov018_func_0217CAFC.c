@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_SUBDISP_CreateReturnPalaceEvent  0x0217CA40  thumb  ov018
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   func_0200FB24  0x0200FB24  thumb
- *   func_02026460  0x02026460  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_IsTransition  0x02026460  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   GAMESYSTEM_IsFieldMapExist  0x02012114  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
@@ -24,13 +24,13 @@
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
  *   FIELD_MSGBG_CreateBottomSysWin  0x02190F64  thumb  ov021
- *   func_0202648C  0x0202648C  thumb
+ *   GAME_COMM_GetCounter  0x0202648C  thumb
  *   FIELD_MSGBG_SysWinPrintMsg  0x02190E74  thumb  ov021
  *   FIELD_SOUND_SYSTEM_StartPushAndPlayTask  0x02029830  thumb
- *   func_02005F38  0x02005F38  thumb
+ *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
  *   FIELD_SOUND_SYSTEM_StartPopAndWaitTask  0x02029620  thumb
  *   FIELD_MSGBG_SysWinMain  0x02190EF0  thumb  ov021
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   FIELD_MSGBG_DeleteSysWin  0x02190E40  thumb  ov021
  *   MSGDATA_Delete  0x02045C04  arm
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -44,7 +44,7 @@
  *   GAMESYSTEM_IsNetOffBySleep  0x02012204  thumb
  *   GAMESYSTEM_GetFieldMapState  0x0201212C  thumb
  *   EVENT_COMM_ERROR_Create  0x021C06CC  thumb  ov021
- *   func_02026484  0x02026484  thumb
+ *   GAME_COMM_ClearCounter  0x02026484  thumb
  *   GAME_COMM_ClearPlayerStatus  0x020264F4  thumb
  *   EVENT_MAPCHANGE_CreateIntrudeReturnEvent  0x02185214  thumb  ov020
  */
@@ -66,7 +66,7 @@ typedef signed int     s32;
 struct Comm;
 struct Obj;
 struct Rec;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 void *INTRUDE_SUBDISP_CreateReturnPalaceEvent(int a0);
@@ -75,8 +75,8 @@ struct BigObj;
 struct Evt;
 void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 u32 func_0200FB24(void);
-u32 func_02026460(void *obj);
-u32 func_02026454(void *obj);
+u32 GAME_COMM_IsTransition(void *obj);
+u32 GAME_COMM_GetKind(void *obj);
 void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 u32 GAMESYSTEM_IsFieldMapExist(const struct Ctx *p);
 void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
@@ -86,13 +86,13 @@ int FIELD_MSGBG_CreateMsgData(u32 a, u32 b);
 struct Fx;
 struct Obj2;
 struct Obj2 *FIELD_MSGBG_CreateBottomSysWin(struct Fx *a, u32 b);
-u32 func_0202648C(void *obj);
+u32 GAME_COMM_GetCounter(void *obj);
 void FIELD_MSGBG_SysWinPrintMsg(u32 *p, u32 b, u32 c, u32 d);
 void *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(void *a, u32 b);
-int func_02005F38(void);
+int GFL_USE_IsBgmPlaying(void);
 void *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(void *a, u32 b, u32 c);
 u32 FIELD_MSGBG_SysWinMain(u32 *p);
-u32 func_020362DC(void);
+u32 KEY_GetTrg(void);
 int FIELD_MSGBG_DeleteSysWin(u32 a);
 u32 MSGDATA_Delete(struct Rec *rec);
 struct Obj00020;
@@ -107,7 +107,7 @@ u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *p);
 u8 GAMESYSTEM_GetFieldMapState(const struct Ctx *p);
 int EVENT_COMM_ERROR_Create(void *, void *);
-void func_02026484(void *);
+void GAME_COMM_ClearCounter(void *);
 void GAME_COMM_ClearPlayerStatus(u8 *p);
 void *EVENT_MAPCHANGE_CreateIntrudeReturnEvent(void *a);
 
@@ -124,7 +124,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, Ov018Work *work)
     int v;
     int r;
 
-    x = func_020124E4(a);
+    x = GAME_EVENT_GetGameSystem(a);
     s2 = GAMESYSTEM_GetGameData(x);
     s1 = (void *)GAMESYSTEM_GetGameComm(x);
     switch (*seq) {
@@ -133,16 +133,16 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, Ov018Work *work)
         (*seq)++;
         break;
     case 1:
-        if (func_0200FB24() == 0 && (int)func_02026460(s1) != 0) {
+        if (func_0200FB24() == 0 && (int)GAME_COMM_IsTransition(s1) != 0) {
             break;
         }
-        if (func_0200FB24() == 0 && ((int)func_02026454(s1) == 2 || (int)func_02026454(s1) == 1)) {
+        if (func_0200FB24() == 0 && ((int)GAME_COMM_GetKind(s1) == 2 || (int)GAME_COMM_GetKind(s1) == 1)) {
             GAME_COMM_RequestExitNoCallback(s1);
         }
         (*seq)++;
         break;
     case 2:
-        if (func_0200FB24() == 0 && (int)func_02026454(s1) != 0) {
+        if (func_0200FB24() == 0 && (int)GAME_COMM_GetKind(s1) != 0) {
             break;
         }
         if (work->f24 == 1) {
@@ -174,7 +174,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, Ov018Work *work)
             flag = 1;
             break;
         case 0:
-            switch ((int)func_0202648C(s1)) {
+            switch ((int)GAME_COMM_GetCounter(s1)) {
             case 1:
                 msg = 0x5A;
                 break;
@@ -206,7 +206,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, Ov018Work *work)
         }
         break;
     case 4:
-        if (func_02005F38() == 0) {
+        if (GFL_USE_IsBgmPlaying() == 0) {
             GAME_EVENT_CallEvent(a, FIELD_SOUND_SYSTEM_StartPopAndWaitTask(x, 0, 6));
             *seq = 5;
         }
@@ -217,7 +217,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, Ov018Work *work)
         }
         break;
     case 6:
-        if (func_020362DC() & 0xF3) {
+        if (KEY_GetTrg() & 0xF3) {
             FIELD_MSGBG_DeleteSysWin((u32)work->f04);
             MSGDATA_Delete(work->f00);
             (*seq)++;
@@ -245,7 +245,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, Ov018Work *work)
         break;
     case 9:
         if ((int)ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(s2), 0x980) == 0) {
-            r = (int)func_0202648C(s1);
+            r = (int)GAME_COMM_GetCounter(s1);
             v = 0;
             switch (r) {
             case 0:
@@ -272,7 +272,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, Ov018Work *work)
         (*seq)++;
         break;
     case 11:
-        func_02026484(s1);
+        GAME_COMM_ClearCounter(s1);
         GAME_COMM_ClearPlayerStatus(s1);
         if (GAME_DATA_GetExitMode(s2) != 0 || (int)GAMESYSTEM_IsNetOffBySleep(x) == 1) {
             GAME_EVENT_CallEvent(a, EVENT_MAPCHANGE_CreateIntrudeReturnEvent(x));

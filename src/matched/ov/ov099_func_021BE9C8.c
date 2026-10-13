@@ -23,10 +23,10 @@
  *   func_020490F4 0x020490F4 arm
  *   func_021BE53C 0x021BE53C thumb ov099
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_MENULIST_Delete 0x0202020C thumb
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021BB050 0x021BB050 thumb ov099
  *   func_021BDD0C 0x021BDD0C thumb ov099
  *   GFL_NET_STATE_WifiStartMatch 0x0203C8A8 arm
@@ -49,10 +49,10 @@ extern void func_021BE53C(char *p, int v);
 extern void ARC_TOOL_DeleteHandle(void *);
 struct Descriptor;
 struct Obj;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
 extern u32 BMP_MENUWORK_Delete(void *p);
-extern void func_02082BCC(void *, u32, u32);
+extern void MI_CpuFill8(void *, u32, u32);
 extern void func_021BB050(void *);
 extern void func_021BDD0C(void *, int);
 extern void GFL_NET_STATE_WifiStartMatch(void);
@@ -74,17 +74,17 @@ int func_021BE9C8(char *p, int v)
         ARC_TOOL_DeleteHandle(h);
         ((struct Obj02802 *)p)->f1328 = 1;
         if (((struct Obj02802 *)p)->fB0 != 0) {
-            func_020452E8(((struct Obj02802 *)p)->f1A0);
+            BMP_WIN_Delete(((struct Obj02802 *)p)->f1A0);
             BMP_MENULIST_Delete(((struct Obj02802 *)p)->fB4, 0, 0);
             ((struct Obj02802 *)p)->fB4 = 0;
             BMP_MENUWORK_Delete(((struct Obj02802 *)p)->fB0);
             ((struct Obj02802 *)p)->fB0 = 0;
         }
-        func_02082BCC(p + 0x10, 0, 0x20);
-        func_02082BCC(p + 0x30, 0, 0x20);
-        func_02082BCC(p + 0x50, 0, 0x20);
-        func_02082BCC(p + 0x70, 0, 0x20);
-        func_02082BCC(p + 0x90, 0, 0x20);
+        MI_CpuFill8(p + 0x10, 0, 0x20);
+        MI_CpuFill8(p + 0x30, 0, 0x20);
+        MI_CpuFill8(p + 0x50, 0, 0x20);
+        MI_CpuFill8(p + 0x70, 0, 0x20);
+        MI_CpuFill8(p + 0x90, 0, 0x20);
         func_021BB050(p);
         func_021BDD0C(p, 0);
         GFL_NET_STATE_WifiStartMatch();

@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  */
 
@@ -40,24 +40,24 @@ typedef struct {
     void *obj;
 } Obj;
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *res, unsigned int a, unsigned int b, unsigned int c, const void *pos, unsigned short f, unsigned short heap);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
 void func_021FD08C(Obj *p)
 {
     ObjPos pos;
 
-    func_02082BCC(&pos, 0, sizeof(pos));
+    MI_CpuFill8(&pos, 0, sizeof(pos));
     pos.x = 0xD0;
     pos.y = 0x3A;
     p->obj = CLACT_CreateActor(p->res, (u32)p->set[0], (u32)p->set[1], (u32)p->set[2], &pos, 0, 0x48);
-    func_0204B92C(p->obj, 1);
+    CLACT_SetActorAutoAnim(p->obj, 1);
     CLACT_SetActorAnimSeq(p->obj, 0x24);
-    func_0204B3DC(p->obj, 1);
+    CLACT_SetActorDrawEnable(p->obj, 1);
     GFL_NET_RestartWithDefaultTimeout(0, 0x48);
 }

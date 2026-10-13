@@ -16,7 +16,7 @@
  *   VM_GetU16   0x02011330  thumb
  *   SCRCMD_WORK_GetGameData   0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetMoveModelSys   0x02012B38  thumb
- *   func_02014474   0x02014474  thumb
+ *   FIELD_STATUS_SetProcAction   0x02014474  thumb
  */
 
 typedef unsigned char u8;
@@ -28,13 +28,13 @@ extern u16 VM_GetU16(struct Stream *s);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct BigObj;
 extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
-extern void func_02014474(void *, void *);
+extern void FIELD_STATUS_SetProcAction(void *, void *);
 
 int SCRIPT_WORK_CmdSetProcAction(void *a0, void *a1)
 {
     void *v = (void *)VM_GetU16(a0);
 
-    func_02014474(GAME_DATA_GetMoveModelSys(SCRCMD_WORK_GetGameData(a1)), v);
+    FIELD_STATUS_SetProcAction(GAME_DATA_GetMoveModelSys(SCRCMD_WORK_GetGameData(a1)), v);
 
     return 0;
 }

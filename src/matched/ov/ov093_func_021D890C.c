@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_SlowStartHalveAttack
+ * function: HAND_TOKUSEI_SlowStartHalveAttack
  * address: 0x021D890C
  * packet: pkt_ov093_021D890C
  * region: ov093
@@ -17,7 +17,7 @@ extern int BTL_EVENT_GetVar(int);
 extern int WAZA_TOOL_GetDamageType(int a);
 extern void BTL_EVENT_MultiplyVar(int,int);
 
-void BTL_CALC_SlowStartHalveAttack(int a, int b, int c, int *d)
+void HAND_TOKUSEI_SlowStartHalveAttack(int a, int b, int c, int *d)
 {
     if(c==BTL_EVENT_GetVar(3) && d[3]!=0 && WAZA_TOOL_GetDamageType((unsigned short)BTL_EVENT_GetVar(0x12))==1) BTL_EVENT_MultiplyVar(0x35,0x800);
 }

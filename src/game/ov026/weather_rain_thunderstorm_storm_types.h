@@ -149,10 +149,10 @@ extern u16 func_02014A10(u32 i);
 extern u32 func_020056EC(u32 range);
 extern void CLACT_SetActorAnimIndex(Actor *actor, int index);
 extern void CLACT_SetActorAnimSeq(Actor *actor, u16 value);
-extern void func_0204B92C(Actor *actor, unsigned int enabled);
+extern void CLACT_SetActorAutoAnim(Actor *actor, unsigned int enabled);
 extern void CLACT_SetActorAutoAnimSpeed(Actor *actor, u32 speed);
 extern int GFL_USE_GetSeSlot(u32 seId);
 extern int GFL_USE_IsSeSlotBusy(u32 handle);
-extern void func_02082BCC(void *dst, int value, u32 size);
+extern void MI_CpuFill8(void *dst, int value, u32 size);
 
 #endif

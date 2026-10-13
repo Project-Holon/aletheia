@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
  *   CLACT_IsActorAnimActive  0x0204B98C  arm
  */
 #include "../include/Obj06130.h"
 
 struct Obj;
-extern void func_0204B92C(struct Obj *a, unsigned int b);
+extern void CLACT_SetActorAutoAnim(struct Obj *a, unsigned int b);
 typedef unsigned int   u32;
 struct Actor;
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
@@ -27,7 +27,7 @@ int C_GEAR_StepIconAnim(char *p)
 {
     switch (((struct Obj06130 *)p)->f455) {
     case 0:
-        func_0204B92C((struct Obj *)*(int *)(p + ((struct Obj06130 *)p)->f416 * 4 + 0x12c), 1);
+        CLACT_SetActorAutoAnim((struct Obj *)*(int *)(p + ((struct Obj06130 *)p)->f416 * 4 + 0x12c), 1);
         CLACT_SetActorAutoAnimSpeed((struct Actor *)(*(int *)(p + ((struct Obj06130 *)p)->f416 * 4 + 0x12c)), 1 << 13);
         ((struct Obj06130 *)p)->f455 += 1;
         break;

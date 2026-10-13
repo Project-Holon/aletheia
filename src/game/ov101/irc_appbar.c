@@ -18,7 +18,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_021B73E8 0x021B73E8 thumb ov101
  *   APP_TASKMENU_WIN_IsTouch  0x0202824C  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
  *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb
  *   APP_TASKMENU_WIN_ResetDecide  0x020282A4  thumb
@@ -37,6 +37,7 @@
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm  arm9
  *   CLACT_RegisterCellAnim  0x0204AF28  arm  arm9
  *   CLACT_CreateActor  0x0204B294  arm  arm9
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 #include "../../matched/include/Obj03227.h"
 #include "../../matched/include/Obj06364.h"
@@ -70,7 +71,7 @@ typedef struct { unsigned data; u16 tag,pad; unsigned flag; } Desc_021B72A8;
 typedef struct { u16 x,y,z; u8 pad,n; } Desc_021B739C;
 
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern u8 func_020416D4(u32);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -83,7 +84,7 @@ extern void APP_TASKMENU_RES_Delete(struct TaskMenuState *);
 extern void func_020307B0(void *);
 extern void func_021B73E8(void *);
 extern unsigned int APP_TASKMENU_WIN_IsTouch(void **p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
@@ -118,7 +119,7 @@ extern char d_021B7550[];
  * lever: distinct enum first/choice values preserve branch-local setup and saved-register allocation.
  * prototype: own 27F60 fixes layer/x/heap as u16; stack x/heap forward unchanged without truncation.
  * func_02030734 0x02030734 arm
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * func_021B732C 0x021B732C thumb ov101
  * APP_TASKMENU_RES_Create 0x02027F60 thumb
  * func_020416D4 0x020416D4 arm
@@ -138,7 +139,7 @@ void *func_021B70DC(u32 a,u32 b,u16 layer,u16 x,u8 y,u32 extra,u32 c,u32 d,u16 h
     void *bank;
     Side choice,first;
     p=func_02030734(heap,96,0,d_021B7550,125);
-    func_02082BCC(p,0,96);
+    MI_CpuFill8(p,0,96);
     ((struct Obj03227 *)p)->f3C=layer;
     ((struct Obj03227 *)p)->f44=side-1;
     ((struct Obj03227 *)p)->f48=side-1;
@@ -151,7 +152,7 @@ void *func_021B70DC(u32 a,u32 b,u16 layer,u16 x,u8 y,u32 extra,u32 c,u32 d,u16 h
     ((struct Obj03227 *)p)->f4=APP_TASKMENU_RES_Create(layer,x,c,d,heap);
     func_021B739C((unsigned int *)p,b,a,side,func_020416D4(layer),heap);
     bank=func_02045B38(0,2,49,heap);
-    func_02082BCC(&desc,0,12);
+    MI_CpuFill8(&desc,0,12);
     desc.color=0x39e3;
     desc.str=func_02045EC0(bank,8);
     desc.flag=1;
@@ -171,7 +172,7 @@ void func_021B71E4(int a)
         case 0:
             ((struct Obj02158 *)a)->f44 = -1;
             if (APP_TASKMENU_WIN_IsTouch((void **)(((struct Obj02158 *)a)->f0))) {
-                func_020061E4(0x551);
+                GFL_USE_PlaySeDefaultVolume(0x551);
                 APP_TASKMENU_WIN_SetDecide((char *)(((struct Obj02158 *)a)->f0), 1);
                 ((struct Obj02158 *)a)->f50 = 1;
             }
@@ -226,7 +227,7 @@ void func_021B72A0(int p,int b) {
 /*
  * APP_TASKMENU_WIN_Delete 0x02028148 thumb
  * func_02045B38 0x02045B38 arm
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * func_02045EC0 0x02045EC0 arm
  * APP_TASKMENU_WIN_Create 0x02027FEC thumb
  * STRBUF_Delete 0x02045808 arm
@@ -238,7 +239,7 @@ void func_021B72A8(unsigned *p,unsigned b) {
  if(b==p[21]) return;
  APP_TASKMENU_WIN_Delete((u8 *)p[0]);
  q=(unsigned int)func_02045B38(0,2,0x31,((struct Obj03228 *)p)->f58);
- func_02082BCC(&t,0,12);
+ MI_CpuFill8(&t,0,12);
  t.tag=0x39e3;
  t.data=(unsigned int)func_02045EC0((struct MsgBank *)q,b+8);
  t.flag=1;
@@ -268,7 +269,7 @@ void func_021B7384(unsigned p) { CLACT_ReleaseCellAnim(((struct Obj06364 *)p)->f
 
 void func_021B739C(unsigned *p,unsigned b,int c,unsigned d,u8 e,u16 f) {
  Desc_021B739C t;
- func_02082BCC(&t,0,8);
+ MI_CpuFill8(&t,0,8);
  t.x=128; t.y=96; t.z=0; t.n=e+1;
  p[2]=(unsigned)CLACT_CreateActor((void *)b,p[13],p[12],p[14],&t,d,f);
 }

@@ -36,12 +36,12 @@
  *   func_020409B4  0x020409B4  arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_CreateRenderer  0x0204B034  arm
- *   func_0204B258  0x0204B258  arm
+ *   CLACT_SetUnitRenderer  0x0204B258  arm
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 
 typedef unsigned char u8;
@@ -107,12 +107,12 @@ extern void ARC_TOOL_DeleteHandle(void *h);
 extern void func_020409B4(u32 layer);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
-extern void func_0204B258(struct Bank *bank, void *p);
+extern void CLACT_SetUnitRenderer(struct Bank *bank, void *p);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
-extern void func_0204B92C(struct Obj *, u32);
+extern void CLACT_SetActorAutoAnim(struct Obj *, u32);
 extern void CLACT_SetActorBgPriority(u32, int);
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 
 void FIELD_MENU_LoadGraphics(Obj *p, void *q, int r, u32 unused)
 {
@@ -149,7 +149,7 @@ void FIELD_MENU_LoadGraphics(Obj *p, void *q, int r, u32 unused)
     p->f11C = (u32)CLACT_CreateUnit(8, 0, p->f00);
     bank = gFieldMenuSurfaceRect;
     p->f120 = (u32)CLACT_CreateRenderer((u8 *)(&bank), 1, p->f00);
-    func_0204B258((struct Bank *)p->f11C, (void *)p->f120);
+    CLACT_SetUnitRenderer((struct Bank *)p->f11C, (void *)p->f120);
     pos.x = 0x40;
     pos.y = 0x2C;
     pos.z = 0;
@@ -157,13 +157,13 @@ void FIELD_MENU_LoadGraphics(Obj *p, void *q, int r, u32 unused)
     pos.b = 0;
     p->f124 = (u32)CLACT_CreateActor((void *)p->f11C, p->f108, p->f104, p->f10C, &pos, 0, p->f00);
     CLACT_SetActorAutoAnimSpeed((struct Actor *)p->f124, 0x1000);
-    func_0204B92C((struct Obj *)p->f124, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)p->f124, 1);
     CLACT_SetActorBgPriority(p->f124, 2);
     pos.x = 0xE0;
     pos.y = 0xA8;
     p->f128 = (u32)CLACT_CreateActor((void *)p->f11C, p->f114, p->f110, p->f118, &pos, 0, p->f00);
     CLACT_SetActorAutoAnimSpeed((struct Actor *)p->f128, 0x1000);
-    func_0204B92C((struct Obj *)p->f128, 1);
-    func_0204B3DC((struct Obj *)p->f128, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)p->f128, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)p->f128, 1);
     CLACT_SetActorAutoAnimSpeed((struct Actor *)p->f128, 0x2000);
 }

@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B917C  0x021B917C  thumb  ov093
- *   func_021B8FF4  0x021B8FF4  thumb  ov093
+ *   BTL_MAIN_JudgeResultThunk  0x021B917C  thumb  ov093
+ *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
  *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
  *   BTL_MAIN_GetWinBgm  0x021B86DC  thumb  ov093
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
@@ -29,8 +29,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021B917C(char *p);
-extern u8 func_021B8FF4(u8 *);
+extern int BTL_MAIN_JudgeResultThunk(char *p);
+extern u8 BTL_MAIN_GetOwnClientId(u8 *);
 extern void *BTL_MAIN_GetCompetitor(void ***);
 extern u16 BTL_MAIN_GetWinBgm(void **);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
@@ -44,10 +44,10 @@ extern int BTL_SERVER_StepSendSubwayResult(u8 *, int *);
 
 int BTL_SERVER_StepSelectEnding(u8 *p)
 {
-    int r5 = func_021B917C((char *)(*(u8 * *)&((struct Obj05188 *)p)->fC));
+    int r5 = BTL_MAIN_JudgeResultThunk((char *)(*(u8 * *)&((struct Obj05188 *)p)->fC));
 
     ((struct Obj05188 *)p)->fAA = r5;
-    ((struct Obj05188 *)p)->fA8 = func_021B8FF4(*(u8 * *)&((struct Obj05188 *)p)->fC);
+    ((struct Obj05188 *)p)->fA8 = BTL_MAIN_GetOwnClientId(*(u8 * *)&((struct Obj05188 *)p)->fC);
 
     switch ((int)BTL_MAIN_GetCompetitor(*(void *** *)&((struct Obj05188 *)p)->fC)) {
     case 1:

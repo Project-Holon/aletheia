@@ -28,7 +28,7 @@
  *   SAVE_CONTROL_GetWrittenSize 0x020071C0 thumb
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  */
@@ -41,7 +41,7 @@ struct Obj;
 extern u32 SAVE_CONTROL_GetWrittenSize(char *p);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
 
@@ -59,7 +59,7 @@ void REPORT_UpdateSaveAnim(void *task, char *p)
             *(u16 *)(p + 0x126) = 0;
             CLACT_SetActorAnimFrame(((void **)(p + 0x54))[*(u16 *)(p + 0x124) + 6], 0);
             CLACT_SetActorAnimSeq(((void **)(p + 0x54))[*(u16 *)(p + 0x124) + 6], 1);
-            func_0204B92C(((void **)(p + 0x54))[*(u16 *)(p + 0x124) + 6], 1);
+            CLACT_SetActorAutoAnim(((void **)(p + 0x54))[*(u16 *)(p + 0x124) + 6], 1);
             (*(u16 *)(p + 0x124))++;
         }
         CLACT_DrawSystem();

@@ -1,5 +1,5 @@
 /*
- * function: func_021B917C
+ * function: BTL_MAIN_JudgeResultThunk
  * address:  0x021B917C
  * packet:   pkt_021B917C
  * region:   ov093
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA54C   0x021BA54C  thumb ov093
- *   func_021B917C   0x021B917C  thumb ov093
+ *   BTL_MAIN_JudgeResult   0x021BA54C  thumb ov093
+ *   BTL_MAIN_JudgeResultThunk   0x021B917C  thumb ov093
  *
- * tail-call thunk to func_021BA54C
+ * tail-call thunk to BTL_MAIN_JudgeResult
  */
 
 typedef unsigned char u8;
@@ -23,9 +23,9 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern int func_021BA54C(char *p);
+extern int BTL_MAIN_JudgeResult(char *p);
 
-int func_021B917C(char *p)
+int BTL_MAIN_JudgeResultThunk(char *p)
 {
-    return func_021BA54C(p);
+    return BTL_MAIN_JudgeResult(p);
 }

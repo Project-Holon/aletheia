@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203630C  0x0203630C  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetCont  0x0203630C  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_021C09B8  0x021C09B8  thumb  ov217
  *   func_021BE448  0x021BE448  thumb  ov217
  *   func_021BE454  0x021BE454  thumb  ov217
@@ -38,11 +38,11 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern unsigned int func_0203630C(void);
-extern u32 func_020362DC(void);
+extern unsigned int KEY_GetCont(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *rect);
 extern void *func_021C09B8(void *p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021BE448(void *p);
 extern void func_021BE4E8(u8 *p);
 extern void func_021BE580(u8 *p);
@@ -65,8 +65,8 @@ void func_021BDC18(u8 *p)
     int hit;
     int sub;
 
-    func_0203630C();
-    keys = func_020362DC();
+    KEY_GetCont();
+    keys = KEY_GetTrg();
     hit = TOUCHPANEL_HitTrg(p + 0x2FE);
     sub = TOUCHPANEL_HitTrg(func_021C09B8(((struct Obj00021 *)p)->f0));
     if (*(int *)&((struct Obj00021 *)p)->f3C8 != 0 && ((struct Obj00021 *)p)->f3D8 != 0 && *(int *)&((struct Obj00021 *)p)->f3D4 != 0) {
@@ -81,7 +81,7 @@ void func_021BDC18(u8 *p)
     if (func_021BF758(p) != 0 || sub == 0) {
         func_021BE454(p, 1);
         func_021BEC00((u32 *)p);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021BE448(p);
         func_021BE498(p, 11);
         func_021BE498(p, 10);
@@ -112,7 +112,7 @@ void func_021BDC18(u8 *p)
             func_021BE498(p, 5);
             func_021BE498(p, 2);
         } else {
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
         }
     } else if (hit == 2) {
         if (*(int *)&((struct Obj00021 *)p)->f3C8 == 0 && func_021BF810(p) != 0) {
@@ -158,7 +158,7 @@ void func_021BDC18(u8 *p)
     } else if (keys & 2) {
         func_021BE454(p, 0);
         func_021BEC00((u32 *)p);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021BE448(p);
         func_021BE498(p, 11);
         func_021BE498(p, 10);

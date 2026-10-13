@@ -11,15 +11,15 @@
  * blocker: ARM9 0x0203F5FC has no outside code witness.
  * Verified blocker C copied from ov137_func_021E09C0.c;
  * S13/blocker_0203F5FC-r1.log reports EXACT, 64 bytes:
- *   symbols: d_020A1B38 0x020A1B38 data a2
+ *   symbols: FX_SinCosTable_ 0x020A1B38 data a2
  *   typedef unsigned short u16;
- *   extern const short d_020A1B38[];
+ *   extern const short FX_SinCosTable_[];
  *   int func_0203F5FC(u16 angle) {
  *       if (angle >= 360) return 0;
- *       return d_020A1B38[((angle * 65535 / 360) >> 4) * 2];
+ *       return FX_SinCosTable_[((angle * 65535 / 360) >> 4) * 2];
  *   }
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_0207C9D0 0x0207C9D0 arm
  *   func_0203F5FC 0x0203F5FC arm
  *   CLACT_SetActorPosAxis 0x0204B550 arm
@@ -28,7 +28,7 @@
 typedef signed short s16;
 typedef unsigned short u16;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void func_0207C9D0(void *, void *, void *);
 typedef unsigned int   u32;
 extern int func_0203F5FC(u32 x);
@@ -44,7 +44,7 @@ void func_02184780(void *task, int *p)
     if (p[1] != 0) {
         p[1]--;
         if (p[1] == 0)
-            func_0204B3DC((void *)p[0], 1);
+            CLACT_SetActorDrawEnable((void *)p[0], 1);
         return;
     }
     func_0207C9D0(p + 2, p + 5, p + 2);
@@ -58,7 +58,7 @@ void func_02184780(void *task, int *p)
     CLACT_SetActorPosAxis((void *)p[0], x, 0);
     CLACT_SetActorPosAxis((void *)p[0], y, 1);
     if (y < -16) {
-        func_0204B3DC((void *)p[0], 0);
+        CLACT_SetActorDrawEnable((void *)p[0], 0);
         func_02030EAC(task);
         p[11] = 0;
     }

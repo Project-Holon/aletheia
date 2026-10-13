@@ -1,5 +1,5 @@
 /*
- * function: func_021DC20C
+ * function: HAND_TOKUSEI_GetHealerHandlers
  * address: 0x021DC20C
  * packet: pkt_ov093_021DC20C
  * region: ov093
@@ -15,10 +15,10 @@
  *   gHealerHandlers 0x021F0778 data ov093 a4
  */
 
-int *func_021DC20C(int *p);
+int *HAND_TOKUSEI_GetHealerHandlers(int *p);
 extern int gHealerHandlers[];
 
-int *func_021DC20C(int *p)
+int *HAND_TOKUSEI_GetHealerHandlers(int *p)
 {
     *p = 1;
     return gHealerHandlers;

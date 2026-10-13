@@ -9,7 +9,7 @@
  * status: EXACT*
  * symbols:
  *   func_021C6230 0x021C6230 thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02012FFC 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern signed char func_02012FFC(void);
@@ -33,7 +33,7 @@ void func_021C6230(u8 *p)
 {
     u32 win = ((struct Obj23559 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->fA8;
     u32 w2;
-    w2 = (u32)func_02045770((struct Descriptor *)win);
+    w2 = (u32)BMP_WIN_GetBmp((struct Descriptor *)win);
     BMP_Clear((struct CharBuf *)w2, 0xf);
     ((struct Obj23562 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1C8 = PRINTSYS_PrintStream(win, 0, 0, ((struct Obj23560 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D8, ((struct Obj00127 *)p)->f18, func_02012FFC(), ((struct Obj23561 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1CC, 0, 0x66, 0xf);
 }

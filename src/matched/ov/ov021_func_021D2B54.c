@@ -19,8 +19,8 @@
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   func_0201F02C  0x0201F02C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_0201EE60  0x0201EE60  thumb
  *   func_0203F4CC  0x0203F4CC  arm
@@ -65,8 +65,8 @@ extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
 struct RtcTime;
@@ -105,9 +105,9 @@ int SCRCMD_GetNpcGreetingMessage(u32 a, u32 b)
     out = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
     func_0201F02C((struct WordSet *)ws, 0, (void *)name);
     party = GAME_DATA_GetMyParty(h);
-    n = func_0201AA18(party);
+    n = POKEPARTY_GetCount(party);
     for (i = 0; i < n; i++) {
-        mon = func_0201AB28(party, i);
+        mon = POKEPARTY_GetMember(party, i);
         if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {
             func_0201EE60((struct WordSet *)ws, 3, POKE_TOOL_GetPartyValue(mon, 5, 0));
             break;

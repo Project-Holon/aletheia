@@ -1,5 +1,5 @@
 /*
- * function: func_02177020
+ * function: GFL_NET_DEVWIRELESS_GetDeviceTable
  * address:  0x02177020
  * packet:   pkt_02177020
  * region:   ov014
@@ -12,7 +12,7 @@
  *   d_021796A0  0x021796A0  data  a4
  */
 
-void *func_02177020(void)
+void *GFL_NET_DEVWIRELESS_GetDeviceTable(void)
 {
     return (void *)0x021796A0;
 }

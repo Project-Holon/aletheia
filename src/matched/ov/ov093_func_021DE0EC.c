@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetRowapBerryHandlers
+ * function: HAND_ITEM_GetRowapBerryHandlers
  * address: 0x021DE0EC
  * packet: pkt_ov093_021DE0EC
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DE0DC.c and filed here.
  *
  * symbols:
- *   gRowapBerryHandlerTable 0x021F162C data ov093 a4
+ *   gRowapBerryHandlers 0x021F162C data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetRowapBerryHandlers(int *p);
-extern int gRowapBerryHandlerTable[];
+int *HAND_ITEM_GetRowapBerryHandlers(int *p);
+extern int gRowapBerryHandlers[];
 
-int *BTL_HANDLER_ITEM_GetRowapBerryHandlers(int *p)
+int *HAND_ITEM_GetRowapBerryHandlers(int *p)
 {
     *p = 2;
-    return gRowapBerryHandlerTable;
+    return gRowapBerryHandlers;
 }

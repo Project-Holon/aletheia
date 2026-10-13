@@ -1,5 +1,5 @@
 /*
- * function: func_021CED4C
+ * function: BTL_CLIENT_StepMoveHighlight
  * address:  0x021CED4C
  * packet:   pkt_ov093_021CED4C
  * region:   ov093
@@ -15,8 +15,8 @@
  *   func_021E9B14  0x021E9B14  thumb  ov093
  *   func_021E9B20  0x021E9B20  thumb  ov093
  *   BTL_CLIENT_SetSubFn  0x021CE150  thumb  ov093
- *   func_021CEA94  0x021CEA94  thumb  ov093
- *   func_021CE3C8  0x021CE3C8  thumb  ov093
+ *   BTL_CLIENT_StepSelectMove  0x021CEA94  thumb  ov093
+ *   BTL_CLIENT_StepAutoSelectActions  0x021CE3C8  thumb  ov093
  */
 #include "../include/Obj05199.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -27,10 +27,10 @@ extern int BTL_CLIENT_PollTimeLimitAndSetSub(u8 *p, void *q);
 extern void func_021E9B14(unsigned int *p);
 extern int func_021E9B20(u8 *p);
 extern void BTL_CLIENT_SetSubFn(u8 *p, void *q);
-extern int func_021CEA94(u8 *p, u32 *state);
-extern int func_021CE3C8(u8 *p, int *state);
+extern int BTL_CLIENT_StepSelectMove(u8 *p, u32 *state);
+extern int BTL_CLIENT_StepAutoSelectActions(u8 *p, int *state);
 
-u32 func_021CED4C(u8 *p, s32 *st)
+u32 BTL_CLIENT_StepMoveHighlight(u8 *p, s32 *st)
 {
     u32 r;
     switch (*st) {
@@ -46,12 +46,12 @@ u32 func_021CED4C(u8 *p, s32 *st)
             return r;
         }
         if (func_021E9B20((u8 *)(((struct Obj05199 *)p)->f54)) != 0) {
-            BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CEA94));
+            BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepSelectMove));
         }
         break;
     case 2:
         if (func_021E9B20((u8 *)(((struct Obj05199 *)p)->f54)) != 0) {
-            BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CE3C8));
+            BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepAutoSelectActions));
         }
         break;
     }

@@ -10,7 +10,7 @@
  * symbols:
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D83C8 0x021D83C8 thumb ov123
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_021D5950 0x021D5950 thumb ov123
  *   func_021D5960 0x021D5960 thumb ov123
@@ -20,13 +20,13 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D83C8(char *);
-extern unsigned int func_020362DC(void);
+extern unsigned int KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern int func_021D5950(u8 *p, int x);
 extern void func_021D5960(char *, int, int);
 void func_021D840C(char *p)
 {
-    if (func_020362DC() || TOUCHPANEL_GetTrg()) {
+    if (KEY_GetTrg() || TOUCHPANEL_GetTrg()) {
         func_021D5950((u8 *)(*(char * *)&((struct Obj13994 *)p)->f18), 48);
         func_021D5960(*(char * *)&((struct Obj13994 *)p)->f18, 7, 14);
         func_021D6EE0((u8 *)p, (int)func_021D83C8, 0x6ab);

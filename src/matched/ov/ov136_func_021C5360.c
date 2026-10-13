@@ -12,11 +12,11 @@
  *   func_021C5360 0x021C5360 thumb
  *   PMSI_PARAM_IsEnabled 0x02024450 thumb
  *   PMS_DRAW_Print 0x0202DC48 thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
 #include "../include/Obj00160.h"
@@ -28,12 +28,12 @@ typedef unsigned int u32;
 extern int PMSI_PARAM_IsEnabled(const u16 *p);
 extern void PMS_DRAW_Print(u32 a, u32 b, u32 c, u32 d);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 v);
 
 void func_021C5360(u8 *p)
@@ -55,11 +55,11 @@ void func_021C5360(u8 *p)
     }
     if (p[0xB] == 0) {
         u32 a = *(u32 *)&((struct Obj00160 *)p)->f98;
-        PRINTSYS_PrintQueColor((void *)a, (u32)func_02045770((struct Descriptor *)((struct Obj00160 *)p)->f88), 0, 2, (u32)(((struct Obj23499 *)(*(u8 * *)&((struct Obj00160 *)p)->f1C))->fC), *(u32 *)&((struct Obj00160 *)p)->f24, 0x440);
+        PRINTSYS_PrintQueColor((void *)a, (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00160 *)p)->f88), 0, 2, (u32)(((struct Obj23499 *)(*(u8 * *)&((struct Obj00160 *)p)->f1C))->fC), *(u32 *)&((struct Obj00160 *)p)->f24, 0x440);
         p[0x8C] = 1;
         t = ((struct Obj00160 *)p)->f58;
         BMP_WIN_TransferChars((struct Descriptor *)t);
         BMP_WIN_MakeScreen((struct Cfg *)t);
-        func_020409B4(func_02045730((struct Descriptor *)t));
+        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)t));
     }
 }

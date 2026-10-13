@@ -15,7 +15,7 @@
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb
  *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb
  *   FLDMMDL_SetAcmd  0x0216D410  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb
  *   FLDMMDL_EndAcmd  0x0216D480  thumb
  *   FLDEFF_D06DENKI_FollowFreezeLoop  0x021C909C  thumb
@@ -28,7 +28,7 @@ extern int FLDMMDL_CheckPossibleAcmd(void *a);
 extern int FLDMMDL_ACMD_ConvertCodeByDir(int a, int b);
 extern void FLDMMDL_SetAcmd(void *a, int b);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int FLDMMDL_CheckEndAcmd(void *a);
 extern void FLDMMDL_EndAcmd(void *a);
 extern void FLDEFF_D06DENKI_FollowFreezeLoop(int a);
@@ -42,7 +42,7 @@ int FIELD_GIMMICK_D06_EventSlideStone(int a, int *s, int *t)
     case 0:
         if (FLDMMDL_CheckPossibleAcmd(r6) == 1) {
             FLDMMDL_SetAcmd(r6, FLDMMDL_ACMD_ConvertCodeByDir(((struct Obj01876 *)t)->f0, 0x1c));
-            func_020061E4(0x6ce);
+            GFL_USE_PlaySeDefaultVolume(0x6ce);
             *s = *s + 1;
         }
         break;
@@ -59,7 +59,7 @@ int FIELD_GIMMICK_D06_EventSlideStone(int a, int *s, int *t)
                 FLDMMDL_SetAcmd(*(void **)t[2], FLDMMDL_ACMD_ConvertCodeByDir(((struct Obj01876 *)t)->f0, v));
                 t[1] = t[1] - 1;
             } else {
-                func_020061E4(0x6a3);
+                GFL_USE_PlaySeDefaultVolume(0x6a3);
                 *s = *s + 1;
             }
         }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA618
+ * function: BTL_MAIN_CheckOwnWindowDone
  * address: 0x021BA618
  * packet: pkt_ov093_021BA618
  * region: ov093
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Flags;
 extern u32 BTL_CLIENT_IsWindowDone(struct Flags *p);
-int func_021BA618(char *p)
+int BTL_MAIN_CheckOwnWindowDone(char *p)
 {
     int v;
     if (((struct Obj21017 *)(*(char * *)&((struct Obj09944 *)p)->f0))->f23) {

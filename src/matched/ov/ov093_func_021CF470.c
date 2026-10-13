@@ -1,5 +1,5 @@
 /*
- * function: func_021CF470
+ * function: BTL_CLIENT_IsActionForced
  * address:  0x021CF470
  * packet:   pkt_ov093_021CF470
  * region:   ov093
@@ -42,7 +42,7 @@ extern void BTL_ACTION_SetFight(struct Unk021D82D0 *out, u32 id, u32 sub);
 extern u16 BTL_POKEPARAM_GetLastUsedMoveId(struct QL *p);
 extern u8 BTL_POKEPARAM_FindMoveSlot(void *q, u32 id);
 
-u32 func_021CF470(u8 *p, void *q, u8 *o)
+u32 BTL_CLIENT_IsActionForced(u8 *p, void *q, u8 *o)
 {
     u32 id;
     u32 a;

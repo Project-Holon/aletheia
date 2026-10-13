@@ -17,13 +17,13 @@
  *   BMP_WIN_Init 0x02045088 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   TCBL_Create 0x0203101C arm
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   g_7A20 0x021C7A20 data
  *   g_7A20b 0x021C7A20 data
@@ -60,13 +60,13 @@ struct GfFont;
 struct Tcbl;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u32 func_0201C440(void *);
+extern u32 PRINTSYS_QUE_Create(void *);
 extern u32 BMP_WIN_Create(u32 bg, u32 x, u32 y, u32 w, u8 h, u8 pal, u8 base);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 v);
 typedef enum { SLOT_ZERO = 0 } SlotIndex;
 
@@ -79,7 +79,7 @@ void func_021C5E58(u8 *p)
     BMP_WIN_Init(0x66);
     ((struct Obj02866 *)p)->f18 = GF_FONT_Create(0x17, 0, 0, 0, 0x66);
     ((struct Obj23542 *)(*(u8 * *)&((struct Obj02866 *)p)->f8))->f1CC = TCBL_Create(0x66, 0x66, 0x20, 0x20);
-    ((struct Obj23543 *)(*(u8 * *)&((struct Obj02866 *)p)->f8))->f1C4 = func_0201C440((void *)0x66);
+    ((struct Obj23543 *)(*(u8 * *)&((struct Obj02866 *)p)->f8))->f1C4 = PRINTSYS_QUE_Create((void *)0x66);
     for (i = 0; i < 0x20; i++) {
         *(u32 *)(*(u8 * *)&((struct Obj02866 *)p)->f8 + i * 4 + 0x44) = BMP_WIN_Create((u8)g_7A20[i].w0, g_7A20[i].b4, g_7A20[i].b5, g_7A20[i].b6, g_7A20[i].b7, (u8)g_7A20[i].h8, 1);
         sl = (struct Slot *)(*(u8 * *)&((struct Obj02866 *)p)->f8 + 0xC4);
@@ -87,15 +87,15 @@ void func_021C5E58(u8 *p)
         sl[i].id = 0;
     }
     for (j = 0; j < 0x16; j++) {
-        BMP_Clear(func_02045770(*(void **)(*(u8 * *)&((struct Obj02866 *)p)->f8 + j * 4 + 0x44)), 4);
+        BMP_Clear(BMP_WIN_GetBmp(*(void **)(*(u8 * *)&((struct Obj02866 *)p)->f8 + j * 4 + 0x44)), 4);
         BMP_WIN_TransferChars(*(void **)(*(u8 * *)&((struct Obj02866 *)p)->f8 + j * 4 + 0x44));
     }
     t = ((struct Obj23544 *)(*(u8 * *)&((struct Obj02866 *)p)->f8))->f44;
     BMP_WIN_TransferChars(t);
     BMP_WIN_MakeScreen(t);
-    func_020409B4(func_02045730(t));
+    func_020409B4(BMP_WIN_GetBgLayer(t));
     t = ((struct Obj23545 *)(*(u8 * *)&((struct Obj02866 *)p)->f8))->f48;
     BMP_WIN_TransferChars(t);
     BMP_WIN_MakeScreen(t);
-    func_020409B4(func_02045730(t));
+    func_020409B4(BMP_WIN_GetBgLayer(t));
 }

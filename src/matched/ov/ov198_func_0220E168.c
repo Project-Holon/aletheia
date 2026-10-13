@@ -14,7 +14,7 @@
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
 #include "../include/Obj02247.h"
@@ -30,7 +30,7 @@ extern int func_02012FFC(unsigned);
 extern int PRINTSYS_PrintStream(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16,u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
-extern u8 func_02045730(struct Descriptor *);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(unsigned);
 void func_0220E168(char *p)
 {
@@ -41,5 +41,5 @@ void func_0220E168(char *p)
     obj = ((struct Obj02247 *)p)->f1F68;
     BMP_WIN_TransferChars(obj);
     BMP_WIN_MakeScreen(obj);
-    func_02041B6C(func_02045730(obj));
+    func_02041B6C(BMP_WIN_GetBgLayer(obj));
 }

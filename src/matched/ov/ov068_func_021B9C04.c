@@ -19,17 +19,17 @@
  *   func_02045EC0  0x02045EC0  arm
  *   func_0201D304  0x0201D304  thumb
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *   STRBUF_Delete  0x02045808  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   func_02082A90  0x02082A90  arm
- *   func_02045738  0x02045738  arm
+ *   BMP_WIN_GetWidth  0x02045738  arm
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
@@ -66,18 +66,18 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 a);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_02082A90(u32 a, u32 b, u32 n);
-extern u8 func_02045738(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 
@@ -112,24 +112,24 @@ void OPTION_MENU_CreateLabelWindows(u32 *p)
         wv = (x + func_0201D304((struct StrObj *)str, font, 0) + 7) >> 3;
         e->w = wv;
         p[i] = BMP_WIN_Create(1, e->x, e->y, wv, e->h, 0, 1);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p[i])), 0);
-        PRINTSYS_Print((void *)((u32)func_02045770((struct Descriptor *)p[i])), x, 0, (void *)str, (void *)font);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p[i])), 0);
+        PRINTSYS_Print((void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p[i])), x, 0, (void *)str, (void *)font);
         w = p[i];
         BMP_WIN_TransferChars((struct Descriptor *)w);
         BMP_WIN_MakeScreen((struct Cfg *)w);
-        func_02041B6C(func_02045730((struct Descriptor *)w));
+        func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)w));
         STRBUF_Delete((struct U16Vec *)str);
     }
     w = *(u32 *)(p[22] + 0x14);
-    func_02082A90(w, (u32)BMP_GetPixels((const struct Bmp *)((u32)func_02045770((struct Descriptor *)p[16]))), 0x600);
+    func_02082A90(w, (u32)BMP_GetPixels((const struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p[16]))), 0x600);
     str = (u32)func_02045EC0((struct MsgBank *)msg, 0);
-    x = func_02045738((struct Descriptor *)p[16]) * 4;
+    x = BMP_WIN_GetWidth((struct Descriptor *)p[16]) * 4;
     x -= func_0201D304((struct StrObj *)str, font, 0) >> 1;
-    PRINTSYS_PrintColor((void *)((u32)func_02045770((struct Descriptor *)p[16])), x, 4, (void *)str, (void *)font, 0x3dc1);
+    PRINTSYS_PrintColor((void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p[16])), x, 4, (void *)str, (void *)font, 0x3dc1);
     w = p[16];
     BMP_WIN_TransferChars((struct Descriptor *)w);
     BMP_WIN_MakeScreen((struct Cfg *)w);
-    func_02041B6C(func_02045730((struct Descriptor *)w));
+    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)w));
     STRBUF_Delete((struct U16Vec *)str);
     MSGDATA_Delete((struct Rec *)msg);
     GF_FONT_Delete((void *)font);

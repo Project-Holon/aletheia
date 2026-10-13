@@ -11,9 +11,9 @@
  *
  * symbols:
  *   BTL_CLIENT_CmdRecoverStatStages   0x021D3894  thumb
- *   func_021B9934   0x021B9934  thumb
+ *   BTL_SIDE_GetPokeByIdThunk   0x021B9934  thumb
  *   BTL_POKEPARAM_RaiseLoweredStatStages   0x021D5EFC  thumb
- * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl func_021B9934; bl BTL_POKEPARAM_RaiseLoweredStatStages; movs r0, #1; pop {r3, pc}.
+ * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl BTL_SIDE_GetPokeByIdThunk; bl BTL_POKEPARAM_RaiseLoweredStatStages; movs r0, #1; pop {r3, pc}.
  */
 #include "../include/Obj18383.h"
 
@@ -25,12 +25,12 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021D3894  shape F4: (u8) of a word arg, then BTL_POKEPARAM_RaiseLoweredStatStages */
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern int BTL_POKEPARAM_RaiseLoweredStatStages(char *p);
 
 int BTL_CLIENT_CmdRecoverStatStages(u8 *p, int b, u32 *q)
 {
-    BTL_POKEPARAM_RaiseLoweredStatStages((char *)func_021B9934(*(char * *)&((struct Obj18383 *)p)->f4, (u8)*q));
+    BTL_POKEPARAM_RaiseLoweredStatStages((char *)BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj18383 *)p)->f4, (u8)*q));
     return 1;
 }
 

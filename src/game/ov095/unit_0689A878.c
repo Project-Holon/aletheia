@@ -12,7 +12,7 @@
  *
  * symbols:
  *   func_021B8D8C  0x021B8D8C  thumb
- *   func_021B8E70  0x021B8E70  thumb
+ *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
  *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb
  *   func_021D5528  0x021D5528  thumb
@@ -38,7 +38,7 @@ extern u32 BTL_POKEPARAM_IsTransformed(u32 h);
 extern u16 func_021D5528(u32 h, u8 i, u8 *p, u8 *q);
 extern u32 BTL_POKEPARAM_GetPokeId(u32 h);
 extern u32 func_021B8D8C(u32 a, u32 b, u32 c);
-extern u32 func_021B8E70(u32 a, u32 b);
+extern u32 BTL_MAIN_GetViewPosOfSlot(u32 a, u32 b);
 extern void func_0220270C(u32 h, int k, R *r);
 
 int func_0689A878(int unused, u8 *s)
@@ -60,7 +60,7 @@ int func_0689A878(int unused, u8 *s)
         r.b[i] = 0;
         r.c[i] = 0;
     }
-    r.x = func_021B8E70(((struct Obj03724 *)s)->fA0,
+    r.x = BTL_MAIN_GetViewPosOfSlot(((struct Obj03724 *)s)->fA0,
                         func_021B8D8C(((struct Obj03724 *)s)->fA0, ((struct Obj03724 *)s)->fA4,
                                       BTL_POKEPARAM_GetPokeId(((struct Obj03724 *)s)->f6C)));
     func_0220270C(((struct Obj03724 *)s)->fB0, 2, &r);

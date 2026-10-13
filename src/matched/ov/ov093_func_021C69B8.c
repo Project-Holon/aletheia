@@ -1,5 +1,5 @@
 /*
- * function: func_021C69B8
+ * function: BTL_SERVER_FLOW_CheckSureHit
  * address:  0x021C69B8
  * packet:   pkt_ov093_021C69B8
  * region:   ov093
@@ -31,7 +31,7 @@ extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 
-int func_021C69B8(u8 *p, u8 *a, u32 c, u16 id)
+int BTL_SERVER_FLOW_CheckSureHit(u8 *p, u8 *a, u32 c, u16 id)
 {
     int r = WAZA_TOOL_IsAlwaysHit(id);
     if (r == 0) {

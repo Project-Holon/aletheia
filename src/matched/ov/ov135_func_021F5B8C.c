@@ -20,6 +20,8 @@
  *   func_021F663C  0x021F663C  thumb
  *   func_021F4E98  0x021F4E98  thumb
  *   CLACT_RestartActorAnim  0x0204B9A0  arm  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  */
 
 typedef signed char s8;
@@ -58,10 +60,10 @@ typedef struct {
 } Work;
 
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 struct Actor;
 extern void CLACT_RestartActorAnim(struct Actor *a);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern int func_021F6C48(void *party, void *save, int box, int slot);
 extern int func_021F6BA4(void *party, void *save, int box, int slot);
 extern void *func_021F6B40(void *party, void *save, int box, int slot);
@@ -75,7 +77,7 @@ void func_021F5B8C(Work *p)
     void *mon;
 
     if (p->slot == 0x1E) {
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
         CLACT_RestartActorAnim((struct Actor *)p->cursor);
         p->state = 0x11;
         return;
@@ -91,18 +93,18 @@ void func_021F5B8C(Work *p)
                 func_022025E4((u32)p->msg, 0, (u32)mon);
                 func_021F663C((u8 *)p, 0x12, 1, 0, 0xF0F, 0);
                 func_021F4E98((u8 *)p, 3, 9);
-                func_020061E4(0x54C);
+                GFL_USE_PlaySeDefaultVolume(0x54C);
             } else {
                 func_021F663C((u8 *)p, 0x1A, 1, 0, 0xF0F, 1);
                 func_021F4E98((u8 *)p, 4, 1);
             }
         } else {
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
         }
         break;
     case 0:
     case 2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         break;
     }
 }

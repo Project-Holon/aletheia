@@ -14,9 +14,9 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B6F4 0x0204B6F4 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   d_021E8CBE 0x021E8CBE data a1
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm  arm9
  *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
@@ -25,7 +25,7 @@
  */
 #include "../include/Obj02224.h"
 typedef struct { short x, y; unsigned short id; unsigned char a, flag; } Request;
-extern void func_02082BCC(void *, unsigned, unsigned);
+extern void MI_CpuFill8(void *, unsigned, unsigned);
 extern void *CLACT_CreateActor(unsigned, unsigned, unsigned, unsigned, const Request *, unsigned short, unsigned);
 typedef signed int     s32;
 typedef unsigned int   u32;
@@ -41,7 +41,7 @@ extern unsigned CLACT_RegisterPaletteEx(void *, unsigned, unsigned, unsigned sho
 extern unsigned CLACT_RegisterCharacter(void *, unsigned, unsigned, unsigned, unsigned);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern const unsigned char d_021E8CBE[];
 void func_021E72FC(unsigned char *p, unsigned idx, unsigned owner, unsigned heap)
 {
@@ -52,10 +52,10 @@ void func_021E72FC(unsigned char *p, unsigned idx, unsigned owner, unsigned heap
     ((struct Obj02224 *)p)->f1EC = CLACT_RegisterCharacter(handle, idx + 0x31, 0, ((struct Obj02224 *)p)->f234, heap);
     ((struct Obj02224 *)p)->f1F0 = CLACT_RegisterCellAnim(handle, 0x41, 0x42, heap);
     ARC_TOOL_DeleteHandle(handle);
-    func_02082BCC(&req, 0, 8);
+    MI_CpuFill8(&req, 0, 8);
     req.y = 0;
     req.x = 0;
     req.flag = 1;
     ((struct Obj02224 *)p)->f188 = CLACT_CreateActor(owner, ((struct Obj02224 *)p)->f1EC, ((struct Obj02224 *)p)->f1E8, ((struct Obj02224 *)p)->f1F0, &req, ((struct Obj02224 *)p)->f234, heap);
-    func_0204B6F4(((struct Obj02224 *)p)->f188, 0, 1);
+    CLACT_SetActorPaletteOffset(((struct Obj02224 *)p)->f188, 0, 1);
 }

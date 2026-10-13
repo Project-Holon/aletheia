@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E5784",
-    "func_021E57F4"
+    "HAND_WAZA_ArmDelayedAttack",
+    "HAND_WAZA_GetDoomDesireHandlers"
+   ],
+   "addresses": [
+    "0x021E5784",
+    "0x021E57F4"
    ],
    "evidence": {
     "sole-ref": [

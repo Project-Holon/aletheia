@@ -13,24 +13,24 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_02041B6C  0x02041B6C  arm
  *   func_020307B0 0x020307B0 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   STRBUF_Create  0x020457B0  arm
  *   func_0201F250  0x0201F250  thumb
  *   func_02030734 0x02030734 arm
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_020452E8 0x020452E8 arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   BMP_WIN_Delete 0x020452E8 arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_0201EC64  0x0201EC64  thumb
  *   func_0201EEF4  0x0201EEF4  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
@@ -40,12 +40,12 @@
  *   func_0201F5BC  0x0201F5BC  thumb
  *   TCBL_Create   0x0203101C  arm
  *   func_02028590  0x02028590  thumb
- *   func_0201C440  0x0201C440  thumb
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   sPlistMessageAllocSite     0x021BED28  data  ov091  a1
  *   TIME_ICON_Delete  0x0202F038  thumb
- *   func_0201CE48  0x0201CE48  thumb
- *   func_0201C6EC  0x0201C6EC  thumb
- *   func_0201C4C0  0x0201C4C0  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
  *   TCBL_Destroy  0x02031140  arm
  *   TCBL_Main 0x020310C4 arm
@@ -62,9 +62,9 @@
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
  *   GFL_USE_PushBgm  0x02005E64  thumb
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
- *   func_02005F38  0x02005F38  thumb
+ *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
  *   GFL_USE_PopBgm  0x02005E9C  thumb
- *   func_02006238  0x02006238  thumb
+ *   GFL_USE_IsAnySeBusy  0x02006238  thumb
  *   func_0201EF40 0x0201EF40 thumb
  *   func_0201EF4C 0x0201EF4C thumb
  *   func_0201EF34 0x0201EF34 thumb
@@ -83,24 +83,24 @@ typedef signed int     s32;
 struct MsgData;
 struct Bmp;
 
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern void func_02041B6C(u32 bit);
 extern u32 func_020307B0(void *p);
-extern unsigned func_020362DC(void);
+extern unsigned KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern struct Strbuf *func_02045EC0(struct MsgData *bank, u32 index);
-extern void *func_02045770(struct BmpWin *win);
+extern void *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void PRINTSYS_PrintQueColor(struct PrintSys *printSys, void *bitmap, short x, short y, struct Strbuf *text, void *font, u16 flags);
 extern void STRBUF_Delete(struct Strbuf *text);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct BmpWin *BMP_WIN_Create(int,u8,u8,int,u8,u8,u8);
-extern u32 func_020452E8(struct BmpWin *win);
-extern u32 func_0201C6C4(struct PrintSys *printSys, void *bitmap);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *printSys, void *bitmap);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 func_02045730(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201EEF4(struct WordSet *wordSet, u32 index, void *mon);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 c, u32 d);
@@ -110,11 +110,11 @@ extern void BMP_Clear(void *bitmap, u8 value);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern struct KeyCursor *func_02028590(int a, int b, int c, u16 heapId);
-extern struct PrintSys *func_0201C440(u32 heapId);
+extern struct PrintSys *PRINTSYS_QUE_Create(u32 heapId);
 extern void TIME_ICON_Delete(u8 *prompt);
-extern void func_0201CE48(struct TextStream *stream);
-extern void func_0201C6EC(struct PrintSys *printSys);
-extern void func_0201C4C0(struct PrintSys *printSys);
+extern void PRINTSYS_PrintStreamDelete(struct TextStream *stream);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *printSys);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *printSys);
 extern int APP_KEYCURSOR_Delete(struct KeyCursor *keyCursor);
 extern void TCBL_Destroy(struct Tcbl *taskList);
 extern void TCBL_Main(struct Tcbl *taskList);
@@ -131,9 +131,9 @@ extern struct TextStream *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, short
 extern void GFL_USE_SetBgmPlayerParam(int param);
 extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(int a, int b);
-extern int func_02005F38(void);
+extern int GFL_USE_IsBgmPlaying(void);
 extern int GFL_USE_PopBgm(void);
-extern int func_02006238(void);
+extern int GFL_USE_IsAnySeBusy(void);
 extern void func_0201EF40(struct WordSet *wordSet, u32 index, u32 v);
 extern void func_0201EF4C(struct WordSet *wordSet, u32 index, u32 v);
 extern void func_0201EF34(struct WordSet *wordSet, u32 index, u32 v);
@@ -180,7 +180,7 @@ PlistMessage *PLIST_MESSAGE_Create(PokelistWork *work)
     msg->prompt = 0;
     msg->promptRequested = 0;
     msg->keyCursor = func_02028590(0xf, 1, 1, work->heapId);
-    msg->printSys = func_0201C440(work->heapId);
+    msg->printSys = PRINTSYS_QUE_Create(work->heapId);
     return msg;
 }
 
@@ -193,11 +193,11 @@ void PLIST_MESSAGE_Destroy(PokelistWork *work, PlistMessage *msg)
         TIME_ICON_Delete(msg->prompt);
     }
     if (msg->stream != 0) {
-        func_0201CE48(msg->stream);
+        PRINTSYS_PrintStreamDelete(msg->stream);
         STRBUF_Delete(msg->streamText);
     }
-    func_0201C6EC(msg->printSys);
-    func_0201C4C0(msg->printSys);
+    PRINTSYS_QUE_Clear(msg->printSys);
+    PRINTSYS_QUE_Delete(msg->printSys);
     APP_KEYCURSOR_Delete(msg->keyCursor);
     TCBL_Destroy(msg->taskList);
     func_020307B0(msg);
@@ -209,23 +209,23 @@ void PLIST_MESSAGE_Update(PokelistWork *work, PlistMessage *msg)
     if (msg->stream != 0) {
         APP_KEYCURSOR_Update(msg->keyCursor, msg->stream, msg->window);
         if (func_02028484(msg->streamWait, msg->stream) == 1) {
-            if (msg->waitForKey == 0 || (func_020362DC() & 3) != 0 || TOUCHPANEL_GetTrg() == 1) {
-                if (msg->waitForKey == 1) func_020061E4(0x547);
-                func_0201CE48(msg->stream);
+            if (msg->waitForKey == 0 || (KEY_GetTrg() & 3) != 0 || TOUCHPANEL_GetTrg() == 1) {
+                if (msg->waitForKey == 1) GFL_USE_PlaySeDefaultVolume(0x547);
+                PRINTSYS_PrintStreamDelete(msg->stream);
                 msg->stream = 0;
                 STRBUF_Delete(msg->streamText);
             } else {
-                APP_KEYCURSOR_Animate(msg->keyCursor, func_02045770(msg->window), 15);
+                APP_KEYCURSOR_Animate(msg->keyCursor, BMP_WIN_GetBmp(msg->window), 15);
                 BMP_WIN_TransferChars(msg->window);
             }
         }
     }
-    if (msg->printing == 1 && func_0201C6C4(msg->printSys, func_02045770(msg->window)) == 0) {
+    if (msg->printing == 1 && PRINTSYS_QUE_IsExistTarget(msg->printSys, BMP_WIN_GetBmp(msg->window)) == 0) {
         struct BmpWin *window = msg->window;
         msg->printing = 0;
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_02041B6C(func_02045730(window));
+        func_02041B6C(BMP_WIN_GetBgLayer(window));
         if (msg->promptRequested == 1) {
             msg->promptRequested = 0;
             msg->prompt = TIME_ICON_CreateNode(msg->taskList, msg->window, 15, 16, work->heapId);
@@ -263,8 +263,8 @@ void PLIST_MESSAGE_CloseWindow(PokelistWork *work, PlistMessage *msg)
             msg->prompt = 0;
         }
         func_0201F7A8(msg->window, 1);
-        func_020452E8(msg->window);
-        func_0201C6EC(msg->printSys);
+        BMP_WIN_Delete(msg->window);
+        PRINTSYS_QUE_Clear(msg->printSys);
         msg->windowKind = PLIST_MESSAGE_KIND_CLOSED;
     }
 }
@@ -288,8 +288,8 @@ void PLIST_MESSAGE_PrintText(PokelistWork *work, PlistMessage *msg, u32 messageI
         text = expanded;
     }
     PLIST_MESSAGE_RedrawWindow(work, msg);
-    func_0201C6EC(msg->printSys);
-    PRINTSYS_PrintQueColor(msg->printSys, func_02045770(msg->window), 1, 1, text, work->fontMain, 0x440);
+    PRINTSYS_QUE_Clear(msg->printSys);
+    PRINTSYS_PrintQueColor(msg->printSys, BMP_WIN_GetBmp(msg->window), 1, 1, text, work->fontMain, 0x440);
     msg->printing = 1;
     STRBUF_Delete(text);
 }
@@ -308,7 +308,7 @@ void PLIST_MESSAGE_StartStream(PokelistWork *work, PlistMessage *msg, u32 messag
     }
     PLIST_MESSAGE_RedrawWindow(work, msg);
     if (msg->stream != 0) {
-        func_0201CE48(msg->stream);
+        PRINTSYS_PrintStreamDelete(msg->stream);
         STRBUF_Delete(msg->streamText);
     }
     msg->waitForKey = waitForKey;
@@ -333,17 +333,17 @@ int PLIST_MESSAGE_StreamCallback(int command)
         GFL_USE_CancelChangeAndPlayBgm(0x515, 0xffff);
         break;
     case 3:
-        func_020061E4(0x56b);
+        GFL_USE_PlaySeDefaultVolume(0x56b);
         break;
     case 5:
-        if (func_02005F38() == 0) {
+        if (GFL_USE_IsBgmPlaying() == 0) {
             GFL_USE_PopBgm();
             GFL_USE_SetBgmPlayerParam(0);
             return 0;
         }
         return 1;
     case 6:
-        return func_02006238();
+        return GFL_USE_IsAnySeBusy();
     }
     return 0;
 }
@@ -370,11 +370,11 @@ void PLIST_MESSAGE_RedrawWindow(PokelistWork *work, PlistMessage *msg)
 {
     struct BmpWin *window;
 
-    BMP_Clear(func_02045770(msg->window), 15);
+    BMP_Clear(BMP_WIN_GetBmp(msg->window), 15);
     window = msg->window;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    func_02041B6C(func_02045730(window));
+    func_02041B6C(BMP_WIN_GetBgLayer(window));
 }
 
 void PLIST_MESSAGE_LoadWindowFrame(PokelistWork *work, u32 unused) { func_0201F5BC(0, 1, 12, 0, work->heapId); }
@@ -390,6 +390,6 @@ void PLIST_MESSAGE_RequestPrompt(PokelistWork *work, PlistMessage *msg)
 
 void PLIST_MESSAGE_DrawKeyCursorMark(int unused, PlistMessage *msg)
 {
-    APP_KEYCURSOR_DrawMark(msg->keyCursor, func_02045770(msg->window), 15);
+    APP_KEYCURSOR_DrawMark(msg->keyCursor, BMP_WIN_GetBmp(msg->window), 15);
     BMP_WIN_TransferChars(msg->window);
 }

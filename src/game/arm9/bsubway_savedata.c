@@ -127,7 +127,6 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_0203F2FC(const void *p, u32 len);
 extern void func_0203F328(void *p, u32 size, u32 seed);
 extern void func_0203F37C(void *p, unsigned int size, unsigned int seed);
-extern void func_02082BCC(void *p, u32 v, u32 size);
 extern void *func_020071CC(struct SaveBlockTable *ctrl, u32 id);
 extern int _s32_div_f(int a, int b);
 extern u32 func_020307B0(void *p);
@@ -503,7 +502,7 @@ u32 func_0200E090(void)
  */
 void func_0200E098(struct SymbolSave *save)
 {
-    func_02082BCC(save, 0, 0x850);
+    MI_CpuFill8(save, 0, 0x850);
     func_0200E024(save);
 }
 
@@ -829,7 +828,7 @@ int func_0200E368(void)
  */
 void func_0200E370(struct SymbolBitSave *save)
 {
-    func_02082BCC(save, 0, 0x284);
+    MI_CpuFill8(save, 0, 0x284);
     save->descriptor[0] = 0;
     save->descriptor[1] = 8;
     save->descriptor[2] = 0x1d;

@@ -11,7 +11,7 @@
  * volatile: MMIO accesses 021BB19E..021BB1B2
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
@@ -33,7 +33,7 @@ typedef unsigned short u16;
 extern const char site[];
 extern const u32 config[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_02082BCC(void *,u32,u32);
+extern void MI_CpuFill8(void *,u32,u32);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -51,7 +51,7 @@ extern u32 func_020056A0(void (*)(void *),void *,u32);
 char *func_021BB178(u32 a,u32 heap)
 {
     char *p=func_02030734(heap,16,0,site,458);
-    func_02082BCC(p,0,16);
+    MI_CpuFill8(p,0,16);
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;

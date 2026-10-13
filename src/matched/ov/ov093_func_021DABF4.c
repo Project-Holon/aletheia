@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_LevitateSetFlag
+ * function: HAND_TOKUSEI_LevitateSetFlag
  * address: 0x021DABF4
  * packet: pkt_ov093_021DABF4
  * region: ov093
@@ -15,7 +15,7 @@
 extern int BTL_EVENT_GetVar(int);
 extern int BTL_EVENT_OverwriteVar(int, unsigned int);
 
-void BTL_ABILITY_LevitateSetFlag(int a, int b, int c, int *d)
+void HAND_TOKUSEI_LevitateSetFlag(int a, int b, int c, int *d)
 {
     int k;
     if (c == BTL_EVENT_GetVar(2)) {

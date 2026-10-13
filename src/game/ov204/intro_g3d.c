@@ -23,7 +23,7 @@
  *   MCSS_SetVanishFlag 0x02015EA0 thumb
  *   MCSS_SetAnimeIndex 0x02016028 thumb
  *   MCSS_ResetAnmStopFlag 0x02015E4C thumb
- *   func_02015F2C 0x02015F2C thumb
+ *   MCSS_SetAnimCallback 0x02015F2C thumb
  *   func_0207D63C 0x0207D63C arm
  *   MCSS_SetAlpha 0x02015FBC thumb
  *   MCSS_SetMepachiFlag 0x02015DB0 thumb
@@ -70,6 +70,7 @@
  *   MCSS_Add  0x020159C8  thumb  arm9
  *   MCSS_TOOL_MakeAddWorkFromPP  0x02017100  thumb  arm9
  *   POKE_TOOL_Create  0x020173F0  thumb  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../../matched/include/Obj10881.h"
 #include "../../matched/include/Obj10882.h"
@@ -118,7 +119,7 @@ extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struc
 extern void MCSS_SetScale(void *p, u32 *src);
 extern void MCSS_SetAnmStopFlag(void *);
 extern unsigned int func_0203F0A8(void);
-extern void func_02015F2C(void *, void *, void (*)(void *, void *), int);
+extern void MCSS_SetAnimCallback(void *, void *, void (*)(void *, void *), int);
 extern void MCSS_ResetVanishFlag(void *);
 extern void MCSS_SetVanishFlag(void *);
 extern void MCSS_SetAnimeIndex(void *, unsigned int);
@@ -143,7 +144,7 @@ extern void G3D_UTIL_Delete(struct Rec *);
 extern void func_02048AD0(struct Light *l);
 extern void func_0207ADC4(void *);
 extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int G3D_SYSTEM_IncObjectAnimeFrame(void *, int, int);
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
 extern void PARTICLE_InitManager(unsigned);
@@ -201,7 +202,7 @@ void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsi
     *(unsigned int *)(p + off + 12) = 0;
     *(unsigned int *)(p + off + 16) = 1;
     ((struct Obj10881 *)p)->f68 = 20 * (unsigned int)(((unsigned long long)func_0203F0A8() * 5) >> 32) + 200;
-    func_02015F2C(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
+    MCSS_SetAnimCallback(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
 }
 
 void func_021BF720(u8 *p, int flag, u8 index)
@@ -224,7 +225,7 @@ void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v)
     zero = Zero;
     *(unsigned int *)(p + off + 12) = zero;
     *(unsigned int *)(p + off + 16) = v;
-    func_02015F2C(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
+    MCSS_SetAnimCallback(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
 }
 
 
@@ -353,7 +354,7 @@ int func_021BFA40(char *p)
     {
     case 0:
         func_0207D63C((void *)0x04000050, 1, 9, 0, 0);
-        func_020061E4(0x555);
+        GFL_USE_PlaySeDefaultVolume(0x555);
         ++((struct Obj06676 *)p)->f24;
     case 1:
     {

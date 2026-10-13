@@ -15,7 +15,7 @@
  *   WCMi_GetSystemWork    0x021657C8  arm  ov009
  *   WM_Init          0x0208E010  arm
  *   WCMi_SetPhase    0x02165A4C  arm  ov009
- *   func_0208EAC8    0x0208EAC8  arm
+ *   WM_SetIndCallback    0x0208EAC8  arm
  *   OS_GetMacAddress 0x02087C6C  arm
  *   func_021665CC    0x021665CC  arm  ov009
  *   func_0208F224    0x0208F224  arm
@@ -38,7 +38,7 @@ typedef struct WCMWork {
 extern int WCMi_GetSystemWork(void);
 extern long WM_Init(void *wmSysBuf, unsigned short dmaNo);
 extern void WCMi_SetPhase(unsigned char phase);
-extern long func_0208EAC8(void (*callback)(void *));
+extern long WM_SetIndCallback(void (*callback)(void *));
 extern void OS_GetMacAddress(unsigned char *macAddress);
 extern void func_021665CC(unsigned char *macAddress);
 extern int func_0208F224(char *path);
@@ -69,7 +69,7 @@ long func_02166880(void)
     case 0:
         break;
     }
-    if (func_0208EAC8(func_02166EB0) != 0) {
+    if (WM_SetIndCallback(func_02166EB0) != 0) {
         WCMi_SetPhase(0xb);
         return 7;
     }

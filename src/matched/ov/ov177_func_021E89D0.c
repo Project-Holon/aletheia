@@ -14,7 +14,7 @@
  *   BMP_MENUWORK_Delete  0x0201F868  thumb
  *   func_0201F7A8  0x0201F7A8  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -33,7 +33,7 @@ extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
 
 void func_021E89D0(S *p)
@@ -42,6 +42,6 @@ void func_021E89D0(S *p)
     BMP_MENUWORK_Delete((void *)p->f14);
     func_0201F7A8((void *)p->f0, 0);
     BMP_WIN_ClearScreen((struct Descriptor *)p->f0);
-    func_020452E8((struct Descriptor *)p->f0);
+    BMP_WIN_Delete((struct Descriptor *)p->f0);
     func_020307B0(p);
 }

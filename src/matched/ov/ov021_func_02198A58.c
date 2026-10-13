@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FLDMMDL_InitMoveCmdWork  0x0216D6BC  thumb  ov010
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
  *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb  ov010
  * Addresses are Black-image addresses.
@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 
 extern u32 *FLDMMDL_InitMoveCmdWork(u32, u32);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
 extern void FLDMMDL_IncAcmdSeq(u8 *p);
 
@@ -35,7 +35,7 @@ int FLDMMDL_ACMD_FallInit(u32 a)
     p = FLDMMDL_InitMoveCmdWork(a, 8);
     p[0] = 0x140000;
     p[1] = 0xFFFF0000;
-    func_020061E4(0x676);
+    GFL_USE_PlaySeDefaultVolume(0x676);
     FLDMMDL_SetDrawStatus((void *)a, 0);
     FLDMMDL_IncAcmdSeq((u8 *)a);
     return 1;

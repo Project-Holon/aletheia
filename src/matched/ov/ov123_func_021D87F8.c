@@ -15,7 +15,7 @@
  *   func_021B95D4 0x021B95D4 thumb ov114
  *   func_021B9748 0x021B9748 thumb ov114
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  */
 #include "../include/Obj08113.h"
@@ -29,7 +29,7 @@ extern void func_021D8790(char *p);
 extern int func_021B95D4(int index, u8 *p);
 extern int func_021B9748(u8 *p);
 extern int GFL_NET_GetRunState(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 void func_021D87F8(char *p)
 {
@@ -41,7 +41,7 @@ void func_021D87F8(char *p)
                 func_021D6EE0((unsigned char *)p,(int)func_021D8790,0x7ea);
         }
     } else {
-        if (func_020362DC() || TOUCHPANEL_GetTrg())
+        if (KEY_GetTrg() || TOUCHPANEL_GetTrg())
             func_021D6EE0((unsigned char *)p,(int)func_021D8790,0x7f1);
     }
 }

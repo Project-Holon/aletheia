@@ -9,7 +9,7 @@
  * status: EXACT
  * volatile: 0x04000060 reread at 021E552E, 021E553E, 021E554A, 021E5556; 0x04000008 display register; 0x04000580 hardware store at 021E557A.
  * symbols:
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef enum { SHADING_TOON, SHADING_HIGHLIGHT } Shading;
 typedef unsigned int   u32;
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
@@ -31,7 +31,7 @@ static inline void edge(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(vo
 void func_021E5520(void)
 {
     unsigned i;
-    func_020434DC(1,1);
+    BG_SYS_SetMainPlaneVisible(1,1);
     shading(SHADING_HIGHLIGHT); antialias(1); blend(1); edge(0);
     G3X_SetFog(1,0,0,0);
     G3X_SetClearColor(0,0,0x7fff,0x3f,0);

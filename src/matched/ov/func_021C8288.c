@@ -1,5 +1,5 @@
 /*
- * function: func_021C8288
+ * function: BTL_SERVER_FLOW_GetEffectiveWeatherThunk
  * address:  0x021C8288
  * packet:   pkt_021C8288
  * region:   ov093
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_SERVER_FLOW_GetEffectiveWeather   0x021C2AB0  thumb ov093
- *   func_021C8288   0x021C8288  thumb ov093
+ *   BTL_SERVER_FLOW_GetEffectiveWeatherThunk   0x021C8288  thumb ov093
  *
  * tail-call thunk to BTL_SERVER_FLOW_GetEffectiveWeather
  */
@@ -25,7 +25,7 @@ typedef signed int s32;
 
 extern int BTL_SERVER_FLOW_GetEffectiveWeather(u8 *p);
 
-int func_021C8288(u8 *p)
+int BTL_SERVER_FLOW_GetEffectiveWeatherThunk(u8 *p)
 {
     return BTL_SERVER_FLOW_GetEffectiveWeather(p);
 }

@@ -19,7 +19,7 @@
  *   BTL_MAIN_GetPositionsPerClient 0x021B6994 thumb ov093
  *   BTL_SERVER_SetClientWithoutAdapter 0x021BAB10 thumb ov093
  *   BTL_CLIENT_SetRequestParam 0x021CD960 thumb ov093
- *   func_021B9010 0x021B9010 thumb ov093
+ *   BTL_MAIN_GetPartnerClient 0x021B9010 thumb ov093
  * note 2026-10-05 (wave P3 R5): twin shape of ov093 021B8070 / 021B7CB4 (same callees). The
  *   0x46e flag is a local `k = 0x46e` (p[0x46e], p[k-3], p[k-6], p+(k-0x7e)), spilled to [sp,#0x38]
  *   like the original. f9010 result is a u8 (no truncation before f_BAACC). 69 bytes differ,
@@ -70,7 +70,7 @@ extern int BTL_MAIN_IsClientUsed(u8 *, u8);
 extern int BTL_MAIN_GetPositionsPerClient(struct S **pp, u32 b);
 extern void BTL_SERVER_SetClientWithoutAdapter(int, u8, int);
 extern void BTL_CLIENT_SetRequestParam(u8 *p, u32 v);
-extern u8 func_021B9010(u8 *, u8);
+extern u8 BTL_MAIN_GetPartnerClient(u8 *, u8);
 int BTL_MAIN_SeqCreateClientsByMulti(u8 *p)
 {
     u8 *q;
@@ -92,7 +92,7 @@ int BTL_MAIN_SeqCreateClientsByMulti(u8 *p)
         ((int *)(p + 0x10))[idx] = (int)BTL_CLIENT_Create(p, p + 0xc8, q[0x20], *(int *)(q + 0x1c), idx, (u8)mode, 0, t, (u8)0, (struct Copy24 *)(p + 0x3f0), *(u16 *)(p + 0x468));
         BTL_SERVER_SetClientAdapter((char *)(*(int *)(p + 8)), BTL_CLIENT_GetNetChannel((struct QB *)(((int *)(p + 0x10))[idx])), idx, mode);
         if (q[0x22] == 2) {
-            x = func_021B9010(p, idx);
+            x = BTL_MAIN_GetPartnerClient(p, idx);
             *(int *)(p + 0x14) = (int)BTL_CLIENT_Create(p, p + 0xc8, q[0x20], *(int *)(q + 0x1c), 1, (u8)mode, 1, t, (u8)0, (struct Copy24 *)(p + 0x3f0), *(u16 *)(p + 0x468));
             BTL_SERVER_SetClientAdapter((char *)(*(int *)(p + 8)), BTL_CLIENT_GetNetChannel((struct QB *)(*(int *)(p + 0x14))), 1, mode);
             *(int *)(p + 0x1c) = (int)BTL_CLIENT_Create(p, p + 0xc8, q[0x20], *(int *)(q + 0x1c), 3, (u8)mode, 1, t, (u8)0, (struct Copy24 *)(p + 0x3f0), *(u16 *)(p + 0x468));

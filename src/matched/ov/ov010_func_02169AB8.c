@@ -18,15 +18,15 @@
  *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
  *   FIELD_SUBSCREEN_RequestMode  0x021A0F30  thumb  ov021
  *   FIELD_SUBSCREEN_IsIdle  0x021A0ED4  thumb  ov021
- *   func_021A1518  0x021A1518  thumb  ov021
- *   func_021A1524  0x021A1524  thumb  ov021
- *   func_021A1554  0x021A1554  thumb  ov021
- *   func_021A1530  0x021A1530  thumb  ov021
- *   func_021A1548  0x021A1548  thumb  ov021
- *   func_021A153C  0x021A153C  thumb  ov021
+ *   FIELD_SUBSCREEN_IsReportReady  0x021A1518  thumb  ov021
+ *   FIELD_SUBSCREEN_PrepareReportSave  0x021A1524  thumb  ov021
+ *   FIELD_SUBSCREEN_CheckReportSaveCounter  0x021A1554  thumb  ov021
+ *   FIELD_SUBSCREEN_StartReportSaveAnim  0x021A1530  thumb  ov021
+ *   FIELD_SUBSCREEN_StopReportSaveAnim  0x021A1548  thumb  ov021
+ *   FIELD_SUBSCREEN_IsReportSaveAnimDone  0x021A153C  thumb  ov021
  *   FIELD_SUBSCREEN_ResumeField  0x021A0FB4  thumb  ov021
  *   func_02028590  0x02028590  thumb
- *   func_0201C440  0x0201C440  thumb
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   func_020071F0  0x020071F0  thumb
  *   func_0201F7A8  0x0201F7A8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
@@ -37,7 +37,7 @@
  *   GAME_DATA_SaveStart  0x02012DAC  thumb
  *   GAME_DATA_SaveMain  0x02012DD0  thumb
  *   TIME_ICON_Delete  0x0202F038  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_0201EC64  0x0201EC64  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_0201F02C  0x0201F02C  thumb
@@ -50,7 +50,7 @@
  *   TCBL_Create  0x0203101C  arm
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Delete  0x02045808  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   REPORT_EVENT_Free  0x02169E0C  thumb  ov010
  *   REPORT_EVENT_CreateMessageWindow  0x02169E4C  thumb  ov010
  *   REPORT_EVENT_PrintMessage  0x02169EA4  thumb  ov010
@@ -125,12 +125,12 @@ extern int REPORT_EVENT_StopSaveEffect(int a0);
 extern u32 FIELDMAP_GetSubscreen(u8 *p);
 extern int FIELD_SUBSCREEN_RequestMode(u32 a, u32 b);
 extern int FIELD_SUBSCREEN_IsIdle(u32 a);
-extern int func_021A1518(u32 *p);
-extern void func_021A1524(u32 *p);
-extern int func_021A1554(u32 *p);
-extern void func_021A1530(u32 *p);
-extern void func_021A1548(u32 *p);
-extern int func_021A153C(u32 *p);
+extern int FIELD_SUBSCREEN_IsReportReady(u32 *p);
+extern void FIELD_SUBSCREEN_PrepareReportSave(u32 *p);
+extern int FIELD_SUBSCREEN_CheckReportSaveCounter(u32 *p);
+extern void FIELD_SUBSCREEN_StartReportSaveAnim(u32 *p);
+extern void FIELD_SUBSCREEN_StopReportSaveAnim(u32 *p);
+extern int FIELD_SUBSCREEN_IsReportSaveAnimDone(u32 *p);
 extern void FIELD_SUBSCREEN_ResumeField(u32 *p, u32 a);
 
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
@@ -138,7 +138,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void *func_02028590(u32 a0, u32 a1, u32 a2, u32 heap);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
 extern void func_0201F7A8(void *p, u32 kind);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
@@ -149,7 +149,7 @@ extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 he
 extern int GAME_DATA_SaveStart(int a0);
 extern int GAME_DATA_SaveMain(u8 *p);
 extern void TIME_ICON_Delete(u8 *p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
@@ -158,7 +158,7 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
 extern int GFL_USE_IsSeqPlaying(u32 a);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 
 extern const char d_02172A50[];
 
@@ -174,13 +174,13 @@ int REPORT_EVENT_Main(Work *w, u32 *state)
         break;
     case 1:
         if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(w->f08)) == 1
-            && func_021A1518((u32 *)FIELDMAP_GetSubscreen(w->f08)) == 1) {
+            && FIELD_SUBSCREEN_IsReportReady((u32 *)FIELDMAP_GetSubscreen(w->f08)) == 1) {
             w->f18 = func_02030734(w->f10, 0x50, 0, d_02172A50, 0x9F);
             w->f18->f04 = func_02045B38(0, 3, 0x9E, w->f10);
             w->f18->f18 = STRBUF_Create(0x200, w->f10);
             w->f18->f00 = TCBL_Create(w->f10, w->f10, 1, 4);
             w->f18->f1C = func_02028590(0xF, 1, 1, w->f10);
-            w->f18->f14 = func_0201C440((void *)w->f10);
+            w->f18->f14 = PRINTSYS_QUE_Create((void *)w->f10);
             w->f18->f4C = 0;
             REPORT_EVENT_CreateMessageWindow((int)w);
             REPORT_EVENT_CreateMenuResources(w);
@@ -215,8 +215,8 @@ int REPORT_EVENT_Main(Work *w, u32 *state)
         break;
     case 5:
         func_02008DF0(GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData(w->f04)), 1);
-        func_021A1524((u32 *)FIELDMAP_GetSubscreen(w->f08));
-        if (func_021A1554((u32 *)FIELDMAP_GetSubscreen(w->f08)) == 1)
+        FIELD_SUBSCREEN_PrepareReportSave((u32 *)FIELDMAP_GetSubscreen(w->f08));
+        if (FIELD_SUBSCREEN_CheckReportSaveCounter((u32 *)FIELDMAP_GetSubscreen(w->f08)) == 1)
             REPORT_EVENT_QueueMessage(w, 10);
         else
             REPORT_EVENT_QueueMessage(w, 4);
@@ -235,7 +235,7 @@ int REPORT_EVENT_Main(Work *w, u32 *state)
     case 8:
         if (REPORT_EVENT_IsAvatarReady(w) != 0) {
             w->f18->f44 = TIME_ICON_Create((void *)func_020056BC(), w->f18->f08, 0xF, 0x10, w->f10);
-            func_021A1530((u32 *)FIELDMAP_GetSubscreen(w->f08));
+            FIELD_SUBSCREEN_StartReportSaveAnim((u32 *)FIELDMAP_GetSubscreen(w->f08));
             REPORT_EVENT_StartSaveEffect((int)w);
             GAME_DATA_SaveStart((int)GAMESYSTEM_GetGameData(w->f04));
             *state = 9;
@@ -250,7 +250,7 @@ int REPORT_EVENT_Main(Work *w, u32 *state)
             *state = 10;
             break;
         case 3:
-            func_021A1548((u32 *)FIELDMAP_GetSubscreen(w->f08));
+            FIELD_SUBSCREEN_StopReportSaveAnim((u32 *)FIELDMAP_GetSubscreen(w->f08));
             REPORT_EVENT_StopSaveEffect((int)w);
             REPORT_EVENT_EndAvatarAnim((int)w);
             REPORT_EVENT_PrintMessage(w, 7);
@@ -260,8 +260,8 @@ int REPORT_EVENT_Main(Work *w, u32 *state)
         }
         break;
     case 10:
-        if (func_021A153C((u32 *)FIELDMAP_GetSubscreen(w->f08)) == 1) {
-            func_020061E4(0x558);
+        if (FIELD_SUBSCREEN_IsReportSaveAnimDone((u32 *)FIELDMAP_GetSubscreen(w->f08)) == 1) {
+            GFL_USE_PlaySeDefaultVolume(0x558);
             REPORT_EVENT_StopSaveEffect((int)w);
             REPORT_EVENT_EndAvatarAnim((int)w);
             ws = func_0201EC64(w->f10);
@@ -292,11 +292,11 @@ int REPORT_EVENT_Main(Work *w, u32 *state)
             *state = 0xF;
         break;
     case 15:
-        if (func_020362DC() & 3)
+        if (KEY_GetTrg() & 3)
             *state = 0x13;
         break;
     case 16:
-        if (func_020362DC() & 3)
+        if (KEY_GetTrg() & 3)
             *state = 0x13;
         if (w->f18->f4C >= 150)
             *state = 0x13;

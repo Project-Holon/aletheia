@@ -13,8 +13,8 @@
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   func_0200C2B0  0x0200C2B0  thumb
@@ -31,8 +31,8 @@ extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 struct BigObj;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern u32 func_0201AA18(void *a0);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *a0);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void *GAME_DATA_GetMiscSave(int *p);
 extern void func_0200C2B0(struct Blk34 *p, u32 i, const u16 *src);
@@ -53,8 +53,8 @@ int SCRCMD_POKEMON_FLD_StorePartySpeciesRecord(void *a, void *b)
     r = SCRIPT_WORK_ReadWorkValue(a, b);
     for (i = 0; i < 6; i++)
         buf[i] = 0;
-    for (j = 0, n = 0; j < (int)func_0201AA18(bag); j++) {
-        mon = func_0201AB28(bag, j);
+    for (j = 0, n = 0; j < (int)POKEPARTY_GetCount(bag); j++) {
+        mon = POKEPARTY_GetMember(bag, j);
         if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0)
             buf[n++] = POKE_TOOL_GetPartyValue(mon, 5, 0);
     }

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021E2898, func_021E28FC
+ * function: HAND_WAZA_FlailCalcPower, HAND_WAZA_FacadeGetHandlers
  * address:  0x021E2898
  * packet:   pkt_ov093_021E2898
  * region:   ov093
@@ -12,13 +12,13 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C7CF4  0x021C7CF4  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   _s32_div_f     0x0209C0A4  arm
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
- *   d_021F2CA8     0x021F2CA8  data   ov093  a2
+ *   gFlailPowerTable     0x021F2CA8  data   ov093  a2
  *   d_021F2CAA     0x021F2CAA  data   ov093  a2
- *   d_021F249C     0x021F249C  data   ov093  a4
+ *   gFacadeHandlers     0x021F249C  data   ov093  a4
  */
 
 typedef unsigned char u8;
@@ -26,14 +26,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int key);
-extern void *func_021C7CF4(int *p, int i);
+extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 extern int BTL_EVENT_OverwriteVar(int key, u32 v);
-extern u16 d_021F2CA8[];
+extern u16 gFlailPowerTable[];
 extern u16 d_021F2CAA[];
-extern int d_021F249C[];
+extern int gFacadeHandlers[];
 
-void func_021E2898(int a, void *b, int c)
+void HAND_WAZA_FlailCalcPower(int a, void *b, int c)
 {
     void *m;
     int x;
@@ -42,22 +42,22 @@ void func_021E2898(int a, void *b, int c)
     u32 i;
 
     if (c == BTL_EVENT_GetVar(3)) {
-        m = func_021C7CF4(b, c);
+        m = BTL_SERVER_FLOW_GetPokeParam(b, c);
         x = func_021D59B4(m, 0xD);
         y = func_021D59B4(m, 0xE);
         r = x * 0x30 / y;
         if (r == 0)
             r = 1;
         for (i = 0; i < 5; i++) {
-            if (r <= d_021F2CA8[i * 2])
+            if (r <= gFlailPowerTable[i * 2])
                 break;
         }
         BTL_EVENT_OverwriteVar(0x30, d_021F2CAA[i * 2]);
     }
 }
 
-int *func_021E28FC(int *p)
+int *HAND_WAZA_FacadeGetHandlers(int *p)
 {
     *p = 1;
-    return d_021F249C;
+    return gFacadeHandlers;
 }

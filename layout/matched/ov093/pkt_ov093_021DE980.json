@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_HANDLER_ITEM_ChoiceSpecs_BoostSpAttack",
-    "BTL_HANDLER_ITEM_GetChoiceScarfHandlers"
+    "HAND_ITEM_ChoiceSpecs_BoostSpAttack",
+    "HAND_ITEM_GetChoiceScarfHandlers"
    ],
    "addresses": [
     "0x021DE980",

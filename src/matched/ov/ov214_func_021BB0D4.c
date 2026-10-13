@@ -10,7 +10,7 @@
  * status: EXACT
  * volatile: BG0CNT at 021BB0E2/021BB0EA; DISP3DCNT rereads at 021BB0EE/021BB0FA/021BB102/021BB10E/021BB11A; viewport store 021BB13E
  * symbols:
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 struct Rect {u16 h[4];};
 extern const struct Rect rects[];
-extern void func_020434DC(u32,u32);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(u16,int,int,int,int);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
@@ -60,7 +60,7 @@ static inline void G3X_EdgeMarking(int enable)
 void func_021BB0D4(void)
 {
     u32 i;
-    func_020434DC(1,1);
+    BG_SYS_SetMainPlaneVisible(1,1);
     G2_SetBG0Priority(0);
     G3X_SetShading(GX_SHADING_HIGHLIGHT);
     G3X_AntiAlias(0);

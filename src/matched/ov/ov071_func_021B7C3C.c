@@ -11,7 +11,7 @@
  *
  * symbols:
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   MONOLITH_TOOL_TITLE_InitBackgrounds  0x021B7D6C  thumb  ov071
  *   MONOLITH_TOOL_TITLE_LoadGraphics  0x021B7DAC  thumb  ov071
  *   MONOLITH_TOOL_GetTitleSpecies  0x021B6F2C  thumb  ov071
@@ -24,7 +24,7 @@
  *   MONOLITH_TOOL_CreateLabel  0x021B6E1C  thumb  ov071
  *   MONOLITH_TOOL_TITLE_CreateSlotIcons  0x021B7DE0  thumb  ov071
  *   func_02040588  0x02040588  arm
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  */
 
 typedef struct {
@@ -48,7 +48,7 @@ struct Obj0203159C;
 int MONOLITH_TOOL_TITLE_Init(struct Obj0203159C *a, int *b, C *c)
 {
     extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-    extern void func_02082BCC(void *, int, int);
+    extern void MI_CpuFill8(void *, int, int);
     extern void MONOLITH_TOOL_TITLE_InitBackgrounds(void);
     extern void MONOLITH_TOOL_TITLE_LoadGraphics(void *a, unsigned *b);
     extern void *MONOLITH_TOOL_GetTitleSpecies(u8 **p);
@@ -61,7 +61,7 @@ int MONOLITH_TOOL_TITLE_Init(struct Obj0203159C *a, int *b, C *c)
     extern void MONOLITH_TOOL_CreateLabel(Inner *, void *, int, int, int, int, int, int, int);
     extern void MONOLITH_TOOL_TITLE_CreateSlotIcons(void *, C *);
     extern void func_02040588(unsigned char which, unsigned char enable);
-    extern void func_020434DC(u32 mask, u32 enable);
+    extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
     void *m;
     void *s;
     int h;
@@ -69,7 +69,7 @@ int MONOLITH_TOOL_TITLE_Init(struct Obj0203159C *a, int *b, C *c)
     switch (*b) {
     case 0:
         m = PROCSYS_AllocProcWork(a, 0x24, 0x61);
-        func_02082BCC(m, 0, 0x24);
+        MI_CpuFill8(m, 0, 0x24);
         MONOLITH_TOOL_TITLE_InitBackgrounds();
         MONOLITH_TOOL_TITLE_LoadGraphics(c, (unsigned int *)c->f4);
         h = (int)MONOLITH_TOOL_GetTitleSpecies((u8 **)c);
@@ -83,7 +83,7 @@ int MONOLITH_TOOL_TITLE_Init(struct Obj0203159C *a, int *b, C *c)
         break;
     case 1:
         func_02040588(2, 1);
-        func_020434DC(0x10, 1);
+        BG_SYS_SetMainPlaneVisible(0x10, 1);
         return 1;
     }
     return 0;

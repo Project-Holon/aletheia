@@ -1,5 +1,5 @@
 /*
- * function: func_021E5B6C
+ * function: HAND_WAZA_GetBatonPassHandlers
  * address: 0x021E5B6C
  * packet: pkt_ov093_021E5B6C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E5B78.c and filed here.
  *
  * symbols:
- *   d_021F2454 0x021F2454 data ov093 a4
+ *   gBatonPassHandlers 0x021F2454 data ov093 a4
  */
 
-extern int d_021F2454[];
-int *func_021E5B6C(int *p);
+extern int gBatonPassHandlers[];
+int *HAND_WAZA_GetBatonPassHandlers(int *p);
 
-int *func_021E5B6C(int *p)
+int *HAND_WAZA_GetBatonPassHandlers(int *p)
 {
     *p = 1;
-    return d_021F2454;
+    return gBatonPassHandlers;
 }

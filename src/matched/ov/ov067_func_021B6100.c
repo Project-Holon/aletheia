@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   d_021B9540     0x021B9540  data  a1
  */
 
@@ -33,14 +33,14 @@ typedef struct {
 extern const char d_021B9540[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
 S *UI_SCENE_Create(u32 heap, void *arr, u8 c, u16 idx, void *f4)
 {
     S *p;
 
     p = func_02030734(heap, 0x10, 0, d_021B9540, 0x4e);
-    func_02082BCC(p, 0, 0x10);
+    MI_CpuFill8(p, 0, 0x10);
     p->arr = arr;
     p->fC = c;
     p->f4 = f4;

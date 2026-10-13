@@ -13,7 +13,7 @@
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *   OEKAKI_SetQuitButtonPressed  0x021852F4  thumb  ov023
  *   OEKAKI_RegisterPlayerName  0x021857F4  thumb  ov023
@@ -33,7 +33,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *a);
 typedef unsigned char  u8;
 struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 a);
 extern void OEKAKI_SetQuitButtonPressed(void *p, int flag);
 extern void OEKAKI_RegisterPlayerName(char *p, int a, int b);
@@ -76,7 +76,7 @@ void OEKAKI_HandleEvent(char *p, int msg, int arg)
             w = ((struct Obj00336 *)p)->f118;
             BMP_WIN_TransferChars((struct Descriptor *)w);
             BMP_WIN_MakeScreen((struct Cfg *)w);
-            func_020409B4(func_02045730((struct Descriptor *)w));
+            func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)w));
         }
         OEKAKI_SetQuitButtonPressed((void *)(((struct Obj00336 *)p)->f100), 0);
         break;

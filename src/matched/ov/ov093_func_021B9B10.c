@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B10
+ * function: BTL_MAIN_AddClientPoints
  * address: 0x021B9B10
  * packet: pkt_ov093_021B9B10
  * region: ov093
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 extern int BTL_MAIN_IsClientUsed(unsigned char *p, unsigned char k);
 extern void BTL_CLIENT_AddPoints(void *,int);
-void func_021B9B10(u8 *p,u8 i,int v) {
+void BTL_MAIN_AddClientPoints(u8 *p,u8 i,int v) {
     void *q;
     if(p[0x46e] && BTL_MAIN_IsClientUsed(p,i)) {
         q=*(void **)(p+i*4+16);

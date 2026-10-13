@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_020355C4 0x020355C4 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021FF318 0x021FF318 thumb ov135
  *   func_0207D55C 0x0207D55C arm
  *   func_021F4E98 0x021F4E98 thumb ov135
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 typedef unsigned char  u8;
 extern u8 func_020355C4(void);
 struct Obj;
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern void func_021FF318(u8 *p, u32 k, int b, int c, int d);
 extern int func_0207D55C(volatile u16 *reg);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
@@ -29,9 +29,9 @@ extern void func_021F4E98(u8 *p, u32 a, u32 b);
 int func_021FE1A4(unsigned char *p)
 {
     if (func_020355C4() == 1)
-        func_0204B3DC((struct Obj *)((struct Obj00018 *)p)->fBF4, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00018 *)p)->fBF4, 0);
     else
-        func_0204B3DC((struct Obj *)((struct Obj00018 *)p)->fBF4, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00018 *)p)->fBF4, 1);
     if (((struct Obj00018 *)p)->f20 == 15) {
         if (((struct Obj00018 *)p)->fD0 != 0)
             func_021FF318(p, 38, 0, 0, 0xf0f);
@@ -47,6 +47,6 @@ int func_021FE1A4(unsigned char *p)
         func_021FF318(p, 8, 1, 0, 0xf0f);
         func_021F4E98(p, 23, 1);
     }
-    func_0204B3DC((struct Obj *)((struct Obj00018 *)p)->fD38, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00018 *)p)->fD38, 1);
     return 2;
 }

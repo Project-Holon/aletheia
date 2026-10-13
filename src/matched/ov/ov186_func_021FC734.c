@@ -10,7 +10,7 @@
  * status: EXACT*
  * symbols:
  *   BMP_WIN_ClearScreen 0x020456F8 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_020307B0 0x020307B0 arm
  */
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 struct Descriptor;
 struct U16Vec;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020307B0(void *p);
-void func_021FC734(u8*p){BMP_WIN_ClearScreen(*(void* *)&((struct Obj10791 *)p)->fC);func_020452E8(*(void* *)&((struct Obj10791 *)p)->fC);STRBUF_Delete(*(void* *)&((struct Obj10791 *)p)->f10);func_020307B0(p);}
+void func_021FC734(u8*p){BMP_WIN_ClearScreen(*(void* *)&((struct Obj10791 *)p)->fC);BMP_WIN_Delete(*(void* *)&((struct Obj10791 *)p)->fC);STRBUF_Delete(*(void* *)&((struct Obj10791 *)p)->f10);func_020307B0(p);}

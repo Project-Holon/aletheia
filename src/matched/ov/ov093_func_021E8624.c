@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C80AC  0x021C80AC  thumb  ov093
+ *   BTL_SERVER_FLOW_AreAllOtherActionsDone  0x021C80AC  thumb  ov093
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021C80AC(u8 *p, int key);
+extern int BTL_SERVER_FLOW_AreAllOtherActionsDone(u8 *p, int key);
 
 int func_021E8624(int a, int b)
 {
-    if (func_021C80AC((u8 *)a, b) != 0)
+    if (BTL_SERVER_FLOW_AreAllOtherActionsDone((u8 *)a, b) != 0)
         return 1;
     return 0;
 }

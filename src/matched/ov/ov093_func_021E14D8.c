@@ -1,5 +1,5 @@
 /*
- * function: func_021E14D8
+ * function: HAND_WAZA_AddSonicBoom
  * address: 0x021E14D8
  * packet: pkt_ov093_021E14D8
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E1478.c and filed here.
  *
  * symbols:
- *   d_021F256C 0x021F256C data ov093 a4
+ *   gSonicBoomHandlers 0x021F256C data ov093 a4
  */
 
-int *func_021E14D8(int *p);
-extern int d_021F256C[];
+int *HAND_WAZA_AddSonicBoom(int *p);
+extern int gSonicBoomHandlers[];
 
-int *func_021E14D8(int *p)
+int *HAND_WAZA_AddSonicBoom(int *p)
 {
     *p = 1;
-    return d_021F256C;
+    return gSonicBoomHandlers;
 }

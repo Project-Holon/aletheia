@@ -11,7 +11,7 @@
  * symbols:
  *   func_02012944 0x02012944 thumb
  *   func_021E5548 0x021E5548 thumb ov177
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BSUBWAY_SAVEDATA_GetStat 0x0200DFD8 thumb
  *   func_02008554 0x02008554 thumb
  *   func_021E5C20 0x021E5C20 thumb ov177
@@ -23,7 +23,7 @@ typedef unsigned char  u8;
 struct Sub0200852CObj;
 extern u8 *func_02012944(void *p);
 extern int func_021E5548(int *);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern u32 BSUBWAY_SAVEDATA_GetStat(u32,u32,u32);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u32 func_021E5C20(Desc *,int,u32,int,u32,u32,u32,u32,u32,int);
@@ -37,7 +37,7 @@ void func_021D62A4(u32 *p, u32 mode)
     if(p[6]==0) {
         sys=(u32)func_02012944((void *)REC[0]);
         base=func_021E5548((int *)p[0]);
-        func_02082BCC(&desc,0,20);
+        MI_CpuFill8(&desc,0,20);
         if(mode==0) {
             desc.kind=REC[1]; flag=1;
             desc.count=BSUBWAY_SAVEDATA_GetStat(CTX[4],REC[1]+5,0);

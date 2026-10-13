@@ -30,18 +30,18 @@
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   SCRIPT_SYS_CallScriptEvent  0x02158780  thumb  ov010
  *   SCRIPT_WORK_SetParams  0x02159058  thumb  ov010
- *   func_02014468  0x02014468  thumb
+ *   FIELD_STATUS_IsFlashActive  0x02014468  thumb
  *   FIELD_STATUS_SetFlashActive  0x02014464  thumb
  *   FIELD_FLASH_SetPendingCommand  0x021C7E50  thumb  ov021
- *   func_02014470  0x02014470  thumb
- *   func_0201446C  0x0201446C  thumb
+ *   FIELD_STATUS_GetMapEffectMask  0x02014470  thumb
+ *   FIELD_STATUS_SetMapEffectMask  0x0201446C  thumb
  *   FIELD_FLASH_GetState  0x021C7E54  thumb  ov021
  *   EVENT_MAPCHANGE_CreateEscapeRopeEvent  0x02184EEC  thumb  ov020
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   EVENT_MAPCHANGE_CreateSituationWarpEvent  0x02184F40  thumb  ov020
  *   SCRIPT_SYS_ChangeScriptEvent 0x021587B0 thumb ov010
  *   EVENT_PERAP_RECORD_Create   0x021D1C24  thumb
- *   func_02013FFC 0x02013FFC thumb
+ *   ZONEDATA_IsZoneInTableDFB8 0x02013FFC thumb
  *   d_02171258 0x02171258 data a4
  *   d_02171200 0x02171200 data a4
  *   d_02171254 0x02171254 data a4
@@ -113,18 +113,18 @@ extern void *FIELDSKILL_MAPEFF_GetFlash(void *p);
 extern u16 FIELDMAP_GetHeapId(void *fieldMap);
 extern void *SCRIPT_SYS_CallScriptEvent(struct GameEvent *event, u32 msgId, u32 b, u32 c, u32 d);
 extern int SCRIPT_WORK_SetParams(int a, int b, int c, int d, u16 e);
-extern u8 func_02014468(struct FieldStatus *fieldStatus);
+extern u8 FIELD_STATUS_IsFlashActive(struct FieldStatus *fieldStatus);
 extern void FIELD_STATUS_SetFlashActive(struct FieldStatus *fieldStatus, u8 on);
 extern void FIELD_FLASH_SetPendingCommand(void *mapEffect, u16 mode);
-extern u16 func_02014470(struct FieldStatus *fieldStatus);
-extern void func_0201446C(struct FieldStatus *fieldStatus, u32 mask);
+extern u16 FIELD_STATUS_GetMapEffectMask(struct FieldStatus *fieldStatus);
+extern void FIELD_STATUS_SetMapEffectMask(struct FieldStatus *fieldStatus, u32 mask);
 extern u16 FIELD_FLASH_GetState(void *mapEffect);
 extern struct GameEvent *EVENT_MAPCHANGE_CreateEscapeRopeEvent(struct GameSystem *gameSystem);
 extern void GAME_EVENT_ChangeEvent(struct GameEvent *event, struct GameEvent *next);
 extern struct GameEvent *EVENT_MAPCHANGE_CreateSituationWarpEvent(struct GameSystem *gameSystem);
 extern int SCRIPT_SYS_ChangeScriptEvent(int event, int msgId, int c, int d);
 extern void EVENT_PERAP_RECORD_Create(struct GameSystem *gameSystem, u32 fieldPlayer, unsigned partySlot);
-extern u32 func_02013FFC(u32 zoneId);
+extern u32 ZONEDATA_IsZoneInTableDFB8(u32 zoneId);
 extern void *FIELDMAP_GetGameSystem(void *field);
 extern u32 ZONEDATA_CheckEventFlag(void *eventWork, int flag);
 
@@ -218,12 +218,12 @@ int MOVE_POKEMON_FlashEventMain(struct GameEvent *event, int *seq, FieldSkillWor
         (*seq)++;
         break;
     case 1:
-        if (func_02014468(fieldStatus) == 0) {
+        if (FIELD_STATUS_IsFlashActive(fieldStatus) == 0) {
             status = GAME_DATA_GetMoveModelSys(gameData);
             FIELD_STATUS_SetFlashActive(fieldStatus, 1);
             GAME_BEACON_SEARCH_SetCountValue(0x94);
             FIELD_FLASH_SetPendingCommand(mapEffect, 1);
-            func_0201446C(status, (func_02014470(status) & ~1) | 2);
+            FIELD_STATUS_SetMapEffectMask(status, (FIELD_STATUS_GetMapEffectMask(status) & ~1) | 2);
         } else {
             return 1;
         }
@@ -419,14 +419,14 @@ struct GameEvent *MOVE_POKEMON_CreateSoftBoiledEvent(const FieldSkillTarget *tar
 int MOVE_POKEMON_GetSkillCheckFunc(const FieldSkillCheck *check, int skill)
 {
     if (skill >= 11) return 0;
-    if (func_02013FFC(check->zoneId)) return *(int *)((u32)d_02171258 + ((u32)skill << 3));
+    if (ZONEDATA_IsZoneInTableDFB8(check->zoneId)) return *(int *)((u32)d_02171258 + ((u32)skill << 3));
     return *(int *)((u32)d_02171200 + ((u32)skill << 3));
 }
 
 int MOVE_POKEMON_GetSkillEventFunc(const FieldSkillCheck *check, int skill)
 {
     if (skill >= 11) return 0;
-    if (func_02013FFC(check->zoneId)) return *(int *)((u32)d_02171254 + ((u32)skill << 3));
+    if (ZONEDATA_IsZoneInTableDFB8(check->zoneId)) return *(int *)((u32)d_02171254 + ((u32)skill << 3));
     return *(int *)((u32)d_021711FC + ((u32)skill << 3));
 }
 

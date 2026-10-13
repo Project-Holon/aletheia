@@ -1,5 +1,5 @@
 /*
- * function: func_021C7D44
+ * function: BTL_SERVER_FLOW_GetPosTableEntryForPoke
  * address: 0x021C7D44
  * packet: pkt_ov093_021C7D44
  * region: ov093
@@ -17,4 +17,4 @@
  */
 typedef unsigned char u8;
 extern int func_0689D5FC(u8 *p, int i);
-int func_021C7D44(char *p, int i) { return func_0689D5FC((u8 *)(p + 0x1ab8), i); }
+int BTL_SERVER_FLOW_GetPosTableEntryForPoke(char *p, int i) { return func_0689D5FC((u8 *)(p + 0x1ab8), i); }

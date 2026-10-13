@@ -10,7 +10,7 @@
  * symbols:
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_021D72C8 0x021D72C8 thumb ov120
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 #include "../include/Obj10399.h"
 typedef unsigned char u8;
@@ -24,13 +24,13 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 extern int func_021D72C8(u8 *, int, int);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021D733C(u8 *p, int index, int count)
 {
     Vec pos;
     if (((struct Obj10399 *)p)->f140 != 0) {
         CLACT_GetActorSurfacePos(((struct Obj10399 *)p)->f140, (struct PtS *)&pos, 1);
         pos.y = func_021D72C8(p, index, count) + 26;
-        func_0204B404(((struct Obj10399 *)p)->f140, (const struct Vec2 *)(&pos), 1);
+        CLACT_AddActorSurfacePos(((struct Obj10399 *)p)->f140, (const struct Vec2 *)(&pos), 1);
     }
 }

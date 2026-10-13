@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 #include "../include/Obj23190.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void func_021F96D0(char *p)
 {
     u8 i;
@@ -24,7 +24,7 @@ void func_021F96D0(char *p)
         u16 v = *(u16 *)(*(char **)(a + i * 4 + 4) + 0x4a) + *(u8 *)(p + i + 0xf7);
         if (min > v) min = v;
     }
-    if (min >= 70) func_020061E4(1578);
-    else if (min >= 30) func_020061E4(1579);
-    else if (min >= 1) func_020061E4(1580);
+    if (min >= 70) GFL_USE_PlaySeDefaultVolume(1578);
+    else if (min >= 30) GFL_USE_PlaySeDefaultVolume(1579);
+    else if (min >= 1) GFL_USE_PlaySeDefaultVolume(1580);
 }

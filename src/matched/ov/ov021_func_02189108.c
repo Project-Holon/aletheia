@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02005C8C  0x02005C8C  thumb
+ *   GFL_USE_IsCardIrqEnabled  0x02005C8C  thumb
  *   FLDMMDL_UpdateSysBlAct  0x0216CD78  thumb  ov010
  *   FIELD_G3DOBJ_Update  0x021C6470  thumb  ov021
  *   CLACT_VBlankSystem  0x0204A648  arm
@@ -18,7 +18,7 @@
  */
 #include "../include/Obj04980.h"
 
-int func_02005C8C(void);
+int GFL_USE_IsCardIrqEnabled(void);
 int FLDMMDL_UpdateSysBlAct(int a0);
 void FIELD_G3DOBJ_Update(int h);
 void CLACT_VBlankSystem(void);
@@ -26,7 +26,7 @@ void FLD_VREQ_VBlank(int h);
 
 void FIELDMAP_VBlankTask(int unused, unsigned char *p)
 {
-    if (func_02005C8C() == 0) {
+    if (GFL_USE_IsCardIrqEnabled() == 0) {
         if (((struct Obj04980 *)p)->f38 != 0)
             FLDMMDL_UpdateSysBlAct(((struct Obj04980 *)p)->f38);
         if (((struct Obj04980 *)p)->f130 != 0)

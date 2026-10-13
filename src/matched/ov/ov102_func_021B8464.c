@@ -9,15 +9,15 @@
  * status: EXACT
  * note: Separate fifth object pointer and sixth u16 heap reproduce the incoming pointer home store and halfword slot at +4; byte-correct caller 021B7560 supplies the same two slots. Struct-typed state and const Row input preserve loads across bounds stores.
  * symbols:
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * BUTTON_MAN_Create 0x02051B84 arm
  * func_021B8794 0x021B8794 thumb ov102
  * BMP_WIN_Create 0x020450F0 arm
- * func_02045770 0x02045770 arm
+ * BMP_WIN_GetBmp 0x02045770 arm
  * BMP_Clear 0x02043B5C arm
  * BMP_WIN_TransferChars 0x02045334 arm
  * BMP_WIN_MakeScreen 0x02045374 arm
- * func_02045730 0x02045730 arm
+ * BMP_WIN_GetBgLayer 0x02045730 arm
  * func_020409B4 0x020409B4 arm
  * func_021B7CC4 0x021B7CC4 thumb ov102
  * func_02045EC0 0x02045EC0 arm
@@ -36,12 +36,12 @@ typedef unsigned int u32;
 typedef struct Pair { int object; u16 heap,pad; } Pair;
 typedef struct Row { u16 id,x,y,w,h,color; } Row;
 typedef struct State { void *bank; u32 windows[4]; u8 bounds[20]; const Row *rows; u16 count,bg,index,done,state,ticks; u32 enable; } State;
-extern void func_02082BCC(void *,u8,u32);
+extern void MI_CpuFill8(void *,u8,u32);
 extern void *BUTTON_MAN_Create(u8 *,int,int,int);
 extern void func_021B8794(u16,int,u8 *);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 struct CharBuf;
 struct StrObj;
 struct U16Vec;
@@ -50,7 +50,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 struct Cfg;
 struct MsgBank;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32);
 extern int func_021B7CC4(void *);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -67,7 +67,7 @@ void func_021B8464(State *p, int bg, const Row *rows, int count, void *object, u
     const Row *row;
     u32 win,width,height;
     void *text,*target;
-    func_02082BCC(p,0,60);
+    MI_CpuFill8(p,0,60);
     p->count=count;
     p->rows=rows;
     p->bg=bg;
@@ -84,16 +84,16 @@ void func_021B8464(State *p, int bg, const Row *rows, int count, void *object, u
     for(i=0;i<p->count;i++) {
         row=rows+i;
         p->windows[i]=BMP_WIN_Create(bg,(u8)(row->x+4),(u8)(row->y+1),(u8)(row->w-8),row->h-2,row->color,1);
-        BMP_Clear(func_02045770((struct Descriptor *)p->windows[i]),4);
+        BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)p->windows[i]),4);
         win=p->windows[i];
         BMP_WIN_TransferChars((struct Descriptor *)win);
         BMP_WIN_MakeScreen((struct Cfg *)win);
-        func_020409B4(func_02045730((struct Descriptor *)win));
+        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)win));
         text=func_02045EC0((struct MsgBank *)func_021B7CC4(object),rows[i].id);
         GF_FONT_SetTextColor(15,14,4);
         width=func_0201D304(text,func_021B7CBC(object),0);
         height=func_0201D42C(text,(void *)func_021B7CBC(object));
-        target=func_02045770((struct Descriptor *)p->windows[i]);
+        target=BMP_WIN_GetBmp((struct Descriptor *)p->windows[i]);
         PRINTSYS_Print(target,(row->w-8)*4-(width>>1),(row->h-2)*4-(height>>1),text,(void *)func_021B7CBC(object));
         STRBUF_Delete(text);
         BMP_WIN_TransferChars((struct Descriptor *)p->windows[i]);

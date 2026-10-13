@@ -12,14 +12,14 @@
  * symbols:
  *   BTL_SERVER_Update  0x021BAB9C  thumb  ov093
  *   BTL_CLIENT_RunTick  0x021CD97C  thumb  ov093
- *   func_021CDD94  0x021CDD94  thumb  ov093
+ *   BTL_CLIENT_GetCursor  0x021CDD94  thumb  ov093
  *   func_021E908C  0x021E908C  thumb  ov093
  */
 #include "../include/Obj13269.h"
 
 extern int BTL_SERVER_Update(int a);
 extern int BTL_CLIENT_RunTick(int);
-extern void func_021CDD94(char *p, int *o);
+extern void BTL_CLIENT_GetCursor(char *p, int *o);
 extern void func_021E908C(char *p);
 
 int BTL_MAIN_StepClientsSolo(int a)
@@ -30,7 +30,7 @@ int BTL_MAIN_StepClientsSolo(int a)
     for (i = 0; i < 4; i++) {
         if (*(int *)(p + i * 4 + 0x10) != 0 &&
             BTL_CLIENT_RunTick(*(int *)(p + i * 4 + 0x10)) != 0) {
-            func_021CDD94((char *)(*(int *)(p + i * 4 + 0x10)), (int *)((int)(p + 0x448)));
+            BTL_CLIENT_GetCursor((char *)(*(int *)(p + i * 4 + 0x10)), (int *)((int)(p + 0x448)));
             found = 1;
         }
     }

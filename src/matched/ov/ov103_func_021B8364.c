@@ -20,7 +20,7 @@
  * func_021B9060 0x021B9060 thumb ov103
  * func_021B8D54 0x021B8D54 thumb ov103
  * func_021B8CB0 0x021B8CB0 thumb ov103
- * func_020061E4 0x020061E4 thumb
+ * GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  * func_021B8348 0x021B8348 thumb ov103
  * func_021B8338 0x021B8338 thumb ov103
  * func_021B856C 0x021B856C thumb ov103
@@ -50,7 +50,7 @@ extern void GFL_USE_StopAllSe(void);
 extern void func_021B9060(int,u16);
 extern int func_021B8D54(u32 *,u32 *);
 extern void func_021B8CB0(u8 *,int,int,int);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_021B8348(u32 p, u32 a, u16 b);
 extern void func_021B8338(u32 p, u32 a);
 extern void func_021B856C(u8 *,u16 *),func_021B8A44(u8 *,u16 *);
@@ -89,7 +89,7 @@ void func_021B8364(u8 *p,u16 *state)
                 q=func_021B7954(p);
                 func_021B8CA0((u8 **)q,0,1);
                 func_021B8CB0(q,0,pos[0],pos[1]);
-                func_020061E4(0x651);
+                GFL_USE_PlaySeDefaultVolume(0x651);
                 if(func_021B9214(p+0xa4c)) {
                     func_021B8138(p+0x184,p+0x174,2,0,0);
                     func_021B9060(3,55);

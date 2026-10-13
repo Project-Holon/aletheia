@@ -15,18 +15,18 @@
  * symbols:
  *   d_021F257C     0x021F257C  data   ov093  a4
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C88A4  0x021C88A4  thumb  ov093
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
  *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
- *   func_021C88C8  0x021C88C8  thumb  ov093
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  *   d_021F28B8     0x021F28B8  data   ov093  a4
- *   func_021C7CF4 0x021C7CF4 thumb ov093
- *   func_021C8374 0x021C8374 thumb ov093
- *   func_021C8234 0x021C8234 thumb ov093
+ *   BTL_SERVER_FLOW_GetPokeParam 0x021C7CF4 thumb ov093
+ *   BTL_SERVER_FLOW_IsPokeAfflictedByStatus 0x021C8374 thumb ov093
+ *   BTL_SERVER_FLOW_IsPokeGroundedById 0x021C8234 thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_POKEPARAM_TestContFlag 0x021D5BDC thumb ov093
  *   BTLV_CORE_MakeSlotKind1Empty 0x021E89C0 thumb ov093
- *   func_021C8838 0x021C8838 thumb ov093
- *   func_021C8860 0x021C8860 thumb ov093
+ *   BTL_SERVER_FLOW_InitMsgRecord 0x021C8838 thumb ov093
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg 0x021C8860 thumb ov093
  *   d_021F274C 0x021F274C data a4
  *   d_021F2714     0x021F2714  data   ov093  a4
  *   BTL_POKEPARAM_GetTypePair   0x021D57FC  thumb ov093
@@ -55,17 +55,17 @@ typedef signed int s32;
 typedef struct Word { u32 v; } Word;
 
 extern int BTL_EVENT_GetVar(int key);
-extern void *func_021C88A4(char *p, int a, int b);
+extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
-extern void func_021C88C8(void *a, void *b);
-extern void *func_021C7CF4(int *p, int i);
-extern int func_021C8374(u8 *p, int i);
-extern int func_021C8234(u8 *p, int i);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
+extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
+extern int BTL_SERVER_FLOW_IsPokeAfflictedByStatus(u8 *p, int i);
+extern int BTL_SERVER_FLOW_IsPokeGroundedById(u8 *p, int i);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
 extern Word BTLV_CORE_MakeSlotKind1Empty(u32);
-extern void func_021C8838(void *, int, int);
-extern void func_021C8860(struct S *, u32);
+extern void BTL_SERVER_FLOW_InitMsgRecord(void *, int, int);
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *, u32);
 u16 BTL_POKEPARAM_GetTypePair(void *p);
 void func_021E75E0(int a, int b, int c);
 int *func_021E7628(int *p);
@@ -85,7 +85,7 @@ void func_021E75E0(int a, int b, int c)
     int k, r;
 
     if (c == BTL_EVENT_GetVar(3)) {
-        p = func_021C88A4((char *)b, 0x2e, c);
+        p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 0x2e, c);
         p[6] = BTL_EVENT_GetVar(6);
         r = BTL_EVENT_GetFactorKey((void *)a);
         k = 0x1fd;
@@ -94,7 +94,7 @@ void func_021E75E0(int a, int b, int c)
         else
             k += 0x8f;
         ((struct Obj13543 *)p)->f4 = k;
-        func_021C88C8((void *)b, p);
+        BTL_SERVER_FLOW_CommitCmdRecord((void *)b, p);
     }
 }
 
@@ -120,44 +120,44 @@ void func_021E7634(int a, int b, int c)
     u8 *p;
     if (c == BTL_EVENT_GetVar(3)) {
         k = BTL_EVENT_GetVar(6);
-        x = func_021C7CF4((int *)b, k);
+        x = BTL_SERVER_FLOW_GetPokeParam((int *)b, k);
         flag = 0;
-        if (func_021C8374((u8 *)b, k) == 0) {
-            if (func_021C8234((u8 *)b, k) != 0 && BTL_POKEPARAM_HasSick(x, 0x21) == 0) {
-                p = func_021C88A4((char *)b, 12, c);
+        if (BTL_SERVER_FLOW_IsPokeAfflictedByStatus((u8 *)b, k) == 0) {
+            if (BTL_SERVER_FLOW_IsPokeGroundedById((u8 *)b, k) != 0 && BTL_POKEPARAM_HasSick(x, 0x21) == 0) {
+                p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 12, c);
                 p[15] = k;
                 ((struct Obj02139 *)p)->f4 = 0x1f;
                 *(Word *)(p + 8) = BTLV_CORE_MakeSlotKind1Empty(0x1f);
-                func_021C8838(p + 20, 2, 0x468);
-                func_021C8860((struct S *)(p + 20), k);
-                func_021C88C8((void *)b, p);
+                BTL_SERVER_FLOW_InitMsgRecord(p + 20, 2, 0x468);
+                BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(p + 20), k);
+                BTL_SERVER_FLOW_CommitCmdRecord((void *)b, p);
                 flag = 1;
                 if (BTL_POKEPARAM_HasSick(x, 0x1e) != 0) {
-                    p = func_021C88A4((char *)b, 11, c);
+                    p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 11, c);
                     p[20] = 1;
                     p[8] = k;
                     p[21] = 1;
                     ((struct Obj02139 *)p)->f4 = 0x1e;
-                    func_021C88C8((void *)b, p);
+                    BTL_SERVER_FLOW_CommitCmdRecord((void *)b, p);
                 }
                 if (BTL_POKEPARAM_HasSick(x, 0x20) != 0) {
-                    p = func_021C88A4((char *)b, 11, c);
+                    p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 11, c);
                     p[20] = 1;
                     p[8] = k;
                     p[21] = 1;
                     ((struct Obj02139 *)p)->f4 = 0x20;
-                    func_021C88C8((void *)b, p);
+                    BTL_SERVER_FLOW_CommitCmdRecord((void *)b, p);
                 }
             }
             if (BTL_POKEPARAM_TestContFlag(x, 3) != 0) {
-                p = func_021C88A4((char *)b, 0x36, c);
+                p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 0x36, c);
                 p[4] = k;
                 *(int *)(p + 8) = 3;
                 if (flag == 0) {
-                    func_021C8838(p + 12, 2, 0x468);
-                    func_021C8860((struct S *)(p + 12), k);
+                    BTL_SERVER_FLOW_InitMsgRecord(p + 12, 2, 0x468);
+                    BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(p + 12), k);
                 }
-                func_021C88C8((void *)b, p);
+                BTL_SERVER_FLOW_CommitCmdRecord((void *)b, p);
             }
         }
     }
@@ -176,41 +176,41 @@ void func_021E7760(int a, int b, int c)
     u8 *p;
 
     if (c == BTL_EVENT_GetVar(3)) {
-        p = func_021C88A4((char *)b, 0xe, c);
+        p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 0xe, c);
         ((struct Obj00663 *)p)->f4 = 2;
         ((struct Obj00663 *)p)->fC = -1;
         p[0xf] = 1;
         p[0x10] = c;
         p[0xe] = 1;
-        func_021C88C8((void *)b, p);
-        p = func_021C88A4((char *)b, 0xe, c);
+        BTL_SERVER_FLOW_CommitCmdRecord((void *)b, p);
+        p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 0xe, c);
         ((struct Obj00663 *)p)->f4 = 4;
         ((struct Obj00663 *)p)->fC = -1;
         p[0xf] = 1;
         p[0x10] = c;
         p[0xe] = 1;
-        func_021C88C8((void *)b, p);
-        p = func_021C88A4((char *)b, 0xe, c);
+        BTL_SERVER_FLOW_CommitCmdRecord((void *)b, p);
+        p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 0xe, c);
         ((struct Obj00663 *)p)->f4 = 1;
         ((struct Obj00663 *)p)->fC = 2;
         p[0xf] = 1;
         p[0x10] = c;
         p[0xe] = 1;
-        func_021C88C8((void *)b, p);
-        p = func_021C88A4((char *)b, 0xe, c);
+        BTL_SERVER_FLOW_CommitCmdRecord((void *)b, p);
+        p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 0xe, c);
         ((struct Obj00663 *)p)->f4 = 3;
         ((struct Obj00663 *)p)->fC = 2;
         p[0xf] = 1;
         p[0x10] = c;
         p[0xe] = 1;
-        func_021C88C8((void *)b, p);
-        p = func_021C88A4((char *)b, 0xe, c);
+        BTL_SERVER_FLOW_CommitCmdRecord((void *)b, p);
+        p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 0xe, c);
         ((struct Obj00663 *)p)->f4 = 5;
         ((struct Obj00663 *)p)->fC = 2;
         p[0xf] = 1;
         p[0x10] = c;
         p[0xe] = 1;
-        func_021C88C8((void *)b, p);
+        BTL_SERVER_FLOW_CommitCmdRecord((void *)b, p);
     }
 }
 
@@ -223,7 +223,7 @@ int *func_021E7810(int *p)
 
 
 /*
- * Gate on BTL_EVENT_GetVar(3); the (u8) of BTL_EVENT_GetVar(6) keys func_021C7CF4,
+ * Gate on BTL_EVENT_GetVar(3); the (u8) of BTL_EVENT_GetVar(6) keys BTL_SERVER_FLOW_GetPokeParam,
  * whose result is halfword-stored through BTL_POKEPARAM_GetTypePair in record #0x14.  A
  * second record #4 gets the 4<<22 flag in its header word and the two-string
  * tail (c and the key).
@@ -237,18 +237,18 @@ void func_021E781C(void *a, int b, int c)
     if (c != BTL_EVENT_GetVar(3))
         return;
     k = (u8)BTL_EVENT_GetVar(6);
-    r = func_021C7CF4((int *)b, k);
-    p = func_021C88A4((char *)b, 0x14, c);
+    r = BTL_SERVER_FLOW_GetPokeParam((int *)b, k);
+    p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 0x14, c);
     ((struct Obj07237 *)p)->f6 = c;
     ((struct Obj07237 *)p)->f4 = BTL_POKEPARAM_GetTypePair(r);
     ((struct Obj07237 *)p)->f7 = 1;
-    func_021C88C8((void *)b, p);
-    p = func_021C88A4((char *)b, 4, c);
+    BTL_SERVER_FLOW_CommitCmdRecord((void *)b, p);
+    p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 4, c);
     ((struct Obj07237 *)p)->f0 |= 4 << 22;
-    func_021C8838(p + 4, 2, 0x441);
-    func_021C8860((struct S *)(p + 4), c);
-    func_021C8860((struct S *)(p + 4), k);
-    func_021C88C8((void *)b, p);
+    BTL_SERVER_FLOW_InitMsgRecord(p + 4, 2, 0x441);
+    BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(p + 4), c);
+    BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(p + 4), k);
+    BTL_SERVER_FLOW_CommitCmdRecord((void *)b, p);
 }
 
 

@@ -16,8 +16,8 @@
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_DATA_GetExternalWork  0x02012F80  thumb
- *   func_02026454  0x02026454  thumb
- *   func_02026474  0x02026474  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
+ *   GAME_COMM_GetWork  0x02026474  thumb
  */
 #include "../include/Obj00005.h"
 
@@ -31,8 +31,8 @@ extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int GAME_DATA_GetExternalWork(char *base);
-extern u32 func_02026454(void *obj);
-extern u32 func_02026474(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
+extern u32 GAME_COMM_GetWork(void *obj);
 
 int SCRCMD_MUSICAL_WaitCommAttach(int a0, int a1)
 {
@@ -59,12 +59,12 @@ t5 = a0 + 0;
 loc_0215E114:
 t4 = a0 + 0;
 a0 = t5 + 0;
-    a0 = func_02026454((void *)a0);
+    a0 = GAME_COMM_GetKind((void *)a0);
 loc_0215E11C:
     if (a0 != 4) goto loc_0215E12C;
 loc_0215E120:
 a0 = t5 + 0;
-    a0 = func_02026474((void *)a0);
+    a0 = GAME_COMM_GetWork((void *)a0);
 loc_0215E126:
 *(int *)&((struct Obj00005 *)t4)->f4 = a0;
 a0 = 1;

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
  *   func_02008530  0x02008530  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
@@ -39,7 +39,7 @@ struct Rec44;
 struct SaveBlock;
 struct Sub0200852CObj;
 struct Sub24;
-unsigned int func_02026478(void *obj);
+unsigned int GAME_COMM_GetGameData(void *obj);
 struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, unsigned int i);
 unsigned int func_02008530(const struct Sub0200852CObj *obj);
 void MYSTATUS_Copy(void *src, void *dst);
@@ -61,7 +61,7 @@ void INTRUDE_COMM_ApplyPlayerBeacon(u8 *p, int idx, u8 *q)
     int a;
     int flag;
 
-    ctx = func_02026478((void *)(((struct Obj00269 *)p)->f4));
+    ctx = GAME_COMM_GetGameData((void *)(((struct Obj00269 *)p)->f4));
     flag = 0;
     a = (int)GAME_DATA_GetPlayerStatus((struct Sub24 *)ctx, idx);
     if (p[0x8FB] & (1 << idx)) {

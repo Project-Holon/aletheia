@@ -33,8 +33,8 @@
  *   func_021FD170 0x021FD170 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_02035D20 0x02035D20 arm
- *   func_020061E4 0x020061E4 thumb
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 #include "../include/Obj01275.h"
 #include "../include/Obj24638.h"
@@ -76,8 +76,8 @@ extern int func_021FD744(int *a);
 extern void func_021FD170(char *p, char *q, void *text);
 extern void func_021FD860(int,int,Pair *);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_02035D20(u32 *,u32 *);
-extern void func_020061E4(u32 a);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void func_021E1E3C(int *task,int *state,char *p) {
     u32 out;
     u64 total;
@@ -119,8 +119,8 @@ void func_021E1E3C(int *task,int *state,char *p) {
     case 3:func_021FD73C((int *)task,(int)func_021E1DF0);break;
     case 4:
         if(TOUCHPANEL_GetTrg()) {
-            func_02035D20(&x,&y);pair.a=x;pair.b=y;func_021FD860(((struct Obj01275 *)p)->f14,1,&pair);
-            func_020061E4(0x703);*state=3;
+            TOUCHPANEL_GetPointTrg(&x,&y);pair.a=x;pair.b=y;func_021FD860(((struct Obj01275 *)p)->f14,1,&pair);
+            GFL_USE_PlaySeDefaultVolume(0x703);*state=3;
         }break;
     }
 }

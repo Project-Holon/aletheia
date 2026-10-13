@@ -16,12 +16,12 @@
  *   func_02034AC4 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021BDDD8 0x021BDDD8 thumb ov203
  *   func_02045B38 0x02045B38 arm
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_02040588 0x02040588 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_021BE160 0x021BE160 thumb ov203
  *   func_021BE62C 0x021BE62C thumb ov203
@@ -42,7 +42,7 @@
  *   FADE_GetSpeed 0x0204E6E0 arm
  *   WIPE_SYS_Start 0x0202208C thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_02030734 0x02030734 arm
  *   d_021C3CC0 0x021C3CC0 data a1
  *   d_021C3BC4 0x021C3BC4 data a4
@@ -55,6 +55,7 @@
  *   d_021BFB7C 0x021BFB7C data a2
  *   BRIGHTNESS_ChangeReset  0x02023F98  thumb  arm9
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb  arm9
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  */
 #include "../../matched/include/Obj06663.h"
 #include "../../matched/include/Obj06664.h"
@@ -93,19 +94,19 @@ typedef enum { ShadingToon = 0, ShadingHighlight = 1 } GXShading;
 extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
-extern void func_02082BCC(void *, int, unsigned);
+extern void MI_CpuFill8(void *, int, unsigned);
 extern void *func_021BDDD8(unsigned, void *, unsigned);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern unsigned func_0201C440(void *);
+extern unsigned PRINTSYS_QUE_Create(void *);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_020434DC(unsigned, unsigned);
+extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 extern struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap);
 extern u32 func_021BE62C(char *p);
 extern void func_021BE948(void *, int, u8 *, u8 *);
 extern void BRIGHTNESS_ChangeReset(u32 mask);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void func_021BE4B4(char *ctx);
 extern void func_021BDE98(char *ctx);
 extern void func_020315D4(struct S020315D4 *p);
@@ -120,7 +121,7 @@ extern u32 WIPE_SYS_EndCheck(void);
 extern void WIPE_SetMstBrightColor(unsigned);
 extern unsigned FADE_GetSpeed(void);
 extern void WIPE_SYS_Start(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
-extern unsigned func_020362DC(void);
+extern unsigned KEY_GetTrg(void);
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 extern u32 func_020307B0(void *p);
 extern void func_0204044C(unsigned);
@@ -154,18 +155,18 @@ int func_021BDA40(void *manager, int unused, u8 *p)
     func_02034AC4((int)ov067_id);
     GFL_HEAP_CreateChildHeap(1, 0x6c, 0x130000);
     w = PROCSYS_AllocProcWork(manager, sizeof(Work), 0x6c);
-    func_02082BCC(w, 0, sizeof(Work));
+    MI_CpuFill8(w, 0, sizeof(Work));
     w->heap = heap;
     w->arg = p;
     w->view = func_021BDDD8(1, ((struct Obj06663 *)p)->f4, w->heap);
     w->msg = func_02045B38(0, 2, 0x41, w->heap);
-    w->str = (void *)func_0201C440((void *)w->heap);
+    w->str = (void *)PRINTSYS_QUE_Create((void *)w->heap);
     func_02040588(6, 0);
     func_02040588(4, 0);
     func_02040588(3, 0);
     func_02040588(2, 0);
     func_02040588(1, 0);
-    func_020434DC(0x10, 0);
+    BG_SYS_SetMainPlaneVisible(0x10, 0);
     BG_SYS_SetSubPlaneVisible(0x10, 0);
     w->model = func_021BE160(w->view, (struct Cfg *)p, w->heap);
     w->ctx = func_021BDCC0(*(int *)&((struct Obj06663 *)p)->f4, w->view, w->model, w->heap);
@@ -181,7 +182,7 @@ int func_021BDB20(void *a, void *b, void *c, char *work)
     BRIGHTNESS_ChangeReset(3);
     func_021BDD18(*(char * *)&((struct Obj06664 *)work)->f1C);
     MSGDATA_Delete(((struct Obj06664 *)work)->f14);
-    func_0201C4C0(((struct Obj06664 *)work)->f10);
+    PRINTSYS_QUE_Delete(((struct Obj06664 *)work)->f10);
     func_021BE4B4(((struct Obj06664 *)work)->f18);
     func_021BDE98(((struct Obj06664 *)work)->fC);
     func_020315D4(a);
@@ -252,7 +253,7 @@ int func_021BDC20(void *ctx, unsigned mode, unsigned heap)
 
 
 
-int func_021BDC88(char *p){if(((struct Obj25305 *)(*(char * *)&((struct Obj14585 *)p)->f4))->f14!=0||!WIPE_SYS_EndCheck())return 0;if(((struct Obj25306 *)(*(char * *)&((struct Obj14585 *)p)->f1C))->f14!=0){if(func_020362DC()&0xcf3)return 1;}return 0;}
+int func_021BDC88(char *p){if(((struct Obj25305 *)(*(char * *)&((struct Obj14585 *)p)->f4))->f14!=0||!WIPE_SYS_EndCheck())return 0;if(((struct Obj25306 *)(*(char * *)&((struct Obj14585 *)p)->f1C))->f14!=0){if(KEY_GetTrg()&0xcf3)return 1;}return 0;}
 
 
 

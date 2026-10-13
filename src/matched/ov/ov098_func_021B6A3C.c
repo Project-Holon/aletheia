@@ -13,11 +13,11 @@
  *   func_021B6C90 0x021B6C90 thumb ov098
  *   func_021B6CDC 0x021B6CDC thumb ov098
  *   PRINTSYS_PrintStreamRun 0x0201CE20 thumb
- *   func_0201CE30 0x0201CE30 thumb
- *   func_0201CE38 0x0201CE38 thumb
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
+ *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  */
 #include "../include/Obj00466.h"
@@ -28,11 +28,11 @@ struct Rec3;
 extern void func_021B6C90(char *, int);
 extern int func_021B6CDC(u8 *);
 extern void PRINTSYS_PrintStreamRun(void *);
-extern u32 func_0201CE30(void *);
-extern void func_0201CE38(void *);
-extern void func_0201CE48(struct Rec3 *);
+extern u32 PRINTSYS_PrintStreamGetState(void *);
+extern void PRINTSYS_PrintStreamReleasePause(void *);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 int func_021B6A3C(u8 *p)
 {
@@ -50,7 +50,7 @@ int func_021B6A3C(u8 *p)
         p[0x39]++;
     case 2:
         if (((struct Obj00466 *)p)->f0) {
-            ((struct Obj00466 *)p)->f3C = func_0201CE30(((struct Obj00466 *)p)->f0);
+            ((struct Obj00466 *)p)->f3C = PRINTSYS_PrintStreamGetState(((struct Obj00466 *)p)->f0);
             if (((struct Obj00466 *)p)->f3C) {
                 p[0x39] = 3;
                 if (((struct Obj00466 *)p)->f3C == 2) p[0x3a] = 1;
@@ -58,7 +58,7 @@ int func_021B6A3C(u8 *p)
         } else return 1;
         break;
     case 3:
-        if ((func_020362DC() & 3) || TOUCHPANEL_GetTrg()) ((struct Obj00466 *)p)->f40 = 0;
+        if ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg()) ((struct Obj00466 *)p)->f40 = 0;
         if (((struct Obj00466 *)p)->f40) (((struct Obj00466 *)p)->f40)--;
         else p[0x39] = 5;
         break;
@@ -69,12 +69,12 @@ int func_021B6A3C(u8 *p)
     case 5:
         if (((struct Obj00466 *)p)->f3C == 2) {
             GF_FONT_SetDefaultTextColor();
-            func_0201CE48(*(struct Rec3 * *)&((struct Obj00466 *)p)->f0);
+            PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct Obj00466 *)p)->f0);
             ((struct Obj00466 *)p)->f0 = 0;
             p[0x39] = 6;
             return 1;
         } else {
-            func_0201CE38(((struct Obj00466 *)p)->f0);
+            PRINTSYS_PrintStreamReleasePause(((struct Obj00466 *)p)->f0);
             p[0x39] = 2;
             ((struct Obj00466 *)p)->f40 = ((struct Obj00466 *)p)->f42;
         }

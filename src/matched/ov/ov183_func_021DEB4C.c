@@ -13,7 +13,7 @@
  *   func_021FD15C 0x021FD15C thumb ov186
  *   func_021FB964 0x021FB964 thumb ov186
  *   func_021FBE54 0x021FBE54 thumb ov186
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FC124 0x021FC124 thumb ov186
  *   func_02034714 0x02034714 arm
  *   func_021FB378 0x021FB378 thumb ov186
@@ -47,7 +47,7 @@ extern int func_021FC214(char *);
 extern void func_021FD15C(void *,int);
 extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern void func_021FBE54(char *,u32,u32);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern int func_021FC124(void *,int,Triple *);
 extern void func_02034714(const char *,u32,const char *);
 extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
@@ -72,7 +72,7 @@ void func_021DEB4C(int *task,int *state,char *p)
     func_021FB964((void *)(((struct Obj24590 *)(*(char * *)&((struct Obj00364 *)p)->f108))->f10),24,((struct Obj00364 *)p)->f18);
     func_021FBE54(*(char * *)&((struct Obj24591 *)(*(char * *)&((struct Obj00364 *)p)->f108))->f10,6,((struct Obj00364 *)p)->f18);
     ((struct Obj00364 *)p)->f104=1;
-    func_02082BCC(&config,0,8);
+    MI_CpuFill8(&config,0,8);
     config.left=80;config.right=168;config.top=0;config.flag=1;
     if(!func_021FC124(((struct Obj24592 *)(*(char * *)&((struct Obj00364 *)p)->f108))->f10,6,&triple))
         func_02034714(d_021E3964,0,d_021E3964);

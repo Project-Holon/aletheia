@@ -22,12 +22,12 @@
  *   func_02040C14  0x02040C14  arm
  *   func_02041300  0x02041300  arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
- *   func_0201C440  0x0201C440  thumb
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   func_02045B38  0x02045B38  arm
  *   STRBUF_Create  0x020457B0  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
@@ -77,7 +77,7 @@ extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct Cfg;
 struct CharBuf;
 struct GfFont;
@@ -88,7 +88,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -118,7 +118,7 @@ void STARTMENU_LogoInit(Work *p, u32 heap)
     func_02040C14(5, 0, 1, 0);
     func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
     p->win = BMP_WIN_Create(5, 0, 0x13, 0x20, 2, 0xA, 0);
-    p->bmp = (u32)func_02045770((struct Descriptor *)p->win);
+    p->bmp = (u32)BMP_WIN_GetBmp((struct Descriptor *)p->win);
     BMP_Clear((struct CharBuf *)p->bmp, 0);
     BMP_WIN_MakeScreen((struct Cfg *)p->win);
     BMP_WIN_TransferChars((struct Descriptor *)p->win);
@@ -126,7 +126,7 @@ void STARTMENU_LogoInit(Work *p, u32 heap)
     p->win2 = p->win;
     func_020409B4(5);
     p->font = (u32)GF_FONT_Create(0x17, 0, 0, 0, heap);
-    p->print = func_0201C440((void *)heap);
+    p->print = PRINTSYS_QUE_Create((void *)heap);
     p->msg = (u32)func_02045B38(0, 2, 0xB5, heap);
     p->buf = (u32)STRBUF_Create(0x40, heap);
     MSGDATA_ReadString((struct MsgBank *)p->msg, 1, (void *)p->buf);

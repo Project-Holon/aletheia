@@ -25,7 +25,7 @@
  *   DWC_RAP_GetTargetFriendIndex 0x02156A3C thumb ov009
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  *   func_021BA928 0x021BA928 thumb ov099
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_021BA8EC 0x021BA8EC thumb ov099
  *   func_021BAADC 0x021BAADC thumb ov099
  *   func_021C18C8 0x021C18C8 thumb ov099
@@ -39,7 +39,7 @@ extern int DWC_RAP_GetTargetFriendIndex(void);
 extern void func_021BAAB8(char *, int, int);
 extern int func_021BA928(char *);
 typedef unsigned int   u32;
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_021BA8EC(char *);
 extern void func_021BAADC(char *, int, int);
 extern void func_021C18C8(char *p, int kind, int value);
@@ -57,7 +57,7 @@ int func_021BFB04(char *p, int ret)
         return ret;
     }
     if (func_021BA928(p)) {
-        if (func_020362DC() & 3) {
+        if (KEY_GetTrg() & 3) {
             func_021BA8EC(p);
             func_021BAADC(p, 0x7b, 0);
             func_021C18C8(p, 4, 4);

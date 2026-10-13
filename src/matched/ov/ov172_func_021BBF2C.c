@@ -58,6 +58,12 @@
  *   BMP_WIN_ClearScreen  0x020456F8  arm  arm9
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
  *   CLACT_IsActorAnimActive  0x0204B98C  arm  arm9
+ *   GFL_USE_PlaySeInSlot  0x0200616C  thumb  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb  arm9
+ *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
+ *   BMP_WIN_GetBmp  0x02045770  arm  arm9
+ *   BMP_WIN_Delete  0x020452E8  arm  arm9
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -106,18 +112,18 @@ extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern void GFL_USE_StopAllSe(void);
-extern void func_020061E4(u32 id);
-extern void func_0200616C(void *arg, int i);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
+extern void GFL_USE_PlaySeInSlot(void *arg, int i);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void *func_02045770(struct Descriptor *w);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *w);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 a);
@@ -239,7 +245,7 @@ int func_021BBF2C(void *a0, char *p)
             if (W(0x28) == 0) {
                 t = func_021BDFDC(a0);
                 GFL_USE_StopAllSe();
-                func_020061E4(0x73e);
+                GFL_USE_PlaySeDefaultVolume(0x73e);
                 func_021B7B64((int)a0, (char *)t);
             }
             W(8) = 2;
@@ -248,7 +254,7 @@ int func_021BBF2C(void *a0, char *p)
             H(0x36)++;
             if (H(0x36) >= 0x78) {
                 H(0x36) = 0;
-                func_0200616C((void *)0x73d, 2);
+                GFL_USE_PlaySeInSlot((void *)0x73d, 2);
             }
         }
         if (W(8) == 9) {
@@ -280,7 +286,7 @@ int func_021BBF2C(void *a0, char *p)
                 func_0201F7A8((void *)W(0x30), 1);
                 d = (struct Descriptor *)W(0x30);
                 BMP_WIN_ClearScreen(d);
-                func_020409B4(func_02045730(d));
+                func_020409B4(BMP_WIN_GetBgLayer(d));
                 func_021BE34C(a0);
                 CLACT_SetActorAnimSeq(OBJ, 1);
                 W(0x18) = 4;
@@ -288,7 +294,7 @@ int func_021BBF2C(void *a0, char *p)
         }
         break;
     case 11:
-        func_020452E8((struct Descriptor *)W(0x2c));
+        BMP_WIN_Delete((struct Descriptor *)W(0x2c));
         W(0x2c) = BMP_WIN_Create(4, 2, 5, 0x1c, 0xe, 0xa, 1);
         func_021BD0C4(a0, p, 0x29);
         W(8) = 12;
@@ -297,15 +303,15 @@ int func_021BBF2C(void *a0, char *p)
         if (func_021BE054(a0) >= 2 && W(0x28) == 0) {
             GFL_USE_StopAllSe();
             W(0x28) = 1;
-            func_020061E4(0x73e);
+            GFL_USE_PlaySeDefaultVolume(0x73e);
         }
         if (TOUCHPANEL_GetTrg() == 1 || func_021BE0D0(a0) == 1) {
-            func_020061E4(0x54c);
+            GFL_USE_PlaySeDefaultVolume(0x54c);
             func_0201F7A8((void *)W(0x2c), 1);
             d = (struct Descriptor *)W(0x2c);
             BMP_WIN_ClearScreen(d);
-            func_020409B4(func_02045730(d));
-            func_020452E8((struct Descriptor *)W(0x2c));
+            func_020409B4(BMP_WIN_GetBgLayer(d));
+            BMP_WIN_Delete((struct Descriptor *)W(0x2c));
             W(0x2c) = BMP_WIN_Create(4, 1, 0x15, 0x15, 2, 0xa, 1);
             func_021BE0F0(a0);
             if (st[1] == 2 || st[1] == 3) {
@@ -334,11 +340,11 @@ int func_021BBF2C(void *a0, char *p)
             r = p + i * 0x1c;
             if (*(u32 *)(r + 0x44) == 1) {
                 struct PrintSys *ps = (struct PrintSys *)func_021BE044(a0);
-                if (func_0201C6C4(ps, func_02045770(*(struct Descriptor **)(r + 0x54))) == 0) {
+                if (PRINTSYS_QUE_IsExistTarget(ps, BMP_WIN_GetBmp(*(struct Descriptor **)(r + 0x54))) == 0) {
                     d = *(struct Descriptor **)(r + 0x54);
                     BMP_WIN_TransferChars(d);
                     BMP_WIN_MakeScreen((struct Cfg *)d);
-                    func_02041B6C(func_02045730(d));
+                    func_02041B6C(BMP_WIN_GetBgLayer(d));
                     *(u32 *)(r + 0x44) = 0;
                 }
             }
@@ -373,7 +379,7 @@ int func_021BBF2C(void *a0, char *p)
     }
     if (W(0x20) == 1) {
         struct PrintSys *ps = (struct PrintSys *)func_021BE044(a0);
-        if (func_0201C6C4(ps, func_02045770((struct Descriptor *)W(0x2c))) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget(ps, BMP_WIN_GetBmp((struct Descriptor *)W(0x2c))) == 0) {
             BMP_WIN_TransferChars((struct Descriptor *)W(0x2c));
             BMP_WIN_MakeScreen((struct Cfg *)W(0x2c));
             func_020409B4(4);
@@ -382,7 +388,7 @@ int func_021BBF2C(void *a0, char *p)
     }
     if (W(0x24) == 1) {
         struct PrintSys *ps = (struct PrintSys *)func_021BE044(a0);
-        if (func_0201C6C4(ps, func_02045770((struct Descriptor *)W(0x30))) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget(ps, BMP_WIN_GetBmp((struct Descriptor *)W(0x30))) == 0) {
             BMP_WIN_TransferChars((struct Descriptor *)W(0x30));
             BMP_WIN_MakeScreen((struct Cfg *)W(0x30));
             func_020409B4(4);

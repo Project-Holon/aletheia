@@ -17,7 +17,7 @@
  * per count, steps before the pointer stores, enum offset local) stayed at 54/126 or 102/128 in passes
  * 1 to 4.
  * symbols:
- *   func_02013ECC  0x02013ECC  thumb
+ *   ZONEDATA_GetEventDataId  0x02013ECC  thumb
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  */
@@ -54,7 +54,7 @@ typedef struct {
     H hdr;
 } O;
 
-extern unsigned func_02013ECC(unsigned);
+extern unsigned ZONEDATA_GetEventDataId(unsigned);
 extern unsigned ARC_TOOL_GetHandleMemberSize(struct ArcFile *, unsigned);
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *, unsigned, unsigned, unsigned, void *);
 
@@ -67,7 +67,7 @@ void EVENTDATA_SYSTEM_ReadEventFile(O *o, int x)
     unsigned off;
     const H *h;
 
-    a = func_02013ECC(x);
+    a = ZONEDATA_GetEventDataId(x);
     r = ARC_TOOL_GetHandleMemberSize(o->f4, a);
     ARC_TOOL_ReadHandleMemberRange(o->f4, a, 0, r, &o->size);
     off = 0;

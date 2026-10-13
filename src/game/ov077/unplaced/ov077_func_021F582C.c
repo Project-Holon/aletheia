@@ -30,14 +30,14 @@
  *   func_0207AF1C 0x0207AF1C thumb
  *   func_0207AF38 0x0207AF38 thumb
  *   func_0207D934 0x0207D934 arm
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  *   d_021F5A58 0x021F5A58 data a4
  */
 #include "../enceff_base_types.h"
 #include "../enceff_grid_types.h"
 #include "../enceff_g3_inline.h"
 
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern void func_0207AF1C(Mtx33 *mtx, int sinValue, int cosValue);
 extern void func_0207AF38(Mtx33 *mtx, int sinValue, int cosValue);
 extern void func_0207D934(const Mtx33 *mtx);
@@ -76,10 +76,10 @@ void ENCEFF_DrawCellGrid(EncEffGridWork *work)
             G3_Translate(pos.x, pos.y, pos.z);
             G3_Scale(scale.x, scale.y, scale.z);
             angleIndex = cell->angleY >> 4;
-            func_0207AF1C(&mtx, d_020A1B38[angleIndex * 2], d_020A1B38[angleIndex * 2 + 1]);
+            func_0207AF1C(&mtx, FX_SinCosTable_[angleIndex * 2], FX_SinCosTable_[angleIndex * 2 + 1]);
             func_0207D934(&mtx);
             angleIndex = cell->angleZ >> 4;
-            func_0207AF38(&mtx, d_020A1B38[angleIndex * 2], d_020A1B38[angleIndex * 2 + 1]);
+            func_0207AF38(&mtx, FX_SinCosTable_[angleIndex * 2], FX_SinCosTable_[angleIndex * 2 + 1]);
             func_0207D934(&mtx);
             REG_BEGIN_VTXS = 1;
             REG_NORMAL = 0x20000000;

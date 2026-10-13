@@ -23,6 +23,7 @@
  *   g_02203804  0x02203804  data  ov135
  *   g_02203824  0x02203824  data  ov135
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm  arm9
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm  arm9
  *
  * Four-layer bring-up, every layer 020414EC'd, with the tilemap clears for
  * layers 2, 0 and 3 in that order.
@@ -60,7 +61,7 @@ extern u32 BG_SYS_GetSubVisiblePlanes(void);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);

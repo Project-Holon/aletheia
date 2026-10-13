@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045730 0x02045730 arm
- *   func_02045738 0x02045738 arm
- *   func_02045740 0x02045740 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
+ *   BMP_WIN_GetWidth 0x02045738 arm
+ *   BMP_WIN_GetHeight 0x02045740 arm
  *   BGWINFRM_AddFrame 0x0202CA3C thumb
  *   BGWINFRM_PutBmpWin 0x0202CEBC thumb
  */
 typedef unsigned char  u8;
 struct Descriptor;
-extern u8 func_02045730(struct Descriptor *p); extern unsigned char func_02045738(void *); extern unsigned char func_02045740(void *); extern void BGWINFRM_AddFrame(void *,unsigned,unsigned,unsigned,unsigned); extern void BGWINFRM_PutBmpWin(void *,unsigned,void *);
-void func_021EB708(void *m,unsigned i,void *d){unsigned bg=func_02045730(d);unsigned w=func_02045738(d);unsigned h=func_02045740(d);BGWINFRM_AddFrame(m,i,bg,w,h);BGWINFRM_PutBmpWin(m,i,d);}
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p); extern unsigned char BMP_WIN_GetWidth(void *); extern unsigned char BMP_WIN_GetHeight(void *); extern void BGWINFRM_AddFrame(void *,unsigned,unsigned,unsigned,unsigned); extern void BGWINFRM_PutBmpWin(void *,unsigned,void *);
+void func_021EB708(void *m,unsigned i,void *d){unsigned bg=BMP_WIN_GetBgLayer(d);unsigned w=BMP_WIN_GetWidth(d);unsigned h=BMP_WIN_GetHeight(d);BGWINFRM_AddFrame(m,i,bg,w,h);BGWINFRM_PutBmpWin(m,i,d);}

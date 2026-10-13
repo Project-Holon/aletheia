@@ -16,7 +16,7 @@
  *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
  *   UI_SCENE_CreateActor 0x021B629C thumb ov067
  *   CLACT_SetActorBgPriority 0x0204B84C arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_021C060C 0x021C060C thumb ov110
  *   func_021C09E0 0x021C09E0 thumb ov110
  *   func_021C0A54 0x021C0A54 thumb ov110
@@ -38,7 +38,7 @@ extern int UI_SCENE_CreateActor(void *,int,u16,u16,u8,u16);
 extern void CLACT_SetActorBgPriority(void *,u32);
 struct Obj;
 struct R;
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void func_021C060C(u8 *p, u16 heap, u32 font, void *print, void *bank);
 extern void func_021C09E0(u8 *);
 extern void *func_021C0A54(int,void *,int);
@@ -70,7 +70,7 @@ void func_021C0490(u8 *p)
     UI_SCENE_LoadActorGfx(p+12,&in,resource,((struct Obj00435 *)p)->f4);
     *(int *)&((struct Obj00435 *)p)->f8=UI_SCENE_CreateActor(p+12,resource,240,16,16,((struct Obj00435 *)p)->f4);
     CLACT_SetActorBgPriority(((struct Obj00435 *)p)->f8,1);
-    func_0204B92C(((struct Obj00435 *)p)->f8,1);
+    CLACT_SetActorAutoAnim(((struct Obj00435 *)p)->f8,1);
     func_021C060C(p+0x24,((struct Obj00435 *)p)->f4,(u32)(((struct Obj00435 *)p)->f58),((struct Obj00435 *)p)->f5C,((struct Obj00435 *)p)->f60);
     func_021C09E0(p+0x24);
     p[0x44]=0;

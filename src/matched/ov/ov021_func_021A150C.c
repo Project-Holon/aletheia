@@ -1,5 +1,5 @@
 /*
- * function: func_021A150C
+ * function: FIELD_SUBSCREEN_UpdateReportNoTransition
  * address:  0x021A150C
  * packet:   pkt_ov021_021A150C
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern void REPORT_UpdateWindows(int *p);
 
-void func_021A150C(u32 *p)
+void FIELD_SUBSCREEN_UpdateReportNoTransition(u32 *p)
 {
     REPORT_UpdateWindows((int *)p[8]);
 }

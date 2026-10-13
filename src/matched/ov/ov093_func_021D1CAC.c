@@ -1,5 +1,5 @@
 /*
- * function: func_021D1CAC
+ * function: BTL_CLIENT_StepPlayRecallAnim
  * address:  0x021D1CAC
  * packet:   pkt_ov093_021D1CAC
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8E70  0x021B8E70  thumb  ov093
+ *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
  *   func_021EA458  0x021EA458  thumb  ov093
  *   func_021EA478  0x021EA478  thumb  ov093
  */
@@ -27,15 +27,15 @@ typedef struct {
     u8 unk1A6;            /* 0x1A6 */
 } BattleSeq;
 
-extern u8 func_021B8E70(u8 *p, u32 k);
+extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k);
 extern void func_021EA458(char *ctx, u16 a, u16 b);
 extern int func_021EA478(u32 *p);
 
-int func_021D1CAC(BattleSeq *s, int *state, int *pp)
+int BTL_CLIENT_StepPlayRecallAnim(BattleSeq *s, int *state, int *pp)
 {
     switch (*state) {
     case 0:
-        func_021EA458(s->msgWin, func_021B8E70(s->battle, (u8)pp[0]), (u16)pp[1]);
+        func_021EA458(s->msgWin, BTL_MAIN_GetViewPosOfSlot(s->battle, (u8)pp[0]), (u16)pp[1]);
         (*state)++;
         break;
     case 1:

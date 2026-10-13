@@ -24,7 +24,7 @@
  *   TOWNMAP_GRH_LoadTownInfo 0x021BBB24 thumb ov072
  *   func_02012984 0x02012984 thumb
  *   func_02034AC4 0x02034AC4 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_020490F4 0x020490F4 arm
  *   func_020056A0 0x020056A0 thumb
  *   ov072_id 0x00000048 data a1
@@ -42,7 +42,7 @@ extern int func_021BC3A8(int *p);
 extern int func_021BCF4C(char *);
 extern int func_021BC3AC(int *p);
 extern int func_02034AC4(int);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern u8 func_02012984(const struct BigObj *p);
 extern int TOWNMAP_GRH_LoadTownInfo(int);
 extern void func_021C0048(u16 *,char *,int);
@@ -64,7 +64,7 @@ u32 func_021BF788(void *a0,u32 a1,u16 *heap,u32 a3,int key)
     func_02034AC4((int)ov072_id);
     p = (u8 *)func_021BC32C(a0,0x438,*heap);
     i = 0;
-    func_02082BCC(p,0,0x438);
+    MI_CpuFill8(p,0,0x438);
     ((struct Obj00510 *)p)->f0 = func_021BCF4C((char *)func_021BC3A8((int *)key));
     ((struct Obj00510 *)p)->f4 = func_021BC3AC((int *)key);
     for (;i<2;i++) *(u32 *)(p+i*4+0x5c)=0;

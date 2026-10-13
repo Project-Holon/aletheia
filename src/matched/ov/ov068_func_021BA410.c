@@ -13,7 +13,7 @@
  *   TOUCHBAR_Delete  0x021B639C  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   APP_TASKMENU_WIN_Delete  0x02028148  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 #include "../include/Obj20641.h"
 
@@ -24,7 +24,7 @@ extern void TOUCHBAR_Delete(void *a);
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
-extern void func_02082BCC(void *p, u32 a, u32 b);
+extern void MI_CpuFill8(void *p, u32 a, u32 b);
 
 void OPTION_MENU_ExitButtons(u8 *p)
 {
@@ -35,5 +35,5 @@ void OPTION_MENU_ExitButtons(u8 *p)
         STRBUF_Delete((struct U16Vec *)(*(u32 *)(p + i * 0xc + 0x1c)));
         APP_TASKMENU_WIN_Delete((u8 *)(*(u32 *)(p + i * 4 + 0x34)));
     }
-    func_02082BCC(p, 0, 0x44);
+    MI_CpuFill8(p, 0, 0x44);
 }

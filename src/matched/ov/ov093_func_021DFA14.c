@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetIronBallHandlers
+ * function: HAND_ITEM_GetIronBallHandlers
  * address: 0x021DFA14
  * packet: pkt_ov093_021DFA14
  * region: ov093
@@ -15,10 +15,10 @@
  *   gBtlHandlerItemIronBallHandlers 0x021F166C data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetIronBallHandlers(int *p);
+int *HAND_ITEM_GetIronBallHandlers(int *p);
 extern int gBtlHandlerItemIronBallHandlers[];
 
-int *BTL_HANDLER_ITEM_GetIronBallHandlers(int *p)
+int *HAND_ITEM_GetIronBallHandlers(int *p)
 {
     *p = 2;
     return gBtlHandlerItemIronBallHandlers;

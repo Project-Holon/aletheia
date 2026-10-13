@@ -11,7 +11,7 @@
  * closed:   blocking arm9 callees labelled and matched by seeds_3 (2026-09-28)
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
  *   sub_02008A00  0x02008A00  thumb
  *   func_021C3EF8  0x021C3EF8  thumb
@@ -61,7 +61,7 @@ typedef struct {
 } Work;
 
 struct Sub020089A8Obj;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void *GAME_DATA_GetSaveBlock21(void **h);
 extern struct Sub020089A8Obj *sub_02008A00(struct Sub020089A8Obj *obj);
 extern void func_021C3EF8(Info *info);
@@ -82,7 +82,7 @@ void func_021C5718(Work *p, int sel, int *seq)
         break;
     case 9:
         if (p->args->cfg->f4_6) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             p->b32C6 = 0;
             *seq = 6;
         }
@@ -100,14 +100,14 @@ void func_021C5718(Work *p, int sel, int *seq)
     case 6:
         if (p->args->cfg->f4_6) {
             sub_02008A00(GAME_DATA_GetSaveBlock21(p->args->f4));
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021C3EF8(p->info);
             func_021C61EC(p, p->info->b6, 1);
         }
         break;
     case 7:
         if (p->args->cfg->f4_6) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             p->info->f48++;
             if (p->info->f48 > 0x18) {
                 p->info->f48 = 0;

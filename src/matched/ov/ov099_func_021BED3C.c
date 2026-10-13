@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_02009A34 0x02009A34 thumb
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  *   func_021BE6F0 0x021BE6F0 thumb ov099
@@ -19,7 +19,7 @@
 #include "../include/Obj01051.h"
 
 typedef unsigned int u32;
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 struct Sub020097BCObj;
 extern u32 func_02009A34(struct Sub020097BCObj *obj);
 extern void func_021BAAB8(char *, int, int);
@@ -29,7 +29,7 @@ extern int func_021BE4F0(char *, int);
 extern int func_021BA8BC(void *p);
 int func_021BED3C(char *p, int ret)
 {
-    if (func_020362DC() & 3) {
+    if (KEY_GetTrg() & 3) {
         if (!func_02009A34(((struct Obj01051 *)p)->f4)) {
             func_021BAAB8(p, 0x1a, 1);
             ((struct Obj01051 *)p)->f1CC = 0x33;

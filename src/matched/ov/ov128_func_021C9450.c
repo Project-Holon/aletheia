@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020362DC 0x020362DC arm
- *   func_0203630C 0x0203630C arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   KEY_GetCont 0x0203630C arm
  *   func_020355D8 0x020355D8 arm
  *   func_021C93C0 0x021C93C0 thumb ov128
  */
@@ -17,15 +17,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern u32 func_020362DC(void);
-extern unsigned int func_0203630C(void);
+extern u32 KEY_GetTrg(void);
+extern unsigned int KEY_GetCont(void);
 extern void func_020355D8(u8 v);
 extern int func_021C93C0(char *p, void *q, void *r, int n);
 int func_021C9450(void *p,int *q,void *r) {
- if(*q==1 && (func_020362DC()&0xcf3)) {func_020355D8(0);*q=0;}
- if(func_020362DC()&2)return func_021C93C0(p,q,r,0);
- if(func_020362DC()&1024)return func_021C93C0(p,q,r,1);
- if(func_0203630C()&64)return func_021C93C0(p,q,r,2);
- if(func_0203630C()&128)return func_021C93C0(p,q,r,3);
+ if(*q==1 && (KEY_GetTrg()&0xcf3)) {func_020355D8(0);*q=0;}
+ if(KEY_GetTrg()&2)return func_021C93C0(p,q,r,0);
+ if(KEY_GetTrg()&1024)return func_021C93C0(p,q,r,1);
+ if(KEY_GetCont()&64)return func_021C93C0(p,q,r,2);
+ if(KEY_GetCont()&128)return func_021C93C0(p,q,r,3);
  return 2;
 }

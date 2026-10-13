@@ -14,7 +14,7 @@
  * and a different register assignment.
  *
  * symbols:
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 typedef unsigned int u32;
 
@@ -39,15 +39,15 @@ typedef struct {
 } W;
 
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 void func_02208D50(W *w, int i, int b)
 {
     if ((w->r[i].state == 2 || w->r[i].state == 3) && b == 1 && (i & 1) == 0) {
-        func_0204B3DC((struct Obj *)w->r[i].h04, w->flags.b4);
-        func_0204B3DC((struct Obj *)w->r[i].h08, w->flags.b4 ? 0 : 1);
+        CLACT_SetActorDrawEnable((struct Obj *)w->r[i].h04, w->flags.b4);
+        CLACT_SetActorDrawEnable((struct Obj *)w->r[i].h08, w->flags.b4 ? 0 : 1);
     } else {
-        func_0204B3DC((struct Obj *)w->r[i].h04, b);
-        func_0204B3DC((struct Obj *)w->r[i].h08, b);
+        CLACT_SetActorDrawEnable((struct Obj *)w->r[i].h04, b);
+        CLACT_SetActorDrawEnable((struct Obj *)w->r[i].h08, b);
     }
 }

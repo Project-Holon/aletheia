@@ -10,7 +10,7 @@
  * status:   EXACT
  * closed 2026-10-05 (recoup integrator): func_021B652C and MONOLITH_TOOL_InitPalAnm return int (their matched definitions); with void declarations the 0x30 constant was copied from r4; with the real return type the
  *   bytes are EXACT in c99 and c.
- * checks:   1 every callee's arity from its own ov071 file or a matched caller (PROCSYS_AllocProcWork/func_02082BCC from ov071_021B730C, func_020056A0 from ov071_021B8EE8, func_0207D63C from ov091_021B6F28, func_0207D534/02043534/020435F4 from ov088_021B98BC); 2 no twin with the 0xF1 byte store or the 0xF8/0xFC/0x100 self-links; ov088_021B98BC gives the register block; 3 o as int, as a Wk struct, 0x30 as an int local, the byte store through s8, 0x12Cu, the 0x12C/0x130 pair as an array: no change; 4 inline setter for the byte (u8 and int parameter) no change; permuter 300 --types found nothing below 2 B; 5 ls docs/idioms re-read, none fits
+ * checks:   1 every callee's arity from its own ov071 file or a matched caller (PROCSYS_AllocProcWork/MI_CpuFill8 from ov071_021B730C, func_020056A0 from ov071_021B8EE8, func_0207D63C from ov091_021B6F28, func_0207D534/02043534/020435F4 from ov088_021B98BC); 2 no twin with the 0xF1 byte store or the 0xF8/0xFC/0x100 self-links; ov088_021B98BC gives the register block; 3 o as int, as a Wk struct, 0x30 as an int local, the byte store through s8, 0x12Cu, the 0x12C/0x130 pair as an array: no change; 4 inline setter for the byte (u8 and int parameter) no change; permuter 300 --types found nothing below 2 B; 5 ls docs/idioms re-read, none fits
  * blocker:  ARM9 func_0204363C remains unresolved at THM_CALL +0x74;
  *   no current matched ARM9 source/unit shard witness. the integrator owns this leaf.
  *   Previous 02010F7C blocker is now resolved by src/matched/arm9/GPOWER_LoadPowerTable.c
@@ -62,13 +62,13 @@
  *
  * symbols:
  *   func_0207D534  0x0207D534  arm
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   func_0207D63C  0x0207D63C  arm
  *   func_0204363C  0x0204363C  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020490F4  0x020490F4  arm
  *   GPOWER_LoadPowerTable  0x02010F7C  thumb
  *   PROCSYS_Create  0x02031324  arm
@@ -94,14 +94,14 @@ typedef unsigned int u32;
 struct S02021D50;
 struct W6844;
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 extern void func_0204363C(u32 a);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *GPOWER_LoadPowerTable(u32 heap);
 extern void *PROCSYS_Create(int a0);
@@ -125,7 +125,7 @@ int MONOLITH_TOOL_Init(struct Obj0203159C *ctx, int unused, u8 *arg)
 
     func_0207D534((volatile u16 *)0x0400006C, -16);
     func_0207D534((volatile u16 *)0x0400106C, -16);
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u32 *)0x04000000 &= 0xFFFFE0FF;
     *(volatile u32 *)0x04001000 &= 0xFFFFE0FF;
@@ -136,7 +136,7 @@ int MONOLITH_TOOL_Init(struct Obj0203159C *ctx, int unused, u8 *arg)
     func_0204363C(1);
     GFL_HEAP_CreateChildHeap(1, 0x61, 0x70000);
     o = PROCSYS_AllocProcWork(ctx, 0x13C, 0x61);
-    func_02082BCC(o, 0, 0x13C);
+    MI_CpuFill8(o, 0, 0x13C);
     o[0xF1] = 0x30;
     MONOLITH_TOOL_LoadSlotRecords(o, arg);
     *(int *)(o + 0x30) = (int)func_020490F4(0x27, 0x61);

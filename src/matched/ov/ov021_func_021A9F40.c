@@ -27,7 +27,7 @@
  *   FIELD_ENCOUNT_PickRoamer  0x021A957C  thumb  ov021
  *   BTL_SETUP_Create  0x02013090  thumb
  *   FIELD_ENCOUNT_SetupRoamerBattle  0x021AA548  thumb  ov021
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FIELD_ENCOUNT_CreateZoneWildMons  0x021A954C  thumb  ov021
  *   FIELD_ENCOUNT_SetupWildBattle  0x021AA490  thumb  ov021
  *   FIELD_ENCOUNT_ResetStepWork  0x021AA6F8  thumb  ov021
@@ -87,7 +87,7 @@ extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern void *FIELD_ENCOUNT_PickRoamer(void *a0, struct Unit *u, u32 want);
 extern void *BTL_SETUP_Create(u32 heap);
 extern void FIELD_ENCOUNT_SetupRoamerBattle(struct Ctx *ctx, void *a1, void *a2, u16 heap, void *src);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern int FIELD_ENCOUNT_CreateZoneWildMons(void *a0, void *u, u16 id, void *slots);
 extern void FIELD_ENCOUNT_SetupWildBattle(struct Ctx *ctx, struct Unit *u, void *a2, u16 heap, struct Slot14 *slots);
 extern void FIELD_ENCOUNT_ResetStepWork(struct Pos *p, void *q);
@@ -136,7 +136,7 @@ int FIELD_ENCOUNT_CheckWildEncount(struct Ctx *ctx, int mode)
         FIELD_ENCOUNT_SetupRoamerBattle(ctx, &sel, h, 4, src);
     } else {
         src = 0;
-        func_02082BCC(slots, 0, 0x28);
+        MI_CpuFill8(slots, 0, 0x28);
         cnt = FIELD_ENCOUNT_CreateZoneWildMons(ctx->f0C, &sel, FIELDMAP_GetZoneId(ctx->f00), slots);
         if (cnt == 0)
             return (int)src;

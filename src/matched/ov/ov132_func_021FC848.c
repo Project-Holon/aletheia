@@ -14,7 +14,7 @@
  *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0200A81C 0x0200A81C thumb
  *   d_021FDE5C 0x021FDE5C data a4
  * 02012F44 returns the live pointer from its forwarding target 020071CC;
@@ -32,13 +32,13 @@ extern u32 func_020173EC(void);
 extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern int MYSTATUS_GetSize(void);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_02082BCC(void *,u8,u32);
+extern void MI_CpuFill8(void *,u8,u32);
 struct Big;
 extern u16 func_0200A81C(struct Big *p);
 extern const char d_021FDE5C[];
 static inline void clear8(void *dest,u32 size)
 {
- func_02082BCC(dest,0,size);
+ MI_CpuFill8(dest,0,size);
 }
 #define W(q,k) (*(u32 *)((q)+(k)))
 #define P(q,k) (*(u8 **)((q)+(k)))

@@ -15,14 +15,14 @@
  * advances give EXACT. Permuter300 previously consumed, not repeated.
  * symbols:
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
- *   func_020143CC  0x020143CC  thumb
+ *   ZONEDATA_GetEventWorkAddress  0x020143CC  thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct BigObj;
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
-extern u32 func_020143CC(u32 a, u32 b);
+extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
 inline static u16 RD16(const u8 *p)
 {
   return (u16) (p[0] + (p[1] << 8));
@@ -64,7 +64,7 @@ u16 SCRIPT_SYS_FindSceneScript(const void *a, const u8 *list, u32 key)
       return 0xFFFF;
     tmp1 = RD16(p + 2);
     val = tmp1;
-    if (val == (*((u16 *)func_020143CC(h, id))))
+    if (val == (*((u16 *)ZONEDATA_GetEventWorkAddress(h, id))))
       return RD16(p + 4);
   }
 

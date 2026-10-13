@@ -1,5 +1,5 @@
 /*
- * function: func_021CAA24
+ * function: BTL_SERVER_FLOW_ResolveCurseTargetPosition
  * address: 0x021CAA24
  * packet: pkt_ov093_021CAA24
  * region: ov093
@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int BTL_CALC_DecideMoveTarget(void *, int, int, u16);
-int func_021CAA24(u8 *p, u8 *q, int m, int n, int value)
+int BTL_SERVER_FLOW_ResolveCurseTargetPosition(u8 *p, u8 *q, int m, int n, int value)
 {
     if (((struct Obj09977 *)q)->f0 == 174) {
         if (((struct Obj09977 *)q)->fC == 0) {

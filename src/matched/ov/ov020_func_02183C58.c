@@ -1,5 +1,5 @@
 /*
- * function: func_02183C58
+ * function: EVENT_MAPCHANGE_InitUnionInfo
  * address:  0x02183C58
  * packet:   pkt_ov020_02183C58
  * region:   ov020
@@ -30,7 +30,7 @@ extern int EVENT_FIELD_PROCLINK_CheckZoneFlag(int a0);
 extern int GAME_DATA_GetMysteryRecvFlagB(int a);
 extern void EVENT_FIELD_PROCLINK_GetReturnInfo(u16 *out, u8 *in, int c);
 
-void func_02183C58(int a)
+void EVENT_MAPCHANGE_InitUnionInfo(int a)
 {
     int w = (int)GAMESYSTEM_GetGameData((const struct Ctx *)a);
     int r5 = (int)GAME_DATA_GetSecondUnionInfo((void *)w);

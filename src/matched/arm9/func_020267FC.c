@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_NET_GetRunState  0x0203CD98  arm
- *   func_0217778C  0x0217778C  thumb
+ *   NET_WHPIPE_PublishBeacon  0x0217778C  thumb
  *   GAME_BEACON_Work     0x02146940  data
  */
 
@@ -23,13 +23,13 @@ typedef unsigned int   u32;
 extern char *GAME_BEACON_Work;
 
 extern int GFL_NET_GetRunState(void);
-extern void func_0217778C(void);
+extern void NET_WHPIPE_PublishBeacon(void);
 
 void GAME_BEACON_SendIfRequested(void)
 {
     if (*(u8 *)(GAME_BEACON_Work + 0x62) == 1) {
         if (GFL_NET_GetRunState() == 1) {
-            func_0217778C();
+            NET_WHPIPE_PublishBeacon();
             *(u8 *)(GAME_BEACON_Work + 0x62) = 0;
         }
     }

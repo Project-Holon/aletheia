@@ -25,13 +25,13 @@
  *   BTL_SERVER_GetActionTableEntry  0x021BB8B0  thumb  ov093
  *   BTL_ACTION_IsChangeDepleted  0x021D83E0  thumb  ov093
  *   BTL_CALC_ActionGetKind  0x021D8454  thumb  ov093
- *   func_021B9AB0  0x021B9AB0  thumb  ov093
- *   func_021B9BF0  0x021B9BF0  thumb  ov093
+ *   BTL_SLOT_GetRotateSrcIndex  0x021B9AB0  thumb  ov093
+ *   BTL_SLOT_GetPoke  0x021B9BF0  thumb  ov093
  *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
  *   BTL_SERVER_FLOW_CalcMovePriority  0x021BC8EC  thumb  ov093
  *   BTL_SERVER_FLOW_CalcPokeSpeed  0x021BC948  thumb  ov093
- *   func_021CC8D8  0x021CC8D8  thumb  ov093
- *   func_021CC95C  0x021CC95C  thumb  ov093
+ *   BTL_SERVER_FLOW_BeginHandExScope  0x021CC8D8  thumb  ov093
+ *   BTL_SERVER_FLOW_EndHandExScope  0x021CC95C  thumb  ov093
  *   BTL_SERVER_FLOW_SortActionOrder  0x021BC874  thumb  ov093
  *   BTL_SERVER_FLOW_QueryActionAllowedEvent  0x021C6350  thumb  ov093
  */
@@ -51,13 +51,13 @@ extern u8 BTL_SERVER_GetActionTableValue(u8 *p, u8 i);
 extern B BTL_SERVER_GetActionTableEntry(u8 *p, u8 i, u8 j);
 extern int BTL_ACTION_IsChangeDepleted(B *p);
 extern u32 BTL_CALC_ActionGetKind(B *p);
-extern u8 func_021B9AB0(u8 k);
-extern u32 func_021B9BF0(struct S2 *p, u32 i);
+extern u8 BTL_SLOT_GetRotateSrcIndex(u8 k);
+extern u32 BTL_SLOT_GetPoke(struct S2 *p, u32 i);
 extern void *BTL_MAIN_GetCompetitor(void ***p);
 extern int BTL_SERVER_FLOW_CalcMovePriority(u8 *p, u32 x, u8 *a);
 extern u16 BTL_SERVER_FLOW_CalcPokeSpeed(u8 *p, u8 *x, int flag);
-extern u32 func_021CC8D8(void *lock, int line);
-extern void func_021CC95C(u32 *p, u32 v, int line);
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *lock, int line);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 extern void BTL_SERVER_FLOW_SortActionOrder(E *e, u32 n);
 extern u8 BTL_SERVER_FLOW_QueryActionAllowedEvent(u8 *p, u8 *a);
 
@@ -91,16 +91,16 @@ u8 BTL_SERVER_FLOW_BuildActionOrder(S *p, u8 *o, E *e)
                 t = BTL_CALC_ActionGetKind(&r->b) & 0xff;
                 switch (t) {
                 case 6:
-                    r5 = func_021B9AB0(r->b.sub);
-                    r->a = (u8 *)func_021B9BF0(q->m, (u8)r5);
+                    r5 = BTL_SLOT_GetRotateSrcIndex(r->b.sub);
+                    r->a = (u8 *)BTL_SLOT_GetPoke(q->m, (u8)r5);
                     flag = 1;
                     break;
                 case 3:
-                    r->a = (u8 *)func_021B9BF0(q->m, (u8)r->b.sub);
+                    r->a = (u8 *)BTL_SLOT_GetPoke(q->m, (u8)r->b.sub);
                     r5++;
                     break;
                 default:
-                    r->a = (u8 *)func_021B9BF0(q->m, (u8)r5);
+                    r->a = (u8 *)BTL_SLOT_GetPoke(q->m, (u8)r5);
                     r5++;
                     break;
                 }
@@ -115,7 +115,7 @@ u8 BTL_SERVER_FLOW_BuildActionOrder(S *p, u8 *o, E *e)
         u32 m = 0x1FFF;
         u8 r5;
         u32 sub;
-        lock = func_021CC8D8((u8 *)p + 0x1d74, 0x678 - 0x38);
+        lock = BTL_SERVER_FLOW_BeginHandExScope((u8 *)p + 0x1d74, 0x678 - 0x38);
         r = &e[l];
         a = e[l].a;
         switch (r->b.kind) {
@@ -166,7 +166,7 @@ u8 BTL_SERVER_FLOW_BuildActionOrder(S *p, u8 *o, E *e)
             sub = 0;
         }
         k = BTL_SERVER_FLOW_CalcPokeSpeed((u8 *)p, a, 1);
-        func_021CC95C((u32 *)((u8 *)p + 0x1d74), lock, 0x678);
+        BTL_SERVER_FLOW_EndHandExScope((u32 *)((u8 *)p + 0x1d74), lock, 0x678);
         r->c = (k & m) | ((m + 1) | (((r5 & 7) << 22) | ((sub & 0x3f) << 16)));
     }
     BTL_SERVER_FLOW_SortActionOrder(e, cnt);
@@ -174,10 +174,10 @@ u8 BTL_SERVER_FLOW_BuildActionOrder(S *p, u8 *o, E *e)
         for (i = 0; i < cnt; i++) {
             r = &e[i];
             if (r->b.kind == 1 || r->b.kind == 5) {
-                u32 lock = func_021CC8D8((u8 *)p + 0x1d74, 0x68A);
+                u32 lock = BTL_SERVER_FLOW_BeginHandExScope((u8 *)p + 0x1d74, 0x68A);
                 u32 v = BTL_SERVER_FLOW_QueryActionAllowedEvent((u8 *)p, r->a);
                 r->c = (r->c & 0xFFFF1FFF) | ((v & 7) << 13);
-                func_021CC95C((u32 *)((u8 *)p + 0x1d74), lock, 0x68A + 3);
+                BTL_SERVER_FLOW_EndHandExScope((u32 *)((u8 *)p + 0x1d74), lock, 0x68A + 3);
             }
         }
         BTL_SERVER_FLOW_SortActionOrder(e, cnt);

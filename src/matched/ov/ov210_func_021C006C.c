@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_021BFF30 0x021BFF30 thumb ov210
  *   BLINK_PALANM_ResetPhase 0x0202EB04 thumb
  * Addresses are Black-image addresses.
  */
 
-extern unsigned func_020362DC(void);
+extern unsigned KEY_GetTrg(void);
 extern void func_021BFF30(int p, unsigned a, unsigned b);
 struct CodeIn;
 extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 
 void func_021C006C(int p, unsigned b)
 {
-    unsigned r = func_020362DC();
+    unsigned r = KEY_GetTrg();
 
     if ((r & 2) && !(r & 0xf1))
         return;

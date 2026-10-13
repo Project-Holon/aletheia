@@ -11,12 +11,12 @@
  *
  * symbols:
  *   PRINTSYS_QUE_Main            0x0201C4E4  thumb
- *   func_0201C6C4            0x0201C6C4  thumb
+ *   PRINTSYS_QUE_IsExistTarget            0x0201C6C4  thumb
  *   BGWINFRM_UpdateMoves 0x0202CD94 thumb
  *   PMS_DRAW_Main  0x0202DBC4  thumb
  *   TCBL_Main            0x020310C4  arm
  *   BMP_WIN_TransferChars            0x02045334  arm
- *   func_02045770            0x02045770  arm
+ *   BMP_WIN_GetBmp            0x02045770  arm
  *   func_021C6594 0x021C6594 thumb
  *   d_021C7DA8 0x021C7DA8 data a4
  */
@@ -44,8 +44,8 @@ struct PrintSys;
 struct Tcbl;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void *func_02045770(struct Descriptor *p);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void TCBL_Main(struct Tcbl *p);
 extern void PMS_DRAW_Main(u8 *p);
 int func_021C68A0(u8 *p, int *st)
@@ -65,7 +65,7 @@ int func_021C68A0(u8 *p, int *st)
                 void *h = ((struct Obj23600 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f1C4;
                 u8 *e = *(u8 * *)&((struct Obj01752 *)p)->f8 + 0xC4 + i * 8;
                 if (e[4] != 0) {
-                    if (func_0201C6C4(h, func_02045770(((struct Obj08204 *)e)->f0)) == 0) {
+                    if (PRINTSYS_QUE_IsExistTarget(h, BMP_WIN_GetBmp(((struct Obj08204 *)e)->f0)) == 0) {
                         BMP_WIN_TransferChars(((struct Obj08204 *)e)->f0);
                         e[4] = 0;
                     }
@@ -82,7 +82,7 @@ int func_021C68A0(u8 *p, int *st)
                 void *g = ((struct Obj23606 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f1C4;
                 u8 *f = *(u8 * *)&((struct Obj01752 *)p)->f8 + 0xC4 + j * 8;
                 if (f[4] != 0) {
-                    if (func_0201C6C4(g, func_02045770(((struct Obj08205 *)f)->f0)) == 0) {
+                    if (PRINTSYS_QUE_IsExistTarget(g, BMP_WIN_GetBmp(((struct Obj08205 *)f)->f0)) == 0) {
                         BMP_WIN_TransferChars(((struct Obj08205 *)f)->f0);
                         f[4] = 0;
                     }

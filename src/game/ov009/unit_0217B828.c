@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_02096578  0x02096578  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0205A16C  0x0205A16C  arm
  *   func_02094860  0x02094860  arm
  *   func_02094B20  0x02094B20  arm
@@ -27,7 +27,7 @@
  *   func_02096594  0x02096594  arm
  *   func_0205A1B0  0x0205A1B0  arm
  *   func_0217967C  0x0217967C  arm  ov009
- *   func_02085A30  0x02085A30  arm
+ *   OS_GetThreadPriority  0x02085A30  arm
  *   func_02179718  0x02179718  arm  ov009
  *   func_02179CF4  0x02179CF4  arm  ov009
  *   func_0217C050  0x0217C050  arm  ov009
@@ -129,7 +129,7 @@ typedef struct DWCProfFieldNames {
 } DWCProfFieldNames;
 
 extern int func_02096578(const unsigned short *s);
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void *func_0205A16C(int name, unsigned long size);
 extern u8 *func_02094860(u8 *dest, const u8 *src, u32 n);
 extern char *func_02094B20(const char *s1, const char *s2);
@@ -142,7 +142,7 @@ extern int func_0217A044(char *http, char *data);
 extern unsigned short *func_02096594(unsigned short *dst, const unsigned short *src);
 extern void func_0205A1B0(int name, void *ptr, long size);
 extern int func_0217967C(char *http);
-extern unsigned long func_02085A30(OSThread *thread);
+extern unsigned long OS_GetThreadPriority(OSThread *thread);
 extern void func_02179718(char *http, unsigned long prio);
 extern void func_02179CF4(char *http);
 extern void *func_0217C050(unsigned long name, long size);
@@ -224,13 +224,13 @@ int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int time
     if (g_021ACEF0 != 0)
         return 0;
 
-    func_02082BCC(result, 0, wordsnum);
+    MI_CpuFill8(result, 0, wordsnum);
     g_021ACEF0 = func_0205A16C(0, sizeof(DWCProfWorkarea));
     if (g_021ACEF0 == 0)
         goto error;
-    func_02082BCC(g_021ACEF0, 0, sizeof(DWCProfWorkarea));
+    MI_CpuFill8(g_021ACEF0, 0, sizeof(DWCProfWorkarea));
     g_021ACEF0->http_initialized = 0;
-    func_02082BCC(&calinfo, 0, sizeof(DWCCalInfo));
+    MI_CpuFill8(&calinfo, 0, sizeof(DWCCalInfo));
 
     g_021ACEF0->result = result;
     g_021ACEF0->badwordsnum = badwordsnum;
@@ -292,7 +292,7 @@ int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int time
 
     if (func_0217967C((char *)(&g_021ACEF0->http)) != 0)
         goto error;
-    func_02179718((char *)(&g_021ACEF0->http), func_02085A30(g_02150FEC.current) - 1);
+    func_02179718((char *)(&g_021ACEF0->http), OS_GetThreadPriority(g_02150FEC.current) - 1);
     if (g_021ACEF0->http.thread.id != 0)
         return 1;
 

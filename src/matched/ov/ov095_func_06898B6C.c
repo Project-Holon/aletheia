@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * The returned message pointer stays live in r1 for 06898BDC, whose veneer
- * reaches the two-argument func_021C88C8. A one-argument declaration loses
+ * reaches the two-argument BTL_SERVER_FLOW_CommitCmdRecord. A one-argument declaration loses
  * the pointer copy and leaves 18 differing bytes (62/64).
  * symbols:
  *   func_06898BAC 0x06898BAC thumb ov095

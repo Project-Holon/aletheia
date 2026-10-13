@@ -39,7 +39,7 @@
  *   FIELD_SOUND_SYSTEM_StartPushAndPlayWaitTask  0x02029AF4  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   EVENT_BATTLE_CreateEncounterTaskWithMon  0x0216EAB0  thumb  ov010
- *   func_02014024  0x02014024  thumb
+ *   ZONEDATA_IsZoneInTableDFD2  0x02014024  thumb
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   VM_GetU16  0x02011330  thumb
  *   FIELD_SOUND_SYSTEM_StartFadeOutAndPlayTask  0x02029984  thumb
@@ -48,7 +48,7 @@
  *   SCRIPT_WORK_SetCheckFlag  0x02159144  thumb  ov010
  *   FIELD_SOUND_SYSTEM_StartFadeOutAndPlayWithFadeTask  0x02029A04  thumb
  *   FIELD_SOUND_SYSTEM_StartFadeOutAndPlayFixedBgmTask  0x02029A74  thumb
- *   func_02005F38  0x02005F38  thumb
+ *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELD_SOUND_SYSTEM_FadeVolume  0x02028A58  thumb
  *   SCRIPT_WORK_ResetCheckFlag  0x02159168  thumb  ov010
@@ -65,8 +65,8 @@
  *   PM_VOICE_IsActive  0x02006BD0  thumb
  *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   ISS_SYS_GetSwitchSys  0x0202B578  thumb
- *   func_02005C64  0x02005C64  thumb
- *   func_02006CAC  0x02006CAC  thumb
+ *   GFL_USE_IsLoaderBusy  0x02005C64  thumb
+ *   PM_VOICE_GetPerapVoiceSave  0x02006CAC  thumb
  *   PM_VOICE_Play  0x02006984  thumb
  *   SCRCMD_WORK_SetFadeParam  0x0215A6B8  thumb  ov010
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
@@ -77,7 +77,7 @@
  *   func_02007FB8  0x02007FB8  thumb
  *   func_02021288  0x02021288  thumb
  *   VM_SetWait  0x020113D0  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   GFL_USE_GetSeSlot  0x02006148  thumb  arm9
  *   GFL_USE_IsSeSlotBusy  0x02006224  thumb  arm9
@@ -86,6 +86,7 @@
  *   ISS_SWITCH_SYS_SwitchOn  0x0202C0D0  thumb  arm9
  *   ISS_SWITCH_SYS_SwitchOff  0x0202C0E4  thumb  arm9
  *   ISS_SWITCH_SYS_IsSwitchOn  0x0202C0F8  thumb  arm9
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb  arm9
  */
 #include "../arm9/script_vm_types.h"
 #include "../ov010/script_work_types.h"
@@ -158,7 +159,7 @@ extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayWaitTask(struct Game
 extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int a, int b, int c, u8 d, u8 e);
 extern struct TrainerRecord *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
 extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
-extern int func_02014024(u32 zoneId);
+extern int ZONEDATA_IsZoneInTableDFD2(u32 zoneId);
 extern u32 func_02008DF0(struct TrainerRecord *record, int index);
 extern u16 VM_GetU16(ScriptVm *vm);
 extern struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayTask(struct GameSystem *gameSystem, u32 bgmNo);
@@ -166,7 +167,7 @@ extern struct FieldSoundSystem *GAME_DATA_GetBgmInfo(struct GameData *gameData);
 extern void FIELD_SOUND_SYSTEM_PauseSlots(struct FieldSoundSystem *soundSystem, u32 slotMask);
 extern struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayWithFadeTask(struct GameSystem *gameSystem, u32 bgmNo, u16 fadeFrames);
 extern struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayFixedBgmTask(struct GameSystem *gameSystem, u16 bgmNo);
-extern int func_02005F38(void);
+extern int GFL_USE_IsBgmPlaying(void);
 extern void VM_SetWait(ScriptVm *vm, ScriptWaitFn waitFn);
 extern void FIELD_SOUND_SYSTEM_FadeVolume(struct FieldSoundSystem *soundSystem, u8 level, u16 frames);
 extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
@@ -178,8 +179,8 @@ extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPushTask(struct GameSystem *gam
 extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(struct GameSystem *gameSystem, u32 bgmNo);
 extern int GFL_USE_IsSeSlotBusy(u32 slot);
 extern int GFL_USE_GetSeSlot(u32 seNo);
-extern void func_020061F8(int slot);
-extern void func_020061E4(u32 seNo);
+extern void GFL_USE_StopSeSlot(int slot);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 extern u32 FIELD_SOUND_SYSTEM_IsBusy(struct FieldSoundSystem *soundSystem);
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, void *parent, void *func, unsigned int workSize);
 extern void *func_020124E8(struct GameEvent *event);
@@ -190,8 +191,8 @@ extern struct IssSwitchSys *ISS_SYS_GetSwitchSys(struct IssSystem *issSystem);
 extern void ISS_SWITCH_SYS_SwitchOn(struct IssSwitchSys *switchSys, u32 switchNo);
 extern void ISS_SWITCH_SYS_SwitchOff(struct IssSwitchSys *switchSys, u32 switchNo);
 extern int ISS_SWITCH_SYS_IsSwitchOn(struct IssSwitchSys *switchSys, int switchNo);
-extern int func_02005C64(void);
-extern void func_02006CAC(void **out);
+extern int GFL_USE_IsLoaderBusy(void);
+extern void PM_VOICE_GetPerapVoiceSave(void **out);
 extern u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 a, u32 b, u32 c, u32 d, u32 perapVoice);
 extern void SCRCMD_WORK_SetFadeParam(struct ScrcmdWork *cmdWork, u32 voiceHandle);
 extern struct MyItem *GAME_DATA_GetMyItem(struct GameData *gameData);
@@ -538,13 +539,13 @@ int SCRCMD_StartTrainerBattleWithMon(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     return 1;
 }
 
-/* Adds one to the trainer record counter 0x20 when the zone is in the zone table of func_02014024. */
+/* Adds one to the trainer record counter 0x20 when the zone is in the zone table of ZONEDATA_IsZoneInTableDFD2. */
 void SCRCMD_IncrementTrainerRecord(struct ScrcmdWork *cmdWork)
 {
     ScriptFieldParam *fieldParam = SCRIPT_WORK_ResetFieldParam(SCRCMD_WORK_GetScriptWork(cmdWork));
     struct TrainerRecord *record = GAME_DATA_GetTrainerRecord(SCRCMD_WORK_GetGameData(cmdWork));
 
-    if (func_02014024(FIELDMAP_GetZoneId(fieldParam->fieldSystem)) != 0)
+    if (ZONEDATA_IsZoneInTableDFD2(FIELDMAP_GetZoneId(fieldParam->fieldSystem)) != 0)
         func_02008DF0(record, 0x20);
 }
 
@@ -598,7 +599,7 @@ int SCRCMD_FadeOutPlayFixedBgm(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 int SCRCMD_IsBgmPlaying(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     VM_GetU16(vm);
-    *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = func_02005F38();
+    *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = GFL_USE_IsBgmPlaying();
     return 0;
 }
 
@@ -609,7 +610,7 @@ int SCRCMD_WaitBgmStopped(ScriptVm *vm, void *user)
 
     SCRCMD_WORK_GetGameSystem(cmdWork);
     SCRCMD_WORK_GetScriptWork(cmdWork);
-    if (func_02005F38() == 0) {
+    if (GFL_USE_IsBgmPlaying() == 0) {
         return 1;
     }
     return 0;
@@ -848,7 +849,7 @@ void SCRCMD_StopMarkedSeSlots(ScriptWork *scriptWork)
     seSlotMask = SCRIPT_WORK_GetTrainerParam(scriptWork);
     for (slot = 0; slot < 5; slot++) {
         if (*seSlotMask & (1 << slot))
-            func_020061F8(slot);
+            GFL_USE_StopSeSlot(slot);
     }
     *seSlotMask = 0;
 }
@@ -860,7 +861,7 @@ int SCRCMD_PlaySe(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
 
     SCRCMD_ClearFinishedSeSlots(scriptWork);
-    func_020061E4(seNo);
+    GFL_USE_PlaySeDefaultVolume(seNo);
     SCRCMD_MarkSeSlot(scriptWork, seNo);
     return 0;
 }
@@ -911,7 +912,7 @@ int SCRCMD_WaitBgmThenPop(ScriptVm *vm, void *user)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     soundSystem = GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem));
-    if (func_02005F38() == 0 && FIELD_SOUND_SYSTEM_IsBusy(soundSystem) == 0) {
+    if (GFL_USE_IsBgmPlaying() == 0 && FIELD_SOUND_SYSTEM_IsBusy(soundSystem) == 0) {
         SCRIPT_SYS_CallEvent(scriptWork, FIELD_SOUND_SYSTEM_StartPopAndWaitTask(gameSystem, 0, 6));
         return 1;
     }
@@ -1034,14 +1035,14 @@ int SCRCMD_PokeVoiceEvent(void *event, u32 *seq, PokeVoiceWork *work)
 {
     u32 voiceSave, voiceHandle;
 
-    if (func_02005C64()) {
+    if (GFL_USE_IsLoaderBusy()) {
         return 0;
     }
     if (work->usePerapVoice) {
         u32 species, form;
         form = work->form;
         species = work->species;
-        func_02006CAC((void **)(&voiceSave));
+        PM_VOICE_GetPerapVoiceSave((void **)(&voiceSave));
         voiceHandle = PM_VOICE_Play(species, form, 0x40, 0, 0, 0, 0, (u32)(&voiceSave));
     } else {
         voiceHandle = PM_VOICE_Play(work->species, work->form, 0x40, 0, 0, 0, 0, 0);

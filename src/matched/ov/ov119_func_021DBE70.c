@@ -16,9 +16,9 @@
  * symbols:
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   func_020355D8 0x020355D8 arm
- *   func_0203630C 0x0203630C arm
+ *   KEY_GetCont 0x0203630C arm
  *   func_020355C4 0x020355C4 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_021E4E0C 0x021E4E0C thumb
  *   func_021DB4EC 0x021DB4EC thumb
@@ -42,7 +42,7 @@
  *   func_021DA064 0x021DA064 thumb
  *   func_021D8AA8 0x021D8AA8 thumb
  *   func_021DD34C 0x021DD34C thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021DF708 0x021DF708 thumb
  *   func_021E4A1C 0x021E4A1C thumb
  *   func_021DBDB4 0x021DBDB4 thumb
@@ -52,7 +52,7 @@
  *   func_021DA0CC 0x021DA0CC thumb
  *   func_021E6544 0x021E6544 thumb
  *   func_021DBD3C 0x021DBD3C thumb
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_021DB89C 0x021DB89C thumb
  *   func_021DC2B0 0x021DC2B0 thumb
  *   func_021B6558 0x021B6558 thumb ov067
@@ -68,9 +68,9 @@ typedef unsigned char  u8;
 struct MsgBank;
 struct S;
 extern void func_020355D8(u8 v);
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 extern u8 func_020355C4(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern int func_021E4E0C(char *p, int *out);
 extern int func_021DB4EC(char *p, int v);
@@ -94,7 +94,7 @@ extern void func_021D8E84(void *p, int next);
 extern void func_021DA064(char *p);
 extern int func_021D8AA8(void *p);
 extern int func_021DD34C(char *p, int a, int b);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021DF708(void *p);
 extern void func_021E4A1C(char *p);
 extern int func_021DBDB4(char *p);
@@ -105,7 +105,7 @@ extern void func_021DA0CC(char *p);
 extern void func_021E6544(char *p);
 extern void func_021DBD3C(char *p);
 struct Obj;
-extern void func_0204B92C(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
 extern void func_021DB89C(char *p);
 extern void func_021DC2B0(char *p);
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
@@ -118,7 +118,7 @@ extern int TOUCHBAR_GetPressedButtonIdIfPressing(u8 *p);
 
 static inline int poll_a(void)
 {
-    int r = func_020362DC();
+    int r = KEY_GetTrg();
     if (r)
         func_020355D8(0);
     return r;
@@ -139,7 +139,7 @@ void func_021DBE70(char *p)
     p[0x11EA] = 1;
     if (TOUCHPANEL_GetCont()) {
         func_020355D8(1);
-        if (func_0203630C())
+        if (KEY_GetCont())
             return;
     }
     if (func_020355C4() && poll_a()) {
@@ -212,7 +212,7 @@ void func_021DBE70(char *p)
             I(p, 0xF94) = func_021D8B0C(I(p, 0xF74), I(p, 0xF78));
             func_020355D8(0);
             if (func_021D8AA8(p) && func_021DD34C(p, I(p, 0xF98), I(p, 0xF94)) != -1) {
-                func_020061E4(0x626);
+                GFL_USE_PlaySeDefaultVolume(0x626);
                 func_021D8E84(p, (int)func_021DF708);
                 return;
             }
@@ -251,7 +251,7 @@ void func_021DBE70(char *p)
                 func_021B6558((unsigned char *)I(p, 0x9C0), 8, 1);
                 TOUCHBAR_SetButtonEnabled((unsigned char *)I(p, 0x9C0), 8, 1);
                 func_021E6544(p);
-                func_020061E4(0x72A);
+                GFL_USE_PlaySeDefaultVolume(0x72A);
                 func_021D8E84(p, (int)func_021DBD3C);
                 return;
             }
@@ -269,7 +269,7 @@ void func_021DBE70(char *p)
             }
             I(p, 0x1088) = 0;
             I(p, 0xF5C) = 0;
-            func_0204B92C((struct Obj *)I(p, 0xF04), 0);
+            CLACT_SetActorAutoAnim((struct Obj *)I(p, 0xF04), 0);
         }
         func_021DB89C(p);
         if (TOUCHPANEL_GetCont())

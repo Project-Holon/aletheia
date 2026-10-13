@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02045740  0x02045740  arm
- *   func_02045738  0x02045738  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetHeight  0x02045740  arm
+ *   BMP_WIN_GetWidth  0x02045738  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   MIi_CpuCopy32  0x02082A90  arm
  *
  * app_taskmenu.c: paints a window frame into the BG's tilemap.  Walks the
- * layer's rows (func_02045740) and columns (func_02045738) and, per 0x20-byte
+ * layer's rows (BMP_WIN_GetHeight) and columns (BMP_WIN_GetWidth) and, per 0x20-byte
  * tile, classifies the cell as one of eleven kinds -- four corners, three
  * edges, two style-dependent inner columns, the plain interior -- and copies
  * the matching tile out of the template's tile bank (cfg->f04->f14) into the
@@ -52,10 +52,10 @@ struct Cfg {
 
 struct Bmp;
 struct Descriptor;
-extern u8 func_02045740(struct Descriptor *p);
-extern u8 func_02045738(struct Descriptor *p);
+extern u8 BMP_WIN_GetHeight(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *bg);
+extern void *BMP_WIN_GetBmp(struct Descriptor *bg);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 n);
 
@@ -71,7 +71,7 @@ void APP_TASKMENU_DrawWinFrame(u32 bg, struct Cfg *cfg, u32 style)
     u32 t;
 
     y = 0;
-    if (y >= func_02045740((struct Descriptor *)bg)) {
+    if (y >= BMP_WIN_GetHeight((struct Descriptor *)bg)) {
         return;
     }
     t = style - 1;
@@ -79,44 +79,44 @@ void APP_TASKMENU_DrawWinFrame(u32 bg, struct Cfg *cfg, u32 style)
     tEdgeA = (t + t * 2 + 10) << 5;
     for (;;) {
         x = 0;
-        if (x >= func_02045738((struct Descriptor *)bg)) {
+        if (x >= BMP_WIN_GetWidth((struct Descriptor *)bg)) {
             goto nextrow;
         }
         for (;;) {
-        dst = (u32)BMP_GetPixels((const struct Bmp *)((u32)func_02045770((struct Descriptor *)bg)));
-        rowbase = (x + y * func_02045738((struct Descriptor *)bg)) << 5;
+        dst = (u32)BMP_GetPixels((const struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)bg)));
+        rowbase = (x + y * BMP_WIN_GetWidth((struct Descriptor *)bg)) << 5;
         if (y == 0 && x == 0) {
             src = cfg->f04->f14;
-        } else if (y == 0 && x == func_02045738((struct Descriptor *)bg) - 1) {
+        } else if (y == 0 && x == BMP_WIN_GetWidth((struct Descriptor *)bg) - 1) {
             src = cfg->f04->f14 + 0x40;
         } else if (y == 0) {
             src = cfg->f04->f14 + 0x20;
-        } else if (y == func_02045740((struct Descriptor *)bg) - 1 && x == 0) {
+        } else if (y == BMP_WIN_GetHeight((struct Descriptor *)bg) - 1 && x == 0) {
             src = cfg->f04->f14 + 0xc0;
-        } else if (y == func_02045740((struct Descriptor *)bg) - 1 && x == func_02045738((struct Descriptor *)bg) - 1) {
+        } else if (y == BMP_WIN_GetHeight((struct Descriptor *)bg) - 1 && x == BMP_WIN_GetWidth((struct Descriptor *)bg) - 1) {
             src = cfg->f04->f14 + (1 << 8);
-        } else if (y == func_02045740((struct Descriptor *)bg) - 1) {
+        } else if (y == BMP_WIN_GetHeight((struct Descriptor *)bg) - 1) {
             src = cfg->f04->f14 + 0xe0;
-        } else if (style != 0 && x == func_02045738((struct Descriptor *)bg) - 3) {
+        } else if (style != 0 && x == BMP_WIN_GetWidth((struct Descriptor *)bg) - 3) {
             src = cfg->f04->f14 + tEdgeB;
-        } else if (style != 0 && x == func_02045738((struct Descriptor *)bg) - 2) {
+        } else if (style != 0 && x == BMP_WIN_GetWidth((struct Descriptor *)bg) - 2) {
             src = cfg->f04->f14 + tEdgeA;
         } else if (x == 0) {
             src = cfg->f04->f14 + 0x60;
-        } else if (x == func_02045738((struct Descriptor *)bg) - 1) {
+        } else if (x == BMP_WIN_GetWidth((struct Descriptor *)bg) - 1) {
             src = cfg->f04->f14 + 0xa0;
         } else {
             src = cfg->f04->f14 + 0x80;
         }
         MIi_CpuCopy32((const void *)src, (void *)(dst + rowbase), 0x20);
             x++;
-            if (x >= func_02045738((struct Descriptor *)bg)) {
+            if (x >= BMP_WIN_GetWidth((struct Descriptor *)bg)) {
                 break;
             }
         }
 nextrow:
         y++;
-        if (y >= func_02045740((struct Descriptor *)bg)) {
+        if (y >= BMP_WIN_GetHeight((struct Descriptor *)bg)) {
             return;
         }
     }

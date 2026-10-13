@@ -13,7 +13,7 @@
  *   d_0217AAC0     0x0217AAC0  data   ov015  a4
  *   d_0217AB40     0x0217AB40  data   ov015  a4
  *   d_0217ABA0     0x0217ABA0  data   ov015  a4
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0208F1B4  0x0208F1B4  arm
  *   func_02179F74  0x02179F74  arm    ov015
  *   func_0217A584  0x0217A584  arm    ov015
@@ -38,7 +38,7 @@ extern struct s_aac0 d_0217AAC0;
 extern struct s_ab40 d_0217AB40;
 extern struct s_aba0 d_0217ABA0;
 
-extern void func_02082BCC(void *p, int v, u32 n);
+extern void MI_CpuFill8(void *p, int v, u32 n);
 typedef unsigned short u16;
 extern u16 func_0208F1B4(void);
 extern void func_02179F74(u8 unitId);
@@ -48,7 +48,7 @@ extern u32 func_020056EC(u32 x);
 
 void func_0217993C(u32 a, u8 b)
 {
-    func_02082BCC(&d_0217AAC0, 0, 0xE8);
+    MI_CpuFill8(&d_0217AAC0, 0, 0xE8);
     d_0217AB40.f3c = a;
     d_0217ABA0.b6 = func_0208F1B4();
     func_02179F74(3);

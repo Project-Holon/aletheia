@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_MotorDriveAbsorbElectric
+ * function: HAND_TOKUSEI_MotorDriveAbsorbElectric
  * address: 0x021DAB24
  * packet: pkt_ov093_021DAB24
  * region: ov093
@@ -10,14 +10,14 @@
  * status: EXACT*
  * extent: trailing two-byte alignment padding.
  * symbols:
- *   BTL_ABILITY_AbsorbCheckMoveType 0x021DA8A8 thumb ov093
- *   BTL_ABILITY_AbsorbRaiseStat 0x021DA96C thumb ov093
+ *   HAND_TOKUSEI_AbsorbCheckMoveType 0x021DA8A8 thumb ov093
+ *   HAND_TOKUSEI_AbsorbRaiseStat 0x021DA96C thumb ov093
  */
-extern int BTL_ABILITY_AbsorbCheckMoveType(int, int, int);
-extern void BTL_ABILITY_AbsorbRaiseStat(void *, int, unsigned int, int);
+extern int HAND_TOKUSEI_AbsorbCheckMoveType(int, int, int);
+extern void HAND_TOKUSEI_AbsorbRaiseStat(void *, int, unsigned int, int);
 
-void BTL_ABILITY_MotorDriveAbsorbElectric(int a, void *b, int c)
+void HAND_TOKUSEI_MotorDriveAbsorbElectric(int a, void *b, int c)
 {
-    if (BTL_ABILITY_AbsorbCheckMoveType((int)b, c, 0xc))
-        BTL_ABILITY_AbsorbRaiseStat(b, c, 5, 1);
+    if (HAND_TOKUSEI_AbsorbCheckMoveType((int)b, c, 0xc))
+        HAND_TOKUSEI_AbsorbRaiseStat(b, c, 5, 1);
 }

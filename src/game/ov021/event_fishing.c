@@ -15,8 +15,8 @@
  * Split from fldeff_splash.c at 0x021C5C64 (lane FXC, CL129: the fishing event; the FISHING_ helpers 021C5FA8..021C6054 were at the head of field_g3dobj.c).
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
- *   func_020061E4 0x020061E4 thumb
+ *   MI_CpuFill8  0x02082BCC  arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   abs_id_C2      0x000000C2  data
  *   func_020120F4  0x020120F4  thumb
  *   func_020122C0  0x020122C0  thumb
@@ -61,6 +61,7 @@
  *   FLDEFF_FISHING_SetAnimeSpeed  0x021AE01C  thumb  ov021
  *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
  *   FLDEFF_FISHING_Start  0x021ADF94  thumb  ov021
+ *   KEY_GetTrg  0x020362DC  arm  arm9
  */
 #include "event_fishing_types.h"
 #include "../ov010/fldmmdl_types.h"
@@ -108,8 +109,8 @@ typedef struct BbActRec {
     u32 count;
 } BbActRec;
 
-extern u32 func_02082BCC(void *p, int v, int n);
-extern void func_020061E4(u32 se);
+extern u32 MI_CpuFill8(void *p, int v, int n);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 extern void *func_020120F4(const struct Ctx *p);
@@ -153,7 +154,7 @@ int FISHING_CheckFacingWater(u32 unused, void *fieldMap, VecFx32 *outPos);
 void *FISHING_CreateEvent(struct FieldMap *fieldMap, void *gameSystem);
 int FISHING_EventMain(void *task, int *state, FishingWork *work);
 extern unsigned char abs_id_C2[];
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void *FIELDMAP_GetEffect(void *fieldMap);
 extern u32 FLDEFF_GYOE_SetMMdl(void *a, void *mmdl, u32 b, u32 c);
 extern void FLDEFF_FISHING_SetAnimeSpeed(u32 effect, u16 v);
@@ -201,7 +202,7 @@ void *FISHING_CreateEvent(struct FieldMap *fieldMap, void *gameSystem)
 
     task = func_020122C0(gameSystem, 0, FISHING_EventMain, sizeof(FishingWork));
     work = func_020124E8(task);
-    func_02082BCC(work, 0, sizeof(FishingWork));
+    MI_CpuFill8(work, 0, sizeof(FishingWork));
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->gameData = func_020120F4(gameSystem);
@@ -249,7 +250,7 @@ int FISHING_EventMain(void *task, int *state, FishingWork *work)
         if (FIELD_PLAYER_StepFormChange((u8 *)work->fieldPlayer) != 1)
             break;
         FLDMMDL_SetDrawStatus(work->mmdl, 0);
-        func_020061E4(0x684);
+        GFL_USE_PlaySeDefaultVolume(0x684);
         (*state)++;
         break;
     case 2:
@@ -342,7 +343,7 @@ int FISHING_WaitBite(FishingWork *w, u32 limit)
 
     w->counter = n + 1;
     if (n < limit) {
-        if (func_020362DC() & 1) {
+        if (KEY_GetTrg() & 1) {
             w->counter = 0;
             return 1;
         }

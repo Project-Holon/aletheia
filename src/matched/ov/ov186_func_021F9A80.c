@@ -11,7 +11,7 @@
  * symbols:
  *   func_02034714 0x02034714 arm
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  *   PROCSYS_Push 0x02031348 arm
  *   PROCSYS_Main 0x02031330 arm
@@ -26,7 +26,7 @@ struct Slot {u32 active;void *work;const struct Ops *ops;int arg;};
 extern const char d_02200D04[],d_02200D14[];
 extern void func_02034714(const char *,u32,const char *);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern u32 func_020307B0(void *p);
 extern void PROCSYS_Push(u32,u32,u32,void *);
 extern u32 PROCSYS_Main(void *);
@@ -43,7 +43,7 @@ void func_021F9A80(char *p)
   if(!current->active)func_02034714(d_02200D14,0,d_02200D14);
   if(!current->ops->init)func_02034714(d_02200D14,0,d_02200D14);
   current->work=func_02030734(((struct Obj01569 *)p)->f10,current->ops->size,0,d_02200D04,0xd2);
-  func_02082BCC(current->work,0,current->ops->size);
+  MI_CpuFill8(current->work,0,current->ops->size);
   mode=-2;if(!((struct Obj01569 *)p)->f6C)mode=old->arg;
   current->ops->init(current->work,((struct Obj01569 *)p)->fC,old->work,mode);
   ((struct Obj01569 *)p)->f6C=0;

@@ -19,7 +19,7 @@
  *   FIELD_TASK_CreatePlayerDrawOffsetTween  0x021C7858  thumb  ov021
  *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
  *   FIELD_TASK_MANAGER_AddTask  0x021C6DE0  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELD_TASK_MANAGER_IsEmpty  0x021C6E48  thumb  ov021
  *   FADE_IsActive  0x0204E804  arm
  */
@@ -38,7 +38,7 @@ extern int FIELD_TASK_CreatePlayerDrawOffsetTween(unsigned int a, unsigned int b
 extern unsigned int FIELDMAP_GetTaskManager(u8 *p);
 extern void FIELD_TASK_MANAGER_AddTask(u8 *p, unsigned int *a, unsigned int b);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int FIELD_TASK_MANAGER_IsEmpty(int);
 extern int FADE_IsActive(void);
 
@@ -72,7 +72,7 @@ int EVENT_DISAPPEAR_RunRisingSpin(int task, int *state, int *q)
         FIELD_TASK_MANAGER_AddTask((u8 *)d, (unsigned int *)w, 0);
         FIELD_TASK_MANAGER_AddTask((u8 *)d, (unsigned int *)x, 0);
         FIELD_TASK_MANAGER_AddTask((u8 *)d, (unsigned int *)e, x);
-        func_020061E4(0x676);
+        GFL_USE_PlaySeDefaultVolume(0x676);
         (*state)++;
         break;
     case 1:

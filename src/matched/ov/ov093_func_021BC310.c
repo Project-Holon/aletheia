@@ -12,9 +12,9 @@
  * symbols:
  *   BTL_MAIN_IsClientUsed  0x021B8B9C  thumb  ov093
  *   BTL_MAIN_GetClientSide  0x021B8BC4  thumb  ov093
- *   func_021B8FF4  0x021B8FF4  thumb  ov093
- *   func_021B9AEC  0x021B9AEC  thumb  ov093
- *   func_021B9B98  0x021B9B98  thumb  ov093
+ *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
+ *   BTL_SIDE_GetSlotOfClient  0x021B9AEC  thumb  ov093
+ *   BTL_SLOT_CountLiving  0x021B9B98  thumb  ov093
  */
 #include "../include/Obj06224.h"
 
@@ -23,9 +23,9 @@ typedef unsigned int u32;
 
 extern int BTL_MAIN_IsClientUsed(u8 *p, u8 k);
 extern unsigned char BTL_MAIN_GetClientSide(int unused, unsigned int b);
-extern u8 func_021B8FF4(u8 *p);
-extern char *func_021B9AEC(char *p, int i);
-extern u8 func_021B9B98(u8 *p);
+extern u8 BTL_MAIN_GetOwnClientId(u8 *p);
+extern char *BTL_SIDE_GetSlotOfClient(char *p, int i);
+extern u8 BTL_SLOT_CountLiving(u8 *p);
 
 int BTL_SERVER_FLOW_CheckPlayerSideAlive(u8 *p)
 {
@@ -34,10 +34,10 @@ int BTL_SERVER_FLOW_CheckPlayerSideAlive(u8 *p)
     for (i = 0; i < 4; i++) {
         if (BTL_MAIN_IsClientUsed(*(u8 * *)&((struct Obj06224 *)p)->f4, i) != 0) {
             u8 a = BTL_MAIN_GetClientSide((int)(*(u8 * *)&((struct Obj06224 *)p)->f4), (u8)i);
-            u8 b = BTL_MAIN_GetClientSide((int)(*(u8 * *)&((struct Obj06224 *)p)->f4), (u8)func_021B8FF4(*(u8 * *)&((struct Obj06224 *)p)->f4));
+            u8 b = BTL_MAIN_GetClientSide((int)(*(u8 * *)&((struct Obj06224 *)p)->f4), (u8)BTL_MAIN_GetOwnClientId(*(u8 * *)&((struct Obj06224 *)p)->f4));
 
             if (a == b) {
-                if (func_021B9B98((u8 *)func_021B9AEC(*(char * *)&((struct Obj06224 *)p)->f8, i)) != 0)
+                if (BTL_SLOT_CountLiving((u8 *)BTL_SIDE_GetSlotOfClient(*(char * *)&((struct Obj06224 *)p)->f8, i)) != 0)
                     return 1;
             }
         }

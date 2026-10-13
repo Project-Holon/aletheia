@@ -1,5 +1,5 @@
 /*
- * function: func_0217FF78
+ * function: COLOSSEUM_UpdateCommPlayers
  * address:  0x0217FF78
  * packet:   pkt_ov019_0217FF78
  * region:   ov019
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0217FF78   0x0217FF78  thumb
+ *   COLOSSEUM_UpdateCommPlayers   0x0217FF78  thumb
  *   GFL_NET_HANDLE_GetCurrentHandle   0x020399A8  arm
  *   GFL_NET_GetHandleNetID   0x0203D1A4  arm
  *   func_02008550   0x02008550  thumb
@@ -53,7 +53,7 @@ extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void COMM_PLAYER_Add(u32 v, int i, int mode, u32 *out);
 extern void COMM_PLAYER_SetPackage(char *a0, int a1, char *a2);
 
-void func_0217FF78(u32 *p)
+void COLOSSEUM_UpdateCommPlayers(u32 *p)
 {
     int count;
     int i;

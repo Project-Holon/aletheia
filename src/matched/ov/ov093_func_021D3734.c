@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021B9934 0x021B9934 thumb ov093
+ *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   BTL_POKEPARAM_DecrementRealMovePP 0x021D5640 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 struct Work;
 extern void BTL_POKEPARAM_DecrementRealMovePP(struct Work *p, u32 i, u32 n);
 int BTL_CLIENT_CmdPpMinusWorking(u32 *a, int b, u32 *c)
@@ -24,7 +24,7 @@ int BTL_CLIENT_CmdPpMinusWorking(u32 *a, int b, u32 *c)
     u8 k, n;
     k = c[1];
     n = c[2];
-    m = func_021B9934((char *)a[1], (u8)c[0]);
+    m = BTL_SIDE_GetPokeByIdThunk((char *)a[1], (u8)c[0]);
     BTL_POKEPARAM_DecrementRealMovePP((struct Work *)m, k, n);
     return 1;
 }

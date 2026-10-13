@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetTwistedSpoonHandlers
+ * function: HAND_ITEM_GetTwistedSpoonHandlers
  * address: 0x021DF864
  * packet: pkt_ov093_021DF864
  * region: ov093
@@ -15,7 +15,7 @@
  *   gTwistedSpoonHandlers 0x021F1484 data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetTwistedSpoonHandlers(int *p);
+int *HAND_ITEM_GetTwistedSpoonHandlers(int *p);
 extern int gTwistedSpoonHandlers[];
 
 /*
@@ -23,7 +23,7 @@ extern int gTwistedSpoonHandlers[];
  * typedef unsigned int u32;
  * void G3D_CAMERA_SetRoll(char *p,const u32 *in) {*(u32 *)(p+0x18)=*in;}
  */
-int *BTL_HANDLER_ITEM_GetTwistedSpoonHandlers(int *p)
+int *HAND_ITEM_GetTwistedSpoonHandlers(int *p)
 {
     *p = 1;
     return gTwistedSpoonHandlers;

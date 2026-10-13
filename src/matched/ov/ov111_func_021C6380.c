@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   d_021C8768     0x021C8768  data  a2
  *
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef short s16;
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern const u16 d_021C8768[];
 
@@ -33,5 +33,5 @@ typedef struct {
 
 void func_021C6380(void *a, Work *p, int x, int y, void *s, int idx)
 {
-    PRINTSYS_PrintColor(func_02045770(a), x, y, s, p->f31FC, d_021C8768[idx]);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x, y, s, p->f31FC, d_021C8768[idx]);
 }

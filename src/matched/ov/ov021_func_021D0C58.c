@@ -14,7 +14,7 @@
  * symbols:
  *   DELIVERY_BEACON_Create  0x021576D0  thumb  ov010
  *   DELIVERY_BEACON_Start  0x021578A0  thumb  ov010
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   DELIVERY_BEACON_RunStep  0x02157928  thumb  ov010
  *   DELIVERY_BEACON_HasAnyPiece  0x021578F0  thumb  ov010
  *   DELIVERY_BEACON_TryComplete  0x02157910  thumb  ov010
@@ -53,7 +53,7 @@ struct Big;
 struct Ctx;
 struct Flags;
 extern int DELIVERY_BEACON_Start(u32 *p);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void DELIVERY_BEACON_RunStep(u8 *p);
 extern int DELIVERY_BEACON_HasAnyPiece(void *p);
 extern int DELIVERY_BEACON_TryComplete(u8 *p);
@@ -88,7 +88,7 @@ int func_021D0C58(u32 unused, u32 *state, W *w)
         }
         break;
     case 1:
-        if (func_020362DC() == 2) {
+        if (KEY_GetTrg() == 2) {
             *w->f88 = 3;
             *state = 4;
             break;
@@ -99,7 +99,7 @@ int func_021D0C58(u32 unused, u32 *state, W *w)
         }
         break;
     case 2:
-        if (func_020362DC() == 2) {
+        if (KEY_GetTrg() == 2) {
             *w->f88 = 3;
             *state = 4;
             break;
@@ -113,7 +113,7 @@ int func_021D0C58(u32 unused, u32 *state, W *w)
         }
         break;
     case 3:
-        if (func_020362DC() == 2) {
+        if (KEY_GetTrg() == 2) {
             *w->f88 = 3;
             *state = 4;
             break;

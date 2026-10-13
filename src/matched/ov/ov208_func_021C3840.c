@@ -13,7 +13,7 @@
  *   PM_VOICE_GetSampleRate 0x02006B94 thumb
  *   PM_VOICE_GetFrequency 0x02006B3C thumb
  *   PM_VOICE_GetDataSize 0x02006B78 thumb
- *   func_02006B20 0x02006B20 thumb
+ *   PM_VOICE_GetVolume 0x02006B20 thumb
  *   BMP_Clear 0x02043B5C arm
  *   BMP_FillRect 0x02043AF4 arm
  *   _ffltu 0x0209BE04 arm
@@ -37,7 +37,7 @@ extern u32 PM_VOICE_GetData(u32 i);
 extern u32 PM_VOICE_GetSampleRate(u32 i);
 extern u32 PM_VOICE_GetFrequency(u32 i);
 extern u32 PM_VOICE_GetDataSize(u32 i);
-extern s8 func_02006B20(u32 i);
+extern s8 PM_VOICE_GetVolume(u32 i);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_FillRect(struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 color);
@@ -78,7 +78,7 @@ void ov208_func_021C3840(u16 *heap, u8 *p, int key, u16 a, u16 b)
             lo = 500;
             hi = -500;
             for (; i < end; i++) {
-                t = (*(s8 **)(p + 0x34))[i] * 0x2f * func_02006B20(((struct Obj01010 *)p)->f64) / 128;
+                t = (*(s8 **)(p + 0x34))[i] * 0x2f * PM_VOICE_GetVolume(((struct Obj01010 *)p)->f64) / 128;
                 v = (s16)(t / 128);
                 if (v > 500)
                     v = 500;

@@ -22,6 +22,8 @@
  * func_020315D4 0x020315D4 arm
  * func_020306F0 0x020306F0 arm
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  */
 #include "../include/Obj02207.h"
 #include "../include/Obj23709.h"
@@ -38,8 +40,8 @@ struct Tcbl;
 struct WordSet;
 extern void TCBL_DeleteAllTasks(struct Tcbl *p);
 extern void TCBL_Destroy(struct S02031140 *p);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void func_021DD570(u8 *p);
 extern u32 func_021DD760(void *);
 extern void func_021DD3B0(u32);
@@ -56,7 +58,7 @@ extern void func_020306F0(unsigned int);
 int func_021DD0B8(void *a,int b,void *c,u8 *p)
 {
     TCBL_DeleteAllTasks((struct Tcbl *)(((struct Obj02207 *)p)->fF4)); TCBL_Destroy((struct S02031140 *)(((struct Obj02207 *)p)->fF4));
-    func_0201C6EC((struct PrintSys *)(((struct Obj02207 *)p)->fEC)); func_0201C4C0((struct PrintSys *)(((struct Obj02207 *)p)->fEC));
+    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj02207 *)p)->fEC)); PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj02207 *)p)->fEC));
     func_021DD570(p); func_021DD3B0(func_021DD760(p));
     MSGDATA_Delete((struct Rec *)(((struct Obj02207 *)p)->f40)); func_0201ED04((struct WordSet *)(((struct Obj02207 *)p)->f3C)); GF_FONT_Delete((void *)(((struct Obj02207 *)p)->f38));
     *(volatile u16 *)0x04000304 |= 0x8000;

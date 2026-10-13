@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204B3F4  0x0204B3F4  arm
+ *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
  *   func_02045EC0  0x02045EC0  arm
  *   sub_0201D304  0x0201D304  thumb
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_GetWidth  0x020437DC  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   func_021C0740  0x021C0740  thumb  ov208
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_021C0CC0  0x021C0CC0  thumb  ov208
  *   func_021C0C8C  0x021C0C8C  thumb  ov208
  */
@@ -32,26 +32,26 @@ typedef signed int     s32;
 
 struct Bmp;
 struct Obj;
-extern u32 func_0204B3F4(struct Obj *p);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 struct MsgBank;
 struct StrObj;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 sub_0201D304(struct StrObj *s, u32 a, u32 b);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_021C0740(void *a0, u8 *st, void *a2, u8 i);
 struct Obj;
-extern void func_0204B3DC(struct Obj *a, unsigned int b);
+extern void CLACT_SetActorDrawEnable(struct Obj *a, unsigned int b);
 extern int func_021C0CC0(void *a0, u8 *st, void *a2);
 extern void func_021C0C8C(void *a0, u8 *st, void *a2, int on);
 
 void func_021C20C0(void *a0, u8 *st, void *a2)
 {
-    int res = func_0204B3F4((struct Obj *)(*(int *)&((struct Obj00081 *)st)->fC8));
+    int res = CLACT_GetActorDrawEnable((struct Obj *)(*(int *)&((struct Obj00081 *)st)->fC8));
 
     if (((struct Obj00081 *)st)->f90 == 0) {
         if (res == 0) {
@@ -63,14 +63,14 @@ void func_021C20C0(void *a0, u8 *st, void *a2)
 
             msg = func_02045EC0(((struct Obj00081 *)st)->fC, 0x80);
             w = (u16)sub_0201D304(msg, ((struct Obj00081 *)st)->f4, 0);
-            h = BMP_GetWidth((const struct Bmp *)((u32)func_02045770(((struct Obj00081 *)st)->f20)));
-            t = (u32)func_02045770(((struct Obj00081 *)st)->f20);
+            h = BMP_GetWidth((const struct Bmp *)((u32)BMP_WIN_GetBmp(((struct Obj00081 *)st)->f20)));
+            t = (u32)BMP_WIN_GetBmp(((struct Obj00081 *)st)->f20);
             d = h - w;
             PRINTSYS_PrintQueColor(((struct Obj00081 *)st)->f40, t, (s16)(u16)(d / 2), 1, (u32)msg, ((struct Obj00081 *)st)->f4, 0x3c40);
             STRBUF_Delete(msg);
             ((struct Obj00081 *)st)->f30 = 1;
             func_021C0740(a0, st, a2, 3);
-            func_0204B3DC((struct Obj *)*(int *)&((struct Obj00081 *)st)->fC8, 1);
+            CLACT_SetActorDrawEnable((struct Obj *)*(int *)&((struct Obj00081 *)st)->fC8, 1);
         }
     } else {
         u8 i;
@@ -81,7 +81,7 @@ void func_021C20C0(void *a0, u8 *st, void *a2)
         for (i = 0; i < 0x3d; i++) {
             tbl = *(u8 * *)&((struct Obj00081 *)st)->f94;
             if (tbl[v * 0x3e + st[0x3cc + i] + 2] != 0 && *(u32 *)(st + 0x1e0 + i * 8) != 1) {
-                func_0204B3DC((struct Obj *)*(int *)(st + 0xdc + i * 4), 1);
+                CLACT_SetActorDrawEnable((struct Obj *)*(int *)(st + 0xdc + i * 4), 1);
             }
         }
         if (func_021C0CC0(a0, st, a2) == 0) {

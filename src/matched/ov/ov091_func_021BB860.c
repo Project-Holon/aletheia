@@ -14,7 +14,7 @@
  *   func_0201F250  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   PLIST_MESSAGE_RedrawWindow  0x021BBA28  thumb  ov091
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   func_02028470  0x02028470  thumb
  *   func_02012FFC  0x02012FFC  thumb
  *   PRINTSYS_PrintStreamCallBack  0x0201CD10  thumb
@@ -38,7 +38,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PLIST_MESSAGE_RedrawWindow(int a, int b);
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void func_02028470(u8 *p, u32 v);
 extern signed char func_02012FFC(void);
 extern struct Rec *PRINTSYS_PrintStreamCallBack(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
@@ -58,7 +58,7 @@ void PLIST_MESSAGE_StartStream(u8 *a, u32 *s, u32 x, u32 y)
     }
     PLIST_MESSAGE_RedrawWindow((int)a, (int)s);
     if (s[3] != 0) {
-        func_0201CE48((struct Rec3 *)s[3]);
+        PRINTSYS_PrintStreamDelete((struct Rec3 *)s[3]);
         STRBUF_Delete((struct U16Vec *)s[4]);
     }
     s[8] = y;

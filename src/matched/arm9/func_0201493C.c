@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * The three-way fallback load of the 0x34-byte time-of-day table (member
- * 0x3e for an explicit id, 0x52 for the id func_02013F2C maps, else 0x3d
+ * 0x3e for an explicit id, 0x52 for the id ZONEDATA_GetLightId maps, else 0x3d
  * built through ZONEDATA_CreateAreaData), then func_02014A80 over it and a free.
  *
  * Closed in wave 13 by the declaration, not the body: the seventh
@@ -25,11 +25,11 @@
  * symbols:
  *   func_02014A10  0x02014A10  thumb
  *   func_02014A20  0x02014A20  thumb
- *   func_02013F2C  0x02013F2C  thumb
- *   func_02013B38  0x02013B38  thumb
+ *   ZONEDATA_GetLightId  0x02013F2C  thumb
+ *   ZONEDATA_GetAreaId  0x02013B38  thumb
  *   ZONEDATA_CreateAreaData  0x0201407C  thumb
- *   func_020140DC  0x020140DC  thumb
- *   func_020140B4  0x020140B4  thumb
+ *   ZONEDATA_GetAreaLightType  0x020140DC  thumb
+ *   ZONEDATA_DeleteAreaData  0x020140B4  thumb
  *   func_02014A80  0x02014A80  thumb
  *   sub_020307B0   0x020307B0  arm
  */
@@ -41,11 +41,11 @@ typedef unsigned char  u8;
 struct Sub020140BCObj;
 extern u16 func_02014A10(u32 i);
 extern void *func_02014A20(u32 archive, u32 member, u32 *count_out, u32 heap);
-extern u32 func_02013F2C(u32 id);
-extern u32 func_02013B38(u32 id);
+extern u32 ZONEDATA_GetLightId(u32 id);
+extern u32 ZONEDATA_GetAreaId(u32 id);
 extern void *ZONEDATA_CreateAreaData(u16 heap, u32 a, u32 b);
-extern u8 func_020140DC(struct Sub020140BCObj *p);
-extern u32 func_020140B4(void *a);
+extern u8 ZONEDATA_GetAreaLightType(struct Sub020140BCObj *p);
+extern u32 ZONEDATA_DeleteAreaData(void *a);
 extern void func_02014A80(u8 *a0, u32 a1, s32 a2, u32 a3, u16 *out);
 extern u32 sub_020307B0(void *p);
 void func_0201493C(u32 id, u32 a1, u32 a2, u32 a3,
@@ -63,14 +63,14 @@ void func_0201493C(u32 id, u32 a1, u32 a2, u32 a3,
         p = func_02014A20(0x3e, func_02014A10(a3), &count, (u16)((heap & 0x7fff) | 0x8000));
     }
     if (p == 0) {
-        u32 t = func_02013F2C((u16)id);
+        u32 t = ZONEDATA_GetLightId((u16)id);
         if (t != 0xfffffff)
             p = func_02014A20(0x52, t, &count, (u16)((heap & 0x7fff) | 0x8000));
     }
     if (p == 0) {
-        void *q = ZONEDATA_CreateAreaData((heap & 0x7fff) | 0x8000, func_02013B38((u16)id), b0);
-        p = func_02014A20(0x3d, func_020140DC(q), &count, (u16)((heap & 0x7fff) | 0x8000));
-        func_020140B4((void *)q);
+        void *q = ZONEDATA_CreateAreaData((heap & 0x7fff) | 0x8000, ZONEDATA_GetAreaId((u16)id), b0);
+        p = func_02014A20(0x3d, ZONEDATA_GetAreaLightType(q), &count, (u16)((heap & 0x7fff) | 0x8000));
+        ZONEDATA_DeleteAreaData((void *)q);
     }
     func_02014A80(p, count, o1 + o2, b0, b1);
     sub_020307B0(p);

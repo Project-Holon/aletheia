@@ -29,6 +29,6 @@ typedef struct WeatherSandstormGrain {
     int speedXStep;
 } WeatherSandstormGrain;
 
-void func_021EEAF4(struct WeatherTaskSys *task, WeatherSandstormWork *work);
+void WEATHER_SANDSTORM_ScrollBillboards(struct WeatherTaskSys *task, WeatherSandstormWork *work);
 
 #endif

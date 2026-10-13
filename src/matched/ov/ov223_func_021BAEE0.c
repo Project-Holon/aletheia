@@ -9,9 +9,9 @@
  * status: EXACT*
  * Trailing AF2E halfword is zero alignment padding.
  * symbols:
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   TCBL_Destroy 0x02031140 arm
  *   MSGDATA_Delete 0x02045C04 arm
  */
@@ -22,21 +22,21 @@ struct U16Vec;
 struct Descriptor;
 struct S02031140;
 struct Rec;
-extern void func_0201CE48(struct Rec3 *);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *);
 extern void STRBUF_Delete(struct U16Vec *);
 typedef unsigned int   u32;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void TCBL_Destroy(struct S02031140 *);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 void func_021BAEE0(char *p)
 {
     u8 i;
     if (*(struct Rec3 * *)&((struct Obj02266 *)p)->f250)
-        func_0201CE48(*(struct Rec3 * *)&((struct Obj02266 *)p)->f250);
+        PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct Obj02266 *)p)->f250);
     if (*(struct U16Vec * *)&((struct Obj02266 *)p)->f258)
         STRBUF_Delete(*(struct U16Vec * *)&((struct Obj02266 *)p)->f258);
     for (i = 0; i < 3; i++)
-        func_020452E8(*(struct Descriptor **)(p + 0x238 + i * 4));
+        BMP_WIN_Delete(*(struct Descriptor **)(p + 0x238 + i * 4));
     TCBL_Destroy(*(struct S02031140 * *)&((struct Obj02266 *)p)->f254);
     MSGDATA_Delete(*(struct Rec * *)&((struct Obj02266 *)p)->f234);
 }

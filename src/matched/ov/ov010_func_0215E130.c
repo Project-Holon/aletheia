@@ -17,7 +17,7 @@
  *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  *   MUSICAL_EVENT_CheckNetError  0x02156BAC  thumb  ov010
  *   MUSICAL_EVENT_IsAborted  0x02156BCC  thumb  ov010
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  */
 
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
@@ -29,7 +29,7 @@ extern int GAME_DATA_GetExternalWork(char *base);
 extern void MUSICAL_EVENT_CheckNetError(void *p);
 extern unsigned int MUSICAL_EVENT_IsAborted(void *p);
 typedef unsigned int   u32;
-extern u32 func_02026454(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
 
 int SCRCMD_MUSICAL_WaitCommIdle(void *a, void *b)
 {
@@ -48,7 +48,7 @@ int SCRCMD_MUSICAL_WaitCommIdle(void *a, void *b)
             return 1;
         }
     }
-    if (func_02026454(t) == 0) {
+    if (GAME_COMM_GetKind(t) == 0) {
         return 1;
     }
     return 0;

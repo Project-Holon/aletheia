@@ -13,7 +13,7 @@
  *   func_0201F5BC  0x0201F5BC  thumb
  *   TCBL_Create   0x0203101C  arm
  *   func_02028590  0x02028590  thumb
- *   func_0201C440  0x0201C440  thumb
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   sPlistMessageAllocSite     0x021BED28  data  ov091  a1
  */
 
@@ -27,7 +27,7 @@ extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
 struct Tcbl;
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_02028590(int a, int b, int c, u16 d);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 
 u32 *PLIST_MESSAGE_Create(u16 *h)
 {
@@ -46,6 +46,6 @@ u32 *PLIST_MESSAGE_Create(u16 *h)
     r[13] = z;
     r[12] = z;
     r[5] = func_02028590(0xf, 1, 1, *h);
-    r[10] = func_0201C440((void *)(*h));
+    r[10] = PRINTSYS_QUE_Create((void *)(*h));
     return r;
 }

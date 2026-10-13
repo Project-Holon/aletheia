@@ -16,7 +16,7 @@
  *   func_0220E9A0 0x0220E9A0 thumb ov198
  *   func_0220EA30 0x0220EA30 thumb ov198
  *   func_0220E8B4 0x0220E8B4 thumb ov198
- *   func_0201BD28 0x0201BD28 thumb
+ *   WAZA_TOOL_GetParam 0x0201BD28 thumb
  *   d_02211D34 0x02211D34 data a2
  *   d_02211D3C 0x02211D3C data a2
  *   d_02211D40 0x02211D40 data a2
@@ -43,7 +43,7 @@ extern void func_0220E974(int mode, u8 *p, const struct Vec2 *q);
 extern void func_0220E9A0(char *,u8 *,Pair *);
 extern void func_0220EA30(u32 mode, u8 *p, const struct Vec2 *q);
 extern void func_0220E8B4(char *,int,int,int);
-extern u32 func_0201BD28(u16 id, u32 field);
+extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 void func_0220EECC(u8 *p)
 {
     int i;
@@ -65,5 +65,5 @@ void func_0220EECC(u8 *p)
     else func_0220E7CC(*(u8 **)(p+0x1F5C),(u32)&d_02211D5C);
     n=(*(u8 **)p)[0x4b];
     if(n<4) func_0220E8B4((char *)p,0x27,0x16,(rec+n*8)[0x31]);
-    else func_0220E8B4((char *)p,0x27,0x16,func_0201BD28(*(u16 *)(*(u8 **)p+0x26),2));
+    else func_0220E8B4((char *)p,0x27,0x16,WAZA_TOOL_GetParam(*(u16 *)(*(u8 **)p+0x26),2));
 }

@@ -9,7 +9,7 @@
  * status: EXACT
  * volatile: 021B660A..021B6648 re-read hardware 0x04000008 and 0x04000060; hardware write 0x04000580.
  * symbols:
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
@@ -17,14 +17,14 @@
  *   d_021B8040 0x021B8040 data a4
  */
 typedef unsigned short u16;
-extern void func_020434DC(unsigned,unsigned); extern void G3X_SetFog(int,int,int,int); extern void G3X_SetClearColor(u16,int,int,int,int);
+extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned); extern void G3X_SetFog(int,int,int,int); extern void G3X_SetClearColor(u16,int,int,int,int);
 typedef unsigned int   u32;
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src); extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned,unsigned);
 extern const unsigned char d_021B8040[];
 #define REG(a) (*(volatile u16 *)(a))
 void func_021B65FC(void) {
  unsigned i;
- func_020434DC(1,1);
+ BG_SYS_SetMainPlaneVisible(1,1);
  REG(0x04000008)=REG(0x04000008)&~3;
  REG(0x04000060)=(u16)((REG(0x04000060)&~0x3002)|2);
  REG(0x04000060)&=(u16)~0x3010;

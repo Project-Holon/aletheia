@@ -1,5 +1,5 @@
 /*
- * function: func_021CA158
+ * function: BTL_SERVER_FLOW_ProcHandExForceMemberOut
  * address:  0x021CA158
  * packet:   pkt_ov093_021CA158
  * region:   ov093
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B9934  0x021B9934  thumb  ov093
+ *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb  ov093
  *   BTL_SERVER_FLOW_CheckShowdown  0x021BC2B0  thumb  ov093
- *   func_021C8374  0x021C8374  thumb  ov093
- *   func_021C99A0  0x021C99A0  thumb  ov093
+ *   BTL_SERVER_FLOW_IsPokeAfflictedByStatus  0x021C8374  thumb  ov093
+ *   BTL_SERVER_FLOW_PushMsgRecord  0x021C99A0  thumb  ov093
  *   BTL_SERVER_FLOW_ProcMemberOut  0x021BDD00  thumb  ov093
- *   func_021B8D8C  0x021B8D8C  thumb  ov093
+ *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
  *   BTL_SERVER_AddPokeChangeRequest  0x021BB930  thumb  ov093
  */
 #include "../include/Obj00003.h"
@@ -28,23 +28,23 @@ struct Cmd {
     u8 b4d;
 };
 
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern int BTL_SERVER_FLOW_CheckShowdown(u8 *p);
-extern int func_021C8374(u8 *p, int i);
+extern int BTL_SERVER_FLOW_IsPokeAfflictedByStatus(u8 *p, int i);
 struct Msg;
-extern int func_021C99A0(void *w, const struct Msg *m);
+extern int BTL_SERVER_FLOW_PushMsgRecord(void *w, const struct Msg *m);
 extern int BTL_SERVER_FLOW_ProcMemberOut(u8 *p, u8 *a, int c);
-extern int func_021B8D8C(void *p, void *a, u32 b);
+extern int BTL_MAIN_GetTrainerSlotOfPoke(void *p, void *a, u32 b);
 extern void BTL_SERVER_AddPokeChangeRequest(u8 *p, u32 value);
 
-int func_021CA158(u8 *w, struct Cmd *c)
+int BTL_SERVER_FLOW_ProcHandExForceMemberOut(u8 *w, struct Cmd *c)
 {
-    u8 *r = func_021B9934(*(char * *)&((struct Obj00003 *)w)->f8, c->b4c);
-    if (BTL_SERVER_FLOW_CheckShowdown(w) == 0 && func_021C8374(w, c->b4c) == 0 && ((struct Obj00003 *)w)->f14 == 0) {
-        func_021C99A0(w, (const struct Msg *)((u8 *)c + 4));
+    u8 *r = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00003 *)w)->f8, c->b4c);
+    if (BTL_SERVER_FLOW_CheckShowdown(w) == 0 && BTL_SERVER_FLOW_IsPokeAfflictedByStatus(w, c->b4c) == 0 && ((struct Obj00003 *)w)->f14 == 0) {
+        BTL_SERVER_FLOW_PushMsgRecord(w, (const struct Msg *)((u8 *)c + 4));
         if (BTL_SERVER_FLOW_ProcMemberOut(w, r, c->b4d) != 0) {
-            BTL_SERVER_AddPokeChangeRequest(((struct Obj00003 *)w)->f0, func_021B8D8C(((struct Obj00003 *)w)->f4, ((struct Obj00003 *)w)->f8, c->b4c));
-            func_021C99A0(w, (const struct Msg *)((u8 *)c + 0x28));
+            BTL_SERVER_AddPokeChangeRequest(((struct Obj00003 *)w)->f0, BTL_MAIN_GetTrainerSlotOfPoke(((struct Obj00003 *)w)->f4, ((struct Obj00003 *)w)->f8, c->b4c));
+            BTL_SERVER_FLOW_PushMsgRecord(w, (const struct Msg *)((u8 *)c + 0x28));
             ((struct Obj00003 *)w)->f14 = 1;
             return 1;
         }

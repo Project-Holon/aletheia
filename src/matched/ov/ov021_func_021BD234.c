@@ -11,6 +11,7 @@
  *
  * symbols:
  *   STRBUF_GetEosChar  0x02045A98  arm  arm9
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 
 typedef unsigned short u16;
@@ -21,12 +22,12 @@ typedef struct {
     u16 h48;
 } Obj;
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern u16 STRBUF_GetEosChar(void);
 
 void PLACE_NAME_LETTER_InitWork(Obj *p)
 {
-    func_02082BCC(p, 0, 0x4C);
+    MI_CpuFill8(p, 0, 0x4C);
     p->f44 = 0;
     p->h48 = STRBUF_GetEosChar();
 }

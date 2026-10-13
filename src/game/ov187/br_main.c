@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BATTLE_REC_AllocWork 0x0200B400 thumb
  *   d_0220B2A0 0x0220B2A0 data a4
  *   STRBUF_Delete   0x02045808  arm
@@ -88,7 +88,7 @@ typedef struct { unsigned char low:1, flag:1, rest:6; } Flag;
 
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
-extern void *func_02082BCC(void *, int, unsigned);
+extern void *MI_CpuFill8(void *, int, unsigned);
 extern void BATTLE_REC_AllocWork(unsigned);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_020315D4(struct S020315D4 *p);
@@ -133,7 +133,7 @@ int func_0220AF40(struct Obj0203159C *a, unsigned unused, unsigned mode)
     char *p;
     GFL_HEAP_CreateChildHeap(1, 0x59, 0x12000);
     p = PROCSYS_AllocProcWork(a, 0x17f4, 0x59);
-    func_02082BCC(p, 0, 0x17f4);
+    MI_CpuFill8(p, 0, 0x17f4);
     ((struct Obj24881 *)p)->f17F0 = mode;
     BATTLE_REC_AllocWork(0x59);
     func_0220B008((struct S *)p, (unsigned)d_0220B2A0, (unsigned)p, 0x59);
@@ -168,7 +168,7 @@ int func_0220AFD8(void *a,int *state,int b,void *p) { switch(*state) { case 0: *
 
 void func_0220B008(struct S *p, u32 a, u32 b, u32 c)
 {
-    func_02082BCC(p, 0, 0x28);
+    MI_CpuFill8(p, 0, 0x28);
     p->f0 = PROCSYS_Create(c);
     p->f14 = b;
     p->f18 = a;
@@ -211,7 +211,7 @@ void func_0220B0CC(int *p)
     if (((struct Obj14488 *)p)->f8 != 0)
         func_02034714((void *)0x0220b2e0, 0, (void *)0x0220b2e0);
     func_0203133C(((struct Obj14488 *)p)->f0);
-    func_02082BCC(p, 0, 0x28);
+    MI_CpuFill8(p, 0, 0x28);
 }
 
 void func_0220B0F8(u8 *p,u32 v) { ((struct Obj24883 *)p)->f20=v; }
@@ -220,7 +220,7 @@ Work *func_0220B0FC(unsigned short heap, char *p, int mode)
 {
     Work *w;
     w = func_02030734(heap, 16, 0, d_0220B2E4, 0x1e7);
-    func_02082BCC(w, 0, 16);
+    MI_CpuFill8(w, 0, 16);
     w->owner = ((struct Obj24884 *)p)->f17F0;
     w->data = p + 0x28;
     if (mode == 1) w->mode = 1;
@@ -244,7 +244,7 @@ void func_0220B144(u32 *p, u32 a)
 void *func_0220B164(u32 a,u8 *b)
 {
     u8 *p = func_02030734(a,240,0,d_0220B2E4,542);
-    func_02082BCC(p,0,240);
+    MI_CpuFill8(p,0,240);
     BTL_SETUP_InitWithSlots(p,*(int *)(*(u8 **)(b+0x17F0)+4),(void *)a);
     BATTLE_REC_LoadToolOverlay();
     func_021EEEA8(p,a);

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DC4A4",
-    "func_021DC4C8"
+    "HAND_TOKUSEI_Overcoat_BlockWeatherDamage",
+    "HAND_TOKUSEI_GetOvercoatHandlers"
+   ],
+   "addresses": [
+    "0x021DC4A4",
+    "0x021DC4C8"
    ],
    "evidence": {
     "sole-ref": [

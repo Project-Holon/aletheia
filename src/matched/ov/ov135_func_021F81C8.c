@@ -10,7 +10,7 @@
  * status: EXACT*
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_021F91A0 0x021F91A0 thumb ov135
@@ -27,7 +27,7 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern int func_021F91A0(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
@@ -42,7 +42,7 @@ void func_021F81C8(void *bank, void *names, int unused, u8 *win, u32 index, int 
     str = func_02045EC0(bank, 0x6b);
     func_021F91A0(((struct Obj08180 *)win)->f0, (u32)str, 1, 0, 0, 0x440, (u32)g);
     for (i = 1; i < 3; i++)
-        BMP_Clear(func_02045770(*(void **)(win + i * 4)), 0);
+        BMP_Clear(BMP_WIN_GetBmp(*(void **)(win + i * 4)), 0);
     func_021F7F9C(((struct Obj08180 *)win)->f4, names, index, 0, 0, 0x440, g);
     if (index == 29 && mode == 2)
         show = 0;

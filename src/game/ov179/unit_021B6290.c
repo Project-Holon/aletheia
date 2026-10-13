@@ -17,8 +17,8 @@
  *   ARC_UTIL_LoadPaletteBlockFromHandle  0x02049F78  arm
  *   func_02082A90  0x02082A90  arm
  *   func_020307B0  0x020307B0  arm
- *   func_020362DC 0x020362DC arm
- *   func_02005F38 0x02005F38 thumb
+ *   KEY_GetTrg 0x020362DC arm
+ *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   d_021B6A04 0x021B6A04 data a4
  */
@@ -37,8 +37,8 @@ extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082A90(int, int, int);
 extern u32 func_020307B0(void *p);
-extern u32 func_020362DC(void);
-extern int func_02005F38(void);
+extern u32 KEY_GetTrg(void);
+extern int GFL_USE_IsBgmPlaying(void);
 extern void GFL_USE_FadeOutBgm(unsigned v);
 void func_021B6290(char *p, u32 a, u32 b, u32 c);
 void func_021B62B8(char *p, u32 a, u32 b, u32 c);
@@ -93,8 +93,8 @@ extern int (*const d_021B6A04[])(char *);
 
 int func_021B6380(char *p)
 {
-    if (((unsigned char *)*(char * *)&((struct Obj08292 *)p)->f0)[2] != 0 && (func_020362DC() & 0xB) != 0) {
-        if (func_02005F38() == 1)
+    if (((unsigned char *)*(char * *)&((struct Obj08292 *)p)->f0)[2] != 0 && (KEY_GetTrg() & 0xB) != 0) {
+        if (GFL_USE_IsBgmPlaying() == 1)
             GFL_USE_FadeOutBgm(8);
         ((struct Obj08292 *)p)->f6050 = 1;
         (*(char **)p)[3] = 1;

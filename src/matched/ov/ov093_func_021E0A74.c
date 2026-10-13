@@ -1,5 +1,5 @@
 /*
- * function: func_021E0A74
+ * function: HAND_WAZA_GetSketchHandlers
  * address: 0x021E0A74
  * packet: pkt_ov093_021E0A74
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E0A74.c and filed here.
  *
  * symbols:
- *   d_021F264C 0x021F264C data ov093 a4
+ *   gSketchHandlers 0x021F264C data ov093 a4
  */
 
-extern int d_021F264C[];
-int *func_021E0A74(int *p);
+extern int gSketchHandlers[];
+int *HAND_WAZA_GetSketchHandlers(int *p);
 
-int *func_021E0A74(int *p)
+int *HAND_WAZA_GetSketchHandlers(int *p)
 {
     *p = 1;
-    return d_021F264C;
+    return gSketchHandlers;
 }

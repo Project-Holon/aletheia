@@ -21,21 +21,21 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_020071F0 0x020071F0 thumb
  *   init 0x021B9E50 data a2
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   GPOWER_GetSpecialPowerId 0x020111E8 thumb
  *   func_0207E468 0x0207E468 arm
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   TIME_ICON_Delete 0x0202F038 thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02028484 0x02028484 thumb
  *   TCBL_Main 0x020310C4 arm
@@ -57,7 +57,7 @@
  *   TCBL_DeleteAllTasks 0x0203115C arm
  *   TCBL_Destroy 0x02031140 arm
  *   func_0201F7A8 0x0201F7A8 thumb
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   STRBUF_Delete 0x02045808 arm
  *   func_0201ED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
@@ -101,7 +101,7 @@
  *   func_020072A4 0x020072A4 thumb
  *   func_021B9DB8 0x021B9DB8 thumb ov205
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   d_021B9EFC 0x021B9EFC data a4
  *   d_021B9ECC 0x021B9ECC data a4
  *   d_021B9EDC 0x021B9EDC data a4
@@ -170,21 +170,21 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern u32 GPOWER_GetSpecialPowerId(void);
 extern void func_0207E468(void *,u32,u32);
 extern void FADE_Start(u32,int,int,int);
 extern int FADE_IsActive(void);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern int GAME_DATA_SaveStart(int);
 extern u8 *TIME_ICON_CreateNode(u32 a, void *b, u8 c, u8 d, u16 e);
 extern int GAME_DATA_SaveMain(u8 *p);
 extern void TIME_ICON_Delete(u8 *p);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern s32 func_02028484(struct Blk *blk, void *h);
 extern void TCBL_Main(struct Tcbl *p);
@@ -206,7 +206,7 @@ extern struct U16Vec *STRBUF_Create(u32,u32);
 extern void TCBL_DeleteAllTasks(struct Tcbl *p);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern void func_0201F7A8(void *,unsigned);
-extern unsigned int func_020452E8(struct Descriptor *d);
+extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern unsigned int func_0201ED04(struct WordSet *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
@@ -247,7 +247,7 @@ extern int GAME_DATA_PartSaveMain(char *,int);
 extern void func_020072A4(struct Sub020072A4Ctrl *,u32);
 extern void func_021B9DB8(char *p, u32 index, s16 x, s16 y);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 int func_021B95A0(void *owner,int unused,void **args);
 int func_021B95F4(void *unused,State *state,const char *context,char *p);
 int func_021B9864(void *p);
@@ -294,7 +294,7 @@ int func_021B95F4(void *unused,State *state,const char *context,char *p)
     void *obj;
     enum { M3=3,M12=12 } mode;
     local=init;
-    func_020362DC();
+    KEY_GetTrg();
     switch(*state){
     case 0:func_021B9874(p,context);(*state)++;break;
     case 1:
@@ -311,8 +311,8 @@ int func_021B95F4(void *unused,State *state,const char *context,char *p)
     case 3:
         if(((struct Obj00419 *)p)->f40!=0){ (*state)++; break; }
         {
-            func_020061E4(0x54c);func_021B99E4(p,3,0,0);
-            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(func_02045730(obj));
+            GFL_USE_PlaySeDefaultVolume(0x54c);func_021B99E4(p,3,0,0);
+            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
             ((struct Obj00419 *)p)->f44=4;*state=13;GAME_DATA_SaveStart(*(int *)&((struct Obj00419 *)p)->f4);
         }
         break;
@@ -342,11 +342,11 @@ int func_021B95F4(void *unused,State *state,const char *context,char *p)
         TIME_ICON_Delete(((struct Obj00419 *)p)->f30);
         if(((struct Obj00419 *)p)->f40==0 && ((struct Obj00419 *)p)->f34!=0){
             func_021B99E4(p,4,0,0);
-            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(func_02045730(obj));
-            ((struct Obj00419 *)p)->f44=8;*state=13;func_020061E4(0x558);
+            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
+            ((struct Obj00419 *)p)->f44=8;*state=13;GFL_USE_PlaySeDefaultVolume(0x558);
         }else{
             func_021B99E4(p,5,0,0);
-            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(func_02045730(obj));
+            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
             ((struct Obj00419 *)p)->f44=8;*state=13;
         }
         break;
@@ -358,7 +358,7 @@ int func_021B95F4(void *unused,State *state,const char *context,char *p)
         else { FADE_Start(12,0,16,0); }
         (*state)++;break;
     case 10:
-        if(!FADE_IsActive()){BMP_Clear(func_02045770(((struct Obj00419 *)p)->f1C),15);(*state)++;}
+        if(!FADE_IsActive()){BMP_Clear(BMP_WIN_GetBmp(((struct Obj00419 *)p)->f1C),15);(*state)++;}
         break;
     case 11:func_021B9928(p);(*state)++;break;
     case 12:return 1;
@@ -387,7 +387,7 @@ void func_021B9928(char *p)
     TCBL_Destroy(((struct Obj03359 *)p)->f24);
     ((struct Obj03359 *)p)->f24=0;
     func_0201F7A8(((struct Obj03359 *)p)->f1C,0);
-    func_020452E8(((struct Obj03359 *)p)->f1C);
+    BMP_WIN_Delete(((struct Obj03359 *)p)->f1C);
     STRBUF_Delete(((struct Obj03359 *)p)->fC);
     func_0201ED04(((struct Obj03359 *)p)->f18);
     MSGDATA_Delete(((struct Obj03359 *)p)->f14);
@@ -416,7 +416,7 @@ void func_021B99E4(char *p,unsigned entry,unsigned index,u16 kind)
 {
     void *buffer;
     buffer=STRBUF_Create(1024,((struct Obj01777 *)p)->f0);
-    BMP_Clear(func_02045770(((struct Obj01777 *)p)->f1C),15);
+    BMP_Clear(BMP_WIN_GetBmp(((struct Obj01777 *)p)->f1C),15);
     func_02045CAC(((struct Obj01777 *)p)->f14,entry,buffer);
     func_0201F02C(((struct Obj01777 *)p)->f18,0,((struct Obj01777 *)p)->f8);
     func_0201F250(((struct Obj01777 *)p)->f18,((struct Obj01777 *)p)->fC,buffer);
@@ -467,7 +467,7 @@ int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
 {
     u32 keys;
     void *obj;
-    keys=func_020362DC();
+    keys=KEY_GetTrg();
     switch(*state){
     case 0:
         func_0208068C(511);func_02082AC0(0,0x6800000,0xa4000);func_02080B98();
@@ -479,8 +479,8 @@ int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
         if(((struct Obj01293 *)p)->f4==0)func_021B9DB8(p,3,6,0);
         else func_021B9DB8(p,2,6,0);
         obj=((struct Obj01293 *)p)->f14;
-        BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(func_02045730(obj));
-        GFL_NET_RestartWithDefaultTimeout(1,((struct Obj01293 *)p)->f0);func_020434DC(16,1);
+        BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
+        GFL_NET_RestartWithDefaultTimeout(1,((struct Obj01293 *)p)->f0);BG_SYS_SetMainPlaneVisible(16,1);
         (*state)++;break;
     case 1:
         FADE_Start(3,16,0,0);*(u16 *)0x04000050=0;
@@ -492,10 +492,10 @@ int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
         if((keys&1)||(keys&2)){FADE_Start(3,0,16,0);(*state)++;}
         break;
     case 4:
-        if(!FADE_IsActive()){BMP_Clear(func_02045770(((struct Obj01293 *)p)->f14),0);(*state)++;}
+        if(!FADE_IsActive()){BMP_Clear(BMP_WIN_GetBmp(((struct Obj01293 *)p)->f14),0);(*state)++;}
         break;
     case 5:
-        func_0201F7A8(((struct Obj01293 *)p)->f14,0);func_020452E8(((struct Obj01293 *)p)->f14);
+        func_0201F7A8(((struct Obj01293 *)p)->f14,0);BMP_WIN_Delete(((struct Obj01293 *)p)->f14);
         func_0201ED04(((struct Obj01293 *)p)->f10);MSGDATA_Delete(((struct Obj01293 *)p)->fC);
         func_020403F4(0);GF_FONT_Delete(((struct Obj01293 *)p)->f18);func_021B9DAC();return 1;
     }

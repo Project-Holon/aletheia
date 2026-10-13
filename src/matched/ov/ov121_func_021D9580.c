@@ -9,7 +9,7 @@
  * status: EXACT
  * volatile: hardware rereads at 021D959A..021D95CA
  * symbols:
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 extern const int d_021DF5E4[];
 typedef unsigned int   u32;
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
@@ -29,7 +29,7 @@ extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 void func_021D9580(void)
 {
     unsigned i;
-    func_020434DC(1,0);
+    BG_SYS_SetMainPlaneVisible(1,0);
     *(volatile u16 *)0x04000008=(u16)(*(volatile u16 *)0x04000008 &~3);
     REG=(u16)((REG&~0x3002)|2);
     REG&=(u16)~0x3010;

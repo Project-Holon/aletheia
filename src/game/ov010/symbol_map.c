@@ -77,7 +77,7 @@
  *   GAME_BEACON_SEARCH_SetSymbolMapPoke  0x0216559C  thumb  ov010
  *   ov215_id       0x000000D7  data   a1
  *   d_021F7118     0x021F7118  data   ov215  a4
- *   func_02013E40  0x02013E40  thumb
+ *   ZONEDATA_GetParentZoneId  0x02013E40  thumb
  *   func_02012894  0x02012894  thumb
  *   g_ZoneRemapTable  0x02171F2C  data  ov010  a4
  *   func_0201296C  0x0201296C  thumb
@@ -96,7 +96,7 @@
  *   PMSI_PARAM_GetWords  0x02024128  thumb
  *   PMSI_PARAM_GetWord  0x02024124  thumb
  *   PMSI_PARAM_GetSentence  0x02024134  thumb
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   func_0200E714  0x0200E714  thumb
  *   PMSI_PARAM_Delete  0x020240FC  thumb
  *   ov110_id       0x0000006E  data   a1
@@ -112,8 +112,8 @@
  *   d_021C3FE0  0x021C3FE0  data  ov217
  *   g_ResearchRadarFileName 0x02172A00 data a1
  *   FIELD_MSGBG_IsMsgWinTransDone  0x0219077C  thumb  ov021
- *   func_020362DC  0x020362DC  arm
- *   func_02082BCC 0x02082BCC arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   FIELDMAP_GetHeapId 0x02188C84 thumb ov021
  *   FIELDMAP_GetMsgBg 0x02188C54 thumb ov021
  *   func_02045B38  0x02045B38  arm
@@ -130,7 +130,7 @@
  *   func_0201F31C  0x0201F31C  thumb
  *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb  ov021
  *   FIELD_MSGBG_GetMsgWinBmpWin  0x021907C0  thumb  ov021
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *   STRBUF_Delete  0x02045808  arm
  *   FIELD_MSGBG_ClearMsgWin  0x02190788  thumb
@@ -353,7 +353,7 @@ extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, int transitionArg, int sel, int d);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, int transitionArg, int sel, int d, int e, u8 f, u8 g);
 extern void  GAME_BEACON_SEARCH_SetSymbolMapPoke(u16 species);
-extern u32 func_02013E40(u32 zoneId);
+extern u32 ZONEDATA_GetParentZoneId(u32 zoneId);
 extern SpecialLocation *func_02012894(void *gameData);
 extern u32 func_0201296C(const struct GameData *gameData);
 extern void *GAME_DATA_GetMiscSave(void *gameData);
@@ -371,7 +371,7 @@ extern int PMSI_PARAM_CheckCanceled(unsigned char *pmsParam);
 extern void  PMSI_PARAM_GetWords(void *pmsParam, PmsInputWords *out);
 extern unsigned int PMSI_PARAM_GetWord(unsigned short *pmsParam);
 extern void PMSI_PARAM_GetSentence(char *pmsParam, void *out);
-extern void *func_020124E4(struct GameTask *task);
+extern void *GAME_EVENT_GetGameSystem(struct GameTask *task);
 extern void func_0200E714(void *table, int index, void *src);
 extern void  PMSI_PARAM_Delete(void *pmsParam);
 extern void *func_0201210C(const struct GameSystem *gameSystem);
@@ -382,8 +382,7 @@ extern void WEATHER_RequestChangeNoFade(int a, int b);
 extern void WEATHER_RequestChange(int a, int b);
 extern void GAME_DATA_SetSubscreenMode(struct GameData *gameData, u8 mode);
 extern int FIELD_MSGBG_IsMsgWinTransDone(struct InfoWindow *window);
-extern u32 func_020362DC(void);
-extern void func_02082BCC(void *dst, int value, int size);
+extern u32 KEY_GetTrg(void);
 extern u16 FIELDMAP_GetHeapId(void *fieldMap);
 extern u32 FIELDMAP_GetMsgBg(void *fieldMap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -400,7 +399,7 @@ extern void func_0201F250(struct WordSet *wordSet, void *dst, void *src);
 extern void func_0201F31C(struct WordSet *wordSet);
 extern int FIELD_MSGBG_MsgWinPrintStr(struct InfoWindow *window, u32 b, u32 c, u32 text);
 extern u32 FIELD_MSGBG_GetMsgWinBmpWin(struct InfoWindow *window);
-extern u8 func_02045730(void *bmpWin);
+extern u8 BMP_WIN_GetBgLayer(void *bmpWin);
 extern void func_020409B4(u32 index);
 extern void STRBUF_Delete(struct StrBuf *buf);
 extern int FIELD_MSGBG_ClearMsgWin();
@@ -1161,11 +1160,11 @@ void *SYMBOL_MAP_CreatePokeEventTask(void *gameSystem, void *transitionArg, void
  */
 u32 SYMBOL_MAP_ResolveZoneId(void *gameData, u32 zoneId)
 {
-    u32 parentZone = func_02013E40(zoneId);
+    u32 parentZone = ZONEDATA_GetParentZoneId(zoneId);
     u32 remapped;
     int i;
     if (parentZone == 0x1A6)
-        return func_02013E40(func_02012894(gameData)->zoneId);
+        return ZONEDATA_GetParentZoneId(func_02012894(gameData)->zoneId);
     for (i = 0; i < 2; i++) {
         if (g_ZoneRemapTable[i].source == parentZone) {
             remapped = (u16)*(u32 *)((char *)g_ZoneRemapTable + i * 8);
@@ -1337,7 +1336,7 @@ u32 SYMBOL_MAP_PmsInputTaskMain(void *task, u32 *state)
             } else {
                 PMSI_PARAM_GetSentence(pmsParam, &sentence);
                 if (work->hasSentence != 0) {
-                    func_0200E714(func_0200E6F0((u32)GAME_DATA_GetSaveControl(func_020120F4(func_020124E4(task)))), work->sentenceId, (&sentence));
+                    func_0200E714(func_0200E6F0((u32)GAME_DATA_GetSaveControl(func_020120F4(GAME_EVENT_GetGameSystem(task)))), work->sentenceId, (&sentence));
                 }
                 *work->outWord0 = sentence.first;
                 second = sentence.second;
@@ -1451,7 +1450,7 @@ int EVENT_RESEARCH_RADAR_ReportTaskMain(void *task, int *state, ResearchReportWo
             *state = *state + 1;
         break;
     case 2:
-        if (func_020362DC() & 0xf3)
+        if (KEY_GetTrg() & 0xf3)
             *state = *state + 1;
         break;
     case 3:
@@ -1477,7 +1476,7 @@ void *EVENT_RESEARCH_RADAR_CreateReportTask(void *gameSystem) {
 void EVENT_RESEARCH_RADAR_InitReportWork(ResearchReportWork *work, void *gameSystem) {
     void *fieldMap;
     fieldMap = func_0201210C(gameSystem);
-    func_02082BCC(work, 0, 32);
+    MI_CpuFill8(work, 0, 32);
     work->heapId = FIELDMAP_GetHeapId(fieldMap);
     work->gameSystem = gameSystem;
     work->gameData = func_020120F4(gameSystem);
@@ -1571,7 +1570,7 @@ void EVENT_RESEARCH_RADAR_PrintReport(ResearchReportWork *work)
     func_0201F250(work->wordSet, formattedText, rawText);
     func_0201F31C(work->wordSet);
     FIELD_MSGBG_MsgWinPrintStr(work->window, 8, 0, (u32)formattedText);
-    func_020409B4(func_02045730((void *)FIELD_MSGBG_GetMsgWinBmpWin(work->window)));
+    func_020409B4(BMP_WIN_GetBgLayer((void *)FIELD_MSGBG_GetMsgWinBmpWin(work->window)));
     STRBUF_Delete(rawText);
     STRBUF_Delete(formattedText);
 }
@@ -1579,7 +1578,7 @@ void EVENT_RESEARCH_RADAR_PrintReport(ResearchReportWork *work)
 void EVENT_RESEARCH_RADAR_CloseInfoWindow(ResearchReportWork *work)
 {
     FIELD_MSGBG_ClearMsgWin(work->window);
-    func_020409B4(func_02045730((void *)FIELD_MSGBG_GetMsgWinBmpWin(work->window)));
+    func_020409B4(BMP_WIN_GetBgLayer((void *)FIELD_MSGBG_GetMsgWinBmpWin(work->window)));
 }
 
 /* Report kind (0..5) from the research report block. */

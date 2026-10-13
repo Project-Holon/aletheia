@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_GetQuickFeetHandlers
+ * function: HAND_TOKUSEI_GetQuickFeetHandlers
  * address: 0x021D87FC
  * packet: pkt_ov093_021D87FC
  * region: ov093
@@ -15,10 +15,10 @@
  *   gQuickFeetHandlers 0x021F0748 data ov093 a4
  */
 
-int *BTL_CALC_GetQuickFeetHandlers(int *p);
+int *HAND_TOKUSEI_GetQuickFeetHandlers(int *p);
 extern int gQuickFeetHandlers[];
 
-int *BTL_CALC_GetQuickFeetHandlers(int *p)
+int *HAND_TOKUSEI_GetQuickFeetHandlers(int *p)
 {
     *p = 1;
     return gQuickFeetHandlers;

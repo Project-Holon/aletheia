@@ -18,9 +18,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_ABILITY_VoltAbsorbAbsorbElectric",
-    "BTL_ABILITY_GetVoltAbsorbHandlers",
-    "BTL_ABILITY_GetMotorDriveHandlers"
+    "HAND_TOKUSEI_VoltAbsorbAbsorbElectric",
+    "HAND_TOKUSEI_GetVoltAbsorbHandlers",
+    "HAND_TOKUSEI_GetMotorDriveHandlers"
    ],
    "addresses": [
     "0x021DAAEC",

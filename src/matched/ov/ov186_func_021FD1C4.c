@@ -21,10 +21,10 @@
  * r6 address), the pair constant d_02200B6C is read twice by initialiser
  * (Pair b = d at function level, Pair c = d in case 6, which gives the
  * hidden copy at [sp,#0x38]), the two position records are memset with
- * func_02082BCC(&r,0,8) then only x,y,z / x,y are stored, hf is a u32 so
+ * MI_CpuFill8(&r,0,8) then only x,y,z / x,y are stored, hf is a u32 so
  * the u16 truncation is repeated per call, mode is a switch.
  * Residue (12 B, two spots): (1) in the icon block the original builds the
- * z=1 store and the later func_0204B688(obj,1) argument with separate
+ * z=1 store and the later CLACT_SetActorObjMode(obj,1) argument with separate
  * movs r1,#1; mine pools the 1 in r7 (movs r7,#1; strh r7; adds r1,r7,#0).
  * (2) in mode 0 the original schedules movs r7,#4 and movs r7,#6 before the
  * str of k2 (the [sp,#0x20] slot); mine stores first. Tried, no change:
@@ -41,7 +41,7 @@
  * (k3=4;k1=0x14;k2=0x12;k4=0x13; and k3=6;k1=0x17;...), which gives the
  * original's movs r7 before the str to [sp,#0x20]; k1,k3,k2,k4 also works.
  * Residue left (4 B, icon block): original `movs r1,#1; strh r1,[r0,#0x14]`
- * and later `movs r1,#1` for func_0204B688(obj,1); mine pools the 1 in r7
+ * and later `movs r1,#1` for CLACT_SetActorObjMode(obj,1); mine pools the 1 in r7
  * (movs r7,#1; strh r7; adds r1,r7,#0). Pragmas opt_propagation off and
  * opt_dead_assignments off break the whole body (960+ B); peephole off: no
  * change. Tried, no change: B688 second parameter u8 or int; Req as
@@ -132,20 +132,20 @@
  * Open lead: a form that keeps A..D in real memory (not spilled registers).
  *
  * pass 3 2026-10-06 P3L02: EXACT (c99 and c). The icon-block residue was the
- * callee declaration, not the block: func_0204B6F4 declared `void *` (returns
+ * callee declaration, not the block: CLACT_SetActorPaletteOffset declared `void *` (returns
  * its object) instead of `void`. With a void declaration r0 is dead after the
  * call and mwcc keeps the constant 1 in r7 across it (store z=1, later
- * func_0204B688(obj,1)); with a value return it rebuilds `movs r1,#1` at each
+ * CLACT_SetActorObjMode(obj,1)); with a value return it rebuilds `movs r1,#1` at each
  * use, as the image does (docs/idioms/a-callee-declared-void-that-returns-a-
  * value-changes-later-constant-copies.md). Evidence: the ARM body of
- * func_0204B6F4 (src/matched/arm9/unit_0204B6F4.c, written there as void) never
+ * CLACT_SetActorPaletteOffset (src/matched/arm9/unit_0204B6F4.c, written there as void) never
  * writes r0, so it is byte-identical to a definition that ends `return o;`.
  * The integrator should know that the matched definition is spelled void.
  * Also: t inlined into the CLACT_RegisterCellAnim call (same bytes, one fewer local).
  *
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FC20C 0x021FC20C thumb ov186
  *   func_021FC214 0x021FC214 thumb ov186
  *   func_021FC21C 0x021FC21C thumb ov186
@@ -184,14 +184,14 @@
  *   func_0201BC40 0x0201BC40 thumb
  *   func_0201BCB4 0x0201BCB4 thumb
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
- *   func_0201BB5C 0x0201BB5C thumb
+ *   POKE_TOOL_CalcIconPalette 0x0201BB5C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B688 0x0204B688 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
  *   d_02200D5C 0x02200D5C data a1
  *   d_02200B34 0x02200B34 data a4
  *   d_02200B6C 0x02200B6C data a4
@@ -208,7 +208,7 @@ extern const Ent d_02200B34[];
 extern const Pair d_02200B6C;
 extern const u8 d_02200AFC[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 typedef signed int     s32;
 struct Actor;
 struct GdsProfile;
@@ -256,14 +256,14 @@ extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void *func_020490F4(u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int func_0201BC3C(void),func_0201BC40(void),func_0201BCB4(void);
-extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
+extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32),POKE_TOOL_CalcIconPalette(u32,u32,u32,u32);
 extern int CLACT_RegisterPaletteCompressed(void *,u32,u32,u32,u16);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
-extern void *func_0204B6F4(void *,u32,u32);
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void *CLACT_SetActorPaletteOffset(void *,u32,u32);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
 {
     char *p;
@@ -276,7 +276,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
     void *text;
     u32 A,B,C,D;
     p=func_02030734(heap,0x44,0,d_02200D5C,0x541);
-    func_02082BCC(p,0,0x44);
+    MI_CpuFill8(p,0,0x44);
     *(char **)(p+0x1c)=q;
     font=(void *)func_021FC20C(q);
     *(void **)(p+0x20)=PMS_DRAW_Create((u32)a2,0,(u32)a3,(u32)font,7,1,heap);
@@ -385,11 +385,11 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
         *(int *)(p+0x34)=CLACT_RegisterCellAnim(h,func_0201BC40(),func_0201BCB4(),(u16)hf);
         *(int *)(p+0x30)=CLACT_RegisterCharacter(h,POKE_TOOL_CalcGraphicIndex(B,C,D,A),0,0,hf);
         ARC_TOOL_DeleteHandle(h);
-        func_02082BCC(&r,0,8);
+        MI_CpuFill8(&r,0,8);
         r.x=0x4b;r.y=0x40;r.z=1;
         *(void **)(p+0x24)=CLACT_CreateActor(a2,*(u32 *)(p+0x30),*(u32 *)(p+0x2c),*(u32 *)(p+0x34),&r,0,heap);
-        func_0204B6F4(*(void **)(p+0x24),func_0201BB5C(B,C,D,A),0);
-        func_0204B688(*(void **)(p+0x24),1);
+        CLACT_SetActorPaletteOffset(*(void **)(p+0x24),POKE_TOOL_CalcIconPalette(B,C,D,A),0);
+        CLACT_SetActorObjMode(*(void **)(p+0x24),1);
     }
     switch(mode) {
     case 0:
@@ -422,11 +422,11 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
     }
     {
         Req r;
-        func_02082BCC(&r,0,8);
+        MI_CpuFill8(&r,0,8);
         r.x=0x30;r.y=0x40;
         *(void **)(p+0x28)=CLACT_CreateActor(a2,*(u32 *)(p+0x3c),*(u32 *)(p+0x38),*(u32 *)(p+0x40),&r,0,heap);
-        func_0204B6F4(*(void **)(p+0x28),0,1);
-        func_0204B688(*(void **)(p+0x28),1);
+        CLACT_SetActorPaletteOffset(*(void **)(p+0x28),0,1);
+        CLACT_SetActorObjMode(*(void **)(p+0x28),1);
     }
     return p;
 }

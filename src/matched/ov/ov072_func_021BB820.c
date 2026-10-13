@@ -54,7 +54,7 @@
  * 6,5 / 0xf / B40 / C14 run); callees 02049658/020498F4 read in arm9 (no truncation of e, f).
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0203F8F4  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   func_0203FC28  0x0203FC28  arm
@@ -86,7 +86,7 @@ struct Ent {
 extern struct Ent sTownMapGrhBgTable[];
 extern char sTownMapGrhDispConfig;
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void func_0203F8F4(u16 heap);
 extern void BMP_WIN_Init(u16 heap);
 struct BgTemplate;
@@ -109,7 +109,7 @@ void TOWNMAP_GRH_InitBgLayers(void *p, u16 heap)
     void *h;
 
     i = 0;
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
     func_0203F8F4(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)(&sTownMapGrhDispConfig));

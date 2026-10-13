@@ -47,12 +47,12 @@
  *   func_020410D0  0x020410D0  arm
  *   BgWinFrmScreenTransFuncs     0x020A0058  data
  *   func_02041300 0x02041300 arm
- *   func_02045768  0x02045768  arm
+ *   BMP_WIN_GetCharOffset  0x02045768  arm
  *   BMP_WIN_GetPalette  0x02045778  arm
- *   func_02045738  0x02045738  arm
- *   func_02045740  0x02045740  arm
- *   func_02045758  0x02045758  arm
- *   func_02045760  0x02045760  arm
+ *   BMP_WIN_GetWidth  0x02045738  arm
+ *   BMP_WIN_GetHeight  0x02045740  arm
+ *   BMP_WIN_GetPosX  0x02045758  arm
+ *   BMP_WIN_GetPosY  0x02045760  arm
  *   _u32_div_f  0x0209C2B0  arm
  *   PokegraFileName    0x020A77AC  data
  *   MIi_CpuCopyFast 0x02082B0C  arm
@@ -78,29 +78,29 @@
  *   func_02062A98  0x02062A98  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   PmsDrawFileName   0x020A77B8  data  a1
- *   func_0204B688  0x0204B688  arm
- *   func_02045770  0x02045770  arm
+ *   CLACT_SetActorObjMode  0x0204B688  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_CopyPixels  0x02043814  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_GetActorAnimSeq  0x0204B898  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   func_02035630  0x02035630  arm
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
  *   func_020416D4  0x020416D4  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   func_02041648  0x02041648  arm
  *   func_02041664  0x02041664  arm
  *   CLACT_GetActorPos  0x0204B53C  arm
@@ -370,12 +370,12 @@ extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, const u16 *a
                           u8 a6, u8 a7, u8 a8, u8 a9);
 extern void (*BgWinFrmScreenTransFuncs[])(u32);
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
-extern u16 func_02045768(struct Descriptor *p);
+extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
 extern u8 BMP_WIN_GetPalette(struct Descriptor *p);
-extern u8 func_02045738(struct Descriptor *p);
-extern u8 func_02045740(struct Descriptor *p);
-extern u8 func_02045758(struct Descriptor *p);
-extern u8 func_02045760(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
+extern u8 BMP_WIN_GetHeight(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 extern void  MIi_CpuCopyFast(void *dst, const void *src, u32 size);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
 extern u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
@@ -398,30 +398,30 @@ extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void  CLACT_TransferPalette(void *dst, void *src, u32 flag);
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 extern void  MI_CpuFill8(void *p, u32 v, u32 n);
-extern void func_0204B688(struct Actor *actor, u32 val);
-extern void *func_02045770(struct Descriptor *h);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 val);
+extern void *BMP_WIN_GetBmp(struct Descriptor *h);
 extern void BMP_CopyPixels(struct Bmp *dst, const struct Bmp *src);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void func_0204B404(struct Actor *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Actor *p, const struct Vec2 *delta, u32 which);
 extern u16 CLACT_GetActorAnimSeq(struct Actor *p);
 extern void CLACT_SetActorAnimSeq(struct Actor *p, u16 value);
-extern void func_0204B3DC(struct Actor *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Actor *p, u32 v);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern struct Actor *CLACT_CreateActor(void *a, u32 b, u32 c, u32 d,
                                 const void *e, u16 f, u16 g);
-extern void func_0204B92C(struct Actor *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Actor *p, u32 v);
 extern u8 func_02035630(void);
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
 extern u8 func_020416D4(u32 layer);
 extern void  CLACT_SetActorBgPriority(void *h, u32 a);
 extern void CLACT_DeleteActor(struct Actor *p);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern u32 func_02041648(u8 channel);
 extern u32 func_02041664(u8 channel);
 extern void CLACT_GetActorPos(const struct Actor *actor, struct PmsPoint *out);
@@ -2020,12 +2020,12 @@ void BGWINFRM_PutBmpWin(struct BgWinFrmWork *wk, u32 idx, void *bmpWin)
     u32 charNo;
     s32 charSizeX;
 
-    charNo = func_02045768(bmpWin);
+    charNo = BMP_WIN_GetCharOffset(bmpWin);
     palBits = ((u32)BMP_WIN_GetPalette(bmpWin) << 0x1c) >> 0x10;
-    charSizeX = func_02045738(bmpWin);
-    charSizeY = func_02045740(bmpWin);
-    charX = func_02045758(bmpWin);
-    charY = func_02045760(bmpWin);
+    charSizeX = BMP_WIN_GetWidth(bmpWin);
+    charSizeY = BMP_WIN_GetHeight(bmpWin);
+    charX = BMP_WIN_GetPosX(bmpWin);
+    charY = BMP_WIN_GetPosY(bmpWin);
     charRow = 0;
 
     if (charSizeY > 0) {
@@ -3046,7 +3046,7 @@ void PMS_DRAW_SetDecoPriority(struct PmsDraw *wk, u32 id, u32 priority)
     int i;
 
     for (i = 0; i < 2; i++) {
-        func_0204B688(wk->elems[id].decoActor[i], priority);
+        CLACT_SetActorObjMode(wk->elems[id].decoActor[i], priority);
     }
 }
 
@@ -3079,22 +3079,22 @@ void PMS_DRAW_Copy(struct PmsDraw *wk, u32 srcId, u32 dstId)
 
     src = &wk->elems[srcId];
     dst = &wk->elems[dstId];
-    dx = func_02045758(dst->bmpWin) - func_02045758(src->bmpWin);
-    dy = func_02045760(dst->bmpWin) - func_02045760(src->bmpWin);
-    BMP_CopyPixels((struct Bmp *)((u32)func_02045770((struct Descriptor *)src->bmpWin)), (const struct Bmp *)((u32)func_02045770((struct Descriptor *)dst->bmpWin)));
+    dx = BMP_WIN_GetPosX(dst->bmpWin) - BMP_WIN_GetPosX(src->bmpWin);
+    dy = BMP_WIN_GetPosY(dst->bmpWin) - BMP_WIN_GetPosY(src->bmpWin);
+    BMP_CopyPixels((struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)src->bmpWin)), (const struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)dst->bmpWin)));
     bmpWin = dst->bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
-    func_02041B6C(func_02045730(bmpWin));
+    func_02041B6C(BMP_WIN_GetBgLayer(bmpWin));
 
     for (i = 0; i < 2; i++) {
-        surface = PMS_DRAW_GetFrameSurface(func_02045730(src->bmpWin));
+        surface = PMS_DRAW_GetFrameSurface(BMP_WIN_GetBgLayer(src->bmpWin));
         CLACT_GetActorSurfacePos(src->decoActor[i], (struct PtS *)&pt, (u16)surface);
         pt.x += dx * 8;
         pt.y += dy * 8;
-        func_0204B404(dst->decoActor[i], (const struct Vec2 *)(&pt), (u16)surface);
+        CLACT_AddActorSurfacePos(dst->decoActor[i], (const struct Vec2 *)(&pt), (u16)surface);
         CLACT_SetActorAnimSeq(dst->decoActor[i], CLACT_GetActorAnimSeq(src->decoActor[i]));
-        func_0204B3DC(dst->decoActor[i], src->isDeco[i]);
+        CLACT_SetActorDrawEnable(dst->decoActor[i], src->isDeco[i]);
     }
     dst->printing = src->printing;
     dst->flags.bits.active = src->flags.bits.active;
@@ -3122,8 +3122,8 @@ void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *wk, u32 follow)
 void PMS_DRAW_CalcDecoPos(u32 bmpWin, u32 charX, u32 line, const struct PmsPos *offset,
                   struct PmsPos *out)
 {
-    out->x = offset->x + (charX + func_02045758((struct Descriptor *)bmpWin) * 8);
-    out->y = offset->y + ((line << 4) + func_02045760((struct Descriptor *)bmpWin) * 8);
+    out->x = offset->x + (charX + BMP_WIN_GetPosX((struct Descriptor *)bmpWin) * 8);
+    out->y = offset->y + ((line << 4) + BMP_WIN_GetPosY((struct Descriptor *)bmpWin) * 8);
 }
 
 u32 PMS_DRAW_GetDecoCgrIndex(u32 engine)
@@ -3238,7 +3238,7 @@ void PMS_DRAW_ReleaseResources(struct PmsDrawRes *res)
  * definition order.
  *
  * `one` exists because the original materialises 1 twice, once as the
- * r1 argument to func_0204B92C and once into r4 to survive the
+ * r1 argument to CLACT_SetActorAutoAnim and once into r4 to survive the
  * func_02035630 call and become `lsls r1, r4, #0xd`; writing the shift
  * as a bare `0x2000` costs a pool word instead.
  *
@@ -3256,9 +3256,9 @@ void *PMS_DRAW_CreateDecoActor(struct PmsDrawRes *res, u16 heapId)
     u32 one;
 
     actor = CLACT_CreateActor((void *)res->clunit, res->cgrIndex, res->plttIndex, res->cellAnmIndex, &init, (u16)res->drawType, heapId);
-    func_0204B3DC(actor, 0);
+    CLACT_SetActorDrawEnable(actor, 0);
     one = 1;
-    func_0204B92C(actor, 1);
+    CLACT_SetActorAutoAnim(actor, 1);
     if (func_02035630() == 0x1e) {
         CLACT_SetActorAutoAnimSpeed(actor, one << 0xd);
     }
@@ -3268,7 +3268,7 @@ void *PMS_DRAW_CreateDecoActor(struct PmsDrawRes *res, u16 heapId)
 /*
  * Places one element sprite: sub_0202DE6C resolves the cell offset into a
  * pair of u32s, which are narrowed into the adjacent u16 pair the
- * func_0204B404 setter wants, then the cell's own id decides the priority
+ * CLACT_AddActorSurfacePos setter wants, then the cell's own id decides the priority
  * word through sub_0202E430 and the last stack argument (a 1-based index)
  * is passed on as `(u16)(n - 1)`.
  */
@@ -3282,8 +3282,8 @@ void PMS_DRAW_PlaceDecoActor(void *actor, struct Descriptor *bmpWin, u32 charX, 
     PMS_DRAW_CalcDecoPos((u32)bmpWin, charX, line, (const struct PmsPos *)offset, (struct PmsPos *)(&pos));
     pt.x = (u16)pos.x;
     pt.y = (u16)pos.y;
-    frame = func_02045730(bmpWin);
-    func_0204B404(actor, (const struct Vec2 *)(&pt), (u16)PMS_DRAW_GetFrameSurface(frame));
+    frame = BMP_WIN_GetBgLayer(bmpWin);
+    CLACT_AddActorSurfacePos(actor, (const struct Vec2 *)(&pt), (u16)PMS_DRAW_GetFrameSurface(frame));
     CLACT_SetActorBgPriority(actor, func_020416D4(frame));
     CLACT_SetActorAnimSeq(actor, (u16)(wordId - 1));
 }
@@ -3317,7 +3317,7 @@ int PMS_DRAW_UpdateElem(struct PmsElem *elem, void *printQue, int followBgScroll
     s32 i;
 
     if (elem->printing != 0) {
-        if (func_0201C6C4(printQue, func_02045770(elem->bmpWin)) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget(printQue, BMP_WIN_GetBmp(elem->bmpWin)) == 0) {
             BMP_WIN_TransferChars(elem->bmpWin);
             elem->printing = 0;
         }
@@ -3328,16 +3328,16 @@ int PMS_DRAW_UpdateElem(struct PmsElem *elem, void *printQue, int followBgScroll
         if (elem->flags.bits.visible) {
             for (i = 0; i < 2; i++) {
                 if (elem->isDeco[i] != 0 && elem->flags.bits.decoVisible) {
-                    func_0204B3DC(elem->decoActor[i], 1);
+                    CLACT_SetActorDrawEnable(elem->decoActor[i], 1);
                 } else {
-                    func_0204B3DC(elem->decoActor[i], 0);
+                    CLACT_SetActorDrawEnable(elem->decoActor[i], 0);
                 }
             }
         }
     }
 
     if (followBgScroll != 0) {
-        s32 frame = (s32)func_02045730(elem->bmpWin);
+        s32 frame = (s32)BMP_WIN_GetBgLayer(elem->bmpWin);
         struct PmsPoint diff = { 0, 0 };
         struct PmsPoint pos;
         s32 scrollX;
@@ -3422,8 +3422,8 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct D
         }
     }
     word = PMSI_PARAM_ToStringWords((u16 *)param, heapID, wordCount);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)elem->bmpWin)), nullColorPalette);
-    PRINTSYS_PrintQueColor(printQue, (u32)func_02045770((struct Descriptor *)elem->bmpWin), (s16)offset->x, (s16)offset->y, (u32)word, font, color);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)elem->bmpWin)), nullColorPalette);
+    PRINTSYS_PrintQueColor(printQue, (u32)BMP_WIN_GetBmp((struct Descriptor *)elem->bmpWin), (s16)offset->x, (s16)offset->y, (u32)word, font, color);
     elem->printing = 1;
     for (i = 0; i < wordCount; i++) {
         if (elem->isDeco[i] == 1) {
@@ -3433,13 +3433,13 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct D
         } else if (isBlank[i] == 1) {
             u32 x = func_0201D528(word, i, (void *)font, 0);
             u32 y = func_0201D4BC(word, i);
-            BMP_FillRect((u32)func_02045770((struct Descriptor *)bmpWin), x, y << 4, 0x54, 0x10, nullColorPalette);
+            BMP_FillRect((u32)BMP_WIN_GetBmp((struct Descriptor *)bmpWin), x, y << 4, 0x54, 0x10, nullColorPalette);
         }
     }
     STRBUF_Delete(word);
     STRBUF_Delete(str);
     BMP_WIN_MakeScreen((struct Cfg *)elem->bmpWin);
-    func_02041B6C(func_02045730((struct Descriptor *)elem->bmpWin));
+    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)elem->bmpWin));
     elem->flags.bits.active = 1;
     elem->flags.bits.visible = 1;
 }
@@ -3454,15 +3454,15 @@ void PMS_DRAW_ClearElem(struct PmsElem *elem, u32 isTrans)
     void *h;
     int i;
 
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)elem->bmpWin)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)elem->bmpWin)), 0);
     if (isTrans != 0) {
         BMP_WIN_TransferChars((struct Descriptor *)elem->bmpWin);
         h = elem->bmpWin;
         BMP_WIN_ClearScreen((struct Descriptor *)h);
-        func_020409B4(func_02045730((struct Descriptor *)h));
+        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     }
     for (i = 0; i < 2; i++) {
-        func_0204B3DC(elem->decoActor[i], 0);
+        CLACT_SetActorDrawEnable(elem->decoActor[i], 0);
         elem->isDeco[i] = 0;
     }
     elem->scrollX = 0;
@@ -3485,10 +3485,10 @@ void PMS_DRAW_SetElemVisible(struct PmsElem *elem, u32 visible)
         BMP_WIN_MakeScreen((struct Cfg *)elem->bmpWin);
     else
         BMP_WIN_ClearScreen((struct Descriptor *)elem->bmpWin);
-    func_02041B6C(func_02045730((struct Descriptor *)elem->bmpWin));
+    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)elem->bmpWin));
     for (i = 0; i < 2; i++) {
         if (elem->isDeco[i] != 0)
-            func_0204B3DC(elem->decoActor[i], visible);
+            CLACT_SetActorDrawEnable(elem->decoActor[i], visible);
     }
 }
 

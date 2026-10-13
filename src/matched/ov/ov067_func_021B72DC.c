@@ -11,14 +11,14 @@
  *
  * symbols:
  *   func_02040588  0x02040588  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  */
 
 typedef unsigned char u8;
@@ -40,18 +40,18 @@ struct S {
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct Cfg;
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 struct Obj;
-extern void func_0204B92C(struct Obj *a, u32 b);
+extern void CLACT_SetActorAutoAnim(struct Obj *a, u32 b);
 
 void YESNO_MENU_Close(struct S *s)
 {
@@ -60,19 +60,19 @@ void YESNO_MENU_Close(struct S *s)
 
     func_02040588(s->f14, 0);
     func_02040588(s->f18, 0);
-    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)s->f88)), 0);
-    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)s->f8c)), 0);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)s->f88)), 0);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)s->f8c)), 0);
     p = (int)s->f88;
     BMP_WIN_TransferChars((struct Descriptor *)p);
     BMP_WIN_MakeScreen((struct Cfg *)p);
-    func_02041B6C(func_02045730((struct Descriptor *)p));
+    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)p));
     p = (int)s->f8c;
     BMP_WIN_TransferChars((struct Descriptor *)p);
     BMP_WIN_MakeScreen((struct Cfg *)p);
-    func_02041B6C(func_02045730((struct Descriptor *)p));
+    func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)p));
     for (i = 0; i < 4; i++) {
-        func_0204B3DC((struct Obj *)s->arrA0[i], 0);
-        func_0204B92C(s->arrA0[i], 0);
+        CLACT_SetActorDrawEnable((struct Obj *)s->arrA0[i], 0);
+        CLACT_SetActorAutoAnim(s->arrA0[i], 0);
     }
     s->f98 = 0;
 }

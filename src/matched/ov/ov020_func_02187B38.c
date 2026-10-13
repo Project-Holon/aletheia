@@ -1,5 +1,5 @@
 /*
- * function: func_02187B38
+ * function: EL_SCOREBOARD_UpdateFadeStandalone
  * address:  0x02187B38
  * packet:   pkt_ov020_02187B38
  * region:   ov020
@@ -30,7 +30,7 @@ u32 func_0209CB8C(u32 a, u32 b);
 u32 func_0209C494(u32 x);
 void func_0207D658(u32 addr, int plane, int brightness);
 
-void func_02187B38(char *o, int st)
+void EL_SCOREBOARD_UpdateFadeStandalone(char *o, int st)
 {
     u32 a, b;
 

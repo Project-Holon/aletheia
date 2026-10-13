@@ -21,6 +21,8 @@
  *   func_021F663C  0x021F663C  thumb
  *   func_021F4E98  0x021F4E98  thumb
  *   CLACT_RestartActorAnim  0x0204B9A0  arm  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  */
 
 typedef signed char s8;
@@ -50,10 +52,10 @@ typedef struct {
 } Work;
 
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 struct Actor;
 extern void CLACT_RestartActorAnim(struct Actor *a);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern int func_021F6C48(void *party, void *save, int box, int slot);
 extern int func_021F6BA4(void *party, void *save, int box, int slot);
 extern void *func_021F6B40(void *party, void *save, int box, int slot);
@@ -64,10 +66,10 @@ extern void func_021F4E98(u8 *p, u32 a, u32 b);
 void func_021F5A7C(Work *p)
 {
     if (p->slot == 0x1E) {
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
         CLACT_RestartActorAnim((struct Actor *)p->cursor);
         p->state = 0x11;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return;
     }
     if (p->slot == 0x1F) {
@@ -75,7 +77,7 @@ void func_021F5A7C(Work *p)
     }
     switch (func_021F6C48(p->ctx->party, p->ctx->save, p->box, p->slot)) {
     case 1:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         if (func_021F6BA4(p->ctx->party, p->ctx->save, p->box, p->slot) != 0) {
             func_022025E4((u32)p->msg, 0, (u32)func_021F6B40(p->ctx->party, p->ctx->save, p->box, p->slot));
             func_021F663C((u8 *)p, 0x16, 1, 0, 0xF0F, 0);
@@ -86,7 +88,7 @@ void func_021F5A7C(Work *p)
         }
         break;
     case 2:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         func_021F663C((u8 *)p, 0x21, 1, 0, 0xF0F, 1);
         func_021F4E98((u8 *)p, 4, 1);
         break;

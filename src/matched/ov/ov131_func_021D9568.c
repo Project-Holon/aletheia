@@ -16,14 +16,14 @@
  * symbols:
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_020490F4 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_02040AE0 0x02040AE0 arm
  *   P_STA_RIBBON_GetRibbonInfo 0x021DBF2C thumb ov131
  */
@@ -39,15 +39,15 @@ struct Descriptor;
 struct Obj;
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void func_02040AE0(u32 index, const void *src, u32 mode);
 extern u32 P_STA_RIBBON_GetRibbonInfo(u32,u32);
 void P_STA_RIBBON_ShowDetail(u8 *a,u8 *p)
@@ -60,11 +60,11 @@ void P_STA_RIBBON_ShowDetail(u8 *a,u8 *p)
     cell=((struct Obj02484 *)p)->f20;
     BMP_WIN_TransferChars(cell);
     BMP_WIN_MakeScreen(cell);
-    func_02041B6C(func_02045730(cell));
+    func_02041B6C(BMP_WIN_GetBgLayer(cell));
     cell=((struct Obj02484 *)p)->f24;
     BMP_WIN_TransferChars(cell);
     BMP_WIN_MakeScreen(cell);
-    func_02041B6C(func_02045730(cell));
+    func_02041B6C(BMP_WIN_GetBgLayer(cell));
     archive=func_020490F4(78,((struct Obj03816 *)a)->f0);
     ((struct Obj02484 *)p)->f18=CLACT_RegisterCharacter((void *)((u32)archive),P_STA_RIBBON_GetRibbonInfo(index,1),0,1,((struct Obj03816 *)a)->f0);
     ARC_TOOL_DeleteHandle(archive);
@@ -74,8 +74,8 @@ void P_STA_RIBBON_ShowDetail(u8 *a,u8 *p)
     pos.flags=0;
     pos.z=0;
     *(u32 *)&((struct Obj02484 *)p)->f1C=(u32)CLACT_CreateActor((void *)((struct Obj03816 *)a)->f174,((struct Obj02484 *)p)->f18,((struct Obj03816 *)a)->fB4,((struct Obj03816 *)a)->f128,&pos,1,((struct Obj03816 *)a)->f0);
-    func_0204B6F4(((struct Obj02484 *)p)->f1C,(u8)P_STA_RIBBON_GetRibbonInfo(index,2),1);
-    func_0204B3DC(((struct Obj02484 *)p)->f1C,1);
+    CLACT_SetActorPaletteOffset(((struct Obj02484 *)p)->f1C,(u8)P_STA_RIBBON_GetRibbonInfo(index,2),1);
+    CLACT_SetActorDrawEnable(((struct Obj02484 *)p)->f1C,1);
     func_02040AE0(6,*(u8 * *)&((struct Obj02484 *)p)->f38+12,((struct Obj23157 *)(*(u8 * *)&((struct Obj02484 *)p)->f38))->f8);
     func_02041B6C(6);
     ((struct Obj02484 *)p)->f4=1;

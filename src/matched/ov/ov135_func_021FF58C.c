@@ -11,7 +11,7 @@
  * symbols:
  *   func_021F50EC 0x021F50EC thumb ov135
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_020120F4 0x020120F4 thumb
  *   func_021F6B34 0x021F6B34 thumb ov135
  *   func_021F6B80 0x021F6B80 thumb ov135
@@ -45,7 +45,7 @@ extern const u32 gPokeStatusProcData[];
 extern void func_021F50EC(u8 *);
 struct Ctx;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *,u32,u32);
+extern void MI_CpuFill8(void *,u32,u32);
 extern void *func_020120F4(const struct Ctx *p);
 extern int func_021F6B34(int);
 extern u32 func_021F6B80(u8 *p, u32 b, u32 c);
@@ -56,7 +56,7 @@ void func_021FF58C(u8 *p)
     Request *r;
     func_021F50EC(p);
     *(Request * *)&((struct Obj01162 *)p)->f10DC=func_02030734(0x48,sizeof(Request),0,str_02203E30,0x4C);
-    func_02082BCC(*(Request * *)&((struct Obj01162 *)p)->f10DC,0,sizeof(Request));
+    MI_CpuFill8(*(Request * *)&((struct Obj01162 *)p)->f10DC,0,sizeof(Request));
     r=*(Request * *)&((struct Obj01162 *)p)->f10DC;
     r->ctx=((struct Obj23428 *)(*(u8 * *)&((struct Obj01162 *)p)->f0))->f20;
     r->save=func_020120F4(((struct Obj23429 *)(*(u8 * *)&((struct Obj01162 *)p)->f0))->f40);

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02026478 0x02026478 thumb
+ *   GAME_COMM_GetGameData 0x02026478 thumb
  *   INTRUDE_COMM_IsLinked 0x021736D8 thumb ov011
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
@@ -17,14 +17,14 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 struct Entry;
-u32 func_02026478(void *obj);
+u32 GAME_COMM_GetGameData(void *obj);
 int INTRUDE_COMM_IsLinked(void);
 struct Entry;
 struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 int INTRUDE_COMM_SendTally(char *p)
 {
-    func_02026478((void *)(((int *)p)[1]));
+    GAME_COMM_GetGameData((void *)(((int *)p)[1]));
     if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
     }

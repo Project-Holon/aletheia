@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0201C6B4 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_020315D4 0x020315D4 arm
  *   func_021B8ED0 0x021B8ED0 thumb ov071
@@ -22,7 +22,7 @@
 typedef unsigned int   u32;
 struct PrintSys;
 struct S020315D4;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void BG_SYS_SetSubVisiblePlanes(unsigned int);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_021B8ED0(void *);
@@ -30,7 +30,7 @@ extern void func_021B8BF4(void **);
 extern void func_021B8ABC(void);
 int MONOLITH_TOOL_STATS_Destroy(void *a, void *b, char *c, void **d)
 {
-    if (func_0201C6B4(((struct Obj20740 *)(*(char * *)&((struct Obj20739 *)c)->f4))->f8) == 0) return 0;
+    if (PRINTSYS_QUE_IsFinished(((struct Obj20740 *)(*(char * *)&((struct Obj20739 *)c)->f4))->f8) == 0) return 0;
     BG_SYS_SetSubVisiblePlanes(8);
     func_021B8ED0(d);
     func_021B8BF4(d);

@@ -1,5 +1,5 @@
 /*
- * function: func_021E42B0
+ * function: HAND_WAZA_FeintBreakSideGuard
  * address:  0x021E42B0
  * packet:   pkt_ov093_021E42B0
  * region:   ov093
@@ -11,32 +11,32 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021B9A40  0x021B9A40  thumb  ov093
- *   func_021B9A5C  0x021B9A5C  thumb  ov093
- *   func_021C82C4  0x021C82C4  thumb  ov093
- *   func_021C88A4  0x021C88A4  thumb  ov093
- *   func_021C88C8  0x021C88C8  thumb  ov093
+ *   BTL_MAIN_IsPokeIdInSecondPair  0x021B9A40  thumb  ov093
+ *   BTL_MAIN_IsZero  0x021B9A5C  thumb  ov093
+ *   BTL_SERVER_FLOW_CheckSideEffectActive  0x021C82C4  thumb  ov093
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int BTL_EVENT_GetVar(int key);
-extern unsigned char func_021B9A40(unsigned int x);
-extern u8 func_021B9A5C(u32 x);
-extern int func_021C82C4(int a, int b, int c);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *a, void *b);
+extern unsigned char BTL_MAIN_IsPokeIdInSecondPair(unsigned int x);
+extern u8 BTL_MAIN_IsZero(u32 x);
+extern int BTL_SERVER_FLOW_CheckSideEffectActive(int a, int b, int c);
+extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
-void func_021E42B0(int a0, u8 *s, int k, int *pf)
+void HAND_WAZA_FeintBreakSideGuard(int a0, u8 *s, int k, int *pf)
 {
     int v;
     u32 i;
     u8 *e;
 
     if (k == BTL_EVENT_GetVar(3)) {
-        v = func_021B9A5C(func_021B9A40(k));
-        if (func_021C82C4((int)s, v, 9) != 0 || func_021C82C4((int)s, v, 10) != 0) {
-            e = func_021C88A4((char *)s, 0x1a, k);
+        v = BTL_MAIN_IsZero(BTL_MAIN_IsPokeIdInSecondPair(k));
+        if (BTL_SERVER_FLOW_CheckSideEffectActive((int)s, v, 9) != 0 || BTL_SERVER_FLOW_CheckSideEffectActive((int)s, v, 10) != 0) {
+            e = BTL_SERVER_FLOW_AllocCmdRecord((char *)s, 0x1a, k);
             e[7] = v;
             e[4] = 3;
             for (i = 1; i < 3; i++)
@@ -45,7 +45,7 @@ void func_021E42B0(int a0, u8 *s, int k, int *pf)
                 e[6] |= 2;
             if (e[4] > 2)
                 e[6] |= 4;
-            func_021C88C8(s, e);
+            BTL_SERVER_FLOW_CommitCmdRecord(s, e);
             *pf = 1;
         }
     }

@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetSimpleHandlers
+ * function: HAND_TOKUSEI_GetSimpleHandlers
  * address: 0x021D9A5C
  * packet: pkt_ov093_021D9A5C
  * region: ov093
@@ -15,10 +15,10 @@
  *   gSimpleHandlers 0x021F0A88 data ov093 a4
  */
 
-int *BTL_TOKUSEI_GetSimpleHandlers(int *p);
+int *HAND_TOKUSEI_GetSimpleHandlers(int *p);
 extern int gSimpleHandlers[];
 
-int *BTL_TOKUSEI_GetSimpleHandlers(int *p)
+int *HAND_TOKUSEI_GetSimpleHandlers(int *p)
 {
     *p = 3;
     return gSimpleHandlers;

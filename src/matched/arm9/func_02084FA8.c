@@ -1,5 +1,5 @@
 /*
- * function: func_02084FA8
+ * function: OS_VSNPrintf
  * address:  0x02084FA8
  * packet:   pkt_02084FA8
  * region:   arm9
@@ -15,7 +15,7 @@
 
 extern int STD_TVSNPrintf(char *s, unsigned int n, const char *format, void *arg);
 
-int func_02084FA8(char *s, unsigned int n, const char *format, void *arg)
+int OS_VSNPrintf(char *s, unsigned int n, const char *format, void *arg)
 {
     return STD_TVSNPrintf(s, n, format, arg);
 }

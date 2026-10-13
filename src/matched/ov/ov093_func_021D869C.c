@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_GetSteadfastHandlers
+ * function: HAND_TOKUSEI_GetSteadfastHandlers
  * address: 0x021D869C
  * packet: pkt_ov093_021D869C
  * region: ov093
@@ -15,10 +15,10 @@
  *   gSteadfastHandlers 0x021F07B0 data ov093 a4
  */
 
-int *BTL_CALC_GetSteadfastHandlers(int *p);
+int *HAND_TOKUSEI_GetSteadfastHandlers(int *p);
 extern int gSteadfastHandlers[];
 
-int *BTL_CALC_GetSteadfastHandlers(int *p)
+int *HAND_TOKUSEI_GetSteadfastHandlers(int *p)
 {
     *p = 1;
     return gSteadfastHandlers;

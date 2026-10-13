@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C8810  0x021C8810  thumb  ov093
+ *   BTL_SERVER_FLOW_ClearMsgRecord  0x021C8810  thumb  ov093
  *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
@@ -22,7 +22,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern void func_021C8810(u8 *p);
+extern void BTL_SERVER_FLOW_ClearMsgRecord(u8 *p);
 extern void BTL_EVENT_PushVarFrame(int line);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
@@ -35,7 +35,7 @@ int BTL_SERVER_FLOW_QueryActionMessageEvent(u8 *p, u8 *a, u32 c, u32 d, u8 *e)
 {
     int r;
     int line = 11440;
-    func_021C8810(e);
+    BTL_SERVER_FLOW_ClearMsgRecord(e);
     BTL_EVENT_PushVarFrame(line);
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(a));
     BTL_EVENT_SetVarReadOnly(0x12, d);

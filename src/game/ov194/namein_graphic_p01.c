@@ -16,9 +16,9 @@
  *   func_0200C104  0x0200C104  thumb
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
- *   func_0201C450  0x0201C450  thumb
+ *   PRINTSYS_QUE_CreateEx  0x0201C450  thumb
  *   func_02045B38  0x02045B38  arm
  *   func_0201EC64  0x0201EC64  thumb
  *   func_021F4AE4  0x021F4AE4  thumb  ov194
@@ -60,8 +60,8 @@
  *   func_020306F0 0x020306F0 arm
  *   BMP_OAM_DeleteSys 0x02025588 thumb
  *   func_0201ED04 0x0201ED04 thumb
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   func_021F4614 0x021F4614 thumb ov194
  *   func_021F4BD8 0x021F4BD8 thumb ov194
@@ -81,8 +81,8 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
@@ -95,7 +95,7 @@
  *   func_020409B4 0x020409B4 arm
  *   func_021F1D58 0x021F1D58 thumb ov194
  *   func_02040804 0x02040804 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   d_021F5780 0x021F5780 data a4 ov194
  */
 #include "../../matched/include/Obj02908.h"
@@ -134,9 +134,9 @@ struct Vec2 { s16 x, y; };
 extern u8 func_0200C104(struct Blk34 *p, u32 i);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,unsigned,unsigned);
+extern void MI_CpuFill8(void *,unsigned,unsigned);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern void *func_0201C450(u16 n, u32 heap);
+extern void *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern unsigned char *func_021F4AE4(unsigned swap, unsigned short heap);
@@ -176,8 +176,8 @@ extern void BMP_OAM_DeleteSys(void *);
 extern void func_021F4B84(unsigned char *p);
 extern u32 func_0201ED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32);
@@ -199,8 +199,8 @@ extern int CLACT_RegisterPalette(void *,unsigned,unsigned,unsigned,u16);
 extern int CLACT_RegisterCellAnim(void *,unsigned,unsigned,unsigned);
 extern int CLACT_RegisterCharacter(void *,unsigned,unsigned,unsigned,u16);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B3DC(struct Obj *,unsigned int);
-extern void func_0204B92C(struct Obj *,unsigned);
+extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Obj *,unsigned);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
@@ -212,7 +212,7 @@ extern u8 func_020355C4(void);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern int func_021F1D58(u16 *out, u16 *phase, u32 step, u32 row, u8 idx, u16 a, u16 b);
 extern u32 func_02040804(u32 layer);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 u32 func_021F1440(struct Obj0203159C *a, u32 b, u8 *args);
 int func_021F168C(void *a,u32 b,u32 c,u8 *d);
 int func_021F1744(int a,int b,int c,u8 *p);
@@ -247,10 +247,10 @@ u32 func_021F1440(struct Obj0203159C *a, u32 b, u8 *args)
     }
     GFL_HEAP_CreateChildHeap(1, 0x1e, 0x70000);
     w = PROCSYS_AllocProcWork(a, 0x2d4, 0x1e);
-    func_02082BCC(w, 0, 0x2d4);
+    MI_CpuFill8(w, 0, 0x2d4);
     *(u8 **)(w + 0x2c4) = args;
     *(u32 *)(w + 0x2b0) = (u32)GF_FONT_Create(0x17, 0, 1, 0, 0x1e);
-    *(u32 *)(w + 0x2b4) = (u32)func_0201C450(0x1000, 0x1e);
+    *(u32 *)(w + 0x2b4) = (u32)PRINTSYS_QUE_CreateEx(0x1000, 0x1e);
     *(u32 *)(w + 0x2b8) = (u32)func_02045B38(1, 2, 0x51, 0x1e);
     *(u32 *)(w + 0x2bc) = (u32)func_0201EC64(0x1e);
     *(u32 *)w = (u32)func_021F4AE4(0, 0x1e);
@@ -314,8 +314,8 @@ int func_021F168C(void *a,u32 b,u32 c,u8 *d)
     func_021F4B84(((struct Obj02908 *)d)->f0);
     func_0201ED04(((struct Obj02908 *)d)->f2BC);
     MSGDATA_Delete(((struct Obj02908 *)d)->f2B8);
-    func_0201C6EC(((struct Obj02908 *)d)->f2B4);
-    func_0201C4C0(((struct Obj02908 *)d)->f2B4);
+    PRINTSYS_QUE_Clear(((struct Obj02908 *)d)->f2B4);
+    PRINTSYS_QUE_Delete(((struct Obj02908 *)d)->f2B4);
     GF_FONT_Delete(((struct Obj02908 *)d)->f2B0);
     func_020315D4(a);
     func_020306F0(30);
@@ -377,21 +377,21 @@ void func_021F1888(char *p,unsigned owner,u16 heap)
     *(int *)&((struct Obj01772 *)p)->f8=CLACT_RegisterCellAnim(handle,7,6,heap);
     *(int *)&((struct Obj01772 *)p)->f4=CLACT_RegisterCharacter(handle,8,0,0,heap);
     ARC_TOOL_DeleteHandle(handle);
-    func_02082BCC(pos,0,8);
+    MI_CpuFill8(pos,0,8);
     pos[2]=0;
     zero=0;
     for(i=0;i<16;i++)
         *(void **)(p+i*4+12)=CLACT_CreateActor((void *)owner,((struct Obj01772 *)p)->f4,((struct Obj01772 *)p)->f0,((struct Obj01772 *)p)->f8,pos,zero,heap);
     pos[2]=1;
     ((struct Obj01772 *)p)->f50=CLACT_CreateActor((void *)owner,((struct Obj01772 *)p)->f4,((struct Obj01772 *)p)->f0,((struct Obj01772 *)p)->f8,pos,zero,heap);
-    func_0204B3DC(((struct Obj01772 *)p)->f50,zero);
+    CLACT_SetActorDrawEnable(((struct Obj01772 *)p)->f50,zero);
     for(i=18;i<20;i++) {
         pos[0]=-32;
         pos[1]=-32;
         pos[2]=i-15;
         *(void **)(p+i*4+12)=CLACT_CreateActor((void *)owner,((struct Obj01772 *)p)->f4,((struct Obj01772 *)p)->f0,((struct Obj01772 *)p)->f8,pos,0,heap);
-        func_0204B92C(*(void **)(p+i*4+12),1);
-        func_0204B3DC(*(void **)(p+i*4+12),0);
+        CLACT_SetActorAutoAnim(*(void **)(p+i*4+12),1);
+        CLACT_SetActorDrawEnable(*(void **)(p+i*4+12),0);
     }
 }
 
@@ -415,7 +415,7 @@ void func_021F19A0(u8 *a,void *b,void *c,u32 d)
     void *p;
     u8 *q;
     int j;
-    func_02082BCC(a,0,180);
+    MI_CpuFill8(a,0,180);
     ((struct Obj24898 *)a)->fA0=b;
     for(i=0;i<2;i++) *(u32 *)(a+164+i*4)=(u32)func_021F1998(c,i+18);
     p=func_02049F34(118,2,(u32)(&x),d);
@@ -428,7 +428,7 @@ void func_021F19A0(u8 *a,void *b,void *c,u32 d)
 
 
 
-void func_021F1A10(void *p) { func_02082BCC(p,0,180); }
+void func_021F1A10(void *p) { MI_CpuFill8(p,0,180); }
 
 
 /*
@@ -466,18 +466,18 @@ void func_021F1A1C(char *p,int mode,const Rect_021F1440 *rect,int flag,int selec
             ((struct Obj01427 *)p)->fB2=y;
             CLACT_RestartActorAnim(((struct Obj01427 *)p)->fA4);
             CLACT_RestartActorAnim(((struct Obj01427 *)p)->fA8);
-            func_0204B3DC(((struct Obj01427 *)p)->fA4,1);
-            func_0204B3DC(((struct Obj01427 *)p)->fA8,1);
+            CLACT_SetActorDrawEnable(((struct Obj01427 *)p)->fA4,1);
+            CLACT_SetActorDrawEnable(((struct Obj01427 *)p)->fA8,1);
         }
     }
     if(mode==0 || func_020355C4()==1) {
-        func_0204B3DC(((struct Obj01427 *)p)->fA4,0);
-        func_0204B3DC(((struct Obj01427 *)p)->fA8,0);
+        CLACT_SetActorDrawEnable(((struct Obj01427 *)p)->fA4,0);
+        CLACT_SetActorDrawEnable(((struct Obj01427 *)p)->fA8,0);
     }
     func_020409B4(2);
     func_020409B4(1);
     if(mode!=0) {
-        func_02082BCC(p+0x60,0,32);
+        MI_CpuFill8(p+0x60,0,32);
         ((struct Obj01427 *)p)->f80=0;
         ((struct Obj01427 *)p)->f98=1;
     }
@@ -486,7 +486,7 @@ void func_021F1A1C(char *p,int mode,const Rect_021F1440 *rect,int flag,int selec
 /*
  * note 2026-10-05 (wD7 lane05): the third parameter is dead after the switch; the source reuses it
  *   for the address of the Vec2 scratch (`rect = &v;`), which keeps that address in r7 across both
- *   func_0204B404 calls (idiom a-dead-stack-parameter-reassigned-to-a-locals-address-keeps-a-callee-saved-register).
+ *   CLACT_AddActorSurfacePos calls (idiom a-dead-stack-parameter-reassigned-to-a-locals-address-keeps-a-callee-saved-register).
  *   Parameter declared `const void *` so no casts are needed.
  */
 void func_021F1BFC(char *p, int sel, const void *rect)
@@ -525,11 +525,11 @@ void func_021F1BFC(char *p, int sel, const void *rect)
     v.x = *(u16 *)(p + 0xAC);
     v.y = *(u16 *)(p + 0xAE);
     v.y = v.y - (s16)(func_02040804(2) << 3);
-    func_0204B404(*(struct Obj **)(p + 0xA4), rect, 0);
+    CLACT_AddActorSurfacePos(*(struct Obj **)(p + 0xA4), rect, 0);
     v.x = *(u16 *)(p + 0xB0);
     v.y = *(u16 *)(p + 0xB2);
     v.y = v.y - (s16)(func_02040804(2) << 3);
-    func_0204B404(*(struct Obj **)(p + 0xA8), rect, 0);
+    CLACT_AddActorSurfacePos(*(struct Obj **)(p + 0xA8), rect, 0);
     if (*(int *)(p + 0xA0) != sel) {
         if (func_020355C4() == 0)
             func_021F1A1C(p, 1, (const Rect_021F1440 *)((const Rect_021F1BFC *)(p + 0x84)), *(int *)(p + 0x9C), sel);

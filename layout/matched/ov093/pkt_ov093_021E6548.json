@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E6548",
-    "func_021E65A4"
+    "HAND_WAZA_SkullBashOnChargeTurn",
+    "HAND_WAZA_AddPluck"
+   ],
+   "addresses": [
+    "0x021E6548",
+    "0x021E65A4"
    ],
    "evidence": {
     "sole-ref": [

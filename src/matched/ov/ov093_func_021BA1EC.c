@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1EC
+ * function: BTL_MAIN_IsRecordEnabledInComm
  * address: 0x021BA1EC
  * packet: pkt_ov093_021BA1EC
  * region: ov093
@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef enum { FALSE = 0, TRUE = 1 } BOOL;
 extern unsigned int BTL_MAIN_IsCommCompetitor(unsigned int *p);
-BOOL func_021BA1EC(char **p)
+BOOL BTL_MAIN_IsRecordEnabledInComm(char **p)
 {
     BOOL result = FALSE;
     if (BTL_MAIN_IsCommCompetitor((unsigned int *)((int *)*p)) == 1) {

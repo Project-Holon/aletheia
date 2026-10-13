@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
-void func_02082BCC(int, int, int);
+void MI_CpuFill8(int, int, int);
 
 void BTL_EVENT_ClearFactor(int a)
 {
-    func_02082BCC(a, 0, 0x3c);
+    MI_CpuFill8(a, 0, 0x3c);
 }

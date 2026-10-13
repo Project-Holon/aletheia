@@ -23,25 +23,25 @@
  *   BTL_MAIN_GetCommPos  0x021B86C0  thumb  ov093
  *   PRINTSYS_PrintStreamRun  0x0201CE20  thumb  arm9
  *   PRINTSYS_PrintStreamIsOverrideSpeed  0x0201CED4  thumb  arm9
- *   func_0201CE8C  0x0201CE8C  thumb  arm9
+ *   PRINTSYS_PrintStreamSetSpeed  0x0201CE8C  thumb  arm9
  *   func_02013080  0x02013080  thumb  arm9
- *   func_0201CEB8  0x0201CEB8  thumb  arm9
- *   func_0201CE30  0x0201CE30  thumb  arm9
- *   func_0203630C  0x0203630C  arm  arm9
+ *   PRINTSYS_PrintStreamResetSpeed  0x0201CEB8  thumb  arm9
+ *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
+ *   KEY_GetCont  0x0203630C  arm  arm9
  *   TOUCHPANEL_GetCont  0x02035C38  arm  arm9
- *   func_020362DC  0x020362DC  arm  arm9
+ *   KEY_GetTrg  0x020362DC  arm  arm9
  *   TOUCHPANEL_GetTrg  0x02035C60  arm  arm9
  *   func_0201DD68  0x0201DD68  thumb  arm9
- *   func_0201CE48  0x0201CE48  thumb  arm9
- *   func_0201CE38  0x0201CE38  thumb  arm9
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
+ *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
  *   GFL_USE_IsSeqPlaying  0x02006254  thumb  arm9
- *   func_020061E4  0x020061E4  thumb  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   func_021F7B2C  0x021F7B2C  thumb  ov094
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
  *   GFL_USE_StopAllSe  0x02006210  thumb
- *   func_021B98AC  0x021B98AC  thumb  ov093
+ *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
- *   func_021B8E70  0x021B8E70  thumb  ov093
+ *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
  *   func_021F80FC  0x021F80FC  thumb  ov094
  *   func_021F7C2C  0x021F7C2C  thumb  ov094
  *   func_021F8118  0x021F8118  thumb  ov094
@@ -51,23 +51,23 @@
  *   func_021F7F04  0x021F7F04  thumb  ov094
  *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
  *   func_021F7EE8  0x021F7EE8  thumb  ov094
- *   func_020311B8  0x020311B8  arm
+ *   TCBL_AddTask  0x020311B8  arm
  *   TCBL_GetWork  0x02031290  arm
  *   func_021F7A28  0x021F7A28  thumb  ov094
  *   TCBL_DeleteTask  0x02031194  arm
- *   func_021B9920  0x021B9920  thumb  ov093
+ *   BTL_SIDE_GetClientPoke  0x021B9920  thumb  ov093
  *   func_021F87D4  0x021F87D4  thumb  ov094
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   func_021F7D80  0x021F7D80  thumb  ov094
  *   func_021F7E38  0x021F7E38  thumb  ov094
  *   func_021F803C  0x021F803C  thumb  ov094
- *   func_021B8ED8  0x021B8ED8  thumb  ov093
+ *   BTL_MAIN_GetSlotFromViewPos  0x021B8ED8  thumb  ov093
  *   func_0207D63C  0x0207D63C  arm  arm9
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BTL_MAIN_GetRule  0x021B8588  thumb  ov093
  *   BTL_MAIN_GetRuleSlotSpan  0x021B8640  thumb  ov093
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
- *   func_021B9AE0  0x021B9AE0  thumb  ov093
+ *   BTL_MAIN_GetPosParity  0x021B9AE0  thumb  ov093
  *   BTL_MAIN_IsLocalSide  0x021B8BD0  thumb  ov093
  *   func_021F8504  0x021F8504  thumb  ov094
  *   func_021F8B28  0x021F8B28  thumb  ov094
@@ -291,25 +291,25 @@ extern void PRINTSYS_PrintStreamStop(void *p);
 extern u8 BTL_MAIN_GetCommPos(u8 **);
 extern void PRINTSYS_PrintStreamRun(void *);
 extern u32 PRINTSYS_PrintStreamIsOverrideSpeed(struct Rec *p);
-extern void func_0201CE8C(struct Rec *p, s32_021ECF68 v);
+extern void PRINTSYS_PrintStreamSetSpeed(struct Rec *p, s32_021ECF68 v);
 extern signed char func_02013080(u32 idx);
-extern void func_0201CEB8(struct Rec *p);
-extern u32 func_0201CE30(void *p);
-extern u32 func_0203630C(void);
+extern void PRINTSYS_PrintStreamResetSpeed(struct Rec *p);
+extern u32 PRINTSYS_PrintStreamGetState(void *p);
+extern u32 KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void func_0201DD68(void);
-extern void func_0201CE48(struct Rec3 *p);
-extern void func_0201CE38(void *);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamReleasePause(void *);
 extern int GFL_USE_IsSeqPlaying(u32 a);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021F7B2C(u8 *);
 extern int func_021F7EB4(void);
 extern void GFL_USE_StopAllSe(void);
-extern u8 *func_021B98AC(char *const *q, u8 b);
+extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 extern int func_021D59B4(u8 *p, int k);
-extern u8 func_021B8E70(u8 *p, u32 k);
+extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k);
 extern void func_021F80FC(u32 a, u32 b);
 extern void func_021F7C2C(int a, int b);
 extern void func_021F8118(u32 a, u32 b);
@@ -319,23 +319,23 @@ extern void func_021F7CE4(int);
 extern void func_021F7F04(int);
 extern void *BTL_POKEPARAM_GetDisplayMon(struct Work *p);
 extern void func_021F7EE8(void *, int);
-extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
+extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 a3);
 extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern void func_021F7A28(int a, u32 b);
 extern void TCBL_DeleteTask(struct TcblNode *n);
-extern u8 *func_021B9920(void *p, u32 i, u8 j);
+extern u8 *BTL_SIDE_GetClientPoke(void *p, u32 i, u8 j);
 extern void func_021F87D4(u32 v);
 extern void *BTL_POKEPARAM_GetMon(void *m);
 extern void func_021F7D80(void *a, int b);
 extern void func_021F7E38(void *a, int b);
 extern void func_021F803C(u32 a, void *m, u32 c);
-extern u8 func_021B8ED8(u8 *p, u8 k);
+extern u8 BTL_MAIN_GetSlotFromViewPos(u8 *p, u8 k);
 extern void func_0207D63C(int, int, int, int, int);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u32 BTL_MAIN_GetRule(void **p);
 extern unsigned int BTL_MAIN_GetRuleSlotSpan(unsigned int **p);
 extern int BTL_POKEPARAM_IsFainted(void *m);
-extern u8 func_021B9AE0(u32);
+extern u8 BTL_MAIN_GetPosParity(u32);
 extern int BTL_MAIN_IsLocalSide(u8 *, u8);
 extern void func_021F8504(u32, u32, u32);
 extern int func_021F8B28(void);
@@ -523,15 +523,15 @@ int func_021ECF68(struct T_021ECF68 *p)
     case 2:
         if (p->h30 != 0) {
             if (BTL_MAIN_GetCommPos(p->owner) == 0) {
-                if ((func_0203630C() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
+                if ((KEY_GetCont() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
                     if (PRINTSYS_PrintStreamIsOverrideSpeed(p->h30) == 0)
-                        func_0201CE8C(p->h30, func_02013080(2));
+                        PRINTSYS_PrintStreamSetSpeed(p->h30, func_02013080(2));
                 } else {
                     if (PRINTSYS_PrintStreamIsOverrideSpeed(p->h30) != 0)
-                        func_0201CEB8(p->h30);
+                        PRINTSYS_PrintStreamResetSpeed(p->h30);
                 }
             }
-            p->i144 = func_0201CE30(p->h30);
+            p->i144 = PRINTSYS_PrintStreamGetState(p->h30);
             if (p->i144 != 0) {
                 if (BTL_MAIN_GetCommPos(p->owner) == 0)
                     p->b13f = 3;
@@ -547,7 +547,7 @@ int func_021ECF68(struct T_021ECF68 *p)
         }
         break;
     case 3:
-        if ((func_020362DC() & 3) != 0 || TOUCHPANEL_GetTrg() != 0)
+        if ((KEY_GetTrg() & 3) != 0 || TOUCHPANEL_GetTrg() != 0)
             p->h148 = 0;
         if (p->h148 != 0) {
             p->h148 = p->h148 - 1;
@@ -565,13 +565,13 @@ int func_021ECF68(struct T_021ECF68 *p)
     case 5:
         if (p->i144 == 2) {
             func_0201DD68();
-            func_0201CE48(p->h30);
+            PRINTSYS_PrintStreamDelete(p->h30);
             p->h30 = 0;
             p->b13f = 6;
             break;
         }
-        func_0201CE38(p->h30);
-        func_020061E4(0x547);
+        PRINTSYS_PrintStreamReleasePause(p->h30);
+        GFL_USE_PlaySeDefaultVolume(0x547);
         p->b13f = 2;
         p->h148 = p->h14a;
         break;
@@ -690,8 +690,8 @@ void func_021ED208(char *p, u8 k, u16 a, int flag)
     int t;
     u32 v;
 
-    t = func_021D59B4(func_021B98AC(*(char *const * *)&((struct Obj13565 *)p)->f138, k), 0xd);
-    v = func_021B8E70(*(u8 * *)&((struct Obj13565 *)p)->f134, k);
+    t = func_021D59B4(BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj13565 *)p)->f138, k), 0xd);
+    v = BTL_MAIN_GetViewPosOfSlot(*(u8 * *)&((struct Obj13565 *)p)->f134, k);
     if (flag == 0) {
         func_021F80FC(v, t);
         func_021F7C2C(v, a);
@@ -724,7 +724,7 @@ int func_021ED250(void)
 
 void func_021ED268(u8 *p, u8 k, u32 x)
 {
-    func_021F7C2C(func_021B8E70(*(u8 * *)&((struct Obj21589 *)p)->f134, k), x);
+    func_021F7C2C(BTL_MAIN_GetViewPosOfSlot(*(u8 * *)&((struct Obj21589 *)p)->f134, k), x);
 }
 
 
@@ -750,7 +750,7 @@ int func_021ED280(char *p)
 
 void func_021ED294(u8 *p, int k, u32 x)
 {
-    u8 r = func_021B8E70(*(u8 * *)&((struct Obj21590 *)p)->f134, k);
+    u8 r = BTL_MAIN_GetViewPosOfSlot(*(u8 * *)&((struct Obj21590 *)p)->f134, k);
     func_021F80E4(r);
     if (x == 0)
         func_021F7CE4(r);
@@ -781,8 +781,8 @@ int func_021ED2BC(void)
 
 void func_021ED2D0(u8 *p, u8 k)
 {
-    u8 r = func_021B8E70(*(u8 * *)&((struct Obj13566 *)p)->f134, k);
-    func_021F7EE8(BTL_POKEPARAM_GetDisplayMon((struct Work *)func_021B98AC(*(char *const * *)&((struct Obj13566 *)p)->f138, k)), r);
+    u8 r = BTL_MAIN_GetViewPosOfSlot(*(u8 * *)&((struct Obj13566 *)p)->f134, k);
+    func_021F7EE8(BTL_POKEPARAM_GetDisplayMon((struct Work *)BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj13566 *)p)->f138, k)), r);
     func_021EDA04((struct E_021EDA04 *)((struct E *)(p + 0x48 + k * 12)));
 }
 
@@ -817,7 +817,7 @@ void func_021ED318(char *p, u16 k, u16 a, int flag)
         func_021F7F04(k);
         return;
     }
-    t = TCBL_GetWork(func_020311B8(((struct Obj21591 *)p)->f2C, (void *)func_021ED384, 0x10, 1));
+    t = TCBL_GetWork(TCBL_AddTask(((struct Obj21591 *)p)->f2C, (void *)func_021ED384, 0x10, 1));
     ((struct Obj05231 *)t)->f6 = k;
     *(char * *)&((struct Obj05231 *)t)->f0 = p + 0x48 + k * 0xc;
     *(char * *)&((struct Obj05231 *)t)->fC = p + 0x42;
@@ -886,13 +886,13 @@ void func_021ED3D4(char *p, u8 k, int a, u8 b, int flag)
     u8 *m;
     u8 y;
 
-    t = (struct T *)TCBL_GetWork(func_020311B8(((struct Obj10119 *)p)->f2C, (void *)func_021ED460, 0xc, 1));
+    t = (struct T *)TCBL_GetWork(TCBL_AddTask(((struct Obj10119 *)p)->f2C, (void *)func_021ED460, 0xc, 1));
     t->e = p + 0x48 + k * 0xc;
     t->cnt = (u8 *)p + 0x41;
     t->st = 0;
     (*t->cnt)++;
-    m = func_021B9920(((struct Obj10119 *)p)->f138, a, b);
-    y = func_021B8E70(*(u8 * *)&((struct Obj10119 *)p)->f134, k);
+    m = BTL_SIDE_GetClientPoke(((struct Obj10119 *)p)->f138, a, b);
+    y = BTL_MAIN_GetViewPosOfSlot(*(u8 * *)&((struct Obj10119 *)p)->f134, k);
     func_021F7EE8(BTL_POKEPARAM_GetDisplayMon((struct Work *)m), y);
     if (flag == 0)
         func_021F7A28(y, 0x26d);
@@ -944,8 +944,8 @@ void func_021ED460(void *task, struct Q *q)
 
 void func_021ED494(u8 *p, u8 k, int x)
 {
-    int d = func_021D59B4(func_021B98AC(*(char *const * *)&((struct Obj13567 *)p)->f138, k), 0xd);
-    u8 r = func_021B8E70(*(u8 * *)&((struct Obj13567 *)p)->f134, k);
+    int d = func_021D59B4(BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj13567 *)p)->f138, k), 0xd);
+    u8 r = BTL_MAIN_GetViewPosOfSlot(*(u8 * *)&((struct Obj13567 *)p)->f134, k);
     if (x != 0)
         func_021F8118(r, d);
     else
@@ -1053,11 +1053,11 @@ void func_021ED590(char *p, u8 k, u32 a)
     struct S_021ECE60 *t;
 
     if (k != 6) {
-        t = (struct S_021ECE60 *)TCBL_GetWork(func_020311B8(((struct Obj13568 *)p)->f2C, (void *)func_021ED5E8, 0x18, 1));
+        t = (struct S_021ECE60 *)TCBL_GetWork(TCBL_AddTask(((struct Obj13568 *)p)->f2C, (void *)func_021ED5E8, 0x18, 1));
         t->p = p;
         t->k = k;
         t->a = a;
-        t->v = func_021B8E70(*(u8 * *)&((struct Obj13568 *)p)->f134, k);
+        t->v = BTL_MAIN_GetViewPosOfSlot(*(u8 * *)&((struct Obj13568 *)p)->f134, k);
         t->cnt = (u8 *)p + 0x40;
         t->c = 0;
         (*t->cnt)++;
@@ -1082,7 +1082,7 @@ void func_021ED5E8(u32 x, struct S_021ED5D8 *t)
 
     switch (t->c) {
     case 0:
-        r = BTL_POKEPARAM_GetMon(func_021B98AC(*(char *const * *)&((struct Obj21597 *)(t->w))->f138, t->k));
+        r = BTL_POKEPARAM_GetMon(BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj21597 *)(t->w))->f138, t->k));
         if (t->a == 0)
             func_021F7D80(r, t->v);
         else
@@ -1093,7 +1093,7 @@ void func_021ED5E8(u32 x, struct S_021ED5D8 *t)
     case 1:
         if (func_021F7EB4() == 0) {
             func_021F803C(((struct Obj21598 *)(t->w))->f134,
-                          func_021B98AC(*(char *const * *)&((struct Obj21599 *)(t->w))->f138, t->k), t->v);
+                          BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj21599 *)(t->w))->f138, t->k), t->v);
             (*t->cnt)--;
             TCBL_DeleteTask((struct TcblNode *)x);
         }
@@ -1109,9 +1109,9 @@ void func_021ED660(char *p, u32 k, u32 a, u32 b)
 {
     struct S_021ED724 *t;
 
-    t = (struct S_021ED724 *)TCBL_GetWork(func_020311B8(((struct Obj10120 *)p)->f2C, (void *)func_021ED724, 0x18, 1));
-    t->v = BTL_POKEPARAM_GetMon(func_021B98AC(*(char *const * *)&((struct Obj10120 *)p)->f138,
-                                              func_021B8ED8(*(u8 * *)&((struct Obj10120 *)p)->f134, a)));
+    t = (struct S_021ED724 *)TCBL_GetWork(TCBL_AddTask(((struct Obj10120 *)p)->f2C, (void *)func_021ED724, 0x18, 1));
+    t->v = BTL_POKEPARAM_GetMon(BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj10120 *)p)->f138,
+                                              BTL_MAIN_GetSlotFromViewPos(*(u8 * *)&((struct Obj10120 *)p)->f134, a)));
     t->w = p;
     t->k = k;
     t->cnt = (u8 *)p + 0x40;
@@ -1128,9 +1128,9 @@ void func_021ED6BC(char *p, u32 k, u32 a)
 {
     struct S_021ED724 *t;
 
-    t = (struct S_021ED724 *)TCBL_GetWork(func_020311B8(((struct Obj10121 *)p)->f2C, (void *)func_021ED724, 0x18, 1));
-    t->v = BTL_POKEPARAM_GetMon(func_021B98AC(*(char *const * *)&((struct Obj10121 *)p)->f138,
-                                              func_021B8ED8(*(u8 * *)&((struct Obj10121 *)p)->f134, k)));
+    t = (struct S_021ED724 *)TCBL_GetWork(TCBL_AddTask(((struct Obj10121 *)p)->f2C, (void *)func_021ED724, 0x18, 1));
+    t->v = BTL_POKEPARAM_GetMon(BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj10121 *)p)->f138,
+                                              BTL_MAIN_GetSlotFromViewPos(*(u8 * *)&((struct Obj10121 *)p)->f134, k)));
     t->w = p;
     t->k = k;
     t->cnt = (u8 *)p + 0x40;
@@ -1211,7 +1211,7 @@ void func_021ED7C8(struct S_021ED7C8 *s, int keep)
 {
     if ((u8)(s->state + 0xff) <= 1) {
         if (keep == 0) {
-            BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)s->h)), 0xc);
+            BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)s->h)), 0xc);
             BMP_WIN_TransferChars((struct Descriptor *)s->h);
         }
         s->x = 0;
@@ -1281,7 +1281,7 @@ int func_021ED814(struct S_021ED7C8 *s)
 void func_021ED8AC(u8 *p)
 {
     struct Q_021ED8AC *q;
-    q = TCBL_GetWork(func_020311B8((u32)(((struct Obj21604 *)p)->f2C), (void *)func_021ED8E8, 0xc, 1));
+    q = TCBL_GetWork(TCBL_AddTask((u32)(((struct Obj21604 *)p)->f2C), (void *)func_021ED8E8, 0xc, 1));
     q->a = p;
     q->c = p + 0x40;
     q->b = 0;
@@ -1366,7 +1366,7 @@ void func_021ED988(u8 *p)
 void func_021ED9A4(struct E_021ED76C *e, u8 *o, u8 k)
 {
     e->k8 = k;
-    e->v9 = func_021B8E70(*(u8 * *)&((struct Obj10122 *)o)->f134, k);
+    e->v9 = BTL_MAIN_GetViewPosOfSlot(*(u8 * *)&((struct Obj10122 *)o)->f134, k);
     e->owner = o;
     e->fa = 0;
     e->fb = 1;
@@ -1410,7 +1410,7 @@ void func_021ED9EC(struct E_021ED76C *e)
 void func_021EDA04(struct E_021EDA04 *e)
 {
     if (e->fb != 0) {
-        e->a0 = func_021B98AC(*(char *const * *)&((struct Obj21607 *)(e->owner))->f138, e->k8);
+        e->a0 = BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj21607 *)(e->owner))->f138, e->k8);
         if (BTL_POKEPARAM_IsFainted(e->a0) == 0) {
             func_021F803C(((struct Obj21608 *)(e->owner))->f134, e->a0, e->v9);
             e->fa = 1;
@@ -1429,7 +1429,7 @@ void func_021EDA04(struct E_021EDA04 *e)
  */
 Bool func_021EDA3C(u8 *p, u32 x)
 {
-    if (BTL_MAIN_IsLocalSide(p, func_021B9AE0(x)) != 0)
+    if (BTL_MAIN_IsLocalSide(p, BTL_MAIN_GetPosParity(x)) != 0)
         return B_FALSE;
     return B_TRUE;
 }
@@ -1553,7 +1553,7 @@ void func_021EDC28(struct W_021ED76C *w, u8 a1, int flag)
     u16 h;
     u8 k;
 
-    t = func_021B98AC(*(char *const **)(w->f00 + 0x138), a1);
+    t = BTL_SIDE_GetPokeAtPos(*(char *const **)(w->f00 + 0x138), a1);
     h = func_021D59B4(t, 0x10);
     k = BTL_POKEPARAM_GetPokeId(t);
     if (w->f22_0) {
@@ -1602,7 +1602,7 @@ int func_021EDCA8(u8 *p)
         }
         func_02040618(p[0xb], 0, ((struct Obj00341 *)p)->f14 >> 12);
         func_02040618(p[0xb], 3, 0);
-        func_020061E4(0x573);
+        GFL_USE_PlaySeDefaultVolume(0x573);
         p[0xd]++;
         break;
     case 2:
@@ -1635,7 +1635,7 @@ int func_021EDCA8(u8 *p)
         pal = (void *)func_021F86E0();
         ctx = func_021F86D4();
         mask = 1 << (p[0xa] + 1);
-        func_020061E4(0x54d);
+        GFL_USE_PlaySeDefaultVolume(0x54d);
         PALANM_RequestFade(pal, 1, mask, 0, 16, 0, 0x7fff, ctx);
         p[0xd]++;
         break;
@@ -1727,7 +1727,7 @@ void func_021EDF7C(u8 *p, u8 b)
     u16 h;
     u8 t;
 
-    r = (u8 *)func_021B98AC(*(char *const * *)&((struct Obj21617 *)(*(u8 * *)&((struct Obj05234 *)p)->f0))->f138, b);
+    r = (u8 *)BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj21617 *)(*(u8 * *)&((struct Obj05234 *)p)->f0))->f138, b);
     h = func_021D59B4(r, 0x10);
     t = BTL_POKEPARAM_GetPokeId(r);
     if (h != ((struct Obj05234 *)p)->f8 || t != p[0xc]) {
@@ -1767,7 +1767,7 @@ int func_021EDFC4(u8 *p)
         else G2_BG3Mosaic(1);
         p[0x20] = 0;
         p[0x21] = 0;
-        func_020061E4(0x54e);
+        GFL_USE_PlaySeDefaultVolume(0x54e);
         p[0xd]++;
         break;
     case 1:

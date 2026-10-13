@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DC664",
-    "func_021DC694"
+    "HAND_TOKUSEI_WonderSkin_CapStatusMoveAccuracy",
+    "HAND_TOKUSEI_GetAnalyticHandlers"
+   ],
+   "addresses": [
+    "0x021DC664",
+    "0x021DC694"
    ],
    "evidence": {
     "sole-ref": [

@@ -12,13 +12,14 @@
  *
  * symbols:
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
+ *   KEY_GetTrg  0x020362DC  arm
  */
 
 typedef signed char    s8;
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 
 u32 func_020284F4(u32 a)
@@ -30,7 +31,7 @@ u32 func_020284F4(u32 a)
     }
 
     if (a & 2) {
-        if (func_020362DC() & 3) {
+        if (KEY_GetTrg() & 3) {
             r = 1;
         }
     }

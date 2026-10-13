@@ -31,7 +31,7 @@
  *
  * symbols:
  *   func_02012138 0x02012138 thumb
- *   func_02026454 0x02026454 thumb
+ *   GAME_COMM_GetKind 0x02026454 thumb
  *   FIELD_STATUS_CreateFieldCloseEvent 0x020144DC thumb
  *   GAME_EVENT_CallEvent 0x02012374 thumb
  *   RINGTONE_SYS_RegisterSleepCallbacks 0x02029F6C thumb
@@ -54,7 +54,7 @@
  *   ov195_id 0xc3 data a1
  *   ov172_id 0xac data a1
  *   GFL_NET_IsSessionNull 0x0203CDBC arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   PROCSYS_Create 0x02031324 arm
  *   PROCSYS_Push 0x02031348 arm
  *   PROCSYS_Main 0x02031330 arm
@@ -63,8 +63,8 @@
  *   func_02034A5C 0x02034A5C arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
- *   func_02039C68 0x02039C68 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
@@ -127,7 +127,7 @@ struct S020314B8;
 struct Sub020097BCObj;
 struct Sub24;
 extern u32 func_02012138(const struct Ctx *p);
-extern u32 func_02026454(void *);
+extern u32 GAME_COMM_GetKind(void *);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int,int);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
@@ -135,7 +135,7 @@ extern void GFL_USE_SetSleepVolumeHooks(void);
 extern int GFL_NET_IsSessionNull(void);
 extern void RINGTONE_SYS_RegisterSleepCallbacks(void);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *,int,int,int,int,u8,u8);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void *func_020120F4(const struct Ctx *p);
 extern void PM_VOICE_ResetMasterVolume(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,u16);
@@ -158,8 +158,8 @@ extern void EVENT_WIFICLUB_SetupBattle(char *,int);
 extern void EVENT_WIFICLUB_SetBattleParty(char *,u32,int);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
-extern void func_02039C68(struct Link *p, u32 lo, u32 hi);
-extern u32 func_02039CB4(struct Link *p, u32 lo, u32 hi);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, u32 lo, u32 hi);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, u32 lo, u32 hi);
 extern int GFL_NET_GetRunState(void);
 extern u32 func_0200FB24(void);
 extern u32 func_0200FBB0(void);
@@ -200,7 +200,7 @@ int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
         ++*state;
         break;
     case 1:
-        if (!func_02026454((void *)func_02012138(p))) {
+        if (!GAME_COMM_GetKind((void *)func_02012138(p))) {
             W(obj,0x10)=0;
             GAME_EVENT_CallEvent(evt,(void *)FIELD_STATUS_CreateFieldCloseEvent((int)p,W(obj,8)));
             ++*state;
@@ -232,7 +232,7 @@ int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
         break;
     case 7: return 1;
     case 8:
-        func_02082BCC(obj+0x98,0,0x28);
+        MI_CpuFill8(obj+0x98,0,0x28);
         *state=9;
         W(obj,0xac)=0;
         break;
@@ -309,7 +309,7 @@ int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
             EVENT_WIFICLUB_SetBattleParty(obj,(u32)func_020120F4(p),s);
             func_02034AC4((int)ov093_id);
             GFL_NET_COMMAND_AddCommandTable(0x100,(u32)d_021F03C4,9,0);
-            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),100,10);
+            GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),100,10);
             ++*state;
         }
         break;
@@ -317,7 +317,7 @@ int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
         if (!GFL_NET_GetRunState() || func_0200FB24()) {
             func_0200FBB0(); GFL_NET_ERR_ShowSimpleScreen(); goto cleanup;
         }
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),100,10)) ++*state;
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),100,10)) ++*state;
         break;
     case 16:
         GFL_USE_CancelChangeAndPlayBgm(0x490,0xffff);

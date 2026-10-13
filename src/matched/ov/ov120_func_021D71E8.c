@@ -9,7 +9,7 @@
  * status: EXACT*
  * symbols:
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 typedef unsigned char u8;
 typedef signed short s16;
@@ -21,13 +21,13 @@ typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021D71E8(u8 *p, int index, int delta)
 {
     Vec pos;
     if (*(void **)((u32)p + 0x14c + (u32)index * 4) != 0) {
         CLACT_GetActorSurfacePos(*(void **)((u32)p + 0x14c + (u32)index * 4), (struct PtS *)&pos, 1);
         pos.y += (s16)delta;
-        func_0204B404(*(void **)((u32)p + 0x14c + (u32)index * 4), (const struct Vec2 *)(&pos), 1);
+        CLACT_AddActorSurfacePos(*(void **)((u32)p + 0x14c + (u32)index * 4), (const struct Vec2 *)(&pos), 1);
     }
 }

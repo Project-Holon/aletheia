@@ -11,6 +11,7 @@
  *
  * symbols:
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 
 typedef struct {
@@ -20,12 +21,12 @@ typedef struct {
     int f64;
 } Obj;
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void *FIELDMAP_GetCamera(void *a);
 
 void ENTRANCE_CAMERA_InitWork(Obj *p, void *a)
 {
-    func_02082BCC(p, 0, 0x70);
+    MI_CpuFill8(p, 0, 0x70);
     p->f0 = a;
     p->f4 = FIELDMAP_GetCamera(a);
     p->f64 = 0;

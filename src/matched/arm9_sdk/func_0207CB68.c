@@ -1,5 +1,5 @@
 /*
- * function: func_0207CB68
+ * function: VEC_Fx16CrossProduct
  * address:  0x0207CB68
  * packet:   pkt_0207CB68
  * region:   arm9
@@ -51,7 +51,7 @@ static inline u32 CP_GetSqrtResult32(void)
     return reg_CP_SQRT_RESULT;
 }
 
-void func_0207CB68(const VecFx16 *a, const VecFx16 *b, VecFx16 *axb)
+void VEC_Fx16CrossProduct(const VecFx16 *a, const VecFx16 *b, VecFx16 *axb)
 {
     fx32 x, y, z;
 

@@ -15,7 +15,7 @@
  *   func_021BE44C 0x021BE44C thumb ov210
  *   func_021BCF00 0x021BCF00 thumb ov210
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -38,7 +38,7 @@ struct U16Vec;
 extern u16 func_021BCF00(int a0, int a1);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -67,11 +67,11 @@ void func_021BE564(u8 *p)
     func_021BE49C(p + 0x1A4);
     func_021BE7E4(p);
 
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj00222 *)p)->f184)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00222 *)p)->f184)), 0);
     func_021BE44C(p, 7, Bytes021BE564(p)[1] + 0x19, 0x28, 4, 0x3C40, 2);
     func_021BE49C(p + 0x184);
 
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj00222 *)p)->f18C)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00222 *)p)->f18C)), 0);
     v = Bytes021BE564(p)[2];
     if (v == 0xFF)
         func_021BE44C(p, 8, 0x5F, 8, 4, 0x3C40, 2);
@@ -79,7 +79,7 @@ void func_021BE564(u8 *p)
         func_021BE44C(p, 8, v + 0x33, 8, 4, 0x3C40, 2);
     func_021BE49C(p + 0x18C);
 
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj00222 *)p)->f194)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00222 *)p)->f194)), 0);
     if (Bytes021BE564(p)[3] == 0xFF) {
         func_021BE44C(p, 9, 0x30, 0x40, 4, 0x3C40, 2);
     } else if (Bytes021BE564(p)[4] == 0xFF) {
@@ -100,7 +100,7 @@ void func_021BE564(u8 *p)
     }
     func_021BE49C(p + 0x194);
 
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj00222 *)p)->f19C)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00222 *)p)->f19C)), 0);
     v = Bytes021BE564(p)[5];
     if (v == 0xFF)
         func_021BE44C(p, 10, 0x6A, 0x28, 4, 0x3C40, 2);

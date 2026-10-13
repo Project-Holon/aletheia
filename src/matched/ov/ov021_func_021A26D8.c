@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
-void func_02082BCC(void *p, int v, int n);
+void MI_CpuFill8(void *p, int v, int n);
 
 void WEATHER_TASK_Reset(int *p)
 {
@@ -34,7 +34,7 @@ void WEATHER_TASK_Reset(int *p)
     f8 = p[2];
     h = *(unsigned short *)&p[7];
     f18 = p[6];
-    func_02082BCC(p, 0, 0x784);
+    MI_CpuFill8(p, 0, 0x784);
     p[5] = f14;
     p[0] = f0;
     p[3] = fc;

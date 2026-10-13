@@ -14,7 +14,7 @@
  * 0x021F3EEC. Twin of ov044_func_021F37F0.c.
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
@@ -26,7 +26,7 @@
  *   FIELD_CAMERA_GetTraceTarget  0x0218EC5C  thumb  ov021
  *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
  *   FIELD_CAMERA_SetTraceTarget  0x0218EC30  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
@@ -45,7 +45,7 @@ typedef unsigned int u32;
 
 struct Ctx;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 struct Big;
 extern int FIELDMAP_GetExpObj(int *p);
@@ -60,7 +60,7 @@ extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern u32 FIELD_CAMERA_GetTraceTarget(u8 *p);
 extern void FIELD_CAMERA_StopTargetTrace(u8 *p);
 extern void FIELD_CAMERA_SetTraceTarget(u32 a, int v);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int FLD_EXP_OBJ_GetModelStatus(char *p, unsigned i, int j);
 extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
@@ -84,7 +84,7 @@ int GIMMICK43_ElevatorEventMain(void *a, int *b)
     void *c;
     int v[3];
 
-    s = GAMESYSTEM_GetFieldMap(func_020124E4(a));
+    s = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(a));
     r = (void *)FIELDMAP_GetExpObj(s);
     w = FIELDMAP_GetCommonWork(s, 1);
     h = (u32)FIELDMAP_GetCamera(s);
@@ -95,7 +95,7 @@ int GIMMICK43_ElevatorEventMain(void *a, int *b)
             w[4] = FIELD_CAMERA_GetTraceTarget((u8 *)h);
             FIELD_CAMERA_StopTargetTrace((u8 *)h);
         }
-        func_020061E4(w[5] == 0 ? 0x6da : 0x6ca);
+        GFL_USE_PlaySeDefaultVolume(w[5] == 0 ? 0x6da : 0x6ca);
         (*b)++;
         break;
     case 1:
@@ -104,7 +104,7 @@ int GIMMICK43_ElevatorEventMain(void *a, int *b)
             w[1] = w[2];
             if (w[5] == 0) {
                 GIMMICK43_StartCameraShake(0xff, w[3], 0, h, (u8 *)(w + 8));
-                func_020061E4(0x6cb);
+                GFL_USE_PlaySeDefaultVolume(0x6cb);
             }
             (*b)++;
         }

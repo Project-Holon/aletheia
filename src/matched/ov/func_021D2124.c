@@ -14,7 +14,7 @@
  * symbols:
  *   EVENT_PERAP_RECORD_DeletePokeIcon  0x021D201C  thumb  ov021
  *   func_0201F7A8  0x0201F7A8  thumb
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj04135.h"
@@ -26,13 +26,13 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern void func_0201F7A8(void *desc, u32 kind);
 struct Descriptor;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern int EVENT_PERAP_RECORD_DeletePokeIcon(u32 a, u32 b, u32 c, u32 d);
 
 int EVENT_PERAP_RECORD_Cleanup(u32 a, u32 b, u32 c, u32 d)
 {
 EVENT_PERAP_RECORD_DeletePokeIcon(a, b, c, d);
 func_0201F7A8((void *)(((struct Obj04135 *)((u8 *)(a)))->f30), 1);
-return func_020452E8((struct Descriptor *)(((struct Obj04135 *)((u8 *)(a)))->f30));
+return BMP_WIN_Delete((struct Descriptor *)(((struct Obj04135 *)((u8 *)(a)))->f30));
 }
 

@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02163CF0  0x02163CF0  arm  ov009
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02163DA8  0x02163DA8  arm  ov009
  *   func_02163C9C  0x02163C9C  arm  ov009
  *   g_021A1D98     0x021A1D98  data
@@ -29,7 +29,7 @@ struct _CPSSslConnection {
 };
 
 extern void func_02163CF0(void *ctx, void *data0, int datalen);
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void func_02163DA8(void *ctx, unsigned char *digest);
 extern void func_02163C9C(void *ctx);
 extern int g_021A1D98;
@@ -45,12 +45,12 @@ void func_02161598(struct _CPSSslConnection *con, unsigned char *d, int flag)
     else
         func_02163CF0(p, &g_021A1DA0, 4);
     func_02163CF0(p, con->master_secret, 48);
-    func_02082BCC(tmp, 0x36, 40);
+    MI_CpuFill8(tmp, 0x36, 40);
     func_02163CF0(p, tmp, 40);
     func_02163DA8(p, d);
     func_02163C9C(p);
     func_02163CF0(p, con->master_secret, 48);
-    func_02082BCC(tmp, 0x5c, 40);
+    MI_CpuFill8(tmp, 0x5c, 40);
     func_02163CF0(p, tmp, 40);
     func_02163CF0(p, d, 20);
     func_02163DA8(p, d);

@@ -33,11 +33,11 @@
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
  *   PLAYTIME_GetStamp   0x020086F0  thumb
  *   BOX_SAVEDATA_GetUsableBoxCount   0x020076A4  thumb
- *   func_0201A920  0x0201A920  thumb
- *   func_0201AC2C  0x0201AC2C  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
+ *   POKEPARTY_Copy  0x0201AC2C  thumb
  *   BOX_SAVEDATA_GetBoxPageSize   0x02007A9C  thumb
  *   BOX_SAVEDATA_GetBoxPokemon   0x02007AF4  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   func_0202136C  0x0202136C  thumb
@@ -57,7 +57,7 @@
  *   func_02009470  0x02009470  thumb
  *   sub_0200949C   0x0200949C  thumb
  *   sub_020094D8   0x020094D8  thumb
- *   func_0201B9F0  0x0201B9F0  thumb
+ *   POKE_TOOL_HealFull  0x0201B9F0  thumb
  *   func_0202F190  0x0202F190  thumb
  *   sub_02008DF0   0x02008DF0  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
@@ -113,11 +113,11 @@ struct Sub02008C20Obj;
 extern int GAME_DATA_GetPlayTime(int p0);
 extern void PLAYTIME_GetStamp(const struct PlayTime *p, struct PlayTimeStamp *out);
 extern u8 BOX_SAVEDATA_GetUsableBoxCount(void *save);
-extern struct Party *func_0201A920(u32 heap);
-extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
+extern struct Party *POKEPARTY_Create(u32 heap);
+extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
 extern u32 BOX_SAVEDATA_GetBoxPageSize(void);
 extern struct Sub02007AC8Entry *BOX_SAVEDATA_GetBoxPokemon(void **save, u32 box);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 func_0202136C(u16 v);
@@ -137,7 +137,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
 extern u32 sub_0200949C(const struct Sub02009470Obj *obj, int row, int col);
 extern void sub_020094D8(struct Sub02009470Obj *obj, int row, int col, int value);
-extern void func_0201B9F0(void *mon);
+extern void POKE_TOOL_HealFull(void *mon);
 extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 sub_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern void *func_0200CA1C(void *sys);
@@ -205,8 +205,8 @@ void func_021E049C(char *p)
         I(p, 0x61C) = func_021E0200(I(p, 0x82C), H(p, 0x5F4));
         PLAYTIME_GetStamp((void *)GAME_DATA_GetPlayTime((int)I(p, 0x82C)), (struct PlayTimeStamp *)(p + 0x628));
         if (T(p)->box == BOX_SAVEDATA_GetUsableBoxCount(I(p, 0x828))) {
-            I(p, 0x620) = func_0201A920(H(p, 0x5F4));
-            func_0201AC2C(I(p, 0x838), I(p, 0x620));
+            I(p, 0x620) = POKEPARTY_Create(H(p, 0x5F4));
+            POKEPARTY_Copy(I(p, 0x838), I(p, 0x620));
             W(p, 0x62C) = func_021E0410(p, I(p, 0x838), T(p)->slot);
         } else {
             I(p, 0x624) = sub_02030734(H(p, 0x5F4), BOX_SAVEDATA_GetBoxPageSize(), 0, d_021E8130, 0x271);
@@ -222,7 +222,7 @@ void func_021E049C(char *p)
     {
         Trade *t = T(p);
         if (t->box != BOX_SAVEDATA_GetUsableBoxCount(I(p, 0x828))) {
-            mon = func_0201AB28(t->party, 0);
+            mon = POKEPARTY_GetMember(t->party, 0);
             if (func_0202136C(POKE_TOOL_GetPartyValue(mon, 6, 0))) {
                 void *o = MAIL_GetBox(I(p, 0x82C));
                 int idx = MAIL_FindEmptySlot(o, 0);
@@ -263,9 +263,9 @@ void func_021E049C(char *p)
         }
     }
 
-    mon = func_0201AB28(T(p)->party, 0);
+    mon = POKEPARTY_GetMember(T(p)->party, 0);
     obj = GAME_DATA_GetTrainerRecord(I(p, 0x82C));
-    func_0201B9F0(mon);
+    POKE_TOOL_HealFull(mon);
     if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0)
         POKE_TOOL_SetPartyValue(mon, 9, (u32)((void *)0x46));
     if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0))

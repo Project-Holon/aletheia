@@ -9,30 +9,30 @@
  * status: EXACT*
  * extent: 126 code bytes, then two zero alignment bytes at 021BD7E2.
  * symbols:
- *   func_0204B3F4 0x0204B3F4 arm
- *   func_02035D20 0x02035D20 arm
+ *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_020355D8 0x020355D8 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  */
 #include "../include/Obj03928.h"
 
 typedef unsigned int u32;
 typedef unsigned char  u8;
 struct Obj;
-extern u32 func_0204B3F4(struct Obj *p);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void func_020355D8(u8 v);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 int func_021BD764(char *p)
 {
     unsigned x,y;
     int hit=0;
-    if(func_0204B3F4(((struct Obj03928 *)p)->f0)&((struct Obj03928 *)p)->f4) {
-        if(func_02035D20(&x,&y) && x-((struct Obj03928 *)p)->f18<=((struct Obj03928 *)p)->f1C && y-((struct Obj03928 *)p)->f1A<=24) {
+    if(CLACT_GetActorDrawEnable(((struct Obj03928 *)p)->f0)&((struct Obj03928 *)p)->f4) {
+        if(TOUCHPANEL_GetPointTrg(&x,&y) && x-((struct Obj03928 *)p)->f18<=((struct Obj03928 *)p)->f1C && y-((struct Obj03928 *)p)->f1A<=24) {
             hit=1;
             func_020355D8(1);
         }
-        if(((struct Obj03928 *)p)->f2C && (func_020362DC()&((struct Obj03928 *)p)->f2C)) {
+        if(((struct Obj03928 *)p)->f2C && (KEY_GetTrg()&((struct Obj03928 *)p)->f2C)) {
             func_020355D8(0);
             hit=1;
         }

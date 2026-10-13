@@ -47,7 +47,7 @@
  *   DWCi_NodeInfoList_GetMyNodeInfo           0x02176344 arm
  *   DWCi_GetGT2Connection                     0x0216BAF4 arm
  *   OS_GetTick     0x020870D0  arm
- *   func_0216BAF4  0x0216BAF4  arm  ov009
+ *   DWCi_GetGT2Connection  0x0216BAF4  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_02199FB4  0x02199FB4  arm  ov009
  *   func_02171F68  0x02171F68  arm  ov009
@@ -75,7 +75,6 @@ extern void qr2_send_statechanged(void *qrec);
 extern void func_02177748(int aid);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void *DWCi_GetGT2Connection(unsigned char aid);
-extern int func_0216BAF4(int aid);
 extern void func_02199FB4(int cookie);
 extern int func_02171F68(int unused);
 

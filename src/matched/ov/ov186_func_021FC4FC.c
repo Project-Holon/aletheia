@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
@@ -23,7 +23,7 @@ typedef struct Record {unsigned id;BgTemplate template;unsigned type,enable;} Re
 typedef struct DispConfig {unsigned words[4];} DispConfig;
 extern const Record d_0220099C[];
 extern DispConfig d_02200900;
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void func_0203F8F4(unsigned);
 extern void BMP_WIN_Init(unsigned);
 extern void func_0203FC28(DispConfig *);
@@ -36,7 +36,7 @@ void func_021FC4FC(void *p,unsigned heap)
     unsigned i;
     const Record *r;
     unsigned id;
-    func_02082BCC(p,0,4);
+    MI_CpuFill8(p,0,4);
     func_0203F8F4(heap);
     BMP_WIN_Init(heap);
     func_0203FC28(&d_02200900);

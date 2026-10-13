@@ -13,20 +13,20 @@
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02012934  0x02012934  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0200D418  0x0200D418  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02008530  0x02008530  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02018598  0x02018598  thumb
  *   FIELD_ENCOUNT_ApplyLeadAbility  0x021A9828  thumb  ov021
  *   func_0201296C  0x0201296C  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   func_0200D58C  0x0200D58C  thumb
- *   func_0201AA50  0x0201AA50  thumb
+ *   POKEPARTY_GetBattleReadyCount  0x0201AA50  thumb
  *   FIELD_ENCOUNT_RandPercent  0x021A9DC8  thumb  ov021
- *   func_0201AB08  0x0201AB08  thumb
+ *   POKEPARTY_FindFirstBattleReady  0x0201AB08  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -68,20 +68,20 @@ struct Blk38;
 struct Sub0200852CObj;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_02012934(const struct BigObj *p);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void *func_0200D418(void *p);
 extern u8 *func_02012944(void *p);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern u8 func_02018598(void *p);
 extern void FIELD_ENCOUNT_ApplyLeadAbility(struct Sel *s, u16 d);
 extern u32 func_0201296C(const struct BigObj *p);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 extern u32 func_0200D58C(struct Blk38 *p);
-extern u32 func_0201AA50(void *p);
+extern u32 POKEPARTY_GetBattleReadyCount(void *p);
 extern u32 FIELD_ENCOUNT_RandPercent(void);
-extern u32 func_0201AB08(void *p);
+extern u32 POKEPARTY_FindFirstBattleReady(void *p);
 
 void FIELD_ENCOUNT_SetupParam(struct Sel *s, void *a, int b, int c, u16 d)
 {
@@ -91,7 +91,7 @@ void FIELD_ENCOUNT_SetupParam(struct Sel *s, void *a, int b, int c, u16 d)
 
     t = GAME_DATA_GetSaveControl(a);
     party = func_02012934(a);
-    func_02082BCC(s, 0, 0x2C);
+    MI_CpuFill8(s, 0, 0x2C);
     s->f08 = b;
     s->f0C = c;
     s->f00 = a;
@@ -100,7 +100,7 @@ void FIELD_ENCOUNT_SetupParam(struct Sel *s, void *a, int b, int c, u16 d)
         s->b1 = 1;
     s->f24 = func_02012944(a);
     s->f20 = func_02008530(s->f24);
-    mon = func_0201AB28(party, 0);
+    mon = POKEPARTY_GetMember(party, 0);
     s->f1A = func_02017E1C(mon, 0x4C, 0);
     if (s->f1A == 0) {
         s->f16 = func_02017E1C(mon, 5, 0);
@@ -121,9 +121,9 @@ void FIELD_ENCOUNT_SetupParam(struct Sel *s, void *a, int b, int c, u16 d)
         s->b3 = 1;
     s->b4 = 0;
     s->b5 = 0;
-    if (s->f08 == 1 && (int)func_0201AA50(party) >= 2 && FIELD_ENCOUNT_RandPercent() < 0x28)
+    if (s->f08 == 1 && (int)POKEPARTY_GetBattleReadyCount(party) >= 2 && FIELD_ENCOUNT_RandPercent() < 0x28)
         s->b5 = 1;
     if (s->b15 || s->b2)
-        s->f1E = func_02017E1C(func_0201AB28(party, func_0201AB08(party)), 0x9E, 0);
+        s->f1E = func_02017E1C(POKEPARTY_GetMember(party, POKEPARTY_FindFirstBattleReady(party)), 0x9E, 0);
     s->f15 = s->b5 + 1;
 }

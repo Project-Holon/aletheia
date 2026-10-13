@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FIELD_MSGBG_TalkWinMain  0x02191388  thumb
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   FIELD_MSGBG_DeleteTalkWin  0x021912D8  thumb
  *   FIELD_MSGBG_WaitTalkWinClose  0x021912F8  thumb
  *   STRBUF_Delete  0x02045808  arm
@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int FIELD_MSGBG_TalkWinMain();
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int FIELD_MSGBG_DeleteTalkWin();
 extern int FIELD_MSGBG_WaitTalkWinClose();
 extern int STRBUF_Delete();
@@ -55,7 +55,7 @@ a0 = a0 + 1;
 ((struct Obj09165 *)((char *)t5))->f0 = a0;
     goto loc_0216CB42;
 loc_0216CB1C:
-    a0 = func_020362DC();
+    a0 = KEY_GetTrg();
 loc_0216CB20:
 a1 = 3;
     if ((a0 & a1) == 0) goto loc_0216CB42;

@@ -12,13 +12,13 @@
  * symbols:
  *   BTLV_SCU_ProcQuickEntryTriple  0x021EB680  thumb  ov093
  *   d_021F3918  0x021F3918  data  a4
- *   func_021B8FF4  0x021B8FF4  thumb  ov093
+ *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
  */
 
 typedef unsigned char u8;
 
 extern int BTLV_SCU_ProcQuickEntryTriple(u8 *, int *);
-extern u8 func_021B8FF4(u8 *);
+extern u8 BTL_MAIN_GetOwnClientId(u8 *);
 extern int (*const d_021F3918[][2])(u8 *, int *);
 
 
@@ -27,7 +27,7 @@ int func_021EBF20(int *a, u8 *b)
     if (b[0x150] != 0)
         return BTLV_SCU_ProcQuickEntryTriple(b, a);
     if (b[0x14f] < 3) {
-        if (d_021F3918[b[0x14f]][func_021B8FF4(*(u8 **)(b + 0x134))](b, a) != 0) {
+        if (d_021F3918[b[0x14f]][BTL_MAIN_GetOwnClientId(*(u8 **)(b + 0x134))](b, a) != 0) {
             b[0x14f] = b[0x14f] + 1;
             *a = 0;
         }

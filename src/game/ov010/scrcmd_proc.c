@@ -18,19 +18,19 @@
  *   sScrcmdLookupTable 0x02171170 data a2
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
  *   POKE_TOOL_HealParty  0x0201BA34  thumb
  *   VM_GetU16  0x02011330  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
- *   func_0201AB08  0x0201AB08  thumb
+ *   POKEPARTY_FindFirstBattleReady  0x0201AB08  thumb
  *   POKEPARTY_FindFirstNonEgg  0x0201AB18  thumb
- *   func_0201AA14  0x0201AA14  thumb
- *   func_0201AA1C  0x0201AA1C  thumb
- *   func_0201AA50  0x0201AA50  thumb
- *   func_0201AA88  0x0201AA88  thumb
- *   func_0201AAD4  0x0201AAD4  thumb
+ *   POKEPARTY_GetCapacity  0x0201AA14  thumb
+ *   POKEPARTY_GetNonEggCount  0x0201AA1C  thumb
+ *   POKEPARTY_GetBattleReadyCount  0x0201AA50  thumb
+ *   POKEPARTY_GetEggCount  0x0201AA88  thumb
+ *   POKEPARTY_GetBadEggCount  0x0201AAD4  thumb
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb
  *   func_02007984  0x02007984  thumb
  *   func_020079A0  0x020079A0  thumb
@@ -64,12 +64,12 @@
  *   sScrcmdAllowedParamIds 0x02171182 data a1
  *   POKE_TOOL_Create  0x020173F0  thumb
  *   func_02008510  0x02008510  thumb
- *   func_0201ADE4  0x0201ADE4  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
- *   func_0201AE14  0x0201AE14  thumb
+ *   POKE_PERSONAL_Create  0x0201ADE4  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
+ *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   func_0202F190  0x0202F190  thumb
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   gSpeciesNameBank     0x020A7370  data
  *   POKE_TOOL_CreatePersonalRnd 0x020186C8 thumb
  *   POKE_TOOL_CreateEx 0x02017430 thumb
@@ -77,7 +77,7 @@
  *   PALANM_GetPairedCodeForFirst 0x0202142C thumb
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
- *   func_02013E4C 0x02013E4C thumb
+ *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   func_020074D8  0x020074D8  thumb
  *   func_0200CDE0  0x0200CDE0  thumb
@@ -334,19 +334,19 @@ extern u16 SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *, void *);
 extern void *SCRCMD_WORK_GetGameData(void *);
 extern void *GAME_DATA_GetMyParty(const struct GameData *);
-extern u32 func_0201AA18(void *);
-extern void *func_0201AB28(void *, u32 idx);
+extern u32 POKEPARTY_GetCount(void *);
+extern void *POKEPARTY_GetMember(void *, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *, u32 id, u32);
 extern void POKE_TOOL_HealParty(void *);
 extern u16 VM_GetU16(struct ScriptVm *);
 extern void POKE_TOOL_SetPartyValue(void *, u32 id, u32);
-extern u32 func_0201AB08(void *);
+extern u32 POKEPARTY_FindFirstBattleReady(void *);
 extern u32 POKEPARTY_FindFirstNonEgg(void *);
-extern u32 func_0201AA14(void *);
-extern u32 func_0201AA1C(void *);
-extern u32 func_0201AA50(void *);
-extern u32 func_0201AA88(void *);
-extern u32 func_0201AAD4(void *);
+extern u32 POKEPARTY_GetCapacity(void *);
+extern u32 POKEPARTY_GetNonEggCount(void *);
+extern u32 POKEPARTY_GetBattleReadyCount(void *);
+extern u32 POKEPARTY_GetEggCount(void *);
+extern u32 POKEPARTY_GetBadEggCount(void *);
 extern u32 GAME_DATA_GetBoxManager(const struct GameData *);
 extern int func_02007984(void *);
 extern int func_020079A0(void *);
@@ -375,19 +375,19 @@ extern u32 func_020307B0(void *);
 extern void POKE_TOOL_RecalcParam(void *);
 extern void *POKE_TOOL_Create(u32 species, u32 level, u64 id, u32 heap);
 extern void *func_02008510(void *, int tag);
-extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
-extern u32 func_0201AE1C(const struct PersonalData *, u32 field);
-extern void func_0201AE14(void *);
+extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
+extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *, u32 field);
+extern void POKE_PERSONAL_Delete(void *);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0202F190(void *mon, u32, void *, u32, u32 heap);
-extern u32 func_0201A98C(struct Party *, const struct PokemonParam *src);
+extern u32 POKEPARTY_Add(struct Party *, const struct PokemonParam *src);
 extern u32 POKE_TOOL_CreatePersonalRnd(u32, int, int, int, int, int);
 extern void *POKE_TOOL_CreateEx(u16, u16, u64, u32, u64, u16);
 extern int func_02020FE4(u16, u32, u16);
 extern unsigned short PALANM_GetPairedCodeForFirst(int);
 extern void *GAME_DATA_GetMyPlayerWork(struct GameData *);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *);
-extern u32 func_02013E4C(u32 id);
+extern u32 ZONEDATA_GetPlaceNameId(u32 id);
 extern void *POKE_TOOL_GetBoxParam(void *);
 extern int func_020074D8(void **save, const struct BoxPokemonParam *src);
 extern void func_0200CDE0(struct ZukanSave *, void *);
@@ -595,7 +595,7 @@ slotIndex = partyIndex + 0;
 outMember = outMemberArg;
     gameData = SCRCMD_WORK_GetGameData(cmdWork);
     party = GAME_DATA_GetMyParty(gameData);
-    partyCount = func_0201AA18(party);
+    partyCount = POKEPARTY_GetCount(party);
     if (slotIndex >= (unsigned)partyCount) goto outOfRange;
 isValid = 1;
     goto store;
@@ -603,7 +603,7 @@ outOfRange:
 isValid = 0;
 slotIndex = 0;
 store:
-    member = func_0201AB28(party, slotIndex);
+    member = POKEPARTY_GetMember(party, slotIndex);
 *outMember = member;
     return isValid;}
 
@@ -950,7 +950,7 @@ callArg0 = cmdWorkCopy + 0;
     party = GAME_DATA_GetMyParty(party);
     if (vmOrMode == 1) goto nonEgg;
     if (vmOrMode != 2) goto none;
-    callArg0 = func_0201AB08(party);
+    callArg0 = POKEPARTY_FindFirstBattleReady(party);
 truncate:
 callArg0 = callArg0 << 0x10;
 callArg0 = (unsigned)callArg0 >> 0x10;
@@ -976,23 +976,23 @@ int SCRCMD_PROC_GetPartyCount(void *vm, void *cmdWork)
 
     switch (countKind) {
     case 0:
-        result = func_0201AA18(party);
+        result = POKEPARTY_GetCount(party);
         break;
     case 1:
-        result = func_0201AA1C(party);
+        result = POKEPARTY_GetNonEggCount(party);
         break;
     case 2:
-        result = func_0201AA50(party);
+        result = POKEPARTY_GetBattleReadyCount(party);
         break;
     case 3:
-        result = func_0201AA88(party);
+        result = POKEPARTY_GetEggCount(party);
         break;
     case 4:
-        result = func_0201AAD4(party);
+        result = POKEPARTY_GetBadEggCount(party);
         break;
     case 5: {
-        int capacity = func_0201AA14(party);
-        int count = func_0201AA18(party);
+        int capacity = POKEPARTY_GetCapacity(party);
+        int count = POKEPARTY_GetCount(party);
         if (capacity < count) {
             result = 0;
         } else {
@@ -1015,13 +1015,13 @@ int SCRCMD_PROC_CountPartyMonsOfSpecies(void *vm, void *cmdWork)
     u32 species = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     void *party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(cmdWork));
-    u16 partyCount = func_0201AA18(party);
+    u16 partyCount = POKEPARTY_GetCount(party);
     u16 matchCount = 0;
     int i;
 
     if (species != 0 && species <= 0x289) {
         for (i = 0; i < partyCount; i++) {
-            void *member = func_0201AB28(party, i);
+            void *member = POKEPARTY_GetMember(party, i);
             u16 memberSpecies;
 
             if (member != 0 && POKE_TOOL_GetPartyValue(member, 0x4C, 0) == 0) {
@@ -1085,12 +1085,12 @@ int SCRCMD_PROC_FindPartyMonBySpecies(void *vm, void *cmdWork)
     u16 *foundVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     u16 *indexVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     void *party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(cmdWork));
-    u16 partyCount = func_0201AA18(party);
+    u16 partyCount = POKEPARTY_GetCount(party);
     int i;
 
     if (species != 0 && species <= 0x289) {
         for (i = 0; i < partyCount; i++) {
-            void *member = func_0201AB28(party, i);
+            void *member = POKEPARTY_GetMember(party, i);
             u16 memberSpecies;
 
             if (member != 0 && POKE_TOOL_GetPartyValue(member, 0x4C, 0) == 0) {
@@ -1157,11 +1157,11 @@ int SCRCMD_PROC_FindPartyMonWithMove(void *vm, void *cmdWork)
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     void *moveId = (void *)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     int i;
-    int partyCount = func_0201AA18(party);
+    int partyCount = POKEPARTY_GetCount(party);
 
     *resultVar = 6;
     for (i = 0; i < partyCount; i++) {
-        if (SCRCMD_PROC_CheckMonKnowsMove((int)func_0201AB28(party, i), (int)moveId) == 1) {
+        if (SCRCMD_PROC_CheckMonKnowsMove((int)POKEPARTY_GetMember(party, i), (int)moveId) == 1) {
             *resultVar = i;
             break;
         }
@@ -1473,7 +1473,7 @@ int SCRCMD_PROC_ChangeMonForm(void *vm, void *cmdWork)
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameData = GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork));
-    mon = func_0201AB28(GAME_DATA_GetMyParty(gameData), (u32)partyIndex);
+    mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), (u32)partyIndex);
     POKE_TOOL_ChangeForm(mon, (u32)form);
     func_0200CFA0(func_0200CA1C(gameData), mon);
     return 0;
@@ -1495,7 +1495,7 @@ int SCRCMD_PROC_SetRotomFormMove(void *vm, void *cmdWork)
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameData = GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork));
-    mon = func_0201AB28(GAME_DATA_GetMyParty(gameData), (u32)partyIndex);
+    mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), (u32)partyIndex);
     POKE_TOOL_SetRotomFormMove(mon, (u32)moveSlot, (u32)form);
     func_0200CFA0(func_0200CA1C(gameData), mon);
     return 0;
@@ -1777,7 +1777,7 @@ int SCRCMD_PROC_AddEggToParty(void *vm, void *cmdWork)
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     species = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     form = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    if ((int)func_0201AA14(party) <= (int)func_0201AA18(party)) {
+    if ((int)POKEPARTY_GetCapacity(party) <= (int)POKEPARTY_GetCount(party)) {
         *resultVar = 0;
         return 0;
     }
@@ -1786,9 +1786,9 @@ int SCRCMD_PROC_AddEggToParty(void *vm, void *cmdWork)
     tempStrbuf = (u32)func_02008510(GAME_DATA_GetMyStatus(gameData), heapId);
     POKE_TOOL_SetPartyValue(mon, 0x8D, tempStrbuf);
     STRBUF_Delete((struct Strbuf *)tempStrbuf);
-    personal = (u32)func_0201ADE4((u16)POKE_TOOL_GetPartyValue(mon, 5, 0), (u16)POKE_TOOL_GetPartyValue(mon, 0x6F, 0), heapId);
-    hatchCycles = func_0201AE1C((const struct PersonalData *)personal, 0x15);
-    func_0201AE14((void *)personal);
+    personal = (u32)POKE_PERSONAL_Create((u16)POKE_TOOL_GetPartyValue(mon, 5, 0), (u16)POKE_TOOL_GetPartyValue(mon, 0x6F, 0), heapId);
+    hatchCycles = POKE_PERSONAL_GetParam((const struct PersonalData *)personal, 0x15);
+    POKE_PERSONAL_Delete((void *)personal);
     POKE_TOOL_SetPartyValue(mon, 9, hatchCycles);
     POKE_TOOL_SetPartyValue(mon, 0x4C, 1);
     tempStrbuf = (u32)func_02045EC0(gSpeciesNameBank, 0x28A);
@@ -1796,7 +1796,7 @@ int SCRCMD_PROC_AddEggToParty(void *vm, void *cmdWork)
     STRBUF_Delete((struct Strbuf *)tempStrbuf);
     POKE_TOOL_RecalcParam(mon);
     func_0202F190(mon, 5, myStatus, 0xEA63, heapId);
-    func_0201A98C(party, mon);
+    POKEPARTY_Add(party, mon);
     func_020307B0(mon);
     *resultVar = 1;
     return 0;
@@ -1823,7 +1823,7 @@ void *SCRCMD_PROC_CreateMonFromSpec(void *gameData, PokemonSpec *spec)
     POKE_TOOL_SetPartyValue(trainerIdOrMon, 6, spec->heldItem);
     if (func_02020FE4(spec->ballItem, 0xF, spec->heapId) == 4)
         POKE_TOOL_SetPartyValue(trainerIdOrMon, 0x98, (u32)PALANM_GetPairedCodeForFirst((u16)spec->ballItem));
-    func_0202F190(trainerIdOrMon, 0, (void *)myStatus, func_02013E4C(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData))), spec->heapId);
+    func_0202F190(trainerIdOrMon, 0, (void *)myStatus, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData))), spec->heapId);
     POKE_TOOL_RecalcParam(trainerIdOrMon);
     return trainerIdOrMon;
 }
@@ -1859,10 +1859,10 @@ int SCRCMD_PROC_AddMonToParty(void *gameData, void *spec)
     void *mon;
 
     party = GAME_DATA_GetMyParty(gameData);
-    if ((int)func_0201AA14(party) <= (int)func_0201AA18(party))
+    if ((int)POKEPARTY_GetCapacity(party) <= (int)POKEPARTY_GetCount(party))
         return 0;
     mon = SCRCMD_PROC_CreateMonFromSpec(gameData, spec);
-    func_0201A98C(party, mon);
+    POKEPARTY_Add(party, mon);
     func_0200CDE0(func_0200CA1C(gameData), mon);
     func_020307B0(mon);
     return 1;
@@ -2256,7 +2256,7 @@ int SCRCMD_PROC_CallMoveRelearn(void *vm, void *cmdWork)
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     resultVar = (u32)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    mon = func_0201AB28(GAME_DATA_GetMyParty(gameData), partyIndex);
+    mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex);
     myStatus = GAME_DATA_GetMyStatus(gameData);
     relearnMoves = WAZA_OSHIE_CreateMoveList(mon, 4);
     relearnParam = WAZA_OSHIE_Create(4);
@@ -3019,7 +3019,7 @@ void *SCRCMD_SODATEYA_Create(void *gameSystem, void *fieldMap, u16 *resultVar)
     menuState->listWork = menuParam->listWork;
     menuState->gameData = (u32)gameData;
     menuState->enabled = 1;
-    menuState->partyCount = func_0201AA18(party);
+    menuState->partyCount = POKEPARTY_GetCount(party);
     menuState->cursor = 0;
     menuState->reserved10 = 0;
     menuState->selectedPos = 0;

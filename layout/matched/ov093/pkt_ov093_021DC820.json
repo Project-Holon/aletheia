@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_ABILITY_InfiltratorSkipSideCondition",
+   "name": "HAND_TOKUSEI_InfiltratorSkipSideCondition",
    "address": "0x021DC820",
    "kind": "game",
    "region": "ov093",

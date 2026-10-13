@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_DisableAbilityHandlers
+ * function: HAND_TOKUSEI_DisableAbilityHandlers
  * address: 0x021D8538
  * packet: pkt_ov093_021D8538
  * region: ov093
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_DisablePokeFactors(u32 sub, int kind);
-void BTL_CALC_DisableAbilityHandlers(void *p) { BTL_EVENT_DisablePokeFactors(BTL_POKEPARAM_GetPokeId(p),4); }
+void HAND_TOKUSEI_DisableAbilityHandlers(void *p) { BTL_EVENT_DisablePokeFactors(BTL_POKEPARAM_GetPokeId(p),4); }

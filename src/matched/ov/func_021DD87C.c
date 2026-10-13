@@ -1,5 +1,5 @@
 /*
- * function: BTL_ITEM_RaiseAttackOne
+ * function: HAND_ITEM_RaiseAttackOne
  * address:  0x021DD87C
  * packet:   pkt_021DC604
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   BTL_ITEM_RaiseAttackOne   0x021DD87C  thumb
- *   BTL_ITEM_RaiseStat   0x021DD9E8  thumb
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; adds r0, r1, #0; adds r1, r2, #0; movs r2, #1; movs r3, #1; bl BTL_ITEM_RaiseStat; pop {r3, pc}.
+ *   HAND_ITEM_RaiseAttackOne   0x021DD87C  thumb
+ *   HAND_ITEM_RaiseStat   0x021DD9E8  thumb
+ * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; adds r0, r1, #0; adds r1, r2, #0; movs r2, #1; movs r3, #1; bl HAND_ITEM_RaiseStat; pop {r3, pc}.
  */
 
 typedef unsigned char u8;
@@ -22,9 +22,9 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-/* 021DD87C  shifted 3-arg wrapper -> BTL_ITEM_RaiseStat(..., 0x1, 1) */
-void BTL_ITEM_RaiseAttackOne(int a, int b, int c)
+/* 021DD87C  shifted 3-arg wrapper -> HAND_ITEM_RaiseStat(..., 0x1, 1) */
+void HAND_ITEM_RaiseAttackOne(int a, int b, int c)
 {
-    BTL_ITEM_RaiseStat(b, c, 0x1, 1);
+    HAND_ITEM_RaiseStat(b, c, 0x1, 1);
 }
 

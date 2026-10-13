@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_HANDLER_ITEM_AddSitrusBerry",
+   "name": "HAND_ITEM_AddSitrusBerry",
    "address": "0x021DD57C",
    "kind": "game",
    "region": "ov093",

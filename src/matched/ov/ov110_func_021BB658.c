@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: two bytes of zero alignment padding after the return.
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021BF6DC 0x021BF6DC thumb ov110
  */
@@ -18,23 +18,23 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u8 func_021BF6DC(u8 *);
 void func_021BB658(u8 *p, int enable)
 {
     if (enable) {
         if (**(int * *)&((struct Obj04444 *)p)->f5C == 0) {
-            func_0204B3DC(((struct Obj04444 *)p)->f54, 1);
+            CLACT_SetActorDrawEnable(((struct Obj04444 *)p)->f54, 1);
             if (func_021BF6DC(*(u8 * *)&((struct Obj04444 *)p)->f4) == 0) {
                 CLACT_SetActorAnimSeq(((struct Obj04444 *)p)->f54, 4);
             } else {
                 CLACT_SetActorAnimSeq(((struct Obj04444 *)p)->f54, 6);
             }
         } else {
-            func_0204B3DC(((struct Obj04444 *)p)->f54, 0);
+            CLACT_SetActorDrawEnable(((struct Obj04444 *)p)->f54, 0);
         }
     } else {
-        func_0204B3DC(((struct Obj04444 *)p)->f54, 0);
+        CLACT_SetActorDrawEnable(((struct Obj04444 *)p)->f54, 0);
     }
 }

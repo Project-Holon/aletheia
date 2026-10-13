@@ -16,6 +16,7 @@
  * symbols:
  *   GAME_DATA_SaveStart  0x02012DAC  thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  */
 #include "../include/Obj15613.h"
 
@@ -25,14 +26,14 @@ typedef unsigned int  u32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *h, u32 a, u32 b);
 extern int GAME_DATA_SaveStart(int a0);
 extern void func_02010888(u8 *p, u32 v);
 extern void func_02010964(u8 *p);
 
 void func_0201093C(u8 *p)
 {
-    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8) != 0) {
+    if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8) != 0) {
         GAME_DATA_SaveStart(((struct Obj15613 *)p)->fC);
         func_02010888(p, (u32)func_02010964);
     }

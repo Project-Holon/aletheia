@@ -1,5 +1,5 @@
 /*
- * function: func_021CBCF4
+ * function: BTL_SERVER_FLOW_GetCaptureDexFactor
  * address:  0x021CBCF4
  * packet:   pkt_ov093_021CBCF4
  * region:   ov093
@@ -18,7 +18,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u32 BTL_MAIN_GetZukanSeenCount(char **p);
 
-u32 func_021CBCF4(u8 *p)
+u32 BTL_SERVER_FLOW_GetCaptureDexFactor(u8 *p)
 {
     u32 v = BTL_MAIN_GetZukanSeenCount(*(char ** *)&((struct Obj09980 *)p)->f4);
     if (v > 600) return 0x1000;

@@ -15,6 +15,7 @@
  *
  * symbols:
  *   BTL_SETUP_InitFieldSituation  0x02013220  thumb
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
 typedef unsigned char u8;
@@ -23,11 +24,11 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef signed char s8;
 
-extern void func_02082BCC(void *dst, int c, u32 n);
+extern void MI_CpuFill8(void *dst, int c, u32 n);
 extern void BTL_SETUP_InitFieldSituation(char *p);
 
 void BTL_SETUP_Clear(u8 *p)
 {
-    func_02082BCC(p, 0, 0xf0);
+    MI_CpuFill8(p, 0, 0xf0);
     BTL_SETUP_InitFieldSituation((char *)(p + 8));
 }

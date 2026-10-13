@@ -15,7 +15,7 @@
  *   func_021DD14C 0x021DD14C thumb ov170
  *   func_021ECB20 0x021ECB20 thumb ov170
  *   func_021EF6CC 0x021EF6CC thumb ov170
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021E8FC0 0x021E8FC0 thumb ov170
  *   func_021E01A8 0x021E01A8 thumb ov170
  *   func_021E8F50 0x021E8F50 thumb ov170
@@ -30,7 +30,7 @@ extern void func_021EBA5C(char *w, int v);
 extern void func_021DD14C(char *p);
 extern void func_021ECB20(char *p, int f, int c);
 extern void func_021EF6CC(struct WinMgr *mgr);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E01A8(char *p);
 extern int func_021E8F50(char *p, int v);
@@ -63,6 +63,6 @@ int func_021E7F6C(unsigned char *p)
         func_021ECB20((char *)p, 1, 0);
     func_021ECB20((char *)p, 2, 0);
     func_021EF6CC(*(struct WinMgr **)(WORK(p) + 0x74));
-    func_020061E4(0x669);
+    GFL_USE_PlaySeDefaultVolume(0x669);
     return func_021E8FC0((char *)p, (int)((int (*)(unsigned char *))func_021E01A8), func_021E8F50((char *)p, 0xE));
 }

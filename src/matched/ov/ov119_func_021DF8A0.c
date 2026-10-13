@@ -12,18 +12,18 @@
  *   func_021D8AA8 0x021D8AA8 thumb ov119
  *   func_021E67E0 0x021E67E0 thumb ov119
  *   GFL_USE_IsSeqPlaying 0x02006254 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 extern int func_021D8AA8(void *);
 extern void func_021E67E0(void *, int, int);
 typedef unsigned int   u32;
 extern int GFL_USE_IsSeqPlaying(u32 a);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void func_021DF8A0(void *p, int a, int b)
 {
     if (func_021D8AA8(p)) {
         func_021E67E0(p,a,b);
         ((unsigned char *)p+b)[0x11e4]=60;
-        if (!GFL_USE_IsSeqPlaying(0x54a)) func_020061E4(0x54a);
+        if (!GFL_USE_IsSeqPlaying(0x54a)) GFL_USE_PlaySeDefaultVolume(0x54a);
     }
 }

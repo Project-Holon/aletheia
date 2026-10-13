@@ -10,7 +10,7 @@
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   func_021B95B8 0x021B95B8 thumb ov100
  *   func_021B9D6C 0x021B9D6C thumb ov100
  */
@@ -22,11 +22,11 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 struct Link;
-extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,unsigned int);
 extern void func_021B95B8(u8 *p, u32 v);
 extern void func_021B9D6C(int a);
 void func_021B9DB8(int a) {
- if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x7c,12)!=0) {
+ if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x7c,12)!=0) {
   int i=GFL_NET_SYSTEM_GetCurrentAid();
   int n=((struct Obj13709 *)a)->f24C;
   switch(n) {

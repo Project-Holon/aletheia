@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B3F4 0x0204B3F4 arm
+ *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int   u32;
 struct Obj;
-extern u32 func_0204B3F4(struct Obj *p);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 
 int func_021BEE04(int p, int i)
 {
-    return func_0204B3F4((struct Obj *)(((int *)(p + i * 4))[0xa]));
+    return CLACT_GetActorDrawEnable((struct Obj *)(((int *)(p + i * 4))[0xa]));
 }

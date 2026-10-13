@@ -1,5 +1,5 @@
 /*
- * function: func_021C8114
+ * function: BTL_SERVER_FLOW_GetLastActionId
  * address:  0x021C8114
  * packet:   pkt_021C8114
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C8114   0x021C8114  thumb ov093
+ *   BTL_SERVER_FLOW_GetLastActionId   0x021C8114  thumb ov093
  *
  * ldrh at #0x1f74 (pool constant)
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u16 func_021C8114(u8 *p)
+u16 BTL_SERVER_FLOW_GetLastActionId(u8 *p)
 {
     return ((struct Obj18333 *)p)->f1F74;
 }

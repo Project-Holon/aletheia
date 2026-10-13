@@ -11,7 +11,7 @@
  * lever: derive an integer offset before adding the base, then reduce the enum.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200E9F4 0x0200E9F4 thumb
  *   func_0200EA04 0x0200EA04 thumb
@@ -21,7 +21,7 @@
  */
 #include "../include/Obj06657.h"
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 typedef unsigned short u16;
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
@@ -35,7 +35,7 @@ int *func_02212854(int unused, unsigned heap, char *ctx)
 {
     Offset2854 offset = tag_2854;
     int *p = func_02030734(heap, 0x44, 0, d_02213D04, tag_2854);
-    func_02082BCC(p, 0, 0x44);
+    MI_CpuFill8(p, 0, 0x44);
     p[2] = (int)(ctx + 4);
     p[3] = ((struct Obj06657 *)ctx)->f20;
     p[0] = ((struct Obj06657 *)ctx)->f1C - 2;

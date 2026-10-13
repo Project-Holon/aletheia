@@ -1,5 +1,5 @@
 /*
- * function: func_021BA02C
+ * function: BTL_MAIN_GetTrainerSentence
  * address: 0x021BA02C
  * packet: pkt_ov093_021BA02C
  * region: ov093
@@ -10,15 +10,15 @@
  * status: EXACT
  * symbols:
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
- *   func_021B9F70 0x021B9F70 thumb ov093
+ *   BTL_MAIN_IsTrainerSlotNpc 0x021B9F70 thumb ov093
  */
 extern void *BTL_MAIN_GetCompetitor(void ***);
 typedef unsigned char  u8;
-extern int func_021B9F70(u8 *p, int i);
+extern int BTL_MAIN_IsTrainerSlotNpc(u8 *p, int i);
 typedef unsigned int u32;
-void *func_021BA02C(char *p, int i, int mode)
+void *BTL_MAIN_GetTrainerSentence(char *p, int i, int mode)
 {
-    if ((int)BTL_MAIN_GetCompetitor((void ***)p) == 2 && func_021B9F70((u8 *)p, i)) {
+    if ((int)BTL_MAIN_GetCompetitor((void ***)p) == 2 && BTL_MAIN_IsTrainerSlotNpc((u8 *)p, i)) {
         if (mode == 1) return (void *)(((u32)p + 0x40) + (u32)i * 0x28);
         return (void *)(((u32)p + 0x38) + (u32)i * 0x28);
     }

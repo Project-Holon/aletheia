@@ -12,7 +12,7 @@
  * output: 0204B454 and its full getter chain write both coordinate halfwords.
  * symbols:
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   func_0204047C 0x0204047C arm
  */
@@ -25,7 +25,7 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorBgPriority(void *,unsigned int);
 extern void func_0204047C(int,unsigned short);
 void func_021E6AB0(const char *p)
@@ -42,7 +42,7 @@ void func_021E6AB0(const char *p)
             a.x-=128;
             CLACT_SetActorBgPriority(*(void **)(p+i*4+0x10cc),3);
         } else a.x+=128;
-        func_0204B404(*(void **)(p+i*4+0x10cc),(const struct Vec2 *)(&a),1);
+        CLACT_AddActorSurfacePos(*(void **)(p+i*4+0x10cc),(const struct Vec2 *)(&a),1);
     }
     for(i=0;i<3;i++) {
         if(*(void **)(p+i*4+0x1008)) {
@@ -50,14 +50,14 @@ void func_021E6AB0(const char *p)
             b.x+=128;
             tmp=i;
             tmp=tmp*4;
-            func_0204B404(*(void **)(p+tmp+0x1008),(const struct Vec2 *)(&b),1);
+            CLACT_AddActorSurfacePos(*(void **)(p+tmp+0x1008),(const struct Vec2 *)(&b),1);
         }
     }
     for(j=0;j<3;j++) {
         if(*(void **)(p+j*4+0x1014)) {
             CLACT_GetActorSurfacePos(*(void **)(p+j*4+0x1014),(struct PtS *)&c,1);
             c.x-=128;
-            func_0204B404(*(void **)(p+j*4+0x1014),(const struct Vec2 *)(&c),1);
+            CLACT_AddActorSurfacePos(*(void **)(p+j*4+0x1014),(const struct Vec2 *)(&c),1);
             CLACT_SetActorBgPriority(*(void **)(p+j*4+0x1014),3);
         }
     }

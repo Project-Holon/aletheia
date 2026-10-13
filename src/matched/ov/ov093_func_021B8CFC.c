@@ -1,5 +1,5 @@
 /*
- * function: func_021B8CFC
+ * function: BTL_MAIN_GetSlotClientId
  * address:  0x021B8CFC
  * packet:   pkt_021B8CFC
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-unsigned char func_021B8CFC(char *p, int i)
+unsigned char BTL_MAIN_GetSlotClientId(char *p, int i)
 {
     return *(unsigned char *)(p + i + 0x428);
 }

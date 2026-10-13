@@ -14,7 +14,7 @@
  *   (2026-10-03). Everything else matches.
  * symbols:
  *   ov208_func_021BC32C 0x021BC32C thumb ov208
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   ov208_func_021BC3A8 0x021BC3A8 thumb ov208
  *   ov208_func_021BCF4C 0x021BCF4C thumb ov208
  *   ov208_func_021BC3AC 0x021BC3AC thumb ov208
@@ -32,7 +32,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u8 *ov208_func_021BC32C(void *proc, u32 size, u32 heap);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern int ov208_func_021BC3A8(int key);
 extern void *ov208_func_021BCF4C(int a);
 extern void *ov208_func_021BC3AC(int key);
@@ -53,7 +53,7 @@ int ov208_func_021C3B6C(void *proc, int *seq, u16 *heap, u8 *unused, int key)
     u8 i;
     p = ov208_func_021BC32C(proc, 0x6e4, *heap);
     i = 0;
-    func_02082BCC(p, 0, 0x6e4);
+    MI_CpuFill8(p, 0, 0x6e4);
     PW(0) = ov208_func_021BCF4C(ov208_func_021BC3A8(key));
     PW(4) = ov208_func_021BC3AC(key);
     for (i = 0; i < 4; i++) {

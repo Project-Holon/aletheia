@@ -17,7 +17,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   gFrameListSourceFile     0x021B9574  data  ov067  a1
- *   func_0201C450  0x0201C450  thumb
+ *   PRINTSYS_QUE_CreateEx  0x0201C450  thumb
  *   BLINK_PALANM_Create  0x0202E940  thumb
  *   _s32_div_f     0x0209C0A4  arm
  *   BGWINFRM_Create  0x0202C9B4  thumb
@@ -91,7 +91,7 @@ extern const char gFrameListSourceFile[];
 
 struct CodeIn;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_0201C450(u16 n, u32 heap);
+extern void *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
 extern struct CodeIn *BLINK_PALANM_Create(u16 a0, u16 a1, u32 a2, u16 heap);
 extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
@@ -109,7 +109,7 @@ S *FRAME_LIST_Create(Tmpl *tmpl, u32 heap)
     p->f98 = heap;
     p->f54 = -1;
     p->f58 = -1;
-    p->f34 = func_0201C450(0x800, heap);
+    p->f34 = PRINTSYS_QUE_CreateEx(0x800, heap);
     p->f30 = BLINK_PALANM_Create(p->t.f11 << 4, 0x10, p->t.f0, p->f98);
     p->f28 = func_02030734(p->f98, p->t.f14 * 8, 1, gFrameListSourceFile, 0x104);
     if (p->t.f16 != 0) {

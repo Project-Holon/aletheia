@@ -10,7 +10,7 @@
  * note: Full u16 cast around the BG0 priority update preserves the full complement and bics.
  * volatile: DISP3DCNT re-read at 021B7D72, 021B7D7E, 021B7D88, 021B7D92, 021B7D9E.
  * symbols:
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
@@ -29,7 +29,7 @@ extern const u8 d_021B92B4[];
 #define D (*(volatile u16 *)0x04000060)
 void func_021B7D58(void) {
  unsigned i;
- func_020434DC(1,1);
+ BG_SYS_SetMainPlaneVisible(1,1);
  *(volatile u16 *)0x04000008 = (u16)(*(volatile u16 *)0x04000008 & ~3);
  D=(D & ~0x3002)|2;
  D &= (u16)~0x3010;

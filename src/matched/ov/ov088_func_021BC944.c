@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   tbl_020A1B38   0x020A1B38  data
+ *   FX_SinCosTable_   0x020A1B38  data
  *   func_02061CA4  0x02061CA4  arm
  */
 
@@ -26,7 +26,7 @@ typedef struct W {
     u16 f1a;
 } W;
 
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
 s32 STARTMENU_ConfigPromptPulseColor(W *w)
@@ -40,7 +40,7 @@ s32 STARTMENU_ConfigPromptPulseColor(W *w)
         w->f18 = w->f18 - 0xFC00;
     else
         w->f18 = n;
-    v = tbl_020A1B38[(w->f18 >> 4) * 2 + 1] + 0x1000;
+    v = FX_SinCosTable_[(w->f18 >> 4) * 2 + 1] + 0x1000;
     s = v / 2;
     b = (u8)(0x1d + (-(s * 8) >> 12));
     r = (u8)(0x19 + (s * -0x14 >> 12));

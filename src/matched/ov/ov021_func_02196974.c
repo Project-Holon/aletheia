@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AA1C  0x0201AA1C  thumb
+ *   POKEPARTY_GetNonEggCount  0x0201AA1C  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   IRCBATTLEMENU_SetSeq  0x02196034  thumb  ov021
  *   IRCBATTLEMENU_PrintMessage  0x02197644  thumb  ov021
@@ -24,11 +24,11 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 struct BigObj;
 struct Obj;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern u32 func_0201AA1C(void *p);
+extern u32 POKEPARTY_GetNonEggCount(void *p);
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void IRCBATTLEMENU_SetSeq(u8 *p, void *fn, u32 n);
@@ -44,39 +44,39 @@ int IRCBATTLEMENU_TouchTopMenu(u32 s, u8 *p)
     switch (s) {
     case 0:
     case 5:
-        func_020061E4(0x73B);
+        GFL_USE_PlaySeDefaultVolume(0x73B);
         IRCBATTLEMENU_SetSeq(p, (void *)IRCBATTLEMENU_SeqPressTopButton, 0x3DE);
         r = 1;
         ((struct Obj03115 *)p)->f8 = 1;
         break;
     case 1:
     case 6:
-        if ((int)func_0201AA1C(GAME_DATA_GetMyParty(((struct Obj03115 *)p)->f30)) < 2) {
+        if ((int)POKEPARTY_GetNonEggCount(GAME_DATA_GetMyParty(((struct Obj03115 *)p)->f30)) < 2) {
             MSGDATA_ReadString((struct MsgBank *)(((struct Obj03115 *)p)->f28), 0x2C, (void *)(((struct Obj03115 *)p)->f38));
             IRCBATTLEMENU_PrintMessage(p, 0);
             IRCBATTLEMENU_SetSeq(p, (void *)IRCBATTLEMENU_SeqWaitNotEnoughMsg, 0x3EA);
         } else {
-            func_020061E4(0x73B);
+            GFL_USE_PlaySeDefaultVolume(0x73B);
             ((struct Obj03115 *)p)->f8 = 6;
             IRCBATTLEMENU_SetSeq(p, (void *)IRCBATTLEMENU_SeqPressTopButton, 0x3F0);
             r = 1;
         }
         break;
     case 2:
-        func_020061E4(0x73B);
+        GFL_USE_PlaySeDefaultVolume(0x73B);
         ((struct Obj03115 *)p)->f8 = 8;
         IRCBATTLEMENU_SetSeq(p, (void *)IRCBATTLEMENU_SeqPressTopButton, 0x3F6);
         r = 1;
         break;
     case 3:
     case 7:
-        func_020061E4(0x73B);
+        GFL_USE_PlaySeDefaultVolume(0x73B);
         ((struct Obj03115 *)p)->f8 = 7;
         IRCBATTLEMENU_SetSeq(p, (void *)IRCBATTLEMENU_SeqPressTopButton, 0x3FD);
         r = 1;
         break;
     case 4:
-        func_020061E4(0x73C);
+        GFL_USE_PlaySeDefaultVolume(0x73C);
         ((struct Obj03115 *)p)->f8 = 0xC;
         IRCBATTLEMENU_SetSeq(p, (void *)IRCBATTLEMENU_SeqPressTopButton, 0x404);
         break;

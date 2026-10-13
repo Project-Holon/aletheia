@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_TOKUSEI_AddIllusion
+ * function: HAND_TOKUSEI_AddIllusion
  * address: 0x021DCDC4
  * packet: pkt_ov093_021DCDC4
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DCAE8.c and filed here.
  *
  * symbols:
- *   gHandlerTableIllusion 0x021F0B60 data ov093 a4
+ *   gIllusionHandlers 0x021F0B60 data ov093 a4
  */
 
-int *BTL_HANDLER_TOKUSEI_AddIllusion(int *p);
-extern int gHandlerTableIllusion[];
+int *HAND_TOKUSEI_AddIllusion(int *p);
+extern int gIllusionHandlers[];
 
-int *BTL_HANDLER_TOKUSEI_AddIllusion(int *p)
+int *HAND_TOKUSEI_AddIllusion(int *p)
 {
     *p = 3;
-    return gHandlerTableIllusion;
+    return gIllusionHandlers;
 }

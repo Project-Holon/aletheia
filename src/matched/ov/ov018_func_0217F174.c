@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B6F4 0x0204B6F4 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  */
 #include "../include/Obj09396.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 void INTRUDE_SUBDISP_StartButtonBlink(u8 *p)
 {
     p[0x117] = 0;
     p[0x116] = 1;
-    func_0204B6F4(((struct Obj09396 *)p)->f9C, 6, 1);
+    CLACT_SetActorPaletteOffset(((struct Obj09396 *)p)->f9C, 6, 1);
 }

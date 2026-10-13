@@ -44,7 +44,7 @@
  *   G3D_SYSTEM_GetRenderObj  0x0204755C  arm
  *   VEC_Add        0x0207C9D0  arm
  *   MTX_RotY33_    0x0207AF1C  thumb
- *   tbl_020A1B38   0x020A1B38  data
+ *   FX_SinCosTable_   0x020A1B38  data
  *   func_0207CA00  0x0207CA00  arm
  *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
  *   NNS_G3dGetMdlSet  0x0206E954  arm
@@ -160,7 +160,7 @@ extern u8 d_02148C08[];
 extern FieldG3dMapGlbState d_02148BCC;
 extern u8 d_02172160[];
 extern u8 gG3dBaseMtx43[];
-extern short tbl_020A1B38[];
+extern short FX_SinCosTable_[];
 extern u32 (*g_020A8140)(u32 size, u32 is4x4, u32 opt);
 extern u32 (*g_020A8148)(u32 size, u32 is4pltt, u32 opt);
 extern void (*d_020A814C)(u32);
@@ -630,8 +630,8 @@ void FIELD_G3D_MAP_DrawPlacedModels(FieldG3dMap *map, int unused)
             continue;
         }
         angleIndex = map->placementsA[i].angle >> 4;
-        sinAngle = tbl_020A1B38[angleIndex * 2];
-        cosAngle = tbl_020A1B38[angleIndex * 2 + 1];
+        sinAngle = FX_SinCosTable_[angleIndex * 2];
+        cosAngle = FX_SinCosTable_[angleIndex * 2 + 1];
         func_0206DDA4(0x17, gG3dBaseMtx43, 12);
         VEC_Add(&map->pos, &map->placementsA[i].pos, &mtx.trans);
         MTX_RotY33_(&mtx, sinAngle, cosAngle);

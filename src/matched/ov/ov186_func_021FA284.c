@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021FAD04 0x021FAD04 thumb ov186
  *   func_021FAF24 0x021FAF24 thumb ov186
  *   func_021FD15C 0x021FD15C thumb ov186
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021FD860 0x021FD860 thumb ov186
  *   func_021FAFCC 0x021FAFCC thumb ov186
  *   func_021FD73C 0x021FD73C thumb ov186
@@ -26,10 +26,10 @@
 #include "../include/Obj00313.h"
 typedef struct {int x,y;} Pair;
 typedef unsigned int   u32;
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int func_021FAD04(int *,int,int),func_021FAF24(char *,int);
 extern void func_021FD15C(void *p, int a1);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021FD860(char *,unsigned,const Pair *);
 extern void func_021FAFCC(char *p, unsigned value);
 extern int *func_021FD73C(int *p, int v);
@@ -43,7 +43,7 @@ void func_021FA284(void *p,int *state,unsigned char *ctx)
 {
  int found,i,x,y,kind;
  found=0;((struct Obj00313 *)ctx)->f18=0;((struct Obj00313 *)ctx)->f14=0;
- if(func_02035D20((u32 *)(&x),(u32 *)(&y))){
+ if(TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y))){
   for(i=0;i<ctx[0x38];i++){
    if(func_021FAD04((int *)(*(char * *)&((struct Obj00313 *)ctx)->f40+i*0x44),x,y)){
     if(func_021FAF24(*(char * *)&((struct Obj00313 *)ctx)->f40+i*0x44,3)){
@@ -51,7 +51,7 @@ void func_021FA284(void *p,int *state,unsigned char *ctx)
       func_021FD15C((void *)(((struct Obj00313 *)ctx)->f50),((struct Obj00313 *)ctx)->f4);
       ((struct Obj00313 *)ctx)->f50=0;
      }
-     func_020061E4(0x703);
+     GFL_USE_PlaySeDefaultVolume(0x703);
      ((struct Obj00313 *)ctx)->f2C=i;
      found=1;
      ((struct Obj00313 *)ctx)->f30=x;((struct Obj00313 *)ctx)->f34=y;
@@ -61,7 +61,7 @@ void func_021FA284(void *p,int *state,unsigned char *ctx)
     }else{
      kind=func_021FAF24(*(char * *)&((struct Obj00313 *)ctx)->f40+i*0x44,5);
      func_021FAF24(*(char * *)&((struct Obj00313 *)ctx)->f40+i*0x44,6);
-     func_020061E4(0x704);
+     GFL_USE_PlaySeDefaultVolume(0x704);
      if(kind==1){((struct Obj00313 *)ctx)->f2C=i;func_021FD73C(p,(int)func_021FAA74);}
     }
     break;

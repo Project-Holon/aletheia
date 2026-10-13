@@ -27,13 +27,13 @@
  *   BMP_GetHeight  0x020437E4  arm
  *   CLACT_RegisterEmptyCharacter  0x0204A7A0  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B6F4  0x0204B6F4  arm
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   CLACT_SetActorVisible  0x0204BA20  arm
  *   gModeTable     0x0209F87C  data
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B3F4  0x0204B3F4  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   BMP_GetByteSize  0x020437EC  arm
  *   func_020862F0  0x020862F0  arm
@@ -41,8 +41,8 @@
  *   GX_LoadOBJ     0x0207E780  arm
  *   GXS_LoadOBJ    0x0207E804  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   func_0204B404  0x0204B404  arm
- *   func_0204B688  0x0204B688  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
+ *   CLACT_SetActorObjMode  0x0204B688  arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
@@ -140,12 +140,12 @@ extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern s32 CLACT_RegisterEmptyCharacter(u32 size, u32 engine, u16 heapId);
 extern struct Actor *CLACT_CreateActor(void *clact, u32 charRes, u32 animResId, s32 resSlot,
                                    const struct ActorInitParam *initParam, u16 space, u16 heapId);
-extern void func_0204B6F4(struct Actor *actor, u32 palette, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 palette, u32 flag);
 extern void CLACT_SetActorVisible(struct Actor *actor, u32 visible);
 extern void CLACT_ReleaseCharacter(u32 charRes);
 extern void CLACT_DeleteActor(struct Actor *actor);
-extern void func_0204B3DC(struct Actor *actor, unsigned int enabled);
-extern u32 func_0204B3F4(struct Actor *actor);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int enabled);
+extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void  func_020862F0(void *buf, u32 size);
@@ -154,8 +154,8 @@ extern void  GX_LoadOBJ(void *src, u32 off, u32 n);
 extern void  GXS_LoadOBJ(void *src, u32 off, u32 n);
 extern int CLACT_GetPaletteVramAddress(int charOffset, int bank);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct OamPos *out, u16 space);
-extern void func_0204B404(struct Actor *actor, const struct OamPos *pos, u32 space);
-extern void func_0204B688(struct Actor *actor, u32 objMode);
+extern void CLACT_AddActorSurfacePos(struct Actor *actor, const struct OamPos *pos, u32 space);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 objMode);
 extern void CLACT_SetActorDrawPriority(struct Actor *actor, u32 drawPriority);
 extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 bgPriority);
 extern s32 CLACT_RegisterCellAnim(void *arcTool, u32 arcId, u32 entryId, u32 heapId);
@@ -456,7 +456,7 @@ struct BmpOam *BMP_OAM_Create(struct BmpOamSys *sys, const struct BmpOamParam *p
                                                   param->space, sys->heapId);
                 u32 palette = (u8)param->palette;
                 cell->act[0] = actor;
-                func_0204B6F4(actor, palette, 0);
+                CLACT_SetActorPaletteOffset(actor, palette, 0);
             }
             CLACT_SetActorVisible(cell->act[0], 0);
         }
@@ -488,7 +488,7 @@ void BMP_OAM_SetEnabled(struct BmpOam *bmpOam, u32 enabled)
 
     for (rowIdx = 0; rowIdx < bmpOam->rows; rowIdx++) {
         for (colIdx = 0; colIdx < bmpOam->cols; colIdx++) {
-            func_0204B3DC(bmpOam->act[rowIdx * bmpOam->cols + colIdx], enabled);
+            CLACT_SetActorDrawEnable(bmpOam->act[rowIdx * bmpOam->cols + colIdx], enabled);
         }
     }
 }
@@ -496,7 +496,7 @@ void BMP_OAM_SetEnabled(struct BmpOam *bmpOam, u32 enabled)
 /* Forwards the state of the first actor. */
 int BMP_OAM_GetEnabled(const struct BmpOam *bmpOam)
 {
-    return func_0204B3F4(bmpOam->act[0]);
+    return CLACT_GetActorDrawEnable(bmpOam->act[0]);
 }
 
 /*
@@ -599,7 +599,7 @@ void BMP_OAM_SetPos(struct BmpOam *bmpOam, s16 x, s16 y)
         for (colIdx = 0; colIdx < bmpOam->cols; colIdx++) {
             pos.x = (s16)(x + (colIdx << 5));
             pos.y = (s16)(y + (rowIdx << 4));
-            func_0204B404(bmpOam->act[colIdx + rowIdx * bmpOam->cols], &pos, bmpOam->space);
+            CLACT_AddActorSurfacePos(bmpOam->act[colIdx + rowIdx * bmpOam->cols], &pos, bmpOam->space);
         }
     }
 }
@@ -611,7 +611,7 @@ void BMP_OAM_SetObjMode(struct BmpOam *bmpOam, u32 objMode)
 
     for (rowIdx = 0; rowIdx < bmpOam->rows; rowIdx++) {
         for (colIdx = 0; colIdx < bmpOam->cols; colIdx++) {
-            func_0204B688(bmpOam->act[rowIdx * bmpOam->cols + colIdx], objMode);
+            CLACT_SetActorObjMode(bmpOam->act[rowIdx * bmpOam->cols + colIdx], objMode);
         }
     }
 }
@@ -647,7 +647,7 @@ void BMP_OAM_SetPalette(struct BmpOam *bmpOam, u32 palette)
 
     for (rowIdx = 0; rowIdx < bmpOam->rows; rowIdx++) {
         for (colIdx = 0; colIdx < bmpOam->cols; colIdx++) {
-            func_0204B6F4(bmpOam->act[rowIdx * bmpOam->cols + colIdx], palette, 0);
+            CLACT_SetActorPaletteOffset(bmpOam->act[rowIdx * bmpOam->cols + colIdx], palette, 0);
         }
     }
 }

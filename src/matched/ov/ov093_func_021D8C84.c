@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_GetOvergrowHandlers
+ * function: HAND_TOKUSEI_GetOvergrowHandlers
  * address: 0x021D8C84
  * packet: pkt_ov093_021D8C84
  * region: ov093
@@ -15,10 +15,10 @@
  *   gOvergrowHandlers 0x021F0648 data ov093 a4
  */
 
-int *BTL_CALC_GetOvergrowHandlers(int *p);
+int *HAND_TOKUSEI_GetOvergrowHandlers(int *p);
 extern int gOvergrowHandlers[];
 
-int *BTL_CALC_GetOvergrowHandlers(int *p)
+int *HAND_TOKUSEI_GetOvergrowHandlers(int *p)
 {
     *p = 1;
     return gOvergrowHandlers;

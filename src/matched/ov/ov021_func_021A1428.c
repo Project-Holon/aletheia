@@ -1,5 +1,5 @@
 /*
- * function: func_021A1428
+ * function: FIELD_SUBSCREEN_InitBeaconView
  * address:  0x021A1428
  * packet:   pkt_ov021_021A1428
  * region:   ov021
@@ -27,7 +27,7 @@ extern int func_02034AC4(int);
 extern void *FIELDMAP_GetGameSystem(void *p);
 extern char *BEACON_VIEW_Create(u32 a0, u32 a1);
 
-void func_021A1428(u32 *p)
+void FIELD_SUBSCREEN_InitBeaconView(u32 *p)
 {
     func_02034AC4((int)abs_id_20);
     p[8] = (u32)BEACON_VIEW_Create((u32)FIELDMAP_GetGameSystem((void *)p[5]), (u32)p);

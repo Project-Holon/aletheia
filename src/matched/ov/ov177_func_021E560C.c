@@ -11,11 +11,11 @@
  *
  * symbols:
  *   d_021E8B10      0x021E8B10  data
- *   func_02082BCC   0x02082BCC  arm
+ *   MI_CpuFill8   0x02082BCC  arm
  *   CLACT_InitSystem   0x0204A48C  arm
  *   CLACT_CreateUnit   0x0204B100  arm
  *   CLACT_SetUnitDefaultRenderer   0x0204B270  arm
- *   func_020434DC   0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible   0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible   0x02043598  arm
  *
  * Bring up the graphics object: clear four words, submit the table and
@@ -24,7 +24,7 @@
 
 
 extern unsigned char d_021E8B10[];
-extern void func_02082BCC(int, int, int);
+extern void MI_CpuFill8(int, int, int);
 typedef unsigned char  u8;
 struct Bank;
 struct Cfg;
@@ -33,15 +33,15 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 typedef unsigned int   u32;
 struct Bank;
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
 void func_021E560C(int *p, int b, int c)
 {
-    func_02082BCC((int)p, 0, 4);
+    MI_CpuFill8((int)p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)d_021E8B10, b, c);
     p[0] = (int)CLACT_CreateUnit(0x80, 0, c);
     CLACT_SetUnitDefaultRenderer((void *)p[0]);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }

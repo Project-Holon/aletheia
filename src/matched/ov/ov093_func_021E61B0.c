@@ -1,5 +1,5 @@
 /*
- * function: func_021E61B0
+ * function: HAND_WAZA_GetFlyHandlers
  * address: 0x021E61B0
  * packet: pkt_ov093_021E61B0
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E6164.c and filed here.
  *
  * symbols:
- *   d_021F2A88 0x021F2A88 data ov093 a4
+ *   gFlyHandlers 0x021F2A88 data ov093 a4
  */
 
-extern int d_021F2A88[];
-int *func_021E61B0(int *p);
+extern int gFlyHandlers[];
+int *HAND_WAZA_GetFlyHandlers(int *p);
 
-int *func_021E61B0(int *p)
+int *HAND_WAZA_GetFlyHandlers(int *p)
 {
     *p = 2;
-    return d_021F2A88;
+    return gFlyHandlers;
 }

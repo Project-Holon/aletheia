@@ -26,8 +26,8 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   func_021BC5C4 0x021BC5C4 thumb ov216
  *   func_021BC614 0x021BC614 thumb ov216
- *   func_0204B688 0x0204B688 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -42,8 +42,8 @@ extern void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *,u32);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void func_021BC5C4(struct Window *,u8,u8,u32,u8,u8,u8);
 extern void *func_021BC614(void *,void *,void *,short,short,u8,u8,u8,u16);
-extern void func_0204B688(struct Actor *,u32);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorObjMode(struct Actor *,u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 void func_021BC70C(char *p)
 {
     void *manager;
@@ -64,10 +64,10 @@ void func_021BC70C(char *p)
         func_021BC5C4((struct Window *)(q+80),layer,i,3,11,28,4);
         func_021BC5C4((struct Window *)(q+96),layer,i,4,19,27,4);
         *(void **)(q+120)=func_021BC614(p,manager,p+104+i*12,220,44,0,1,i,1);
-        func_0204B688(*(struct Actor **)(q+120),0);
-        func_0204B3DC(*(void **)(q+120),0);
+        CLACT_SetActorObjMode(*(struct Actor **)(q+120),0);
+        CLACT_SetActorDrawEnable(*(void **)(q+120),0);
         *(void **)(q+116)=func_021BC614(p,manager,p+92,200,80,6,0,i,1);
-        func_0204B688(*(struct Actor **)(q+116),1);
-        func_0204B3DC(*(void **)(q+116),0);
+        CLACT_SetActorObjMode(*(struct Actor **)(q+116),1);
+        CLACT_SetActorDrawEnable(*(void **)(q+116),0);
     }
 }

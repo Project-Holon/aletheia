@@ -11,8 +11,8 @@
  *
  * symbols:
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
- *   func_021CC8C0  0x021CC8C0  thumb  ov093
- *   func_021C8810  0x021C8810  thumb  ov093
+ *   BTL_SERVER_FLOW_ReadSlotTableEntry  0x021CC8C0  thumb  ov093
+ *   BTL_SERVER_FLOW_ClearMsgRecord  0x021C8810  thumb  ov093
  *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
  *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
  *   BTL_EVENT_SetVarOnce  0x021D7630  thumb  ov093
@@ -25,8 +25,8 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 struct Bf { u8 pad[0x10]; u32 f : 1; };
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern u32 func_021CC8C0(u32 *p, u32 i);
-extern void func_021C8810(u8 *p);
+extern u32 BTL_SERVER_FLOW_ReadSlotTableEntry(u32 *p, u32 i);
+extern void BTL_SERVER_FLOW_ClearMsgRecord(u8 *p);
 extern void BTL_EVENT_PushVarFrame(int line);
 extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
 extern void BTL_EVENT_SetVarOnce(int key, u32 val);
@@ -38,8 +38,8 @@ int BTL_SERVER_FLOW_RunTargetNoEffectEvent(u8 *p, u8 *b, int c, u8 *d, u8 *e, vo
 {
     u32 t;
     int r;
-    t = func_021CC8C0(f, BTL_POKEPARAM_GetPokeId(e));
-    func_021C8810(g);
+    t = BTL_SERVER_FLOW_ReadSlotTableEntry(f, BTL_POKEPARAM_GetPokeId(e));
+    BTL_SERVER_FLOW_ClearMsgRecord(g);
     BTL_EVENT_PushVarFrame(4834);
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(d));
     BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(e));

@@ -23,9 +23,9 @@
  *   func_021DA8B0 0x021DA8B0 thumb ov121
  *   func_021DC08C 0x021DC08C thumb ov121
  *   func_021DC734 0x021DC734 thumb ov121
- *   func_02082BCC 0x02082BCC arm
- *   func_0204B404 0x0204B404 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   MI_CpuFill8 0x02082BCC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   data_021DF86E 0x021DF86E data a1
  */
 #include "../include/Obj00169.h"
@@ -53,9 +53,9 @@ extern int func_021DC030(u32 p);
 extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021DC08C(void *task, u32 *state, char *p);
 extern void func_021DC734(void *task, u32 *state, char *p);
-extern void func_02082BCC(void *,int,u32);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void MI_CpuFill8(void *,int,u32);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 void func_021DC4F0(void *task,u32 *state,u8 *p)
 {
     Desc d;
@@ -71,7 +71,7 @@ void func_021DC4F0(void *task,u32 *state,u8 *p)
         *state=1;
         break;
     case 1:
-        func_02082BCC(&d,0,36);
+        MI_CpuFill8(&d,0,36);
         d.v[0]=*(u32 *)&((struct Obj00169 *)p)->f1C; d.v[1]=*(u32 *)&((struct Obj00169 *)p)->f10; d.v[2]=*(u32 *)&((struct Obj00169 *)p)->f14;
         d.v[3]=117;d.v[4]=118;d.v[5]=119;d.v[6]=3;
         d.a=0;d.b=15;d.c=13;d.d=1;
@@ -86,8 +86,8 @@ void func_021DC4F0(void *task,u32 *state,u8 *p)
             ((struct Obj00169 *)p)->fAE0=1;
             v.x=data_021DF86E[*(u32 *)(p+0xacc)].x*8-24;
             v.y=data_021DF86E[*(u32 *)(p+0xacc)].y*8-8;
-            func_0204B404(((struct Obj00169 *)p)->fAF0,(const struct Vec2 *)(&v),0);
-            func_0204B3DC(((struct Obj00169 *)p)->fAF0,1);
+            CLACT_AddActorSurfacePos(((struct Obj00169 *)p)->fAF0,(const struct Vec2 *)(&v),0);
+            CLACT_SetActorDrawEnable(((struct Obj00169 *)p)->fAF0,1);
             ((struct Obj00169 *)p)->fADE=((struct Obj00169 *)p)->fACC+((struct Obj00169 *)p)->fAC8*4;
             if (((struct Obj00169 *)p)->fAC0) {func_021DA148(((struct Obj00169 *)p)->fAC0);((struct Obj00169 *)p)->fAC0=0;}
             if (*(u8 * *)&((struct Obj00169 *)p)->fABC) {func_021D9E04(*(u8 * *)&((struct Obj00169 *)p)->fABC);((struct Obj00169 *)p)->fABC=0;}

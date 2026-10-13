@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_GetMagicGuardHandlers
+ * function: HAND_TOKUSEI_GetMagicGuardHandlers
  * address: 0x021DB9AC
  * packet: pkt_ov093_021DB9AC
  * region: ov093
@@ -12,4 +12,4 @@
  *   gMagicGuardHandlers 0x021F06F8 data a4
  */
 extern int gMagicGuardHandlers;
-int *BTL_TOKUSEI_GetMagicGuardHandlers(int *p) { *p=1; return &gMagicGuardHandlers; }
+int *HAND_TOKUSEI_GetMagicGuardHandlers(int *p) { *p=1; return &gMagicGuardHandlers; }

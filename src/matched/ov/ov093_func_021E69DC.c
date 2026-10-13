@@ -1,5 +1,5 @@
 /*
- * function: func_021E69DC
+ * function: HAND_WAZA_AddFocusPunch
  * address: 0x021E69DC
  * packet: pkt_ov093_021E69DC
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E6994.c and filed here.
  *
  * symbols:
- *   d_021F2734 0x021F2734 data ov093 a4
+ *   gFocusPunchHandlers 0x021F2734 data ov093 a4
  */
 
-extern int d_021F2734[];
-int *func_021E69DC(int *p);
+extern int gFocusPunchHandlers[];
+int *HAND_WAZA_AddFocusPunch(int *p);
 
-int *func_021E69DC(int *p)
+int *HAND_WAZA_AddFocusPunch(int *p)
 {
     *p = 1;
-    return d_021F2734;
+    return gFocusPunchHandlers;
 }

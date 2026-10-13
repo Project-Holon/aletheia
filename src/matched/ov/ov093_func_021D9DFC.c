@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D9ADC.c and filed here.
  *
  * symbols:
- *   d_021F0830 0x021F0830 data ov093 a4
+ *   gEffectSporeHandlers 0x021F0830 data ov093 a4
  */
 
 int *HAND_TOKUSEI_AddEffectSpore(int *p);
-extern int d_021F0830[];
+extern int gEffectSporeHandlers[];
 
 int *HAND_TOKUSEI_AddEffectSpore(int *p)
 {
     *p = 1;
-    return d_021F0830;
+    return gEffectSporeHandlers;
 }

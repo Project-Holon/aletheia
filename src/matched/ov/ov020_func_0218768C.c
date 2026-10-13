@@ -1,5 +1,5 @@
 /*
- * function: func_0218768C
+ * function: EL_SCOREBOARD_TickLamp
  * address: 0x0218768C
  * packet: pkt_ov020_0218768C
  * region: ov020
@@ -10,12 +10,12 @@
  * status: EXACT
  * lever: capture the base in a local before filling the stack pair, preserving the original r3 load.
  * symbols:
- *   func_021876B0 0x021876B0 thumb ov020
+ *   EL_SCOREBOARD_AnimateLampPalette 0x021876B0 thumb ov020
  */
 #include "../include/Obj07404.h"
 typedef struct { int index; char *base; } Pair;
-extern void func_021876B0(Pair *p, int tick);
-void func_0218768C(char *p)
+extern void EL_SCOREBOARD_AnimateLampPalette(Pair *p, int tick);
+void EL_SCOREBOARD_TickLamp(char *p)
 {
     Pair pair;
     char *base;
@@ -24,6 +24,6 @@ void func_0218768C(char *p)
     if (base != (char *)-1) {
         pair.index = ((struct Obj07404 *)p)->fC;
         pair.base = base;
-        func_021876B0(&pair, ((struct Obj07404 *)p)->f18);
+        EL_SCOREBOARD_AnimateLampPalette(&pair, ((struct Obj07404 *)p)->f18);
     }
 }

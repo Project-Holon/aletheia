@@ -14,7 +14,7 @@
  *   func_02034AC4 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   tbl_021BAC80 0x021BAC80 data ov218 a4
  *   func_021BA780 0x021BA780 thumb ov218
  *   func_0207D534 0x0207D534 arm
@@ -48,7 +48,7 @@ extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,u32,u32);
+extern void MI_CpuFill8(void *,u32,u32);
 extern u32 func_021BA780(int);
 struct R;
 extern void func_0207D534(volatile u16 *reg, int brightness);
@@ -74,7 +74,7 @@ char *func_021B9E48(void *owner,char *input)
     func_02034AC4((int)ov067_id);
     GFL_HEAP_CreateChildHeap(1,122,0x30000);
     p=PROCSYS_AllocProcWork(owner,0x330,122);
-    func_02082BCC(p,0,0x330);
+    MI_CpuFill8(p,0,0x330);
     ((struct Obj00243 *)p)->f0=122;
     *(char * *)&((struct Obj00243 *)p)->f20=input;
     for(i=0;i<130;i++) {

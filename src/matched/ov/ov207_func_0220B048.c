@@ -20,6 +20,8 @@
  *   overlay206 0x000000CE data
  *   overlay67 0x00000043 data
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  */
 typedef unsigned int   u32;
 struct Node;
@@ -29,8 +31,8 @@ extern void func_02030EAC(struct Node *n);
 extern void func_0220B2E0(u32 *p);
 extern void func_0220B6E4(unsigned *p);
 extern void func_021BA2CC(char *p);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_0220B3B8(unsigned *p);
 extern void func_020315D4(struct S020315D4 *p);
@@ -44,8 +46,8 @@ int func_0220B048(void *a,int b,int c,unsigned *p)
     func_0220B2E0(p);
     func_0220B6E4((void *)p[9]);
     func_021BA2CC((void *)p[8]);
-    func_0201C6EC((void *)p[3]);
-    func_0201C4C0((void *)p[3]);
+    PRINTSYS_QUE_Clear((void *)p[3]);
+    PRINTSYS_QUE_Delete((void *)p[3]);
     GF_FONT_Delete((void *)p[2]);
     func_0220B3B8((void *)p[1]);
     func_020315D4(a);

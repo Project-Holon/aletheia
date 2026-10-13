@@ -19,11 +19,11 @@
  *   gDeliveryBeaconAllocSite  0x021727F4  data
  *   func_02034714 0x02034714 arm
  *   gDeliveryBeaconAssertText 0x021727F0 data a4
- *   func_02177B2C  0x02177B2C  thumb  ov014
- *   func_02177BAC  0x02177BAC  thumb  ov014
+ *   NET_WHPIPE_GetEntryBeaconData  0x02177B2C  thumb  ov014
+ *   NET_WHPIPE_ReleaseEntrySlot  0x02177BAC  thumb  ov014
  *   func_0203F1FC  0x0203F1FC  arm
  *   NET_WHPIPE_SelectEntry  0x021780C4  thumb  ov014
- *   func_02177BCC  0x02177BCC  thumb  ov014
+ *   NET_WHPIPE_ReleaseAllEntrySlots  0x02177BCC  thumb  ov014
  *   func_0203F328  0x0203F328  arm
  *   GFL_NET_BeaconScanStart 0x0203D010 arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
@@ -86,11 +86,11 @@ typedef struct DeliveryBeacon {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082D44(void *src, void *dst, u32 size);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern DeliveryBeaconSlot *func_02177B2C(int index);
-extern void func_02177BAC(u32 index);
+extern DeliveryBeaconSlot *NET_WHPIPE_GetEntryBeaconData(int index);
+extern void NET_WHPIPE_ReleaseEntrySlot(u32 index);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void NET_WHPIPE_SelectEntry(u32 index);
-extern void func_02177BCC(void);
+extern void NET_WHPIPE_ReleaseAllEntrySlots(void);
 extern void func_0203F328(u16 *data, u32 size, u32 seed);
 extern void GFL_NET_BeaconScanStart(void);
 extern int GFL_NET_GetRunState(void);
@@ -229,15 +229,15 @@ void DELIVERY_BEACON_StepCollectPieces(DeliveryBeacon *work)
     u32 crc;
 
     for (i = 0; i < 16; i++) {
-        entry = func_02177B2C(i);
+        entry = NET_WHPIPE_GetEntryBeaconData(i);
         if (entry == 0)
             continue;
         if (entry->gameVersion != work->param.gameVersion) {
-            func_02177BAC(i);
+            NET_WHPIPE_ReleaseEntrySlot(i);
         } else if ((entry->requiredMask & work->param.acceptMask) == 0) {
-            func_02177BAC(i);
+            NET_WHPIPE_ReleaseEntrySlot(i);
         } else if (entry->senderId != work->lockedSender && work->lockedSender != DELIVERY_BEACON_NO_SENDER) {
-            func_02177BAC(i);
+            NET_WHPIPE_ReleaseEntrySlot(i);
         } else {
             pieceIndex = entry->pieceNumber - 1;
             if (pieceIndex >= DELIVERY_BEACON_SLOTS_PER_PAGE)
@@ -246,13 +246,13 @@ void DELIVERY_BEACON_StepCollectPieces(DeliveryBeacon *work)
                 continue;
             crc = func_0203F1FC(entry->data, DELIVERY_BEACON_PIECE_SIZE);
             if (crc != entry->checksum) {
-                func_02177BAC(i);
+                NET_WHPIPE_ReleaseEntrySlot(i);
             } else {
                 if (work->lockedSender == DELIVERY_BEACON_NO_SENDER)
                     work->lockedSender = entry->senderId;
                 NET_WHPIPE_SelectEntry(i);
                 func_02082D44(entry, &work->slots[0][pieceIndex], sizeof(DeliveryBeaconSlot));
-                func_02177BCC();
+                NET_WHPIPE_ReleaseAllEntrySlots();
             }
         }
     }

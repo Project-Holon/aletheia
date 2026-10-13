@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_GetMummyHandlers
+ * function: HAND_TOKUSEI_GetMummyHandlers
  * address: 0x021DC9BC
  * packet: pkt_ov093_021DC9BC
  * region: ov093
@@ -15,10 +15,10 @@
  *   gMummyHandlers 0x021F0678 data ov093 a4
  */
 
-int *BTL_ABILITY_GetMummyHandlers(int *p);
+int *HAND_TOKUSEI_GetMummyHandlers(int *p);
 extern int gMummyHandlers[];
 
-int *BTL_ABILITY_GetMummyHandlers(int *p)
+int *HAND_TOKUSEI_GetMummyHandlers(int *p)
 {
     *p = 1;
     return gMummyHandlers;

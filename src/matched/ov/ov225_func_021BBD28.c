@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02045770 0x02045770 arm
- *   func_0201C6C4 0x0201C6C4 thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
 #include "../include/Obj06736.h"
@@ -21,11 +21,11 @@ typedef unsigned int u32;
 struct Descriptor;
 struct Cfg;
 struct PrintSys;
-extern void *func_02045770(struct Descriptor *p);
-extern u32 func_0201C6C4(struct PrintSys *p,void *value);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p,void *value);
 extern void BMP_WIN_TransferChars(struct Descriptor *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *p);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 channel);
 void func_021BBD28(u8 *p)
 {
@@ -35,11 +35,11 @@ void func_021BBD28(u8 *p)
     for(index=0;index<3;index++) {
         slot=p+index*4;
         if(((struct Obj06736 *)slot)->f28!=0) {
-            if(func_0201C6C4(*(struct PrintSys * *)&((struct Obj06736 *)slot)->f1C,func_02045770(*(struct Descriptor * *)&((struct Obj06736 *)slot)->f10))==0) {
+            if(PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct Obj06736 *)slot)->f1C,BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj06736 *)slot)->f10))==0) {
                 descriptor=*(struct Descriptor * *)&((struct Obj06736 *)slot)->f10;
                 BMP_WIN_TransferChars(descriptor);
                 BMP_WIN_MakeScreen((struct Cfg *)descriptor);
-                func_02041B6C(func_02045730(descriptor));
+                func_02041B6C(BMP_WIN_GetBgLayer(descriptor));
                 ((struct Obj06736 *)slot)->f28=0;
             }
         }

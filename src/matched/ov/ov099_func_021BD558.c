@@ -8,19 +8,19 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_021BC06C 0x021BC06C thumb ov099
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  */
 #include "../include/Obj04412.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_021BC06C(char *);
 extern void func_021BAAB8(char *, int, int);
 int func_021BD558(char *p, int v)
 {
-    if (func_020362DC() != 0) {
+    if (KEY_GetTrg() != 0) {
         func_021BC06C(p);
         func_021BAAB8(p, 0x71, 0);
         ((struct Obj04412 *)p)->f1CC = 0x65;

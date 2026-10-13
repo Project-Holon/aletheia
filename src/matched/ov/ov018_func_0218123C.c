@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_TogglePeerFlags  0x0215839C  thumb  ov010
@@ -21,7 +21,7 @@
  *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb
  *   EVENT_COMM_COMMON_IsKeyTrg  0x0217F420  thumb
  *   INTRUDE_COMM_TakeRequestResult  0x02175514  thumb  ov011
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   INTRUDE_COMM_SendAnswer  0x02173B9C  thumb
  *   INTRUDE_COMM_NextRequestToken  0x021753B8  thumb
  *   INTRUDE_CMD_SendProposal  0x0217405C  thumb
@@ -31,8 +31,8 @@
  *   INTRUDE_LINK_CreateEvent  0x021766CC  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   EVENT_COMM_COMMON_ExitCommonWork  0x0217FE38  thumb
- *   func_02026454  0x02026454  thumb
- *   func_02026474  0x02026474  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
+ *   GAME_COMM_GetWork  0x02026474  thumb
  *   EVENT_COMM_COMMON_CreateMissionResultEvent  0x021804F8  thumb
  *   INTRUDE_SUBDISP_CreateDisconnectEvent  0x0217CA84  thumb
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
@@ -93,7 +93,7 @@ struct Evt;
 struct Obj;
 struct S0201235C;
 struct WordSet;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 struct Ctx;
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *);
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
@@ -106,7 +106,7 @@ void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, u16 a);
 int EVENT_COMM_COMMON_IsPrintFinished(Ov018Obj *p);
 int EVENT_COMM_COMMON_IsKeyTrg(void);
 int INTRUDE_COMM_TakeRequestResult(u8 *p);
-u32 func_020362DC(void);
+u32 KEY_GetTrg(void);
 int INTRUDE_COMM_SendAnswer(int, int);
 void INTRUDE_COMM_NextRequestToken(void *);
 int INTRUDE_CMD_SendProposal(void *, void *);
@@ -116,8 +116,8 @@ int INTRUDE_COMM_SendPeerFlags(void *, int, int);
 void *INTRUDE_LINK_CreateEvent(void *, int *);
 void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 void EVENT_COMM_COMMON_ExitCommonWork(void *v, Ov018Outer *c);
-u32 func_02026454(void *obj);
-u32 func_02026474(void *obj);
+u32 GAME_COMM_GetKind(void *obj);
+u32 GAME_COMM_GetWork(void *obj);
 void *EVENT_COMM_COMMON_CreateMissionResultEvent(void *, int);
 int INTRUDE_SUBDISP_CreateDisconnectEvent(void *a, int b);
 void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
@@ -129,7 +129,7 @@ int EVENT_COMM_COMMON_BattleRequestEventMain(void *a, int *state, Ov018Outer *c)
     u8 *v;
     void *r;
 
-    sub = func_020124E4(a);
+    sub = GAME_EVENT_GetGameSystem(a);
     t = (void *)GAMESYSTEM_GetGameComm(sub);
     v = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)t);
     if (v == 0) {
@@ -162,7 +162,7 @@ int EVENT_COMM_COMMON_BattleRequestEventMain(void *a, int *state, Ov018Outer *c)
                 *state = 11;
                 break;
             default:
-                if ((func_020362DC() & 2) && INTRUDE_COMM_SendAnswer(v[0x154], v[0x158]) == 1) {
+                if ((KEY_GetTrg() & 2) && INTRUDE_COMM_SendAnswer(v[0x154], v[0x158]) == 1) {
                     INTRUDE_COMM_NextRequestToken(v);
                     *state = 12;
                 }
@@ -193,7 +193,7 @@ int EVENT_COMM_COMMON_BattleRequestEventMain(void *a, int *state, Ov018Outer *c)
     case 6:
         if (INTRUDE_COMM_TogglePeerFlags(v, 1, c->f40) == 1) {
             *state = 7;
-        } else if ((func_020362DC() & 2) && INTRUDE_COMM_SendAnswer(v[0x154], v[0x158]) == 1) {
+        } else if ((KEY_GetTrg() & 2) && INTRUDE_COMM_SendAnswer(v[0x154], v[0x158]) == 1) {
             INTRUDE_COMM_NextRequestToken(v);
             *state = 12;
         }
@@ -242,8 +242,8 @@ int EVENT_COMM_COMMON_BattleRequestEventMain(void *a, int *state, Ov018Outer *c)
         break;
     case 15:
         EVENT_COMM_COMMON_ExitCommonWork(v, c);
-        if (func_02026454(t) == 2 && func_02026474(t) != 0) {
-            INTRUDE_COMM_SetLock((void *)func_02026474(t), 0);
+        if (GAME_COMM_GetKind(t) == 2 && GAME_COMM_GetWork(t) != 0) {
+            INTRUDE_COMM_SetLock((void *)GAME_COMM_GetWork(t), 0);
         }
         if (c->fA8 == 1) {
             r = EVENT_COMM_COMMON_CreateMissionResultEvent(sub, c->fA8);

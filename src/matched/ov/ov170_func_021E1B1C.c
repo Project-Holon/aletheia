@@ -12,7 +12,7 @@
  * Sibling of src/matched/ov170_func_021DFA30.c.
  *
  * symbols:
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_020260E4 0x020260E4 thumb
  *   BGWINFRM_IsMoving 0x0202CE40 thumb
  *   TOUCHPANEL_GetCont 0x02035C38 arm
@@ -68,7 +68,7 @@ extern void func_021EF57C(struct WinMgr *mgr);
 extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
 extern int func_021EF770(struct WinMgr *mgr);
 extern int func_021DE158(unsigned char *p, unsigned a, unsigned b);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern int func_021EF45C(struct WinMgr *mgr);
 extern int func_021DF228(short x, short y, const unsigned char *r);
 extern const unsigned char d_021EF79C[];
@@ -163,7 +163,7 @@ int func_021E1B1C(unsigned char *p)
             func_021EF35C(MGR(p));
             func_021EF36C(MGR(p));
             func_021EC5A0((char **)p, 1);
-            func_020061E4(0x669);
+            GFL_USE_PlaySeDefaultVolume(0x669);
             func_021EE364((char **)p, 6, p[0x16]);
             func_021EE038((char *)p, 2, 1, 2);
             *(int *)(WORK(p) + 0xA168) = p[0x16];
@@ -172,11 +172,11 @@ int func_021E1B1C(unsigned char *p)
         if (b->timer == 0) {
             int dir = func_021EF1B4();
             if (dir == 0) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021DD16C(p, 0);
                 b->state = 6;
             } else if (dir == 1) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021DD16C(p, 1);
                 b->state = 7;
             }
@@ -193,7 +193,7 @@ int func_021E1B1C(unsigned char *p)
         break;
     case 2:
         if (func_021DD930(p) == 0) {
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 3;
         }
         break;

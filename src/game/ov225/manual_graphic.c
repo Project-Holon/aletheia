@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0204047C 0x0204047C arm
  *   FADE_Start 0x0204E720 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
@@ -71,7 +71,7 @@
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   CLACT_ExitSystem  0x0204A5AC  arm
@@ -131,7 +131,7 @@ struct Record { u32 id; u32 bg[8]; u32 kind; u32 visible; };
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,u32,u32);
+extern void MI_CpuFill8(void *,u32,u32);
 extern void *func_021B9D18(void *,u16);
 extern void func_0204047C(int,u16);
 extern void *func_020056A0(void (*)(void *,char *),void *,u32);
@@ -186,7 +186,7 @@ extern void func_020419E4(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
@@ -220,7 +220,7 @@ int func_021B95A0(void *proc, void *unused, struct Args *args)
     struct Work *p;
     GFL_HEAP_CreateChildHeap(1,0x90,0x50000);
     p = PROCSYS_AllocProcWork(proc,0x78,0x90);
-    func_02082BCC(p,0,0x78);
+    MI_CpuFill8(p,0,0x78);
     p->heap = 0x90;
     p->args = args;
     args->flag = 1;
@@ -378,7 +378,7 @@ static inline void GXS_SetVisibleWnd(int window) {
 void *func_021B9900(u32 swap, u32 heap)
 {
     char *p = func_02030734(heap, 16, 0, file, 454);
-    func_02082BCC(p, 0, 16);
+    MI_CpuFill8(p, 0, 16);
     G2_BlendNone();
     G2S_BlendNone();
     GX_SetVisibleWnd(0);
@@ -406,7 +406,7 @@ void func_021B99A0(char *p)
     G2S_BlendNone();
     GX_SetVisibleWnd(0);
     GXS_SetVisibleWnd(0);
-    func_02082BCC(p, 0, 16);
+    MI_CpuFill8(p, 0, 16);
     func_020307B0(p);
 }
 
@@ -429,7 +429,7 @@ void func_021B9A14(void *unused, char *p)
 void func_021B9A28(void *p, u32 heap)
 {
     u32 i = 0;
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
     func_0203F8F4(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)config);
@@ -447,7 +447,7 @@ void func_021B9A88(void *p) {
     for (i=0; i<4; i++) func_020403F4((u8)(*(const u32 *)(d_021BBE4C+i*44)));
     BMP_WIN_Exit();
     func_0203F9B4();
-    func_02082BCC(p,0,4);
+    MI_CpuFill8(p,0,4);
 }
 
 void func_021B9AC0(void *a0) {}
@@ -457,11 +457,11 @@ void func_021B9AC4(void *a0) { func_020419E4(); }
 
 void func_021B9ACC(unsigned char *p, int a, int b)
 {
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021BBE00, a, b);
     ((struct Obj14801 *)p)->f0 = (int)CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer((void *)((struct Obj14801 *)p)->f0);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
@@ -470,7 +470,7 @@ void func_021B9B0C(char *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj26131 *)p)->f0));
     CLACT_ExitSystem();
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
 }
 
 void func_021B9B28(void *a0) {CLACT_DrawSystem();}

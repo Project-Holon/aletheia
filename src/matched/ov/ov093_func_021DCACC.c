@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_GetPranksterHandlers
+ * function: HAND_TOKUSEI_GetPranksterHandlers
  * address: 0x021DCACC
  * packet: pkt_ov093_021DCACC
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int gPranksterHandlers[];
-int *BTL_ABILITY_GetPranksterHandlers(int *p);
+int *HAND_TOKUSEI_GetPranksterHandlers(int *p);
 
-int *BTL_ABILITY_GetPranksterHandlers(int *p)
+int *HAND_TOKUSEI_GetPranksterHandlers(int *p)
 {
     *p = 1;
     return gPranksterHandlers;

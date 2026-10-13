@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetHeatRockHandlers
+ * function: HAND_ITEM_GetHeatRockHandlers
  * address: 0x021DF4B0
  * packet: pkt_ov093_021DF4B0
  * region: ov093
@@ -15,10 +15,10 @@
  *   gHeatRockHandlers 0x021F151C data a4
  */
 
-int *BTL_HANDLER_ITEM_GetHeatRockHandlers(int *p);
+int *HAND_ITEM_GetHeatRockHandlers(int *p);
 extern int gHeatRockHandlers[];
 
-int *BTL_HANDLER_ITEM_GetHeatRockHandlers(int *p)
+int *HAND_ITEM_GetHeatRockHandlers(int *p)
 {
     *p = 1;
     return gHeatRockHandlers;

@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200BE48  0x0200BE48  thumb
  *   INTRUDE_COMM_IsLinked  0x021736D8  thumb ov011
@@ -70,7 +70,7 @@ typedef struct NetHandle NetHandle;
 
 #include "intrude_comm_types.h"
 
-void *func_02026478(void *obj);
+void *GAME_COMM_GetGameData(void *obj);
 void *GAME_DATA_GetSaveControl(void *saveData);
 u16 *func_0200BE48(void *sys);
 int INTRUDE_COMM_IsLinked(void);
@@ -150,7 +150,7 @@ int INTRUDE_CMD_SendSaveSummary(IntrudeCommSys *w, int sendMask)
     void *saveData;
     int summary[4];
 
-    saveData = func_02026478(w->gameComm);
+    saveData = GAME_COMM_GetGameData(w->gameComm);
     func_0200BE48(GAME_DATA_GetSaveControl(saveData));
     if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
@@ -184,7 +184,7 @@ void INTRUDE_CMD_RecvMemberEntry(int netId, int size, IntrudeMemberEntry *entry,
     void *saveData;
     int memberId;
 
-    saveData = func_02026478(w->gameComm);
+    saveData = GAME_COMM_GetGameData(w->gameComm);
     memberId = entry->member.netId;
     INTRUDE_COMM_StoreSessionEntry(&w->session, entry->name.chars, memberId);
     if (memberId != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
@@ -243,7 +243,7 @@ int INTRUDE_CMD_SendJoinReply(int unused, void *reply, int netId)
 
 void INTRUDE_CMD_RecvGroupRecord(int netId, int size, IntrudeMemberRecord *record, IntrudeCommSys *w)
 {
-    GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(func_02026478(w->gameComm)));
+    GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(GAME_COMM_GetGameData(w->gameComm)));
     if (INTRUDE_COMM_StoreSessionRequest(w, &w->session, record) == 1) w->entryReceived = 1;
 }
 
@@ -357,7 +357,7 @@ void INTRUDE_CMD_RecvResultRecord(int netId, int size, IntrudeResultRecord *reco
     int tallyA;
     int tallyB;
 
-    saveData = func_02026478(w->gameComm);
+    saveData = GAME_COMM_GetGameData(w->gameComm);
     saveSlot = GAME_DATA_GetLastBattleRecSlot(saveData);
     extra[1] = 0;
     hasExtra = 0;
@@ -457,7 +457,7 @@ void INTRUDE_CMD_RecvProfile(int netId, int size, void *profile, IntrudeCommSys 
 {
     void *saveData;
 
-    saveData = func_02026478(w->gameComm);
+    saveData = GAME_COMM_GetGameData(w->gameComm);
     if (netId != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) && (w->peerMask & (1 << netId))) {
         func_02082D44(profile, GAME_DATA_GetBattleRecSlot(saveData, netId), 0x10);
         if (netId == w->localPeer.intrudeId) {
@@ -470,7 +470,7 @@ int INTRUDE_CMD_SendProfile(IntrudeCommSys *w)
 {
     void *profile;
 
-    profile = GAME_DATA_GetLastBattleRecSlot(func_02026478(w->gameComm));
+    profile = GAME_DATA_GetLastBattleRecSlot(GAME_COMM_GetGameData(w->gameComm));
     if (INTRUDE_COMM_IsLinked() == 0) {
         return 0;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E6BF4
+ * function: HAND_WAZA_AssistPickMove
  * address: 0x021E6BF4
  * packet: pkt_ov093_021E6BF4
  * region: ov093
@@ -11,16 +11,16 @@
  * its pre-loop reload, and u32 count schedules its reload before i's spill.
  * symbols:
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
- *   func_021C7FCC 0x021C7FCC thumb ov093
- *   func_021C8120 0x021C8120 thumb ov093
- *   func_021B9B94 0x021B9B94 thumb ov093
- *   func_021B9C00 0x021B9C00 thumb ov093
+ *   BTL_SERVER_FLOW_GetPartyOfPoke 0x021C7FCC thumb ov093
+ *   BTL_SERVER_FLOW_GetScratchBuffer 0x021C8120 thumb ov093
+ *   BTL_SLOT_GetCount 0x021B9B94 thumb ov093
+ *   BTL_SLOT_GetPokeParam 0x021B9C00 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
  *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
  *   func_021E6CC0 0x021E6CC0 thumb ov093
  *   BTL_CALC_Random 0x021D78AC thumb ov093
- *   func_021C8030 0x021C8030 thumb ov093
+ *   BTL_SERVER_FLOW_DecideMoveTarget 0x021C8030 thumb ov093
  *   BTL_EVENT_OverwriteVar 0x021D76BC thumb ov093
  */
 typedef unsigned char u8;
@@ -30,18 +30,18 @@ extern int BTL_EVENT_GetVar(int);
 struct Q1;
 struct QG;
 struct S2;
-extern char *func_021C7FCC(u8 *p, int i);
-extern u8 *func_021C8120(u8 *p, int b);
-extern u8 func_021B9B94(struct Q1 *p);
-extern u8 *func_021B9C00(struct S2 *p, u32 i);
+extern char *BTL_SERVER_FLOW_GetPartyOfPoke(u8 *p, int i);
+extern u8 *BTL_SERVER_FLOW_GetScratchBuffer(u8 *p, int b);
+extern u8 BTL_SLOT_GetCount(struct Q1 *p);
+extern u8 *BTL_SLOT_GetPokeParam(struct S2 *p, u32 i);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 extern int func_021E6CC0(u16);
 extern u32 BTL_CALC_Random(u32);
-extern int func_021C8030(u8 *p, int v, u16 k);
+extern int BTL_SERVER_FLOW_DecideMoveTarget(u8 *p, int v, u16 k);
 extern int BTL_EVENT_OverwriteVar(int, u32);
-void func_021E6BF4(void *x, void *a, int c)
+void HAND_WAZA_AssistPickMove(void *x, void *a, int c)
 {
     void *party;
     u16 *moves;
@@ -54,12 +54,12 @@ void func_021E6BF4(void *x, void *a, int c)
     u8 pick;
     int slot;
     if (c == BTL_EVENT_GetVar(2)) {
-        party = func_021C7FCC(a, c);
-        moves = (u16 *)func_021C8120(a, 48);
+        party = BTL_SERVER_FLOW_GetPartyOfPoke(a, c);
+        moves = (u16 *)BTL_SERVER_FLOW_GetScratchBuffer(a, 48);
         used = 0;
-        count = func_021B9B94(party);
+        count = BTL_SLOT_GetCount(party);
         for (i = 0; i < count; i++) {
-            mon = func_021B9C00(party, i);
+            mon = BTL_SLOT_GetPokeParam(party, i);
             if (c != BTL_POKEPARAM_GetPokeId(mon)) {
                 n = BTL_POKEPARAM_GetMoveCount(mon);
                 for (j = 0; j < n; j++) {
@@ -72,7 +72,7 @@ void func_021E6BF4(void *x, void *a, int c)
         }
         if (used != 0) {
             pick = BTL_CALC_Random(used);
-            slot = func_021C8030(a, c, moves[pick]);
+            slot = BTL_SERVER_FLOW_DecideMoveTarget(a, c, moves[pick]);
             BTL_EVENT_OverwriteVar(18, moves[pick]);
             BTL_EVENT_OverwriteVar(13, slot);
         }

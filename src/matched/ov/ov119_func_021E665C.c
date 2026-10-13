@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_021E66E8 0x021E66E8 thumb ov119
  *   func_021E729C 0x021E729C thumb ov119
  */
@@ -22,7 +22,7 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_021E66E8(void *);
 struct Curve;
 extern int func_021E729C(struct Curve *c);
@@ -38,7 +38,7 @@ int func_021E665C(char *p) {
             func_021E729C((struct Curve *)(p+0x1190));
             pos.x=((struct Obj00001 *)p)->f1190/4096;
             pos.y=((struct Obj00001 *)p)->f1194/4096;
-            func_0204B404((struct Obj *)(((struct Obj00001 *)p)->fF20),(const struct Vec2 *)(&pos),1);
+            CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj00001 *)p)->fF20),(const struct Vec2 *)(&pos),1);
         }
     }
     return 0;

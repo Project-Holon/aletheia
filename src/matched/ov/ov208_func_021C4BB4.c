@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_02045770 0x02045770 arm
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   ov208_func_021BC3C0 0x021BC3C0 thumb ov208
  *   func_02045EC0 0x02045EC0 arm
@@ -45,8 +45,8 @@ struct Ov208Menu {
 };
 
 struct PrintSys;
-extern void func_0201C6EC(struct PrintSys *p);
-extern void *func_02045770(struct Descriptor *d);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *d);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern u16 ov208_func_021BC3C0(int key);
@@ -78,17 +78,17 @@ void ov208_func_021C4BB4(u16 *heap, struct Ov208Menu *p, int key)
     void *src2;
     for (i = 0; i <= 1; i++) {
         p->active[i] = 0;
-        func_0201C6EC((struct PrintSys *)p->print[i]);
-        BMP_Clear(func_02045770(p->win[i]), 0);
+        PRINTSYS_QUE_Clear((struct PrintSys *)p->print[i]);
+        BMP_Clear(BMP_WIN_GetBmp(p->win[i]), 0);
     }
     species = ov208_func_021BC3C0(key);
-    bmp = func_02045770(p->win[0]);
+    bmp = BMP_WIN_GetBmp(p->win[0]);
     text = func_02045EC0(data_020A7370, species);
     width = func_0201D304(text, p->font, 0);
     PRINTSYS_PrintQueColor((void *)p->print[0], (u32)bmp, (s16)((u16)((BMP_GetWidth(bmp) - width) / 2)), (s16)1, (u32)text, p->font, 0x3c40);
     p->active[0] = 1;
     STRBUF_Delete((struct U16Vec *)text);
-    bmp2 = func_02045770(p->win[1]);
+    bmp2 = BMP_WIN_GetBmp(p->win[1]);
     ws = func_0201EC64(*heap);
     src = ((struct Obj01179 *)p)->f59C;
     str = STRBUF_Create(8, *heap);

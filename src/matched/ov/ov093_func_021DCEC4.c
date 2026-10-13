@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_AddFactor
+ * function: HAND_ITEM_AddFactor
  * address:  0x021DCEC4
  * packet:   pkt_ov093_021DCEC4
  * region:   ov093
@@ -25,7 +25,7 @@ extern struct Node *BTL_EVENT_AddFactor(int id, u32 key, int pri, u32 sub_pri, u
 struct Ent { u32 key; u32 (*fn)(u32 *); };
 extern struct Ent gItemHandlerRegistry[0xac];
 
-void *BTL_HANDLER_ITEM_AddFactor(void *a, u32 k)
+void *HAND_ITEM_AddFactor(void *a, u32 k)
 {
     u32 i;
     u16 t;

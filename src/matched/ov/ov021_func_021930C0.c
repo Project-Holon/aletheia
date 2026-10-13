@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct Cfg;
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -40,7 +40,7 @@ int FIELD_MSGBG_CreateWindow(int a, int unused, int b, int c, u16 d, u16 e, u16 
     int k;
 
     r = BMP_WIN_Create(a & 0xff, b & 0xff, c & 0xff, d & 0xff, e & 0xff, f & 0xff, 1);
-    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)r)), 0xff);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)r)), 0xff);
     BMP_WIN_MakeScreen((struct Cfg *)r);
     BMP_WIN_TransferChars((struct Descriptor *)r);
     func_020409B4((u8)a);

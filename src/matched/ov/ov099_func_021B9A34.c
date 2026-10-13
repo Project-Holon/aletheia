@@ -14,14 +14,14 @@
  * bl from ov099 at 0x021B9A40. Seeding it (ov127 lane) makes this EXACT.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021C4948  0x021C4948  thumb  ov127
  *   func_021C5704  0x021C5704  thumb  ov127
  */
 typedef unsigned char  u8;
 extern void func_021C5704(u8 *p);
 extern void func_021C4948(void *p);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 
 typedef struct {
     void *f0;
@@ -33,5 +33,5 @@ void func_021B9A34(Obj *p)
 {
     func_021C5704(p->f4);
     func_021C4948(p->f0);
-    func_02082BCC(p, 0, sizeof(Obj));
+    MI_CpuFill8(p, 0, sizeof(Obj));
 }

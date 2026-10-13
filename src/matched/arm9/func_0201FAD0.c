@@ -13,9 +13,9 @@
  *   BMP_MENU_StepSelection  0x0201FB30  thumb
  *   BMP_MENU_GetItemPixelPos  0x0201FD54  thumb
  *   BMP_MENU_DrawCursor  0x0201FD18  thumb
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_FillRect  0x02043AF4  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *
  * Commit a cursor move: remember where the cursor was, ask BMP_MENU_StepSelection to
  * step it, and on a refusal answer 0 without side effects.  On a move, redraw
@@ -47,10 +47,10 @@ extern int  BMP_MENU_StepSelection(struct Obj *o, u32 dir);
 extern void BMP_MENU_GetItemPixelPos(struct Obj *o, u8 *outA, u8 *outB, u32 old);
 extern void BMP_MENU_DrawCursor(struct Obj *o);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct Bmp;
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 
 int BMP_MENU_MoveCursor(struct Obj *o, u32 dir, u32 sound)
 {
@@ -63,9 +63,9 @@ int BMP_MENU_MoveCursor(struct Obj *o, u32 dir, u32 sound)
     }
 
     BMP_MENU_GetItemPixelPos(o, &cell[1], &cell[0], old);
-    BMP_FillRect((struct Bmp *)((u32)func_02045770((struct Descriptor *)o->f04)), cell[1], cell[0], o->f31,
+    BMP_FillRect((struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)o->f04)), cell[1], cell[0], o->f31,
                   o->f32, 0xff);
     BMP_MENU_DrawCursor(o);
-    func_020061E4(sound);
+    GFL_USE_PlaySeDefaultVolume(sound);
     return 1;
 }

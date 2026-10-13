@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA080",
+   "name": "BTL_MAIN_UpdateCommPlayerSupport",
    "address": "0x021BA080",
    "kind": "game",
    "region": "ov093",

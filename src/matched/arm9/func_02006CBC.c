@@ -18,7 +18,7 @@
  *   _MicIirFilter   0x020A7030  data
  *   _SndMic   0x02146164  data
  *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0208BEF0  0x0208BEF0  arm
  *   func_0208BF38  0x0208BF38  arm
  *   func_0208B24C  0x0208B24C  arm
@@ -62,7 +62,7 @@ extern struct Sub02006D44Obj *_SndMic;
 
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_02082BCC(void *p, u32 v, u32 n);
+extern void  MI_CpuFill8(void *p, u32 v, u32 n);
 extern unsigned int func_0208BEF0(unsigned int status);
 extern unsigned int func_0208BF38(unsigned int gain);
 extern void  func_0208B24C(void);
@@ -75,9 +75,9 @@ void SND_MIC_Init(u16 heap)
     void *pool;
 
     p = func_02030734(heap, 0x28, 0, _SndMicFile, 0x59);
-    func_02082BCC(p, 0, 0x28);
+    MI_CpuFill8(p, 0, 0x28);
     pool = func_02030734(heap, 0x2014, 0, _SndMicFile, 0x5f);
-    func_02082BCC(pool, 0, 0x2014);
+    MI_CpuFill8(pool, 0, 0x2014);
     p->unk24 = (u32)pool;
     func_0208BEF0(1);
     func_0208BF38(2);

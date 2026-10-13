@@ -20,6 +20,7 @@
  *   BG_SYS_ClearSubPlanes  0x02043588  arm  arm9
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm  arm9
  *   BMP_WIN_Init  0x02045088  arm  arm9
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm  arm9
  */
 
 typedef signed char s8;
@@ -45,7 +46,7 @@ typedef struct {
 
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void func_021F4EDC(u8 *p);
 extern void func_0203F8F4(u16 heapId);
@@ -61,7 +62,7 @@ void func_021F5074(Work *p)
 {
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     func_021F4EDC((u8 *)p);
     func_0203F8F4(0x48);

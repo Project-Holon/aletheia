@@ -74,10 +74,10 @@
  * }
  * abi: 6BF8 font extern widened to u32: the original forwards the full p+0x60 word without narrowing.
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0201BD28 0x0201BD28 thumb
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   WAZA_TOOL_GetParam 0x0201BD28 thumb
  *   func_02045CAC 0x02045CAC arm
  *   func_021B6C84 0x021B6C84 thumb ov173
  *   func_021B6BF8 0x021B6BF8 thumb ov173
@@ -87,7 +87,7 @@
  *   func_021B79E0 0x021B79E0 thumb ov173
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  */
@@ -100,10 +100,10 @@ struct Descriptor;
 struct MsgBank;
 struct Obj;
 struct Rec;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern u32 func_0201BD28(u16,u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern u32 WAZA_TOOL_GetParam(u16,u32);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021B6C84(char *,u32,u32,u32,u8);
 extern u32 func_021B6BF8(char *,int,u32,u16,int,u8);
@@ -113,19 +113,19 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_021B79E0(u8 *p, u16 id);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 static inline void flush(void *win)
 {
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_02041B6C(func_02045730(win));
+    func_02041B6C(BMP_WIN_GetBgLayer(win));
 }
 static inline void clear(void *win)
 {
     BMP_WIN_ClearScreen(win);
-    func_02041B6C(func_02045730(win));
+    func_02041B6C(BMP_WIN_GetBgLayer(win));
 }
 void func_021B71C4(char *p,int move)
 {
@@ -133,16 +133,16 @@ void func_021B71C4(char *p,int move)
     void *bank;
     int zero;
     zero=0;
-    BMP_Clear(func_02045770(*(void **)(p+0x1c)),0);
-    BMP_Clear(func_02045770(*(void **)(p+0x14)),0);
-    BMP_Clear(func_02045770(*(void **)(p+0x18)),0);
-    func_0204B3DC(*(void **)(p+0x110),0);
+    BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+0x1c)),0);
+    BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+0x14)),0);
+    BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+0x18)),0);
+    CLACT_SetActorDrawEnable(*(void **)(p+0x110),0);
     if(move!=zero-2) {
-        value=func_0201BD28(move,3);
+        value=WAZA_TOOL_GetParam(move,3);
         if(value<=1) func_02045CAC(*(void **)(p+0x44),0x21,*(void **)(p+0x4c));
         else func_021B6C84(p,0x1d,value,3,0);
         func_021B6BF8(p,4,*(u32 *)(p+0x60),0x440,1,0);
-        value=func_0201BD28(move,4);
+        value=WAZA_TOOL_GetParam(move,4);
         if(value==0 || WAZA_TOOL_IsAlwaysHit(move)!=0) func_02045CAC(*(void **)(p+0x44),0x21,*(void **)(p+0x4c));
         else func_021B6C84(p,0x1e,value,3,0);
         func_021B6BF8(p,5,*(u32 *)(p+0x60),0x440,1,0);
@@ -151,7 +151,7 @@ void func_021B71C4(char *p,int move)
         func_021B6BF8(p,6,*(u32 *)(p+0x60),0x440,0,0);
         MSGDATA_Delete(bank);
         func_021B79E0((u8 *)p,move);
-        func_0204B3DC(*(void **)(p+0x110),1);
+        CLACT_SetActorDrawEnable(*(void **)(p+0x110),1);
         flush(*(void **)(p+0xc));
         flush(*(void **)(p+0x10));
     } else {

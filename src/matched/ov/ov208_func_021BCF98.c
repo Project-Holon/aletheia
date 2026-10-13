@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
@@ -24,7 +24,7 @@ struct BgTemplate;
 typedef struct {u32 bg,tmpl[8],type,on;} BgEntry;
 extern const u32 d_021C8138[];
 extern const BgEntry d_021C81B4[];
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void func_0203F8F4(u32);
 extern void BMP_WIN_Init(u32);
 struct DispConfig;
@@ -37,7 +37,7 @@ void func_021BCF98(void *p,u32 heap)
     u32 i=0;
     const BgEntry *row;
     u32 bg;
-    func_02082BCC(p,0,4);
+    MI_CpuFill8(p,0,4);
     func_0203F8F4(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)d_021C8138);

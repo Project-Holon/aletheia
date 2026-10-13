@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
@@ -32,9 +32,9 @@ typedef unsigned char  u8;
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
-u32 func_020452E8(struct Descriptor *d);
+u32 BMP_WIN_Delete(struct Descriptor *d);
 u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-void *func_02045770(struct Descriptor *p);
+void *BMP_WIN_GetBmp(struct Descriptor *p);
 void BMP_Clear(struct CharBuf *buf, u8 value);
 void BMP_WIN_TransferChars(struct Descriptor *d);
 void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -44,7 +44,7 @@ void func_021F1628(Ov107Ctx *p, int mode)
 {
     if (p->f04 != mode) {
         if (p->f10 != 0) {
-            func_020452E8(p->f10);
+            BMP_WIN_Delete(p->f10);
             p->f10 = 0;
         }
         switch (mode) {
@@ -75,7 +75,7 @@ void func_021F1628(Ov107Ctx *p, int mode)
         }
         p->f04 = mode;
     }
-    BMP_Clear(func_02045770(p->f10), 0);
+    BMP_Clear(BMP_WIN_GetBmp(p->f10), 0);
     BMP_WIN_TransferChars(p->f10);
     BMP_WIN_MakeScreen(p->f10);
     func_020409B4(p->f02);

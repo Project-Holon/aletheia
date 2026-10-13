@@ -29,6 +29,8 @@
  *   func_021B8340 0x021B8340 thumb ov105
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
+ *   GFL_USE_IsBgmPlaying  0x02005F38  thumb  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj01709.h"
 typedef unsigned char u8;
@@ -54,9 +56,9 @@ extern int func_021B8434(void *);
 extern int func_021B7250(int *);
 extern void func_021B8340(u8 *,u16 *);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
-extern int func_02005F38(void);
+extern int GFL_USE_IsBgmPlaying(void);
 #define CTX (*(u8 **)(p+0x1a4))
 void func_021B80E8(u8 *p,u16 *state) {
  Data data; int value; u32 ratio; u8 score;
@@ -66,7 +68,7 @@ void func_021B80E8(u8 *p,u16 *state) {
  case 1:func_021B871C(p+0x128);*state=2;break;
  case 2:
   if(func_021B8730(p+0x128)) {
-   func_020061E4(0x653);
+   GFL_USE_PlaySeDefaultVolume(0x653);
    func_021B83E0((Display *)(p+0xe8),0);func_021B83E0((Display *)(p+0xe8),1);func_021B83E0((Display *)(p+0xe8),2);*state=3;
   } break;
  case 3:
@@ -89,7 +91,7 @@ void func_021B80E8(u8 *p,u16 *state) {
    *state=6;
   } break;
  case 6:
-  if(!func_02005F38() && (((struct Obj01709 *)p)->f198)++>30) {((struct Obj01709 *)p)->f198=0;*state=7;}
+  if(!GFL_USE_IsBgmPlaying() && (((struct Obj01709 *)p)->f198)++>30) {((struct Obj01709 *)p)->f198=0;*state=7;}
   break;
  case 7:
   if(TOUCHPANEL_GetTrg()) {

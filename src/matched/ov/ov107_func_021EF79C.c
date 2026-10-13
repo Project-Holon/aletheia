@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02178E4C 0x02178E4C thumb ov014
+ *   WIH_GetSysState 0x02178E4C thumb ov014
  *   func_02178E84 0x02178E84 thumb ov014
  *   func_02179498 0x02179498 thumb ov014
  *   func_021F0DB4 0x021F0DB4 thumb ov107
@@ -46,7 +46,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_02178E4C(void),func_02178E84(void),func_02179498(void);
+extern int WIH_GetSysState(void),func_02178E84(void),func_02179498(void);
 extern void func_021F0DB4(void),WIH_FreeWork(void);
 extern int func_021790E4(u32,int,int);
 extern void GFL_NET_WM_ICON_EasyStart(u32,u32,u32,u32),GFL_NET_WM_ICON_EasySetScreen(u32,u32);
@@ -74,7 +74,7 @@ extern void func_021EFCA8(u8 *p);
 int func_021EF79C(u8 *p)
 {
  void *q;
- if(func_02178E4C()==9 || func_02178E4C()==10){
+ if(WIH_GetSysState()==9 || WIH_GetSysState()==10){
   ((struct Obj00072 *)p)->f30=0;((struct Obj00072 *)p)->f14=1;
   if(func_02179498()==1){func_021F0DB4();WIH_FreeWork();return 1;}return 0;
  }
@@ -87,10 +87,10 @@ int func_021EF79C(u8 *p)
   else GFL_NET_WM_ICON_EasySetScreen(1,((struct Obj00072 *)p)->f0);
   p[0x24]=1;func_020351F8((u32)func_021EFCA8,(u32)p);break;
  case 1:
-  if(func_02178E4C()==1 && func_02178E84()==1)p[0x24]=2;break;
+  if(WIH_GetSysState()==1 && func_02178E84()==1)p[0x24]=2;break;
  default:break;
  case 2:
-  if(func_02178E4C()==7){
+  if(WIH_GetSysState()==7){
    q=GAME_DATA_GetMyStatus(((struct Obj22277 *)(*(u8 * *)&((struct Obj00072 *)p)->f8))->f4);func_021EF96C(p);
    func_021F1898(((struct Obj00072 *)p)->f68);
    if(p[0x28]==0)func_021F1628(((struct Obj00072 *)p)->f68,2);

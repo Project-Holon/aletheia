@@ -25,8 +25,8 @@
  *   P_STA_RIBBON_PrintDetail 0x021D949C thumb ov131
  *   P_STA_RIBBON_Scroll 0x021D8F0C thumb ov131
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_020061E4 0x020061E4 thumb
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  */
@@ -45,8 +45,8 @@ extern unsigned int P_STA_RIBBON_GetRowOwnedIndex(unsigned char *p, unsigned int
 extern void P_STA_RIBBON_PrintDetail(u8 *,u8 *);
 extern void P_STA_RIBBON_Scroll(void *,u8 *,int);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_020061E4(u32 a);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_GetCont(void);
 void P_STA_RIBBON_UpdateTouch(u8 *a,u8 *p)
@@ -55,14 +55,14 @@ void P_STA_RIBBON_UpdateTouch(u8 *a,u8 *p)
     if(((struct Obj00136 *)a)->f24==7) {
         P_STATUS_SetInputEnable((char *)a,1);
         CLACT_SetActorAnimSeq(((struct Obj00136 *)a)->f194,9);
-        func_0204B3DC(((struct Obj00091 *)p)->f54,0);
+        CLACT_SetActorDrawEnable(((struct Obj00091 *)p)->f54,0);
         p[0x58]=255;
         p[0x59]=255;
         ((struct Obj00091 *)p)->f68=1;
         a[0x1c]=1;
         P_STA_RIBBON_FreeDetailWindows(a,p);
         P_STA_RIBBON_HideDetail(a,p);
-        func_020061E4(1361);
+        GFL_USE_PlaySeDefaultVolume(1361);
         return;
     }
     if(TOUCHPANEL_GetTrg()==1 && ((struct Obj00136 *)a)->f28>8 && ((struct Obj00136 *)a)->f28<144) {
@@ -73,7 +73,7 @@ void P_STA_RIBBON_UpdateTouch(u8 *a,u8 *p)
             p[0x59]=P_STA_RIBBON_GetRowOwnedIndex(p,(u8)index);
             ((struct Obj00091 *)p)->f64=1;
             ((struct Obj00091 *)p)->f5C=0;
-            func_0204B3DC(((struct Obj00091 *)p)->f54,0);
+            CLACT_SetActorDrawEnable(((struct Obj00091 *)p)->f54,0);
             P_STA_RIBBON_FreeDetailWindows(a,p);
             P_STA_RIBBON_PrintDetail(a,p);
         }

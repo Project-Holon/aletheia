@@ -17,7 +17,7 @@
  *   func_021BC0FC  0x021BC0FC  thumb  ov088
  *   STARTMENU_ChangeToIntroProc  0x021BC0E4  thumb  ov088
  *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   PROCSYS_ReplaceGlobal  0x020312F8  arm
  *   d_021BDA00     0x021BDA00  data  ov088  a1
  *   d_021DF538     0x021DF538  data  ov121  a4
@@ -49,7 +49,7 @@ extern void func_021BC0FC(void);
 extern void STARTMENU_ChangeToIntroProc(void);
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
 extern char d_021BDA00[];
 extern char d_021DF538[];
@@ -91,7 +91,7 @@ int STARTMENU_MenuExit(int a0, int a1, int a2, char *a3)
         break;
     case 3:
         w = func_02030734(1, 0x14, 0, d_021BDA00, 0x200);
-        func_02082BCC(w, 0, 0x14);
+        MI_CpuFill8(w, 0, 0x14);
         ((struct Obj09921 *)w)->f8 = 0;
         ((struct Obj09921 *)w)->f10 = 1;
         PROCSYS_ReplaceGlobal((int)ov199_id, (u32)d_02213C4C, (u32)w);

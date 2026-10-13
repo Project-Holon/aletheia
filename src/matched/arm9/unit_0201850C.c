@@ -43,6 +43,7 @@
  *
  * symbols:
  *   gExpTableBuf  0x02146398  data
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  */
 
 typedef unsigned short u16;
@@ -50,7 +51,7 @@ typedef unsigned int   u32;
 
 struct Personal;
 extern void *func_02019C54(u32 a, u32 b);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void  func_02019B94(u32 a, void *b);
 
 extern u32 gExpTableBuf[];
@@ -59,7 +60,7 @@ u32 POKE_TOOL_CalcLevelFromExp(u16 species, u16 form, u32 exp)
 {
     u16 i;
 
-    func_02019B94((u16)func_0201AE1C(func_02019C54(species, form), 0x17),
+    func_02019B94((u16)POKE_PERSONAL_GetParam(func_02019C54(species, form), 0x17),
                   gExpTableBuf);
     for (i = 1; i < 0x65; i = (u16)(i + 1)) {
         if (gExpTableBuf[i] > exp) {

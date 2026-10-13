@@ -15,7 +15,7 @@
  * the early folding).
  *
  * symbols:
- *   func_02045770        0x02045770  arm
+ *   BMP_WIN_GetBmp        0x02045770  arm
  *   BMP_GetWidth        0x020437DC  arm
  *   ov208_func_021C47C4  0x021C47C4  thumb
  *   func_0201D304        0x0201D304  thumb
@@ -37,7 +37,7 @@ struct Ov208Menu {
 };
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 struct Bmp;
 struct StrObj;
 struct U16Vec;
@@ -62,7 +62,7 @@ void ov208_func_021C4D68(u16 *heap, struct Ov208Menu *p, int key, int i, u32 pri
     YPos y2;
     u16 w;
 
-    bmp = (u32)func_02045770((struct Descriptor *)win);
+    bmp = (u32)BMP_WIN_GetBmp((struct Descriptor *)win);
     width = BMP_GetWidth((const struct Bmp *)bmp);
     ov208_func_021C47C4(heap, p, key, &strA, &strB, &freeA, &freeB, idx);
     y = 1;

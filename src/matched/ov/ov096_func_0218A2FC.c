@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Resolved by the func_021B98AC label in ov069 (thumb); cross-overlay target.
+ * Resolved by the BTL_SIDE_GetPokeAtPos label in ov069 (thumb); cross-overlay target.
  *
  * symbols:
- *   func_021B98AC  0x021B98AC  thumb  ov093
+ *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  */
 #include "../include/Obj00067.h"
 
@@ -23,5 +23,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern u8 *func_021B98AC(char *const *q, u8 b);
-u8 *func_0218A2FC(u8 *p, u8 i) { return func_021B98AC(*(char *const * *)&((struct Obj00067 *)p)->fB8, i); }
+extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
+u8 *func_0218A2FC(u8 *p, u8 i) { return BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj00067 *)p)->fB8, i); }

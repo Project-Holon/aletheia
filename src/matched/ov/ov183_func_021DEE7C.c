@@ -50,7 +50,7 @@
  *   }
  * checks: 1 three-input u64 ARM9 accessor and caller-read 35C60 return retained; 2 EDB4 twin, eight-byte Pair assignment fixes 4-byte swap; 3 x/y signedness each unchanged; 4 enum offset restores retained 1718 constant and spill; 5 fresh idioms and neighbours, bounded permuter 300 unchanged 608/4 baseline agrees. Aggregate Pair structural check yields MATCH.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02034714 0x02034714 arm
  *   func_021FF54C 0x021FF54C thumb ov186
  *   func_021FF648 0x021FF648 thumb ov186
@@ -64,8 +64,8 @@
  *   func_021DF18C 0x021DF18C thumb ov183
  *   func_021FD170 0x021FD170 thumb ov186
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_02035D20 0x02035D20 arm
- *   func_020061E4 0x020061E4 thumb
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021FE784 0x021FE784 thumb ov186
  *   func_021FE7B0 0x021FE7B0 thumb ov186
  *   func_021F9BA0 0x021F9BA0 thumb ov186
@@ -78,7 +78,7 @@ typedef unsigned long long u64;
 struct Pair { u32 x,y; };
 struct Data { u8 pad[0x1718]; int count; u32 selected; };
 extern const char d_021E3964[];
-extern void func_02082BCC(void *,int,int),func_02034714(const char *,u32,const char *);
+extern void MI_CpuFill8(void *,int,int),func_02034714(const char *,u32,const char *);
 extern void func_021FF54C(char *p, int kind, const int *values);
 extern int func_021FF648(char *);
 extern int func_021FF72C(char *p, int *out);
@@ -91,8 +91,8 @@ extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int ind
 extern int *func_021FD73C(int *p, int v);
 extern void func_021DF18C(int *p, int *state, char *q);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_02035D20(u32 *,u32 *);
-extern void func_020061E4(u32),func_021FE784(int,int,int,int);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
+extern void GFL_USE_PlaySeDefaultVolume(u32),func_021FE784(int,int,int,int);
 extern int func_021FE7B0(int *);
 extern int func_021FD744(int *a);
 extern void func_021F9BA0(unsigned *ctx);
@@ -102,7 +102,7 @@ void func_021DEE7C(int *task,u32 *state,char *p)
     case 0: {
         struct Pair initial;
         int mode;
-        func_02082BCC(&initial,0,8);
+        MI_CpuFill8(&initial,0,8);
         switch(**(u32 **)(p+0x108)) {
         case 0: mode=5; break;
         case 1: mode=6; break;
@@ -110,7 +110,7 @@ void func_021DEE7C(int *task,u32 *state,char *p)
         case 3: initial=*(struct Pair *)(*(char **)(p+0x108)+0x20); mode=4; break;
         default: func_02034714(d_021E3964,0,d_021E3964); break;
         }
-        func_02082BCC(*(void **)(*(char **)(p+0x108)+0x1c),0,0x1720);
+        MI_CpuFill8(*(void **)(*(char **)(p+0x108)+0x1c),0,0x1720);
         *(u32 *)(p+0xfc)=0;
         func_021FF54C(*(void **)(*(char **)(p+0x108)+0x18),mode,(const int *)(&initial));
         *state=1; break;
@@ -153,10 +153,10 @@ void func_021DEE7C(int *task,u32 *state,char *p)
         u32 x,y;
         struct Pair clicked;
         if(TOUCHPANEL_GetTrg()) {
-            func_02035D20(&x,&y);
+            TOUCHPANEL_GetPointTrg(&x,&y);
             clicked.x=x; clicked.y=y;
             func_021FD860(*(int *)(p+0x20),1,&clicked);
-            func_020061E4(0x703);
+            GFL_USE_PlaySeDefaultVolume(0x703);
             func_021FE784(*(int *)(*(char **)(p+0x108)+8),2,3,1);
             *state=4;
         } break;

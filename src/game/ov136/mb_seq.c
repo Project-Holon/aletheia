@@ -18,7 +18,7 @@
  *   func_02030734        0x02030734  arm
  *   func_02030EAC   0x02030EAC  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
- *   func_02043534  0x02043534  arm
+ *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes             0x020435F4  arm
  *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   func_02082AC0    0x02082AC0  arm
@@ -49,16 +49,16 @@
  *   func_021C5BE0 0x021C5BE0 thumb ov136
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   d_021C7D68 0x021C7D68 data a4
  *   func_021C5C84  0x021C5C84  thumb
  *   d_021C7D78 0x021C7D78 data a4
  *   PROCSYS_Main 0x02031330 arm
  *   d_021C7D7C 0x021C7D7C data a4
- *   func_0201C6B4 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   func_02025DE8 0x02025DE8 thumb
  *   func_020260E0 0x020260E0 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021C66A0 0x021C66A0 thumb
  *   func_021C7738 0x021C7738 thumb
  *   func_021C66B8 0x021C66B8 thumb
@@ -113,6 +113,9 @@
  *   GAME_DATA_GetMyItem  0x0201292C  thumb  arm9
  *   GAME_DATA_GetMyParty  0x02012934  thumb  arm9
  *   APP_TASKMENU_CloseMenu  0x02027858  thumb  arm9
+ *   POKEPARTY_GetMember  0x0201AB28  thumb  arm9
+ *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
  */
 #include "ov136_types.h"
 
@@ -166,7 +169,7 @@ struct Control {
 struct Flags { u8 index : 7; u8 flag : 1; };
 
 extern void func_02030EAC(struct Node *n);
-extern void func_02043534(u32);
+extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void BG_SYS_SetLcdSwap(u32);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
@@ -199,18 +202,18 @@ extern void func_021C5BE0(u8 *p);
 extern u32 func_020307B0(void *p);
 extern void func_020306F0(u32);
 extern u32 WIPE_SYS_EndCheck(void);
-extern u32 func_0201CE30(void *p);
-extern void func_0201CE48(struct Rec3 *p);
+extern u32 PRINTSYS_PrintStreamGetState(void *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_020362DC(void);
-extern void func_020061E4(u32);
+extern u32 KEY_GetTrg(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void APP_TASKMENU_UpdateMenu(void *);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern int func_021C5C84(u8 *p);
 extern unsigned int PROCSYS_Main(void *p);
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void func_021C66A0(u8 *p, int i, u32 v);
 extern int func_02025DE8(struct Sound *obj);
 extern u8 func_020260E0(struct Sound *obj);
@@ -253,7 +256,7 @@ extern void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned
 extern u32 func_021C3E00(u32 *p);
 extern int func_021C3E04(u32 *p, void *q);
 extern void func_021C3E24(u8 *);
-extern void *func_0201AB28(void *, u32);
+extern void *POKEPARTY_GetMember(void *, u32);
 extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern struct Struct_02025CD0 *func_02025CD0(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
@@ -338,7 +341,7 @@ int func_021C6984(u8 *p)
         func_02030EAC(((struct MbSeqCtx *)p)->f2C);
         *(u32 *)&((struct MbSeqCtx *)p)->f2C = 0;
     }
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
@@ -385,7 +388,7 @@ u32 func_021C6A5C(u8 *p)
     func_021C5BE0(p);
     *(u16 *)0x04000050 = 0;
     *(u16 *)0x04001050 = 0;
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     func_020307B0(((struct MbSeqCtx *)p)->f8);
     ((struct MbSeqCtx *)p)->f8 = 0;
@@ -412,14 +415,14 @@ int func_021C6AD4(struct MbSeqCtx *p)
 
 u32 func_021C6AF0(u8 *p)
 {
-    if (func_0201CE30(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f1C8) == 2) {
+    if (PRINTSYS_PrintStreamGetState(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f1C8) == 2) {
         if ((*(u8 * *)&((struct MbSeqCtx *)p)->f8)[0x1dd] == 0) {
-            func_0201CE48(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f1C8);
+            PRINTSYS_PrintStreamDelete(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f1C8);
             return ((struct MbSeqCtx *)p)->f28;
         }
-        if (TOUCHPANEL_GetTrg() == 1 || (func_020362DC() & 3) != 0) {
-            func_0201CE48(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f1C8);
-            func_020061E4(1352);
+        if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3) != 0) {
+            PRINTSYS_PrintStreamDelete(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f1C8);
+            GFL_USE_PlaySeDefaultVolume(1352);
             return ((struct MbSeqCtx *)p)->f28;
         }
     }
@@ -491,31 +494,31 @@ int func_021C6C34(u8 *p)
     u32 k;
     u8 *r;
 
-    if (func_0201C6B4(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f1C4) == 0) {
+    if (PRINTSYS_QUE_IsFinished(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f1C4) == 0) {
         return 9;
     }
     switch (func_021C7648(p)) {
     case 0:
         if (((struct MbSeqCtx *)p)->f1C != 0) {
             ((struct MbSeqCtx *)p)->f1C -= 1;
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             return func_021C7250(p, 0, 0xB);
         }
         return 9;
     case 1:
         if (((struct MbSeqCtx *)p)->f1C != ((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f2FE) {
             ((struct MbSeqCtx *)p)->f1C += 1;
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             return func_021C7250(p, 1, 0xB);
         }
         return 9;
     case 2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021C66A0(((struct MbSeqCtx *)p)->f8, 3, 9);
         ((struct MbSeqCtx *)p)->f28 = 10;
         return 0x18;
     case 3:
-        func_020061E4(0x556);
+        GFL_USE_PlaySeDefaultVolume(0x556);
         func_021C66A0(((struct MbSeqCtx *)p)->f8, 7, 8);
         ((struct MbSeqCtx *)p)->f28 = 10;
         return 0x19;
@@ -538,10 +541,10 @@ int func_021C6C34(u8 *p)
         }
         p[0x1E] = k;
         p[0x1F] = r[0x2E8];
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021C71D0(p, k, 0xC);
     case (u32)-2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021C66A0(((struct MbSeqCtx *)p)->f8, 3, 9);
         ((struct MbSeqCtx *)p)->f28 = 10;
         return 0x18;
@@ -549,7 +552,7 @@ int func_021C6C34(u8 *p)
         func_020260E0(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f294);
         if (((struct MbSeqCtx *)p)->f1C != ((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f2FE) {
             ((struct MbSeqCtx *)p)->f1C += 1;
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             return func_021C7250(p, 1, 0xB);
         }
         break;
@@ -557,18 +560,18 @@ int func_021C6C34(u8 *p)
         func_020260E0(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f294);
         if (((struct MbSeqCtx *)p)->f1C != 0) {
             ((struct MbSeqCtx *)p)->f1C -= 1;
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             return func_021C7250(p, 0, 0xB);
         }
         break;
     case (u32)-3:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case (u32)-4:
         break;
     default:
         if (func_021C7738()) {
-            func_020061E4(0x556);
+            GFL_USE_PlaySeDefaultVolume(0x556);
             func_021C66A0(((struct MbSeqCtx *)p)->f8, 7, 8);
             ((struct MbSeqCtx *)p)->f28 = 10;
             return 0x19;
@@ -716,7 +719,7 @@ int func_021C6EA4(u8 *p)
 int func_021C6FA8(struct MbSeqCtx *p)
 {
     if (func_021C770C(p) == 1) {
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021C66A0(*(u8 * *)&p->f8, 3, 9);
         p->f28 = 0x10;
         return 0x18;
@@ -1325,7 +1328,7 @@ int func_021C7540(u8 *p)
 {
     ((struct MbSeqCtx *)p)->f24 = func_021C3E00((u32 *)(*(u8 * *)&((struct MbSeqCtx *)p)->f10));
     if (((struct MbSeqCtx *)p)->f24 == 1) {
-        func_021C3E04((u32 *)(*(u8 * *)&((struct MbSeqCtx *)p)->f10), func_0201AB28(GAME_DATA_GetMyParty(**(void ** *)&((struct MbSeqCtx *)p)->f4), ((struct Flags *)(p + 0x21))->index));
+        func_021C3E04((u32 *)(*(u8 * *)&((struct MbSeqCtx *)p)->f10), POKEPARTY_GetMember(GAME_DATA_GetMyParty(**(void ** *)&((struct MbSeqCtx *)p)->f4), ((struct Flags *)(p + 0x21))->index));
         func_02007F1C(GAME_DATA_GetMyItem(**(void ** *)&((struct MbSeqCtx *)p)->f4), ((struct MbSeqCtx *)p)->f22, 1, 0x65);
     }
     func_021C3E24(*(u8 * *)&((struct MbSeqCtx *)p)->f10);
@@ -1476,7 +1479,7 @@ int func_021C770C(struct MbSeqCtx *a0)
     if (TOUCHPANEL_HitTrg(d_021C7E14) != -1) {
         return 1;
     }
-    if ((func_020362DC() & 3) != 0) {
+    if ((KEY_GetTrg() & 3) != 0) {
         return 1;
     }
     return 0;
@@ -1484,6 +1487,6 @@ int func_021C770C(struct MbSeqCtx *a0)
 
 int func_021C7738(void)
 {
-    return (func_020362DC() & 0x400) ? 1 : 0;
+    return (KEY_GetTrg() & 0x400) ? 1 : 0;
 }
 

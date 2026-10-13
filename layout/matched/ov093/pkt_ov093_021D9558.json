@@ -18,10 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_TOKUSEI_ConfusionGuard_ShowBlockedMessage",
-    "BTL_TOKUSEI_ConfusionGuard_CureOnEntry",
-    "BTL_TOKUSEI_ConfusionGuard_CureOnPeriodicCheck",
-    "BTL_TOKUSEI_GetConfusionGuardHandlers"
+    "HAND_TOKUSEI_ConfusionGuard_ShowBlockedMessage",
+    "HAND_TOKUSEI_ConfusionGuard_CureOnEntry",
+    "HAND_TOKUSEI_ConfusionGuard_CureOnPeriodicCheck",
+    "HAND_TOKUSEI_GetConfusionGuardHandlers"
    ],
    "addresses": [
     "0x021D9558",

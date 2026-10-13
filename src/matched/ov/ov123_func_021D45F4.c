@@ -17,10 +17,10 @@
  *   func_0201DD68  0x0201DD68  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   func_0201F7A8  0x0201F7A8  thumb
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   func_02049B40  0x02049B40  arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_02045CAC  0x02045CAC  arm
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
@@ -50,10 +50,10 @@ struct MsgBank;
 struct StrObj;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_0201F7A8(void *desc, u32 kind);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
@@ -93,7 +93,7 @@ void func_021D45F4(int count, u32 *tbl, Own *owner, Rec *recs, u32 *xs, u32 *ys)
         if (owner->obj[i] != 0) {
             BMP_WIN_ClearScreen(owner->obj[i]);
             func_0201F7A8(owner->obj[i], 2);
-            func_020452E8(owner->obj[i]);
+            BMP_WIN_Delete(owner->obj[i]);
         }
         owner->obj[i] = 0;
     }
@@ -101,7 +101,7 @@ void func_021D45F4(int count, u32 *tbl, Own *owner, Rec *recs, u32 *xs, u32 *ys)
     for (j = 0; j < count; j++) {
         Rec *r = &recs[j];
         owner->obj[j] = (void *)BMP_WIN_Create(7, (u8)r->a, (u8)r->b, (u8)r->c, (u8)r->d, 8, 0);
-        BMP_Clear(func_02045770(owner->obj[j]), 0);
+        BMP_Clear(BMP_WIN_GetBmp(owner->obj[j]), 0);
         func_02045CAC(owner->bank, tbl[j], owner->str);
         GF_FONT_SetTextColor(0xF, 2, 0);
         if (xs != 0)
@@ -112,7 +112,7 @@ void func_021D45F4(int count, u32 *tbl, Own *owner, Rec *recs, u32 *xs, u32 *ys)
             b = ys[j] - func_0201D42C(owner->str, owner->font) / 2;
         else
             b = 0;
-        PRINTSYS_Print(func_02045770(owner->obj[j]), (s16)a, (s16)b, owner->str, owner->font);
+        PRINTSYS_Print(BMP_WIN_GetBmp(owner->obj[j]), (s16)a, (s16)b, owner->str, owner->font);
         BMP_WIN_TransferChars(owner->obj[j]);
         BMP_WIN_MakeScreen(owner->obj[j]);
     }

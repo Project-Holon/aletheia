@@ -1,7 +1,7 @@
 /*
  * file:     unit_0208F224.c
  * unit:     yes
- * function: func_0208F224, func_0208F234, func_0208F2A0, func_0208F2E4, func_0208F328, WM_Initialize, WM_InitializeForListening, func_0208F398, func_0208F400, WM_End, WM_SetParentParameter, func_0208F578, func_0208F5C8, WM_StartParent, func_0208F654, func_0208F698, func_0208F808, WM_StartConnectEx, WM_Disconnect
+ * function: func_0208F224, func_0208F234, func_0208F2A0, func_0208F2E4, func_0208F328, WM_Initialize, WM_InitializeForListening, func_0208F398, WM_Reset, WM_End, WM_SetParentParameter, func_0208F578, func_0208F5C8, WM_StartParent, func_0208F654, func_0208F698, func_0208F808, WM_StartConnectEx, WM_Disconnect
  * address:  0x0208F224
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -174,7 +174,7 @@ WMErrCode func_0208F328(WMCallbackFunc callback);
 WMErrCode WM_Initialize(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo);
 WMErrCode WM_InitializeForListening(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, BOOL blink);
 WMErrCode func_0208F398(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, u32 miscFlags);
-WMErrCode func_0208F400(WMCallbackFunc callback);
+WMErrCode WM_Reset(WMCallbackFunc callback);
 WMErrCode WM_End(WMCallbackFunc callback);
 WMErrCode WM_SetParentParameter(WMCallbackFunc callback, WMParentParam *pparaBuf);
 BOOL func_0208F578(WMParentParam *param);
@@ -362,7 +362,7 @@ WMErrCode func_0208F398(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, u32 
  * sdk:      WM_Reset (libwm.TWL.HYB.a(wm_standard.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208F400(WMCallbackFunc callback)
+WMErrCode WM_Reset(WMCallbackFunc callback)
 {
     WMErrCode result;
 

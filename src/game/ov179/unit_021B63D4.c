@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   func_021B615C 0x021B615C thumb ov179
@@ -88,7 +88,7 @@ typedef struct {
     int b;
 } Entry_021B64E0;
 
-extern void func_02043534(u32 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void func_021B615C(void);
@@ -152,7 +152,7 @@ extern const unsigned d_021B6A90[];
 
 int func_021B63D4(char *p)
 {
- func_02043534(0);BG_SYS_SetSubVisiblePlanes(0);
+ BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);
  *(volatile unsigned short *)0x04000050=0;
  *(volatile unsigned short *)0x04001050=0;
  BG_SYS_SetLcdSwap(1);func_021B615C();func_021B616C(p);

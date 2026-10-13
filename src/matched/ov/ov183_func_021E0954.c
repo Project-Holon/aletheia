@@ -20,7 +20,7 @@
  *
  * symbols:
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B688 0x0204B688 arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
  *   func_021E0E40 0x021E0E40 thumb ov183
  */
 #include "../include/Obj08316.h"
@@ -31,7 +31,7 @@ typedef struct {u16 a,b,c;u8 flag,pad;} Params;
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
 struct Actor;
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern int func_021E0E40(int,int);
 void func_021E0954(char *p)
 {
@@ -62,7 +62,7 @@ void func_021E0954(char *p)
                 void *obj;
                 params.a=i*8+76;params.b=24;params.c=22;
                 obj=CLACT_CreateActor((void *)owner,*(u32 *)(p+aB),*(u32 *)(p+bB),*(u32 *)(p+cB),&params,1,*(u16 *)(p+heapB));
-                ((struct Obj08316 *)q)->f15C=obj;func_0204B688(obj,1);
+                ((struct Obj08316 *)q)->f15C=obj;CLACT_SetActorObjMode(obj,1);
                 special++;
             } else {
                 void *obj;
@@ -70,7 +70,7 @@ void func_021E0954(char *p)
                 q=p+normal*28;
                 params.c=func_021E0E40(((struct Obj08316 *)q)->f0,((struct Obj08316 *)q)->f8);
                 obj=CLACT_CreateActor((void *)owner,*(u32 *)(p+aA),*(u32 *)(p+bA),*(u32 *)(p+cA),&params,1,*(u16 *)(p+heapA));
-                ((struct Obj08316 *)q)->fC=obj;func_0204B688(obj,1);
+                ((struct Obj08316 *)q)->fC=obj;CLACT_SetActorObjMode(obj,1);
                 normal++;
             }
             i++;

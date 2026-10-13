@@ -11,7 +11,7 @@
  * symbols:
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_GetActorScale 0x0204B5C0 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorScale 0x0204B5AC arm
  *   _fflt 0x0209BDBC arm
  *   _fdiv 0x0209CE10 arm
@@ -38,7 +38,7 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 struct Obj;
 extern void CLACT_GetActorScale(const struct Obj *o, struct Pair *p);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 
 #define OBJ(p) (*(void **)((p) + *(int *)((p) + 0x5c) * 4 + 0x54))
@@ -66,7 +66,7 @@ void ov208_func_021C301C(u16 *heap, u8 *p, int key)
             sc.y = (int)(4096.0f * f + 0.5f);
         else
             sc.y = (int)(4096.0f * f - 0.5f);
-        func_0204B404(OBJ(p), (const struct Vec2 *)(&pos), 1);
+        CLACT_AddActorSurfacePos(OBJ(p), (const struct Vec2 *)(&pos), 1);
         CLACT_SetActorScale(OBJ(p), &sc);
         break;
     case 3:
@@ -84,7 +84,7 @@ void ov208_func_021C301C(u16 *heap, u8 *p, int key)
             sc.y = (int)(4096.0f * f + 0.5f);
         else
             sc.y = (int)(4096.0f * f - 0.5f);
-        func_0204B404(OBJ(p), (const struct Vec2 *)(&pos), 1);
+        CLACT_AddActorSurfacePos(OBJ(p), (const struct Vec2 *)(&pos), 1);
         CLACT_SetActorScale(OBJ(p), &sc);
         break;
     }

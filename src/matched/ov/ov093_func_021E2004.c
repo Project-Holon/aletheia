@@ -1,5 +1,5 @@
 /*
- * function: func_021E2004
+ * function: HAND_WAZA_LeechSeedSetSickCont
  * address:  0x021E2004
  * packet:   pkt_ov093_021E2004
  * region:   ov093
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C7D00  0x021C7D00  thumb  ov093
+ *   BTL_SERVER_FLOW_GetFrontPosOfPoke  0x021C7D00  thumb  ov093
  *   BTLV_CORE_MakeSlotKind1Value  0x021E89D4  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
@@ -20,14 +20,14 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 typedef struct Word { unsigned int v; } Word;
 extern int BTL_EVENT_GetVar(int key);
-extern int func_021C7D00(u8 *p, int b);
+extern int BTL_SERVER_FLOW_GetFrontPosOfPoke(u8 *p, int b);
 extern Word BTLV_CORE_MakeSlotKind1Value(int a);
 extern int BTL_EVENT_OverwriteVar(int a, Word b);
 
-void func_021E2004(int u, int a, int b)
+void HAND_WAZA_LeechSeedSetSickCont(int u, int a, int b)
 {
     if (b == BTL_EVENT_GetVar(3)) {
-        Word t = BTLV_CORE_MakeSlotKind1Value(func_021C7D00((u8 *)a, b));
+        Word t = BTLV_CORE_MakeSlotKind1Value(BTL_SERVER_FLOW_GetFrontPosOfPoke((u8 *)a, b));
         BTL_EVENT_OverwriteVar(0x1e, t);
     }
 }

@@ -13,7 +13,7 @@
  *   VM_GetU32  0x0201134C  thumb
  *   VM_Jump  0x020113B0  thumb
  *   func_0218A160  0x0218A160  thumb  ov096
- *   func_021C82F4  0x021C82F4  thumb  ov093
+ *   BTL_SERVER_FLOW_CheckFieldEffectActive  0x021C82F4  thumb  ov093
  */
 #include "../include/Obj00005.h"
 #include "../include/Obj13671.h"
@@ -30,7 +30,7 @@ extern u32 VM_GetU32(struct Cursor *p);
 struct Cur;
 extern void VM_Jump(struct Cur *c, u32 v);
 extern u8 func_0218A160(u8 *, int);
-extern int func_021C82F4(int, int, int);
+extern int BTL_SERVER_FLOW_CheckFieldEffectActive(int, int, int);
 
 int func_0218A034(struct Cursor *a, u8 *b)
 {
@@ -38,7 +38,7 @@ int func_0218A034(struct Cursor *a, u8 *b)
     int n;
     t = VM_GetU32(a);
     n = VM_GetU32(a);
-    if (func_021C82F4(((struct Obj13671 *)b)->fB4, func_0218A160(b, t), 3) != 0)
+    if (BTL_SERVER_FLOW_CheckFieldEffectActive(((struct Obj13671 *)b)->fB4, func_0218A160(b, t), 3) != 0)
         VM_Jump((struct Cur *)a, (u32)(*(u8 * *)&((struct Obj00005 *)a)->f14 + n));
     return ((struct Obj13671 *)b)->fC4;
 }

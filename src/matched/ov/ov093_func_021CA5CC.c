@@ -1,5 +1,5 @@
 /*
- * function: func_021CA5CC
+ * function: BTL_SERVER_FLOW_ProcHandExGroundPokes
  * address: 0x021CA5CC
  * packet: pkt_ov093_021CA5CC
  * region: ov093
@@ -10,9 +10,9 @@
  * status: EXACT
  * lever: C7F68 returns its normalized u8 j, and u8 n restores the count reload.
  * symbols:
- *   func_021B8D8C 0x021B8D8C thumb ov093
- *   func_021C7F68 0x021C7F68 thumb ov093
- *   func_021B9934 0x021B9934 thumb ov093
+ *   BTL_MAIN_GetTrainerSlotOfPoke 0x021B8D8C thumb ov093
+ *   BTL_SERVER_FLOW_CollectAlivePokeIds 0x021C7F68 thumb ov093
+ *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   BTL_POKEPARAM_TestContFlag 0x021D5BDC thumb ov093
  *   BTL_SERVER_FLOW_TryClearContFlag 0x021C5418 thumb ov093
  *   BTL_POKEPARAM_GetCounter 0x021D69AC thumb ov093
@@ -29,11 +29,11 @@ typedef unsigned int u32;
 struct Cmd { u32 a:8; u32 id:5; u32 b:19; };
 struct Unk021D62A8;
 struct UtilWork;
-extern int func_021B8D8C(void *p, void *a, u32 b);
-extern u8 func_021C7F68(int *p, int b, u8 *out);
+extern int BTL_MAIN_GetTrainerSlotOfPoke(void *p, void *a, u32 b);
+extern u8 BTL_SERVER_FLOW_CollectAlivePokeIds(int *p, int b, u8 *out);
 typedef signed int     s32;
 struct Slot;
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
 extern int BTL_SERVER_FLOW_TryClearContFlag(u8 *, u8 *, int);
 extern u8 BTL_POKEPARAM_GetCounter(u8 *, int);
@@ -42,7 +42,7 @@ extern int BTL_SERVER_FLOW_QueryPokeGroundedEvent(u8 *, u8 *, int);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern void BTL_SERVER_FLOW_CureSick(u8 *p, u8 *a, int k, struct Slot *out);
 extern void BTL_SERVER_CMD_PushVariable(void *, u8, ...);
-int func_021CA5CC(const u8 *p, const struct Cmd *q)
+int BTL_SERVER_FLOW_ProcHandExGroundPokes(const u8 *p, const struct Cmd *q)
 {
     u8 buf[8];
     u8 n;
@@ -50,12 +50,12 @@ int func_021CA5CC(const u8 *p, const struct Cmd *q)
     u8 *a;
     int changed;
     u8 t;
-    n = func_021C7F68((int *)p, (u16)(func_021B8D8C(((struct Obj00003 *)p)->f4, ((struct Obj00003 *)p)->f8, (u8)q->id) | 0x800), buf);
+    n = BTL_SERVER_FLOW_CollectAlivePokeIds((int *)p, (u16)(BTL_MAIN_GetTrainerSlotOfPoke(((struct Obj00003 *)p)->f4, ((struct Obj00003 *)p)->f8, (u8)q->id) | 0x800), buf);
     i = 0;
     if (i >= n) goto done;
 loop:
     {
-        a = (u8 *)func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, buf[i]);
+        a = (u8 *)BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00003 *)p)->f8, buf[i]);
         changed = 0;
         if (BTL_POKEPARAM_TestContFlag((struct UtilWork *)a, 3)) {
             BTL_SERVER_FLOW_TryClearContFlag((u8 *)p, a, 3);

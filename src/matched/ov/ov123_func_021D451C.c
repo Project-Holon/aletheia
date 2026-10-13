@@ -11,8 +11,8 @@
  * extent: follower 021D45F0 already filed separately.
  * symbols:
  *   CLACT_ResetActorAnimCommand 0x0204BA10 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_020452E8 0x020452E8 arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   OS_IsRunOnTwl 0x02085D3C arm
  *   func_02045CAC 0x02045CAC arm
  *   func_021D4EF0 0x021D4EF0 thumb ov123
@@ -31,8 +31,8 @@ struct Descriptor;
 struct MsgBank;
 struct Obj;
 extern void CLACT_ResetActorAnimCommand(struct Actor *a);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern u32 func_020452E8(struct Descriptor *d);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern int OS_IsRunOnTwl(void);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021D4EF0(char *, int, int);
@@ -46,10 +46,10 @@ extern void func_021D4440(void);
 void func_021D451C(char *p)
 {
     CLACT_ResetActorAnimCommand(*(void **)(p + ((struct Obj00273 *)p)->f270 * 4 + 0x2a0));
-    func_0204B92C(*(void **)(p + ((struct Obj00273 *)p)->f270 * 4 + 0x2a0), 0);
+    CLACT_SetActorAutoAnim(*(void **)(p + ((struct Obj00273 *)p)->f270 * 4 + 0x2a0), 0);
     if (((struct Obj00273 *)p)->f8 == 3) {
         if (((struct Obj00273 *)p)->f224) {
-            func_020452E8(((struct Obj00273 *)p)->f224);
+            BMP_WIN_Delete(((struct Obj00273 *)p)->f224);
             ((struct Obj00273 *)p)->f224 = 0;
         }
         if (OS_IsRunOnTwl()) {

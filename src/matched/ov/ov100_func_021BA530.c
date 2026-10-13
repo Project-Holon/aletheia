@@ -20,7 +20,7 @@
  * note 2026-10-04 (wD2 lane18): still MATCH, only unresolved relocations remain: callee GFL_NET_IRC_WIRELESS_GetRetryCount (veneer to 0x0203E590) still has no witness; GFL_NET_IRC_WIRELESS_GetRetryCountValue filed EXACT as src/matched/arm9/GFL_NET_IRC_WIRELESS_GetRetryCountValue.c, integrator must regenerate labels/manifest so the veneer resolves.
  * symbols:
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   GFL_NET_IRC_WIRELESS_GetRetryCount 0x0203D170 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -40,7 +40,7 @@ struct Descriptor;
 struct MsgBank;
 struct WordSet;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern int GFL_NET_IRC_WIRELESS_GetRetryCount(void);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -52,13 +52,13 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 void func_021BA530(int b,int a) {
  if(*(int *)(a+0x280)==0) *(int *)(a+0x280)=(int)BMP_WIN_Create((int)5,(int)1,(int)8,(int)23,4,13,0);
- BMP_Clear(func_02045770((struct Descriptor *)(*(int *)(a+0x280))),(int)255);
+ BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)(*(int *)(a+0x280))),(int)255);
  BMP_WIN_MakeScreen((struct Cfg *)(*(int *)(a+0x280)));
  BMP_WIN_TransferChars((struct Descriptor *)(*(int *)(a+0x280)));
  func_0201F73C((void *)(*(int *)(a+0x280)),0,(unsigned short)(*(int *)(a+0x304)),14);
  MSGDATA_ReadString((struct MsgBank *)(*(int *)(a+0x288)),(int)b,(void *)(*(int *)(a+0x294)));
  func_0201EFA4((struct WordSet *)(*(int *)(a+0x28c)),(int)0,(int)GFL_NET_IRC_WIRELESS_GetRetryCount(),(int)2,(int)1,(int)1);
  func_0201F250((struct WordSet *)(*(int *)(a+0x28c)),(void *)(*(int *)(a+0x298)),(void *)(*(int *)(a+0x294)));
- PRINTSYS_Print(func_02045770((struct Descriptor *)(*(int *)(a+0x280))),0,2,(void *)(*(int *)(a+0x298)),(void *)(*(int *)(a+0x290)));
+ PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)(*(int *)(a+0x280))),0,2,(void *)(*(int *)(a+0x298)),(void *)(*(int *)(a+0x290)));
  BMP_WIN_TransferChars((struct Descriptor *)(*(int *)(a+0x280)));
 }

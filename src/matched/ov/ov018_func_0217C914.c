@@ -14,7 +14,7 @@
  *   INTRUDE_COMM_SendRequest  0x02173A2C  thumb  ov011
  *   INTRUDE_COMM_TakeRequestResult  0x02175514  thumb  ov011
  *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb  ov018
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   INTRUDE_COMM_SendAnswer  0x02173B9C  thumb  ov011
  *   INTRUDE_COMM_NextRequestToken  0x021753B8  thumb  ov011
  *   EVENT_COMM_COMMON_IsKeyTrg  0x0217F420  thumb  ov018
@@ -30,7 +30,7 @@ struct T;
 extern int INTRUDE_COMM_SendRequest(unsigned char *p, int b, struct T *c, int d);
 extern int INTRUDE_COMM_TakeRequestResult(u8 *);
 extern int EVENT_COMM_COMMON_IsPrintFinished(u8 *);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int INTRUDE_COMM_SendAnswer(int a, int b);
 extern void INTRUDE_COMM_NextRequestToken(u8 *);
 extern int EVENT_COMM_COMMON_IsKeyTrg(void);
@@ -58,7 +58,7 @@ int INTRUDE_SUBDISP_MainRequestAnswerSeq(u8 *v, u8 *w, u8 *state)
             break;
         default:
             if (EVENT_COMM_COMMON_IsPrintFinished(w + 0x10) == 1) {
-                if ((func_020362DC() & 2) && INTRUDE_COMM_SendAnswer(v[0x154], v[0x158]) == 1) {
+                if ((KEY_GetTrg() & 2) && INTRUDE_COMM_SendAnswer(v[0x154], v[0x158]) == 1) {
                     INTRUDE_COMM_NextRequestToken(v);
                     *state = 9;
                 }

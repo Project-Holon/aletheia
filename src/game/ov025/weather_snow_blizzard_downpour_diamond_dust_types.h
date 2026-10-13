@@ -133,10 +133,10 @@ extern u32 func_020056EC(u32 range);
 extern void CLACT_SetActorAnimIndex(Actor *actor, int index);
 extern u16 CLACT_GetActorAnimSeqCount(Actor *actor);
 extern void CLACT_GetActorSurfacePos(Actor *actor, WeatherScreenPos *out, u32 space);
-extern void func_0204B404(Actor *actor, const WeatherScreenPos *pos, u32 space);
+extern void CLACT_AddActorSurfacePos(Actor *actor, const WeatherScreenPos *pos, u32 space);
 
 /* Snow stages (begin, fade in, begin at once, run, stop spawning, fade out, finish). */
-int func_021EE740(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_SNOW_Begin(WeatherTaskSys *task, int variant, int heapId);
 int WEATHER_SNOW_BeginParticles(WeatherTaskSys *task, int variant, int heapId);
 int WEATHER_SNOW_BeginPlain(WeatherTaskSys *task, int variant, int heapId);
 int WEATHER_SNOW_Run(WeatherTaskSys *task, int variant, int heapId);

@@ -12,7 +12,7 @@
  * sdk:      DWC_Svl_GetTokenAsync (libdwcauth.TWL.HYB.a dwc_svl.o)
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0208574C  0x0208574C  arm
  *   func_02088234  0x02088234  arm
  *   func_020948E0  0x020948E0  arm
@@ -23,7 +23,7 @@
  *   func_02179CF4  0x02179CF4  arm  ov009
  *   func_02179F3C  0x02179F3C  arm  ov009
  *   func_0217967C  0x0217967C  arm  ov009
- *   func_02085A30  0x02085A30  arm
+ *   OS_GetThreadPriority  0x02085A30  arm
  *   func_02179718  0x02179718  arm  ov009
  *   g_021ACEF4     0x021ACEF4  data ov009
  *   g_021A2358     0x021A2358  data ov009
@@ -99,7 +99,7 @@ typedef struct DWCAuthHttpParam {
     char *url;
 } DWCAuthHttpParam;
 
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int func_0208574C(OSThread *thread);
 extern void func_02088234(void);
 extern int func_020948E0(const char *s1, const char *s2) __attribute__((pure));
@@ -110,7 +110,7 @@ extern int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
 extern void func_02179CF4(char *http);
 extern int func_02179F3C(DWCHttp *http, char *label, char *data, unsigned long data_len);
 extern int func_0217967C(char *http);
-extern unsigned long func_02085A30(OSThread *thread);
+extern unsigned long OS_GetThreadPriority(OSThread *thread);
 extern void func_02179718(char *http, unsigned long prio);
 
 extern DWCSvlIntWorkarea *g_021ACEF4;
@@ -127,7 +127,7 @@ int func_0217C144(char *svc, DWCSvlResult *result)
     DWCCalInfo calinfo;
 
     g_021ACEF4->result = result;
-    func_02082BCC(result, 0, sizeof(DWCSvlResult));
+    MI_CpuFill8(result, 0, sizeof(DWCSvlResult));
 
     if (g_021ACEF4->http.thread.id != 0 && !func_0208574C(&g_021ACEF4->http.thread))
         func_02088234();
@@ -167,7 +167,7 @@ int func_0217C144(char *svc, DWCSvlResult *result)
         return 0;
     }
 
-    func_02179718((char *)(&g_021ACEF4->http), func_02085A30(g_02150FEC.current) - 1);
+    func_02179718((char *)(&g_021ACEF4->http), OS_GetThreadPriority(g_02150FEC.current) - 1);
     if (g_021ACEF4->http.thread.id == 0) {
         func_02179CF4((char *)(&g_021ACEF4->http));
         func_02059F54(9, -24100);

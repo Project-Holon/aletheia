@@ -1,5 +1,5 @@
 /*
- * function: func_021C830C
+ * function: BTL_SERVER_FLOW_TestStateFlagBit0
  * address: 0x021C830C
  * packet: pkt_ov093_021C830C
  * region: ov093
@@ -12,4 +12,4 @@
  */
 typedef unsigned char u8;
 struct Bits { unsigned char a:1; unsigned char rest:7; };
-unsigned int func_021C830C(u8 *p) { return ((struct Bits *)(p+0x78a))->a; }
+unsigned int BTL_SERVER_FLOW_TestStateFlagBit0(u8 *p) { return ((struct Bits *)(p+0x78a))->a; }

@@ -35,7 +35,7 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorAutoAnimSpeed 0x0204B954 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -101,7 +101,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -140,7 +140,7 @@ void DOWSING_CreateCloseButton(Obj *p)
         s.a = 0xE8;
         s.b = 0xA8;
         p->f24 = (u32)CLACT_CreateActor((void *)p->fC, p->f1C, p->f18, p->f20, &s, 1, p->heap);
-        func_0204B92C((struct Obj *)p->f24, 1);
+        CLACT_SetActorAutoAnim((struct Obj *)p->f24, 1);
         CLACT_SetActorAutoAnimSpeed((struct Actor *)p->f24, 0x2000);
         CLACT_SetActorAnimSeq((struct Obj *)p->f24, 0);
         ARC_TOOL_DeleteHandle(arc);

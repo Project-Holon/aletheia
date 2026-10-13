@@ -22,8 +22,8 @@
  *   func_02008510 0x02008510 thumb
  *   func_0201D304 0x0201D304 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_0204B404 0x0204B404 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   d_021C7048 0x021C7048 data ov172
  *   d_021C704C 0x021C704C data ov172
@@ -45,8 +45,8 @@ struct U16Vec;
 struct Vec2;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern const struct Q d_021C7048;
 extern const struct Q d_021C704C;
@@ -70,7 +70,7 @@ void func_021BE210(char *a, u8 idx)
     STRBUF_Delete(h);
     { u32 xk = rc.xv.b[k]; rc.x = xk + (v >> 1); }
     rc.y = rc.yv.b[k];
-    func_0204B404(*(void **)(a + 0x1B0), (const struct Vec2 *)(&rc), 0);
-    func_0204B3DC(*(void **)(a + 0x1B0), 1);
+    CLACT_AddActorSurfacePos(*(void **)(a + 0x1B0), (const struct Vec2 *)(&rc), 0);
+    CLACT_SetActorDrawEnable(*(void **)(a + 0x1B0), 1);
     CLACT_RestartActorAnim(*(void **)(a + 0x1B0));
 }

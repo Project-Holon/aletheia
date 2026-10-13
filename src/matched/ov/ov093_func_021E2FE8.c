@@ -1,5 +1,5 @@
 /*
- * function: func_021E2FE8
+ * function: HAND_WAZA_GustOnInvulnerableCheck
  * address:  0x021E2FE8
  * packet:   pkt_ov093_021E2FE8
  * region:   ov093
@@ -19,7 +19,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern int BTL_EVENT_GetVar(int key);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E2FE8(int u, int a, int b)
+void HAND_WAZA_GustOnInvulnerableCheck(int u, int a, int b)
 {
     if (b == BTL_EVENT_GetVar(3)) {
         if (BTL_EVENT_GetVar(0x21) == 3)

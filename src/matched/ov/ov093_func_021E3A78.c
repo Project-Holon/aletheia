@@ -1,5 +1,5 @@
 /*
- * function: func_021E3A78
+ * function: HAND_WAZA_EndureBraceUp
  * address:  0x021E3A78
  * packet:   pkt_ov093_021E3A78
  * region:   ov093
@@ -11,31 +11,31 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C88A4  0x021C88A4  thumb  ov093
- *   func_021C8838  0x021C8838  thumb  ov093
- *   func_021C8860  0x021C8860  thumb  ov093
- *   func_021C88C8  0x021C88C8  thumb  ov093
- *   func_021E3C5C  0x021E3C5C  thumb  ov093
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
+ *   HAND_WAZA_ProtectIncrementStreak  0x021E3C5C  thumb  ov093
  */
 
 extern int BTL_EVENT_GetVar(int);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C8838(void *p, int a, int b);
+extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
+extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 struct S;
-extern void func_021C8860(struct S *p, unsigned int a);
-extern void func_021C88C8(void *a, void *p);
-extern void func_021E3C5C(void *a, int c, int d);
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, unsigned int a);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *p);
+extern void HAND_WAZA_ProtectIncrementStreak(void *a, int c, int d);
 
-void func_021E3A78(int u, void *a, int c, int *w)
+void HAND_WAZA_EndureBraceUp(int u, void *a, int c, int *w)
 {
     char *p;
 
     if (c == BTL_EVENT_GetVar(3)) {
-        p = func_021C88A4(a, 4, c);
-        func_021C8838(p + 4, 2, 0x1ff);
-        func_021C8860((struct S *)(p + 4), c);
-        func_021C88C8(a, p);
+        p = BTL_SERVER_FLOW_AllocCmdRecord(a, 4, c);
+        BTL_SERVER_FLOW_InitMsgRecord(p + 4, 2, 0x1ff);
+        BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(p + 4), c);
+        BTL_SERVER_FLOW_CommitCmdRecord(a, p);
         w[6] = 1;
-        func_021E3C5C(a, c, 0);
+        HAND_WAZA_ProtectIncrementStreak(a, c, 0);
     }
 }

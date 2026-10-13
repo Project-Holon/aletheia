@@ -1,5 +1,5 @@
 /*
- * function: func_021B9A50
+ * function: BTL_MAIN_IsPokeIdInFirstPair
  * address:  0x021B9A50
  * packet:   pkt_021B9A50
  * region:   ov093
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9A40  0x021B9A40  thumb  ov093
- *   func_021B9A5C  0x021B9A5C  thumb  ov093
+ *   BTL_MAIN_IsPokeIdInSecondPair  0x021B9A40  thumb  ov093
+ *   BTL_MAIN_IsZero  0x021B9A5C  thumb  ov093
  */
 
-unsigned char func_021B9A40(unsigned int x);
-unsigned char func_021B9A5C(unsigned int x);
+unsigned char BTL_MAIN_IsPokeIdInSecondPair(unsigned int x);
+unsigned char BTL_MAIN_IsZero(unsigned int x);
 
-unsigned char func_021B9A50(unsigned int x)
+unsigned char BTL_MAIN_IsPokeIdInFirstPair(unsigned int x)
 {
-    return func_021B9A5C(func_021B9A40(x));
+    return BTL_MAIN_IsZero(BTL_MAIN_IsPokeIdInSecondPair(x));
 }

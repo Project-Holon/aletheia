@@ -11,18 +11,18 @@
  * ABI: 02035C60/0201CCE4 matched void forwarders leave r0 live; this caller tests/stores it.
  * symbols:
  *   TCBL_Main 0x020310C4 arm
- *   func_0201CE30 0x0201CE30 thumb
- *   func_0203630C 0x0203630C arm
+ *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
+ *   KEY_GetCont 0x0203630C arm
  *   func_020355D8 0x020355D8 arm
  *   TOUCHPANEL_GetCont 0x02035C38 arm
- *   func_0201CE5C 0x0201CE5C thumb
- *   func_020362DC 0x020362DC arm
+ *   PRINTSYS_PrintStreamShortWait 0x0201CE5C thumb
+ *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_0201CE38 0x0201CE38 thumb
- *   func_020061E4 0x020061E4 thumb
- *   func_02045770 0x02045770 arm
+ *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_0201EC64 0x0201EC64 thumb
  *   func_0201EEF4 0x0201EEF4 thumb
@@ -44,21 +44,21 @@ struct Descriptor;
 struct CharBuf;
 struct U16Vec;
 extern void TCBL_Main(struct Tcbl *);
-extern u32 func_0201CE30(void *);
-extern u32 func_0203630C(void);
+extern u32 PRINTSYS_PrintStreamGetState(void *);
+extern u32 KEY_GetCont(void);
 extern void func_020355D8(u8);
 extern int TOUCHPANEL_GetCont(void);
 typedef signed int     s32;
 struct Rec;
 struct Rec3;
-extern void func_0201CE5C(struct Rec *p, s32 v);
-extern u32 func_020362DC(void);
+extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_0201CE38(void *);
-extern void func_020061E4(u32);
-extern void *func_02045770(struct Descriptor *p);
+extern void PRINTSYS_PrintStreamReleasePause(void *);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *,u8);
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *);
 extern struct WordSet *func_0201EC64(u32);
 extern void func_0201EEF4(struct WordSet *,u32,void *);
@@ -78,20 +78,20 @@ int func_0220B72C(char *p)
     case 0: break;
     case 1:
         TCBL_Main(*(struct Tcbl * *)&((struct Obj00181 *)p)->f34);
-        value=func_0201CE30(((struct Obj00181 *)p)->f28);
+        value=PRINTSYS_PrintStreamGetState(((struct Obj00181 *)p)->f28);
         if(value==2) {((struct Obj00181 *)p)->f3C=2;((struct Obj00181 *)p)->f4C=1;break;}
         switch(value) {
         case 0:
             flag=0;
-            if(func_0203630C()&3) {func_020355D8(0);flag=1;}
+            if(KEY_GetCont()&3) {func_020355D8(0);flag=1;}
             else if(TOUCHPANEL_GetCont()!=0) {func_020355D8(1);flag=1;}
-            if(flag!=0) func_0201CE5C(((struct Obj00181 *)p)->f28,0);
+            if(flag!=0) PRINTSYS_PrintStreamShortWait(((struct Obj00181 *)p)->f28,0);
             break;
         case 1:
             flag=0;
-            if(func_020362DC()&3) {func_020355D8(0);flag=1;}
+            if(KEY_GetTrg()&3) {func_020355D8(0);flag=1;}
             else if(TOUCHPANEL_GetTrg()!=0) {func_020355D8(1);flag=1;}
-            if(flag!=0) {func_0201CE38(((struct Obj00181 *)p)->f28);func_020061E4(0x547);}
+            if(flag!=0) {PRINTSYS_PrintStreamReleasePause(((struct Obj00181 *)p)->f28);GFL_USE_PlaySeDefaultVolume(0x547);}
             break;
         }
         break;
@@ -99,8 +99,8 @@ int func_0220B72C(char *p)
         if(((struct Obj00181 *)p)->f40==2) break;
         if(((struct Obj00181 *)p)->f40==0) {
             if(*(u32 *)&((struct Obj00181 *)p)->f8==0) {((struct Obj00181 *)p)->f3C=5;break;}
-            BMP_Clear(func_02045770(*(struct Descriptor * *)&((struct Obj00181 *)p)->f24),15);
-            func_0201CE48(((struct Obj00181 *)p)->f28);
+            BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj00181 *)p)->f24),15);
+            PRINTSYS_PrintStreamDelete(((struct Obj00181 *)p)->f28);
             STRBUF_Delete(*(struct U16Vec * *)&((struct Obj00181 *)p)->f2C);
             ws=func_0201EC64(((struct Obj00181 *)p)->f0);
             func_0201EEF4(ws,0,((struct Obj00181 *)p)->f4);
@@ -114,20 +114,20 @@ int func_0220B72C(char *p)
         break;
     case 3:
         TCBL_Main(*(struct Tcbl * *)&((struct Obj00181 *)p)->f34);
-        value=func_0201CE30(((struct Obj00181 *)p)->f28);
+        value=PRINTSYS_PrintStreamGetState(((struct Obj00181 *)p)->f28);
         if(value==2) {((struct Obj00181 *)p)->f3C=4;break;}
         switch(value) {
         case 0:
             flag=0;
-            if(func_0203630C()&3) {func_020355D8(0);flag=1;}
+            if(KEY_GetCont()&3) {func_020355D8(0);flag=1;}
             else if(TOUCHPANEL_GetCont()!=0) {func_020355D8(1);flag=1;}
-            if(flag!=0) func_0201CE5C(((struct Obj00181 *)p)->f28,0);
+            if(flag!=0) PRINTSYS_PrintStreamShortWait(((struct Obj00181 *)p)->f28,0);
             break;
         case 1:
             flag=0;
-            if(func_020362DC()&3) {func_020355D8(0);flag=1;}
+            if(KEY_GetTrg()&3) {func_020355D8(0);flag=1;}
             else if(TOUCHPANEL_GetTrg()!=0) {func_020355D8(1);flag=1;}
-            if(flag!=0) {func_0201CE38(((struct Obj00181 *)p)->f28);func_020061E4(0x547);}
+            if(flag!=0) {PRINTSYS_PrintStreamReleasePause(((struct Obj00181 *)p)->f28);GFL_USE_PlaySeDefaultVolume(0x547);}
             break;
         }
         break;

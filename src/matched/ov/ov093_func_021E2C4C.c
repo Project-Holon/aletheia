@@ -1,5 +1,5 @@
 /*
- * function: func_021E2C4C
+ * function: HAND_WAZA_PresentOnVariantDecide
  * address:  0x021E2C4C
  * packet:   pkt_ov093_021E2C4C
  * region:   ov093
@@ -13,7 +13,7 @@
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_CALC_RollPercent  0x021D7AF0  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
- *   func_021C83DC  0x021C83DC  thumb  ov093
+ *   BTL_SERVER_FLOW_SetCurTurnStateFlag  0x021C83DC  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -21,13 +21,13 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern int BTL_EVENT_GetVar(int key);
 extern int BTL_CALC_RollPercent(u32 pct);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
-extern void func_021C83DC(char *p, int x);
+extern void BTL_SERVER_FLOW_SetCurTurnStateFlag(char *p, int x);
 
-void func_021E2C4C(int u, void *a, int b, int *p)
+void HAND_WAZA_PresentOnVariantDecide(int u, void *a, int b, int *p)
 {
     if (b == BTL_EVENT_GetVar(3)) {
         if (BTL_CALC_RollPercent(0x14) != 0)
             *p = BTL_EVENT_OverwriteVar(0x51, 1);
-        func_021C83DC(a, (u8)(*p != 0));
+        BTL_SERVER_FLOW_SetCurTurnStateFlag(a, (u8)(*p != 0));
     }
 }

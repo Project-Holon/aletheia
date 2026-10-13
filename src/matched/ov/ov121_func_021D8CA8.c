@@ -16,7 +16,7 @@
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj08088.h"
 typedef unsigned char u8;
@@ -29,7 +29,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 void func_021D8CA8(u8 *p)
 {
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
@@ -39,5 +39,5 @@ void func_021D8CA8(u8 *p)
     CLACT_ReleasePalette((u32)(((struct Obj08088 *)p)->fC));
     CLACT_ReleaseCharacter((u32)(((struct Obj08088 *)p)->f10));
     CLACT_ReleaseCellAnim((u32)(((struct Obj08088 *)p)->f14));
-    func_02082BCC(p,0,300);
+    MI_CpuFill8(p,0,300);
 }

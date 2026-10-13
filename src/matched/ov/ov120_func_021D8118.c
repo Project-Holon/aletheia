@@ -13,7 +13,7 @@
  *       allocator's parameters are the u8 of the ov120_func_021D7F5C twin.
  * symbols:
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   STRBUF_Clear 0x0204581C arm
  *   MSGDATA_ReadString 0x02045CAC arm
@@ -34,7 +34,7 @@ struct MsgBank;
 struct Sub0200852CObj;
 struct U16Vec;
 struct WordSet;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void STRBUF_Clear(struct U16Vec *vec);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
@@ -54,7 +54,7 @@ int func_021D8118(char *p, void *r, int n)
     void *q;
     if(!t[n]) t[n]=(void *)BMP_WIN_Create((u8)6,(u8)6,(u8)(n*6+1),(u8)24,4,11,1);
     q=t[n];
-    BMP_Clear(func_02045770(q),0);
+    BMP_Clear(BMP_WIN_GetBmp(q),0);
     STRBUF_Clear(*(void **)(p+0x20));
     STRBUF_Clear(*(void **)(p+0x18));
     func_0201F02C(*(void **)(p+0x10),0,r);
@@ -63,7 +63,7 @@ int func_021D8118(char *p, void *r, int n)
     MSGDATA_ReadString(*(void **)(p+0xc),28,*(void **)(p+0x20));
     func_0201F250(*(void **)(p+0x10),*(void **)(p+0x18),*(void **)(p+0x20));
     GF_FONT_SetTextColor(15,2,0);
-    PRINTSYS_Print(func_02045770(q),0,0,*(void **)(p+0x18),*(void **)(p+0x14));
+    PRINTSYS_Print(BMP_WIN_GetBmp(q),0,0,*(void **)(p+0x18),*(void **)(p+0x14));
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
     return 0;

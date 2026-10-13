@@ -16,12 +16,14 @@
  *   sHoneyGatherChance 0x021B9D4D data ov092 a1
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb  arm9
+ *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
+ *   POKEPARTY_GetMember  0x0201AB28  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_0201AA18(void *);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 extern u32 func_020056EC(u32);
@@ -40,8 +42,8 @@ void EVENT_BATTLE_RETURN_ApplyPickupAndHoneyGather(void *party)
     u8 tier;
     int threshold;
     int index;
-    for (i=0;i<(int)func_0201AA18(party);i++) {
-        mon = func_0201AB28(party,i);
+    for (i=0;i<(int)POKEPARTY_GetCount(party);i++) {
+        mon = POKEPARTY_GetMember(party,i);
         species = POKE_TOOL_GetPartyValue(mon,0xab,0);
         item = POKE_TOOL_GetPartyValue(mon,6,0);
         ability = (u8)POKE_TOOL_GetPartyValue(mon,0xa,0);

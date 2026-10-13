@@ -13,7 +13,7 @@
  * (same bitfield at byte 7 bit 4, MAC at +0x64 of a table entry).
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   func_02087C6C  0x02087C6C  arm
  *   MI_CpuCopy8    0x02082D44  arm
@@ -92,7 +92,7 @@ typedef struct Save {
     u32   fC;
 } Save;
 
-extern void func_02082BCC(void *dst, int val, int size);
+extern void MI_CpuFill8(void *dst, int val, int size);
 struct Sub0200852CObj;
 extern u32 GFL_NET_IsParentAid(void);
 extern void func_02087C6C(void *p);
@@ -115,7 +115,7 @@ void UNION_COMM_BuildBeacon(u8 *self, Rec *out)
 {
     Local *l = (Local *)(self + 0x2830);
 
-    func_02082BCC(out, 0, 0x64);
+    MI_CpuFill8(out, 0, 0x64);
     if (l->f20 != 0) {
         if (GFL_NET_IsParentAid() == 1)
             func_02087C6C(out);

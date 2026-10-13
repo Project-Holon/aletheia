@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   tbl_020A1B38   0x020A1B38  data
+ *   FX_SinCosTable_   0x020A1B38  data
  *   _u32_div_f     0x0209C2B0  arm
  *
  * A date interpolation: copy the caller's 16-byte date record onto the
@@ -51,7 +51,7 @@ struct Date {
     u32 f0c;
 };
 
-extern s16  tbl_020A1B38[];
+extern s16  FX_SinCosTable_[];
 struct RtcDate;
 extern s32  func_0203F540(struct RtcDate *d);
 
@@ -69,6 +69,6 @@ u8 func_0200AA00(u32 a0, u32 a1, struct Date *src)
     }
     {
         s32 i = (s32)((((b - a) % 30) * 0xFFFF) / 30);
-        return (u8)((tbl_020A1B38[2 * (i >> 4)] + 0x1000) * 50 >> 12);
+        return (u8)((FX_SinCosTable_[2 * (i >> 4)] + 0x1000) * 50 >> 12);
     }
 }

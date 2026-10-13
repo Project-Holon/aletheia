@@ -17,8 +17,8 @@
  *
  * symbols:
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_02045770 0x02045770 arm
- *   func_0201C6C4 0x0201C6C4 thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  */
 #include "../include/Obj14290.h"
@@ -26,8 +26,8 @@ typedef unsigned int   u32;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 void func_021DD8DC(char *p)
 {
@@ -44,7 +44,7 @@ void func_021DD8DC(char *p)
         obj = ((struct Obj14290 *)p)->fB6C;
         q = p + i * 8;
         if (*(unsigned char *)(q + d)) {
-            if (!func_0201C6C4((struct PrintSys *)obj, (void *)((int)func_02045770((struct Descriptor *)*(int *)(q + c))))) {
+            if (!PRINTSYS_QUE_IsExistTarget((struct PrintSys *)obj, (void *)((int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)(q + c))))) {
                 BMP_WIN_TransferChars((struct Descriptor *)*(int *)(q + a));
                 *(unsigned char *)(q + b) = 0;
             }

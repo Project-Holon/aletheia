@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetAdamantOrbHandlers
+ * function: HAND_ITEM_GetAdamantOrbHandlers
  * address: 0x021DF9BC
  * packet: pkt_ov093_021DF9BC
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int gBtlHandlerItemAdamantOrbHandlers[];
-int *BTL_HANDLER_ITEM_GetAdamantOrbHandlers(int *p);
+int *HAND_ITEM_GetAdamantOrbHandlers(int *p);
 
-int *BTL_HANDLER_ITEM_GetAdamantOrbHandlers(int *p)
+int *HAND_ITEM_GetAdamantOrbHandlers(int *p)
 {
     *p = 1;
     return gBtlHandlerItemAdamantOrbHandlers;

@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_0201F73C  0x0201F73C  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
- *   func_0201C6FC  0x0201C6FC  thumb
+ *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  */
 
@@ -67,17 +67,17 @@ struct CharBuf;
 struct Descriptor;
 struct MsgBank;
 struct U16Vec;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 FIELD_MSGBG_GetFont(u8 *p);
 struct PrintSys;
-extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
+extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
 void REPORT_EVENT_QueueMessage(Work *w, u32 msg)
@@ -88,17 +88,17 @@ void REPORT_EVENT_QueueMessage(Work *w, u32 msg)
     void *t;
     void *p;
 
-    BMP_Clear(func_02045770(w->f18->f08), 15);
+    BMP_Clear(BMP_WIN_GetBmp(w->f18->f08), 15);
     func_0201F73C(w->f18->f08, 2, 1, 13);
     str = func_02045EC0(w->f18->f04, msg);
     a = FIELD_MSGBG_GetFont(w->f0C);
     s = (Slot *)&w->f18->f08;
     t = w->f18->f14;
-    func_0201C6FC(t, (u32)func_02045770(s->f00), 0, 0, str, a);
+    PRINTSYS_PrintQue(t, (u32)BMP_WIN_GetBmp(s->f00), 0, 0, str, a);
     s->f04 = 1;
     STRBUF_Delete(str);
     p = w->f18->f08;
     BMP_WIN_TransferChars(p);
     BMP_WIN_MakeScreen(p);
-    func_02041B6C(func_02045730(p));
+    func_02041B6C(BMP_WIN_GetBgLayer(p));
 }

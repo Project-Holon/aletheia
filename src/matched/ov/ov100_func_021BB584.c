@@ -25,8 +25,8 @@
  *   func_02030EAC 0x02030EAC arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
@@ -47,8 +47,8 @@ extern void func_021BAC08(int);
 extern void func_02030EAC(struct Node *);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
-extern void func_0201C6EC(struct PrintSys *);
-extern void func_0201C4C0(struct PrintSys *);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned int);
 enum Offset { Words=0x28c };
@@ -76,8 +76,8 @@ int func_021BB584(struct S020315D4 *a,int b,int c,u8 *p)
     func_02030EAC(*(struct Node **)(p+(off+0x24)));
     CLACT_DeleteUnit(*(struct Bank **)(p+(off+0x28)));
     CLACT_ExitSystem();
-    func_0201C6EC(printSys(p));
-    func_0201C4C0(printSys(p));
+    PRINTSYS_QUE_Clear(printSys(p));
+    PRINTSYS_QUE_Delete(printSys(p));
     if(node(p,off)) {
         func_02030EAC(node(p,off));
         clearNode(p,off,zero);

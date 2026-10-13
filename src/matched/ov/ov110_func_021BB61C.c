@@ -12,7 +12,7 @@
  *   func_021BAC64 0x021BAC64 thumb ov110
  *   func_021BAC78 0x021BAC78 thumb ov110
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj03240.h"
 typedef unsigned char u8;
@@ -25,5 +25,5 @@ struct Obj;
 extern struct Obj *func_021BAC78(char *p, u32 *r, short x, short y, u32 a, int mode);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-void func_021BB61C(u8 *p) { Triple t; func_021BAC64(((struct Obj03240 *)p)->f0,&t,0,0); ((struct Obj03240 *)p)->f54=func_021BAC78(((struct Obj03240 *)p)->f0,(u32 *)(&t),48,64,3,1); CLACT_SetActorAnimSeq(((struct Obj03240 *)p)->f54,4); func_0204B3DC(((struct Obj03240 *)p)->f54,0); }
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+void func_021BB61C(u8 *p) { Triple t; func_021BAC64(((struct Obj03240 *)p)->f0,&t,0,0); ((struct Obj03240 *)p)->f54=func_021BAC78(((struct Obj03240 *)p)->f0,(u32 *)(&t),48,64,3,1); CLACT_SetActorAnimSeq(((struct Obj03240 *)p)->f54,4); CLACT_SetActorDrawEnable(((struct Obj03240 *)p)->f54,0); }

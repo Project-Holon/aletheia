@@ -9,9 +9,9 @@
  * status: EXACT*
  * extent: unlabelled substantial switch leaf at 0x021BD578, excluded.
  * symbols:
- *   func_020362DC 0x020362DC arm
- *   func_0203630C 0x0203630C arm
- *   func_0203633C 0x0203633C arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   KEY_GetCont 0x0203630C arm
+ *   KEY_GetRepeat 0x0203633C arm
  *   BUTTON_MAN_UpdateSlots 0x02051C88 arm
  *   func_02030D28 0x02030D28 arm
  */
@@ -19,9 +19,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_020362DC(void);
-extern unsigned int func_0203630C(void);
-extern unsigned int func_0203633C(void);
+extern u32 KEY_GetTrg(void);
+extern unsigned int KEY_GetCont(void);
+extern unsigned int KEY_GetRepeat(void);
 typedef signed int     s32;
 struct Ctx;
 extern s32 BUTTON_MAN_UpdateSlots(struct Ctx *c);
@@ -29,9 +29,9 @@ extern void func_02030D28(struct Ctx *c);
 int func_021BD534(void *a,int b,int c,u8 *p) {
     int result;
     int x;
-    x=func_020362DC(); ((struct Obj05294 *)p)->f34=x;
-    x=func_0203630C(); ((struct Obj05294 *)p)->f36=x;
-    x=func_0203633C(); ((struct Obj05294 *)p)->f38=x;
+    x=KEY_GetTrg(); ((struct Obj05294 *)p)->f34=x;
+    x=KEY_GetCont(); ((struct Obj05294 *)p)->f36=x;
+    x=KEY_GetRepeat(); ((struct Obj05294 *)p)->f38=x;
     BUTTON_MAN_UpdateSlots(((struct Obj05294 *)p)->f44);
     if (*(void (**)(u8 *,void *))(p+0x30)) {
         (*(void (**)(u8 *,void *))(p+0x30))(p,p+0x2c);

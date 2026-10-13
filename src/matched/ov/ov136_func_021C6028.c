@@ -12,7 +12,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   func_02008F84 0x02008F84 thumb
  *   STRBUF_SetString 0x02045924 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Blit 0x020439A0 arm
  *   func_02008F9C 0x02008F9C thumb
  *   func_021C5F80 0x021C5F80 thumb
@@ -39,7 +39,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern u8 *func_02008F84(struct Sub02008F80Obj *obj);
 struct Strbuf;
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern u8 func_02008F9C(const struct Sub02008F80Obj *obj);
 extern void func_021C5F80(void *unused, void *text, u8 *slot, void *owner, int x, int y, u32 mode, u16 color, int align);
@@ -65,10 +65,10 @@ void func_021C6028(u8 *p, u32 a1, int idx, int sel)
     BMP_Clear(b1, 4);
     STRBUF_SetString(((struct Obj23549 *)(*(u8 * *)&((struct Obj01945 *)p)->f8))->f1D8, (const u16 *)func_02008F84(mon));
     for (i = 0; i < 8; i++) {
-        BMP_Blit(func_02045770(win), b0, 0, 0, i * 8, 0, 8, 8, 0xFFFF);
-        BMP_Blit(func_02045770(win), b1, 0, 0, i * 8, 8, 8, 8, 0xFFFF);
+        BMP_Blit(BMP_WIN_GetBmp(win), b0, 0, 0, i * 8, 0, 8, 8, 0xFFFF);
+        BMP_Blit(BMP_WIN_GetBmp(win), b1, 0, 0, i * 8, 8, 8, 8, 0xFFFF);
     }
-    BMP_Clear(func_02045770(win), 4);
+    BMP_Clear(BMP_WIN_GetBmp(win), 4);
     if (func_02008F9C(mon) == 0) {
         func_021C5F80(win, ((struct Obj23550 *)(*(u8 * *)&((struct Obj01945 *)p)->f8))->f1D8, slot,
                       ((struct Obj23551 *)(*(u8 * *)&((struct Obj01945 *)p)->f8))->f1C4, 0, 0, ((struct Obj01945 *)p)->f18, 0x14C4, 0);

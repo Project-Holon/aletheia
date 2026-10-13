@@ -1,5 +1,5 @@
 /*
- * function: func_021773E0
+ * function: NET_WHPIPE_StoreScannedEntry
  * address:  0x021773E0
  * packet:   pkt_ov014_021773E0
  * region:   ov014
@@ -11,7 +11,7 @@
  * symbols:
  *   g_pWhPipeWork     0x021797A4  data   a4
  *   GFL_NET_GetInitParam  0x0203D798  arm
- *   func_0217731C  0x0217731C  thumb  ov014
+ *   NET_WHPIPE_IsBeaconAcceptable  0x0217731C  thumb  ov014
  *   func_0203EFC8  0x0203EFC8  arm
  *   func_02082D44  0x02082D44  arm
  */
@@ -36,19 +36,19 @@ typedef struct W {
 
 extern W *g_pWhPipeWork;
 extern void *GFL_NET_GetInitParam(void);
-extern int func_0217731C(u8 *p);
+extern int NET_WHPIPE_IsBeaconAcceptable(u8 *p);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void func_02082D44(void *src, void *dst, int n);
 
-int func_021773E0(u8 *p)
+int NET_WHPIPE_StoreScannedEntry(u8 *p)
 {
     int i;
     W *base = g_pWhPipeWork;
 
     GFL_NET_GetInitParam();
-    if (func_0217731C(p) == 0)
+    if (NET_WHPIPE_IsBeaconAcceptable(p) == 0)
         return 0;
     for (i = 0; i < 16; i++) {
         if (base->age[i] != 0 && func_0203EFC8(base->ent[i].mac, p + 4, 6) == 0) {

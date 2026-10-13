@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_Forecast_ApplyWeatherForm
+ * function: HAND_TOKUSEI_Forecast_ApplyWeatherForm
  * address: 0x021DB254
  * packet: pkt_ov093_021DB254
  * region: ov093
@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021C8288 0x021C8288 thumb ov093
- *   BTL_TOKUSEI_Forecast_SetFormForWeather 0x021DB374 thumb ov093
+ *   BTL_SERVER_FLOW_GetEffectiveWeatherThunk 0x021C8288 thumb ov093
+ *   HAND_TOKUSEI_Forecast_SetFormForWeather 0x021DB374 thumb ov093
  */
 typedef unsigned char  u8;
-extern int func_021C8288(u8 *p);
-extern void BTL_TOKUSEI_Forecast_SetFormForWeather(void *,int,unsigned int);
+extern int BTL_SERVER_FLOW_GetEffectiveWeatherThunk(u8 *p);
+extern void HAND_TOKUSEI_Forecast_SetFormForWeather(void *,int,unsigned int);
 
-void BTL_TOKUSEI_Forecast_ApplyWeatherForm(int a, void *b, int c, int *d)
+void HAND_TOKUSEI_Forecast_ApplyWeatherForm(int a, void *b, int c, int *d)
 {
-    BTL_TOKUSEI_Forecast_SetFormForWeather(b, c, func_021C8288(b));
+    HAND_TOKUSEI_Forecast_SetFormForWeather(b, c, BTL_SERVER_FLOW_GetEffectiveWeatherThunk(b));
     *d = 1;
 }

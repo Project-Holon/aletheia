@@ -26,7 +26,7 @@
  *   func_02061CA4  0x02061CA4  arm
  *   d_021BEBFC     0x021BEBFC  data  a1
  *   d_021BEC04     0x021BEC04  data  a1
- *   d_020A1B38     0x020A1B38  data  a2
+ *   FX_SinCosTable_     0x020A1B38  data  a2
  */
 typedef unsigned char u8;
 typedef signed char s8;
@@ -47,7 +47,7 @@ struct Pal {
 };
 extern const struct C3 d_021BEBFC;
 extern const struct C3 d_021BEC04;
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern void func_02082A60(void *src, void *dst, u32 size);
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
@@ -107,7 +107,7 @@ void POKELIST_UpdatePaletteFade(struct Pal *p)
     } else {
         p->phase = 0xc000;
     }
-    f = (d_020A1B38[(p->phase >> 4) * 2] + 0x1000) / 2;
+    f = (FX_SinCosTable_[(p->phase >> 4) * 2] + 0x1000) / 2;
     for (i2 = 0; i2 < 3; i2++) {
         for (j2 = 0; j2 < 3; j2++) {
             int a = hi.v[j2];

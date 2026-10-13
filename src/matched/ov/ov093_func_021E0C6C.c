@@ -1,5 +1,5 @@
 /*
- * function: func_021E0C6C
+ * function: HAND_WAZA_FollowMeRemoveFactor
  * address:  0x021E0C6C
  * packet:   pkt_ov093_021E0C6C
  * region:   ov093
@@ -11,15 +11,15 @@
  *
  * symbols:
  *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
- *   func_021E03F8  0x021E03F8  thumb  ov093
+ *   HAND_WAZA_RemoveMoveHandlerById  0x021E03F8  thumb  ov093
  */
 
 typedef unsigned short u16;
 struct QQ;
 extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
-extern void func_021E03F8(int a, int b);
+extern void HAND_WAZA_RemoveMoveHandlerById(int a, int b);
 
-void func_021E0C6C(void *a, int b, int c)
+void HAND_WAZA_FollowMeRemoveFactor(void *a, int b, int c)
 {
-    func_021E03F8(c, BTL_EVENT_GetFactorKey(a));
+    HAND_WAZA_RemoveMoveHandlerById(c, BTL_EVENT_GetFactorKey(a));
 }

@@ -10,7 +10,7 @@
  * symbols:
  *   func_021CA444 0x021CA444 thumb ov128
  *   func_021CA458 0x021CA458 thumb ov128
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj10489.h"
@@ -20,6 +20,6 @@ typedef unsigned int u32;
 extern void func_021CA444(char *);
 extern void func_021CA458(char *p, void *q);
 struct Descriptor;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
-void func_021C9154(char *p,int unused,char *q) { func_021CA444(q);func_021CA458(q,q+12);func_020452E8(((struct Obj10489 *)p)->f0);func_020452E8(((struct Obj10489 *)p)->f8);func_020307B0(((struct Obj10489 *)p)->f10);}
+void func_021C9154(char *p,int unused,char *q) { func_021CA444(q);func_021CA458(q,q+12);BMP_WIN_Delete(((struct Obj10489 *)p)->f0);BMP_WIN_Delete(((struct Obj10489 *)p)->f8);func_020307B0(((struct Obj10489 *)p)->f10);}

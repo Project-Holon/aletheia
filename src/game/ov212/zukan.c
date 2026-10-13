@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   PROCSYS_Create 0x02031324 arm
  *   PROCSYS_Main 0x02031330 arm
  *   d_021C9944 0x021C9944 data a4
@@ -138,7 +138,7 @@ struct Search {
 
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,unsigned,unsigned);
-extern void func_02082BCC(void *,unsigned char,unsigned);
+extern void MI_CpuFill8(void *,unsigned char,unsigned);
 extern void *PROCSYS_Create(int);
 extern unsigned PROCSYS_Main(void *);
 extern void func_0203133C(struct S020314B8 *);
@@ -229,7 +229,7 @@ int func_021C8E80(struct Obj0203159C *obj,int unused,char *ctx)
     char *p;
     GFL_HEAP_CreateChildHeap(1,105,0x8000);
     p=PROCSYS_AllocProcWork(obj,44,105);
-    func_02082BCC(p,0,44);
+    MI_CpuFill8(p,0,44);
     ((struct Obj00635 *)p)->f0=ctx;
     ((struct Obj00635 *)p)->f4=PROCSYS_Create(105);
     ((struct Obj00635 *)p)->f10=func_021C9288(*(struct Blk37 * *)&((struct Obj25642 *)(*(char * *)&((struct Obj00635 *)p)->f0))->f4,(u16 **)(p+12),105);

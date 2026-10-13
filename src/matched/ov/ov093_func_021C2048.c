@@ -12,8 +12,8 @@
  * symbols:
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   BTL_SERVER_FLOW_CalcMoveDrainRecoil  0x021C6CAC  thumb  ov093
- *   func_021C8838  0x021C8838  thumb  ov093
- *   func_021C8860  0x021C8860  thumb  ov093
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_SERVER_FLOW_CheckAbsorbRecoverAllowed  0x021C20BC  thumb  ov093
  *   BTL_SERVER_FLOW_ProcAbsorbRecovery  0x021C20D0  thumb  ov093
@@ -22,9 +22,9 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int BTL_POKEPARAM_IsFainted(void *p);
 extern int BTL_SERVER_FLOW_CalcMoveDrainRecoil(u8 *p, u8 *a, u32 b, u32 c, int *out);
-extern void func_021C8838(void *p, int a, int b);
+extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 struct S;
-extern void func_021C8860(struct S *l, u32 v);
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *l, u32 v);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int BTL_SERVER_FLOW_CheckAbsorbRecoverAllowed(u8 *p, u8 *a, int r);
 extern int BTL_SERVER_FLOW_ProcAbsorbRecovery(u8 *p, u8 *a, int c, u8 *l);
@@ -38,8 +38,8 @@ void BTL_SERVER_FLOW_ProcDamageAbsorbRecovery(u8 *p, u8 *a, u32 b, u32 c)
     r = BTL_SERVER_FLOW_CalcMoveDrainRecoil(p, a, b, c, &loc);
     if (r == 0)
         return;
-    func_021C8838(p + 0x1AE4, 2, 378);
-    func_021C8860((struct S *)(p + 0x1AE4), BTL_POKEPARAM_GetPokeId(a));
+    BTL_SERVER_FLOW_InitMsgRecord(p + 0x1AE4, 2, 378);
+    BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(p + 0x1AE4), BTL_POKEPARAM_GetPokeId(a));
     if (loc == 0 && BTL_SERVER_FLOW_CheckAbsorbRecoverAllowed(p, a, r) == 0)
         return;
     BTL_SERVER_FLOW_ProcAbsorbRecovery(p, a, r, p + 0x1AE4);

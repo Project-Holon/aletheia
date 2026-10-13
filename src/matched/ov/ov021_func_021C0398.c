@@ -18,7 +18,7 @@
  *   FIELD_TASK_CreateWait  0x021C77D8  thumb  ov021
  *   FIELD_TASK_CreateFade  0x021C7814  thumb  ov021
  *   FIELD_TASK_MANAGER_AddTask  0x021C6DE0  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELD_CAMERA_ANIME_Create  0x0218FE80  thumb  ov021
  *   FIELD_CAMERA_ANIME_SetData  0x0218FEA0  thumb  ov021
  *   FIELD_CAMERA_ANIME_Setup  0x0218FEA4  thumb  ov021
@@ -46,7 +46,7 @@ extern void *FIELD_TASK_CreatePlayerSpinLinear(u32 a, u32 b, u32 c);
 extern u32 FIELD_TASK_CreateWait(u32 a, u32 b);
 extern u32 FIELD_TASK_CreateFade(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void FIELD_TASK_MANAGER_AddTask(u8 *p, u32 *a, u32 b);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void *FIELD_CAMERA_ANIME_Create(void *a);
 extern void FIELD_CAMERA_ANIME_SetData(u8 *p, u32 v);
 extern void FIELD_CAMERA_ANIME_Setup(u32 a);
@@ -83,9 +83,9 @@ int EVENT_DISAPPEAR_RunSpinFade(u32 task, int *st, u8 *p)
         FIELD_TASK_MANAGER_AddTask((u8 *)d, (u32 *)c, 0);
         FIELD_TASK_MANAGER_AddTask((u8 *)d, (u32 *)e, c);
         if (((struct Obj01863 *)p)->f10 != 0)
-            func_020061E4(0x6E7);
+            GFL_USE_PlaySeDefaultVolume(0x6E7);
         else
-            func_020061E4(0x676);
+            GFL_USE_PlaySeDefaultVolume(0x676);
         b = (u32)FIELD_CAMERA_ANIME_Create((void *)obj);
         ((struct Obj01863 *)p)->f24 = 0x3c;
         ((struct Obj01863 *)p)->f68 = 1;

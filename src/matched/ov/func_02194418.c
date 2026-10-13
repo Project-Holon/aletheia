@@ -13,7 +13,7 @@
  *
  * symbols:
  *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj05859.h"
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02082BCC(u32, u32, u32);
+extern u32 MI_CpuFill8(u32, u32, u32);
 extern int FLDMMDL_DeleteMmdl(int a0, int a1);
 
 int FIELD_COMM_ACTOR_DeleteActor(u32 a, int a1)
@@ -31,6 +31,6 @@ int FIELD_COMM_ACTOR_DeleteActor(u32 a, int a1)
 if (((struct Obj05859 *)((u8 *)(a)))->f4 == 0) {
     FLDMMDL_DeleteMmdl(((struct Obj05859 *)((u8 *)(a)))->f8, a1);
 }
-return func_02082BCC(a, 0, 12);
+return MI_CpuFill8(a, 0, 12);
 }
 

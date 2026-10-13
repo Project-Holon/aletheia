@@ -1,5 +1,5 @@
 /*
- * function: func_02177BAC
+ * function: NET_WHPIPE_ReleaseEntrySlot
  * address:  0x02177BAC
  * packet:   pkt_ov014_02177BAC
  * region:   ov014
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Unlabelled leaf: clears halfword idx of the table at +0xC40 of the
- * object pointed to by the global at 0x021797A4. Blocks func_02177BF4.
+ * object pointed to by the global at 0x021797A4. Blocks NET_WHPIPE_ReleaseEntry.
  *
  * symbols:
  *   d_021797A4  0x021797A4  data  ov014  a4
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 
 extern u8 *d_021797A4;
 
-void func_02177BAC(u32 idx)
+void NET_WHPIPE_ReleaseEntrySlot(u32 idx)
 {
     u8 *p = d_021797A4;
     u16 *h;

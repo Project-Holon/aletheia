@@ -10,7 +10,7 @@
  * status:   EXACT*
  * symbols:
  *   memcmp        0x0203EFC8  arm
- *   func_02082BCC 0x02082BCC  arm
+ *   MI_CpuFill8 0x02082BCC  arm
  */
 
 typedef unsigned char u8;
@@ -24,7 +24,7 @@ typedef struct {
 } Rec;
 
 extern int memcmp(const void *a, const void *b, int n);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
 void UNION_COMM_RemoveMember(u8 *self, const u8 *mac)
 {
@@ -35,7 +35,7 @@ void UNION_COMM_RemoveMember(u8 *self, const u8 *mac)
     r = (Rec *)(self + 0x1c);
     for (; i < 5; i++) {
         if (r[i].b1 == 1 && memcmp(mac, &r[i], 6) == 0) {
-            func_02082BCC(&r[i], 0, 8);
+            MI_CpuFill8(&r[i], 0, 8);
             return;
         }
     }

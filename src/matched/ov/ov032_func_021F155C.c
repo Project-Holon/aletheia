@@ -12,9 +12,9 @@
  * symbols:
  *   func_021F155C 0x021F155C thumb
  *   func_021F1704 0x021F1704 thumb
- *   func_020311B8 0x020311B8 arm
+ *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0207C768 0x0207C768 arm
  *   _fflt          0x0209BDBC  arm
  *   _fadd          0x0209C95C  arm
@@ -27,10 +27,10 @@ typedef signed short s16;
 typedef unsigned int u32;
 
 extern void func_021F1704(void *h, char *t);
-extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
+extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
 extern void *TCBL_GetWork(struct S02030FB4 *p);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern u32 func_0207C768(u32 a, u32 b);
 
 #define FX32_CONST(x) \
@@ -40,8 +40,8 @@ void func_021F155C(char *p, u8 *e, int mode, u8 delay, int *r)
 {
     u8 *t;
 
-    t = TCBL_GetWork(func_020311B8(*(u32 *)(p + 0xa0), (void *)func_021F1704, 0x28, 0));
-    func_02082BCC(t, 0, 0x28);
+    t = TCBL_GetWork(TCBL_AddTask(*(u32 *)(p + 0xa0), (void *)func_021F1704, 0x28, 0));
+    MI_CpuFill8(t, 0, 0x28);
     t[0xc] = mode;
     if (t[0xc] == 0) {
         e[2] = e[2] - 1;

@@ -12,7 +12,7 @@
  * symbols:
  *   func_021FD750 0x021FD750 thumb ov186
  *   func_021FD73C 0x021FD73C thumb ov186
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021FDE88 0x021FDE88 thumb ov186
  *   func_021FD964 0x021FD964 thumb ov186
  *   func_021FD9A0 0x021FD9A0 thumb ov186
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 typedef struct { int x,y; } Pair;
 extern int func_021FD750(int *,int);
 extern int *func_021FD73C(int *p, int v);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 typedef unsigned char  u8;
 extern void func_021FDE88(void);
 extern void func_021FD964(void *unused, int *state, u8 *p);
@@ -46,7 +46,7 @@ void func_021FD860(char *p,u32 mode,const Pair *pair)
         *(const Pair * *)&((struct Obj02236 *)p)->f8=pair;
     }
     ((struct Obj02236 *)p)->f22C=0;
-    if(mode==0 && func_021FD750(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDE88)) func_020061E4(0x701);
+    if(mode==0 && func_021FD750(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDE88)) GFL_USE_PlaySeDefaultVolume(0x701);
     switch(mode) {
     case 0: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FD964);break;
     case 1: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FD9A0);break;

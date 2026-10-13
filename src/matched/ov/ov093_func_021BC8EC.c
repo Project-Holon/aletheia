@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201BD28  0x0201BD28  thumb
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
@@ -22,7 +22,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u32 func_0201BD28(u32 v, u32 n);
+extern u32 WAZA_TOOL_GetParam(u32 v, u32 n);
 extern void BTL_EVENT_PushVarFrame(int line);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
@@ -33,7 +33,7 @@ extern void BTL_EVENT_PopVarFrame(int line);
 
 int BTL_SERVER_FLOW_CalcMovePriority(u8 *p, u32 x, u8 *a)
 {
-    u8 n = func_0201BD28(x, 6) + 7;
+    u8 n = WAZA_TOOL_GetParam(x, 6) + 7;
     u8 r;
     BTL_EVENT_PushVarFrame(1735);
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(a));

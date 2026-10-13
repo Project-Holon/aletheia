@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201C6B4  0x0201C6B4  thumb
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   FRAME_LIST_ReadTouch  0x021B7CF8  thumb  ov067
  *   FRAME_LIST_ReadKeys  0x021B7E70  thumb  ov067
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FRAME_LIST_SetCursorHighlight  0x021B92F0  thumb  ov067
  *   FRAME_LIST_StartScroll  0x021B8434  thumb  ov067
  *   FRAME_LIST_Redraw  0x021B7BE0  thumb  ov067
@@ -56,10 +56,10 @@ struct S {
 };
 
 struct PrintSys;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern int FRAME_LIST_ReadTouch(struct S *s);
 extern int FRAME_LIST_ReadKeys(struct S *s);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern void FRAME_LIST_SetCursorHighlight(struct S *p, u32 a1, u32 a2);
 extern void FRAME_LIST_StartScroll(u8 *p, int a, u8 b, u16 c, u32 d);
 extern void FRAME_LIST_Redraw(struct S *s, int a1);
@@ -72,20 +72,20 @@ int FRAME_LIST_HandleInput(struct S *s)
     int r;
     s16 v;
 
-    if (func_0201C6B4((const struct PrintSys *)s->f34) == 0)
+    if (PRINTSYS_QUE_IsFinished((const struct PrintSys *)s->f34) == 0)
         return -1;
     r = FRAME_LIST_ReadTouch(s);
     if (r == 14)
         r = FRAME_LIST_ReadKeys(s);
     switch (r) {
     case 0:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         FRAME_LIST_SetCursorHighlight(s, (u16)s->f5c, (u16)s->f60);
         s->f20->f4(s->f24, s->f5c + s->f62, 1);
         s->f4e = 4;
         return -12;
     case 1:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         FRAME_LIST_SetCursorHighlight(s, (u16)s->f5c, (u16)s->f60);
         s->f20->f4(s->f24, s->f5c + s->f62, 1);
         s->f4e = 4;
@@ -105,7 +105,7 @@ int FRAME_LIST_HandleInput(struct S *s)
         }
         FRAME_LIST_SetCursorHighlight(s, (u16)0xff, (u16)s->f60);
         FRAME_LIST_StartScroll((u8 *)s, (s8)(-s->fb[0]), v, 4, 0);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return -7;
     case 5:
         v = s->f5e;
@@ -116,16 +116,16 @@ int FRAME_LIST_HandleInput(struct S *s)
         }
         FRAME_LIST_SetCursorHighlight(s, (u16)0xff, (u16)s->f60);
         FRAME_LIST_StartScroll((u8 *)s, (s8)s->fb[0], v, 4, 0);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return -6;
     case 6:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         FRAME_LIST_SetCursorHighlight(s, (u16)s->f5c, (u16)s->f60);
         s->f20->f4(s->f24, s->f5c + s->f62, 1);
         s->f4e = 4;
         return -5;
     case 7:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         FRAME_LIST_SetCursorHighlight(s, (u16)s->f5c, (u16)s->f60);
         s->f20->f4(s->f24, s->f5c + s->f62, 1);
         s->f4e = 4;
@@ -134,24 +134,24 @@ int FRAME_LIST_HandleInput(struct S *s)
         s->f5c = 0;
         s->f62 = 0;
         FRAME_LIST_Redraw(s, 1);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return -3;
     case 9:
         s->f5c = s->f5e - 1;
         s->f62 = s->f64;
         FRAME_LIST_Redraw(s, 1);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return -2;
     case 10:
         FRAME_LIST_SetCursorHighlight(s, (u16)0xff, (u16)s->f60);
         FRAME_LIST_BeginScrollBarDrag(s, s->f7c);
-        func_020061E4(0x645);
+        GFL_USE_PlaySeDefaultVolume(0x645);
         return -9;
     case 11:
         FRAME_LIST_SetCursorHighlight(s, (u16)0xff, (u16)s->f60);
         s->f20->f4(s->f24, s->f5c + s->f62, 1);
         FRAME_LIST_BeginRowDrag(s, s->f5c);
-        func_020061E4(0x645);
+        GFL_USE_PlaySeDefaultVolume(0x645);
         return -8;
     case 12:
         if (func_020355C4() == 1) {

@@ -11,6 +11,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   MCSS_SetAnimCallback  0x02015F2C  thumb
  */
 
-int MCSS_TOOL_SetAnimeStopCallback(int a0){ int t0 = func_02015F2C((int)a0, (int)(a0 + 0), (int)0x20173C9, (int)1); return t0; }
+int MCSS_TOOL_SetAnimeStopCallback(int a0){ int t0 = MCSS_SetAnimCallback((int)a0, (int)(a0 + 0), (int)0x20173C9, (int)1); return t0; }

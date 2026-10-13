@@ -18,10 +18,10 @@
  *   func_020409B4  0x020409B4  arm
  *   func_02041300  0x02041300  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045748  0x02045748  arm
- *   func_02045750  0x02045750  arm
- *   func_02045758  0x02045758  arm
- *   func_02045760  0x02045760  arm
+ *   BMP_WIN_GetDispWidth  0x02045748  arm
+ *   BMP_WIN_GetDispHeight  0x02045750  arm
+ *   BMP_WIN_GetPosX  0x02045758  arm
+ *   BMP_WIN_GetPosY  0x02045760  arm
  * Addresses are Black-image addresses.
  */
 
@@ -39,10 +39,10 @@ struct FrameStyle {
 
 struct Cfg;
 struct Descriptor;
-extern u8 func_02045758(struct Descriptor *p);
-extern u8 func_02045760(struct Descriptor *p);
-extern u8 func_02045748(struct Descriptor *p);
-extern u8 func_02045750(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
+extern u8 BMP_WIN_GetDispWidth(struct Descriptor *p);
+extern u8 BMP_WIN_GetDispHeight(struct Descriptor *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041300(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
 extern void func_020409B4(u32 index);
@@ -65,10 +65,10 @@ void TALKMSGWIN_DrawSimpleFrame(struct FrameStyle *style, void *win, int deco)
     int bottom;
     u16 t2;
 
-    x = func_02045758(win);
-    y = func_02045760(win);
-    w = func_02045748(win);
-    h = func_02045750(win);
+    x = BMP_WIN_GetPosX(win);
+    y = BMP_WIN_GetPosY(win);
+    w = BMP_WIN_GetDispWidth(win);
+    h = BMP_WIN_GetDispHeight(win);
     topClip = 0;
     bottomClip = 0;
     leftClip = 0;

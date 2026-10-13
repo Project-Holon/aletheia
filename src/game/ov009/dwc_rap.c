@@ -51,7 +51,7 @@
  *   _sMatchKey     0x021A1C74  data  ov009  a1
  *   _sMatchFilterFormat     0x021A1974  data  ov009  a1
  *   func_0216CA04  0x0216CA04  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02094530  0x02094530  arm
  *   func_0203F004  0x0203F004  arm
  *   GFL_NET_GetUserArg  0x0203D650  arm
@@ -171,7 +171,7 @@ void DWC_ProcessFriendsMatch(void);
 int DWC_UpdateServersAsync(int unused, void *updateCallback, void *updateParam, void *statusCallback, void *statusParam, void *deleteCallback, void *deleteParam);
 int func_02168994(void (*callback)(int, void *), void *param);
 u8 func_0216CA04(u8 keyID, char *keyString, char *valueSrc);
-void func_02082BCC(void *dst, int value, int size);
+void MI_CpuFill8(void *dst, int value, int size);
 u32 func_02094530(char *dst, u32 format, ...);
 u32 func_0203F004(const u8 *str);
 u32 GFL_NET_GetUserArg(void);
@@ -1674,7 +1674,7 @@ int DWC_RAP_StartMatchWithKey(void *matchValue, int maxPlayers, int useFilter, i
     DWC_RAP_FreeRecvBuffers();
     if (func_0216CA04(0, _sMatchKey, matchValue) == 0)
         func_02034714(_sAssertEmpty, 0, _sAssertEmpty);
-    func_02082BCC(_pRapWork->matchFilter, 0, 0x80);
+    MI_CpuFill8(_pRapWork->matchFilter, 0, 0x80);
     func_02094530(_pRapWork->matchFilter, (u32)_sMatchFilterFormat, _sMatchKey, matchValue);
     if ((int)func_0203F004((const u8 *)_pRapWork->matchFilter) >= 0x80)
         func_02034714(_sAssertEmpty, 0, _sAssertEmpty);
@@ -2186,7 +2186,7 @@ void DWC_RAP_OnBuddyFriendNop(void)
  */
 void DWC_RAP_ClearPeerCounters(void)
 {
-    func_02082BCC((char *)_pRapWork->peerCounter, 0, 8);
+    MI_CpuFill8((char *)_pRapWork->peerCounter, 0, 8);
 }
 
 
@@ -3030,7 +3030,7 @@ void DWC_RAP_PollFriendStatus(void)
                                   (int)_pRapWork->friendStatusData[slot], (int)(&statusLen));
             if (statusLen < 1) {
                 _pRapWork->friendStatus[slot] = 0;
-                func_02082BCC(_pRapWork->friendStatusData[slot], 0, 0x20);
+                MI_CpuFill8(_pRapWork->friendStatusData[slot], 0, 0x20);
             } else {
                 _pRapWork->friendStatus[slot] = status;
             }

@@ -33,7 +33,7 @@
  *   GFL_NET_STATE_IsFatalError 0x0203CB00 arm
  *   func_021BE900 0x021BE900 thumb ov099
  *   func_021BA928 0x021BA928 thumb ov099
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_021B97F4 0x021B97F4 thumb ov099
  *   func_021BE2A8 0x021BE2A8 thumb ov099
  *   func_021B9AE0 0x021B9AE0 thumb ov099
@@ -52,7 +52,7 @@ extern void func_021BE900(char *);
 extern int func_021BA928(char *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int func_021B97F4(char *);
 extern void *func_021BE2A8(char *,int);
 extern void func_021B9AE0(void *w, u8 *s);
@@ -70,7 +70,7 @@ int func_021C0078(char *p,int ret)
     if(GFL_NET_STATE_IsFatalError()){func_021BE900(p);return ret;}
     if(!func_021BA928(p)){*(int *)(p+0x1e0)=30;return ret;}
     --*(int *)(p+0x1e0);
-    if((func_020362DC()&3)||!*(int *)(p+0x1e0)){
+    if((KEY_GetTrg()&3)||!*(int *)(p+0x1e0)){
         func_021B9AE0(p+0x274,func_021BE2A8(p,func_021B97F4(p+0x274)));
         func_021BA8EC(p);
         func_021C18C8(p,1,2);

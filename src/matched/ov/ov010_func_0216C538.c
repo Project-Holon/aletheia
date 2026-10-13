@@ -31,7 +31,7 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   POKE_REGULATION_Load  0x0201A354  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_0200CA38  0x0200CA38  thumb
  */
 
@@ -98,7 +98,7 @@ extern void *func_02012934(const struct BigObj *p);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void *POKE_REGULATION_Load(int a, int b);
 extern void *func_0200CA1C(void *p);
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 struct Blk37;
 extern u32 func_0200CA38(struct Blk37 *p);
 
@@ -155,7 +155,7 @@ void *NAMEIN_SETUP_StartPartyPickEvent(PartyCaller *c, void *sys, u8 useOwn)
     MI_CpuFill8(sum, 0, sizeof(SummaryArgs));
     sum->party = party;
     sum->f0c = 1;
-    sum->count = func_0201AA18(party);
+    sum->count = POKEPARTY_GetCount(party);
     sum->f0d = 0;
     sum->f10 = 0;
     sum->p = p;

@@ -11,13 +11,13 @@
  *   BTL_POKEPARAM_GetItem 0x021D5B40 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   func_021C21F4 0x021C21F4 thumb ov093
- *   func_021CC8D8 0x021CC8D8 thumb ov093
+ *   BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
  *   BTL_SERVER_FLOW_RunItemActivateCheckEvent 0x021C2204 thumb ov093
  *   BTL_SERVER_CMD_Reserve 0x021CD4FC thumb ov093
- *   func_021CC918 0x021CC918 thumb ov093
+ *   BTL_SERVER_FLOW_SetHandExScopeState 0x021CC918 thumb ov093
  *   BTL_SERVER_FLOW_DispatchPostMoveEvent 0x021C6DD0 thumb ov093
- *   func_021C88E4 0x021C88E4 thumb ov093
- *   func_021CC95C 0x021CC95C thumb ov093
+ *   BTL_SERVER_FLOW_GetLockState 0x021C88E4 thumb ov093
+ *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
  *   BTL_SERVER_CMD_FillReserved 0x021CD568 thumb ov093
  *   BTL_CALC_GetMonParamWithHeap 0x021D805C thumb ov093
  *   BTL_SERVER_FLOW_SetHeldItem 0x021C2250 thumb ov093
@@ -31,13 +31,13 @@ struct QI;
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int func_021C21F4(void *, u32);
-extern u32 func_021CC8D8(void *, int);
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *, int);
 extern int BTL_SERVER_FLOW_RunItemActivateCheckEvent(u8 *, u8 *, u16);
 extern u32 BTL_SERVER_CMD_Reserve(void *, u32);
-extern u32 func_021CC918(void *, u16, int);
+extern u32 BTL_SERVER_FLOW_SetHandExScopeState(void *, u16, int);
 extern void BTL_SERVER_FLOW_DispatchPostMoveEvent(u8 *, u8 *);
-extern int func_021C88E4(u8 *);
-extern void func_021CC95C(u32 *p, u32 v, int line);
+extern int BTL_SERVER_FLOW_GetLockState(u8 *);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 extern void BTL_SERVER_CMD_FillReserved(void *, u32, u32, ...);
 extern u32 BTL_CALC_GetMonParamWithHeap(void *p, u32 n);
 extern void BTL_SERVER_FLOW_SetHeldItem(u8 *p, u8 *a, u16 b, u32 c);
@@ -49,20 +49,20 @@ int BTL_SERVER_FLOW_ProcHeldItemActivate(u8 *p, u8 *a)
     u32 v;
     u32 pos;
     if (func_021C21F4(p + 0x1ab8, BTL_POKEPARAM_GetPokeId(a))) {
-        s = func_021CC8D8(p + 0x1d74, 0x1cea);
+        s = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 0x1cea);
         if (BTL_SERVER_FLOW_RunItemActivateCheckEvent(p, a, (u16)t) == 0) result = 1;
         if (result) {
             pos = BTL_SERVER_CMD_Reserve(((struct Obj00003 *)p)->fC, 0x42);
-            v = func_021CC918(p + 0x1d74, (u16)t, 0x1cf4);
+            v = BTL_SERVER_FLOW_SetHandExScopeState(p + 0x1d74, (u16)t, 0x1cf4);
             BTL_SERVER_FLOW_DispatchPostMoveEvent(p, a);
-            if (func_021C88E4(p) != 2) result = 0;
-            func_021CC95C((u32 *)(p + 0x1d74), v, 0x1cf9);
+            if (BTL_SERVER_FLOW_GetLockState(p) != 2) result = 0;
+            BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), v, 0x1cf9);
             if (result) {
                 BTL_SERVER_CMD_FillReserved(((struct Obj00003 *)p)->fC, pos, 0x42, BTL_POKEPARAM_GetPokeId(a));
                 if (BTL_CALC_GetMonParamWithHeap((void *)((u16)t), 0x10)) BTL_SERVER_FLOW_SetHeldItem(p, a, 0, 1);
             }
         }
-        func_021CC95C((u32 *)(p + 0x1d74), s, 0x1d06);
+        BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), s, 0x1d06);
     }
     return result;
 }

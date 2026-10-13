@@ -11,7 +11,7 @@
  * volatile: 0x04000050 0x04001050 0x04000000 0x04001000
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
@@ -31,7 +31,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern char file[], vram[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_02082BCC(void *, u32, u32);
+extern void MI_CpuFill8(void *, u32, u32);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -56,7 +56,7 @@ static inline void GXS_SetVisibleWnd(int window) {
 void *func_021B9900(u32 swap, u32 heap)
 {
     char *p = func_02030734(heap, 16, 0, file, 454);
-    func_02082BCC(p, 0, 16);
+    MI_CpuFill8(p, 0, 16);
     G2_BlendNone();
     G2S_BlendNone();
     GX_SetVisibleWnd(0);

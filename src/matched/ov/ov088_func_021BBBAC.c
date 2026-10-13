@@ -15,7 +15,7 @@
  * symbols:
  *   BMP_WIN_Create  0x020450F0  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
@@ -37,7 +37,7 @@ struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -50,7 +50,7 @@ static inline void print_line(char *p, u32 id, u32 y, u16 color)
 {
     u32 s = (u32)func_02045EC0((struct MsgBank *)(((struct Obj06204 *)p)->f5C), id);
     u32 a = ((struct Obj06204 *)p)->f68;
-    PRINTSYS_PrintQueColor((void *)a, (u32)func_02045770((struct Descriptor *)((struct Obj06204 *)p)->fF0), 0, y, s, ((struct Obj06204 *)p)->f58, color);
+    PRINTSYS_PrintQueColor((void *)a, (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj06204 *)p)->fF0), 0, y, s, ((struct Obj06204 *)p)->f58, color);
     ((struct Obj06204 *)p)->fF4 = 1;
     STRBUF_Delete((struct U16Vec *)s);
 }

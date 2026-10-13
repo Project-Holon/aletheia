@@ -16,7 +16,7 @@
  *   func_0200C468  0x0200C468  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02030734  0x02030734  arm
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
@@ -44,7 +44,7 @@ extern u16 func_0200C468(const u8 *a);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
-extern void func_02082BCC();
+extern void MI_CpuFill8();
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
 extern void FLDMMDL_SysPauseMove(void *map);
@@ -95,14 +95,14 @@ struct Desc *EVENT_SHORTCUT_MENU_Create(int a0, int a1, u16 a2)
         r5 = func_020122C0((void *)a0, 0, (void *)EVENT_SHORTCUT_MENU_MainEvent, 0x20);
     }
     p = (struct Rec *)func_020124E8((struct Obj *)r5);
-    func_02082BCC(p, 0, 0x20);
+    MI_CpuFill8(p, 0, 0x20);
     p->owner = a0;
     p->desc = r5;
     p->field = a1;
     p->id = a2;
     p->f18 = 0;
     p->sub = (struct Sub *)func_02030734(4, 0x40, 0, (const char *)d_02172960, 0xc2);
-    func_02082BCC(p->sub, 0, 0x40);
+    MI_CpuFill8(p->sub, 0, 0x40);
     p->sub->owner = p->owner;
     p->sub->field = p->field;
     p->sub->desc = r5;

@@ -10,16 +10,16 @@
  * status: EXACT*
  * symbols:
  *   g_pWhPipeWork 0x021797A4 data ov014 a4
- *   func_0217778C 0x0217778C thumb ov014
+ *   NET_WHPIPE_PublishBeacon 0x0217778C thumb ov014
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 *g_pWhPipeWork;
-extern void func_0217778C(void);
+extern void NET_WHPIPE_PublishBeacon(void);
 void NET_WHPIPE_SetBeaconStatus(u8 value)
 {
     if (g_pWhPipeWork) {
         g_pWhPipeWork[0xcea] = value;
-        func_0217778C();
+        NET_WHPIPE_PublishBeacon();
     }
 }

@@ -32,7 +32,7 @@
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   GFL_USE_GetBgmNo  0x02005C44  thumb
@@ -90,7 +90,7 @@ extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *a, int b, int sel, int d);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
-extern void  func_02082BCC(void *p, int c, int n);
+extern void  MI_CpuFill8(void *p, int c, int n);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern u16 GFL_USE_GetBgmNo(void);
@@ -150,7 +150,7 @@ u32 EVENT_GSYNC_Main(void *obj, u32 *mode, char *args)
         *mode = 2;
         break;
     case 2:
-        func_02082BCC(args + 0xc, 0, 0x44);
+        MI_CpuFill8(args + 0xc, 0, 0x44);
         F(0x50) = 0;
         GAMESYSTEM_CallProc((struct IcaAnime *)h, (u32)ov123_id, d_021DA674, args);
         (*mode)++;

@@ -18,11 +18,11 @@
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  *   P_STATUS_PrintMsgToWin 0x021D618C thumb ov131
  *   P_STATUS_PrintWordSetMsgToWin 0x021D6214 thumb ov131
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   CLACT_GetCharacterProxy 0x0204AB84 arm
  *   CLACT_SetActorImageProxy 0x0204B784 arm
- *   func_0204B6F4 0x0204B6F4 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -30,6 +30,7 @@
  *   WAZA_TOOL_GetPower  0x0201C1D8  thumb  arm9
  *   WAZA_TOOL_IsAlwaysHit  0x0201C1F4  thumb  arm9
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb  arm9
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb  arm9
  */
 #include "../include/Obj01408.h"
 #include "../include/Obj04513.h"
@@ -48,7 +49,7 @@ struct Obj;
 struct Rec;
 struct U16Vec;
 struct WordSet;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern void P_STATUS_PrintMsgToWin(unsigned char *p, unsigned int a, int b, int c, unsigned short d, unsigned short e);
@@ -58,12 +59,12 @@ extern int WAZA_TOOL_GetDamageType(int a);
 extern void CLACT_GetCharacterProxy(u32 idx, struct Rec *dst);
 extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
 extern u8 func_02027604(u8);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern u32 WAZA_TOOL_GetPower(u16);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 func_0201ED04(struct WordSet *p);
-extern u32 func_0201BD28(u16,u32);
+extern u32 WAZA_TOOL_GetParam(u16,u32);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16 id);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -79,7 +80,7 @@ void P_STA_SKILL_PrintMoveDetail(u8 *a,u8 *p)
     Record record;
     data=P_STATUS_GetPokePara(a);
     zero=0;
-    for(i=8;i<=11;i++) BMP_Clear(func_02045770(*(void **)(p+0x5c+i*4)),zero);
+    for(i=8;i<=11;i++) BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+0x5c+i*4)),zero);
     if(p[41]<4) id=func_02017E88(data,p[41]+54,zero);
     else if(p[41]==255) {
         if((*(u8 **)(a+8))[13]==2 && p[43]==5) id=((struct Obj23163 *)(*(u8 * *)&((struct Obj04513 *)a)->f8))->f14;
@@ -90,7 +91,7 @@ void P_STA_SKILL_PrintMoveDetail(u8 *a,u8 *p)
     kind=WAZA_TOOL_GetDamageType((u16)id);
     CLACT_GetCharacterProxy(*(u32 *)(a+(kind+16)*4+152),(struct Rec *)(&record));
     CLACT_SetActorImageProxy(((struct Obj01408 *)p)->f94,(const struct Struct36 *)(&record));
-    func_0204B6F4(((struct Obj01408 *)p)->f94,func_02027604(kind),1);
+    CLACT_SetActorPaletteOffset(((struct Obj01408 *)p)->f94,func_02027604(kind),1);
     P_STATUS_PrintMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f80),147,1,one,15424);
     count=WAZA_TOOL_GetPower(id);
     if(count<=1) P_STATUS_PrintMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f80),154,87,one,1088);
@@ -101,7 +102,7 @@ void P_STA_SKILL_PrintMoveDetail(u8 *a,u8 *p)
         func_0201ED04(object1);
     }
     P_STATUS_PrintMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f84),148,1,1,15424);
-    value=func_0201BD28(id,4);
+    value=WAZA_TOOL_GetParam(id,4);
     if(WAZA_TOOL_IsAlwaysHit(id)==1 || value==0) P_STATUS_PrintMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f84),154,87,1,1088);
     else {
         object2=func_0201EC64(((struct Obj04513 *)a)->f0);
@@ -111,7 +112,7 @@ void P_STA_SKILL_PrintMoveDetail(u8 *a,u8 *p)
     }
     table=func_02045B38(0,2,202,((struct Obj04513 *)a)->f0);
     str=func_02045EC0(table,id);
-    PRINTSYS_PrintQueColor(((struct Obj04513 *)a)->f84,(int)func_02045770(((struct Obj01408 *)p)->f88),1,1,(u32)str,((struct Obj04513 *)a)->f80,1088);
+    PRINTSYS_PrintQueColor(((struct Obj04513 *)a)->f84,(int)BMP_WIN_GetBmp(((struct Obj01408 *)p)->f88),1,1,(u32)str,((struct Obj04513 *)a)->f80,1088);
     STRBUF_Delete(str);
     MSGDATA_Delete(table);
     ((struct Obj01408 *)p)->fC=0;

@@ -13,9 +13,9 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021C8020  0x021C8020  thumb
- *   func_021C88A4  0x021C88A4  thumb
- *   func_021C88C8  0x021C88C8  thumb
+ *   BTL_SERVER_FLOW_GetPokeIdAtFieldIndex  0x021C8020  thumb
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb
  *   BTL_EVENT_RemoveFactor  0x021D7040  thumb
  *   BTL_EVENT_GetVar  0x021D775C  thumb
  *   d_0689D690 0x0689D690 data a4
@@ -25,9 +25,9 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 
 extern int BTL_EVENT_GetVar(int k);
-extern int func_021C8020(int b, int c);
-extern u8 *func_021C88A4(int b, int k, int n);
-extern void func_021C88C8(int b, void *p);
+extern int BTL_SERVER_FLOW_GetPokeIdAtFieldIndex(int b, int c);
+extern u8 *BTL_SERVER_FLOW_AllocCmdRecord(int b, int k, int n);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(int b, void *p);
 extern void BTL_EVENT_RemoveFactor(int a);
 const u32 *func_06898B60(u32 *p);
 void func_06898B6C(int a, int b, int c, u32 *d);
@@ -44,18 +44,18 @@ const u32 *func_06898B60(u32 *p)
 
 /*
  * The returned message pointer stays live in r1 for 06898BDC, whose veneer
- * reaches the two-argument func_021C88C8. A one-argument declaration loses
+ * reaches the two-argument BTL_SERVER_FLOW_CommitCmdRecord. A one-argument declaration loses
  * the pointer copy and leaves 18 differing bytes (62/64).
  */
 void func_06898B6C(int a, int b, int c, u32 *d)
 {
     u8 t = BTL_EVENT_GetVar(2);
     u8 *p;
-    if (t == func_021C8020(b, c)) {
-        p = func_021C88A4(b, 0x2a, 0x1f);
+    if (t == BTL_SERVER_FLOW_GetPokeIdAtFieldIndex(b, c)) {
+        p = BTL_SERVER_FLOW_AllocCmdRecord(b, 0x2a, 0x1f);
         p[4] = *d;
         p[5] = t;
-        func_021C88C8(b, p);
+        BTL_SERVER_FLOW_CommitCmdRecord(b, p);
         BTL_EVENT_RemoveFactor(a);
     }
 }

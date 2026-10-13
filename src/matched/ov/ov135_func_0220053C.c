@@ -13,6 +13,7 @@
  *   func_021F4ED4 0x021F4ED4 thumb ov135
  *   func_022009A4 0x022009A4 thumb ov135
  *   func_02200A10 0x02200A10 thumb ov135
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj01749.h"
 typedef unsigned char u8;
@@ -23,7 +24,7 @@ extern void func_021F4E98(u8 *, u32, u32);
 extern int func_021F4ED4(void);
 extern void func_022009A4(u8 *p, u32 n, int a2, int a3, int a4);
 extern void func_02200A10(u8 *, int, int, int, int);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void func_0220053C(u8 *p, int mode)
 {
     switch (mode) {
@@ -39,7 +40,7 @@ void func_0220053C(u8 *p, int mode)
         } else {
             func_022009A4(p, 40, 1, 0, 0xF0F);
             func_021F4E98(p, 11, 5);
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
             ((struct Obj01749 *)p)->fDFC = 0;
         }
         break;

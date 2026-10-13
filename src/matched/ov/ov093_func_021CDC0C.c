@@ -14,7 +14,7 @@
  *   func_021D3FDC 0x021D3FDC thumb ov093
  *   func_021D3F98 0x021D3F98 thumb ov093
  *   BTL_ADAPTER_GetRecvCommand 0x021EEBE8 thumb ov093
- *   func_021CDD50 0x021CDD50 thumb ov093
+ *   BTL_CLIENT_FindCommandStepFn 0x021CDD50 thumb ov093
  *   BTL_CLIENT_ResetSendWord 0x021CDD34 thumb ov093
  *   GFL_USE_SetPlayersAudible 0x02005CA4 thumb
  *   func_021EAE24 0x021EAE24 thumb ov093
@@ -27,7 +27,7 @@
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   func_021D3FA8 0x021D3FA8 thumb ov093
  *   func_021EAE74 0x021EAE74 thumb ov093
- *   func_021BA7F8 0x021BA7F8 thumb ov093
+ *   BTL_MAIN_StartClientMainSteps 0x021BA7F8 thumb ov093
  */
 #include "../include/Obj00818.h"
 #include "../include/Obj09986.h"
@@ -39,7 +39,7 @@ struct Q;
 extern void func_021D3FDC(u8 *p, struct Q *q);
 extern int func_021D3F98(u8 *);
 extern u8 BTL_ADAPTER_GetRecvCommand(void *);
-extern Callback func_021CDD50(u8 *,u32,int *);
+extern Callback BTL_CLIENT_FindCommandStepFn(u8 *,u32,int *);
 extern void BTL_CLIENT_ResetSendWord(u8 *);
 extern void GFL_USE_SetPlayersAudible(int,u32);
 extern void func_021EAE24(u8 *p);
@@ -52,7 +52,7 @@ extern int func_021EAE34(u8 *p);
 extern int GFL_USE_IsBgmFading(void);
 extern u16 func_021D3FA8(u8 *p);
 extern void func_021EAE74(char *p, u32 a, u32 b);
-extern void func_021BA7F8(char *p);
+extern void BTL_MAIN_StartClientMainSteps(char *p);
 int BTL_CLIENT_StepRemote(u8 *p)
 {
     u32 id;
@@ -67,7 +67,7 @@ int BTL_CLIENT_StepRemote(u8 *p)
             id = BTL_ADAPTER_GetRecvCommand(((struct Obj00818 *)p)->f50);
             if (id) {
                 zero = 0;
-                *(Callback *)&((struct Obj00818 *)p)->fC8 = func_021CDD50(p,id,0);
+                *(Callback *)&((struct Obj00818 *)p)->fC8 = BTL_CLIENT_FindCommandStepFn(p,id,0);
                 if (*(Callback *)&((struct Obj00818 *)p)->fC8) {
                     p[0x1a8] = 2;
                     ((struct Obj00818 *)p)->fCC = zero;
@@ -105,7 +105,7 @@ int BTL_CLIENT_StepRemote(u8 *p)
                 if (!GFL_USE_IsBgmFading()) {
                     n = (int)func_021D3FA8(p+0x18);
                     func_021EAE74(((struct Obj00818 *)p)->f54,n,n);
-                    func_021BA7F8(((struct Obj00818 *)p)->f0);
+                    BTL_MAIN_StartClientMainSteps(((struct Obj00818 *)p)->f0);
                 }
             }
         }

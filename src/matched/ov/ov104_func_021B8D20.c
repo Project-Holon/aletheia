@@ -14,8 +14,8 @@
  *   func_0207CBD0 0x0207CBD0 arm
  *   VEC_Normalize 0x0207CCA4 arm
  *   func_0207CEE4 0x0207CEE4 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   _u32_div_f 0x0209C2B0 arm
  */
 #include "../include/Obj02453.h"
@@ -28,9 +28,9 @@ extern int func_0207CBD0(Vec *);
 extern void VEC_Normalize(Vec *,Vec *);
 extern void func_0207CEE4(int,Vec *,Vec *,Vec *);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021B8D20(u8 *p) {
  u16 xy[2]; Vec delta; Vec pos; int length;
  if(((struct Obj02453 *)p)->f8) {
@@ -40,8 +40,8 @@ void func_021B8D20(u8 *p) {
   xy[0]=pos.x>>12; xy[1]=pos.y>>12;
   if((((struct Obj02453 *)p)->f24)++ > ((struct Obj02453 *)p)->f28) {
    xy[0]=((struct Obj02453 *)p)->f18; xy[1]=((struct Obj02453 *)p)->f1C;
-   func_0204B3DC(((struct Obj02453 *)p)->f0,0); ((struct Obj02453 *)p)->f8=0;
+   CLACT_SetActorDrawEnable(((struct Obj02453 *)p)->f0,0); ((struct Obj02453 *)p)->f8=0;
   }
-  func_0204B404(((struct Obj02453 *)p)->f0,(const struct Vec2 *)xy,(u16)(((struct Obj02453 *)p)->f4));
+  CLACT_AddActorSurfacePos(((struct Obj02453 *)p)->f0,(const struct Vec2 *)xy,(u16)(((struct Obj02453 *)p)->f4));
  }
 }

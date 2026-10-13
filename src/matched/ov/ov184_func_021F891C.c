@@ -15,7 +15,7 @@
  *   func_021FBE54 0x021FBE54 thumb ov186
  *   func_021FC20C 0x021FC20C thumb ov186
  *   func_021FC214 0x021FC214 thumb ov186
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FC4DC 0x021FC4DC thumb ov186
  *   func_021FC124 0x021FC124 thumb ov186
  *   func_021FB378 0x021FB378 thumb ov186
@@ -35,7 +35,7 @@ extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern void func_021FBE54(char *, u32, u32);
 extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
-extern void func_02082BCC(void *, int, unsigned);
+extern void MI_CpuFill8(void *, int, unsigned);
 extern u32 func_021FC4DC(u8 *p);
 extern int func_021FC124(char *, unsigned, void *);
 extern int func_021FB378(Config *, u16, int, int, void *, int, int, int, void *, u16);
@@ -58,7 +58,7 @@ void func_021F891C(char *p, const char *q)
   func_021FBE54(*tmp1, 6, *((u16 *) (p + 36)));
   v0 = func_021FC20C(*((char **) (q + 12)));
   v1 = func_021FC214(*((char **) (q + 12)));
-  func_02082BCC(&cfg, 0, 8);
+  MI_CpuFill8(&cfg, 0, 8);
   cfg.y = 168;
   cfg.flag = 1;
   v = (void *)func_021FC4DC(*((void **) (q + 8)));

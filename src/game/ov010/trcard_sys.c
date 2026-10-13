@@ -23,7 +23,7 @@
  *   func_0203133C  0x0203133C  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   d_02172B64     0x02172B64  data  ov010
  *   func_02012944  0x02012944  thumb
  *   func_02008554  0x02008554  thumb
@@ -216,7 +216,7 @@ extern unsigned int PROCSYS_Main(void *p);
 extern int func_0203133C();
 extern void GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int b, unsigned int c);
 extern void *PROCSYS_AllocProcWork(struct ProcSys *obj, u32 size, u32 heapId);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern u8 *func_02012944(void *p);
 extern u8 func_02008554(const struct MyStatus *obj);
 extern int GAME_BEACON_SetTrainerView();
@@ -331,7 +331,7 @@ int TRCARD_SYS_Init(void *proc, int state, TrainerCardParam *param)
 
     GFL_HEAP_CreateChildHeap(1, 0x26, 0x18000);
     work = PROCSYS_AllocProcWork(proc, 0x20, 0x26);
-    func_02082BCC(work, 0, 0x20);
+    MI_CpuFill8(work, 0, 0x20);
     work->heapId = 0x26;
     work->param = func_02030734((u16)work->heapId, 0x18, 1, d_02172B64, 0x9f);
     *work->param = *param;
@@ -349,7 +349,7 @@ int TRCARD_SYS_InitMinimal(void *proc, int state, int param)
 
     GFL_HEAP_CreateChildHeap(1, 38, 0x18000);
     work = PROCSYS_AllocProcWork(proc, 32, 38);
-    func_02082BCC(work, 0, 32);
+    MI_CpuFill8(work, 0, 32);
     work->heapId = 38;
     work->param = param;
     return 1;
@@ -753,7 +753,7 @@ ViewWork *TRCARD_SYS_CreateViewWork(void *cardData, u32 heapId, void *profile)
     ViewWork *view;
 
     view = func_02030734(heapId, 24, 1, d_02172B64, 0x321);
-    func_02082BCC(view, 0, 24);
+    MI_CpuFill8(view, 0, 24);
     view->bmpWin = 0;
     view->cardData = cardData;
     view->phase = 0;

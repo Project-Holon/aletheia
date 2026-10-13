@@ -21,7 +21,7 @@
  *   func_0220D418 0x0220D418 thumb ov198
  *   func_0220D494 0x0220D494 thumb ov198
  *   func_0220D628 0x0220D628 thumb ov198
- *   sub_0201BD28 0x0201BD28 thumb
+ *   WAZA_TOOL_GetParam 0x0201BD28 thumb
  *   WAZA_TOOL_IsAlwaysHit 0x0201C1F4 thumb
  */
 #include "../include/Obj00507.h"
@@ -46,7 +46,7 @@ extern void func_0220D090(char *,int,int),func_0220D218(char *,int,unsigned);
 extern void func_0220D348(char *,int,int),func_0220D418(char *,int,int);
 extern void func_0220D494(u8 *p, int slot, int a2, int a3);
 extern void func_0220D628(char *,int);
-extern unsigned sub_0201BD28(u16,unsigned);
+extern unsigned WAZA_TOOL_GetParam(u16,unsigned);
 typedef unsigned int   u32;
 extern u32 WAZA_TOOL_IsAlwaysHit(u16 id);
 void func_0220DF20(char *p) {
@@ -71,13 +71,13 @@ void func_0220DF20(char *p) {
         func_0220D418(p,10,(u8)rec[5]);
         func_0220D494((u8 *)p,3,(u8)rec[2],(u8)rec[3]);
     } else {
-        type=sub_0201BD28(((struct Obj25185 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,5);
+        type=WAZA_TOOL_GetParam(((struct Obj25185 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,5);
         func_0220C4DC(p,((struct Obj25186 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,1,0x53,0,0,0x3dc0);
         func_0220D348(p,8,((struct Obj25187 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26);
         if(WAZA_TOOL_IsAlwaysHit(((struct Obj25188 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26)==1) func_0220D090(p,6,0);
-        else func_0220D090(p,6,sub_0201BD28(((struct Obj25189 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,4));
-        func_0220D218(p,7,sub_0201BD28(((struct Obj25190 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,3));
-        func_0220D418(p,10,sub_0201BD28(((struct Obj25191 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,2));
+        else func_0220D090(p,6,WAZA_TOOL_GetParam(((struct Obj25189 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,4));
+        func_0220D218(p,7,WAZA_TOOL_GetParam(((struct Obj25190 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,3));
+        func_0220D418(p,10,WAZA_TOOL_GetParam(((struct Obj25191 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,2));
         func_0220D494((u8 *)p,3,type,type);
     }
     func_0220D628(p,11);

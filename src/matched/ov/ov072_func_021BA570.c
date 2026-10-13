@@ -12,12 +12,12 @@
  *   TOWNMAP_DeleteMarker 0x021BAF24 thumb ov072
  *   TOWNMAP_TownFree 0x021BAA14 thumb ov072
  *   func_020307B0 0x020307B0 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj09906.h"
 typedef unsigned int u32;
 extern void TOWNMAP_DeleteMarker(unsigned int *p);
 extern void TOWNMAP_TownFree(unsigned int *p);
 extern u32 func_020307B0(void *p);
-extern void func_02082BCC(void *p,int v,int n);
-void TOWNMAP_MapFree(char *p) { u32 i; TOWNMAP_DeleteMarker((unsigned int *)(p+32)); for(i=0;i<((struct Obj09906 *)p)->fC;i++) TOWNMAP_TownFree((void *)(*(u32 *)&((struct Obj09906 *)p)->f8+i*0x44)); func_020307B0(((struct Obj09906 *)p)->f8); func_02082BCC(p,0,40); }
+extern void MI_CpuFill8(void *p,int v,int n);
+void TOWNMAP_MapFree(char *p) { u32 i; TOWNMAP_DeleteMarker((unsigned int *)(p+32)); for(i=0;i<((struct Obj09906 *)p)->fC;i++) TOWNMAP_TownFree((void *)(*(u32 *)&((struct Obj09906 *)p)->f8+i*0x44)); func_020307B0(((struct Obj09906 *)p)->f8); MI_CpuFill8(p,0,40); }

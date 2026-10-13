@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   d_021D8990 0x021D8990 data a4
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   TOUCHBAR_Create 0x021B62E0 thumb ov067
  */
 #include "../include/Obj00199.h"
@@ -19,13 +19,13 @@ typedef unsigned int u32;
 typedef struct Data { u32 w[8]; } Data;
 typedef struct Config { Data *f0; u32 f4; int f8; u32 fC, f10, f14; int f18, f1c; } Config;
 extern const Data d_021D8990;
-extern void func_02082BCC(void *, u32, u32);
+extern void MI_CpuFill8(void *, u32, u32);
 extern void *TOUCHBAR_Create(Config *, int);
 void func_021D692C(u8 *p, int n)
 {
     Data data = d_021D8990;
     Config c;
-    func_02082BCC(&c, 0, 32);
+    MI_CpuFill8(&c, 0, 32);
     c.f0 = &data;
     c.f4 = 1;
     c.f8 = *(u32 *)&((struct Obj00199 *)p)->f10;

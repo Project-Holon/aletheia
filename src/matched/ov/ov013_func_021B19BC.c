@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 #include "../include/Obj00751.h"
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 
 void VCT_AUDIO_InitReceiveSource(char *p, int a1, int a2)
 {
-    func_02082BCC(p, 0, 0x28);
+    MI_CpuFill8(p, 0, 0x28);
     ((struct Obj00751 *)p)->f4 = 0x134DF;
     ((struct Obj00751 *)p)->f28 = 0;
     ((struct Obj00751 *)p)->f2C = 0;

@@ -23,7 +23,7 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   ENCEFF_AllocWork  0x021CF52C  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   ENCEFF_GetWork  0x021CF560  thumb  ov021
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
@@ -51,7 +51,7 @@ extern void *ENCEFF_StartRippleBurst(void *gameSystem);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 extern void *ENCEFF_AllocWork(struct EncEffWork *eff, u32 size, u32 heapId);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern EncEffRipple *ENCEFF_GetWork(struct EncEffWork *eff);
 extern void FADE_Start(u32 planes, s32 startLevel, s32 endLevel, s32 wait);
 extern int FADE_IsActive(void);
@@ -129,7 +129,7 @@ int ENCEFF_RippleEventMain(struct GameEvent *event, int *state)
 {
     EncEffRipple *ripple;
 
-    ripple = ENCEFF_GetWork(FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(func_020124E4(event))));
+    ripple = ENCEFF_GetWork(FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event))));
     switch (*state) {
     case 0:
         if (ripple->startDelay != 0) {

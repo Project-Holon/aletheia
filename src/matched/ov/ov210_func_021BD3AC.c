@@ -21,7 +21,7 @@
  * func_021C9460 with a second argument.
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GFL_USE_StopAllSe  0x02006210  thumb
  *   func_021BCC2C  0x021BCC2C  thumb  ov210
  *   func_021BCF38  0x021BCF38  thumb  ov210
@@ -57,7 +57,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Search;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void GFL_USE_StopAllSe(void);
 extern void func_021BCC2C(char *p);
 extern void func_021BCF38(u8 *p);
@@ -77,7 +77,7 @@ int func_021BD3AC(unsigned char *p)
     int r;
 
     if (p[0x2BB] == 0) {
-        func_020061E4(0x63F);
+        GFL_USE_PlaySeDefaultVolume(0x63F);
         func_021BCC2C((char *)p);
         func_021BECF8(p);
         func_021BE820(p);
@@ -104,10 +104,10 @@ int func_021BD3AC(unsigned char *p)
     if (p[0x2BB] == 0x79) {
         if (*(int *)(p + 0x2D0) == 1) {
             if (*(unsigned short *)(*(int *)p + 0x14) != 0) {
-                func_020061E4(0x76F);
+                GFL_USE_PlaySeDefaultVolume(0x76F);
                 func_021BED04(p);
             } else {
-                func_020061E4(0x557);
+                GFL_USE_PlaySeDefaultVolume(0x557);
                 func_021BED10(p);
             }
             p[0x2BB] = 0;

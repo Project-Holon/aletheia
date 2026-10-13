@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   CLACT_GetActorDrawEnable  0x0204B3F4  arm  arm9
  *   (none)
  *
  * Loads the word at [p] and tail-calls the function at 0x0204B3F4 with it.
@@ -20,9 +21,9 @@
 
 typedef unsigned int   u32;
 struct Obj;
-extern u32 func_0204B3F4(struct Obj *p);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 
 void func_021BD808(int *p)
 {
-    func_0204B3F4((struct Obj *)(*p));
+    CLACT_GetActorDrawEnable((struct Obj *)(*p));
 }

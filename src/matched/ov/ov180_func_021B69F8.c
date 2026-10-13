@@ -9,18 +9,18 @@
  * isa:      thumb
  * status:   EXACT
  *
- * 2026-10-05: the callee func_02015F2C takes four arguments; the caller passes a literal 0 as the fourth, which also feeds the store, so the call is a real bl.
+ * 2026-10-05: the callee MCSS_SetAnimCallback takes four arguments; the caller passes a literal 0 as the fourth, which also feeds the store, so the call is a real bl.
  *
  * symbols:
- *   func_02015F2C  0x02015F2C  thumb
+ *   MCSS_SetAnimCallback  0x02015F2C  thumb
  *   func_021B69E8  0x021B69E8  thumb  ov180
  */
 
-extern void func_02015F2C(int, void *, void *, int);
+extern void MCSS_SetAnimCallback(int, void *, void *, int);
 extern void func_021B69E8(int *p);
 
 void func_021B69F8(char *p)
 {
     *(int *)(p + 0x24) = 0;
-    func_02015F2C(*(int *)(p + 0x1c), p, (void *)func_021B69E8, 0);
+    MCSS_SetAnimCallback(*(int *)(p + 0x1c), p, (void *)func_021B69E8, 0);
 }

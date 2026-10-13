@@ -16,12 +16,13 @@
  *   APP_TASKMENU_CloseMenu  0x02027858  thumb  arm9
  *   APP_TASKMENU_IsFinish  0x020279E8  thumb  arm9
  *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj03796.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct TaskMenu;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 extern int func_020076D0(void *save, int *pbox, int *pslot);
@@ -33,7 +34,7 @@ extern void func_021D8154(char *p);
 extern void func_021D706C(char *p);
 void func_021D8270(char *p)
 {
-    if (((struct Obj03796 *)p)->f64 % 110 == 0) func_020061E4(0x659);
+    if (((struct Obj03796 *)p)->f64 % 110 == 0) GFL_USE_PlaySeDefaultVolume(0x659);
     (((struct Obj03796 *)p)->f64)++;
     if (APP_TASKMENU_IsFinish(((struct Obj03796 *)p)->f1C)) {
         if (APP_TASKMENU_GetCursorPos(((struct Obj03796 *)p)->f1C) == 0) {

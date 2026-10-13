@@ -10,7 +10,7 @@
  * status: EXACT
  * lever: one named offset shared across the case 7/8 branch join.
  * symbols:
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   PLIST_MENU_CreateButtonWindow 0x021BBDEC thumb ov091
  *   POKELIST_SetupModeScreen 0x021B7B98 thumb ov091
  *   PLIST_MENU_ItemRestoresHp 0x021BC1B4 thumb ov091
@@ -63,13 +63,14 @@
  *   POKELIST_EndMessageToEvolve 0x021BA4E4 thumb ov091
  *   POKELIST_OpenTakeItemMenu 0x021BA098 thumb ov091
  *   POKELIST_OpenLearnMoveMenu 0x021B9EB0 thumb ov091
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj00009.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_020409B4(u32 index);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u32 func_0202136C(u16);
 struct Sub02008F80Obj;
@@ -113,7 +114,7 @@ extern void POKELIST_OpenLearnMoveMenu(u8 *p);
 #define S (*(u8 **)(p+0x280))
 #define H(k) (*(u16 *)(S+(k)))
 #define T(k) (*(u32 *)(S+(k)))
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern int PLIST_MENU_CreateButtonWindow(int p, int unused, int id, int r3, u8 a4, int a5);
 extern void POKELIST_SetupModeScreen(u8 *);
 extern int PLIST_MENU_ItemRestoresHp(unsigned short *p, void *id);
@@ -147,7 +148,7 @@ void POKELIST_StartMode(u8 *p)
         if (PLIST_MENU_ItemRestoresHp((short unsigned int *)p,(void *)H(0x44))==1) {
             r=PLIST_MENU_FindItemTarget(p);
             if (r != -1) {
-                W(0x2c)=r; W(0x38)=(u32)func_0201AB28((void *)T(0),r);
+                W(0x2c)=r; W(0x38)=(u32)POKEPARTY_GetMember((void *)T(0),r);
                 PLIST_MENU_StartItemUse(p,0);
                 PLIST_DEMO_UseItemOnMon((void *)W(0x38),H(0x44),(int)0,H(0x30),(u16)(((struct Obj00009 *)p)->f0));
                 PLIST_PLATE_Redraw(p,(u8 *)(*(u32 *)((p+W(0x2c)*4)+0x160)));
@@ -165,7 +166,7 @@ void POKELIST_StartMode(u8 *p)
         POKELIST_ShowMessage(p,0xb3,1,(int)POKELIST_EndMessageToExit);
         PLIST_MESSAGE_DestroyWordSet(p,W(0x150)); p[0xd]=p[0xc]; p[0xc]=0; return;
     case 7: case 8:
-        W(0x2c)=T(0x3c); W(0x38)=(u32)func_0201AB28((void *)T(0),T(0x3c));
+        W(0x2c)=T(0x3c); W(0x38)=(u32)POKEPARTY_GetMember((void *)T(0),T(0x3c));
         if (S[0x48] < 4) {
             old=POKE_TOOL_GetPartyValue((void *)W(0x38),S[0x48]+0x36,0);
             off=0x150;
@@ -181,7 +182,7 @@ void POKELIST_StartMode(u8 *p)
         p[0xd]=7; p[0xc]=0; W(0x14)=0;
         PLIST_PLATE_SetSelected(p,(u8 *)(*(u32 *)((p+W(0x2c)*4)+0x160)),1); return;
     case 10:
-        W(0x2c)=T(0x3c); W(0x38)=(u32)func_0201AB28((void *)T(0),T(0x3c));
+        W(0x2c)=T(0x3c); W(0x38)=(u32)POKEPARTY_GetMember((void *)T(0),T(0x3c));
         if (H(0x44) == 0) {
             T(0x34)=0; POKELIST_SetupModeScreen(p); p[0xd]=2;
         } else {
@@ -206,7 +207,7 @@ void POKELIST_StartMode(u8 *p)
         p[0xd]=7; p[0xc]=0; W(0x14)=1;
         PLIST_PLATE_SetSelected(p,(u8 *)(*(u32 *)((p+W(0x2c)*4)+0x160)),1); return;
     case 11: case 12:
-        W(0x2c)=T(0x3c); W(0x38)=(u32)func_0201AB28((void *)T(0),T(0x3c));
+        W(0x2c)=T(0x3c); W(0x38)=(u32)POKEPARTY_GetMember((void *)T(0),T(0x3c));
         old=POKE_TOOL_GetPartyValue((void *)W(0x38),6,0);
         PLIST_MESSAGE_CreateWordSet((u16 *)p,W(0x150));
         if (old == 0) {

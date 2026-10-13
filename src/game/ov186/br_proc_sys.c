@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FC3BC 0x021FC3BC thumb ov186
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   func_0200C3E0 0x0200C3E0 thumb
@@ -235,7 +235,7 @@ typedef struct {
     int  unk_64;
 } S_021F9C6C;
 
-extern void GFL_HEAP_CreateChildHeap(u32,u32,u32),func_02082BCC(void *,int,unsigned);
+extern void GFL_HEAP_CreateChildHeap(u32,u32,u32),MI_CpuFill8(void *,int,unsigned);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void *func_021FC3BC(unsigned mode, int setting, unsigned heap);
 extern void *GAME_DATA_GetMiscSave(int *);
@@ -364,7 +364,7 @@ int func_021F90C0(void *obj,int unused,char *q)
     GFL_HEAP_CreateChildHeap(1,0x5a,0x90000);
     p=PROCSYS_AllocProcWork(obj,0x1c,0x5a);
     zero=0;
-    func_02082BCC(p,0,0x1c);
+    MI_CpuFill8(p,0,0x1c);
     *(char * *)&((struct Obj00387 *)p)->f18=q;
     ((struct Obj24765 *)(*(char * *)&((struct Obj24764 *)q)->fC))->fC=zero;
     if(**(int * *)&((struct Obj24766 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC!=2) flag=zero;
@@ -693,13 +693,13 @@ void func_021F96AC(int *out, int *source, const int *ctx, int type)
     if (type == 1) {
         out[0] = ctx[2];
         *(int *)(*(int *)(source[6] + 8) + 0x17C4) = out[0];
-        func_02082BCC((void *)out[10], 0, 4);
+        MI_CpuFill8((void *)out[10], 0, 4);
     } else if (type == 6) {
         out[0] = 3;
         out[8] = ctx[5];
         out[9] = ctx[6];
         *(int *)(*(int *)(source[6] + 8) + 0x17C4) = 3;
-        func_02082BCC((void *)out[10], 0, 4);
+        MI_CpuFill8((void *)out[10], 0, 4);
     } else if (type == 2) {
         out[0] = *(int *)(*(int *)(source[6] + 8) + 0x17C4);
         out[1] = 1;
@@ -879,7 +879,7 @@ void func_021F98F8(char *p, int skip, void *sys, int heap)
                 }
             }
         }
-        func_02082BCC(p,0,0x58);
+        MI_CpuFill8(p,0,0x58);
         tag=(heap&0x7fff)|0x8000;
         for(i=0;i<4;i++) {
             BATTLE_REC_Load((void *)save,tag,&result,i);
@@ -905,7 +905,7 @@ Context *func_021F99CC(unsigned fallback, void *base, unsigned count, unsigned a
     Context *ctx;
     unsigned i = 0;
     ctx = func_02030734(heap, 0x70, 0, d_02200D04, 0x77);
-    func_02082BCC(ctx, 0, 0x70);
+    MI_CpuFill8(ctx, 0, 0x70);
     ctx->heap = heap;
     ctx->count = count;
     ctx->arg = arg;
@@ -919,7 +919,7 @@ Context *func_021F99CC(unsigned fallback, void *base, unsigned count, unsigned a
         for (i = 0; i < ctx->list[6]; i++) {
             func_021F9BF4((unsigned int *)ctx, (unsigned short)ctx->list[i]);
         }
-        func_02082BCC(ctx->list, 0, 0x1c);
+        MI_CpuFill8(ctx->list, 0, 0x1c);
         ctx->loaded = 1;
     } else {
         func_021F9BF4((unsigned int *)ctx, fallback);
@@ -959,7 +959,7 @@ void func_021F9A80(char *p)
   if(!current->active)func_02034714(d_02200D14,0,d_02200D14);
   if(!current->ops->init)func_02034714(d_02200D14,0,d_02200D14);
   current->work=func_02030734(((struct Obj01569 *)p)->f10,current->ops->size,0,d_02200D04,0xd2);
-  func_02082BCC(current->work,0,current->ops->size);
+  MI_CpuFill8(current->work,0,current->ops->size);
   mode=-2;if(!((struct Obj01569 *)p)->f6C)mode=old->arg;
   current->ops->init(current->work,((struct Obj01569 *)p)->fC,old->work,mode);
   ((struct Obj01569 *)p)->f6C=0;
@@ -1075,7 +1075,7 @@ void func_021F9C6C(S_021F9C6C *p)
 
 
 
-void func_021F9C84(char *p,int a,int b) { int zero=0;func_02082BCC(p,0,16);((struct Obj08325 *)p)->f0=1;((struct Obj08325 *)p)->f4=zero;((struct Obj08325 *)p)->fC=a;((struct Obj08325 *)p)->f8=b; }
+void func_021F9C84(char *p,int a,int b) { int zero=0;MI_CpuFill8(p,0,16);((struct Obj08325 *)p)->f0=1;((struct Obj08325 *)p)->f4=zero;((struct Obj08325 *)p)->fC=a;((struct Obj08325 *)p)->f8=b; }
 
 
 
@@ -1083,6 +1083,6 @@ void func_021F9C84(char *p,int a,int b) { int zero=0;func_02082BCC(p,0,16);((str
 
 void func_021F9CA4(void *p)
 {
-    func_02082BCC(p, 0, 0x10);
+    MI_CpuFill8(p, 0, 0x10);
     ((struct Obj24813 *)p)->fC = -1;
 }

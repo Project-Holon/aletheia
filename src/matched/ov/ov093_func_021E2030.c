@@ -1,5 +1,5 @@
 /*
- * function: func_021E2030
+ * function: HAND_WAZA_PayDayGetHandlers
  * address: 0x021E2030
  * packet: pkt_ov093_021E2030
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E1E44.c and filed here.
  *
  * symbols:
- *   d_021F247C 0x021F247C data ov093 a4
+ *   gPayDayHandlers 0x021F247C data ov093 a4
  */
 
-int *func_021E2030(int *p);
-extern int d_021F247C[];
+int *HAND_WAZA_PayDayGetHandlers(int *p);
+extern int gPayDayHandlers[];
 
-int *func_021E2030(int *p)
+int *HAND_WAZA_PayDayGetHandlers(int *p)
 {
     *p = 1;
-    return d_021F247C;
+    return gPayDayHandlers;
 }

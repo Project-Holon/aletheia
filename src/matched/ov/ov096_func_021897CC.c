@@ -10,7 +10,7 @@
  * status:   EXACT*
  * symbols:
  *   func_0218A160  0x0218A160  thumb  ov096
- *   func_021C82D0  0x021C82D0  thumb  ov093
+ *   BTL_SERVER_FLOW_GetSideEffectEntry  0x021C82D0  thumb  ov093
  *   VM_GetU32  0x0201134C  thumb
  */
 #include "../include/Obj10186.h"
@@ -25,7 +25,7 @@ typedef int s32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
-extern int func_021C82D0(int unused, unsigned int v, int k);
+extern int BTL_SERVER_FLOW_GetSideEffectEntry(int unused, unsigned int v, int k);
 
 int func_021897CC(struct Cursor *a, int b) {
     int r6;
@@ -34,7 +34,7 @@ int func_021897CC(struct Cursor *a, int b) {
     r6 = VM_GetU32(a);
     r4 = VM_GetU32(a);
     t = func_0218A160((u8 *)b, r6);
-    t = func_021C82D0(((struct Obj10186 *)b)->fB4, t, r4);
+    t = BTL_SERVER_FLOW_GetSideEffectEntry(((struct Obj10186 *)b)->fB4, t, r4);
     ((struct Obj10186 *)b)->f38 = t;
     return ((struct Obj10186 *)b)->fC4;
 }

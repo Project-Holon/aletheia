@@ -15,11 +15,11 @@
  *
  * symbols:
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
- *   func_0203630C  0x0203630C  arm
- *   func_020362DC  0x020362DC  arm
- *   func_0203633C  0x0203633C  arm
+ *   KEY_GetCont  0x0203630C  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   KEY_GetRepeat  0x0203633C  arm
  *   func_020355D8  0x020355D8  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   MONOLITH_TOOL_SetCursor  0x021B9F2C  thumb  ov071
  *   MONOLITH_TOOL_GetRowAtY  0x021BA1DC  thumb  ov071
@@ -44,11 +44,11 @@ typedef struct {
 } S;
 
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-extern unsigned int func_0203630C(void);
-extern u32 func_020362DC(void);
-extern unsigned int func_0203633C(void);
+extern unsigned int KEY_GetCont(void);
+extern u32 KEY_GetTrg(void);
+extern unsigned int KEY_GetRepeat(void);
 extern void func_020355D8(u8 v);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern int TOUCHPANEL_GetTrg(void);
 extern int MONOLITH_TOOL_SetCursor(u8 *p, int i, int v);
 extern int MONOLITH_TOOL_GetRowAtY(char *p, unsigned a);
@@ -75,7 +75,7 @@ int MONOLITH_TOOL_ProcessListInput(void *a, S *p)
             touch = 0;
         }
     }
-    if (func_0203630C() & 0xc3) {
+    if (KEY_GetCont() & 0xc3) {
         t = (p->f2d8 >> 8) + 0x18;
         row = t / 32;
         rem = t % 32;
@@ -94,33 +94,33 @@ int MONOLITH_TOOL_ProcessListInput(void *a, S *p)
             } else {
                 MONOLITH_TOOL_SetCursor((u8 *)p, row, 1);
             }
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             return 0;
         }
-        if (func_020362DC() & 1) {
+        if (KEY_GetTrg() & 1) {
             MONOLITH_TOOL_SetCursor((u8 *)p, p->f2f4, 1);
             func_020355D8(0);
             if (p->f1b4[p->f2f4] == 0) {
-                func_020061E4(0x54c);
+                GFL_USE_PlaySeDefaultVolume(0x54c);
             }
             return 1;
         }
-        if (func_0203633C() & 0x40) {
+        if (KEY_GetRepeat() & 0x40) {
             if (rem != 0) {
                 row++;
             }
             if (MONOLITH_TOOL_SetCursor((u8 *)p, p->f2f4 - 1, 1) == 1) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
             }
             if (p->f2f4 < row) {
                 p->f2e4 = -0x2000;
             }
             return 0;
         }
-        if (func_0203633C() & 0x80) {
+        if (KEY_GetRepeat() & 0x80) {
             row = ((p->f2d8 >> 8) + 0xa8) / 32;
             if (MONOLITH_TOOL_SetCursor((u8 *)p, p->f2f4 + 1, 1) == 1) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
             }
             if (p->f2f4 >= row) {
                 p->f2e4 = 0x2000;
@@ -166,7 +166,7 @@ int MONOLITH_TOOL_ProcessListInput(void *a, S *p)
                 if (r != 0xffff) {
                     ret = 1;
                     sel = r;
-                    func_020061E4(0x548);
+                    GFL_USE_PlaySeDefaultVolume(0x548);
                 }
             }
         }

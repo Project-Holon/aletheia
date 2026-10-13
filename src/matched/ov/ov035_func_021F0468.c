@@ -19,7 +19,7 @@
  *   C_GEAR_POWER_ONOFF_IsMenuDecided 0x021F0370 thumb ov035
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   GAMESYSTEM_IsNetOffBySleep 0x02012204 thumb
- *   func_02026454 0x02026454 thumb
+ *   GAME_COMM_GetKind 0x02026454 thumb
  *   GAME_COMM_RequestExitNoCallback 0x02026400 thumb
  *   GAMESYSTEM_SetAlwaysNetFlag 0x02012158 thumb
  */
@@ -39,7 +39,7 @@ extern u32 WIPE_SYS_EndCheck(void);
 struct Comm;
 struct Ctx;
 extern u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *p);
-extern u32 func_02026454(void *h);
+extern u32 GAME_COMM_GetKind(void *h);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 extern void GAMESYSTEM_SetAlwaysNetFlag(char *p, unsigned int v);
 
@@ -61,7 +61,7 @@ int C_GEAR_POWER_ONOFF_StepTurnOff(char *p)
     case 2:
         if (C_GEAR_POWER_ONOFF_IsMenuDecided(p) != 0 || GAMESYSTEM_IsNetOffBySleep(((struct Obj01362 *)p)->f4) == 1) {
             if (C_GEAR_POWER_ONOFF_GetMenuResult(p) == 0 || GAMESYSTEM_IsNetOffBySleep(((struct Obj01362 *)p)->f4) == 1) {
-                if (func_02026454(((struct Obj01362 *)p)->f8))
+                if (GAME_COMM_GetKind(((struct Obj01362 *)p)->f8))
                     GAME_COMM_RequestExitNoCallback(((struct Obj01362 *)p)->f8);
                 v = 1;
             } else {
@@ -74,7 +74,7 @@ int C_GEAR_POWER_ONOFF_StepTurnOff(char *p)
         break;
     case 3:
         if (((struct Obj01362 *)p)->f4C != 0) {
-            if (func_02026454(((struct Obj01362 *)p)->f8) != 0)
+            if (GAME_COMM_GetKind(((struct Obj01362 *)p)->f8) != 0)
                 break;
             GAMESYSTEM_SetAlwaysNetFlag(((struct Obj01362 *)p)->f4, 0);
         }

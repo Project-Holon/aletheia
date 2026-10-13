@@ -12,7 +12,7 @@
  * Releases the four +0x1b8 slots and clears the two +0x1b4 bytes.
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *
@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *a);
+extern void *BMP_WIN_GetBmp(struct Descriptor *a);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
@@ -38,7 +38,7 @@ void func_021BE1A4(char *p)
     p[0x1b4] = 0;
     p[0x1b5] = 0;
     for (i = 0; i < 4; i++) {
-        BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(u32 *)(p + i * 4 + 0x1b8))), 0);
+        BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)(p + i * 4 + 0x1b8))), 0);
         if (((struct Obj10667 *)p)->f8 != 3) {
             BMP_WIN_ClearScreen((struct Descriptor *)(*(u32 *)(p + i * 4 + 0x1b8)));
         }

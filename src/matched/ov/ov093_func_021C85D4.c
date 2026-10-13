@@ -1,5 +1,5 @@
 /*
- * function: func_021C85D4
+ * function: BTL_SERVER_FLOW_LoadFrame
  * address: 0x021C85D4
  * packet: pkt_ov093_021C85D4
  * region: ov093
@@ -16,7 +16,7 @@
  *   func_021C87F0 0x021C87F0 thumb ov093
  *   func_021C8800 0x021C8800 thumb ov093
  *   BTL_SERVER_FLOW_InitTurnState 0x021BD1E0 thumb ov093
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj00294.h"
 typedef unsigned char u8;
@@ -35,9 +35,9 @@ extern void PLEASURE_BOAT_GetTimeEvent(void *);
 extern void func_021C87F0(void *);
 extern void func_021C8800(void *);
 extern void BTL_SERVER_FLOW_InitTurnState(struct Unk021BD1E0 *);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 
-void func_021C85D4(u8 *p, int index, int clear)
+void BTL_SERVER_FLOW_LoadFrame(u8 *p, int index, int clear)
 {
     u8 *q = p + 0x874 + index * 0x290;
     *(u8 * *)&((struct Obj00294 *)p)->f850 = q;
@@ -67,13 +67,13 @@ void func_021C85D4(u8 *p, int index, int clear)
         func_021C87F0(((struct Obj00294 *)p)->f864);
         func_021C8800(((struct Obj00294 *)p)->f868);
         BTL_SERVER_FLOW_InitTurnState(*(struct Unk021BD1E0 * *)&((struct Obj00294 *)p)->f4A8);
-        func_02082BCC(((struct Obj00294 *)p)->f1AB0, 0, 0x14);
-        func_02082BCC(((struct Obj00294 *)p)->f1AB4, 0, 0x14);
-        func_02082BCC(((struct Obj00294 *)p)->f4B4, 0, 6);
-        func_02082BCC(((struct Obj00294 *)p)->f4AC, 0, 0x13);
-        func_02082BCC(((struct Obj00294 *)p)->f4B0, 0, 0x13);
-        func_02082BCC(((struct Obj00294 *)p)->f86C, 0, 0x1c);
-        func_02082BCC(((struct Obj00294 *)p)->f870, 0, 0x1c);
+        MI_CpuFill8(((struct Obj00294 *)p)->f1AB0, 0, 0x14);
+        MI_CpuFill8(((struct Obj00294 *)p)->f1AB4, 0, 0x14);
+        MI_CpuFill8(((struct Obj00294 *)p)->f4B4, 0, 6);
+        MI_CpuFill8(((struct Obj00294 *)p)->f4AC, 0, 0x13);
+        MI_CpuFill8(((struct Obj00294 *)p)->f4B0, 0, 0x13);
+        MI_CpuFill8(((struct Obj00294 *)p)->f86C, 0, 0x1c);
+        MI_CpuFill8(((struct Obj00294 *)p)->f870, 0, 0x1c);
         p[0x77f] = 6;
         ((struct Flags *)(p + 0x78a))->a = 0;
         ((struct Flags *)(p + 0x78a))->b = 0;

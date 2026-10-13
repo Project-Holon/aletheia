@@ -11,7 +11,7 @@
  * ABI exception: empty AE14 preserves its input pointer in r0, consumed here.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02034714 0x02034714 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200B358 0x0200B358 thumb
@@ -26,7 +26,7 @@
 #include "../include/Obj25295.h"
 typedef unsigned char u8;
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
-extern void func_02082BCC(void *, int, unsigned);
+extern void MI_CpuFill8(void *, int, unsigned);
 typedef unsigned int   u32;
 struct Big;
 struct Rec160;
@@ -48,7 +48,7 @@ unsigned *func_02213134(int unused, unsigned heap, u8 *p)
     int a;
     unsigned b;
     out = func_02030734(heap, 0x18, 0, d_02213D04, 0x637);
-    func_02082BCC(out, 0, 0x18);
+    MI_CpuFill8(out, 0, 0x18);
     if (((struct Obj02248 *)p)->f1C == 3) {
         id = ((struct Obj02248 *)p)->f8 + 0x17;
     } else if (((struct Obj02248 *)p)->f1C == 2) {

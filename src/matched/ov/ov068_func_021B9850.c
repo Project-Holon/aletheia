@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   func_0204363C  0x0204363C  arm
@@ -31,7 +31,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02082BCC(void *p, u32 a, u32 b);
+extern void MI_CpuFill8(void *p, u32 a, u32 b);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -49,7 +49,7 @@ extern int gOptionMenuDispVram[];
 
 void OPTION_MENU_InitScreen(u8 *p, u32 a)
 {
-    func_02082BCC(p, 0, 0xd4);
+    MI_CpuFill8(p, 0, 0xd4);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
     *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B688 0x0204B688 arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
  *   func_0207D63C 0x0207D63C arm
  */
 #include "../include/Obj10981.h"
@@ -17,13 +17,13 @@
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Actor;
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void func_0207D63C(unsigned,int,int,int,int);
 void func_021BA878(char *p)
 {
     u8 i;
     int alpha;
-    for(i=0;i<3;i++) func_0204B688(*(void **)(p+i*148+108),1);
+    for(i=0;i<3;i++) CLACT_SetActorObjMode(*(void **)(p+i*148+108),1);
     ((struct Obj10981 *)p)->f210=0;
     ((struct Obj10981 *)p)->f214=1;
     alpha=((struct Obj10981 *)p)->f210;

@@ -16,7 +16,7 @@
  * passed by value.
  *
  * symbols:
- *   sub_0201BD28  0x0201BD28  thumb
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   WAZA_TOOL_GetSickCont  0x0201BF58  thumb
  *   BTL_CALC_MakeSickContFromSpec  0x021D7C70  thumb  ov093
  *   func_021C3244  0x021C3244  thumb  ov093
@@ -33,7 +33,7 @@ typedef struct { u8 pad[5]; u8 f : 1; } BF;
 typedef struct { u16 v; } W;
 typedef struct { u32 x; } O;
 
-extern u32 sub_0201BD28(u16 id, u32 field);
+extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern W WAZA_TOOL_GetSickCont(u16 id);
 extern void BTL_CALC_MakeSickContFromSpec(W w, u32 b, O *out);
 extern void func_021C3244(u32 c);
@@ -47,7 +47,7 @@ void BTL_SERVER_FLOW_ProcMoveRankAndSickAllTargets(u8 *p, const u16 *q, u32 r, u
     u32 t, s;
     O out;
     W v;
-    s = sub_0201BD28(*q, 0xB);
+    s = WAZA_TOOL_GetParam(*q, 0xB);
     v = WAZA_TOOL_GetSickCont(*q);
     BTL_CALC_MakeSickContFromSpec(v, r, &out);
     func_021C3244(c);

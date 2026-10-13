@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -19,10 +19,10 @@
 
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 
 void func_021D6D38(void *p)
 {
     func_020307B0(((struct Obj22854 *)p)->f8);
-    func_02082BCC(p, 0, 0x10);
+    MI_CpuFill8(p, 0, 0x10);
 }

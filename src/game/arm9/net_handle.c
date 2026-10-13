@@ -1,7 +1,7 @@
 /*
  * file:     net_handle.c
  * unit:     yes
- * function: GFL_NET_HANDLE_GetNetHandleID, GFL_NET_HANDLE_ResetHandle, GFL_NET_HANDLE_ClearTimingMask, GFL_NET_HANDLE_CreateHandle, GFL_NET_HANDLE_InitWork, GFL_NET_HANDLE_ExitWork, GFL_NET_HANDLE_GetNetHandle, GFL_NET_HANDLE_GetCurrentHandle, GFL_NET_HANDLE_IsNegotiationDone, GFL_NET_HANDLE_GetNegotiationState, GFL_NET_HANDLE_GetNegotiationNum, GFL_NET_HANDLE_RequestNegotiation, GFL_NET_HANDLE_SendNegotiation, GFL_NET_HANDLE_CheckNegotiation, GFL_NET_HANDLE_RecvTimingSync, GFL_NET_HANDLE_RecvTimingTag, GFL_NET_HANDLE_StartTimingSync, func_02039C68, GFL_NET_HANDLE_IsTimingSync, func_02039CB4, GFL_NET_HANDLE_CheckTimingSyncAll, GFL_NET_HANDLE_Main, GFL_NET_HANDLE_RecvNegotiation, GFL_NET_HANDLE_SetNegotiationEnd, GFL_NET_HANDLE_RecvNegotiationReturn, GFL_NET_HANDLE_RecvRemoveHandle, GFL_NET_HANDLE_SetBitMask, GFL_NET_HANDLE_IsBitSet, GFL_NET_HANDLE_RemoveHandle, GFL_NET_HANDLE_RecvInfoData, GFL_NET_HANDLE_SetUserInfo, GFL_NET_HANDLE_SetAllTimingValue
+ * function: GFL_NET_HANDLE_GetNetHandleID, GFL_NET_HANDLE_ResetHandle, GFL_NET_HANDLE_ClearTimingMask, GFL_NET_HANDLE_CreateHandle, GFL_NET_HANDLE_InitWork, GFL_NET_HANDLE_ExitWork, GFL_NET_HANDLE_GetNetHandle, GFL_NET_HANDLE_GetCurrentHandle, GFL_NET_HANDLE_IsNegotiationDone, GFL_NET_HANDLE_GetNegotiationState, GFL_NET_HANDLE_GetNegotiationNum, GFL_NET_HANDLE_RequestNegotiation, GFL_NET_HANDLE_SendNegotiation, GFL_NET_HANDLE_CheckNegotiation, GFL_NET_HANDLE_RecvTimingSync, GFL_NET_HANDLE_RecvTimingTag, GFL_NET_HANDLE_StartTimingSync, GFL_NET_HANDLE_SetTimingSyncRange, GFL_NET_HANDLE_IsTimingSync, GFL_NET_HANDLE_IsTimingSyncRange, GFL_NET_HANDLE_CheckTimingSyncAll, GFL_NET_HANDLE_Main, GFL_NET_HANDLE_RecvNegotiation, GFL_NET_HANDLE_SetNegotiationEnd, GFL_NET_HANDLE_RecvNegotiationReturn, GFL_NET_HANDLE_RecvRemoveHandle, GFL_NET_HANDLE_SetBitMask, GFL_NET_HANDLE_IsBitSet, GFL_NET_HANDLE_RemoveHandle, GFL_NET_HANDLE_RecvInfoData, GFL_NET_HANDLE_SetUserInfo, GFL_NET_HANDLE_SetAllTimingValue
  * address:  0x020395EC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -15,7 +15,7 @@
  *
  * symbols:
  *   func_02030734            0x02030734  arm
- *   func_02082BCC            0x02082BCC  arm
+ *   MI_CpuFill8            0x02082BCC  arm
  *   GFL_NET_SYSTEM_SetError            0x02039548  arm
  *   func_02034714            0x02034714  arm
  *   MI_CpuCopy8              0x02082D44  arm
@@ -93,7 +93,7 @@ struct NetNegotiationMsg {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void *func_02082BCC(void *dst, int val, u32 size);
+extern void *MI_CpuFill8(void *dst, int val, u32 size);
 
 extern void GFL_NET_SYSTEM_SetError(void);
 
@@ -187,11 +187,11 @@ void GFL_NET_HANDLE_RecvTimingTag(u32 netID, u32 size, struct NetTimingNoMsg *ms
 
 void GFL_NET_HANDLE_StartTimingSync(GFLNetHandle *p, u16 tag);
 
-void func_02039C68(GFLNetHandle *p, u32 lo, u32 hi);
+void GFL_NET_HANDLE_SetTimingSyncRange(GFLNetHandle *p, u32 lo, u32 hi);
 
 u32 GFL_NET_HANDLE_IsTimingSync(GFLNetHandle *p, u32 key);
 
-u32 func_02039CB4(GFLNetHandle *p, u32 lo, u32 hi);
+u32 GFL_NET_HANDLE_IsTimingSyncRange(GFLNetHandle *p, u32 lo, u32 hi);
 
 int GFL_NET_HANDLE_CheckTimingSyncAll(GFLNetHandle *p);
 
@@ -354,14 +354,14 @@ void GFL_NET_HANDLE_ResetHandle(GFLNetHandle *handle, u32 netID)
     }
     for (i = 0; i < 8; i++) {
         if (handle->memberRec[i] != 0)
-            func_02082BCC(handle->memberRec[i], 0, 0x10);
+            MI_CpuFill8(handle->memberRec[i], 0, 0x10);
         savedRec[i] = handle->memberRec[i];
     }
     if (handle->workBuf != 0) {
         func_020307B0(handle->workBuf);
         handle->workBuf = 0;
     }
-    func_02082BCC(handle, 0, 0x50);
+    MI_CpuFill8(handle, 0, 0x50);
     for (i = 0; i < 8; i++)
         handle->memberRec[i] = savedRec[i];
     GFL_NET_SYSTEM_ResetMachineBuffer(netID);
@@ -412,7 +412,7 @@ void GFL_NET_HANDLE_ClearTimingMask(GFLNetHandle *handle, u32 netID)
         NetMemberRec *rec = handle->memberRec[netID];
         if (rec == 0)
             return;
-        func_02082BCC(rec, 0, 0x10);
+        MI_CpuFill8(rec, 0, 0x10);
     }
 }
 
@@ -477,7 +477,7 @@ void GFL_NET_HANDLE_ClearTimingMask(GFLNetHandle *handle, u32 netID)
  *
  * The allocation loop's counter is a SECOND variable from the release
  * loop's, zeroed before the wipe call rather than at the loop head: that is
- * the `mov sl, #0` at +0x50 sitting above `bl func_02082BCC`, where reusing
+ * the `mov sl, #0` at +0x50 sitting above `bl MI_CpuFill8`, where reusing
  * `i` would re-zero it after the call.
  *
  * Addresses are Black-image addresses.
@@ -501,7 +501,7 @@ GFLNetHandle *GFL_NET_HANDLE_CreateHandle(u32 netID)
         }
     }
     i = 0;
-    func_02082BCC(handle, 0, 0x50);
+    MI_CpuFill8(handle, 0, 0x50);
     if (netID == 0xff) {
         for (; i < 8; i++)
             handle->memberRec[i] = func_02030734(session->init.heapId, 0x10, 1, _FileName, 0xc7);
@@ -1330,7 +1330,7 @@ void GFL_NET_HANDLE_StartTimingSync(GFLNetHandle *handle, u16 timingNo)
  * pair of separate arguments rather than passed whole.
  *
  * GFL_NET_HANDLE_IsTimingSync has no label in the listing: it is a leaf that saves nothing,
- * so disasm.py prints it inside func_02039C68's extent (see
+ * so disasm.py prints it inside GFL_NET_HANDLE_SetTimingSyncRange's extent (see
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  Keeping the
  * three in one unit is what reproduces its bytes at all.
  *
@@ -1338,7 +1338,7 @@ void GFL_NET_HANDLE_StartTimingSync(GFLNetHandle *handle, u16 timingNo)
  *   python tools/match.py tu --src src/matched/unit_02039C68.c \
  *       --addr 0x02039C68 --arm
  */
-void func_02039C68(GFLNetHandle *handle, u32 timingLow, u32 timingHigh)
+void GFL_NET_HANDLE_SetTimingSyncRange(GFLNetHandle *handle, u32 timingLow, u32 timingHigh)
 {
     if (handle == 0) {
         return;
@@ -1411,7 +1411,7 @@ u32 GFL_NET_HANDLE_IsTimingSync(GFLNetHandle *handle, u32 timingNo)
 
 
 
-u32 func_02039CB4(GFLNetHandle *handle, u32 timingLow, u32 timingHigh)
+u32 GFL_NET_HANDLE_IsTimingSyncRange(GFLNetHandle *handle, u32 timingLow, u32 timingHigh)
 {
     if (handle == 0) {
         return 1;

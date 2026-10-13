@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035D20  0x02035D20  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   func_021F0A18  0x021F0A18  thumb  ov032
  *   BEACON_VIEW_RequestTransition  0x021F253C  thumb  ov032
  *   func_021F08E4  0x021F08E4  thumb  ov032
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 typedef struct { u32 x, y; } Pair;
 
 extern void BEACON_VIEW_RequestTransition(char *p, int v);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int func_021F0A18(u8 *p, u32 *v);
 extern int func_021F08E4(u8 *p, void *pt);
 typedef unsigned short u16;
@@ -46,7 +46,7 @@ int BEACON_VIEW_UpdateListTouch(u8 *p)
     int r;
     int s;
 
-    if (func_02035D20(&v.x, &v.y) == 0)
+    if (TOUCHPANEL_GetPointTrg(&v.x, &v.y) == 0)
         return 0;
     r = func_021F0A18(p, (u32 *)(&v));
     if (r != -1) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021E4AF4
+ * function: HAND_WAZA_AddSpite
  * address: 0x021E4AF4
  * packet: pkt_ov093_021E4AF4
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E492C.c and filed here.
  *
  * symbols:
- *   d_021F273C 0x021F273C data ov093 a4
+ *   gSpiteHandlers 0x021F273C data ov093 a4
  */
 
-int *func_021E4AF4(int *p);
-extern int d_021F273C[];
+int *HAND_WAZA_AddSpite(int *p);
+extern int gSpiteHandlers[];
 
-int *func_021E4AF4(int *p)
+int *HAND_WAZA_AddSpite(int *p)
 {
     *p = 1;
-    return d_021F273C;
+    return gSpiteHandlers;
 }

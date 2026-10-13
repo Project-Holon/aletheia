@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: u16 c moves its r3 spill before the handle load and restores call setup; u32 leaves 24 concrete bytes different.
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   func_021BDAA0 0x021BDAA0 thumb ov216
  */
@@ -19,14 +19,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 extern void func_021BDAA0(u8 *p, int arg, int *counter);
 void func_021BDA54(char *owner, char *record, u32 b, u16 c, u32 d, u16 f)
 {
     void *handle;
     handle = ((struct Obj14721 *)owner)->f12C;
-    PRINTSYS_PrintQueColor(handle, (u32)func_02045770((struct Descriptor *)((struct Obj08427 *)record)->f8), b, c, d, ((struct Obj14721 *)owner)->f128, f);
+    PRINTSYS_PrintQueColor(handle, (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj08427 *)record)->f8), b, c, d, ((struct Obj14721 *)owner)->f128, f);
     ((struct Obj08427 *)record)->fC = 1;
     func_021BDAA0((u8 *)owner, (int)record, (int *)(owner + 12));
 }

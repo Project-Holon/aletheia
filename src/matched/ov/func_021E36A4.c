@@ -1,5 +1,5 @@
 /*
- * function: func_021E36A4
+ * function: HAND_WAZA_SnatchOnTurnEnd
  * address:  0x021E36A4
  * packet:   pkt_021DFA3C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E36A4   0x021E36A4  thumb
+ *   HAND_WAZA_SnatchOnTurnEnd   0x021E36A4  thumb
  *   BTL_EVENT_RemoveFactor   0x021D7040  thumb
  *   BTL_EVENT_GetVar   0x021D775C  thumb
  * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r3, r4, r5, lr}; adds r5, r0, #0; movs r0, #2; adds r4, r2, #0; bl BTL_EVENT_GetVar; cmp r4, r0; bne loc_021E36BA; adds r0, r5, #0; bl BTL_EVENT_RemoveFactor; pop {r3, r4, r5, pc}.
@@ -24,7 +24,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021E36A4  shape F3: gate on BTL_EVENT_GetVar(2) then BTL_EVENT_RemoveFactor */
-void func_021E36A4(int a, int b, int c)
+void HAND_WAZA_SnatchOnTurnEnd(int a, int b, int c)
 {
     if (c == BTL_EVENT_GetVar(2))
         BTL_EVENT_RemoveFactor(a);

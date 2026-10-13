@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA710",
+   "name": "BTL_MAIN_GetRelativeClientIndex",
    "address": "0x021BA710",
    "kind": "game",
    "region": "ov093",

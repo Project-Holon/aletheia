@@ -19,19 +19,19 @@
  *   BTL_MAIN_GetCommPos  0x021B86C0  thumb  ov093
  *   PRINTSYS_PrintStreamRun  0x0201CE20  thumb  arm9
  *   PRINTSYS_PrintStreamIsOverrideSpeed  0x0201CED4  thumb  arm9
- *   func_0201CE8C  0x0201CE8C  thumb  arm9
+ *   PRINTSYS_PrintStreamSetSpeed  0x0201CE8C  thumb  arm9
  *   func_02013080  0x02013080  thumb  arm9
- *   func_0201CEB8  0x0201CEB8  thumb  arm9
- *   func_0201CE30  0x0201CE30  thumb  arm9
- *   func_0203630C  0x0203630C  arm  arm9
+ *   PRINTSYS_PrintStreamResetSpeed  0x0201CEB8  thumb  arm9
+ *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
+ *   KEY_GetCont  0x0203630C  arm  arm9
  *   TOUCHPANEL_GetCont  0x02035C38  arm  arm9
- *   func_020362DC  0x020362DC  arm  arm9
+ *   KEY_GetTrg  0x020362DC  arm  arm9
  *   TOUCHPANEL_GetTrg  0x02035C60  arm  arm9
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb  arm9
- *   func_0201CE48  0x0201CE48  thumb  arm9
- *   func_0201CE38  0x0201CE38  thumb  arm9
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
+ *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
  *   GFL_USE_IsSeqPlaying  0x02006254  thumb  arm9
- *   func_020061E4  0x020061E4  thumb  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -63,19 +63,19 @@ typedef signed int     s32;
 struct Rec;
 struct Rec3;
 extern u32 PRINTSYS_PrintStreamIsOverrideSpeed(struct Rec *p);
-extern void func_0201CE8C(struct Rec *p, s32 v);
+extern void PRINTSYS_PrintStreamSetSpeed(struct Rec *p, s32 v);
 extern signed char func_02013080(u32 idx);
-extern void func_0201CEB8(struct Rec *p);
-extern u32 func_0201CE30(void *p);
-extern u32 func_0203630C(void);
+extern void PRINTSYS_PrintStreamResetSpeed(struct Rec *p);
+extern u32 PRINTSYS_PrintStreamGetState(void *p);
+extern u32 KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern void func_0201CE48(struct Rec3 *p);
-extern void func_0201CE38(void *);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamReleasePause(void *);
 extern int GFL_USE_IsSeqPlaying(u32 a);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 int func_021ECF68(struct T *p)
 {
     switch (p->b13f) {
@@ -95,15 +95,15 @@ int func_021ECF68(struct T *p)
     case 2:
         if (p->h30 != 0) {
             if (BTL_MAIN_GetCommPos(p->owner) == 0) {
-                if ((func_0203630C() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
+                if ((KEY_GetCont() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
                     if (PRINTSYS_PrintStreamIsOverrideSpeed(p->h30) == 0)
-                        func_0201CE8C(p->h30, func_02013080(2));
+                        PRINTSYS_PrintStreamSetSpeed(p->h30, func_02013080(2));
                 } else {
                     if (PRINTSYS_PrintStreamIsOverrideSpeed(p->h30) != 0)
-                        func_0201CEB8(p->h30);
+                        PRINTSYS_PrintStreamResetSpeed(p->h30);
                 }
             }
-            p->i144 = func_0201CE30(p->h30);
+            p->i144 = PRINTSYS_PrintStreamGetState(p->h30);
             if (p->i144 != 0) {
                 if (BTL_MAIN_GetCommPos(p->owner) == 0)
                     p->b13f = 3;
@@ -119,7 +119,7 @@ int func_021ECF68(struct T *p)
         }
         break;
     case 3:
-        if ((func_020362DC() & 3) != 0 || TOUCHPANEL_GetTrg() != 0)
+        if ((KEY_GetTrg() & 3) != 0 || TOUCHPANEL_GetTrg() != 0)
             p->h148 = 0;
         if (p->h148 != 0) {
             p->h148 = p->h148 - 1;
@@ -137,13 +137,13 @@ int func_021ECF68(struct T *p)
     case 5:
         if (p->i144 == 2) {
             GF_FONT_SetDefaultTextColor();
-            func_0201CE48(p->h30);
+            PRINTSYS_PrintStreamDelete(p->h30);
             p->h30 = 0;
             p->b13f = 6;
             break;
         }
-        func_0201CE38(p->h30);
-        func_020061E4(0x547);
+        PRINTSYS_PrintStreamReleasePause(p->h30);
+        GFL_USE_PlaySeDefaultVolume(0x547);
         p->b13f = 2;
         p->h148 = p->h14a;
         break;

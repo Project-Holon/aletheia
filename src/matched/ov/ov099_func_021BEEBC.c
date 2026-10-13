@@ -14,8 +14,8 @@
  *   func_020490F4 0x020490F4 arm
  *   func_021C19A8 0x021C19A8 thumb ov099
  *   func_021C0290 0x021C0290 thumb ov099
- *   func_02082BCC 0x02082BCC arm
- *   func_020452E8 0x020452E8 arm
+ *   MI_CpuFill8 0x02082BCC arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_MENULIST_Delete 0x0202020C thumb
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   func_021B96CC 0x021B96CC thumb ov099
@@ -49,8 +49,8 @@ extern int func_021BEE64(void *a, char *b);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_021C19A8(char *);
 extern void func_021C0290(char *);
-extern void func_02082BCC(void *,int,int);
-extern u32 func_020452E8(struct Descriptor *d);
+extern void MI_CpuFill8(void *,int,int);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern int func_021B96CC(int *p);
@@ -78,9 +78,9 @@ void func_021BEEBC(char *p)
     h=func_020490F4(33,33);
     func_021C19A8(p);
     func_021C0290(p);
-    func_02082BCC(p+0x30,0,32);
+    MI_CpuFill8(p+0x30,0,32);
     if(((struct Obj00008 *)p)->fB0){
-        func_020452E8(((struct Obj00008 *)p)->f1A0);
+        BMP_WIN_Delete(((struct Obj00008 *)p)->f1A0);
         BMP_MENULIST_Delete(((struct Obj00008 *)p)->fB4,0,0);
         ((struct Obj00008 *)p)->fB4=0;
         BMP_MENUWORK_Delete(((struct Obj00008 *)p)->fB0);

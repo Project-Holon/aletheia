@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0200853C 0x0200853C thumb
- *   func_0201AA18 0x0201AA18 thumb
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   func_02167ED8 0x02167ED8 arm ov009
  *   func_02034714 0x02034714 arm
@@ -31,11 +31,11 @@ typedef struct Nibbles { u8 a:4,b:4; } Nibbles;
 typedef struct Triple { int a,b,c; } Triple;
 typedef struct Date { int a,b,c,weekday; } Date;
 typedef struct Bytes { u8 a,b; } Bytes;
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 struct Sub0200852CObj;
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
-extern unsigned func_0201AA18(void *);
-extern void *func_0201AB28(void *,unsigned);
+extern unsigned POKEPARTY_GetCount(void *);
+extern void *POKEPARTY_GetMember(void *,unsigned);
 extern unsigned func_02017E1C(void *,unsigned,unsigned);
 struct Reg;
 extern int func_02167ED8(void *date, void *time);
@@ -51,11 +51,11 @@ void func_022133E4(u8 *p,void *party1,void *party2,u8 *save,void *reg,int settin
     Date date;
     Triple time;
     Bytes bytes;
-    func_02082BCC(p,0,0x50);
+    MI_CpuFill8(p,0,0x50);
     ((struct Obj06660 *)p)->f0=func_0200853C((const struct Sub0200852CObj *)save);
     ((struct Obj06660 *)p)->f4=((struct Obj25296 *)save)->f48;
-    for(i=0;i<(int)func_0201AA18(party2);i++) {
-        mon=func_0201AB28(party2,i);
+    for(i=0;i<(int)POKEPARTY_GetCount(party2);i++) {
+        mon=POKEPARTY_GetMember(party2,i);
         if(func_02017E1C(mon,0xa9,0)) {
             *(u16 *)((unsigned)p+i*2+8)=func_02017E1C(mon,5,0);
             *(u8 *)((unsigned)p+i+0x14)=func_02017E1C(mon,0x6f,0);
@@ -63,8 +63,8 @@ void func_022133E4(u8 *p,void *party1,void *party2,u8 *save,void *reg,int settin
             *(u8 *)((unsigned)p+i+0x20)=func_02017E1C(mon,0x6e,0);
         }
     }
-    for(i=0;i<(int)func_0201AA18(party1);i++) {
-        mon=func_0201AB28(party1,i);
+    for(i=0;i<(int)POKEPARTY_GetCount(party1);i++) {
+        mon=POKEPARTY_GetMember(party1,i);
         if(func_02017E1C(mon,0xa9,zero)) {
             *(u16 *)((unsigned)p+i*2+0x26)=func_02017E1C(mon,5,zero);
             *(u8 *)((unsigned)p+i+0x32)=func_02017E1C(mon,0x6f,zero);

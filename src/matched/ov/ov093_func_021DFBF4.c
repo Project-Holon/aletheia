@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetRedCardHandlers
+ * function: HAND_ITEM_GetRedCardHandlers
  * address: 0x021DFBF4
  * packet: pkt_ov093_021DFBF4
  * region: ov093
@@ -15,10 +15,10 @@
  *   gBtlHandlerItemRedCardHandlers 0x021F14CC data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetRedCardHandlers(int *p);
+int *HAND_ITEM_GetRedCardHandlers(int *p);
 extern int gBtlHandlerItemRedCardHandlers[];
 
-int *BTL_HANDLER_ITEM_GetRedCardHandlers(int *p)
+int *HAND_ITEM_GetRedCardHandlers(int *p)
 {
     *p = 1;
     return gBtlHandlerItemRedCardHandlers;

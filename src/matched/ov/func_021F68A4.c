@@ -15,15 +15,15 @@
  *   func_02007A18  0x02007A18  thumb
  *   func_021F6748  0x021F6748  thumb
  *   func_021F67A8  0x021F67A8  thumb
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_0200785C  0x0200785C  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_02034714  0x02034714  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   func_021F91A0  0x021F91A0  thumb
  *   func_021F6DB4  0x021F6DB4  thumb
@@ -108,15 +108,15 @@ extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 extern void func_021F6748(u32 a, u8 *q);
 extern void func_021F67A8(void *mon, u32 icon, u32 item_spr, u16 *species, u32 slot, void *arc, Info *info, IconRec *rec);
 struct Obj;
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern void func_0200785C(void *save, u32 box, void *dest);
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *list, u32 i);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *list, u32 i);
 extern void *POKE_TOOL_GetBoxParam(void *a);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void ARC_TOOL_DeleteHandle(void *h);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern int func_021F91A0(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
 extern void func_021F6DB4(Info *recs, u32 *unused, void *key, IconRec *ent);
@@ -141,27 +141,27 @@ void func_021F68A4(Work *p, int box)
             p->info[i].species = 0;
             func_021F67A8(func_02007A18(storage, box, i), p->icon[i], p->item[i], &species[i], i, arc, &p->info[i], &icons[i]);
             if (i < 6) {
-                func_0204B3DC((struct Obj *)p->mark[i], 0);
+                CLACT_SetActorDrawEnable((struct Obj *)p->mark[i], 0);
             }
         }
         func_0200785C(storage, box, p->fB80);
     } else if (box == 0xff) {
-        int n = func_0201AA18(p->ctx->party);
+        int n = POKEPARTY_GetCount(p->ctx->party);
 
         for (i = 0; i < n; i++) {
-            void *mon = POKE_TOOL_GetBoxParam(func_0201AB28(p->ctx->party, i));
+            void *mon = POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(p->ctx->party, i));
 
             func_021F6748((u32)mon, (u8 *)(&p->info[i]));
             func_021F67A8(mon, p->icon[i], p->item[i], &species[i], i, arc, &p->info[i], &icons[i]);
-            func_0204B3DC((struct Obj *)p->mark[i], 0);
+            CLACT_SetActorDrawEnable((struct Obj *)p->mark[i], 0);
         }
         for (; i < 30; i++) {
             p->info[i].species = 0;
-            func_0204B3DC((struct Obj *)p->icon[i], 0);
-            func_0204B3DC((struct Obj *)p->item[i], 0);
+            CLACT_SetActorDrawEnable((struct Obj *)p->icon[i], 0);
+            CLACT_SetActorDrawEnable((struct Obj *)p->item[i], 0);
             icons[i].spr = 0;
             if (i < 6) {
-                func_0204B3DC((struct Obj *)p->mark[i], 0);
+                CLACT_SetActorDrawEnable((struct Obj *)p->mark[i], 0);
             }
         }
         MSGDATA_ReadString(p->fB6C, 0x62, p->fB80);
@@ -169,7 +169,7 @@ void func_021F68A4(Work *p, int box)
         func_02034714((void *)0x02203B68, 0, (void *)0x02203B68);
     }
     ARC_TOOL_DeleteHandle(arc);
-    BMP_Clear(func_02045770(p->fD4C), 0);
+    BMP_Clear(BMP_WIN_GetBmp(p->fD4C), 0);
     func_021F91A0(p->fD4C, (u32)p->fB80, 0, 5, 1, 0x440, (u32)p->fFA0);
     if (p->kind == 6) {
         func_021F6DB4(p->info, p->icon, p->arr[p->cur].key, icons);

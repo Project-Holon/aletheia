@@ -59,7 +59,7 @@
  *   BUTTON_MAN_SetEmitterPos 0x02051838 arm
  *   _ll_mul 0x0209C054 arm
  *   d_0220AE68 0x0220AE68 data
- *   d_020A1B38 0x020A1B38 data
+ *   FX_SinCosTable_ 0x020A1B38 data
  */
 #include "../include/Obj07881.h"
 typedef signed short s16;
@@ -106,7 +106,7 @@ typedef struct {
     int f5c;        /* 0x5c */
 } Obj;
 extern char d_0220AE68[];
-extern const s16 d_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 struct Obj;
 struct S12;
 struct Vec3;
@@ -318,7 +318,7 @@ void func_021FD1CC(void *p)
         ang = FX_AcosIdx(func_0207CA68(&e, &d));
         func_0207CAE8(&e, &d, &axis);
         VEC_Normalize(&axis, &axis);
-        MTX_RotAxis43(o, &axis, d_020A1B38[(ang >> 4) * 2], d_020A1B38[(ang >> 4) * 2 + 1]);
+        MTX_RotAxis43(o, &axis, FX_SinCosTable_[(ang >> 4) * 2], FX_SinCosTable_[(ang >> 4) * 2 + 1]);
         o->pos.x = a.x;
         o->pos.y = a.y;
         o->pos.z = a.z;
@@ -342,7 +342,7 @@ void func_021FD1CC(void *p)
         ang = FX_AcosIdx(func_0207CA68(&v1, &v2));
         func_0207CAE8(&v1, &v2, &axis2);
         VEC_Normalize(&axis2, &axis2);
-        MTX_RotAxis43(&m, &axis2, d_020A1B38[(ang >> 4) * 2], d_020A1B38[(ang >> 4) * 2 + 1]);
+        MTX_RotAxis43(&m, &axis2, FX_SinCosTable_[(ang >> 4) * 2], FX_SinCosTable_[(ang >> 4) * 2 + 1]);
         v1.x = dir.dir.x;
         v1.y = dir.dir.y;
         v1.z = dir.dir.z;

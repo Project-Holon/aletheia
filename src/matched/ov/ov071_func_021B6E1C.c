@@ -19,7 +19,7 @@
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Create  0x020457B0  arm
  *   func_0201F250  0x0201F250  thumb
- *   func_0201C6FC  0x0201C6FC  thumb
+ *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   d_021BA82C     0x021BA82C  data  a4
  */
@@ -79,7 +79,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct PrintSys;
-extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
+extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
 void MONOLITH_TOOL_CreateLabel(Ctx *a, Out *b, int c, int x, int y, int w, int h, int g, void *ws)
@@ -107,10 +107,10 @@ void MONOLITH_TOOL_CreateLabel(Ctx *a, Out *b, int c, int x, int y, int w, int h
     if (ws) {
         t = STRBUF_Create(0x80, 0x61);
         func_0201F250(ws, t, s);
-        func_0201C6FC(a->f8, (u32)b->bmp, 0, 0, t, (u32)a->fc);
+        PRINTSYS_PrintQue(a->f8, (u32)b->bmp, 0, 0, t, (u32)a->fc);
         STRBUF_Delete(t);
     } else {
-        func_0201C6FC(a->f8, (u32)b->bmp, 0, 0, s, (u32)a->fc);
+        PRINTSYS_PrintQue(a->f8, (u32)b->bmp, 0, 0, s, (u32)a->fc);
     }
     STRBUF_Delete(s);
     b->on = 1;

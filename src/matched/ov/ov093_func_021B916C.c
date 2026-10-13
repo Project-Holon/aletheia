@@ -1,5 +1,5 @@
 /*
- * function: func_021B916C
+ * function: BTL_MAIN_SetOutcomeIfUnset
  * address: 0x021B916C
  * packet: pkt_ov093_021B916C
  * region: ov093
@@ -13,4 +13,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021B916C(u8 *p,u32 x) { if(((struct Obj13275 *)p)->f444==7) ((struct Obj13275 *)p)->f444=x; }
+void BTL_MAIN_SetOutcomeIfUnset(u8 *p,u32 x) { if(((struct Obj13275 *)p)->f444==7) ((struct Obj13275 *)p)->f444=x; }

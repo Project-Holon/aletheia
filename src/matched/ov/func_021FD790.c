@@ -15,7 +15,7 @@
  *   func_021F91DC  0x021F91DC  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  */
 
@@ -38,7 +38,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern int func_021F91DC(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 
 void func_021FD790(void *bank, Pane *pane, u32 index, void *g)
@@ -50,6 +50,6 @@ void func_021FD790(void *bank, Pane *pane, u32 index, void *g)
     win = pane->win;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_020409B4(func_02045730(win));
+    func_020409B4(BMP_WIN_GetBgLayer(win));
     STRBUF_Delete(str);
 }

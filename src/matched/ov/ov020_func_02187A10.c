@@ -1,5 +1,5 @@
 /*
- * function: func_02187A10
+ * function: EL_SCOREBOARD_UpdateFade
  * address: 0x02187A10
  * packet: pkt_ov020_02187A10
  * region: ov020
@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02187D20 0x02187D20 thumb ov020
- *   func_02187A38 0x02187A38 thumb ov020
- *   func_02187B38 0x02187B38 thumb ov020
+ *   EL_SCOREBOARD_GetMode 0x02187D20 thumb ov020
+ *   EL_SCOREBOARD_UpdateFadeShared 0x02187A38 thumb ov020
+ *   EL_SCOREBOARD_UpdateFadeStandalone 0x02187B38 thumb ov020
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_02187D20(char *);
-extern void func_02187A38(const char *, int);
-extern void func_02187B38(char *, int);
-void func_02187A10(char *p, int st)
+extern u32 EL_SCOREBOARD_GetMode(char *);
+extern void EL_SCOREBOARD_UpdateFadeShared(const char *, int);
+extern void EL_SCOREBOARD_UpdateFadeStandalone(char *, int);
+void EL_SCOREBOARD_UpdateFade(char *p, int st)
 {
-    switch (func_02187D20(p)) {
-    case 0: func_02187A38(p, st); break;
-    case 1: func_02187B38(p, st); break;
+    switch (EL_SCOREBOARD_GetMode(p)) {
+    case 0: EL_SCOREBOARD_UpdateFadeShared(p, st); break;
+    case 1: EL_SCOREBOARD_UpdateFadeStandalone(p, st); break;
     }
 }

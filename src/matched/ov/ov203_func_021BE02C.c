@@ -13,7 +13,7 @@
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   func_0203F9B4 0x0203F9B4 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   d_021BFC24 0x021BFC24 data a4
  */
 extern const unsigned d_021BFC24[][11];
@@ -23,7 +23,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
-extern void func_02082BCC(void *, int, unsigned);
+extern void MI_CpuFill8(void *, int, unsigned);
 void func_021BE02C(void *ctx)
 {
     unsigned i = 0;
@@ -36,5 +36,5 @@ void func_021BE02C(void *ctx)
     }
     BMP_WIN_Exit();
     func_0203F9B4();
-    func_02082BCC(ctx, 0, 4);
+    MI_CpuFill8(ctx, 0, 4);
 }

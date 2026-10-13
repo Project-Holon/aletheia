@@ -12,7 +12,7 @@
  *   func_02030734 0x02030734 arm
  *   func_021B9900 0x021B9900 thumb ov225
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_02045B38 0x02045B38 arm
  *   func_020490F4 0x020490F4 arm
  *   ARC_UTIL_UploadPaletteFromArchive 0x02049B90 arm
@@ -37,7 +37,7 @@ extern const char d_021BC004[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void *func_021B9900(u32,u32);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
-extern u32 func_0201C440(void *);
+extern u32 PRINTSYS_QUE_Create(void *);
 extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void ARC_UTIL_UploadPaletteFromArchive(u32,u32,u32,u32,u32,u32,u16);
@@ -52,9 +52,9 @@ void *func_021B9D18(void *owner,u16 heap)
     p->owner=owner; p->heap=heap;
     p->screen=func_021B9900(1,p->heap);
     p->font=GF_FONT_Create(23,0,0,0,p->heap);
-    p->str10=func_0201C440((void *)(u32)p->heap);
-    p->str14=func_0201C440((void *)(u32)p->heap);
-    p->str18=func_0201C440((void *)(u32)p->heap);
+    p->str10=PRINTSYS_QUE_Create((void *)(u32)p->heap);
+    p->str14=PRINTSYS_QUE_Create((void *)(u32)p->heap);
+    p->str18=PRINTSYS_QUE_Create((void *)(u32)p->heap);
     p->bank1=func_02045B38(0,2,61,p->heap);
     p->bank2=func_02045B38(0,2,62,p->heap);
     p->arc1=func_020490F4(223,p->heap);

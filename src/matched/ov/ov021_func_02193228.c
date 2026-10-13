@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm  arm9
- *   func_0203630C  0x0203630C  arm  arm9
+ *   KEY_GetTrg  0x020362DC  arm  arm9
+ *   KEY_GetCont  0x0203630C  arm  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -20,13 +20,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef short          s16;
 
-extern u32 func_020362DC(void);
-extern unsigned int func_0203630C(void);
+extern u32 KEY_GetTrg(void);
+extern unsigned int KEY_GetCont(void);
 
 int FIELD_MSGBG_KeyWaitCheckSkip(u8 *p)
 {
-    u32 held = func_020362DC();
-    u32 trg = func_0203630C();
+    u32 held = KEY_GetTrg();
+    u32 trg = KEY_GetCont();
 
     if (p[0] != 0)
         return 0;

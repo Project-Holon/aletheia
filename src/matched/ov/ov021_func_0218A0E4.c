@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   func_02026474  0x02026474  thumb
+ *   GAME_COMM_GetWork  0x02026474  thumb
  *   FIELD_EVENT_CHECK_InitInput  0x0218A4E0  thumb  ov021
  *   func_0200FB24  0x0200FB24  thumb
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
@@ -76,7 +76,7 @@ struct FieldInput {
 
 struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
-extern u32 func_02026474(void *obj);
+extern u32 GAME_COMM_GetWork(void *obj);
 struct Obj00020;
 extern void FIELD_EVENT_CHECK_InitInput(struct FieldInput *p, void *sys, struct Obj00020 *pos);
 struct Comm;
@@ -116,7 +116,7 @@ int FIELD_EVENT_CHECK_CheckCommEvents(void *sys, struct Obj00020 *pos)
     void *m;
 
     a = (void *)GAMESYSTEM_GetGameComm(sys);
-    ev = (void *)func_02026474(a);
+    ev = (void *)GAME_COMM_GetWork(a);
     FIELD_EVENT_CHECK_InitInput(&in, sys, pos);
     if (ev == 0) {
         if (func_0200FB24() != 0) {

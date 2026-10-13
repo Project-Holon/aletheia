@@ -17,7 +17,7 @@
  *   P_STA_OAM_GetCellResMode 0x021DBEA4 thumb ov131
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B6F4 0x0204B6F4 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   P_STA_OAM_FileName 0x021DC854 data a1
  */
@@ -40,7 +40,7 @@ extern int P_STA_OAM_GetCellResMode(u8 *p, int screen, u32 owner);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern const char P_STA_OAM_FileName[];
 u8 *P_STA_OAM_CreateBitmapActors(u8 *a,const u8 *b)
@@ -76,7 +76,7 @@ u8 *P_STA_OAM_CreateBitmapActors(u8 *a,const u8 *b)
             d.kind=b[0x10];
             d.flag=b[0x11];
             ((struct Obj10527 *)e)->f4=CLACT_CreateActor((void *)((struct Obj06487 *)a)->f0,*(u32 *)&((struct Obj10527 *)e)->f14,*(const u32 *)&((struct Obj01549 *)b)->f8,*(u32 *)(a+8+mode*4),&d,*(const u16 *)&((struct Obj01549 *)b)->f12,((struct Obj06487 *)a)->f4);
-            func_0204B6F4(*(void **)(blk+(u32)j*4+4),(u8)(*(const u32 *)&((struct Obj01549 *)b)->fC),0);
+            CLACT_SetActorPaletteOffset(*(void **)(blk+(u32)j*4+4),(u8)(*(const u32 *)&((struct Obj01549 *)b)->fC),0);
         }
     }
     ARC_TOOL_DeleteHandle(heap);

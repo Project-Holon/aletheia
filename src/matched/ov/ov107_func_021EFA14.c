@@ -13,10 +13,10 @@
  * symbols:
  *   func_021F0D28 0x021F0D28 thumb ov107
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_020061E4 0x020061E4 thumb
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021F0A28 0x021F0A28 thumb ov107
  *   func_021F0A64 0x021F0A64 thumb ov107
  *   func_021F0AE4 0x021F0AE4 thumb ov107
@@ -53,11 +53,11 @@ extern int func_021F0A28(void);
 extern int func_021F1B14(void *);
 extern int func_021F19C8(unsigned char *a);
 extern int func_021F1A2C(void *);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B92C(struct Obj *,u32);
-extern void func_020061E4(u32);
+extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_021F0A64(void),func_021F0AE4(void),func_021F1898(void *),func_021F1628(void *,int);
 struct Sub0200852CObj;
 extern signed char func_02012FFC(void);
@@ -82,8 +82,8 @@ void func_021EFA14(u8 *p)
  case 2:
   if(p[0x26]==0){
    a=TOUCHPANEL_HitTrg(d_021F6AF8);
-   if(func_020362DC()==2 || (a==0 && p[0x28]==0)){
-    p[0x26]=1;CLACT_SetActorAnimSeq(((struct Obj00072 *)p)->f7C,9);func_0204B92C(((struct Obj00072 *)p)->f7C,1);func_020061E4(1361);
+   if(KEY_GetTrg()==2 || (a==0 && p[0x28]==0)){
+    p[0x26]=1;CLACT_SetActorAnimSeq(((struct Obj00072 *)p)->f7C,9);CLACT_SetActorAutoAnim(((struct Obj00072 *)p)->f7C,1);GFL_USE_PlaySeDefaultVolume(1361);
    }else if(func_021F0A28()){func_021F0A64();}
   }break;
  case 5:p[0x24]=4;break;

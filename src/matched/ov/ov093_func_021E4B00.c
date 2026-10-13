@@ -1,5 +1,5 @@
 /*
- * function: func_021E4B00
+ * function: HAND_WAZA_SpiteOnUncategorizedMove
  * address:  0x021E4B00
  * packet:   pkt_ov093_021E4B00
  * region:   ov093
@@ -11,31 +11,31 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C7CF4  0x021C7CF4  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_POKEPARAM_GetLastSelectedMoveId  0x021D67B8  thumb  ov093
  *   BTL_POKEPARAM_FindMoveSlot  0x021D5778  thumb  ov093
  *   BTL_POKEPARAM_GetMovePPChecked  0x021D5584  thumb  ov093
- *   func_021C88A4  0x021C88A4  thumb  ov093
- *   func_021C8838  0x021C8838  thumb  ov093
- *   func_021C8860  0x021C8860  thumb  ov093
- *   func_021C88C8  0x021C88C8  thumb  ov093
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int BTL_EVENT_GetVar(int key);
 struct UtilWork;
-extern void *func_021C7CF4(int *p, int i);
+extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern u16 BTL_POKEPARAM_GetLastSelectedMoveId(u8 *q);
 extern int BTL_POKEPARAM_FindMoveSlot(u8 *q, int w);
 extern u8 BTL_POKEPARAM_GetMovePPChecked(struct UtilWork *p, u32 i);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C8838(void *p, int a, int b);
+extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
+extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 struct S;
-extern void func_021C8860(struct S *p, u32 val);
-extern void func_021C88C8(void *a, void *b);
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 val);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
-void func_021E4B00(int a0, u8 *s, int k)
+void HAND_WAZA_SpiteOnUncategorizedMove(int a0, u8 *s, int k)
 {
     u8 v;
     u8 *q;
@@ -46,7 +46,7 @@ void func_021E4B00(int a0, u8 *s, int k)
 
     if (k == BTL_EVENT_GetVar(3)) {
         v = BTL_EVENT_GetVar(6);
-        q = func_021C7CF4((int *)s, v);
+        q = BTL_SERVER_FLOW_GetPokeParam((int *)s, v);
         w = BTL_POKEPARAM_GetLastSelectedMoveId(q);
         t = BTL_POKEPARAM_FindMoveSlot(q, w);
         if (t != 4) {
@@ -54,15 +54,15 @@ void func_021E4B00(int a0, u8 *s, int k)
             if (n > 4)
                 n = 4;
             if (n != 0) {
-                e = func_021C88A4((char *)s, 10, k);
+                e = BTL_SERVER_FLOW_AllocCmdRecord((char *)s, 10, k);
                 e[5] = v;
                 e[4] = n;
                 e[6] = t;
-                func_021C8838(e + 8, 2, 641);
-                func_021C8860((struct S *)(e + 8), v);
-                func_021C8860((struct S *)(e + 8), w);
-                func_021C8860((struct S *)(e + 8), n);
-                func_021C88C8(s, e);
+                BTL_SERVER_FLOW_InitMsgRecord(e + 8, 2, 641);
+                BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(e + 8), v);
+                BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(e + 8), w);
+                BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(e + 8), n);
+                BTL_SERVER_FLOW_CommitCmdRecord(s, e);
             }
         }
     }

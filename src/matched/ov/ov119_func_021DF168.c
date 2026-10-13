@@ -18,7 +18,7 @@
  *   func_021DF0B8 0x021DF0B8 thumb ov119
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039C68 0x02039C68 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  */
 #include "../include/Obj13901.h"
 typedef unsigned int   u32;
@@ -33,12 +33,12 @@ extern void func_021D8E84(void *,int);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *,unsigned,unsigned);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned,unsigned);
 void func_021DF168(void *p) {
  if(WIPE_SYS_EndCheck()) {
   func_021E4888(p);BG_SYS_SetSubVisiblePlanes(4);WIPE_ResetBrightness(4);
   ++*(volatile unsigned char *)&((struct Obj13901 *)p)->f11FA;
   if(*(volatile unsigned char *)&((struct Obj13901 *)p)->f11FA>=3) {func_021D89CC(p);func_021D8E84(p,(int)func_021D9434);return;}
-  func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),31,8);func_021D8E84(p,(int)func_021DF0B8);
+  GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),31,8);func_021D8E84(p,(int)func_021DF0B8);
  }
 }

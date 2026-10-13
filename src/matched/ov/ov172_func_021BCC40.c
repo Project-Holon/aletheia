@@ -15,7 +15,7 @@
  *   func_021BE03C  0x021BE03C  thumb  ov172
  *   func_021BE044  0x021BE044  thumb  ov172
  *   func_0201EC64  0x0201EC64  thumb
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   STRBUF_Create  0x020457B0  arm
  *   COMM_PLAYER_SUPPORT_GetRecordFieldPtr  0x0202E930  thumb
@@ -28,7 +28,7 @@
  *   func_0201F250  0x0201F250  thumb
  *   func_0201ED04  0x0201ED04  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *
  * Redraws one dirty list row (+0 set): an empty row (+0x18 == 0xff) just clears its window; otherwise prints the entry's name, its level (message 0xe) and, for kind 0x20 entries, the extra count (message 0x10), then records whether the entry is selectable (+0xc of the entry) and marks the row window for transfer (+4).
@@ -69,7 +69,7 @@ struct U16Vec;
 struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *win);
+extern void *BMP_WIN_GetBmp(struct Descriptor *win);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u16 *COMM_PLAYER_SUPPORT_GetRecordFieldPtr(void *p);
@@ -83,13 +83,13 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
 static inline u8 func_021BCC40_show(u32 win)
 {
     BMP_WIN_ClearScreen((struct Descriptor *)win);
-    return func_02045730((struct Descriptor *)win);
+    return BMP_WIN_GetBgLayer((struct Descriptor *)win);
 }
 
 void func_021BCC40(void *ctx, char *list, char *row, int idx)
@@ -116,13 +116,13 @@ void func_021BCC40(void *ctx, char *list, char *row, int idx)
         sys = func_021BE044(ctx);
         e = list + 0x1e4 + ((struct Obj02882 *)row)->f18 * 0x24;
         ws = (u32)func_0201EC64(heap);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj02882 *)row)->f14)), 0);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj02882 *)row)->f14)), 0);
         str = (u32)STRBUF_Create(0x20, heap);
         if (((struct Obj01166 *)e)->f18 == 0x20)
             STRBUF_SetStringN((struct Strbuf *)str, COMM_PLAYER_SUPPORT_GetRecordFieldPtr(((struct Obj01166 *)e)->f14), 8);
         else
             STRBUF_SetStringN((struct Strbuf *)str, (const u16 *)(*(char * *)&((struct Obj01166 *)e)->f14 + 0x1a), 8);
-        PRINTSYS_PrintQueColor((void *)sys, (u32)func_02045770((struct Descriptor *)((struct Obj02882 *)row)->f14), 6, 0, str, font, 0x3c40);
+        PRINTSYS_PrintQueColor((void *)sys, (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj02882 *)row)->f14), 6, 0, str, font, 0x3c40);
         STRBUF_Delete((struct U16Vec *)str);
         fmt = (u32)func_02045EC0((struct MsgBank *)msgs, 0xe);
         buf = (u32)STRBUF_Create(0x20, heap);
@@ -132,7 +132,7 @@ void func_021BCC40(void *ctx, char *list, char *row, int idx)
             func_0201EFA4((struct WordSet *)ws, 0, ((struct Obj24102 *)(*(char * *)&((struct Obj01166 *)e)->f14))->f18, 5, 2, 1);
         func_0201F250((struct WordSet *)ws, (void *)buf, (void *)fmt);
         STRBUF_Delete((struct U16Vec *)fmt);
-        PRINTSYS_PrintQueColor((void *)sys, (u32)func_02045770((struct Descriptor *)((struct Obj02882 *)row)->f14), 0x50, 0, buf, font, 0x3c40);
+        PRINTSYS_PrintQueColor((void *)sys, (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj02882 *)row)->f14), 0x50, 0, buf, font, 0x3c40);
         STRBUF_Delete((struct U16Vec *)buf);
         if (((struct Obj01166 *)e)->f18 == 0x20) {
             p = *(u8 * *)&((struct Obj01166 *)e)->f14;
@@ -143,7 +143,7 @@ void func_021BCC40(void *ctx, char *list, char *row, int idx)
             func_0201EFA4((struct WordSet *)ws, 0, *p, 1, 0, 1);
             func_0201F250((struct WordSet *)ws, (void *)buf2, (void *)fmt2);
             STRBUF_Delete((struct U16Vec *)fmt2);
-            PRINTSYS_PrintQueColor((void *)sys, (u32)func_02045770((struct Descriptor *)((struct Obj02882 *)row)->f14), 0x90, 0, buf2, font, 0x3c40);
+            PRINTSYS_PrintQueColor((void *)sys, (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj02882 *)row)->f14), 0x90, 0, buf2, font, 0x3c40);
             STRBUF_Delete((struct U16Vec *)buf2);
         } else {
             ((struct Obj01166 *)e)->f1F = 0;

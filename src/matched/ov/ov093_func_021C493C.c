@@ -14,11 +14,11 @@
  *  func_021C4A44 0x021C4A44 thumb ov093
  *  func_021C4A54 0x021C4A54 thumb ov093
  *  BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
- *  func_021B9934 0x021B9934 thumb ov093
+ *  BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *  BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
- *  func_021D6064 0x021D6064 thumb ov093
- *  func_021CC8D8 0x021CC8D8 thumb ov093
- *  func_021CC95C 0x021CC95C thumb ov093
+ *  BTL_POKEPARAM_TickSickCont 0x021D6064 thumb ov093
+ *  BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
+ *  BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
  *  BTL_SERVER_FLOW_CheckShowdown 0x021BC2B0 thumb ov093
  *  BTL_CALC_PackPokeIds 0x021D806C thumb ov093
  *  BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
@@ -33,12 +33,12 @@ extern u8 *func_021C4A34(u8 *, u32);
 extern u8 *func_021C4A44(u32);
 extern void func_021C4A54(u8 *, u8 *, Word, u32, u8 *);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern u8 *func_021B9934(char *, int);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *, int);
 extern int BTL_POKEPARAM_IsFainted(void *p);
 union Slot;
-extern int func_021D6064(u8 *p, u32 k, union Slot *out, int *changed);
-extern u32 func_021CC8D8(void *, int);
-extern void func_021CC95C(u32 *p, u32 v, int line);
+extern int BTL_POKEPARAM_TickSickCont(u8 *p, u32 k, union Slot *out, int *changed);
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *, int);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 extern int BTL_SERVER_FLOW_CheckShowdown(u8 *);
 extern u32 BTL_CALC_PackPokeIds(const u8 *p);
 extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
@@ -64,12 +64,12 @@ int BTL_SERVER_FLOW_ProcTurnCheckSickness(u8 *p, u8 *a)
         q = func_021C4A44(k++);
         if (q == 0) break;
         for (i = 0; i < n; i++) {
-            m = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, list[i]);
+            m = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00003 *)p)->f8, list[i]);
             if (BTL_POKEPARAM_IsFainted(m) == 0) {
-                if (func_021D6064(m, (u32)q, (union Slot *)(&y), (int *)(&x))) {
-                    s = func_021CC8D8(p + 0x1d74, 9719);
+                if (BTL_POKEPARAM_TickSickCont(m, (u32)q, (union Slot *)(&y), (int *)(&x))) {
+                    s = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 9719);
                     func_021C4A54(m, q, y, x, p);
-                    func_021CC95C((u32 *)(p + 0x1d74), s, 9721);
+                    BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), s, 9721);
                 }
             }
         }

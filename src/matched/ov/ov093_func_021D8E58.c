@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_FlowerGiftUpdateFormIfOwner
+ * function: HAND_TOKUSEI_FlowerGiftUpdateFormIfOwner
  * address: 0x021D8E58
  * packet: pkt_ov093_021D8E58
  * region: ov093
@@ -10,11 +10,11 @@
  * status: EXACT*
  * symbols:
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
- *   BTL_ABILITY_FlowerGiftUpdateForm 0x021D8E1C thumb ov093
+ *   HAND_TOKUSEI_FlowerGiftUpdateForm 0x021D8E1C thumb ov093
  */
 extern int BTL_EVENT_GetVar(int);
-extern void BTL_ABILITY_FlowerGiftUpdateForm(int, void *, int, int *);
-void BTL_ABILITY_FlowerGiftUpdateFormIfOwner(int a, void *b, int c, int *d)
+extern void HAND_TOKUSEI_FlowerGiftUpdateForm(int, void *, int, int *);
+void HAND_TOKUSEI_FlowerGiftUpdateFormIfOwner(int a, void *b, int c, int *d)
 {
-    if (c == BTL_EVENT_GetVar(2)) BTL_ABILITY_FlowerGiftUpdateForm(a, b, c, d);
+    if (c == BTL_EVENT_GetVar(2)) HAND_TOKUSEI_FlowerGiftUpdateForm(a, b, c, d);
 }

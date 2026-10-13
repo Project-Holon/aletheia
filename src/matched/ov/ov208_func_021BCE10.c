@@ -10,7 +10,7 @@
  * volatile: hardware 04000050/04001050 writes at 021BCE36/021BCE3C and 04000000/04001000 read-write at 021BCE40-021BCE4E.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
@@ -30,7 +30,7 @@
 extern const char d_021C8DC0[];
 extern const unsigned d_021C8184[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned short);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -47,7 +47,7 @@ extern void *func_020056A0(unsigned,unsigned,unsigned);
 char *func_021BCE10(unsigned display,unsigned heap,int threeD)
 {
     char *p=func_02030734(heap,20,0,d_021C8DC0,0x1db);
-    func_02082BCC(p,0,20);
+    MI_CpuFill8(p,0,20);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= ~0xe000;

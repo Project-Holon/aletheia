@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B688 0x0204B688 arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct Actor;extern void func_0204B688(struct Actor *,u32);
-void func_021BD908(char *p,u32 idx,u32 flag) {if(flag==1) func_0204B688(*(struct Actor **)(p+idx*4+0xa74),1);else func_0204B688(*(struct Actor **)(p+idx*4+0xa74),0);}
+struct Actor;extern void CLACT_SetActorObjMode(struct Actor *,u32);
+void func_021BD908(char *p,u32 idx,u32 flag) {if(flag==1) CLACT_SetActorObjMode(*(struct Actor **)(p+idx*4+0xa74),1);else CLACT_SetActorObjMode(*(struct Actor **)(p+idx*4+0xa74),0);}

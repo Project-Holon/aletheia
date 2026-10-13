@@ -17,10 +17,10 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B688 0x0204B688 arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
  *   d_021C851C 0x021C851C data ov208 a1
  */
 #include "../include/Obj02254.h"
@@ -40,12 +40,12 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 /* Caller consumes r0 from the legacy void-returning allocation wrapper. */
 extern u32 CLACT_CreateActor(u32,u32,u32,u32,struct Pos *,u16,u16);
 struct Obj;
-extern void func_0204B92C(struct Obj *,u32);
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 void func_021BF308(u16 *heap, char *p, int key)
 {
     struct Pos pos;
@@ -66,7 +66,7 @@ void func_021BF308(u16 *heap, char *p, int key)
     do {
         char *q;
         const u8 *t;
-        func_02082BCC(&pos, 0, 8);
+        MI_CpuFill8(&pos, 0, 8);
         t = d_021C851C + i * 9;
         q = p + i * 20;
         q[0x20] = t[2];
@@ -81,8 +81,8 @@ void func_021BF308(u16 *heap, char *p, int key)
         pos.y = t[1];
         pos.z = ((struct Obj02254 *)q)->f24;
         ((struct Obj02254 *)q)->f1C = CLACT_CreateActor(owner, ((struct Obj05538 *)p)->fA0, ((struct Obj05538 *)p)->f9C, ((struct Obj05538 *)p)->fA4, &pos, flag, *heap);
-        func_0204B92C((struct Obj *)((struct Obj02254 *)q)->f1C, 1);
-        func_0204B688((struct Actor *)(((struct Obj02254 *)q)->f1C), 1);
+        CLACT_SetActorAutoAnim((struct Obj *)((struct Obj02254 *)q)->f1C, 1);
+        CLACT_SetActorObjMode((struct Actor *)(((struct Obj02254 *)q)->f1C), 1);
         i = (u8)(i + 1);
     } while ((u32)i < 6);
 }

@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D9ADC.c and filed here.
  *
  * symbols:
- *   d_021F0858 0x021F0858 data ov093 a4
+ *   gAngerPointHandlers 0x021F0858 data ov093 a4
  */
 
 int *HAND_TOKUSEI_AddAngerPoint(int *p);
-extern int d_021F0858[];
+extern int gAngerPointHandlers[];
 
 int *HAND_TOKUSEI_AddAngerPoint(int *p)
 {
     *p = 1;
-    return d_021F0858;
+    return gAngerPointHandlers;
 }

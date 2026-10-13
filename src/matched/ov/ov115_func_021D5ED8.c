@@ -13,7 +13,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_021D5FC4 0x021D5FC4 thumb ov115
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
@@ -39,7 +39,7 @@ extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_021D5FC4(u32);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
@@ -56,9 +56,9 @@ void func_021D5ED8(u8 *p,u32 n) {
     func_0201F250(((struct Obj01720 *)p)->f20,((struct Obj01720 *)p)->f28,s);
     if (((struct Obj01720 *)p)->f30==0) ((struct Obj01720 *)p)->f30=(void *)BMP_WIN_Create(func_021D5FC4(((struct Obj01720 *)p)->f50),1,1,30,16,11,1);
     w=((struct Obj01720 *)p)->f30;
-    BMP_Clear(func_02045770(w),15);
+    BMP_Clear(BMP_WIN_GetBmp(w),15);
     GF_FONT_SetTextColor(1,2,15);
-    PRINTSYS_Print(func_02045770(w),0,0,((struct Obj01720 *)p)->f28,((struct Obj01720 *)p)->f24);
+    PRINTSYS_Print(BMP_WIN_GetBmp(w),0,0,((struct Obj01720 *)p)->f28,((struct Obj01720 *)p)->f24);
     func_0201F73C(w,(u32)1,(u16)(((struct Obj01720 *)p)->f4),(u32)12);
     BMP_WIN_TransferChars(w);
     BMP_WIN_MakeScreen(w);

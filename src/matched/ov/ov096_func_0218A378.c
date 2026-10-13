@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb  arm9
  */
 
 typedef unsigned char u8;
@@ -19,5 +20,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_0201BD28(int, int);
-void func_0218A378(int a, int b, int c) { func_0201BD28(b, c); }
+extern void WAZA_TOOL_GetParam(int, int);
+void func_0218A378(int a, int b, int c) { WAZA_TOOL_GetParam(b, c); }

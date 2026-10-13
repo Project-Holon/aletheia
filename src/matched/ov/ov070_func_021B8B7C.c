@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   ITEMMENU_UpdateSlotActorPosition  0x021BB398  thumb  ov070
  *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
  *   BLINK_PALANM_Update  0x0202EA40  thumb
@@ -21,7 +21,7 @@
 
 typedef unsigned int   u32;
 struct Obj;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 struct CodeIn;
 struct Row;
 extern void ITEMMENU_UpdateSlotActorPosition(int p, u32 val);
@@ -35,7 +35,7 @@ void ITEMMENU_TaskSelectItemFlash(int p)
 {
     switch (((struct Obj00002 *)p)->f864) {
     case 0:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
     case 3:
         ITEMMENU_UpdateSlotActorPosition(p, 0);
         ((struct Obj00002 *)p)->f864 += 1;

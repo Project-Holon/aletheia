@@ -19,8 +19,8 @@
  *   FIELD_SAVEANIME_Create  0x021D1164  thumb
  *   FIELD_SAVEANIME_Start  0x021D11B0  thumb
  *   FIELD_SUBSCREEN_GetMode  0x021A0F90  thumb  ov021
- *   func_021A1524  0x021A1524  thumb  ov021
- *   func_021A1530  0x021A1530  thumb  ov021
+ *   FIELD_SUBSCREEN_PrepareReportSave  0x021A1524  thumb  ov021
+ *   FIELD_SUBSCREEN_StartReportSaveAnim  0x021A1530  thumb  ov021
  *   SCRIPT_WORK_SetReturnScriptId  0x021590F4  thumb  ov010
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   func_02008DF0  0x02008DF0  thumb
@@ -42,8 +42,8 @@ extern void FIELD_SAVEANIME_Start(int);
 typedef unsigned char  u8;
 struct Sub02008C20Obj;
 extern u32 FIELD_SUBSCREEN_GetMode(u8 *p);
-extern void func_021A1524(u32 *p);
-extern void func_021A1530(u32 *p);
+extern void FIELD_SUBSCREEN_PrepareReportSave(u32 *p);
+extern void FIELD_SUBSCREEN_StartReportSaveAnim(u32 *p);
 extern void SCRIPT_WORK_SetReturnScriptId(void *p, u32 v);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
@@ -63,8 +63,8 @@ int SCRIPT_WORK_CmdReportSave(int a, int b)
     t = FIELD_SAVEANIME_Create(y, x);
     FIELD_SAVEANIME_Start(t);
     if (FIELD_SUBSCREEN_GetMode((u8 *)z) == 7) {
-        func_021A1524((u32 *)z);
-        func_021A1530((u32 *)z);
+        FIELD_SUBSCREEN_PrepareReportSave((u32 *)z);
+        FIELD_SUBSCREEN_StartReportSaveAnim((u32 *)z);
     }
     SCRIPT_WORK_SetReturnScriptId(s0, t);
     func_02008DF0(GAME_DATA_GetTrainerRecord(s4), 1);

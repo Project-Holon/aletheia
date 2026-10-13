@@ -12,7 +12,7 @@
  *   func_022019F4 0x022019F4 thumb ov094
  *   MCSS_TOOL_SetSpindaSpotHook 0x020172AC thumb
  *   MCSS_ReloadResource 0x02014CF8 thumb
- *   func_02015F2C 0x02015F2C thumb
+ *   MCSS_SetAnimCallback 0x02015F2C thumb
  *   func_02201718 0x02201718 thumb ov094
  *   POKEGRA_GetArcID 0x0202D060 thumb
  *   func_021FFE24 0x021FFE24 thumb ov094
@@ -25,7 +25,7 @@ extern void MCSS_TOOL_SetSpindaSpotHook(int a0, int a1);
 struct Sub02014CF8Ctx;
 struct Sub02014CF8Rec;
 extern void MCSS_ReloadResource(void *a, struct Sub02014CF8Ctx *b, const struct Sub02014CF8Rec *c);
-extern void func_02015F2C(void *, int, void (*)(int), int);
+extern void MCSS_SetAnimCallback(void *, int, void (*)(int), int);
 extern void func_02201718(int);
 extern int POKEGRA_GetArcID(void);
 extern void func_021FFE24(char *, int);
@@ -48,7 +48,7 @@ void func_021FFFD8(char *w, int key, int flag, int clear)
     if (flag == 0) {
         MCSS_TOOL_SetSpindaSpotHook((int)(((struct Obj01047 *)w)->f4), *(u32 *)(w + off + 0x3c));
         MCSS_ReloadResource(((struct Obj01047 *)w)->f4, *(void **)(w + 8 + off), (const struct Sub02014CF8Rec *)(w + 0xc + off));
-        func_02015F2C(*(void **)(w + 8 + off), idx, func_02201718, 1);
+        MCSS_SetAnimCallback(*(void **)(w + 8 + off), idx, func_02201718, 1);
         if (clear)
             *(u32 *)(w + 0x48 + off) &= ~1u;
         *(u32 *)(w + 0x48 + off) &= ~4u;

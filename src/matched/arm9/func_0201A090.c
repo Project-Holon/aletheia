@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201AA50   0x0201AA50  thumb
+ *   POKEPARTY_GetBattleReadyCount   0x0201AA50  thumb
  *   func_0200AE54   0x0200AE54  thumb
- *   func_0201AA18   0x0201AA18  thumb
- *   func_0201AB28   0x0201AB28  thumb
+ *   POKEPARTY_GetCount   0x0201AA18  thumb
+ *   POKEPARTY_GetMember   0x0201AB28  thumb
  *   POKE_REGULATION_CheckPokemonFlags   0x02019FD0  thumb
  *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
  *   POKE_REGULATION_FindValidOrder   0x0201A59C  thumb
@@ -43,11 +43,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0201AA50(void *p);
+extern u32 POKEPARTY_GetBattleReadyCount(void *p);
 struct Reg;
 extern u32 func_0200AE54(struct Reg *p, u32 id);
-extern u32   func_0201AA18(void *party);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32   POKEPARTY_GetCount(void *party);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern int   POKE_REGULATION_CheckPokemonFlags(void *rules, void *mon, u32 *mask);
 extern u32   POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern int POKE_REGULATION_FindValidOrder(void *a0, void *a1, void *a2);
@@ -74,13 +74,13 @@ int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask)
         form[i] = 0;
         item[i] = 0;
     }
-    total = func_0201AA50(party);
+    total = POKEPARTY_GetBattleReadyCount(party);
     if (total < (int)func_0200AE54(rules, 2)) {
         *mask |= 1;
         err = 4;
     }
-    for (i = 0; i < (int)func_0201AA18(party); i++) {
-        mon = func_0201AB28(party, i);
+    for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
+        mon = POKEPARTY_GetMember(party, i);
         if (POKE_REGULATION_CheckPokemonFlags(rules, mon, mask) == 0)
             err = 5;
         if (POKE_TOOL_GetPartyValue(mon, 0x4c, 0) == 0) {

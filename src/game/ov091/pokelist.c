@@ -1,7 +1,7 @@
 /*
  * file:     pokelist.c
  * unit:     yes
- * function: POKELIST_Init, POKELIST_Exit, POKELIST_Main, POKELIST_InitWork, POKELIST_ExitWork, POKELIST_UpdatePhase, POKELIST_UpdatePaletteFade, POKELIST_UpdateWindowMaskTask, POKELIST_SetupDisplay, POKELIST_SetupBgPlanes, POKELIST_SetupLight, POKELIST_ShutdownDisplay, POKELIST_ShutdownBgPlane0, POKELIST_ShutdownLight, POKELIST_LoadBgPlane, POKELIST_CreateClactUnit, POKELIST_DeleteClactUnit, POKELIST_CreateFonts, POKELIST_DeleteFonts, POKELIST_LoadGraphics, POKELIST_FreeGraphics, POKELIST_StartMode, POKELIST_SetupModeScreen, POKELIST_ApplySelection, POKELIST_OpenContextMenu, POKELIST_UpdateInputStage, POKELIST_RefreshCursor, POKELIST_HandleCommand, POKELIST_UpdateSwapCommand, POKELIST_UpdateHealShareCommand, POKELIST_ConfirmBattleParty, POKELIST_UpdateCursorInput, POKELIST_ReadCursorKeys, POKELIST_HandleTouch, POKELIST_MoveCursorToPlate, POKELIST_MoveSwapMarkerToPlate, POKELIST_RunContextMenu, POKELIST_EnterMenuPhase, POKELIST_CloseContextMenu, POKELIST_DispatchMenuChoice, POKELIST_UpdateMessagePhase, POKELIST_ShowMessage, func_021B97D4, func_021B9804, POKELIST_UpdateSwapAnimation, POKELIST_StartSwapAnimation, POKELIST_FinishSwap, POKELIST_GetFieldMoveMenuIndex, POKELIST_IsItemMode, POKELIST_IsNotItemUseMode, POKELIST_HasBackButton, POKELIST_GetMoveLearnStatus, POKELIST_CheckEvolution, POKELIST_PrintTextMain, POKELIST_PrintTextSub, POKELIST_PrintTextSubDirect, POKELIST_PrintExpandedTextMain, POKELIST_PrintExpandedTextSub, POKELIST_PrintExpandedTextSubDirect, func_021B9E20, POKELIST_EndMessageToExit, func_021B9E44, func_021B9EB0, func_021B9EC0, func_021B9F34, POKELIST_OnForgetMoveChoice, func_021BA004, POKELIST_OnTakeItemChoice, POKELIST_StartHpTransfer, func_021BA318, func_021BA3A4, POKELIST_OnMailItemChoice, POKELIST_EndMessageToEvolve, POKELIST_ForceSelectionEnd, POKELIST_FindMoveSlot, POKELIST_ReplaceMoveSlot, POKELIST_ApplyItemEffect, POKELIST_SetHeldItem, POKELIST_CheckBagItem, POKELIST_RemoveBagItem, POKELIST_ReturnBagItem
+ * function: POKELIST_Init, POKELIST_Exit, POKELIST_Main, POKELIST_InitWork, POKELIST_ExitWork, POKELIST_UpdatePhase, POKELIST_UpdatePaletteFade, POKELIST_UpdateWindowMaskTask, POKELIST_SetupDisplay, POKELIST_SetupBgPlanes, POKELIST_SetupLight, POKELIST_ShutdownDisplay, POKELIST_ShutdownBgPlane0, POKELIST_ShutdownLight, POKELIST_LoadBgPlane, POKELIST_CreateClactUnit, POKELIST_DeleteClactUnit, POKELIST_CreateFonts, POKELIST_DeleteFonts, POKELIST_LoadGraphics, POKELIST_FreeGraphics, POKELIST_StartMode, POKELIST_SetupModeScreen, POKELIST_ApplySelection, POKELIST_OpenContextMenu, POKELIST_UpdateInputStage, POKELIST_RefreshCursor, POKELIST_HandleCommand, POKELIST_UpdateSwapCommand, POKELIST_UpdateHealShareCommand, POKELIST_ConfirmBattleParty, POKELIST_UpdateCursorInput, POKELIST_ReadCursorKeys, POKELIST_HandleTouch, POKELIST_MoveCursorToPlate, POKELIST_MoveSwapMarkerToPlate, POKELIST_RunContextMenu, POKELIST_EnterMenuPhase, POKELIST_CloseContextMenu, POKELIST_DispatchMenuChoice, POKELIST_UpdateMessagePhase, POKELIST_ShowMessage, POKELIST_PollContextMenuChoice, POKELIST_OpenMenuWithCallback, POKELIST_UpdateSwapAnimation, POKELIST_StartSwapAnimation, POKELIST_FinishSwap, POKELIST_GetFieldMoveMenuIndex, POKELIST_IsItemMode, POKELIST_IsNotItemUseMode, POKELIST_HasBackButton, POKELIST_GetMoveLearnStatus, POKELIST_CheckEvolution, POKELIST_PrintTextMain, POKELIST_PrintTextSub, POKELIST_PrintTextSubDirect, POKELIST_PrintExpandedTextMain, POKELIST_PrintExpandedTextSub, POKELIST_PrintExpandedTextSubDirect, POKELIST_CloseMessageToList, POKELIST_EndMessageToExit, POKELIST_CloseMessageIfItemInBag, POKELIST_OpenGiveUpMoveMenu, POKELIST_OnGiveUpMoveChoice, POKELIST_OpenForgetMoveMenu, POKELIST_OnForgetMoveChoice, POKELIST_ShowMoveLearned, POKELIST_OnTakeItemChoice, POKELIST_StartHpTransfer, POKELIST_ShowHealResult, POKELIST_OnTakeMailChoice, POKELIST_OnMailItemChoice, POKELIST_EndMessageToEvolve, POKELIST_ForceSelectionEnd, POKELIST_FindMoveSlot, POKELIST_ReplaceMoveSlot, POKELIST_ApplyItemEffect, POKELIST_SetHeldItem, POKELIST_CheckBagItem, POKELIST_RemoveBagItem, POKELIST_ReturnBagItem
  * address:  0x021B6240
  * region:   ov091
  * compiler: dsi/1.1p1
@@ -16,13 +16,13 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   func_02030734  0x02030734  arm
- *   func_0201A920  0x0201A920  thumb
- *   func_0201A954  0x0201A954  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
+ *   POKEPARTY_InitEx  0x0201A954  thumb
  *   POKE_TOOL_Create  0x020173F0  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   POKE_REGULATION_Load  0x0201A354  thumb
  *   func_02005728  0x02005728  thumb
  *   POKE_REGULATION_FindValidOrder  0x0201A59C  thumb
@@ -35,10 +35,10 @@
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
  *   d_021BED80     0x021BED80  data  a1
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_020355C4  0x020355C4  arm
  *   func_020212B0  0x020212B0  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   PLIST_PLATE_Create  0x021BA6A0  thumb  ov091
  *   PLIST_PLATE_CreateEmpty  0x021BA81C  thumb  ov091
  *   PLIST_PLATE_GetLabelState  0x021BB43C  thumb  ov091
@@ -51,10 +51,10 @@
  *   func_02041B6C  0x02041B6C  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   func_02030EAC  0x02030EAC  arm
- *   func_021BBE44  0x021BBE44  thumb  ov091
+ *   PLIST_MENU_DeleteTaskMenuWin  0x021BBE44  thumb  ov091
  *   PLIST_MENU_Delete  0x021BBAE0  thumb  ov091
  *   PLIST_MESSAGE_Destroy  0x021BB5FC  thumb  ov091
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   PLIST_PLATE_Delete  0x021BA890  thumb  ov091
  *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb
  *   PLIST_MENU_ExitTimer  0x021BCD80  thumb  ov091
@@ -63,9 +63,9 @@
  *   POKELIST_UpdateSwapAnimation  0x021B981C  thumb  ov091
  *   POKELIST_RunContextMenu  0x021B9020  thumb  ov091
  *   POKELIST_UpdateMessagePhase  0x021B9750  thumb  ov091
- *   func_021B97D4  0x021B97D4  thumb  ov091
+ *   POKELIST_PollContextMenuChoice  0x021B97D4  thumb  ov091
  *   PLIST_PLATE_StartHpAnim  0x021BB30C  thumb  ov091
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   PLIST_PLATE_StepHpAnim  0x021BB358  thumb  ov091
  *   PLIST_COMM_SendStatus  0x021B6184  thumb  ov090
  *   PLIST_MESSAGE_OpenWindow  0x021BB714  thumb  ov091
@@ -81,14 +81,14 @@
  *   PLIST_PLATE_Update  0x021BA8CC  thumb  ov091
  *   PLIST_MESSAGE_Update  0x021BB644  thumb  ov091
  *   PLIST_MENU_UpdateTimer  0x021BCDE8  thumb  ov091
- *   func_021BBE50  0x021BBE50  thumb  ov091
+ *   PLIST_MENU_UpdateTaskMenuWin  0x021BBE50  thumb  ov091
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   CLACT_DrawSystem  0x0204A600  arm
  *   func_02082A60  0x02082A60  arm
  *   func_02061CA4  0x02061CA4  arm
  *   d_021BEBFC     0x021BEBFC  data  a1
  *   d_021BEC04     0x021BEC04  data  a1
- *   d_020A1B38     0x020A1B38  data  a2
+ *   FX_SinCosTable_     0x020A1B38  data  a2
  *   CLACT_VBlankSystem  0x0204A648  arm
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm
  *   BG_SYS_ClearSubPlanes  0x02043588  arm
@@ -101,7 +101,7 @@
  *   func_0207D63C  0x0207D63C  arm
  *   func_02040618  0x02040618  arm
  *   CLACT_InitSystem  0x0204A48C  arm
- *   func_020434DC  0x020434DC  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   func_02061C30  0x02061C30  arm
  *   d_021BEC3C     0x021BEC3C  data  a4
@@ -137,17 +137,17 @@
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_02045B38  0x02045B38  arm
  *   func_02049B40  0x02049B40  arm
- *   func_0201C450  0x0201C450  thumb
+ *   PRINTSYS_QUE_CreateEx  0x0201C450  thumb
  *   func_0201DD68  0x0201DD68  thumb
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   func_020490F4  0x020490F4  arm
@@ -196,9 +196,9 @@
  *   PLIST_PLATE_SetSelected 0x021BAFA0 thumb ov091
  *   PLIST_DEMO_CheckGiratinaToAltered 0x021BDC5C thumb ov091
  *   PLIST_DEMO_ApplyGiratinaAlteredForm 0x021BDCA0 thumb ov091
- *   func_021B9F34 0x021B9F34 thumb ov091
- *   func_021BA004 0x021BA004 thumb ov091
- *   func_021B9E20 0x021B9E20 thumb ov091
+ *   POKELIST_OpenForgetMoveMenu 0x021B9F34 thumb ov091
+ *   POKELIST_ShowMoveLearned 0x021BA004 thumb ov091
+ *   POKELIST_CloseMessageToList 0x021B9E20 thumb ov091
  *   func_02017E1C 0x02017E1C thumb
  *   func_0202136C 0x0202136C thumb
  *   func_02009050 0x02009050 thumb
@@ -232,15 +232,15 @@
  *   POKELIST_ApplyItemEffect 0x021BA60C thumb ov091
  *   POKELIST_EndMessageToExit 0x021B9E3C thumb ov091
  *   POKELIST_EndMessageToEvolve 0x021BA4E4 thumb ov091
- *   func_021BA098 0x021BA098 thumb ov091
- *   func_021B9EB0 0x021B9EB0 thumb ov091
+ *   POKELIST_OpenTakeItemMenu 0x021BA098 thumb ov091
+ *   POKELIST_OpenGiveUpMoveMenu 0x021B9EB0 thumb ov091
  *   PLIST_BATTLE_RefreshOpponentMessage  0x021BD4EC  thumb  ov091
  *   PLIST_PLATE_IsEgg  0x021BB468  thumb  ov091
  *   PLIST_MENU_GetItemUseMessage  0x021BC228  thumb  ov091
  *   PLIST_MENU_Open  0x021BBAF8  thumb  ov091
  *   func_021F6744  0x021F6744  thumb  ov112
  *   POKELIST_HasBackButton  0x021B9AB4  thumb  ov091
- *   func_021BBE5C  0x021BBE5C  thumb  ov091
+ *   PLIST_MENU_SetTaskMenuWinActive  0x021BBE5C  thumb  ov091
  *   POKELIST_MoveCursorToPlate  0x021B8F68  thumb  ov091
  *   func_02041300  0x02041300  arm
  *   PLIST_MENU_ButtonWinSetDecide  0x021BBE68  thumb  ov091
@@ -252,33 +252,33 @@
  *   POKE_REGULATION_CheckSelection  0x02019E54  thumb
  *   PLIST_MESSAGE_SetWordSetNumber  0x021BB9EC  thumb  ov091
  *   POKELIST_HandleTouch 0x021B8DB4 thumb ov091
- *   func_020362DC  0x020362DC  arm
- *   func_0203633C  0x0203633C  arm
- *   func_0204B3F4  0x0204B3F4  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   KEY_GetRepeat  0x0203633C  arm
+ *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
  *   POKELIST_IsNotItemUseMode  0x021B9AA0  thumb  ov091
  *   PLIST_PLATE_IsOccupied  0x021BB3C4  thumb  ov091
  *   d_021BEAB0     0x021BEAB0  data  a1
  *   d_021BEAAA     0x021BEAAA  data  a1
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   d_021BEC2C     0x021BEC2C  data  ov091  a1
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   func_0207D658  0x0207D658  arm
  *   func_02041570  0x02041570  arm
  *   POKELIST_RefreshCursor 0x021B8418 thumb ov091
  *   MOVE_POKEMON_IsSkillBlocked 0x0215EA14 thumb ov010
- *   func_02013E04 0x02013E04 thumb
+ *   ZONEDATA_IsNormalFieldZone 0x02013E04 thumb
  *   d_021BEC0C 0x021BEC0C data a4
  *   d_021BEC1C 0x021BEC1C data a4
  *   POKELIST_SetupModeScreen 0x021B7B98 thumb ov091
  *   POKELIST_OpenContextMenu 0x021B8180 thumb ov091
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_0201AB8C 0x0201AB8C thumb
+ *   POKEPARTY_SwapMembers 0x0201AB8C thumb
  *   func_0202130C 0x0202130C thumb
  *   POKE_TOOL_CheckTmCompat 0x020188AC thumb
  *   SHINKA_CHECK_CheckEvolution 0x0201B2B0 thumb
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
@@ -297,7 +297,7 @@
  *   func_02007E50 0x02007E50 thumb
  *   func_020410D0 0x020410D0 arm
  *   CLACT_CreateRenderer 0x0204B034 arm
- *   func_0204B258 0x0204B258 arm
+ *   CLACT_SetUnitRenderer 0x0204B258 arm
  *   CLACT_SetSurfacePos 0x0204B09C arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   gPlistPlateSourceName 0x021BED18 data ov091 a1
@@ -306,16 +306,16 @@
  *   gPlistPlatePaletteA 0x021BEC6C data ov091 a1
  *   gPlistPlatePaletteB 0x021BEC6D data ov091 a1
  *   CLACT_DeleteRenderer 0x0204B084 arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   POKE_TOOL_GetStatusCondition  0x02017F90  thumb
  *   CLACT_GetActorAnimFrame  0x0204B8F4  arm
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
- *   func_0201BA68  0x0201BA68  thumb
+ *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb
  *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb
- *   func_0204B6F4  0x0204B6F4  arm
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   func_0201EC64  0x0201EC64  thumb
  *   func_0201EEF4  0x0201EEF4  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
@@ -333,10 +333,10 @@
  *   func_0201F5BC  0x0201F5BC  thumb
  *   TCBL_Create   0x0203101C  arm
  *   func_02028590  0x02028590  thumb
- *   func_0201C440  0x0201C440  thumb
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   sPlistMessageAllocSite     0x021BED28  data  ov091  a1
  *   TIME_ICON_Delete  0x0202F038  thumb
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
  *   TCBL_Destroy  0x02031140  arm
  *   TCBL_Main 0x020310C4 arm
@@ -352,9 +352,9 @@
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
  *   GFL_USE_PushBgm  0x02005E64  thumb
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
- *   func_02005F38  0x02005F38  thumb
+ *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
  *   GFL_USE_PopBgm  0x02005E9C  thumb
- *   func_02006238  0x02006238  thumb
+ *   GFL_USE_IsAnySeBusy  0x02006238  thumb
  *   func_0201EF40 0x0201EF40 thumb
  *   func_0201EF4C 0x0201EF4C thumb
  *   func_0201EF34 0x0201EF34 thumb
@@ -434,7 +434,7 @@
  *   PLIST_MENU_Close  0x021BBBA0  thumb
  *   PLIST_MENU_Update  0x021BBBD8  thumb
  *   PLIST_MENU_GetSelectedCommand  0x021BBBE4  thumb
- *   func_021BC6C0  0x021BC6C0  thumb
+ *   PLIST_MENU_BeginExitWait  0x021BC6C0  thumb
  */
 
 #define reg_GX_DISPCNT (*(volatile u32 *)0x04000000)
@@ -455,8 +455,6 @@ struct Node;
 struct TaskMenuState;
 struct Actor;
 struct PrintSys;
-struct S;
-struct Pal;
 struct Cfg;
 struct DispConfig;
 struct DispVram;
@@ -482,82 +480,7 @@ typedef struct {
     u16 v[5];
 } PokelistNickname;
 
-typedef struct {
-    u8 b0;
-    u8 b1;
-    u8 b2;
-    u8 b3;
-    u8 b4;
-    u8 b5;
-    u16 h6;
-    u8 pad8[0xa8 - 8];
-    u16 ha8;
-} S;
-
-typedef struct {
-    void *list;
-    u16 *t;
-    u8 b;
-} E;
-
-typedef struct {
-    void *party;
-    u8 pad04[0x14 - 4];
-    S *s;
-    u8 pad18[0x34 - 0x18];
-    int v34;
-    u8 pad38[0x3c - 0x38];
-    int v3c;
-    u8 pad40[0x44 - 0x40];
-    u16 h44;
-    u8 pad46[0x49 - 0x46];
-    u8 b49[6];
-    u8 pad4f[0x60 - 0x4f];
-    u16 h60;
-    u8 pad62[0x64 - 0x62];
-    int v64;
-    E e[3];
-    int v8c;
-    int v90;
-    u8 b94;
-} Q_021B6240;
-
-typedef struct {
-    u16 heap;
-    u8 pad[0x280 - 2];
-    Q_021B6240 *q;
-} P_021B6240;
-
 typedef signed int     s32;
-
-typedef struct {
-    u8 pad0[0x14];
-    void *v14;
-    u8 pad18[0x68 - 0x18];
-    struct {
-        void *a;
-        void *b;
-        u8 pad[4];
-    } e[3];
-} Q_021B6534;
-
-typedef struct {
-    u8 pad[640];
-    Q_021B6534 *q;
-} P_021B6534;
-
-typedef struct {
-    u8 pad0[0x60];
-    u16 v60;
-    u8 pad62[0x90 - 0x62];
-    u32 v90;
-} Q_021B65B8;
-
-typedef struct {
-    u8 pad[640];
-    Q_021B65B8 *q;
-} P_021B65B8;
-
 
 typedef signed char s8;
 
@@ -585,17 +508,6 @@ typedef struct {
     int v[4];
 } PokelistMenuItems;
 
-struct Pal {
-    u8 pad0[0x10];
-    u32 mode;
-    u8 pad1[0x2c];
-    u16 src[3][16];
-    u16 dst[3][16];
-    u8 step;
-    u8 pad2;
-    u16 phase;
-};
-
 typedef struct {
     u32 w[12];
 } PokelistVramBanks;
@@ -617,23 +529,23 @@ typedef struct {
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct Party *func_0201A920(u32 heap);
-extern void func_0201A954(struct Party *p, s32 capacity);
+extern struct Party *POKEPARTY_Create(u32 heap);
+extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
 extern void *POKE_TOOL_Create(u16 species, u16 level, u64 id, u16 heap);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern u32 func_020307B0(void *p);
-extern u32 func_0203630C(void);
+extern u32 KEY_GetCont(void);
 extern void *POKE_REGULATION_Load(int a, int b);
 extern u32 func_02005728(u32 range);
 extern int POKE_REGULATION_FindValidOrder(void *a0, void *a1, void *a2);
 extern void func_020355D8(int a);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
-extern u32 func_0201AA18(void *);
+extern u32 POKEPARTY_GetCount(void *);
 extern u8 func_020355C4(void);
 extern u16 func_020212B0(u16 id);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern struct PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int k, void *mon);
 extern struct PlistPlate *PLIST_PLATE_CreateEmpty(PokelistWork *work, int k);
 extern struct TaskMenu *APP_TASKMENU_RES_Create(u16 a0, u16 a1, void *fontMain, void *printSys, u16 heap);
@@ -644,17 +556,17 @@ extern u32 *PLIST_MENU_Create(PokelistWork *work);
 extern void func_02041B6C(u32 id);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void func_02030EAC(struct Node *n);
-extern void func_021BBE44(int x);
+extern void PLIST_MENU_DeleteTaskMenuWin(int x);
 extern void PLIST_MENU_Delete(PokelistWork *work, unsigned char *b);
 extern void PLIST_MESSAGE_Destroy(PokelistWork *work, int *s);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void PLIST_MENU_ExitTimer(PokelistWork *work);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 WIPE_SYS_EndCheck(void);
 extern void PLIST_PLATE_StartHpAnim(PokelistWork *work, struct PlistPlate *s);
-extern void func_020061E4(u32 id);
-extern int PLIST_PLATE_StepHpAnim(PokelistWork *work, struct S *s);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
+extern int PLIST_PLATE_StepHpAnim(PokelistWork *work, struct PlistPlate *s);
 extern u32 PLIST_COMM_SendStatus(PokelistArg *arg, u8 b, u16 a);
 extern void PLIST_MESSAGE_OpenWindow(PokelistWork *work, u32 *s, u32 k);
 extern void PLIST_MESSAGE_PrintText(PokelistWork *work, u32 *s, u32 x);
@@ -669,7 +581,7 @@ extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void PLIST_PLATE_Update(PokelistWork *work, struct PlistPlate *s);
 extern void PLIST_MESSAGE_Update(PokelistWork *work, u8 *s);
 extern void PLIST_MENU_UpdateTimer(PokelistWork *work);
-extern void func_021BBE50(int x);
+extern void PLIST_MENU_UpdateTaskMenuWin(int x);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void CLACT_DrawSystem(void);
 extern void func_02082A60(void *src, void *dst, u32 size);
@@ -685,7 +597,7 @@ extern void BMP_WIN_Init(u16 heapId);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void func_02061C30(void);
 extern void func_0207D4B0(int,int,int);
@@ -707,17 +619,17 @@ extern void func_020409B4(u32 index);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
-extern void *func_0201C450(u16 n, u32 heap);
+extern void *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
 extern void func_0201DD68(void);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -789,12 +701,12 @@ extern void PLIST_MENU_ButtonWinSetDecide(int h, int f);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int  POKE_REGULATION_CheckSelection(u32 a0, u32 a1, u32 a2);
 extern void PLIST_MESSAGE_SetWordSetNumber(PokelistWork *work, int b, int c, int d, unsigned char e);
-extern u32  func_020362DC(void);
-extern unsigned int func_0203633C(void);
-extern u32 func_0204B3F4(struct Obj *p);
+extern u32  KEY_GetTrg(void);
+extern unsigned int KEY_GetRepeat(void);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void func_02041570(int channel, u16 val);
-extern u32 func_02013E04(u32 id);
+extern u32 ZONEDATA_IsNormalFieldZone(u32 id);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 func_0202130C(u32 id);
 extern u32 POKE_TOOL_CheckTmCompat(void *p, int v);
@@ -807,13 +719,13 @@ extern void func_020181F4(void *,u16,u32);
 extern void POKE_TOOL_ReplaceMoveSlot(void *,u16,u32);
 extern void NATSUKI_Calc(void *, int, int, int);
 extern int TOUCHPANEL_HitTrg(const void *rects);
-extern void func_0204B404(struct Obj *actor, const PokelistPos *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *actor, const PokelistPos *delta, u32 which);
 extern void CLACT_SetActorBgPriority(struct Obj *actor, int animNo);
 extern int MOVE_POKEMON_IsSkillBlocked(int moveIndex, const u8 *param);
-extern u32 func_0201AB8C(void *party, u32 i, u32 j, u32 heap);
+extern u32 POKEPARTY_SwapMembers(void *party, u32 i, u32 j, u32 heap);
 extern u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 mode, u32 param, u8 season, u32 *out, u16 heap);
 extern void *func_02045EC0(void *msgBank, u32 index);
-extern void *func_02045770(struct Descriptor *window);
+extern void *BMP_WIN_GetBmp(struct Descriptor *window);
 extern void PRINTSYS_PrintQueColor(void *printSys, void *bmp, s16 x, s16 y, void *text, void *font, u16 color);
 extern void STRBUF_Delete(void *vec);
 extern void PRINTSYS_PrintColor(void *bmp, s16 x, s16 y, void *text, void *font, u16 color);
@@ -845,16 +757,16 @@ extern void PLIST_MENU_Open(PokelistWork *work, u32 menu, int *items);
 extern void PLIST_MENU_Close(PokelistWork *work, u32 menu);
 extern void PLIST_MENU_Update(PokelistWork *work, u32 menu);
 extern unsigned int PLIST_MENU_GetSelectedCommand(PokelistWork *work, u32 menu);
-extern void func_021BBE5C(int button, int active);
+extern void PLIST_MENU_SetTaskMenuWinActive(int button, int active);
 extern void PLIST_MENU_ApplyArceusPlateForm(PokelistWork *work, void *mon, int itemId);
 extern void PLIST_MENU_ApplyGenesectDriveForm(PokelistWork *work, void *mon, int itemId);
-extern void func_021BC6C0(PokelistWork *work);
+extern void PLIST_MENU_BeginExitWait(PokelistWork *work);
 extern int PLIST_DEMO_CheckGiratinaToOrigin(PokelistWork *work, void *mon);
 extern int PLIST_DEMO_CheckGiratinaToAltered(PokelistWork *work, void *mon);
 extern void PLIST_PLATE_Delete(PokelistWork *work, struct PlistPlate *plate);
-int POKELIST_Init(struct Obj0203159C *a0, int *seq, PokelistArg *arg, PokelistWork *work);
-int POKELIST_Exit(int a0, int a1, int a2, PokelistWork *work);
-int POKELIST_Main(int a0, int a1, int a2, PokelistWork *work);
+int POKELIST_Init(struct Obj0203159C *procObj, int *seq, PokelistArg *arg, PokelistWork *work);
+int POKELIST_Exit(int procObj, int procArg, int procState, PokelistWork *work);
+int POKELIST_Main(int procObj, int procArg, int procState, PokelistWork *work);
 int POKELIST_InitWork(PokelistWork *work);
 int POKELIST_ExitWork(PokelistWork *work);
 int POKELIST_UpdatePhase(PokelistWork *work);
@@ -894,8 +806,8 @@ void POKELIST_CloseContextMenu(PokelistWork *work);
 void POKELIST_DispatchMenuChoice(PokelistWork *work);
 void POKELIST_UpdateMessagePhase(PokelistWork *work);
 void POKELIST_ShowMessage(PokelistWork *work, int messageId, int waitForKey, PokelistFn onDone);
-void func_021B97D4(PokelistWork *work);
-void func_021B9804(PokelistWork *work, PokelistMenuFn onChoice);
+void POKELIST_PollContextMenuChoice(PokelistWork *work);
+void POKELIST_OpenMenuWithCallback(PokelistWork *work, PokelistMenuFn onChoice);
 void POKELIST_UpdateSwapAnimation(PokelistWork *work);
 void POKELIST_StartSwapAnimation(PokelistWork *work);
 void POKELIST_FinishSwap(PokelistWork *work);
@@ -911,21 +823,21 @@ void POKELIST_PrintTextSubDirect(PokelistWork *work, struct Descriptor *window, 
 void POKELIST_PrintExpandedTextMain(PokelistWork *work, struct Descriptor *window, void *wordSet, u32 messageId, s16 x, s16 y, u16 color);
 void POKELIST_PrintExpandedTextSub(PokelistWork *work, struct Descriptor *window, void *wordSet, u32 messageId, s16 x, s16 y, u16 color);
 void POKELIST_PrintExpandedTextSubDirect(PokelistWork *work, struct Descriptor *window, void *wordSet, u32 messageId, s16 x, s16 y, u16 color);
-void func_021B9E20(PokelistWork *work);
+void POKELIST_CloseMessageToList(PokelistWork *work);
 void POKELIST_EndMessageToExit(PokelistWork *work);
-void func_021B9E44(PokelistWork *work);
-void func_021B9EB0(PokelistWork *work);
-void func_021B9EC0(PokelistWork *work, int choice);
-void func_021B9F34(PokelistWork *work);
+void POKELIST_CloseMessageIfItemInBag(PokelistWork *work);
+void POKELIST_OpenGiveUpMoveMenu(PokelistWork *work);
+void POKELIST_OnGiveUpMoveChoice(PokelistWork *work, int choice);
+void POKELIST_OpenForgetMoveMenu(PokelistWork *work);
 void POKELIST_OnForgetMoveChoice(PokelistWork *work, int choice);
-void func_021BA004(PokelistWork *work);
-void func_021BA098(PokelistWork *work);
+void POKELIST_ShowMoveLearned(PokelistWork *work);
+void POKELIST_OpenTakeItemMenu(PokelistWork *work);
 void POKELIST_OnTakeItemChoice(PokelistWork *work, int choice);
 void POKELIST_StartHpTransfer(PokelistWork *work);
-void func_021BA318(PokelistWork *work);
-void func_021BA394(PokelistWork *work);
-void func_021BA3A4(PokelistWork *work, int choice);
-void func_021BA444(PokelistWork *work);
+void POKELIST_ShowHealResult(PokelistWork *work);
+void POKELIST_OpenTakeMailMenu(PokelistWork *work);
+void POKELIST_OnTakeMailChoice(PokelistWork *work, int choice);
+void POKELIST_OpenMailItemMenu(PokelistWork *work);
 void POKELIST_OnMailItemChoice(PokelistWork *work, int choice);
 void POKELIST_EndMessageToEvolve(PokelistWork *work);
 void POKELIST_ForceSelectionEnd(PokelistWork *work);
@@ -944,7 +856,7 @@ extern const u16 d_021BEA9C[];
 extern u8 d_021BED80;
 extern const PokelistBlend d_021BEBFC;
 extern const PokelistBlend d_021BEC04;
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 extern PokelistVramBanks d_021BEC3C;
 extern PokelistClactConfig gClActorInitParam;
 extern char d_021BEAEC[];
@@ -982,7 +894,7 @@ extern const u8 d_021BEAAA[];
  *   their frame order); t[4] spelled `k + 0xff11` (pool word, then +0xee
  *   for t[5]); `k = 0` before the b49 clear loop, which stores k.
  */
-int POKELIST_Init(struct Obj0203159C *a0, int *seq, PokelistArg *arg, PokelistWork *work)
+int POKELIST_Init(struct Obj0203159C *procObj, int *seq, PokelistArg *arg, PokelistWork *work)
 {
     PokelistNickname b;
     PokelistNickname d;
@@ -997,24 +909,24 @@ int POKELIST_Init(struct Obj0203159C *a0, int *seq, PokelistArg *arg, PokelistWo
     switch (*seq) {
     case 0:
         GFL_HEAP_CreateChildHeap(1, 0x17, 0x30000);
-        work = PROCSYS_AllocProcWork(a0, 0x284, 0x17);
+        work = PROCSYS_AllocProcWork(procObj, 0x284, 0x17);
         work->heapId = 0x17;
         if (arg == 0) {
             arg = func_02030734(0x17, 0x98, 1, d_021BED0C, 0x52);
-            arg->party = func_0201A920(0x17);
+            arg->party = POKEPARTY_Create(0x17);
             arg->selectedIndex = 0;
-            func_0201A954(arg->party, 6);
+            POKEPARTY_InitEx(arg->party, 6);
             a = d_021BEA78;
             for (i = 0; i < 6; i++) {
                 mon = POKE_TOOL_Create(d_021BEA90[i], d_021BEA9C[i], 0xffffffff, 0x17);
                 b = a;
                 POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)&b);
                 POKE_TOOL_SetPartyValue(mon, 0x9a, 0);
-                func_0201A98C(arg->party, mon);
+                POKEPARTY_Add(arg->party, mon);
                 func_020307B0(mon);
             }
             arg->mode = 0;
-            if (func_0203630C() & 0x100) {
+            if (KEY_GetCont() & 0x100) {
                 regulation = POKE_REGULATION_Load(0xf, 0x17);
                 arg->regulation = regulation;
                 regulation->minPartySize = 1;
@@ -1029,14 +941,14 @@ int POKELIST_Init(struct Obj0203159C *a0, int *seq, PokelistArg *arg, PokelistWo
                 arg->mode = 0x16;
                 for (k = 0; k < 3; k++) {
                     c = d_021BEA84;
-                    arg->entries[k].party = func_0201A920(0x17);
+                    arg->entries[k].party = POKEPARTY_Create(0x17);
                     for (i = 0; i < 6; i++) {
                         mon = POKE_TOOL_Create(func_02005728(0xfa), 0x64, 0xffffffff, 0x17);
                         d = c;
                         POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)&d);
                         POKE_TOOL_SetPartyValue(mon, 0x9a, 0);
                         POKE_TOOL_SetPartyValue(mon, 6, func_02005728(2));
-                        func_0201A98C(arg->entries[k].party, mon);
+                        POKEPARTY_Add(arg->entries[k].party, mon);
                         func_020307B0(mon);
                     }
                     t = func_02030734(0x17, 0xc, 0, d_021BED0C, 0xae);
@@ -1055,10 +967,10 @@ int POKELIST_Init(struct Obj0203159C *a0, int *seq, PokelistArg *arg, PokelistWo
                 arg->timeLeft = 0xff;
                 arg->timerExpired = 0;
                 POKE_REGULATION_FindValidOrder(regulation, arg->party, 0);
-            } else if (func_0203630C() & 0x400) {
+            } else if (KEY_GetCont() & 0x400) {
                 arg->mode = 5;
                 arg->itemId = 0x2c;
-            } else if (func_0203630C() & 0x800) {
+            } else if (KEY_GetCont() & 0x800) {
                 arg->mode = 0x19;
             }
             func_020355D8(1);
@@ -1080,13 +992,13 @@ int POKELIST_Init(struct Obj0203159C *a0, int *seq, PokelistArg *arg, PokelistWo
 
 
 
-int POKELIST_Exit(int a0, int a1, int a2, PokelistWork *work)
+int POKELIST_Exit(int procObj, int procArg, int procState, PokelistWork *work)
 {
     u8 i;
 
     if (POKELIST_ExitWork(work) == 0)
         return 0;
-    if (a2 == 0) {
+    if (procState == 0) {
         for (i = 0; i < 3; i++) {
             if (work->arg->entries[i].party != 0)
                 func_020307B0(work->arg->entries[i].party);
@@ -1098,7 +1010,7 @@ int POKELIST_Exit(int a0, int a1, int a2, PokelistWork *work)
         func_020307B0(work->arg->party);
         func_020307B0(work->arg);
     }
-    func_020315D4((struct S020315D4 *)a0);
+    func_020315D4((struct S020315D4 *)procObj);
     func_020306F0(0x17);
     return 1;
 }
@@ -1110,11 +1022,11 @@ int POKELIST_Exit(int a0, int a1, int a2, PokelistWork *work)
 
 
 
-int POKELIST_Main(int a0, int a1, int a2, PokelistWork *work)
+int POKELIST_Main(int procObj, int procArg, int procState, PokelistWork *work)
 {
     PokelistArg *arg;
 
-    if (a2 == 0) {
+    if (procState == 0) {
         arg = work->arg;
         if (arg->timerRunning == 1 && arg->timeLeft != 0) {
             d_021BED80++;
@@ -1139,7 +1051,7 @@ int POKELIST_Main(int a0, int a1, int a2, PokelistWork *work)
 /*
  * The 0x160 table is indexed as `work + i * 4 + 0x160` (base plus scaled
  * index, then the field offset) and the list lookup goes through a temp:
- * that is what puts the row address after func_0201AB28 and keeps the
+ * that is what puts the row address after POKEPARTY_GetMember and keeps the
  * three 0x160 offsets as spilled loop invariants.
  */
 int POKELIST_InitWork(PokelistWork *work)
@@ -1149,7 +1061,7 @@ int POKELIST_InitWork(PokelistWork *work)
     PokelistArg *arg;
     int e;
 
-    n = func_0201AA18(work->arg->party);
+    n = POKEPARTY_GetCount(work->arg->party);
     work->touchMode = func_020355C4();
     work->menuChoice = 0x17;
     work->phase = 0;
@@ -1202,7 +1114,7 @@ int POKELIST_InitWork(PokelistWork *work)
     POKELIST_CreateFonts(work);
     for (i = 0; i < 6; i++) {
         if (i < n) {
-            e = (int)func_0201AB28(work->arg->party, i);
+            e = (int)POKEPARTY_GetMember(work->arg->party, i);
             work->plates[i] = PLIST_PLATE_Create(work, i, (void *)e);
         } else
             work->plates[i] = PLIST_PLATE_CreateEmpty(work, i);
@@ -1237,15 +1149,15 @@ int POKELIST_ExitWork(PokelistWork *work)
 
     func_02030EAC((struct Node *)work->updateTask);
     if (POKELIST_IsItemMode(work) == 1) {
-        func_021BBE44(work->commandButtons[0]);
-        func_021BBE44(work->commandButtons[1]);
+        PLIST_MENU_DeleteTaskMenuWin(work->commandButtons[0]);
+        PLIST_MENU_DeleteTaskMenuWin(work->commandButtons[1]);
         work->commandButtons[0] = 0;
         work->commandButtons[1] = 0;
     }
     PLIST_MENU_Delete(work, (unsigned char *)work->contextMenu);
     PLIST_MESSAGE_Destroy(work, (int *)work->messageWindow);
     if (work->descriptor != 0)
-        func_020452E8((struct Descriptor *)work->descriptor);
+        BMP_WIN_Delete((struct Descriptor *)work->descriptor);
     for (i = 0; i < 6; i++)
         PLIST_PLATE_Delete(work, work->plates[i]);
     APP_TASKMENU_RES_Delete((struct TaskMenuState *)work->taskMenu);
@@ -1306,17 +1218,17 @@ int POKELIST_UpdatePhase(PokelistWork *work)
         POKELIST_UpdateMessagePhase(work);
         break;
     case 9:
-        func_021B97D4(work);
+        POKELIST_PollContextMenuChoice(work);
         break;
     case 10:
         PLIST_PLATE_StartHpAnim(work, work->plates[work->selectedSlot]);
         if (work->healSoundPending == 1) {
             work->healSoundPending = 0;
-            func_020061E4(0x56f);
+            GFL_USE_PlaySeDefaultVolume(0x56f);
         }
         work->phase = 0xb;
     case 11:
-        if (PLIST_PLATE_StepHpAnim(work, (struct S *)(work->plates[work->selectedSlot])) == 1) {
+        if (PLIST_PLATE_StepHpAnim(work, work->plates[work->selectedSlot]) == 1) {
             fn = work->phaseCallback;
             if (fn != 0)
                 fn(work);
@@ -1330,8 +1242,8 @@ int POKELIST_UpdatePhase(PokelistWork *work)
             if (work->restoreMode1A == 1) {
                 if (PLIST_COMM_SendStatus(work->arg, 0, 0) == 1) {
                     work->phase = 0x11;
-                    func_021BBE44(work->commandButtons[0]);
-                    func_021BBE44(work->commandButtons[1]);
+                    PLIST_MENU_DeleteTaskMenuWin(work->commandButtons[0]);
+                    PLIST_MENU_DeleteTaskMenuWin(work->commandButtons[1]);
                     work->commandButtons[0] = 0;
                     work->commandButtons[1] = 0;
                     PLIST_MESSAGE_OpenWindow(work, (u32 *)work->messageWindow, 0);
@@ -1384,8 +1296,8 @@ int POKELIST_UpdatePhase(PokelistWork *work)
     POKELIST_UpdatePaletteFade(work);
     if (POKELIST_IsItemMode(work) == 1) {
         PLIST_MENU_UpdateTimer(work);
-        func_021BBE50(work->commandButtons[0]);
-        func_021BBE50(work->commandButtons[1]);
+        PLIST_MENU_UpdateTaskMenuWin(work->commandButtons[0]);
+        PLIST_MENU_UpdateTaskMenuWin(work->commandButtons[1]);
     }
     PRINTSYS_QUE_Main((struct PrintSys *)work->printSys);
     CLACT_DrawSystem();
@@ -1469,7 +1381,7 @@ void POKELIST_UpdatePaletteFade(PokelistWork *work)
     } else {
         work->fadePhase = 0xc000;
     }
-    f = (d_020A1B38[(work->fadePhase >> 4) * 2] + 0x1000) / 2;
+    f = (FX_SinCosTable_[(work->fadePhase >> 4) * 2] + 0x1000) / 2;
     for (i2 = 0; i2 < 3; i2++) {
         for (j2 = 0; j2 < 3; j2++) {
             int a = hi.v[j2];
@@ -1599,7 +1511,7 @@ void POKELIST_SetupDisplay(PokelistWork *work)
     func_02040618(1, 0, 0x80);
     b = gClActorInitParam;
     CLACT_InitSystem((const struct Cfg *)(&b), (u32)(&a), work->heapId);
-    func_020434DC(0x10, 1);
+    BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     func_02061C30();
 }
@@ -1696,10 +1608,10 @@ void POKELIST_CreateClactUnit(PokelistWork *work)
                                         work->charRes[0], work->cellRes[0], &cursorTemplate, 0, work->heapId);
     work->swapMarkerActor = CLACT_CreateActor(work->clactUnit, work->palRes[0],
                                         work->charRes[0], work->cellRes[0], &cursorTemplate, 0, work->heapId);
-    func_0204B92C(work->cursorActor, 1);
-    func_0204B92C(work->swapMarkerActor, 1);
-    func_0204B3DC(work->cursorActor, 0);
-    func_0204B3DC(work->swapMarkerActor, 0);
+    CLACT_SetActorAutoAnim(work->cursorActor, 1);
+    CLACT_SetActorAutoAnim(work->swapMarkerActor, 1);
+    CLACT_SetActorDrawEnable(work->cursorActor, 0);
+    CLACT_SetActorDrawEnable(work->swapMarkerActor, 0);
     buttonTemplate.x = 0xe0;
     buttonTemplate.y = 0xa8;
     buttonTemplate.animNo = 1;
@@ -1708,13 +1620,13 @@ void POKELIST_CreateClactUnit(PokelistWork *work)
     x = CLACT_CreateActor(work->clactUnit, work->palRes[2],
                       work->charRes[1], work->cellRes[2], &buttonTemplate, 0, work->heapId);
     work->backButtonActor = x;
-    func_0204B92C(x, 1);
+    CLACT_SetActorAutoAnim(x, 1);
     buttonTemplate.x = 0xc4;
     buttonTemplate.animNo = 0;
     x = CLACT_CreateActor(work->clactUnit, work->palRes[2],
                       work->charRes[1], work->cellRes[2], &buttonTemplate, 0, work->heapId);
     work->switchButtonActor = x;
-    func_0204B92C(x, 1);
+    CLACT_SetActorAutoAnim(x, 1);
 }
 
 
@@ -1729,12 +1641,12 @@ void POKELIST_CreateFonts(PokelistWork *work)
     work->msgBank = func_02045B38(0, 2, 0x9d, work->heapId);
     func_02049B40(0x17, 5, 0, 0x1c0, 0x20, work->heapId);
     func_02049B40(0x17, 5, 4, 0x1c0, 0x20, work->heapId);
-    work->printSys = func_0201C450(0x1800, work->heapId);
+    work->printSys = PRINTSYS_QUE_CreateEx(0x1800, work->heapId);
     func_0201DD68();
 }
 
 
-void POKELIST_DeleteFonts(PokelistWork *work) { func_0201C6EC((struct PrintSys *)(work->printSys)); func_0201C4C0((struct PrintSys *)(work->printSys)); MSGDATA_Delete((struct Rec *)(work->msgBank)); GF_FONT_Delete(work->fontSub); GF_FONT_Delete(work->fontMain); }
+void POKELIST_DeleteFonts(PokelistWork *work) { PRINTSYS_QUE_Clear((struct PrintSys *)(work->printSys)); PRINTSYS_QUE_Delete((struct PrintSys *)(work->printSys)); MSGDATA_Delete((struct Rec *)(work->msgBank)); GF_FONT_Delete(work->fontSub); GF_FONT_Delete(work->fontMain); }
 
 
 
@@ -1845,7 +1757,7 @@ void POKELIST_StartMode(PokelistWork *work)
         if (PLIST_MENU_ItemRestoresHp(work,(void *)work->arg->itemId)==1) {
             r=PLIST_MENU_FindItemTarget(work);
             if (r != -1) {
-                work->selectedSlot=r; work->selectedMon=(u32)func_0201AB28(work->arg->party,r);
+                work->selectedSlot=r; work->selectedMon=(u32)POKEPARTY_GetMember(work->arg->party,r);
                 PLIST_MENU_StartItemUse(work,0);
                 PLIST_DEMO_UseItemOnMon((void *)work->selectedMon,work->arg->itemId,(int)0,work->arg->itemUseParam,(u16)(work->heapId));
                 PLIST_PLATE_Redraw(work,work->plates[work->selectedSlot]);
@@ -1863,23 +1775,23 @@ void POKELIST_StartMode(PokelistWork *work)
         POKELIST_ShowMessage(work,0xb3,1,POKELIST_EndMessageToExit);
         PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow); work->nextPhase=work->phase; work->phase=0; return;
     case 7: case 8:
-        work->selectedSlot=work->arg->selectedIndex; work->selectedMon=(u32)func_0201AB28(work->arg->party,work->arg->selectedIndex);
+        work->selectedSlot=work->arg->selectedIndex; work->selectedMon=(u32)POKEPARTY_GetMember(work->arg->party,work->arg->selectedIndex);
         if (work->arg->moveSlot < 4) {
             old=func_02017E1C((void *)work->selectedMon,work->arg->moveSlot+0x36,0);
             off=0x150;
             PLIST_MESSAGE_CreateWordSet(work,(*(int *)((u8 *)work + off))); PLIST_MESSAGE_SetWordSetPokemon(work,(*(int *)((u8 *)work + off)),0,work->selectedMon);
             PLIST_MESSAGE_SetWordSetMove(work,(u32)(*(int *)((u8 *)work + off)),(u32)1,(u16)old);
-            POKELIST_ShowMessage(work,0x28,1,func_021BA004);
+            POKELIST_ShowMessage(work,0x28,1,POKELIST_ShowMoveLearned);
         } else {
             off=0x150;
             PLIST_MESSAGE_CreateWordSet(work,(*(int *)((u8 *)work + off))); PLIST_MESSAGE_SetWordSetMove(work,(u32)(*(int *)((u8 *)work + off)),(u32)1,(u16)work->arg->moveId);
-            POKELIST_ShowMessage(work,0x23,0,func_021B9F34);
+            POKELIST_ShowMessage(work,0x23,0,POKELIST_OpenForgetMoveMenu);
         }
         PLIST_MESSAGE_DestroyWordSet(work,(*(int *)((u8 *)work + off)));
         work->nextPhase=7; work->phase=0; work->switchButtonEnabled=0;
         PLIST_PLATE_SetSelected(work,work->plates[work->selectedSlot],1); return;
     case 10:
-        work->selectedSlot=work->arg->selectedIndex; work->selectedMon=(u32)func_0201AB28(work->arg->party,work->arg->selectedIndex);
+        work->selectedSlot=work->arg->selectedIndex; work->selectedMon=(u32)POKEPARTY_GetMember(work->arg->party,work->arg->selectedIndex);
         if (work->arg->itemId == 0) {
             work->arg->mode=0; POKELIST_SetupModeScreen(work); work->nextPhase=2;
         } else {
@@ -1893,18 +1805,18 @@ void POKELIST_StartMode(PokelistWork *work)
                 PLIST_MENU_ApplyGenesectDriveForm(work,(void *)work->selectedMon,work->arg->itemId);
                 if (PLIST_DEMO_CheckGiratinaToOrigin(work,(void *)work->selectedMon)==1) {
                     PLIST_DEMO_ApplyGiratinaOriginForm(work,(void *)work->selectedMon); POKELIST_ShowMessage(work,0x56,1,POKELIST_EndMessageToEvolve); work->evolveCheckKind=1;
-                } else POKELIST_ShowMessage(work,0x56,1,func_021B9E20);
+                } else POKELIST_ShowMessage(work,0x56,1,POKELIST_CloseMessageToList);
                 PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow); work->arg->mode=0;
             } else {
                 PLIST_MESSAGE_CreateWordSet(work,work->messageWindow); PLIST_MESSAGE_SetWordSetPokemon(work,work->messageWindow,0,work->selectedMon);
                 func_021BB9BC(work,work->messageWindow,1,(u16)old);
-                POKELIST_ShowMessage(work,0x3a,0,func_021BA098); PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow);
+                POKELIST_ShowMessage(work,0x3a,0,POKELIST_OpenTakeItemMenu); PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow);
             }
         }
         work->nextPhase=7; work->phase=0; work->switchButtonEnabled=1;
         PLIST_PLATE_SetSelected(work,work->plates[work->selectedSlot],1); return;
     case 11: case 12:
-        work->selectedSlot=work->arg->selectedIndex; work->selectedMon=(u32)func_0201AB28(work->arg->party,work->arg->selectedIndex);
+        work->selectedSlot=work->arg->selectedIndex; work->selectedMon=(u32)POKEPARTY_GetMember(work->arg->party,work->arg->selectedIndex);
         old=func_02017E1C((void *)work->selectedMon,6,0);
         PLIST_MESSAGE_CreateWordSet(work,work->messageWindow);
         if (old == 0) {
@@ -1924,7 +1836,7 @@ void POKELIST_StartMode(PokelistWork *work)
         if (PLIST_DEMO_CheckGiratinaToAltered(work,(void *)work->selectedMon)==1) {
             PLIST_DEMO_ApplyGiratinaAlteredForm(work,(void *)work->selectedMon); POKELIST_ShowMessage(work,id,1,POKELIST_EndMessageToEvolve); work->evolveCheckKind=2;
         } else if (work->arg->mode==11) POKELIST_ShowMessage(work,id,1,POKELIST_EndMessageToExit);
-        else POKELIST_ShowMessage(work,id,1,func_021B9E20);
+        else POKELIST_ShowMessage(work,id,1,POKELIST_CloseMessageToList);
         PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow);
         if (work->arg->mode==11) work->arg->exitCode=10; else work->arg->mode=0;
         work->nextPhase=7; work->phase=0; work->switchButtonEnabled=1;
@@ -1949,7 +1861,7 @@ void POKELIST_SetupModeScreen(PokelistWork *work)
         break;
     case 1:
         PLIST_BATTLE_RefreshOpponentMessage(work);
-        func_0204B3DC(work->backButtonActor, 0);
+        CLACT_SetActorDrawEnable(work->backButtonActor, 0);
         work->switchButtonEnabled = 0;
         break;
     case 22:
@@ -1990,7 +1902,7 @@ void POKELIST_SetupModeScreen(PokelistWork *work)
     case 21:
         PLIST_MESSAGE_OpenWindow(work, (u32 *)work->messageWindow, 0);
         PLIST_MESSAGE_PrintText(work, (u32 *)work->messageWindow, 0xa3);
-        func_0204B3DC(work->backButtonActor, 0);
+        CLACT_SetActorDrawEnable(work->backButtonActor, 0);
         work->switchButtonEnabled = 0;
         break;
     }
@@ -2021,10 +1933,10 @@ void POKELIST_ApplySelection(PokelistWork *work)
             if (r == 2) PLIST_PLATE_SetMon(work,work->plates[work->selectedSlot],(void *)work->selectedMon,0);
             else if (r == 19 || r == 13) {
                 PLIST_PLATE_SetMon(work,work->plates[work->selectedSlot],(void *)work->selectedMon,0);
-                func_020061E4(0x56f);
+                GFL_USE_PlaySeDefaultVolume(0x56f);
             } else {
                 PLIST_PLATE_Redraw(work,work->plates[work->selectedSlot]);
-                func_020061E4(0x56f);
+                GFL_USE_PlaySeDefaultVolume(0x56f);
             }
             POKELIST_RemoveBagItem(work,work->arg->itemId); return;
         }
@@ -2063,7 +1975,7 @@ void POKELIST_ApplySelection(PokelistWork *work)
         PLIST_MESSAGE_CreateWordSet(work,work->messageWindow);
         PLIST_MESSAGE_SetWordSetPokemon(work,work->messageWindow,0,work->selectedMon);
         func_021BB9BC(work,work->messageWindow,1,(u16)old);
-        POKELIST_ShowMessage(work,0x3a,0,func_021BA098);
+        POKELIST_ShowMessage(work,0x3a,0,POKELIST_OpenTakeItemMenu);
         PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow); return;
     case 14:
         if (func_02017E1C((void *)work->selectedMon,6,0) == 0) {
@@ -2085,7 +1997,7 @@ void POKELIST_ApplySelection(PokelistWork *work)
         case 1:
             PLIST_MESSAGE_CreateWordSet(work,work->messageWindow); PLIST_MESSAGE_SetWordSetPokemon(work,work->messageWindow,0,work->selectedMon);
             PLIST_MESSAGE_SetWordSetMove(work,work->messageWindow,1,work->arg->moveId);
-            POKELIST_ShowMessage(work,0x20,0,func_021B9EB0); PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow); return;
+            POKELIST_ShowMessage(work,0x20,0,POKELIST_OpenGiveUpMoveMenu); PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow); return;
         case 2:
             work->arg->exitCode=10;
             PLIST_MESSAGE_CreateWordSet(work,work->messageWindow); PLIST_MESSAGE_SetWordSetPokemon(work,work->messageWindow,0,work->selectedMon);
@@ -2280,18 +2192,18 @@ void POKELIST_RefreshCursor(PokelistWork *work)
     work->inputStage = 0;
     work->menuChoice = 0x17;
     if (POKELIST_IsItemMode(work) == 1) {
-        func_021BBE5C(work->commandButtons[0], 0);
-        func_021BBE5C(work->commandButtons[1], 0);
+        PLIST_MENU_SetTaskMenuWinActive(work->commandButtons[0], 0);
+        PLIST_MENU_SetTaskMenuWinActive(work->commandButtons[1], 0);
     }
     if (work->touchMode == 0) {
         if (work->selectedSlot <= 5) {
             POKELIST_MoveCursorToPlate(work, work->selectedSlot);
             PLIST_PLATE_SetSelected(work, work->plates[work->selectedSlot], 1);
         } else {
-            func_021BBE5C(work->commandButtons[(u8)(work->selectedSlot - 6)], 1);
+            PLIST_MENU_SetTaskMenuWinActive(work->commandButtons[(u8)(work->selectedSlot - 6)], 1);
         }
     } else {
-        func_0204B3DC(work->cursorActor, 0);
+        CLACT_SetActorDrawEnable(work->cursorActor, 0);
         if (work->selectedSlot <= 5) {
             if (work->phase == 3) {
                 PLIST_PLATE_SetSelected(work, work->plates[work->selectedSlot], 1);
@@ -2299,14 +2211,14 @@ void POKELIST_RefreshCursor(PokelistWork *work)
                 PLIST_PLATE_SetSelected(work, work->plates[work->selectedSlot], 0);
             }
         } else {
-            func_021BBE5C(work->commandButtons[(u8)(work->selectedSlot - 6)], 0);
+            PLIST_MENU_SetTaskMenuWinActive(work->commandButtons[(u8)(work->selectedSlot - 6)], 0);
         }
     }
-    func_0204B3DC(work->switchButtonActor, work->switchButtonEnabled);
+    CLACT_SetActorDrawEnable(work->switchButtonActor, work->switchButtonEnabled);
     if (POKELIST_IsItemMode(work) == 1 || POKELIST_HasBackButton(work) == 0) {
-        func_0204B3DC(work->backButtonActor, 0);
+        CLACT_SetActorDrawEnable(work->backButtonActor, 0);
     } else {
-        func_0204B3DC(work->backButtonActor, 1);
+        CLACT_SetActorDrawEnable(work->backButtonActor, 1);
     }
 }
 
@@ -2342,10 +2254,10 @@ void POKELIST_HandleCommand(PokelistWork *work)
     }
     switch (work->command) {
     case 3:
-        func_0204B3DC(work->cursorActor, 0);
-        work->selectedMon = (int)func_0201AB28(work->arg->party, work->selectedSlot);
+        CLACT_SetActorDrawEnable(work->cursorActor, 0);
+        work->selectedMon = (int)POKEPARTY_GetMember(work->arg->party, work->selectedSlot);
         work->arg->selectedIndex = work->selectedSlot;
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         POKELIST_ApplySelection(work);
         return;
     case 0:
@@ -2356,15 +2268,15 @@ void POKELIST_HandleCommand(PokelistWork *work)
         work->phase = 0x13;
         work->arg->selectedIndex = 6;
         work->arg->exitCode = 0;
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         return;
     case 1:
         if (work->selectedSlot <= 5) {
             PLIST_PLATE_SetSelected(work, work->plates[work->selectedSlot], 0);
-            func_0204B3DC(work->cursorActor, 0);
+            CLACT_SetActorDrawEnable(work->cursorActor, 0);
         }
         if (POKELIST_IsItemMode(work) == 1) {
-            func_021BBE5C(work->commandButtons[0], 0);
+            PLIST_MENU_SetTaskMenuWinActive(work->commandButtons[0], 0);
             PLIST_MENU_ButtonWinSetDecide(work->commandButtons[1], 1);
             work->phase = 0xc;
             work->selectedSlot = 7;
@@ -2375,17 +2287,17 @@ void POKELIST_HandleCommand(PokelistWork *work)
         }
         work->arg->selectedIndex = 7;
         work->arg->exitCode = 0;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return;
     case 2:
         if (work->selectedSlot <= 5) {
             PLIST_PLATE_SetSelected(work, work->plates[work->selectedSlot], 0);
-            func_0204B3DC(work->cursorActor, 0);
+            CLACT_SetActorDrawEnable(work->cursorActor, 0);
         }
         work->phase = 0x13;
         work->arg->selectedIndex = 8;
         work->arg->exitCode = 0;
-        func_020061E4(0x556);
+        GFL_USE_PlaySeDefaultVolume(0x556);
         work->pressedButtonActor = work->switchButtonActor;
         CLACT_SetActorAnimSeq(work->pressedButtonActor, 8);
         return;
@@ -2415,11 +2327,11 @@ void POKELIST_UpdateSwapCommand(PokelistWork *work)
         work->phase = 2;
         POKELIST_MoveCursorToPlate(work, work->selectedSlot);
         PLIST_PLATE_SetSelected(work, work->plates[work->swapSourceSlot], 0);
-        func_0204B3DC(work->swapMarkerActor, 0);
+        CLACT_SetActorDrawEnable(work->swapMarkerActor, 0);
         work->swapSourceSlot = 9;
         work->arg->selectedIndex = work->selectedSlot;
         POKELIST_SetupModeScreen(work);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
     }
 }
 
@@ -2439,27 +2351,27 @@ void POKELIST_UpdateHealShareCommand(PokelistWork *work)
 
     PLIST_MESSAGE_CloseWindow(work, (u32 *)work->messageWindow);
     if (work->command == 3) {
-        work->selectedMon = (u32)func_0201AB28(work->arg->party, work->selectedSlot);
+        work->selectedMon = (u32)POKEPARTY_GetMember(work->arg->party, work->selectedSlot);
         a = func_02017E1C((void *)work->selectedMon, 0xa0, 0);
         b = func_02017E1C((void *)work->selectedMon, 0xa1, 0);
         if (work->selectedSlot == work->healSourceSlot || a == 0 || b == a) {
-            POKELIST_ShowMessage(work, 0x64, 1, func_021B9E20);
+            POKELIST_ShowMessage(work, 0x64, 1, POKELIST_CloseMessageToList);
             POKELIST_MoveCursorToPlate(work, work->selectedSlot);
             PLIST_PLATE_SetSelected(work, work->plates[work->healSourceSlot], 0);
             PLIST_PLATE_SetSelected(work, work->plates[work->selectedSlot], 0);
-            func_0204B3DC(work->swapMarkerActor, 0);
+            CLACT_SetActorDrawEnable(work->swapMarkerActor, 0);
             work->arg->selectedIndex = work->selectedSlot;
             return;
         }
         PLIST_PLATE_Redraw(work, work->plates[work->selectedSlot]);
-        work->selectedMon = (u32)func_0201AB28(work->arg->party, work->selectedSlot);
+        work->selectedMon = (u32)POKEPARTY_GetMember(work->arg->party, work->selectedSlot);
         work->phase = 10;
-        work->cursorState = PLIST_PLATE_GetHp(work, work->plates[work->selectedSlot]);
+        work->displayHp = PLIST_PLATE_GetHp(work, work->plates[work->selectedSlot]);
         work->phaseCallback = (PokelistFn)POKELIST_StartHpTransfer;
         POKELIST_MoveCursorToPlate(work, work->selectedSlot);
         PLIST_PLATE_SetSelected(work, work->plates[work->healSourceSlot], 0);
-        func_0204B3DC(work->swapMarkerActor, 0);
-        o = func_0201AB28(work->arg->party, work->healSourceSlot);
+        CLACT_SetActorDrawEnable(work->swapMarkerActor, 0);
+        o = POKEPARTY_GetMember(work->arg->party, work->healSourceSlot);
         c = func_02017E1C(o, 0xa1, 0);
         d = func_02017E1C(o, 0xa0, 0);
         e = c / 5;
@@ -2471,18 +2383,18 @@ void POKELIST_UpdateHealShareCommand(PokelistWork *work)
         work->arg->selectedIndex = work->selectedSlot;
         work->selectedSlot = work->healSourceSlot;
         PLIST_PLATE_Redraw(work, work->plates[work->selectedSlot]);
-        func_020061E4(0x56f);
+        GFL_USE_PlaySeDefaultVolume(0x56f);
         return;
     }
     work->selectedMon = 0;
     work->phase = 2;
     POKELIST_MoveCursorToPlate(work, work->selectedSlot);
     PLIST_PLATE_SetSelected(work, work->plates[work->healSourceSlot], 0);
-    func_0204B3DC(work->swapMarkerActor, 0);
+    CLACT_SetActorDrawEnable(work->swapMarkerActor, 0);
     work->healSourceSlot = 9;
     work->arg->selectedIndex = work->selectedSlot;
     POKELIST_SetupModeScreen(work);
-    func_020061E4(0x551);
+    GFL_USE_PlaySeDefaultVolume(0x551);
 }
 
 
@@ -2509,7 +2421,7 @@ void POKELIST_ConfirmBattleParty(PokelistWork *work)
     if (work->selectedSlot != 6) {
         if (work->selectedSlot <= 5) {
             PLIST_PLATE_SetSelected(work, work->plates[work->selectedSlot], 0);
-            func_0204B3DC(work->cursorActor, 0);
+            CLACT_SetActorDrawEnable(work->cursorActor, 0);
         }
         work->selectedSlot = 6;
     }
@@ -2525,35 +2437,35 @@ void POKELIST_ConfirmBattleParty(PokelistWork *work)
         r = POKE_REGULATION_CheckSelection((u32)rule, (u32)work->arg->party, (u32)buf);
     }
     if (rule->minPartySize > work->selectedCount) {
-        POKELIST_ShowMessage(work, rule->minPartySize + 0x56, 1, func_021B9E20);
-        func_020061E4(0x557);
+        POKELIST_ShowMessage(work, rule->minPartySize + 0x56, 1, POKELIST_CloseMessageToList);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         return;
     }
     if (rule->maxPartySize < work->selectedCount) {
-        POKELIST_ShowMessage(work, rule->maxPartySize + 0x5c, 1, func_021B9E20);
-        func_020061E4(0x557);
+        POKELIST_ShowMessage(work, rule->maxPartySize + 0x5c, 1, POKELIST_CloseMessageToList);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         return;
     }
     if (r == 1) {
         PLIST_MESSAGE_CreateWordSet(work, work->messageWindow);
         PLIST_MESSAGE_SetWordSetNumber(work, work->messageWindow, 0, rule->levelTotal, 3);
-        POKELIST_ShowMessage(work, 0x92, 1, func_021B9E20);
-        func_020061E4(0x557);
+        POKELIST_ShowMessage(work, 0x92, 1, POKELIST_CloseMessageToList);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
         return;
     }
     if (r == 7) {
-        POKELIST_ShowMessage(work, 0x94, 1, func_021B9E20);
-        func_020061E4(0x557);
+        POKELIST_ShowMessage(work, 0x94, 1, POKELIST_CloseMessageToList);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         return;
     }
-    func_021BBE5C(work->commandButtons[1], 0);
+    PLIST_MENU_SetTaskMenuWinActive(work->commandButtons[1], 0);
     PLIST_MENU_ButtonWinSetDecide(work->commandButtons[0], 1);
     work->phase = 0xc;
     work->arg->selectedIndex = 6;
     work->arg->exitCode = 0;
     work->selectionConfirmed = 1;
-    func_020061E4(0x54c);
+    GFL_USE_PlaySeDefaultVolume(0x54c);
 }
 
 
@@ -2584,18 +2496,18 @@ void POKELIST_ReadCursorKeys(PokelistWork *work)
     u8 cnt;
     int n;
 
-    trg = func_020362DC();
-    rep = func_0203633C();
-    if (work->touchMode == 1 && func_0204B3F4(work->cursorActor) == 0) {
+    trg = KEY_GetTrg();
+    rep = KEY_GetRepeat();
+    if (work->touchMode == 1 && CLACT_GetActorDrawEnable(work->cursorActor) == 0) {
         if (trg != 0 && (trg & 0x402) == 0) {
             if (work->selectedSlot <= 5) {
                 POKELIST_MoveCursorToPlate(work, work->selectedSlot);
                 PLIST_PLATE_SetSelected(work, work->plates[work->selectedSlot], 1);
             } else {
-                func_021BBE5C(work->commandButtons[(u8)(work->selectedSlot - 6)], 1);
-                func_0204B3DC(work->cursorActor, 0);
+                PLIST_MENU_SetTaskMenuWinActive(work->commandButtons[(u8)(work->selectedSlot - 6)], 1);
+                CLACT_SetActorDrawEnable(work->cursorActor, 0);
             }
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             work->touchMode = 0;
         }
     } else {
@@ -2618,7 +2530,7 @@ void POKELIST_ReadCursorKeys(PokelistWork *work)
             } else if (work->selectedSlot == 7) {
                 work->command = 1;
             } else if (work->allowDisabledSelect == 0 && PLIST_PLATE_IsEgg(work, work->plates[work->selectedSlot]) == 1) {
-                func_020061E4(0x557);
+                GFL_USE_PlaySeDefaultVolume(0x557);
             } else {
                 work->command = 3;
             }
@@ -2636,7 +2548,7 @@ void POKELIST_ReadCursorKeys(PokelistWork *work)
                 max = 5;
             }
             if ((u32)(work->selectedSlot - 6) <= 1 && (rep & 0xc0)) {
-                cnt = func_0201AA18(work->arg->party);
+                cnt = POKEPARTY_GetCount(work->arg->party);
                 if (up) {
                     if (work->selectedSlot == 7 || POKELIST_IsNotItemUseMode(work) == 0) {
                         work->selectedSlot = d_021BEAB0[cnt - 1];
@@ -2682,17 +2594,17 @@ void POKELIST_ReadCursorKeys(PokelistWork *work)
                     POKELIST_MoveCursorToPlate(work, work->selectedSlot);
                     PLIST_PLATE_SetSelected(work, work->plates[work->selectedSlot], 1);
                 } else {
-                    func_021BBE5C(work->commandButtons[(u8)(work->selectedSlot - 6)], 1);
-                    func_0204B3DC(work->cursorActor, 0);
+                    PLIST_MENU_SetTaskMenuWinActive(work->commandButtons[(u8)(work->selectedSlot - 6)], 1);
+                    CLACT_SetActorDrawEnable(work->cursorActor, 0);
                 }
                 if (old <= 5) {
                     PLIST_PLATE_SetSelected(work, work->plates[old], 0);
                 } else {
-                    func_021BBE5C(work->commandButtons[(u8)(old - 6)], 0);
+                    PLIST_MENU_SetTaskMenuWinActive(work->commandButtons[(u8)(old - 6)], 0);
                 }
                 work->fadeStep = 0xc;
             }
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
         }
     }
     if (trg & 2) {
@@ -2735,7 +2647,7 @@ void POKELIST_HandleTouch(PokelistWork *work)
     hit = TOUCHPANEL_HitTrg(rects);
     if (hit != -1) {
         if (work->allowDisabledSelect == 0 && hit <= 5 && PLIST_PLATE_IsEgg(work, work->plates[hit]) == 1) {
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
         } else {
             work->command = 3;
             oldSlot = work->selectedSlot;
@@ -2743,13 +2655,13 @@ void POKELIST_HandleTouch(PokelistWork *work)
             if (oldSlot <= 5) {
                 PLIST_PLATE_SetSelected(work, work->plates[oldSlot], 0);
             } else {
-                func_021BBE5C(work->commandButtons[(u8)(oldSlot - 6)], 0);
+                PLIST_MENU_SetTaskMenuWinActive(work->commandButtons[(u8)(oldSlot - 6)], 0);
             }
             if (work->selectedSlot <= 5) {
                 PLIST_PLATE_SetSelected(work, work->plates[work->selectedSlot], 1);
             } else {
-                func_021BBE5C(work->commandButtons[(u8)(work->selectedSlot - 6)], 1);
-                func_0204B3DC(work->cursorActor, 0);
+                PLIST_MENU_SetTaskMenuWinActive(work->commandButtons[(u8)(work->selectedSlot - 6)], 1);
+                CLACT_SetActorDrawEnable(work->cursorActor, 0);
             }
             work->fadeStep = 0xc;
         }
@@ -2800,8 +2712,8 @@ void POKELIST_MoveCursorToPlate(PokelistWork *work, int plateIndex)
     PokelistPos pos;
 
     PLIST_PLATE_GetCenterPos(work, work->plates[plateIndex], &pos);
-    func_0204B404(work->cursorActor, &pos, 0);
-    func_0204B3DC(work->cursorActor, 1);
+    CLACT_AddActorSurfacePos(work->cursorActor, &pos, 0);
+    CLACT_SetActorDrawEnable(work->cursorActor, 1);
     CLACT_SetActorBgPriority(work->cursorActor, 3);
     if (plateIndex == 0) {
         CLACT_SetActorAnimSeq(work->cursorActor, 0);
@@ -2815,8 +2727,8 @@ void POKELIST_MoveSwapMarkerToPlate(PokelistWork *work, int plateIndex)
     PokelistPos pos;
 
     PLIST_PLATE_GetCenterPos(work, work->plates[plateIndex], &pos);
-    func_0204B404(work->swapMarkerActor, &pos, 0);
-    func_0204B3DC(work->swapMarkerActor, 1);
+    CLACT_AddActorSurfacePos(work->swapMarkerActor, &pos, 0);
+    CLACT_SetActorDrawEnable(work->swapMarkerActor, 1);
     CLACT_SetActorBgPriority(work->swapMarkerActor, 2);
     if (plateIndex == 0) {
         CLACT_SetActorAnimSeq(work->swapMarkerActor, 2);
@@ -2895,8 +2807,8 @@ void POKELIST_EnterMenuPhase(PokelistWork *work)
     G2_SetWnd0InsidePlane(0x1f, 0);
     G2_SetWndOutsidePlane(0x1f, 1);
     work->fadeMode = 1;
-    func_0204B3DC(work->switchButtonActor, 0);
-    func_0204B3DC(work->backButtonActor, 0);
+    CLACT_SetActorDrawEnable(work->switchButtonActor, 0);
+    CLACT_SetActorDrawEnable(work->backButtonActor, 0);
     func_02041B6C(0);
     func_020355D8(work->touchMode);
 }
@@ -2906,9 +2818,9 @@ void POKELIST_CloseContextMenu(PokelistWork *work)
     PLIST_MENU_Close(work, work->contextMenu);
     PLIST_MESSAGE_CloseWindow(work, (u32 *)work->messageWindow);
     if (POKELIST_IsItemMode(work) == 1 || POKELIST_HasBackButton(work) == 0) {
-        func_0204B3DC(work->backButtonActor, 0);
+        CLACT_SetActorDrawEnable(work->backButtonActor, 0);
     } else {
-        func_0204B3DC(work->backButtonActor, 1);
+        CLACT_SetActorDrawEnable(work->backButtonActor, 1);
     }
     if (work->menuChoice != 4 && work->menuChoice != 5) {
         func_0207D63C(0x04000050, 0x14, 8, 0x10, 0xa);
@@ -2987,22 +2899,22 @@ void POKELIST_DispatchMenuChoice(PokelistWork *work)
             }
             work->phase = 2;
         } else if (result == 2) {
-            POKELIST_ShowMessage(work, 0x90, 1, func_021B9E20);
-            func_020061E4(0x557);
+            POKELIST_ShowMessage(work, 0x90, 1, POKELIST_CloseMessageToList);
+            GFL_USE_PlaySeDefaultVolume(0x557);
         } else if (result == 3) {
-            POKELIST_ShowMessage(work, 0x91, 1, func_021B9E20);
-            func_020061E4(0x557);
+            POKELIST_ShowMessage(work, 0x91, 1, POKELIST_CloseMessageToList);
+            GFL_USE_PlaySeDefaultVolume(0x557);
         } else if (result == 4) {
-            POKELIST_ShowMessage(work, rule->maxPartySize + 0x5c, 1, func_021B9E20);
-            func_020061E4(0x557);
+            POKELIST_ShowMessage(work, rule->maxPartySize + 0x5c, 1, POKELIST_CloseMessageToList);
+            GFL_USE_PlaySeDefaultVolume(0x557);
         }
         work->selectedMon = 0;
         if (lastSelected == 1) {
             PLIST_PLATE_SetSelected(work, work->plates[work->selectedSlot], 0);
             work->selectedSlot = 6;
             if (work->touchMode == 0) {
-                func_021BBE5C(work->commandButtons[(u8)(work->selectedSlot - 6)], 1);
-                func_0204B3DC(work->cursorActor, 0);
+                PLIST_MENU_SetTaskMenuWinActive(work->commandButtons[(u8)(work->selectedSlot - 6)], 1);
+                CLACT_SetActorDrawEnable(work->cursorActor, 0);
                 return;
             }
         } else if (work->touchMode == 0) {
@@ -3033,12 +2945,12 @@ void POKELIST_DispatchMenuChoice(PokelistWork *work)
         if (monValue == 0) {
             PLIST_MESSAGE_CreateWordSet(work, work->messageWindow);
             PLIST_MESSAGE_SetWordSetPokemon(work, work->messageWindow, 0, work->selectedMon);
-            POKELIST_ShowMessage(work, 0x3d, 1, func_021B9E20);
+            POKELIST_ShowMessage(work, 0x3d, 1, POKELIST_CloseMessageToList);
             PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
             return;
         }
         if (POKELIST_CheckBagItem(work, monValue) == 999) {
-            POKELIST_ShowMessage(work, 0x3f, 1, func_021B9E20);
+            POKELIST_ShowMessage(work, 0x3f, 1, POKELIST_CloseMessageToList);
             return;
         }
         POKELIST_SetHeldItem(work, (void *)work->selectedMon, 0);
@@ -3051,7 +2963,7 @@ void POKELIST_DispatchMenuChoice(PokelistWork *work)
             POKELIST_ShowMessage(work, 0x3e, 1, POKELIST_EndMessageToEvolve);
             work->evolveCheckKind = 2;
         } else {
-            POKELIST_ShowMessage(work, 0x3e, 1, func_021B9E20);
+            POKELIST_ShowMessage(work, 0x3e, 1, POKELIST_CloseMessageToList);
         }
         PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
         return;
@@ -3071,7 +2983,7 @@ void POKELIST_DispatchMenuChoice(PokelistWork *work)
         work->arg->exitCode = 7;
         return;
     case 13:
-        POKELIST_ShowMessage(work, 0x17, 0, func_021BA394);
+        POKELIST_ShowMessage(work, 0x17, 0, POKELIST_OpenTakeMailMenu);
         return;
     case 7:
         work->phase = 19;
@@ -3090,7 +3002,7 @@ void POKELIST_DispatchMenuChoice(PokelistWork *work)
                 PLIST_DEMO_UseItemOnMon((void *)work->selectedMon, work->arg->itemId, (u16)(work->menuChoice - 16), work->arg->itemUseParam, work->heapId);
                 PLIST_PLATE_Redraw(work, work->plates[work->selectedSlot]);
                 POKELIST_RemoveBagItem(work, work->arg->itemId);
-                func_020061E4(0x56f);
+                GFL_USE_PlaySeDefaultVolume(0x56f);
             } else {
                 PLIST_MENU_ShowItemUsedThenContinue(work);
             }
@@ -3098,8 +3010,8 @@ void POKELIST_DispatchMenuChoice(PokelistWork *work)
         }
         result = POKELIST_GetFieldMoveMenuIndex((void *)work->selectedMon, (u8)(work->menuChoice - 16));
         if ((u32)(result - 22) <= 1) {
-            if (func_02013E04(work->arg->itemUseParam) == 0) {
-                POKELIST_ShowMessage(work, 0x50, 1, func_021B9E20);
+            if (ZONEDATA_IsNormalFieldZone(work->arg->itemUseParam) == 0) {
+                POKELIST_ShowMessage(work, 0x50, 1, POKELIST_CloseMessageToList);
                 return;
             }
             local.maxHp = func_02017E1C((void *)work->selectedMon, 0xa1, 0);
@@ -3115,7 +3027,7 @@ void POKELIST_DispatchMenuChoice(PokelistWork *work)
                 PLIST_MESSAGE_PrintText(work, (u32 *)work->messageWindow, 17);
                 POKELIST_RefreshCursor(work);
             } else {
-                POKELIST_ShowMessage(work, 0x6b, 1, func_021B9E20);
+                POKELIST_ShowMessage(work, 0x6b, 1, POKELIST_CloseMessageToList);
             }
             return;
         }
@@ -3126,16 +3038,16 @@ void POKELIST_DispatchMenuChoice(PokelistWork *work)
             work->arg->exitCode = result;
             return;
         case 1:
-            POKELIST_ShowMessage(work, 0x50, 1, func_021B9E20);
+            POKELIST_ShowMessage(work, 0x50, 1, POKELIST_CloseMessageToList);
             return;
         case 2:
-            POKELIST_ShowMessage(work, 0x38, 1, func_021B9E20);
+            POKELIST_ShowMessage(work, 0x38, 1, POKELIST_CloseMessageToList);
             return;
         case 3:
-            POKELIST_ShowMessage(work, 0x9f, 1, func_021B9E20);
+            POKELIST_ShowMessage(work, 0x9f, 1, POKELIST_CloseMessageToList);
             return;
         case 4:
-            POKELIST_ShowMessage(work, 0x4f, 1, func_021B9E20);
+            POKELIST_ShowMessage(work, 0x4f, 1, POKELIST_CloseMessageToList);
             return;
         }
         return;
@@ -3151,7 +3063,7 @@ void POKELIST_DispatchMenuChoice(PokelistWork *work)
 void POKELIST_UpdateMessagePhase(PokelistWork *work)
 {
     if (PLIST_MESSAGE_IsIdle(work, work->messageWindow) == 1) {
-        if (func_020362DC() & 1) {
+        if (KEY_GetTrg() & 1) {
             work->touchMode = 0;
         }
         if (TOUCHPANEL_GetTrg() == 1) {
@@ -3168,11 +3080,11 @@ void POKELIST_ShowMessage(PokelistWork *work, int messageId, int waitForKey, Pok
     work->messageDoneCallback = onDone;
     PLIST_MESSAGE_OpenWindow(work, (u32 *)work->messageWindow, 3);
     PLIST_MESSAGE_StartStream(work, (u32 *)work->messageWindow, messageId, waitForKey);
-    func_0204B3DC(work->backButtonActor, 0);
-    func_0204B3DC(work->switchButtonActor, 0);
+    CLACT_SetActorDrawEnable(work->backButtonActor, 0);
+    CLACT_SetActorDrawEnable(work->switchButtonActor, 0);
 }
 
-void func_021B97D4(PokelistWork *work)
+void POKELIST_PollContextMenuChoice(PokelistWork *work)
 {
     int choice;
 
@@ -3185,9 +3097,9 @@ void func_021B97D4(PokelistWork *work)
 }
 
 /*
- * func_021B9804 is an unlabelled tail-call stub inside the extent.
+ * POKELIST_OpenMenuWithCallback is an unlabelled tail-call stub inside the extent.
  */
-void func_021B9804(PokelistWork *work, PokelistMenuFn onChoice)
+void POKELIST_OpenMenuWithCallback(PokelistWork *work, PokelistMenuFn onChoice)
 {
     work->phase = 9;
     work->menuChoiceCallback = onChoice;
@@ -3204,11 +3116,11 @@ void POKELIST_UpdateSwapAnimation(PokelistWork *work)
         PLIST_PLATE_SetSlideOffset(work, work->plates[work->selectedSlot], work->swapAnimStep);
         PLIST_PLATE_SetSlideOffset(work, work->plates[work->swapSourceSlot], work->swapAnimStep);
         if (work->swapAnimStep >= 16) {
-            func_0201AB8C(work->arg->party, work->selectedSlot, work->swapSourceSlot, work->heapId);
-            PLIST_PLATE_SetMon(work, work->plates[work->selectedSlot], func_0201AB28(work->arg->party, work->selectedSlot), work->swapAnimStep);
-            PLIST_PLATE_SetMon(work, work->plates[work->swapSourceSlot], func_0201AB28(work->arg->party, work->swapSourceSlot), work->swapAnimStep);
+            POKEPARTY_SwapMembers(work->arg->party, work->selectedSlot, work->swapSourceSlot, work->heapId);
+            PLIST_PLATE_SetMon(work, work->plates[work->selectedSlot], POKEPARTY_GetMember(work->arg->party, work->selectedSlot), work->swapAnimStep);
+            PLIST_PLATE_SetMon(work, work->plates[work->swapSourceSlot], POKEPARTY_GetMember(work->arg->party, work->swapSourceSlot), work->swapAnimStep);
             work->inputStage = 4;
-            func_020061E4(0x642);
+            GFL_USE_PlaySeDefaultVolume(0x642);
         }
         break;
     case 4:
@@ -3228,9 +3140,9 @@ void POKELIST_StartSwapAnimation(PokelistWork *work)
     work->phase = 5;
     work->inputStage = 3;
     work->swapAnimStep = 0;
-    func_020061E4(0x641);
-    func_0204B3DC(work->cursorActor, 0);
-    func_0204B3DC(work->swapMarkerActor, 0);
+    GFL_USE_PlaySeDefaultVolume(0x641);
+    CLACT_SetActorDrawEnable(work->cursorActor, 0);
+    CLACT_SetActorDrawEnable(work->swapMarkerActor, 0);
 }
 
 void POKELIST_FinishSwap(PokelistWork *work)
@@ -3239,7 +3151,7 @@ void POKELIST_FinishSwap(PokelistWork *work)
     work->phase = 2;
     POKELIST_MoveCursorToPlate(work, work->selectedSlot);
     PLIST_PLATE_SetSelected(work, work->plates[work->swapSourceSlot], 0);
-    func_0204B3DC(work->swapMarkerActor, 0);
+    CLACT_SetActorDrawEnable(work->swapMarkerActor, 0);
     work->swapSourceSlot = 9;
     work->arg->selectedIndex = work->selectedSlot;
     POKELIST_SetupModeScreen(work);
@@ -3369,21 +3281,21 @@ void POKELIST_PrintTextMain(PokelistWork *work, struct Descriptor *window, u32 m
 {
     void *text;
     text = func_02045EC0(work->msgBank, messageId);
-    PRINTSYS_PrintQueColor(work->printSys, func_02045770(window), (s16)x, (s16)y, text, work->fontMain, color);
+    PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(window), (s16)x, (s16)y, text, work->fontMain, color);
     STRBUF_Delete(text);
 }
 
 void POKELIST_PrintTextSub(PokelistWork *work, struct Descriptor *window, u32 messageId, u32 x, s16 y, u16 color)
 {
     void *text = func_02045EC0(work->msgBank, messageId);
-    PRINTSYS_PrintQueColor(work->printSys, func_02045770(window), (s16)x, (s16)y, text, work->fontSub, color);
+    PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(window), (s16)x, (s16)y, text, work->fontSub, color);
     STRBUF_Delete(text);
 }
 
 void POKELIST_PrintTextSubDirect(PokelistWork *work, struct Descriptor *window, u32 messageId, u32 x, s16 y, u16 color)
 {
     void *text = func_02045EC0(work->msgBank, messageId);
-    PRINTSYS_PrintColor(func_02045770(window), x, y, text, work->fontSub, color);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(window), x, y, text, work->fontSub, color);
     STRBUF_Delete(text);
 }
 
@@ -3392,7 +3304,7 @@ void POKELIST_PrintExpandedTextMain(PokelistWork *work, struct Descriptor *windo
     void *expanded = STRBUF_Create(16, work->heapId);
     void *text = func_02045EC0(work->msgBank, messageId);
     func_0201F250(wordSet, expanded, text);
-    PRINTSYS_PrintQueColor(work->printSys, func_02045770(window), x, y, expanded, work->fontMain, color);
+    PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(window), x, y, expanded, work->fontMain, color);
     STRBUF_Delete(text);
     STRBUF_Delete(expanded);
 }
@@ -3402,7 +3314,7 @@ void POKELIST_PrintExpandedTextSub(PokelistWork *work, struct Descriptor *window
     void *expanded = STRBUF_Create(16, work->heapId);
     void *text = func_02045EC0(work->msgBank, messageId);
     func_0201F250(wordSet, expanded, text);
-    PRINTSYS_PrintQueColor(work->printSys, func_02045770(window), x, y, expanded, work->fontSub, color);
+    PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(window), x, y, expanded, work->fontSub, color);
     STRBUF_Delete(text);
     STRBUF_Delete(expanded);
 }
@@ -3412,12 +3324,12 @@ void POKELIST_PrintExpandedTextSubDirect(PokelistWork *work, struct Descriptor *
     void *expanded = STRBUF_Create(16, work->heapId);
     void *text = func_02045EC0(work->msgBank, messageId);
     func_0201F250(wordSet, expanded, text);
-    PRINTSYS_PrintColor(func_02045770(window), x, y, expanded, work->fontSub, color);
+    PRINTSYS_PrintColor(BMP_WIN_GetBmp(window), x, y, expanded, work->fontSub, color);
     STRBUF_Delete(text);
     STRBUF_Delete(expanded);
 }
 
-void func_021B9E20(PokelistWork *work)
+void POKELIST_CloseMessageToList(PokelistWork *work)
 {
     PLIST_MESSAGE_CloseWindow(work, (u32 *)work->messageWindow);
     work->phase = 2;
@@ -3429,7 +3341,7 @@ void POKELIST_EndMessageToExit(PokelistWork *work)
     work->phase = 19;
 }
 
-void func_021B9E44(PokelistWork *work)
+void POKELIST_CloseMessageIfItemInBag(PokelistWork *work)
 {
     if (POKELIST_CheckBagItem(work, work->arg->itemId)) {
         PLIST_MESSAGE_CloseWindow(work, (u32 *)work->messageWindow);
@@ -3444,12 +3356,12 @@ void func_021B9E44(PokelistWork *work)
     PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
 }
 
-void func_021B9EB0(PokelistWork *work)
+void POKELIST_OpenGiveUpMoveMenu(PokelistWork *work)
 {
-    func_021B9804(work, func_021B9EC0);
+    POKELIST_OpenMenuWithCallback(work, POKELIST_OnGiveUpMoveChoice);
 }
 
-void func_021B9EC0(PokelistWork *work, int choice)
+void POKELIST_OnGiveUpMoveChoice(PokelistWork *work, int choice)
 {
     PLIST_MESSAGE_CloseWindow(work, (u32 *)work->messageWindow);
     if (choice == 14) {
@@ -3464,13 +3376,13 @@ void func_021B9EC0(PokelistWork *work, int choice)
     }
     PLIST_MESSAGE_CreateWordSet(work, work->messageWindow);
     PLIST_MESSAGE_SetWordSetMove(work, work->messageWindow, 1, work->arg->moveId);
-    POKELIST_ShowMessage(work, 0x23, 0, func_021B9F34);
+    POKELIST_ShowMessage(work, 0x23, 0, POKELIST_OpenForgetMoveMenu);
     PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
 }
 
-void func_021B9F34(PokelistWork *work)
+void POKELIST_OpenForgetMoveMenu(PokelistWork *work)
 {
-    func_021B9804(work, POKELIST_OnForgetMoveChoice);
+    POKELIST_OpenMenuWithCallback(work, POKELIST_OnForgetMoveChoice);
 }
 
 void POKELIST_OnForgetMoveChoice(PokelistWork *work, int choice)
@@ -3482,7 +3394,7 @@ void POKELIST_OnForgetMoveChoice(PokelistWork *work, int choice)
         PLIST_MESSAGE_SetWordSetPokemon(work, work->messageWindow, 0, work->selectedMon);
         PLIST_MESSAGE_SetWordSetMove(work, work->messageWindow, 1, work->arg->moveId);
         if (work->arg->mode == 5 || work->arg->mode == 8) {
-            POKELIST_ShowMessage(work, 0x26, 1, func_021BC6C0);
+            POKELIST_ShowMessage(work, 0x26, 1, PLIST_MENU_BeginExitWait);
         } else {
             POKELIST_ShowMessage(work, 0x26, 1, POKELIST_EndMessageToExit);
         }
@@ -3492,18 +3404,18 @@ void POKELIST_OnForgetMoveChoice(PokelistWork *work, int choice)
     PLIST_MESSAGE_CreateWordSet(work, work->messageWindow);
     PLIST_MESSAGE_SetWordSetPokemon(work, work->messageWindow, 0, work->selectedMon);
     PLIST_MESSAGE_SetWordSetMove(work, work->messageWindow, 1, work->arg->moveId);
-    POKELIST_ShowMessage(work, 0x20, 0, func_021B9EB0);
+    POKELIST_ShowMessage(work, 0x20, 0, POKELIST_OpenGiveUpMoveMenu);
     PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
 }
 
-void func_021BA004(PokelistWork *work)
+void POKELIST_ShowMoveLearned(PokelistWork *work)
 {
     PLIST_MESSAGE_CloseWindow(work, (u32 *)work->messageWindow);
     PLIST_MESSAGE_CreateWordSet(work, work->messageWindow);
     PLIST_MESSAGE_SetWordSetPokemon(work, work->messageWindow, 0, work->selectedMon);
     PLIST_MESSAGE_SetWordSetMove(work, work->messageWindow, 1, work->arg->moveId);
     if (work->arg->mode == 5 || work->arg->mode == 8) {
-        POKELIST_ShowMessage(work, 0x29, 1, func_021BC6C0);
+        POKELIST_ShowMessage(work, 0x29, 1, PLIST_MENU_BeginExitWait);
     } else {
         POKELIST_ShowMessage(work, 0x29, 1, POKELIST_EndMessageToExit);
         POKELIST_ApplyItemEffect(work, (void *)work->selectedMon);
@@ -3513,9 +3425,9 @@ void func_021BA004(PokelistWork *work)
     POKELIST_ReplaceMoveSlot(work, (void *)work->selectedMon, work->arg->moveSlot);
 }
 
-void func_021BA098(PokelistWork *work)
+void POKELIST_OpenTakeItemMenu(PokelistWork *work)
 {
-    func_021B9804(work, POKELIST_OnTakeItemChoice);
+    POKELIST_OpenMenuWithCallback(work, POKELIST_OnTakeItemChoice);
 }
 
 void POKELIST_OnTakeItemChoice(PokelistWork *work, int choice)
@@ -3528,7 +3440,7 @@ void POKELIST_OnTakeItemChoice(PokelistWork *work, int choice)
             if (work->arg->mode == 0xa) {
                 work->arg->mode = 0;
                 PLIST_MESSAGE_CloseWindow(work, (u32 *)work->messageWindow);
-                POKELIST_ShowMessage(work, 0x3f, 1, func_021B9E20);
+                POKELIST_ShowMessage(work, 0x3f, 1, POKELIST_CloseMessageToList);
             } else {
                 work->phase = 0x13;
                 PLIST_MESSAGE_CloseWindow(work, (u32 *)work->messageWindow);
@@ -3560,7 +3472,7 @@ void POKELIST_OnTakeItemChoice(PokelistWork *work, int choice)
                     POKELIST_ShowMessage(work, 0x40, 1, POKELIST_EndMessageToEvolve);
                     work->evolveCheckKind = 2;
                 } else {
-                    POKELIST_ShowMessage(work, 0x40, 1, func_021B9E20);
+                    POKELIST_ShowMessage(work, 0x40, 1, POKELIST_CloseMessageToList);
                 }
             } else {
                 work->arg->exitCode = 0xa;
@@ -3594,10 +3506,10 @@ void POKELIST_StartHpTransfer(PokelistWork *work)
     void *sourceMon;
     void *targetMon;
     u32 sourceMaxHp, targetHp, targetMaxHp, newHp;
-    sourceMon = func_0201AB28(work->arg->party, work->healSourceSlot);
+    sourceMon = POKEPARTY_GetMember(work->arg->party, work->healSourceSlot);
     func_02017E1C(sourceMon, 0xa0, 0);
     sourceMaxHp = func_02017E1C(sourceMon, 0xa1, 0);
-    targetMon = func_0201AB28(work->arg->party, work->arg->selectedIndex);
+    targetMon = POKEPARTY_GetMember(work->arg->party, work->arg->selectedIndex);
     targetHp = func_02017E1C((void *)work->selectedMon, 0xa0, 0);
     targetMaxHp = func_02017E1C((void *)work->selectedMon, 0xa1, 0);
     work->selectedSlot = work->arg->selectedIndex;
@@ -3607,12 +3519,12 @@ void POKELIST_StartHpTransfer(PokelistWork *work)
     } else {
         POKE_TOOL_SetPartyValue(targetMon, 0xa0, newHp);
     }
-    work->phaseCallback = func_021BA318;
+    work->phaseCallback = POKELIST_ShowHealResult;
     work->phase = 10;
     work->healSoundPending = 1;
 }
 
-void func_021BA318(PokelistWork *work)
+void POKELIST_ShowHealResult(PokelistWork *work)
 {
     u16 hpNow;
     u16 hpBefore;
@@ -3620,20 +3532,20 @@ void func_021BA318(PokelistWork *work)
     work->selectedSlot = work->arg->selectedIndex;
     PLIST_MESSAGE_CreateWordSet(work, work->messageWindow);
     PLIST_MESSAGE_SetWordSetPokemon(work, work->messageWindow, 0, work->selectedMon);
-    hpBefore = work->cursorState;
+    hpBefore = work->displayHp;
     if (hpBefore) {
         PLIST_MESSAGE_SetWordSetNumber(work, work->messageWindow, 1, (u16)(hpNow - hpBefore), 3);
-        POKELIST_ShowMessage(work, 0x2c, 1, func_021B9E20);
+        POKELIST_ShowMessage(work, 0x2c, 1, POKELIST_CloseMessageToList);
     }
     PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
 }
 
-void func_021BA394(PokelistWork *work)
+void POKELIST_OpenTakeMailMenu(PokelistWork *work)
 {
-    func_021B9804(work, func_021BA3A4);
+    POKELIST_OpenMenuWithCallback(work, POKELIST_OnTakeMailChoice);
 }
 
-void func_021BA3A4(PokelistWork *work, int choice)
+void POKELIST_OnTakeMailChoice(PokelistWork *work, int choice)
 {
     int mailSlot;
     void *mail;
@@ -3647,18 +3559,18 @@ void func_021BA3A4(PokelistWork *work, int choice)
             func_020307B0(mail);
             POKE_TOOL_SetPartyValue((void *)work->selectedMon, 6, 0);
             PLIST_PLATE_Redraw(work, work->plates[work->selectedSlot]);
-            POKELIST_ShowMessage(work, 0x1a, 1, func_021B9E20);
+            POKELIST_ShowMessage(work, 0x1a, 1, POKELIST_CloseMessageToList);
         } else {
-            POKELIST_ShowMessage(work, 0x1e, 1, func_021B9E20);
+            POKELIST_ShowMessage(work, 0x1e, 1, POKELIST_CloseMessageToList);
         }
         return;
     }
-    POKELIST_ShowMessage(work, 0x1b, 0, func_021BA444);
+    POKELIST_ShowMessage(work, 0x1b, 0, POKELIST_OpenMailItemMenu);
 }
 
-void func_021BA444(PokelistWork *work)
+void POKELIST_OpenMailItemMenu(PokelistWork *work)
 {
-    func_021B9804(work, POKELIST_OnMailItemChoice);
+    POKELIST_OpenMenuWithCallback(work, POKELIST_OnMailItemChoice);
 }
 
 void POKELIST_OnMailItemChoice(PokelistWork *work, int choice)
@@ -3667,13 +3579,13 @@ void POKELIST_OnMailItemChoice(PokelistWork *work, int choice)
     if (choice == 0xe) {
         int heldItem = func_02017E1C((void *)work->selectedMon, 6, 0);
         if (POKELIST_CheckBagItem(work, heldItem) == 0x3e7) {
-            POKELIST_ShowMessage(work, 0x3f, 1, func_021B9E20);
+            POKELIST_ShowMessage(work, 0x3f, 1, POKELIST_CloseMessageToList);
             return;
         }
         POKELIST_ReturnBagItem(work, heldItem);
         POKE_TOOL_SetPartyValue((void *)work->selectedMon, 6, 0);
         PLIST_PLATE_Redraw(work, work->plates[work->selectedSlot]);
-        POKELIST_ShowMessage(work, 0x1f, 1, func_021B9E20);
+        POKELIST_ShowMessage(work, 0x1f, 1, POKELIST_CloseMessageToList);
     } else {
         PLIST_MESSAGE_CloseWindow(work, (u32 *)work->messageWindow);
         work->phase = 2;

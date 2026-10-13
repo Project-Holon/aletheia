@@ -13,7 +13,7 @@
  *   REPORT_ExitActors 0x021F0930 thumb
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyParty 0x02012934 thumb
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -29,7 +29,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 typedef unsigned int   u32;
 struct BigObj;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern unsigned int func_0201AA18(void *);
+extern unsigned int POKEPARTY_GetCount(void *);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
@@ -43,7 +43,7 @@ void REPORT_ExitActors(int *p)
     void *n;
 
     n = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData((const struct Ctx *)p[0]));
-    for (i = 0; i < func_0201AA18(n); i++) {
+    for (i = 0; i < POKEPARTY_GetCount(n); i++) {
         CLACT_DeleteActor((struct Obj *)p[0x15 + i]);
         CLACT_ReleaseCharacter(p[0x25 + i]);
     }

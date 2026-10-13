@@ -15,7 +15,7 @@
  *           the last blocker.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02034A5C  0x02034A5C  arm
  *   func_02034AC4  0x02034AC4  arm
  *   DWC_RAPCOMMON_InitUserData  0x02157138  thumb ov009
@@ -38,7 +38,7 @@
  * concrete byte reproduces.
  */
 
-extern void func_02082BCC(void *dst, int val, unsigned n);
+extern void MI_CpuFill8(void *dst, int val, unsigned n);
 extern void func_02034A5C(int handle);
 extern int func_02034AC4(int id);
 extern void DWC_RAPCOMMON_InitUserData(void *p);
@@ -50,7 +50,7 @@ extern unsigned char ov_id_0D[];
 
 void WIFILIST_Init(void *p)
 {
-    func_02082BCC(p, 0, 0x7c4);
+    MI_CpuFill8(p, 0, 0x7c4);
     func_02034A5C((int)ov_id_0A);
     func_02034A5C((int)ov_id_0B);
     func_02034AC4((int)ov_id_0D);

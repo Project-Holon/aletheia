@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_HANDLER_ITEM_GetAdamantOrbHandlers",
+   "name": "HAND_ITEM_GetAdamantOrbHandlers",
    "address": "0x021DF9BC",
    "kind": "game",
    "region": "ov093",

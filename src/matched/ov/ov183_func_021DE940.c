@@ -10,14 +10,14 @@
  * symbols:
  *   d_021E3534 0x021E3534 data a4
  *   func_021FD860 0x021FD860 thumb ov186
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 #include "../include/Obj00785.h"
 typedef unsigned int u32;
 typedef struct Rect { u32 x0, y0, x1, y1; } Rect;
 extern const Rect d_021E3534[];
 extern void func_021FD860(int, int, int *);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 int func_021DE940(char *p, int x, int y)
 {
     int skip = ((struct Obj00785 *)p)->f68;
@@ -29,7 +29,7 @@ int func_021DE940(char *p, int x, int y)
             args[0] = x;
             args[1] = y;
             func_021FD860(*(int *)&((struct Obj00785 *)p)->f64, 1, args);
-            func_020061E4(0x703);
+            GFL_USE_PlaySeDefaultVolume(0x703);
             return i;
         }
     }

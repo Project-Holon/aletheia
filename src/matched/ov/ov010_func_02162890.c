@@ -11,7 +11,7 @@
  *
  * symbols:
  *   EVENTDATA_SYSTEM_IsPosEventGridHit  0x02162F0C  thumb  ov010
- *   func_020143CC  0x020143CC  thumb
+ *   ZONEDATA_GetEventWorkAddress  0x020143CC  thumb
  */
 
 typedef unsigned short u16;
@@ -33,7 +33,7 @@ struct Ctx {
 
 typedef unsigned int   u32;
 extern int EVENTDATA_SYSTEM_IsPosEventGridHit(char *p, int *v);
-extern u32 func_020143CC(u32 a, u32 b);
+extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
 
 struct Rec *EVENTDATA_SYSTEM_SearchAutoPosEvent(struct Ctx *c, void *a, int key)
 {
@@ -47,7 +47,7 @@ struct Rec *EVENTDATA_SYSTEM_SearchAutoPosEvent(struct Ctx *c, void *a, int key)
             if (EVENTDATA_SYSTEM_IsPosEventGridHit((char *)r, (int *)key) != 0 && r->f6 == 6) {
                 if (r->f4 == 0)
                     return r;
-                v = *((u16 *)func_020143CC((u32)a, r->f4));
+                v = *((u16 *)ZONEDATA_GetEventWorkAddress((u32)a, r->f4));
                 if (v == r->f2)
                     return r;
             }

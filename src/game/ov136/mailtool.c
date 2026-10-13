@@ -82,7 +82,7 @@
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  *   WIPE_ResetWndMask 0x02022224 thumb
  *   func_020056A0 0x020056A0 thumb
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   WIPE_ResetBrightness 0x02022230 thumb
  *   func_0207D63C 0x0207D63C arm
  *   func_020056BC 0x020056BC thumb
@@ -201,7 +201,7 @@ extern int func_021C4D14(u8 *p);
 extern void WIPE_SetBrightnessFadeOut(u32 a, u32 b);
 extern u32 WIPE_ResetWndMask(void *win);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void WIPE_ResetBrightness(u32 a);
 extern void func_0207D63C(void *reg, int a, int b, int c, int d);
 extern u32 func_020056BC(void);
@@ -565,7 +565,7 @@ int func_021C42C8(u8 *p)
     case 1:
         if (func_021C4BFC(p)) {
             ((struct MailViewCtx *)p)->f104 = func_020056A0((void *)func_021C4B5C, p, 0x10);
-            func_020434DC(0x10, 1);
+            BG_SYS_SetMainPlaneVisible(0x10, 1);
             WIPE_ResetBrightness(0);
             func_0207D63C((void *)0x04000050, 4, 8, 0x1C, 4);
             t = func_020056BC();

@@ -1,7 +1,7 @@
 /*
  * file:     weather_fog.c
  * unit:     yes
- * function: func_021EE740, WEATHER_FOG_BeginParticlesFixed, WEATHER_FOG_BeginPlainFixed, WEATHER_FOG_RunFixed, WEATHER_FOG_EndParticlesFixed, WEATHER_FOG_EndFadeFixed, WEATHER_FOG_EndFinishFixed, WEATHER_FOG_UpdateParticleFixed, WEATHER_FOG_BeginKind10, WEATHER_FOG_BeginKind11, WEATHER_FOG_BeginKind13, WEATHER_FOG_BeginKind14, WEATHER_FOG_BeginParticles, WEATHER_FOG_BeginPlain, func_021EEA04, WEATHER_FOG_EndParticles, WEATHER_FOG_EndFade, WEATHER_FOG_EndFinish
+ * function: WEATHER_FOG_BeginFixed, WEATHER_FOG_BeginParticlesFixed, WEATHER_FOG_BeginPlainFixed, WEATHER_FOG_RunFixed, WEATHER_FOG_EndParticlesFixed, WEATHER_FOG_EndFadeFixed, WEATHER_FOG_EndFinishFixed, WEATHER_FOG_UpdateParticleFixed, WEATHER_FOG_BeginKind10, WEATHER_FOG_BeginKind11, WEATHER_FOG_BeginKind13, WEATHER_FOG_BeginKind14, WEATHER_FOG_BeginParticles, WEATHER_FOG_BeginPlain, WEATHER_FOG_Run, WEATHER_FOG_EndParticles, WEATHER_FOG_EndFade, WEATHER_FOG_EndFinish
  * address:  0x021EE740
  * region:   ov028
  * compiler: dsi/1.1p1
@@ -47,7 +47,7 @@ int WEATHER_TASK_GetCameraState(WeatherTaskSys *task);
 u16 func_02014A10(u32 weatherId);
 
 /* Weather id 9 (fixed fog). */
-int func_021EE740(WeatherTaskSys *task, int variant);
+int WEATHER_FOG_BeginFixed(WeatherTaskSys *task, int variant);
 int WEATHER_FOG_BeginParticlesFixed(WeatherTaskSys *task, int variant);
 int WEATHER_FOG_BeginPlainFixed(WeatherTaskSys *task, int variant);
 int WEATHER_FOG_RunFixed(void);
@@ -62,7 +62,7 @@ int WEATHER_FOG_BeginKind13(WeatherTaskSys *task, int variant);
 int WEATHER_FOG_BeginKind14(WeatherTaskSys *task, int variant);
 int WEATHER_FOG_BeginParticles(WeatherTaskSys *task, int variant);
 int WEATHER_FOG_BeginPlain(WeatherTaskSys *task, int variant);
-int func_021EEA04(void);
+int WEATHER_FOG_Run(void);
 int WEATHER_FOG_EndParticles(WeatherTaskSys *task);
 int WEATHER_FOG_EndFade(WeatherTaskSys *task, int variant);
 
@@ -71,7 +71,7 @@ extern unsigned char gFogSlopeByCameraState[];
 /* Fog offset per camera state. */
 extern int gFogOffsetByCameraState[];
 /* Begin stage: set the fog up. */
-int func_021EE740(WeatherTaskSys *task, int variant)
+int WEATHER_FOG_BeginFixed(WeatherTaskSys *task, int variant)
 {
     FogFixedWork *work;
     work = WEATHER_TASK_GetWorkBuffer(task);
@@ -245,7 +245,7 @@ int WEATHER_FOG_BeginPlain(WeatherTaskSys *task, int variant)
 }
 
 /* Run stage: nothing to do. */
-int func_021EEA04(void)
+int WEATHER_FOG_Run(void)
 {
     return 0;
 }

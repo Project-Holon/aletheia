@@ -11,7 +11,7 @@
  * trailing: 0689B4D2..0689B4D4 is the two-byte C0 46 alignment nop; no follower.
  * prototype: entry r1 is live s (0689B356); the existing B0D4 caller's one-argument extern omits this forwarded argument.
  * symbols:
- *   func_0201BD28  0x0201BD28  thumb
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   func_021B8D8C  0x021B8D8C  thumb
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
  *   BTL_CALC_GetCurseTargetKind  0x021D80A8  thumb
@@ -27,7 +27,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 kind:7, id:16, rest:9; } Q;
 typedef struct { u8 n, pad[2], d[16]; } St;
-extern u32 func_0201BD28(u16, u32);
+extern u32 WAZA_TOOL_GetParam(u16, u32);
 extern u8 BTL_POKEPARAM_GetPokeId(void *);
 extern int func_021B8D8C(void *, void *, u32);
 extern int BTL_CALC_GetCurseTargetKind(void *);
@@ -42,7 +42,7 @@ void func_0689B354(St *st, u8 *s)
     u32 k;
     int mode;
     key = (*(Q * *)&((struct Obj00409 *)s)->f70)->id;
-    k = func_0201BD28(key, 0x1b);
+    k = WAZA_TOOL_GetParam(key, 0x1b);
     mode = func_021B8D8C(((struct Obj00409 *)s)->fA0, ((struct Obj00409 *)s)->fA4, BTL_POKEPARAM_GetPokeId(((struct Obj00409 *)s)->f6C));
     func_0689ACCC(st);
     if (key == 0xae) k = BTL_CALC_GetCurseTargetKind(((struct Obj00409 *)s)->f6C);

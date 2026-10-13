@@ -1,5 +1,5 @@
 /*
- * function: func_021B9A24
+ * function: BTL_MAIN_IsPokeSamePair
  * address: 0x021B9A24
  * packet: pkt_ov093_021B9A24
  * region: ov093
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B9A40 0x021B9A40 thumb ov093
+ *   BTL_MAIN_IsPokeIdInSecondPair 0x021B9A40 thumb ov093
  */
-extern unsigned char func_021B9A40(unsigned int);
-int func_021B9A24(unsigned int a, unsigned int b)
+extern unsigned char BTL_MAIN_IsPokeIdInSecondPair(unsigned int);
+int BTL_MAIN_IsPokeSamePair(unsigned int a, unsigned int b)
 {
-    unsigned char v = func_021B9A40(a);
-    if (v == func_021B9A40(b)) return 1;
+    unsigned char v = BTL_MAIN_IsPokeIdInSecondPair(a);
+    if (v == BTL_MAIN_IsPokeIdInSecondPair(b)) return 1;
     return 0;
 }

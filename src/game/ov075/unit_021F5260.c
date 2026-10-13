@@ -15,14 +15,14 @@
  * symbols:
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   ENCEFF_ScreenTexEventMain 0x021F5518 thumb ov075
  *   func_0207D704  0x0207D704  arm
  *   func_0207DA8C  0x0207DA8C  arm
  *   func_0207D7C4  0x0207D7C4  arm
  *   d_020A1EB8     0x020A1EB8  data  a4
  *   d_021F55F8     0x021F55F8  data  ov075  a4
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   func_0201210C  0x0201210C  thumb
  *   func_0204047C  0x0204047C  arm
  *   FIELDMAP_GetDrawMode  0x021899F0  thumb  ov021
@@ -49,11 +49,11 @@
 
 extern struct GameEvent *func_020122C0(void *owner, void *arg, GameEventMainFunc main, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
-extern void func_02082BCC(void *dst, int value, u32 size);
+extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern void func_0207D704(int a, int b, int c, int d, int e, int f, int g, int h);
 extern void func_0207DA8C(void);
 extern void func_0207D7C4(VecFx32 *eye, VecFx32 *up, VecFx32 *target, int d, int e);
-extern struct GameSystem *func_020124E4(struct GameEvent *event);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
 extern void func_0204047C(int idx, u16 val);
 extern int FIELDMAP_GetDrawMode(struct FieldMap *fieldMap);
@@ -90,7 +90,7 @@ struct GameEvent *ENCEFF_StartScreenTexEffectFlash(struct GameSystem *gameSystem
 
     event = func_020122C0(gameSystem, 0, (GameEventMainFunc)ENCEFF_ScreenTexFlashEventMain, 48);
     work = func_020124E8(event);
-    func_02082BCC(work, 0, 48);
+    MI_CpuFill8(work, 0, 48);
     work->cameraPos = *cameraPos;
     work->start = start;
     work->draw = draw;
@@ -105,7 +105,7 @@ struct GameEvent *ENCEFF_StartScreenTexEffect(struct GameSystem *gameSystem, Vec
 
     event = func_020122C0(gameSystem, 0, (GameEventMainFunc)ENCEFF_ScreenTexEventMain, 0x30);
     work = func_020124E8(event);
-    func_02082BCC(work, 0, 0x30);
+    MI_CpuFill8(work, 0, 0x30);
     work->cameraPos = *cameraPos;
     work->start = start;
     work->draw = draw;
@@ -151,7 +151,7 @@ int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, EncEffSc
     u32 texBanks;
     struct GameEvent *child;
 
-    gameSystem = func_020124E4(event);
+    gameSystem = GAME_EVENT_GetGameSystem(event);
     fieldMap = func_0201210C(gameSystem);
     switch (*state) {
     case 0:

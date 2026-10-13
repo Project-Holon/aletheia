@@ -30,9 +30,9 @@
  * d_021DA75C resolves with the data hint without the ov129 token (data a4).
  *
  * symbols:
- *   func_020362DC 0x020362DC arm
- *   func_0203633C 0x0203633C arm
- *   func_020061E4 0x020061E4 thumb
+ *   KEY_GetTrg 0x020362DC arm
+ *   KEY_GetRepeat 0x0203633C arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021D9E98 0x021D9E98 thumb ov129
  *   func_021D93D4 0x021D93D4 thumb ov129
@@ -51,10 +51,10 @@ struct Obj;
 typedef struct { int v[3][5]; } Tbl;
 typedef struct { int state, value, flag; struct Obj *handle; char tail[12]; } Record;
 extern const Tbl d_021DA75C;
-extern u32 func_020362DC(void);
-extern u32 func_0203633C(void);
+extern u32 KEY_GetTrg(void);
+extern u32 KEY_GetRepeat(void);
 typedef unsigned char  u8;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021D9E98(char *p, int i);
 extern void func_021D93D4(char *p);
@@ -78,7 +78,7 @@ void func_021D8FA0(char *p)
     flag = 0;
     cur = T.v[row][*(s16 *)(p + 0x1B8)];
 
-    if (*(int *)(p + 0x2FC) == 1 && func_020362DC() != 0) {
+    if (*(int *)(p + 0x2FC) == 1 && KEY_GetTrg() != 0) {
         *(int *)(p + 0x2FC) = flag;
         func_021D9E98(p, cur);
         if (cur == 10 || cur == 11) {
@@ -90,15 +90,15 @@ void func_021D8FA0(char *p)
         *(int *)(p + 0x1A4) = 1;
         return;
     }
-    if (func_0203633C() & 0x40) {
+    if (KEY_GetRepeat() & 0x40) {
         int v = *(s16 *)(p + 0x1BA);
         if (v > 0) *(s16 *)(p + 0x1BA) = v - 1; else *(s16 *)(p + 0x1BA) = 2;
         flag = 1;
-    } else if (func_0203633C() & 0x80) {
+    } else if (KEY_GetRepeat() & 0x80) {
         *(s16 *)(p + 0x1BA) += 1;
         *(s16 *)(p + 0x1BA) %= 3;
         flag = 1;
-    } else if (func_0203633C() & 0x10) {
+    } else if (KEY_GetRepeat() & 0x10) {
         if (cur == 10) *(s16 *)(p + 0x1B8) = 3;
         else if (cur == 11) *(s16 *)(p + 0x1B8) = 0;
         else {
@@ -106,7 +106,7 @@ void func_021D8FA0(char *p)
             *(s16 *)(p + 0x1B8) %= 5;
         }
         flag = 1;
-    } else if (func_0203633C() & 0x20) {
+    } else if (KEY_GetRepeat() & 0x20) {
         if (cur == 10) *(s16 *)(p + 0x1B8) = 3;
         else if (cur == 11) *(s16 *)(p + 0x1B8) = 0;
         else {
@@ -114,14 +114,14 @@ void func_021D8FA0(char *p)
             if (v > 0) *(s16 *)(p + 0x1B8) = v - 1; else *(s16 *)(p + 0x1B8) = 4;
         }
         flag = 1;
-    } else if (func_020362DC() & 1) {
+    } else if (KEY_GetTrg() & 1) {
         if (cur == 10) {
             func_021D93D4(p);
-            func_020061E4(1363);
+            GFL_USE_PlaySeDefaultVolume(1363);
         } else if (cur == 11) {
             if (func_021D9320((u8 *)p)) {
                 func_021D9348(p);
-                func_020061E4(1357);
+                GFL_USE_PlaySeDefaultVolume(1357);
             } else {
                 func_021D8AF4(p, 4);
             }
@@ -150,13 +150,13 @@ void func_021D8FA0(char *p)
                     *(int *)(p + 0x31C) = 2;
                     *(int *)(p + 0x320) = idx + 1;
                 }
-                func_020061E4(1356);
+                GFL_USE_PlaySeDefaultVolume(1356);
             }
         }
-    } else if (func_020362DC() & 2) {
+    } else if (KEY_GetTrg() & 2) {
         func_021D93D4(p);
-        func_020061E4(1363);
-    } else if (func_0203633C() & 0x200) {
+        GFL_USE_PlaySeDefaultVolume(1363);
+    } else if (KEY_GetRepeat() & 0x200) {
         idx = *(int *)(p + 0x188);
         if (idx == 0) {
             idx = *(int *)(p + 0x23C);
@@ -173,8 +173,8 @@ void func_021D8FA0(char *p)
             *(int *)(p + 0x320) = r[idx].value;
             *(int *)(p + 0x324) = 1;
         }
-        func_020061E4(1352);
-    } else if (func_0203633C() & 0x100) {
+        GFL_USE_PlaySeDefaultVolume(1352);
+    } else if (KEY_GetRepeat() & 0x100) {
         idx = *(int *)(p + 0x188);
         if (idx == *(int *)(p + 0x23C) - 1) {
             *(int *)(p + 0x188) = 0;
@@ -189,10 +189,10 @@ void func_021D8FA0(char *p)
             *(int *)(p + 0x31C) = 1;
             *(int *)(p + 0x320) = r[idx].value;
         }
-        func_020061E4(1352);
+        GFL_USE_PlaySeDefaultVolume(1352);
     }
     if (flag == 1) {
-        func_020061E4(1352);
+        GFL_USE_PlaySeDefaultVolume(1352);
         cur = T.v[*(s16 *)(p + 0x1BA)][*(s16 *)(p + 0x1B8)];
         func_021D9E98(p, cur);
         if (cur == 10 || cur == 11) {

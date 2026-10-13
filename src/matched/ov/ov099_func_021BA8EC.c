@@ -9,27 +9,27 @@
  * status: EXACT
  * symbols:
  *   func_021BA8D4 0x021BA8D4 thumb ov099
- *   func_0201C6B4 0x0201C6B4 thumb
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   func_021BA8BC 0x021BA8BC thumb ov099
  */
 #include "../include/Obj00008.h"
 typedef unsigned int u32;
 struct PrintSys;
 extern void func_021BA8D4(void *);
-extern u32 func_0201C6B4(const struct PrintSys *);
-extern void func_0201C6EC(struct PrintSys *);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 struct Rec3;
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern int func_021BA8BC(void *);
 void func_021BA8EC(char *p)
 {
     func_021BA8D4(p);
-    if (func_0201C6B4(*(struct PrintSys * *)&((struct Obj00008 *)p)->f1B8) == 0)
-        func_0201C6EC(*(struct PrintSys * *)&((struct Obj00008 *)p)->f1B8);
+    if (PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj00008 *)p)->f1B8) == 0)
+        PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj00008 *)p)->f1B8);
     if (((struct Obj00008 *)p)->f1BC != 0) {
-        func_0201CE48(((struct Obj00008 *)p)->f1BC);
+        PRINTSYS_PrintStreamDelete(((struct Obj00008 *)p)->f1BC);
         *(int *)&((struct Obj00008 *)p)->f1BC = 0;
     }
     *(int *)&((struct Obj00008 *)p)->f190 = func_021BA8BC(((struct Obj00008 *)p)->f190);

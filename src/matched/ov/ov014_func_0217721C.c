@@ -1,5 +1,5 @@
 /*
- * function: func_0217721C
+ * function: GFL_NET_DEVWIRELESS_GetSignalLevel
  * address: 0x0217721C
  * packet: pkt_ov014_0217721C
  * region: ov014
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 extern u32 GFL_NET_GetGameKind(void);
 extern u16 WIH_DWC_GetAlertLevel(void);
 extern int func_0208EE9C(void);
-int func_0217721C(void)
+int GFL_NET_DEVWIRELESS_GetSignalLevel(void)
 {
     if (GFL_NET_GetGameKind() == 3) return 3 - WIH_DWC_GetAlertLevel();
     return 3 - func_0208EE9C();

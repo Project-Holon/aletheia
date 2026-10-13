@@ -1,5 +1,5 @@
 /*
- * function: func_021B9AB0
+ * function: BTL_SLOT_GetRotateSrcIndex
  * address: 0x021B9AB0
  * packet: pkt_ov093_021B9AB0
  * region: ov093
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  */
-int func_021B9AB0(int x)
+int BTL_SLOT_GetRotateSrcIndex(int x)
 {
     switch (x) {
     case 2: return 1;

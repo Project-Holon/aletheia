@@ -17,7 +17,7 @@
  *   ov_id 0x00000072 data
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GAME_DATA_GetSaveBlock3B 0x02012EFC thumb
  *   GAME_DATA_GetSaveBlock3A 0x02012EF0 thumb
  *   func_02008B08 0x02008B08 thumb
@@ -209,7 +209,7 @@ typedef int s32_021D7258;
 extern int func_02034AC4(s32_021D6660 handle);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008AECObj *func_02008B08(void *sys);
@@ -364,7 +364,7 @@ int func_021D6660(void *ctx,int unused,u8 *q) {
     func_02034AC4((s32_021D6660)ov_id);
     GFL_HEAP_CreateChildHeap(1,125,0x18000);
     p=PROCSYS_AllocProcWork(ctx,0x185c,125);
-    func_02082BCC(p,0,0x185c);
+    MI_CpuFill8(p,0,0x185c);
     *(u8 **)p=q;
     *(int *)(q+8)=1;
     save=func_020120F4(*(void **)(*(u8 **)p+4));
@@ -433,7 +433,7 @@ int func_021D6918(void *p, int a, int b, u8 *q) {
 
 int func_021D696C(unsigned char *a,int b) { if(b<=13 && FADE_IsActive()==0 && ((struct Obj13858 *)a)->fB68!=0 && ((struct Obj13858 *)a)->fB6A==0) return 1; return 0; }
 
-void func_021D6998(void *a) { func_02082BCC(a,0,0xa9c); }
+void func_021D6998(void *a) { MI_CpuFill8(a,0,0xa9c); }
 
 /*
  * Two bytes zero alignment padding follow the compiled function.
@@ -495,7 +495,7 @@ void func_021D6AF0(u8 *p, void *q) {
 
 void func_021D6B30(unsigned char *a,void *b) { BSUBWAY_SAVEDATA_SetHistory(b,a+0x69e,((struct Obj13861 *)a)->f8,((struct Obj13861 *)a)->fA); }
 
-void func_021D6B50(unsigned char *a,int b) { func_02082BCC(a,0,0x21c); ((struct Obj22619 *)a)->f218=MYSTATUS_Create(b); }
+void func_021D6B50(unsigned char *a,int b) { MI_CpuFill8(a,0,0x21c); ((struct Obj22619 *)a)->f218=MYSTATUS_Create(b); }
 
 void func_021D6B70(unsigned char *a) { if(((struct Obj10338 *)a)->f218) { func_020307B0(((struct Obj10338 *)a)->f218); ((struct Obj10338 *)a)->f218=0; } }
 
@@ -511,7 +511,7 @@ void func_021D6B88(u8 *p, void *save, int id)
     u32 i;
     MYSTATUS_Copy(func_02012944(save), ((struct Obj04469 *)p)->f218);
     str = func_02008510(((struct Obj04469 *)p)->f218, id);
-    func_02082BCC(p + 0x1f0, 0, 40);
+    MI_CpuFill8(p + 0x1f0, 0, 40);
     ((struct Obj04469 *)p)->f214 = id;
     chars = STRBUF_GetChars(str);
     for (i = 0; i < STRBUF_GetLength(str) + 1u; i++) {
@@ -588,7 +588,7 @@ void func_021D6D40(u8 *p, void *save, void *idx)
     func_0201283C(save);
     n = GAME_DATA_GetSaveBlock3A(save);
     object = func_0200E6F0((u32)profile);
-    func_02082BCC(p, 0, 240);
+    MI_CpuFill8(p, 0, 240);
     func_02082D44(func_020084F4(idx), p + 0xb4, 16);
     *(u32 *)(p + 0xc8) = func_02008530(idx);
     p[0xc4] = GAME_VERSION_Code;
@@ -698,7 +698,7 @@ int func_021D70B0(void *unused, u8 *p)
     return 0;
 }
 
-void func_021D70D8(void *p) { func_02082BCC(p, 0, 0x14); }
+void func_021D70D8(void *p) { MI_CpuFill8(p, 0, 0x14); }
 
 
 void func_021D70E4(u8 *p) { ((struct Obj13864 *)p)->f8 = 0; ((struct Obj13864 *)p)->fA = 0; }

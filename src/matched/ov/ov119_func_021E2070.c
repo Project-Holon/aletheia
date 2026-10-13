@@ -11,7 +11,7 @@
  *   func_021E0DA0 0x021E0DA0 thumb ov119
  *   func_021E0DBC 0x021E0DBC thumb ov119
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj08065.h"
 typedef unsigned short u16;
@@ -21,7 +21,7 @@ struct Obj;
 extern void func_021E0DA0(char *p);
 extern void func_021E0DBC(char *,void *,int,int,int,int,int,u16);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 void func_021E2070(char *p,void *mon,Quad *t)
 {
     u32 a,b;
@@ -33,7 +33,7 @@ void func_021E2070(char *p,void *mon,Quad *t)
     if(a!=b)
         func_021E0DBC(p+0x900+t->b*20,mon,1,((struct Obj08065 *)p)->f9C4,210,95,0,((struct Obj08065 *)p)->f5F4);
     if(*(void **)(p+t->c*20+0x910))
-        func_0204B3DC(*(void **)(p+t->c*20+0x910),0);
+        CLACT_SetActorDrawEnable(*(void **)(p+t->c*20+0x910),0);
     if(*(void **)(p+t->d*20+0x910))
-        func_0204B3DC(*(void **)(p+t->d*20+0x910),0);
+        CLACT_SetActorDrawEnable(*(void **)(p+t->d*20+0x910),0);
 }

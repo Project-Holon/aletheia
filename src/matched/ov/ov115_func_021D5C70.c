@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02028484 0x02028484 thumb
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  */
 #include "../include/Obj08042.h"
 typedef unsigned char u8;
@@ -19,5 +19,5 @@ typedef unsigned int u32;
 typedef struct Blk {u8 first,pad[3]; u32 flags;} Blk;
 extern int func_02028484(Blk *,void *);
 struct Rec3;
-extern void func_0201CE48(struct Rec3 *p);
-int func_021D5C70(u8 *p) { int result=1; if(((struct Obj08042 *)p)->f38) { result=func_02028484((Blk *)(p+60),((struct Obj08042 *)p)->f38); if(result) { func_0201CE48(((struct Obj08042 *)p)->f38); ((struct Obj08042 *)p)->f38=0; } } return result; }
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
+int func_021D5C70(u8 *p) { int result=1; if(((struct Obj08042 *)p)->f38) { result=func_02028484((Blk *)(p+60),((struct Obj08042 *)p)->f38); if(result) { PRINTSYS_PrintStreamDelete(((struct Obj08042 *)p)->f38); ((struct Obj08042 *)p)->f38=0; } } return result; }

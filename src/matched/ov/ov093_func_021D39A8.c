@@ -12,9 +12,9 @@
  * symbols:
  *   BTL_CALC_UnpackPokeIds  0x021D8090  thumb  ov093
  *   func_021D3A10  0x021D3A10  thumb  ov093
- *   func_021B9934  0x021B9934  thumb  ov093
+ *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb  ov093
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
- *   func_021D6064  0x021D6064  thumb  ov093
+ *   BTL_POKEPARAM_TickSickCont  0x021D6064  thumb  ov093
  */
 #include "../include/Obj21181.h"
 
@@ -24,10 +24,10 @@ typedef unsigned int u32;
 
 extern void BTL_CALC_UnpackPokeIds(u32 v, u8 *out);
 extern u32 func_021D3A10(u32 i);
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 union Slot;
 extern int BTL_POKEPARAM_IsFainted(void *p);
-extern int func_021D6064(u8 *p, u32 k, union Slot *out, int *changed);
+extern int BTL_POKEPARAM_TickSickCont(u8 *p, u32 k, union Slot *out, int *changed);
 
 int BTL_CLIENT_CmdCureSickMulti(u8 *a, int b, u32 *s)
 {
@@ -47,9 +47,9 @@ int BTL_CLIENT_CmdCureSickMulti(u8 *a, int b, u32 *s)
         if (t == 0)
             break;
         for (j = 0; j < m; j++) {
-            q = func_021B9934((char *)(*(u8 * *)&((struct Obj21181 *)a)->f4), buf[j]);
+            q = BTL_SIDE_GetPokeByIdThunk((char *)(*(u8 * *)&((struct Obj21181 *)a)->f4), buf[j]);
             if (BTL_POKEPARAM_IsFainted(q) == 0)
-                func_021D6064(q, t, 0, 0);
+                BTL_POKEPARAM_TickSickCont(q, t, 0, 0);
         }
     }
     return 1;

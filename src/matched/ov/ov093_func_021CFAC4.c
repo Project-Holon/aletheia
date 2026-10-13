@@ -1,5 +1,5 @@
 /*
- * function: func_021CFAC4
+ * function: BTL_CLIENT_CanShadowTagTrap
  * address: 0x021CFAC4
  * packet: pkt_ov093_021CFAC4
  * region: ov093
@@ -13,7 +13,7 @@
  */
 typedef unsigned char u8;
 extern int func_021D59B4(u8 *p, int k);
-int func_021CFAC4(void *p, void *q)
+int BTL_CLIENT_CanShadowTagTrap(void *p, void *q)
 {
     if (func_021D59B4(q, 17) != 23) return 1;
     return 0;

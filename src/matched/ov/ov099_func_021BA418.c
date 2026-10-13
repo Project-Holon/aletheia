@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_021C49A4  0x021C49A4  thumb  ov127
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   func_021BA594  0x021BA594  thumb  ov099
  */
 
@@ -32,7 +32,7 @@ typedef struct {
 } S;
 
 extern int func_021C49A4(u8 *p, unsigned int i);
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 extern void func_021BA594(char *p, int a, int b, int c);
 
 int func_021BA418(W *w, S *s)
@@ -50,30 +50,30 @@ int func_021BA418(W *w, S *s)
     if (w->fc == 1) {
         return 0;
     }
-    t = func_0203630C();
+    t = KEY_GetCont();
     k = 2;
     if (t & 2) {
         k = 3;
     }
-    if (func_0203630C() & 0x40) {
+    if (KEY_GetCont() & 0x40) {
         if (a == 0) {
             func_021BA594((char *)w, k, a, b);
         } else {
             func_021BA594((char *)w, 1, 0, b);
         }
-    } else if (func_0203630C() & 0x80) {
+    } else if (KEY_GetCont() & 0x80) {
         if (a == 1) {
             func_021BA594((char *)w, k, a, b);
         } else {
             func_021BA594((char *)w, 1, 1, b);
         }
-    } else if (func_0203630C() & 0x20) {
+    } else if (KEY_GetCont() & 0x20) {
         if (a == 2) {
             func_021BA594((char *)w, k, a, b);
         } else {
             func_021BA594((char *)w, 1, 2, b);
         }
-    } else if (func_0203630C() & 0x10) {
+    } else if (KEY_GetCont() & 0x10) {
         if (a == 3) {
             func_021BA594((char *)w, k, a, b);
         } else {

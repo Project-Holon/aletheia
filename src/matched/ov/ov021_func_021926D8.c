@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm  arm9
- *   func_0203630C  0x0203630C  arm  arm9
+ *   KEY_GetTrg  0x020362DC  arm  arm9
+ *   KEY_GetCont  0x0203630C  arm  arm9
  *   BMP_WIN_TransferChars  0x02045334  arm  arm9
- *   func_02045770  0x02045770  arm  arm9
+ *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  *   FIELD_MSGBG_AnimateCursorOnFrame  0x021928F8  thumb  ov021
  * Addresses are Black-image addresses.
  */
@@ -31,20 +31,20 @@ typedef struct U {
     u32 sub[2];
 } U;
 
-extern u32 func_020362DC(void);
-extern unsigned int func_0203630C(void);
+extern u32 KEY_GetTrg(void);
+extern unsigned int KEY_GetCont(void);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void FIELD_MSGBG_AnimateCursorOnFrame(u8 *a, u32 b, u32 c);
 extern void BMP_WIN_TransferChars(struct Descriptor *a);
 
 int FIELD_MSGBG_SpWinWaitKey(U *u)
 {
-    u32 v = func_020362DC();
-    func_0203630C();
+    u32 v = KEY_GetTrg();
+    KEY_GetCont();
     if (v & 3)
         return 1;
-    FIELD_MSGBG_AnimateCursorOnFrame((u8 *)u->sub, (u32)func_02045770((struct Descriptor *)u->f00), u->f0c);
+    FIELD_MSGBG_AnimateCursorOnFrame((u8 *)u->sub, (u32)BMP_WIN_GetBmp((struct Descriptor *)u->f00), u->f0c);
     BMP_WIN_TransferChars((struct Descriptor *)u->f00);
     return 0;
 }

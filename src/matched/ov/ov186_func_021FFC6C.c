@@ -10,8 +10,8 @@
  * status: EXACT
  * symbols:
  *   func_020307B0 0x020307B0 arm
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  */
 #include "../include/Obj06638.h"
-struct PrintSys;extern void func_020307B0(void *);extern void func_0201C4C0(struct PrintSys *);
-void func_021FFC6C(char *p) {if(((struct Obj06638 *)p)->f88){func_020307B0(((struct Obj06638 *)p)->f88);((struct Obj06638 *)p)->f88=0;}func_020307B0(((struct Obj06638 *)p)->f80);func_0201C4C0(*(struct PrintSys * *)&((struct Obj06638 *)p)->f3C);func_020307B0(p);}
+struct PrintSys;extern void func_020307B0(void *);extern void PRINTSYS_QUE_Delete(struct PrintSys *);
+void func_021FFC6C(char *p) {if(((struct Obj06638 *)p)->f88){func_020307B0(((struct Obj06638 *)p)->f88);((struct Obj06638 *)p)->f88=0;}func_020307B0(((struct Obj06638 *)p)->f80);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj06638 *)p)->f3C);func_020307B0(p);}

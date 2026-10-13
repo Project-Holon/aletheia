@@ -16,7 +16,7 @@
  *   OS_GetTick     0x020870D0  arm
  *   func_0217603C  0x0217603C  arm  ov009
  *   func_0217637C  0x0217637C  arm  ov009
- *   func_0216BAF4  0x0216BAF4  arm  ov009
+ *   DWCi_GetGT2Connection  0x0216BAF4  arm  ov009
  */
 
 typedef struct NodeInfo {
@@ -28,7 +28,7 @@ extern char *func_02176344(void);
 extern unsigned long long OS_GetTick(void);
 extern int func_0217603C(void);
 extern char *func_0217637C(int index);
-extern int func_0216BAF4(int aid);
+extern int DWCi_GetGT2Connection(int aid);
 
 unsigned long long func_02176594(void)
 {
@@ -50,8 +50,8 @@ unsigned long long func_02176594(void)
             if (pMyNodeInfo == pNodeInfo) {
                 myNodeIndex = i;
             } else {
-                func_0216BAF4(pNodeInfo->aid);
-                if (func_0216BAF4(pNodeInfo->aid) != 0)
+                DWCi_GetGT2Connection(pNodeInfo->aid);
+                if (DWCi_GetGT2Connection(pNodeInfo->aid) != 0)
                     existGT2Count++;
             }
         }

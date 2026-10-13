@@ -20,7 +20,7 @@
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GFL_USE_IsSeSlotBusy  0x02006224  thumb
  *   FIELD_G3D_MAPPER_GetBuildModel  0x0218DC6C  thumb  ov021
  *   FIELD_BUILDMODEL_GetFirstEntryInRect  0x0218C638  thumb  ov021
@@ -55,7 +55,7 @@ extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern u32 FIELDMAP_GetG3dMapper(u8 *p);
 extern int GFL_USE_IsSeSlotBusy(u32 a0);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern u32 FIELD_G3D_MAPPER_GetBuildModel(u8 *p);
 extern int FIELD_BUILDMODEL_GetFirstEntryInRect(int a, int b, int c);
 extern void FIELD_BUILDMODEL_PlayEntryAnim(unsigned char *p, int b, int i, int c);
@@ -80,7 +80,7 @@ int FIELD_DOOR_ANIME_OpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
 
     switch (seq[0]) {
     case 0:
-        func_020061E4(SE_DOOR_OPEN);
+        GFL_USE_PlaySeDefaultVolume(SE_DOOR_OPEN);
         FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer((struct Obj00020 *)work->fieldmap), (struct VecFx32 *)pos);
         area[0] = pos[2] - 0x10000;
         area[1] = pos[2] + 0x10000;
@@ -100,7 +100,7 @@ int FIELD_DOOR_ANIME_OpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
         }
         break;
     case 2:
-        func_020061E4(SE_DOOR_HOLD);
+        GFL_USE_PlaySeDefaultVolume(SE_DOOR_HOLD);
         if (work->door != 0) {
             bmodelMan = FIELD_G3D_MAPPER_GetBuildModel((u8 *)FIELDMAP_GetG3dMapper((void *)work->fieldmap));
             FIELD_BUILDMODEL_PlayEntryAnim((unsigned char *)bmodelMan, work->door, 1, 2);
@@ -173,7 +173,7 @@ int FIELD_DOOR_ANIME_CloseTask(u32 task, u32 *seq, DoorAnimeWork *work)
     switch (seq[0]) {
     case 0:
         if (work->silent == 0)
-            func_020061E4(SE_DOOR_CLOSE);
+            GFL_USE_PlaySeDefaultVolume(SE_DOOR_CLOSE);
         FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer((struct Obj00020 *)work->fieldmap), (struct VecFx32 *)pos);
         area[0] = pos[2] - 0x10000;
         area[1] = pos[2] + 0x10000;

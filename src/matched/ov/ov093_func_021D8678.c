@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_GetInnerFocusHandlers
+ * function: HAND_TOKUSEI_GetInnerFocusHandlers
  * address: 0x021D8678
  * packet: pkt_ov093_021D8678
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int gInnerFocusHandlers[];
-int *BTL_CALC_GetInnerFocusHandlers(int *p);
+int *HAND_TOKUSEI_GetInnerFocusHandlers(int *p);
 
-int *BTL_CALC_GetInnerFocusHandlers(int *p)
+int *HAND_TOKUSEI_GetInnerFocusHandlers(int *p)
 {
     *p = 1;
     return gInnerFocusHandlers;

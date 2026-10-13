@@ -17,7 +17,7 @@
  *   func_021DD8A8 0x021DD8A8 thumb ov170
  *   func_021EC48C 0x021EC48C thumb ov170
  *   func_021DEFF8 0x021DEFF8 thumb ov170
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021EBB58 0x021EBB58 thumb ov170
  *   func_020355C4 0x020355C4 arm
  *   func_020260F4 0x020260F4 thumb
@@ -39,7 +39,7 @@ extern int func_021DD718(void **pp, void *mon);
 extern void func_021DD8A8(void **pp, u32 idx);
 extern void func_021EC48C(unsigned char *p, int box, int pos, int win);
 extern void func_021DEFF8(char *p, unsigned b);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void func_021EBB58(char *p, int b);
 extern u8 func_020355C4(void);
 extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
@@ -61,7 +61,7 @@ int func_021E9010(unsigned char *p)
         }
         func_021DEFF8((char *)p, p[0x16]);
     } else {
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_021EBB58((char *)p, 0x18);
     }
     if (func_020355C4() == 1) {

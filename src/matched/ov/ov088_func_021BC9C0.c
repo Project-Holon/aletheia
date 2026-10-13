@@ -12,18 +12,18 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
 extern void  GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int heap, unsigned int size);
 typedef unsigned int   u32;
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void  func_02082BCC(void *p, int v, int n);
+extern void  MI_CpuFill8(void *p, int v, int n);
 
 int STARTMENU_LogoScreenInit(struct Obj0203159C *a0)
 {
     GFL_HEAP_CreateChildHeap(1, 0x16, 0x70000);
-    func_02082BCC(PROCSYS_AllocProcWork(a0, 8, 0x16), 0, 8);
+    MI_CpuFill8(PROCSYS_AllocProcWork(a0, 8, 0x16), 0, 8);
     return 1;
 }

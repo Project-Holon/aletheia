@@ -11,7 +11,7 @@
  * symbols:
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   FIELD_PLAYER_GetMmdl 0x021A3074 thumb ov021
  *   INTRUDE_FIELD_EventNotice 0x0217B82C thumb ov018
  */
@@ -22,7 +22,7 @@ struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void INTRUDE_FIELD_EventNotice();
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void *FIELD_PLAYER_GetMmdl(u8 *p);
 void *INTRUDE_FIELD_CreateNoticeEvent(void *a, u8 *pos) {
     void *t;

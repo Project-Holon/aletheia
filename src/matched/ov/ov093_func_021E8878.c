@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021B9A24  0x021B9A24  thumb  ov093
+ *   BTL_MAIN_IsPokeSamePair  0x021B9A24  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 
@@ -20,11 +20,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int key);
-extern int func_021B9A24(unsigned int a, unsigned int b);
+extern int BTL_MAIN_IsPokeSamePair(unsigned int a, unsigned int b);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
 void BTLV_CORE_EventSetFlagIfAttacker(int a, int b, int c)
 {
-    if (func_021B9A24((u8)BTL_EVENT_GetVar(2), c) != 0)
+    if (BTL_MAIN_IsPokeSamePair((u8)BTL_EVENT_GetVar(2), c) != 0)
         BTL_EVENT_OverwriteVar(0x51, 1);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_HANDLER_ITEM_GetHardStoneHandlers",
+   "name": "HAND_ITEM_GetHardStoneHandlers",
    "address": "0x021DF71C",
    "kind": "game",
    "region": "ov093",

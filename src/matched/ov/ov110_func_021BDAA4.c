@@ -12,7 +12,7 @@
  *   d_021C395C 0x021C395C data a1
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   TOUCHPANEL_HitPoint 0x02035D40 arm
  *   PMSI_PARAM_HasInitialSentence 0x02024158 thumb
  *   func_021BABE8 0x021BABE8 thumb ov110
@@ -26,7 +26,7 @@ extern const Box d_021C395C;
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *p);
 struct Ctx;
-extern unsigned int func_02035D20(unsigned int *outA, unsigned int *outB);
+extern unsigned int TOUCHPANEL_GetPointTrg(unsigned int *outA, unsigned int *outB);
 extern unsigned int TOUCHPANEL_HitPoint(struct Ctx *ctx, unsigned int a, unsigned int b);
 typedef unsigned int   u32;
 extern u32 PMSI_PARAM_HasInitialSentence(const u8 *p);
@@ -43,7 +43,7 @@ int func_021BDAA4(u8 *p) {
   return result;
  }
  count=func_021BABE8(((struct Obj10282 *)p)->f14);
- func_02035D20((unsigned int *)(&x),(unsigned int *)(&y));
+ TOUCHPANEL_GetPointTrg((unsigned int *)(&x),(unsigned int *)(&y));
  for(i=0;i<count;i++) { func_021BAC00(((struct Obj10282 *)p)->f14,(u8 *)(&box),i); if(TOUCHPANEL_HitPoint((struct Ctx *)(&box),x,y)!=-1) return i+6; }
  return -1;
 }

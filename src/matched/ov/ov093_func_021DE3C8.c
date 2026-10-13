@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetMachoBraceHandlers
+ * function: HAND_ITEM_GetMachoBraceHandlers
  * address: 0x021DE3C8
  * packet: pkt_ov093_021DE3C8
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DE374.c and filed here.
  *
  * symbols:
- *   gMachoBraceHandlerTable 0x021F156C data ov093 a4
+ *   gMachoBraceHandlers 0x021F156C data ov093 a4
  */
 
-extern int gMachoBraceHandlerTable[];
-int *BTL_HANDLER_ITEM_GetMachoBraceHandlers(int *p);
+extern int gMachoBraceHandlers[];
+int *HAND_ITEM_GetMachoBraceHandlers(int *p);
 
-int *BTL_HANDLER_ITEM_GetMachoBraceHandlers(int *p)
+int *HAND_ITEM_GetMachoBraceHandlers(int *p)
 {
     *p = 1;
-    return gMachoBraceHandlerTable;
+    return gMachoBraceHandlers;
 }

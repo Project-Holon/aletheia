@@ -9,9 +9,9 @@
  * status: EXACT
  * symbols:
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   func_0201ADE4 0x0201ADE4 thumb
- *   func_0201AE1C 0x0201AE1C thumb
- *   func_0201AE14 0x0201AE14 thumb
+ *   POKE_PERSONAL_Create 0x0201ADE4 thumb
+ *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
+ *   POKE_PERSONAL_Delete 0x0201AE14 thumb
  *   DWC_RAP_SetVchatTalkLock 0x0215642C thumb ov009
  *   MCSS_TOOL_AddPokeMcss 0x02017270 thumb
  *   MCSS_TOOL_SetAnimeStopCallback 0x020173B4 thumb
@@ -37,10 +37,10 @@ typedef struct {
 extern const Vec data_021E7B00;
 extern const Table data_021E7B0C;
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
-extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
+extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
 struct Personal;
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *h);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *h);
 extern void DWC_RAP_SetVchatTalkLock(int);
 extern void *MCSS_TOOL_AddPokeMcss(void *a0, void *a1, u32 a2, u32 a3, u32 a4, u32 a5);
 extern int MCSS_TOOL_SetAnimeStopCallback(int a0);
@@ -54,9 +54,9 @@ void func_021E35A0(Work *p, int idx, int side, void *mon, int flag)
     if (flag) {
         u16 species = POKE_TOOL_GetPartyValue(mon, 5, 0);
         u16 form = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
-        void *h = func_0201ADE4(species, form, p->heap);
-        u32 r = func_0201AE1C(h, 0x22);
-        func_0201AE14(h);
+        void *h = POKE_PERSONAL_Create(species, form, p->heap);
+        u32 r = POKE_PERSONAL_GetParam(h, 0x22);
+        POKE_PERSONAL_Delete(h);
         if (r == 0)
             v.x = -v.x;
     }

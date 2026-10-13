@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_CreateYesNoMenu  0x02190BE4  thumb  ov021
  *   COMM_ENTRY_MENU_PrintMessage  0x021CE9E4  thumb  ov021
@@ -26,7 +26,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 struct Handle;
 extern u32 FIELDMAP_GetMsgBg(u8 *p);
 extern u32 *FIELD_MSGBG_CreateYesNoMenu(u16 *a, u32 b);
@@ -42,7 +42,7 @@ int COMM_ENTRY_RunLeaveConfirm(u8 *p)
 
     switch (q[8]) {
     case 0:
-        if (func_020362DC() & 2) {
+        if (KEY_GetTrg() & 2) {
             ((struct Obj04295 *)q)->f0 = (u32)FIELD_MSGBG_CreateYesNoMenu((u16 *)FIELDMAP_GetMsgBg((u8 *)(((struct Obj00011 *)p)->f0)), 0);
             COMM_ENTRY_MENU_PrintMessage(p, 0x23);
             q[8] = 1;

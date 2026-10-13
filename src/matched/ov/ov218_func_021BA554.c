@@ -12,24 +12,24 @@
  * Two manual scheduling variants used; once-only permuter 300/jobs1/types unchanged, emitted baseline agrees at DIFF 200/200 with 9 concrete bytes.
  * single-lever: separate inline helpers use item-before-index in the first loop and index-before-item in the second; shared helper order swaps one loop's r4/r5 pair (9 bytes out).
  * symbols:
- *   func_0204B3F4 0x0204B3F4 arm
+ *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_0204B404 0x0204B404 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 typedef struct Pair {short x,y;} Pair;
 struct Row0 {char pad[0x294];void *item;};
 struct Row1 {char pad[0x2b0];void *item;};
 typedef unsigned int   u32;
 struct Obj;
-extern u32 func_0204B3F4(struct Obj *p);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 static inline void scroll(const char *p,short delta,int space,Pair *pos)
 {
     void *item;
@@ -38,15 +38,15 @@ static inline void scroll(const char *p,short delta,int space,Pair *pos)
     for(i=0;i<7;i++){
         if(space==0)item=((struct Row0 *)(p+i*4))->item;
         else item=((struct Row1 *)(p+i*4))->item;
-        if(func_0204B3F4(item)){
+        if(CLACT_GetActorDrawEnable(item)){
             CLACT_GetActorSurfacePos(item,(struct PtS *)pos,space);
             pos->y+=delta;
             value=pos->y;
-            func_0204B404(item,(const struct Vec2 *)pos,space);
+            CLACT_AddActorSurfacePos(item,(const struct Vec2 *)pos,space);
             if(space==0){
-                if(value<=-20 || value>=220)func_0204B3DC(item,0);
+                if(value<=-20 || value>=220)CLACT_SetActorDrawEnable(item,0);
             }else{
-                if(value<=-28 || value>=212)func_0204B3DC(item,0);
+                if(value<=-28 || value>=212)CLACT_SetActorDrawEnable(item,0);
             }
         }
     }
@@ -59,15 +59,15 @@ static inline void scrollSecond(const char *p,short delta,int space,Pair *pos)
     for(i=0;i<7;i++){
         if(space==0)item=((struct Row0 *)(p+i*4))->item;
         else item=((struct Row1 *)(p+i*4))->item;
-        if(func_0204B3F4(item)){
+        if(CLACT_GetActorDrawEnable(item)){
             CLACT_GetActorSurfacePos(item,(struct PtS *)pos,space);
             pos->y+=delta;
             value=pos->y;
-            func_0204B404(item,(const struct Vec2 *)pos,space);
+            CLACT_AddActorSurfacePos(item,(const struct Vec2 *)pos,space);
             if(space==0){
-                if(value<=-20 || value>=220)func_0204B3DC(item,0);
+                if(value<=-20 || value>=220)CLACT_SetActorDrawEnable(item,0);
             }else{
-                if(value<=-28 || value>=212)func_0204B3DC(item,0);
+                if(value<=-28 || value>=212)CLACT_SetActorDrawEnable(item,0);
             }
         }
     }

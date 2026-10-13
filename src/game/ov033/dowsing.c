@@ -36,19 +36,19 @@
  *   GAMESYSTEM_GetMyPlayerWork 0x020120F8 thumb
  *   GAME_DATA_GetPlayerPosition 0x02012AA0 thumb
  *   GAME_DATA_GetFieldWork 0x02012974 thumb
- *   func_02013E7C 0x02013E7C thumb
+ *   ZONEDATA_IsFieldMatrix 0x02013E7C thumb
  *   ZONEDATA_IsZoneGroup118To13C 0x02013D74 thumb
  *   GFL_USE_GetSeSlot 0x02006148 thumb
- *   func_0200616C 0x0200616C thumb
+ *   GFL_USE_PlaySeInSlot 0x0200616C thumb
  *   GFL_USE_SetSeSlotParams 0x02006268 thumb
  *   GFL_USE_IsSeSlotBusy 0x02006224 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   sDowsingLevelTable 0x021F0DC8 data ov033 a4
  *   DOWSING_UpdateFade 0x021F0C44 thumb ov033
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
  *   func_02040588 0x02040588 arm
@@ -73,7 +73,7 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B688 0x0204B688 arm
+ *   CLACT_SetActorObjMode 0x0204B688 arm
  *   sDowsingPartIds 0x021F0DBC data ov033 a1
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
@@ -93,9 +93,9 @@
  *   func_020410D0 0x020410D0 arm
  *   CLACT_SetActorAutoAnimSpeed 0x0204B954 arm
  *   INFOWIN_Exit 0x02024DCC thumb
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_020355D8 0x020355D8 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   FIELD_SUBSCREEN_RequestMode 0x021A0F30 thumb ov021
  *   func_02030CB0 0x02030CB0 arm
@@ -159,23 +159,23 @@ extern const Vec3Fx *GAME_DATA_GetPlayerPosition(const struct PlayerAvatar *play
 extern u32 GAME_DATA_GetFieldWork(const struct GameData *gameData);
 extern int MAP_MATRIX_IsInRangeByPos(int mapId, int x, int z);
 extern int MAP_MATRIX_GetZoneIdByPos(int mapId, int x, int z);
-extern u32 func_02013E7C(u32 zoneId);
+extern u32 ZONEDATA_IsFieldMatrix(u32 zoneId);
 extern int ZONEDATA_IsZoneGroup118To13C(u32 zoneId);
 extern int GFL_USE_GetSeSlot(u32 se);
-extern void func_0200616C(u32 se, int handle);
+extern void GFL_USE_PlaySeInSlot(u32 se, int handle);
 extern void GFL_USE_SetSeSlotParams(int handle, u32 volume, u32 pitch, u32 pan);
 extern int GFL_USE_IsSeSlotBusy(u32 handle);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void DOWSING_UpdateFade(DowsingWork *work);
 extern void func_02030D28(struct TaskSys *taskSys);
 extern u32 PALANM_GetFadeRequestBits(const struct PalAnm *palAnm);
 extern int PALANM_RequestFade(struct PalAnm *palAnm, u16 slotMask, u16 paletteMask, s16 wait, u8 startLevel, u8 endLevel, u16 color, struct TaskSys *taskSys);
 extern void CLACT_StartActorAnim(struct ClactActor *actor);
 extern void CLACT_StopActorAnim(struct ClactActor *actor);
-extern void func_0204B3DC(struct ClactActor *actor, u32 visible);
-extern void func_0204B404(struct ClactActor *actor, const ScreenPos *pos, u32 which);
+extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 visible);
+extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const ScreenPos *pos, u32 which);
 extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 anim);
-extern void func_0204B92C(struct ClactActor *actor, u32 enable);
+extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
 extern void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 frame);
 extern void PALANM_TransferPalettes(struct PalAnm *palAnm);
 extern void func_02040588(unsigned char bgId, unsigned char visible);
@@ -199,7 +199,7 @@ extern s32 CLACT_RegisterPaletteEx(void *archive, u32 fileId, u32 slotCount, u32
 extern s32 CLACT_RegisterCharacter(void *archive, u32 fileId, u32 compressed, u32 mode, u16 heapId);
 extern s32 CLACT_RegisterCellAnim(void *archive, u32 cellFileId, u32 animFileId, u32 heapId);
 extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *unit, s32 charRes, s32 palRes, s32 cellRes, const ClactSetup *setup, unsigned short mode, unsigned short heapId);
-extern void func_0204B688(struct ClactActor *actor, u32 value);
+extern void CLACT_SetActorObjMode(struct ClactActor *actor, u32 value);
 extern void CLACT_DeleteActor(struct ClactActor *actor);
 extern void CLACT_ReleaseCellAnim(s32 cellRes);
 extern void CLACT_ReleaseCharacter(s32 charRes);
@@ -218,9 +218,9 @@ extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *archive, u32 fileId, u32 c
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void CLACT_SetActorAutoAnimSpeed(struct ClactActor *actor, u32 value);
 extern int INFOWIN_Exit(void);
-extern u32 func_02035D20(u32 *outX, u32 *outY);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outX, u32 *outY);
 extern void func_020355D8(u8 touchMode);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern u32 CLACT_IsActorAnimActive(struct ClactActor *actor);
 extern int FIELD_SUBSCREEN_RequestMode(FieldSubscreen *subscreen, u32 mode);
 extern unsigned func_02030CB0(unsigned);
@@ -468,7 +468,7 @@ void DOWSING_Update(DowsingWork *work, int isOn)
     zoneFlag = 0;
     if (MAP_MATRIX_IsInRangeByPos((int)mapId, pos->x, pos->z) == 1) {
         zoneId = MAP_MATRIX_GetZoneIdByPos((int)mapId, pos->x, pos->z);
-        zoneFlag = (int)func_02013E7C((u16)zoneId);
+        zoneFlag = (int)ZONEDATA_IsFieldMatrix((u16)zoneId);
     }
     /* Both branches scan; the flag only records that a scan happened. */
     if (work->hasSearched == 0) {
@@ -529,7 +529,7 @@ void DOWSING_Update(DowsingWork *work, int isOn)
                 z = item->z;
             } else if (scan[SCAN_CURRENT].kind == DOWSING_TARGET_MAP_EVENT) {
                 event = scan[SCAN_CURRENT].event;
-                if ((int)func_02013E7C((u16)event->zoneId) == 0)
+                if ((int)ZONEDATA_IsFieldMatrix((u16)event->zoneId) == 0)
                     continue;
                 if (zoneFlag == 0)
                     continue;
@@ -582,7 +582,7 @@ void DOWSING_Update(DowsingWork *work, int isOn)
         }
         if (startSe) {
             work->seHandle = GFL_USE_GetSeSlot(DOWSING_SE_PROXIMITY);
-            func_0200616C(DOWSING_SE_PROXIMITY, work->seHandle);
+            GFL_USE_PlaySeInSlot(DOWSING_SE_PROXIMITY, work->seHandle);
             GFL_USE_SetSeSlotParams(work->seHandle, -1, 0x180, -1);
             work->seTimer = 6;
             work->restartFoundAnim = 1;
@@ -624,13 +624,13 @@ void DOWSING_Update(DowsingWork *work, int isOn)
                 pan = -127;
             else if (pan > 127)
                 pan = 127;
-            func_0200616C(DOWSING_SE_PROXIMITY, handle);
+            GFL_USE_PlaySeInSlot(DOWSING_SE_PROXIMITY, handle);
             GFL_USE_SetSeSlotParams(handle, -1, -1, pan);
             playLevelSound = 0;
         }
     }
     if (playLevelSound && work->prevLevel != work->level)
-        func_020061E4(DOWSING_SE_LEVEL_CHANGE);
+        GFL_USE_PlaySeDefaultVolume(DOWSING_SE_LEVEL_CHANGE);
     work->gridX = gridX;
     work->gridY = gridY;
     work->gridZ = gridZ;
@@ -646,12 +646,12 @@ void DOWSING_UpdateDisplay(DowsingWork *work, int draw)
     if (draw == 0)
         return;
     if (work->shownLevel != work->level) {
-        func_0204B3DC(work->parts[DOWSING_PART_DIRECTION].actor,
+        CLACT_SetActorDrawEnable(work->parts[DOWSING_PART_DIRECTION].actor,
                       (work->level == DOWSING_LEVEL_ON_TARGET || work->level == DOWSING_LEVEL_NONE) ? 0 : 1);
-        func_0204B3DC(work->parts[DOWSING_PART_FOUND_MARK].actor, work->level == DOWSING_LEVEL_ON_TARGET);
+        CLACT_SetActorDrawEnable(work->parts[DOWSING_PART_FOUND_MARK].actor, work->level == DOWSING_LEVEL_ON_TARGET);
         pos.x = sDowsingLevelTable[work->level].directionX;
         pos.y = sDowsingLevelTable[work->level].directionY;
-        func_0204B404(work->parts[DOWSING_PART_DIRECTION].actor, &pos, 1);
+        CLACT_AddActorSurfacePos(work->parts[DOWSING_PART_DIRECTION].actor, &pos, 1);
         CLACT_SetActorAnimSeq(work->parts[DOWSING_PART_LEFT_GAUGE].actor, sDowsingLevelTable[work->level].leftAnim);
         CLACT_SetActorAnimSeq(work->parts[DOWSING_PART_RIGHT_GAUGE].actor, sDowsingLevelTable[work->level].rightAnim);
         CLACT_SetActorAnimSeq(work->parts[DOWSING_PART_DIRECTION].actor, sDowsingLevelTable[work->level].directionAnim);
@@ -659,7 +659,7 @@ void DOWSING_UpdateDisplay(DowsingWork *work, int draw)
     }
     if (work->level == DOWSING_LEVEL_ON_TARGET && work->restartFoundAnim != 0) {
         CLACT_SetActorAnimSeq(work->parts[DOWSING_PART_FOUND_MARK].actor, 0);
-        func_0204B92C(work->parts[DOWSING_PART_FOUND_MARK].actor, 1);
+        CLACT_SetActorAutoAnim(work->parts[DOWSING_PART_FOUND_MARK].actor, 1);
         CLACT_SetActorAnimFrame(work->parts[DOWSING_PART_FOUND_MARK].actor, 0);
         work->restartFoundAnim = 0;
     }
@@ -755,8 +755,8 @@ void DOWSING_CreateParts(DowsingWork *work)
         }
         setup.priority = i;
         work->parts[i].actor = CLACT_CreateActor(work->clactUnit, work->parts[i].charRes, work->partsPalRes, work->parts[i].cellRes, &setup, 1, work->heapId);
-        func_0204B92C(work->parts[i].actor, 1);
-        func_0204B688(work->parts[i].actor, 1);
+        CLACT_SetActorAutoAnim(work->parts[i].actor, 1);
+        CLACT_SetActorObjMode(work->parts[i].actor, 1);
     }
     ARC_TOOL_DeleteHandle(archive);
     {
@@ -764,13 +764,13 @@ void DOWSING_CreateParts(DowsingWork *work)
 
         pos.x = 0x50;
         pos.y = 0x60;
-        func_0204B404(work->parts[DOWSING_PART_LEFT_GAUGE].actor, &pos, 1);
+        CLACT_AddActorSurfacePos(work->parts[DOWSING_PART_LEFT_GAUGE].actor, &pos, 1);
         pos.x = 0xB0;
         pos.y = 0x60;
-        func_0204B404(work->parts[DOWSING_PART_RIGHT_GAUGE].actor, &pos, 1);
+        CLACT_AddActorSurfacePos(work->parts[DOWSING_PART_RIGHT_GAUGE].actor, &pos, 1);
         pos.x = 0x80;
         pos.y = 0x60;
-        func_0204B404(work->parts[DOWSING_PART_FOUND_MARK].actor, &pos, 1);
+        CLACT_AddActorSurfacePos(work->parts[DOWSING_PART_FOUND_MARK].actor, &pos, 1);
     }
 }
 
@@ -828,7 +828,7 @@ void DOWSING_CreateCloseButton(DowsingWork *work)
         setup.x = 0xE8;
         setup.y = 0xA8;
         work->buttonActor = CLACT_CreateActor(work->clactUnit, work->buttonCharRes, work->buttonPalRes, work->buttonCellRes, &setup, 1, work->heapId);
-        func_0204B92C(work->buttonActor, 1);
+        CLACT_SetActorAutoAnim(work->buttonActor, 1);
         CLACT_SetActorAutoAnimSpeed(work->buttonActor, 0x2000);
         CLACT_SetActorAnimSeq(work->buttonActor, 0);
         ARC_TOOL_DeleteHandle(archive);
@@ -858,14 +858,14 @@ void DOWSING_UpdateCloseButton(DowsingWork *work)
     switch (work->buttonState) {
     case DOWSING_BUTTON_IDLE:
         pressed = 0;
-        if (func_02035D20(&touchX, &touchY) != 0) {
+        if (TOUCHPANEL_GetPointTrg(&touchX, &touchY) != 0) {
             if (touchX >= 0xE8 && touchX < 0x100 && touchY >= 0xA8 && touchY < 0xC0) {
                 func_020355D8(1);
                 pressed = 1;
             }
         }
         if (pressed == 0) {
-            if (func_020362DC() & DOWSING_KEY_CLOSE) {
+            if (KEY_GetTrg() & DOWSING_KEY_CLOSE) {
                 func_020355D8(0);
                 pressed = 1;
             }
@@ -873,7 +873,7 @@ void DOWSING_UpdateCloseButton(DowsingWork *work)
         if (pressed != 0) {
             work->buttonState = DOWSING_BUTTON_PRESSED;
             CLACT_SetActorAnimSeq(work->buttonActor, 8);
-            func_020061E4(DOWSING_SE_CLOSE);
+            GFL_USE_PlaySeDefaultVolume(DOWSING_SE_CLOSE);
             return;
         }
         break;

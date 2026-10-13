@@ -1,5 +1,5 @@
 /*
- * function: func_021B8D08
+ * function: BTL_MAIN_PokeIdToClientId
  * address:  0x021B8D08
  * packet:   pkt_ov093_021B8D08
  * region:   ov093
@@ -18,7 +18,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern const u8 data_021EFCF0[4];
 
-u8 func_021B8D08(u32 x)
+u8 BTL_MAIN_PokeIdToClientId(u32 x)
 {
     u8 i;
     for (i = 0; i < 4; i++) {

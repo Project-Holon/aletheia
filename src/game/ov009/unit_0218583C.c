@@ -1,7 +1,7 @@
 /*
  * file:     unit_0218583C.c
  * unit:     yes
- * function: GSMD5_memcpy, func_02185848
+ * function: GSMD5_memcpy, GSMD5_memset
  * address:  0x0218583C
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
 extern void *func_020923B0(void *p, int c, u32 n);
 void *GSMD5_memcpy(void *dest, const void *src, unsigned int n);
-void *func_02185848(void *p, int c, u32 n);
+void *GSMD5_memset(void *p, int c, u32 n);
 
 
 /*
@@ -31,7 +31,7 @@ void *GSMD5_memcpy(void *dest, const void *src, unsigned int n)
 }
 
 
-void *func_02185848(void *p, int c, u32 n)
+void *GSMD5_memset(void *p, int c, u32 n)
 {
     return func_020923B0(p, c, n);
 }

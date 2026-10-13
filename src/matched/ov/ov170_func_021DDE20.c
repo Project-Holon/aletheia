@@ -11,13 +11,13 @@
  * symbols:
  *   func_021DD25C 0x021DD25C thumb ov170
  *   func_021DD694 0x021DD694 thumb ov170
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_0202136C 0x0202136C thumb
  */
 extern unsigned func_021DD25C(void ***,unsigned short,int,unsigned,unsigned);
 extern int func_021DD694(void ***,unsigned);
-extern void *func_0201AB28(void *,unsigned);
+extern void *POKEPARTY_GetMember(void *,unsigned);
 extern unsigned POKE_TOOL_GetPartyValue(void *,unsigned,unsigned);
 extern unsigned func_0202136C(unsigned short);
 int func_021DDE20(unsigned char *p,unsigned a,unsigned b)
@@ -27,7 +27,7 @@ int func_021DDE20(unsigned char *p,unsigned a,unsigned b)
         return result;
     if (!func_021DD694((void ***)p,a-30))
         return result;
-    if (func_0202136C((unsigned short)POKE_TOOL_GetPartyValue(func_0201AB28((*(void ***)p)[2],a-30),6,0)) != 1)
+    if (func_0202136C((unsigned short)POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((*(void ***)p)[2],a-30),6,0)) != 1)
         result = 1;
     return result;
 }

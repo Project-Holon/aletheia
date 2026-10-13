@@ -1,5 +1,5 @@
 /*
- * function: func_021B9DE8
+ * function: BTL_MAIN_FreeTrainerSlotsAndVoices
  * address:  0x021B9DE8
  * packet:   pkt_ov093_021B9DE8
  * region:   ov093
@@ -19,7 +19,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021B9DE8(char *p)
+void BTL_MAIN_FreeTrainerSlotsAndVoices(char *p)
 {
     u32 i;
     char *q;

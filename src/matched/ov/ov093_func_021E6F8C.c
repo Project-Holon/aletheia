@@ -1,5 +1,5 @@
 /*
- * function: func_021E6F8C
+ * function: HAND_WAZA_AddAllStatBoostChance
  * address: 0x021E6F8C
  * packet: pkt_ov093_021E6F8C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E6F14_p02.c and filed here.
  *
  * symbols:
- *   d_021F262C 0x021F262C data ov093 a4
+ *   gAllStatBoostChanceHandlers 0x021F262C data ov093 a4
  */
 
-extern int d_021F262C[];
-int *func_021E6F8C(int *p);
+extern int gAllStatBoostChanceHandlers[];
+int *HAND_WAZA_AddAllStatBoostChance(int *p);
 
-int *func_021E6F8C(int *p)
+int *HAND_WAZA_AddAllStatBoostChance(int *p)
 {
     *p = 1;
-    return d_021F262C;
+    return gAllStatBoostChanceHandlers;
 }

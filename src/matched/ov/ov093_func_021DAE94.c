@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_DampAddSkipCheck
+ * function: HAND_TOKUSEI_DampAddSkipCheck
  * address: 0x021DAE94
  * packet: pkt_ov093_021DAE94
  * region: ov093
@@ -13,15 +13,15 @@
  *
  * symbols:
  *   BTL_EVENT_SetFactorSkipCheck 0x021D7320 thumb ov093
- *   BTL_ABILITY_DampSkipAftermath 0x021DAEC4 thumb ov093
+ *   HAND_TOKUSEI_DampSkipAftermath 0x021DAEC4 thumb ov093
  */
 
 typedef unsigned int u32;
 void BTL_EVENT_SetFactorSkipCheck(void *p, u32 v);
-int BTL_ABILITY_DampSkipAftermath(int a, int b, int c, int d, unsigned short e);
-void BTL_ABILITY_DampAddSkipCheck(void *p);
+int HAND_TOKUSEI_DampSkipAftermath(int a, int b, int c, int d, unsigned short e);
+void HAND_TOKUSEI_DampAddSkipCheck(void *p);
 
-void BTL_ABILITY_DampAddSkipCheck(void *p)
+void HAND_TOKUSEI_DampAddSkipCheck(void *p)
 {
-    BTL_EVENT_SetFactorSkipCheck(p, (u32)BTL_ABILITY_DampSkipAftermath);
+    BTL_EVENT_SetFactorSkipCheck(p, (u32)HAND_TOKUSEI_DampSkipAftermath);
 }

@@ -15,8 +15,8 @@
  *   BGWINFRM_AddFrame  0x0202CA3C  thumb
  *   func_021F4FF4  0x021F4FF4  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B92C  0x0204B92C  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_02202974  0x02202974  thumb
  *   func_022026D8  0x022026D8  thumb
  *   g_02203CD8     0x02203CD8  data  ov135
@@ -87,8 +87,8 @@ extern void func_021F4FF4(u32 a, u32 b, u32 c);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Obj;
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void *func_02202974(u32 a, u32 b, u32 c, u32 heap);
 extern void func_022026D8(void *ctx, u32 arg);
 
@@ -123,8 +123,8 @@ Menu *func_021F9890(Init *init, u32 a, u32 b)
     BGWINFRM_AddFrame(m->frm, 0, 2, 0x20, 0x14);
     func_021F4FF4(m->obj, 0x90, 0x28);
     CLACT_SetActorAnimSeq((struct Obj *)m->obj, 4);
-    func_0204B92C((struct Obj *)m->obj, 1);
-    func_0204B3DC((struct Obj *)m->obj, 0);
+    CLACT_SetActorAutoAnim((struct Obj *)m->obj, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)m->obj, 0);
     m->ctx = func_02202974(0xf, 0xe, 2, 0x48);
     func_022026D8(m->sub, init->arg);
     return m;

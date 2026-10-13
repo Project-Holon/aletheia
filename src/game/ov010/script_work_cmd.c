@@ -37,8 +37,8 @@
  *   VM_Jump  0x020113B0  thumb
  *   d_021705DC     0x021705DC  data  ov010
  *   GAME_DATA_GetMoveModelSys   0x02012B38  thumb
- *   func_02014474   0x02014474  thumb
- *   func_02014460  0x02014460  thumb
+ *   FIELD_STATUS_SetProcAction   0x02014474  thumb
+ *   FIELD_STATUS_GetContinueFlag  0x02014460  thumb
  *   ZONEDATA_SetEventFlag  0x02014314  thumb
  *   ZONEDATA_ResetEventFlag  0x0201433C  thumb
  *   _u32_div_f 0x0209C2B0 arm
@@ -50,14 +50,14 @@
  *   FIELD_SOUND_SYSTEM_StartPopAllTask  0x0202972C  thumb
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   SCRIPT_WORK_CreateCheckTask 0x02159204 thumb ov010
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetSubscreen  0x02188CCC  thumb
  *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   GAME_DATA_SaveMain  0x02012DD0  thumb
  *   FIELD_SUBSCREEN_GetMode  0x021A0F90  thumb  ov021
- *   func_021A153C  0x021A153C  thumb  ov021
- *   func_021A1548  0x021A1548  thumb  ov021
+ *   FIELD_SUBSCREEN_IsReportSaveAnimDone  0x021A153C  thumb  ov021
+ *   FIELD_SUBSCREEN_StopReportSaveAnim  0x021A1548  thumb  ov021
  *   SCRIPT_WORK_GetReturnScriptId  0x021590FC  thumb  ov010
  *   FIELD_SAVEANIME_Stop  0x021D11D8  thumb
  *   FIELD_SAVEANIME_Delete  0x021D1194  thumb
@@ -65,8 +65,8 @@
  *   FIELDMAP_GetHeapId  0x02188C84  thumb
  *   FIELD_SAVEANIME_Create  0x021D1164  thumb
  *   FIELD_SAVEANIME_Start  0x021D11B0  thumb
- *   func_021A1524  0x021A1524  thumb  ov021
- *   func_021A1530  0x021A1530  thumb  ov021
+ *   FIELD_SUBSCREEN_PrepareReportSave  0x021A1524  thumb  ov021
+ *   FIELD_SUBSCREEN_StartReportSaveAnim  0x021A1530  thumb  ov021
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   func_02008DF0  0x02008DF0  thumb
  *   GAME_DATA_SaveStart  0x02012DAC  thumb
@@ -122,13 +122,13 @@ extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
 extern void ZONEDATA_SetEventFlag(struct EventWork *eventWork, int flagId);
 extern void ZONEDATA_ResetEventFlag(struct EventWork *eventWork, int flagId);
 extern struct MoveModelSys *GAME_DATA_GetMoveModelSys(const struct GameData *gameData);
-extern void func_02014474(struct MoveModelSys *sys, void *action);
-extern u8 func_02014460(struct MoveModelSys *sys);
+extern void FIELD_STATUS_SetProcAction(struct MoveModelSys *sys, void *action);
+extern u8 FIELD_STATUS_GetContinueFlag(struct MoveModelSys *sys);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct FieldSoundSystem *GAME_DATA_GetBgmInfo(const struct GameData *gameData);
 extern s32 FIELD_SOUND_SYSTEM_GetQueueDepth(struct FieldSoundSystem *soundSystem);
 extern struct ScriptTask *FIELD_SOUND_SYSTEM_StartPopAllTask(struct GameSystem *gameSystem, u16 mode);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern u8 GAME_DATA_IsSaving(struct GameData *gameData);
 extern int GAME_DATA_SaveMain(struct GameData *gameData);
@@ -142,10 +142,10 @@ extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
 extern struct FieldMapState *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
 extern int FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern u32 FIELD_SUBSCREEN_GetMode(struct FieldMapState *state);
-extern int func_021A153C(struct FieldMapState *state);
-extern void func_021A1548(struct FieldMapState *state);
-extern void func_021A1524(struct FieldMapState *state);
-extern void func_021A1530(struct FieldMapState *state);
+extern int FIELD_SUBSCREEN_IsReportSaveAnimDone(struct FieldMapState *state);
+extern void FIELD_SUBSCREEN_StopReportSaveAnim(struct FieldMapState *state);
+extern void FIELD_SUBSCREEN_PrepareReportSave(struct FieldMapState *state);
+extern void FIELD_SUBSCREEN_StartReportSaveAnim(struct FieldMapState *state);
 extern int FIELD_SAVEANIME_Create(int mapId, struct FieldMap *fieldMap);
 extern void FIELD_SAVEANIME_Start(int effectHandle);
 extern void FIELD_SAVEANIME_Stop(int effectHandle);
@@ -441,7 +441,7 @@ int SCRIPT_WORK_CmdIfCall(ScriptVm *vm)
 int SCRIPT_WORK_CmdSetProcAction(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     void *action = (void *)VM_GetU16(vm);
-    func_02014474(GAME_DATA_GetMoveModelSys(SCRCMD_WORK_GetGameData(cmdWork)), action);
+    FIELD_STATUS_SetProcAction(GAME_DATA_GetMoveModelSys(SCRCMD_WORK_GetGameData(cmdWork)), action);
     return 0;
 }
 
@@ -449,7 +449,7 @@ int SCRIPT_WORK_CmdGetContinueFlag(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     u16 *workPtr = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     struct MoveModelSys *moveModelSys = GAME_DATA_GetMoveModelSys(SCRCMD_WORK_GetGameData(cmdWork));
-    *workPtr = func_02014460(moveModelSys);
+    *workPtr = FIELD_STATUS_GetContinueFlag(moveModelSys);
     return 0;
 }
 
@@ -622,7 +622,7 @@ int SCRIPT_WORK_CmdCallScriptEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
 
 int SCRIPT_WORK_WaitKeyDecide(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    if ((func_020362DC() & 3) == 0)
+    if ((KEY_GetTrg() & 3) == 0)
         return 0;
     return 1;
 }
@@ -635,7 +635,7 @@ int SCRIPT_WORK_CmdWaitKeyDecide(ScriptVm *vm)
 
 int SCRIPT_WORK_WaitKeyAny(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    if ((func_020362DC() & 0xf3) == 0)
+    if ((KEY_GetTrg() & 0xf3) == 0)
         return 0;
     return 1;
 }
@@ -656,7 +656,7 @@ int SCRIPT_WORK_WaitReportSave(ScriptVm *vm, ScrcmdWork *cmdWork)
     if (GAME_DATA_IsSaving(gameData) == 0) {
         done = 1;
         if (FIELD_SUBSCREEN_GetMode(mapState) == 7) {
-            if (func_021A153C(mapState) == 0)
+            if (FIELD_SUBSCREEN_IsReportSaveAnimDone(mapState) == 0)
                 done = 0;
         }
     } else {
@@ -673,7 +673,7 @@ int SCRIPT_WORK_WaitReportSave(ScriptVm *vm, ScrcmdWork *cmdWork)
             *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = 0;
             done = 1;
             if (FIELD_SUBSCREEN_GetMode(mapState) == 7)
-                func_021A1548(mapState);
+                FIELD_SUBSCREEN_StopReportSaveAnim(mapState);
             break;
         }
     }
@@ -699,8 +699,8 @@ int SCRIPT_WORK_CmdReportSave(ScriptVm *vm, ScrcmdWork *cmdWork)
     effectHandle = FIELD_SAVEANIME_Create(mapId, fieldMap);
     FIELD_SAVEANIME_Start(effectHandle);
     if (FIELD_SUBSCREEN_GetMode(mapState) == 7) {
-        func_021A1524(mapState);
-        func_021A1530(mapState);
+        FIELD_SUBSCREEN_PrepareReportSave(mapState);
+        FIELD_SUBSCREEN_StartReportSaveAnim(mapState);
     }
     SCRIPT_WORK_SetReturnScriptId(scriptWork, effectHandle);
     func_02008DF0(GAME_DATA_GetTrainerRecord(gameData), 1);

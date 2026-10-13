@@ -1,5 +1,5 @@
 /*
- * function: func_021B9940
+ * function: BTL_SIDE_GetPokeById
  * address:  0x021B9940
  * packet:   pkt_021B9940
  * region:   ov093
@@ -12,7 +12,7 @@
 
 typedef unsigned char u8;
 
-u8 *func_021B9940(char *p, u8 i)
+u8 *BTL_SIDE_GetPokeById(char *p, u8 i)
 {
     return *(u8 **)(p + i * 4 + 0x84);
 }

@@ -103,13 +103,13 @@
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02019ED4  0x02019ED4  thumb
  *   POKE_REGULATION_Load  0x0201A354  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   ISS_SYS_GetSwitchSys  0x0202B578  thumb
  *   ISS_SWITCH_SYS_SwitchOn  0x0202C0D0  thumb
  *   func_020307B0  0x020307B0  arm
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02087BCC  0x02087BCC  arm
  *   EVENT_BSUBWAY_COMM_Start  0x021542C0  thumb  ov007
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
@@ -345,7 +345,7 @@ extern u32 BSUBWAY_SCR_GetTrainerObjCode(u8 *p, int i);
 extern void *NAMEIN_SETUP_StartEncounterScene(u8 *w, u32 x, void *s);
 extern u32 BSUBWAY_SCR_AddBattlePoint(u8 *w);
 extern void BSUBWAY_SCR_DrawTrainerNos(u8 *w);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void *NAMEIN_SETUP_StartNameBalloonFromRecord(u8 *d, void *sys, u32 idx, u16 id, u8 dir);
 extern void BSUBWAY_SCR_SavePlayDataMembers(u8 *w);
 extern void BSUBWAY_SCR_LoadMembers(u8 *w, u32 x);
@@ -375,8 +375,8 @@ extern void *FIELD_STATUS_CreateSubProcCallbackEvent(char *a0, int a1, int a2, i
 extern void func_0200DA14(struct Blk3C *p);
 extern void func_0200DB1C(struct Blk1AC *p, u32 i);
 extern void FIELD_GIMMICK_BSUBWAY_HaltTrainSway(int a);
-extern u32 func_0201AA18(void *party);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *party);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern void func_0200D9E8(struct Blk3C *p, s32 a, s32 b, s32 c);
 extern void func_0200DA28(struct Blk3C *p);
@@ -839,7 +839,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         break;
     case 319:
         w[0x724] = 0;
-        func_02082BCC(w + 0x6ae, 0, 0x46);
+        MI_CpuFill8(w + 0x6ae, 0, 0x46);
         break;
     case 320:
         SCRIPT_SYS_CallEvent(h, NAMEIN_SETUP_StartNameBalloonFromRecord(w, (void *)x, p1, p2, 5));
@@ -977,7 +977,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         }
         break;
     case 348:
-        func_02082BCC(w + 0x7d0, 0, 0x18);
+        MI_CpuFill8(w + 0x7d0, 0, 0x18);
         ((struct Obj00335 *)w)->f7D0 = s4c;
         ((struct Obj00335 *)w)->f7D4 = 1;
         ((struct Obj00335 *)w)->f7D8 = 0;
@@ -1030,11 +1030,11 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
             int i;
             int sa;
             int sb;
-            cnt = func_0201AA18(party);
+            cnt = POKEPARTY_GetCount(party);
             sa = 0;
             sb = 0;
             for (i = 0; i < cnt; i++) {
-                void *mon = func_0201AB28(party, i);
+                void *mon = POKEPARTY_GetMember(party, i);
                 int a1 = func_02017E1C(mon, 0xa0, 0);
                 int b1 = func_02017E1C(mon, 0xa1, 0);
                 sa += a1;
@@ -1116,7 +1116,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         *dst = GFL_NET_SYSTEM_GetCurrentAid();
         break;
     case 408:
-        func_02082BCC(w + 0x7a4, 0, 0x24);
+        MI_CpuFill8(w + 0x7a4, 0, 0x24);
         ((struct Obj00335 *)w)->f7A4 = s4c;
         ((struct Obj00335 *)w)->f7C0 = 11;
         SCRIPT_SYS_CallEvent(h, FIELD_STATUS_CreateSubProcCallbackEvent((char *)x, (int)s30, (u32)ov100_id, (int)data_021BB6A4, (int)(w + 0x7a4), 0, 0));

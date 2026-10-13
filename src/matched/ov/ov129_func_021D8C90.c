@@ -10,7 +10,7 @@
  * symbols:
  *   func_021D9E48 0x021D9E48 thumb ov129
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorScale 0x0204B5AC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021DA158 0x021DA158 thumb ov129
@@ -38,7 +38,7 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Pair;
 extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 struct Obj;
@@ -65,7 +65,7 @@ int func_021D8C90(char *p)
                 CLACT_GetActorSurfacePos(((struct Obj00411 *)q)->fC,(struct PtS *)&first,0);
                 first.x+=((struct Obj00411 *)q)->f14;
                 first.y+=((struct Obj00411 *)q)->f16;
-                func_0204B404(((struct Obj00411 *)q)->fC,(const struct Vec2 *)(&first),0);
+                CLACT_AddActorSurfacePos(((struct Obj00411 *)q)->fC,(const struct Vec2 *)(&first),0);
                 (((struct Obj00411 *)q)->f18)--;
                 if(i>=((struct Obj00361 *)p)->f248 && i<((struct Obj00361 *)p)->f24C) {
                     scale.x=d_021DA830[((struct Obj00411 *)q)->f19];
@@ -87,7 +87,7 @@ int func_021D8C90(char *p)
                 CLACT_GetActorSurfacePos(((struct Obj00411 *)q)->f15C,(struct PtS *)&second,0);
                 second.x+=((struct Obj00411 *)q)->f164;
                 second.y+=((struct Obj00411 *)q)->f166;
-                func_0204B404(((struct Obj00411 *)q)->f15C,(const struct Vec2 *)(&second),0);
+                CLACT_AddActorSurfacePos(((struct Obj00411 *)q)->f15C,(const struct Vec2 *)(&second),0);
                 (((struct Obj00411 *)q)->f168)--;
             }
         }

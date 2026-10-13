@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0201C440  0x0201C440  thumb
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   func_02030734  0x02030734  arm
  *   STRBUF_Create  0x020457B0  arm
  *   func_021B9AF8  0x021B9AF8  thumb
@@ -58,7 +58,7 @@ extern Obj *func_02030734(u16 a, int b, int c, u8 *d, int e);
 extern int func_021D3D70(void);
 extern int func_021B9AF8(int a, int b);
 extern int STRBUF_Create(int a, u16 b);
-extern int func_0201C440(u16 a);
+extern int PRINTSYS_QUE_Create(u16 a);
 extern void func_06899E2C(unsigned char *p);
 Obj *func_06899AF0(int a, int b, int c, int d, int e4, int e5, int e6, u16 e7);
 extern u8 g_0689E7B8[];
@@ -83,7 +83,7 @@ Obj *func_06899AF0(int a, int b, int c, int d, int e4, int e5, int e6, u16 e7)
     o->f92.b.lo = 0;
     o->f92.b.hi = 0;
     o->f8f = 0;
-    o->f14 = func_0201C440(o->fac);
+    o->f14 = PRINTSYS_QUE_Create(o->fac);
     func_06899E2C((unsigned char *)o);
     return o;
 }

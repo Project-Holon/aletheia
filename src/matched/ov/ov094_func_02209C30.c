@@ -15,6 +15,7 @@
  * symbols:
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
  *   CLACT_ApplyActorAnimCommand  0x0204BA00  arm  arm9
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  */
 
 typedef unsigned short u16;
@@ -44,7 +45,7 @@ typedef struct {
 
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 struct Actor;
 struct Cmd;
 extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
@@ -77,7 +78,7 @@ void func_02209C30(P *p)
         CLACT_ApplyActorAnimCommand(p->h, (const struct Cmd *)(&m1));
         return;
     case 2:
-        func_0204B3DC(p->h, 0);
+        CLACT_SetActorDrawEnable(p->h, 0);
         p->f28 = 0;
         p->f18++;
         break;

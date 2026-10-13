@@ -1,5 +1,5 @@
 /*
- * function: func_021CA318
+ * function: BTL_SERVER_FLOW_ProcHandExForceSwitch
  * address:  0x021CA318
  * packet:   pkt_ov093_021CA318
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B9934  0x021B9934  thumb  ov093
+ *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb  ov093
  *   BTL_SERVER_FLOW_TryForceSwitchTarget  0x021C3810  thumb  ov093
  */
 #include "../include/Obj00003.h"
@@ -27,15 +27,15 @@ struct Q {
     u8 hi : 4;
 };
 
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 struct Msg;
 extern int BTL_SERVER_FLOW_TryForceSwitchTarget(u8 *p, u8 *a, u8 *b, int force, int *out, u16 move, int ignore, const struct Msg *msg);
 
-u8 func_021CA318(u8 *p, const struct Q *q)
+u8 BTL_SERVER_FLOW_ProcHandExForceSwitch(u8 *p, const struct Q *q)
 {
     int out[1];
-    u8 *a = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, q->f);
-    u8 *b = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, (u8)q->b);
+    u8 *a = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00003 *)p)->f8, q->f);
+    u8 *b = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00003 *)p)->f8, (u8)q->b);
     if (BTL_SERVER_FLOW_TryForceSwitchTarget(p, b, a, q->lo, out, q->e, q->hi, (const struct Msg *)((u8 *)q + 8))) return 1;
     return 0;
 }

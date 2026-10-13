@@ -1,5 +1,5 @@
 /*
- * function: func_021E3324
+ * function: HAND_WAZA_AddNaturalGift
  * address: 0x021E3324
  * packet: pkt_ov093_021E3324
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E324C.c and filed here.
  *
  * symbols:
- *   d_021F2E18 0x021F2E18 data a4
+ *   gNaturalGiftHandlers 0x021F2E18 data a4
  */
 
-int *func_021E3324(int *p);
-extern int d_021F2E18;
+int *HAND_WAZA_AddNaturalGift(int *p);
+extern int gNaturalGiftHandlers;
 
-int *func_021E3324(int *p)
+int *HAND_WAZA_AddNaturalGift(int *p)
 {
     *p = 4;
-    return &d_021F2E18;
+    return &gNaturalGiftHandlers;
 }

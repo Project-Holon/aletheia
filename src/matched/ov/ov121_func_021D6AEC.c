@@ -19,9 +19,9 @@
  *   func_02082D44 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_02005728 0x02005728 thumb
  */
 #include "../include/Obj01403.h"
@@ -40,9 +40,9 @@ extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(const void *,void *,int);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern u32 func_02005728(u32 range);
 void func_021D6AEC(char *p, void *owner, u16 heap)
 {
@@ -64,9 +64,9 @@ void func_021D6AEC(char *p, void *owner, u16 heap)
     func_02082D44(data,p+0xba,32);
     func_020307B0(allocation);
     ARC_TOOL_DeleteHandle(arc);
-    func_02082BCC(&point,0,8);
+    MI_CpuFill8(&point,0,8);
     ((struct Obj01403 *)p)->fC=CLACT_CreateActor((void *)owner,((struct Obj01403 *)p)->f4,((struct Obj01403 *)p)->f0,((struct Obj01403 *)p)->f8,&point,0,heap);
-    func_0204B3DC(((struct Obj01403 *)p)->fC,0);
+    CLACT_SetActorDrawEnable(((struct Obj01403 *)p)->fC,0);
     bound=256;
     bound+=16;
     for (i=0;i<32;i++) {
@@ -75,7 +75,7 @@ void func_021D6AEC(char *p, void *owner, u16 heap)
         point.b=3;
         point.z=func_02005728(6)+3;
         *(void **)(p+i*4+16)=CLACT_CreateActor((void *)owner,((struct Obj01403 *)p)->f4,((struct Obj01403 *)p)->f0,((struct Obj01403 *)p)->f8,&point,0,heap);
-        func_0204B3DC(*(void **)(p+i*4+16),0);
+        CLACT_SetActorDrawEnable(*(void **)(p+i*4+16),0);
     }
     point.x=128;
     point.y=177;
@@ -83,5 +83,5 @@ void func_021D6AEC(char *p, void *owner, u16 heap)
     point.a=1;
     point.z=9;
     ((struct Obj01403 *)p)->f94=CLACT_CreateActor((void *)owner,((struct Obj01403 *)p)->f4,((struct Obj01403 *)p)->f0,((struct Obj01403 *)p)->f8,&point,0,heap);
-    func_0204B3DC(((struct Obj01403 *)p)->f94,0);
+    CLACT_SetActorDrawEnable(((struct Obj01403 *)p)->f94,0);
 }

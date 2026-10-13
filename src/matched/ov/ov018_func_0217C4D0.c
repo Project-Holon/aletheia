@@ -13,7 +13,7 @@
  * in the second argument).
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   EVENT_COMM_COMMON_SetupListWindowB  0x0217F528  thumb  ov018
@@ -21,7 +21,7 @@
  *   EVENT_COMM_COMMON_PrintListWindowB  0x0217F574  thumb  ov018
  *   FIELD_SOUND_SYSTEM_StartPushAndPlayTask  0x02029830  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   func_02005F38  0x02005F38  thumb
+ *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
  *   FIELD_SOUND_SYSTEM_StartPopAndWaitTask  0x02029620  thumb
  *   EVENT_COMM_COMMON_DeleteListWindowB  0x0217F58C  thumb  ov018
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
@@ -88,7 +88,7 @@ typedef struct {
 struct Ctx;
 struct Evt;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern void EVENT_COMM_COMMON_SetupListWindowB(void *, void *, int, int, int, int);
@@ -97,7 +97,7 @@ struct BigObj;
 extern void EVENT_COMM_COMMON_PrintListWindowB(void **p, unsigned int index, int a, int b);
 extern void *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(void *a, u32 b);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
-extern int func_02005F38(void);
+extern int GFL_USE_IsBgmPlaying(void);
 extern void *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(void *a, u32 b, u32 c);
 extern void EVENT_COMM_COMMON_DeleteListWindowB(void *);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
@@ -116,7 +116,7 @@ int INTRUDE_FIELD_EventOfferInfo(void *task, int *state, Work *w)
     u16 hi;
     u8 t;
 
-    sys = func_020124E4(task);
+    sys = GAME_EVENT_GetGameSystem(task);
     peer = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(sys)));
     if (peer == 0 && *state == 0)
         *state = 8;
@@ -139,7 +139,7 @@ int INTRUDE_FIELD_EventOfferInfo(void *task, int *state, Work *w)
         (*state)++;
         break;
     case 2:
-        if (func_02005F38() == 0) {
+        if (GFL_USE_IsBgmPlaying() == 0) {
             GAME_EVENT_CallEvent(task, FIELD_SOUND_SYSTEM_StartPopAndWaitTask(sys, 0, 6));
             (*state)++;
         }

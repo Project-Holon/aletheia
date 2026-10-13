@@ -11,9 +11,9 @@
  * symbols:
  *   func_021BA3A4 0x021BA3A4 thumb ov100
  *   func_021BA454 0x021BA454 thumb ov100
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039C68 0x02039C68 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  *   func_021B95B8 0x021B95B8 thumb ov100
  *   func_021B9A1C 0x021B9A1C thumb ov100
  *   d_021BB664 0x021BB664 data a4
@@ -25,11 +25,11 @@ extern const struct Word d_021BB664,d_021BB678;
 extern void func_021BA3A4(struct Word *,int);
 extern void func_021BA454(int,int);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *,unsigned int,unsigned int);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned int,unsigned int);
 typedef unsigned char  u8;
 extern void func_021B95B8(u8 *p, u32 v);
 extern void func_021B9A1C(unsigned a);
@@ -43,7 +43,7 @@ void func_021B9A54(int a)
   func_021BA3A4(&x,a);
  }
  func_021BA454(0x22,a);
- func_020061E4(0x764);
- func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x7f,12);
+ GFL_USE_PlaySeDefaultVolume(0x764);
+ GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x7f,12);
  func_021B95B8((u8 *)a,(u32)func_021B9A1C);
 }

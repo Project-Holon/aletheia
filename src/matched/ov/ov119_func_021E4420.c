@@ -21,7 +21,7 @@
  *   MSGDATA_ReadString 0x02045CAC arm
  *   func_0200785C 0x0200785C thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -40,7 +40,7 @@ struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0200785C(void *,u32,void *);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -76,8 +76,8 @@ void func_021E4420(char *p)
                 MSGDATA_ReadString(((struct Obj00001 *)p)->f720,16,*(void **)(p+off2));
             else func_0200785C(((struct Obj00001 *)p)->f828,i,*(void **)(p+off3));
             GF_FONT_SetTextColor(15,2,zero);
-            BMP_Clear(func_02045770(*(void **)(q+a)),zero);
-            PRINTSYS_Print(func_02045770(*(void **)(q+b)),zero,1,*(void **)(p+d),*(void **)(p+c));
+            BMP_Clear(BMP_WIN_GetBmp(*(void **)(q+a)),zero);
+            PRINTSYS_Print(BMP_WIN_GetBmp(*(void **)(q+b)),zero,1,*(void **)(p+d),*(void **)(p+c));
             BMP_WIN_TransferChars(*(void **)(q+e));
             BMP_WIN_SetPosY(*(void **)(q+f),zero);
         } while (++i < (int)((u32)*(int *)(p+g)+1u));

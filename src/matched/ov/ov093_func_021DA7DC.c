@@ -1,5 +1,5 @@
 /*
- * function: BTL_ABILITY_UnawareNeutralizeStatStages
+ * function: HAND_TOKUSEI_UnawareNeutralizeStatStages
  * address: 0x021DA7DC
  * packet: pkt_ov093_021DA7DC
  * region: ov093
@@ -15,7 +15,7 @@
 extern int BTL_EVENT_GetVar(int);
 extern int BTL_EVENT_OverwriteVar(int, unsigned int);
 
-void BTL_ABILITY_UnawareNeutralizeStatStages(int a, int b, int c)
+void HAND_TOKUSEI_UnawareNeutralizeStatStages(int a, int b, int c)
 {
     if (c == BTL_EVENT_GetVar(3)) {
         BTL_EVENT_OverwriteVar(0x28, 6);

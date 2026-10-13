@@ -10,7 +10,7 @@
  * symbols:
  *   func_02040B94 0x02040B94 arm
  *   func_02041300 0x02041300 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_02041300(unsigned,int,int,int,u8,u8,u8);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 struct Cfg;
@@ -37,7 +37,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 void func_021BF8F4(u8 *p) {
     func_02040B94(2,32,0,42);
     func_02041300(2,0,0,0,32,32,13);
-    BMP_Clear(func_02045770((struct Descriptor *)((struct Obj01145 *)p)->fC),0);
+    BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01145 *)p)->fC),0);
     BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj01145 *)p)->fC));
     BMP_WIN_TransferChars((struct Descriptor *)((struct Obj01145 *)p)->fC);
     func_020409B4(2); func_021BF94C(p); func_02040588(2,0);

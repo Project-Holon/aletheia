@@ -1,5 +1,5 @@
 /*
- * function: func_021A1524
+ * function: FIELD_SUBSCREEN_PrepareReportSave
  * address:  0x021A1524
  * packet:   pkt_ov021_021A1524
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern void REPORT_PrepareSave(char *p);
 
-void func_021A1524(u32 *p)
+void FIELD_SUBSCREEN_PrepareReportSave(u32 *p)
 {
     REPORT_PrepareSave((char *)p[8]);
 }

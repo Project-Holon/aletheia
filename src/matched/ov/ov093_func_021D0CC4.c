@@ -1,5 +1,5 @@
 /*
- * function: func_021D0CC4
+ * function: BTL_CLIENT_StepAskYesNo
  * address:  0x021D0CC4
  * packet:   pkt_ov093_021D0CC4
  * region:   ov093
@@ -33,7 +33,7 @@ extern void func_021EAF18(struct L *p, int kind, int id);
 extern void func_021EABC4(u8 *a, u32 x, u32 y, u32 z);
 extern int func_021EAC54(void *win, int *out);
 
-int func_021D0CC4(BattleSeq *s, int *state)
+int BTL_CLIENT_StepAskYesNo(BattleSeq *s, int *state)
 {
     int t;
     u8 *q;

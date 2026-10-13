@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA1CC",
+   "name": "BTL_MAIN_TrainerRecordAddDelta",
    "address": "0x021BA1CC",
    "kind": "game",
    "region": "ov093",

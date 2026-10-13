@@ -13,13 +13,13 @@
  *   func_02045B38 0x02045B38 arm
  *   func_0201EC64 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
- *   func_02045738 0x02045738 arm
+ *   BMP_WIN_GetWidth 0x02045738 arm
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
- *   func_02045770 0x02045770 arm
- *   func_0201C6FC 0x0201C6FC thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
+ *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_0201ED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
@@ -38,13 +38,13 @@ struct StrObj;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u16 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u16 heapId);
-extern u8 func_02045738(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -61,21 +61,21 @@ void func_021E5ADC(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 he
     msg = func_02045B38(0, 2, 0xa3, heap);
     ws = func_0201EC64(heap);
     buf = STRBUF_Create(0x20, heap);
-    x = (u16)(func_02045738((void *)p[0]) << 3);
+    x = (u16)(BMP_WIN_GetWidth((void *)p[0]) << 3);
 
     e = func_02045EC0(msg, 2);
     func_0201EFA4(ws, 0, c1, 8, 0, 1);
     func_0201F250(ws, buf, e);
     w = func_0201D304((struct StrObj *)buf, str, 0);
     x1 = x - w;
-    func_0201C6FC(win, (u32)func_02045770((struct Descriptor *)p[0]), (s16)x1, 0, buf, str);
+    PRINTSYS_PrintQue(win, (u32)BMP_WIN_GetBmp((struct Descriptor *)p[0]), (s16)x1, 0, buf, str);
     ((u8 *)p)[4] = 1;
     STRBUF_Delete((struct U16Vec *)e);
 
     e = func_02045EC0(msg, 0);
     w = func_0201D304(e, str, 0);
     x2 = x1 - w;
-    func_0201C6FC(win, (u32)func_02045770((struct Descriptor *)p[0]), (s16)x2, 0, e, str);
+    PRINTSYS_PrintQue(win, (u32)BMP_WIN_GetBmp((struct Descriptor *)p[0]), (s16)x2, 0, e, str);
     ((u8 *)p)[4] = 1;
     STRBUF_Delete((struct U16Vec *)e);
 
@@ -83,7 +83,7 @@ void func_021E5ADC(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 he
     func_0201EFA4(ws, 0, c2, 8, 0, 1);
     func_0201F250(ws, buf, e);
     w = func_0201D304((struct StrObj *)buf, str, 0);
-    func_0201C6FC(win, (u32)func_02045770((struct Descriptor *)p[0]), (s16)(x2 - w), 0, buf, str);
+    PRINTSYS_PrintQue(win, (u32)BMP_WIN_GetBmp((struct Descriptor *)p[0]), (s16)(x2 - w), 0, buf, str);
     ((u8 *)p)[4] = 1;
     STRBUF_Delete((struct U16Vec *)e);
     STRBUF_Delete(buf);

@@ -39,12 +39,12 @@
  *   DWC_GetMyAID  0x0216B838  arm  ov009
  *   func_02175F1C  0x02175F1C  arm  ov009
  *   func_02175F4C  0x02175F4C  arm  ov009
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_0217601C  0x0217601C  arm  ov009
  *   func_0217653C  0x0217653C  arm  ov009
  *   func_02173B18  0x02173B18  arm  ov009
  *   func_0216F388  0x0216F388  arm  ov009
- *   func_02195E60  0x02195E60  arm  ov009
+ *   gt2GetSocketSOCKET  0x02195E60  arm  ov009
  *   gt2GetLocalPort  0x02195E40  arm  ov009
  *   func_0219AEB4  0x0219AEB4  arm  ov009
  *   func_0219B540  0x0219B540  arm  ov009
@@ -210,7 +210,7 @@ extern void func_0217601C(void);
 extern void func_0217653C(void);
 extern void func_02173B18(void);
 extern int func_0216F388(int a0);
-extern int func_02195E60(const int *p);
+extern int gt2GetSocketSOCKET(const int *p);
 extern unsigned short gt2GetLocalPort(const unsigned short *p);
 extern int func_02173E30(int error);
 extern void func_0219B1AC(void *qrec, void *cb);
@@ -309,7 +309,6 @@ extern unsigned long DWCi_GetAIDBitmask(int valid);
 extern unsigned long DWCi_GetMathRand32(unsigned long max);
 extern void DWCi_SendTypeMatchAck(void);
 
-extern void func_02082BCC(void *p, int v, int n);
 extern void func_0216F5FC(u8 matchType, u8 numEntry, void *callback, void *param);
 extern int func_02173D9C(int error);
 extern void func_0219B490(void *qrec);
@@ -824,7 +823,7 @@ int func_0216CC28(int a0, void **pGpObj, void **pGt2Socket, void *gt2Callbacks, 
     DWCi_GetMatchCnt()->secretKey = secretKey;
     DWCi_GetMatchCnt()->param68c = (u8 *)a6;
     DWCi_GetMatchCnt()->param690 = a7;
-    func_02082BCC(DWCi_GetMatchCnt()->buf694, 0, 0x40);
+    MI_CpuFill8(DWCi_GetMatchCnt()->buf694, 0, 0x40);
     DWCi_GetMatchCnt()->flag6d4 = 0;
     DWCi_GetMatchCnt()->matchedCallback = 0;
     DWCi_GetMatchCnt()->matchedParam = 0;
@@ -876,7 +875,7 @@ int func_0216CD8C(int profileID)
         return 0;
     for (i = 0; i < 1; i++) {
         qr2Error = func_0219AEB4(&DWCi_GetMatchCnt()->qr2Obj,
-                                 func_02195E60(*DWCi_GetMatchCnt()->pGt2Socket),
+                                 gt2GetSocketSOCKET(*DWCi_GetMatchCnt()->pGt2Socket),
                                  gt2GetLocalPort(*DWCi_GetMatchCnt()->pGt2Socket),
                                  DWCi_GetMatchCnt()->gameName,
                                  DWCi_GetMatchCnt()->secretKey,

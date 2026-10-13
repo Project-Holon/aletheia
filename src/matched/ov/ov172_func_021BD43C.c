@@ -29,7 +29,7 @@
  *   func_021B7590  0x021B7590  thumb  ov172
  *   func_021BDCB8  0x021BDCB8  thumb  ov172
  *   func_02061CA4  0x02061CA4  arm
- *   g_020A1B38     0x020A1B38  data
+ *   FX_SinCosTable_     0x020A1B38  data
  *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm  arm9
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb  arm9
  *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
@@ -63,7 +63,7 @@ extern void TCBL_Main(struct Tcbl *p);
 extern u32  func_02005728(u32 v);
 extern void sub_02040618(u32 layer, u32 a, u32 b);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
-extern s16 g_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 #define F(o) (*(u32 *)(ctx + (o)))
 #define H(o) (*(u16 *)(ctx + (o)))
@@ -110,7 +110,7 @@ int func_021BD43C(char *ctx)
     func_021BDD6C((u8 *)ctx);
     H(0x38) += 0x200;
     idx = H(0x38) >> 4;
-    v = (g_020A1B38[idx * 2] + 0x1000) / 2 * 10;
+    v = (FX_SinCosTable_[idx * 2] + 0x1000) / 2 * 10;
     pal = (u8)(u32)((float)v / 4096.0f);
     if (pal >= 10) {
         pal = 9;

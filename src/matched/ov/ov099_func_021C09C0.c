@@ -24,7 +24,7 @@
  *   func_021C23B8 0x021C23B8 thumb ov099
  *   func_021C2810 0x021C2810 thumb ov099
  *   func_021C18C8 0x021C18C8 thumb ov099
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_021BA828 0x021BA828 thumb ov099
  */
 #include "../include/Obj00008.h"
@@ -43,7 +43,7 @@ extern void func_021BAAB8(char *, int, int);
 extern int func_021C23B8(int i);
 extern void func_021C2810(struct S *, char *);
 extern void func_021C18C8(char *, int, int);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_021BA828(char *p);
 static inline int Step(int *dst, int old)
 {
@@ -78,7 +78,7 @@ int func_021C09C0(char *p, int ret)
         *(int *)(p + (off - 0x14)) = 0x13;
         return ret;
     }
-    if ((u32)func_020362DC() == 2) {
+    if ((u32)KEY_GetTrg() == 2) {
         func_021BAAB8(p, 0x47, 0);
         func_021BA828(p);
         *(int *)(p + (off - 0x14)) = 0x89;

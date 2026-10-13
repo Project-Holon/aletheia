@@ -26,7 +26,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_021FC8C8 0x021FC8C8 thumb ov186
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FC124 0x021FC124 thumb ov186
  *   func_021FB378 0x021FB378 thumb ov186
  *   d_021E3780 0x021E3780 data a4
@@ -65,7 +65,7 @@ extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_021FC8C8(Config *,u32);
-extern void func_02082BCC(void *,u32,u32);
+extern void MI_CpuFill8(void *,u32,u32);
 extern int func_021FC124(int,int,Triple *);
 extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
 int func_021E00D8(char *p,char *q)
@@ -95,7 +95,7 @@ int func_021E00D8(char *p,char *q)
     cfg.words[0]=*(u32 *)&((struct Obj02231 *)p)->f14;cfg.words[1]=1;
     cfg.words[5]=*(u32 *)&((struct Obj03330 *)q)->f8;cfg.words[6]=((struct Obj03330 *)q)->f4;
     ((struct Obj02231 *)p)->f18=func_021FC8C8(&cfg,((struct Obj02231 *)p)->f54);
-    func_02082BCC(&params,0,8);
+    MI_CpuFill8(&params,0,8);
     func_021FC124(*(int *)&((struct Obj03330 *)q)->f8,6,&triple);
     params.a=d_021E372E[0].a;params.b=d_021E372E[0].b;params.c=d_021E372E[0].c;params.flag=1;
     ((struct Obj02231 *)p)->fC=func_021FB378(&params,d_021E372E[0].file,96,1,*(int *)&((struct Obj03330 *)q)->f4,((struct Obj02231 *)p)->f44,first,second,&triple,((struct Obj02231 *)p)->f54);

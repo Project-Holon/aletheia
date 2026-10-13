@@ -13,19 +13,19 @@
  *   Scalar u32 preserves every bit and matches nearby caller BDD7C.
  *   Aggregate spelling gave DIFF (52 bytes); scalar gives EXACT (44).
  * symbols:
- *   func_021CC8D8 0x021CC8D8 thumb ov093
+ *   BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
  *   BTL_SERVER_FLOW_DispatchRotationEndEvent 0x021BDC58 thumb ov093
- *   func_021CC95C 0x021CC95C thumb ov093
+ *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void BTL_SERVER_FLOW_DispatchRotationEndEvent(u8 *);
-extern u32 func_021CC8D8(void *, int);
-extern void func_021CC95C(u32 *p, u32 v, int line);
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *, int);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 void BTL_SERVER_FLOW_NotifyRotationEnd(u8 *p)
 {
     u32 old;
-    old = func_021CC8D8(p + 0x1d74, 0xc82);
+    old = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 0xc82);
     BTL_SERVER_FLOW_DispatchRotationEndEvent(p);
-    func_021CC95C((u32 *)(p + 0x1d74), old, 0xc84);
+    BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), old, 0xc84);
 }

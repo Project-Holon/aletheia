@@ -22,6 +22,7 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   GAME_DATA_SaveMain  0x02012DD0  thumb  arm9
  *   POKE_TOOL_Dummy  0x020185F0  thumb  arm9
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj01254.h"
 typedef unsigned short u16;
@@ -42,7 +43,7 @@ extern int POKE_TOOL_Dummy(void *);
 struct Obj02181;
 extern void func_021D6458(struct Obj02181 *p, void *n, int i);
 extern void func_021D652C(char *);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021D7204(u8 *p);
 extern void func_021D7180(int a);
 extern void func_021D6EE0(u8 *p, u32 v, int unused);
@@ -65,7 +66,7 @@ void func_021D72D8(char *p)
         func_021D6650((u8 *)(*(char * *)&((struct Obj01254 *)p)->f14),0);
         func_021D6458((struct Obj02181 *)(*(char * *)&((struct Obj01254 *)p)->f14),(void *)POKE_TOOL_Dummy(((struct Obj01254 *)p)->fC),0);
         func_021D652C(*(char * *)&((struct Obj01254 *)p)->f14);
-        func_020061E4(0x658);
+        GFL_USE_PlaySeDefaultVolume(0x658);
         func_021D6EE0((u8 *)p,(int)func_021D7180,0x295);
     }
 }

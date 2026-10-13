@@ -16,8 +16,8 @@
  *   STRBUF_SetStringN 0x02045994 arm
  *   func_0201D304 0x0201D304 thumb
  *   func_0201D42C 0x0201D42C thumb
- *   func_02045770 0x02045770 arm
- *   func_0201C6FC 0x0201C6FC thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
+ *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_021F4DA0 0x021F4DA0 thumb ov194
  *   func_021F4D9C 0x021F4D9C thumb ov194
@@ -41,8 +41,8 @@ extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
-extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u16 func_021F4DA0(const u16 *p);
 extern u16 func_021F4D9C(const u16 *p);
@@ -69,7 +69,7 @@ void func_021F26F0(char *p,char *target,void *window,void *font,u16 heap)
      y=box.y+(box.w-box.y)/2-40;
      x-=(u16)(func_0201D304(text,(u32)font,0)/2);
      y-=(u16)(func_0201D42C(text,font)/2);
-     func_0201C6FC(window,(u32)func_02045770(((struct Obj14500 *)target)->f0),(short)(x-1),(short)y,text,(u32)font);
+     PRINTSYS_PrintQue(window,(u32)BMP_WIN_GetBmp(((struct Obj14500 *)target)->f0),(short)(x-1),(short)y,text,(u32)font);
      target[4]=1;
     }
    }

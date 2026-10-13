@@ -10,22 +10,22 @@
  * tail: 021FC526..021FC528 is two zero alignment bytes.
  * symbols:
  *   func_02202940 0x02202940 thumb ov135
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  */
 #include "../include/Obj00287.h"
 struct Obj;
 extern void func_02202940(struct Obj *p);
 struct Descriptor;
 typedef unsigned int   u32;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 void func_021FC4E4(char *p)
 {
     int i;
     func_02202940((struct Obj *)(p + 0xfa0));
-    func_020452E8(((struct Obj00287 *)p)->fDE0);
-    func_020452E8(((struct Obj00287 *)p)->fD40);
-    func_020452E8(((struct Obj00287 *)p)->fD50);
+    BMP_WIN_Delete(((struct Obj00287 *)p)->fDE0);
+    BMP_WIN_Delete(((struct Obj00287 *)p)->fD40);
+    BMP_WIN_Delete(((struct Obj00287 *)p)->fD50);
     for (i = 0; i < 14; i++) {
-        func_020452E8(*(void **)(p + i * 4 + 0xd90));
+        BMP_WIN_Delete(*(void **)(p + i * 4 + 0xd90));
     }
 }

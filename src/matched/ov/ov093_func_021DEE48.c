@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_PowerHerb_CheckSkipCharge
+ * function: HAND_ITEM_PowerHerb_CheckSkipCharge
  * address: 0x021DEE48
  * packet: pkt_ov093_021DEE48
  * region: ov093
@@ -16,4 +16,4 @@
 extern int BTL_EVENT_GetVar(int);
 extern void BTL_EVENT_MultiplyVar(int,int);
 extern int BTL_EVENT_OverwriteVar(int,unsigned int);
-void BTL_HANDLER_ITEM_PowerHerb_CheckSkipCharge(int a,int b,int c,int *p) { if(c==BTL_EVENT_GetVar(3)) { if(BTL_EVENT_GetVar(18)!=507) { if(BTL_EVENT_OverwriteVar(81,1)) *p=1; } } }
+void HAND_ITEM_PowerHerb_CheckSkipCharge(int a,int b,int c,int *p) { if(c==BTL_EVENT_GetVar(3)) { if(BTL_EVENT_GetVar(18)!=507) { if(BTL_EVENT_OverwriteVar(81,1)) *p=1; } } }

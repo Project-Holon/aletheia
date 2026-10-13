@@ -13,7 +13,7 @@
  *   FLDMMDL_GetMoveCmdWork  0x0216D6D4  thumb  ov010
  *   FLDMMDL_DRAW_GetBlactAnimeTypeB  0x0219FCC0  thumb  ov021
  *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
  */
 
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 extern void *FLDMMDL_GetMoveCmdWork(void *p);
 extern int FLDMMDL_DRAW_GetBlactAnimeTypeB(u32, u16 *, u16 *);
 extern u16 FLDMMDL_GetObjCode(void *p);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void FLDMMDL_IncAcmdSeq(u32);
 
 int FLDMMDL_ACMD_FlyReadyMove(u32 a)
@@ -39,10 +39,10 @@ int FLDMMDL_ACMD_FlyReadyMove(u32 a)
         *((u8 *)p + 2) = v[0];
         switch (v[0]) {
         case 0:
-            func_020061E4(0x7E5);
+            GFL_USE_PlaySeDefaultVolume(0x7E5);
             break;
         case 3:
-            func_020061E4(0x7E6);
+            GFL_USE_PlaySeDefaultVolume(0x7E6);
             break;
         }
     }

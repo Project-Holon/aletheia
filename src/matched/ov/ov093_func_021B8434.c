@@ -16,7 +16,7 @@
  *   BTL_SERVER_GetFinalData  0x021BABDC  thumb  ov093
  *   BTL_CLIENT_RunTick  0x021CD97C  thumb  ov093
  *   BTL_MAIN_CheckAllClientsReady  0x021B8564  thumb  ov093
- *   func_021CDD94  0x021CDD94  thumb  ov093
+ *   BTL_CLIENT_GetCursor  0x021CDD94  thumb  ov093
  *   func_021E908C  0x021E908C  thumb  ov093
  */
 #include "../include/Obj05185.h"
@@ -37,7 +37,7 @@ extern int BTL_SERVER_Update(int);
 extern void BTL_SERVER_GetFinalData(int, u8 *);
 extern u8 BTL_CLIENT_RunTick(int);
 extern int BTL_MAIN_CheckAllClientsReady(u8 *);
-extern void func_021CDD94(char *p, int *o);
+extern void BTL_CLIENT_GetCursor(char *p, int *o);
 extern void func_021E908C(char *p);
 
 int BTL_MAIN_StepParent(u8 *p)
@@ -61,7 +61,7 @@ int BTL_MAIN_StepParent(u8 *p)
         }
     }
     if (BTL_MAIN_CheckAllClientsReady(p)) {
-        func_021CDD94((char *)(*(int *)(p + p[0x46c] * 4 + 0x10)), (int *)(p + 0x448));
+        BTL_CLIENT_GetCursor((char *)(*(int *)(p + p[0x46c] * 4 + 0x10)), (int *)(p + 0x448));
         r = 1;
     }
     func_021E908C((char *)(((struct Obj05185 *)p)->f4));

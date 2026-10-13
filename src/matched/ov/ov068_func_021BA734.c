@@ -13,7 +13,7 @@
  * scheduled after the struct-copy source load.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021B9944  0x021B9944  thumb  ov068
  *   OPTION_MENU_ScrollList  0x021BABE0  thumb  ov068
  *   func_020355C4  0x020355C4  arm
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 
 typedef struct { u32 a; u32 b; u32 c; } Blk;
 
-extern void func_02082BCC(void *p, u32 a, u32 b);
+extern void MI_CpuFill8(void *p, u32 a, u32 b);
 extern int func_021B9944(void *p, int i);
 extern void OPTION_MENU_ScrollList(u8 *p, int a, int b, int c);
 extern u8 func_020355C4(void);
@@ -37,7 +37,7 @@ void OPTION_MENU_InitList(u8 *p, u16 a1, u16 a2, u32 a3, Blk *src)
 {
     int i;
 
-    func_02082BCC(p, 0, 0x58);
+    MI_CpuFill8(p, 0, 0x58);
     ((struct Obj00103 *)p)->f0 = a1;
     ((struct Obj00103 *)p)->f2 = a2;
     ((struct Obj00103 *)p)->f34 = 0x10;

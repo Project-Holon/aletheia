@@ -1,5 +1,5 @@
 /*
- * function: func_0216BAF4
+ * function: DWCi_GetGT2Connection
  * address:  0x0216BAF4
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -23,7 +23,7 @@ extern struct DwcGlobal g_021AA878;
 extern int g_021AA8A0[];
 extern int gt2GetConnectionData(const int *p);
 
-int func_0216BAF4(int aid)
+int DWCi_GetGT2Connection(int aid)
 {
     int i;
 

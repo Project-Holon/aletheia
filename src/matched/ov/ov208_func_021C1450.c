@@ -20,19 +20,19 @@
  *   func_021C1068 0x021C1068 thumb ov208
  *   func_021C1D30 0x021C1D30 thumb ov208
  *   func_021C2238 0x021C2238 thumb ov208
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_020355C4 0x020355C4 arm
  *   func_020355D8 0x020355D8 arm
- *   func_02035D20 0x02035D20 arm
- *   func_020362DC 0x020362DC arm
- *   func_0203630C 0x0203630C arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   KEY_GetCont 0x0203630C arm
  *   func_0207CA00 0x0207CA00 arm
  *   func_0207CBD0 0x0207CBD0 arm
  *   VEC_Normalize 0x0207CCA4 arm
  *   BUTTON_MAN_ScaleVec 0x020520A4 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -44,15 +44,15 @@ struct PtS { s16 x, y; };
 
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8 v);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern u32 func_020362DC(void);
-extern unsigned int func_0203630C(void);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
+extern u32 KEY_GetTrg(void);
+extern unsigned int KEY_GetCont(void);
 struct Actor;
 struct Obj;
 struct Vec2;
 struct Vec3;
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern u16 TOWNMAP_GRH_GetTownInfoValue(char *, int, int);
 extern void func_021C0CCC(u16 *heap, u8 *p, int key);
@@ -64,7 +64,7 @@ extern void func_0207CA00(struct Vec *a, struct Vec *b, struct Vec *out);
 extern int func_0207CBD0(struct Vec *v);
 extern void VEC_Normalize(struct Vec *src, struct Vec *dst);
 extern void BUTTON_MAN_ScaleVec(const struct Vec3 *v, int s, struct Vec3 *dst);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define FX(x) ((int)(((x)>0) ? ((float)((int)(x)<<12)+0.5f) : ((float)((int)(x)<<12)-0.5f)))
@@ -90,11 +90,11 @@ void func_021C1450(u16 *heap, u8 *p, int key)
     if (W(0x90) == 0)
         return;
     if (func_020355C4() == 0) {
-        if (func_02035D20(&tx, &ty)) {
+        if (TOUCHPANEL_GetPointTrg(&tx, &ty)) {
             func_020355D8(1);
-            func_0204B3DC((struct Obj *)W(0xcc), 0);
+            CLACT_SetActorDrawEnable((struct Obj *)W(0xcc), 0);
         }
-    } else if (func_020362DC()) {
+    } else if (KEY_GetTrg()) {
         func_020355D8(0);
         func_021C0CCC(heap, p, key);
         func_021C1D30(heap, p, key);
@@ -112,7 +112,7 @@ void func_021C1450(u16 *heap, u8 *p, int key)
         struct Vec a;
         struct Vec b;
         CLACT_GetActorSurfacePos((struct Actor *)W(0xcc), &pt.c, 0);
-        keys = func_0203630C();
+        keys = KEY_GetCont();
         if ((keys & 0x10) || (keys & 0x20) || (keys & 0x40) || (keys & 0x80)) {
             moved = 1;
             if (keys & 0x10)
@@ -164,20 +164,20 @@ void func_021C1450(u16 *heap, u8 *p, int key)
         }
         pt.c.x = pt.c.x > 0xf8 ? 0xf8 : (pt.c.x < 0 ? 0 : pt.c.x);
         pt.c.y = pt.c.y > 0xa8 ? 0xa8 : (pt.c.y < 8 ? 8 : pt.c.y);
-        func_0204B404((struct Obj *)W(0xcc), (const struct Vec2 *)(&pt.c), 0);
+        CLACT_AddActorSurfacePos((struct Obj *)W(0xcc), (const struct Vec2 *)(&pt.c), 0);
         p[0x79] = func_021C0D5C(heap, (char *)p, key, (u8)pt.c.x, (u8)pt.c.y);
         if (p[0x79] != old) {
             func_021C1D30(heap, p, key);
             func_021C2238(heap, p, key);
             if (p[0x79] != 0xff)
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
         }
         }
-    } else if (func_02035D20(&tx, &ty)) {
+    } else if (TOUCHPANEL_GetPointTrg(&tx, &ty)) {
         p[0x79] = func_021C0D5C(heap, (char *)p, key, (u8)tx, (u8)ty);
         func_021C1D30(heap, p, key);
         func_021C2238(heap, p, key);
         if (p[0x79] != 0xff)
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
     }
 }

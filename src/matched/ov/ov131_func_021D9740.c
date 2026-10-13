@@ -13,18 +13,18 @@
  * failure. No smaller range or successful callee result is assumed.
  * symbols:
  *   P_STA_SKILL_UpdateInput 0x021DA958 thumb ov131
- *   func_02045770 0x02045770 arm
- *   func_0201C6C4 0x0201C6C4 thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   P_STA_SKILL_ApplyStatsScreen 0x021D9E44 thumb ov131
  *   P_STA_SKILL_ApplyMovesScreen 0x021D9EF0 thumb ov131
- *   func_0201C6B4 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   P_STA_SKILL_SetSlotAnim 0x021DBA78 thumb ov131
  *   P_STA_SKILL_SetCursor 0x021DB468 thumb ov131
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   P_STA_SKILL_UpdateSlot 0x021DB7D0 thumb ov131
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
@@ -38,18 +38,18 @@ struct Cfg;
 struct Descriptor;
 struct Obj;
 struct PrintSys;
-extern void *func_02045770(struct Descriptor *p);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern void P_STA_SKILL_ApplyStatsScreen(u8 *,u8 *);
 extern void P_STA_SKILL_ApplyMovesScreen(u8 *,u8 *);
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void P_STA_SKILL_SetSlotAnim(u8 *,int);
 extern void P_STA_SKILL_SetCursor(u8 *,u8 *,u8,int);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void P_STA_SKILL_UpdateSlot(void *a0, void *a1, void *a2);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 void P_STA_SKILL_Main(u8 *a,u8 *p)
@@ -61,7 +61,7 @@ void P_STA_SKILL_Main(u8 *a,u8 *p)
     if(((struct Obj00502 *)p)->f4==1) {
         ready=1;
         for(i=0;i<=7;i++) {
-            if(func_0201C6C4(((struct Obj00136 *)a)->f84,func_02045770(*(void **)((p+i*4)+0x5c)))==1) {
+            if(PRINTSYS_QUE_IsExistTarget(((struct Obj00136 *)a)->f84,BMP_WIN_GetBmp(*(void **)((p+i*4)+0x5c)))==1) {
                 ready=0;
                 break;
             }
@@ -71,7 +71,7 @@ void P_STA_SKILL_Main(u8 *a,u8 *p)
                 cell=*(void **)((p+i*4)+0x5c);
                 BMP_WIN_TransferChars(cell);
                 BMP_WIN_MakeScreen(cell);
-                func_02041B6C(func_02045730(cell));
+                func_02041B6C(BMP_WIN_GetBgLayer(cell));
             }
             P_STA_SKILL_ApplyStatsScreen(a,p);
             ((struct Obj00502 *)p)->f4=0;
@@ -80,7 +80,7 @@ void P_STA_SKILL_Main(u8 *a,u8 *p)
     if(((struct Obj00502 *)p)->f8==1) {
         ready=1;
         for(i=8;i<=11;i++) {
-            if(func_0201C6C4(((struct Obj00136 *)a)->f84,func_02045770(*(void **)((p+i*4)+0x5c)))==1) {
+            if(PRINTSYS_QUE_IsExistTarget(((struct Obj00136 *)a)->f84,BMP_WIN_GetBmp(*(void **)((p+i*4)+0x5c)))==1) {
                 ready=0;
                 break;
             }
@@ -90,27 +90,27 @@ void P_STA_SKILL_Main(u8 *a,u8 *p)
                 cell=*(void **)((p+i*4)+0x5c);
                 BMP_WIN_TransferChars(cell);
                 BMP_WIN_MakeScreen(cell);
-                func_02041B6C(func_02045730(cell));
+                func_02041B6C(BMP_WIN_GetBgLayer(cell));
             }
             P_STA_SKILL_ApplyMovesScreen(a,p);
             ((struct Obj00502 *)p)->f8=0;
         }
     }
     if(((struct Obj00502 *)p)->fC==1) {
-        if(func_0201C6C4(((struct Obj00136 *)a)->f84,func_02045770(((struct Obj00502 *)p)->f8C))==0) {
+        if(PRINTSYS_QUE_IsExistTarget(((struct Obj00136 *)a)->f84,BMP_WIN_GetBmp(((struct Obj00502 *)p)->f8C))==0) {
             cell=((struct Obj00502 *)p)->f8C;
             BMP_WIN_TransferChars(cell);
             BMP_WIN_MakeScreen(cell);
-            func_02041B6C(func_02045730(cell));
+            func_02041B6C(BMP_WIN_GetBgLayer(cell));
             ((struct Obj00502 *)p)->fC=0;
         }
     }
-    if(((struct Obj00502 *)p)->f10==1 && func_0201C6B4(((struct Obj00136 *)a)->f84)==1) {
+    if(((struct Obj00502 *)p)->f10==1 && PRINTSYS_QUE_IsFinished(((struct Obj00136 *)a)->f84)==1) {
         ((struct Obj00502 *)p)->f14=0;
         P_STA_SKILL_SetSlotAnim((p+0xb0)+p[0x2a]*24,0);
         p[0x2a]=5;
         P_STA_SKILL_SetCursor(a,p,p[0x29],0);
-        func_0204B3DC(((struct Obj00502 *)p)->f9C,0);
+        CLACT_SetActorDrawEnable(((struct Obj00502 *)p)->f9C,0);
         ((struct Obj00502 *)p)->f10=0;
     }
     for(i=0;i<5;i++) P_STA_SKILL_UpdateSlot(a,p,(p+0xb0)+i*24);

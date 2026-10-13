@@ -1,5 +1,5 @@
 /*
- * function: func_021E396C
+ * function: HAND_WAZA_MagnitudeSetDefaultLevel
  * address:  0x021E396C
  * packet:   pkt_ov093_021E396C
  * region:   ov093
@@ -19,7 +19,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern int BTL_EVENT_GetVar(int key);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E396C(int u, int a, int b, int *p)
+void HAND_WAZA_MagnitudeSetDefaultLevel(int u, int a, int b, int *p)
 {
     if (b == BTL_EVENT_GetVar(3)) {
         if (*p == 0)

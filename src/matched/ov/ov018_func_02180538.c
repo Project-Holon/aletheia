@@ -13,12 +13,12 @@
  * waits for the link partner and snapshots its 0x3C-byte record into +0xEC.
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   func_02026454  0x02026454  thumb
- *   func_02026474  0x02026474  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
+ *   GAME_COMM_GetWork  0x02026474  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   INTRUDE_COMM_HasResultReward  0x02175E90  thumb  ov011
  *   INTRUDE_COMM_HasResult  0x02175DA8  thumb  ov011
@@ -37,7 +37,7 @@
  *   EVENT_COMM_COMMON_PrintListWindow  0x0217F4A0  thumb
  *   FIELD_SOUND_SYSTEM_StartPushAndPlayTask  0x02029830  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   func_02005F38  0x02005F38  thumb
+ *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
  *   FIELD_SOUND_SYSTEM_StartPopAndWaitTask  0x02029620  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   func_02007FB8  0x02007FB8  thumb
@@ -116,14 +116,14 @@ struct Obj;
 struct Rec1B0;
 struct S0201235C;
 struct WordSet;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 struct Ctx;
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Ctx;
 void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
-u32 func_02026454(void *);
-u32 func_02026474(void *obj);
+u32 GAME_COMM_GetKind(void *);
+u32 GAME_COMM_GetWork(void *obj);
 u32 func_0200FB24(void);
 int INTRUDE_COMM_HasResultReward(void *p, u8 *q);
 int INTRUDE_COMM_HasResult(u8 *);
@@ -142,7 +142,7 @@ void EVENT_COMM_COMMON_DeleteListWindowB(Ov018Obj *p);
 void EVENT_COMM_COMMON_PrintListWindow(void **p, unsigned int index, int a, int b);
 void *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(void *a, u32 b);
 void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
-int func_02005F38(void);
+int GFL_USE_IsBgmPlaying(void);
 void *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(void *a, u32 b, u32 c);
 void *GAME_DATA_GetMyItem(const struct BigObj *p);
 u32 func_02007FB8(u8 *base, u16 id, u16 d);
@@ -170,15 +170,15 @@ int EVENT_COMM_COMMON_MissionResultEventMain(void *a, int *state, Outer *c)
     u32 x;
     u32 n;
 
-    sub = func_020124E4(a);
+    sub = GAME_EVENT_GetGameSystem(a);
     t = (void *)GAMESYSTEM_GetGameComm(sub);
     w = GAMESYSTEM_GetGameData(sub);
     GAMESYSTEM_GetFieldMap(sub);
     switch (*state) {
     case 0:
         v = 0;
-        if (func_02026454(t) == 2) {
-            v = (u8 *)func_02026474(t);
+        if (GAME_COMM_GetKind(t) == 2) {
+            v = (u8 *)GAME_COMM_GetWork(t);
         }
         if (c->f34 == 0) {
             if (v != 0 && func_0200FB24() == 0 && INTRUDE_COMM_HasResultReward(v, v + 0x1AC) == 1) {
@@ -238,7 +238,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(void *a, int *state, Outer *c)
         }
         break;
     case 4:
-        if (func_02005F38() == 0) {
+        if (GFL_USE_IsBgmPlaying() == 0) {
             GAME_EVENT_CallEvent(a, FIELD_SOUND_SYSTEM_StartPopAndWaitTask(sub, 0, 6));
             m = GAME_DATA_GetMyItem(w);
             x = func_02007FB8(m, 0x23F, c->f00);
@@ -290,7 +290,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(void *a, int *state, Outer *c)
         *state = 12;
         break;
     case 11:
-        if (func_02005F38() == 0) {
+        if (GFL_USE_IsBgmPlaying() == 0) {
             GAME_EVENT_CallEvent(a, FIELD_SOUND_SYSTEM_StartPopAndWaitTask(sub, 0, 6));
             *state = 12;
         }

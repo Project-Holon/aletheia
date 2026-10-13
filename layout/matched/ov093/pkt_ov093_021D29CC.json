@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D29CC",
+   "name": "BTL_CLIENT_StepAddEffortValues",
    "address": "0x021D29CC",
    "kind": "game",
    "region": "ov093",

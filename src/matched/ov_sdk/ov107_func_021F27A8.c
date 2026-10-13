@@ -12,7 +12,7 @@
  * sdk:      MBi_CommParentSendDLFileInfo (libmb.TWL.HYB.a(mb_parent.o))
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021F6890  0x021F6890  arm  ov107
  *   func_02082D44  0x02082D44  arm
  *   func_021F3C80  0x021F3C80  arm  ov107
@@ -52,7 +52,7 @@ typedef struct MBiParam {
 extern MBiParam *g_021F6FA0;
 extern u8 g_021F6E48;
 
-extern void func_02082BCC(void *dstp, u8 data, u32 size);
+extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern u8 *func_021F6890(MBCommParentBlockHeader *hdr, u8 *sendbuf);
 extern void func_02082D44(void *srcp, void *dstp, u32 size);
 extern int func_021F3C80(int body_len, u16 pollbmp, u32 *sendbuf);
@@ -68,7 +68,7 @@ int func_021F27A8(void)
     u8 file_req_num[16];
     u16 pollbmp = 0;
 
-    func_02082BCC(file_req_num, 0, 16);
+    MI_CpuFill8(file_req_num, 0, 16);
     for (child = 1; child <= 15; child++) {
         if (g_021F6FA0->p_comm_state[child] == 5)
             file_req_num[g_021F6FA0->req_fid[child]]++;

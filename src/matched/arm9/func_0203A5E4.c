@@ -11,10 +11,10 @@
  *
  * symbols:
  *   _pCommandWork     0x021469D8  data
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *
  * Clears the 16-byte slot whose +0xC key matches, over the same four slots
- * GFL_NET_COMMAND_AddCommandTable writes.  func_02082BCC is the MSL memset helper; the clear is
+ * GFL_NET_COMMAND_AddCommandTable writes.  MI_CpuFill8 is the MSL memset helper; the clear is
  * that unit's only non-trivial statement and the loop's miss path is the only
  * other exit.
  *
@@ -35,7 +35,7 @@ struct Entry {
 };
 
 extern struct Entry *_pCommandWork;
-extern void func_02082BCC(int dst, int value, int size);
+extern void MI_CpuFill8(int dst, int value, int size);
 
 void GFL_NET_COMMAND_DeleteCommandTable(u32 key)
 {
@@ -46,7 +46,7 @@ void GFL_NET_COMMAND_DeleteCommandTable(u32 key)
         return;
     for (i = 0; i < 4; i++) {
         if (e[i].d == key) {
-            func_02082BCC((int)&e[i], 0, 0x10);
+            MI_CpuFill8((int)&e[i], 0, 0x10);
             return;
         }
     }

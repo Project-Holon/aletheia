@@ -109,7 +109,7 @@
  *   FIELD_MSGBG_PlainWinPrintStr  0x02191648  thumb  ov021
  *   FIELD_MSGBG_PlainWinPrintStrColor  0x02191674  thumb  ov021
  *   FIELD_MSGBG_GetPrintQue 0x021904A8 thumb ov021
- *   func_0201C6B4 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   POKE_REGULATION_DeleteText 0x0201A570 thumb
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
@@ -238,7 +238,7 @@ extern void *func_0200AE3C(void *p, u32 heap);
 extern void FIELD_MSGBG_PlainWinPrintStr(void *r, int b, int c, u32 d);
 extern void  FIELD_MSGBG_PlainWinPrintStrColor(void *a, int b, u16 c, u32 d, int e);
 extern u32 FIELD_MSGBG_GetPrintQue(void *p);
-extern u32 func_0201C6B4(const void *p);
+extern u32 PRINTSYS_QUE_IsFinished(const void *p);
 extern void POKE_REGULATION_DeleteText(void *p);
 extern void *FIELDMAP_GetGameSystem(void *p);
 extern u8 *GAMESYSTEM_GetMyPlayerWork(const void *p);
@@ -1133,7 +1133,7 @@ u32 UNION_MSG_CheckRegulationPrintEnd(UnionRoomWork *unisys, u32 fieldmap)
 
     if (unisys->regulationText == 0)
         return 1;
-    return func_0201C6B4((void *)printQue);
+    return PRINTSYS_QUE_IsFinished((void *)printQue);
 }
 
 

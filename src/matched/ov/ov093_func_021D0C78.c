@@ -1,5 +1,5 @@
 /*
- * function: func_021D0C78
+ * function: BTL_CLIENT_CollectOwnReceivedIds
  * address:  0x021D0C78
  * packet:   pkt_ov093_021D0C78
  * region:   ov093
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_ADAPTER_GetRecvData  0x021EEC20  thumb  ov093
- *   func_021B8DE4  0x021B8DE4  thumb  ov093
+ *   BTL_MAIN_GetSlotClientIdThunk  0x021B8DE4  thumb  ov093
  */
 #include "../include/Obj09995.h"
 
@@ -28,9 +28,9 @@ typedef struct {
 } BattleSeq;
 
 extern int BTL_ADAPTER_GetRecvData(int, int *);
-extern u8 func_021B8DE4(char *p, int i);
+extern u8 BTL_MAIN_GetSlotClientIdThunk(char *p, int i);
 
-u8 func_021D0C78(BattleSeq *s, u8 *out)
+u8 BTL_CLIENT_CollectOwnReceivedIds(BattleSeq *s, u8 *out)
 {
     int arr;
     u8 n;
@@ -41,7 +41,7 @@ u8 func_021D0C78(BattleSeq *s, u8 *out)
     i = 0;
     cnt = 0;
     for (; i < n; i++) {
-        if (s->unk1A6 == func_021B8DE4(s->battle, ((u8 *)arr)[i])) {
+        if (s->unk1A6 == BTL_MAIN_GetSlotClientIdThunk(s->battle, ((u8 *)arr)[i])) {
             out[cnt] = ((u8 *)arr)[i];
             cnt++;
         }

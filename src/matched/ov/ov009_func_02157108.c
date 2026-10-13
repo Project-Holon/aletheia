@@ -16,6 +16,7 @@
  *   DWC_RAPCOMMON_DestroyHeap  0x021570B8  thumb  ov009
  *   DWC_RAPCOMMON_Alloc  0x02156F5C  thumb  ov009
  *   DWC_RAPCOMMON_Free  0x02156FDC  thumb  ov009
+ *   _pRapHeap  0x021A8268  data
  */
 
 #include "../include/G_Obj.h"
@@ -25,7 +26,7 @@ typedef unsigned short u16;
 typedef struct {
     u32 f0; u32 f4; u32 f8; u32 fC; u32 f10; u32 f14; u32 f18; u32 f1C; u16 f20;
 } Obj;
-extern struct Obj *d_021A8268;
+extern struct Obj *_pRapHeap;
 extern char d_021A1C8C[];
 extern void DWC_RAPCOMMON_CreateHeap(u32 a, u32 b);
 extern int func_02059F6C(void *a, u32 b, void *c, void *d);

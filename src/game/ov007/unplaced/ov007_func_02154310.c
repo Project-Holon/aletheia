@@ -16,7 +16,7 @@
  * symbols:
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
@@ -37,7 +37,7 @@ struct ProcHandle;
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern u32   GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 typedef unsigned char  u8;
-extern u32 func_02026454(void *gameComm);
+extern u32 GAME_COMM_GetKind(void *gameComm);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent **callee);
 extern void GAMESYSTEM_CallProc(struct ProcHandle *gameSystem, u32 overlayId, void *procData, void *procArgs);
@@ -56,7 +56,7 @@ u32 EVENT_BSUBWAY_COMM_EventMain(void *event, u32 *stage, u32 *work)
 
     switch (*stage) {
     case 0:
-        if (func_02026454((void *)((int)GAMESYSTEM_GetGameComm((const struct GameSystem *)gameSystem))) == 0)
+        if (GAME_COMM_GetKind((void *)((int)GAMESYSTEM_GetGameComm((const struct GameSystem *)gameSystem))) == 0)
             (*stage)++;
         break;
     case 1:

@@ -16,7 +16,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_NET_SYSTEM_SetError  0x02039548  arm
  *   func_02034714  0x02034714  arm
  *   MI_CpuCopy8    0x02082D44  arm
@@ -144,7 +144,6 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
 
-extern void *func_02082BCC(void *dst, int val, u32 size);
 
 extern void GFL_NET_SYSTEM_SetError(void);
 
@@ -616,25 +615,25 @@ void GFL_NET_SYSTEM_ResetBuffers(void)
     parentSendSize = GFL_NET_SYSTEM_GetSendSize();
     childSendSize = GFL_NET_GetChildSendSize();
 
-    func_02082BCC(_pNetSys->recvRingData, 0, _pNetSys->packetBufSize * maxMembers);
+    MI_CpuFill8(_pNetSys->recvRingData, 0, _pNetSys->packetBufSize * maxMembers);
     for (i = 0; i < maxMembers; i++) {
         GFL_NET_RING_BUFF_Init(&_pNetSys->recvRing[i],
               (u32)(_pNetSys->recvRingData + i * _pNetSys->packetBufSize), _pNetSys->packetBufSize);
         _pNetSys->recvSeq[i] = 0;
     }
 
-    func_02082BCC(_pNetSys->mpParentRingData, 0, parentSendSize + parentSendSize);
+    MI_CpuFill8(_pNetSys->mpParentRingData, 0, parentSendSize + parentSendSize);
     GFL_NET_RING_BUFF_Init(&_pNetSys->mpParentSendRing, (u32)_pNetSys->mpParentRingData, (u32)parentSendSize << 1);
     for (i = 0; i < parentSendSize; i++)
         _pNetSys->mpParentPacketBuf[i] = 0;
 
-    func_02082BCC(_pNetSys->sendRingData, 0, childSendSize * 16 - childSendSize);
+    MI_CpuFill8(_pNetSys->sendRingData, 0, childSendSize * 16 - childSendSize);
     GFL_NET_RING_BUFF_Init(&_pNetSys->sendRing, (u32)_pNetSys->sendRingData, ((u32)childSendSize << 4) - childSendSize);
     *_pNetSys->sendPacketBuf = 0xff;
     for (i = 1; i < childSendSize; i++)
         _pNetSys->sendPacketBuf[i] = 0;
 
-    func_02082BCC(_pNetSys->parentRecvRingData, 0, _pNetSys->packetBufSize + _pNetSys->packetBufSize * 2);
+    MI_CpuFill8(_pNetSys->parentRecvRingData, 0, _pNetSys->packetBufSize + _pNetSys->packetBufSize * 2);
     GFL_NET_RING_BUFF_Init(&_pNetSys->parentRecvRing, (u32)_pNetSys->parentRecvRingData,
                   _pNetSys->packetBufSize * 3);
     for (i = 0; i < GFL_NET_MACHINE_MAX; i++) {

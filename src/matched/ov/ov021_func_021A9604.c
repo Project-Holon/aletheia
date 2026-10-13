@@ -14,7 +14,7 @@
  *   FIELD_WFBC_GetPeople  0x0219390C  thumb  ov021
  *   FIELD_WFBC_PEOPLE_GetNpcRecord  0x02193C00  thumb  ov021
  *   func_020056EC  0x020056EC  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  * Addresses are Black-image addresses.
  */
 
@@ -39,7 +39,7 @@ struct Out {
 extern void *FIELD_WFBC_GetPeople(void *a, u32 b);
 extern u8 *FIELD_WFBC_PEOPLE_GetNpcRecord(int a);
 extern u32 func_020056EC(u32 v);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 
 u32 FIELD_ENCOUNT_PickWfbcMon(int obj, struct Sel *sel, struct Out *out)
 {
@@ -78,7 +78,7 @@ u32 FIELD_ENCOUNT_PickWfbcMon(int obj, struct Sel *sel, struct Out *out)
             q = FIELD_WFBC_PEOPLE_GetNpcRecord(p);
             sum += q[k + 0x14];
             if (r < sum) {
-                func_02082BCC(out, 0, 0x14);
+                MI_CpuFill8(out, 0, 0x14);
                 out->f00 = ((u16 *)(q + 8))[k];
                 out->f04 = (q + k)[0x10];
                 return 1;

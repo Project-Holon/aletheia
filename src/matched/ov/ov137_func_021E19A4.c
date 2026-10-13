@@ -11,11 +11,11 @@
  * prototype: Legacy 02005E9C source lists four inputs, but its complete
  * body starts with 02005FBC(void) and reads no entry inputs; omitted them.
  * symbols:
- *   func_02005F38 0x02005F38 thumb
+ *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
  */
-extern int func_02005F38(void);
+extern int GFL_USE_IsBgmPlaying(void);
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_SetBgmPlayerParam(void *);
-int func_021E19A4(void) { if(func_02005F38()==0) { GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);return 0; }return 1; }
+int func_021E19A4(void) { if(GFL_USE_IsBgmPlaying()==0) { GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);return 0; }return 1; }

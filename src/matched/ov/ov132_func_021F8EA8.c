@@ -19,7 +19,7 @@
  *   func_021F75DC 0x021F75DC thumb ov112
  *   func_021F6AF0 0x021F6AF0 thumb ov112
  *   func_021FA57C 0x021FA57C thumb ov132
- *   func_0203630C 0x0203630C arm
+ *   KEY_GetCont 0x0203630C arm
  *   G3D_CAMERA_SetEye 0x02048AFC arm
  *   G3D_CAMERA_SetUp 0x02048B44 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
@@ -40,7 +40,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef struct { int x, y, z; } Vec;
 extern const Vec d_021FDBEC;
-extern u32 func_0203630C(void);
+extern u32 KEY_GetCont(void);
 extern void func_021F8044(void *unused, u32 *p, u32 *q);
 extern void func_021F6F04(void *, void *, Vec *);
 struct Light;
@@ -58,15 +58,15 @@ void func_021F8EA8(u8 *p)
     Vec v;
     s16 target;
     u8 index;
-    if (func_0203630C() & 16) {
+    if (KEY_GetCont() & 16) {
         if (*(u16 *)(p + 6) + 2 < 256) *(u16 *)(p + 6) = *(u16 *)(p + 6) + 2;
         else *(u16 *)(p + 6) = 256;
     }
-    if (func_0203630C() & 32) {
+    if (KEY_GetCont() & 32) {
         if (*(u16 *)(p + 6) - 2 > 0) *(u16 *)(p + 6) = *(u16 *)(p + 6) - 2;
         else *(u16 *)(p + 6) = 0;
     }
-    if (!(func_0203630C() & 48) && !*(int *)(p + 0x14) && !*(int *)(p + 0x10) && !*(int *)(p + 0xC)) {
+    if (!(KEY_GetCont() & 48) && !*(int *)(p + 0x14) && !*(int *)(p + 0x10) && !*(int *)(p + 0xC)) {
         if (*(u8 *)(p + 0xF2) == 4) {
             index = *(u8 *)(p + 0xF1);
             if (index == 4) index = *(u8 *)(p + 0xA);

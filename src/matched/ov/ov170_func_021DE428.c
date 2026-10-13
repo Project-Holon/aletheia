@@ -15,7 +15,7 @@
  *   func_021DDE20 0x021DDE20 thumb
  *   func_021DDEFC 0x021DDEFC thumb
  *   func_021DDFD4 0x021DDFD4 thumb
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  */
 #include "../include/Obj00000.h"
 #include "../include/Obj23843.h"
@@ -43,7 +43,7 @@ typedef struct {
 extern int func_021DDE20(unsigned char *p, unsigned a, unsigned b);
 extern void func_021DDEFC(unsigned char *p, Entry *e);
 extern void func_021DDFD4(unsigned char *p, Entry *e);
-extern unsigned func_0201AA18(void *party);
+extern unsigned POKEPARTY_GetCount(void *party);
 
 void func_021DE428(unsigned char *p, unsigned a, unsigned b)
 {
@@ -75,7 +75,7 @@ void func_021DE428(unsigned char *p, unsigned a, unsigned b)
     }
     m->a = a;
     m->b = b;
-    n = func_0201AA18(((void **)((struct Obj00000 *)p)->f0)[2]);
+    n = POKEPARTY_GetCount(((void **)((struct Obj00000 *)p)->f0)[2]);
     if (b < 0x1E) {
         unsigned k = a - 0x1E;
         for (i = k + 1; i < n; i++) {

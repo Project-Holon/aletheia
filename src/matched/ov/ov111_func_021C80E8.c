@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -40,13 +40,13 @@ typedef struct {
 } Work;
 
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
 void func_021C80E8(Work *p, int row, int v)
 {
     int i;
 
     for (i = 0; i < 3; i++) {
-        func_0204B3DC(p->f7C[row * 3 + i], v);
+        CLACT_SetActorDrawEnable(p->f7C[row * 3 + i], v);
     }
 }

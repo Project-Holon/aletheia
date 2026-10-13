@@ -12,7 +12,7 @@
  * symbols:
  *   func_021BD11C 0x021BD11C  thumb  ov208
 
- * BLOCKED.  Unverifiable: func_021BD11C resolves only through the `matched` class and layout/matched/ov093 holds func_021B911C in two shards, which aborts every manifest load.
+ * BLOCKED.  Unverifiable: func_021BD11C resolves only through the `matched` class and layout/matched/ov093 holds BTL_MAIN_ReturnZero in two shards, which aborts every manifest load.
  */
 #include "../include/Obj04613.h"
 

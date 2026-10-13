@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DC250",
+   "name": "HAND_TOKUSEI_GetToxicBoostHandlers",
    "address": "0x021DC250",
    "kind": "game",
    "region": "ov093",

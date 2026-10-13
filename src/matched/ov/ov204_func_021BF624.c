@@ -28,7 +28,7 @@ extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struc
 extern void MCSS_SetScale(void *p, u32 *src);
 typedef unsigned char  u8;
 extern void func_021BF7F0(u8 *p);
-extern void func_02015F2C(void *, void *, void (*)(void *, void *), int);
+extern void MCSS_SetAnimCallback(void *, void *, void (*)(void *, void *), int);
 
 void func_021BF624(char *p, unsigned int a, unsigned int b, unsigned int c, void *d, unsigned char i)
 {
@@ -41,5 +41,5 @@ void func_021BF624(char *p, unsigned int a, unsigned int b, unsigned int c, void
     zero = Zero;
     *(unsigned int *)(p + off + 12) = zero;
     *(unsigned int *)(p + off + 16) = 1;
-    func_02015F2C(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
+    MCSS_SetAnimCallback(*(void **)(base + off), base + off, (void (*)(void *, void *))func_021BF7F0, 0);
 }

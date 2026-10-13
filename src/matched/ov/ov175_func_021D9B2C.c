@@ -11,8 +11,8 @@
  *
  * symbols:
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_021B9A64  0x021B9A64  thumb  ov114
  *   func_021B9A94  0x021B9A94  thumb  ov114
  *   func_021B9A1C  0x021B9A1C  thumb  ov114
@@ -32,8 +32,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 POKE_TOOL_GetPartyParamSize(void);
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u8 *func_021B9A64(int a, int b, int c);
 extern void func_021B9A94(int p, int a, u32 b, int n);
 extern int func_021B9A1C(void *a, int b, int c, char *d, u16 e);
@@ -43,16 +43,16 @@ u32 func_021D9B2C(char *obj, void *list, u32 heapId)
 {
     int heap = (heapId & 0x7fff) | 0x8000;
     u32 size = POKE_TOOL_GetPartyParamSize();
-    void *buf = func_021B9A64(size, func_0201AA18(list), (u16)heap);
+    void *buf = func_021B9A64(size, POKEPARTY_GetCount(list), (u16)heap);
     int i;
     u32 ret;
 
-    for (i = 0; i < (int)func_0201AA18(list); i++) {
-        void *e = func_0201AB28(list, i);
+    for (i = 0; i < (int)POKEPARTY_GetCount(list); i++) {
+        void *e = POKEPARTY_GetMember(list, i);
         func_021B9A94((int)buf, (int)e, POKE_TOOL_GetPartyParamSize(), i);
     }
     size = POKE_TOOL_GetPartyParamSize();
-    ret = func_021B9A1C(buf, size, func_0201AA18(list), obj + 0x54, (u16)heap);
+    ret = func_021B9A1C(buf, size, POKEPARTY_GetCount(list), obj + 0x54, (u16)heap);
     func_021B9A8C(buf);
     return ret;
 }

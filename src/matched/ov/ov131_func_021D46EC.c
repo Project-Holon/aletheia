@@ -31,7 +31,7 @@
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
@@ -78,7 +78,7 @@ extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 struct Bank;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern void func_020434DC(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u16,void (*)(void));
 extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct Vec3 *,struct Vec3 *,struct Vec3 *,u16);
 struct Light;
@@ -117,7 +117,7 @@ void P_STATUS_InitGraphics(char *p)
     CLACT_InitSystem(&c,(u32)(&g_C0E4),((struct Obj01739 *)p)->f0);
     ((struct Obj01739 *)p)->f174=CLACT_CreateUnit(96,0,((struct Obj01739 *)p)->f0);
     CLACT_SetUnitDefaultRenderer(((struct Obj01739 *)p)->f174);
-    func_020434DC(16,1);BG_SYS_SetSubPlaneVisible(16,1);
+    BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);
     G3D_SYSTEM_Init(0,2,0,1,0,((struct Obj01739 *)p)->f0,0);
     *(u32 * *)&((struct Obj01739 *)p)->f70=G3D_CAMERA_Create(2,0xc0000,0,0,0x100000,0x80000,0x200000,0,&g_BFC0[0],&g_BFC0[2],&g_BFC0[1],((struct Obj01739 *)p)->f0);
     G3D_CAMERA_Reset(((struct Obj01739 *)p)->f70);

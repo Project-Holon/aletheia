@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021EF5E8 0x021EF5E8 thumb
  *   func_021DD238 0x021DD238 thumb
  *   func_021E8F50 0x021E8F50 thumb
@@ -23,7 +23,7 @@ typedef struct {
 } Obj;
 
 struct WinMgr;
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern int func_021EF5E8(struct WinMgr *mgr);
 extern void func_021DD238(char *p);
 extern int func_021E8F50(char *p, int v);
@@ -32,7 +32,7 @@ extern int func_021E8F50(char *p, int v);
 
 void func_021EA9F4(Obj *p, int v)
 {
-    func_020061E4(0x54C);
+    GFL_USE_PlaySeDefaultVolume(0x54C);
     if (func_021EF5E8(MGR(p)) == 1)
         p->lo = 2;
     else

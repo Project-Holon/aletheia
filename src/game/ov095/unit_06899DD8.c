@@ -18,14 +18,14 @@
  *   BTL_MAIN_GetRule  0x021B8588  thumb
  *   func_021B86B8  0x021B86B8  thumb
  *   func_021B8D8C  0x021B8D8C  thumb
- *   func_021B8E70  0x021B8E70  thumb
- *   func_021B8ED8  0x021B8ED8  thumb
+ *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb
+ *   BTL_MAIN_GetSlotFromViewPos  0x021B8ED8  thumb
  *   func_021B8FF4  0x021B8FF4  thumb
- *   func_021B9000  0x021B9000  thumb
- *   func_021B904C  0x021B904C  thumb
+ *   BTL_MAIN_GetOwnPartnerClient  0x021B9000  thumb
+ *   BTL_MAIN_GetOwnOpponentClient  0x021B904C  thumb
  *   func_021B98AC  0x021B98AC  thumb
  *   func_021B9AF8  0x021B9AF8  thumb
- *   func_021B9B94  0x021B9B94  thumb
+ *   BTL_SLOT_GetCount  0x021B9B94  thumb
  *   func_021B9C00  0x021B9C00  thumb
  *   func_021D3D84  0x021D3D84  thumb
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
@@ -37,7 +37,7 @@
  *   func_021D62A8  0x021D62A8  thumb
  *   func_021F81EC  0x021F81EC  thumb
  *   func_0220270C  0x0220270C  thumb
- *   func_0201C4C0  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   func_020307B0  0x020307B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   func_022021F4  0x022021F4  thumb
@@ -99,7 +99,7 @@ typedef struct { u8 bytes[12]; } Rec;
 
 typedef struct { Rec rows[2][6]; u32 f90, f94; u32 ids[3], names[3], values[3]; u32 fbc, fc0; u8 fc4, fc5, pad[2]; } Payload;
 
-extern void func_0201C4C0(u32);
+extern void PRINTSYS_QUE_Delete(u32);
 extern void STRBUF_Delete(u32);
 extern void func_022021F4(u32);
 extern void func_020307B0(void *);
@@ -115,14 +115,14 @@ extern int func_0689B1E4(void *, void *);
 extern void func_02082A48(u32, void *, u32);
 extern u8 BTL_POKEPARAM_GetPokeId(void *);
 extern u32 func_021B8D8C(void *, void *, u32);
-extern u8 func_021B8E70(void *, u32);
+extern u8 BTL_MAIN_GetViewPosOfSlot(void *, u32);
 extern void func_021F81EC(u32);
 extern u32 BTL_MAIN_GetRule(void *);
 extern u32 func_021B8FF4(void *);
-extern u32 func_021B9000(void *);
+extern u32 BTL_MAIN_GetOwnPartnerClient(void *);
 extern void *func_021B9AF8(void *, int);
-extern u32 func_021B9B94(void *);
-extern u8 func_021B8ED8(void *, u32);
+extern u32 BTL_SLOT_GetCount(void *);
+extern u8 BTL_MAIN_GetSlotFromViewPos(void *, u32);
 extern void *func_021B98AC(void *, u32);
 extern int BTL_POKEPARAM_IsFainted(void *);
 extern u32 BTL_POKEPARAM_GetSpecies(void *);
@@ -130,7 +130,7 @@ extern void *BTL_POKEPARAM_GetDisplayMon(void *);
 extern u32 POKE_TOOL_GetPartyValue(void *, int, int);
 extern u32 func_021D59B4(void *, int);
 extern u32 func_021B86B8(void *);
-extern u8 func_021B904C(void *, int);
+extern u8 BTL_MAIN_GetOwnOpponentClient(void *, int);
 extern void *func_021B9C00(void *, u8);
 extern int func_021D62A8(void *);
 extern int BTL_POKEPARAM_IsAbleToBattle(void *);
@@ -154,7 +154,7 @@ void func_0689A028(Obj *p);
 int func_0689A030(void *unused, void *arg);
 
 void func_06899DD8(unsigned char *p) {
- func_0201C4C0(((struct Obj10162 *)p)->f14);
+ PRINTSYS_QUE_Delete(((struct Obj10162 *)p)->f14);
  STRBUF_Delete(((struct Obj10162 *)p)->fC);
  func_022021F4(((struct Obj10162 *)p)->fB0);
  func_020307B0(p);
@@ -336,7 +336,7 @@ int func_0689A030(void *unused, void *arg)
     out.fc4 = p[0x91];
     first = BTL_POKEPARAM_GetPokeId(*(void **)(p + 0x6c));
     first = func_021B8D8C(*(void **)(p + 0xa0), *(void **)(p + 0xa4), first);
-    out.fbc = func_021B8E70(*(void **)(p + 0xa0), first);
+    out.fbc = BTL_MAIN_GetViewPosOfSlot(*(void **)(p + 0xa0), first);
     func_021F81EC(out.fbc);
     mode = BTL_MAIN_GetRule(*(void **)(p + 0xa0));
     for (; pass < 2; pass++) {
@@ -344,26 +344,26 @@ int func_0689A030(void *unused, void *arg)
         groups[1] = 0;
         if (pass == 0) {
             first = func_021B8FF4(*(void **)(p + 0xa0));
-            second = func_021B9000(*(void **)(p + 0xa0));
+            second = BTL_MAIN_GetOwnPartnerClient(*(void **)(p + 0xa0));
             if (mode == 1 && second != 4) {
                 if (first < second) {
                     groups[0] = func_021B9AF8(*(void **)(p + 0xa4), first);
-                    counts[0] = func_021B9B94(groups[0]);
+                    counts[0] = BTL_SLOT_GetCount(groups[0]);
                     groups[1] = func_021B9AF8(*(void **)(p + 0xa4), second);
-                    counts[1] = func_021B9B94(groups[1]);
+                    counts[1] = BTL_SLOT_GetCount(groups[1]);
                 } else {
                     groups[0] = func_021B9AF8(*(void **)(p + 0xa4), second);
-                    counts[0] = func_021B9B94(groups[0]);
+                    counts[0] = BTL_SLOT_GetCount(groups[0]);
                     groups[1] = func_021B9AF8(*(void **)(p + 0xa4), first);
-                    counts[1] = func_021B9B94(groups[1]);
+                    counts[1] = BTL_SLOT_GetCount(groups[1]);
                 }
             } else {
                 groups[0] = *(void **)(p + 0xa8);
-                counts[0] = func_021B9B94(groups[0]);
+                counts[0] = BTL_SLOT_GetCount(groups[0]);
             }
             switch (mode) {
             case 0:
-                slot = func_021B8ED8(*(void **)(p + 0xa0), 0);
+                slot = BTL_MAIN_GetSlotFromViewPos(*(void **)(p + 0xa0), 0);
                 mon = func_021B98AC(*(void **)(p + 0xa4), slot);
                 if (BTL_POKEPARAM_IsFainted(mon) == 0) {
                     out.ids[0] = BTL_POKEPARAM_GetSpecies(mon);
@@ -372,7 +372,7 @@ int func_0689A030(void *unused, void *arg)
                 }
                 break;
             case 2:
-                slot = func_021B8ED8(*(void **)(p + 0xa0), 6);
+                slot = BTL_MAIN_GetSlotFromViewPos(*(void **)(p + 0xa0), 6);
                 mon = func_021B98AC(*(void **)(p + 0xa4), slot);
                 if (BTL_POKEPARAM_IsFainted(mon) == 0) {
                     out.ids[2] = BTL_POKEPARAM_GetSpecies(mon);
@@ -380,14 +380,14 @@ int func_0689A030(void *unused, void *arg)
                     out.values[2] = func_021D59B4(mon, 18);
                 }
             case 1: case 3:
-                slot = func_021B8ED8(*(void **)(p + 0xa0), 2);
+                slot = BTL_MAIN_GetSlotFromViewPos(*(void **)(p + 0xa0), 2);
                 mon = func_021B98AC(*(void **)(p + 0xa4), slot);
                 if (BTL_POKEPARAM_IsFainted(mon) == 0) {
                     out.ids[0] = BTL_POKEPARAM_GetSpecies(mon);
                     out.names[0] = POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetDisplayMon(mon), 111, 0);
                     out.values[0] = func_021D59B4(mon, 18);
                 }
-                slot = func_021B8ED8(*(void **)(p + 0xa0), 4);
+                slot = BTL_MAIN_GetSlotFromViewPos(*(void **)(p + 0xa0), 4);
                 mon = func_021B98AC(*(void **)(p + 0xa4), slot);
                 if (BTL_POKEPARAM_IsFainted(mon) == 0) {
                     out.ids[1] = BTL_POKEPARAM_GetSpecies(mon);
@@ -399,14 +399,14 @@ int func_0689A030(void *unused, void *arg)
             }
         } else {
             if (func_021B86B8(*(void **)(p + 0xa0)) == 0 || func_021B86B8(*(void **)(p + 0xa0)) == 4) break;
-            first = func_021B904C(*(void **)(p + 0xa0), 0);
-            second = func_021B904C(*(void **)(p + 0xa0), 1);
+            first = BTL_MAIN_GetOwnOpponentClient(*(void **)(p + 0xa0), 0);
+            second = BTL_MAIN_GetOwnOpponentClient(*(void **)(p + 0xa0), 1);
             out.f94 = 1;
             groups[0] = func_021B9AF8(*(void **)(p + 0xa4), first);
-            counts[0] = func_021B9B94(groups[0]);
+            counts[0] = BTL_SLOT_GetCount(groups[0]);
             if (mode == 1 && first != second) {
                 groups[1] = func_021B9AF8(*(void **)(p + 0xa4), second);
-                counts[1] = func_021B9B94(groups[1]);
+                counts[1] = BTL_SLOT_GetCount(groups[1]);
             }
         }
         if (groups[1] == 0) n = counts[0];

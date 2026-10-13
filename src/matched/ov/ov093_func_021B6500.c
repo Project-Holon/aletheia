@@ -20,8 +20,8 @@
  *   BTL_FIELD_Delete 0x021EF980 thumb ov093
  *   BTL_NET_FreeRelayPacket 0x021D4D5C thumb ov093
  *   BTL_CALC_Exit 0x021D7894 thumb ov093
- *   func_021BA0CC 0x021BA0CC thumb ov093
- *   func_021B9DE8 0x021B9DE8 thumb ov093
+ *   BTL_MAIN_FreeParties 0x021BA0CC thumb ov093
+ *   BTL_MAIN_FreeTrainerSlotsAndVoices 0x021B9DE8 thumb ov093
  *   BTL_MAIN_StartCleanupTask 0x021B6804 thumb ov093
  *   BTL_ADAPTER_NoOp 0x021EEA54 thumb ov093
  *   BTL_NET_Exit 0x021D4254 thumb ov093
@@ -52,8 +52,8 @@ extern void BTL_FIELD_Delete(void *);
 extern u32 func_020307B0(void *p);
 extern void BTL_NET_FreeRelayPacket(void *);
 extern void BTL_CALC_Exit(void);
-extern void func_021BA0CC(struct S *);
-extern void func_021B9DE8(char *);
+extern void BTL_MAIN_FreeParties(struct S *);
+extern void BTL_MAIN_FreeTrainerSlotsAndVoices(char *);
 extern void BTL_MAIN_StartCleanupTask(Callback *, u8 *, u8 *);
 extern void BTL_ADAPTER_NoOp(void);
 extern void BTL_NET_Exit(void);
@@ -115,8 +115,8 @@ int BTL_MAIN_ProcExit(int handle, u32 *state, int unused, u8 *p)
         if (((struct Obj01370 *)p)->f2C0) { func_020307B0(((struct Obj01370 *)p)->f2C0); ((struct Obj01370 *)p)->f2C0 = 0; }
         if (((struct Obj01370 *)p)->f2C4) { BTL_NET_FreeRelayPacket(((struct Obj01370 *)p)->f2C4); ((struct Obj01370 *)p)->f2C4 = 0; }
         BTL_CALC_Exit();
-        func_021BA0CC((struct S *)p);
-        func_021B9DE8((char *)p);
+        BTL_MAIN_FreeParties((struct S *)p);
+        BTL_MAIN_FreeTrainerSlotsAndVoices((char *)p);
         BTL_MAIN_StartCleanupTask((Callback *)(p + 0x450), p, *(u8 * *)&((struct Obj01370 *)p)->f0);
         *state += 1;
         break;

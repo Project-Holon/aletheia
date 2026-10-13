@@ -12,7 +12,7 @@
  * symbols:
  *   func_021BF734  0x021BF734  thumb  ov217
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
  *
  * Addresses are Black-image addresses.
@@ -26,14 +26,14 @@ struct IcaAnime;
 
 extern u32 func_021BF734(u8 *a0);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
-extern u32 func_02026454(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 
 int func_021C093C(u8 *a0)
 {
     u32 r;
     r = func_021BF734(a0);
-    switch (func_02026454((void *)GAMESYSTEM_GetGameComm((const struct Ctx *)r))) {
+    switch (GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm((const struct Ctx *)r))) {
     case 0:
         GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)r);
         return 1;

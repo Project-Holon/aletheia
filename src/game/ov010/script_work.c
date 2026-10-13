@@ -28,7 +28,7 @@
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   func_020124E8 0x020124E8 thumb
  *   func_020122C0  0x020122C0  thumb
- *   func_020143CC  0x020143CC  thumb
+ *   ZONEDATA_GetEventWorkAddress  0x020143CC  thumb
  *   VM_GetU32  0x0201134C  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
@@ -84,7 +84,7 @@ extern void *GAMESYSTEM_GetGameData(void *gameSystem);
 extern u32 GAME_DATA_GetEventWork(void *gameData);
 extern void *func_020124E8(void *task);
 extern void *func_020122C0(void *gameSystem, void *arg, ScriptCheckTaskFn callback, unsigned int size);
-extern u16 *func_020143CC(u32 eventWork, u32 id);
+extern u16 *ZONEDATA_GetEventWorkAddress(u32 eventWork, u32 id);
 extern u32 VM_GetU32(ScriptVm *vm);
 extern void *GAMESYSTEM_GetFieldMap(void *gameSystem);
 extern void *SCRCMD_WORK_GetGameSystem(ScriptVm *vm);
@@ -291,7 +291,7 @@ u16 *SCRIPT_WORK_GetWorkPtr(ScriptWork *work, void *gameData, unsigned int id)
 {
     u32 eventWork = GAME_DATA_GetEventWork(gameData);
     if (id < 0x4000) return 0;
-    if (id < 0x8000) return func_020143CC(eventWork, id);
+    if (id < 0x8000) return ZONEDATA_GetEventWorkAddress(eventWork, id);
     if (id < 0xc000) return SCRIPT_WORK_GetLocalWork(work, id);
     return 0;
 }

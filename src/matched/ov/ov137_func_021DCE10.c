@@ -25,7 +25,7 @@
  * GFL_HEAP_CreateChildHeap 0x0203064C arm
  * func_020490F4 0x020490F4 arm
  * PROCSYS_AllocProcWork 0x0203159C arm
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * func_0203F8F4 0x0203F8F4 arm
  * func_02045B38 0x02045B38 arm
  * TCBL_Create 0x0203101C arm
@@ -35,7 +35,7 @@
  * GF_FONT_Create 0x0201D7EC thumb
  * WIPE_SYS_Start 0x0202208C thumb
  * func_020056A0 0x020056A0 thumb
- * func_0201C440 0x0201C440 thumb
+ * PRINTSYS_QUE_Create 0x0201C440 thumb
  * func_021DD1D0 0x021DD1D0 thumb ov137
  * func_021DD1E0 0x021DD1E0 thumb ov137
  * func_021DD3D8 0x021DD3D8 thumb ov137
@@ -54,7 +54,7 @@ extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *func_020490F4(u32 id, u32 heap);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern void func_0203F8F4(u16);
 struct GfFont;
 struct MsgBank;
@@ -69,7 +69,7 @@ extern void func_021DD3D8(void *,void *);
 extern void func_021DD1A4(void *a0, void *work);
 extern void *func_020056A0(u32,u32,u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u32 func_0201C440(void *);
+extern u32 PRINTSYS_QUE_Create(void *);
 extern void func_021DD2E0(u8 *,void *),func_021DD4A8(u8 *,void *),func_021DD5AC(u8 *),func_021DD638(u8 *);
 extern void func_021DCB78(u32 a);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
@@ -86,7 +86,7 @@ int func_021DCE10(void *a,u32 *state,u8 *ctx)
         GFL_HEAP_CreateChildHeap((u32)((void *)1),114,0x80000);
         arc=func_020490F4(184,114);
         p=PROCSYS_AllocProcWork(a,0x4874,114);
-        func_02082BCC(p,0,0x4874);
+        MI_CpuFill8(p,0,0x4874);
         *(u8 **)(ctx+32)=p; *(u8 **)(p+12)=ctx;
         *(void **)(p+16)=*(void **)(ctx+24);
         func_0203F8F4(114);
@@ -98,7 +98,7 @@ int func_021DCE10(void *a,u32 *state,u8 *ctx)
         func_021DD3D8(p,arc);
         *(void **)(p+48)=func_020056A0((u32)func_021DD1A4,(u32)p,1);
         *(void **)(p+244)=TCBL_Create(114,114,32,32);
-        *(u32 *)(p+236)=func_0201C440((void *)114);
+        *(u32 *)(p+236)=PRINTSYS_QUE_Create((void *)114);
         func_021DD2E0(p,arc); func_021DD4A8(p,arc); func_021DD5AC(p); func_021DD638(p);
         func_021DCB78((u32)(*(void **)(ctx+24)));
         GFL_NET_RestartWithDefaultTimeout(1,114); ARC_TOOL_DeleteHandle(arc);

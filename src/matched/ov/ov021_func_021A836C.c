@@ -22,7 +22,7 @@
  *   func_020355C4  0x020355C4  arm
  *   func_020056A0  0x020056A0  thumb
  *   FIELD_MENU_ColorTask  0x021A8D40  thumb  ov021
- *   func_0201C440  0x0201C440  thumb
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   func_020490F4  0x020490F4  arm
  *   FIELD_MENU_GetLayoutType  0x021A8B18  thumb  ov021
  *   FIELD_MENU_LoadGraphics  0x021A8874  thumb  ov021
@@ -33,7 +33,7 @@
  *   FIELD_MENU_SetScrolledOut  0x021A8DD8  thumb  ov021
  *   GAME_DATA_GetFrameRate  0x020129C4  thumb
  *   FIELD_MENU_SelectButton  0x021A8E20  thumb  ov021
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *
  * 0x021DDF94 is the "field_menu.c" file-name string; 0x134 is its line.
@@ -103,7 +103,7 @@ extern u32 FIELDMAP_GetMsgBg(u8 *p);
 extern u8 func_020355C4(void);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 extern void FIELD_MENU_ColorTask(void *unused, struct W *w);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 FIELD_MENU_GetLayoutType(void *a, void *b, u32 c);
 extern void FIELD_MENU_LoadGraphics(struct Obj *p, void *q, int r, u32 unused);
@@ -114,7 +114,7 @@ extern void FIELD_MENU_UpdateSelection(struct W *w);
 extern void FIELD_MENU_SetScrolledOut(Obj *p);
 extern u8 GAME_DATA_GetFrameRate(const struct BigObj *p);
 extern void FIELD_MENU_SelectButton(struct W *w, u32 v);
-extern void func_0204B3DC(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
 Obj *FIELD_MENU_Create(u16 heap, u16 a1, int a2, void *a3, int a4)
@@ -142,7 +142,7 @@ Obj *FIELD_MENU_Create(u16 heap, u16 a1, int a2, void *a3, int a4)
     p->f24 = p->f2C = func_020355C4() ^ 1;
     p->fF8 = 0;
     p->f130 = func_020056A0(FIELD_MENU_ColorTask, p, 0);
-    p->f12C = (void *)func_0201C440((void *)p->f00);
+    p->f12C = (void *)PRINTSYS_QUE_Create((void *)p->f00);
     p->f100 = 0;
     p->fFC = 0;
     q = func_020490F4(0x47, p->f02);
@@ -162,9 +162,9 @@ Obj *FIELD_MENU_Create(u16 heap, u16 a1, int a2, void *a3, int a4)
         FIELD_MENU_SelectButton((struct W *)p, GAME_DATA_GetFrameRate((const struct BigObj *)y));
         p->f24 = 1;
         if (p->f2C != 0) {
-            func_0204B3DC((struct Obj *)p->f124, 1);
+            CLACT_SetActorDrawEnable((struct Obj *)p->f124, 1);
         } else {
-            func_0204B3DC((struct Obj *)p->f124, 0);
+            CLACT_SetActorDrawEnable((struct Obj *)p->f124, 0);
         }
     }
     GFL_NET_RestartWithDefaultTimeout(0, p->f02);

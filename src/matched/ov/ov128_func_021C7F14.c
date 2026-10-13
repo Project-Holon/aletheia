@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020362DC 0x020362DC arm
- *   func_0203633C 0x0203633C arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   KEY_GetRepeat 0x0203633C arm
  *   func_020355D8 0x020355D8 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021C7E78 0x021C7E78 thumb ov128
  *   func_021CA2C4 0x021CA2C4 thumb ov128
  */
@@ -21,10 +21,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern u32 func_020362DC(void);
-extern u32 func_0203633C(void);
+extern u32 KEY_GetTrg(void);
+extern u32 KEY_GetRepeat(void);
 extern void func_020355D8(u8 v);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int func_021C7E78(s16 *,u8 *,void *,int);
 extern void func_021CA2C4(u8 *,int,int);
 int func_021C7F14(s16 *p, u8 *a, u8 *ctx)
@@ -33,47 +33,47 @@ int func_021C7F14(s16 *p, u8 *a, u8 *ctx)
     int moved;
     int page;
     int dir;
-    if(func_020362DC() & 2) {
+    if(KEY_GetTrg() & 2) {
         func_020355D8(0);
         ((struct Obj03810 *)a)->f0=0;
         return func_021C7E78(p,a,ctx,0);
     }
-    if(func_020362DC() & 1024) {
+    if(KEY_GetTrg() & 1024) {
         func_020355D8(0);
         ((struct Obj03810 *)a)->f0=0;
         return func_021C7E78(p,a,ctx,6);
     }
     if(((struct Obj03810 *)a)->f0==1) {
-        if(func_020362DC() & 0xcf3) {
-            func_020061E4(0x548);
+        if(KEY_GetTrg() & 0xcf3) {
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021CA2C4(ctx,p[2],p[2]);
             func_020355D8(0);
             ((struct Obj03810 *)a)->f0=0;
         }
         return 0;
     }
-    if(func_020362DC() & 1) return func_021C7E78(p,a,ctx,5);
+    if(KEY_GetTrg() & 1) return func_021C7E78(p,a,ctx,5);
     old=p[2];
     moved=0;
     page=0;
-    if(func_0203633C() & 64) {
+    if(KEY_GetRepeat() & 64) {
         if(p[2]==0) p[2]=3;
         else if(p[2]==4) p[2]=7;
         else --p[2];
         moved=1;
-    } else if(func_0203633C() & 128) {
+    } else if(KEY_GetRepeat() & 128) {
         if(p[2]==3) p[2]=0;
         else if(p[2]==7) p[2]=4;
         else ++p[2];
         moved=1;
-    } else if(func_0203633C() & 32) {
+    } else if(KEY_GetRepeat() & 32) {
         if(p[2]<4) {
             p[2]+=4;
             page=1;
             dir=0;
         } else p[2]-=4;
         moved=1;
-    } else if(func_0203633C() & 16) {
+    } else if(KEY_GetRepeat() & 16) {
         if(p[2]<4) p[2]+=4;
         else {
             p[2]-=4;
@@ -82,10 +82,10 @@ int func_021C7F14(s16 *p, u8 *a, u8 *ctx)
         }
         moved=1;
     } else if(a[14]) {
-        if(a[14] && (func_0203633C() & 512)) {
+        if(a[14] && (KEY_GetRepeat() & 512)) {
             page=1;
             dir=0;
-        } else if(a[14] && (func_0203633C() & 256)) {
+        } else if(a[14] && (KEY_GetRepeat() & 256)) {
             page=1;
             dir=1;
         }
@@ -103,7 +103,7 @@ int func_021C7F14(s16 *p, u8 *a, u8 *ctx)
         }
     }
     if(moved==1) {
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021CA2C4(ctx,p[2],old);
         p[3]=old;
     }

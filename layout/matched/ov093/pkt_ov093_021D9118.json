@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_ABILITY_IronFistBoostPunchPower",
-    "BTL_ABILITY_GetIronFistHandlers"
+    "HAND_TOKUSEI_IronFistBoostPunchPower",
+    "HAND_TOKUSEI_GetIronFistHandlers"
    ],
    "addresses": [
     "0x021D9118",

@@ -15,8 +15,8 @@
  *   func_021E12AC  0x021E12AC  thumb  ov119
  *   func_021DD140  0x021DD140  thumb  ov119
  *   func_021D8A24  0x021D8A24  thumb  ov119
- *   func_02039CB4  0x02039CB4  arm
- *   func_02039C68  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   func_021DD24C  0x021DD24C  thumb  ov119
  *   func_021DD294  0x021DD294  thumb  ov119
  *   MSGDATA_ReadString  0x02045CAC  arm
@@ -45,8 +45,8 @@ extern int func_021E12AC(char *p);
 extern int func_021DD140(char *p);
 extern int func_021D8A24(void *p);
 struct Link;
-extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
-extern void func_02039C68(struct Link *h, u32 a, u32 b);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *h, u32 a, u32 b);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *h, u32 a, u32 b);
 extern int func_021DD24C(char *p);
 extern void func_021DD294(char *p, int a, int b);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -67,7 +67,7 @@ void func_021DDF74(char *p)
     b = 1 - a;
     if (func_021E12AC(p) == 0) return;
     if (func_021DD140(p) == 0) return;
-    if (func_021D8A24(p) != 0 && func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1C, 8) == 0) {
+    if (func_021D8A24(p) != 0 && GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1C, 8) == 0) {
         func_021DD24C(p);
         return;
     }
@@ -107,7 +107,7 @@ void func_021DDF74(char *p)
     p[0x11E0] = 0;
     p[0x11E1] = 0;
     if (func_021D8A24(p) != 0) {
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x19, 8);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x19, 8);
     }
     ((struct Obj01251 *)p)->fF2C = 0;
     func_021D8E84(p, (int)func_021DE8C0);

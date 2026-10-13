@@ -9,7 +9,7 @@
  * status: EXACT
  * Match lever: bind the entry id before binding its element pointer.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
@@ -24,7 +24,7 @@ typedef struct { unsigned words[8]; } Bg;
 typedef struct { unsigned id; Bg config; unsigned type, enabled; } Entry;
 extern const Disp d_021F55A4;
 extern const Entry d_021F5600[];
-extern void func_02082BCC(void *, unsigned, unsigned);
+extern void MI_CpuFill8(void *, unsigned, unsigned);
 extern void func_0203F8F4(unsigned short);
 extern void BMP_WIN_Init(unsigned short);
 typedef unsigned int   u32;
@@ -38,7 +38,7 @@ void func_021F4C0C(void *p, unsigned short heap)
     unsigned i = 0;
     unsigned id;
     const Entry *e;
-    func_02082BCC(p, 0, 4);
+    MI_CpuFill8(p, 0, 4);
     func_0203F8F4(heap);
     BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)(&d_021F55A4));

@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetAirBalloonHandlers
+ * function: HAND_ITEM_GetAirBalloonHandlers
  * address: 0x021DFB40
  * packet: pkt_ov093_021DFB40
  * region: ov093
@@ -15,10 +15,10 @@
  *   gBtlHandlerItemAirBalloonHandlers 0x021F1934 data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetAirBalloonHandlers(int *p);
+int *HAND_ITEM_GetAirBalloonHandlers(int *p);
 extern int gBtlHandlerItemAirBalloonHandlers[];
 
-int *BTL_HANDLER_ITEM_GetAirBalloonHandlers(int *p)
+int *HAND_ITEM_GetAirBalloonHandlers(int *p)
 {
     *p = 3;
     return gBtlHandlerItemAirBalloonHandlers;

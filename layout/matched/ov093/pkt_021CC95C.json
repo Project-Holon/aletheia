@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CC95C",
+   "name": "BTL_SERVER_FLOW_EndHandExScope",
    "address": "0x021CC95C",
    "kind": "game",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CC96C",
+   "name": "BTL_SERVER_FLOW_IsHandExScopeActive",
    "address": "0x021CC96C",
    "kind": "game",
    "region": "ov093",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CC99C",
+   "name": "BTL_SERVER_FLOW_GetHandExScopeResult",
    "address": "0x021CC99C",
    "kind": "game",
    "region": "ov093",

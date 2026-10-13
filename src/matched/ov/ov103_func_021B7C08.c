@@ -15,12 +15,12 @@
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj07981.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 struct Obj;
-extern void CLACT_DeleteActor(struct Obj *p); extern void CLACT_ReleasePalette(int); extern void CLACT_ReleaseCharacter(int); extern void CLACT_ReleaseCellAnim(int); extern int CLACT_DeleteUnit(int); extern void CLACT_ExitSystem(int); extern void func_02082BCC(void *,int,int);
-void func_021B7C08(u8 *p) { int i; for(i=0;i<33;i++) { if(*(int *)(p+16+i*4)) CLACT_DeleteActor((struct Obj *)(*(int *)(p+16+i*4))); } CLACT_ReleasePalette(((struct Obj07981 *)p)->f4); CLACT_ReleaseCharacter(((struct Obj07981 *)p)->f8); CLACT_ReleaseCellAnim(((struct Obj07981 *)p)->fC); CLACT_ExitSystem(CLACT_DeleteUnit(((struct Obj07981 *)p)->f0)); func_02082BCC(p,0,0x94); }
+extern void CLACT_DeleteActor(struct Obj *p); extern void CLACT_ReleasePalette(int); extern void CLACT_ReleaseCharacter(int); extern void CLACT_ReleaseCellAnim(int); extern int CLACT_DeleteUnit(int); extern void CLACT_ExitSystem(int); extern void MI_CpuFill8(void *,int,int);
+void func_021B7C08(u8 *p) { int i; for(i=0;i<33;i++) { if(*(int *)(p+16+i*4)) CLACT_DeleteActor((struct Obj *)(*(int *)(p+16+i*4))); } CLACT_ReleasePalette(((struct Obj07981 *)p)->f4); CLACT_ReleaseCharacter(((struct Obj07981 *)p)->f8); CLACT_ReleaseCellAnim(((struct Obj07981 *)p)->fC); CLACT_ExitSystem(CLACT_DeleteUnit(((struct Obj07981 *)p)->f0)); MI_CpuFill8(p,0,0x94); }

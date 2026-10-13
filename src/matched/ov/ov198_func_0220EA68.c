@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_0220EAF0 0x0220EAF0 thumb ov198
  *   func_0220EBCC 0x0220EBCC thumb ov198
  *   func_0220EC2C 0x0220EC2C thumb ov198
@@ -20,7 +20,7 @@
  */
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void func_0220EAF0(void *);
 extern void func_0220EBCC(void *);
 typedef unsigned char  u8;
@@ -33,7 +33,7 @@ extern void func_0220EECC(u8 *p);
 void func_0220EA68(char *p,unsigned mode)
 {
     unsigned i;
-    for(i=0;i<41;i++)func_0204B3DC(*(void **)(p+i*4+0x1ebc),0);
+    for(i=0;i<41;i++)CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x1ebc),0);
     switch(mode){
     case 0: case 8: func_0220EAF0(p);return;
     case 1: func_0220EBCC(p);return;

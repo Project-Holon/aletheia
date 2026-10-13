@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetBlackBeltHandlers
+ * function: HAND_ITEM_GetBlackBeltHandlers
  * address: 0x021DF764
  * packet: pkt_ov093_021DF764
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int gBlackBeltHandlers[];
-int *BTL_HANDLER_ITEM_GetBlackBeltHandlers(int *p);
+int *HAND_ITEM_GetBlackBeltHandlers(int *p);
 
-int *BTL_HANDLER_ITEM_GetBlackBeltHandlers(int *p)
+int *HAND_ITEM_GetBlackBeltHandlers(int *p)
 {
     *p = 1;
     return gBlackBeltHandlers;

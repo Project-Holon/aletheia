@@ -11,18 +11,18 @@
  *
  * symbols:
  *   func_021FB4CC  0x021FB4CC  thumb  ov186
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 
 extern int func_021FB4CC(unsigned int *p, int a1, int a2);
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 int func_021FB4B4(unsigned int *obj, int x, int y)
 {
     int r = func_021FB4CC(obj, x, y);
 
     if (r != 0)
-        func_020061E4(0x703);
+        GFL_USE_PlaySeDefaultVolume(0x703);
     return r;
 }

@@ -31,7 +31,7 @@
  *   MCSS_SetShadowAlpha 0x02015FD4 thumb
  *   MCSS_SetShadowOffset 0x02015D94 thumb
  *   MCSS_SetShadowRotateZ 0x02015D88 thumb
- *   func_02015F2C 0x02015F2C thumb
+ *   MCSS_SetAnimCallback 0x02015F2C thumb
  *   func_022003EC 0x022003EC thumb ov094
  *   func_022018A8 0x022018A8 thumb ov094
  *   func_0220055C 0x0220055C thumb ov094
@@ -62,7 +62,7 @@ extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struc
 extern void MCSS_SetShadowAlpha(char *p, int v);
 extern void MCSS_SetShadowOffset(char *p, int *src);
 extern void MCSS_SetShadowRotateZ(char *p, u16 value);
-extern void func_02015F2C(void *, u32, void *, u32);
+extern void MCSS_SetAnimCallback(void *, u32, void *, u32);
 extern void func_022003EC(void *, void *, int *, int);
 extern void func_022018A8(void *, Vec *, int);
 extern void func_0220055C(void *, int, int);
@@ -118,6 +118,6 @@ void func_021FEEA8(char *w, void *src, int key)
         }
         ((Flags *)(w + 0x54 + off))->b34 = 3;
         func_022006B4(w, key);
-        func_02015F2C(*(void **)(w + 8 + off), i, (void *)func_02201718, 1);
+        MCSS_SetAnimCallback(*(void **)(w + 8 + off), i, (void *)func_02201718, 1);
     }
 }

@@ -11,14 +11,14 @@
  *        heap also stays u16 in both allocation callees to reload each call.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   STRBUF_Create 0x020457B0 arm
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   d_021DFBA0 0x021DFBA0 data a1
  */
@@ -31,21 +31,21 @@ struct Cfg;
 struct CharBuf;
 struct Descriptor;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern void *STRBUF_Create(u32, u16);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32);
 void *func_021D99A4(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, u32 h, u16 heap)
 {
     u8 *p;
     void *q;
     p = func_02030734(heap, 0x28, 0, d_021DFBA0, 0x55);
-    func_02082BCC(p, 0, 0x28);
+    MI_CpuFill8(p, 0, 0x28);
     ((struct Obj01929 *)p)->f8 = h;
     ((struct Obj01929 *)p)->f14 = b;
     ((struct Obj01929 *)p)->f16 = 0x440;
@@ -55,11 +55,11 @@ void *func_021D99A4(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, u32 h, u16 hea
     ((struct Obj01929 *)p)->fC = q;
     ((struct Obj01929 *)p)->f0 = q;
     p[4] = 0;
-    BMP_Clear(func_02045770(q), ((struct Obj01929 *)p)->f16 & 31);
+    BMP_Clear(BMP_WIN_GetBmp(q), ((struct Obj01929 *)p)->f16 & 31);
     if (((struct Obj01929 *)p)->f24 == 0) {
         BMP_WIN_TransferChars(((struct Obj01929 *)p)->fC);
         BMP_WIN_MakeScreen(((struct Obj01929 *)p)->fC);
-        func_020409B4(func_02045730(((struct Obj01929 *)p)->fC));
+        func_020409B4(BMP_WIN_GetBgLayer(((struct Obj01929 *)p)->fC));
     }
     return p;
 }

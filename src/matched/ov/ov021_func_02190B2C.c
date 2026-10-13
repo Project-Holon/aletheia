@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  * Addresses are Black-image addresses.
  */
 
@@ -63,11 +63,11 @@ typedef struct Dst {
     u16 d22;
 } Dst;
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 
 void FIELD_MSGBG_MakeListHeader(Dst *d, const Src *s)
 {
-    func_02082BCC(d, 0, 0x34);
+    MI_CpuFill8(d, 0, 0x34);
     d->d10 = s->a00;
     d->d12 = s->a02;
     d->d14 = s->a04;

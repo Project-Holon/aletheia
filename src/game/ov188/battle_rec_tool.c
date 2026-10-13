@@ -13,20 +13,20 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02019A50 0x02019A50 thumb
  *   func_02019C38 0x02019C38 thumb
  *   func_02019A9C 0x02019A9C thumb
  *   g_0214616C     0x0214616C  data
  *   func_021EF2D4  0x021EF2D4  thumb  ov188
- *   func_0201AA14   0x0201AA14  thumb
- *   func_0201AA18   0x0201AA18  thumb
- *   func_0201AB28   0x0201AB28  thumb
+ *   POKEPARTY_GetCapacity   0x0201AA14  thumb
+ *   POKEPARTY_GetCount   0x0201AA18  thumb
+ *   POKEPARTY_GetMember   0x0201AB28  thumb
  *   func_020173EC 0x020173EC thumb
  *   func_02030734 0x02030734 arm
- *   func_0201A954 0x0201A954 thumb
+ *   POKEPARTY_InitEx 0x0201A954 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
- *   func_0201A98C 0x0201A98C thumb
+ *   POKEPARTY_Add 0x0201A98C thumb
  *   func_020307B0 0x020307B0 arm
  *   d_021EF360 0x021EF360 data a4
  *   MYSTATUS_Copy 0x02008494 thumb
@@ -90,19 +90,19 @@ typedef struct { unsigned char low:5, high:3; } Bits50;
 
 typedef struct { unsigned char low:4, mid:3, high:1; } Bits51;
 
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern void func_02019A50(u16 *,u32,u32);
 extern void *func_02019C38(struct Mon *,u32,u32);
 extern u16 func_02019A9C(const u16 *,u32);
 extern int func_021EF2D4(u8 *a, const u8 *b);
-extern u32 func_0201AA14(void *p);
-extern u32 func_0201AA18(void *);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCapacity(void *p);
+extern u32 POKEPARTY_GetCount(void *);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 func_020173EC(void);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern void func_0201A954(struct Party *p, s32 capacity);
+extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
 extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern u32 func_020307B0(void *p);
 extern void MYSTATUS_Copy(void *, void *);
 extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
@@ -135,7 +135,7 @@ void func_021EE920(struct Mon *p,char *q)
 {
     char *a,*b,*c,*d;
     int i;
-    func_02082BCC(q,0,0x70);
+    MI_CpuFill8(q,0,0x70);
     if (!p->flags.a) {
         func_02019A50((u16 *)((char *)p+0x88),0x54,p->seed);
         func_02019A50((u16 *)p->block,0x80,p->check);
@@ -203,7 +203,7 @@ void func_021EEBF0(char *p,struct Mon *q)
 {
     char *a,*b,*c,*d;
     int i;
-    func_02082BCC(q,0,0xdc);
+    MI_CpuFill8(q,0,0xdc);
     a=func_02019C38(q,((struct Obj00506 *)p)->f0,0);
     b=func_02019C38(q,((struct Obj00506 *)p)->f0,1);
     c=func_02019C38(q,((struct Obj00506 *)p)->f0,2);
@@ -296,13 +296,13 @@ void func_021EEEA8(void *p, u32 c)
 void func_021EEED8(int a, char *p)
 {
     int i;
-    func_02082BCC((void *)((int)p), 0, 0x2A4);
-    if (func_0201AA18((void *)a) == 0)
+    MI_CpuFill8((void *)((int)p), 0, 0x2A4);
+    if (POKEPARTY_GetCount((void *)a) == 0)
         return;
-    ((struct Obj10803 *)p)->f0 = func_0201AA14((void *)a);
-    ((struct Obj10803 *)p)->f2 = func_0201AA18((void *)a);
+    ((struct Obj10803 *)p)->f0 = POKEPARTY_GetCapacity((void *)a);
+    ((struct Obj10803 *)p)->f2 = POKEPARTY_GetCount((void *)a);
     for (i = 0; i < ((struct Obj10803 *)p)->f2; i++)
-        func_021EE920((struct Mon *)((int)func_0201AB28((void *)a, i)), p + 4 + i * 0x70);
+        func_021EE920((struct Mon *)((int)POKEPARTY_GetMember((void *)a, i)), p + 4 + i * 0x70);
 }
 
 
@@ -312,11 +312,11 @@ void func_021EEF2C(u8 *a,void *b,u32 c)
     int i;
     u8 *p;
     p=func_02030734((u16)((c & 0x7FFF)|0x8000),func_020173EC(),1,d_021EF360,173);
-    func_0201A954(b,((struct Obj14491 *)a)->f0);
+    POKEPARTY_InitEx(b,((struct Obj14491 *)a)->f0);
     for(i=0;i<((struct Obj14491 *)a)->f2;i++) {
         func_021EEBF0((char *)(a+4+i*112),(struct Mon *)p);
         POKE_TOOL_SetPartyValue(p,159,0);
-        func_0201A98C(b,(const struct PartyMon *)p);
+        POKEPARTY_Add(b,(const struct PartyMon *)p);
     }
     func_020307B0(p);
 }
@@ -328,7 +328,7 @@ void func_021EEFA4(int *a, char *p)
 {
     char *base;
     unsigned int i;
-    func_02082BCC((void *)((int)(p + 0xC38)), 0, 0xA90);
+    MI_CpuFill8((void *)((int)(p + 0xC38)), 0, 0xA90);
     base = p + 0xC38;
     for (i = 0; i < 4; i++) {
         int v = a[9 + i];

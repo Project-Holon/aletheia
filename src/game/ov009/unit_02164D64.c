@@ -1,7 +1,7 @@
 /*
  * file:     unit_02164D64.c
  * unit:     yes
- * function: WCM_Init, func_02164D74, WCM_Finish, WCM_GetWorkSize, WCM_StartupAsync, WCM_CleanupAsync, WCM_SearchAsync, WCM_BeginSearchAsync, WCM_EndSearchAsync, WCM_ConnectAsync, WCM_DisconnectAsync, WCM_TerminateAsync, WCM_GetPhase, WCM_UpdateOption, WCM_GetAllowedChannel, WCMi_GetSystemWork, WcmConfigure, WcmInitOption, WCMi_GetNextScanChannel, WCMi_Notify, WCMi_NotifyEx, WCMi_SetPhase, WCMi_ResetKeepAliveAlarm, func_02165B5C, WCMi_GetDefaultDeviceId
+ * function: WCM_Init, WCM_InitEx_Alt, WCM_Finish, WCM_GetWorkSize, WCM_StartupAsync, WCM_CleanupAsync, WCM_SearchAsync, WCM_BeginSearchAsync, WCM_EndSearchAsync, WCM_ConnectAsync, WCM_DisconnectAsync, WCM_TerminateAsync, WCM_GetPhase, WCM_UpdateOption, WCM_GetAllowedChannel, WCMi_GetSystemWork, WcmConfigure, WcmInitOption, WCMi_GetNextScanChannel, WCMi_Notify, WCMi_NotifyEx, WCMi_SetPhase, WCMi_ResetKeepAliveAlarm, WcmKeepAliveAlarm_Alt, WCMi_GetDefaultDeviceId
  * address:  0x02164D64
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -111,7 +111,7 @@ extern void OS_CancelAlarm(void *alarm);
 extern void OS_SetAlarm(void *alarm, unsigned long long tick, void (*handler)(void *), void *arg);
 extern void WcmKeepAliveAlarm(void *arg);
 
-long func_02164D74(void *buf, long len, unsigned char deviceId);
+long WCM_InitEx_Alt(void *buf, long len, unsigned char deviceId);
 long WCM_Finish(void);
 int WCM_GetWorkSize(long *workSize, unsigned char deviceId);
 long WCM_StartupAsync(void *config, void (*notify)(void *));
@@ -134,7 +134,7 @@ void WCMi_NotifyEx(short notify, short result, void *para0, void *para1, long pa
 void WCMi_SetPhase(unsigned char phase);
 void WCMi_ResetKeepAliveAlarm(void);
 extern void func_02165AF4(void);
-void func_02165B5C(void);
+void WcmKeepAliveAlarm_Alt(void);
 
 void WCM_Init(void *buf, long len)
 {
@@ -200,7 +200,7 @@ static WCMWork *wcmw = 0;
  * hoists the address load above the zero materialisation.  blocker: the
  * `ldr sb` address load and the `str r1,[sp]` expectLen spill will not swap.
  */
-long func_02164D74(void *buf, long len, unsigned char deviceId)
+long WCM_InitEx_Alt(void *buf, long len, unsigned char deviceId)
 {
     long expectLen;
     unsigned long e;
@@ -849,7 +849,7 @@ void WCMi_ResetKeepAliveAlarm(void)
 }
 
 
-void func_02165B5C(void)
+void WcmKeepAliveAlarm_Alt(void)
 {
     func_02165AF4();
 }

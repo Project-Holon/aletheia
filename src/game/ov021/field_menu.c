@@ -15,7 +15,7 @@
  * The file ends at 0x021A92A4; field_encount.c starts at 0x021A9350.
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_02030734  0x02030734  arm
  *   gFieldMenuFileName     0x021DDF94  data  ov021  a1
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
@@ -28,7 +28,7 @@
  *   func_020355C4  0x020355C4  arm
  *   func_020056A0  0x020056A0  thumb
  *   FIELD_MENU_ColorTask  0x021A8D40  thumb  ov021
- *   func_0201C440  0x0201C440  thumb
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   func_020490F4  0x020490F4  arm
  *   FIELD_MENU_GetLayoutType  0x021A8B18  thumb  ov021
  *   FIELD_MENU_LoadGraphics  0x021A8874  thumb  ov021
@@ -39,7 +39,7 @@
  *   FIELD_MENU_SetScrolledOut  0x021A8DD8  thumb  ov021
  *   func_020129C4  0x020129C4  thumb
  *   FIELD_MENU_SelectButton  0x021A8E20  thumb  ov021
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   FIELD_SUBSCREEN_ResumeField  0x021A0FB4  thumb
  *   FIELD_MENU_DeleteItem  0x021A926C  thumb  ov021
@@ -52,11 +52,11 @@
  *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   func_02040618  0x02040618  arm
  *   func_020403F4  0x020403F4  arm
- *   func_0201C6EC  0x0201C6EC  thumb
- *   func_0201C4C0  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_020409B4  0x020409B4  arm
- *   func_0201C6B4  0x0201C6B4  thumb
+ *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   FIELD_SUBSCREEN_LoadBackdrop  0x021A12D4  thumb  ov021
  *   FIELD_MENU_ShowItemWindow  0x021A9294  thumb  ov021
  *   FIELD_MENU_UpdateActorsForScroll  0x021A87A8  thumb  ov021
@@ -92,14 +92,14 @@
  *   func_02027620  0x02027620  thumb
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_CreateRenderer  0x0204B034  arm
- *   func_0204B258  0x0204B258  arm
+ *   CLACT_SetUnitRenderer  0x0204B258  arm
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
- *   func_02013CC8  0x02013CC8  thumb
- *   func_02013CE0  0x02013CE0  thumb
- *   func_02013D20  0x02013D20  thumb
+ *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
+ *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
+ *   ZONEDATA_IsZone34  0x02013D20  thumb
  *   func_02012B70  0x02012B70  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   gFieldMenuLayouts  0x021D8D24  data  a4
@@ -121,20 +121,20 @@
  *   gFieldMenuCursorMoves     0x021D8C4C  data  ov021  a1
  *   gFieldMenuSlotCol     0x021D8B26  data  ov021  a1
  *   gFieldMenuSlotRow     0x021D8B27  data  ov021  a1
- *   func_020362DC  0x020362DC  arm
- *   func_0203633C  0x0203633C  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   KEY_GetRepeat  0x0203633C  arm
  *   func_020355D8  0x020355D8  arm
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   gFieldMenuTouchTable     0x021D8C2C  data  ov021  a1
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   CLACT_CreateAffineActor  0x0204B324  arm
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_02027624  0x02027624  thumb
  *   func_02027628  0x02027628  thumb
@@ -150,7 +150,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern void func_020061E4(u32 seId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 
 /* ------------------------------------------------------------------------ */
 /* Field menu (field_menu.c, 0x021A836C..0x021A92A4)                        */
@@ -250,7 +250,7 @@ typedef struct FieldMenu {
 #define SE_FIELD_MENU_PRESS 0x54C
 #define SE_FIELD_MENU_MOVE 0x548
 
-/* Bits of the pad words returned by func_020362DC (pressed) and func_0203633C (repeat). */
+/* Bits of the pad words returned by KEY_GetTrg (pressed) and KEY_GetRepeat (repeat). */
 #define FIELD_MENU_PAD_A 0x0001
 #define FIELD_MENU_PAD_B 0x0002
 #define FIELD_MENU_PAD_RIGHT 0x0010
@@ -356,12 +356,12 @@ extern void *func_02012944(void *gameData);
 extern u32 FIELDMAP_GetMsgBg(void *fieldMap);
 extern u8 func_020355C4(void);
 extern void *func_020056A0(void *callback, void *work, int priority);
-extern void *func_0201C440(u32 heapId);
+extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern void *func_020490F4(u32 arcId, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(void *arcHandle);
 extern u32 func_02040588(u8 layer, u8 visible);
 extern u8 func_020129C4(void *gameData);
-extern void func_0204B3DC(void *actor, u32 drawEnable);
+extern void CLACT_SetActorDrawEnable(void *actor, u32 drawEnable);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void FIELD_SUBSCREEN_ResumeField(void *parent, u32 heapId);
 extern void func_02030EAC(void *tcb);
@@ -373,11 +373,11 @@ extern void CLACT_ReleaseCharacter(void *charRes);
 extern void CLACT_ReleasePalette(void *palRes);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_020403F4(u32 layer);
-extern void func_0201C6EC(void *printQue);
-extern void func_0201C4C0(void *printQue);
+extern void PRINTSYS_QUE_Clear(void *printQue);
+extern void PRINTSYS_QUE_Delete(void *printQue);
 extern u32 func_020307B0(void *p);
 extern void func_020409B4(u32 layer);
-extern u32 func_0201C6B4(void *printQue);
+extern u32 PRINTSYS_QUE_IsFinished(void *printQue);
 extern void FIELD_SUBSCREEN_LoadBackdrop(void *parent, u32 heapId);
 extern u32 WIPE_SYS_EndCheck(void);
 extern u32 CLACT_IsActorAnimActive(void *actor);
@@ -403,14 +403,14 @@ extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
 extern void *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *CLACT_CreateRenderer(FieldMenuSurfaceRect *rect, u32 a1, u32 heapId);
-extern void func_0204B258(void *unit, void *surface);
+extern void CLACT_SetUnitRenderer(void *unit, void *surface);
 extern void *CLACT_CreateActor(void *unit, void *charRes, void *palRes, void *cellRes, const FieldMenuActorPos *pos, u16 space, u16 heapId);
 extern void CLACT_SetActorAutoAnimSpeed(void *actor, u32 scale);
-extern void func_0204B92C(void *actor, u32 value);
+extern void CLACT_SetActorAutoAnim(void *actor, u32 value);
 extern void CLACT_SetActorBgPriority(void *actor, int value);
-extern u32 func_02013CC8(u32 zoneId);
-extern u32 func_02013CE0(u16 zoneId);
-extern u32 func_02013D20(u16 zoneId);
+extern u32 ZONEDATA_IsZone1A6(u32 zoneId);
+extern u32 ZONEDATA_IsZone96Pair(u16 zoneId);
+extern u32 ZONEDATA_IsZone34(u16 zoneId);
 extern int func_02012B70(void *gameData);
 extern u32 ZONEDATA_CheckEventFlag(void *eventWork, s32 flagId);
 extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -424,19 +424,19 @@ extern void STRBUF_Delete(void *strbuf);
 extern u32 MSGDATA_Delete(void *msgBank);
 extern short func_0203F684(unsigned short x);
 extern void func_0207E5D0(void *src, u32 off, u32 n);
-extern u32 func_020362DC(void);
-extern unsigned int func_0203633C(void);
+extern u32 KEY_GetTrg(void);
+extern unsigned int KEY_GetRepeat(void);
 extern void func_020355D8(u8 v);
 extern int TOUCHPANEL_HitTrg(const void *touchTable);
-extern void func_0204B404(void *actor, const FieldMenuScreenPos *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(void *actor, const FieldMenuScreenPos *delta, u32 which);
 extern u32 FIELD_MSGBG_GetFont(u32 mapInfo);
 extern void *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 tiles, u8 c, u8 d, u8 slot);
 extern void BMP_WIN_MakeScreen(void *bmpWin);
-extern void *func_02045770(void *bmpWin);
+extern void *BMP_WIN_GetBmp(void *bmpWin);
 extern void BMP_Clear(void *buf, u8 value);
 extern void PRINTSYS_PrintQueColor(void *printQue, void *buf, u32 b, u32 c, void *text, u32 e, u16 f);
 extern void *CLACT_CreateAffineActor(void *unit, void *charRes, void *palRes, void *cellRes, const FieldMenuActorSetup *setup, u16 space, u16 heapId);
-extern unsigned int func_020452E8(void *bmpWin);
+extern unsigned int BMP_WIN_Delete(void *bmpWin);
 extern void BMP_WIN_TransferChars(void *bmpWin);
 extern u32 func_02027624(void);
 extern u32 func_02027628(void);
@@ -517,7 +517,7 @@ FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fiel
     menu->cursorDirty = menu->keyCursorActive = func_020355C4() ^ 1;
     menu->selectedItem = 0;
     menu->colorTask = func_020056A0(FIELD_MENU_ColorTask, menu, 0);
-    menu->printQue = func_0201C440(menu->heapId);
+    menu->printQue = PRINTSYS_QUE_Create(menu->heapId);
     menu->scrollDirty = 0;
     menu->scrollY = 0;
     arcHandle = func_020490F4(0x47, menu->subHeapId);
@@ -537,9 +537,9 @@ FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fiel
         FIELD_MENU_SelectButton(menu, func_020129C4(gameData));
         menu->cursorDirty = 1;
         if (menu->keyCursorActive != 0) {
-            func_0204B3DC(menu->cursorActor, 1);
+            CLACT_SetActorDrawEnable(menu->cursorActor, 1);
         } else {
-            func_0204B3DC(menu->cursorActor, 0);
+            CLACT_SetActorDrawEnable(menu->cursorActor, 0);
         }
     }
     GFL_NET_RestartWithDefaultTimeout(0, menu->subHeapId);
@@ -577,8 +577,8 @@ void FIELD_MENU_Delete(FieldMenu *menu)
     func_020403F4(7);
     func_020403F4(5);
     func_020403F4(6);
-    func_0201C6EC(menu->printQue);
-    func_0201C4C0(menu->printQue);
+    PRINTSYS_QUE_Clear(menu->printQue);
+    PRINTSYS_QUE_Delete(menu->printQue);
     func_020307B0(menu);
 }
 
@@ -601,13 +601,13 @@ u32 FIELD_MENU_Update(FieldMenu *menu)
 
     switch (menu->state) {
     case FIELD_MENU_STATE_WAIT_PRINT:
-        if (func_0201C6B4(menu->printQue) == 1) {
+        if (PRINTSYS_QUE_IsFinished(menu->printQue) == 1) {
             FIELD_SUBSCREEN_LoadBackdrop(menu->parent, menu->subHeapId);
             for (i = 0; i < FIELD_MENU_ITEM_MAX; i++) {
                 FIELD_MENU_ShowItemWindow(menu, &menu->items[i]);
             }
             if (menu->scrollY != 0) {
-                func_020061E4(SE_FIELD_MENU_SLIDE_IN);
+                GFL_USE_PlaySeDefaultVolume(SE_FIELD_MENU_SLIDE_IN);
                 menu->state = FIELD_MENU_STATE_SLIDE_IN;
             } else {
                 menu->state = FIELD_MENU_STATE_WAIT_WIPE;
@@ -651,21 +651,21 @@ u32 FIELD_MENU_Update(FieldMenu *menu)
     case FIELD_MENU_STATE_DECIDE:
         if (menu->exitRequested == 1 || menu->cursorRow == 3) {
             menu->state = FIELD_MENU_STATE_SLIDE_OUT;
-            func_020061E4(SE_FIELD_MENU_CLOSE);
+            GFL_USE_PlaySeDefaultVolume(SE_FIELD_MENU_CLOSE);
             func_02040588(4, 0);
             func_02040588(5, 1);
             func_02040588(6, 1);
             func_02040588(7, 1);
-            func_0204B3DC(menu->backActor, 0);
+            CLACT_SetActorDrawEnable(menu->backActor, 0);
         } else {
             item = menu->selectedItem;
             if (item->actor != 0) {
                 menu->pressFrames = 0;
                 FIELD_MENU_PlaceCursor(menu, item->cursorX, item->cursorY);
                 CLACT_SetActorAnimSeq(menu->cursorActor, 1);
-                func_0204B3DC(menu->cursorActor, 1);
+                CLACT_SetActorDrawEnable(menu->cursorActor, 1);
                 menu->state = FIELD_MENU_STATE_PRESS_ANIM;
-                func_020061E4(SE_FIELD_MENU_PRESS);
+                GFL_USE_PlaySeDefaultVolume(SE_FIELD_MENU_PRESS);
             } else {
                 menu->state = FIELD_MENU_STATE_NOTIFY_SELECT;
             }
@@ -717,17 +717,17 @@ void FIELD_MENU_UpdateActorsForScroll(FieldMenu *menu)
         if (menu->items[i].actor != 0 && menu->items[i].buttonId != FIELD_MENU_BUTTON_EMPTY) {
             CLACT_GetActorSurfacePos(menu->items[i].actor, &iconPos, 0);
             if (iconPos.y < FIELD_MENU_ICON_CULL_Y) {
-                func_0204B3DC(menu->items[i].actor, 1);
+                CLACT_SetActorDrawEnable(menu->items[i].actor, 1);
             } else {
-                func_0204B3DC(menu->items[i].actor, 0);
+                CLACT_SetActorDrawEnable(menu->items[i].actor, 0);
             }
         }
     }
     CLACT_GetActorSurfacePos(menu->cursorActor, &cursorPos, 0);
     if (menu->keyCursorActive != 0 && cursorPos.y < FIELD_MENU_CURSOR_CULL_Y) {
-        func_0204B3DC(menu->cursorActor, 1);
+        CLACT_SetActorDrawEnable(menu->cursorActor, 1);
     } else {
-        func_0204B3DC(menu->cursorActor, 0);
+        CLACT_SetActorDrawEnable(menu->cursorActor, 0);
     }
 }
 
@@ -780,7 +780,7 @@ void FIELD_MENU_LoadGraphics(FieldMenu *menu, void *arcHandle, int layoutType, u
     menu->clactUnit = CLACT_CreateUnit(8, 0, menu->heapId);
     surfaceRect = gFieldMenuSurfaceRect;
     menu->clactSurface = CLACT_CreateRenderer(&surfaceRect, 1, menu->heapId);
-    func_0204B258(menu->clactUnit, menu->clactSurface);
+    CLACT_SetUnitRenderer(menu->clactUnit, menu->clactSurface);
     pos.x = 0x40;
     pos.y = 0x2C;
     pos.z = 0;
@@ -788,14 +788,14 @@ void FIELD_MENU_LoadGraphics(FieldMenu *menu, void *arcHandle, int layoutType, u
     pos.palOffset = 0;
     menu->cursorActor = CLACT_CreateActor(menu->clactUnit, menu->charRes, menu->palRes, menu->cellRes, &pos, 0, menu->heapId);
     CLACT_SetActorAutoAnimSpeed(menu->cursorActor, 0x1000);
-    func_0204B92C(menu->cursorActor, 1);
+    CLACT_SetActorAutoAnim(menu->cursorActor, 1);
     CLACT_SetActorBgPriority(menu->cursorActor, 2);
     pos.x = 0xE0;
     pos.y = 0xA8;
     menu->backActor = CLACT_CreateActor(menu->clactUnit, menu->charResB, menu->palResB, menu->cellResB, &pos, 0, menu->heapId);
     CLACT_SetActorAutoAnimSpeed(menu->backActor, 0x1000);
-    func_0204B92C(menu->backActor, 1);
-    func_0204B3DC(menu->backActor, 1);
+    CLACT_SetActorAutoAnim(menu->backActor, 1);
+    CLACT_SetActorDrawEnable(menu->backActor, 1);
     CLACT_SetActorAutoAnimSpeed(menu->backActor, 0x2000);
 }
 
@@ -817,9 +817,9 @@ u32 FIELD_MENU_GetLayoutType(void *gameData, void *eventWork, u32 zoneId)
 {
     u32 layoutType = 0;
 
-    if (func_02013CC8((u16)zoneId) || func_02013CE0(zoneId)) {
+    if (ZONEDATA_IsZone1A6((u16)zoneId) || ZONEDATA_IsZone96Pair(zoneId)) {
         layoutType = 1;
-    } else if (func_02013D20(zoneId)) {
+    } else if (ZONEDATA_IsZone34(zoneId)) {
         layoutType = 4;
     } else if (func_02012B70(gameData)) {
         layoutType = 5;
@@ -1010,39 +1010,39 @@ void FIELD_MENU_HandleKeys(FieldMenu *menu)
     u32 pressed;
     u32 repeated;
 
-    pressed = func_020362DC();
-    repeated = func_0203633C();
+    pressed = KEY_GetTrg();
+    repeated = KEY_GetRepeat();
     if (menu->keyCursorActive == 0 && (pressed | repeated) != 0) {
         if ((pressed & FIELD_MENU_PAD_B) || (pressed & FIELD_MENU_PAD_X)) {
             FIELD_MENU_StartLeave(menu, 1);
             return;
         }
-        func_020061E4(SE_FIELD_MENU_MOVE);
+        GFL_USE_PlaySeDefaultVolume(SE_FIELD_MENU_MOVE);
         menu->keyCursorActive = 1;
         menu->selectedItem = 0;
         menu->cursorDirty = 1;
-        func_0204B3DC(menu->cursorActor, 1);
+        CLACT_SetActorDrawEnable(menu->cursorActor, 1);
         return;
     }
     if (repeated & FIELD_MENU_PAD_UP) {
         if (FIELD_MENU_MoveCursor(menu, 0) != 0) {
             menu->cursorDirty = 1;
-            func_020061E4(SE_FIELD_MENU_MOVE);
+            GFL_USE_PlaySeDefaultVolume(SE_FIELD_MENU_MOVE);
         }
     } else if (repeated & FIELD_MENU_PAD_DOWN) {
         if (FIELD_MENU_MoveCursor(menu, 1) != 0) {
             menu->cursorDirty = 1;
-            func_020061E4(SE_FIELD_MENU_MOVE);
+            GFL_USE_PlaySeDefaultVolume(SE_FIELD_MENU_MOVE);
         }
     } else if (repeated & FIELD_MENU_PAD_LEFT) {
         if (FIELD_MENU_MoveCursor(menu, 2) != 0) {
             menu->cursorDirty = 1;
-            func_020061E4(SE_FIELD_MENU_MOVE);
+            GFL_USE_PlaySeDefaultVolume(SE_FIELD_MENU_MOVE);
         }
     } else if (repeated & FIELD_MENU_PAD_RIGHT) {
         if (FIELD_MENU_MoveCursor(menu, 3) != 0) {
             menu->cursorDirty = 1;
-            func_020061E4(SE_FIELD_MENU_MOVE);
+            GFL_USE_PlaySeDefaultVolume(SE_FIELD_MENU_MOVE);
         }
     } else if ((pressed & FIELD_MENU_PAD_B) || (pressed & FIELD_MENU_PAD_X)) {
         FIELD_MENU_StartLeave(menu, 1);
@@ -1066,7 +1066,7 @@ void FIELD_MENU_HandleTouch(FieldMenu *menu)
         menu->cursorRow = hitSlot / 2;
         zero = 0;
         menu->keyCursorActive = zero;
-        func_0204B3DC(menu->cursorActor, 0);
+        CLACT_SetActorDrawEnable(menu->cursorActor, 0);
         if (hitSlot == FIELD_MENU_ITEM_BACK) {
             FIELD_MENU_StartLeave(menu, 1);
             return;
@@ -1084,7 +1084,7 @@ void FIELD_MENU_PlaceCursor(FieldMenu *menu, s16 x, s16 y)
 
     pos.x = x;
     pos.y = y;
-    func_0204B404(menu->cursorActor, &pos, 0);
+    CLACT_AddActorSurfacePos(menu->cursorActor, &pos, 0);
     menu->colorPhase = 0;
 }
 
@@ -1135,8 +1135,8 @@ void FIELD_MENU_CreateItem(FieldMenu *menu, FieldMenuItem *item, const FieldMenu
     item->cursorY = init->cursorY;
     item->bmpWin = BMP_WIN_Create(6, init->winTileX, init->winTileY, 8, 2, 0xD, 1);
     BMP_WIN_MakeScreen(item->bmpWin);
-    BMP_Clear(func_02045770(item->bmpWin), 0);
-    PRINTSYS_PrintQueColor(menu->printQue, func_02045770(item->bmpWin), 2, 1, init->text, textColor, 0x440);
+    BMP_Clear(BMP_WIN_GetBmp(item->bmpWin), 0);
+    PRINTSYS_PrintQueColor(menu->printQue, BMP_WIN_GetBmp(item->bmpWin), 2, 1, init->text, textColor, 0x440);
     if (init->arcHandle != 0) {
         item->charRes = CLACT_RegisterCharacter(init->arcHandle, init->charId, 0, 1, menu->heapId);
         item->cellRes = CLACT_RegisterCellAnim(init->arcHandle, init->cellId, init->animId, menu->heapId);
@@ -1153,12 +1153,12 @@ void FIELD_MENU_CreateItem(FieldMenu *menu, FieldMenuItem *item, const FieldMenu
         setup.drawArea = 2;
         item->actor = CLACT_CreateAffineActor(menu->clactUnit, item->charRes, menu->palRes, item->cellRes, &setup, 0, menu->heapId);
         CLACT_SetActorAutoAnimSpeed(item->actor, 0x1000);
-        func_0204B92C(item->actor, 1);
+        CLACT_SetActorAutoAnim(item->actor, 1);
         CLACT_SetActorAnimSeq(item->actor, 0);
         if (item->buttonId == FIELD_MENU_BUTTON_EMPTY) {
-            func_0204B3DC(item->actor, 0);
+            CLACT_SetActorDrawEnable(item->actor, 0);
         } else {
-            func_0204B3DC(item->actor, 1);
+            CLACT_SetActorDrawEnable(item->actor, 1);
         }
     } else {
         item->actor = 0;
@@ -1169,7 +1169,7 @@ void FIELD_MENU_CreateItem(FieldMenu *menu, FieldMenuItem *item, const FieldMenu
 void FIELD_MENU_DeleteItem(FieldMenu *menu, FieldMenuItem *item)
 {
     if (item->inUse == 1) {
-        func_020452E8(item->bmpWin);
+        BMP_WIN_Delete(item->bmpWin);
         if (item->actor != 0) {
             CLACT_DeleteActor(item->actor);
             CLACT_ReleaseCellAnim(item->cellRes);

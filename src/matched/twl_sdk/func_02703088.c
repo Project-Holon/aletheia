@@ -13,7 +13,7 @@
  *   NWMi_CheckState  0x027028E4  arm twl
  *   NWMi_GetSystemWork  0x027026DC  arm twl
  *   func_020862B8  0x020862B8  arm twl
- *   func_02082BCC  0x02082BCC  arm twl
+ *   MI_CpuFill8  0x02082BCC  arm twl
  *   func_020862D4  0x020862D4  arm twl
  *   NWMi_SetCallbackTable  0x02703A34  arm twl
  *   func_02082D44  0x02082D44  arm twl
@@ -55,7 +55,7 @@ typedef struct ApCmd {
 extern u32 NWMi_CheckState(u32, ...);
 extern u32 NWMi_GetSystemWork(void);
 extern void func_020862B8(u32, u32);
-extern void func_02082BCC(void *, u32, u32);
+extern void MI_CpuFill8(void *, u32, u32);
 extern void func_020862D4(void *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern void func_02082D44(const void *, void *, u32);
@@ -98,7 +98,7 @@ u32 NWM_StartScanEx(u32 a0, const ApInfo *a1) {
     if (a1->f34 > 0x20) {
         return 5;
     }
-    func_02082BCC(a1->buf, 0, (a1->bufLen + 3) & ~3);
+    MI_CpuFill8(a1->buf, 0, (a1->bufLen + 3) & ~3);
     func_020862D4(a1->buf, (a1->bufLen + 3) & ~3);
     r = 7;
     NWMi_SetCallbackTable(r, a0);

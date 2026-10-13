@@ -1,5 +1,5 @@
 /*
- * function: func_02187808
+ * function: EL_SCOREBOARD_StartStandalone
  * address:  0x02187808
  * packet:   pkt_ov020_02187808
  * region:   ov020
@@ -18,8 +18,8 @@
  *   func_020124E8  0x020124E8  thumb
  *   func_020124EC  0x020124EC  thumb
  *   func_0202E8B8  0x0202E8B8  thumb
- *   func_021876E0  0x021876E0  thumb  ov020
- *   func_02187C20  0x02187C20  thumb  ov020
+ *   EL_SCOREBOARD_EventMain  0x021876E0  thumb  ov020
+ *   EL_SCOREBOARD_EnterState  0x02187C20  thumb  ov020
  */
 
 typedef unsigned char  u8;
@@ -45,12 +45,12 @@ struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 u32 *func_020124EC(struct Obj *p);
 u8 func_0202E8B8(int x);
-int func_021876E0(void *unused, int *s, char *o);
-void func_02187C20(char *o, int *p, int st);
+int EL_SCOREBOARD_EventMain(void *unused, int *s, char *o);
+void EL_SCOREBOARD_EnterState(char *o, int *p, int st);
 
-void *func_02187808(void *p, u8 a1, u8 a2)
+void *EL_SCOREBOARD_StartStandalone(void *p, u8 a1, u8 a2)
 {
-    void *r0v = func_020122C0(p, 0, func_021876E0, 0x28);
+    void *r0v = func_020122C0(p, 0, EL_SCOREBOARD_EventMain, 0x28);
     Work02187808 *w = func_020124E8(r0v);
     void *h = func_020124EC(r0v);
 
@@ -63,6 +63,6 @@ void *func_02187808(void *p, u8 a1, u8 a2)
     w->f15 = func_0202E8B8(a1);
     w->f20 = 0;
     w->f24 = 0;
-    func_02187C20((char *)w, h, 0);
+    EL_SCOREBOARD_EnterState((char *)w, h, 0);
     return r0v;
 }

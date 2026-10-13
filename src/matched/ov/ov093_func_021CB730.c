@@ -1,5 +1,5 @@
 /*
- * function: func_021CB730
+ * function: BTL_SERVER_FLOW_ProcBagItemUse
  * address: 0x021CB730
  * packet: pkt_ov093_021CB730
  * region: ov093
@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * lever: the local holding the u8 result of func_021B8DDC is a u8 (not int);
+ * lever: the local holding the u8 result of BTL_MAIN_PokeIdToClientIdThunk is a u8 (not int);
  *   its spill reload then stays below the outgoing stack-argument stores
  *   (ov093 021CD64C call at +0xDA) and the stack parameter load moves ahead
  *   of the p copy at entry. Both residues closed by this one type change.
@@ -17,27 +17,27 @@
  *   older draft (it changed nothing).
  * symbols:
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
- *   func_021B8DDC 0x021B8DDC thumb ov093
- *   func_021B9AEC 0x021B9AEC thumb ov093
- *   func_021B99B8 0x021B99B8 thumb ov093
- *   func_021B9BF0 0x021B9BF0 thumb ov093
+ *   BTL_MAIN_PokeIdToClientIdThunk 0x021B8DDC thumb ov093
+ *   BTL_SIDE_GetSlotOfClient 0x021B9AEC thumb ov093
+ *   BTL_MAIN_GetPositionsPerClientThunk 0x021B99B8 thumb ov093
+ *   BTL_SLOT_GetPoke 0x021B9BF0 thumb ov093
  *   func_021CBA30 0x021CBA30 thumb ov093
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   BTL_SERVER_CMD_PushVariable 0x021CD64C thumb ov093
  *   BTL_CALC_GetMonParamWithHeap 0x021D805C thumb ov093
- *   func_021CBA40 0x021CBA40 thumb ov093
- *   func_021B9090 0x021B9090 thumb ov093
- *   func_021B8FF4 0x021B8FF4 thumb ov093
- *   func_021BA1B4 0x021BA1B4 thumb ov093
+ *   BTL_SERVER_FLOW_TryThrowBall 0x021CBA40 thumb ov093
+ *   BTL_MAIN_AddItemToBag 0x021B9090 thumb ov093
+ *   BTL_MAIN_GetOwnClientId 0x021B8FF4 thumb ov093
+ *   BTL_MAIN_TrainerRecordAdd 0x021BA1B4 thumb ov093
  *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
- *   func_021C8338 0x021C8338 thumb ov093
+ *   BTL_SERVER_FLOW_IsPokeSemiInvulnerable 0x021C8338 thumb ov093
  *   BTL_SERVER_CMD_Reserve 0x021CD4FC thumb ov093
  *   BTL_SERVER_CMD_FillReserved 0x021CD568 thumb ov093
- *   func_021CC8D8 0x021CC8D8 thumb ov093
- *   func_021B9090 0x021B9090 thumb ov093
- *   func_021BA250 0x021BA250 thumb ov093
- *   func_021CC95C 0x021CC95C thumb ov093
- *   data_021EFDE4 0x021EFDE4 data a4
+ *   BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
+ *   BTL_MAIN_AddItemToBag 0x021B9090 thumb ov093
+ *   BTL_MAIN_UpdateFriendshipUseItem 0x021BA250 thumb ov093
+ *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
+ *   gBagItemEffectTable 0x021EFDE4 data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -56,29 +56,29 @@ typedef struct
   u8 exact;
   Callback call;
 } Entry;
-extern const Entry data_021EFDE4[];
+extern const Entry gBagItemEffectTable[];
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *);
-extern u8 func_021B8DDC(u32);
-extern char *func_021B9AEC(char *, int);
-extern int func_021B99B8(void *, u32);
+extern u8 BTL_MAIN_PokeIdToClientIdThunk(u32);
+extern char *BTL_SIDE_GetSlotOfClient(char *, int);
+extern int BTL_MAIN_GetPositionsPerClientThunk(void *, u32);
 struct S2;
-extern u32 func_021B9BF0(struct S2 *p, u32 i);
+extern u32 BTL_SLOT_GetPoke(struct S2 *p, u32 i);
 extern u32 func_021CBA30(void *, u32);
 extern u32 BTL_MAIN_GetRule(void **p);
 extern void BTL_SERVER_CMD_PushVariable(void *, u8, ...);
 extern u32 BTL_CALC_GetMonParamWithHeap(void *p, u32 n);
-extern int func_021CBA40(u8 *, void *, u16);
-extern void func_021B9090(u8 *, u32, u32);
-extern u8 func_021B8FF4(u8 *);
-extern void func_021BA1B4(char **p, int i);
+extern int BTL_SERVER_FLOW_TryThrowBall(u8 *, void *, u16);
+extern void BTL_MAIN_AddItemToBag(u8 *, u32, u32);
+extern u8 BTL_MAIN_GetOwnClientId(u8 *);
+extern void BTL_MAIN_TrainerRecordAdd(char **p, int i);
 extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
-extern int func_021C8338(u8 *, int);
+extern int BTL_SERVER_FLOW_IsPokeSemiInvulnerable(u8 *, int);
 extern u32 BTL_SERVER_CMD_Reserve(void *, u32);
 extern void BTL_SERVER_CMD_FillReserved(void *, u32, u32, ...);
-extern u32 func_021CC8D8(void *, int);
-extern void func_021BA250(char *, u8 *, int);
-extern void func_021CC95C(u32 *p, u32 v, int line);
-int func_021CB730(u8 *p, u8 *a, u16 move, u8 arg, u8 slot)
+extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *, int);
+extern void BTL_MAIN_UpdateFriendshipUseItem(char *, u8 *, int);
+extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
+int BTL_SERVER_FLOW_ProcBagItemUse(u8 *p, u8 *a, u16 move, u8 arg, u8 slot)
 {
   u32 n;
   char *party;
@@ -97,14 +97,14 @@ int func_021CB730(u8 *p, u8 *a, u16 move, u8 arg, u8 slot)
   const Entry *e;
   u8 *tmp;
   u8 *tmp1;
-  side = func_021B8DDC(BTL_POKEPARAM_GetPokeId(a));
+  side = BTL_MAIN_PokeIdToClientIdThunk(BTL_POKEPARAM_GetPokeId(a));
   mon = 0;
   initial = 0;
   if (slot != 6)
   {
-    party = func_021B9AEC(*((char **) (p + 8)), side);
-    n = func_021B99B8(*((void **) (p + 4)), side);
-    mon = (u8 *)func_021B9BF0((struct S2 *)party, slot);
+    party = BTL_SIDE_GetSlotOfClient(*((char **) (p + 8)), side);
+    n = BTL_MAIN_GetPositionsPerClientThunk(*((void **) (p + 4)), side);
+    mon = (u8 *)BTL_SLOT_GetPoke((struct S2 *)party, slot);
     monId = BTL_POKEPARAM_GetPokeId(mon);
     state = func_021CBA30(p + 0x1ab8, monId);
     if (slot >= n)
@@ -118,28 +118,28 @@ int func_021CB730(u8 *p, u8 *a, u16 move, u8 arg, u8 slot)
     BTL_SERVER_CMD_PushVariable(*((void **) (p + 12)), 0x5a, 0x21, side, move, 0xffff0000);
     if (BTL_CALC_GetMonParamWithHeap((void *)move, 15) == 4)
     {
-      if (func_021CBA40(p, a, move))
-        func_021B9090(*((u8 **) (p + 4)), side, move);
+      if (BTL_SERVER_FLOW_TryThrowBall(p, a, move))
+        BTL_MAIN_AddItemToBag(*((u8 **) (p + 4)), side, move);
       return 0;
     }
     if (BTL_CALC_GetMonParamWithHeap((void *)move, 7) == 3)
     {
-      func_021B9090(*((u8 **) (p + 4)), side, move);
+      BTL_MAIN_AddItemToBag(*((u8 **) (p + 4)), side, move);
       return 1;
     }
   }
   else
   {
     BTL_SERVER_CMD_PushVariable(*((void **) (p + 12)), 0x5a, 0x24, side, monId, move, 0xffff0000);
-    if (side == func_021B8FF4(*((u8 **) (p + 4))))
-      func_021BA1B4(*((void **) (p + 4)), 0x6f);
+    if (side == BTL_MAIN_GetOwnClientId(*((u8 **) (p + 4))))
+      BTL_MAIN_TrainerRecordAdd(*((void **) (p + 4)), 0x6f);
   }
   allowed = ((condition == 0) && (state != 6)) ? (1) : (0);
   if (!allowed)
   {
     for (i = 0; i < 23; i++)
     {
-      e = data_021EFDE4;
+      e = gBagItemEffectTable;
       e = e + i;
       if ((e->exact && (move == e->id)) || ((!e->exact) && BTL_CALC_GetMonParamWithHeap((void *)move, e->id)))
       {
@@ -168,13 +168,13 @@ int func_021CB730(u8 *p, u8 *a, u16 move, u8 arg, u8 slot)
       BTL_SERVER_CMD_Push(*((void **) (p + 12)), 0x4d, state, 0x282);
     for (i = 0; i < 23; i++)
     {
-      if (data_021EFDE4[i].exact && (move == data_021EFDE4[i].id))
+      if (gBagItemEffectTable[i].exact && (move == gBagItemEffectTable[i].id))
       {
         result = 0;
-        if (!func_021C8338(p, monId))
+        if (!BTL_SERVER_FLOW_IsPokeSemiInvulnerable(p, monId))
         {
           pos = BTL_SERVER_CMD_Reserve(*((void **) (p + 12)), 0x4d);
-          result = data_021EFDE4[i].call(p, mon, move, 0, arg);
+          result = gBagItemEffectTable[i].call(p, mon, move, 0, arg);
           if (result == 1)
           {
             BTL_SERVER_CMD_FillReserved(*((void **) (p + 12)), pos, 0x4d, state, 0x25e);
@@ -192,10 +192,10 @@ int func_021CB730(u8 *p, u8 *a, u16 move, u8 arg, u8 slot)
   }
   mark = 0;
   pos = BTL_SERVER_CMD_Reserve(*((void **) (p + 12)), 0x4d);
-  lock = func_021CC8D8(p + 0x1d74, 1217);
+  lock = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 1217);
   for (i = 0; i < 23; i++)
   {
-    e = data_021EFDE4 + i;
+    e = gBagItemEffectTable + i;
     result = BTL_CALC_GetMonParamWithHeap((void *)move, e->id);
     if (result && e->call(p, mon, move, result, arg))
       mark = 1;
@@ -206,13 +206,13 @@ int func_021CB730(u8 *p, u8 *a, u16 move, u8 arg, u8 slot)
     BTL_SERVER_CMD_FillReserved(*((void **) (p + 12)), pos, 0x4d, state, (u16) ((state != 6) ? (0x25e) : (0x292)));
     if ((*((u32 *) (p + 24))) != 1)
     {
-      func_021B9090(*((u8 **) (p + 4)), side, move);
-      func_021BA250(*((char **) (p + 4)), mon, move);
+      BTL_MAIN_AddItemToBag(*((u8 **) (p + 4)), side, move);
+      BTL_MAIN_UpdateFriendshipUseItem(*((char **) (p + 4)), mon, move);
     }
   }
   else
     BTL_SERVER_CMD_PushVariable(*((void **) (p + 12)), 0x5a, 0x44, 0xffff0000);
-  func_021CC95C((u32 *)(p + 0x1d74), lock, 1246);
+  BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), lock, 1246);
   BTL_SERVER_CMD_Push(*((void **) (p + 12)), 0x4c, 0x236);
   return 0;
 }

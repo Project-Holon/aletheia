@@ -12,7 +12,7 @@
  * symbols:
  *   EVENT_ENTRANCE_IN_ReplaceBgm  0x021BD94C  thumb  ov021
  *   EVENT_ENTRANCE_IN_CallFadeOut  0x021BD988  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj20132.h"
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern void EVENT_ENTRANCE_IN_ReplaceBgm(u32 *);
 extern void EVENT_ENTRANCE_IN_CallFadeOut(u32 *, u32);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 
 u32 EVENT_ENTRANCE_IN_RunPlain(u32 a, int *st, u32 *ctx)
 {
@@ -33,7 +33,7 @@ u32 EVENT_ENTRANCE_IN_RunPlain(u32 a, int *st, u32 *ctx)
     case 0:
         EVENT_ENTRANCE_IN_ReplaceBgm(ctx);
         if (((struct Obj20132 *)p)->f38 != 2)
-            func_020061E4(0x559);
+            GFL_USE_PlaySeDefaultVolume(0x559);
         EVENT_ENTRANCE_IN_CallFadeOut(ctx, a);
         (*st)++;
         break;

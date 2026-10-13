@@ -1,5 +1,5 @@
 /*
- * function: func_021D6324
+ * function: BTL_POKEPARAM_CalcSickDamage
  * address:  0x021D6324
  * packet:   pkt_ov093_021D6324
  * region:   ov093
@@ -22,7 +22,7 @@ extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern int BTLV_CORE_IsSlotKind1Index15(struct Slot s);
 extern int BTL_CALC_DivideMaxHpMin1(u8 *p, u32 k);
 
-int func_021D6324(struct UtilSlots *p, int k)
+int BTL_POKEPARAM_CalcSickDamage(struct UtilSlots *p, int k)
 {
     if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)p, k) != 0) {
         switch (k) {

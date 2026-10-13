@@ -1,5 +1,5 @@
 /*
- * function: func_021B9010
+ * function: BTL_MAIN_GetPartnerClient
  * address: 0x021B9010
  * packet: pkt_ov093_021B9010
  * region: ov093
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int BTL_MAIN_IsClientUsed(unsigned char *p, unsigned char k);
-u8 func_021B9010(u8 *p, u8 k) { u8 n; n=(k+2)&3; if(!BTL_MAIN_IsClientUsed(p,n)) n=4; return n; }
+u8 BTL_MAIN_GetPartnerClient(u8 *p, u8 k) { u8 n; n=(k+2)&3; if(!BTL_MAIN_IsClientUsed(p,n)) n=4; return n; }

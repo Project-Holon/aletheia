@@ -9,8 +9,8 @@
  * status: EXACT*
  * follower: two zero padding bytes at 021D8356.
  * symbols:
- *   func_020452E8 0x020452E8 arm
- *   func_02045760 0x02045760 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
+ *   BMP_WIN_GetPosY 0x02045760 arm
  *   BMP_WIN_SetPosY 0x02045788 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
@@ -21,8 +21,8 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Cfg;
 struct Descriptor;
-extern u32 func_020452E8(struct Descriptor *d);
-extern u8 func_02045760(struct Descriptor *p);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 extern void BMP_WIN_SetPosY(struct Descriptor *p, u8 v);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
@@ -30,11 +30,11 @@ void func_021D82F8(char *p)
 {
     int i;
     char *t;
-    if(((struct Obj08085 *)p)->f80) {func_020452E8(((struct Obj08085 *)p)->f80);((struct Obj08085 *)p)->f80=0;}
+    if(((struct Obj08085 *)p)->f80) {BMP_WIN_Delete(((struct Obj08085 *)p)->f80);((struct Obj08085 *)p)->f80=0;}
     for(i=0;i<6;i++) {
         t=p+4*i;
         if(((struct Obj08086 *)t)->f6C) {
-            BMP_WIN_SetPosY(((struct Obj08086 *)t)->f6C,func_02045760(((struct Obj08086 *)t)->f6C)+6);
+            BMP_WIN_SetPosY(((struct Obj08086 *)t)->f6C,BMP_WIN_GetPosY(((struct Obj08086 *)t)->f6C)+6);
             BMP_WIN_MakeScreen(((struct Obj08086 *)t)->f6C);
         }
     }

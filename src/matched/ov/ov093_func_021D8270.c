@@ -9,20 +9,20 @@
  * isa:      thumb
  * status:   EXACT* (extent runs past compiled, trailing padding)
  * symbols:
- *   func_021B902C  0x021B902C  thumb
+ *   BTL_MAIN_IsSameTeamClient  0x021B902C  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 n; u8 v[4]; } List4;
-extern int func_021B902C(int a, int b);
+extern int BTL_MAIN_IsSameTeamClient(int a, int b);
 int BTL_CLIENT_SET_JudgeResult(List4 *l, u8 y, u32 k)
 {
     int miss = 0;
     int hit = 0;
     u32 i;
     for (i = 0; i < l->n; i++) {
-        if (func_021B902C(l->v[i], y))
+        if (BTL_MAIN_IsSameTeamClient(l->v[i], y))
             hit = 1;
         else
             miss = 1;

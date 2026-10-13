@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02082A7C  0x02082A7C  arm
  *   func_02045B38  0x02045B38  arm
  *   FIELD_MSGBG_CreateMenuItems  0x02190A20  thumb  ov021
@@ -38,7 +38,7 @@ typedef struct {
     int pad20;
 } P;
 
-extern void func_02082BCC(void *, int, int);
+extern void MI_CpuFill8(void *, int, int);
 extern void func_02082A7C(int, void *, int);
 typedef unsigned int   u32;
 struct MsgBank;
@@ -52,7 +52,7 @@ void SCRCMD_WORK_InitMenu(unsigned short *p, unsigned short a, unsigned short b,
     char *base = *(char * *)&((struct Obj00005 *)p)->f20;
     Q *q = (Q *)(base + 0x34);
 
-    func_02082BCC(q, 0, 0xa0);
+    MI_CpuFill8(q, 0, 0xa0);
     ((struct Obj18799 *)base)->f34 = a;
     q->b = b;
     q->c = c;

@@ -13,7 +13,7 @@
  * Caller evidence: 021B74B4's forwarded r0 is consumed; 021B7268 and 021B723C return their verified state values.
  * symbols:
  *   func_021B7268 0x021B7268 thumb ov180
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   GFL_USE_IsSeqPlaying 0x02006254 thumb
  *   func_021B654C 0x021B654C thumb ov180
  *   func_021B65A0 0x021B65A0 thumb ov180
@@ -48,7 +48,7 @@ extern int func_021B723C(char *,int,int);
 extern int func_021B7210(char *,int);
 extern int func_021B72B0(char *,int);
 extern int func_021B74B4(int *p, int i);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 typedef signed short   s16;
 extern int GFL_USE_IsSeqPlaying(u32);
 extern int PM_VOICE_Start(u32);
@@ -67,10 +67,10 @@ int func_021B6BAC(char *p) {
     int busy;
     switch(((struct Obj00299 *)p)->f9190){
     case 0: ++((struct Obj00299 *)p)->f9190;return func_021B7268(p,32);
-    case 1: func_020061E4(0x79B);++((struct Obj00299 *)p)->f9190;break;
-    case 2: if(++((struct Obj00299 *)p)->f9188==48){func_020061E4(0x79C);((struct Obj00299 *)p)->f9188=0;++((struct Obj00299 *)p)->f9190;}break;
+    case 1: GFL_USE_PlaySeDefaultVolume(0x79B);++((struct Obj00299 *)p)->f9190;break;
+    case 2: if(++((struct Obj00299 *)p)->f9188==48){GFL_USE_PlaySeDefaultVolume(0x79C);((struct Obj00299 *)p)->f9188=0;++((struct Obj00299 *)p)->f9190;}break;
     case 3: if(GFL_USE_IsSeqPlaying(0x79C)==0){
-        func_020061E4(0x79A);func_021B654C(p);func_021B65A0(p);func_021B6778(p);func_021B67EC(p);func_021B761C(p);func_021B78E0(p);func_021B7C08(p);func_021B7750(p);
+        GFL_USE_PlaySeDefaultVolume(0x79A);func_021B654C(p);func_021B65A0(p);func_021B6778(p);func_021B67EC(p);func_021B761C(p);func_021B78E0(p);func_021B7C08(p);func_021B7750(p);
         ++((struct Obj00299 *)p)->f9190;return func_021B7210(p,5);
     }break;
     case 4: if(((struct Obj00299 *)p)->f9188==22){++((struct Obj00299 *)p)->f9190;return func_021B7268(p,8);}else{func_021B7438((u8 *)p,1,-16,0);++((struct Obj00299 *)p)->f9188;}break;
@@ -79,18 +79,18 @@ int func_021B6BAC(char *p) {
     case 7:
         func_021B7408((u8 *)p,2,&coords[11],&coords[10]);
         if(coords[11]!=168)func_021B7438((u8 *)p,2,16,0);
-        else{func_020061E4(0x57A);func_021B727C(p);((struct Obj00299 *)p)->f9160=coords[11];((struct Obj00299 *)p)->f9162=coords[10];++((struct Obj00299 *)p)->f9190;}
+        else{GFL_USE_PlaySeDefaultVolume(0x57A);func_021B727C(p);((struct Obj00299 *)p)->f9160=coords[11];((struct Obj00299 *)p)->f9162=coords[10];++((struct Obj00299 *)p)->f9190;}
         func_021B7C08(p);break;
     case 8: func_021B682C((int *)p,0);++((struct Obj00299 *)p)->f9190;
     case 9:
         busy=func_021B72B0(p,2);func_021B7408((u8 *)p,3,&coords[9],&coords[8]);
         if(coords[9]!=88)func_021B7438((u8 *)p,3,-16,0);
-        else if(busy==0){func_020061E4(0x57A);func_021B727C(p);((struct Obj00299 *)p)->f9160=coords[9];((struct Obj00299 *)p)->f9162=coords[8];++((struct Obj00299 *)p)->f9190;}
+        else if(busy==0){GFL_USE_PlaySeDefaultVolume(0x57A);func_021B727C(p);((struct Obj00299 *)p)->f9160=coords[9];((struct Obj00299 *)p)->f9162=coords[8];++((struct Obj00299 *)p)->f9190;}
         func_021B7C08(p);break;
     case 10:
         busy=func_021B72B0(p,3);func_021B7408((u8 *)p,0,&coords[7],&coords[6]);
         if(coords[7]!=48)func_021B7438((u8 *)p,0,16,0);
-        else if(busy==0){func_020061E4(0x57A);func_021B727C(p);((struct Obj00299 *)p)->f9160=coords[7];((struct Obj00299 *)p)->f9162=coords[6];++((struct Obj00299 *)p)->f9190;}
+        else if(busy==0){GFL_USE_PlaySeDefaultVolume(0x57A);func_021B727C(p);((struct Obj00299 *)p)->f9160=coords[7];((struct Obj00299 *)p)->f9162=coords[6];++((struct Obj00299 *)p)->f9190;}
         func_021B7C08(p);break;
     case 11: if(func_021B72B0(p,0)==0){PM_VOICE_Start(((struct Obj00299 *)p)->f9184);func_021B746C((int *)p,4,1);func_021B7488((u8 *)p,4,6);++((struct Obj00299 *)p)->f9190;return func_021B7268(p,128);}break;
     case 12: if(PM_VOICE_IsActive(((struct Obj00299 *)p)->f9184)==0 && func_021B74B4((int *)p,4)==0)++((struct Obj00299 *)p)->f9190;break;

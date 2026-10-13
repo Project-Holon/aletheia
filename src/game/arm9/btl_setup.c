@@ -61,12 +61,12 @@
  *   func_0200873C  0x0200873C  thumb
  *   CONFIG_GetTextSpeed  0x02008374  thumb
  *   sBtlSetupFileName  0x020A729C  data
- *   func_0201AC2C  0x0201AC2C  thumb
+ *   POKEPARTY_Copy  0x0201AC2C  thumb
  *   func_0200AE54   0x0200AE54  thumb
  *   func_0200B040   0x0200B040  thumb
  *   POKE_REGULATION_AdjustPartyLevels   0x0201A2A8  thumb
  *   POKE_REGULATION_ResetPartyNicknames   0x0201A30C  thumb
- *   func_0201A920   0x0201A920  thumb
+ *   POKEPARTY_Create   0x0201A920  thumb
  *   func_0202A3FC   0x0202A3FC  thumb
  *   func_0202A440   0x0202A440  thumb
  *   func_0202A4B4   0x0202A4B4  thumb
@@ -78,8 +78,8 @@
  *   ZONEDATA_CheckEventFlag   0x020142E8  thumb
  *   func_02082D44   0x02082D44  arm
  *   func_020076D0   0x020076D0  thumb
- *   func_0201AA14   0x0201AA14  thumb
- *   func_0201AA18   0x0201AA18  thumb
+ *   POKEPARTY_GetCapacity   0x0201AA14  thumb
+ *   POKEPARTY_GetCount   0x0201AA18  thumb
  *   MYSTATUS_Create   0x0200846C  thumb
  *   func_020307B0     0x020307B0  arm
  *   BTL_SETUP_FreeSlots     0x020130DC  thumb
@@ -97,6 +97,8 @@
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
+ *   GFL_USE_IsLoaderBusy  0x02005C64  thumb
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 typedef unsigned char  u8;
 
@@ -162,7 +164,7 @@ extern void func_02008658(struct PlayTime *playTime);
 extern void WIH_DWC_PauseTimers(void);
 extern void func_0203516C();
 extern int SAVE_CONTROL_StartSave(struct SaveControl *save);
-extern int  func_02005C64(void);
+extern int  GFL_USE_IsLoaderBusy(void);
 extern u32 SAVE_CONTROL_MainSave(struct SaveControl *save);
 extern int func_020351A0(u32 v);
 extern void WIH_DWC_ResumeTimers(void);
@@ -181,9 +183,9 @@ extern u32 func_020085D4(struct PlayTime *playTime, u32 limit);
 extern struct Config *func_0200873C(struct SaveControl *save);
 extern unsigned int CONFIG_GetTextSpeed(struct Config *config);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *dst, int c, u32 n);
+extern void MI_CpuFill8(void *dst, int c, u32 n);
 extern u32 func_020307B0(void *p);
-extern void func_0201AC2C(const struct Party *src, struct Party *dst);
+extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
 extern u32 func_0200AE54(struct Regulation *reg, u32 id);
 extern void func_0200B040(struct Regulation *reg, u8 *rules);
 extern void POKE_REGULATION_AdjustPartyLevels(struct Regulation *reg, struct Party *party);
@@ -191,7 +193,7 @@ extern void POKE_REGULATION_ResetPartyNicknames(struct Regulation *reg, struct P
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct StrBuf *str);
 extern void  PMSI_PARAM_ClearSentence(void *word);
-extern struct Party *func_0201A920(u16 heap);
+extern struct Party *POKEPARTY_Create(u16 heap);
 extern void func_0202A440(u32 trainerId, struct BattleTrainerData *tr, u16 heap);
 extern void func_0202A4B4(u32 trainerId, struct Party *party, u16 heap);
 extern void FORMCHANGE_UpdateSeasonForms(struct GameData *gd, struct Party *party, u32 season);
@@ -201,8 +203,8 @@ extern u32 func_0200C258(struct MiscSave *misc);
 extern void *func_0200CA1C(struct GameData *gd);
 extern u32 ZONEDATA_CheckEventFlag(void *eventWork, s32 flagId);
 extern void func_02082D44(const void *src, void *dst, u32 n);
-extern u32  func_0201AA18(struct Party *party);
-extern u32 func_0201AA14(struct Party *party);
+extern u32  POKEPARTY_GetCount(struct Party *party);
+extern u32 POKEPARTY_GetCapacity(struct Party *party);
 extern int func_020076D0(u32 boxManager, u32 *tray, u32 *pos);
 extern struct FieldState *func_0201283C(const struct GameData *gd);
 extern void *MYSTATUS_Create(u16 heap);
@@ -1102,7 +1104,7 @@ int GAME_DATA_SaveStart(struct GameData *gd)
 int GAME_DATA_SaveMain(struct GameData *gd)
 {
     int result;
-    if (func_02005C64() == 1) {
+    if (GFL_USE_IsLoaderBusy() == 1) {
         return 0;
     }
     result = SAVE_CONTROL_MainSave(gd->saveControl);
@@ -1171,7 +1173,7 @@ void GAME_DATA_PartSaveStart(struct GameData *gd, u32 blockId)
 int GAME_DATA_PartSaveMain(struct GameData *gd, int blockId)
 {
     int result;
-    if (func_02005C64() == 1)
+    if (GFL_USE_IsLoaderBusy() == 1)
         return 0;
     result = SAVE_CONTROL_StepExtraSaveWrite(gd->saveControl, blockId);
     if (result == 2 || result == 3) {
@@ -1570,7 +1572,7 @@ void BTL_SETUP_Delete(struct BattleSetupParam *param)
  */
 void BTL_SETUP_Clear(struct BattleSetupParam *param)
 {
-    func_02082BCC(param, 0, 0xf0);
+    MI_CpuFill8(param, 0, 0xf0);
     BTL_SETUP_InitFieldSituation(&param->fieldSituation);
 }
 
@@ -1596,14 +1598,14 @@ void BTL_SETUP_FreeSlots(struct BattleSetupParam *param)
     }
     if (param->recordBuffer != 0)
         func_020307B0(param->recordBuffer);
-    func_02082BCC(param, 0, 0xf0);
+    MI_CpuFill8(param, 0, 0xf0);
 }
 
 
 
 /*
  * Unlabelled Thumb thunk (btl_setup.c). Tail-calls
- * func_0201AC2C (the 0x534-byte container copy in unit_0201AC2C.c,
+ * POKEPARTY_Copy (the 0x534-byte container copy in unit_0201AC2C.c,
  * prototype (src, dst)) with the second argument as source and the i-th
  * pointer of the table at +0x24 as destination.
  *
@@ -1611,7 +1613,7 @@ void BTL_SETUP_FreeSlots(struct BattleSetupParam *param)
  */
 void BTL_SETUP_SetParty(struct BattleSetupParam *param, struct Party *src, int client)
 {
-    func_0201AC2C(src, param->party[client]);
+    POKEPARTY_Copy(src, param->party[client]);
 }
 
 
@@ -1833,7 +1835,7 @@ void BTL_SETUP_SetTrainer(struct BattleSetupParam *param, struct GameData *gd, u
     u8 *slots;
     u32 off;
     if (*party == 0) {
-        *party = func_0201A920(heap);
+        *party = POKEPARTY_Create(heap);
     }
     off = client * 4;
     slots = (u8 *)param->trainerData;
@@ -1874,8 +1876,8 @@ void BTL_SETUP_SetTrainer(struct BattleSetupParam *param, struct GameData *gd, u
 void BTL_SETUP_SetPlayerParty(struct BattleSetupParam *param, struct GameData *gd, u16 heap)
 {
     func_020127A4(gd);
-    param->party[0] = func_0201A920(heap);
-    func_0201AC2C(func_02012934(gd), param->party[0]);
+    param->party[0] = POKEPARTY_Create(heap);
+    POKEPARTY_Copy(func_02012934(gd), param->party[0]);
 }
 
 
@@ -1962,12 +1964,12 @@ void BTL_SETUP_InitCommon(struct BattleSetupParam *param, struct GameData *gd, c
  * readings are what close it, and both are the same idiom, see
  * docs/idioms/a-loop-carried-value-in-a-callees-argument-register-names-the-arity.md.
  *
- * (1) func_0201AC2C takes the func_0201A920 result as a second argument.
+ * (1) POKEPARTY_Copy takes the POKEPARTY_Create result as a second argument.
  * The original writes `adds r1, r0, #0; str r1, [r4, #0x28]`, which reads
  * as a gratuitous register copy before the store.  It is not: r1 is the
- * second argument of the guarded func_0201AC2C call below, so the value has
+ * second argument of the guarded POKEPARTY_Copy call below, so the value has
  * to reach r1 anyway and the store then sources it from there.  The
- * first drafts declared func_0201AC2C variadic; with every call written with
+ * first drafts declared POKEPARTY_Copy variadic; with every call written with
  * both arguments, the plain (src, dst) prototype gives the same bytes.
  *
  * (2) func_020076D0 takes THREE arguments, and its first is the return
@@ -2005,15 +2007,15 @@ void BTL_SETUP_SetupWild(struct BattleSetupParam *param, struct GameData *gd, st
     BTL_SETUP_Clear(param);
     BTL_SETUP_InitCommon(param, gd, sit);
     BTL_SETUP_SetPlayerParty(param, gd, heap);
-    enemy = func_0201A920(heap);
+    enemy = POKEPARTY_Create(heap);
     param->party[1] = enemy;
     if (wildParty != 0) {
-        func_0201AC2C(wildParty, enemy);
+        POKEPARTY_Copy(wildParty, enemy);
     }
     param->rule = rule;
     param->competitor = 0;
-    count = func_0201AA18(param->party[0]);
-    if (count != func_0201AA14(param->party[0])) {
+    count = POKEPARTY_GetCount(param->party[0]);
+    if (count != POKEPARTY_GetCapacity(param->party[0])) {
         return;
     }
     box = func_0201293C(gd);
@@ -2052,7 +2054,7 @@ void BTL_SETUP_SetupTrainerBase(struct BattleSetupParam *param, struct GameData 
  * THE LEVER (wave 18, lane ties_b; it was DIFF 152/152, 6 bytes out for four
  * waves, docs/notes/pkt_02013528.c.txt): the eighth (stack) parameter is a
  * heap id and is u16, with u16 on the matching parameter of BTL_SETUP_SetPlayerParty,
- * MYSTATUS_Create and func_0201A920 (BTL_SETUP_SetupDemo already declares the first
+ * MYSTATUS_Create and POKEPARTY_Create (BTL_SETUP_SetupDemo already declares the first
  * and last that way). With u32 there, 1.1p1 schedules the r3 home store
  * `str r3, [sp]` after the three parameter copies; with u16 it comes first,
  * as in the image. docs/idioms/a-u16-stack-parameter-passed-to-a-u16-callee-
@@ -2082,7 +2084,7 @@ void BTL_SETUP_SetupComm(struct BattleSetupParam *param, struct GameData *gd, u3
             if (param->playerStatus[i] == 0)
                 param->playerStatus[i] = MYSTATUS_Create(heap);
             if (param->party[i] == 0)
-                param->party[i] = func_0201A920(heap);
+                param->party[i] = POKEPARTY_Create(heap);
         }
         i++;
     } while (i < 4);
@@ -2096,20 +2098,20 @@ void BTL_SETUP_SetupComm(struct BattleSetupParam *param, struct GameData *gd, u3
 /*
  * btl_setup.c.  The four-argument variant of the setup builder: the shared
  * writers run first, then up to two optional attachments are bound through
- * func_0201AC2C, and the object is left in mode 4.
+ * POKEPARTY_Copy, and the object is left in mode 4.
  *
  * This closes the near miss documented in docs/notes/pkt_02013528.c.txt.
- * That note was right that func_0201AC2C cannot carry a fixed two-parameter
+ * That note was right that POKEPARTY_Copy cannot carry a fixed two-parameter
  * prototype - the first call site passes r0 and r1, the second passes only
- * r0 - and right that a variadic declaration, `void func_0201AC2C(u32 a,
+ * r0 - and right that a variadic declaration, `void POKEPARTY_Copy(u32 a,
  * ...)`, is the only one under which both sites emit the original bytes.
  * What it could not recover was the `adds r1, r0, #0` the original keeps
  * before the +0x28 store, and it concluded that binding the result to a
  * named local did not help.
  *
  * The resolution is that r1 is not a register copy at all: it is the SECOND
- * ARGUMENT of the second func_0201AC2C call.  Writing the call as
- * `func_0201AC2C(a3, r)` - handing it the func_0201A920 result the +0x28
+ * ARGUMENT of the second POKEPARTY_Copy call.  Writing the call as
+ * `POKEPARTY_Copy(a3, r)` - handing it the POKEPARTY_Create result the +0x28
  * store also consumes - produces `adds r1, r0, #0; str r1, [r5, #0x28]`
  * exactly, because the value has to reach r1 for the call and the store
  * then reads it from there.  The "leftover" register really is a passed
@@ -2137,12 +2139,12 @@ void BTL_SETUP_SetupDemo(struct BattleSetupParam *param, struct GameData *gd, st
     BTL_SETUP_InitCommon(param, gd, sit);
     BTL_SETUP_SetPlayerParty(param, gd, heap);
     if (enemyParty != 0) {
-        func_0201AC2C(enemyParty, param->party[0]);
+        POKEPARTY_Copy(enemyParty, param->party[0]);
     }
-    party = func_0201A920(heap);
+    party = POKEPARTY_Create(heap);
     param->party[1] = party;
     if (partnerParty != 0) {
-        func_0201AC2C(partnerParty, party);
+        POKEPARTY_Copy(partnerParty, party);
     }
     param->competitor = 4;
     param->rule = 0;
@@ -2420,9 +2422,9 @@ void BTL_SETUP_InitWithSlots(struct BattleSetupParam *param, struct GameData *gd
     u32 i;
     struct Config *config;
     struct Config *copy;
-    func_02082BCC(param, 0, 0xf0);
+    MI_CpuFill8(param, 0, 0xf0);
     for (i = 0; i < 4; i++) {
-        param->party[i] = func_0201A920(heap);
+        param->party[i] = POKEPARTY_Create(heap);
         param->playerStatus[i] = MYSTATUS_Create(heap);
         param->trainerData[i] = BTL_SETUP_CreateTrainerData(heap);
     }

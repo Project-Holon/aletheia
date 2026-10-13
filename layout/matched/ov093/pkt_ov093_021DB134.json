@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_TOKUSEI_MoldBreaker_ShowAbilityMessage",
+   "name": "HAND_TOKUSEI_MoldBreaker_ShowAbilityMessage",
    "address": "0x021DB134",
    "kind": "game",
    "region": "ov093",

@@ -1,5 +1,5 @@
 /*
- * function: func_021C8174
+ * function: BTL_SERVER_FLOW_GetFieldSituationType
  * address:  0x021C8174
  * packet:   pkt_021C8174
  * region:   ov093
@@ -17,7 +17,7 @@
 
 char *BTL_MAIN_GetFieldSituation(char **p);
 
-int func_021C8174(int *p)
+int BTL_SERVER_FLOW_GetFieldSituationType(int *p)
 {
     return ((struct Obj18336 *)((char *)BTL_MAIN_GetFieldSituation((char **)(((struct Obj18335 *)p)->f4))))->f4;
 }

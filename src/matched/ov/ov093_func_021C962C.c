@@ -1,5 +1,5 @@
 /*
- * function: func_021C962C
+ * function: BTL_SERVER_FLOW_ExecCmdSetPokeTypes
  * address:  0x021C962C
  * packet:   pkt_ov093_021C962C
  * region:   ov093
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021C96B4  0x021C96B4  thumb  ov093
- *   func_021B9934  0x021B9934  thumb  ov093
+ *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb  ov093
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb  ov093
  *   func_021C96C4  0x021C96C4  thumb  ov093
@@ -25,7 +25,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021C96B4(int a, u8 b);
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern int BTL_POKEPARAM_IsFainted(void *p);
 struct QF;
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
@@ -38,12 +38,12 @@ extern void BTL_SERVER_CMD_PushVariable(void *w, u8 id, ...);
 
 typedef struct { u32 w; u16 h4; u8 b6; u8 b7; } Ent;
 
-int func_021C962C(int p, const Ent *e)
+int BTL_SERVER_FLOW_ExecCmdSetPokeTypes(int p, const Ent *e)
 {
     int a;
 
     if (func_021C96B4(p + 0x1ab8, e->b6)) {
-        a = (int)func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, e->b6);
+        a = (int)BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00003 *)p)->f8, e->b6);
         if (BTL_POKEPARAM_IsFainted((void *)a) == 0 && func_021C96C4(BTL_POKEPARAM_GetSpecies((void *)a)) == 0) {
             BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 0x16, e->b6, e->h4);
             BTL_POKEPARAM_SetTypes((void *)a, e->h4);

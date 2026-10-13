@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_HANDLER_ITEM_RaiseCriticalRankByOne",
-    "BTL_HANDLER_ITEM_GetLuckyPunchHandlers"
+    "HAND_ITEM_RaiseCriticalRankByOne",
+    "HAND_ITEM_GetLuckyPunchHandlers"
    ],
    "addresses": [
     "0x021DE564",

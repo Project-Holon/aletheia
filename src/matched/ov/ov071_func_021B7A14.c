@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   func_02034714  0x02034714  arm
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   func_02040588  0x02040588  arm
  *   BMP_Clear  0x02043B5C  arm
@@ -28,9 +28,9 @@ struct CharBuf;
 struct Descriptor;
 struct Rec3;
 struct U16Vec;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -42,10 +42,10 @@ void MONOLITH_TOOL_SLOT_SELECT_HideMessage(void **p)
 {
     void *h;
 
-    h = func_02045770(p[0]);
+    h = BMP_WIN_GetBmp(p[0]);
     if (p[2] == 0)
         func_02034714(d_021BABF4, 0, d_021BABF4);
-    func_0201CE48(p[2]);
+    PRINTSYS_PrintStreamDelete(p[2]);
     p[2] = 0;
     STRBUF_Delete(p[1]);
     p[1] = 0;

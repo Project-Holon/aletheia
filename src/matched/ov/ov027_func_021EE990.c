@@ -1,5 +1,5 @@
 /*
- * function: func_021EE990
+ * function: WEATHER_SANDSTORM_UpdateParticle
  * address:  0x021EE990
  * packet:   pkt_ov027_021EE990
  * region:   ov027
@@ -28,7 +28,7 @@ void WEATHER_TASK_GetParticlePos(unsigned char *a, struct PtS *pt);
 void WEATHER_TASK_SetParticlePosWrapped(int obj, unsigned short *src);
 void WEATHER_TASK_RemoveParticle(u32 *p);
 
-void func_021EE990(int a)
+void WEATHER_SANDSTORM_UpdateParticle(int a)
 {
     int *o = (int *)WEATHER_TASK_GetParticleWork((unsigned char *)a);
     short pt[2];

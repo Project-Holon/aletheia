@@ -1,5 +1,5 @@
 /*
- * function: func_021C7CE8
+ * function: BTL_SERVER_FLOW_GetOpponentResistedCount
  * address:  0x021C7CE8
  * packet:   pkt_021C7CE8
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C7CE8   0x021C7CE8  thumb ov093
+ *   BTL_SERVER_FLOW_GetOpponentResistedCount   0x021C7CE8  thumb ov093
  *
  * ldrh at #0x1f86 (pool constant)
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u16 func_021C7CE8(u8 *p)
+u16 BTL_SERVER_FLOW_GetOpponentResistedCount(u8 *p)
 {
     return ((struct Obj18323 *)p)->f1F86;
 }

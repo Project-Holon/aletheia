@@ -12,7 +12,7 @@
  * symbols:
  *   func_021F9260  0x021F9260  thumb  ov094
  *   func_021F89BC  0x021F89BC  thumb  ov094
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  */
 typedef struct {
     int a, b;
@@ -33,7 +33,7 @@ extern void func_021F89BC(void *p);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void func_02201F98(void *a, Obj *o)
 {
@@ -43,7 +43,7 @@ void func_02201F98(void *a, Obj *o)
 
     v[0] = o->x >> 12;
     v[1] = o->y >> 12;
-    func_0204B404(t[o->idx].h, (const struct Vec2 *)v, 0);
+    CLACT_AddActorSurfacePos(t[o->idx].h, (const struct Vec2 *)v, 0);
     if (r == 1)
         func_021F89BC(a);
 }

@@ -10,7 +10,7 @@
  * lever: output pointer declared before scalar locals; counter zero before base assignment.
  * arithmetic: signed n guard/callee argument; unsigned base/index preserve low-word MUL/ADD wrapping at 021DC6A6/021DC6A8/021DC6B2.
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021D8DD0 0x021D8DD0 thumb ov119
  *   func_02017E88 0x02017E88 thumb
  */
@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct Record {u16 value;u8 a,b;} Record;
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 typedef unsigned int   u32;
 extern void *func_021D8DD0(void *a, int b, int c, char *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
@@ -28,7 +28,7 @@ void func_021DC62C(char *p,int n)
     int i,mon,v;
     unsigned index,base;
     if(n==0) {
-        func_02082BCC(out,0,0xb58);
+        MI_CpuFill8(out,0,0xb58);
         for(i=0;i<6;i++) {
             mon=(int)func_021D8DD0((void *)(*(int *)&((struct Obj00001 *)p)->f828),((struct Obj00001 *)p)->f630,i,p);
             if(mon && func_02017E88((void *)mon,0xa9,0)) {

@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK40_Init
+ * function: GIMMICK41_Init
  * address:  0x021F36C0
  * packet:   pkt_ov041_021F36C0
  * region:   ov041
@@ -19,7 +19,7 @@
  *   gGimmick41UnitSetup     0x021F40A4  data  a4
  *   gGimmick41CannonPos     0x021F4208  data  a4
  *   gGimmick41CannonQuarterTurns     0x021F4660  data  a1
- *   d_020A1B38     0x020A1B38  data  a2
+ *   FX_SinCosTable_     0x020A1B38  data  a2
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
@@ -48,7 +48,7 @@ typedef struct {
 extern int gGimmick41UnitSetup;
 extern T gGimmick41CannonPos;
 extern u8 gGimmick41CannonQuarterTurns[];
-extern s16 d_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 extern int FIELDMAP_GetExpObj(int *p);
 extern u16 FIELDMAP_GetHeapId(u8 *p);
@@ -60,7 +60,7 @@ extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern void FLD_EXP_OBJ_SetAnimeLoop(unsigned char *p, int v);
 extern void  func_0207AF1C(void *m, int a, int b);
 
-void GIMMICK40_Init(void *a0)
+void GIMMICK41_Init(void *a0)
 {
     char *e;
     unsigned int i;
@@ -79,7 +79,7 @@ void GIMMICK40_Init(void *a0)
         FLD_EXP_OBJ_SetModelCullDraw(s, 0, i, 1);
         *(V *)e = tbl.v[i];
         k = ((gGimmick41CannonQuarterTurns[i] << 14) >> 4) * 2;
-        func_0207AF1C(e + 0x18, d_020A1B38[k], d_020A1B38[k + 1]);
+        func_0207AF1C(e + 0x18, FX_SinCosTable_[k], FX_SinCosTable_[k + 1]);
         for (j = 0; j < 4; j++) {
             FLD_EXP_OBJ_SetAnimeLoop(FLD_EXP_OBJ_GetAnime(s, 0, (u16)i, (u16)(j * 2)), 0);
             FLD_EXP_OBJ_SetAnimeLoop(FLD_EXP_OBJ_GetAnime(s, 0, (u16)i, (u16)(j * 2 + 1)), 0);

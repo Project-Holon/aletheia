@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_USE_GetSeSlot  0x02006148  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GFL_USE_IsSeSlotBusy  0x02006224  thumb
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
  *   FLDMMDL_SetStatusBit  0x0216D548  thumb  ov010
@@ -28,11 +28,11 @@ extern void FLDMMDL_SetAcmd(u32 a, u32 b);
 extern u32 *FLDMMDL_SetStatusBit(u32 *p, u32 v);
 extern int GFL_USE_GetSeSlot(u32 a0);
 extern int GFL_USE_IsSeSlotBusy(u32 a0);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 void FIELD_TILE_MOVE_SpinStartStep(P *p)
 {
     FLDMMDL_SetAcmd(p->fC, FIELD_TILE_MOVE_GetSpinStepAcmd((u32)p));
     FLDMMDL_SetStatusBit((u32 *)p->fC, 8);
     if (GFL_USE_IsSeSlotBusy(GFL_USE_GetSeSlot(0x694)) == 0)
-        func_020061E4(0x694);
+        GFL_USE_PlaySeDefaultVolume(0x694);
 }

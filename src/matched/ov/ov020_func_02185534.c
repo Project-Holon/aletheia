@@ -24,7 +24,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   EVENT_MAPCHANGE_InitWork  0x02184CEC  thumb  ov020
  *   EVENT_MAPCHANGE_FadeEvent  0x02184584  thumb  ov020
- *   func_020142A4  0x020142A4  thumb
+ *   ZONEDATA_DirToExitDir  0x020142A4  thumb
  *   ZONEDATA_SetDirectLocation  0x02014184  thumb
  */
 
@@ -40,7 +40,7 @@ struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 void EVENT_MAPCHANGE_InitWork(void **o, void *p);
 int EVENT_MAPCHANGE_FadeEvent(int ctx, int *state, u8 *p);
-u32 func_020142A4(u32 idx);
+u32 ZONEDATA_DirToExitDir(u32 idx);
 void ZONEDATA_SetDirectLocation(void *d, int a, short b, int c, int e, int f);
 
 void *EVENT_MAPCHANGE_CreateWarpEventPlain(void *p, int a1, int a2, const S3 *a3, short a4)
@@ -49,7 +49,7 @@ void *EVENT_MAPCHANGE_CreateWarpEventPlain(void *p, int a1, int a2, const S3 *a3
     char *r4 = func_020124E8(r0v);
 
     EVENT_MAPCHANGE_InitWork((void **)r4, p);
-    *(u16 *)&a4 = func_020142A4(*(u16 *)&a4);
+    *(u16 *)&a4 = ZONEDATA_DirToExitDir(*(u16 *)&a4);
     ZONEDATA_SetDirectLocation(r4 + 0x10, a2, a4, a3->a, a3->b, a3->c);
     *(int *)(r4 + 0x2c) = 0;
     return r0v;

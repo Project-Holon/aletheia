@@ -1,5 +1,5 @@
 /*
- * function: func_021E03E8
+ * function: HAND_WAZA_IsKeptOnSuspend
  * address:  0x021E03E8
  * packet:   pkt_ov093_021E03E8
  * region:   ov093
@@ -14,7 +14,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-int func_021E03E8(void *n, u32 *q)
+int HAND_WAZA_IsKeptOnSuspend(void *n, u32 *q)
 {
     if (q[6] != 0) return 1;
     return 0;

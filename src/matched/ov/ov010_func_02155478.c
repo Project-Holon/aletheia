@@ -36,8 +36,8 @@
  *   func_02034A5C  0x02034A5C  arm
  *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   func_0200FB24  0x0200FB24  thumb
  *   func_0200FBB0  0x0200FBB0  thumb
  *   GFL_NET_ERR_ShowSimpleScreen  0x0200F83C  thumb
@@ -191,8 +191,8 @@ extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void func_02039C68(struct Link *p, u32 lo, u32 hi);
-extern u32 func_02039CB4(struct Link *p, u32 lo, u32 hi);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, u32 lo, u32 hi);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, u32 lo, u32 hi);
 extern u32 func_0200FB24(void);
 extern u32 func_0200FBB0(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
@@ -305,11 +305,11 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
     case 7:
         func_02034AC4((u32)ov093_id);
         GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x6e, 12);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x6e, 12);
         (*seq)++;
         break;
     case 8:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x6e, 12))
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x6e, 12))
             (*seq)++;
         if (func_0200FB24()) {
             if (func_0200FBB0() == 1)
@@ -362,7 +362,7 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
         BTL_SETUP_AllocRecordBuffer((struct ZoneData *)ctx->f88, 1);
         ctx->f54 = GFL_USE_GetBgmNo();
         GFL_USE_CancelChangeAndStopBgm();
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 10, 12);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 10, 12);
         (*seq)++;
         break;
     case 10:
@@ -375,7 +375,7 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
                 func_0200FA84();
             func_02034A5C((u32)ov093_id);
             *seq = 20;
-        } else if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 10, 12)) {
+        } else if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 10, 12)) {
             if (GFL_NET_IsParentAid())
                 GFL_USE_CancelChangeAndPlayBgm(0x48B, 0xFFFF);
             else
@@ -438,12 +438,12 @@ int func_02155478(void *proc, int *seq, struct Ctx *ctx)
         break;
     case 17:
         if (GFL_NET_GetRunState() && func_0200FB24() == 0)
-            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xdc, 12);
+            GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xdc, 12);
         (*seq)++;
         break;
     case 18:
         if (GFL_NET_GetRunState() && func_0200FB24() == 0) {
-            if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xdc, 12) == 0)
+            if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xdc, 12) == 0)
                 break;
             ctx->fe4 = 0;
             (*seq)++;

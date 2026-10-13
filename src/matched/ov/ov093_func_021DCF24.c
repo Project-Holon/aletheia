@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_RemoveUnforcedFactors
+ * function: HAND_ITEM_RemoveUnforcedFactors
  * address:  0x021DCF24
  * packet:   pkt_ov093_021DCF24
  * region:   ov093
@@ -23,7 +23,7 @@ extern struct Node *BTL_EVENT_FindFactor(int id, int sub);
 extern struct Node *BTL_EVENT_FindNextFactor(struct Node *n);
 extern u32 BTL_EVENT_GetFactorWork(u8 *p, int i);
 extern void BTL_EVENT_RemoveFactor(struct Node *n);
-void BTL_HANDLER_ITEM_RemoveUnforcedFactors(u8 *p)
+void HAND_ITEM_RemoveUnforcedFactors(u8 *p)
 {
     Node *n = BTL_EVENT_FindFactor(5, BTL_POKEPARAM_GetPokeId(p));
     while (n != 0) {

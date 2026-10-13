@@ -18,8 +18,8 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAffineMode 0x0204B570 arm
  *   CLACT_SetActorFlip 0x0204B604 arm
  *   d_02184910 0x02184910 data a4
@@ -46,8 +46,8 @@ extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 void func_02183FC4(char *p,u16 heap)
@@ -78,10 +78,10 @@ void func_02183FC4(char *p,u16 heap)
         r=&d_02184910[i];
         q=p+r->group*4;
         *(void **)(p+i*4)=CLACT_CreateActor((void *)*(u32 *)&((struct Obj01262 *)p)->f1C,((struct Obj10642 *)q)->f20,((struct Obj10642 *)q)->f24,((struct Obj10642 *)q)->f28,&d_021848AC[r->config],r->id,heap);
-        func_0204B92C(*(void **)(p+i*4),1);
+        CLACT_SetActorAutoAnim(*(void **)(p+i*4),1);
         ++i;
     }while(i<7);
-    for(i=0;i<3;i++)func_0204B3DC(*(void **)(p+i*4+0x10),0);
+    for(i=0;i<3;i++)CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x10),0);
     CLACT_SetActorAffineMode(((struct Obj01262 *)p)->f0,0);
     CLACT_SetActorFlip(((struct Obj01262 *)p)->f0,1,1);
     ((struct Obj01262 *)p)->fE0=10;

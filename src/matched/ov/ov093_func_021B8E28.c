@@ -1,5 +1,5 @@
 /*
- * function: func_021B8E28
+ * function: BTL_MAIN_GetSlotClientAndNth
  * address:  0x021B8E28
  * packet:   pkt_ov093_021B8E28
  * region:   ov093
@@ -9,20 +9,20 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021B8CFC  0x021B8CFC  thumb  ov093
+ *   BTL_MAIN_GetSlotClientId  0x021B8CFC  thumb  ov093
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern unsigned char func_021B8CFC(char *p, int i);
+extern unsigned char BTL_MAIN_GetSlotClientId(char *p, int i);
 
-void func_021B8E28(u8 *p, u8 n, u8 *out, u8 *cnt_out)
+void BTL_MAIN_GetSlotClientAndNth(u8 *p, u8 n, u8 *out, u8 *cnt_out)
 {
     u8 i = n;
     u8 cnt;
-    *out = func_021B8CFC((char *)p, n);
+    *out = BTL_MAIN_GetSlotClientId((char *)p, n);
     cnt = 0;
     while (i-- != 0) {
         if (*out == p[i + 0x428]) {

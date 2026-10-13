@@ -12,21 +12,21 @@
  * symbols:
  *   CLACT_CreateRenderer  0x0204B034  arm
  *   CLACT_CreateUnit  0x0204B100  arm
- *   func_0204B258  0x0204B258  arm
+ *   CLACT_SetUnitRenderer  0x0204B258  arm
  *   func_020490F4  0x020490F4  arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B688  0x0204B688  arm
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorObjMode  0x0204B688  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   data_021C8558  0x021C8558  data
  *   data_021C8560  0x021C8560  data
  *   data_021C8568  0x021C8568  data
@@ -72,24 +72,24 @@ struct Bank;
 struct Node;
 struct Obj;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void func_0204B258(struct Bank *bank, void *p);
+extern void CLACT_SetUnitRenderer(struct Bank *bank, void *p);
 extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *h);
-extern void func_02082BCC(void *dst, int v, int n);
+extern void MI_CpuFill8(void *dst, int v, int n);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Obj;
-extern void func_0204B92C(struct Obj *obj, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *obj, u32 v);
 extern void CLACT_SetActorBgPriority(u32 obj, int v);
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
-extern void func_0204B3DC(struct Obj *obj, unsigned int on);
-extern void func_0204B688(struct Actor *actor, u32 value);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorDrawEnable(struct Obj *obj, unsigned int on);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define WP(o) (*(void **)(p + (o)))
@@ -107,7 +107,7 @@ void func_021C0134(u16 *heap, u8 *p, int key)
     desc = data_021C8580;
     WP(0x1d4) = CLACT_CreateRenderer((u8 *)(&desc), 1, *heap);
     W(0x1d0) = (u32)CLACT_CreateUnit(0x10, 0, *heap);
-    func_0204B258((struct Bank *)W(0x1d0), WP(0x1d4));
+    CLACT_SetUnitRenderer((struct Bank *)W(0x1d0), WP(0x1d4));
 
     h = func_020490F4(0x55, *heap);
     W(0x9c) = CLACT_RegisterPaletteEx(h, 2, 0, 0, 0, 5, *heap);
@@ -131,7 +131,7 @@ void func_021C0134(u16 *heap, u8 *p, int key)
     pri = data_021C8558;
     pal = data_021C8568;
 
-    func_02082BCC(&pos, 0, sizeof(pos));
+    MI_CpuFill8(&pos, 0, sizeof(pos));
     for (i = 4; i < 7; i++)
         OBJ(i) = (u32)CLACT_CreateActor((void *)W(0x1d0), W(0x98), W(0x9c), W(0xa0), &pos, 0, *heap);
     for (i = 0; i < 4; i++)
@@ -139,17 +139,17 @@ void func_021C0134(u16 *heap, u8 *p, int key)
 
     for (i = 0; i < 7; i++) {
         CLACT_SetActorAnimSeq((struct Obj *)OBJ(i), anim.v[i]);
-        func_0204B92C((struct Obj *)OBJ(i), 1);
+        CLACT_SetActorAutoAnim((struct Obj *)OBJ(i), 1);
         CLACT_SetActorBgPriority(OBJ(i), pri.v[i]);
         CLACT_SetActorDrawPriority((struct Node *)OBJ(i), pal.v[i]);
-        func_0204B3DC((struct Obj *)OBJ(i), 0);
-        func_0204B688((struct Actor *)OBJ(i), 1);
+        CLACT_SetActorDrawEnable((struct Obj *)OBJ(i), 0);
+        CLACT_SetActorObjMode((struct Actor *)OBJ(i), 1);
     }
 
     pt.x = 0x80;
     pt.y = 0x60;
     for (i = 0; i < 4; i++)
-        func_0204B404((struct Obj *)OBJ(i), (const struct Vec2 *)(&pt), 0);
+        CLACT_AddActorSurfacePos((struct Obj *)OBJ(i), (const struct Vec2 *)(&pt), 0);
 
     p[0xd8] = 7;
 }

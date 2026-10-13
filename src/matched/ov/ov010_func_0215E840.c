@@ -33,15 +33,15 @@
  *   FLDMMDL_CheckMovedPosAtMapPos  0x0216E5B0  thumb  ov010
  *   MOVE_POKEMON_IsInSkillArea  0x0215F118  thumb  ov010
  *   ZONEDATA_IsFlyEnabled  0x02013C40  thumb
- *   func_02013C50  0x02013C50  thumb
+ *   ZONEDATA_IsWeatherEnabled  0x02013C50  thumb
  *   func_020120F4  0x020120F4  thumb
  *   func_02012B38  0x02012B38  thumb
- *   func_02014470  0x02014470  thumb
+ *   FIELD_STATUS_GetMapEffectMask  0x02014470  thumb
  *   FIELD_GetPlayerAreaZoneId  0x021CD440  thumb
- *   func_02013FFC  0x02013FFC  thumb
+ *   ZONEDATA_IsZoneInTableDFB8  0x02013FFC  thumb
  *   ZONEDATA_IsRawZoneF6  0x0201400C  thumb
  *   ZONEDATA_IsRawZoneF7  0x02014018  thumb
- *   func_02013E04  0x02013E04  thumb
+ *   ZONEDATA_IsNormalFieldZone  0x02013E04  thumb
  *   func_02012B70  0x02012B70  thumb
  *   d_021711EC     0x021711EC  data
  *   d_021711F4     0x021711F4  data
@@ -99,15 +99,15 @@ extern int FLDMMDL_IsMovedPosObjCode(u16 kind);
 extern int FLDMMDL_CheckMovedPosAtMapPos(void *map, const VecFx32 *pos);
 extern int MOVE_POKEMON_IsInSkillArea(const Area *a, u16 x, u16 z, u32 flag, void *field);
 extern u32 ZONEDATA_IsFlyEnabled(u32 id);
-extern u32 func_02013C50(u32 id);
+extern u32 ZONEDATA_IsWeatherEnabled(u32 id);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012B38(const struct BigObj *p);
-extern u16 func_02014470(struct Sub02014444Obj *o);
+extern u16 FIELD_STATUS_GetMapEffectMask(struct Sub02014444Obj *o);
 extern int FIELD_GetPlayerAreaZoneId(void *field, u16 *out);
-extern u32 func_02013FFC(u32 id);
+extern u32 ZONEDATA_IsZoneInTableDFB8(u32 id);
 extern u32 ZONEDATA_IsRawZoneF6(u32 id);
 extern u32 ZONEDATA_IsRawZoneF7(u32 id);
-extern u32 func_02013E04(u32 id);
+extern u32 ZONEDATA_IsNormalFieldZone(u32 id);
 extern int func_02012B70(const struct BigObj *p);
 
 extern const Area d_021711EC;
@@ -156,20 +156,20 @@ void MOVE_POKEMON_InitSkillInfo(void *field, Info *out)
         out->flags |= 0x10;
         out->flags |= 0x40;
     }
-    if (func_02013C50(out->id) == 1)
+    if (ZONEDATA_IsWeatherEnabled(out->id) == 1)
         out->flags |= 0x80;
-    if (func_02014470(func_02012B38(func_020120F4((const struct Ctx *)out->f08))) & 1)
+    if (FIELD_STATUS_GetMapEffectMask(func_02012B38(func_020120F4((const struct Ctx *)out->f08))) & 1)
         out->flags |= 0x20;
     if (FIELD_GetPlayerAreaZoneId(field, &v) == 1)
         out->flags |= 0x400;
-    if (func_02013FFC(out->id)) {
+    if (ZONEDATA_IsZoneInTableDFB8(out->id)) {
         FIELD_PLAYER_GetNowGridPos(FIELDMAP_GetFieldPlayer(out->field), &x, &y, &z);
         if (ZONEDATA_IsRawZoneF6(out->id) && MOVE_POKEMON_IsInSkillArea(&d_021711EC, x, z, 0x113, field))
             out->flags |= 0x20;
         if (ZONEDATA_IsRawZoneF7(out->id) && MOVE_POKEMON_IsInSkillArea(&d_021711F4, x, z, 0x112, field))
             out->flags |= 8;
     }
-    if (func_02013E04(out->id) == 0) {
+    if (ZONEDATA_IsNormalFieldZone(out->id) == 0) {
         out->flags = 0;
     } else {
         out->flags |= 0x100;

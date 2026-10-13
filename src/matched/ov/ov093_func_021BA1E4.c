@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1E4
+ * function: BTL_MAIN_GetRegulationRules
  * address:  0x021BA1E4
  * packet:   pkt_021BA1E4
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT* (extent 8, compiled 6, trailing padding)
  */
 
-char *func_021BA1E4(char **p)
+char *BTL_MAIN_GetRegulationRules(char **p)
 {
     return *p + 0x78;
 }

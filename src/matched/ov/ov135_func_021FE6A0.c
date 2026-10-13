@@ -10,7 +10,7 @@
  * symbols:
  *   func_021C8B18 0x021C8B18 arm ov114
  *   func_021C8BC4 0x021C8BC4 arm ov114
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj01161.h"
 typedef signed char s8;
@@ -20,14 +20,14 @@ typedef unsigned int u32;
 typedef struct { short id; s8 a, b, c, d; u8 mode, flag; } Request;
 extern void func_021C8B18(void *, int, void *);
 extern void func_021C8BC4(const void *p, unsigned int x);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 int func_021FE6A0(u8 *p)
 {
     Request q;
     if (((struct Obj01161 *)p)->fF84 == 0) {
         func_021C8B18(p + 0xb56, 7, p + 0x20c);
     } else {
-        func_02082BCC(&q, 0, 8);
+        MI_CpuFill8(&q, 0, 8);
         q.id = *(short *)&((struct Obj01161 *)p)->fB56;
         q.a = *(s8 *)&((struct Obj01161 *)p)->fB58;
         q.b = *(s8 *)(p + 0xb59);

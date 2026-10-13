@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_HANDLER_ITEM_GetHeatRockHandlers",
+   "name": "HAND_ITEM_GetHeatRockHandlers",
    "address": "0x021DF4B0",
    "kind": "game",
    "region": "ov093",

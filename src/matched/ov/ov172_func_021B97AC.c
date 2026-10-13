@@ -19,7 +19,7 @@
  *   func_021BA0BC 0x021BA0BC thumb ov172
  *   func_021B69E0 0x021B69E0 thumb ov172
  *   func_021B9E3C 0x021B9E3C thumb ov172
- *   func_0203630C 0x0203630C arm
+ *   KEY_GetCont 0x0203630C arm
  *   func_021BA120 0x021BA120 thumb ov172
  *   func_021BA158 0x021BA158 thumb ov172
  *   func_021BA170 0x021BA170 thumb ov172
@@ -33,7 +33,7 @@
  *   func_021B8740 0x021B8740 thumb ov172
  *   func_021BDFEC 0x021BDFEC thumb ov172
  *   func_021BA244 0x021BA244 thumb ov172
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  */
@@ -74,7 +74,7 @@ extern int func_021B9DF8(void *p, int *out);
 extern int func_021BA0BC(u32 *p);
 extern void func_021B69E0(void);
 extern void func_021B9E3C(void *p, char *q);
-extern u32 func_0203630C(void);
+extern u32 KEY_GetCont(void);
 extern int func_021BA120(u32 *p);
 extern u32 func_021BA158(u32 *p);
 extern u32 func_021BA170(u32 *p);
@@ -89,7 +89,7 @@ extern int func_021B891C(void *a, char *q, u16 *p);
 extern u32 func_021B8740(int a, int b, u8 c, u32 d);
 extern int func_021BDFEC(void *ctx);
 extern u32 func_021BA244(void *p);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
@@ -118,7 +118,7 @@ void func_021B97AC(void *ctx, struct St *st)
         }
         break;
     case 1:
-        if (mode != 1 && (func_0203630C() & 0x101) == 0)
+        if (mode != 1 && (KEY_GetCont() & 0x101) == 0)
             func_021BA120(st->f10);
         if (func_021BA158(st->f10) == 0) {
             st->sub = 2;
@@ -162,7 +162,7 @@ void func_021B97AC(void *ctx, struct St *st)
             break;
         if (func_021B8740((int)ctx, id, 7, 0) == 1) {
             st->sub = 4;
-            BMP_Clear(func_02045770(st->f2c), 0);
+            BMP_Clear(BMP_WIN_GetBmp(st->f2c), 0);
             BMP_WIN_TransferChars(st->f2c);
             return;
         }

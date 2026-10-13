@@ -17,7 +17,7 @@
  *   FIELD_TILE_MOVE_SpinSelectEntry  0x021C8B48  thumb  ov021
  *   FIELD_TILE_MOVE_SpinIsBlocked  0x021C8B5C  thumb  ov021
  *   GFL_USE_GetSeSlot  0x02006148  thumb
- *   func_020061F8  0x020061F8  thumb
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb
  *   FIELD_TILE_MOVE_SpinStartStep  0x021C8B14  thumb  ov021
  *   FIELD_TILE_MOVE_SpinFinish  0x021C8B78  thumb  ov021
  */
@@ -30,7 +30,7 @@ extern int FLDMMDL_CheckEndAcmd(int a);
 extern void FIELD_TILE_MOVE_SpinSelectEntry(int *p);
 extern int FIELD_TILE_MOVE_SpinIsBlocked(u32 a);
 extern int GFL_USE_GetSeSlot(u32 a0);
-extern void func_020061F8(int a);
+extern void GFL_USE_StopSeSlot(int a);
 extern void FIELD_TILE_MOVE_SpinStartStep(int *p);
 extern void FIELD_TILE_MOVE_SpinFinish(int *p);
 
@@ -49,7 +49,7 @@ int FIELD_TILE_MOVE_SpinTaskMain(int a, int *st, int *p)
         if (FLDMMDL_CheckEndAcmd(p[3])) {
             FIELD_TILE_MOVE_SpinSelectEntry(p);
             if (FIELD_TILE_MOVE_SpinIsBlocked((u32)p)) {
-                func_020061F8(GFL_USE_GetSeSlot(0x694));
+                GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(0x694));
                 *st = 2;
             } else {
                 FIELD_TILE_MOVE_SpinStartStep(p);

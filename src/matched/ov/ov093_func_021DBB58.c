@@ -1,5 +1,5 @@
 /*
- * function: func_021DBB58
+ * function: HAND_TOKUSEI_GetUnburdenHandlers
  * address: 0x021DBB58
  * packet: pkt_ov093_021DBB58
  * region: ov093
@@ -15,10 +15,10 @@
  *   gUnburdenHandlers 0x021F0960 data ov093 a4
  */
 
-int *func_021DBB58(int *p);
+int *HAND_TOKUSEI_GetUnburdenHandlers(int *p);
 extern int gUnburdenHandlers[];
 
-int *func_021DBB58(int *p)
+int *HAND_TOKUSEI_GetUnburdenHandlers(int *p)
 {
     *p = 2;
     return gUnburdenHandlers;

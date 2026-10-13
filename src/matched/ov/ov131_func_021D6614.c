@@ -17,7 +17,7 @@
  *   MCSS_SetOfsScale 0x02015D30 thumb
  *   G3D_CAMERA_SetEye 0x02048AFC arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  *   d_021DC234 0x021DC234 data a4
  *   d_021DC228 0x021DC228 data a4
  *   d_021DC198 0x021DC198 data a4
@@ -44,7 +44,7 @@ extern void MCSS_SetOfsScale(void *p, u32 *src);
 extern void G3D_CAMERA_SetEye(void *,const Vec *);
 struct Light;
 extern void G3D_CAMERA_Reset(struct Light *l);
-extern const s16 d_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 extern const Vec d_021DC234,d_021DC228,d_021DC198,d_021DC210;
 extern const Pair d_021DC170,d_021DC178,d_021DC168;
 void P_STA_SUB_Main(u8 *a,u8 *p) {
@@ -73,7 +73,7 @@ void P_STA_SUB_Main(u8 *a,u8 *p) {
             u16 ang;
             v48.x=c*0x19000/10-0x42000;
             ang=(p[0x9b]<<15)/10;
-            v30.y=d_020A1B38[(ang>>4)*2]<<5;
+            v30.y=FX_SinCosTable_[(ang>>4)*2]<<5;
             if(((struct Obj00200 *)p)->f10==1) v30.y=0;
             P_STA_SUB_SetPetOffset(a,p,v30.y);
         }

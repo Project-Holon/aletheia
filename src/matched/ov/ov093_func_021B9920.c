@@ -1,5 +1,5 @@
 /*
- * function: func_021B9920
+ * function: BTL_SIDE_GetClientPoke
  * address: 0x021B9920
  * packet: pkt_ov093_021B9920
  * region: ov093
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B9C00 0x021B9C00 thumb ov093
+ *   BTL_SLOT_GetPokeParam 0x021B9C00 thumb ov093
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
 struct S2;
-extern u8 *func_021B9C00(struct S2 *p, u32 i);
-u8 *func_021B9920(void *p, u32 i, u8 j)
+extern u8 *BTL_SLOT_GetPokeParam(struct S2 *p, u32 i);
+u8 *BTL_SIDE_GetClientPoke(void *p, u32 i, u8 j)
 {
-    return func_021B9C00((void *)((unsigned int)p + 4 + i * 28), j);
+    return BTL_SLOT_GetPokeParam((void *)((unsigned int)p + 4 + i * 28), j);
 }

@@ -97,7 +97,7 @@
  *   func_021FC214 0x021FC214 thumb ov186
  *   func_021FC21C 0x021FC21C thumb ov186
  *   STRBUF_Create 0x020457B0 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021FBE54 0x021FBE54 thumb ov186
  *   func_021FC124 0x021FC124 thumb ov186
  *   func_02045CAC 0x02045CAC arm
@@ -123,7 +123,7 @@ typedef unsigned int   u32;
 struct RecGet;
 struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void func_02082BCC(void *,int,unsigned),func_021FBE54(char *,unsigned,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned),func_021FBE54(char *,unsigned,unsigned);
 extern int func_021FC124(void *,int,Triple *);
 struct MsgBank;
 struct ObjC4;
@@ -152,7 +152,7 @@ void func_021E301C(char *p,char *q)
     a=(void *)func_021FC21C(*(char **)(q+8));
     b=STRBUF_Create(0x80,*(u16 *)(p+0x38));
     s=STRBUF_Create(0x80,*(u16 *)(p+0x38));
-    func_02082BCC(&d,0,8);
+    MI_CpuFill8(&d,0,8);
     d.x=0x30;d.y=0x28;d.n=11;d.flag=1;
     func_021FBE54(*(char **)(q+8),1,*(u16 *)(p+0x38));
     func_021FC124(*(void **)(q+8),1,&t);

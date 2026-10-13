@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02187D40",
+   "name": "EL_SCOREBOARD_GetFadeInDuration",
    "address": "0x02187D40",
    "kind": "game",
    "region": "ov020",

@@ -1,5 +1,5 @@
 /*
- * function: func_021E6F98
+ * function: HAND_WAZA_AllStatBoostSetChance
  * address:  0x021E6F98
  * packet:   pkt_ov093_021E6F98
  * region:   ov093
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern int BTL_EVENT_GetVar(int key);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E6F98(int a, int b, int c)
+void HAND_WAZA_AllStatBoostSetChance(int a, int b, int c)
 {
     if (c == BTL_EVENT_GetVar(4) && c == BTL_EVENT_GetVar(3))
         BTL_EVENT_OverwriteVar(0x1f, 10);

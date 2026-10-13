@@ -23,12 +23,12 @@
  *   COLOSSEUM_SendParty  0x02174D98  thumb  ov012
  *   COLOSSEUM_SendBattlePositions  0x02174DF0  thumb  ov012
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AC2C  0x0201AC2C  thumb
+ *   POKEPARTY_Copy  0x0201AC2C  thumb
  *   POKE_REGULATION_AdjustPartyLevels  0x0201A2A8  thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
  */
 #include "../include/Obj09416.h"
@@ -58,14 +58,14 @@ int COLOSSEUM_SendBattlePositions(u32 v);
 void *GAME_DATA_GetMyParty(const struct BigObj *p);
 struct Link;
 struct Rec534;
-void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
+void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
 void POKE_REGULATION_AdjustPartyLevels(void *a0, void *a1);
 struct Entry;
 struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 u32 GFL_NET_GetHandleNetID(struct Link *p);
 struct Link;
-void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
-unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
+void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
+unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
 u32 GFL_NET_IsParentAid(void);
 
 int UNION_ONESELF_ColosseumPartyExchangeMain(u8 *w, void *obj, int a2, u8 *state)
@@ -85,11 +85,11 @@ int UNION_ONESELF_ColosseumPartyExchangeMain(u8 *w, void *obj, int a2, u8 *state
         switch (p[0x16d]) {
         case 0:
         default:
-            func_0201AC2C(GAME_DATA_GetMyParty((*(Sys * *)&((struct Obj09416 *)w)->f0)->f8), (struct Rec534 *)(((int *)(p + 0x148))[idx]));
+            POKEPARTY_Copy(GAME_DATA_GetMyParty((*(Sys * *)&((struct Obj09416 *)w)->f0)->f8), (struct Rec534 *)(((int *)(p + 0x148))[idx]));
             break;
         case 1:
             h = UNION_ONESELF_CreateBattleTeamParty((char *)w);
-            func_0201AC2C(h, (struct Rec534 *)(((int *)(p + 0x148))[idx]));
+            POKEPARTY_Copy(h, (struct Rec534 *)(((int *)(p + 0x148))[idx]));
             UNION_ONESELF_DeleteParty(h);
             break;
         }
@@ -100,11 +100,11 @@ int UNION_ONESELF_ColosseumPartyExchangeMain(u8 *w, void *obj, int a2, u8 *state
         COLOSSEUM_ResetParties(p, 1);
         COLOSSEUM_ClearPositionsReceived(p);
         COLOSSEUM_ClearConfirmCount(p);
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x14, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x14, 0x14);
         (*state)++;
         break;
     case 2:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x14, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x14, 0x14) == 1)
             (*state)++;
         break;
     case 3:
@@ -116,11 +116,11 @@ int UNION_ONESELF_ColosseumPartyExchangeMain(u8 *w, void *obj, int a2, u8 *state
             (*state)++;
         break;
     case 5:
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x10, 0x14);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x10, 0x14);
         (*state)++;
         break;
     case 6:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x10, 0x14) == 1)
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x10, 0x14) == 1)
             (*state)++;
         break;
     case 7:

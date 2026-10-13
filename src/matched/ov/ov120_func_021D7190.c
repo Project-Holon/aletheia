@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B404 0x0204B404 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 typedef unsigned char u8;
 typedef signed short s16;
@@ -17,16 +17,16 @@ typedef unsigned int u32;
 typedef struct { s16 x, y; } Vec;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 void func_021D7190(u8 *p, int index, int x, int y)
 {
     Vec pos;
     if (index < 6) {
         pos.x = x;
         pos.y = y;
-        func_0204B404(*(void **)((u32)p + 0x14c + (u32)index * 4), (const struct Vec2 *)(&pos), 1);
-        func_0204B3DC(*(void **)((u32)p + 0x14c + (u32)index * 4), 1);
+        CLACT_AddActorSurfacePos(*(void **)((u32)p + 0x14c + (u32)index * 4), (const struct Vec2 *)(&pos), 1);
+        CLACT_SetActorDrawEnable(*(void **)((u32)p + 0x14c + (u32)index * 4), 1);
     }
 }

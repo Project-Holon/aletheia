@@ -13,7 +13,7 @@
  * symbols:
  *   sub_0203064C 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   func_02017E1C 0x02017E1C thumb
@@ -38,7 +38,7 @@ struct App;
 struct Scene;
 extern void sub_0203064C(u32 src, u32 dst, u32 size);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,u32,u32);
+extern void MI_CpuFill8(void *,u32,u32);
 extern void *POKEPARTY_GetMember(void *,u32);
 extern struct U16Vec *STRBUF_Create(u32,u32);
 extern u32 func_02017E1C(void *,u32,u32);
@@ -56,7 +56,7 @@ int func_02203FA0(struct Obj0203159C *owner,int unused,u8 *app)
     char *p;
     sub_0203064C(1,0x94,0x10000);
     p=PROCSYS_AllocProcWork(owner,0x120,0x94);
-    func_02082BCC(p,0,0x120);
+    MI_CpuFill8(p,0,0x120);
     ((struct Obj00734 *)p)->f0=0x94;
     ((struct Obj00734 *)p)->f28=0;
     ((struct Obj00734 *)p)->f2C=5;

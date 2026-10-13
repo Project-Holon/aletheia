@@ -11,7 +11,7 @@
  * prototype evidence: 434CC full 16B body and both 4349C/434B4 full bodies ignore all input; no caller setup.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
@@ -34,7 +34,7 @@ typedef unsigned int u32;
 extern char d_021BA390[];
 extern u32 d_021BA2CC[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void*,int,u32);
+extern void MI_CpuFill8(void*,int,u32);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -53,7 +53,7 @@ void* func_021B9F10(u32 swap,u32 heap)
  char*p;
  u32*g;
  p=func_02030734(heap,16,0,d_021BA390,0x1cc);
- func_02082BCC(p,0,16);
+ MI_CpuFill8(p,0,16);
  *(volatile u16*)0x04000050=0;
  *(volatile u16*)0x04001050=0;
  *(volatile u32*)0x04000000 &= ~0xe000u;

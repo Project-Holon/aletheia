@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_TOKUSEI_Klutz_BlockNaturalGift",
+   "name": "HAND_TOKUSEI_Klutz_BlockNaturalGift",
    "address": "0x021DB734",
    "kind": "game",
    "region": "ov093",

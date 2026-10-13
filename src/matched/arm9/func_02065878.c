@@ -41,7 +41,7 @@
  *   func_02066380  0x02066380  arm
  *   g_02147B88     0x02147B88  data  a4
  *   g_020A81F8     0x020A81F8  data  a4
- *   g_020A1B38     0x020A1B38  data  a2
+ *   FX_SinCosTable_     0x020A1B38  data  a2
  */
 
 #include "../include/G_Scr.h"
@@ -82,7 +82,7 @@ extern void  func_020664CC(fx32 sx, fx32 sy, fx32 sz);
 extern void  func_02066380(int a);
 extern struct B8802065878 g_02147B88;
 extern struct Scr g_020A81F8;
-extern s16 g_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 static inline void Draw(struct Obj02065878 *c, void *a)
 {
@@ -125,7 +125,7 @@ void func_02065878(struct Obj02065878 *c)
     if ((c->unk_4e & 4) != 0) {
         int i = c->unk_4c >> 4;
 
-        func_02066620(g_020A1B38[i * 2], g_020A1B38[i * 2 + 1]);
+        func_02066620(FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
     }
 
     if ((c->unk_4e & 2) != 0)

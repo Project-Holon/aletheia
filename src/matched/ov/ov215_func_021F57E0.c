@@ -11,7 +11,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021F5C20 0x021F5C20 thumb ov215
  *   func_021F5EB8 0x021F5EB8 thumb ov215
  *   FADE_Start 0x0204E720 arm
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,u32,u32);
+extern void MI_CpuFill8(void *,u32,u32);
 extern void func_021F5C20(int a, char *p);
 extern int func_021F5EB8(int,char *);
 extern void FADE_Start(u32,int,int,int);
@@ -36,7 +36,7 @@ int func_021F57E0(void *a,int unused,u32 c)
     char *p;
     GFL_HEAP_CreateChildHeap(1,143,5<<16);
     p=PROCSYS_AllocProcWork(a,140,143);
-    func_02082BCC(p,0,140);
+    MI_CpuFill8(p,0,140);
     ((struct Obj03371 *)p)->f0=143;
     ((struct Obj03371 *)p)->f10=0;
     p[20]=5;

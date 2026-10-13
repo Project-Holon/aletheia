@@ -39,8 +39,8 @@
  *   CONFIG_GetBattleScene 0x020083AC thumb
  *   CONFIG_GetBattleStyle 0x020083C8 thumb
  *   BTL_FIELD_Create 0x021EF958 thumb ov093
- *   func_021B93E0 0x021B93E0 thumb ov093
- *   func_021BA82C 0x021BA82C thumb ov093
+ *   BTL_SIDE_Init 0x021B93E0 thumb ov093
+ *   BTL_SETUP_ClearResultStats 0x021BA82C thumb ov093
  *   func_0203F258 0x0203F258 arm
  *   BTL_CALC_Init 0x021D7840 thumb ov093
  *   BTL_SERVER_CMD_Dummy 0x021CD6EC thumb ov093
@@ -52,9 +52,9 @@
  *   BTL_NET_IsInitialSyncDone 0x021D4230 thumb ov093
  *   BTL_ADAPTER_ClearSlots 0x021EEA30 thumb ov093
  *   BTL_MAIN_StartSetupTask 0x021B66D4 thumb ov093
- *   func_021B9DB8 0x021B9DB8 thumb ov093
- *   func_021BA094 0x021BA094 thumb ov093
- *   func_021BA1B4 0x021BA1B4 thumb ov093
+ *   BTL_MAIN_ClearTrainerSlotsAndVoices 0x021B9DB8 thumb ov093
+ *   BTL_MAIN_CreateParties 0x021BA094 thumb ov093
+ *   BTL_MAIN_TrainerRecordAdd 0x021BA1B4 thumb ov093
  *
  * Three-state lifecycle: 6120 allocation/initialization; 633A readiness;
  * 6398 callback completion. State increments and words are unsigned.
@@ -112,8 +112,8 @@ extern u32 CONFIG_GetTextSpeed(int);
 extern u32 CONFIG_GetBattleScene(void *);
 extern u32 CONFIG_GetBattleStyle(void *);
 extern void *BTL_FIELD_Create(u32);
-extern void func_021B93E0(char *, u32, u32);
-extern void func_021BA82C(char *);
+extern void BTL_SIDE_Init(char *, u32, u32);
+extern void BTL_SETUP_ClearResultStats(char *);
 extern void func_0203F258(struct Lcg64 *);
 extern void BTL_CALC_Init(struct Lcg64 *, u32);
 extern void BTL_SERVER_CMD_Dummy(void);
@@ -125,9 +125,9 @@ extern int BTL_NET_HasCommError(void);
 extern int BTL_NET_IsInitialSyncDone(void);
 extern void BTL_ADAPTER_ClearSlots(int v);
 extern void BTL_MAIN_StartSetupTask(struct Callback *, u8 *, u8 *);
-extern void func_021B9DB8(char *p);
-extern void func_021BA094(struct S *p);
-extern void func_021BA1B4(char **p, int i);
+extern void BTL_MAIN_ClearTrainerSlotsAndVoices(char *p);
+extern void BTL_MAIN_CreateParties(struct S *p);
+extern void BTL_MAIN_TrainerRecordAdd(char **p, int i);
 int BTL_MAIN_ProcInit(struct Obj0203159C *owner, u32 *state, u8 *q, u8 *p)
 {
   u32 flag;
@@ -171,9 +171,9 @@ int BTL_MAIN_ProcInit(struct Obj0203159C *owner, u32 *state, u8 *q, u8 *p)
         flag = 1;
       ((struct FlagByte *) (p + 0x473))->a2 = (u8) flag;
       *((void **) (p + 0x2bc)) = BTL_FIELD_Create(*((u16 *) (p + 0x468)));
-      func_021B93E0(((char *) p) + 0xc8, (u32) p, 0);
-      func_021B93E0(((char *) p) + 0x1b0, (u32) p, 1);
-      func_021BA82C(*((char **) p));
+      BTL_SIDE_Init(((char *) p) + 0xc8, (u32) p, 0);
+      BTL_SIDE_Init(((char *) p) + 0x1b0, (u32) p, 1);
+      BTL_SETUP_ClearResultStats(*((char **) p));
       *((u32 *) (p + 0x2c0)) = 0;
       *((u32 *) (p + 0x2c4)) = 0;
       if ((*((u8 **) p))[0x23] == 0)
@@ -213,8 +213,8 @@ int BTL_MAIN_ProcInit(struct Obj0203159C *owner, u32 *state, u8 *q, u8 *p)
         BTL_ADAPTER_ClearSlots((*((u8 **) p))[0x20]);
         BTL_MAIN_StartSetupTask((struct Callback *) (p + 0x450), p, *((u8 **) p));
         *((u32 *) (p + 0x460)) = 0;
-        func_021B9DB8((char *)p);
-        func_021BA094((struct S *)p);
+        BTL_MAIN_ClearTrainerSlotsAndVoices((char *)p);
+        BTL_MAIN_CreateParties((struct S *)p);
         (*state)++;
       }
       break;
@@ -249,7 +249,7 @@ int BTL_MAIN_ProcInit(struct Obj0203159C *owner, u32 *state, u8 *q, u8 *p)
           return 1;
         }
         if ((*((u32 *) (*((u8 **) p)))) != 4)
-          func_021BA1B4((char **)p, 4);
+          BTL_MAIN_TrainerRecordAdd((char **)p, 4);
         return 1;
       }
       break;

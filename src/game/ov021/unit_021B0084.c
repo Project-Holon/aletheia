@@ -111,7 +111,7 @@
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
  *   SCRCMD_WORK_GetWindowKind  0x0215A66C  thumb  ov010
  *   FIELD_MSGBG_TalkWinPrintStr  0x02191348  thumb  ov021
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   SCRCMD_WORK_SetWindowKind  0x0215A678  thumb  ov010
  *   FIELD_MSGBG_TalkWinMain  0x02191388  thumb
  *   SCRIPT_WORK_GetTargetObj  0x02158F90  thumb  ov010
@@ -141,8 +141,8 @@
  *   FIELD_MSGBG_GetStrHeightChars  0x0219272C  thumb  ov021
  *   FIELD_MSGBG_CreateSpWin  0x02192570  thumb  ov021
  *   FIELD_MSGBG_SpWinPrintStr  0x0219269C  thumb  ov021
- *   func_020362DC  0x020362DC  arm
- *   func_020061E4  0x020061E4  thumb
+ *   KEY_GetTrg  0x020362DC  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELD_MSGBG_SysWinDrawCursor  0x02191134  thumb  ov021
  *   FIELD_MSGBG_PlainWinDrawCursor  0x02191794  thumb  ov021
  *   FIELD_MSGBG_TalkWinDrawCursor  0x021914CC  thumb  ov021
@@ -265,7 +265,7 @@ extern u16 func_02011330(ScriptVm *vm);
 extern void SCRIPT_WORK_SetCheckFlag(int flag);
 extern void VM_SetWait(ScriptVm *vm, ScrcmdWaitFn waitFn);
 extern void SCRIPT_WORK_ResetCheckFlag(int flag);
-extern void func_020061E4(u32 seNo);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 extern GameEvent *func_020122C0(struct GameSystem *gameSystem, GameEvent *parent, GameEventProc proc, unsigned int workSize);
 extern void *func_020124E8(GameEvent *event);
 extern struct WordSet *SCRIPT_WORK_GetWordSet(ScriptWork *scriptWork);
@@ -343,7 +343,7 @@ extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
 extern struct G3dCamera *FIELD_CAMERA_GetG3dCamera(struct FieldCamera *fieldCamera);
 extern u8 SCRCMD_WORK_GetWindowKind(ScrcmdWork *cmdWork);
 extern u32 FIELD_MSGBG_TalkWinPrintStr(FieldTalkWin *talkWin, struct Strbuf *str);
-extern void func_02082BCC(void *dest, int value, int size);
+extern void MI_CpuFill8(void *dest, int value, int size);
 extern void SCRCMD_WORK_SetWindowKind(ScrcmdWork *cmdWork, u8 windowKind);
 extern u32 FIELD_MSGBG_TalkWinMain(FieldTalkWin *talkWin);
 extern struct Mmdl *SCRIPT_WORK_GetTargetObj(ScriptWork *scriptWork);
@@ -373,7 +373,7 @@ extern u32 FIELD_MSGBG_GetStrWidthChars(FieldMsgBg *msgBg, struct Strbuf *str, i
 extern u32 FIELD_MSGBG_GetStrHeightChars(FieldMsgBg *msgBg, struct Strbuf *str, u32 margin);
 extern FieldSpWin *FIELD_MSGBG_CreateSpWin(FieldMsgBg *msgBg, u32 frameType, u32 x, u16 y, u16 width, u16 height);
 extern void FIELD_MSGBG_SpWinPrintStr(FieldSpWin *spWin, u16 x, u16 y, struct Strbuf *str);
-u32 func_020362DC(void);
+u32 KEY_GetTrg(void);
 void FIELD_MSGBG_SysWinDrawCursor(FieldSysWin *sysWin);
 void FIELD_MSGBG_PlainWinDrawCursor(FieldPlainWin *plainWin);
 void FIELD_MSGBG_TalkWinDrawCursor(FieldTalkWin *talkWin);
@@ -1185,7 +1185,7 @@ int SCRCMD_MSGWIN_OpenBalloonWinMsg(ScrcmdWork *cmdWork, u16 objId, u16 msgFileI
     if (SCRIPT_WORK_CheckFlag(SCRIPT_FLAG_TALK_WIN) != 0) {
         FIELD_MSGBG_TalkWinPrintStr(SCRCMD_WORK_GetMsgWindow(cmdWork), msgBuffer);
     } else {
-        func_02082BCC(balloon, 0, 0x28);
+        MI_CpuFill8(balloon, 0, 0x28);
         balloon->objId = objId;
         if (windowKind == 0) {
             SCRCMD_WORK_GetWindowState(cmdWork);
@@ -1342,7 +1342,7 @@ int SCRCMD_MSGWIN_CmdBalloonWinSavedText(ScriptVm *vm, ScrcmdWork *cmdWork)
     }
     balloon = SCRCMD_WORK_GetWordSetWork(cmdWork);
     talkIndex = 0;
-    func_02082BCC(balloon, 0, 0x28);
+    MI_CpuFill8(balloon, 0, 0x28);
     balloon->objId = objId;
     fieldPlayer = FIELDMAP_GetFieldPlayer(param->fieldMap);
     mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
@@ -1701,10 +1701,10 @@ int SCRCMD_MSGWIN_WaitKeyWithCursor(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 keys;
     void *msgWin;
 
-    keys = func_020362DC();
+    keys = KEY_GetTrg();
     msgWin = SCRCMD_WORK_GetMsgWindow(cmdWork);
     if (keys & 3) {
-        func_020061E4(0x547);
+        GFL_USE_PlaySeDefaultVolume(0x547);
         return 1;
     }
     if (SCRIPT_WORK_CheckFlag(SCRIPT_FLAG_INFO_SYS_WIN)) {

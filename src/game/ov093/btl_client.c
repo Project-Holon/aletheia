@@ -1,7 +1,7 @@
 /*
  * file:     btl_client.c
  * unit:     yes
- * function: BTL_CLIENT_Create, BTL_CLIENT_Delete, BTL_CLIENT_MarkCommandIssued, func_021CD924, BTL_CLIENT_AttachRemoteLink, BTL_CLIENT_SetView, BTL_CLIENT_SetRequestParam, BTL_CLIENT_GetNetChannel, BTL_CLIENT_RunTick, BTL_CLIENT_StartRemoteStep, BTL_CLIENT_StartMainStep, BTL_CLIENT_IsRemote, BTL_CLIENT_GetQueuedCommandWord, BTL_CLIENT_IsMainStepActive, BTL_CLIENT_AddPoints, BTL_CLIENT_SetStepFn, BTL_CLIENT_StepMain, func_021CDC0C, func_021CDD34, func_021CDD50, func_021CDD94, BTL_CLIENT_IsWindowWaiting, BTL_CLIENT_IsWindowDone, func_021CDDDC, BTL_CLIENT_PollWindowStep, BTL_CLIENT_StoreMonParam, BTL_CLIENT_HasMonParamDropped, func_021CDF1C, func_021CDF58, BTL_CLIENT_PickWindowMode, BTL_CLIENT_ReturnTrue, BTL_CLIENT_StartWindowModeSend, BTL_CLIENT_StartTimeLimit, BTL_CLIENT_PollTimeLimitReady, BTL_CLIENT_PollTimeLimitAndSetSub, BTL_CLIENT_StopTimeLimit, func_021CE0F8, BTL_CLIENT_SetSubFn, BTL_CLIENT_RunSubFn, func_021CE170, func_021CE1B0, BTL_CLIENT_ResetActionCursor, func_021CE308, BTL_CLIENT_ShowMessage, func_021CE3C8, func_021CE4D0, func_021CE7D4, func_021CE8F0, func_021CEA94, func_021CECB4, func_021CED4C, func_021CEDC0, func_021CEEB8, func_021CEFFC, func_021CF078, func_021CF220, func_021CF2F0, BTL_CLIENT_ClearSlotLinkWords, BTL_CLIENT_SetSlotLinkWord, BTL_CLIENT_FlushSlotLinkWord, BTL_CLIENT_FlushSlotLinkWords, BTL_CLIENT_ClearSlotFlags, func_021CF430, BTL_CLIENT_SumSlotFlagsBeforeCurrent, func_021CF470, func_021CF524, func_021CF58C, func_021CF5B0, func_021CF81C, func_021CF89C, func_021CF8D4, func_021CF918, func_021CF9B4, func_021CFAC4, func_021CFADC, func_021CFB8C, BTL_CLIENT_ClearSlotOrder, BTL_CLIENT_HasSlotInOrder, BTL_CLIENT_SetSlotOrder, func_021CFBF0, func_021CFD50, func_021CFDCC, func_021CFE08, func_021CFE98, func_021CFFAC, func_021D0100, func_021D0248, func_021D0304, func_021D04E4, func_021D055C, func_021D05C4, func_021D0644, func_021D06C8, func_021D0770, func_021D0980, func_021D09E0, BTL_CLIENT_BuildSlotChoices, func_021D0B6C, func_021D0BB0, func_021D0C78, func_021D0CC4, BTL_CLIENT_StepChoiceMode2, BTL_CLIENT_StepChoiceMode1, func_021D0D50, func_021D0E7C, BTL_CLIENT_IsDoubleBattleLeadAlive, func_021D1058, func_021D10B8, func_021D123C, func_021D127C, func_021D1290, func_021D13A4, func_021D13FC, func_021D1410, func_021D1708, func_021D171C, func_021D185C, func_021D18EC, func_021D1960, func_021D1A18, func_021D1A60, func_021D1A74, func_021D1BD0, func_021D1C40, func_021D1CAC, func_021D1CF4, func_021D1DF4, func_021D1E6C, func_021D1EB4, func_021D1F10, func_021D1F58, func_021D1FB4, func_021D2000, func_021D2030, func_021D20BC, func_021D210C, func_021D215C, func_021D21D4, func_021D2234, func_021D2278, func_021D2320, func_021D2374, func_021D23B8, func_021D2424, func_021D2490, func_021D2510, func_021D2580, func_021D25C4, func_021D2628, func_021D266C, func_021D2700, func_021D2814, func_021D284C, func_021D28AC, func_021D2930, func_021D2990, func_021D299C, func_021D29CC, func_021D2A20, func_021D2C7C, func_021D2CA8, func_021D2FD8, func_021D3138, func_021D31A0, func_021D324C, func_021D32E0, func_021D344C, func_021D34B0, func_021D34E8
+ * function: BTL_CLIENT_Create, BTL_CLIENT_Delete, BTL_CLIENT_MarkCommandIssued, BTL_CLIENT_ReadRecorderEntry, BTL_CLIENT_AttachRemoteLink, BTL_CLIENT_SetView, BTL_CLIENT_SetRequestParam, BTL_CLIENT_GetNetChannel, BTL_CLIENT_RunTick, BTL_CLIENT_StartRemoteStep, BTL_CLIENT_StartMainStep, BTL_CLIENT_IsRemote, BTL_CLIENT_GetQueuedCommandWord, BTL_CLIENT_IsMainStepActive, BTL_CLIENT_AddPoints, BTL_CLIENT_SetStepFn, BTL_CLIENT_StepMain, BTL_CLIENT_StepRemote, BTL_CLIENT_ResetSendWord, BTL_CLIENT_FindCommandStepFn, BTL_CLIENT_GetCursor, BTL_CLIENT_IsWindowWaiting, BTL_CLIENT_IsWindowDone, BTL_CLIENT_StepOpenBattleWindow, BTL_CLIENT_PollWindowStep, BTL_CLIENT_StoreMonParam, BTL_CLIENT_HasMonParamDropped, BTL_CLIENT_GetLeadPartyMon, BTL_CLIENT_StepWindowModeSelect, BTL_CLIENT_PickWindowMode, BTL_CLIENT_ReturnTrue, BTL_CLIENT_StartWindowModeSend, BTL_CLIENT_StartTimeLimit, BTL_CLIENT_PollTimeLimitReady, BTL_CLIENT_PollTimeLimitAndSetSub, BTL_CLIENT_StopTimeLimit, BTL_CLIENT_BuildActionPromptMessage, BTL_CLIENT_SetSubFn, BTL_CLIENT_RunSubFn, BTL_CLIENT_StepStartActionSelection, BTL_CLIENT_StepPlaybackRecordedAction, BTL_CLIENT_ResetActionCursor, BTL_CLIENT_InitActionSelection, BTL_CLIENT_ShowMessage, BTL_CLIENT_StepAutoSelectActions, BTL_CLIENT_StepSelectAction, BTL_CLIENT_StepShowSupportItemMessage, BTL_CLIENT_FindSupportItem, BTL_CLIENT_StepSelectMove, BTL_CLIENT_BuildMoveUsableTable, BTL_CLIENT_StepMoveHighlight, BTL_CLIENT_StepSelectSwitchTarget, BTL_CLIENT_StepSelectItem, BTL_CLIENT_IsLoneFoeSemiInvulnerable, BTL_CLIENT_StepSelectRun, BTL_CLIENT_StepAdvanceSlot, BTL_CLIENT_StepSendActions, BTL_CLIENT_ClearSlotLinkWords, BTL_CLIENT_SetSlotLinkWord, BTL_CLIENT_FlushSlotLinkWord, BTL_CLIENT_FlushSlotLinkWords, BTL_CLIENT_ClearSlotFlags, BTL_CLIENT_SetSlotFlag, BTL_CLIENT_SumSlotFlagsBeforeCurrent, BTL_CLIENT_IsActionForced, BTL_CLIENT_SetStruggleIfNoMoves, BTL_CLIENT_SetStruggleAction, BTL_CLIENT_IsMoveSelectionBlocked, BTL_CLIENT_BuildUsableMoveMask, BTL_CLIENT_IsHeldItemEffective, BTL_CLIENT_GetEscapeBlocker, BTL_CLIENT_GetEscapeBlockerForSide, BTL_CLIENT_FindTrapper, BTL_CLIENT_CanShadowTagTrap, BTL_CLIENT_CanArenaTrapTrap, BTL_CLIENT_CanMagnetPullTrap, BTL_CLIENT_ClearSlotOrder, BTL_CLIENT_HasSlotInOrder, BTL_CLIENT_SetSlotOrder, BTL_CLIENT_ChooseAiSwitchTarget, BTL_CLIENT_PickRandomFoe, BTL_CLIENT_IsCountdownEndingNext, BTL_CLIENT_ShouldSwitchVsWonderGuard, BTL_CLIENT_ShouldSwitchNoEffectiveMove, BTL_CLIENT_ShouldSwitchWhileLocked, BTL_CLIENT_FindSwitchFromHitHistory, BTL_CLIENT_FindNaturalCureSwitch, BTL_CLIENT_FindSwitchByTypeMatchup, BTL_CLIENT_FindMemberWithAbility, BTL_CLIENT_AnyMemberHasMoveVsTarget, BTL_CLIENT_FindMemberResistingType, BTL_CLIENT_HasMoveWithAffinityVsTarget, BTL_CLIENT_PickRotationPosition, BTL_CLIENT_StepAutoChooseActions, BTL_CLIENT_ListAbleMons, BTL_CLIENT_SortMonsByMovePower, BTL_CLIENT_BuildSlotChoices, BTL_CLIENT_SetChangeActionsFromChoice, BTL_CLIENT_SetChangeActionsFirstAble, BTL_CLIENT_CollectOwnReceivedIds, BTL_CLIENT_StepAskYesNo, BTL_CLIENT_StepChoiceMode2, BTL_CLIENT_StepChoiceMode1, BTL_CLIENT_ChooseReplacementsAuto, BTL_CLIENT_StepChooseReplacement, BTL_CLIENT_IsDoubleBattleLeadAlive, BTL_CLIENT_TrySetRotateAction, BTL_CLIENT_StepAskSwitchBeforeSendOut, BTL_CLIENT_RecordReceivedPacket, BTL_CLIENT_StepShowResultIfView, BTL_CLIENT_StepShowResultMessage, BTL_CLIENT_GetOutcomeForClient, BTL_CLIENT_StepShowTrainerResultIfView, BTL_CLIENT_StepShowTrainerResult, BTL_CLIENT_StepShowEndSpeechIfView, BTL_CLIENT_StepShowEndSpeech, BTL_CLIENT_ShowEndSpeech, BTL_CLIENT_StepShowPrizeMoneyMessage, BTL_CLIENT_StepShowBlackoutMessages, BTL_CLIENT_StepShowFixedMessage, BTL_CLIENT_StepRunServerCommandsIfView, BTL_CLIENT_StepRunServerCommands, BTL_CLIENT_StepShowRecallMessage, BTL_CLIENT_PickRecallMessageId, BTL_CLIENT_StepPlayRecallAnim, BTL_CLIENT_StepSendOutMon, BTL_CLIENT_PickSendOutMessageId, BTL_CLIENT_StepShowSideMessage, BTL_CLIENT_StepShowSideMessageWithSound, BTL_CLIENT_StepShowTaggedMessage, BTL_CLIENT_StepShowTaggedMessageWithSound, BTL_CLIENT_StepShowItemUseMessage, BTL_CLIENT_GetMoveAnimTarget, BTL_CLIENT_StepPlayMoveAnim, BTL_CLIENT_StepSetMonVisibility, BTL_CLIENT_StepPlayMonTaskAnim, BTL_CLIENT_StepPlayMultiMonAnim, BTL_CLIENT_StepUpdateMonGaugeThenMessage, BTL_CLIENT_StepStartEffectForMon, BTL_CLIENT_StepPlaySubstituteAnim, BTL_CLIENT_StepFaintMon, BTL_CLIENT_StepReviveMon, BTL_CLIENT_StepPlayMonEffect262, BTL_CLIENT_StepPlayMonEffect261, BTL_CLIENT_StepStartWeather, BTL_CLIENT_StepEndWeather, BTL_CLIENT_StepUpdateMonGauge, BTL_CLIENT_StepPlayMonAnim, BTL_CLIENT_StepUpdateMonGaugeCopy, BTL_CLIENT_StepRotatePositions, BTL_CLIENT_StepRotatePositionsTwice, BTL_CLIENT_StepPlayEffectOnMon, BTL_CLIENT_StepPlayEffectOnMonFast, BTL_CLIENT_StepTransformMon, BTL_CLIENT_StepPlayHitEffect, BTL_CLIENT_StepChangeBgm, BTL_CLIENT_StepPlayViewSequence, BTL_CLIENT_StepAddEffortValues, BTL_CLIENT_StepGiveExp, BTL_CLIENT_ForgetMoveSoundCallback, BTL_CLIENT_StepLearnLevelUpMoves, BTL_CLIENT_StepThrowBall, BTL_CLIENT_StepShowBallBlocked, BTL_CLIENT_StepClearSidePosition, BTL_CLIENT_StepSetAbilityWithPopup, BTL_CLIENT_StepSwapAbilitiesWithPopup, BTL_CLIENT_StepClearIllusion, BTL_CLIENT_StepPlayEffectById, BTL_CLIENT_StepPlayMonSimpleEffect
  * address:  0x021CD6F0
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -37,8 +37,8 @@
  *   BTL_POKEPARAM_IsIllusionActive  0x021D6C24  thumb  ov093
  *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
  *   BTL_POKEPARAM_Delete 0x021D53B8 thumb ov093
- *   func_0201AA18 0x0201AA18 thumb
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   BTL_POKEPARAM_Create 0x021D4D84 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_SetFakeMon 0x021D5848 thumb ov093
@@ -47,8 +47,8 @@
  *   POKE_TOOL_Create 0x020173F0 thumb
  *   POKEPARTY_Init 0x0201A948 thumb
  *   BTL_POKEPARAM_WriteBackToParam 0x021D6B84 thumb ov093
- *   func_0201A98C 0x0201A98C thumb
- *   func_0201AC2C 0x0201AC2C thumb
+ *   POKEPARTY_Add 0x0201A98C thumb
+ *   POKEPARTY_Copy 0x0201AC2C thumb
  *   BTL_POKEPARAM_SetPokeParam 0x021D6C3C thumb ov093
  *   BTL_POKEPARAM_IsLevelUpPending  0x021D67D0  thumb  ov093
  *   func_02007B50 0x02007B50 thumb
@@ -72,7 +72,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetChars  0x02045A00  arm
  *   COMM_PLAYER_SUPPORT_GetCurrent  0x0202E7DC  thumb
- *   func_0201A920 0x0201A920 thumb
+ *   POKEPARTY_Create 0x0201A920 thumb
  *   BTL_SETUP_CheckStatusFlag  0x02013158  thumb
  *   sub_02008DF0 0x02008DF0 thumb
  *   sub_02008DAC 0x02008DAC thumb
@@ -104,7 +104,7 @@
  *   BTL_REC_MakeResetPacket  0x021EE9A4  thumb  ov093
  *   BTL_MAIN_GetWinBgm  0x021B86DC  thumb  ov093
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   BTL_REC_LoadPacket  0x021EE9B4  thumb  ov093
  *   BTL_REC_NextRecord  0x021EE9E4  thumb  ov093
@@ -122,13 +122,13 @@
  *   GAME_BEACON_SetPokeLevelUp 0x02027268 thumb
  *   GAME_BEACON_SetPokeCapture 0x020271DC thumb
  *   SHINKA_CHECK_OpenHandle 0x0201B70C thumb
- *   d_021F3A70 0x021F3A70 data a4
+ *   gFlowSourceFileName 0x021F3A70 data a4
  *   BTL_EVENT_InitFactorList 0x021D6EAC thumb ov093
  *   BTL_FIELD_ResetStatic 0x021EF874 thumb ov093
  *   func_0689CFF0 0x0689CFF0 thumb ov095
  *   func_0689D118 0x0689D118 thumb ov095
  *   func_0689D1FC 0x0689D1FC thumb ov095
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BTL_CLIENT_SET_Clear 0x021D8230 thumb ov093
  *   func_06898BFC 0x06898BFC thumb ov095
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -142,14 +142,14 @@
  *   func_0689D558 0x0689D558 thumb ov095
  *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
- *   BTL_CALC_EnableAbilityHandlers  0x021D8548  thumb  ov093
- *   BTL_HANDLER_ITEM_EnablePokeFactors  0x021DCFB4  thumb  ov093
+ *   HAND_TOKUSEI_EnableAbilityHandlers  0x021D8548  thumb  ov093
+ *   HAND_ITEM_EnablePokeFactors  0x021DCFB4  thumb  ov093
  *   func_0689D338 0x0689D338 thumb ov095
- *   func_021E02DC  0x021E02DC  thumb  ov093
- *   func_021E0394  0x021E0394  thumb  ov093
+ *   HAND_WAZA_AddMoveHandler  0x021E02DC  thumb  ov093
+ *   HAND_WAZA_RemoveMoveHandlerUnlessKept  0x021E0394  thumb  ov093
  *   BTL_ACTION_IsChangeDepleted  0x021D83E0  thumb  ov093
  *   BTL_CALC_Random  0x021D78AC  thumb  ov093
- *   func_0201BD28  0x0201BD28  thumb
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
  *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
  *   BTL_EVENT_SetVar  0x021D75A8  thumb  ov093
@@ -177,8 +177,8 @@
  *   func_021D58A8  0x021D58A8  thumb  ov093
  *   BTL_CLIENT_SET_Add 0x021D8244 thumb ov093
  *   func_0689C68C 0x0689C68C thumb ov095
- *   BTL_CALC_AddAbilityHandlers 0x021D8484 thumb ov093
- *   BTL_HANDLER_ITEM_AddHeldItemFactor 0x021DCF5C thumb ov093
+ *   HAND_TOKUSEI_AddAbilityHandlers 0x021D8484 thumb ov093
+ *   HAND_ITEM_AddHeldItemFactor 0x021DCF5C thumb ov093
  *   BTL_POKEPARAM_StartTurnThreshold 0x021D63EC thumb ov093
  *   BTL_POKEPARAM_ReloadAndResetEffects 0x021D6580 thumb ov093
  *   func_0689D320 0x0689D320 thumb ov095
@@ -205,9 +205,9 @@
  *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
  *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   BTL_EVENT_SuspendPokeFactors 0x021D7394 thumb ov093
- *   func_021E03D8 0x021E03D8 thumb ov093
+ *   HAND_WAZA_RemoveMoveHandlerOfPoke 0x021E03D8 thumb ov093
  *   BTL_EVENT_ResumePokeFactors 0x021D73D4 thumb ov093
- *   d_021EFDB8 0x021EFDB8 data a2
+ *   gPledgeMoveIds 0x021EFDB8 data a2
  *   BTL_EVENT_HasClientReservedChoice 0x021D6E74 thumb ov093
  *   BTL_EVENT_SetClientReservedChoice 0x021D6E40 thumb ov093
  *   WAZA_TOOL_GetCategory 0x0201C1BC thumb
@@ -249,21 +249,21 @@
  *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
  *   func_0689CCF8 0x0689CCF8 thumb ov095
  *   func_0689CCB4 0x0689CCB4 thumb ov095
- *   sub_0201BD28   0x0201BD28  thumb
+ *   WAZA_TOOL_GetParam   0x0201BD28  thumb
  *   BTL_CALC_MulPercent  0x021D7B3C  thumb  ov093
  *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
  *   BTL_CALC_CalcBaseDamage 0x021D7A44 thumb ov093
  *   BTL_CALC_GetWeatherMoveRatio 0x021D7C38 thumb ov093
  *   BTL_CALC_ApplyTypeAffinity 0x021D7A6C thumb ov093
  *   BTL_POKEPARAM_SetItem  0x021D5B44  thumb  ov093
- *   BTL_HANDLER_ITEM_RemoveUnforcedFactors  0x021DCF24  thumb  ov093
+ *   HAND_ITEM_RemoveUnforcedFactors  0x021DCF24  thumb  ov093
  *   BTL_POKEPARAM_ConsumeHeldItem  0x021D6730  thumb  ov093
  *   WAZA_TOOL_GetSickCont 0x0201BF58 thumb
  *   BTL_CALC_MakeSickContFromSpec 0x021D7C70 thumb ov093
  *   BTL_POKEPARAM_GetTypePair 0x021D57FC thumb ov093
  *   BTLV_CORE_HasByte 0x021E8D24 thumb ov093
  *   func_0689C364 0x0689C364 thumb ov095
- *   BTL_CALC_RemoveAbilityHandlers 0x021D8510 thumb ov093
+ *   HAND_TOKUSEI_RemoveAbilityHandlers 0x021D8510 thumb ov093
  *   BTL_POKEPARAM_ChangeForm 0x021D66D8 thumb ov093
  *   BTL_CALC_HasDefaultSickCont 0x021D7D6C thumb ov093
  *   BTL_FIELD_GetCountdownValue  0x021EF884  thumb  ov093
@@ -284,7 +284,7 @@
  *   BTL_FIELD_SetStaticSlotValue  0x021EF8F8  thumb  ov093
  *   func_0689C954 0x0689C954 thumb ov095
  *   BTL_POKEPARAM_SetAbility 0x021D66D0 thumb ov093
- *   BTL_CALC_SwapAbilityHandlers 0x021D8564 thumb ov093
+ *   HAND_TOKUSEI_SwapAbilityHandlers 0x021D8564 thumb ov093
  *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb  ov093
  *   BTL_POKEPARAM_SetSubstituteHp  0x021D6D5C  thumb  ov093
  *   BTL_POKEPARAM_DamageSubstitute  0x021D6D9C  thumb  ov093
@@ -299,7 +299,7 @@
  *   COMM_PLAYER_SUPPORT_SavePreviousAndSuspend 0x0202E7E4 thumb
  *   func_0689C9F8 0x0689C9F8 thumb ov095
  *   func_0689B7A8 0x0689B7A8 thumb ov095
- *   func_021D6064 0x021D6064 thumb ov093
+ *   BTL_POKEPARAM_TickSickCont 0x021D6064 thumb ov093
  *   BTL_CALC_PackPokeIds 0x021D806C thumb ov093
  *   func_0689B8CC 0x0689B8CC thumb ov095
  *   func_06898D54 0x06898D54 thumb ov095
@@ -311,9 +311,9 @@
  *   BTL_POKEPARAM_ResetAllEffects 0x021D646C thumb ov093
  *   BTL_MAIN_GetRuleSlotSpan  0x021B8640  thumb  ov093
  *   func_0689D5FC 0x0689D5FC thumb ov095
- *   BTL_CALC_DisableAbilityHandlers 0x021D8538 thumb ov093
- *   BTL_HANDLER_ITEM_DisablePokeFactors 0x021DCFA4 thumb ov093
- *   func_021E0434 0x021E0434 thumb ov093
+ *   HAND_TOKUSEI_DisableAbilityHandlers 0x021D8538 thumb ov093
+ *   HAND_ITEM_DisablePokeFactors 0x021DCFA4 thumb ov093
+ *   HAND_WAZA_RemoveAllMoveHandlers 0x021E0434 thumb ov093
  *   BTL_POKEPARAM_CureSickBySource 0x021D6264 thumb ov093
  *   BTL_FIELD_QueryStaticSlotB 0x021EF90C thumb ov093
  *   BTL_MAIN_CheckEventOverlayAllowed 0x021B85EC thumb ov093
@@ -376,8 +376,8 @@
  *   func_068981F0 0x068981F0 thumb ov095
  *   func_0689C974 0x0689C974 thumb ov095
  *   BTL_POKEPARAM_ClearConsumedItem 0x021D6738 thumb ov093
- *   BTL_HANDLER_ITEM_AddForcedFactor  0x021DCF78  thumb  ov093
- *   BTL_HANDLER_ITEM_RemoveFactor  0x021DCF9C  thumb  ov093
+ *   HAND_ITEM_AddForcedFactor  0x021DCF78  thumb  ov093
+ *   HAND_ITEM_RemoveFactor  0x021DCF9C  thumb  ov093
  *   BTL_POKEPARAM_ReplaceMove  0x021D5734  thumb  ov093
  *   BTL_POKEPARAM_PassEffects  0x021D65C8  thumb  ov093
  *   BTL_POKEPARAM_SetWeight 0x021D67D8 thumb ov093
@@ -398,11 +398,11 @@
  *   _ffix          0x0209C494  arm
  *   func_0207C7B4  0x0207C7B4  arm
  *   BTL_POKEPARAM_GetMaxLevelExp  0x021D6B6C  thumb  ov093
- *   g_021EFDC0      0x021EFDC0  data  ov093
+ *   gEffortValueStatTable      0x021EFDC0  data  ov093
  *   func_02019C90   0x02019C90  thumb arm9
  *   POKE_TOOL_DecodePartyParam   0x02017D30  thumb arm9
  *   POKE_TOOL_EncodePartyParam   0x02017D70  thumb arm9
- *   data_021EFDE4 0x021EFDE4 data a4
+ *   gBagItemEffectTable 0x021EFDE4 data a4
  *   BTL_MAIN_CheckZukanSeen 0x021B8724 thumb ov093
  *   BTL_EVENT_StartClientPalAnm 0x021D6E24 thumb ov093
  *   GPOWER_ApplyCaptureRate 0x020111BC thumb
@@ -423,7 +423,7 @@
  *   func_0689C8FC 0x0689C8FC thumb ov095
  *   BTLV_CORE_CheckPartySlotPair  0x021E869C  thumb  ov093
  *   func_0689D1D4 0x0689D1D4 thumb ov095
- *   d_021EFE9C     0x021EFE9C  data  a4
+ *   gHandExRecordSizeTable     0x021EFE9C  data  a4
  *   data_021F3A84 0x021F3A84 data
  *   func_02034714 0x02034714 arm
  *   data_021EFF14  0x021EFF14  data  ov093
@@ -462,7 +462,7 @@
  *   func_021F8678 0x021F8678 thumb ov094
  *   func_021EAE34 0x021EAE34 thumb ov093
  *   func_021EAE74 0x021EAE74 thumb ov093
- *   d_021EFFEC 0x021EFFEC data a4
+ *   gBtlClientCommandTable 0x021EFFEC data a4
  *   func_021F8524 0x021F8524 thumb ov094
  *   func_021E90A0  0x021E90A0  thumb  ov093
  *   func_021E90D0  0x021E90D0  thumb  ov093
@@ -504,7 +504,7 @@
  *   func_021F7EB4 0x021F7EB4 thumb ov094
  *   func_0202A298 0x0202A298 thumb
  *   BTL_CALC_DivideMaxHp 0x021D7B60 thumb ov093
- *   d_021EFF78 0x021EFF78 data ov093 a2
+ *   gBtlClientSupportItemKeys 0x021EFF78 data ov093 a2
  *   func_021E97BC 0x021E97BC thumb ov093
  *   func_021E9808 0x021E9808 thumb ov093
  *   func_021E98AC 0x021E98AC thumb ov093
@@ -549,7 +549,7 @@
  *   WAZA_TOOL_GetType 0x0201C1C8 thumb
  *   BTL_CALC_GetTypeAffinityVsPair 0x021D799C thumb ov093
  *   BTL_POKEPARAM_GetHitRecord 0x021D6940 thumb ov093
- *   d_021EFFC2 0x021EFFC2 data ov093 a2
+ *   gBtlClientAiHitKindRows 0x021EFFC2 data ov093 a2
  *   BTL_POKEPARAM_GetHpRatioFixed  0x021D5C44  thumb  ov093
  *   BTL_CALC_GetScanStartIndex 0x021D7F2C thumb ov093
  *   func_021D3DC4 0x021D3DC4 thumb ov093
@@ -573,13 +573,13 @@
  *   func_021EA5F0  0x021EA5F0  thumb  ov093
  *   func_02082A90 0x02082A90 arm
  *   func_021EA824 0x021EA824 thumb ov093
- *   d_021F00DC 0x021F00DC data a4
+ *   gServerCommandHandlers 0x021F00DC data a4
  *   func_021EA458  0x021EA458  thumb  ov093
  *   func_021EA478  0x021EA478  thumb  ov093
  *   func_021EA488 0x021EA488 thumb ov093
  *   func_021EA4C4 0x021EA4C4 thumb ov093
  *   func_021EA678  0x021EA678  thumb  ov093
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_021EA694  0x021EA694  thumb  ov093
  *   func_021EA6F4  0x021EA6F4  thumb  ov093
  *   BTL_CALC_GetCurseTargetKind  0x021D80A8  thumb  ov093
@@ -601,7 +601,7 @@
  *   func_021EA7E8  0x021EA7E8  thumb  ov093
  *   func_021EA7D8  0x021EA7D8  thumb  ov093
  *   BTL_FIELD_StoreCountdown  0x021EF9C0  thumb  ov093
- *   d_021EFFAE     0x021EFFAE  data   ov093  a2
+ *   gWeatherEffects     0x021EFFAE  data   ov093  a2
  *   BTL_FIELD_ClearCountdown  0x021EF9C8  thumb  ov093
  *   func_021EA838  0x021EA838  thumb  ov093
  *   func_021EA850  0x021EA850  thumb  ov093
@@ -615,19 +615,19 @@
  *   func_021EA1F0  0x021EA1F0  thumb  ov093
  *   func_021EA8E4 0x021EA8E4 thumb ov093
  *   func_021EA8F4 0x021EA8F4 thumb ov093
- *   d_021EFF88     0x021EFF88  data  ov093  a2
+ *   gEffortValueParams     0x021EFF88  data  ov093  a2
  *   func_021F8204 0x021F8204 thumb ov094
  *   func_021F8134 0x021F8134 thumb ov094
  *   func_021F8180 0x021F8180 thumb ov094
  *   BTL_EVENT_ReleaseClientHandle 0x021D6EA0 thumb ov093
  *   BTL_POKEPARAM_ReloadFromParam 0x021D6BFC thumb ov093
  *   func_021F8150 0x021F8150 thumb ov094
- *   func_02006238 0x02006238 thumb
+ *   GFL_USE_IsAnySeBusy 0x02006238 thumb
  *   func_021EA3B8 0x021EA3B8 thumb ov093
  *   func_021EA3D4 0x021EA3D4 thumb ov093
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
- *   func_02005F38 0x02005F38 thumb
+ *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   func_021EADA4 0x021EADA4 thumb ov093
  *   func_021EADB4 0x021EADB4 thumb ov093
@@ -635,7 +635,7 @@
  *   func_021EADD4 0x021EADD4 thumb ov093
  *   func_021EADE4 0x021EADE4 thumb ov093
  *   func_021EADF4 0x021EADF4 thumb ov093
- *   d_021F3B64 0x021F3B64 data a4
+ *   gExpGainWork 0x021F3B64 data a4
  *   GFL_USE_IsSeqPlaying 0x02006254 thumb
  *   func_020181F4   0x020181F4  thumb
  *   POKE_TOOL_GetLevelUpMove   0x02018328  thumb
@@ -645,7 +645,7 @@
  *   g_021F3B64      0x021F3B64  data
  *   func_021F7CFC 0x021F7CFC thumb ov094
  *   func_021F883C 0x021F883C thumb ov094
- *   d_021EFF80 0x021EFF80 data a2
+ *   gCatchShakeMessages 0x021EFF80 data a2
  *   func_021F7C0C 0x021F7C0C thumb ov094
  *   func_021F7D44  0x021F7D44  thumb  ov094
  *   func_021EAA6C  0x021EAA6C  thumb  ov093
@@ -657,60 +657,60 @@
  *   func_021EA868  0x021EA868  thumb  ov093
  *   func_021EA878  0x021EA878  thumb  ov093
  *   func_0689C9D4 0x0689C9D4 thumb ov095
- *   func_021B8CE8  0x021B8CE8  thumb  ov093
- *   func_021B8D38  0x021B8D38  thumb  ov093
- *   func_021B8D8C  0x021B8D8C  thumb  ov093
- *   func_021B8DC0  0x021B8DC0  thumb  ov093
- *   func_021B8DE4  0x021B8DE4  thumb  ov093
- *   func_021B8DEC  0x021B8DEC  thumb  ov093
- *   func_021B8E28  0x021B8E28  thumb  ov093
- *   func_021B8E70  0x021B8E70  thumb  ov093
- *   func_021B8FF4  0x021B8FF4  thumb  ov093
- *   func_021B902C  0x021B902C  thumb  ov093
- *   func_021B904C  0x021B904C  thumb  ov093
- *   func_021B9064  0x021B9064  thumb  ov093
- *   func_021B9090  0x021B9090  thumb  ov093
- *   func_021B90BC  0x021B90BC  thumb  ov093
- *   func_021B90F8  0x021B90F8  thumb  ov093
- *   func_021B916C  0x021B916C  thumb  ov093
- *   func_021B9184  0x021B9184  thumb  ov093
- *   func_021B919C  0x021B919C  thumb  ov093
- *   func_021B9210  0x021B9210  thumb  ov093
- *   func_021B9244  0x021B9244  thumb  ov093
- *   func_021B92A0  0x021B92A0  thumb  ov093
- *   func_021B9358  0x021B9358  thumb  ov093
- *   func_021B937C  0x021B937C  thumb  ov093
- *   func_021B98AC  0x021B98AC  thumb  ov093
- *   func_021B990C  0x021B990C  thumb  ov093
- *   func_021B9920  0x021B9920  thumb  ov093
- *   func_021B9934  0x021B9934  thumb  ov093
- *   func_021B99B8  0x021B99B8  thumb  ov093
- *   func_021B99C0  0x021B99C0  thumb  ov093
- *   func_021B9A24  0x021B9A24  thumb  ov093
- *   func_021B9AB0  0x021B9AB0  thumb  ov093
- *   func_021B9AEC  0x021B9AEC  thumb  ov093
- *   func_021B9AF8  0x021B9AF8  thumb  ov093
- *   func_021B9B94  0x021B9B94  thumb  ov093
- *   func_021B9B98  0x021B9B98  thumb  ov093
- *   func_021B9C00  0x021B9C00  thumb  ov093
- *   func_021B9C10  0x021B9C10  thumb  ov093
- *   func_021B9C50  0x021B9C50  thumb  ov093
- *   func_021B9CBC  0x021B9CBC  thumb  ov093
- *   func_021B9F70  0x021B9F70  thumb  ov093
- *   func_021B9FBC  0x021B9FBC  thumb  ov093
- *   func_021BA004  0x021BA004  thumb  ov093
- *   func_021BA020  0x021BA020  thumb  ov093
- *   func_021BA02C  0x021BA02C  thumb  ov093
- *   func_021BA08C  0x021BA08C  thumb  ov093
- *   func_021BA1A8  0x021BA1A8  thumb  ov093
- *   func_021BA1EC  0x021BA1EC  thumb  ov093
- *   func_021BA238  0x021BA238  thumb  ov093
- *   func_021BA2D4  0x021BA2D4  thumb  ov093
- *   func_021BA5C4  0x021BA5C4  thumb  ov093
- *   func_021BA5D0  0x021BA5D0  thumb  ov093
- *   func_021BA73C  0x021BA73C  thumb  ov093
- *   func_021BA7F8  0x021BA7F8  thumb  ov093
- *   func_021BA820  0x021BA820  thumb  ov093
+ *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093
+ *   BTL_MAIN_CollectLivingPokeIds  0x021B8D38  thumb  ov093
+ *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
+ *   BTL_MAIN_GetViewPosOfPoke  0x021B8DC0  thumb  ov093
+ *   BTL_MAIN_GetSlotClientIdThunk  0x021B8DE4  thumb  ov093
+ *   BTL_MAIN_GetSlotNthOfClient  0x021B8DEC  thumb  ov093
+ *   BTL_MAIN_GetSlotClientAndNth  0x021B8E28  thumb  ov093
+ *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
+ *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
+ *   BTL_MAIN_IsSameTeamClient  0x021B902C  thumb  ov093
+ *   BTL_MAIN_GetOwnOpponentClient  0x021B904C  thumb  ov093
+ *   BTL_MAIN_GetOpponentClient  0x021B9064  thumb  ov093
+ *   BTL_MAIN_AddItemToBag  0x021B9090  thumb  ov093
+ *   BTL_MAIN_SubItemFromBag  0x021B90BC  thumb  ov093
+ *   BTL_MAIN_IsRecordingActive  0x021B90F8  thumb  ov093
+ *   BTL_MAIN_SetOutcomeIfUnset  0x021B916C  thumb  ov093
+ *   BTL_MAIN_SetRecordInvalid  0x021B9184  thumb  ov093
+ *   BTL_MAIN_GetPrizeMoney  0x021B919C  thumb  ov093
+ *   BTL_MAIN_GetBonusMoney  0x021B9210  thumb  ov093
+ *   BTL_MAIN_CalcPenaltyMoney  0x021B9244  thumb  ov093
+ *   BTL_MAIN_SetKeepBgm  0x021B92A0  thumb  ov093
+ *   BTL_MAIN_CopyLiveToSnapshotPoke  0x021B9358  thumb  ov093
+ *   BTL_MAIN_ResolveIllusionPoke  0x021B937C  thumb  ov093
+ *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
+ *   BTL_SIDE_GetClientPokeParam  0x021B990C  thumb  ov093
+ *   BTL_SIDE_GetClientPoke  0x021B9920  thumb  ov093
+ *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb  ov093
+ *   BTL_MAIN_GetPositionsPerClientThunk  0x021B99B8  thumb  ov093
+ *   BTL_MAIN_GetViewPositionsPerClient  0x021B99C0  thumb  ov093
+ *   BTL_MAIN_IsPokeSamePair  0x021B9A24  thumb  ov093
+ *   BTL_SLOT_GetRotateSrcIndex  0x021B9AB0  thumb  ov093
+ *   BTL_SIDE_GetSlotOfClient  0x021B9AEC  thumb  ov093
+ *   BTL_SIDE_GetSlotOfClientThunk  0x021B9AF8  thumb  ov093
+ *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
+ *   BTL_SLOT_CountLiving  0x021B9B98  thumb  ov093
+ *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
+ *   BTL_SLOT_Swap  0x021B9C10  thumb  ov093
+ *   BTL_SLOT_Rotate  0x021B9C50  thumb  ov093
+ *   BTL_SLOT_FindPokeId  0x021B9CBC  thumb  ov093
+ *   BTL_MAIN_IsTrainerSlotNpc  0x021B9F70  thumb  ov093
+ *   BTL_MAIN_GetTrainerAiFlags  0x021B9FBC  thumb  ov093
+ *   BTL_MAIN_GetTrainerId  0x021BA004  thumb  ov093
+ *   BTL_MAIN_GetTrainerType  0x021BA020  thumb  ov093
+ *   BTL_MAIN_GetTrainerSentence  0x021BA02C  thumb  ov093
+ *   BTL_MAIN_GetField  0x021BA08C  thumb  ov093
+ *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
+ *   BTL_MAIN_IsRecordEnabledInComm  0x021BA1EC  thumb  ov093
+ *   BTL_MAIN_NotifyLevelUp  0x021BA238  thumb  ov093
+ *   BTL_MAIN_NotifyCapture  0x021BA2D4  thumb  ov093
+ *   BTL_MAIN_GetLimitTimeCommand  0x021BA5C4  thumb  ov093
+ *   BTL_MAIN_GetLimitTimeGame  0x021BA5D0  thumb  ov093
+ *   BTL_MAIN_RestartBattle  0x021BA73C  thumb  ov093
+ *   BTL_MAIN_StartClientMainSteps  0x021BA7F8  thumb  ov093
+ *   BTL_MAIN_GetServerFlow  0x021BA820  thumb  ov093
  *   BTL_SERVER_LoadRecorderReplies  0x021BB4E0  thumb  ov093
  *   BTL_SERVER_CompareFlowOutput  0x021BB570  thumb  ov093
  *   BTL_SERVER_CMD_ReadNext  0x021CD5E0  thumb  ov093
@@ -1046,13 +1046,13 @@ extern u8 BTL_MAIN_GetCommPos(u8 **p);
 extern u32 BTL_CALC_ActionGetKind(Action *);
 extern u16 BTL_MAIN_GetWinBgm(void **);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern void BTL_CLIENT_SET_Clear(u8 *p);
 extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
-extern u32 func_0201BD28(u32 v, u32 n);
+extern u32 WAZA_TOOL_GetParam(u32 v, u32 n);
 extern u32 BTL_ACTION_GetFightMove(Action *m);
 extern int BTL_MAIN_GetCompetitorKind(unsigned int **p);
 extern union Slot BTL_POKEPARAM_GetSickContRaw(void *p, int i);
@@ -1233,7 +1233,7 @@ extern int func_021EA478(u32 *p);
 extern void func_021EA488(void *s, u8 a, u8 b, u8 c);
 extern int func_021EA4C4(void *s);
 extern void func_021EA678(char *p, u16 k, int *c);
-extern void func_020061E4(unsigned int arg);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned int arg);
 extern void func_021EA694(char *p, u16 k, int *c);
 extern void func_021EA6F4(void *p, u8 b, u16 c);
 extern int BTL_CALC_GetCurseTargetKind(void *p);
@@ -1274,12 +1274,12 @@ extern int func_021F8180(void);
 extern void BTL_EVENT_ReleaseClientHandle(void *);
 extern void BTL_POKEPARAM_ReloadFromParam(u8 *p);
 extern void func_021F8150(int, void *);
-extern int func_02006238(void);
+extern int GFL_USE_IsAnySeBusy(void);
 extern void func_021EA3B8(char *ctx, int a, int b);
 extern int func_021EA3D4(void *);
 extern void GFL_USE_SetBgmPlayerParam(void *);
 extern int GFL_USE_PushBgm(void);
-extern int func_02005F38(void);
+extern int GFL_USE_IsBgmPlaying(void);
 extern int GFL_USE_PopBgm(void);
 extern void func_021EADA4(u8 *, int, void *);
 extern int func_021EADB4(u8 *);
@@ -1306,60 +1306,60 @@ extern int func_021EA7B8(u32 *p, u32 a2);
 extern void func_021EA868(u32 *p, u32 a2, u32 a3);
 extern int func_021EA878(u32 *p);
 extern int func_0689C9D4(u16);
-int func_021B8CE8(int a, int b, int c);
-u8 func_021B8D38(void *p, int a, int k, u8 *out);
-u8 func_021B8D8C(void *p, void *a, u32 b);
-unsigned char func_021B8DC0(unsigned char *p,void *a,unsigned int b);
-u8 func_021B8DE4(char *p, int i);
-unsigned char func_021B8DEC(char *p,unsigned char k);
-void func_021B8E28(u8 *p, u8 n, u8 *out, u8 *cnt_out);
-u8 func_021B8E70(u8 *p, u32 k);
-u8 func_021B8FF4(u8 *p);
-int func_021B902C(int a, int b);
-u8 func_021B904C(u8 *p,int k);
-u32 func_021B9064(u8 *p, int k, int x);
-void func_021B9090(u8 *p, u32 k, u32 x);
-void func_021B90BC(u8 *p,u8 k,u32 x);
-int func_021B90F8(u8 *p);
-void func_021B916C(u8 *p,u32 x);
-void func_021B9184(Flags_021B9184 **p);
-u32 func_021B919C(u8 *p);
-u32 func_021B9210(u8 *p);
-u32 func_021B9244(char *p);
-void func_021B92A0(u8 *p);
-void func_021B9358(char *p, int i);
-u8 *func_021B937C(void *a, char *b, u8 *c);
-u8 *func_021B98AC(char *const *q, u8 b);
-void *func_021B990C(char *p, unsigned int i, unsigned int j);
-u8 *func_021B9920(void *p, u32 i, u8 j);
-u8 *func_021B9934(char *p, int i);
-int func_021B99B8(void *pp, unsigned int b);
-u8 func_021B99C0(void **p, u32 b);
-int func_021B9A24(unsigned int a, unsigned int b);
-u8 func_021B9AB0(u8 x);
-char *func_021B9AEC(char *p, int i);
-char *func_021B9AF8(char *p, int i);
-u8 func_021B9B94(void *p);
-u8 func_021B9B98(u8 *p);
-u8 *func_021B9C00(void *p, u32 i);
-void func_021B9C10(u32 *p, int a, int b);
-void func_021B9C50(u8 **p, u8 k, u8 **o1, u8 **o2);
-int func_021B9CBC(u8 *p, int v);
-int func_021B9F70(u8 *p, int i);
-int func_021B9FBC(char *p, int i);
-u16 func_021BA004(char *p, int i);
-unsigned short func_021BA020(char *p, int i);
-void *func_021BA02C(char *p, int i, int mode);
-u32 func_021BA08C(void *p);
-int func_021BA1A8(char **p, int m);
-BOOL func_021BA1EC(char **p);
-void func_021BA238(char *p, void *m);
-void func_021BA2D4(u32 p, u32 *q);
-u16 func_021BA5C4(u8 *p);
-u16 func_021BA5D0(void *p);
-void func_021BA73C(char *p, u16 x);
-void func_021BA7F8(char *p);
-u32 func_021BA820(int *p);
+int BTL_MAIN_IsOpposingPos(int a, int b, int c);
+u8 BTL_MAIN_CollectLivingPokeIds(void *p, int a, int k, u8 *out);
+u8 BTL_MAIN_GetTrainerSlotOfPoke(void *p, void *a, u32 b);
+unsigned char BTL_MAIN_GetViewPosOfPoke(unsigned char *p,void *a,unsigned int b);
+u8 BTL_MAIN_GetSlotClientIdThunk(char *p, int i);
+unsigned char BTL_MAIN_GetSlotNthOfClient(char *p,unsigned char k);
+void BTL_MAIN_GetSlotClientAndNth(u8 *p, u8 n, u8 *out, u8 *cnt_out);
+u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k);
+u8 BTL_MAIN_GetOwnClientId(u8 *p);
+int BTL_MAIN_IsSameTeamClient(int a, int b);
+u8 BTL_MAIN_GetOwnOpponentClient(u8 *p,int k);
+u32 BTL_MAIN_GetOpponentClient(u8 *p, int k, int x);
+void BTL_MAIN_AddItemToBag(u8 *p, u32 k, u32 x);
+void BTL_MAIN_SubItemFromBag(u8 *p,u8 k,u32 x);
+int BTL_MAIN_IsRecordingActive(u8 *p);
+void BTL_MAIN_SetOutcomeIfUnset(u8 *p,u32 x);
+void BTL_MAIN_SetRecordInvalid(Flags_021B9184 **p);
+u32 BTL_MAIN_GetPrizeMoney(u8 *p);
+u32 BTL_MAIN_GetBonusMoney(u8 *p);
+u32 BTL_MAIN_CalcPenaltyMoney(char *p);
+void BTL_MAIN_SetKeepBgm(u8 *p);
+void BTL_MAIN_CopyLiveToSnapshotPoke(char *p, int i);
+u8 *BTL_MAIN_ResolveIllusionPoke(void *a, char *b, u8 *c);
+u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
+void *BTL_SIDE_GetClientPokeParam(char *p, unsigned int i, unsigned int j);
+u8 *BTL_SIDE_GetClientPoke(void *p, u32 i, u8 j);
+u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
+int BTL_MAIN_GetPositionsPerClientThunk(void *pp, unsigned int b);
+u8 BTL_MAIN_GetViewPositionsPerClient(void **p, u32 b);
+int BTL_MAIN_IsPokeSamePair(unsigned int a, unsigned int b);
+u8 BTL_SLOT_GetRotateSrcIndex(u8 x);
+char *BTL_SIDE_GetSlotOfClient(char *p, int i);
+char *BTL_SIDE_GetSlotOfClientThunk(char *p, int i);
+u8 BTL_SLOT_GetCount(void *p);
+u8 BTL_SLOT_CountLiving(u8 *p);
+u8 *BTL_SLOT_GetPokeParam(void *p, u32 i);
+void BTL_SLOT_Swap(u32 *p, int a, int b);
+void BTL_SLOT_Rotate(u8 **p, u8 k, u8 **o1, u8 **o2);
+int BTL_SLOT_FindPokeId(u8 *p, int v);
+int BTL_MAIN_IsTrainerSlotNpc(u8 *p, int i);
+int BTL_MAIN_GetTrainerAiFlags(char *p, int i);
+u16 BTL_MAIN_GetTrainerId(char *p, int i);
+unsigned short BTL_MAIN_GetTrainerType(char *p, int i);
+void *BTL_MAIN_GetTrainerSentence(char *p, int i, int mode);
+u32 BTL_MAIN_GetField(void *p);
+int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
+BOOL BTL_MAIN_IsRecordEnabledInComm(char **p);
+void BTL_MAIN_NotifyLevelUp(char *p, void *m);
+void BTL_MAIN_NotifyCapture(u32 p, u32 *q);
+u16 BTL_MAIN_GetLimitTimeCommand(u8 *p);
+u16 BTL_MAIN_GetLimitTimeGame(void *p);
+void BTL_MAIN_RestartBattle(char *p, u16 x);
+void BTL_MAIN_StartClientMainSteps(char *p);
+u32 BTL_MAIN_GetServerFlow(int *p);
 void BTL_SERVER_LoadRecorderReplies(Obj_td *p, void *src, int n);
 int BTL_SERVER_CompareFlowOutput(u8 *p, int sel, void *data, u32 n);
 int BTL_SERVER_CMD_ReadNext(Buf_021CC768 *r, s32 *a);
@@ -1367,7 +1367,7 @@ u8 BTL_SERVER_CMD_ReadU8Wrapper(u8 *p);
 BtlClient *BTL_CLIENT_Create(u8 *battleMain, u8 *sideSet, int netEnabled, int netSystem, u16 clientIndex, u16 slotTotal, u8 clientKind, int isCommBattle, int isReplay, BtlClientRng *rngInit, u16 heapId);
 void BTL_CLIENT_Delete(BtlClient *client);
 void BTL_CLIENT_MarkCommandIssued(BtlClient *client);
-u16 *func_021CD924(BtlClient *client, u32 *out);
+u16 *BTL_CLIENT_ReadRecorderEntry(BtlClient *client, u32 *out);
 void BTL_CLIENT_AttachRemoteLink(BtlClient *client, void *a);
 void BTL_CLIENT_SetView(BtlClient *client, u32 v);
 void BTL_CLIENT_SetRequestParam(BtlClient *client, u32 v);
@@ -1381,18 +1381,18 @@ u32 BTL_CLIENT_IsMainStepActive(BtlClient *client);
 void BTL_CLIENT_AddPoints(BtlClient *client, u8 n);
 void BTL_CLIENT_SetStepFn(BtlClient *client, u32 v);
 int BTL_CLIENT_StepMain(BtlClient *client);
-int func_021CDC0C(BtlClient *client);
-void func_021CDD34(BtlClient *client);
-BtlClientStepFn func_021CDD50(BtlClient *client, u32 id, int *out);
-void func_021CDD94(BtlClient *client, int *o);
+int BTL_CLIENT_StepRemote(BtlClient *client);
+void BTL_CLIENT_ResetSendWord(BtlClient *client);
+BtlClientStepFn BTL_CLIENT_FindCommandStepFn(BtlClient *client, u32 id, int *out);
+void BTL_CLIENT_GetCursor(BtlClient *client, int *o);
 int BTL_CLIENT_IsWindowWaiting(BtlClient *client);
 u32 BTL_CLIENT_IsWindowDone(BtlClient *client);
-int func_021CDDDC(BtlClient *client, int *st);
+int BTL_CLIENT_StepOpenBattleWindow(BtlClient *client, int *st);
 int BTL_CLIENT_PollWindowStep(BtlClient *client, int b);
 void BTL_CLIENT_StoreMonParam(BtlClient *client);
 u32 BTL_CLIENT_HasMonParamDropped(BtlClient *client);
-void *func_021CDF1C(BtlClient *client);
-int func_021CDF58(BtlClient *client, int *st);
+void *BTL_CLIENT_GetLeadPartyMon(BtlClient *client);
+int BTL_CLIENT_StepWindowModeSelect(BtlClient *client, int *st);
 u32 BTL_CLIENT_PickWindowMode(u32 mode);
 int BTL_CLIENT_ReturnTrue(void);
 void BTL_CLIENT_StartWindowModeSend(BtlClient *client);
@@ -1400,154 +1400,154 @@ void BTL_CLIENT_StartTimeLimit(BtlClient *client);
 int BTL_CLIENT_PollTimeLimitReady(BtlClient *client);
 int BTL_CLIENT_PollTimeLimitAndSetSub(BtlClient *client, void *q);
 void BTL_CLIENT_StopTimeLimit(BtlClient *client);
-void func_021CE0F8(BtlClient *client, u8 *q, u8 *o);
+void BTL_CLIENT_BuildActionPromptMessage(BtlClient *client, u8 *q, u8 *o);
 void BTL_CLIENT_SetSubFn(BtlClient *client, void *q);
 u32 BTL_CLIENT_RunSubFn(BtlClient *client);
-u32 func_021CE170(BtlClient *client, s32 *st);
-int func_021CE1B0(BtlClient *client, int *state);
+u32 BTL_CLIENT_StepStartActionSelection(BtlClient *client, s32 *st);
+int BTL_CLIENT_StepPlaybackRecordedAction(BtlClient *client, int *state);
 void BTL_CLIENT_ResetActionCursor(BtlClient *client);
-u32 func_021CE308(BtlClient *client);
+u32 BTL_CLIENT_InitActionSelection(BtlClient *client);
 void BTL_CLIENT_ShowMessage(BtlClient *client, void *q);
-int func_021CE3C8(BtlClient *client, int *state);
-int func_021CE4D0(BtlClient *client, u32 *st);
-u32 func_021CE7D4(BtlClient *client, int *st);
-u32 func_021CE8F0(BtlClient *client, u16 *out);
-int func_021CEA94(BtlClient *client, u32 *state);
-void func_021CECB4(BtlClient *client, Ent_021CECB4 *out);
-u32 func_021CED4C(BtlClient *client, s32 *st);
-u32 func_021CEDC0(BtlClient *client, int *st);
-u32 func_021CEEB8(BtlClient *client, int *st);
-u32 func_021CEFFC(BtlClient *client);
-u32 func_021CF078(BtlClient *client, u32 *st);
-u32 func_021CF220(BtlClient *client, int *st);
-u32 func_021CF2F0(BtlClient *client, s32 *st);
+int BTL_CLIENT_StepAutoSelectActions(BtlClient *client, int *state);
+int BTL_CLIENT_StepSelectAction(BtlClient *client, u32 *st);
+u32 BTL_CLIENT_StepShowSupportItemMessage(BtlClient *client, int *st);
+u32 BTL_CLIENT_FindSupportItem(BtlClient *client, u16 *out);
+int BTL_CLIENT_StepSelectMove(BtlClient *client, u32 *state);
+void BTL_CLIENT_BuildMoveUsableTable(BtlClient *client, Ent_021CECB4 *out);
+u32 BTL_CLIENT_StepMoveHighlight(BtlClient *client, s32 *st);
+u32 BTL_CLIENT_StepSelectSwitchTarget(BtlClient *client, int *st);
+u32 BTL_CLIENT_StepSelectItem(BtlClient *client, int *st);
+u32 BTL_CLIENT_IsLoneFoeSemiInvulnerable(BtlClient *client);
+u32 BTL_CLIENT_StepSelectRun(BtlClient *client, u32 *st);
+u32 BTL_CLIENT_StepAdvanceSlot(BtlClient *client, int *st);
+u32 BTL_CLIENT_StepSendActions(BtlClient *client, s32 *st);
 void BTL_CLIENT_ClearSlotLinkWords(BtlClient *client);
 void BTL_CLIENT_SetSlotLinkWord(BtlClient *client, u32 i, u32 v);
 void BTL_CLIENT_FlushSlotLinkWord(BtlClient *client, u32 i);
 void BTL_CLIENT_FlushSlotLinkWords(BtlClient *client);
 void BTL_CLIENT_ClearSlotFlags(BtlClient *client);
-void func_021CF430(BtlClient *client, u32 i, u32 v);
-u8 func_021CF43C(BtlClient *client, u32 i);
+void BTL_CLIENT_SetSlotFlag(BtlClient *client, u32 i, u32 v);
+u8 BTL_CLIENT_GetSlotFlag(BtlClient *client, u32 i);
 u8 BTL_CLIENT_SumSlotFlagsBeforeCurrent(BtlClient *client);
-u32 func_021CF470(u8 *p, void *q, u8 *o);
-u32 func_021CF524(BtlClient *client, void *q, u32 y);
-void func_021CF58C(struct Unk021D82D0 *out, BtlClient *client, void *q);
-int func_021CF5B0(BtlClient *client, void *m, u32 move, void *out);
-u32 func_021CF81C(BtlClient *client, void *q, u8 *out);
-int func_021CF89C(BtlClient *client, void *q);
-u32 func_021CF8D4(BtlClient *client, void *q, u8 *a, u16 *b);
-u32 func_021CF918(BtlClient *client, u8 *a, u16 *b);
-u32 func_021CF9B4(BtlClient *client, void *m, u8 *a, u16 *b);
-int func_021CFAC4(void *p, void *q);
-int func_021CFADC(BtlClient *client, void *m);
-int func_021CFB8C(void *p, void *q);
+u32 BTL_CLIENT_IsActionForced(u8 *p, void *q, u8 *o);
+u32 BTL_CLIENT_SetStruggleIfNoMoves(BtlClient *client, void *q, u32 y);
+void BTL_CLIENT_SetStruggleAction(struct Unk021D82D0 *out, BtlClient *client, void *q);
+int BTL_CLIENT_IsMoveSelectionBlocked(BtlClient *client, void *m, u32 move, void *out);
+u32 BTL_CLIENT_BuildUsableMoveMask(BtlClient *client, void *q, u8 *out);
+int BTL_CLIENT_IsHeldItemEffective(BtlClient *client, void *q);
+u32 BTL_CLIENT_GetEscapeBlocker(BtlClient *client, void *q, u8 *a, u16 *b);
+u32 BTL_CLIENT_GetEscapeBlockerForSide(BtlClient *client, u8 *a, u16 *b);
+u32 BTL_CLIENT_FindTrapper(BtlClient *client, void *m, u8 *a, u16 *b);
+int BTL_CLIENT_CanShadowTagTrap(void *p, void *q);
+int BTL_CLIENT_CanArenaTrapTrap(BtlClient *client, void *m);
+int BTL_CLIENT_CanMagnetPullTrap(void *p, void *q);
 void BTL_CLIENT_ClearSlotOrder(BtlClient *client);
 int BTL_CLIENT_HasSlotInOrder(BtlClient *client, int v);
 void BTL_CLIENT_SetSlotOrder(BtlClient *client, u32 i, u32 v);
-int func_021CFBF0(BtlClient *client, void *m, u32 slot, u8 *out);
-u8 *func_021CFD50(BtlClient *client, int k);
-int func_021CFDCC(void *p, void *q);
-int func_021CFE08(BtlClient *client, void *a, void *b);
-int func_021CFE98(BtlClient *client, void *a, void *b);
-int func_021CFFAC(BtlClient *client, void *mon, void *target);
-int func_021D0100(BtlClient *client, void *mon, void *target, u8 *out);
-int func_021D0248(BtlClient *client, void *m, u8 *out);
-int func_021D0304(BtlClient *client, void *mon, void *target, u8 *out);
-int func_021D04E4(BtlClient *client, u16 a, u8 *out);
-int func_021D055C(BtlClient *client, void *a, int b);
-int func_021D05C4(BtlClient *client, u8 a, int b, u8 *out);
-int func_021D0644(BtlClient *client, void *m, void *a, int b);
-u8 func_021D06C8(BtlClient *client);
-int func_021D0770(BtlClient *client, u32 *state);
-u8 func_021D0980(BtlClient *client, u8 *out);
-void func_021D09E0(BtlClient *client, u8 *order, u8 count, void *target);
+int BTL_CLIENT_ChooseAiSwitchTarget(BtlClient *client, void *m, u32 slot, u8 *out);
+u8 *BTL_CLIENT_PickRandomFoe(BtlClient *client, int k);
+int BTL_CLIENT_IsCountdownEndingNext(void *p, void *q);
+int BTL_CLIENT_ShouldSwitchVsWonderGuard(BtlClient *client, void *a, void *b);
+int BTL_CLIENT_ShouldSwitchNoEffectiveMove(BtlClient *client, void *a, void *b);
+int BTL_CLIENT_ShouldSwitchWhileLocked(BtlClient *client, void *mon, void *target);
+int BTL_CLIENT_FindSwitchFromHitHistory(BtlClient *client, void *mon, void *target, u8 *out);
+int BTL_CLIENT_FindNaturalCureSwitch(BtlClient *client, void *m, u8 *out);
+int BTL_CLIENT_FindSwitchByTypeMatchup(BtlClient *client, void *mon, void *target, u8 *out);
+int BTL_CLIENT_FindMemberWithAbility(BtlClient *client, u16 a, u8 *out);
+int BTL_CLIENT_AnyMemberHasMoveVsTarget(BtlClient *client, void *a, int b);
+int BTL_CLIENT_FindMemberResistingType(BtlClient *client, u8 a, int b, u8 *out);
+int BTL_CLIENT_HasMoveWithAffinityVsTarget(BtlClient *client, void *m, void *a, int b);
+u8 BTL_CLIENT_PickRotationPosition(BtlClient *client);
+int BTL_CLIENT_StepAutoChooseActions(BtlClient *client, u32 *state);
+u8 BTL_CLIENT_ListAbleMons(BtlClient *client, u8 *out);
+void BTL_CLIENT_SortMonsByMovePower(BtlClient *client, u8 *order, u8 count, void *target);
 void BTL_CLIENT_BuildSlotChoices(BtlClient *client, u32 a, u32 b, void *q, void *out);
-void func_021D0B6C(BtlClient *client, u8 *s);
-void func_021D0BB0(BtlClient *client);
-u8 func_021D0C78(BtlClient *client, u8 *out);
-int func_021D0CC4(BtlClient *client, int *state);
+void BTL_CLIENT_SetChangeActionsFromChoice(BtlClient *client, u8 *s);
+void BTL_CLIENT_SetChangeActionsFirstAble(BtlClient *client);
+u8 BTL_CLIENT_CollectOwnReceivedIds(BtlClient *client, u8 *out);
+int BTL_CLIENT_StepAskYesNo(BtlClient *client, int *state);
 int BTL_CLIENT_StepChoiceMode2(BtlClient *client, int *state);
 int BTL_CLIENT_StepChoiceMode1(BtlClient *client, int *state);
-int func_021D0D50(BtlClient *client);
-int func_021D0E74(BtlClient *client, int *state);
-int func_021D0E7C(BtlClient *client, int *state, u8 param);
+int BTL_CLIENT_ChooseReplacementsAuto(BtlClient *client);
+int BTL_CLIENT_StepForwardToSubFn(BtlClient *client, int *state);
+int BTL_CLIENT_StepChooseReplacement(BtlClient *client, int *state, u8 param);
 int BTL_CLIENT_IsDoubleBattleLeadAlive(BtlClient *client);
-int func_021D1058(BtlClient *client, void *q);
-int func_021D10B8(BtlClient *client, int *state);
-int func_021D123C(BtlClient *client);
-int func_021D127C(BtlClient *client, int *state);
-int func_021D1290(BtlClient *client, int *state, void *a2);
-int func_021D13A4(BtlClient *client);
-int func_021D13FC(BtlClient *client, int *state);
-int func_021D1410(BtlClient *client, int *state, void *q);
-int func_021D1708(BtlClient *client, int *state);
-int func_021D171C(BtlClient *client, int *state, void *a2);
-void func_021D185C(BtlClient *client, int a, int b);
-int func_021D18EC(BtlClient *client, int *state);
-int func_021D1960(BtlClient *client, int *state);
-int func_021D1A18(BtlClient *client, int *state);
-int func_021D1A60(BtlClient *client, int *state);
-int func_021D1A74(BtlClient *client, int *state, void *a2);
-int func_021D1BD0(BtlClient *client, int *state, int *pp);
-int func_021D1C40(BtlClient *client, u8 x, int *out);
-int func_021D1CAC(BtlClient *client, int *state, int *pp);
-int func_021D1CF4(BtlClient *client, int *state, const u32 *params);
-int func_021D1DF4(BtlClient *client);
-int func_021D1E6C(BtlClient *client, int *state, u32 *a);
-int func_021D1EB4(BtlClient *client, int *state, u32 *a);
-int func_021D1F10(BtlClient *client, int *state, u32 *a);
-int func_021D1F58(BtlClient *client, int *state, u32 *a);
-int func_021D1FB4(BtlClient *client, int *state, u32 *a);
-u32 func_021D2000(BtlClient *client, u32 k, u8 b);
-int func_021D2030(BtlClient *client, int *state, const u32 *a);
-int func_021D20BC(BtlClient *client, int *state, u32 *a);
-int func_021D210C(BtlClient *client, int *state, u32 *a);
-int func_021D215C(BtlClient *client, int *state, u32 *a);
-int func_021D21D4(BtlClient *client, int *state, u32 *a);
-int func_021D2234(BtlClient *client, int *state, u32 *a);
-int func_021D2278(BtlClient *client, int *state, u32 *a);
-int func_021D2320(BtlClient *client, int *st, u32 *c);
-int func_021D2374(BtlClient *client, int *st, u32 *c);
-int func_021D23B8(BtlClient *client, int *st, u32 *c);
-int func_021D2424(BtlClient *client, int *st, u32 *c);
-int func_021D2490(BtlClient *client, int *st, u32 *c);
-int func_021D2510(BtlClient *client, int *st, u32 *c);
-int func_021D2580(BtlClient *client, int *st, u32 *c);
-int func_021D25C4(BtlClient *client, int *st, u32 *c);
-int func_021D2628(BtlClient *client, int *st, u32 *c);
-int func_021D266C(BtlClient *client, int *st, u32 *c);
-int func_021D2700(BtlClient *client, int *st, u32 *c);
-int func_021D2814(BtlClient *client, int *state, unsigned int *q);
-int func_021D284C(BtlClient *client, int *st, u32 *c);
-int func_021D28AC(BtlClient *client, int *st, u32 *c);
-int func_021D2930(BtlClient *client, int *b, u32 *c);
-int func_021D2990(int a, int b, int *c);
-int func_021D299C(BtlClient *client, int *state);
-int func_021D29CC(BtlClient *client, int b, u32 *c);
-int func_021D2A20(BtlClient *client, int *state, u32 *args);
-int func_021D2C7C(int n);
-int func_021D2CA8(BtlClient *client, int *state, void *mon);
-int func_021D2FD8(BtlClient *client, int *b, const u32 *c);
-int func_021D3138(BtlClient *client, int *b, u32 *c);
-int func_021D31A0(BtlClient *client, int *b, u32 *c);
-int func_021D324C(BtlClient *client, int *b, u32 *c);
-int func_021D32E0(BtlClient *client, int *b, u32 *c);
-int func_021D344C(BtlClient *client, int *b, u32 *c);
-int func_021D34B0(BtlClient *client, int *state, unsigned int *q);
-int func_021D34E8(BtlClient *client, int *b, u32 *c);
+int BTL_CLIENT_TrySetRotateAction(BtlClient *client, void *q);
+int BTL_CLIENT_StepAskSwitchBeforeSendOut(BtlClient *client, int *state);
+int BTL_CLIENT_RecordReceivedPacket(BtlClient *client);
+int BTL_CLIENT_StepShowResultIfView(BtlClient *client, int *state);
+int BTL_CLIENT_StepShowResultMessage(BtlClient *client, int *state, void *a2);
+int BTL_CLIENT_GetOutcomeForClient(BtlClient *client);
+int BTL_CLIENT_StepShowTrainerResultIfView(BtlClient *client, int *state);
+int BTL_CLIENT_StepShowTrainerResult(BtlClient *client, int *state, void *q);
+int BTL_CLIENT_StepShowEndSpeechIfView(BtlClient *client, int *state);
+int BTL_CLIENT_StepShowEndSpeech(BtlClient *client, int *state, void *a2);
+void BTL_CLIENT_ShowEndSpeech(BtlClient *client, int a, int b);
+int BTL_CLIENT_StepShowPrizeMoneyMessage(BtlClient *client, int *state);
+int BTL_CLIENT_StepShowBlackoutMessages(BtlClient *client, int *state);
+int BTL_CLIENT_StepShowFixedMessage(BtlClient *client, int *state);
+int BTL_CLIENT_StepRunServerCommandsIfView(BtlClient *client, int *state);
+int BTL_CLIENT_StepRunServerCommands(BtlClient *client, int *state, void *a2);
+int BTL_CLIENT_StepShowRecallMessage(BtlClient *client, int *state, int *pp);
+int BTL_CLIENT_PickRecallMessageId(BtlClient *client, u8 x, int *out);
+int BTL_CLIENT_StepPlayRecallAnim(BtlClient *client, int *state, int *pp);
+int BTL_CLIENT_StepSendOutMon(BtlClient *client, int *state, const u32 *params);
+int BTL_CLIENT_PickSendOutMessageId(BtlClient *client);
+int BTL_CLIENT_StepShowSideMessage(BtlClient *client, int *state, u32 *a);
+int BTL_CLIENT_StepShowSideMessageWithSound(BtlClient *client, int *state, u32 *a);
+int BTL_CLIENT_StepShowTaggedMessage(BtlClient *client, int *state, u32 *a);
+int BTL_CLIENT_StepShowTaggedMessageWithSound(BtlClient *client, int *state, u32 *a);
+int BTL_CLIENT_StepShowItemUseMessage(BtlClient *client, int *state, u32 *a);
+u32 BTL_CLIENT_GetMoveAnimTarget(BtlClient *client, u32 k, u8 b);
+int BTL_CLIENT_StepPlayMoveAnim(BtlClient *client, int *state, const u32 *a);
+int BTL_CLIENT_StepSetMonVisibility(BtlClient *client, int *state, u32 *a);
+int BTL_CLIENT_StepPlayMonTaskAnim(BtlClient *client, int *state, u32 *a);
+int BTL_CLIENT_StepPlayMultiMonAnim(BtlClient *client, int *state, u32 *a);
+int BTL_CLIENT_StepUpdateMonGaugeThenMessage(BtlClient *client, int *state, u32 *a);
+int BTL_CLIENT_StepStartEffectForMon(BtlClient *client, int *state, u32 *a);
+int BTL_CLIENT_StepPlaySubstituteAnim(BtlClient *client, int *state, u32 *a);
+int BTL_CLIENT_StepFaintMon(BtlClient *client, int *st, u32 *c);
+int BTL_CLIENT_StepReviveMon(BtlClient *client, int *st, u32 *c);
+int BTL_CLIENT_StepPlayMonEffect262(BtlClient *client, int *st, u32 *c);
+int BTL_CLIENT_StepPlayMonEffect261(BtlClient *client, int *st, u32 *c);
+int BTL_CLIENT_StepStartWeather(BtlClient *client, int *st, u32 *c);
+int BTL_CLIENT_StepEndWeather(BtlClient *client, int *st, u32 *c);
+int BTL_CLIENT_StepUpdateMonGauge(BtlClient *client, int *st, u32 *c);
+int BTL_CLIENT_StepPlayMonAnim(BtlClient *client, int *st, u32 *c);
+int BTL_CLIENT_StepUpdateMonGaugeCopy(BtlClient *client, int *st, u32 *c);
+int BTL_CLIENT_StepRotatePositions(BtlClient *client, int *st, u32 *c);
+int BTL_CLIENT_StepRotatePositionsTwice(BtlClient *client, int *st, u32 *c);
+int BTL_CLIENT_StepPlayEffectOnMon(BtlClient *client, int *state, unsigned int *q);
+int BTL_CLIENT_StepPlayEffectOnMonFast(BtlClient *client, int *st, u32 *c);
+int BTL_CLIENT_StepTransformMon(BtlClient *client, int *st, u32 *c);
+int BTL_CLIENT_StepPlayHitEffect(BtlClient *client, int *b, u32 *c);
+int BTL_CLIENT_StepChangeBgm(int a, int b, int *c);
+int BTL_CLIENT_StepPlayViewSequence(BtlClient *client, int *state);
+int BTL_CLIENT_StepAddEffortValues(BtlClient *client, int b, u32 *c);
+int BTL_CLIENT_StepGiveExp(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_ForgetMoveSoundCallback(int n);
+int BTL_CLIENT_StepLearnLevelUpMoves(BtlClient *client, int *state, void *mon);
+int BTL_CLIENT_StepThrowBall(BtlClient *client, int *b, const u32 *c);
+int BTL_CLIENT_StepShowBallBlocked(BtlClient *client, int *b, u32 *c);
+int BTL_CLIENT_StepClearSidePosition(BtlClient *client, int *b, u32 *c);
+int BTL_CLIENT_StepSetAbilityWithPopup(BtlClient *client, int *b, u32 *c);
+int BTL_CLIENT_StepSwapAbilitiesWithPopup(BtlClient *client, int *b, u32 *c);
+int BTL_CLIENT_StepClearIllusion(BtlClient *client, int *b, u32 *c);
+int BTL_CLIENT_StepPlayEffectById(BtlClient *client, int *state, unsigned int *q);
+int BTL_CLIENT_StepPlayMonSimpleEffect(BtlClient *client, int *b, u32 *c);
 extern struct Unk021EFD70 data_021EFD70[];
-extern struct T6 g_021EFDC0[];
-extern struct SizeEntry d_021EFE9C[0x3B];
+extern struct T6 gEffortValueStatTable[];
+extern struct SizeEntry gHandExRecordSizeTable[0x3B];
 extern u8 d_021F3A88[];
-extern const Entry_021CC768 d_021EFFEC[15];
-extern const u16 d_021EFF78[4];
-extern const struct Row d_021EFFC2[4];
-extern const CodeEntry d_021F00DC[];
-extern Pair16 d_021EFFAE[5];
-extern u16 d_021EFF88[];
-extern union DView d_021F3B64;
+extern const Entry_021CC768 gBtlClientCommandTable[15];
+extern const u16 gBtlClientSupportItemKeys[4];
+extern const struct Row gBtlClientAiHitKindRows[4];
+extern const CodeEntry gServerCommandHandlers[];
+extern Pair16 gWeatherEffects[5];
+extern u16 gEffortValueParams[];
+extern union DView gExpGainWork;
 extern struct StateData g_021F3B64;
-extern const u16 d_021EFF80[];
+extern const u16 gCatchShakeMessages[];
 
 BtlClient *BTL_CLIENT_Create(u8 *battleMain, u8 *sideSet, int netEnabled, int netSystem, u16 clientIndex, u16 slotTotal, u8 clientKind, int isCommBattle, int isReplay, BtlClientRng *rngInit, u16 heapId)
 {
@@ -1562,7 +1562,7 @@ BtlClient *BTL_CLIENT_Create(u8 *battleMain, u8 *sideSet, int netEnabled, int ne
     client->heapId = heapId;
     client->kind = clientKind;
     client->netChannel = BTL_ADAPTER_Create(netSystem, (u8)clientIndex, useNet, heapId);
-    client->sideData = func_021B9AF8((char *)sideSet, clientIndex);
+    client->sideData = BTL_SIDE_GetSlotOfClientThunk((char *)sideSet, clientIndex);
     client->main = battleMain;
     client->side = sideSet;
     client->slotCount = slotTotal;
@@ -1586,21 +1586,21 @@ BtlClient *BTL_CLIENT_Create(u8 *battleMain, u8 *sideSet, int netEnabled, int ne
     client->flags.bit.commandIssued = 0;
     client->flags.bit.windowOpen = 0;
     client->flags.bit.windowDone = 0;
-    *(u32 *)&client->battleField = func_021BA08C(battleMain);
+    *(u32 *)&client->battleField = BTL_MAIN_GetField(battleMain);
     client->isComm = isCommBattle;
     BTL_CLIENT_SET_Clear((u8 *)&client->cursor);
     func_021D3F04(client->commandQueue);
     func_021D3D9C((u8 *)client);
     client->rng = *rngInit;
     if (client->kind == 1 && isReplay == 0) {
-        recordKey = func_021B9FBC(client->main, client->clientId);
-        client->recorder = func_02187F00(client->main, func_021BA820(client->main), (u32)client->side, recordKey, client->heapId);
+        recordKey = BTL_MAIN_GetTrainerAiFlags(client->main, client->clientId);
+        client->recorder = func_02187F00(client->main, BTL_MAIN_GetServerFlow(client->main), (u32)client->side, recordKey, client->heapId);
     } else {
         client->recorder = 0;
     }
     for (slot = 0; slot < 4; slot++)
         client->chosenSlots[slot] = 0;
-    if (client->kind == 0 && func_021B90F8(client->main))
+    if (client->kind == 0 && BTL_MAIN_IsRecordingActive(client->main))
         client->timeLimitTimer = BTL_REC_CreateBuffer(heapId);
     else
         client->timeLimitTimer = 0;
@@ -1656,7 +1656,7 @@ void BTL_CLIENT_MarkCommandIssued(BtlClient *client) {*(u8 *)&client->flags|=2;}
 
 
 
-u16 *func_021CD924(BtlClient *client, u32 *out) { if (client->timeLimitTimer) return BTL_REC_ReadEntry(client->timeLimitTimer,out); return 0; }
+u16 *BTL_CLIENT_ReadRecorderEntry(BtlClient *client, u32 *out) { if (client->timeLimitTimer) return BTL_REC_ReadEntry(client->timeLimitTimer,out); return 0; }
 
 
 
@@ -1767,7 +1767,7 @@ void BTL_CLIENT_RunTick(BtlClient *client) { client->tickFn(client); }
  * Prototype: 021CDA0C stores its r1 payload unchanged at +0x28; caller
  * passes a callback address. Pointer replaces legacy u32 for that payload.
  */
-void BTL_CLIENT_StartRemoteStep(BtlClient *client, u16 n) { BTL_REC_ResetReader(client->remoteLink); BTL_ADAPTER_ClearRecvHeader(client->netChannel); func_021D3F64(client->commandQueue,n); BTL_CLIENT_SetStepFn(client,(u32)func_021CDC0C); }
+void BTL_CLIENT_StartRemoteStep(BtlClient *client, u16 n) { BTL_REC_ResetReader(client->remoteLink); BTL_ADAPTER_ClearRecvHeader(client->netChannel); func_021D3F64(client->commandQueue,n); BTL_CLIENT_SetStepFn(client,(u32)BTL_CLIENT_StepRemote); }
 
 
 
@@ -1907,7 +1907,7 @@ int BTL_CLIENT_StepMain(BtlClient *client)
     case 0:
         id = BTL_ADAPTER_GetRecvCommand(client->netChannel);
         if (client->kind == 2 && (client->flags.bit.windowOpen || client->flags.bit.windowDone) && !id) return 0;
-        func_021CDD34(client);
+        BTL_CLIENT_ResetSendWord(client);
         if (id == 9) {
             BTL_ADAPTER_GetRecvData((int)client->netChannel,&pair);
             x = pair[0]; y = pair[1];
@@ -1916,7 +1916,7 @@ int BTL_CLIENT_StepMain(BtlClient *client)
             client->stepState = 0;
             client->stepPhase = 3;
         } else if (id) {
-            client->stepFn = func_021CDD50(client,id,&flag);
+            client->stepFn = BTL_CLIENT_FindCommandStepFn(client,id,&flag);
             if (flag) {
                 if (!func_021D3FAC(client->commandQueue)) { client->stepPhase = 6; break; }
             } else func_021D3FC4(client->commandQueue);
@@ -1958,7 +1958,7 @@ int BTL_CLIENT_StepMain(BtlClient *client)
         if (!GFL_USE_IsBgmFading()) {
             n = func_021D3FA8(client->commandQueue);
             GFL_USE_SetPlayersAudible(0,1);
-            func_021BA73C(client->main,n);
+            BTL_MAIN_RestartBattle(client->main,n);
             PM_VOICE_SetMasterVolume(0);
         }
         break;
@@ -1984,7 +1984,7 @@ int BTL_CLIENT_StepMain(BtlClient *client)
  * extent: The store-and-return follower at 0x021CDD34 is included here;
  * the larger lookup follower at 0x021CDD50 has its own verified shard.
  */
-int func_021CDC0C(BtlClient *client)
+int BTL_CLIENT_StepRemote(BtlClient *client)
 {
     u32 id;
     u16 n;
@@ -1998,13 +1998,13 @@ int func_021CDC0C(BtlClient *client)
             id = BTL_ADAPTER_GetRecvCommand(client->netChannel);
             if (id) {
                 zero = 0;
-                client->stepFn = func_021CDD50(client,id,0);
+                client->stepFn = BTL_CLIENT_FindCommandStepFn(client,id,0);
                 if (client->stepFn) {
                     client->stepPhase = 2;
                     client->stepState = zero;
                 }
                 else {
-                    func_021CDD34(client);
+                    BTL_CLIENT_ResetSendWord(client);
                     client->stepPhase = 3;
                     client->stepState = zero;
                 }
@@ -2036,7 +2036,7 @@ int func_021CDC0C(BtlClient *client)
                 if (!GFL_USE_IsBgmFading()) {
                     n = (int)func_021D3FA8(client->commandQueue);
                     func_021EAE74(client->view,n,n);
-                    func_021BA7F8(client->main);
+                    BTL_MAIN_StartClientMainSteps(client->main);
                 }
             }
         }
@@ -2058,7 +2058,7 @@ int func_021CDC0C(BtlClient *client)
 
 
 
-void func_021CDD34(BtlClient *client)
+void BTL_CLIENT_ResetSendWord(BtlClient *client)
 {
     client->sendFlag = 0;
     client->sendData = (u8 *)&client->sendFlag;
@@ -2077,13 +2077,13 @@ void func_021CDD34(BtlClient *client)
 
 
 
-BtlClientStepFn func_021CDD50(BtlClient *client, u32 id, int *out)
+BtlClientStepFn BTL_CLIENT_FindCommandStepFn(BtlClient *client, u32 id, int *outFlag)
 {
-    u32 i;
-    for (i=0; i<15; i++) {
-        if (d_021EFFEC[i].id == id) {
-            if (out) *out = d_021EFFEC[i].flag;
-            return d_021EFFEC[i].callbacks[client->kind];
+    u32 entryIndex;
+    for (entryIndex=0; entryIndex<15; entryIndex++) {
+        if (gBtlClientCommandTable[entryIndex].id == id) {
+            if (outFlag) *outFlag = gBtlClientCommandTable[entryIndex].flag;
+            return gBtlClientCommandTable[entryIndex].callbacks[client->kind];
         }
     }
     return 0;
@@ -2102,9 +2102,9 @@ BtlClientStepFn func_021CDD50(BtlClient *client, u32 id, int *out)
 
 
 
-void func_021CDD94(BtlClient *client, int *o)
+void BTL_CLIENT_GetCursor(BtlClient *client, int *outCursor)
 {
-    *(BtlClientPoint *)o = client->cursor;
+    *(BtlClientPoint *)outCursor = client->cursor;
 }
 
 
@@ -2158,23 +2158,23 @@ u32 BTL_CLIENT_IsWindowDone(BtlClient *client) { return client->flags.bit.window
  * halfword still live in r1 from the || test; func_021D3FA8 is declared u32 here because
  * the original narrows its result before the u16 parameter of func_021EAEA8.
  */
-int func_021CDDDC(BtlClient *client, int *st)
+int BTL_CLIENT_StepOpenBattleWindow(BtlClient *client, int *state)
 {
-    switch (*st) {
+    switch (*state) {
     case 0:
         if ((int)BTL_MAIN_GetCompetitor(client->main) != 4) {
             func_021E90A0(client->view, 0);
         } else {
             func_021E90A0(client->view, 1);
         }
-        *st = *st + 1;
+        *state = *state + 1;
         break;
     case 1:
         if (func_021E90D0(client->view) == 0) {
             break;
         }
-        client->timeLimit = func_021BA5C4(client->main);
-        client->timeElapsed = func_021BA5D0(client->main);
+        client->timeLimit = BTL_MAIN_GetLimitTimeCommand(client->main);
+        client->timeElapsed = BTL_MAIN_GetLimitTimeGame(client->main);
         if (client->timeLimit != 0 || client->timeElapsed != 0) {
             func_021F84E8(client->timeElapsed, client->timeLimit);
             if (client->timeElapsed != 0) {
@@ -2206,7 +2206,7 @@ int BTL_CLIENT_PollWindowStep(BtlClient *client, int b)
 {
     int r4;
     if (client->view != 0) {
-        r4 = func_021CDDDC(client, (int *)b);
+        r4 = BTL_CLIENT_StepOpenBattleWindow(client, (int *)b);
         if (r4 != 0) {
             if (BTL_REC_ReadSkipFlag((int)client->remoteLink, client->clientId) != 0)
                 func_021D3F54(client->commandQueue);
@@ -2228,7 +2228,7 @@ int BTL_CLIENT_PollWindowStep(BtlClient *client, int b)
 
 
 
-void BTL_CLIENT_StoreMonParam(BtlClient *client) { void *a; a=func_021CDF1C(client); if(a) client->lastMonValue=func_021D59B4(a,13); }
+void BTL_CLIENT_StoreMonParam(BtlClient *client) { void *a; a=BTL_CLIENT_GetLeadPartyMon(client); if(a) client->lastMonValue=func_021D59B4(a,13); }
 
 
 
@@ -2241,7 +2241,7 @@ void BTL_CLIENT_StoreMonParam(BtlClient *client) { void *a; a=func_021CDF1C(clie
 
 
 
-u32 BTL_CLIENT_HasMonParamDropped(BtlClient *client) { void *a; u32 now,old; a=func_021CDF1C(client); if(a) { now=func_021D59B4(a,13); old=client->lastMonValue; if(now>=old) return 0; return _u32_div_f((old-now)*100,now); } return 0; }
+u32 BTL_CLIENT_HasMonParamDropped(BtlClient *client) { void *a; u32 now,old; a=BTL_CLIENT_GetLeadPartyMon(client); if(a) { now=func_021D59B4(a,13); old=client->lastMonValue; if(now>=old) return 0; return _u32_div_f((old-now)*100,now); } return 0; }
 
 
 
@@ -2257,7 +2257,7 @@ u32 BTL_CLIENT_HasMonParamDropped(BtlClient *client) { void *a; u32 now,old; a=f
  * Prototype: original narrows getter result to u8 before 021B9920;
  * caller extern has u8 second argument; named u8 local keeps shift in r0.
  */
-void *func_021CDF1C(BtlClient *client) { u8 side; if(BTL_MAIN_GetRule(client->main)==0 && BTL_MAIN_GetCommPos(client->main)==0) { side=func_021B9064(client->main,client->clientId,0); return func_021B9920(client->side,side,0); } return 0; }
+void *BTL_CLIENT_GetLeadPartyMon(BtlClient *client) { u8 side; if(BTL_MAIN_GetRule(client->main)==0 && BTL_MAIN_GetCommPos(client->main)==0) { side=BTL_MAIN_GetOpponentClient(client->main,client->clientId,0); return BTL_SIDE_GetClientPoke(client->side,side,0); } return 0; }
 
 
 
@@ -2270,32 +2270,32 @@ void *func_021CDF1C(BtlClient *client) { u8 side; if(BTL_MAIN_GetRule(client->ma
 
 
 
-int func_021CDF58(BtlClient *client, int *st)
+int BTL_CLIENT_StepWindowModeSelect(BtlClient *client, int *state)
 {
-    u8 buf;
+    u8 chosenMode;
 
-    switch (*st) {
+    switch (*state) {
     case 0:
         func_021EAA00(client->view, client->windowMode);
         BTL_CLIENT_StartTimeLimit(client);
-        *st = *st + 1;
+        *state = *state + 1;
         break;
     case 1:
         if (BTL_CLIENT_PollTimeLimitReady(client) != 0) {
             func_021EAA5C(client->view);
-            *st = 2;
-        } else if (func_021EAA34(client->view, &buf) != 0) {
-            client->windowMode = buf;
-            *st = 3;
+            *state = 2;
+        } else if (func_021EAA34(client->view, &chosenMode) != 0) {
+            client->windowMode = chosenMode;
+            *state = 3;
         }
         break;
     case 2:
         client->windowMode = BTL_CLIENT_PickWindowMode(client->windowMode);
-        *st = *st + 1;
+        *state = *state + 1;
         break;
     case 3:
         BTL_CLIENT_StopTimeLimit(client);
-        *st = *st + 1;
+        *state = *state + 1;
         break;
     case 4:
         client->sendData = &client->windowMode;
@@ -2434,16 +2434,16 @@ void BTL_CLIENT_StopTimeLimit(BtlClient *client) { if(client->timeLimit!=0) func
 
 
 
-void func_021CE0F8(BtlClient *client, u8 *q, u8 *o)
+void BTL_CLIENT_BuildActionPromptMessage(BtlClient *client, u8 *mon, u8 *outMessage)
 {
     if (BTL_MAIN_GetRule(client->main) != 3) {
-        func_021EAF18((struct L *)o, 1, 0x45);
-        func_021EAF50((struct L *)o, BTL_POKEPARAM_GetPokeId(q));
-        func_021EAF78(o, 0);
+        func_021EAF18((struct L *)outMessage, 1, 0x45);
+        func_021EAF50((struct L *)outMessage, BTL_POKEPARAM_GetPokeId(mon));
+        func_021EAF78(outMessage, 0);
     } else {
-        func_021EAF18((struct L *)o, 1, 0x46);
-        func_021EAF50((struct L *)o, client->clientId);
-        func_021EAF78(o, 0);
+        func_021EAF18((struct L *)outMessage, 1, 0x46);
+        func_021EAF50((struct L *)outMessage, client->clientId);
+        func_021EAF78(outMessage, 0);
     }
 }
 
@@ -2487,13 +2487,13 @@ u32 BTL_CLIENT_RunSubFn(BtlClient *client)
 
 
 
-u32 func_021CE170(BtlClient *client, s32 *st)
+u32 BTL_CLIENT_StepStartActionSelection(BtlClient *client, s32 *state)
 {
-    switch (*st) {
+    switch (*state) {
     case 0:
-        BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE308));
+        BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_InitActionSelection));
         BTL_CLIENT_StartTimeLimit(client);
-        *st = *st + 1;
+        *state = *state + 1;
         break;
     case 1:
         BTL_CLIENT_PollTimeLimitReady(client);
@@ -2513,22 +2513,22 @@ u32 func_021CE170(BtlClient *client, s32 *st)
 
 
 
-int func_021CE1B0(BtlClient *client, int *state)
+int BTL_CLIENT_StepPlaybackRecordedAction(BtlClient *client, int *state)
 {
-    u8 count;
-    u8 flag;
-    u32 *data;
+    u8 wordCount;
+    u8 skipFlag;
+    u32 *record;
     switch (*state) {
     case 0:
         if (client->flags.bit.windowDone) {
             BTL_CLIENT_ResetActionCursor(client);
             return 1;
         }
-        data = BTL_REC_ReadRecord(client->remoteLink,client->clientId,&count,&flag);
-        if (flag) func_021D3F54(client->commandQueue);
-        *(u32 * *)&client->sendData = data;
-        client->sendSize = count * 4;
-        if (((Command *)data)->kind == 8) {
+        record = BTL_REC_ReadRecord(client->remoteLink,client->clientId,&wordCount,&skipFlag);
+        if (skipFlag) func_021D3F54(client->commandQueue);
+        *(u32 * *)&client->sendData = record;
+        client->sendSize = wordCount * 4;
+        if (((Command *)record)->kind == 8) {
             func_021D3FD0(client->commandQueue);
             if (client->view) {
                 func_021EAF18((struct L *)&client->messageA,1,0xb7);
@@ -2539,7 +2539,7 @@ int func_021CE1B0(BtlClient *client, int *state)
                 *(u8 *)&client->flags |= 0x10;
                 return 1;
             }
-        } else if (((Command *)data)->kind == 9) {
+        } else if (((Command *)record)->kind == 9) {
             *(u8 *)&client->flags |= 0x20;
             func_021D3FD0(client->commandQueue);
             if (client->view) {
@@ -2588,10 +2588,10 @@ void BTL_CLIENT_ResetActionCursor(BtlClient *client) { client->actionCursor=(u8 
 
 
 
-u32 func_021CE308(BtlClient *client)
+u32 BTL_CLIENT_InitActionSelection(BtlClient *client)
 {
-    u32 i = 0;
-    u32 w;
+    u32 slot = 0;
+    u32 mon;
     client->slotIndex = 0;
     ((s8 *)client)[0x11e] = -1;
     client->slotsDone = 0;
@@ -2599,17 +2599,17 @@ u32 func_021CE308(BtlClient *client)
     BTL_CLIENT_BuildSlotChoices(client, 0, client->slotCount, client->slotChoices, client->choiceFlags);
     BTL_CLIENT_ClearSlotFlags(client);
     BTL_CLIENT_ClearSlotLinkWords(client);
-    for (i = 0; i < 3; i++) {
-        BTL_CALC_ActionSetNone((u32 *)((u8 *)client->actions + i * 4));
+    for (slot = 0; slot < 3; slot++) {
+        BTL_CALC_ActionSetNone((u32 *)((u8 *)client->actions + slot * 4));
     }
-    for (i = 0; i < client->slotCount; i++) {
-        w = (u32)func_021B990C((char *)(client->side), client->clientId, (u8)i);
-        if (func_021CF470((u8 *)client, (void *)w, 0) == 0) {
-            client->slotsDone = i;
+    for (slot = 0; slot < client->slotCount; slot++) {
+        mon = (u32)BTL_SIDE_GetClientPokeParam((char *)(client->side), client->clientId, (u8)slot);
+        if (BTL_CLIENT_IsActionForced((u8 *)client, (void *)mon, 0) == 0) {
+            client->slotsDone = slot;
             break;
         }
     }
-    BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE4D0));
+    BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectAction));
     return 0;
 }
 
@@ -2631,11 +2631,11 @@ void BTL_CLIENT_ShowMessage(BtlClient *client, void *q) { func_021EA614(client->
 
 
 
-int func_021CE3C8(BtlClient *client, int *state)
+int BTL_CLIENT_StepAutoSelectActions(BtlClient *client, int *state)
 {
-    u8 out[4];
-    u32 i;
-    u32 id;
+    u8 usableMask[4];
+    u32 moveIndex;
+    u32 moveId;
     switch (*state) {
     case 0:
         func_021EAE44(client->view);
@@ -2644,15 +2644,15 @@ int func_021CE3C8(BtlClient *client, int *state)
     case 1:
         if (func_021EAE54(client->view)) {
             for (; client->slotIndex < client->slotCount; client->slotIndex++) {
-                client->activeMon = func_021B990C(client->side,client->clientId,client->slotIndex);
+                client->activeMon = BTL_SIDE_GetClientPokeParam(client->side,client->clientId,client->slotIndex);
                 client->actionCursor = (u8 *)client->actions+client->slotIndex*4;
                 BTL_CALC_ActionSetNone((u32 *)(client->actionCursor));
-                if (!func_021CF470((u8 *)client,client->activeMon,client->actionCursor)) {
-                    i = func_021CF81C(client,client->activeMon,out);
-                    if (i < 4) {
-                        id = BTL_POKEPARAM_GetMoveId(client->activeMon,i);
-                        BTL_ACTION_SetFight((struct Unk021D82D0 *)(client->actionCursor),id,BTL_CALC_PeekMoveTarget(client->main,client->side,client->activeMon,id,client->actionResult));
-                    } else func_021CF58C((struct Unk021D82D0 *)(client->actionCursor),client,client->activeMon);
+                if (!BTL_CLIENT_IsActionForced((u8 *)client,client->activeMon,client->actionCursor)) {
+                    moveIndex = BTL_CLIENT_BuildUsableMoveMask(client,client->activeMon,usableMask);
+                    if (moveIndex < 4) {
+                        moveId = BTL_POKEPARAM_GetMoveId(client->activeMon,moveIndex);
+                        BTL_ACTION_SetFight((struct Unk021D82D0 *)(client->actionCursor),moveId,BTL_CALC_PeekMoveTarget(client->main,client->side,client->activeMon,moveId,client->actionResult));
+                    } else BTL_CLIENT_SetStruggleAction((struct Unk021D82D0 *)(client->actionCursor),client,client->activeMon);
                 }
             }
             (*state)++;
@@ -2661,7 +2661,7 @@ int func_021CE3C8(BtlClient *client, int *state)
     case 2:
         client->sendData = (u8 *)client->actions;
         client->sendSize = client->slotCount*4;
-        BTL_CLIENT_SetSubFn(client,(void *)((u32)func_021CF2F0));
+        BTL_CLIENT_SetSubFn(client,(void *)((u32)BTL_CLIENT_StepSendActions));
         break;
     }
     return 0;
@@ -2688,87 +2688,87 @@ int func_021CE3C8(BtlClient *client, int *state)
  * Not tried again from the older note: unsigned-long state pointer, full-word countdown.
  * proof: full unsigned state dispatch <=8; byte selectors0..255; countdown assigned before reads; byte/state additions wrap at their original widths; fixed veneer is omitted from C.
  */
-int func_021CE4D0(BtlClient *client, u32 *st)
+int BTL_CLIENT_StepSelectAction(BtlClient *client, u32 *state)
 {
-    u32 result;
-    switch (*st) {
+    u32 viewResult;
+    switch (*state) {
     case 0:
-        (client->activeMon) = func_021B990C((client->side), client->clientId, client->slotIndex);
+        (client->activeMon) = BTL_SIDE_GetClientPokeParam((client->side), client->clientId, client->slotIndex);
         (client->actionCursor) = (u8 *)client->actions + client->slotIndex * 4;
         client->extraActionCount = 0;
         BTL_CALC_ActionSetNone(((void *)client->actionCursor));
-        if (func_021CF470((u8 *)client, (client->activeMon), (client->actionCursor))) {
-            BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF220));
+        if (BTL_CLIENT_IsActionForced((u8 *)client, (client->activeMon), (client->actionCursor))) {
+            BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
             break;
         }
-        if (func_021CE8F0(client, &client->receivedCode) == 1) {
-            BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE7D4));
+        if (BTL_CLIENT_FindSupportItem(client, &client->receivedCode) == 1) {
+            BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepShowSupportItemMessage));
             break;
         }
-        ++*st; break;
+        ++*state; break;
     case 1:
         if (client->prevSlotIndex != client->slotIndex || client->redrawRequest) {
-            func_021CE0F8(client, (client->activeMon), (u8 *)&client->messageA);
+            BTL_CLIENT_BuildActionPromptMessage(client, (client->activeMon), (u8 *)&client->messageA);
             func_021EA65C((client->view), &client->messageA);
             client->redrawRequest = 0;
             client->prevSlotIndex = client->slotIndex;
-            ++*st; break;
+            ++*state; break;
         }
-        *st += 2U;
+        *state += 2U;
         break;
     case 2:
         if (!func_021EA710((client->view))) return 0;
-        ++*st;
+        ++*state;
         /* falls through */
     case 3:
         func_021E9760((client->view), (client->activeMon), client->slotIndex > client->slotsDone, (int)(client->actionCursor));
-        ++*st; break;
+        ++*state; break;
     case 4:
-        if (BTL_CLIENT_PollTimeLimitAndSetSub(client, (void *)((u32)func_021CE3C8))) {
+        if (BTL_CLIENT_PollTimeLimitAndSetSub(client, (void *)((u32)BTL_CLIENT_StepAutoSelectActions))) {
             func_021E979C((client->view));
             return 0;
         }
-        result = func_021E97A4((client->view));
-        switch (result) {
+        viewResult = func_021E97A4((client->view));
+        switch (viewResult) {
         case 3:
             if (BTL_POKEPARAM_HasSick((client->activeMon), 0x21)) {
                 func_021E9964(((u32)client->view));
-                *st = 6;
+                *state = 6;
             } else {
-                func_021CF430(client, client->slotIndex, 0);
-                BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CEDC0));
+                BTL_CLIENT_SetSlotFlag(client, client->slotIndex, 0);
+                BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectSwitchTarget));
             }
             break;
         case 1:
-            func_021CF430(client, client->slotIndex, 0);
-            BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CEA94));
+            BTL_CLIENT_SetSlotFlag(client, client->slotIndex, 0);
+            BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectMove));
             break;
         case 2:
-            if (BTL_POKEPARAM_HasSick((client->activeMon), 0x21)) *st = 6;
-            else if (client->isComm == 1 && !func_021BA1EC((client->main))) {
+            if (BTL_POKEPARAM_HasSick((client->activeMon), 0x21)) *state = 6;
+            else if (client->isComm == 1 && !BTL_MAIN_IsRecordEnabledInComm((client->main))) {
                 func_021E9964(((u32)client->view));
-                *st = 5;
-            } else BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CEEB8));
+                *state = 5;
+            } else BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectItem));
             break;
         case 4:
             if (client->slotIndex == client->slotsDone) {
-                if (BTL_POKEPARAM_HasSick((client->activeMon), 0x21) && BTL_MAIN_GetCompetitorKind((client->main)) != 2) *st = 6;
+                if (BTL_POKEPARAM_HasSick((client->activeMon), 0x21) && BTL_MAIN_GetCompetitorKind((client->main)) != 2) *state = 6;
                 else {
-                    func_021CF430(client, client->slotIndex, 0);
-                    BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF078));
+                    BTL_CLIENT_SetSlotFlag(client, client->slotIndex, 0);
+                    BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectRun));
                 }
                 break;
             }
             if (client->slotIndex == 0) break;
             do {
                 --((struct L *)client)->idx;
-                if (!func_021CF470((u8 *)client, func_021B990C((client->side), ((struct L *)client)->sel, ((struct L *)client)->idx), 0)) {
-                    client->pointCounter += func_021CF43C(client, client->slotIndex);
+                if (!BTL_CLIENT_IsActionForced((u8 *)client, BTL_SIDE_GetClientPokeParam((client->side), ((struct L *)client)->sel, ((struct L *)client)->idx), 0)) {
+                    client->pointCounter += BTL_CLIENT_GetSlotFlag(client, client->slotIndex);
                     if (BTL_CALC_ActionGetKind((Action *)((u8 *)client->actions + client->slotIndex * 4)) == 3)
                         func_0689CB08(client->choiceFlags);
                     if (BTL_CALC_ActionGetKind((Action *)((u8 *)client->actions + client->slotIndex * 4)) == 2)
                         BTL_CLIENT_FlushSlotLinkWord(client, client->slotIndex);
-                    BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE4D0));
+                    BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectAction));
                     return 0;
                 }
             } while (((struct L *)client)->idx != 0);
@@ -2776,19 +2776,19 @@ int func_021CE4D0(BtlClient *client, u32 *st)
         }
         break;
     case 5:
-        if (func_021E9974(((u32)client->view))) *st = 3;
+        if (func_021E9974(((u32)client->view))) *state = 3;
         break;
     case 6:
         func_021E9954((client->view));
-        ++*st; break;
+        ++*state; break;
     case 7:
         if (!func_021E9974(((u32)client->view))) break;
         func_021EAF18((struct L *)&client->messageA, 1, 0xC5);
         func_021EAF50((struct L *)&client->messageA, BTL_POKEPARAM_GetPokeId((client->activeMon)));
         BTL_CLIENT_ShowMessage(client, (u8 *)&client->messageA);
-        ++*st; break;
+        ++*state; break;
     case 8:
-        if (func_021EA710((client->view))) *st = 1;
+        if (func_021EA710((client->view))) *state = 1;
         break;
     }
     return 0;
@@ -2803,45 +2803,45 @@ int func_021CE4D0(BtlClient *client, u32 *st)
 
 
 
-u32 func_021CE7D4(BtlClient *client, int *st)
+u32 BTL_CLIENT_StepShowSupportItemMessage(BtlClient *client, int *state)
 {
-    u32 i;
-    u16 k;
-    u32 z;
-    switch (*st) {
+    u32 opponentClientId;
+    u16 trainerId;
+    u32 zero;
+    switch (*state) {
     case 0:
-        z = 0;
-        i = func_021B904C(client->main, 0);
-        k = func_021BA004(client->main, i);
-        func_021F7F58(func_021BA020(client->main, i), 9, 0, 0, z);
+        zero = 0;
+        opponentClientId = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
+        trainerId = BTL_MAIN_GetTrainerId(client->main, opponentClientId);
+        func_021F7F58(BTL_MAIN_GetTrainerType(client->main, opponentClientId), 9, 0, 0, zero);
         func_021F7998(0x270);
-        func_021EA6B0(client->view, k, client->receivedCode);
+        func_021EA6B0(client->view, trainerId, client->receivedCode);
         if ((u16)(client->receivedCode + 0xffed) <= 1 &&
-            BTL_CALC_IsGymLeaderTrainer(func_021BA020(client->main, i)) && !client->flags.bit.resultPending) {
+            BTL_CALC_IsGymLeaderTrainer(BTL_MAIN_GetTrainerType(client->main, opponentClientId)) && !client->flags.bit.resultPending) {
             func_021F87EC(0x47b);
             if (!func_021F8774()) {
                 GFL_USE_FadeOutBgm(8);
-                *st = 1;
+                *state = 1;
                 break;
             }
         }
-        *st = 2;
+        *state = 2;
         break;
     case 1:
         if (!GFL_USE_IsBgmFading()) {
             GFL_USE_CancelChangeAndPlayBgm(0x47b, 0xffff);
             *(u8 *)&client->flags = (*(u8 *)&client->flags & ~1) | 1;
-            ++*st;
+            ++*state;
         }
         break;
     case 2:
         if (!func_021F7EB4() && func_021EA710(client->view)) {
             func_021F7998(0x271);
-            ++*st;
+            ++*state;
         }
         break;
     case 3:
-        if (!func_021F7EB4()) BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE4D0));
+        if (!func_021F7EB4()) BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectAction));
         break;
     }
     return 0;
@@ -2880,65 +2880,65 @@ static inline void initOffset(Off *value)
  * --lang c: the output bytes do not change. Older text in this header that
  * asks for the double assignment is superseded.
  */
-u32 func_021CE8F0(BtlClient *client, u16 *out)
+u32 BTL_CLIENT_FindSupportItem(BtlClient *client, u16 *outItemKey)
 {
-    u32 entry;
+    u32 partyEntry;
     int result;
     u32 count;
-    u32 k;
-    u32 key;
-    u32 id, i;
-    int a, b;
-    u8 *mon;
-    u8 *row;
-    int skip,ok0,ok1,ok2,ok3,invalid;
+    u32 trainerId;
+    u32 itemKey;
+    u32 opponentClientId, i;
+    int hpNow, hpNowPair;
+    u8 *leadMon;
+    u8 *flagRow;
+    int triedFlagOffset,appliedFlagOffsetHalfHp,appliedFlagOffsetNotFull,appliedFlagOffsetPair,appliedFlagOffsetPairHalfHp,unusableFlagOffset;
     if ((u32)BTL_MAIN_GetCompetitor(client->main) != 1) goto fail;
-    id = func_021B904C(client->main,0);
-    k = func_021BA004(client->main,id);
-    if (!k) goto fail;
-    entry = (u32)func_021B9AEC(client->side,id);
-    mon = func_021B990C(client->side,id,(u8)0);
-    if (BTL_POKEPARAM_IsFainted(mon)) {
-        count = func_021B99B8(client->main,id);
+    opponentClientId = BTL_MAIN_GetOwnOpponentClient(client->main,0);
+    trainerId = BTL_MAIN_GetTrainerId(client->main,opponentClientId);
+    if (!trainerId) goto fail;
+    partyEntry = (u32)BTL_SIDE_GetSlotOfClient(client->side,opponentClientId);
+    leadMon = BTL_SIDE_GetClientPokeParam(client->side,opponentClientId,(u8)0);
+    if (BTL_POKEPARAM_IsFainted(leadMon)) {
+        count = BTL_MAIN_GetPositionsPerClientThunk(client->main,opponentClientId);
         for (i=1;i<count;i++) {
-            mon = func_021B990C(client->side,id,(u8)i);
-            if (!BTL_POKEPARAM_IsFainted(mon)) break;
+            leadMon = BTL_SIDE_GetClientPokeParam(client->side,opponentClientId,(u8)i);
+            if (!BTL_POKEPARAM_IsFainted(leadMon)) break;
         }
     }
     result = -1;
-    invalid=0x112;
-    ok3=0x112;
-    ok2=0x112;
-    ok1=0x112;
-    ok0=0x112;
-    skip=0x112;
+    unusableFlagOffset=0x112;
+    appliedFlagOffsetPairHalfHp=0x112;
+    appliedFlagOffsetPair=0x112;
+    appliedFlagOffsetNotFull=0x112;
+    appliedFlagOffsetHalfHp=0x112;
+    triedFlagOffset=0x112;
     for (i=0;i<4;i++) {
-        row = (u8 *)client + i;
-        if (!row[skip]) {
-            key = d_021EFF78[i];
-            if (func_0202A298(k,key,client->heapId)) {
-                switch (key - 0x11) {
+        flagRow = (u8 *)client + i;
+        if (!flagRow[triedFlagOffset]) {
+            itemKey = gBtlClientSupportItemKeys[i];
+            if (func_0202A298(trainerId,itemKey,client->heapId)) {
+                switch (itemKey - 0x11) {
                 case 1:
-                    a = func_021D59B4(mon,13);
-                    if ((u32)a <= BTL_CALC_DivideMaxHp(mon,2)) { result = i; row[ok0] = 1; }
+                    hpNow = func_021D59B4(leadMon,13);
+                    if ((u32)hpNow <= BTL_CALC_DivideMaxHp(leadMon,2)) { result = i; flagRow[appliedFlagOffsetHalfHp] = 1; }
                     break;
                 case 0:
-                    if (!BTL_POKEPARAM_IsHpFull(mon)) { result = i; row[ok1] = 1; }
+                    if (!BTL_POKEPARAM_IsHpFull(leadMon)) { result = i; flagRow[appliedFlagOffsetNotFull] = 1; }
                     break;
                 case 2:
-                    if (func_021B9B94((void *)entry) > 1 && func_021B9B98((u8 *)entry) == 1) { result = i; row[ok2] = 1; }
+                    if (BTL_SLOT_GetCount((void *)partyEntry) > 1 && BTL_SLOT_CountLiving((u8 *)partyEntry) == 1) { result = i; flagRow[appliedFlagOffsetPair] = 1; }
                     break;
                 case 3:
-                    if (func_021B9B94((void *)entry) > 1 && func_021B9B98((u8 *)entry) == 1) {
-                        b = func_021D59B4(mon,13);
-                        if ((u32)b <= BTL_CALC_DivideMaxHp(mon,2)) { result = i; row[ok3] = 1; }
+                    if (BTL_SLOT_GetCount((void *)partyEntry) > 1 && BTL_SLOT_CountLiving((u8 *)partyEntry) == 1) {
+                        hpNowPair = func_021D59B4(leadMon,13);
+                        if ((u32)hpNowPair <= BTL_CALC_DivideMaxHp(leadMon,2)) { result = i; flagRow[appliedFlagOffsetPairHalfHp] = 1; }
                     }
                     break;
                 }
-            } else row[invalid] = 1;
+            } else flagRow[unusableFlagOffset] = 1;
         }
     }
-    if (result >= 0) { *out = d_021EFF78[result]; return 1; }
+    if (result >= 0) { *outItemKey = gBtlClientSupportItemKeys[result]; return 1; }
 fail:
     return 0;
 }
@@ -2964,20 +2964,20 @@ fail:
  * Byte increment is promoted in 0..255 then narrowed; all locals initialized
  * on each path to a use. The branch to state 4 has no uninitialized outputs.
  */
-int func_021CEA94(BtlClient *client, u32 *state)
+int BTL_CLIENT_StepSelectMove(BtlClient *client, u32 *state)
 {
-    void *m;
-    u32 slot, k;
-    u32 *record;
-    u8 sub;
+    void *mon;
+    u32 monSlot, actionKind;
+    u32 *action;
+    u8 rotationSub;
     switch (*state) {
     case 0:
         if (BTL_MAIN_GetRule(client->main) != 3) {
-            if (func_021CF524(client, client->activeMon, (u32)client->actionCursor))
-                BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF220));
+            if (BTL_CLIENT_SetStruggleIfNoMoves(client, client->activeMon, (u32)client->actionCursor))
+                BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
             else *state = 1;
         } else {
-            func_021CECB4(client, (Ent_021CECB4 *)client->recvEntry);
+            BTL_CLIENT_BuildMoveUsableTable(client, (Ent_021CECB4 *)client->recvEntry);
             *state = 2;
         }
         break;
@@ -2990,43 +2990,43 @@ int func_021CEA94(BtlClient *client, u32 *state)
         *state = 3;
         break;
     case 3:
-        if (BTL_CLIENT_PollTimeLimitAndSetSub(client, (void *)((u32)func_021CE3C8))) {
+        if (BTL_CLIENT_PollTimeLimitAndSetSub(client, (void *)((u32)BTL_CLIENT_StepAutoSelectActions))) {
             func_021E98AC(client->view);
             return 0;
         }
         if (func_021E98B4(client->view)) {
-            k = BTL_CALC_ActionGetKind((Action *)client->actionCursor);
-            if (k == 0) BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE4D0));
-            else if (k == 5) BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF220));
+            actionKind = BTL_CALC_ActionGetKind((Action *)client->actionCursor);
+            if (actionKind == 0) BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectAction));
+            else if (actionKind == 5) BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
             else {
-                m = client->activeMon;
-                record = (u32 *)client->actionCursor;
-                sub = 0;
-                slot = client->slotIndex;
+                mon = client->activeMon;
+                action = (u32 *)client->actionCursor;
+                rotationSub = 0;
+                monSlot = client->slotIndex;
                 if (BTL_MAIN_GetRule(client->main) == 3) {
-                    sub = (u8)((Record_td *)&client->recordKey)->sub;
-                    slot = func_021B9AB0(sub);
-                    m = *(void **)((u32)client + slot * 8U + 0xa4U);
+                    rotationSub = (u8)((Record_td *)&client->recordKey)->sub;
+                    monSlot = BTL_SLOT_GetRotateSrcIndex(rotationSub);
+                    mon = *(void **)((u32)client + monSlot * 8U + 0xa4U);
                 }
-                if (func_021D832C((struct Unk021D82FC *)record)) {
-                    client->highlightSlot = slot;
-                    client->highlightKind = BTL_POKEPARAM_FindMoveSlot(m, (u16)((Record_td *)record)->id);
+                if (func_021D832C((struct Unk021D82FC *)action)) {
+                    client->highlightSlot = monSlot;
+                    client->highlightKind = BTL_POKEPARAM_FindMoveSlot(mon, (u16)((Record_td *)action)->id);
                     if (client->highlightKind != 4) {
-                        BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CED4C));
+                        BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepMoveHighlight));
                         return 0;
                     }
                 }
-                if (func_021CF5B0(client, m, (u16)((Record_td *)record)->id, (u8 *)&client->messageA)) {
+                if (BTL_CLIENT_IsMoveSelectionBlocked(client, mon, (u16)((Record_td *)action)->id, (u8 *)&client->messageA)) {
                     func_021EAF78((u8 *)&client->messageA, 0xff);
                     BTL_CLIENT_ShowMessage(client, (u8 *)&client->messageA);
                     *state = 7;
                 } else {
-                    if (BTL_MAIN_GetRule(client->main) == 3 && sub != 0 && sub != 1 && !BTL_POKEPARAM_IsFainted(m)) {
-                        k = BTL_ACTION_GetFightMove((Action *)&client->actionKey);
-                        record = (u32 *)client->actionCursor;
-                        *(u32 *)&client->actionCursor = (u32)record + 4U;
-                        BTL_ACTION_SetRotate(record, sub);
-                        BTL_ACTION_SetFight((void *)client->actionCursor, k, 6);
+                    if (BTL_MAIN_GetRule(client->main) == 3 && rotationSub != 0 && rotationSub != 1 && !BTL_POKEPARAM_IsFainted(mon)) {
+                        actionKind = BTL_ACTION_GetFightMove((Action *)&client->actionKey);
+                        action = (u32 *)client->actionCursor;
+                        *(u32 *)&client->actionCursor = (u32)action + 4U;
+                        BTL_ACTION_SetRotate(action, rotationSub);
+                        BTL_ACTION_SetFight((void *)client->actionCursor, actionKind, 6);
                         ++client->extraActionCount;
                     }
                     *state = 4;
@@ -3036,20 +3036,20 @@ int func_021CEA94(BtlClient *client, u32 *state)
         break;
     case 4:
         if (BTL_CALC_IsMultiFighterRule(BTL_MAIN_GetRule(client->main))) *state = 5;
-        else BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF220));
+        else BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
         break;
     case 5:
         func_021E98BC(client->view, (u8 *)(client->activeMon), (u32)client->actionCursor);
         *state = 6;
         break;
     case 6:
-        if (BTL_CLIENT_PollTimeLimitAndSetSub(client, (void *)((u32)func_021CE3C8))) {
+        if (BTL_CLIENT_PollTimeLimitAndSetSub(client, (void *)((u32)BTL_CLIENT_StepAutoSelectActions))) {
             func_021E9920(client->view);
             return 0;
         }
-        k = func_021E98E8(client->view);
-        if (k == 1) BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF220));
-        else if (k == 2) *state = 1;
+        actionKind = func_021E98E8(client->view);
+        if (actionKind == 1) BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
+        else if (actionKind == 2) *state = 1;
         break;
     case 7:
         if (func_021EA710(client->view)) {
@@ -3068,28 +3068,28 @@ int func_021CEA94(BtlClient *client, u32 *state)
 
 
 
-void func_021CECB4(BtlClient *client, Ent_021CECB4 *out)
+void BTL_CLIENT_BuildMoveUsableTable(BtlClient *client, Ent_021CECB4 *out)
 {
-    u32 i;
-    u32 j;
-    u8 *q;
-    u32 n;
-    u32 k;
-    Ent_021CECB4 *e;
-    for (i = 0; i < 3; i++) {
-        q = func_021B9C00(client->sideData, (u8)i);
-        e = out + i;
-        e->q = q;
-        for (j = 0; j < 4; j++) {
-            e->f[j] = 0;
+    u32 memberIndex;
+    u32 moveSlot;
+    u8 *mon;
+    u32 moveCount;
+    u32 moveIndex;
+    Ent_021CECB4 *entry;
+    for (memberIndex = 0; memberIndex < 3; memberIndex++) {
+        mon = BTL_SLOT_GetPokeParam(client->sideData, (u8)memberIndex);
+        entry = out + memberIndex;
+        entry->q = mon;
+        for (moveSlot = 0; moveSlot < 4; moveSlot++) {
+            entry->f[moveSlot] = 0;
         }
-        if (BTL_POKEPARAM_IsFainted(q) == 0) {
-            n = BTL_POKEPARAM_GetMoveCount((struct QG *)q);
-            for (k = 0; k < n; k++) {
-                if (BTL_POKEPARAM_GetMovePPChecked((struct UtilWork *)q, (u8)k) == 0 || func_021CF5B0(client, q, (u32)BTL_POKEPARAM_GetMoveId(q, (u8)k), 0) != 0) {
-                    e->f[k] = 0;
+        if (BTL_POKEPARAM_IsFainted(mon) == 0) {
+            moveCount = BTL_POKEPARAM_GetMoveCount((struct QG *)mon);
+            for (moveIndex = 0; moveIndex < moveCount; moveIndex++) {
+                if (BTL_POKEPARAM_GetMovePPChecked((struct UtilWork *)mon, (u8)moveIndex) == 0 || BTL_CLIENT_IsMoveSelectionBlocked(client, mon, (u32)BTL_POKEPARAM_GetMoveId(mon, (u8)moveIndex), 0) != 0) {
+                    entry->f[moveIndex] = 0;
                 } else {
-                    e->f[k] = 1;
+                    entry->f[moveIndex] = 1;
                 }
             }
         }
@@ -3103,28 +3103,28 @@ void func_021CECB4(BtlClient *client, Ent_021CECB4 *out)
 
 
 
-u32 func_021CED4C(BtlClient *client, s32 *st)
+u32 BTL_CLIENT_StepMoveHighlight(BtlClient *client, s32 *st)
 {
-    u32 r;
+    u32 zero;
     switch (*st) {
     case 0:
         func_021E9CE0((u8 *)(client->view), client->highlightSlot, client->highlightKind);
         *st = *st + 1;
         break;
     case 1:
-        r = 0;
+        zero = 0;
         if (BTL_CLIENT_PollTimeLimitAndSetSub(client, 0) != 0) {
             func_021E9B14((unsigned int *)(client->view));
             *st = 2;
-            return r;
+            return zero;
         }
         if (func_021E9B20((u8 *)(client->view)) != 0) {
-            BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CEA94));
+            BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectMove));
         }
         break;
     case 2:
         if (func_021E9B20((u8 *)(client->view)) != 0) {
-            BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE3C8));
+            BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepAutoSelectActions));
         }
         break;
     }
@@ -3138,41 +3138,41 @@ u32 func_021CED4C(BtlClient *client, s32 *st)
 
 
 
-u32 func_021CEDC0(BtlClient *client, int *st)
+u32 BTL_CLIENT_StepSelectSwitchTarget(BtlClient *client, int *st)
 {
-    u8 a;
-    u16 b;
-    u32 r;
-    u8 n;
+    u8 trapperPokeId;
+    u16 trapperAbility;
+    u32 canCancel;
+    u8 chosenMember;
     switch (*st) {
     case 0:
-        r = 0;
-        if ((u8)func_021CF8D4(client, client->activeMon, &a, &b) != 4 ||
-            a == BTL_POKEPARAM_GetPokeId(client->activeMon)) r = 1;
-        func_021E9A78(client->view, client->slotChoices, client->slotIndex, r, client->choiceFlags);
+        canCancel = 0;
+        if ((u8)BTL_CLIENT_GetEscapeBlocker(client, client->activeMon, &trapperPokeId, &trapperAbility) != 4 ||
+            trapperPokeId == BTL_POKEPARAM_GetPokeId(client->activeMon)) canCancel = 1;
+        func_021E9A78(client->view, client->slotChoices, client->slotIndex, canCancel, client->choiceFlags);
         ++*st;
         break;
     case 1:
-        r = 0;
+        canCancel = 0;
         if (BTL_CLIENT_PollTimeLimitAndSetSub(client, 0)) {
             func_021E9B14((unsigned int *)(client->view));
             *st = 2;
-            return r;
+            return canCancel;
         }
         if (func_021E9B20((u8 *)(client->view))) {
             if (func_0689CB14(client->choiceFlags) == 0) {
-                n = func_0689CB1C(client->choiceFlags);
-                if (n < 6) {
-                    BTL_ACTION_SetChange(client->actionCursor, client->slotIndex, n);
-                    BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF220));
+                chosenMember = func_0689CB1C(client->choiceFlags);
+                if (chosenMember < 6) {
+                    BTL_ACTION_SetChange(client->actionCursor, client->slotIndex, chosenMember);
+                    BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
                     break;
                 }
             }
-            BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE4D0));
+            BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectAction));
         }
         break;
     case 2:
-        if (func_021E9B20((u8 *)(client->view))) BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE3C8));
+        if (func_021E9B20((u8 *)(client->view))) BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepAutoSelectActions));
         break;
     }
     return 0;
@@ -3209,49 +3209,49 @@ static inline u8 isSameSlotIndex(BtlClient *client)
  * lever: u16 b/d retain the spilled reload and narrow only at the u8 call;
  *        enum same retains the early ternary truncation.
  */
-u32 func_021CEEB8(BtlClient *client, int *st)
+u32 BTL_CLIENT_StepSelectItem(BtlClient *client, int *st)
 {
-    u32 a, c, z;
-    u16 b, d;
-    Value same;
-    u32 flag;
+    u32 itemId, pointCost, zero;
+    u16 itemPocket, itemTarget;
+    Value isLastSlot;
+    u32 foeSemiInvulnerable;
     switch (*st) {
     case 0:
-        a = BTL_CLIENT_SumSlotFlagsBeforeCurrent(client);
-        same = isSameSlotIndex(client);
-        flag = (u8)func_021CEFFC(client);
-        func_021E9D04(client->view, client->isComm, client->pointCounter, a, same, flag);
+        itemId = BTL_CLIENT_SumSlotFlagsBeforeCurrent(client);
+        isLastSlot = isSameSlotIndex(client);
+        foeSemiInvulnerable = (u8)BTL_CLIENT_IsLoneFoeSemiInvulnerable(client);
+        func_021E9D04(client->view, client->isComm, client->pointCounter, itemId, isLastSlot, foeSemiInvulnerable);
         ++*st;
         break;
     case 1:
-        z = 0;
+        zero = 0;
         if (BTL_CLIENT_PollTimeLimitAndSetSub(client, 0)) {
             func_021E9E70(client->view);
             *st = 2;
-            return z;
+            return zero;
         }
         if (func_021E9E80(client->view)) {
-            a = func_021EA01C(client->view);
-            b = func_021EA044(client->view);
-            if (a && b != 6) {
-                c = func_021EA030(client->view);
-                d = func_021EA04C(client->view);
-                if (client->pointCounter >= c) client->pointCounter = client->pointCounter - c;
+            itemId = func_021EA01C(client->view);
+            itemPocket = func_021EA044(client->view);
+            if (itemId && itemPocket != 6) {
+                pointCost = func_021EA030(client->view);
+                itemTarget = func_021EA04C(client->view);
+                if (client->pointCounter >= pointCost) client->pointCounter = client->pointCounter - pointCost;
                 else {
-                    client->pointCounter = z;
-                    c = client->pointCounter;
+                    client->pointCounter = zero;
+                    pointCost = client->pointCounter;
                 }
-                func_021CF430(client, client->slotIndex, c);
-                BTL_ACTION_SetItem((void *)client->actionCursor, a, (u8)b, (u8)d);
+                BTL_CLIENT_SetSlotFlag(client, client->slotIndex, pointCost);
+                BTL_ACTION_SetItem((void *)client->actionCursor, itemId, (u8)itemPocket, (u8)itemTarget);
                 func_021EA058(client->view);
-                if (func_021D805C((void *)a, 0xf) == 4) *(u8 *)&client->flags |= 4;
-                BTL_CLIENT_SetSlotLinkWord(client, client->slotIndex, a);
-                BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF220));
-            } else BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE4D0));
+                if (func_021D805C((void *)itemId, 0xf) == 4) *(u8 *)&client->flags |= 4;
+                BTL_CLIENT_SetSlotLinkWord(client, client->slotIndex, itemId);
+                BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
+            } else BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectAction));
         }
         break;
     case 2:
-        if (func_021E9E80(client->view)) BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE3C8));
+        if (func_021E9E80(client->view)) BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepAutoSelectActions));
         break;
     }
     return 0;
@@ -3268,34 +3268,34 @@ u32 func_021CEEB8(BtlClient *client, int *st)
 
 
 
-u32 func_021CEFFC(BtlClient *client)
+u32 BTL_CLIENT_IsLoneFoeSemiInvulnerable(BtlClient *client)
 {
-    char *arr;
-    u32 lim;
-    u32 flag;
+    char *foeParty;
+    u32 checkCount;
+    u32 semiInvulnerable;
     u32 i;
-    u32 c;
-    u8 *w;
-    u32 cnt;
+    u32 aliveCount;
+    u8 *mon;
+    u32 partyCount;
     if (BTL_MAIN_GetCompetitor(client->main) == 0) {
-        arr = func_021B9AF8(client->side, 1);
-        cnt = func_021B9B94(arr);
-        lim = BTL_MAIN_GetActivePosPerSide((unsigned int **)(client->main));
-        if (lim > cnt) {
-            lim = cnt;
+        foeParty = BTL_SIDE_GetSlotOfClientThunk(client->side, 1);
+        partyCount = BTL_SLOT_GetCount(foeParty);
+        checkCount = BTL_MAIN_GetActivePosPerSide((unsigned int **)(client->main));
+        if (checkCount > partyCount) {
+            checkCount = partyCount;
         }
-        flag = 0;
-        c = 0;
-        for (i = 0; i < lim; i++) {
-            w = func_021B9C00(arr, (u8)i);
-            if (BTL_POKEPARAM_IsFainted(w) == 0) {
-                c++;
-                if (BTL_POKEPARAM_IsSemiInvulnerable((struct UtilWork *)w) != 0) {
-                    flag = 1;
+        semiInvulnerable = 0;
+        aliveCount = 0;
+        for (i = 0; i < checkCount; i++) {
+            mon = BTL_SLOT_GetPokeParam(foeParty, (u8)i);
+            if (BTL_POKEPARAM_IsFainted(mon) == 0) {
+                aliveCount++;
+                if (BTL_POKEPARAM_IsSemiInvulnerable((struct UtilWork *)mon) != 0) {
+                    semiInvulnerable = 1;
                 }
             }
         }
-        if (c == 1 && flag != 0) {
+        if (aliveCount == 1 && semiInvulnerable != 0) {
             return 1;
         }
     }
@@ -3312,24 +3312,24 @@ u32 func_021CEFFC(BtlClient *client)
 
 
 
-u32 func_021CF078(BtlClient *client, u32 *st)
+u32 BTL_CLIENT_StepSelectRun(BtlClient *client, u32 *st)
 {
-    u8 id;
-    u16 k;
-    int result;
+    u8 blockerPokeId;
+    u16 blockerAbility;
+    int confirmResult;
     switch (*st) {
     case 0:
         switch (BTL_MAIN_GetCompetitorKind(client->main)) {
         default:
         case 0:
-            if (func_021CF918(client, &id, &k) == 4) {
+            if (BTL_CLIENT_GetEscapeBlockerForSide(client, &blockerPokeId, &blockerAbility) == 4) {
                 *st = 5;
                 break;
             }
-            if (k) {
+            if (blockerAbility) {
                 func_021EAF18((struct L *)&client->messageA, 2, 0x365);
-                func_021EAF50((struct L *)&client->messageA, id);
-                func_021EAF50((struct L *)&client->messageA, k);
+                func_021EAF50((struct L *)&client->messageA, blockerPokeId);
+                func_021EAF50((struct L *)&client->messageA, blockerAbility);
             } else {
                 func_021EAF18((struct L *)&client->messageA, 1, 0x4a);
             }
@@ -3351,14 +3351,14 @@ u32 func_021CF078(BtlClient *client, u32 *st)
         break;
     case 1:
         if (func_021EA710(client->view)) {
-            func_021CE0F8(client, client->activeMon, (u8 *)&client->messageA);
+            BTL_CLIENT_BuildActionPromptMessage(client, client->activeMon, (u8 *)&client->messageA);
             func_021EA65C(client->view, &client->messageA);
             *st = 2;
         }
         break;
     case 2:
         if (func_021EA710(client->view))
-            BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE4D0));
+            BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectAction));
         break;
     case 3:
         func_021EA710(client->view);
@@ -3371,20 +3371,20 @@ u32 func_021CF078(BtlClient *client, u32 *st)
         break;
     case 4:
         if (func_021EA710(client->view)) {
-            if (func_021EAC54(client->view, &result)) {
-                if (result == 0)
+            if (func_021EAC54(client->view, &confirmResult)) {
+                if (confirmResult == 0)
                     *st = 5;
                 else
-                    BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE4D0));
+                    BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectAction));
             } else if (BTL_CLIENT_PollTimeLimitReady(client)) {
-                BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE3C8));
+                BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepAutoSelectActions));
             }
         }
         break;
     case 5:
         func_021D8414((void *)client->actionCursor);
         *(u8 *)&client->flags |= 4;
-        BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF220));
+        BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
         break;
     }
     return 0;
@@ -3400,10 +3400,10 @@ u32 func_021CF078(BtlClient *client, u32 *st)
 
 
 
-u32 func_021CF220(BtlClient *client, int *st)
+u32 BTL_CLIENT_StepAdvanceSlot(BtlClient *client, int *st)
 {
-    u8 n;
-    void *q;
+    u8 actionCount;
+    void *mon;
     switch (*st) {
     case 0:
         func_021E9964((unsigned int)client->view);
@@ -3414,22 +3414,22 @@ u32 func_021CF220(BtlClient *client, int *st)
             ++client->slotIndex;
             if (client->slotIndex < client->slotCount) {
                 if ((((u32)*(u8 *)&client->flags << 29) >> 31) == 0) {
-                    BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE4D0));
+                    BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectAction));
                     break;
                 }
                 while (client->slotIndex < client->slotCount) {
-                    q = func_021B990C((char *)(client->side), client->clientId, client->slotIndex);
-                    if (!func_021CF470((u8 *)client, q, (u8 *)client->actions + client->slotIndex * 4))
+                    mon = BTL_SIDE_GetClientPokeParam((char *)(client->side), client->clientId, client->slotIndex);
+                    if (!BTL_CLIENT_IsActionForced((u8 *)client, mon, (u8 *)client->actions + client->slotIndex * 4))
                         BTL_CALC_ActionSetNone((u32 *)((u8 *)client->actions + client->slotIndex * 4));
                     ++client->slotIndex;
                 }
             }
             if (client->slotIndex >= client->slotCount) {
-                n = client->slotCount + client->extraActionCount;
+                actionCount = client->slotCount + client->extraActionCount;
                 client->extraActionCount = 0;
                 client->sendData = (u8 *)client->actions;
-                client->sendSize = n * 4;
-                BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF2F0));
+                client->sendSize = actionCount * 4;
+                BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSendActions));
             }
         }
         break;
@@ -3448,7 +3448,7 @@ u32 func_021CF220(BtlClient *client, int *st)
 
 
 
-u32 func_021CF2F0(BtlClient *client, s32 *st)
+u32 BTL_CLIENT_StepSendActions(BtlClient *client, s32 *st)
 {
     switch (*st) {
     case 0:
@@ -3501,7 +3501,7 @@ void BTL_CLIENT_ClearSlotLinkWords(BtlClient *client) { u32 i; for(i=0;i<3;i++) 
 
 
 
-void BTL_CLIENT_SetSlotLinkWord(BtlClient *client, u32 i, u32 v) { if(client->isComm==0) { if(client->clientId==func_021B8FF4(client->main)) { client->slotLinkWords[i]=v; func_021B9090(client->main,client->clientId,v); } } }
+void BTL_CLIENT_SetSlotLinkWord(BtlClient *client, u32 i, u32 v) { if(client->isComm==0) { if(client->clientId==BTL_MAIN_GetOwnClientId(client->main)) { client->slotLinkWords[i]=v; BTL_MAIN_AddItemToBag(client->main,client->clientId,v); } } }
 
 
 
@@ -3514,18 +3514,18 @@ void BTL_CLIENT_SetSlotLinkWord(BtlClient *client, u32 i, u32 v) { if(client->is
 
 
 /*
- * lever: func_021B90BC consumes the live r2 halfword as its third argument;
+ * lever: BTL_MAIN_SubItemFromBag consumes the live r2 halfword as its third argument;
  * its matched body forwards it to func_02007E50.
  */
 void BTL_CLIENT_FlushSlotLinkWord(BtlClient *client, u32 i)
 {
     if (client->isComm == 0) {
-        if (client->clientId == func_021B8FF4(client->main)) {
+        if (client->clientId == BTL_MAIN_GetOwnClientId(client->main)) {
             u16 *a = client->slotLinkWords;
             u32 v = a[i];
             if (v != 0) {
                 a[i] = 0;
-                func_021B90BC(client->main, client->clientId, v);
+                BTL_MAIN_SubItemFromBag(client->main, client->clientId, v);
             }
         }
     }
@@ -3553,7 +3553,7 @@ void BTL_CLIENT_FlushSlotLinkWords(BtlClient *client) { u32 i; if(client->isComm
 
 
 
-void BTL_CLIENT_ClearSlotFlags(BtlClient *client) { func_02082BCC(client->slotFlags,0,3); }
+void BTL_CLIENT_ClearSlotFlags(BtlClient *client) { MI_CpuFill8(client->slotFlags,0,3); }
 
 
 
@@ -3567,7 +3567,7 @@ void BTL_CLIENT_ClearSlotFlags(BtlClient *client) { func_02082BCC(client->slotFl
 /*
  * follower: unlabelled byte accessor at 0x021CF43C.
  */
-void func_021CF430(BtlClient *client, u32 i, u32 v)
+void BTL_CLIENT_SetSlotFlag(BtlClient *client, u32 i, u32 v)
 {
     client->slotFlags[i] = v;
 }
@@ -3581,7 +3581,7 @@ void func_021CF430(BtlClient *client, u32 i, u32 v)
 
 
 
-u8 func_021CF43C(BtlClient *client, u32 i)
+u8 BTL_CLIENT_GetSlotFlag(BtlClient *client, u32 i)
 {
     return client->slotFlags[i];
 }
@@ -3617,40 +3617,40 @@ u8 BTL_CLIENT_SumSlotFlagsBeforeCurrent(BtlClient *client)
 
 
 
-u32 func_021CF470(u8 *p, void *q, u8 *o)
+u32 BTL_CLIENT_IsActionForced(u8 *client, void *mon, u8 *outAction)
 {
-    u32 id;
-    u16 a;
-    u32 b;
-    union Slot t;
-    if (BTL_POKEPARAM_IsFainted(q) != 0) {
-        if (o != 0) {
-            BTL_CALC_ActionSetNone((u32 *)o);
+    u32 moveId;
+    u16 lastMoveId;
+    u32 moveSlot;
+    union Slot sickCont;
+    if (BTL_POKEPARAM_IsFainted(mon) != 0) {
+        if (outAction != 0) {
+            BTL_CALC_ActionSetNone((u32 *)outAction);
         }
         return 1;
     }
-    if (BTL_POKEPARAM_TestContFlag(q, 0xc) != 0) {
-        if (o != 0) {
-            BTL_CALC_ActionSetForcedSkip((u32 *)o);
+    if (BTL_POKEPARAM_TestContFlag(mon, 0xc) != 0) {
+        if (outAction != 0) {
+            BTL_CALC_ActionSetForcedSkip((u32 *)outAction);
         }
         return 1;
     }
-    id = 0x19;
-    if (BTL_POKEPARAM_HasSick(q, id) != 0) {
-        t = BTL_POKEPARAM_GetSickContRaw(q, id);
-        id = BTLV_CORE_GetSlotValue(t);
-        b = BTL_POKEPARAM_GetLastMoveSlot(q);
-        if (o != 0) {
-            BTL_ACTION_SetFight((struct Unk021D82D0 *)o, id, b);
+    moveId = 0x19;
+    if (BTL_POKEPARAM_HasSick(mon, moveId) != 0) {
+        sickCont = BTL_POKEPARAM_GetSickContRaw(mon, moveId);
+        moveId = BTLV_CORE_GetSlotValue(sickCont);
+        moveSlot = BTL_POKEPARAM_GetLastMoveSlot(mon);
+        if (outAction != 0) {
+            BTL_ACTION_SetFight((struct Unk021D82D0 *)outAction, moveId, moveSlot);
         }
         return 1;
     }
-    if (BTL_POKEPARAM_HasSick(q, 0x1a) != 0) {
-        a = BTL_POKEPARAM_GetLastUsedMoveId(q);
-        b = BTL_POKEPARAM_GetLastMoveSlot(q);
-        BTL_POKEPARAM_FindMoveSlot(q, a);
-        if (o != 0) {
-            BTL_ACTION_SetFight((struct Unk021D82D0 *)o, a, b);
+    if (BTL_POKEPARAM_HasSick(mon, 0x1a) != 0) {
+        lastMoveId = BTL_POKEPARAM_GetLastUsedMoveId(mon);
+        moveSlot = BTL_POKEPARAM_GetLastMoveSlot(mon);
+        BTL_POKEPARAM_FindMoveSlot(mon, lastMoveId);
+        if (outAction != 0) {
+            BTL_ACTION_SetFight((struct Unk021D82D0 *)outAction, lastMoveId, moveSlot);
         }
         return 1;
     }
@@ -3667,20 +3667,20 @@ u32 func_021CF470(u8 *p, void *q, u8 *o)
 
 
 
-u32 func_021CF524(BtlClient *client, void *q, u32 y)
+u32 BTL_CLIENT_SetStruggleIfNoMoves(BtlClient *client, void *mon, u32 outAction)
 {
-    u32 n = BTL_POKEPARAM_GetMoveCount(q);
-    u32 c = 0;
+    u32 moveCount = BTL_POKEPARAM_GetMoveCount(mon);
+    u32 usableCount = 0;
     u32 i = 0;
-    for (; i < n; i++) {
-        if (func_021CF5B0(client, q, (u32)BTL_POKEPARAM_GetMoveId(q, (u8)i), 0) == 0) {
-            if ((u32)BTL_POKEPARAM_GetMovePPChecked(q, (u8)i) != 0) {
-                c++;
+    for (; i < moveCount; i++) {
+        if (BTL_CLIENT_IsMoveSelectionBlocked(client, mon, (u32)BTL_POKEPARAM_GetMoveId(mon, (u8)i), 0) == 0) {
+            if ((u32)BTL_POKEPARAM_GetMovePPChecked(mon, (u8)i) != 0) {
+                usableCount++;
             }
         }
     }
-    if (c == 0) {
-        func_021CF58C((struct Unk021D82D0 *)y, client, q);
+    if (usableCount == 0) {
+        BTL_CLIENT_SetStruggleAction((struct Unk021D82D0 *)outAction, client, mon);
         return 1;
     }
     return 0;
@@ -3695,11 +3695,11 @@ u32 func_021CF524(BtlClient *client, void *q, u32 y)
 
 
 
-void func_021CF58C(struct Unk021D82D0 *out, BtlClient *client, void *q)
+void BTL_CLIENT_SetStruggleAction(struct Unk021D82D0 *out, BtlClient *client, void *mon)
 {
-    u32 v;
-    v = BTL_CALC_PeekMoveTarget(client->main, client->side, q, 165, client->actionResult);
-    BTL_ACTION_SetFight(out, 165, v);
+    u32 target;
+    target = BTL_CALC_PeekMoveTarget(client->main, client->side, mon, 165, client->actionResult);
+    BTL_ACTION_SetFight(out, 165, target);
 }
 
 
@@ -3711,80 +3711,80 @@ void func_021CF58C(struct Unk021D82D0 *out, BtlClient *client, void *q)
 
 
 
-int func_021CF5B0(BtlClient *client, void *m, u32 move, void *out)
+int BTL_CLIENT_IsMoveSelectionBlocked(BtlClient *client, void *mon, u32 move, void *outMessage)
 {
-    u32 k;
-    u32 k2;
-    union Slot w;
+    u32 lockedMoveId;
+    u32 forcedMoveId;
+    union Slot sickCont;
     if (move == 0xa5) return 0;
-    if (func_021CF89C(client, m) && BTL_POKEPARAM_HasSick(m, 0x1b)) {
-        w = BTL_POKEPARAM_GetSickContRaw(m, 0x1b);
-        k = BTLV_CORE_GetSlotValue(w);
-        if (BTL_POKEPARAM_HasMove(m, k) && k != move) {
-            if (out) {
-                func_021EAF18(out, 1, 0x63);
-                func_021EAF50(out, BTL_POKEPARAM_GetItem(m));
-                func_021EAF50(out, k);
+    if (BTL_CLIENT_IsHeldItemEffective(client, mon) && BTL_POKEPARAM_HasSick(mon, 0x1b)) {
+        sickCont = BTL_POKEPARAM_GetSickContRaw(mon, 0x1b);
+        lockedMoveId = BTLV_CORE_GetSlotValue(sickCont);
+        if (BTL_POKEPARAM_HasMove(mon, lockedMoveId) && lockedMoveId != move) {
+            if (outMessage) {
+                func_021EAF18(outMessage, 1, 0x63);
+                func_021EAF50(outMessage, BTL_POKEPARAM_GetItem(mon));
+                func_021EAF50(outMessage, lockedMoveId);
             }
             return 1;
         }
     }
-    if (BTL_POKEPARAM_HasSick(m, 0x17)) {
-        k2 = BTLV_CORE_GetSlotValue(BTL_POKEPARAM_GetSickContRaw(m, 0x17));
-        if (move != k2) {
-            if (out) {
-                func_021EAF18(out, 1, 0x64);
-                func_021EAF50(out, BTL_POKEPARAM_GetPokeId(m));
-                func_021EAF50(out, k2);
+    if (BTL_POKEPARAM_HasSick(mon, 0x17)) {
+        forcedMoveId = BTLV_CORE_GetSlotValue(BTL_POKEPARAM_GetSickContRaw(mon, 0x17));
+        if (move != forcedMoveId) {
+            if (outMessage) {
+                func_021EAF18(outMessage, 1, 0x64);
+                func_021EAF50(outMessage, BTL_POKEPARAM_GetPokeId(mon));
+                func_021EAF50(outMessage, forcedMoveId);
             }
             return 1;
         }
     }
-    if (BTL_POKEPARAM_HasSick(m, 0xb) && WAZA_TOOL_IsDamaging((void *)move) == 0) {
-        if (out) {
-            func_021EAF18(out, 2, 0x23b);
-            func_021EAF50(out, BTL_POKEPARAM_GetPokeId(m));
-            func_021EAF50(out, move);
+    if (BTL_POKEPARAM_HasSick(mon, 0xb) && WAZA_TOOL_IsDamaging((void *)move) == 0) {
+        if (outMessage) {
+            func_021EAF18(outMessage, 2, 0x23b);
+            func_021EAF50(outMessage, BTL_POKEPARAM_GetPokeId(mon));
+            func_021EAF50(outMessage, move);
         }
         return 1;
     }
-    if (BTL_POKEPARAM_HasSick(m, 0xc) && move == BTL_POKEPARAM_GetLastSelectedMoveId(m)) {
-        if (out) {
-            func_021EAF18(out, 2, 0x244);
-            func_021EAF50(out, BTL_POKEPARAM_GetPokeId(m));
-            func_021EAF50(out, move);
+    if (BTL_POKEPARAM_HasSick(mon, 0xc) && move == BTL_POKEPARAM_GetLastSelectedMoveId(mon)) {
+        if (outMessage) {
+            func_021EAF18(outMessage, 2, 0x244);
+            func_021EAF50(outMessage, BTL_POKEPARAM_GetPokeId(mon));
+            func_021EAF50(outMessage, move);
         }
         return 1;
     }
-    if (BTL_POKEPARAM_HasSick(m, 0xd) && move == BTL_POKEPARAM_GetSickParam(m, 0xd) && move != 0xa5) {
-        if (out) {
-            func_021EAF18(out, 2, 0x253);
-            func_021EAF50(out, BTL_POKEPARAM_GetPokeId(m));
-            func_021EAF50(out, move);
+    if (BTL_POKEPARAM_HasSick(mon, 0xd) && move == BTL_POKEPARAM_GetSickParam(mon, 0xd) && move != 0xa5) {
+        if (outMessage) {
+            func_021EAF18(outMessage, 2, 0x253);
+            func_021EAF50(outMessage, BTL_POKEPARAM_GetPokeId(mon));
+            func_021EAF50(outMessage, move);
         }
         return 1;
     }
-    if (BTL_POKEPARAM_HasSick(m, 0xf) && WAZA_TOOL_GetFlag((void *)move, 0xc)) {
-        if (out) {
-            func_021EAF18(out, 2, 0x37a);
-            func_021EAF50(out, BTL_POKEPARAM_GetPokeId(m));
-            func_021EAF50(out, move);
+    if (BTL_POKEPARAM_HasSick(mon, 0xf) && WAZA_TOOL_GetFlag((void *)move, 0xc)) {
+        if (outMessage) {
+            func_021EAF18(outMessage, 2, 0x37a);
+            func_021EAF50(outMessage, BTL_POKEPARAM_GetPokeId(mon));
+            func_021EAF50(outMessage, move);
         }
         return 1;
     }
-    if (func_021EFCE4((char *)(client->battleField), 3) && func_021EFC1C((int)client->battleField, (int)client->side, m, move)) {
-        if (out) {
-            func_021EAF18(out, 2, 0x24d);
-            func_021EAF50(out, BTL_POKEPARAM_GetPokeId(m));
-            func_021EAF50(out, move);
+    if (func_021EFCE4((char *)(client->battleField), 3) && func_021EFC1C((int)client->battleField, (int)client->side, mon, move)) {
+        if (outMessage) {
+            func_021EAF18(outMessage, 2, 0x24d);
+            func_021EAF50(outMessage, BTL_POKEPARAM_GetPokeId(mon));
+            func_021EAF50(outMessage, move);
         }
         return 1;
     }
     if (func_021EFCE4((char *)(client->battleField), 2) && WAZA_TOOL_GetFlag((void *)move, 9)) {
-        if (out) {
-            func_021EAF18(out, 2, 0x43e);
-            func_021EAF50(out, BTL_POKEPARAM_GetPokeId(m));
-            func_021EAF50(out, move);
+        if (outMessage) {
+            func_021EAF18(outMessage, 2, 0x43e);
+            func_021EAF50(outMessage, BTL_POKEPARAM_GetPokeId(mon));
+            func_021EAF50(outMessage, move);
         }
         return 1;
     }
@@ -3801,25 +3801,25 @@ int func_021CF5B0(BtlClient *client, void *m, u32 move, void *out)
 
 
 
-u32 func_021CF81C(BtlClient *client, void *q, u8 *out)
+u32 BTL_CLIENT_BuildUsableMoveMask(BtlClient *client, void *mon, u8 *out)
 {
-    u8 n = BTL_POKEPARAM_GetMoveCount(q);
-    u32 r = 4;
-    u8 i = 0;
-    for (; i < n; i++) {
-        if (BTL_POKEPARAM_GetMovePPChecked(q, i) != 0) {
-            out[i] = (func_021CF5B0(client, q, BTL_POKEPARAM_GetMoveId(q, i), 0) == 0) ? 1 : 0;
-            if (r == 4 && out[i] != 0) {
-                r = i;
+    u8 moveCount = BTL_POKEPARAM_GetMoveCount(mon);
+    u32 firstUsable = 4;
+    u8 moveIndex = 0;
+    for (; moveIndex < moveCount; moveIndex++) {
+        if (BTL_POKEPARAM_GetMovePPChecked(mon, moveIndex) != 0) {
+            out[moveIndex] = (BTL_CLIENT_IsMoveSelectionBlocked(client, mon, BTL_POKEPARAM_GetMoveId(mon, moveIndex), 0) == 0) ? 1 : 0;
+            if (firstUsable == 4 && out[moveIndex] != 0) {
+                firstUsable = moveIndex;
             }
         } else {
-            out[i] = 0;
+            out[moveIndex] = 0;
         }
     }
-    for (; i < 4; i++) {
-        out[i] = 0;
+    for (; moveIndex < 4; moveIndex++) {
+        out[moveIndex] = 0;
     }
-    return r;
+    return firstUsable;
 }
 
 
@@ -3831,11 +3831,11 @@ u32 func_021CF81C(BtlClient *client, void *q, u8 *out)
 
 
 
-int func_021CF89C(BtlClient *client, void *q)
+int BTL_CLIENT_IsHeldItemEffective(BtlClient *client, void *mon)
 {
     if (func_021EFCE4(client->battleField, 7)) return 0;
-    if (BTL_POKEPARAM_HasSick(q, 19)) return 0;
-    if (func_021D59B4(q, 17) != 103) return 1;
+    if (BTL_POKEPARAM_HasSick(mon, 19)) return 0;
+    if (func_021D59B4(mon, 17) != 103) return 1;
     return 0;
 }
 
@@ -3849,21 +3849,21 @@ int func_021CF89C(BtlClient *client, void *q)
 
 
 
-u32 func_021CF8D4(BtlClient *client, void *q, u8 *a, u16 *b)
+u32 BTL_CLIENT_GetEscapeBlocker(BtlClient *client, void *mon, u8 *outBlockerPokeId, u16 *outBlockerAbility)
 {
-    u32 r;
-    if (func_021CF89C(client, q) != 0) {
-        if (BTL_POKEPARAM_GetItem(q) == 0x127) {
+    u32 result;
+    if (BTL_CLIENT_IsHeldItemEffective(client, mon) != 0) {
+        if (BTL_POKEPARAM_GetItem(mon) == 0x127) {
             return 4;
         }
     }
-    r = func_021CF9B4(client, q, a, b);
-    if (r == 4) {
-        *a = 0x1f;
-        *b = 0;
-        r = 4;
+    result = BTL_CLIENT_FindTrapper(client, mon, outBlockerPokeId, outBlockerAbility);
+    if (result == 4) {
+        *outBlockerPokeId = 0x1f;
+        *outBlockerAbility = 0;
+        result = 4;
     }
-    return r;
+    return result;
 }
 
 
@@ -3876,25 +3876,25 @@ u32 func_021CF8D4(BtlClient *client, void *q, u8 *a, u16 *b)
 
 
 
-u32 func_021CF918(BtlClient *client, u8 *a, u16 *b)
+u32 BTL_CLIENT_GetEscapeBlockerForSide(BtlClient *client, u8 *outBlockerPokeId, u16 *outBlockerAbility)
 {
     u32 i;
-    u8 *m;
-    u32 r;
+    u8 *mon;
+    u32 result;
 
     for (i = 0; i < client->slotCount; i++) {
-        m = func_021B9C00(client->sideData, (u8)i);
-        if (BTL_POKEPARAM_IsFainted(m) == 0) {
-            if (func_021CF89C(client, m) != 0 && BTL_POKEPARAM_GetItem((struct QI *)m) == 0xe4)
+        mon = BTL_SLOT_GetPokeParam(client->sideData, (u8)i);
+        if (BTL_POKEPARAM_IsFainted(mon) == 0) {
+            if (BTL_CLIENT_IsHeldItemEffective(client, mon) != 0 && BTL_POKEPARAM_GetItem((struct QI *)mon) == 0xe4)
                 return 4;
-            if (func_021D59B4(m, 0x11) == 0x32)
+            if (func_021D59B4(mon, 0x11) == 0x32)
                 return 4;
         }
     }
     for (i = 0; i < client->slotCount; i++) {
-        r = func_021CF9B4(client, func_021B9C00(client->sideData, (u8)i), a, b);
-        if (r != 4)
-            return r;
+        result = BTL_CLIENT_FindTrapper(client, BTL_SLOT_GetPokeParam(client->sideData, (u8)i), outBlockerPokeId, outBlockerAbility);
+        if (result != 4)
+            return result;
     }
     return 4;
 }
@@ -3908,37 +3908,37 @@ u32 func_021CF918(BtlClient *client, u8 *a, u16 *b)
 
 
 
-u32 func_021CF9B4(BtlClient *client, void *m, u8 *a, u16 *b)
+u32 BTL_CLIENT_FindTrapper(BtlClient *client, void *mon, u8 *outBlockerPokeId, u16 *outBlockerAbility)
 {
-    u8 buf[4];
-    u8 n;
+    u8 foeSlots[4];
+    u8 foeCount;
     u8 i;
-    u8 *q;
-    u16 k;
-    n = func_021B8D38(client->main, (int)client->side, (u16)(func_021B8D8C(client->main, client->side, BTL_POKEPARAM_GetPokeId(m)) | 0x100), buf);
-    for (i = 0; i < n; i++) {
-        q = func_021B9934(client->side, buf[i]);
-        k = func_021D59B4(q, 0x11);
-        BTL_POKEPARAM_GetPokeId(q);
-        if (k == 0x17 && func_021CFAC4(client, m)) {
-            *a = BTL_POKEPARAM_GetPokeId(q);
-            *b = k;
+    u8 *foe;
+    u16 foeAbility;
+    foeCount = BTL_MAIN_CollectLivingPokeIds(client->main, (int)client->side, (u16)(BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, BTL_POKEPARAM_GetPokeId(mon)) | 0x100), foeSlots);
+    for (i = 0; i < foeCount; i++) {
+        foe = BTL_SIDE_GetPokeByIdThunk(client->side, foeSlots[i]);
+        foeAbility = func_021D59B4(foe, 0x11);
+        BTL_POKEPARAM_GetPokeId(foe);
+        if (foeAbility == 0x17 && BTL_CLIENT_CanShadowTagTrap(client, mon)) {
+            *outBlockerPokeId = BTL_POKEPARAM_GetPokeId(foe);
+            *outBlockerAbility = foeAbility;
             return 0;
         }
-        if (k == 0x47 && func_021CFADC(client, m)) {
-            *a = BTL_POKEPARAM_GetPokeId(q);
-            *b = k;
+        if (foeAbility == 0x47 && BTL_CLIENT_CanArenaTrapTrap(client, mon)) {
+            *outBlockerPokeId = BTL_POKEPARAM_GetPokeId(foe);
+            *outBlockerAbility = foeAbility;
             return 0;
         }
-        if (k == 0x2a && func_021CFB8C(client, m)) {
-            *a = BTL_POKEPARAM_GetPokeId(q);
-            *b = k;
+        if (foeAbility == 0x2a && BTL_CLIENT_CanMagnetPullTrap(client, mon)) {
+            *outBlockerPokeId = BTL_POKEPARAM_GetPokeId(foe);
+            *outBlockerAbility = foeAbility;
             return 0;
         }
     }
-    if (BTL_POKEPARAM_HasSick(m, 0x16) || BTL_POKEPARAM_HasSick(m, 8) || BTL_POKEPARAM_HasSick(m, 0x15)) {
-        *a = BTL_POKEPARAM_GetPokeId(m);
-        *b = 0;
+    if (BTL_POKEPARAM_HasSick(mon, 0x16) || BTL_POKEPARAM_HasSick(mon, 8) || BTL_POKEPARAM_HasSick(mon, 0x15)) {
+        *outBlockerPokeId = BTL_POKEPARAM_GetPokeId(mon);
+        *outBlockerAbility = 0;
         return 3;
     }
     return 4;
@@ -3953,9 +3953,9 @@ u32 func_021CF9B4(BtlClient *client, void *m, u8 *a, u16 *b)
 
 
 
-int func_021CFAC4(void *p, void *q)
+int BTL_CLIENT_CanShadowTagTrap(void *client, void *mon)
 {
-    if (func_021D59B4(q, 17) != 23) return 1;
+    if (func_021D59B4(mon, 17) != 23) return 1;
     return 0;
 }
 
@@ -3969,28 +3969,28 @@ int func_021CFAC4(void *p, void *q)
 
 
 
-int func_021CFADC(BtlClient *client, void *m)
+int BTL_CLIENT_CanArenaTrapTrap(BtlClient *client, void *mon)
 {
-    u32 a;
+    u32 itemEffective;
 
-    a = func_021CF89C(client, m);
+    itemEffective = BTL_CLIENT_IsHeldItemEffective(client, mon);
     if (func_021EFCE4((char *)(client->battleField), 2) != 0)
         return 1;
-    if (BTL_POKEPARAM_HasSick(m, 0x1f) != 0)
+    if (BTL_POKEPARAM_HasSick(mon, 0x1f) != 0)
         return 1;
-    if (BTL_POKEPARAM_HasSick(m, 0x15) != 0)
+    if (BTL_POKEPARAM_HasSick(mon, 0x15) != 0)
         return 1;
-    if (a != 0 && BTL_POKEPARAM_GetItem(m) == 0x116)
+    if (itemEffective != 0 && BTL_POKEPARAM_GetItem(mon) == 0x116)
         return 1;
-    if (func_021D59B4(m, 0x11) == 0x1a)
+    if (func_021D59B4(mon, 0x11) == 0x1a)
         return 0;
-    if (BTL_POKEPARAM_HasType(m, 2) != 0)
+    if (BTL_POKEPARAM_HasType(mon, 2) != 0)
         return 0;
-    if (BTL_POKEPARAM_HasSick(m, 0x1e) != 0)
+    if (BTL_POKEPARAM_HasSick(mon, 0x1e) != 0)
         return 0;
-    if (BTL_POKEPARAM_HasSick(m, 0x20) != 0)
+    if (BTL_POKEPARAM_HasSick(mon, 0x20) != 0)
         return 0;
-    if (a != 0 && BTL_POKEPARAM_GetItem(m) == 0x21d)
+    if (itemEffective != 0 && BTL_POKEPARAM_GetItem(mon) == 0x21d)
         return 0;
     return 1;
 }
@@ -4007,9 +4007,9 @@ int func_021CFADC(BtlClient *client, void *m)
 /*
  * extent: follower 0x021CFBA4 already has its own matched source/shard.
  */
-int func_021CFB8C(void *p, void *q)
+int BTL_CLIENT_CanMagnetPullTrap(void *client, void *mon)
 {
-    if (BTL_POKEPARAM_HasType(q, 8)) return 1;
+    if (BTL_POKEPARAM_HasType(mon, 8)) return 1;
     return 0;
 }
 
@@ -4071,45 +4071,45 @@ void BTL_CLIENT_SetSlotOrder(BtlClient *client, u32 i, u32 v)
 
 
 
-int func_021CFBF0(BtlClient *client, void *m, u32 slot, u8 *out)
+int BTL_CLIENT_ChooseAiSwitchTarget(BtlClient *client, void *mon, u32 orderSlot, u8 *outMember)
 {
-    u8 choice;
-    u8 id;
-    u16 k;
-    u8 buf[6];
-    u8 *q;
-    u32 n;
+    u8 chosenMember;
+    u8 trapperPokeId;
+    u16 trapperAbility;
+    u8 candidates[6];
+    u8 *foe;
+    u32 candidateCount;
     u32 i;
-    u8 ok;
-    choice = 6;
-    if (func_021CF8D4(client, m, &id, &k) != 4) return 0;
-    if (func_021B9B98(client->sideData) <= client->slotCount) return 0;
-    q = func_021CFD50(client, func_021B8D8C(client->main, client->side, BTL_POKEPARAM_GetPokeId(m)));
-    if (!q) return 0;
-    if (BTL_POKEPARAM_IsIllusionActive((struct R4 *)q))
-        q = func_021B937C(client->main, client->side, q);
-    if (func_021CFDCC(client, m)) ok = 1;
-    else if (func_021CFE08(client, m, q)) ok = 1;
-    else if (func_021CFE98(client, m, q)) ok = 1;
-    else if (func_021CFFAC(client, m, q)) ok = 1;
-    else if (func_021D0100(client, m, q, &choice)) ok = 1;
-    else if (func_021D0248(client, m, &choice)) ok = 1;
-    else if (func_021D0304(client, m, q, &choice)) ok = 1;
+    u8 shouldSwitch;
+    chosenMember = 6;
+    if (BTL_CLIENT_GetEscapeBlocker(client, mon, &trapperPokeId, &trapperAbility) != 4) return 0;
+    if (BTL_SLOT_CountLiving(client->sideData) <= client->slotCount) return 0;
+    foe = BTL_CLIENT_PickRandomFoe(client, BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, BTL_POKEPARAM_GetPokeId(mon)));
+    if (!foe) return 0;
+    if (BTL_POKEPARAM_IsIllusionActive((struct R4 *)foe))
+        foe = BTL_MAIN_ResolveIllusionPoke(client->main, client->side, foe);
+    if (BTL_CLIENT_IsCountdownEndingNext(client, mon)) shouldSwitch = 1;
+    else if (BTL_CLIENT_ShouldSwitchVsWonderGuard(client, mon, foe)) shouldSwitch = 1;
+    else if (BTL_CLIENT_ShouldSwitchNoEffectiveMove(client, mon, foe)) shouldSwitch = 1;
+    else if (BTL_CLIENT_ShouldSwitchWhileLocked(client, mon, foe)) shouldSwitch = 1;
+    else if (BTL_CLIENT_FindSwitchFromHitHistory(client, mon, foe, &chosenMember)) shouldSwitch = 1;
+    else if (BTL_CLIENT_FindNaturalCureSwitch(client, mon, &chosenMember)) shouldSwitch = 1;
+    else if (BTL_CLIENT_FindSwitchByTypeMatchup(client, mon, foe, &chosenMember)) shouldSwitch = 1;
     else return 0;
-    if (!ok) return 0;
-    if (choice == 6) {
-        n = func_021D0980(client, buf);
-        func_021D09E0(client, buf, n, q);
-        for (i = 0; i < n; i++) {
-            if (!BTL_CLIENT_HasSlotInOrder(client, buf[i])) {
-                choice = buf[i];
+    if (!shouldSwitch) return 0;
+    if (chosenMember == 6) {
+        candidateCount = BTL_CLIENT_ListAbleMons(client, candidates);
+        BTL_CLIENT_SortMonsByMovePower(client, candidates, candidateCount, foe);
+        for (i = 0; i < candidateCount; i++) {
+            if (!BTL_CLIENT_HasSlotInOrder(client, candidates[i])) {
+                chosenMember = candidates[i];
                 break;
             }
         }
     }
-    if (choice == 6) return 0;
-    BTL_CLIENT_SetSlotOrder(client, slot, choice);
-    *out = choice;
+    if (chosenMember == 6) return 0;
+    BTL_CLIENT_SetSlotOrder(client, orderSlot, chosenMember);
+    *outMember = chosenMember;
     return 1;
 }
 
@@ -4121,21 +4121,21 @@ int func_021CFBF0(BtlClient *client, void *m, u32 slot, u8 *out)
 
 
 
-u8 *func_021CFD50(BtlClient *client, int k)
+u8 *BTL_CLIENT_PickRandomFoe(BtlClient *client, int positionId)
 {
-    u8 buf[4];
-    u8 n;
-    u32 v;
+    u8 foeSlots[4];
+    u8 foeCount;
+    u32 pick;
 
-    n = func_021B8D38(client->main, (int)client->side, (u16)(k | 0x100), buf);
-    if (n) {
+    foeCount = BTL_MAIN_CollectLivingPokeIds(client->main, (int)client->side, (u16)(positionId | 0x100), foeSlots);
+    if (foeCount) {
         client->rng.seed = client->rng.mul * client->rng.seed + client->rng.add;
-        if (n == 0) {
-            v = (u32)(client->rng.seed >> 32);
+        if (foeCount == 0) {
+            pick = (u32)(client->rng.seed >> 32);
         } else {
-            v = (u32)(((client->rng.seed >> 32) * (u32)n) >> 32);
+            pick = (u32)(((client->rng.seed >> 32) * (u32)foeCount) >> 32);
         }
-        return func_021B9934(client->side, buf[(u8)v]);
+        return BTL_SIDE_GetPokeByIdThunk(client->side, foeSlots[(u8)pick]);
     }
     return 0;
 }
@@ -4151,17 +4151,17 @@ u8 *func_021CFD50(BtlClient *client, int k)
  * lever: explicit aggregate return local reserves the original eight-byte frame;
  *   named incremented accessor result gives cmp r0,r4.
  */
-int func_021CFDCC(void *p, void *q)
+int BTL_CLIENT_IsCountdownEndingNext(void *client, void *mon)
 {
-    u32 n;
-    u32 id = 20;
-    u32 m;
-    union Slot t;
-    if (BTL_POKEPARAM_HasSick(q, id)) {
-        t = BTL_POKEPARAM_GetSickContRaw(q, id);
-        n = BTLV_CORE_GetSlotLow(t);
-        m = BTL_POKEPARAM_GetSickTurn(q, id) + 1;
-        if (m == n) return 1;
+    u32 limit;
+    u32 sickId = 20;
+    u32 nextTurn;
+    union Slot sickCont;
+    if (BTL_POKEPARAM_HasSick(mon, sickId)) {
+        sickCont = BTL_POKEPARAM_GetSickContRaw(mon, sickId);
+        limit = BTLV_CORE_GetSlotLow(sickCont);
+        nextTurn = BTL_POKEPARAM_GetSickTurn(mon, sickId) + 1;
+        if (nextTurn == limit) return 1;
     }
     return 0;
 }
@@ -4174,12 +4174,12 @@ int func_021CFDCC(void *p, void *q)
 
 
 
-int func_021CFE08(BtlClient *client, void *a, void *b)
+int BTL_CLIENT_ShouldSwitchVsWonderGuard(BtlClient *client, void *mon, void *foe)
 {
     if (BTL_MAIN_GetRule(client->main) != 0)
         return 0;
-    if (func_021D59B4(b, 0x11) == 0x19) {
-        if (func_021D0644(client, a, b, 4) == 0 && func_021D055C(client, b, 4) != 0) {
+    if (func_021D59B4(foe, 0x11) == 0x19) {
+        if (BTL_CLIENT_HasMoveWithAffinityVsTarget(client, mon, foe, 4) == 0 && BTL_CLIENT_AnyMemberHasMoveVsTarget(client, foe, 4) != 0) {
             client->rng.seed = client->rng.mul * client->rng.seed + client->rng.add;
             if ((u32)(((client->rng.seed >> 32) * 3) >> 32) < 2)
                 return 1;
@@ -4196,32 +4196,32 @@ int func_021CFE08(BtlClient *client, void *a, void *b)
 
 
 /*
- * extent: two zero padding bytes at 0x021CFFAA, followed by labelled func_021CFFAC.
+ * extent: two zero padding bytes at 0x021CFFAA, followed by labelled BTL_CLIENT_ShouldSwitchWhileLocked.
  */
-int func_021CFE98(BtlClient *client, void *a, void *b)
+int BTL_CLIENT_ShouldSwitchNoEffectiveMove(BtlClient *client, void *mon, void *foe)
 {
-    u8 n;
-    u16 k;
-    u32 c;
+    u8 moveCount;
+    u16 foeTypePair;
+    u32 damagingCount;
     u32 i;
-    u32 v;
-    k = BTL_POKEPARAM_GetTypePair(b);
-    n = BTL_POKEPARAM_GetMoveCount(a);
-    c = 0;
-    for (i = 0; i < n; i++) {
-        v = (u32)BTL_POKEPARAM_GetMoveId(a, (u8)i);
-        if (WAZA_TOOL_IsDamaging((void *)v)) {
-            if (BTL_CALC_GetTypeAffinityVsPair(WAZA_TOOL_GetType((void *)v), k))
+    u32 moveId;
+    foeTypePair = BTL_POKEPARAM_GetTypePair(foe);
+    moveCount = BTL_POKEPARAM_GetMoveCount(mon);
+    damagingCount = 0;
+    for (i = 0; i < moveCount; i++) {
+        moveId = (u32)BTL_POKEPARAM_GetMoveId(mon, (u8)i);
+        if (WAZA_TOOL_IsDamaging((void *)moveId)) {
+            if (BTL_CALC_GetTypeAffinityVsPair(WAZA_TOOL_GetType((void *)moveId), foeTypePair))
                 return 0;
-            c++;
+            damagingCount++;
         }
     }
-    if (c >= 2) {
-        if (func_021D055C(client, b, 4)) {
+    if (damagingCount >= 2) {
+        if (BTL_CLIENT_AnyMemberHasMoveVsTarget(client, foe, 4)) {
             client->rng.seed = client->rng.mul * client->rng.seed + client->rng.add;
             return (u32)(((client->rng.seed >> 32) * 3) >> 32) < 2;
         }
-        if (func_021D055C(client, b, 3)) {
+        if (BTL_CLIENT_AnyMemberHasMoveVsTarget(client, foe, 3)) {
             client->rng.seed = client->rng.mul * client->rng.seed + client->rng.add;
             return (u32)(((client->rng.seed >> 32) * 2) >> 32) < 1;
         }
@@ -4235,7 +4235,7 @@ int func_021CFE98(BtlClient *client, void *a, void *b)
 
 
 
-int func_021CFFAC(BtlClient *client, void *mon, void *target)
+int BTL_CLIENT_ShouldSwitchWhileLocked(BtlClient *client, void *mon, void *target)
 {
     u32 id;
     int valid;
@@ -4248,11 +4248,11 @@ int func_021CFFAC(BtlClient *client, void *mon, void *target)
             valid = WAZA_TOOL_IsDamaging((void *)id);
             kind = WAZA_TOOL_GetType((void *)id);
             if (BTL_CALC_GetTypeAffinityVsPair(kind, BTL_POKEPARAM_GetTypePair(target)) == 0 && valid) {
-                if (func_021D055C(client, target, 4)) {
+                if (BTL_CLIENT_AnyMemberHasMoveVsTarget(client, target, 4)) {
                     client->rng.seed = client->rng.mul * client->rng.seed + client->rng.add;
                     return (u32)(((client->rng.seed >> 32) * 3) >> 32) < 2;
                 }
-                if (func_021D055C(client, target, 3)) {
+                if (BTL_CLIENT_AnyMemberHasMoveVsTarget(client, target, 3)) {
                     client->rng.seed = client->rng.mul * client->rng.seed + client->rng.add;
                     return (u32)(((client->rng.seed >> 32) * 2) >> 32) < 1;
                 }
@@ -4272,28 +4272,28 @@ int func_021CFFAC(BtlClient *client, void *mon, void *target)
 
 
 
-int func_021D0100(BtlClient *client, void *mon, void *target, u8 *out)
+int BTL_CLIENT_FindSwitchFromHitHistory(BtlClient *client, void *mon, void *target, u8 *out)
 {
-    u16 hist[5];
-    u32 i;
-    u8 pos;
-    u32 j;
-    const struct Row *row;
-    pos = 0;
-    if (func_021D0644(client, mon, target, 4)) {
+    u16 hitRecord[5];
+    u32 rowIndex;
+    u8 recordPos;
+    u32 abilityIndex;
+    const struct Row *kindRow;
+    recordPos = 0;
+    if (BTL_CLIENT_HasMoveWithAffinityVsTarget(client, mon, target, 4)) {
         client->rng.seed = client->rng.mul * client->rng.seed + client->rng.add;
         if ((u32)(((client->rng.seed >> 32) * 3) >> 32) == 0) return 0;
     }
-    while (BTL_POKEPARAM_GetHitRecord(mon, 1, pos++, hist + 1)) {
-        for (i = 0; i < 4; i++) {
-            row = &d_021EFFC2[i];
-            if (((u8 *)hist)[6] == row->kind) {
-                for (j = 0; j < 4; j++) {
-                    if (!row->ids[j]) break;
-                    if (func_021D04E4(client, row->ids[j], (u8 *)hist)) {
+    while (BTL_POKEPARAM_GetHitRecord(mon, 1, recordPos++, hitRecord + 1)) {
+        for (rowIndex = 0; rowIndex < 4; rowIndex++) {
+            kindRow = &gBtlClientAiHitKindRows[rowIndex];
+            if (((u8 *)hitRecord)[6] == kindRow->kind) {
+                for (abilityIndex = 0; abilityIndex < 4; abilityIndex++) {
+                    if (!kindRow->ids[abilityIndex]) break;
+                    if (BTL_CLIENT_FindMemberWithAbility(client, kindRow->ids[abilityIndex], (u8 *)hitRecord)) {
                         client->rng.seed = client->rng.mul * client->rng.seed + client->rng.add;
                         if ((u32)(((client->rng.seed >> 32) * 2) >> 32) == 0) {
-                            *out = ((u8 *)hist)[0];
+                            *out = ((u8 *)hitRecord)[0];
                             return 1;
                         }
                     }
@@ -4311,17 +4311,17 @@ int func_021D0100(BtlClient *client, void *mon, void *target, u8 *out)
 
 
 
-int func_021D0248(BtlClient *client, void *m, u8 *out)
+int BTL_CLIENT_FindNaturalCureSwitch(BtlClient *client, void *mon, u8 *out)
 {
-    u16 t[4];
-    u8 idx;
+    u16 hitRecord[4];
+    u8 member;
 
-    if (func_021D59B4(m, 0x11) == 0x1e) {
-        if (BTL_POKEPARAM_HasSick(m, 2) || BTL_POKEPARAM_HasSick(m, 3)) {
-            if (BTL_POKEPARAM_GetHpRatioFixed(m) >= 0x32000) {
-                if (BTL_POKEPARAM_GetHitRecord(m, 1, 0, t)) {
-                    if (func_021D05C4(client, ((u8 *)t)[4], 2, &idx)) {
-                        *out = idx;
+    if (func_021D59B4(mon, 0x11) == 0x1e) {
+        if (BTL_POKEPARAM_HasSick(mon, 2) || BTL_POKEPARAM_HasSick(mon, 3)) {
+            if (BTL_POKEPARAM_GetHpRatioFixed(mon) >= 0x32000) {
+                if (BTL_POKEPARAM_GetHitRecord(mon, 1, 0, hitRecord)) {
+                    if (BTL_CLIENT_FindMemberResistingType(client, ((u8 *)hitRecord)[4], 2, &member)) {
+                        *out = member;
                         return 1;
                     }
                 } else {
@@ -4340,39 +4340,39 @@ int func_021D0248(BtlClient *client, void *m, u8 *out)
 
 
 
-int func_021D0304(BtlClient *client, void *mon, void *target, u8 *out)
+int BTL_CLIENT_FindSwitchByTypeMatchup(BtlClient *client, void *mon, void *target, u8 *out)
 {
-    u16 hist[4];
-    u32 sum;
-    u32 i;
-    u32 n;
-    u8 *other;
-    int affinity;
-    if (func_021D0644(client, mon, target, 4)) {
+    u16 hitRecord[4];
+    u32 totalBoosts;
+    u32 member;
+    u32 partyCount;
+    u8 *candidate;
+    int hitAffinity;
+    if (BTL_CLIENT_HasMoveWithAffinityVsTarget(client, mon, target, 4)) {
         client->rng.seed = client->rng.mul * client->rng.seed + client->rng.add;
         if ((u32)(((client->rng.seed >> 32) * 10) >> 32) != 0) return 0;
     }
-    sum = 0;
-    for (i = 1; i <= 7; i++) sum += func_021D59B4(mon, i);
-    if (sum >= 4) return 0;
-    if (BTL_POKEPARAM_GetHitRecord(mon, 1, 0, hist)) {
-        n = func_021B9B94(client->sideData);
-        i = BTL_CALC_GetScanStartIndex(BTL_MAIN_GetRule(client->main), client->slotCount);
-        for (; i < n; i++) {
-            if (!BTL_CLIENT_HasSlotInOrder(client, (u8)i)) {
-                other = func_021B9C00(client->sideData, (u8)i);
-                if (func_021D0644(client, other, target, 4)) {
-                    affinity = BTL_CALC_GetTypeAffinityVsPair(((u8 *)hist)[4], BTL_POKEPARAM_GetTypePair(other));
-                    if (affinity == 0) {
+    totalBoosts = 0;
+    for (member = 1; member <= 7; member++) totalBoosts += func_021D59B4(mon, member);
+    if (totalBoosts >= 4) return 0;
+    if (BTL_POKEPARAM_GetHitRecord(mon, 1, 0, hitRecord)) {
+        partyCount = BTL_SLOT_GetCount(client->sideData);
+        member = BTL_CALC_GetScanStartIndex(BTL_MAIN_GetRule(client->main), client->slotCount);
+        for (; member < partyCount; member++) {
+            if (!BTL_CLIENT_HasSlotInOrder(client, (u8)member)) {
+                candidate = BTL_SLOT_GetPokeParam(client->sideData, (u8)member);
+                if (BTL_CLIENT_HasMoveWithAffinityVsTarget(client, candidate, target, 4)) {
+                    hitAffinity = BTL_CALC_GetTypeAffinityVsPair(((u8 *)hitRecord)[4], BTL_POKEPARAM_GetTypePair(candidate));
+                    if (hitAffinity == 0) {
                         client->rng.seed = client->rng.mul * client->rng.seed + client->rng.add;
                         if ((u32)(((client->rng.seed >> 32) * 2) >> 32) == 0) {
-                            *out = i;
+                            *out = member;
                             return 1;
                         }
-                    } else if (affinity < 3) {
+                    } else if (hitAffinity < 3) {
                         client->rng.seed = client->rng.mul * client->rng.seed + client->rng.add;
                         if ((u32)(((client->rng.seed >> 32) * 3) >> 32) == 0) {
-                            *out = i;
+                            *out = member;
                             return 1;
                         }
                     }
@@ -4390,19 +4390,19 @@ int func_021D0304(BtlClient *client, void *mon, void *target, u8 *out)
 
 
 
-int func_021D04E4(BtlClient *client, u16 a, u8 *out)
+int BTL_CLIENT_FindMemberWithAbility(BtlClient *client, u16 ability, u8 *outMember)
 {
     u32 n;
     u32 i;
-    u8 *m;
+    u8 *member;
 
-    n = func_021B9B94(client->sideData);
+    n = BTL_SLOT_GetCount(client->sideData);
     i = BTL_CALC_GetScanStartIndex(BTL_MAIN_GetRule(client->main), client->slotCount);
     for (; i < n; i++) {
         if (BTL_CLIENT_HasSlotInOrder(client, (u8)i) == 0) {
-            m = func_021B9C00(client->sideData, (u8)i);
-            if (BTL_POKEPARAM_IsFainted(m) == 0 && a == func_021D59B4(m, 0x11)) {
-                *out = i;
+            member = BTL_SLOT_GetPokeParam(client->sideData, (u8)i);
+            if (BTL_POKEPARAM_IsFainted(member) == 0 && ability == func_021D59B4(member, 0x11)) {
+                *outMember = i;
                 return 1;
             }
         }
@@ -4417,16 +4417,16 @@ int func_021D04E4(BtlClient *client, u16 a, u8 *out)
 
 
 
-int func_021D055C(BtlClient *client, void *a, int b)
+int BTL_CLIENT_AnyMemberHasMoveVsTarget(BtlClient *client, void *target, int minAffinity)
 {
     u32 n;
     u32 i;
 
-    n = func_021B9B94(client->sideData);
+    n = BTL_SLOT_GetCount(client->sideData);
     i = BTL_CALC_GetScanStartIndex(BTL_MAIN_GetRule(client->main), client->slotCount);
     for (; i < n; i++) {
         if (BTL_CLIENT_HasSlotInOrder(client, (u8)i) == 0) {
-            if (func_021D0644(client, func_021B9C00(client->sideData, (u8)i), a, b))
+            if (BTL_CLIENT_HasMoveWithAffinityVsTarget(client, BTL_SLOT_GetPokeParam(client->sideData, (u8)i), target, minAffinity))
                 return 1;
         }
     }
@@ -4440,19 +4440,19 @@ int func_021D055C(BtlClient *client, void *a, int b)
 
 
 
-int func_021D05C4(BtlClient *client, u8 a, int b, u8 *out)
+int BTL_CLIENT_FindMemberResistingType(BtlClient *client, u8 attackType, int maxAffinity, u8 *outMember)
 {
     u32 n;
     u32 i;
     u8 *m;
 
-    n = func_021B9B94(client->sideData);
+    n = BTL_SLOT_GetCount(client->sideData);
     i = BTL_CALC_GetScanStartIndex(BTL_MAIN_GetRule(client->main), client->slotCount);
     for (; i < n; i++) {
         if (BTL_CLIENT_HasSlotInOrder(client, (u8)i) == 0) {
-            m = func_021B9C00(client->sideData, (u8)i);
-            if (BTL_POKEPARAM_IsAbleToBattle(m) != 0 && BTL_CALC_GetTypeAffinityVsPair(a, BTL_POKEPARAM_GetTypePair(m)) <= b) {
-                *out = i;
+            m = BTL_SLOT_GetPokeParam(client->sideData, (u8)i);
+            if (BTL_POKEPARAM_IsAbleToBattle(m) != 0 && BTL_CALC_GetTypeAffinityVsPair(attackType, BTL_POKEPARAM_GetTypePair(m)) <= maxAffinity) {
+                *outMember = i;
                 return 1;
             }
         }
@@ -4467,21 +4467,21 @@ int func_021D05C4(BtlClient *client, u8 a, int b, u8 *out)
 
 
 
-int func_021D0644(BtlClient *client, void *m, void *a, int b)
+int BTL_CLIENT_HasMoveWithAffinityVsTarget(BtlClient *client, void *mon, void *target, int minAffinity)
 {
-    u16 x;
-    u8 n;
+    u16 targetTypePair;
+    u8 moveCount;
     u32 i;
-    u32 q;
+    u32 moveId;
 
-    if (BTL_POKEPARAM_IsFainted(m) == 0) {
-        x = BTL_POKEPARAM_GetTypePair(a);
-        n = BTL_POKEPARAM_GetMoveCount(m);
-        for (i = 0; i < n; i++) {
-            q = BTL_POKEPARAM_GetMoveId(m, (u8)i);
-            if (BTL_POKEPARAM_GetMovePPChecked(m, (u8)i) && WAZA_TOOL_IsDamaging((void *)q)
-                && func_021CF5B0(client, m, q, 0) == 0) {
-                if (BTL_CALC_GetTypeAffinityVsPair(WAZA_TOOL_GetType((void *)q), x) >= b)
+    if (BTL_POKEPARAM_IsFainted(mon) == 0) {
+        targetTypePair = BTL_POKEPARAM_GetTypePair(target);
+        moveCount = BTL_POKEPARAM_GetMoveCount(mon);
+        for (i = 0; i < moveCount; i++) {
+            moveId = BTL_POKEPARAM_GetMoveId(mon, (u8)i);
+            if (BTL_POKEPARAM_GetMovePPChecked(mon, (u8)i) && WAZA_TOOL_IsDamaging((void *)moveId)
+                && BTL_CLIENT_IsMoveSelectionBlocked(client, mon, moveId, 0) == 0) {
+                if (BTL_CALC_GetTypeAffinityVsPair(WAZA_TOOL_GetType((void *)moveId), targetTypePair) >= minAffinity)
                     return 1;
             }
         }
@@ -4496,28 +4496,28 @@ int func_021D0644(BtlClient *client, void *m, void *a, int b)
 
 
 
-u8 func_021D06C8(BtlClient *client)
+u8 BTL_CLIENT_PickRotationPosition(BtlClient *client)
 {
-    u8 buf[2];
-    u32 cnt;
-    u32 v;
+    u8 positions[2];
+    u32 positionCount;
+    u32 pickedIndex;
 
-    cnt = 1;
-    buf[0] = 1;
-    if (BTL_POKEPARAM_IsFainted(func_021B9C00(client->sideData, (u8)(int)func_021B9AB0(2))) == 0) {
-        buf[cnt++] = 2;
+    positionCount = 1;
+    positions[0] = 1;
+    if (BTL_POKEPARAM_IsFainted(BTL_SLOT_GetPokeParam(client->sideData, (u8)(int)BTL_SLOT_GetRotateSrcIndex(2))) == 0) {
+        positions[positionCount++] = 2;
     }
-    if (BTL_POKEPARAM_IsFainted(func_021B9C00(client->sideData, (u8)(int)func_021B9AB0(3))) == 0) {
-        buf[cnt++] = 3;
+    if (BTL_POKEPARAM_IsFainted(BTL_SLOT_GetPokeParam(client->sideData, (u8)(int)BTL_SLOT_GetRotateSrcIndex(3))) == 0) {
+        positions[positionCount++] = 3;
     }
-    if (cnt > 1) {
+    if (positionCount > 1) {
         client->rng.seed = client->rng.mul * client->rng.seed + client->rng.add;
-        if (cnt == 0) {
-            v = (u32)(client->rng.seed >> 32);
+        if (positionCount == 0) {
+            pickedIndex = (u32)(client->rng.seed >> 32);
         } else {
-            v = (u32)(((client->rng.seed >> 32) * (u32)cnt) >> 32);
+            pickedIndex = (u32)(((client->rng.seed >> 32) * (u32)positionCount) >> 32);
         }
-        return buf[v];
+        return positions[pickedIndex];
     }
     return 1;
 }
@@ -4537,17 +4537,17 @@ u8 func_021D06C8(BtlClient *client)
  *   before return; CFBF0 writes the single output byte on every nonzero
  *   return path. Full-width pointer payloads retain their original bits.
  */
-int func_021D0770(BtlClient *client, u32 *state)
+int BTL_CLIENT_StepAutoChooseActions(BtlClient *client, u32 *state)
 {
-    u8 available[4];
-    u8 choice;
-    u32 move;
-    u32 slot;
-    u8 sel;
-    u32 sub;
-    u32 result;
-    u32 count;
-    u32 bytes;
+    u8 moveAvailability[4];
+    u8 changeTarget;
+    u32 moveOrItem;
+    u32 moveSlot;
+    u8 rotationPosition;
+    u32 targetOrPosition;
+    u32 target;
+    u32 slotTotal;
+    u32 sendBytes;
     switch (*state) {
     case 0:
         BTL_CLIENT_ClearSlotOrder(client);
@@ -4556,68 +4556,68 @@ int func_021D0770(BtlClient *client, u32 *state)
         *state = 1;
     case 1:
         if (client->slotIndex >= client->slotCount) break;
-        (client->activeMon) = func_021B9C00(client->sideData, client->slotIndex);
+        (client->activeMon) = BTL_SLOT_GetPokeParam(client->sideData, client->slotIndex);
         (client->actionCursor) = (u8 *)client->actions+client->slotIndex*4;
         if (BTL_POKEPARAM_IsFainted((client->activeMon))) {
             BTL_CALC_ActionSetNone((u32 *)(client->actionCursor));
             goto complete;
         }
-        if (func_021CF470((u8 *)client,(client->activeMon),(client->actionCursor))) goto complete;
-        move = func_021D3DC4((u8 *)client,(client->activeMon),client->sideData);
-        if (move) {
-            BTL_ACTION_SetItem((u32 *)(client->actionCursor),move,client->slotIndex,0);
+        if (BTL_CLIENT_IsActionForced((u8 *)client,(client->activeMon),(client->actionCursor))) goto complete;
+        moveOrItem = func_021D3DC4((u8 *)client,(client->activeMon),client->sideData);
+        if (moveOrItem) {
+            BTL_ACTION_SetItem((u32 *)(client->actionCursor),moveOrItem,client->slotIndex,0);
             goto complete;
         }
-        if (BTL_MAIN_GetCompetitor(client->main) && func_021CFBF0(client,(client->activeMon),client->slotIndex,&choice)) {
-            BTL_ACTION_SetChange((client->actionCursor),client->slotIndex,choice);
+        if (BTL_MAIN_GetCompetitor(client->main) && BTL_CLIENT_ChooseAiSwitchTarget(client,(client->activeMon),client->slotIndex,&changeTarget)) {
+            BTL_ACTION_SetChange((client->actionCursor),client->slotIndex,changeTarget);
             goto complete;
         }
         if (BTL_MAIN_GetRule(client->main) == 3) {
-            sel = func_021D06C8(client);
-            if (sel != 1) {
-                sub = func_021B9AB0(sel);
-                BTL_ACTION_SetRotate((u32 *)(client->actionCursor),sel);
-                (client->activeMon) = func_021B9C00(client->sideData,sub);
+            rotationPosition = BTL_CLIENT_PickRotationPosition(client);
+            if (rotationPosition != 1) {
+                targetOrPosition = BTL_SLOT_GetRotateSrcIndex(rotationPosition);
+                BTL_ACTION_SetRotate((u32 *)(client->actionCursor),rotationPosition);
+                (client->activeMon) = BTL_SLOT_GetPokeParam(client->sideData,targetOrPosition);
                 client->extraActionCount = 1;
                 (client->actionCursor) = (u8 *)((u32)(client->actionCursor)+4U);
             }
         }
         if (BTL_POKEPARAM_HasSick((client->activeMon),0x19)) {
-            move = BTLV_CORE_GetSlotValue(BTL_POKEPARAM_GetSickContRaw((client->activeMon),0x19));
-            result = BTL_CALC_PeekMoveTarget(client->main,client->side,(client->activeMon),move,(u8 *)&client->rng);
-            BTL_ACTION_SetFight((struct Unk021D82D0 *)(client->actionCursor),move,result);
+            moveOrItem = BTLV_CORE_GetSlotValue(BTL_POKEPARAM_GetSickContRaw((client->activeMon),0x19));
+            target = BTL_CALC_PeekMoveTarget(client->main,client->side,(client->activeMon),moveOrItem,(u8 *)&client->rng);
+            BTL_ACTION_SetFight((struct Unk021D82D0 *)(client->actionCursor),moveOrItem,target);
             goto complete;
         }
-        if (func_021CF524(client,(client->activeMon),(u32)(client->actionCursor))) *state = 3;
+        if (BTL_CLIENT_SetStruggleIfNoMoves(client,(client->activeMon),(u32)(client->actionCursor))) *state = 3;
         BTL_POKEPARAM_GetMoveCount((client->activeMon));
-        slot = func_021CF81C(client,(client->activeMon),available);
-        if (slot != 4) {
-            result = func_021B8D8C(client->main,client->side,BTL_POKEPARAM_GetPokeId((client->activeMon)));
-            func_021880BC((int)client->recorder,available,result);
+        moveSlot = BTL_CLIENT_BuildUsableMoveMask(client,(client->activeMon),moveAvailability);
+        if (moveSlot != 4) {
+            target = BTL_MAIN_GetTrainerSlotOfPoke(client->main,client->side,BTL_POKEPARAM_GetPokeId((client->activeMon)));
+            func_021880BC((int)client->recorder,moveAvailability,target);
             *state = 2;
         } else {
-            func_021CF58C((struct Unk021D82D0 *)((u32)(client->actionCursor)),client,(client->activeMon));
+            BTL_CLIENT_SetStruggleAction((struct Unk021D82D0 *)((u32)(client->actionCursor)),client,(client->activeMon));
             goto complete;
         }
         break;
     case 2:
         if (func_02187FB0(client->recorder)) break;
-        slot = func_02188134(client->recorder);
-        if (slot != 4) {
-            sub = func_02188140(client->recorder);
-            move = BTL_POKEPARAM_GetMoveId((client->activeMon),slot);
-            BTL_ACTION_SetFight((struct Unk021D82D0 *)(client->actionCursor),move,sub);
+        moveSlot = func_02188134(client->recorder);
+        if (moveSlot != 4) {
+            targetOrPosition = func_02188140(client->recorder);
+            moveOrItem = BTL_POKEPARAM_GetMoveId((client->activeMon),moveSlot);
+            BTL_ACTION_SetFight((struct Unk021D82D0 *)(client->actionCursor),moveOrItem,targetOrPosition);
         } else func_021D8414((u32 *)(client->actionCursor));
 complete:
         *state = 3;
         break;
     case 3:
         client->slotIndex++;
-        count = client->slotCount;
-        if (client->slotIndex >= count) {
-            bytes = (count+client->extraActionCount)*4;
+        slotTotal = client->slotCount;
+        if (client->slotIndex >= slotTotal) {
+            sendBytes = (slotTotal+client->extraActionCount)*4;
             client->sendData = (u8 *)client->actions;
-            client->sendSize = bytes;
+            client->sendSize = sendBytes;
             client->extraActionCount = 0;
             return 1;
         }
@@ -4634,23 +4634,23 @@ complete:
 
 
 
-u8 func_021D0980(BtlClient *client, u8 *out)
+u8 BTL_CLIENT_ListAbleMons(BtlClient *client, u8 *ableIndexes)
 {
-    u32 n;
-    u8 c;
-    u32 i;
+    u32 partySize;
+    u8 ableCount;
+    u32 partyIndex;
 
-    n = func_021B9B94(client->sideData);
-    i = BTL_CALC_GetScanStartIndex(BTL_MAIN_GetRule(client->main), client->slotCount);
-    c = 0;
-    for (; i < n; i = (u8)(i + 1)) {
-        if (BTL_POKEPARAM_IsAbleToBattle(func_021B9C00(client->sideData, i))) {
-            if (out)
-                out[c] = i;
-            c = (u8)(c + 1);
+    partySize = BTL_SLOT_GetCount(client->sideData);
+    partyIndex = BTL_CALC_GetScanStartIndex(BTL_MAIN_GetRule(client->main), client->slotCount);
+    ableCount = 0;
+    for (; partyIndex < partySize; partyIndex = (u8)(partyIndex + 1)) {
+        if (BTL_POKEPARAM_IsAbleToBattle(BTL_SLOT_GetPokeParam(client->sideData, partyIndex))) {
+            if (ableIndexes)
+                ableIndexes[ableCount] = partyIndex;
+            ableCount = (u8)(ableCount + 1);
         }
     }
-    return c;
+    return ableCount;
 }
 
 
@@ -4668,55 +4668,55 @@ u8 func_021D0980(BtlClient *client, u8 *out)
  * count store gets an edge to it (height 7), and it issues second, as in the original. Passes 1 to 5
  * (all 5 B or more) tried every source shape of the entry block; none can change this edge.
  */
-void func_021D09E0(BtlClient *client, u8 *order, u8 count, void *target)
+void BTL_CLIENT_SortMonsByMovePower(BtlClient *client, u8 *partyOrder, u8 orderCount, void *targetMon)
 {
-    u16 scores[6];
-    u16 type;
-    u8 i;
-    u8 j;
-    void *mon;
-    u16 move;
-    u16 power;
-    u16 temp;
-    u8 tempid;
-    type = BTL_POKEPARAM_GetTypePair(target);
-    for (i = 0; i < count; i++) {
-        scores[i] = 0;
-        mon = func_021B9C00(client->sideData, order[i]);
-        if (!BTL_POKEPARAM_IsFainted(mon)) {
+    u16 bestPower[6];
+    u16 targetTypePair;
+    u8 orderIndex;
+    u8 moveIndex;
+    void *partyMon;
+    u16 moveId;
+    u16 movePower;
+    u16 swapScore;
+    u8 swapIndex;
+    targetTypePair = BTL_POKEPARAM_GetTypePair(targetMon);
+    for (orderIndex = 0; orderIndex < orderCount; orderIndex++) {
+        bestPower[orderIndex] = 0;
+        partyMon = BTL_SLOT_GetPokeParam(client->sideData, partyOrder[orderIndex]);
+        if (!BTL_POKEPARAM_IsFainted(partyMon)) {
             u8 n;
-            n = BTL_POKEPARAM_GetMoveCount(mon);
-            for (j = 0; j < n; j++) {
-                if (BTL_POKEPARAM_GetMovePPChecked(mon, j)) {
-                    move = BTL_POKEPARAM_GetMoveId(mon, j);
-                    if (WAZA_TOOL_IsDamaging((void *)(u32)move)) {
-                        int kind;
-                        kind = WAZA_TOOL_GetType((void *)(u32)move);
-                        power = WAZA_TOOL_GetPower((void *)(u32)move);
-                        if (power < 10) power = 60;
-                        switch (BTL_CALC_GetTypeAffinityVsPair(kind, type)) {
-                        case 5: power *= 4; break;
-                        case 4: power *= 2; break;
-                        case 2: power /= 2; break;
-                        case 1: power /= 4; break;
-                        case 0: power = 0; break;
+            n = BTL_POKEPARAM_GetMoveCount(partyMon);
+            for (moveIndex = 0; moveIndex < n; moveIndex++) {
+                if (BTL_POKEPARAM_GetMovePPChecked(partyMon, moveIndex)) {
+                    moveId = BTL_POKEPARAM_GetMoveId(partyMon, moveIndex);
+                    if (WAZA_TOOL_IsDamaging((void *)(u32)moveId)) {
+                        int moveType;
+                        moveType = WAZA_TOOL_GetType((void *)(u32)moveId);
+                        movePower = WAZA_TOOL_GetPower((void *)(u32)moveId);
+                        if (movePower < 10) movePower = 60;
+                        switch (BTL_CALC_GetTypeAffinityVsPair(moveType, targetTypePair)) {
+                        case 5: movePower *= 4; break;
+                        case 4: movePower *= 2; break;
+                        case 2: movePower /= 2; break;
+                        case 1: movePower /= 4; break;
+                        case 0: movePower = 0; break;
                         case 3: break;
                         }
-                        if (scores[i] < power) scores[i] = power;
+                        if (bestPower[orderIndex] < movePower) bestPower[orderIndex] = movePower;
                     }
                 }
             }
         }
     }
-    for (i = 0; i < count; i++) {
-        for (j = i + 1; j < count; j++) {
-            if (scores[i] < scores[j]) {
-                temp = scores[i];
-                scores[i] = scores[j];
-                scores[j] = temp;
-                tempid = order[i];
-                order[i] = order[j];
-                order[j] = tempid;
+    for (orderIndex = 0; orderIndex < orderCount; orderIndex++) {
+        for (moveIndex = orderIndex + 1; moveIndex < orderCount; moveIndex++) {
+            if (bestPower[orderIndex] < bestPower[moveIndex]) {
+                swapScore = bestPower[orderIndex];
+                bestPower[orderIndex] = bestPower[moveIndex];
+                bestPower[moveIndex] = swapScore;
+                swapIndex = partyOrder[orderIndex];
+                partyOrder[orderIndex] = partyOrder[moveIndex];
+                partyOrder[moveIndex] = swapIndex;
             }
         }
     }
@@ -4739,14 +4739,14 @@ void BTL_CLIENT_BuildSlotChoices(BtlClient *client, u32 a, u32 b, void *q, void 
 
 
 
-void func_021D0B6C(BtlClient *client, u8 *s)
+void BTL_CLIENT_SetChangeActionsFromChoice(BtlClient *client, u8 *choice)
 {
     u8 i;
 
-    for (i = 0; i < s[6]; i++)
-        BTL_ACTION_SetChange((u8 *)client->actions + i * 4, s[i + 3], s[i]);
+    for (i = 0; i < choice[6]; i++)
+        BTL_ACTION_SetChange((u8 *)client->actions + i * 4, choice[i + 3], choice[i]);
     client->sendData = (u8 *)client->actions;
-    client->sendSize = s[6] << 2;
+    client->sendSize = choice[6] << 2;
 }
 
 
@@ -4754,29 +4754,29 @@ void func_021D0B6C(BtlClient *client, u8 *s)
 
 
 
-void func_021D0BB0(BtlClient *client)
+void BTL_CLIENT_SetChangeActionsFirstAble(BtlClient *client)
 {
-    u8 pair[2];
-    u8 start;
-    u8 count;
-    u32 n;
+    u8 pairClients[2];
+    u8 firstCandidate;
+    u8 actionCount;
+    u32 partySize;
     u32 i;
     u32 j;
-    count = 0;
-    n = func_021B9B94(client->sideData);
-    start = func_021B99C0(client->main, client->clientId);
+    actionCount = 0;
+    partySize = BTL_SLOT_GetCount(client->sideData);
+    firstCandidate = BTL_MAIN_GetViewPositionsPerClient(client->main, client->clientId);
     for (i = 0; i < client->pairCount; i++) {
-        func_021B8E28(client->main, client->pairs[i], &pair[1], &pair[0]);
-        for (j = start; j < n; j++) {
-            if (!BTL_POKEPARAM_IsFainted(func_021B9C00(client->sideData, (u8)j))) {
-                BTL_ACTION_SetChange((u8 *)client->actions + count++ * 4, pair[0], j);
-                start = j + 1;
+        BTL_MAIN_GetSlotClientAndNth(client->main, client->pairs[i], &pairClients[1], &pairClients[0]);
+        for (j = firstCandidate; j < partySize; j++) {
+            if (!BTL_POKEPARAM_IsFainted(BTL_SLOT_GetPokeParam(client->sideData, (u8)j))) {
+                BTL_ACTION_SetChange((u8 *)client->actions + actionCount++ * 4, pairClients[0], j);
+                firstCandidate = j + 1;
                 break;
             }
         }
     }
     *(void * *)&client->sendData = client->actions;
-    client->sendSize = count * 4;
+    client->sendSize = actionCount * 4;
 }
 
 
@@ -4785,23 +4785,23 @@ void func_021D0BB0(BtlClient *client)
 
 
 
-u8 func_021D0C78(BtlClient *client, u8 *out)
+u8 BTL_CLIENT_CollectOwnReceivedIds(BtlClient *client, u8 *ownIds)
 {
-    u8 *arr;
-    u8 n;
+    u8 *receivedIds;
+    u8 receivedCount;
     u32 i;
-    u32 cnt;
+    u32 ownCount;
 
-    n = BTL_ADAPTER_GetRecvData((int)client->netChannel, &arr);
+    receivedCount = BTL_ADAPTER_GetRecvData((int)client->netChannel, &receivedIds);
     i = 0;
-    cnt = 0;
-    for (; i < n; i++) {
-        if (client->clientId == func_021B8DE4(client->main, arr[i])) {
-            out[cnt] = arr[i];
-            cnt++;
+    ownCount = 0;
+    for (; i < receivedCount; i++) {
+        if (client->clientId == BTL_MAIN_GetSlotClientIdThunk(client->main, receivedIds[i])) {
+            ownIds[ownCount] = receivedIds[i];
+            ownCount++;
         }
     }
-    return cnt;
+    return ownCount;
 }
 
 
@@ -4810,11 +4810,11 @@ u8 func_021D0C78(BtlClient *client, u8 *out)
 
 
 
-int func_021D0CC4(BtlClient *client, int *state)
+int BTL_CLIENT_StepAskYesNo(BtlClient *client, int *state)
 {
-    int t;
-    u8 *q;
-    u8 f;
+    int answer;
+    u8 *sendByte;
+    u8 answerFlag;
 
     switch (*state) {
     case 0:
@@ -4824,13 +4824,13 @@ int func_021D0CC4(BtlClient *client, int *state)
         (*state)++;
         break;
     case 1:
-        if (func_021EAC54(client->view, &t)) {
-            f = 0;
-            if (t != 0)
-                f = 1;
-            q = &client->sendByte;
-            *q = f;
-            client->sendData = q;
+        if (func_021EAC54(client->view, &answer)) {
+            answerFlag = 0;
+            if (answer != 0)
+                answerFlag = 1;
+            sendByte = &client->sendByte;
+            *sendByte = answerFlag;
+            client->sendData = sendByte;
             client->sendSize = 1;
             return 1;
         }
@@ -4845,7 +4845,7 @@ int func_021D0CC4(BtlClient *client, int *state)
 
 int BTL_CLIENT_StepChoiceMode2(BtlClient *client, int *state)
 {
-    return func_021D0E7C(client, state, 2);
+    return BTL_CLIENT_StepChooseReplacement(client, state, 2);
 }
 
 
@@ -4854,7 +4854,7 @@ int BTL_CLIENT_StepChoiceMode2(BtlClient *client, int *state)
 
 int BTL_CLIENT_StepChoiceMode1(BtlClient *client, int *state)
 {
-    return func_021D0E7C(client, state, 1);
+    return BTL_CLIENT_StepChooseReplacement(client, state, 1);
 }
 
 
@@ -4866,47 +4866,47 @@ int BTL_CLIENT_StepChoiceMode1(BtlClient *client, int *state)
  * lever: separate order[6] then pair[2] stack arrays keep the order base
  * at sp+6 and the index in the ldrb register offset; one buffer or a
  * struct member array reassociates this into a base+index and immediate 2.
- * follower: 021D0E74 is an eight-byte tail-call stub to func_021CE1B0;
+ * follower: 021D0E74 is an eight-byte tail-call stub to BTL_CLIENT_StepPlaybackRecordedAction;
  * included in this complete 300-byte unit after parent ownership audit.
  */
-int func_021D0D50(BtlClient *client)
+int BTL_CLIENT_ChooseReplacementsAuto(BtlClient *client)
 {
-    u8 order[6];
-    u8 pair[2];
-    u8 count;
-    u8 n;
+    u8 partyOrder[6];
+    u8 pairValues[2];
+    u8 changeCount;
+    u8 ableCount;
     u8 i;
-    u8 *target;
-    int result;
-    client->pairCount = func_021D0C78(client, client->pairs);
+    u8 *targetMon;
+    int rotateSize;
+    client->pairCount = BTL_CLIENT_CollectOwnReceivedIds(client, client->pairs);
     if (client->pairCount) {
-        n = func_021D0980(client,order);
-        if (n) {
-            count = client->pairCount;
-            target = func_021CFD50(client,client->pairs[0]);
-            if (target) func_021D09E0(client,order,n,target);
-            if (count > n) {
+        ableCount = BTL_CLIENT_ListAbleMons(client,partyOrder);
+        if (ableCount) {
+            changeCount = client->pairCount;
+            targetMon = BTL_CLIENT_PickRandomFoe(client,client->pairs[0]);
+            if (targetMon) BTL_CLIENT_SortMonsByMovePower(client,partyOrder,ableCount,targetMon);
+            if (changeCount > ableCount) {
                 if (BTL_MAIN_GetRule(client->main) == 3) {
-                    result = func_021D1058(client,client->actions);
-                    if (result) {
-                        client->sendSize = result;
+                    rotateSize = BTL_CLIENT_TrySetRotateAction(client,client->actions);
+                    if (rotateSize) {
+                        client->sendSize = rotateSize;
                         *(void * *)&client->sendData = client->actions;
                         return 1;
                     }
                 }
-                count = n;
+                changeCount = ableCount;
             }
-            for (i=0;i<count;i++) {
-                func_021B8E28(client->main,client->pairs[i],pair,pair+1);
-                BTL_ACTION_SetChange((u8 *)client->actions+i*4,pair[1],order[i]);
+            for (i=0;i<changeCount;i++) {
+                BTL_MAIN_GetSlotClientAndNth(client->main,client->pairs[i],pairValues,pairValues+1);
+                BTL_ACTION_SetChange((u8 *)client->actions+i*4,pairValues[1],partyOrder[i]);
             }
             *(void * *)&client->sendData = client->actions;
-            client->sendSize = count*4;
+            client->sendSize = changeCount*4;
         } else {
             if (BTL_CLIENT_IsDoubleBattleLeadAlive(client)) {
-                result = func_021D1058(client,client->actions);
-                if (result) {
-                    client->sendSize = result;
+                rotateSize = BTL_CLIENT_TrySetRotateAction(client,client->actions);
+                if (rotateSize) {
+                    client->sendSize = rotateSize;
                     *(void * *)&client->sendData = client->actions;
                     return 1;
                 }
@@ -4928,9 +4928,9 @@ int func_021D0D50(BtlClient *client)
 
 
 
-int func_021D0E74(BtlClient *client, int *state)
+int BTL_CLIENT_StepForwardToSubFn(BtlClient *client, int *state)
 {
-    return func_021CE1B0(client,state);
+    return BTL_CLIENT_StepPlaybackRecordedAction(client,state);
 }
 
 
@@ -4944,40 +4944,40 @@ int func_021D0E74(BtlClient *client, int *state)
  * the late cross-jump of D8/DC stores. Factoring it outside adds 12 bytes.
  * volatile: count at 021D0EB2 is reread at 021D0EB6 and 021D0ECC.
  */
-int func_021D0E7C(BtlClient *client, int *state, u8 param)
+int BTL_CLIENT_StepChooseReplacement(BtlClient *client, int *state, u8 choiceMode)
 {
-    u8 order[6];
-    u8 pair[2];
-    u32 n;
-    u32 count;
-    int mode;
-    void *mon;
+    u8 partyOrder[6];
+    u8 pairValues[2];
+    u32 ableCount;
+    u32 changeCount;
+    int rotateSize;
+    void *leadMon;
     switch (*state) {
     case 0:
-        ((CountField *)client)->count = func_021D0C78(client, client->pairs);
+        ((CountField *)client)->count = BTL_CLIENT_CollectOwnReceivedIds(client, client->pairs);
         if (((CountField *)client)->count != 0) {
-            n = func_021D0980(client, order);
-            if (n != 0) {
-                count = ((CountField *)client)->count;
-                if (count > n) count = n;
+            ableCount = BTL_CLIENT_ListAbleMons(client, partyOrder);
+            if (ableCount != 0) {
+                changeCount = ((CountField *)client)->count;
+                if (changeCount > ableCount) changeCount = ableCount;
                 if (BTL_CLIENT_IsDoubleBattleLeadAlive(client) != 0) {
-                    mon = func_021B9C00(client->sideData, 0);
-                    if (n == 1 && BTL_POKEPARAM_IsFainted(mon) != 0) {
-                        BTL_ACTION_SetChange(client->actions, 0, order[0]);
+                    leadMon = BTL_SLOT_GetPokeParam(client->sideData, 0);
+                    if (ableCount == 1 && BTL_POKEPARAM_IsFainted(leadMon) != 0) {
+                        BTL_ACTION_SetChange(client->actions, 0, partyOrder[0]);
                         client->sendData = (u8 *)client->actions;
                         client->sendSize = 4;
                         *state = 4;
                         break;
                     }
                 }
-                func_021B8E28(client->main, client->pairs[0], &pair[1], &pair[0]);
-                BTL_CLIENT_BuildSlotChoices(client, param, count, client->slotChoices, client->choiceFlags);
-                func_021E9A78(client->view, client->slotChoices, pair[0], 0, client->choiceFlags);
+                BTL_MAIN_GetSlotClientAndNth(client->main, client->pairs[0], &pairValues[1], &pairValues[0]);
+                BTL_CLIENT_BuildSlotChoices(client, choiceMode, changeCount, client->slotChoices, client->choiceFlags);
+                func_021E9A78(client->view, client->slotChoices, pairValues[0], 0, client->choiceFlags);
                 BTL_CLIENT_StartTimeLimit(client);
                 *state = 1;
             } else {
-                if (BTL_CLIENT_IsDoubleBattleLeadAlive(client) != 0 && (mode = func_021D1058(client, client->actions)) != 0) {
-                    client->sendSize = mode;
+                if (BTL_CLIENT_IsDoubleBattleLeadAlive(client) != 0 && (rotateSize = BTL_CLIENT_TrySetRotateAction(client, client->actions)) != 0) {
+                    client->sendSize = rotateSize;
                     client->sendData = (u8 *)client->actions;
                     *state = 4;
                 } else {
@@ -4999,13 +4999,13 @@ int func_021D0E7C(BtlClient *client, int *state, u8 param)
             func_021E9B14(client->view);
             *state = 2;
         } else if (func_021E9B20(client->view) != 0) {
-            func_021D0B6C(client, client->choiceFlags);
+            BTL_CLIENT_SetChangeActionsFromChoice(client, client->choiceFlags);
             *state = 3;
         }
         break;
     case 2:
         if (func_021E9B20(client->view) != 0) {
-            func_021D0BB0(client);
+            BTL_CLIENT_SetChangeActionsFirstAble(client);
             *state = 3;
         }
         break;
@@ -5043,7 +5043,7 @@ int func_021D0E7C(BtlClient *client, int *state, u8 param)
  */
 int BTL_CLIENT_IsDoubleBattleLeadAlive(BtlClient *client)
 {
-    if (BTL_MAIN_GetRule(client->main) == 3 && BTL_POKEPARAM_IsFainted(func_021B9C00(client->sideData, 0)) != 0) return 1;
+    if (BTL_MAIN_GetRule(client->main) == 3 && BTL_POKEPARAM_IsFainted(BTL_SLOT_GetPokeParam(client->sideData, 0)) != 0) return 1;
     return 0;
 }
 
@@ -5053,18 +5053,18 @@ int BTL_CLIENT_IsDoubleBattleLeadAlive(BtlClient *client)
 
 
 
-int func_021D1058(BtlClient *client, void *q)
+int BTL_CLIENT_TrySetRotateAction(BtlClient *client, void *action)
 {
-    int k;
+    int position;
 
-    k = 2;
-    if (BTL_POKEPARAM_IsFainted(func_021B9C00(client->sideData, (u8)(int)func_021B9AB0(2))) == 0) {
-        BTL_ACTION_SetRotate(q, k);
+    position = 2;
+    if (BTL_POKEPARAM_IsFainted(BTL_SLOT_GetPokeParam(client->sideData, (u8)(int)BTL_SLOT_GetRotateSrcIndex(2))) == 0) {
+        BTL_ACTION_SetRotate(action, position);
         return 4;
     }
-    k = 3;
-    if (BTL_POKEPARAM_IsFainted(func_021B9C00(client->sideData, (u8)(int)func_021B9AB0(3))) == 0) {
-        BTL_ACTION_SetRotate(q, k);
+    position = 3;
+    if (BTL_POKEPARAM_IsFainted(BTL_SLOT_GetPokeParam(client->sideData, (u8)(int)BTL_SLOT_GetRotateSrcIndex(3))) == 0) {
+        BTL_ACTION_SetRotate(action, position);
         return 4;
     }
     return 0;
@@ -5072,18 +5072,18 @@ int func_021D1058(BtlClient *client, void *q)
 
 
 
-int func_021D10B8(BtlClient *client, int *state)
+int BTL_CLIENT_StepAskSwitchBeforeSendOut(BtlClient *client, int *state)
 {
-    u8 *args;
-    int choice;
-    u8 count;
+    u8 *received;
+    int answer;
+    u8 chosenIndex;
     switch (*state) {
     case 0:
-        BTL_ADAPTER_GetRecvData((int)client->netChannel, &args);
-        if (args[0] != 0x1F) {
+        BTL_ADAPTER_GetRecvData((int)client->netChannel, &received);
+        if (received[0] != 0x1F) {
             func_021EAF18((struct L *)&client->messageA, 1, 0x14);
             func_021EAF50((struct L *)&client->messageA, 1);
-            func_021EAF50((struct L *)&client->messageA, args[0]);
+            func_021EAF50((struct L *)&client->messageA, received[0]);
             func_021EAF78((u8 *)&client->messageA, 0xFF);
             func_021EA614(client->view, &client->messageA);
             *state = 1;
@@ -5100,8 +5100,8 @@ int func_021D10B8(BtlClient *client, int *state)
         break;
     case 2:
         if (func_021EA710(client->view) != 0) {
-            if (func_021EAC54(client->view, &choice) != 0) {
-                if (choice == 0) {
+            if (func_021EAC54(client->view, &answer) != 0) {
+                if (answer == 0) {
                     BTL_CLIENT_BuildSlotChoices(client, 0, 1, client->slotChoices, client->choiceFlags);
                     func_021E9A78(client->view, client->slotChoices, 0, 0, client->choiceFlags);
                     *state = 3;
@@ -5112,9 +5112,9 @@ int func_021D10B8(BtlClient *client, int *state)
     case 3:
         if (func_021E9B20(client->view) != 0) {
             if (func_0689CB14(client->choiceFlags) == 0) {
-                count = func_0689CB1C(client->choiceFlags);
-                if (count != 0 && count < 6) {
-                    BTL_ACTION_SetChange(client->actions, 0, count);
+                chosenIndex = func_0689CB1C(client->choiceFlags);
+                if (chosenIndex != 0 && chosenIndex < 6) {
+                    BTL_ACTION_SetChange(client->actions, 0, chosenIndex);
                     *state = 5;
                 } else {
 invalid:
@@ -5144,15 +5144,15 @@ invalid:
 
 
 
-int func_021D123C(BtlClient *client)
+int BTL_CLIENT_RecordReceivedPacket(BtlClient *client)
 {
-    u8 *tmp;
-    int r4 = BTL_ADAPTER_GetRecvData((int)client->netChannel, &tmp);
+    u8 *packet;
+    int packetSize = BTL_ADAPTER_GetRecvData((int)client->netChannel, &packet);
     if (client->timeLimitTimer != 0)
-        BTL_REC_AppendPacket((u8 *)(client->timeLimitTimer), (const u8 *)tmp, r4);
+        BTL_REC_AppendPacket((u8 *)(client->timeLimitTimer), (const u8 *)packet, packetSize);
     if (client->requestParam != 0) {
-        BTL_SERVER_LoadRecorderReplies((Obj_td *)client->requestParam, tmp, r4);
-        client->requestId = BTL_REC_GetPacketId((u8 *)tmp);
+        BTL_SERVER_LoadRecorderReplies((Obj_td *)client->requestParam, packet, packetSize);
+        client->requestId = BTL_REC_GetPacketId((u8 *)packet);
     }
     return 1;
 }
@@ -5170,11 +5170,11 @@ int func_021D123C(BtlClient *client)
  * extent: compiled 18 bytes followed by two zero alignment bytes.
  * interface: r2 loads p+0x54 before bl; retained as third argument even where callee does not read it.
  */
-int func_021D127C(BtlClient *client, int *state)
+int BTL_CLIENT_StepShowResultIfView(BtlClient *client, int *state)
 {
     void *q;
     q = client->view;
-    if (q != 0) return func_021D1290(client, state, q);
+    if (q != 0) return BTL_CLIENT_StepShowResultMessage(client, state, q);
     return 1;
 }
 
@@ -5189,32 +5189,32 @@ int func_021D127C(BtlClient *client, int *state)
 /*
  * lever: the 0x1B2 bit5 test is a byte bitfield, not a shifted integer mask.
  */
-int func_021D1290(BtlClient *client, int *state, void *a2)
+int BTL_CLIENT_StepShowResultMessage(BtlClient *client, int *state, void *view)
 {
-    int idx;
-    int mode;
-    u8 flag;
-    u16 msg;
+    int trainerIndex;
+    int outcome;
+    u8 isMultiMode;
+    u16 messageId;
     switch (*state) {
     case 0:
         if (client->flags.bit.windowDone != 0)
             return 1;
-        idx = func_021B904C(client->main, 0);
-        mode = func_021D13A4(client);
-        flag = BTL_MAIN_IsMultiMode((unsigned char **)(client->main));
-        func_021B916C(client->main, mode);
-        switch (mode) {
-        case 1: msg = flag != 0 ? 0x31 : 0x30; break;
-        case 0: msg = flag != 0 ? 0x33 : 0x32; break;
-        case 2: msg = flag != 0 ? 0x35 : 0x34; break;
+        trainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
+        outcome = BTL_CLIENT_GetOutcomeForClient(client);
+        isMultiMode = BTL_MAIN_IsMultiMode((unsigned char **)(client->main));
+        BTL_MAIN_SetOutcomeIfUnset(client->main, outcome);
+        switch (outcome) {
+        case 1: messageId = isMultiMode != 0 ? 0x31 : 0x30; break;
+        case 0: messageId = isMultiMode != 0 ? 0x33 : 0x32; break;
+        case 2: messageId = isMultiMode != 0 ? 0x35 : 0x34; break;
         default: return 1;
         }
-        func_021EAF18((struct L *)&client->messageA, 1, msg);
-        func_021EAF50((struct L *)&client->messageA, idx);
-        if (flag != 0)
-            func_021EAF50((struct L *)&client->messageA, func_021B904C(client->main, 1));
+        func_021EAF18((struct L *)&client->messageA, 1, messageId);
+        func_021EAF50((struct L *)&client->messageA, trainerIndex);
+        if (isMultiMode != 0)
+            func_021EAF50((struct L *)&client->messageA, BTL_MAIN_GetOwnOpponentClient(client->main, 1));
         func_021EA614(client->view, &client->messageA);
-        if (mode == 1) {
+        if (outcome == 1) {
             GFL_USE_CancelChangeAndPlayBgm(BTL_MAIN_GetWinBgm(client->main), 0xFFFF);
             (*state)++;
         } else {
@@ -5248,22 +5248,22 @@ int func_021D1290(BtlClient *client, int *state, void *a2)
 
 
 
-int func_021D13A4(BtlClient *client)
+int BTL_CLIENT_GetOutcomeForClient(BtlClient *client)
 {
-    u16 *q;
+    u16 *result;
 
-    BTL_ADAPTER_GetRecvData((int)client->netChannel, (u8 **)&q);
-    switch (q[1]) {
+    BTL_ADAPTER_GetRecvData((int)client->netChannel, (u8 **)&result);
+    switch (result[1]) {
     case 0:
-        if (func_021B902C((u8)q[0], client->clientId) == 0)
+        if (BTL_MAIN_IsSameTeamClient((u8)result[0], client->clientId) == 0)
             return 1;
         break;
     case 1:
-        if (func_021B902C((u8)q[0], client->clientId) == 0)
+        if (BTL_MAIN_IsSameTeamClient((u8)result[0], client->clientId) == 0)
             return 0;
         break;
     }
-    return q[1];
+    return result[1];
 }
 
 
@@ -5272,11 +5272,11 @@ int func_021D13A4(BtlClient *client)
 
 
 
-int func_021D13FC(BtlClient *client, int *state)
+int BTL_CLIENT_StepShowTrainerResultIfView(BtlClient *client, int *state)
 {
     void *q;
     q = client->view;
-    if (q != 0) return func_021D1410(client, state, q);
+    if (q != 0) return BTL_CLIENT_StepShowTrainerResult(client, state, q);
     return 1;
 }
 
@@ -5290,32 +5290,32 @@ int func_021D13FC(BtlClient *client, int *state)
 
 
 
-int func_021D1410(BtlClient *client, int *state, void *q)
+int BTL_CLIENT_StepShowTrainerResult(BtlClient *client, int *state, void *view)
 {
-    int a;
-    int b;
+    int firstTrainerIndex;
+    int secondTrainerIndex;
 
     switch (*state) {
     case 0:
-        if (func_021D13A4(client) == 1) {
+        if (BTL_CLIENT_GetOutcomeForClient(client) == 1) {
             func_021F878C(BTL_MAIN_GetWinBgm(client->main));
-            a = func_021B904C(client->main, 0);
-            b = func_021B904C(client->main, 1);
-            if (a == b) {
+            firstTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
+            secondTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 1);
+            if (firstTrainerIndex == secondTrainerIndex) {
                 func_021EAF18((struct L *)client->messageA.data, 1, 44);
-                func_021EAF50((struct L *)client->messageA.data, a);
+                func_021EAF50((struct L *)client->messageA.data, firstTrainerIndex);
             } else {
                 func_021EAF18((struct L *)client->messageA.data, 1, 45);
-                func_021EAF50((struct L *)client->messageA.data, a);
-                func_021EAF50((struct L *)client->messageA.data, b);
+                func_021EAF50((struct L *)client->messageA.data, firstTrainerIndex);
+                func_021EAF50((struct L *)client->messageA.data, secondTrainerIndex);
             }
             func_021EA614(client->view, client->messageA.data);
             *state = 1;
-        } else if (func_021BA1A8(client->main, 0x100) == 0) {
-            a = func_021B8FF4(client->main);
+        } else if (BTL_MAIN_CheckSetupStatusFlag(client->main, 0x100) == 0) {
+            firstTrainerIndex = BTL_MAIN_GetOwnClientId(client->main);
             func_021EAF18((struct L *)client->messageA.data, 1, 54);
-            func_021EAF50((struct L *)client->messageA.data, a);
-            func_021EAF50((struct L *)client->messageA.data, a);
+            func_021EAF50((struct L *)client->messageA.data, firstTrainerIndex);
+            func_021EAF50((struct L *)client->messageA.data, firstTrainerIndex);
             func_021EA614(client->view, client->messageA.data);
             *state = 9;
         } else {
@@ -5324,23 +5324,23 @@ int func_021D1410(BtlClient *client, int *state, void *q)
         break;
     case 1:
         if (func_021EA710(client->view)) {
-            a = func_021B904C(client->main, 0);
-            func_021F7F58(func_021BA020(client->main, a), 9, 0, 0, 0);
+            firstTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
+            func_021F7F58(BTL_MAIN_GetTrainerType(client->main, firstTrainerIndex), 9, 0, 0, 0);
             func_021F7998(0x270);
             *state = 2;
         }
         break;
     case 2:
         if (func_021F7EB4() == 0) {
-            a = func_021B904C(client->main, 0);
-            func_021EA6B0(client->view, func_021BA004(client->main, a), 1);
+            firstTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
+            func_021EA6B0(client->view, BTL_MAIN_GetTrainerId(client->main, firstTrainerIndex), 1);
             *state = 3;
         }
         break;
     case 3:
         if (func_021EA710(client->view)) {
-            a = func_021B904C(client->main, 0);
-            if (a != func_021B904C(client->main, 1)) {
+            firstTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
+            if (firstTrainerIndex != BTL_MAIN_GetOwnOpponentClient(client->main, 1)) {
                 func_021F7998(0x271);
                 *state = 4;
             } else {
@@ -5350,16 +5350,16 @@ int func_021D1410(BtlClient *client, int *state, void *q)
         break;
     case 4:
         if (func_021F7EB4() == 0) {
-            a = func_021B904C(client->main, 1);
-            func_021F7F58(func_021BA020(client->main, a), 9, 0, 0, 0);
+            firstTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 1);
+            func_021F7F58(BTL_MAIN_GetTrainerType(client->main, firstTrainerIndex), 9, 0, 0, 0);
             func_021F7998(0x270);
             *state = 5;
         }
         break;
     case 5:
         if (func_021F7EB4() == 0) {
-            a = func_021B904C(client->main, 1);
-            func_021EA6B0(client->view, func_021BA004(client->main, a), 1);
+            firstTrainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 1);
+            func_021EA6B0(client->view, BTL_MAIN_GetTrainerId(client->main, firstTrainerIndex), 1);
             *state = 6;
         }
         break;
@@ -5368,27 +5368,27 @@ int func_021D1410(BtlClient *client, int *state, void *q)
             *state = 7;
         break;
     case 7:
-        a = func_021B919C(client->main);
-        if (a) {
-            b = func_021B8FF4(client->main);
+        firstTrainerIndex = BTL_MAIN_GetPrizeMoney(client->main);
+        if (firstTrainerIndex) {
+            secondTrainerIndex = BTL_MAIN_GetOwnClientId(client->main);
             func_021EAF18((struct L *)client->messageA.data, 1, 58);
-            func_021EAF50((struct L *)client->messageA.data, b);
-            func_021EAF50((struct L *)client->messageA.data, a);
+            func_021EAF50((struct L *)client->messageA.data, secondTrainerIndex);
+            func_021EAF50((struct L *)client->messageA.data, firstTrainerIndex);
             func_021EA614(client->view, client->messageA.data);
         }
-        if (func_021B9210(client->main) == 0)
+        if (BTL_MAIN_GetBonusMoney(client->main) == 0)
             *state = 11;
         else
             *state = 8;
         break;
     case 8:
         if (func_021EA710(client->view)) {
-            a = func_021B9210(client->main);
-            if (a) {
-                b = func_021B8FF4(client->main);
+            firstTrainerIndex = BTL_MAIN_GetBonusMoney(client->main);
+            if (firstTrainerIndex) {
+                secondTrainerIndex = BTL_MAIN_GetOwnClientId(client->main);
                 func_021EAF18((struct L *)client->messageA.data, 1, 59);
-                func_021EAF50((struct L *)client->messageA.data, b);
-                func_021EAF50((struct L *)client->messageA.data, a);
+                func_021EAF50((struct L *)client->messageA.data, secondTrainerIndex);
+                func_021EAF50((struct L *)client->messageA.data, firstTrainerIndex);
                 func_021EA614(client->view, client->messageA.data);
             }
             *state = 11;
@@ -5396,11 +5396,11 @@ int func_021D1410(BtlClient *client, int *state, void *q)
         break;
     case 9:
         if (func_021EA710(client->view)) {
-            a = func_021B9244(client->main);
-            if (a) {
+            firstTrainerIndex = BTL_MAIN_CalcPenaltyMoney(client->main);
+            if (firstTrainerIndex) {
                 func_021EAF18((struct L *)client->messageA.data, 1, 56);
                 func_021EAF50((struct L *)client->messageA.data, client->clientId);
-                func_021EAF50((struct L *)client->messageA.data, a);
+                func_021EAF50((struct L *)client->messageA.data, firstTrainerIndex);
                 func_021EA614(client->view, client->messageA.data);
             }
             *state = 10;
@@ -5438,11 +5438,11 @@ int func_021D1410(BtlClient *client, int *state, void *q)
  * extent: compiled 18 bytes followed by two zero alignment bytes.
  * interface: r2 loads p+0x54 before bl; retained as third argument even where callee does not read it.
  */
-int func_021D1708(BtlClient *client, int *state)
+int BTL_CLIENT_StepShowEndSpeechIfView(BtlClient *client, int *state)
 {
     void *q;
     q = client->view;
-    if (q != 0) return func_021D171C(client, state, q);
+    if (q != 0) return BTL_CLIENT_StepShowEndSpeech(client, state, q);
     return 1;
 }
 
@@ -5459,21 +5459,21 @@ int func_021D1708(BtlClient *client, int *state)
 /*
  * lever: the 0x1B2 bit5 test is a byte bitfield, preserving the shift pair.
  */
-int func_021D171C(BtlClient *client, int *state, void *a2)
+int BTL_CLIENT_StepShowEndSpeech(BtlClient *client, int *state, void *view)
 {
-    u32 mode;
-    int idx;
+    u32 outcome;
+    int trainerIndex;
     switch (*state) {
     case 0:
         if (client->flags.bit.windowDone != 0) return 1;
-        mode = func_021D13A4(client);
-        func_021B916C(client->main, mode);
-        if (mode == 1) func_021F878C(BTL_MAIN_GetWinBgm(client->main));
-        if (mode <= 1) {
-            idx = func_021B904C(client->main, 0);
-            func_021F7F58(func_021BA020(client->main, idx), 9, 0, 0, 0);
+        outcome = BTL_CLIENT_GetOutcomeForClient(client);
+        BTL_MAIN_SetOutcomeIfUnset(client->main, outcome);
+        if (outcome == 1) func_021F878C(BTL_MAIN_GetWinBgm(client->main));
+        if (outcome <= 1) {
+            trainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
+            func_021F7F58(BTL_MAIN_GetTrainerType(client->main, trainerIndex), 9, 0, 0, 0);
             func_021F7998(0x270);
-            func_021D185C(client, mode, 0);
+            BTL_CLIENT_ShowEndSpeech(client, outcome, 0);
             *state = 1;
         } else return 1;
         break;
@@ -5485,19 +5485,19 @@ int func_021D171C(BtlClient *client, int *state, void *a2)
         break;
     case 2:
         if (func_021EA710(client->view) != 0) {
-            idx = func_021B904C(client->main, 0);
-            if (idx == func_021B904C(client->main, 1)) return 1;
+            trainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 0);
+            if (trainerIndex == BTL_MAIN_GetOwnOpponentClient(client->main, 1)) return 1;
             func_021F7998(0x271);
             *state = 3;
         }
         break;
     case 3:
         if (func_021F7EB4() == 0) {
-            mode = func_021D13A4(client);
-            idx = func_021B904C(client->main, 1);
-            func_021F7F58(func_021BA020(client->main, idx), 9, 0, 0, 0);
+            outcome = BTL_CLIENT_GetOutcomeForClient(client);
+            trainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, 1);
+            func_021F7F58(BTL_MAIN_GetTrainerType(client->main, trainerIndex), 9, 0, 0, 0);
             func_021F7998(0x270);
-            func_021D185C(client, mode, 1);
+            BTL_CLIENT_ShowEndSpeech(client, outcome, 1);
             *state = 4;
         }
         break;
@@ -5528,26 +5528,26 @@ int func_021D171C(BtlClient *client, int *state, void *a2)
  * Verified C for it (match.py one --thumb, no --region, EXACT, 20 bytes):
  *   int PMSI_PARAM_IsEnabled(u16 *p) { return *p != 0xffff; }
  */
-void func_021D185C(BtlClient *client, int a, int b)
+void BTL_CLIENT_ShowEndSpeech(BtlClient *client, int outcome, int trainerSide)
 {
-    int idx;
-    void *p;
-    void *r;
-    int v;
+    int trainerIndex;
+    void *speech;
+    void *speechText;
+    int trainerId;
 
-    idx = func_021B904C(client->main, b);
-    p = func_021BA02C(client->main, idx, a);
-    if (p != 0 && PMSI_PARAM_IsEnabled(p) != 0) {
-        r = PMSI_PARAM_ToString(p, (u16)((client->heapId & 0x7fff) | 0x8000));
-        func_021EA5E4(client->view, r);
-        STRBUF_Delete(r);
+    trainerIndex = BTL_MAIN_GetOwnOpponentClient(client->main, trainerSide);
+    speech = BTL_MAIN_GetTrainerSentence(client->main, trainerIndex, outcome);
+    if (speech != 0 && PMSI_PARAM_IsEnabled(speech) != 0) {
+        speechText = PMSI_PARAM_ToString(speech, (u16)((client->heapId & 0x7fff) | 0x8000));
+        func_021EA5E4(client->view, speechText);
+        STRBUF_Delete(speechText);
         return;
     }
-    v = func_021BA004(client->main, idx);
-    if (v != 0) {
+    trainerId = BTL_MAIN_GetTrainerId(client->main, trainerIndex);
+    if (trainerId != 0) {
         func_021EAF18((struct L *)client->messageA.data, 7, (int)0);
-        func_021EAF50((struct L *)client->messageA.data, (int)v);
-        func_021EAF50((struct L *)client->messageA.data, (int)a);
+        func_021EAF50((struct L *)client->messageA.data, (int)trainerId);
+        func_021EAF50((struct L *)client->messageA.data, (int)outcome);
         func_021EA5F0(client->view, client->messageA.data);
     }
 }
@@ -5562,17 +5562,17 @@ void func_021D185C(BtlClient *client, int a, int b)
 
 
 
-int func_021D18EC(BtlClient *client, int *state)
+int BTL_CLIENT_StepShowPrizeMoneyMessage(BtlClient *client, int *state)
 {
     int a;
     int b;
 
     switch (*state) {
     case 0:
-        if (func_021BA1A8(client->main, 0x200) == 0) {
-            a = func_021B9210(client->main);
+        if (BTL_MAIN_CheckSetupStatusFlag(client->main, 0x200) == 0) {
+            a = BTL_MAIN_GetBonusMoney(client->main);
             if (a != 0) {
-                b = func_021B8FF4(client->main);
+                b = BTL_MAIN_GetOwnClientId(client->main);
                 func_021EAF18((struct L *)client->messageA.data, 1, 0x3b);
                 func_021EAF50((struct L *)client->messageA.data, b);
                 func_021EAF50((struct L *)client->messageA.data, a);
@@ -5598,7 +5598,7 @@ int func_021D18EC(BtlClient *client, int *state)
 
 
 
-int func_021D1960(BtlClient *client, int *state)
+int BTL_CLIENT_StepShowBlackoutMessages(BtlClient *client, int *state)
 {
     int a;
 
@@ -5611,7 +5611,7 @@ int func_021D1960(BtlClient *client, int *state)
         break;
     case 1:
         if (func_021EA710(client->view) != 0) {
-            a = func_021B9244(client->main);
+            a = BTL_MAIN_CalcPenaltyMoney(client->main);
             if (a != 0) {
                 func_021EAF18((struct L *)client->messageA.data, 1, 0x37);
                 func_021EAF50((struct L *)client->messageA.data, client->clientId);
@@ -5649,7 +5649,7 @@ int func_021D1960(BtlClient *client, int *state)
 
 
 
-int func_021D1A18(BtlClient *client, int *state)
+int BTL_CLIENT_StepShowFixedMessage(BtlClient *client, int *state)
 {
     switch (*state) {
     case 0:
@@ -5675,11 +5675,11 @@ int func_021D1A18(BtlClient *client, int *state)
 
 
 
-int func_021D1A60(BtlClient *client, int *state)
+int BTL_CLIENT_StepRunServerCommandsIfView(BtlClient *client, int *state)
 {
     void *q;
     q = client->view;
-    if (q != 0) return func_021D1A74(client, state, q);
+    if (q != 0) return BTL_CLIENT_StepRunServerCommands(client, state, q);
     return 1;
 }
 
@@ -5691,55 +5691,55 @@ int func_021D1A60(BtlClient *client, int *state)
 
 
 
-int func_021D1A74(BtlClient *client, int *state, void *a2)
+int BTL_CLIENT_StepRunServerCommands(BtlClient *client, int *state, void *view)
 {
-    u8 *args;
-    int size;
-    u16 len;
-    Buf_021CC768 *buf;
-    u32 i;
-    int code;
+    u8 *packet;
+    int packetSize;
+    u16 packetLen;
+    Buf_021CC768 *commandBuffer;
+    u32 tableIndex;
+    int commandCode;
 again:
     switch (*state) {
     case 0:
-        size = BTL_ADAPTER_GetRecvData((int)client->netChannel, &args);
+        packetSize = BTL_ADAPTER_GetRecvData((int)client->netChannel, &packet);
         if (client->requestParam != 0 && client->requestId != 0 && client->flags.bit.requestSet != 0) {
-            if (BTL_SERVER_CompareFlowOutput((u8 *)client->requestParam, client->requestId, args, size) != 0) {
-                func_021B9184(client->main);
+            if (BTL_SERVER_CompareFlowOutput((u8 *)client->requestParam, client->requestId, packet, packetSize) != 0) {
+                BTL_MAIN_SetRecordInvalid(client->main);
                 client->flags.bit.requestSet = 0;
             }
             client->requestId = 0;
         }
-        buf = client->workBuffer;
-        len = size;
-        func_02082A90(args, buf->buf, len);
-        buf->wpos = len;
-        buf->rpos = 0;
+        commandBuffer = client->workBuffer;
+        packetLen = packetSize;
+        func_02082A90(packet, commandBuffer->buf, packetLen);
+        commandBuffer->wpos = packetLen;
+        commandBuffer->rpos = 0;
         if (client->viewLocked != 0) {
             client->viewLocked = 0;
             func_021EA824(client->view);
         }
         (*state)++;
     case 1:
-        buf = client->workBuffer;
-        if (buf->rpos == buf->wpos) {
+        commandBuffer = client->workBuffer;
+        if (commandBuffer->rpos == commandBuffer->wpos) {
             *state = 4;
             return 1;
         }
         if (func_021D3F4C(client->commandQueue) != 0) return 1;
         (*state)++;
     case 2:
-        code = BTL_SERVER_CMD_ReadNext(client->workBuffer, (s32 *)client->seqCursorBuf);
-        client->seqCode = code;
-        if (code == 0x5E) return 1;
-        for (i = 0; i < 0x5D; i++) {
-            if (code == d_021F00DC[i].code) break;
+        commandCode = BTL_SERVER_CMD_ReadNext(client->workBuffer, (s32 *)client->seqCursorBuf);
+        client->seqCode = commandCode;
+        if (commandCode == 0x5E) return 1;
+        for (tableIndex = 0; tableIndex < 0x5D; tableIndex++) {
+            if (commandCode == gServerCommandHandlers[tableIndex].code) break;
         }
-        if (i == 0x5D) {
+        if (tableIndex == 0x5D) {
             *state = 1;
             goto again;
         }
-        client->seqFn = d_021F00DC[i].fn;
+        client->seqFn = gServerCommandHandlers[tableIndex].fn;
         client->seqState = 0;
         (*state)++;
     case 3:
@@ -5761,16 +5761,16 @@ again:
 
 
 
-int func_021D1BD0(BtlClient *client, int *state, int *pp)
+int BTL_CLIENT_StepShowRecallMessage(BtlClient *client, int *state, int *args)
 {
-    int t;
+    int addTrainerName;
 
     switch (*state) {
     case 0:
-        func_021EAF18((struct L *)client->messageA.data, 1, func_021D1C40(client, pp[0], &t));
-        if (t != 0)
-            func_021EAF50((struct L *)client->messageA.data, pp[0]);
-        func_021EAF50((struct L *)client->messageA.data, pp[1]);
+        func_021EAF18((struct L *)client->messageA.data, 1, BTL_CLIENT_PickRecallMessageId(client, args[0], &addTrainerName));
+        if (addTrainerName != 0)
+            func_021EAF50((struct L *)client->messageA.data, args[0]);
+        func_021EAF50((struct L *)client->messageA.data, args[1]);
         func_021EA614(client->view, client->messageA.data);
         (*state)++;
         break;
@@ -5792,28 +5792,28 @@ int func_021D1BD0(BtlClient *client, int *state, int *pp)
 
 
 
-int func_021D1C40(BtlClient *client, u8 x, int *out)
+int BTL_CLIENT_PickRecallMessageId(BtlClient *client, u8 targetClient, int *addTrainerName)
 {
-    u32 v;
+    u32 hpDropPercent;
 
-    if (x == client->clientId) {
-        *out = 0;
+    if (targetClient == client->clientId) {
+        *addTrainerName = 0;
         if (BTL_MAIN_GetRule(client->main) == 0 && BTL_MAIN_GetCommPos(client->main) == 0) {
-            v = BTL_CLIENT_HasMonParamDropped(client);
-            if (v >= 0x4b)
+            hpDropPercent = BTL_CLIENT_HasMonParamDropped(client);
+            if (hpDropPercent >= 0x4b)
                 return 0x1d;
-            if (v > 0x32)
+            if (hpDropPercent > 0x32)
                 return 0x1c;
-            if (v > 0x19)
+            if (hpDropPercent > 0x19)
                 return 0x1b;
-            if (v != 0)
+            if (hpDropPercent != 0)
                 return 0x1a;
             return 0x19;
         }
         return 0x1a;
     }
-    *out = 1;
-    if (func_021B9F70(client->main, x) != 0)
+    *addTrainerName = 1;
+    if (BTL_MAIN_IsTrainerSlotNpc(client->main, targetClient) != 0)
         return 0x1e;
     return 0x1f;
 }
@@ -5828,11 +5828,11 @@ int func_021D1C40(BtlClient *client, u8 x, int *out)
 
 
 
-int func_021D1CAC(BtlClient *client, int *state, int *pp)
+int BTL_CLIENT_StepPlayRecallAnim(BtlClient *client, int *state, int *args)
 {
     switch (*state) {
     case 0:
-        func_021EA458(client->view, func_021B8E70(client->main, (u8)pp[0]), (u16)pp[1]);
+        func_021EA458(client->view, BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[0]), (u16)args[1]);
         (*state)++;
         break;
     case 1:
@@ -5851,7 +5851,7 @@ int func_021D1CAC(BtlClient *client, int *state, int *pp)
 
 
 
-static inline void setMessage(BtlClient *client, int code, u32 value, u32 id)
+static inline void showMessageWithIds(BtlClient *client, int code, u32 value, u32 id)
 {
     func_021EAF18((struct L *)&client->messageA, 1, code);
     func_021EAF50((struct L *)&client->messageA, value);
@@ -5872,35 +5872,35 @@ static inline void setMessage(BtlClient *client, int code, u32 value, u32 id)
  * helper includes that tail. Factoring it outside the conditional merges
  * the initialisation call too early and loses 16 bytes.
  */
-int func_021D1CF4(BtlClient *client, int *state, const u32 *params)
+int BTL_CLIENT_StepSendOutMon(BtlClient *client, int *state, const u32 *params)
 {
-    u8 a = params[0];
-    u8 b = params[1];
-    u8 flag = params[3];
-    u8 id;
+    u8 side = params[0];
+    u8 position = params[1];
+    u8 showMessage = params[3];
+    u8 pokeId;
     switch (*state) {
     case 0:
-        if (flag != 0) {
-            id = BTL_POKEPARAM_GetPokeId(func_021B9920(client->side, a, b));
-            if (func_021B8CE8((int)(client->main), client->clientId, a) == 0) {
-                if (client->clientId == a) {
-                    func_021EAF18((struct L *)&client->messageA, 1, func_021D1DF4(client));
-                    func_021EAF50((struct L *)&client->messageA, id);
+        if (showMessage != 0) {
+            pokeId = BTL_POKEPARAM_GetPokeId(BTL_SIDE_GetClientPoke(client->side, side, position));
+            if (BTL_MAIN_IsOpposingPos((int)(client->main), client->clientId, side) == 0) {
+                if (client->clientId == side) {
+                    func_021EAF18((struct L *)&client->messageA, 1, BTL_CLIENT_PickSendOutMessageId(client));
+                    func_021EAF50((struct L *)&client->messageA, pokeId);
                     func_021EA614(client->view, &client->messageA);
                 } else {
-                    setMessage(client, 0x11, a, id);
+                    showMessageWithIds(client, 0x11, side, pokeId);
                 }
-            } else if (func_021B9F70(client->main, a) != 0) {
-                setMessage(client, 0xE, a, id);
+            } else if (BTL_MAIN_IsTrainerSlotNpc(client->main, side) != 0) {
+                showMessageWithIds(client, 0xE, side, pokeId);
             } else {
-                setMessage(client, 0x11, a, id);
+                showMessageWithIds(client, 0x11, side, pokeId);
             }
         }
         (*state)++;
         break;
     case 1:
         if (func_021EA710(client->view) != 0) {
-            func_021EA488(client->view, BTL_MAIN_GetClientTrainerIndex(client->main, a, b), a, b);
+            func_021EA488(client->view, BTL_MAIN_GetClientTrainerIndex(client->main, side, position), side, position);
             (*state)++;
         }
         break;
@@ -5922,25 +5922,25 @@ int func_021D1CF4(BtlClient *client, int *state, const u32 *params)
 
 
 
-int func_021D1DF4(BtlClient *client)
+int BTL_CLIENT_PickSendOutMessageId(BtlClient *client)
 {
-    u8 *m;
-    u8 t;
-    int v;
+    u8 *leadMon;
+    u8 position;
+    int hpRatio;
 
     if (BTL_MAIN_GetRule(client->main) == 0) {
-        t = func_021B9064(client->main, client->clientId, 0);
-        m = func_021B9920(client->side, t, 0);
-        if (BTL_POKEPARAM_IsFainted(m) != 0)
+        position = BTL_MAIN_GetOpponentClient(client->main, client->clientId, 0);
+        leadMon = BTL_SIDE_GetClientPoke(client->side, position, 0);
+        if (BTL_POKEPARAM_IsFainted(leadMon) != 0)
             return 0xb;
-        v = BTL_POKEPARAM_GetHpRatioFixed((struct Rat *)m);
-        if (v >= 0x4d800)
+        hpRatio = BTL_POKEPARAM_GetHpRatioFixed((struct Rat *)leadMon);
+        if (hpRatio >= 0x4d800)
             return 0xb;
-        if (v >= 0x37000)
+        if (hpRatio >= 0x37000)
             return 0x15;
-        if (v >= 0x20800)
+        if (hpRatio >= 0x20800)
             return 0x16;
-        if (v >= 0xa000)
+        if (hpRatio >= 0xa000)
             return 0x17;
         return 0x18;
     }
@@ -5955,14 +5955,14 @@ int func_021D1DF4(BtlClient *client)
 
 
 
-int func_021D1E6C(BtlClient *client, int *state, u32 *a)
+int BTL_CLIENT_StepShowSideMessage(BtlClient *client, int *state, u32 *args)
 {
     switch (*state) {
     case 0:
         if (BTL_CLIENT_IsMainStepActive(client)) {
             return 1;
         }
-        func_021EA678(client->view, a[0], (int *)(a + 1));
+        func_021EA678(client->view, args[0], (int *)(args + 1));
         *state = *state + 1;
         break;
     case 1:
@@ -5982,76 +5982,19 @@ int func_021D1E6C(BtlClient *client, int *state, u32 *a)
 
 
 
-int func_021D1EB4(BtlClient *client, int *state, u32 *a)
+int BTL_CLIENT_StepShowSideMessageWithSound(BtlClient *client, int *state, u32 *args)
 {
     switch (*state) {
     case 0:
         if (BTL_CLIENT_IsMainStepActive(client)) {
             return 1;
         }
-        func_021EA678(client->view, a[0], (int *)(a + 2));
-        *state = *state + 1;
-        break;
-    case 1:
-        if (func_021EA720(client->view)) {
-            func_020061E4(a[1]);
-        }
-        if (func_021EA710(client->view)) {
-            return 1;
-        }
-        break;
-    }
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-int func_021D1F10(BtlClient *client, int *state, u32 *a)
-{
-    switch (*state) {
-    case 0:
-        if (BTL_CLIENT_IsMainStepActive(client)) {
-            return 1;
-        }
-        func_021EA694(client->view, a[0], (int *)(a + 1));
-        *state = *state + 1;
-        break;
-    case 1:
-        if (func_021EA710(client->view)) {
-            return 1;
-        }
-        break;
-    }
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-int func_021D1F58(BtlClient *client, int *state, u32 *a)
-{
-    switch (*state) {
-    case 0:
-        if (BTL_CLIENT_IsMainStepActive(client)) {
-            return 1;
-        }
-        func_021EA694(client->view, a[0], (int *)(a + 2));
+        func_021EA678(client->view, args[0], (int *)(args + 2));
         *state = *state + 1;
         break;
     case 1:
         if (func_021EA720(client->view)) {
-            func_020061E4(a[1]);
+            GFL_USE_PlaySeDefaultVolume(args[1]);
         }
         if (func_021EA710(client->view)) {
             return 1;
@@ -6068,14 +6011,71 @@ int func_021D1F58(BtlClient *client, int *state, u32 *a)
 
 
 
-int func_021D1FB4(BtlClient *client, int *state, u32 *a)
+
+int BTL_CLIENT_StepShowTaggedMessage(BtlClient *client, int *state, u32 *args)
 {
     switch (*state) {
     case 0:
         if (BTL_CLIENT_IsMainStepActive(client)) {
             return 1;
         }
-        func_021EA6F4(client->view, a[0], a[1]);
+        func_021EA694(client->view, args[0], (int *)(args + 1));
+        *state = *state + 1;
+        break;
+    case 1:
+        if (func_021EA710(client->view)) {
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+int BTL_CLIENT_StepShowTaggedMessageWithSound(BtlClient *client, int *state, u32 *args)
+{
+    switch (*state) {
+    case 0:
+        if (BTL_CLIENT_IsMainStepActive(client)) {
+            return 1;
+        }
+        func_021EA694(client->view, args[0], (int *)(args + 2));
+        *state = *state + 1;
+        break;
+    case 1:
+        if (func_021EA720(client->view)) {
+            GFL_USE_PlaySeDefaultVolume(args[1]);
+        }
+        if (func_021EA710(client->view)) {
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+
+int BTL_CLIENT_StepShowItemUseMessage(BtlClient *client, int *state, u32 *args)
+{
+    switch (*state) {
+    case 0:
+        if (BTL_CLIENT_IsMainStepActive(client)) {
+            return 1;
+        }
+        func_021EA6F4(client->view, args[0], args[1]);
         *state = *state + 1;
         break;
     case 1:
@@ -6095,20 +6095,20 @@ int func_021D1FB4(BtlClient *client, int *state, u32 *a)
 
 
 /*
- * Unlabelled leaf (filed for the blocker of func_021D2030, lane S15).
+ * Unlabelled leaf (filed for the blocker of BTL_CLIENT_StepPlayMoveAnim, lane S15).
  */
-u32 func_021D2000(BtlClient *client, u32 k, u8 b)
+u32 BTL_CLIENT_GetMoveAnimTarget(BtlClient *client, u32 moveId, u8 attackerId)
 {
-    u8 *r;
+    u8 *attacker;
 
-    if (k != 0xAE) {
-        return func_0201BD28(k, 0x1B);
+    if (moveId != 0xAE) {
+        return WAZA_TOOL_GetParam(moveId, 0x1B);
     }
-    r = func_021B98AC((char *const *)client->side, b);
-    if (r) {
-        return BTL_CALC_GetCurseTargetKind(r);
+    attacker = BTL_SIDE_GetPokeAtPos((char *const *)client->side, attackerId);
+    if (attacker) {
+        return BTL_CALC_GetCurseTargetKind(attacker);
     }
-    return func_0201BD28(k, 0x1B);
+    return WAZA_TOOL_GetParam(moveId, 0x1B);
 }
 
 
@@ -6125,25 +6125,25 @@ u32 func_021D2000(BtlClient *client, u32 k, u8 b)
  * t1/t2 in the original spill slots. The u8 b in the callee's own source
  * is widened here: the original caller has no second truncation after v.
  */
-int func_021D2030(BtlClient *client, int *state, const u32 *a)
+int BTL_CLIENT_StepPlayMoveAnim(BtlClient *client, int *state, const u32 *args)
 {
-    u32 t2;
-    u8 v;
-    u32 t1;
-    u32 t3;
-    u32 result;
+    u32 moveId;
+    u8 attackerId;
+    u32 defenderId;
+    u32 hitFlag;
+    u32 targetKind;
     switch (*state) {
     case 0:
         if (BTL_CLIENT_IsMainStepActive(client)) {
             return 1;
         }
         if (BTL_MAIN_CheckSceneOff((unsigned char *)client->main)) {
-            v = (u8)a[0];
-            t1 = (u8)a[1];
-            t2 = (u16)a[2];
-            t3 = (u8)a[3];
-            result = func_021D2000(client, t2, v);
-            func_021EA0A0(client->view, v, t1, t2, result, t3, 0);
+            attackerId = (u8)args[0];
+            defenderId = (u8)args[1];
+            moveId = (u16)args[2];
+            hitFlag = (u8)args[3];
+            targetKind = BTL_CLIENT_GetMoveAnimTarget(client, moveId, attackerId);
+            func_021EA0A0(client->view, attackerId, defenderId, moveId, targetKind, hitFlag, 0);
             *state = *state + 1;
         } else {
             return 1;
@@ -6167,14 +6167,14 @@ int func_021D2030(BtlClient *client, int *state, const u32 *a)
 
 
 
-int func_021D20BC(BtlClient *client, int *state, u32 *a)
+int BTL_CLIENT_StepSetMonVisibility(BtlClient *client, int *state, u32 *args)
 {
     u32 t;
 
     switch (*state) {
     case 0:
-        t = (u32)func_021B8DC0((unsigned char *)client->main, client->side, (u8)a[0]);
-        func_021EA354(client->view, t, a[1] != 0);
+        t = (u32)BTL_MAIN_GetViewPosOfPoke((unsigned char *)client->main, client->side, (u8)args[0]);
+        func_021EA354(client->view, t, args[1] != 0);
         *state = *state + 1;
         break;
     case 1:
@@ -6195,14 +6195,14 @@ int func_021D20BC(BtlClient *client, int *state, u32 *a)
 
 
 
-int func_021D210C(BtlClient *client, int *state, u32 *a)
+int BTL_CLIENT_StepPlayMonTaskAnim(BtlClient *client, int *state, u32 *args)
 {
     int t;
 
     switch (*state) {
     case 0:
-        t = func_021B8D8C(client->main, client->side, (u8)a[0]);
-        func_021EA0F4(client->view, (u16)a[2], t, (u8)a[1]);
+        t = BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, (u8)args[0]);
+        func_021EA0F4(client->view, (u16)args[2], t, (u8)args[1]);
         *state = *state + 1;
         break;
     case 1:
@@ -6223,23 +6223,23 @@ int func_021D210C(BtlClient *client, int *state, u32 *a)
 
 
 
-int func_021D215C(BtlClient *client, int *state, u32 *a)
+int BTL_CLIENT_StepPlayMultiMonAnim(BtlClient *client, int *state, u32 *args)
 {
-    u8 buf[8];
+    u8 monIds[8];
     u8 i;
-    u16 n;
-    u32 p1;
-    u16 p2;
+    u16 monCount;
+    u32 param;
+    u16 soundId;
 
     switch (*state) {
     case 0:
-        n = a[0];
-        p1 = a[1];
-        p2 = a[2];
-        for (i = 0; i < n; i++) {
-            buf[i] = BTL_SERVER_CMD_ReadU8Wrapper(client->workBuffer);
+        monCount = args[0];
+        param = args[1];
+        soundId = args[2];
+        for (i = 0; i < monCount; i++) {
+            monIds[i] = BTL_SERVER_CMD_ReadU8Wrapper(client->workBuffer);
         }
-        func_021EA280(client->view, n, p1, buf, p2);
+        func_021EA280(client->view, monCount, param, monIds, soundId);
         *state = *state + 1;
         break;
     case 1:
@@ -6260,16 +6260,16 @@ int func_021D215C(BtlClient *client, int *state, u32 *a)
 
 
 
-int func_021D21D4(BtlClient *client, int *state, u32 *a)
+int BTL_CLIENT_StepUpdateMonGaugeThenMessage(BtlClient *client, int *state, u32 *args)
 {
     switch (*state) {
     case 0:
-        func_021EA384(client->view, func_021B8D8C(client->main, client->side, (u8)a[0]));
+        func_021EA384(client->view, BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, (u8)args[0]));
         *state = *state + 1;
         break;
     case 1:
         if (func_021EA3A0(client->view)) {
-            func_021EA678(client->view, 0x61, (int *)a);
+            func_021EA678(client->view, 0x61, (int *)args);
             *state = *state + 1;
         }
         break;
@@ -6291,14 +6291,14 @@ int func_021D21D4(BtlClient *client, int *state, u32 *a)
 
 
 
-int func_021D2234(BtlClient *client, int *state, u32 *a)
+int BTL_CLIENT_StepStartEffectForMon(BtlClient *client, int *state, u32 *args)
 {
     int t;
 
     switch (*state) {
     case 0:
-        t = func_021B8D8C(client->main, client->side, (u8)a[0]);
-        func_021F81D0(a[1], func_021B8E70(client->main, t));
+        t = BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, (u8)args[0]);
+        func_021F81D0(args[1], BTL_MAIN_GetViewPosOfSlot(client->main, t));
         *state = *state + 1;
         break;
     case 1:
@@ -6315,23 +6315,23 @@ int func_021D2234(BtlClient *client, int *state, u32 *a)
 
 
 
-int func_021D2278(BtlClient *client, int *state, u32 *a)
+int BTL_CLIENT_StepPlaySubstituteAnim(BtlClient *client, int *state, u32 *args)
 {
     int t;
 
     switch (*state) {
     case 0:
         if (BTL_CLIENT_IsMainStepActive(client) == 0) {
-            t = func_021B8D8C(client->main, client->side, (u8)a[0]);
-            func_021EA0A0(client->view, t, t, 1, func_0201BD28(1, 0x1B), 0, 0);
+            t = BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, (u8)args[0]);
+            func_021EA0A0(client->view, t, t, 1, WAZA_TOOL_GetParam(1, 0x1B), 0, 0);
         }
         *state = *state + 1;
         break;
     case 1:
         if (func_021EA0E4(client->view)) {
-            t = func_021B8D8C(client->main, client->side, (u8)a[0]);
+            t = BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, (u8)args[0]);
             if (BTL_CLIENT_IsMainStepActive(client) == 0) {
-                func_020061E4(0x564);
+                GFL_USE_PlaySeDefaultVolume(0x564);
             }
             func_021EA0F4(client->view, 1, t, 1);
             *state = *state + 1;
@@ -6354,16 +6354,16 @@ int func_021D2278(BtlClient *client, int *state, u32 *a)
 
 
 
-int func_021D2320(BtlClient *client, int *st, u32 *c)
+int BTL_CLIENT_StepFaintMon(BtlClient *client, int *state, u32 *args)
 {
-    switch (*st) {
+    switch (*state) {
     case 0:
-        func_021EA40C(client->view, func_021B8D8C(client->main, client->side, (u8)(*c)));
-        (*st)++;
+        func_021EA40C(client->view, BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, (u8)(*args)));
+        (*state)++;
         break;
     case 1:
         if (func_021EA428(client->view)) {
-            BTL_POKEPARAM_ResetAllEffects(func_021B9934(client->side, (u8)(*c)));
+            BTL_POKEPARAM_ResetAllEffects(BTL_SIDE_GetPokeByIdThunk(client->side, (u8)(*args)));
             return 1;
         }
         break;
@@ -6379,12 +6379,12 @@ int func_021D2320(BtlClient *client, int *st, u32 *c)
 
 
 
-int func_021D2374(BtlClient *client, int *st, u32 *c)
+int BTL_CLIENT_StepReviveMon(BtlClient *client, int *state, u32 *args)
 {
-    switch (*st) {
+    switch (*state) {
     case 0:
-        func_021EA438(client->view, func_021B8D8C(client->main, client->side, (u8)(*c)));
-        (*st)++;
+        func_021EA438(client->view, BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, (u8)(*args)));
+        (*state)++;
         break;
     case 1:
         if (func_021EA448(client->view))
@@ -6402,18 +6402,18 @@ int func_021D2374(BtlClient *client, int *st, u32 *c)
 
 
 
-int func_021D23B8(BtlClient *client, int *st, u32 *c)
+int BTL_CLIENT_StepPlayMonEffect262(BtlClient *client, int *state, u32 *args)
 {
-    u32 t = func_021B8E70(client->main, func_021B8D8C(client->main, client->side, (u8)(*c)));
+    u32 t = BTL_MAIN_GetViewPosOfSlot(client->main, BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, (u8)(*args)));
 
-    switch (*st) {
+    switch (*state) {
     case 0:
         if (BTL_CLIENT_IsMainStepActive(client))
             return 1;
         if (!BTL_MAIN_CheckSceneOff(client->main))
             return 1;
         func_021EA7C8(client->view, t);
-        (*st)++;
+        (*state)++;
         break;
     case 1:
         if (func_021EA7E8(client->view, t))
@@ -6431,18 +6431,18 @@ int func_021D23B8(BtlClient *client, int *st, u32 *c)
 
 
 
-int func_021D2424(BtlClient *client, int *st, u32 *c)
+int BTL_CLIENT_StepPlayMonEffect261(BtlClient *client, int *state, u32 *args)
 {
-    u32 t = func_021B8E70(client->main, func_021B8D8C(client->main, client->side, (u8)(*c)));
+    u32 t = BTL_MAIN_GetViewPosOfSlot(client->main, BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, (u8)(*args)));
 
-    switch (*st) {
+    switch (*state) {
     case 0:
         if (BTL_CLIENT_IsMainStepActive(client))
             return 1;
         if (!BTL_MAIN_CheckSceneOff(client->main))
             return 1;
         func_021EA7D8(client->view, t);
-        (*st)++;
+        (*state)++;
         break;
     case 1:
         if (func_021EA7E8(client->view, t))
@@ -6460,23 +6460,23 @@ int func_021D2424(BtlClient *client, int *st, u32 *c)
 
 
 
-int func_021D2490(BtlClient *client, int *st, u32 *c)
+int BTL_CLIENT_StepStartWeather(BtlClient *client, int *state, u32 *args)
 {
-    u8 id = c[0];
+    u8 weatherId = args[0];
 
-    switch (*st) {
+    switch (*state) {
     case 0:
-        BTL_FIELD_StoreCountdown(client->battleField, (u8)id, (u16)c[1]);
+        BTL_FIELD_StoreCountdown(client->battleField, (u8)weatherId, (u16)args[1]);
         if (BTL_CLIENT_IsMainStepActive(client))
             return 1;
-        if (id < 5)
-            func_021F7998(d_021EFFAE[id].b);
-        (*st)++;
+        if (weatherId < 5)
+            func_021F7998(gWeatherEffects[weatherId].b);
+        (*state)++;
         break;
     case 1:
         if (!func_021F7EB4()) {
-            func_021EA678(client->view, d_021EFFAE[id].a, 0);
-            (*st)++;
+            func_021EA678(client->view, gWeatherEffects[weatherId].a, 0);
+            (*state)++;
         }
         break;
     case 2:
@@ -6495,30 +6495,30 @@ int func_021D2490(BtlClient *client, int *st, u32 *c)
 
 
 
-int func_021D2510(BtlClient *client, int *st, u32 *c)
+int BTL_CLIENT_StepEndWeather(BtlClient *client, int *state, u32 *args)
 {
-    u16 v;
+    u16 messageId;
 
-    switch (*st) {
+    switch (*state) {
     case 0:
-        switch ((u8)c[0]) {
+        switch ((u8)args[0]) {
         case 1:
-            v = 0x59;
+            messageId = 0x59;
             break;
         case 2:
-            v = 0x5a;
+            messageId = 0x5a;
             break;
         case 4:
-            v = 0x5b;
+            messageId = 0x5b;
             break;
         case 3:
-            v = 0x5c;
+            messageId = 0x5c;
             break;
         default:
             return 1;
         }
-        func_021EA678(client->view, v, 0);
-        (*st)++;
+        func_021EA678(client->view, messageId, 0);
+        (*state)++;
         break;
     case 1:
         if (func_021EA710(client->view)) {
@@ -6538,12 +6538,12 @@ int func_021D2510(BtlClient *client, int *st, u32 *c)
 
 
 
-int func_021D2580(BtlClient *client, int *st, u32 *c)
+int BTL_CLIENT_StepUpdateMonGauge(BtlClient *client, int *state, u32 *args)
 {
-    switch (*st) {
+    switch (*state) {
     case 0:
-        func_021EA384(client->view, func_021B8D8C(client->main, client->side, (u8)(*c)));
-        (*st)++;
+        func_021EA384(client->view, BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, (u8)(*args)));
+        (*state)++;
         break;
     case 1:
         if (func_021EA3A0(client->view))
@@ -6561,18 +6561,18 @@ int func_021D2580(BtlClient *client, int *st, u32 *c)
 
 
 
-int func_021D25C4(BtlClient *client, int *st, u32 *c)
+int BTL_CLIENT_StepPlayMonAnim(BtlClient *client, int *state, u32 *args)
 {
-    int t = func_021B8D8C(client->main, client->side, (u8)(*c));
+    int t = BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, (u8)(*args));
 
-    switch (*st) {
+    switch (*state) {
     case 0:
         if (BTL_CLIENT_IsMainStepActive(client))
             return 1;
         if (!BTL_MAIN_CheckSceneOff(client->main))
             return 1;
         func_021EA838(client->view, t);
-        (*st)++;
+        (*state)++;
         break;
     case 1:
         if (func_021EA850(client->view, t))
@@ -6590,14 +6590,14 @@ int func_021D25C4(BtlClient *client, int *st, u32 *c)
 
 
 
-int func_021D2628(BtlClient *client, int *st, u32 *c)
+int BTL_CLIENT_StepUpdateMonGaugeCopy(BtlClient *client, int *state, u32 *args)
 {
-    u8 id = *c;
+    u8 id = *args;
 
-    switch (*st) {
+    switch (*state) {
     case 0:
-        func_021EA384(client->view, func_021B8D8C(client->main, client->side, id));
-        (*st)++;
+        func_021EA384(client->view, BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, id));
+        (*state)++;
         break;
     case 1:
         if (func_021EA3A0(client->view))
@@ -6615,20 +6615,20 @@ int func_021D2628(BtlClient *client, int *st, u32 *c)
 
 
 
-int func_021D266C(BtlClient *client, int *st, u32 *c)
+int BTL_CLIENT_StepRotatePositions(BtlClient *client, int *state, u32 *args)
 {
-    switch (*st) {
+    switch (*state) {
     case 0: {
-        u8 a = c[0];
-        u8 b = c[1];
-        u8 d = c[2];
-        int x = func_021B8DEC(client->main, b);
-        int y = func_021B8DEC(client->main, d);
-        u32 m = func_021B8E70(client->main, b);
-        u32 n = func_021B8E70(client->main, d);
-        func_021B9C10((u32 *)func_021B9AEC(client->side, a), x, y);
-        func_021EA904(client->view, a, m, n, x, y);
-        (*st)++;
+        u8 side = args[0];
+        u8 fromIndex = args[1];
+        u8 toIndex = args[2];
+        int fromPosition = BTL_MAIN_GetSlotNthOfClient(client->main, fromIndex);
+        int toPosition = BTL_MAIN_GetSlotNthOfClient(client->main, toIndex);
+        u32 fromTrainer = BTL_MAIN_GetViewPosOfSlot(client->main, fromIndex);
+        u32 toTrainer = BTL_MAIN_GetViewPosOfSlot(client->main, toIndex);
+        BTL_SLOT_Swap((u32 *)BTL_SIDE_GetSlotOfClient(client->side, side), fromPosition, toPosition);
+        func_021EA904(client->view, side, fromTrainer, toTrainer, fromPosition, toPosition);
+        (*state)++;
         break;
     }
     case 1:
@@ -6646,37 +6646,37 @@ int func_021D266C(BtlClient *client, int *st, u32 *c)
 
 
 
-int func_021D2700(BtlClient *client, int *st, u32 *c)
+int BTL_CLIENT_StepRotatePositionsTwice(BtlClient *client, int *state, u32 *args)
 {
-    switch (*st) {
+    switch (*state) {
     case 0:
         func_021F7998(0x281);
-        (*st)++;
+        (*state)++;
         break;
     case 1:
         if (!func_021F7EB4()) {
-            u8 a = c[0], b = c[1];
-            u32 x, y, v, w;
-            x = BTL_MAIN_GetClientTrainerIndex(client->main, a, b);
-            y = BTL_MAIN_GetClientTrainerIndex(client->main, a, 1);
-            v = func_021B8E70(client->main, x);
-            w = func_021B8E70(client->main, y);
-            func_021B9C10((u32 *)func_021B9AEC(client->side, a), b, 1);
-            func_021EA904(client->view, a, v, w, b, 1);
-            (*st)++;
+            u8 side = args[0], fromIndex = args[1];
+            u32 trainerIndexA, trainerIndexB, trainerA, trainerB;
+            trainerIndexA = BTL_MAIN_GetClientTrainerIndex(client->main, side, fromIndex);
+            trainerIndexB = BTL_MAIN_GetClientTrainerIndex(client->main, side, 1);
+            trainerA = BTL_MAIN_GetViewPosOfSlot(client->main, trainerIndexA);
+            trainerB = BTL_MAIN_GetViewPosOfSlot(client->main, trainerIndexB);
+            BTL_SLOT_Swap((u32 *)BTL_SIDE_GetSlotOfClient(client->side, side), fromIndex, 1);
+            func_021EA904(client->view, side, trainerA, trainerB, fromIndex, 1);
+            (*state)++;
         }
         break;
     case 2:
         if (func_021EA950(client->view)) {
-            u8 a = c[2], b = c[3];
-            u32 x, y, v, w;
-            x = BTL_MAIN_GetClientTrainerIndex(client->main, a, b);
-            y = BTL_MAIN_GetClientTrainerIndex(client->main, a, 1);
-            v = func_021B8E70(client->main, x);
-            w = func_021B8E70(client->main, y);
-            func_021B9C10((u32 *)func_021B9AEC(client->side, a), b, 1);
-            func_021EA904(client->view, a, v, w, b, 1);
-            (*st)++;
+            u8 side = args[2], fromIndex = args[3];
+            u32 trainerIndexA, trainerIndexB, trainerA, trainerB;
+            trainerIndexA = BTL_MAIN_GetClientTrainerIndex(client->main, side, fromIndex);
+            trainerIndexB = BTL_MAIN_GetClientTrainerIndex(client->main, side, 1);
+            trainerA = BTL_MAIN_GetViewPosOfSlot(client->main, trainerIndexA);
+            trainerB = BTL_MAIN_GetViewPosOfSlot(client->main, trainerIndexB);
+            BTL_SLOT_Swap((u32 *)BTL_SIDE_GetSlotOfClient(client->side, side), fromIndex, 1);
+            func_021EA904(client->view, side, trainerA, trainerB, fromIndex, 1);
+            (*state)++;
         }
         break;
     case 3:
@@ -6697,11 +6697,11 @@ int func_021D2700(BtlClient *client, int *st, u32 *c)
  * evidence: Thumb 01 49 02 4b 18 47 c0 46; pools 0x26e and 0x021F7A29. No ARM9/SDK blocker work.
  * note 2026-10-05 (D8 lane16): re-verified MATCH. Callee 0x021F7E94 is an ov094 Thumb tail stub (pool 0x26E, 0x021F7A29); other overlay, not filed. Integrator: seed label.
  */
-int func_021D2814(BtlClient *client, int *state, unsigned int *q)
+int BTL_CLIENT_StepPlayEffectOnMon(BtlClient *client, int *state, unsigned int *args)
 {
     switch (*state) {
     case 0:
-        func_021F7E94((u8)func_021B8E70(client->main, (u8)q[0]));
+        func_021F7E94((u8)BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[0]));
         (*state)++;
         break;
     case 1:
@@ -6719,15 +6719,15 @@ int func_021D2814(BtlClient *client, int *state, unsigned int *q)
 
 
 
-int func_021D284C(BtlClient *client, int *st, u32 *c)
+int BTL_CLIENT_StepPlayEffectOnMonFast(BtlClient *client, int *state, u32 *args)
 {
-    switch (*st) {
+    switch (*state) {
     case 0: {
-        u32 t = func_021B8E70(client->main, (u8)(*c));
+        u32 t = BTL_MAIN_GetViewPosOfSlot(client->main, (u8)(*args));
         if (BTL_CLIENT_IsMainStepActive(client))
             func_021F88BC(1);
         func_021F7EA4(t);
-        (*st)++;
+        (*state)++;
         break;
     }
     case 1:
@@ -6749,17 +6749,17 @@ int func_021D284C(BtlClient *client, int *st, u32 *c)
 
 
 
-int func_021D28AC(BtlClient *client, int *st, u32 *c)
+int BTL_CLIENT_StepTransformMon(BtlClient *client, int *state, u32 *args)
 {
-    switch (*st) {
+    switch (*state) {
     case 0: {
-        u8 *a = func_021B9934(client->side, (u8)c[0]);
-        u8 *b = func_021B9934(client->side, (u8)c[1]);
-        int d = (int)func_021B8DC0(client->main, client->side, (u8)c[0]);
-        int e = (int)func_021B8DC0(client->main, client->side, (u8)c[1]);
-        BTL_POKEPARAM_Transform((struct Unk021D6C50 *)a, (struct Unk021D6C50 *)b);
-        func_021EA8B4(client->view, d, e);
-        (*st)++;
+        u8 *sourceMon = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+        u8 *targetMon = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[1]);
+        int sourceSlot = (int)BTL_MAIN_GetViewPosOfPoke(client->main, client->side, (u8)args[0]);
+        int targetSlot = (int)BTL_MAIN_GetViewPosOfPoke(client->main, client->side, (u8)args[1]);
+        BTL_POKEPARAM_Transform((struct Unk021D6C50 *)sourceMon, (struct Unk021D6C50 *)targetMon);
+        func_021EA8B4(client->view, sourceSlot, targetSlot);
+        (*state)++;
         break;
     }
     case 1:
@@ -6777,16 +6777,16 @@ int func_021D28AC(BtlClient *client, int *st, u32 *c)
 
 
 
-int func_021D2930(BtlClient *client, int *b, u32 *c)
+int BTL_CLIENT_StepPlayHitEffect(BtlClient *client, int *state, u32 *args)
 {
-    int t;
+    int monSlot;
 
-    switch (*b) {
+    switch (*state) {
     case 0:
         if (BTL_CLIENT_IsMainStepActive(client) == 0) {
-            t = func_021B8D8C(client->main, client->side, (u8)c[0]);
-            func_021EA1B8(client->view, (u16)c[2], t, BTL_CALC_SummarizeTypeAffinity(c[1]));
-            (*b)++;
+            monSlot = BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, (u8)args[0]);
+            func_021EA1B8(client->view, (u16)args[2], monSlot, BTL_CALC_SummarizeTypeAffinity(args[1]));
+            (*state)++;
             break;
         }
         return 1;
@@ -6806,9 +6806,9 @@ int func_021D2930(BtlClient *client, int *b, u32 *c)
 
 
 
-int func_021D2990(int a, int b, int *c)
+int BTL_CLIENT_StepChangeBgm(int unusedClient, int unusedState, int *bgmId)
 {
-    func_021F878C(*c);
+    func_021F878C(*bgmId);
     return 1;
 }
 
@@ -6818,7 +6818,7 @@ int func_021D2990(int a, int b, int *c)
 
 
 
-int func_021D299C(BtlClient *client, int *state)
+int BTL_CLIENT_StepPlayViewSequence(BtlClient *client, int *state)
 {
     switch (*state) {
     case 0:
@@ -6838,22 +6838,22 @@ int func_021D299C(BtlClient *client, int *state)
 
 
 
-int func_021D29CC(BtlClient *client, int b, u32 *c)
+int BTL_CLIENT_StepAddEffortValues(BtlClient *client, int unusedState, u32 *args)
 {
-    void *m;
-    u32 i;
-    int k;
-    u32 v;
+    void *mon;
+    u32 statIndex;
+    int paramId;
+    u32 newValue;
 
-    m = BTL_POKEPARAM_GetMon(func_021B9934(client->side, (u8)c[0]));
-    for (i = 0; i < 6; i++) {
-        if (d_021EFF88[i + 1] != 0) {
-            k = d_021EFF88[i];
-            v = c[i + 1] + func_02017E1C(m, k, 0);
-            if (v > 0xff) {
-                v = 0xff;
+    mon = BTL_POKEPARAM_GetMon(BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]));
+    for (statIndex = 0; statIndex < 6; statIndex++) {
+        if (gEffortValueParams[statIndex + 1] != 0) {
+            paramId = gEffortValueParams[statIndex];
+            newValue = args[statIndex + 1] + func_02017E1C(mon, paramId, 0);
+            if (newValue > 0xff) {
+                newValue = 0xff;
             }
-            POKE_TOOL_SetPartyValue(m, k, v);
+            POKE_TOOL_SetPartyValue(mon, paramId, newValue);
         }
     }
     return 1;
@@ -6868,55 +6868,55 @@ int func_021D29CC(BtlClient *client, int b, u32 *c)
  * evidence: 43/43 relocations resolved after parent-coordinated overlay
  * leaf witnesses; all ARM9 calls resolve without new ARM9 files.
  * lever: int id loaded via (u8) cast fixes spill slots; widening the
- * func_021B8DC0 third extern parameter removes absent call truncation.
+ * BTL_MAIN_GetViewPosOfPoke third extern parameter removes absent call truncation.
  * StateData fields keep counter updates on one global base.
  */
-int func_021D2A20(BtlClient *client, int *state, u32 *args)
+int BTL_CLIENT_StepGiveExp(BtlClient *client, int *state, u32 *args)
 {
-    void *obj;
-    int id;
-    int index;
-    int enabled;
-    u32 remaining;
-    id = (u8)args[0];
-    obj = func_021B9934(client->side, id);
-    index = func_021B8DC0(client->main, client->side, id);
-    enabled = 0;
-    if (index != 0xff && func_021F8204(index)) enabled = 1;
+    void *pokeParam;
+    int pokeId;
+    int monSlot;
+    int gaugeActive;
+    u32 expRemaining;
+    pokeId = (u8)args[0];
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, pokeId);
+    monSlot = BTL_MAIN_GetViewPosOfPoke(client->main, client->side, pokeId);
+    gaugeActive = 0;
+    if (monSlot != 0xff && func_021F8204(monSlot)) gaugeActive = 1;
     switch (*state) {
     case 0:
-        d_021F3B64.s.remaining = args[1];
-        d_021F3B64.s.counter = 0;
+        gExpGainWork.s.remaining = args[1];
+        gExpGainWork.s.counter = 0;
         *state = 1;
     case 1:
-        if (d_021F3B64.s.remaining) {
-            remaining = d_021F3B64.s.remaining;
-            if (BTL_POKEPARAM_AddExp(obj, &remaining, (struct Result *)d_021F3B64.s.result)) {
+        if (gExpGainWork.s.remaining) {
+            expRemaining = gExpGainWork.s.remaining;
+            if (BTL_POKEPARAM_AddExp(pokeParam, &expRemaining, (struct Result *)gExpGainWork.s.result)) {
                 *state = 3;
             } else {
-                if (enabled) {
-                    func_021F8134(index, d_021F3B64.s.remaining);
+                if (gaugeActive) {
+                    func_021F8134(monSlot, gExpGainWork.s.remaining);
                     *state = 2;
                 } else *state = 13;
-                remaining = 0;
+                expRemaining = 0;
             }
-            d_021F3B64.s.remaining = remaining;
+            gExpGainWork.s.remaining = expRemaining;
         } else *state = 13;
         break;
     case 2:
         if (!func_021F8180()) *state = 13;
         break;
     case 3:
-        BTL_EVENT_ReleaseClientHandle(obj);
-        BTL_POKEPARAM_ReloadFromParam(obj);
-        if (enabled) {
-            func_021F8150(index, obj);
+        BTL_EVENT_ReleaseClientHandle(pokeParam);
+        BTL_POKEPARAM_ReloadFromParam(pokeParam);
+        if (gaugeActive) {
+            func_021F8150(monSlot, pokeParam);
             *state = 4;
         } else *state = 6;
         break;
     case 4:
-        if (!func_021F8180() && !func_02006238()) {
-            func_021EA3B8(client->view, index, 0x25d);
+        if (!func_021F8180() && !GFL_USE_IsAnySeBusy()) {
+            func_021EA3B8(client->view, monSlot, 0x25d);
             *state = 5;
         }
         break;
@@ -6925,8 +6925,8 @@ int func_021D2A20(BtlClient *client, int *state, u32 *args)
         break;
     case 6:
         func_021EAF18((struct L *)&client->messageA, 1, 0x3c);
-        func_021EAF50((struct L *)&client->messageA, (int)id);
-        func_021EAF50((struct L *)&client->messageA, (int)d_021F3B64.s.result[0]);
+        func_021EAF50((struct L *)&client->messageA, (int)pokeId);
+        func_021EAF50((struct L *)&client->messageA, (int)gExpGainWork.s.result[0]);
         func_021EA614(client->view, &client->messageA);
         *state = 7;
         break;
@@ -6936,45 +6936,45 @@ int func_021D2A20(BtlClient *client, int *state, u32 *args)
             GFL_USE_PushBgm();
             GFL_USE_CancelChangeAndPlayBgm(0x515, 0xffff);
         }
-        if (func_021EA710(client->view) && !func_02005F38()) {
+        if (func_021EA710(client->view) && !GFL_USE_IsBgmPlaying()) {
             GFL_USE_PopBgm();
             GFL_USE_SetBgmPlayerParam(0);
-            d_021F3B64.s.counter = 0;
+            gExpGainWork.s.counter = 0;
             *state = 8;
         }
         break;
     case 8:
-        d_021F3B64.s.counter++;
-        if ((func_020362DC() & 3) || TOUCHPANEL_GetTrg() || d_021F3B64.s.counter > 80) {
-            d_021F3B64.s.counter = 0;
-            func_021BA238(client->main, obj);
-            func_021EADA4(client->view, (int)obj, d_021F3B64.s.result);
+        gExpGainWork.s.counter++;
+        if ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg() || gExpGainWork.s.counter > 80) {
+            gExpGainWork.s.counter = 0;
+            BTL_MAIN_NotifyLevelUp(client->main, pokeParam);
+            func_021EADA4(client->view, (int)pokeParam, gExpGainWork.s.result);
             *state = 9;
         }
         break;
     case 9:
-        if (func_021EADB4(client->view) && ((func_020362DC() & 3) || TOUCHPANEL_GetTrg())) {
+        if (func_021EADB4(client->view) && ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg())) {
             func_021EADC4(client->view);
             *state = 10;
         }
         break;
     case 10:
-        if (func_021EADD4(client->view) && ((func_020362DC() & 3) || TOUCHPANEL_GetTrg())) {
+        if (func_021EADD4(client->view) && ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg())) {
             func_021EADE4(client->view);
             *state = 11;
         }
         break;
     case 11:
         if (func_021EADF4(client->view)) {
-            d_021F3B64.s.counter = 0;
+            gExpGainWork.s.counter = 0;
             *state = 12;
         }
         break;
     case 12:
-        if (func_021D2CA8(client, &d_021F3B64.s.counter, obj)) *state = 1;
+        if (BTL_CLIENT_StepLearnLevelUpMoves(client, &gExpGainWork.s.counter, pokeParam)) *state = 1;
         break;
     case 13:
-        func_021B9358(client->main, id);
+        BTL_MAIN_CopyLiveToSnapshotPoke(client->main, pokeId);
         return 1;
     }
     return 0;
@@ -6984,11 +6984,11 @@ int func_021D2A20(BtlClient *client, int *state, u32 *args)
 
 
 
-int func_021D2C7C(int n)
+int BTL_CLIENT_ForgetMoveSoundCallback(int step)
 {
-    switch (n) {
+    switch (step) {
     case 3:
-        func_020061E4(0x56b);
+        GFL_USE_PlaySeDefaultVolume(0x56b);
         break;
     case 5:
         if (GFL_USE_IsSeqPlaying(0x56b) != 0) return 1;
@@ -7002,9 +7002,9 @@ int func_021D2C7C(int n)
 
 
 
-int func_021D2CA8(BtlClient *client, int *state, void *mon)
+int BTL_CLIENT_StepLearnLevelUpMoves(BtlClient *client, int *state, void *mon)
 {
-    int idx = BTL_POKEPARAM_GetPokeId(mon);
+    int pokeId = BTL_POKEPARAM_GetPokeId(mon);
 
     switch (*state) {
     case 0:
@@ -7025,11 +7025,11 @@ int func_021D2CA8(BtlClient *client, int *state, void *mon)
         }
         break;
     case 2: {
-        void *p = func_021B9934(client->side, idx);
+        void *p = BTL_SIDE_GetPokeByIdThunk(client->side, pokeId);
         BTL_POKEPARAM_GetMon(p);
         BTL_POKEPARAM_ReloadFromParam(p);
         func_021EAF18((struct L *)(&client->messageA), 5, 3);
-        func_021EAF50((struct L *)(&client->messageA), idx);
+        func_021EAF50((struct L *)(&client->messageA), pokeId);
         func_021EAF50((struct L *)(&client->messageA), g_021F3B64.move);
         func_021EA614(client->view, (&client->messageA));
         *state = 3;
@@ -7044,7 +7044,7 @@ int func_021D2CA8(BtlClient *client, int *state, void *mon)
             *state = 4;
         break;
     case 4:
-        if (func_02005F38() == 0) {
+        if (GFL_USE_IsBgmPlaying() == 0) {
             GFL_USE_PopBgm();
             GFL_USE_SetBgmPlayerParam(0);
             *state = 1;
@@ -7052,7 +7052,7 @@ int func_021D2CA8(BtlClient *client, int *state, void *mon)
         break;
     case 5:
         func_021EAF18((struct L *)(&client->messageA), 5, 4);
-        func_021EAF50((struct L *)(&client->messageA), idx);
+        func_021EAF50((struct L *)(&client->messageA), pokeId);
         func_021EAF50((struct L *)(&client->messageA), g_021F3B64.move);
         func_021EAF78((u8 *)(&client->messageA), 255);
         func_021EA614(client->view, (&client->messageA));
@@ -7071,7 +7071,7 @@ int func_021D2CA8(BtlClient *client, int *state, void *mon)
         int sel;
         if (func_021EAC54(client->view, &sel)) {
             if (sel == 0) {
-                func_021EAC64(client->view, func_021B9CBC((u8 *)func_021B9AF8(client->side, client->clientId), idx), g_021F3B64.move);
+                func_021EAC64(client->view, BTL_SLOT_FindPokeId((u8 *)BTL_SIDE_GetSlotOfClientThunk(client->side, client->clientId), pokeId), g_021F3B64.move);
                 *state = 8;
             } else {
                 *state = 10;
@@ -7089,13 +7089,13 @@ int func_021D2CA8(BtlClient *client, int *state, void *mon)
             *state = 5;
             break;
         }
-        pp = BTL_POKEPARAM_GetMon(func_021B9934(client->side, idx));
+        pp = BTL_POKEPARAM_GetMon(BTL_SIDE_GetPokeByIdThunk(client->side, pokeId));
         old = func_02017E1C(pp, slot + 54, 0);
         func_020181F4(pp, g_021F3B64.move, slot);
         func_021EAF18((struct L *)(&client->messageA), 5, 5);
-        func_021EAF50((struct L *)(&client->messageA), idx);
+        func_021EAF50((struct L *)(&client->messageA), pokeId);
         func_021EAF50((struct L *)(&client->messageA), old);
-        func_021EA638(client->view, (&client->messageA), (int)((void (*)(void))func_021D2C7C));
+        func_021EA638(client->view, (&client->messageA), (int)((void (*)(void))BTL_CLIENT_ForgetMoveSoundCallback));
         *state = 9;
         break;
     }
@@ -7105,7 +7105,7 @@ int func_021D2CA8(BtlClient *client, int *state, void *mon)
         break;
     case 10:
         func_021EAF18((struct L *)(&client->messageA), 5, 7);
-        func_021EAF50((struct L *)(&client->messageA), idx);
+        func_021EAF50((struct L *)(&client->messageA), pokeId);
         func_021EAF50((struct L *)(&client->messageA), g_021F3B64.move);
         func_021EAF78((u8 *)(&client->messageA), 255);
         func_021EA614(client->view, (&client->messageA));
@@ -7128,7 +7128,7 @@ int func_021D2CA8(BtlClient *client, int *state, void *mon)
         if (func_021EAC54(client->view, &sel)) {
             if (sel == 0) {
                 func_021EAF18((struct L *)(&client->messageA), 5, 8);
-                func_021EAF50((struct L *)(&client->messageA), idx);
+                func_021EAF50((struct L *)(&client->messageA), pokeId);
                 func_021EAF50((struct L *)(&client->messageA), g_021F3B64.move);
                 func_021EA614(client->view, (&client->messageA));
                 *state = 13;
@@ -7154,54 +7154,54 @@ int func_021D2CA8(BtlClient *client, int *state, void *mon)
  * lever: const on the read-only descriptor schedules c[1] before the
  * stack-argument store in the first arm.
  */
-int func_021D2FD8(BtlClient *client, int *b, const u32 *c)
+int BTL_CLIENT_StepThrowBall(BtlClient *client, int *state, const u32 *args)
 {
-    switch (*b) {
+    switch (*state) {
     case 0:
-        func_021F7CFC(func_021B8E70(client->main, (u8)c[0]), (u16)c[5], (u8)c[1], c[2], c[4]);
-        (*b)++;
+        func_021F7CFC(BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[0]), (u16)args[5], (u8)args[1], args[2], args[4]);
+        (*state)++;
         break;
     case 1:
         if (!func_021F7EB4()) {
-            if (c[2]) {
-                u8 *p = func_021B98AC((char *const *)client->side, (u8)c[0]);
+            if (args[2]) {
+                u8 *pokeParam = BTL_SIDE_GetPokeAtPos((char *const *)client->side, (u8)args[0]);
                 func_021EAF18((struct L *)((u8 *)&client->messageA), 1, 0x41);
-                func_021EAF50((struct L *)((u8 *)&client->messageA), BTL_POKEPARAM_GetPokeId(p));
+                func_021EAF50((struct L *)((u8 *)&client->messageA), BTL_POKEPARAM_GetPokeId(pokeParam));
                 func_021F883C(0x518);
             } else {
-                int msg;
-                if (c[1] < 4) msg = d_021EFF80[c[1]];
-                else msg = 0x3d;
-                func_021EAF18((struct L *)((u8 *)&client->messageA), 1, msg);
+                int messageId;
+                if (args[1] < 4) messageId = gCatchShakeMessages[args[1]];
+                else messageId = 0x3d;
+                func_021EAF18((struct L *)((u8 *)&client->messageA), 1, messageId);
             }
             func_021EA614(client->view, ((u8 *)&client->messageA));
-            (*b)++;
+            (*state)++;
         }
         break;
     case 2:
         if (func_021EA710(client->view)) {
-            if (c[2]) {
-                func_021BA2D4((u32)(client->main), (u32 *)func_021B98AC((char *const *)client->side, (u8)c[0]));
-                (*b)++;
+            if (args[2]) {
+                BTL_MAIN_NotifyCapture((u32)(client->main), (u32 *)BTL_SIDE_GetPokeAtPos((char *const *)client->side, (u8)args[0]));
+                (*state)++;
             } else return 1;
         }
         break;
     case 3:
-        if (!func_02005F38()) {
+        if (!GFL_USE_IsBgmPlaying()) {
             func_021F7C0C();
             GFL_USE_CancelChangeAndPlayBgm(0x47c, 0xffff);
-            func_021B92A0(client->main);
-            if (c[3]) {
-                u8 *p = func_021B98AC((char *const *)client->side, (u8)c[0]);
+            BTL_MAIN_SetKeepBgm(client->main);
+            if (args[3]) {
+                u8 *pokeParam = BTL_SIDE_GetPokeAtPos((char *const *)client->side, (u8)args[0]);
                 func_021EAF18((struct L *)((u8 *)&client->messageA), 1, 0x42);
-                func_021EAF50((struct L *)((u8 *)&client->messageA), BTL_POKEPARAM_GetPokeId(p));
+                func_021EAF50((struct L *)((u8 *)&client->messageA), BTL_POKEPARAM_GetPokeId(pokeParam));
                 func_021EA614(client->view, ((u8 *)&client->messageA));
-                (*b)++;
+                (*state)++;
             } else return 1;
         }
         break;
     case 4:
-        if (func_021EA710(client->view)) (*b)++;
+        if (func_021EA710(client->view)) (*state)++;
         break;
     default:
         return 1;
@@ -7214,18 +7214,18 @@ int func_021D2FD8(BtlClient *client, int *b, const u32 *c)
 
 
 
-int func_021D3138(BtlClient *client, int *b, u32 *c)
+int BTL_CLIENT_StepShowBallBlocked(BtlClient *client, int *state, u32 *args)
 {
-    switch (*b) {
+    switch (*state) {
     case 0:
-        func_021F7D44(func_021B8E70(client->main, (u8)c[0]), (u16)c[1]);
-        (*b)++;
+        func_021F7D44(BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[0]), (u16)args[1]);
+        (*state)++;
         break;
     case 1:
         if (func_021F7EB4() == 0) {
             func_021EAF18((struct L *)((u8 *)&client->messageA), 1, 0x43);
             func_021EA614(client->view, ((u8 *)&client->messageA));
-            (*b)++;
+            (*state)++;
         }
         break;
     case 2:
@@ -7242,7 +7242,7 @@ int func_021D3138(BtlClient *client, int *b, u32 *c)
 
 
 
-static inline u16 selectValue(u32 u, u32 k)
+static inline u16 selectSideEndMessageId(u32 u, u32 k)
 {
     if (u == 3) {
         return (k != 0) ? 0x26 : 0x27;
@@ -7262,31 +7262,31 @@ static inline u16 selectValue(u32 u, u32 k)
  * ternary, call in each arm) it is if-converted into r1, and a plain `static` helper is
  * not inlined. `u` is `int` (permuter: u32 put c[1] first into r7 in case 0).
  */
-int func_021D31A0(BtlClient *client, int *b, u32 *c)
+int BTL_CLIENT_StepClearSidePosition(BtlClient *client, int *state, u32 *args)
 {
-    u8 v;
-    int u;
-    u8 k;
-    char *p;
+    u8 kind;
+    int side;
+    u8 isPlayerSide;
+    char *sideEntry;
 
-    switch (*b) {
+    switch (*state) {
     case 0:
-        u = (u8)c[0];
-        v = (u8)c[1];
-        p = func_021B9AEC(client->side, u);
-        func_021B9C50((u8 **)p, v, 0, 0);
-        func_021EAA6C((u32)client->view, u, v);
-        (*b)++;
+        side = (u8)args[0];
+        kind = (u8)args[1];
+        sideEntry = BTL_SIDE_GetSlotOfClient(client->side, side);
+        BTL_SLOT_Rotate((u8 **)sideEntry, kind, 0, 0);
+        func_021EAA6C((u32)client->view, side, kind);
+        (*state)++;
         break;
     case 1:
         if (func_021EAAD8((u32)client->view) != 0) {
-            u = (u8)c[1];
-            if (u == 1) {
+            side = (u8)args[1];
+            if (side == 1) {
                 return 1;
             }
-            k = func_021B9F70(client->main, (u8)c[0]);
-            func_021EA678(client->view, selectValue(u, k), (int *)c);
-            (*b)++;
+            isPlayerSide = BTL_MAIN_IsTrainerSlotNpc(client->main, (u8)args[0]);
+            func_021EA678(client->view, selectSideEndMessageId(side, isPlayerSide), (int *)args);
+            (*state)++;
         }
         break;
     case 2:
@@ -7303,32 +7303,32 @@ int func_021D31A0(BtlClient *client, int *b, u32 *c)
 
 
 
-int func_021D324C(BtlClient *client, int *b, u32 *c)
+int BTL_CLIENT_StepSetAbilityWithPopup(BtlClient *client, int *state, u32 *args)
 {
-    u32 u;
-    int s;
+    u32 pokeId;
+    int monSlot;
 
-    u = (u8)c[0];
-    s = func_021B8D8C(client->main, client->side, u);
-    switch (*b) {
+    pokeId = (u8)args[0];
+    monSlot = BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, pokeId);
+    switch (*state) {
     case 0:
         if (BTL_CLIENT_IsMainStepActive(client) != 0) {
-            BTL_POKEPARAM_SetAbility((struct QJ *)func_021B9934(client->side, u), c[1]);
+            BTL_POKEPARAM_SetAbility((struct QJ *)BTL_SIDE_GetPokeByIdThunk(client->side, pokeId), args[1]);
             return 1;
         }
-        func_021EA768(client->view, s, 0);
-        (*b)++;
+        func_021EA768(client->view, monSlot, 0);
+        (*state)++;
         break;
     case 1:
-        if (func_021EA778(client->view, s) != 0) {
-            BTL_POKEPARAM_SetAbility((struct QJ *)func_021B9934(client->side, u), c[1]);
-            func_021EA7A8(client->view, s);
-            (*b)++;
+        if (func_021EA778(client->view, monSlot) != 0) {
+            BTL_POKEPARAM_SetAbility((struct QJ *)BTL_SIDE_GetPokeByIdThunk(client->side, pokeId), args[1]);
+            func_021EA7A8(client->view, monSlot);
+            (*state)++;
         }
         break;
     case 2:
-        if (func_021EA7B8(client->view, s) != 0) {
-            (*b)++;
+        if (func_021EA7B8(client->view, monSlot) != 0) {
+            (*state)++;
         }
         break;
     default:
@@ -7351,72 +7351,72 @@ int func_021D324C(BtlClient *client, int *b, u32 *c)
  * waits after it, as in the original. With const a, the pointee of a is not in the set (22 B).
  * Earlier passes (wave75 to pass 6 P6L04) stayed at 13 B with u32 locals.
  */
-int func_021D32E0(BtlClient *client, int *b, u32 *c)
+int BTL_CLIENT_StepSwapAbilitiesWithPopup(BtlClient *client, int *state, u32 *args)
 {
-    u32 u, v;
-    u16 x, y;
-    int s, t;
-    u8 *p, *q;
-    u = (u8)c[0];
-    v = (u8)c[1];
-    x = (u16)c[2];
-    y = (u16)c[3];
-    s = func_021B8D8C(client->main, client->side, u);
-    t = func_021B8D8C(client->main, client->side, v);
-    p = func_021B9934(client->side, u);
-    q = func_021B9934(client->side, v);
-    switch (*b) {
+    u32 pokeIdA, pokeIdB;
+    u16 abilityA, abilityB;
+    int slotA, slotB;
+    u8 *pokeParamA, *pokeParamB;
+    pokeIdA = (u8)args[0];
+    pokeIdB = (u8)args[1];
+    abilityA = (u16)args[2];
+    abilityB = (u16)args[3];
+    slotA = BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, pokeIdA);
+    slotB = BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, pokeIdB);
+    pokeParamA = BTL_SIDE_GetPokeByIdThunk(client->side, pokeIdA);
+    pokeParamB = BTL_SIDE_GetPokeByIdThunk(client->side, pokeIdB);
+    switch (*state) {
     case 0:
         if (BTL_CLIENT_IsMainStepActive(client)) {
-            BTL_POKEPARAM_SetAbility((struct QJ *)p, x);
-            BTL_POKEPARAM_SetAbility((struct QJ *)q, y);
+            BTL_POKEPARAM_SetAbility((struct QJ *)pokeParamA, abilityA);
+            BTL_POKEPARAM_SetAbility((struct QJ *)pokeParamB, abilityB);
             return 1;
         }
-        if (func_021B9A24(u, v)) {
-            BTL_POKEPARAM_SetAbility((struct QJ *)p, x);
-            BTL_POKEPARAM_SetAbility((struct QJ *)q, y);
+        if (BTL_MAIN_IsPokeSamePair(pokeIdA, pokeIdB)) {
+            BTL_POKEPARAM_SetAbility((struct QJ *)pokeParamA, abilityA);
+            BTL_POKEPARAM_SetAbility((struct QJ *)pokeParamB, abilityB);
             return 1;
         }
-        func_021EA768((u32 *)(client->view), s, 0);
-        d_021F3B64.w[1] = 8;
-        (*b)++;
+        func_021EA768((u32 *)(client->view), slotA, 0);
+        gExpGainWork.w[1] = 8;
+        (*state)++;
         break;
     case 1:
-        func_021EA778(client->view, s);
-        if (d_021F3B64.w[1]) d_021F3B64.w[1]--;
+        func_021EA778(client->view, slotA);
+        if (gExpGainWork.w[1]) gExpGainWork.w[1]--;
         else {
-            func_021EA768(client->view, t, 0);
-            (*b)++;
+            func_021EA768(client->view, slotB, 0);
+            (*state)++;
         }
         break;
     case 2: {
-        u8 r, z;
-        r = func_021EA778(client->view, s);
-        z = func_021EA778(client->view, t);
-        if (r && z) (*b)++;
+        u8 doneA, doneB;
+        doneA = func_021EA778(client->view, slotA);
+        doneB = func_021EA778(client->view, slotB);
+        if (doneA && doneB) (*state)++;
         break;
     }
     case 3:
-        BTL_POKEPARAM_SetAbility((struct QJ *)p, x);
-        BTL_POKEPARAM_SetAbility((struct QJ *)q, y);
-        d_021F3B64.w[1] = 0;
-        (*b)++;
+        BTL_POKEPARAM_SetAbility((struct QJ *)pokeParamA, abilityA);
+        BTL_POKEPARAM_SetAbility((struct QJ *)pokeParamB, abilityB);
+        gExpGainWork.w[1] = 0;
+        (*state)++;
         break;
     case 4:
-        d_021F3B64.w[1]++;
-        if (d_021F3B64.w[1] > 8) {
-            func_021EA7A8(client->view, s);
-            (*b)++;
+        gExpGainWork.w[1]++;
+        if (gExpGainWork.w[1] > 8) {
+            func_021EA7A8(client->view, slotA);
+            (*state)++;
         }
         break;
     case 5:
-        if (func_021EA7B8(client->view, s)) {
-            func_021EA7A8(client->view, t);
-            (*b)++;
+        if (func_021EA7B8(client->view, slotA)) {
+            func_021EA7A8(client->view, slotB);
+            (*state)++;
         }
         break;
     case 6:
-        if (func_021EA7B8(client->view, t)) (*b)++;
+        if (func_021EA7B8(client->view, slotB)) (*state)++;
         break;
     default:
         return 1;
@@ -7429,26 +7429,26 @@ int func_021D32E0(BtlClient *client, int *b, u32 *c)
 
 
 
-int func_021D344C(BtlClient *client, int *b, u32 *c)
+int BTL_CLIENT_StepClearIllusion(BtlClient *client, int *state, u32 *args)
 {
-    u32 u;
-    int s;
-    u8 *m;
-    int f;
+    u32 pokeId;
+    int monSlot;
+    u8 *pokeParam;
+    int mainStepActive;
 
-    switch (*b) {
+    switch (*state) {
     case 0:
-        u = (u8)c[0];
-        s = func_021B8D8C(client->main, client->side, u);
-        m = func_021B9934(client->side, u);
-        f = BTL_CLIENT_IsMainStepActive(client);
-        BTL_POKEPARAM_ClearIllusion((struct Unk021D6C2C *)m);
-        func_021EA868(client->view, s, f);
-        (*b)++;
+        pokeId = (u8)args[0];
+        monSlot = BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, pokeId);
+        pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, pokeId);
+        mainStepActive = BTL_CLIENT_IsMainStepActive(client);
+        BTL_POKEPARAM_ClearIllusion((struct Unk021D6C2C *)pokeParam);
+        func_021EA868(client->view, monSlot, mainStepActive);
+        (*state)++;
         break;
     case 1:
         if (func_021EA878(client->view) != 0) {
-            (*b)++;
+            (*state)++;
         }
         break;
     default:
@@ -7464,11 +7464,11 @@ int func_021D344C(BtlClient *client, int *b, u32 *c)
 /*
  * extent: compiled 54 bytes followed by two zero alignment bytes.
  */
-int func_021D34B0(BtlClient *client, int *state, unsigned int *q)
+int BTL_CLIENT_StepPlayEffectById(BtlClient *client, int *state, unsigned int *args)
 {
     if (*state == 0) {
         if (BTL_CLIENT_IsMainStepActive(client) != 0) return 1;
-        func_021F7998(q[0]);
+        func_021F7998(args[0]);
         (*state)++;
     } else {
         if (func_021F7EB4() == 0) return 1;
@@ -7481,22 +7481,22 @@ int func_021D34B0(BtlClient *client, int *state, unsigned int *q)
 
 
 
-int func_021D34E8(BtlClient *client, int *b, u32 *c)
+int BTL_CLIENT_StepPlayMonSimpleEffect(BtlClient *client, int *state, u32 *args)
 {
-    u8 k;
+    u8 monSlot;
 
-    k = func_021B8E70(client->main, (u8)c[0]);
-    if (*b == 0) {
+    monSlot = BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[0]);
+    if (*state == 0) {
         if (BTL_CLIENT_IsMainStepActive(client) != 0) {
             return 1;
         }
         if (BTL_MAIN_CheckSceneOff((unsigned char *)client->main) == 0) {
-            if (func_0689C9D4((u16)c[1]) != 0) {
+            if (func_0689C9D4((u16)args[1]) != 0) {
                 return 1;
             }
         }
-        func_021EA3B8(client->view, k, (u16)c[1]);
-        (*b)++;
+        func_021EA3B8(client->view, monSlot, (u16)args[1]);
+        (*state)++;
     } else {
         if (func_021EA3D4(client->view) != 0) {
             return 1;

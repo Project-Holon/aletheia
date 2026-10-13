@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A7F3C     0x020A7F3C  data
+ *   g_ClactTables     0x020A7F3C  data
  *   CLACT_InitRenderer  0x0204BD94  arm
  *
  * Copy two signed halfword pairs from the caller's array into clact.c's
@@ -48,17 +48,17 @@ struct Clact {
     struct Rec  rec[2];         /* 0x18 */
 };
 
-extern struct Clact g_020A7F3C;
+extern struct Clact g_ClactTables;
 
 struct Obj;
 extern void CLACT_InitRenderer(struct Obj *obj, u8 *src, int count, u32 heap);
 
 void CLACT_InitDefaultRenderer(void *a, const s16 *src, u32 mode)
 {
-    g_020A7F3C.rec[0].x = src[0];
-    g_020A7F3C.rec[0].y = src[1];
-    g_020A7F3C.rec[1].x = src[2];
-    g_020A7F3C.rec[1].y = src[3];
+    g_ClactTables.rec[0].x = src[0];
+    g_ClactTables.rec[0].y = src[1];
+    g_ClactTables.rec[1].x = src[2];
+    g_ClactTables.rec[1].y = src[3];
 
-    CLACT_InitRenderer(a, (u8 *)g_020A7F3C.rec, 2, mode);
+    CLACT_InitRenderer(a, (u8 *)g_ClactTables.rec, 2, mode);
 }

@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_TogglePeerFlags  0x0215839C  thumb  ov010
@@ -24,7 +24,7 @@
  *   EVENT_COMM_COMMON_StartChoice  0x0217F4D8  thumb
  *   EVENT_COMM_COMMON_PollChoice  0x0217F508  thumb
  *   INTRUDE_COMM_TakeRequestResult  0x02175514  thumb  ov011
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   INTRUDE_COMM_SendAnswer  0x02173B9C  thumb
  *   INTRUDE_COMM_SendReply  0x02173AE0  thumb  ov011
  *   INTRUDE_COMM_NextRequestToken  0x021753B8  thumb
@@ -37,8 +37,8 @@
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   EVENT_COMM_COMMON_ExitCommonWork  0x0217FE38  thumb
- *   func_02026454  0x02026454  thumb
- *   func_02026474  0x02026474  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
+ *   GAME_COMM_GetWork  0x02026474  thumb
  *   d_021838C4     0x021838C4  data  a2
  *   d_021838CE     0x021838CE  data  a2
  *   d_021838D8     0x021838D8  data  a2
@@ -97,7 +97,7 @@ struct Ctx;
 struct Evt;
 struct Obj;
 struct WordSet;
-void *func_020124E4(struct Obj *p);
+void *GAME_EVENT_GetGameSystem(struct Obj *p);
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
 int INTRUDE_COMM_TogglePeerFlags(u8 *p, int m, int a2);
@@ -112,7 +112,7 @@ void EVENT_COMM_COMMON_DeleteChoice(Ov018Obj *p);
 void EVENT_COMM_COMMON_StartChoice(void **p, int a);
 int EVENT_COMM_COMMON_PollChoice(void **p);
 int INTRUDE_COMM_TakeRequestResult(u8 *p);
-u32 func_020362DC(void);
+u32 KEY_GetTrg(void);
 int INTRUDE_COMM_SendAnswer(int, int);
 int INTRUDE_COMM_SendReply(int a, int b, int c, int d);
 void INTRUDE_COMM_NextRequestToken(void *);
@@ -125,8 +125,8 @@ void *GAME_DATA_GetLastBattleRecSlot(void *);
 void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 void EVENT_COMM_COMMON_ExitCommonWork(void *v, Ov018Outer *c);
-u32 func_02026454(void *obj);
-u32 func_02026474(void *obj);
+u32 GAME_COMM_GetKind(void *obj);
+u32 GAME_COMM_GetWork(void *obj);
 
 int EVENT_COMM_COMMON_BattleAnswerEventMain(void *a, int *state, Ov018Outer *c)
 {
@@ -134,7 +134,7 @@ int EVENT_COMM_COMMON_BattleAnswerEventMain(void *a, int *state, Ov018Outer *c)
     void *t;
     u8 *v;
 
-    sub = func_020124E4(a);
+    sub = GAME_EVENT_GetGameSystem(a);
     t = (void *)GAMESYSTEM_GetGameComm(sub);
     v = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)t);
     if (v == 0) {
@@ -192,7 +192,7 @@ int EVENT_COMM_COMMON_BattleAnswerEventMain(void *a, int *state, Ov018Outer *c)
     case 6:
         if (INTRUDE_COMM_TogglePeerFlags(v, 1, c->f40) == 1) {
             *state = 7;
-        } else if (func_020362DC() & 2) {
+        } else if (KEY_GetTrg() & 2) {
             if (INTRUDE_COMM_SendAnswer(v[0x154], v[0x158]) == 1) {
                 INTRUDE_COMM_NextRequestToken(v);
                 *state = 13;
@@ -251,8 +251,8 @@ int EVENT_COMM_COMMON_BattleAnswerEventMain(void *a, int *state, Ov018Outer *c)
         break;
     case 16:
         EVENT_COMM_COMMON_ExitCommonWork(v, c);
-        if (func_02026454(t) == 2 && func_02026474(t) != 0) {
-            INTRUDE_COMM_SetLock((void *)func_02026474(t), 0);
+        if (GAME_COMM_GetKind(t) == 2 && GAME_COMM_GetWork(t) != 0) {
+            INTRUDE_COMM_SetLock((void *)GAME_COMM_GetWork(t), 0);
         }
         return 1;
     }

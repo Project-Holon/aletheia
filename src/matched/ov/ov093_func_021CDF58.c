@@ -1,5 +1,5 @@
 /*
- * function: func_021CDF58
+ * function: BTL_CLIENT_StepWindowModeSelect
  * address:  0x021CDF58
  * packet:   pkt_ov093_021CDF58
  * region:   ov093
@@ -30,7 +30,7 @@ extern int func_021EAA34(u8 *o, u8 *out);
 extern u32 BTL_CLIENT_PickWindowMode(u32 mode);
 extern void BTL_CLIENT_StopTimeLimit(u8 *p);
 
-int func_021CDF58(u8 *p, int *st)
+int BTL_CLIENT_StepWindowModeSelect(u8 *p, int *st)
 {
     u8 buf;
 

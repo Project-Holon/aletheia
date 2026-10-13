@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_SwapAbilityHandlers
+ * function: HAND_TOKUSEI_SwapAbilityHandlers
  * address:  0x021D8564
  * packet:   pkt_ov093_021D8564
  * region:   ov093
@@ -13,7 +13,7 @@
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_EVENT_FindFactor  0x021D732C  thumb  ov093
  *   BTL_EVENT_RemoveFactor  0x021D7040  thumb  ov093
- *   BTL_CALC_AddAbilityHandlers  0x021D8484  thumb  ov093
+ *   HAND_TOKUSEI_AddAbilityHandlers  0x021D8484  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -27,9 +27,9 @@ extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 struct Node;
 struct Node *BTL_EVENT_FindFactor(int id, int sub);
 void BTL_EVENT_RemoveFactor(struct Node *n);
-void *BTL_CALC_AddAbilityHandlers(void *a);
+void *HAND_TOKUSEI_AddAbilityHandlers(void *a);
 
-void BTL_CALC_SwapAbilityHandlers(int a, int b)
+void HAND_TOKUSEI_SwapAbilityHandlers(int a, int b)
 {
     int sa = BTL_POKEPARAM_GetPokeId((u8 *)a);
     int sb = BTL_POKEPARAM_GetPokeId((u8 *)b);
@@ -40,6 +40,6 @@ void BTL_CALC_SwapAbilityHandlers(int a, int b)
         BTL_EVENT_RemoveFactor(x);
     if (y != 0)
         BTL_EVENT_RemoveFactor(y);
-    BTL_CALC_AddAbilityHandlers((void *)a);
-    BTL_CALC_AddAbilityHandlers((void *)b);
+    HAND_TOKUSEI_AddAbilityHandlers((void *)a);
+    HAND_TOKUSEI_AddAbilityHandlers((void *)b);
 }

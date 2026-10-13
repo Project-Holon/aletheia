@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   func_021E6DEC 0x021E6DEC thumb
  */
 #include "../include/Obj10374.h"
 struct Descriptor;
 typedef unsigned int   u32;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_021E6DEC(int p);
 void func_021E2680(char *p)
 {
@@ -22,7 +22,7 @@ void func_021E2680(char *p)
     for (i=0;i<4;i++) {
         char *q = p+i*4;
         if (((struct Obj10374 *)q)->f1038) {
-            func_020452E8(((struct Obj10374 *)q)->f1038);
+            BMP_WIN_Delete(((struct Obj10374 *)q)->f1038);
             ((struct Obj10374 *)q)->f1038=0;
         }
     }

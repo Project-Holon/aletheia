@@ -12,7 +12,7 @@
  *            has three inputs and does not read it; caller supplies r0-r2.
  * symbols:
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_02040618 0x02040618 arm
  */
 #include "../include/Obj05337.h"
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, unsigned int which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, unsigned int which);
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
 int func_021E69C0(char *p)
@@ -35,20 +35,20 @@ int func_021E69C0(char *p)
     for(i=0;i<8;i++) {
         CLACT_GetActorSurfacePos(*(void **)(p+i*4+0x10cc),(struct PtS *)&a,1);
         if(i/4) a.x+=4; else a.x-=4;
-        func_0204B404(*(void **)(p+i*4+0x10cc),(const struct Vec2 *)(&a),1);
+        CLACT_AddActorSurfacePos(*(void **)(p+i*4+0x10cc),(const struct Vec2 *)(&a),1);
     }
     for(i=0;i<3;i++) {
         if(*(void **)(p+i*4+0x1008)) {
             CLACT_GetActorSurfacePos(*(void **)(p+i*4+0x1008),(struct PtS *)&b,1);
             b.x-=4;
-            func_0204B404(*(void **)(p+i*4+0x1008),(const struct Vec2 *)(&b),1);
+            CLACT_AddActorSurfacePos(*(void **)(p+i*4+0x1008),(const struct Vec2 *)(&b),1);
         }
     }
     for(i=0;i<3;i++) {
         if(*(void **)(p+i*4+0x1014)) {
             CLACT_GetActorSurfacePos(*(void **)(p+i*4+0x1014),(struct PtS *)&c,1);
             c.x+=4;
-            func_0204B404(*(void **)(p+i*4+0x1014),(const struct Vec2 *)(&c),1);
+            CLACT_AddActorSurfacePos(*(void **)(p+i*4+0x1014),(const struct Vec2 *)(&c),1);
         }
     }
     func_02040618(5,0,-((struct Obj05337 *)p)->f11DE);

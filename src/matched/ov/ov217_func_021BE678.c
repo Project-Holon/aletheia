@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_021BE7D8  0x021BE7D8  thumb  ov217
  *   func_021BE934  0x021BE934  thumb  ov217
  *   func_021BEA3C  0x021BEA3C  thumb  ov217
@@ -43,7 +43,7 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern u32 func_021BE7D8(u32 a0);
 extern int func_021BE934(char *p);
 extern void func_021BEA3C(char *p, int a);
@@ -84,5 +84,5 @@ void func_021BE678(char *p)
     func_021BEF98(p);
     func_021BF47C(p);
     func_021BEAF8((u8 *)p);
-    func_020061E4(1352);
+    GFL_USE_PlaySeDefaultVolume(1352);
 }

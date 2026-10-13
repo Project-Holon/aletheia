@@ -44,7 +44,7 @@
  *   BTL_SERVER_FLOW_ProcDamageEndEvents  0x021C4218  thumb  ov093
  *   BTL_SERVER_FLOW_ProcFaintedPoke  0x021C4F64  thumb  ov093
  *   BTL_SERVER_FLOW_PushMoveEffectiveness  0x021C5798  thumb  ov093
- *   func_021C5840  0x021C5840  thumb  ov093
+ *   BTL_SERVER_FLOW_PushEffectivenessMessageList  0x021C5840  thumb  ov093
  *   BTL_SERVER_FLOW_PushCriticalHitMessage  0x021C59C4  thumb  ov093
  *   d_021F3B2C  0x021F3B2C  data  ov093  a4
  *   d_021F3B20  0x021F3B20  data  ov093  a4
@@ -92,7 +92,7 @@ extern int BTL_SERVER_FLOW_ProcSubstituteDamage(u8 *p, u8 *q, u8 *c, u16 d, int 
 extern void BTL_SERVER_FLOW_ProcDamageEndEvents(u8 *p, u8 *a, u8 *b, u8 *c, u32 s0, u32 s1, u32 s2, u32 s3);
 extern int BTL_SERVER_FLOW_ProcFaintedPoke(u8 *p, u8 *a);
 extern void BTL_SERVER_FLOW_PushMoveEffectiveness(u8 *p, u16 *a, u32 n, int *arr, u8 **ptrs, u16 *vals, u8 *unused1, int unused2);
-extern void func_021C5840(u8 *p, u32 count, int *v, u8 **a, int flag);
+extern void BTL_SERVER_FLOW_PushEffectivenessMessageList(u8 *p, u32 count, int *v, u8 **a, int flag);
 extern void BTL_SERVER_FLOW_PushCriticalHitMessage(u8 *p, u32 n, u8 **a, u8 *b, int flag);
 
 int BTL_SERVER_FLOW_ApplyDamageRecord(u8 *p, u8 *x, u32 unused, u8 *y, u16 *e, u8 *st, u32 a6, struct Fl a7)
@@ -129,7 +129,7 @@ int BTL_SERVER_FLOW_ApplyDamageRecord(u8 *p, u8 *x, u32 unused, u8 *y, u16 *e, u
     flag = a7.f;
     BTL_SERVER_FLOW_PushMoveEffectiveness(p, e, cnt, (int *)d_021F3B2C, d_021F3B38, d_021F3B26, d_021F3B20, flag);
     if (BTL_SERVER_FLOW_GetHitFlagsMultiHit(st) == 0)
-        func_021C5840(p, cnt, (int *)d_021F3B2C, d_021F3B38, flag);
+        BTL_SERVER_FLOW_PushEffectivenessMessageList(p, cnt, (int *)d_021F3B2C, d_021F3B38, flag);
     else
         BTL_SERVER_FLOW_SetHitFlagsResultIf3(st, d_021F3B20b[3]);
     BTL_SERVER_FLOW_PushCriticalHitMessage(p, cnt, d_021F3B38, d_021F3B20, flag);

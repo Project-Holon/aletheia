@@ -37,7 +37,7 @@
  *   ITEMMENU_ToggleRegisteredItem  0x021B8134  thumb  ov070
  *   ITEMMENU_RedrawList  0x021B6138  thumb  ov070
  *   ITEMMENU_UpdateSideButtons  0x021BB3F4  thumb  ov070
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   ITEMMENU_ReturnToBagMain  0x021B8AF4  thumb  ov070
  *   func_020355C4  0x020355C4  arm
  *   ITEMMENU_HideMoveInfo  0x021B9AAC  thumb  ov070
@@ -85,7 +85,7 @@ extern int ITEMMENU_IsBrowseMode(u8 *p);
 extern int ITEMMENU_ToggleRegisteredItem(struct Obj *o, int k);
 extern void ITEMMENU_RedrawList(char *p);
 extern void ITEMMENU_UpdateSideButtons(int p, int mode);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void ITEMMENU_ReturnToBagMain(void *o);
 extern u8 func_020355C4(void);
 extern void ITEMMENU_HideMoveInfo(char *p);
@@ -149,7 +149,7 @@ void ITEMMENU_HandleActionMenuChoice(u8 *p)
                 ITEMMENU_ToggleRegisteredItem((struct Obj *)p, *(u32 *)&((struct Obj00002 *)p)->f810);
                 ITEMMENU_RedrawList((char *)p);
                 ITEMMENU_UpdateSideButtons((int)p, 1);
-                func_0204B92C(((struct Obj00002 *)p)->f6A8, 1);
+                CLACT_SetActorAutoAnim(((struct Obj00002 *)p)->f6A8, 1);
                 ITEMMENU_ReturnToBagMain(p);
             }
             break;
@@ -165,7 +165,7 @@ void ITEMMENU_HandleActionMenuChoice(u8 *p)
                 ITEMMENU_HideMoveInfo((char *)p);
             ITEMMENU_SetCursorActive((struct Obj *)p, func_020355C4() == 0);
             ITEMMENU_UpdateSideButtons((int)p, 1);
-            func_0204B92C(((struct Obj00002 *)p)->f6A8, 1);
+            CLACT_SetActorAutoAnim(((struct Obj00002 *)p)->f6A8, 1);
             ITEMMENU_ReturnToBagMain(p);
             break;
         case 9:

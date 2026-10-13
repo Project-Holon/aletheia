@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B6F4  0x0204B6F4  arm
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  */
 #include "../include/Obj08790.h"
 
@@ -19,7 +19,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 
 void BMP_OAM_SetPalette(u8 *g, u32 a)
 {
@@ -28,7 +28,7 @@ void BMP_OAM_SetPalette(u8 *g, u32 a)
 
     for (i = 0; i < ((struct Obj08790 *)g)->fCB; i++) {
         for (j = 0; j < ((struct Obj08790 *)g)->fCA; j++) {
-            func_0204B6F4(*(void **)(g + 4 + (i * ((struct Obj08790 *)g)->fCA + j) * 4), a, 0);
+            CLACT_SetActorPaletteOffset(*(void **)(g + 4 + (i * ((struct Obj08790 *)g)->fCA + j) * 4), a, 0);
         }
     }
 }

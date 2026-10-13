@@ -38,7 +38,7 @@
  *   func_0217E318 0x0217E318 thumb ov176
  *   func_0217E380 0x0217E380 thumb ov176
  *   func_0217E078 0x0217E078 thumb ov176
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_0217E40C 0x0217E40C thumb ov176
  *   func_0217E414 0x0217E414 thumb ov176
  *   func_0200B1A8 0x0200B1A8 thumb
@@ -86,7 +86,7 @@ extern void func_021E7E0C(void **,int);
 extern void func_0217E318(char *,unsigned);
 extern int func_0217E380(char *);
 extern int func_0217E078(u8 *p);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_0217E40C(int *);
 extern int func_0217E414(char *);
 extern u32 func_0200B1A8(struct Reg2 *p);
@@ -125,7 +125,7 @@ void func_0217BBDC(int *sys,u32 *state,u8 *p)
         int v=func_0217E380(*(char * *)&((struct Obj00053 *)p)->fC);
         if(v){func_021E7E0C(*(void ** *)&((struct Obj00053 *)p)->f1C,0);if(v==1)*state=21;else *state=26;}
         if(func_0217E078(((struct Obj00053 *)p)->fC)==1){func_021E7E0C(*(void ** *)&((struct Obj00053 *)p)->f1C,0);*state=12;}
-        else if(func_020362DC()&2)*state=16;
+        else if(KEY_GetTrg()&2)*state=16;
         break;
     }
     case 16:func_0217E40C(*(int * *)&((struct Obj00053 *)p)->fC);*state=17;break;

@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020061E4  0x020061E4  thumb
- *   func_020061F0  0x020061F0  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
+ *   GFL_USE_PlaySeWithVolume  0x020061F0  thumb
  *
  * field_sound_system.c: drop the bits of mask from the pending set at
  * +0xB4 and, when the set empties, replay the two stored sounds.  The
  * 4-byte residue of docs/notes/pkt_02028BDC.c.txt ("a dead-after-use scaled
  * index") was the callee arity: both callees take the sound id (and
- * func_020061F0 the second id), so the index is not dead; the image passes
+ * GFL_USE_PlaySeWithVolume the second id), so the index is not dead; the image passes
  * the loaded halfwords on in r0/r1.
  */
 
@@ -24,8 +24,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020061E4(u32 id);
-extern void func_020061F0(u32 id, u32 sub);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
+extern void GFL_USE_PlaySeWithVolume(u32 id, u32 sub);
 
 struct S { u8 pad[0xac]; u16 lo[2]; u16 hi[2]; u32 mask; };
 
@@ -44,9 +44,9 @@ void FIELD_SOUND_SYSTEM_ResumeSlots(struct S *s, u32 mask)
     for (i = 0; i < 2; i++) {
         if (s->lo[i] != 0xffff) {
             if (s->hi[i] == 0xffff)
-                func_020061E4(s->lo[i]);
+                GFL_USE_PlaySeDefaultVolume(s->lo[i]);
             else
-                func_020061F0(s->lo[i], s->hi[i]);
+                GFL_USE_PlaySeWithVolume(s->lo[i], s->hi[i]);
         }
     }
 }

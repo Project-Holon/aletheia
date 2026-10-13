@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020140E4  0x020140E4  thumb
+ *   ZONEDATA_GetAreaBillboardColor  0x020140E4  thumb
  *   FIELD_BBD_COLOR_Create  0x021CD1C8  thumb
  *   FIELD_BBD_COLOR_Load  0x021CD204  thumb
  *   BILLBOARD_ACT_GetBoard  0x02050080  arm
@@ -28,7 +28,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct Sub020140BCObj;
-extern u8 func_020140E4(struct Sub020140BCObj *p);
+extern u8 ZONEDATA_GetAreaBillboardColor(struct Sub020140BCObj *p);
 extern u32 FIELD_BBD_COLOR_Create(u32 a);
 extern void FIELD_BBD_COLOR_Load(u32 a, u32 b);
 extern u32 BILLBOARD_ACT_GetBoard(u32 *p);
@@ -41,7 +41,7 @@ void FIELDMAP_SetupBbdColor(u8 *a)
     u32 h;
     u32 t;
 
-    t = func_020140E4((struct Sub020140BCObj *)(((struct Obj09442 *)a)->fC));
+    t = ZONEDATA_GetAreaBillboardColor((struct Sub020140BCObj *)(((struct Obj09442 *)a)->fC));
     h = FIELD_BBD_COLOR_Create(v);
     FIELD_BBD_COLOR_Load(h, t);
     FIELD_BBD_COLOR_Apply((u8 *)h, (void *)BILLBOARD_ACT_GetBoard((u32 *)(((struct Obj09442 *)a)->fB0)));

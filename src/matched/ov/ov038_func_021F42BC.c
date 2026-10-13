@@ -14,7 +14,7 @@
  *           `beq SET ... beq SKIP; b SET` shape (an `||` or else-if does not).
  *
  * symbols:
- *   func_020124E4 0x020124E4 thumb
+ *   GAME_EVENT_GetGameSystem 0x020124E4 thumb
  *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
  *   FIELDMAP_GetExpObj 0x02188D2C thumb ov021
  *   FIELDMAP_GetCommonWork 0x021897BC thumb
@@ -29,7 +29,7 @@
  *   FLD_EXP_OBJ_SetAnimeFrame 0x021BE6CC thumb ov021
  *   FLD_EXP_OBJ_SetModelHidden 0x021BE4B4 thumb ov021
  *   FLD_EXP_OBJ_GetModelStatus 0x021BE480 thumb ov021
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   gGimmick38PlatePrerequisite    0x021F4628 data a1
  *   gGimmick38PlateDoor    0x021F4632 data a1
  */
@@ -51,7 +51,7 @@ typedef struct {
 
 struct Ctx;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetExpObj(int *p);
 extern u8 *FIELDMAP_GetCommonWork(void *p, int idx);
@@ -69,7 +69,7 @@ extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
 extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
 extern void FLD_EXP_OBJ_SetModelHidden(char *p, int i, int j, int v);
 extern Vec *FLD_EXP_OBJ_GetModelStatus(char *p, int i, int j);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern const s8 gGimmick38PlatePrerequisite[];
 extern const u8 gGimmick38PlateDoor[];
 
@@ -86,7 +86,7 @@ int GIMMICK38_EventPressPlate(int a0, int *a1)
     s8 n;
     Vec *v;
 
-    sys = GAMESYSTEM_GetFieldMap(func_020124E4((void *)a0));
+    sys = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem((void *)a0));
     h = FIELDMAP_GetExpObj(sys);
     s = FIELDMAP_GetCommonWork(sys, 1);
     p = (Work *)GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct Ctx *)FIELDMAP_GetGameSystem(sys))), 6);
@@ -126,7 +126,7 @@ int GIMMICK38_EventPressPlate(int a0, int *a1)
                         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime((char *)h, 0, 0x21, c), 0);
                         FLD_EXP_OBJ_SetAnimeFrame((int)((void *)h), 0, 0x21, c, 0);
                     }
-                    func_020061E4(0x6C8);
+                    GFL_USE_PlaySeDefaultVolume(0x6C8);
                     *a1 = *a1 + 1;
                     break;
                 }
@@ -145,7 +145,7 @@ int GIMMICK38_EventPressPlate(int a0, int *a1)
             FLD_EXP_OBJ_SetModelHidden((char *)h, 0, (u16)(m + 0x12), 1);
             FLD_EXP_OBJ_SetModelHidden((char *)h, 0, (u16)(m + 0x19), 0);
             FLD_EXP_OBJ_SetModelHidden((char *)h, 0, (u16)0x21, 1);
-            func_020061E4(0x6DC);
+            GFL_USE_PlaySeDefaultVolume(0x6DC);
             return 1;
         }
         break;

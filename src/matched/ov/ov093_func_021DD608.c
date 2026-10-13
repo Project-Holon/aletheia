@@ -1,5 +1,5 @@
 /*
- * function: BTL_ITEM_GetFlavorHealAttackHandlers
+ * function: HAND_ITEM_GetFlavorHealAttackHandlers
  * address: 0x021DD608
  * packet: pkt_ov093_021DD608
  * region: ov093
@@ -15,10 +15,10 @@
  *   gBtlItemFlavorHealAttackHandlers 0x021F1C04 data ov093 a4
  */
 
-int *BTL_ITEM_GetFlavorHealAttackHandlers(int *p);
+int *HAND_ITEM_GetFlavorHealAttackHandlers(int *p);
 extern int gBtlItemFlavorHealAttackHandlers[];
 
-int *BTL_ITEM_GetFlavorHealAttackHandlers(int *p)
+int *HAND_ITEM_GetFlavorHealAttackHandlers(int *p)
 {
     *p = 5;
     return gBtlItemFlavorHealAttackHandlers;

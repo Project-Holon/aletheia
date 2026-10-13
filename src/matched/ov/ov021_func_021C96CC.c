@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   GFL_USE_IsSeSlotBusy  0x02006224  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -25,7 +25,7 @@
 
 typedef unsigned int u32;
 
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int GFL_USE_GetSeSlot(u32 a0);
 extern int GFL_USE_IsSeSlotBusy(u32 a0);
 struct Obj00020;
@@ -47,7 +47,7 @@ int FIELD_DOOR_ANIME_OpenTask(u32 a, u32 *q, u32 *p)
 
     switch (q[0]) {
     case 0:
-        func_020061E4(0x55B);
+        GFL_USE_PlaySeDefaultVolume(0x55B);
         FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer((struct Obj00020 *)p[1]), (struct VecFx32 *)v);
         box[0] = v[2] - 0x10000;
         box[1] = v[2] + 0x10000;
@@ -67,7 +67,7 @@ int FIELD_DOOR_ANIME_OpenTask(u32 a, u32 *q, u32 *p)
         }
         break;
     case 2:
-        func_020061E4(0x55C);
+        GFL_USE_PlaySeDefaultVolume(0x55C);
         if (p[2] != 0) {
             h = FIELD_G3D_MAPPER_GetBuildModel((u8 *)FIELDMAP_GetG3dMapper((void *)p[1]));
             FIELD_BUILDMODEL_PlayEntryAnim((unsigned char *)h, p[2], 1, 2);

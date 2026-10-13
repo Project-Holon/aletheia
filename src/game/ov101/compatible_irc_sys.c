@@ -15,7 +15,7 @@
  *
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   d_021B7524 0x021B7524 data a1
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_StartSession 0x0203CBAC arm
@@ -23,8 +23,8 @@
  *   GFL_NET_Exit  0x0203CEAC  arm
  *   GFL_NET_StartChangeoverChild 0x0203D0DC arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039C68 0x02039C68 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   GFL_NET_IsParentAid 0x0203D378 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   GFL_NET_SYSTEM_IsSendQueueEntry 0x02039468 arm
@@ -37,7 +37,7 @@
  *   func_02012944 0x02012944 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
  *   func_02012934 0x02012934 thumb
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   func_0203F4E4 0x0203F4E4 arm
  *   func_02080D24 0x02080D24 arm
@@ -104,15 +104,15 @@ typedef struct Config_021B652C { u8 bytes[0x54]; } Config_021B652C;
 typedef struct Four { int a,b,c,d; } Four;
 
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern u32 func_020307B0(void *p);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
 extern int GFL_NET_Exit(int a0);
 extern int GFL_NET_StartChangeoverChild(int);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void func_02039C68(struct Link *,unsigned int,unsigned int);
-extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned int,unsigned int);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,unsigned int);
 extern u32 GFL_NET_IsParentAid(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern int GFL_NET_SYSTEM_IsSendQueueEntry(u32,u32);
@@ -125,7 +125,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
 extern void MYSTATUS_Copy(void *,void *);
 extern void *func_02012934(const struct BigObj *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_0203F4E4(struct RtcDate *date);
 extern u32 func_02080D24(u32);
@@ -190,7 +190,7 @@ extern const struct Config d_021B743C;
 void *func_021B6100(int a,int b,int c,int d) {
  char *p;
  p=func_02030734(c,0x8c,0,d_021B7524,0x113);
- func_02082BCC((void *)p,0,0x8c);
+ MI_CpuFill8((void *)p,0,0x8c);
  ((struct Obj06362 *)p)->f40=a;
  ((struct Obj06362 *)p)->f88=c;
  ((struct Obj06362 *)p)->f74=0;
@@ -304,11 +304,11 @@ int func_021B62AC(int *p)
     if(p[30]) return 1;
     switch(p[17]) {
     case 0:
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),14,13);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),14,13);
         p[17]=1;
         break;
     case 1:
-        if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),14,13)) p[17]=2;
+        if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),14,13)) p[17]=2;
         break;
     case 2:
         p[17]=0;
@@ -557,7 +557,7 @@ void func_021B658C(void *p,Data *out)
     out->f04=config.bytes[2];
     out->f05=config.bytes[3];
     MYSTATUS_Copy(p,out->tail);
-    record=func_0201AB28(func_02012934(sub),0);
+    record=POKEPARTY_GetMember(func_02012934(sub),0);
     flag=0;
     out->f06=func_02017E1C(record,5,0);
     out->f08=func_02017E1C(record,111,0);
@@ -729,15 +729,15 @@ void func_021B66E0(int a, int b, int c)
 {
     int r7;
 
-    func_02082BCC((void *)a, 0, 0x34);
+    MI_CpuFill8((void *)a, 0, 0x34);
     r7 = 0x57b;
     ((struct Obj04420 *)a)->f0 = b;
     ((struct Obj04420 *)a)->f28 = (int)func_02030734(c, 0x2c, 0, (const char *)0x021B7524, r7);
-    func_02082BCC((void *)((struct Obj04420 *)a)->f28, 0, 0x2c);
+    MI_CpuFill8((void *)((struct Obj04420 *)a)->f28, 0, 0x2c);
     ((struct Obj04420 *)a)->f2C = (int)func_02030734(c, 0x2c, 0, (const char *)0x021B7524, r7 + 2);
-    func_02082BCC((void *)((struct Obj04420 *)a)->f2C, 0, 0x2c);
+    MI_CpuFill8((void *)((struct Obj04420 *)a)->f2C, 0, 0x2c);
     ((struct Obj04420 *)a)->f30 = (int)func_02030734(c, 0x2c, 0, (const char *)0x021B7524, r7 + 4);
-    func_02082BCC((void *)((struct Obj04420 *)a)->f30, 0, 0x2c);
+    MI_CpuFill8((void *)((struct Obj04420 *)a)->f30, 0, 0x2c);
     func_021B64F0(b, 0x1000, 0x021B741C, 4, a);
 }
 
@@ -750,7 +750,7 @@ void func_021B66E0(int a, int b, int c)
 
 
 
-void func_021B6760(int *p) { func_021B6508((u32)((int *)p[0]),0x1000); func_020307B0((void *)p[10]); func_020307B0((void *)p[11]); func_020307B0((void *)p[12]); func_02082BCC(p, 0, 0x34); }
+void func_021B6760(int *p) { func_021B6508((u32)((int *)p[0]),0x1000); func_020307B0((void *)p[10]); func_020307B0((void *)p[11]); func_020307B0((void *)p[12]); MI_CpuFill8(p, 0, 0x34); }
 
 
 

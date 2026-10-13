@@ -17,7 +17,7 @@
  *   func_021B7EB0 0x021B7EB0 thumb ov173
  *   func_021B7438 0x021B7438 thumb ov173
  *   func_021B71C4 0x021B71C4 thumb ov173
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021B70D8 0x021B70D8 thumb ov173
  *   func_021B7F64 0x021B7F64 thumb ov173
  *   func_021B7FD0 0x021B7FD0 thumb ov173
@@ -29,7 +29,7 @@ typedef unsigned short u16;
 extern void func_021B7EB0(char *,int);
 extern u16 func_021B7438(char **);
 extern void func_021B71C4(char *,int);
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern void func_021B70D8(char *);
 extern void func_021B7F64(char *);
 extern void func_021B7FD0(u8 *,int);
@@ -50,7 +50,7 @@ void func_021B7DA0(char *p,int i)
             func_021B71C4(p,-2);
         }
     } else if(i==4) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         i=*(u16 *)(S(p)+0x14);
         (*(u16 *)(S(p)+0x16))++;
         func_021B71C4(p,func_021B7438((char **)p));
@@ -60,7 +60,7 @@ void func_021B7DA0(char *p,int i)
         func_021B7FD0((u8 *)p,1);
         func_020260E4(*(void **)(p+0x1C8),i);
     } else if(i==5) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         i=*(u16 *)(S(p)+0x14);
         (*(u16 *)(S(p)+0x16))--;
         func_021B71C4(p,func_021B7438((char **)p));

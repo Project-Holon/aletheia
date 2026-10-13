@@ -19,10 +19,10 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   PMS_DRAW_Create  0x0202DB0C  thumb
  *   PMS_DRAW_SetNullColorPalette  0x0202DE5C  thumb
- *   func_02026474  0x02026474  thumb
+ *   GAME_COMM_GetWork  0x02026474  thumb
  *   UNION_MAIN_GetAppealNo  0x02173940  thumb  ov012
  *   UNION_SUBDISP_DrawVisibleChatLines  0x021F09A0  thumb  ov031
- *   func_0204B6F4  0x0204B6F4  arm
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   GFL_NET_WM_ICON_EasyObjWindowOn  0x02037174  arm
  *   sUnionSubdispFileName   0x021F10C0  data  ov031  a1
@@ -33,13 +33,13 @@
  *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   PMS_DRAW_Main  0x0202DBC4  thumb
- *   func_02045770  0x02045770  arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   UNION_CHAT_LOG_Add  0x021BBA70  thumb  ov021
  *   UNION_SUBDISP_UpdateChatLines  0x021F0680  thumb  ov031
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   UNION_COMM_SetChatType  0x021736C8  thumb  ov012
  *   UNION_SUBDISP_UpdateKnobDrag  0x021F0B98  thumb  ov031
  *   UNION_SUBDISP_CheckTrackTouch  0x021F0D64  thumb  ov031
@@ -49,13 +49,13 @@
  *   UNION_SUBDISP_UpdateLineHighlights  0x021F0EF4  thumb  ov031
  *   UNION_MAIN_SetAppealNo  0x02173934  thumb  ov012
  *   CLACT_CreateUnit 0x0204B100 arm
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   func_0203FCA0  0x0203FCA0  arm
  *   func_02082A7C  0x02082A7C  arm
@@ -74,7 +74,7 @@
  *   func_0203FA08  0x0203FA08  arm
  *   func_0203FB44 0x0203FB44 arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
@@ -84,9 +84,9 @@
  *   CLACT_CreateActor  0x0204B294  arm
  *   sUnionSubdispButtonActorParam     0x021F1048  data  a4
  *   CLACT_DeleteActor 0x0204B3B4 arm
- *   func_02035D20  0x02035D20  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   PMS_DRAW_IsPrintEnd  0x0202DC98  thumb
  *   UNION_CHAT_LOG_GetLine  0x021BBC2C  thumb  ov021
  *   func_02034714  0x02034714  arm
@@ -99,7 +99,7 @@
  *   PMS_DRAW_PrintOffset  0x0202DC60  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   STRBUF_Create  0x020457B0  arm
@@ -109,9 +109,9 @@
  *   BMP_CopyPixels  0x02043814  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
- *   func_0204B404  0x0204B404  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   func_0209C2B0 0x0209C2B0 arm
- *   func_0203633C  0x0203633C  arm
+ *   KEY_GetRepeat  0x0203633C  arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -139,9 +139,9 @@ extern void *func_020490F4(u32 id, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(void *archive);
 extern struct PmsDraw *PMS_DRAW_Create(struct ClactUnit *unit, u32 b, struct PrintSys *printSys, struct GfFont *font, u8 e0, u8 e1, u16 heapId);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *pmsDraw, u8 v);
-extern UnionRoomWork *func_02026474(struct GameComm *gameComm);
+extern UnionRoomWork *GAME_COMM_GetWork(struct GameComm *gameComm);
 extern u8 UNION_MAIN_GetAppealNo(UnionRoomWork *work);
-extern void func_0204B6F4(struct ClactActor *actor, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 v, u32 flag);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void GFL_NET_WM_ICON_EasyObjWindowOn(void);
 extern void PMS_DRAW_Delete(struct PmsDraw *pmsDraw);
@@ -150,22 +150,22 @@ extern void GFL_NET_WM_ICON_EasyObjWindowOff(void);
 extern void G2x_SetBlendBrightness_(volatile u16 *reg, int plane, int brightness);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *printSys);
 extern void PMS_DRAW_Main(struct PmsDraw *pmsDraw);
-extern void *func_02045770(struct BmpWin *win);
-extern u32 func_0201C6C4(struct PrintSys *printSys, void *bmp);
+extern void *BMP_WIN_GetBmp(struct BmpWin *win);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *printSys, void *bmp);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern u32 func_02026454(struct GameComm *gameComm);
+extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 extern void UNION_CHAT_LOG_Add(UnionRoomWork *work, void *src, UnionPmsData *pms, u8 kind);
-extern void func_0204B3DC(struct ClactActor *actor, unsigned int visible);
+extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int visible);
 extern void UNION_COMM_SetChatType(UnionRoomWork *work, int chatType);
 extern void UNION_MAIN_SetAppealNo(UnionRoomWork *work, int appealNo);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern struct PrintSys *func_0201C440(u32 heapId);
+extern struct PrintSys *PRINTSYS_QUE_Create(u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern unsigned int MSGDATA_Delete(struct MsgBank *msgData);
 extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void func_0201C6EC(struct PrintSys *printSys);
-extern void func_0201C4C0(struct PrintSys *printSys);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *printSys);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *printSys);
 extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
@@ -181,7 +181,7 @@ extern void func_020403F4(unsigned int);
 extern u32 func_0203FA08(u32 a, u32 b, u32 c);
 extern void func_0203FB44(u32, u32, u32);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32 func_020452E8(struct BmpWin *win);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct ClactRes *CLACT_RegisterPaletteEx(void *archive, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern struct ClactRes *CLACT_RegisterCharacter(void *archive, u32 b, u32 c, u32 a3, u16 flags);
 extern struct ClactRes *CLACT_RegisterCellAnim(void *archive, u32 first, u32 second, u32 mode);
@@ -190,9 +190,9 @@ extern void CLACT_ReleaseCharacter(struct ClactRes *);
 extern void CLACT_ReleaseCellAnim(struct ClactRes *);
 extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *, struct ClactRes *, struct ClactRes *, struct ClactRes *, const UnionSubdispActorParam *, unsigned short, unsigned short);
 extern void CLACT_DeleteActor(struct ClactActor *actor);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void CLACT_GetActorSurfacePos(struct ClactActor *actor, UnionSubdispPos *out, u16 space);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 UnionSubdispWork *UNION_SUBDISP_Create(struct GameSystem *gameSystem);
 void UNION_SUBDISP_Delete(UnionSubdispWork *work);
 void UNION_SUBDISP_Draw(UnionSubdispWork *work, int mode);
@@ -286,7 +286,7 @@ extern void BMP_Clear(void *bmp, u8 value);
 extern void PMS_DRAW_PrintOffset(struct PmsDraw *pmsDraw, struct BmpWin *win, void *pms, u32 id, const void *offset);
 extern struct Strbuf *func_02045EC0(struct MsgBank *msgData, u32 index);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 func_02045730(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void PRINTSYS_PrintQueColor(struct PrintSys *printSys, void *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
@@ -295,7 +295,7 @@ extern void PMS_DRAW_Copy(struct PmsDraw *pmsDraw, u32 srcId, u32 dstId);
 extern void BMP_CopyPixels(const void *src, void *dst);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_0204B404(struct ClactActor *actor, const UnionSubdispPos *pos, u32 which);
+extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const UnionSubdispPos *pos, u32 which);
 extern u32 func_0209C2B0(u32 a, u32 b);
 
 void UNION_SUBDISP_UpdateChatLines(UnionSubdispWork *work, UnionChatLog *log);
@@ -332,7 +332,7 @@ static inline int UNION_SUBDISP_PollLineTransfer(UnionSubdispWork *work, int lin
 {
     struct PrintSys *printSys = work->printSys;
     if (work->winSlot[lineNo].transferPending != 0) {
-        if (func_0201C6C4(printSys, func_02045770(work->winSlot[lineNo].win)) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget(printSys, BMP_WIN_GetBmp(work->winSlot[lineNo].win)) == 0) {
             BMP_WIN_TransferChars(work->winSlot[lineNo].win);
             work->winSlot[lineNo].transferPending = 0;
         }
@@ -366,7 +366,7 @@ UnionSubdispWork *UNION_SUBDISP_Create(struct GameSystem *gameSystem)
     ARC_TOOL_DeleteHandle(archive);
     work->pmsDraw = PMS_DRAW_Create(work->clactUnit, 1, work->printSys, work->font, 9, 3, UNION_SUBDISP_HEAP_ID);
     PMS_DRAW_SetNullColorPalette(work->pmsDraw, 0);
-    unionWork = func_02026474(gameComm);
+    unionWork = GAME_COMM_GetWork(gameComm);
     if (unionWork != 0) {
         work->appealNo = UNION_MAIN_GetAppealNo(unionWork);
         UNION_SUBDISP_DrawVisibleChatLines(work, &unionWork->chatLog);
@@ -380,7 +380,7 @@ UnionSubdispWork *UNION_SUBDISP_Create(struct GameSystem *gameSystem)
                  * shorter).
                  */
                 if (sUnionSubdispAppealNo[i] == *((u8 *)work + 0x30)) {
-                    func_0204B6F4(work->actor[i], 1, 1);
+                    CLACT_SetActorPaletteOffset(work->actor[i], 1, 1);
                     break;
                 }
             }
@@ -402,7 +402,7 @@ void UNION_SUBDISP_Delete(UnionSubdispWork *work)
 {
     UnionRoomWork *unionWork;
 
-    unionWork = func_02026474(func_02012138(work->gameSystem));
+    unionWork = GAME_COMM_GetWork(func_02012138(work->gameSystem));
     if (unionWork != 0)
         unionWork->talkCancel = 0;
     PMS_DRAW_Delete(work->pmsDraw);
@@ -424,7 +424,7 @@ void UNION_SUBDISP_Draw(UnionSubdispWork *work, int mode)
 {
     int i;
 
-    func_02026474(func_02012138(work->gameSystem));
+    GAME_COMM_GetWork(func_02012138(work->gameSystem));
     GFL_NET_WM_ICON_EasyObjWindowOn();
     if (mode == 1)
         REG_DB_BLDCNT_SUB = 0;
@@ -437,7 +437,7 @@ void UNION_SUBDISP_Draw(UnionSubdispWork *work, int mode)
             /* the local keeps the print system load ahead of the transfer test */
             struct PrintSys *printSys = work->printSys;
             if (work->winSlot[i].transferPending != 0) {
-                if (func_0201C6C4(printSys, func_02045770(work->winSlot[i].win)) == 0) {
+                if (PRINTSYS_QUE_IsExistTarget(printSys, BMP_WIN_GetBmp(work->winSlot[i].win)) == 0) {
                     BMP_WIN_TransferChars(work->winSlot[i].win);
                     work->winSlot[i].transferPending = 0;
                 }
@@ -456,7 +456,7 @@ void UNION_SUBDISP_Update(UnionSubdispWork *work, int mode)
     int touched;
 
     gameComm = func_02012138(work->gameSystem);
-    unionWork = func_02026474(gameComm);
+    unionWork = GAME_COMM_GetWork(gameComm);
     if (unionWork != 0) {
         mySituation = &unionWork->mySituation;
         if (mySituation->chatUpdated == 1) {
@@ -465,7 +465,7 @@ void UNION_SUBDISP_Update(UnionSubdispWork *work, int mode)
         }
         UNION_SUBDISP_UpdateChatLines(work, &unionWork->chatLog);
         if (unionWork->chatLog.newestIndex >= 3)
-            func_0204B3DC(work->actor[UNION_SUBDISP_ACTOR_SCROLL_KNOB], 1);
+            CLACT_SetActorDrawEnable(work->actor[UNION_SUBDISP_ACTOR_SCROLL_KNOB], 1);
     }
     if (mode == 1) {
         touched = UNION_SUBDISP_CheckTouch(work, unionWork);
@@ -501,7 +501,7 @@ void UNION_SUBDISP_Update(UnionSubdispWork *work, int mode)
             UNION_SUBDISP_CheckLineTouch(unionWork, work, &unionWork->chatLog);
         UNION_SUBDISP_UpdateLineHighlights(work, &unionWork->chatLog);
     }
-    if (func_02026454(gameComm) == 3 && unionWork != 0)
+    if (GAME_COMM_GetKind(gameComm) == 3 && unionWork != 0)
         UNION_MAIN_SetAppealNo(unionWork, work->appealNo);
 }
 
@@ -512,7 +512,7 @@ void UNION_SUBDISP_Update(UnionSubdispWork *work, int mode)
 void UNION_SUBDISP_CreateSystems(UnionSubdispWork *work)
 {
     work->clactUnit = CLACT_CreateUnit(12, 5, UNION_SUBDISP_HEAP_ID);
-    work->printSys = func_0201C440(UNION_SUBDISP_HEAP_ID);
+    work->printSys = PRINTSYS_QUE_Create(UNION_SUBDISP_HEAP_ID);
     work->font = GF_FONT_Create(23, 0, 0, 0, UNION_SUBDISP_HEAP_ID);
     work->msgData = func_02045B38(0, 2, 201, UNION_SUBDISP_HEAP_ID);
 }
@@ -522,8 +522,8 @@ void UNION_SUBDISP_DeleteSystems(UnionSubdispWork *work)
 {
     MSGDATA_Delete(work->msgData);
     GF_FONT_Delete(work->font);
-    func_0201C6EC(work->printSys);
-    func_0201C4C0(work->printSys);
+    PRINTSYS_QUE_Clear(work->printSys);
+    PRINTSYS_QUE_Delete(work->printSys);
     CLACT_DeleteUnit(work->clactUnit);
 }
 
@@ -631,7 +631,7 @@ void UNION_SUBDISP_DeleteLineWindows(UnionSubdispWork *work)
 {
     int i;
     for (i = 0; i < UNION_SUBDISP_LINE_COUNT; i++) {
-        func_020452E8(work->lineWin[i]);
+        BMP_WIN_Delete(work->lineWin[i]);
     }
 }
 
@@ -669,7 +669,7 @@ void UNION_SUBDISP_CreateActors(UnionSubdispWork *work, void *archive)
     param.x = 0xF4;
     param.y = 0x9C;
     work->actor[UNION_SUBDISP_ACTOR_SCROLL_KNOB] = CLACT_CreateActor(work->clactUnit, work->charRes, work->palRes, work->cellRes, &param, 1, UNION_SUBDISP_HEAP_ID);
-    func_0204B3DC(work->actor[UNION_SUBDISP_ACTOR_SCROLL_KNOB], 0);
+    CLACT_SetActorDrawEnable(work->actor[UNION_SUBDISP_ACTOR_SCROLL_KNOB], 0);
 }
 
 
@@ -694,7 +694,7 @@ int UNION_SUBDISP_CheckTouch(UnionSubdispWork *work, UnionRoomWork *unionWork)
     s16 top;
     s16 bottom;
 
-    if (func_02035D20(&touchX, &touchY) == 0)
+    if (TOUCHPANEL_GetPointTrg(&touchX, &touchY) == 0)
         return 0;
     for (i = 0; i <= 4; i++) {
         CLACT_GetActorSurfacePos(work->actor[i], &pos, 1);
@@ -708,7 +708,7 @@ int UNION_SUBDISP_CheckTouch(UnionSubdispWork *work, UnionRoomWork *unionWork)
                 return 0;
             }
             UNION_SUBDISP_SelectAppeal(work, i);
-            func_020061E4(0x54B);
+            GFL_USE_PlaySeDefaultVolume(0x54B);
             return 1;
         }
     }
@@ -734,9 +734,9 @@ void UNION_SUBDISP_SelectAppeal(UnionSubdispWork *work, int sel)
         work->appealNo = appealNo;
     for (i = 0; (i <= 4) ? 1 : 0; i++) {
         if (i == sel && work->appealNo != 0)
-            func_0204B6F4(work->actor[i], 1, 1);
+            CLACT_SetActorPaletteOffset(work->actor[i], 1, 1);
         else
-            func_0204B6F4(work->actor[i], 0, 1);
+            CLACT_SetActorPaletteOffset(work->actor[i], 0, 1);
     }
 }
 
@@ -778,7 +778,7 @@ void UNION_SUBDISP_UpdateChatLines(UnionSubdispWork *work, UnionChatLog *log)
         scrolled = 1;
     }
     if (scrolled == 1)
-        func_020061E4(UNION_SUBDISP_SE_SCROLL);
+        GFL_USE_PlaySeDefaultVolume(UNION_SUBDISP_SE_SCROLL);
     log->drawnIndex = log->scrollIndex;
 }
 
@@ -810,7 +810,7 @@ void UNION_SUBDISP_DrawChatLine(UnionSubdispWork *work, const UnionChatEntry *en
         if (PMS_DRAW_IsActive(work->pmsDraw, lineNo) == 1)
             PMS_DRAW_Clear(work->pmsDraw, lineNo, 1);
     } else if (work->lineKind[lineNo] == UNION_SUBDISP_LINE_TEXT) {
-        BMP_Clear(func_02045770(work->lineWin[lineNo]), 0);
+        BMP_Clear(BMP_WIN_GetBmp(work->lineWin[lineNo]), 0);
         BMP_WIN_TransferChars(work->lineWin[lineNo]);
     }
     if (entry->chatType == 0) {
@@ -839,20 +839,20 @@ void UNION_SUBDISP_DrawChatLine(UnionSubdispWork *work, const UnionChatEntry *en
             return;
         }
         BMP_WIN_MakeScreen(work->lineWin[lineNo]);
-        func_02041B6C(func_02045730(work->lineWin[lineNo]));
+        func_02041B6C(BMP_WIN_GetBgLayer(work->lineWin[lineNo]));
         printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, func_02045770(work->winSlot[lineNo].win), 0, textOffset.y, text, work->font, UNION_SUBDISP_PRINT_COLOR);
+        PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->winSlot[lineNo].win), 0, textOffset.y, text, work->font, UNION_SUBDISP_PRINT_COLOR);
         work->winSlot[lineNo].transferPending = 1;
         STRBUF_Delete(text);
         work->lineKind[lineNo] = UNION_SUBDISP_LINE_TEXT;
     }
     name = STRBUF_Create(UNION_SUBDISP_NAME_CHARS, UNION_SUBDISP_HEAP_ID);
     STRBUF_SetString(name, entry->name);
-    PRINTSYS_PrintQueColor(work->printSys, func_02045770(work->lineWin[lineNo]), 0, 0, name, work->font, UNION_SUBDISP_PRINT_COLOR);
+    PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(work->lineWin[lineNo]), 0, 0, name, work->font, UNION_SUBDISP_PRINT_COLOR);
     STRBUF_Delete(name);
     if (entry->relation != 0) {
         name = func_02045EC0(work->msgData, (entry->relation == 1) ? UNION_SUBDISP_MSG_FRIEND : UNION_SUBDISP_MSG_KNOWN);
-        PRINTSYS_PrintQueColor(work->printSys, func_02045770(work->lineWin[lineNo]), 0x74, 0, name, work->font, UNION_SUBDISP_PRINT_COLOR);
+        PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(work->lineWin[lineNo]), 0x74, 0, name, work->font, UNION_SUBDISP_PRINT_COLOR);
         STRBUF_Delete(name);
     }
 }
@@ -908,7 +908,7 @@ void UNION_SUBDISP_MoveChatLine(UnionSubdispWork *work, u8 srcLine, u8 dstLine, 
         return;
     }
     if (work->lineKind[srcLine] == UNION_SUBDISP_LINE_TEXT && work->lineKind[dstLine] == UNION_SUBDISP_LINE_TEXT) {
-        BMP_CopyPixels(func_02045770(work->lineWin[srcLine]), func_02045770(work->lineWin[dstLine]));
+        BMP_CopyPixels(BMP_WIN_GetBmp(work->lineWin[srcLine]), BMP_WIN_GetBmp(work->lineWin[dstLine]));
         BMP_WIN_TransferChars(work->lineWin[dstLine]);
         return;
     }
@@ -977,7 +977,7 @@ int UNION_SUBDISP_UpdateKnobDrag(UnionSubdispWork *work)
         else if (y > UNION_SUBDISP_KNOB_Y_MAX)
             y = UNION_SUBDISP_KNOB_Y_MAX;
         pos.y = y;
-        func_0204B404(work->actor[UNION_SUBDISP_ACTOR_SCROLL_KNOB], &pos, 1);
+        CLACT_AddActorSurfacePos(work->actor[UNION_SUBDISP_ACTOR_SCROLL_KNOB], &pos, 1);
         return 1;
     }
     return 0;
@@ -1043,7 +1043,7 @@ void UNION_SUBDISP_SetKnobFromScroll(UnionSubdispWork *work, UnionChatLog *log)
         log->scrollIndex = log->newestIndex - 0x1B;
     pos.y = UNION_SUBDISP_KNOB_Y_MAX - ((u32)((log->newestIndex - log->scrollIndex) * step) >> 8);
     pos.x = UNION_SUBDISP_KNOB_X;
-    func_0204B404(work->actor[UNION_SUBDISP_ACTOR_SCROLL_KNOB], &pos, 1);
+    CLACT_AddActorSurfacePos(work->actor[UNION_SUBDISP_ACTOR_SCROLL_KNOB], &pos, 1);
 }
 
 /*
@@ -1077,12 +1077,12 @@ int UNION_SUBDISP_CheckTrackTouch(UnionSubdispWork *work)
     u32 x;
     u32 y;
 
-    if (func_02035D20(&x, &y) == 0)
+    if (TOUCHPANEL_GetPointTrg(&x, &y) == 0)
         return 0;
     if (x >= UNION_SUBDISP_TRACK_X_MIN && x <= UNION_SUBDISP_TRACK_X_MAX && y >= UNION_SUBDISP_KNOB_Y_MIN && y <= UNION_SUBDISP_KNOB_Y_MAX) {
         pos.x = UNION_SUBDISP_KNOB_X;
         pos.y = y;
-        func_0204B404(work->actor[UNION_SUBDISP_ACTOR_SCROLL_KNOB], &pos, 1);
+        CLACT_AddActorSurfacePos(work->actor[UNION_SUBDISP_ACTOR_SCROLL_KNOB], &pos, 1);
         return 1;
     }
     return 0;
@@ -1102,7 +1102,7 @@ int UNION_SUBDISP_CheckLineTouch(UnionRoomWork *room, UnionSubdispWork *work, Un
     int entryIndex;
     UnionChatEntry *entry;
 
-    if (func_02035D20(&x, &y) == 0)
+    if (TOUCHPANEL_GetPointTrg(&x, &y) == 0)
         return 0;
     if (x <= UNION_SUBDISP_LIST_TOUCH_X_MAX) {
         for (lineNo = 0; lineNo < 3; lineNo++) {
@@ -1124,7 +1124,7 @@ int UNION_SUBDISP_CheckLineTouch(UnionRoomWork *room, UnionSubdispWork *work, Un
         if (entry != 0)
             func_02082D44(entry->senderMac, room->mySituation.focusMac, 6);
         UNION_SUBDISP_CancelOtherHighlights(work, log, lineNo);
-        func_020061E4(UNION_SUBDISP_SE_SELECT_LINE);
+        GFL_USE_PlaySeDefaultVolume(UNION_SUBDISP_SE_SELECT_LINE);
         return 1;
     }
     return 0;
@@ -1250,11 +1250,11 @@ void UNION_SUBDISP_PageScrollByButtons(UnionSubdispWork *unused, UnionRoomWork *
     minScroll = newest - 0x1D;
     if (minScroll < 2)
         minScroll = 2;
-    if (func_0203633C() & 0x200) {
+    if (KEY_GetRepeat() & 0x200) {
         scroll -= 3;
         if (scroll < minScroll)
             scroll = minScroll;
-    } else if (func_0203633C() & 0x100) {
+    } else if (KEY_GetRepeat() & 0x100) {
         scroll += 3;
         if (scroll > newest)
             scroll = newest;

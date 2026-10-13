@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021E5978 0x021E5978 thumb ov177
  *   CLACT_CreateActor 0x0204B294 arm
  *   d_021E8CBE 0x021E8CBE data a1
@@ -20,12 +20,13 @@
  *   CLACT_RegisterCellAnim  0x0204AF28  arm  arm9
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
  *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm  arm9
  */
 #include "../include/Obj10709.h"
 typedef struct { short x, y; unsigned short id; unsigned char a, flag; } Request;
 typedef unsigned short u16;
 
-extern void func_02082BCC(void *, unsigned, unsigned);
+extern void MI_CpuFill8(void *, unsigned, unsigned);
 extern void *CLACT_CreateActor(unsigned, unsigned, unsigned, unsigned, const Request *, unsigned short, unsigned);
 typedef signed int     s32;
 typedef unsigned int   u32;
@@ -41,13 +42,13 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern const unsigned char d_021E8CBE[];
 void func_021E73E4(char *p, unsigned owner, void *table, unsigned heap)
 {
     Request req;
     unsigned v, a, b, c;
-    func_02082BCC(&req, 0, 8);
+    MI_CpuFill8(&req, 0, 8);
     req.x = 0x118;
     req.y = 0x98;
     req.id = 7;

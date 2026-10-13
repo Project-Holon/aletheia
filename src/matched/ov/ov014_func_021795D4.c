@@ -15,7 +15,7 @@
  *
  * symbols:
  *   g_021797A8     0x021797A8  data   ov014  a4
- *   func_02090CD4  0x02090CD4  arm
+ *   WM_SetGameInfo  0x02090CD4  arm
  */
 
 typedef unsigned char u8;
@@ -23,10 +23,10 @@ typedef unsigned short u16;
 
 extern u8 *g_021797A8;
 
-extern void func_02090CD4(int a, int b, u16 c, int d, u16 e, int f);
+extern void WM_SetGameInfo(int a, int b, u16 c, int d, u16 e, int f);
 
 void WIH_SetBeaconGameInfo(int a, int b, int c, int d)
 {
     if (g_021797A8 != 0 && (unsigned)(*(int *)(g_021797A8 + 0x1E70) - 4) <= 1)
-        func_02090CD4(0, a, (u16)b, c, (u16)d, 1);
+        WM_SetGameInfo(0, a, (u16)b, c, (u16)d, 1);
 }

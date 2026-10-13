@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   tbl_020A1B38 0x020A1B38 data
+ *   FX_SinCosTable_ 0x020A1B38 data
  *   func_02061CA4 0x02061CA4 arm
  */
 typedef unsigned char u8;
@@ -24,7 +24,7 @@ typedef struct S {
     u16 a[5];
     u16 b[5];
 } S;
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 s32 func_021BBC9C(S *p)
@@ -36,7 +36,7 @@ s32 func_021BBC9C(S *p)
         p->phase = p->phase + 0x400 - 0x10000;
     else
         p->phase += 0x400;
-    f = (tbl_020A1B38[(p->phase >> 4) * 2 + 1] + 0x1000) / 2;
+    f = (FX_SinCosTable_[(p->phase >> 4) * 2 + 1] + 0x1000) / 2;
     for (i = 0; i < 5; i++) {
         u16 a = p->a[i];
         u16 b = p->b[i];

@@ -15,8 +15,8 @@
  * symbols:
  *   func_021E8A78  0x021E8A78  thumb
  *   func_021C8810  0x021C8810  thumb
- *   func_021C8838  0x021C8838  thumb
- *   func_021C8860  0x021C8860  thumb
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
  *   BTLV_CORE_GetSlotValue  0x021E8B80  thumb
  */
@@ -26,9 +26,9 @@ typedef struct { int v; } Word;
 typedef unsigned short u16;
 
 extern int func_021E8A78(Word);
-extern void func_021C8838(void *, int, u16);
+extern void BTL_SERVER_FLOW_InitMsgRecord(void *, int, u16);
 extern int BTL_POKEPARAM_GetPokeId(void *);
-extern void func_021C8860(void *, int);
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(void *, int);
 extern int BTLV_CORE_GetSlotValue(Word);
 extern void func_021C8810(void *);
 int func_0689C284(unsigned int selector, Word value);
@@ -69,10 +69,10 @@ void func_0689C364(int a, Word b, void *c, void *d)
 
     k = func_0689C284(a, b);
     if (k >= 0) {
-        func_021C8838(d, 2, k);
-        func_021C8860(d, BTL_POKEPARAM_GetPokeId(c));
+        BTL_SERVER_FLOW_InitMsgRecord(d, 2, k);
+        BTL_SERVER_FLOW_AppendMsgRecordArg(d, BTL_POKEPARAM_GetPokeId(c));
         if (a == 8 || a == 13)
-            func_021C8860(d, BTLV_CORE_GetSlotValue(b));
+            BTL_SERVER_FLOW_AppendMsgRecordArg(d, BTLV_CORE_GetSlotValue(b));
     } else {
         func_021C8810(d);
     }

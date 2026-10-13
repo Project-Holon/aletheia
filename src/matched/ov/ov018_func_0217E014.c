@@ -16,9 +16,9 @@
  * `p[0xd9] & (1 << i)`.
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_0204B404  0x0204B404  arm
- *   func_0204B6F4  0x0204B6F4  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 
 typedef unsigned char u8;
@@ -39,9 +39,9 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
 #pragma opt_propagation off
 void INTRUDE_SUBDISP_UpdatePlayerMarkActors(u8 *p, int a1)
@@ -88,16 +88,16 @@ void INTRUDE_SUBDISP_UpdatePlayerMarkActors(u8 *p, int a1)
                     l.pos.x = 0x60;
                 }
                 act = ((void **)(p + 0x80))[j];
-                func_0204B404(act, (const struct Vec2 *)(&l.pos), 0);
-                func_0204B6F4(act, (u8)(l.slot[i] + 1), 1);
-                func_0204B3DC(act, 1);
+                CLACT_AddActorSurfacePos(act, (const struct Vec2 *)(&l.pos), 0);
+                CLACT_SetActorPaletteOffset(act, (u8)(l.slot[i] + 1), 1);
+                CLACT_SetActorDrawEnable(act, 1);
                 j++;
             }
             i++;
         } while (i < n);
     }
     for (; i < 3; i++) {
-        func_0204B3DC(((void **)(p + 0x80))[i], 0);
+        CLACT_SetActorDrawEnable(((void **)(p + 0x80))[i], 0);
     }
 }
 #pragma opt_propagation reset

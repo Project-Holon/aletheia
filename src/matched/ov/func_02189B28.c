@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_02013B50 with no argument change.
+ * Tail-call thunk: forwards to ZONEDATA_GetMapType with no argument change.
  *
  * symbols:
- *   func_02013B50  0x02013B50  thumb
+ *   ZONEDATA_GetMapType  0x02013B50  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02013B50(u32 id);
+extern u32 ZONEDATA_GetMapType(u32 id);
 
 u32 FIELDMAP_GetMapType(u32 id)
 {
-    return func_02013B50(id);
+    return ZONEDATA_GetMapType(id);
 }

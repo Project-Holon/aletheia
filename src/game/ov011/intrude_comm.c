@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   INTRUDE_COMM_HasUnlockFlags  0x02158590  thumb  ov010
  *   func_02030734  0x02030734  arm
@@ -66,13 +66,13 @@
  *   GFL_NET_Exit  0x0203CEAC  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   INTRUDE_COMM_SendShutdownRequest  0x021736EC  thumb  ov011
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
  *   func_0200FBA0  0x0200FBA0  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
- *   func_02013D5C  0x02013D5C  thumb
+ *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
  *   EVENT_FIELD_PROCLINK_ClearReturnSlots  0x02161F68  thumb  ov010
@@ -87,8 +87,8 @@
  *   GAME_COMM_ClearInfoMessages  0x02026680  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   WIH_IsMatchingParent  0x0217873C  thumb  ov014
- *   func_02177494  0x02177494  thumb  ov014
- *   func_02177BFC  0x02177BFC  thumb  ov014
+ *   NET_WHPIPE_CheckBeaconFlags  0x02177494  thumb  ov014
+ *   NET_WHPIPE_GetEntryBeacon  0x02177BFC  thumb  ov014
  *   INTRUDE_COMM_IsListedId  0x02158570  thumb  ov010
  *   GAME_BEACON_ACCESSOR_GetPlayerName  0x02165C34  thumb  ov010
  *   GAME_BEACON_ACCESSOR_GetSex  0x02165D08  thumb  ov010
@@ -103,7 +103,7 @@
  *   COMM_PLAYER_Suspend 0x02167688 thumb ov010
  *   WIH_SetBeaconFoundCallback  0x0217963C  thumb  ov014
  *   GFL_NET_SYSTEM_CheckError  0x02039414  arm
- *   func_0217778C  0x0217778C  thumb  ov014
+ *   NET_WHPIPE_PublishBeacon  0x0217778C  thumb  ov014
  */
 #include "../arm9/game_beacon_types.h"
 
@@ -140,7 +140,7 @@ typedef struct IntrudeScanRecord {
     GameBeaconInfo info;
 } IntrudeScanRecord;
 
-extern struct GameData *func_02026478(struct GameComm *gameComm);
+extern struct GameData *GAME_COMM_GetGameData(struct GameComm *gameComm);
 extern u8 *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern int   INTRUDE_COMM_HasUnlockFlags(struct GameData *gameData);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
@@ -189,14 +189,14 @@ extern int INTRUDE_COMM_GetLeaveFlag(void *session);
 extern int   INTRUDE_COMM_HasConnectedPeers(void);
 extern int GFL_NET_Exit(void (*exitCallback)(IntrudeCommSys *work));
 extern int   GFL_NET_GetNegotiationNum(void);
-extern void func_02039C68(GFLNetHandle *handle, u32 timingNo, u32 option);
-extern u32 func_02039CB4(GFLNetHandle *handle, u32 timingNo, u32 option);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(GFLNetHandle *handle, u32 timingNo, u32 option);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(GFLNetHandle *handle, u32 timingNo, u32 option);
 extern int GFL_NET_IsSessionNull(void);
 extern int INTRUDE_COMM_SendShutdownRequest(IntrudeCommSys *work);
 extern void func_0200FBA0(void);
 extern void *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern u16 GAME_DATA_GetPlayerZoneId(const void *myPlayerWork);
-extern u32 func_02013D5C(u32 zoneId);
+extern u32 ZONEDATA_IsZone117(u32 zoneId);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern int FIELDMAP_IsReady(void *fieldMap);
 extern void EVENT_FIELD_PROCLINK_ClearReturnSlots(void *returnSlots);
@@ -211,8 +211,8 @@ extern void GAMESYSTEM_SetFieldMapState(struct GameSystem *gameSystem, u32 state
 extern void GAME_COMM_ClearInfoMessages(struct GameComm *gameComm);
 extern void STRBUF_Delete(struct STRBUF *buf);
 extern int WIH_IsMatchingParent(void *whPipe);
-extern int func_02177494(void *whPipe, u32 flags);
-extern IntrudeScanRecord *func_02177BFC(void *whPipe, u8 *kind);
+extern int NET_WHPIPE_CheckBeaconFlags(void *whPipe, u32 flags);
+extern IntrudeScanRecord *NET_WHPIPE_GetEntryBeacon(void *whPipe, u8 *kind);
 extern int INTRUDE_COMM_IsListedId(u16 zoneId);
 extern void GAME_BEACON_ACCESSOR_GetPlayerName(const GameBeaconInfo *info, struct STRBUF *name);
 extern u8 GAME_BEACON_ACCESSOR_GetSex(const GameBeaconInfo *info);
@@ -227,7 +227,7 @@ extern void INTRUDE_COMM_StorePlayerRecord(u8 *work, int netId, const IntrudePee
 extern void COMM_PLAYER_Suspend(struct CommPlayerWork *commPlayer);
 extern void WIH_SetBeaconFoundCallback(u32 callback);
 extern u32 GFL_NET_SYSTEM_CheckError(void);
-extern void func_0217778C(void);
+extern void NET_WHPIPE_PublishBeacon(void);
 IntrudeCommSys *INTRUDE_COMM_Create(void *proc, IntrudeCommParam *param);
 int INTRUDE_COMM_StartSession(int *state, IntrudeCommParam *param, IntrudeCommSys *work);
 void func_02172D70(int *state, IntrudeCommParam *param, IntrudeCommSys *work);
@@ -255,7 +255,7 @@ IntrudeCommSys *INTRUDE_COMM_Create(void *proc, IntrudeCommParam *param)
     int i;
     u8 netId;
 
-    gameData = func_02026478(param->gameComm);
+    gameData = GAME_COMM_GetGameData(param->gameComm);
     myStatus = GAME_DATA_GetMyStatus(gameData);
     maxConnect = 3;
     if (param->isParent == 1 && INTRUDE_COMM_HasUnlockFlags(gameData) == 0) {
@@ -294,7 +294,7 @@ IntrudeCommSys *INTRUDE_COMM_Create(void *proc, IntrudeCommParam *param)
  * recoup 2026-10-05: the old draft (196 B, work as u8* with work[0x8fd]) failed on register
  * colours and a second pool load of 0x8fd. Typed parameters closed it to 192 B, all bytes equal:
  * param as a struct with the byte at 0x0E, work as a struct with the step byte at 0x8FD (written
- * work->step = 3 / 4 in each arm, no local), callee types from matched twins (func_02026478 and
+ * work->step = 3 / 4 in each arm, no local), callee types from matched twins (GAME_COMM_GetGameData and
  * func_02030734 return u32, GAME_DATA_IsSaving takes const u8 *). The only open item is the pool
  * word INTRUDE_COMM_OnSessionStarted: the leaf is filed at src/matched/ov/ov011_func_02173568.c (EXACT);
  * the integrator needs a shard for it, then this file is EXACT.
@@ -304,7 +304,7 @@ int INTRUDE_COMM_StartSession(int *state, IntrudeCommParam *param, IntrudeCommSy
     u8 *gameData;
     GFLNetInitializeStruct *init;
 
-    gameData = (u8 *)func_02026478(param->gameComm);
+    gameData = (u8 *)GAME_COMM_GetGameData(param->gameComm);
     if (GAME_DATA_IsSaving(gameData) == 1)
         return 0;
     switch (*state) {
@@ -354,7 +354,7 @@ void func_02172D70(int *state, IntrudeCommParam *param, IntrudeCommSys *work)
     s32 startTime;
     s32 now;
 
-    gameData = func_02026478(param->gameComm);
+    gameData = GAME_COMM_GetGameData(param->gameComm);
     if (work != 0 && work->step >= 7) {
         EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline(work->returnSlots, (int)GAME_DATA_GetSecondUnionInfo(gameData), work->peerMask);
     }
@@ -477,7 +477,7 @@ void func_02172D70(int *state, IntrudeCommParam *param, IntrudeCommSys *work)
 
 int INTRUDE_COMM_Shutdown(int *state, IntrudeCommParam *param, IntrudeCommSys *work)
 {
-    if (GAME_DATA_IsSaving((const u8 *)func_02026478(param->gameComm)) == 1) {
+    if (GAME_DATA_IsSaving((const u8 *)GAME_COMM_GetGameData(param->gameComm)) == 1) {
         return 0;
     }
     if (work->quit == 1 || func_0200FB24() != 0) {
@@ -496,12 +496,12 @@ int INTRUDE_COMM_Shutdown(int *state, IntrudeCommParam *param, IntrudeCommSys *w
         break;
     case 1:
         work->waitFrames = 0;
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0x14, 2);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x14, 2);
         (*state)++;
         break;
     case 2:
         work->waitFrames++;
-        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x14, 2) == 1 || work->waitFrames > 300) {
+        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x14, 2) == 1 || work->waitFrames > 300) {
             GFL_NET_SetLoginOption(0);
             (*state)++;
         }
@@ -572,7 +572,7 @@ int INTRUDE_COMM_Destroy(int unused, void **proc, IntrudeCommSys *work)
     int i;
 
     gameComm = proc[1];
-    gameData = (u32)func_02026478(gameComm);
+    gameData = (u32)GAME_COMM_GetGameData(gameComm);
     ok = 0;
     if (GAME_DATA_IsSaving((const u8 *)gameData) == 1) {
         return ok;
@@ -581,7 +581,7 @@ int INTRUDE_COMM_Destroy(int unused, void **proc, IntrudeCommSys *work)
         if (GAME_DATA_GetIntrudeCount((struct GameData *)gameData) == 0) {
             func_0200FBA0();
             ok = 1;
-        } else if (func_02013D5C(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct GameData *)gameData))) == 1
+        } else if (ZONEDATA_IsZone117(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct GameData *)gameData))) == 1
                    && GAMESYSTEM_IsFieldMapExist(proc[0]) == 1
                    && FIELDMAP_IsReady(GAMESYSTEM_GetFieldMap(proc[0])) == 1) {
             ok = 1;
@@ -666,10 +666,10 @@ void INTRUDE_COMM_ScanCallback(void *whPipe, IntrudeCommSys *work)
     if (WIH_IsMatchingParent(whPipe) == 0) {
         return;
     }
-    if (func_02177494(whPipe, ~0x10) == 0) {
+    if (NET_WHPIPE_CheckBeaconFlags(whPipe, ~0x10) == 0) {
         return;
     }
-    record = func_02177BFC(whPipe, &recordKind);
+    record = NET_WHPIPE_GetEntryBeacon(whPipe, &recordKind);
     if (recordKind != 3) {
         return;
     }
@@ -681,7 +681,7 @@ void INTRUDE_COMM_ScanCallback(void *whPipe, IntrudeCommSys *work)
             return;
         }
     }
-    if ((int)func_02013D5C((u16)record->info.zoneId) == 1) {
+    if ((int)ZONEDATA_IsZone117((u16)record->info.zoneId) == 1) {
         return;
     }
     if (INTRUDE_COMM_IsListedId(record->info.zoneId) == 0) {
@@ -710,7 +710,7 @@ void INTRUDE_COMM_SyncPlayers(IntrudeCommSys *work, IntrudeCommSys *peerWork, in
     if (peerWork == 0) {
         return;
     }
-    gameData = func_02026478(work->gameComm);
+    gameData = GAME_COMM_GetGameData(work->gameComm);
     myNetId = GAME_DATA_GetExitMode(gameData);
     if (GAME_DATA_GetIntrudeCount(gameData) == 0) {
         if (INTRUDE_FIELD_IsListedZone(FIELDMAP_GetZoneId((u8 *)fieldObjectAddr)) == 1) {
@@ -802,7 +802,7 @@ int INTRUDE_COMM_RefreshBeacon(struct GameData *gameData, IntrudeBeacon *beacon)
 {
     if (beacon->connectNum != GFL_NET_GetNegotiationNum() || beacon->hasNetError != GFL_NET_SYSTEM_CheckError()) {
         INTRUDE_COMM_InitBeacon(gameData, beacon, -1);
-        func_0217778C();
+        NET_WHPIPE_PublishBeacon();
         return 1;
     }
     return 0;

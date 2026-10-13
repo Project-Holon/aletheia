@@ -1,7 +1,7 @@
 /*
  * file:     ica_anime.c
  * unit:     yes
- * function: func_02010D98, GPOWER_Init, GPOWER_CountDownTimers, GPOWER_ClearAll, func_02010E14, func_02010EA0, GPOWER_GetActiveIdByType, GPOWER_GetMinutesLeftByType, GPOWER_GetSelectedMinutesLeft, GPOWER_GetExpiringPowerId, GPOWER_ClearByPowerId, GPOWER_ClearType, GPOWER_LoadPowerTable, GPOWER_FreePowerTable, GPOWER_GetPowerType, GPOWER_GetPowerCost, func_02010FAC, GPOWER_ApplyEncountRate, GPOWER_ApplyHatchRate, GPOWER_ApplyFriendshipBonus, GPOWER_ApplyShopPrice, GPOWER_UseHpRestore, GPOWER_UsePpRestore, GPOWER_ApplyExpRate, GPOWER_ApplyPrizeMoney, GPOWER_ApplyCaptureRate, GPOWER_GetSpecialPowerId, VM_Reset, VM_Create, VM_Delete, VM_Init, VM_Start, func_02011290, VM_Control, func_02011324, func_02011328, func_02011330, VM_GetU32, VM_PushStack, VM_PopStack, VM_Jump, VM_Call, VM_Return, VM_SetWait, TIMEZONE_GetNowTimeZone, TIMEZONE_GetTimeZoneOfHour, func_02011400, TIMEZONE_IsNight, ICA_ANIME_CreateWithFullBuffer, ICA_ANIME_CreateWithStreamBuffer, ICA_ANIME_CreateFull, ICA_ANIME_CreateStream, ICA_ANIME_Delete, ICA_ANIME_IncFrameLoop, ICA_ANIME_IncFrameNoLoop, func_020115EC, ICA_ANIME_GetFrameNum, ICA_ANIME_GetFrame, func_02011610, func_02011638, ICA_ANIME_GetScale, ICA_ANIME_GetTranslateAt, ICA_ANIME_Clear, ICA_ANIME_LoadHeader, ICA_ANIME_AllocBuffer, ICA_ANIME_SetBuffer, ICA_ANIME_LoadFrames, ICA_ANIME_SetCameraStatus, ICA_ANIME_SetCameraPos, ICA_ANIME_SetCameraTarget, GAMESYSTEM_CallIfSet, GAMESYSTEM_ReadTimerTwice, GAMESYSTEM_LeakHeapPenalty, GAMESYSTEM_ProbeHeapCreate, GAMESYSTEM_LeakHeapPenaltyRepeat, GAMESYSTEM_ProcInit, GAMESYSTEM_ProcMain, GAMESYSTEM_ProcEnd, GAMESYSTEM_SetupInitWork, GAMESYSTEM_GetWorkSize, GAMESYSTEM_Init, GAMESYSTEM_Exit, GAMESYSTEM_Setup, GAMESYSTEM_Main, GAMESYSTEM_UpdateAutoComm, GAMESYSTEM_Delete, func_0201209C, GAMESYSTEM_UpdateEventActiveFlag, GAMESYSTEM_CallProc, GAMESYSTEM_CallFieldProc, GAMESYSTEM_IsEventActive, GAMESYSTEM_GetProcStatus, func_020120F4, func_020120F8, func_02012104, GAMESYSTEM_SetEvent, func_0201210C, func_02012110, func_02012114, func_02012124, func_0201212C, GAMESYSTEM_GetIssSystem, func_02012138, GAMESYSTEM_SetCommBlocked, GAMESYSTEM_IsCommBlocked, func_0201214C, GAMESYSTEM_SetAlwaysNetFlag, GAMESYSTEM_CanStartAutoComm, GAMESYSTEM_TryStartAutoComm, func_02012204, func_02012210, GAMESYSTEM_OnSleep, GAMESYSTEM_RegisterSleepCallback, GAMESYSTEM_ReleaseSleepCallback, GAMESYSTEM_IsSleepBlocked, GAMESYSTEM_RegisterSleepCheck, GAMESYSTEM_ReleaseSleepCheck, func_020122C0, GAME_EVENT_RunFunc, GAME_EVENT_Delete, GAME_EVENT_Change, GAME_EVENT_ChangeEvent, GAME_EVENT_CallEvent, GAME_EVENT_Control, GAME_EVENT_IsRunning, GAME_EVENT_StartByCreator, GAME_EVENT_CallProcSeq, GAME_EVENT_CallProc, GAME_EVENT_OverlaySeq, GAME_EVENT_CreateOverlayEvent, func_020124E4, func_020124E8, func_020124EC, func_020124F0, GAME_DATA_Create, GAME_DATA_Delete, GAME_DATA_GetPlayerWork, func_020127A4, func_020127AC, GAME_DATA_GetLastBattleRecSlot, GAME_DATA_GetSecondUnionInfo, func_020127D0, GAME_DATA_GetMysteryRecvFlagA, GAME_DATA_GetMysteryRecvFlagB, GAME_DATA_TakeUnionInfo, GAME_DATA_ClearUnionInfo, func_0201283C, func_02012844, func_0201284C, func_02012854, func_02012870, func_02012878, func_02012894, func_0201289C, func_020128B8, func_020128C0, sub_02011292, sub_020113D2
+ * function: func_02010D98, GPOWER_Init, GPOWER_CountDownTimers, GPOWER_ClearAll, func_02010E14, func_02010EA0, GPOWER_GetActiveIdByType, GPOWER_GetMinutesLeftByType, GPOWER_GetSelectedMinutesLeft, GPOWER_GetExpiringPowerId, GPOWER_ClearByPowerId, GPOWER_ClearType, GPOWER_LoadPowerTable, GPOWER_FreePowerTable, GPOWER_GetPowerType, GPOWER_GetPowerCost, func_02010FAC, GPOWER_ApplyEncountRate, GPOWER_ApplyHatchRate, GPOWER_ApplyFriendshipBonus, GPOWER_ApplyShopPrice, GPOWER_UseHpRestore, GPOWER_UsePpRestore, GPOWER_ApplyExpRate, GPOWER_ApplyPrizeMoney, GPOWER_ApplyCaptureRate, GPOWER_GetSpecialPowerId, VM_Reset, VM_Create, VM_Delete, VM_Init, VM_Start, func_02011290, VM_Control, func_02011324, func_02011328, func_02011330, VM_GetU32, VM_PushStack, VM_PopStack, VM_Jump, VM_Call, VM_Return, VM_SetWait, TIMEZONE_GetNowTimeZone, TIMEZONE_GetTimeZoneOfHour, func_02011400, TIMEZONE_IsNight, ICA_ANIME_CreateWithFullBuffer, ICA_ANIME_CreateWithStreamBuffer, ICA_ANIME_CreateFull, ICA_ANIME_CreateStream, ICA_ANIME_Delete, ICA_ANIME_IncFrameLoop, ICA_ANIME_IncFrameNoLoop, func_020115EC, ICA_ANIME_GetFrameNum, ICA_ANIME_GetFrame, func_02011610, func_02011638, ICA_ANIME_GetScale, ICA_ANIME_GetTranslateAt, ICA_ANIME_Clear, ICA_ANIME_LoadHeader, ICA_ANIME_AllocBuffer, ICA_ANIME_SetBuffer, ICA_ANIME_LoadFrames, ICA_ANIME_SetCameraStatus, ICA_ANIME_SetCameraPos, ICA_ANIME_SetCameraTarget, GAMESYSTEM_CallIfSet, GAMESYSTEM_ReadTimerTwice, GAMESYSTEM_LeakHeapPenalty, GAMESYSTEM_ProbeHeapCreate, GAMESYSTEM_LeakHeapPenaltyRepeat, GAMESYSTEM_ProcInit, GAMESYSTEM_ProcMain, GAMESYSTEM_ProcEnd, GAMESYSTEM_SetupInitWork, GAMESYSTEM_GetWorkSize, GAMESYSTEM_Init, GAMESYSTEM_Exit, GAMESYSTEM_Setup, GAMESYSTEM_Main, GAMESYSTEM_UpdateAutoComm, GAMESYSTEM_Delete, func_0201209C, GAMESYSTEM_UpdateEventActiveFlag, GAMESYSTEM_CallProc, GAMESYSTEM_CallFieldProc, GAMESYSTEM_IsEventActive, GAMESYSTEM_GetProcStatus, func_020120F4, func_020120F8, func_02012104, GAMESYSTEM_SetEvent, func_0201210C, func_02012110, func_02012114, func_02012124, func_0201212C, GAMESYSTEM_GetIssSystem, func_02012138, GAMESYSTEM_SetCommBlocked, GAMESYSTEM_IsCommBlocked, func_0201214C, GAMESYSTEM_SetAlwaysNetFlag, GAMESYSTEM_CanStartAutoComm, GAMESYSTEM_TryStartAutoComm, func_02012204, func_02012210, GAMESYSTEM_OnSleep, GAMESYSTEM_RegisterSleepCallback, GAMESYSTEM_ReleaseSleepCallback, GAMESYSTEM_IsSleepBlocked, GAMESYSTEM_RegisterSleepCheck, GAMESYSTEM_ReleaseSleepCheck, func_020122C0, GAME_EVENT_RunFunc, GAME_EVENT_Delete, GAME_EVENT_Change, GAME_EVENT_ChangeEvent, GAME_EVENT_CallEvent, GAME_EVENT_Control, GAME_EVENT_IsRunning, GAME_EVENT_StartByCreator, GAME_EVENT_CallProcSeq, GAME_EVENT_CallProc, GAME_EVENT_OverlaySeq, GAME_EVENT_CreateOverlayEvent, GAME_EVENT_GetGameSystem, func_020124E8, func_020124EC, func_020124F0, GAME_DATA_Create, GAME_DATA_Delete, GAME_DATA_GetPlayerWork, func_020127A4, func_020127AC, GAME_DATA_GetLastBattleRecSlot, GAME_DATA_GetSecondUnionInfo, func_020127D0, GAME_DATA_GetMysteryRecvFlagA, GAME_DATA_GetMysteryRecvFlagB, GAME_DATA_TakeUnionInfo, GAME_DATA_ClearUnionInfo, func_0201283C, func_02012844, func_0201284C, func_02012854, func_02012870, func_02012878, func_02012894, func_0201289C, func_020128B8, func_020128C0, sub_02011292, sub_020113D2
  * address:  0x02010D98
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -18,8 +18,8 @@
  *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   func_020307B0  0x020307B0  arm
  *   POKE_TOOL_HealParty  0x0201BA34  thumb
- *   func_0201AB08  0x0201AB08  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_FindFirstBattleReady  0x0201AB08  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
@@ -94,7 +94,7 @@
  *   FieldMapProcData  0x021D359C  data  ov021
  *   GAME_DATA_IsConfigFlagSet  0x02012BB0  thumb
  *   func_02012AC8  0x02012AC8  thumb
- *   func_02013D34  0x02013D34  thumb
+ *   ZONEDATA_IsNoGameEventZone  0x02013D34  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   INTRUDE_COMM_CheckEntryAllowed  0x02158318  thumb  ov010
  *   func_02035390  0x02035390  arm
@@ -102,7 +102,7 @@
  *   func_0200921C  0x0200921C  thumb
  *   func_020090E0  0x020090E0  thumb
  *   GFL_NET_GetRunState     0x0203CD98  arm
- *   func_02026454     0x02026454  thumb
+ *   GAME_COMM_GetKind     0x02026454  thumb
  *   GAME_COMM_Start     0x020263D8  thumb
  *   func_02035138  0x02035138  arm
  *   func_02035064  0x02035064  arm
@@ -338,8 +338,8 @@ extern u32 _u32_div_f(u32 dividend, u32 divisor);
 extern void *ARC_TOOL_LoadMember(u32 arcId, u32 dataId, u32 heapId);
 extern u32 func_020307B0(void *memory);
 extern void POKE_TOOL_HealParty(void *party);
-extern u32 func_0201AB08(void *party);
-extern void *func_0201AB28(void *party, u32 slot);
+extern u32 POKEPARTY_FindFirstBattleReady(void *party);
+extern void *POKEPARTY_GetMember(void *party, u32 slot);
 extern u32 POKE_TOOL_DecodePartyParam(struct Pokemon *pokemon);
 extern u32 func_02017E1C(void *pokemon, u32 param, u32 arg);
 extern void POKE_TOOL_SetPartyValue(void *pokemon, u32 param, u32 value);
@@ -397,7 +397,7 @@ extern void PROCSYS_Push(struct ProcSys *procSys, u32 overlayId, void *procData,
 extern u32 GAME_DATA_IsConfigFlagSet(const struct GameData *gameData);
 extern void GAME_DATA_SetConfigFlag(struct GameData *gameData, int on);
 extern u16   func_02012AC8(const struct PlayerWork *player);
-extern u32 func_02013D34(u32 zoneId);
+extern u32 ZONEDATA_IsNoGameEventZone(u32 zoneId);
 extern u32   func_0200FB24(void);
 extern int INTRUDE_COMM_CheckEntryAllowed(struct GameSystem *gameSystem);
 extern u32   func_02035390(void);
@@ -405,7 +405,7 @@ extern int func_020353B0(void);
 extern struct WirelessSave *func_0200921C(struct GameData *gameData);
 extern u8 func_020090E0(const struct WirelessSave *wirelessSave);
 extern int GFL_NET_GetRunState(void);
-extern u32 func_02026454(struct GameComm *gameComm);
+extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 extern void GAME_COMM_Start(struct GameComm *gameComm, u32 mode, struct GameSystem *gameSystem);
 extern void func_02035138(void (*callback)(struct GameSystem *), struct GameSystem *gameSystem);
 extern void func_02035064(int (*callback)(struct GameSystem *), struct GameSystem *gameSystem);
@@ -1048,15 +1048,15 @@ u32 GPOWER_ApplyShopPrice(u32 price)
  *   python tools/match.py one --src src/matched/GPOWER_UseHpRestore.c  *       --func GPOWER_UseHpRestore --addr 0x0201104C --cc 1.1p1 --thumb
  *
  * net_save.c, gated on mode byte +0x19 (slot 5): unless the +0xc factor
- * is 999, pick the record func_0201AB08(box) names inside the box
- * (func_0201AB28: box + 8 + idx * 0xdc), and add the +0xc factor to its
+ * is 999, pick the record POKEPARTY_FindFirstBattleReady(box) names inside the box
+ * (POKEPARTY_GetMember: box + 8 + idx * 0xdc), and add the +0xc factor to its
  * field 0xa0 clamped to field 0xa1, inside the POKE_TOOL_DecodePartyParam /
  * POKE_TOOL_EncodePartyParam access bracket; then clear slot 5.  Returns the index, or
  * 0xff when the mode byte is '0'.
  *
  * Wave 14 closed the entry residue shared with GPOWER_UsePpRestore and
  * GPOWER_ApplyCaptureRate (pool word loaded into r1 before the parameter copy):
- * it was ARITY, not order.  POKE_TOOL_HealParty, func_0201AB08 (a tail-call
+ * it was ARITY, not order.  POKE_TOOL_HealParty, POKEPARTY_FindFirstBattleReady (a tail-call
  * forwarder that passes r0 through) and POKE_TOOL_DecodePartyParam all take the box
  * or record pointer, so r0 stays live across the guards.  The record is
  * a separate local from the box parameter (reassigning the parameter
@@ -1075,8 +1075,8 @@ u32 GPOWER_UseHpRestore(void *party)
             POKE_TOOL_HealParty(party);
             slot = 0;
         } else {
-            slot = func_0201AB08(party);
-            pokemon = func_0201AB28(party, slot);
+            slot = POKEPARTY_FindFirstBattleReady(party);
+            pokemon = POKEPARTY_GetMember(party, slot);
             fastMode = POKE_TOOL_DecodePartyParam(pokemon);
             maxHp = func_02017E1C(pokemon, 0xa1, 0);
             hp = func_02017E1C(pokemon, 0xa0, 0);
@@ -1118,8 +1118,8 @@ u32 GPOWER_UsePpRestore(void *party)
     u32 pp;
 
     if (_GPowerState.activeId[6] != GPOWER_ID_NONE) {
-        slot = func_0201AB08(party);
-        pokemon = func_0201AB28(party, slot);
+        slot = POKEPARTY_FindFirstBattleReady(party);
+        pokemon = POKEPARTY_GetMember(party, slot);
         fastMode = POKE_TOOL_DecodePartyParam(pokemon);
         for (i = 0; i < 4; i++) {
             move = func_02017E1C(pokemon, (int)(0x36 + i), (int)0);
@@ -3013,10 +3013,10 @@ void GAMESYSTEM_SetAlwaysNetFlag(struct GameSystem *gameSystem, unsigned int on)
  *
  * The note's 4-byte r0/r1 "tie" (docs/notes/pkt_02012164.c.txt) was a
  * misread arity: func_02012AC8 is `ldrh r0, [r0]; bx lr`, a getter taking
- * the pointer func_020120F8 returns, and func_02013D34 takes that u16 in
+ * the pointer func_020120F8 returns, and ZONEDATA_IsNoGameEventZone takes that u16 in
  * r0 -- so the image keeps it in r0 across the p->f32 test and reads the
  * byte through r1.  `id = func_02012AC8(func_020120F8(p))` then
- * `func_02013D34(id)` closes it.
+ * `ZONEDATA_IsNoGameEventZone(id)` closes it.
  */
 u32 GAMESYSTEM_CanStartAutoComm(struct GameSystem *gameSystem)
 {
@@ -3025,7 +3025,7 @@ u32 GAMESYSTEM_CanStartAutoComm(struct GameSystem *gameSystem)
     func_02012138(gameSystem);
     zoneId = func_02012AC8(func_020120F8(gameSystem));
     if (gameSystem->commBlocked == 0
-     && func_02013D34(zoneId) == 0
+     && ZONEDATA_IsNoGameEventZone(zoneId) == 0
      && func_0200FB24() == 0
      && func_0201214C(gameSystem) == 1
      && INTRUDE_COMM_CheckEntryAllowed(gameSystem) == 1
@@ -3055,7 +3055,7 @@ u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem)
     struct GameComm *gameComm = func_02012138(gameSystem);
 
     if (GFL_NET_GetRunState() == 0) {
-        if (func_02026454(gameComm) == 0) {
+        if (GAME_COMM_GetKind(gameComm) == 0) {
             if (GAMESYSTEM_CanStartAutoComm(gameSystem) == 1) {
                 GAME_COMM_Start(gameComm, 1, gameSystem);
                 return 1;
@@ -3150,7 +3150,7 @@ void GAMESYSTEM_ReleaseSleepCallback(struct GameSystem *gameSystem)
 
 int GAMESYSTEM_IsSleepBlocked(struct GameSystem *gameSystem)
 {
-    if (func_02026454(func_02012138(gameSystem)) != 0) {
+    if (GAME_COMM_GetKind(func_02012138(gameSystem)) != 0) {
         return 1;
     }
     if (GFL_NET_IRC_WIRELESS_IsActive() != 0) {

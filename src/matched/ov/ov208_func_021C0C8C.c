@@ -12,7 +12,7 @@
  * symbols:
  *   ov208_func_021C0C14  0x021C0C14  thumb  ov208
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 #include "../include/Obj10904.h"
 
@@ -25,16 +25,16 @@ extern u8   ov208_func_021C0C14(u16 *heap, u8 *p, int key);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Obj;
-extern void func_0204B3DC(struct Obj *obj, u32 on);
+extern void CLACT_SetActorDrawEnable(struct Obj *obj, u32 on);
 
 void ov208_func_021C0C8C(u16 *heap, u8 *p, int key, int on)
 {
     if (on) {
         if (ov208_func_021C0C14(heap, p, key) != 0xff) {
             CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj10904 *)p)->fD4), 6);
-            func_0204B3DC((struct Obj *)((struct Obj10904 *)p)->fD4, 1);
+            CLACT_SetActorDrawEnable((struct Obj *)((struct Obj10904 *)p)->fD4, 1);
         }
     } else {
-        func_0204B3DC((struct Obj *)((struct Obj10904 *)p)->fD4, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj10904 *)p)->fD4, 0);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: BTL_TOKUSEI_MoldBreaker_InstallSkipCheck
+ * function: HAND_TOKUSEI_MoldBreaker_InstallSkipCheck
  * address: 0x021DB1D4
  * packet: pkt_ov093_021DB1D4
  * region: ov093
@@ -13,11 +13,11 @@
  * symbols:
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   BTL_EVENT_SetFactorSkipCheck 0x021D7320 thumb ov093
- *   BTL_TOKUSEI_MoldBreaker_SkipCheck 0x021DB1A8 thumb ov093
+ *   HAND_TOKUSEI_MoldBreaker_SkipCheck 0x021DB1A8 thumb ov093
  */
 extern int BTL_EVENT_GetVar(int);
 typedef unsigned int   u32;
 struct QS;
 extern void BTL_EVENT_SetFactorSkipCheck(struct QS *p, u32 v);
-extern int BTL_TOKUSEI_MoldBreaker_SkipCheck(int,int,int,int,unsigned short);
-void BTL_TOKUSEI_MoldBreaker_InstallSkipCheck(char *a, int b, int c, int *d) { if (c == BTL_EVENT_GetVar(3) && *d == 0) { BTL_EVENT_SetFactorSkipCheck((struct QS *)a,(u32)BTL_TOKUSEI_MoldBreaker_SkipCheck); *d = 1; } }
+extern int HAND_TOKUSEI_MoldBreaker_SkipCheck(int,int,int,int,unsigned short);
+void HAND_TOKUSEI_MoldBreaker_InstallSkipCheck(char *a, int b, int c, int *d) { if (c == BTL_EVENT_GetVar(3) && *d == 0) { BTL_EVENT_SetFactorSkipCheck((struct QS *)a,(u32)HAND_TOKUSEI_MoldBreaker_SkipCheck); *d = 1; } }

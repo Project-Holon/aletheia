@@ -23,15 +23,15 @@
  *   then replaces that copy with a branch to the case 0 block, which is laid out next (the `b .+2`).
  *
  * symbols:
- *   func_0201C6EC  0x0201C6EC  thumb
- *   func_02045770  0x02045770  arm
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_0201CE48  0x0201CE48  thumb
+ *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
  *   func_021E8848  0x021E8848  thumb  ov177
  *   func_020056BC  0x020056BC  thumb
  *   TIME_ICON_Create  0x0202EE30  thumb
- *   func_0201C6FC  0x0201C6FC  thumb
+ *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   func_02034714  0x02034714  arm
  *   func_02028470  0x02028470  thumb
  *   func_02028590  0x02028590  thumb
@@ -69,15 +69,15 @@ struct CharBuf;
 struct Descriptor;
 struct PrintSys;
 struct Rec3;
-extern void func_0201C6EC(struct PrintSys *p);
-extern void *func_02045770(struct Descriptor *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern int APP_KEYCURSOR_Delete(int a0);
 extern void func_021E8848(S *);
 extern u32 func_020056BC(void);
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
-extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
+extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02028470(u8 *p, u32 v);
 extern int  func_02028590(int, int, int, int);
@@ -88,10 +88,10 @@ void func_021E8754(S *p, int mode)
 {
     int q;
 
-    func_0201C6EC((struct PrintSys *)p->f28);
-    BMP_Clear(func_02045770((struct Descriptor *)p->f14), (unsigned char)p->f1c);
+    PRINTSYS_QUE_Clear((struct PrintSys *)p->f28);
+    BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)p->f14), (unsigned char)p->f1c);
     if (p->f8 != 0) {
-        func_0201CE48((struct Rec3 *)p->f8);
+        PRINTSYS_PrintStreamDelete((struct Rec3 *)p->f8);
         p->f8 = 0;
     }
     if (p->f34 != 0) {
@@ -103,13 +103,13 @@ void func_021E8754(S *p, int mode)
     case 2:
         p->f10 = (int)TIME_ICON_Create((void *)func_020056BC(), (void *)p->f14, (unsigned char)p->f1c, 0x10, p->f1e);
         q = p->f28;
-        func_0201C6FC((struct PrintSys *)q, (u32)func_02045770((struct Descriptor *)p->f20), 0, 0, (void *)p->f18, p->f4);
+        PRINTSYS_PrintQue((struct PrintSys *)q, (u32)BMP_WIN_GetBmp((struct Descriptor *)p->f20), 0, 0, (void *)p->f18, p->f4);
         p->f24 = 1;
         p->f2c = 0;
         break;
     case 0:
         q = p->f28;
-        func_0201C6FC((struct PrintSys *)q, (u32)func_02045770((struct Descriptor *)p->f20), 0, 0, (void *)p->f18, p->f4);
+        PRINTSYS_PrintQue((struct PrintSys *)q, (u32)BMP_WIN_GetBmp((struct Descriptor *)p->f20), 0, 0, (void *)p->f18, p->f4);
         p->f24 = 1;
         p->f2c = 0;
         break;

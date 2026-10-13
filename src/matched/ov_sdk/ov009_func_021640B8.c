@@ -13,11 +13,11 @@
  *
  * symbols:
  *   func_02163F24  0x02163F24  arm  ov009
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
 extern int func_02163F24(const unsigned short *p, int n);
-extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 
 void func_021640B8(unsigned short *c, unsigned short *a, unsigned short *b, int digits)
 {
@@ -42,6 +42,6 @@ void func_021640B8(unsigned short *c, unsigned short *a, unsigned short *b, int 
 		borrow = (int)tmp >> 16;
 	}
 	if (c != a && c != b) {
-		func_02082BCC(c + i, 0, (digits - i) * 2);
+		MI_CpuFill8(c + i, 0, (digits - i) * 2);
 	}
 }

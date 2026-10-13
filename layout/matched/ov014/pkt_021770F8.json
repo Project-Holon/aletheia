@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021770F8",
+   "name": "GFL_NET_DEVWIRELESS_UnusedSlot7",
    "address": "0x021770F8",
    "kind": "game",
    "region": "ov014",

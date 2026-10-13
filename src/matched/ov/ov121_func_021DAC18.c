@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02082A7C 0x02082A7C arm
  *   func_0203084C 0x0203084C arm
  *   func_02040618 0x02040618 arm
@@ -43,7 +43,7 @@ typedef struct {u32 w[51];} Record;
 typedef struct {u32 w[12];} Desc;
 extern char d_021DFBB0[],d_021DF8FC[],d_021DF890[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void func_02082A7C(int,void *,int);
 extern void *func_0203084C(u32 heapId);
 extern void func_02040618(u32,u32,u32);
@@ -76,7 +76,7 @@ char *func_021DAC18(const Input *src,u16 heap)
     int n;
     void *callback;
     out=func_02030734(heap,0xc70,0,d_021DFBB0,0x19f);
-    func_02082BCC(out,0,0xc70);
+    MI_CpuFill8(out,0,0xc70);
     ((struct Obj00910 *)out)->fAD0=1;
     *(Input *)out=*src;
     ((struct Obj00910 *)out)->f24=heap;
@@ -98,7 +98,7 @@ char *func_021DAC18(const Input *src,u16 heap)
     if(count) {table=d_021DF8FC;n=3;}
     else {table=d_021DF890;n=2;}
     ((struct Obj00910 *)out)->fAB8=func_021DA1BC(0,table,n,1,3,((struct Obj00910 *)out)->f14,((struct Obj00910 *)out)->f1C,*(int *)&((struct Obj00910 *)out)->f10,heap);
-    func_02082BCC(&d,0,48);
+    MI_CpuFill8(&d,0,48);
     d.w[0]=6;d.w[1]=4;d.w[2]=14;d.w[3]=15;d.w[4]=11;d.w[5]=14;
     d.w[6]=((struct Obj00910 *)out)->f8;d.w[7]=*(u32 *)&((struct Obj00910 *)out)->fC;d.w[8]=((struct Obj00910 *)out)->f1C;
     d.w[9]=((struct Obj00910 *)out)->f10;d.w[10]=((struct Obj00910 *)out)->f14;d.w[11]=((struct Obj00910 *)out)->f18;

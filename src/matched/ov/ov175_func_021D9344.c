@@ -26,7 +26,7 @@
  *   func_0200B110 0x0200B110 thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj00781.h"
 #include "../include/Obj08278.h"
@@ -54,7 +54,7 @@ struct Reg2;
 extern void func_0200BBD8(struct Obj *p, int v);
 extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
 extern int GAME_DATA_SaveStart(int),GAME_DATA_SaveMain(u8 *);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 void func_021D9344(u32 sys,int *state,char *p) {
     char *ctx=*(char * *)&((struct Obj00781 *)p)->f104;
     int r;
@@ -104,7 +104,7 @@ void func_021D9344(u32 sys,int *state,char *p) {
         func_021E8738(*(int * *)&((struct Obj00781 *)p)->f2C,((struct Obj00781 *)p)->f14,70,2);
         *state=16; func_021E8AB4(sys,13); break;
     case 13:
-        func_02082BCC(&request,0,8); request.b=4;
+        MI_CpuFill8(&request,0,8); request.b=4;
         request.id=func_021DD020(*(char * *)&((struct Obj00781 *)p)->f34);
         ((struct Obj24293 *)(*(char * *)&((struct Obj24292 *)(*(char * *)&((struct Obj00781 *)p)->f104))->f30))->f5=4;
         func_021DC8B4(*(char * *)&((struct Obj00781 *)p)->f34,&request,87); *state=14; break;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C7664
+ * function: BTL_SERVER_FLOW_CalcFlinchChance
  * address:  0x021C7664
  * packet:   pkt_ov093_021C7664
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201BD28  0x0201BD28  thumb
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
  *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
@@ -23,7 +23,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u32 func_0201BD28(u32 v, u32 n);
+extern u32 WAZA_TOOL_GetParam(u32 v, u32 n);
 extern void BTL_EVENT_PushVarFrame(int line);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
@@ -33,14 +33,14 @@ extern void func_021D70F0(void *a, int id);
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 
-int func_021C7664(u8 *p, u32 x, u8 *a)
+int BTL_SERVER_FLOW_CalcFlinchChance(u8 *p, u32 x, u8 *a)
 {
     int c41;
     int c45;
     int c26;
     int s;
 
-    s = func_0201BD28(x, 10);
+    s = WAZA_TOOL_GetParam(x, 10);
     BTL_EVENT_PushVarFrame(12701);
     BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(a));
     BTL_EVENT_SetVarReadOnly(0x25, s);

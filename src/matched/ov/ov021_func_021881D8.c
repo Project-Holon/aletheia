@@ -15,9 +15,9 @@
  *   FIELD_MSGBG_Create  0x021901EC  thumb  ov021
  *   FIELD_PLACE_NAME_Create  0x021BC388  thumb  ov021
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
- *   func_02014470  0x02014470  thumb
+ *   FIELD_STATUS_GetMapEffectMask  0x02014470  thumb
  *   FIELDSKILL_MAPEFF_Create  0x021C7F70  thumb  ov021
- *   func_02013BBC  0x02013BBC  thumb
+ *   ZONEDATA_GetCameraId  0x02013BBC  thumb
  *   FIELD_CAMERA_Create  0x0218E018  thumb  ov021
  *   FLD_SCENEAREA_Create  0x021AB5F4  thumb  ov021
  *   FLD_SCENEAREA_LOADER_Create  0x021AB7E4  thumb  ov021
@@ -44,13 +44,13 @@
  *   FIELD_EFFECT_LoadResources  0x021ABE30  thumb  ov021
  *   sFieldEffectTaskCount     0x021D8F00  data
  *   sFieldEffectTaskTable     0x021D8F10  data
- *   func_02013CC8  0x02013CC8  thumb
- *   func_02013CE0  0x02013CE0  thumb
+ *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
+ *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  *   UNION_EFF_Create  0x0217F8C0  thumb  ov019
  *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
  *   GAME_DATA_GetPlayerDirectionType  0x02012AE4  thumb
  *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
- *   func_02013C20  0x02013C20  thumb
+ *   ZONEDATA_IsBikeEnabled  0x02013C20  thumb
  *   GAME_DATA_SetPlayerObjectCode  0x02012B2C  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
@@ -62,10 +62,10 @@
  *   FIELDMAP_SetupEdgeMarking  0x02189154  thumb  ov021
  *   FIELD_FOG_Create  0x021A0104  thumb  ov021
  *   FIELD_ZONEFOG_Create  0x021A02C4  thumb  ov021
- *   func_02013EEC  0x02013EEC  thumb
- *   func_02013F2C  0x02013F2C  thumb
+ *   ZONEDATA_GetFogId  0x02013EEC  thumb
+ *   ZONEDATA_GetLightId  0x02013F2C  thumb
  *   FIELD_ZONEFOG_SetUp  0x021A0338  thumb  ov021
- *   func_020140DC  0x020140DC  thumb
+ *   ZONEDATA_GetAreaLightType  0x020140DC  thumb
  *   func_0203F4FC  0x0203F4FC  arm
  *   COMM_PLAYER_SUPPORT_GetInfoCode  0x0202E83C  thumb
  *   FIELD_LIGHT_Create  0x021A03D0  thumb  ov021
@@ -121,9 +121,9 @@ extern void func_0216447C(int sys, u16 id);
 extern u8 *FIELD_MSGBG_Create(u16 heap, u32 b);
 extern int FIELD_PLACE_NAME_Create(int a, int b, int c);
 extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
-extern u16 func_02014470(struct Sub02014444Obj *o);
+extern u16 FIELD_STATUS_GetMapEffectMask(struct Sub02014444Obj *o);
 extern int FIELDSKILL_MAPEFF_Create(int flags, u16 heap);
-extern u8 func_02013BBC(u32 id);
+extern u8 ZONEDATA_GetCameraId(u32 id);
 struct Light;
 extern char *FIELD_CAMERA_Create(int a0, int a1, struct Light *a2, int a3, u16 heap);
 extern int FLD_SCENEAREA_Create(u16 heap, int a, void *b);
@@ -151,13 +151,13 @@ extern char *FIELD_EFFECT_Create(int a, int b, u16 c);
 extern void FIELD_EFFECT_InitObjectSystem(int t, int n);
 extern void FIELD_EFFECT_SetPaletteTable(u32 *p, u32 v);
 extern void FIELD_EFFECT_LoadResources(int t, int *arr, int n);
-extern u32 func_02013CC8(u32 id);
-extern u32 func_02013CE0(u32 id);
+extern u32 ZONEDATA_IsZone1A6(u32 id);
+extern u32 ZONEDATA_IsZone96Pair(u32 id);
 extern void *UNION_EFF_Create(u16 id);
 extern u8 *GAMESYSTEM_GetMyPlayerWork(const struct Ctx *a);
 extern u32 GAME_DATA_GetPlayerDirectionType(const struct Rec44 *p);
 extern u32 GAME_DATA_GetPlayerObjectCode(const struct Rec44 *p);
-extern u32 func_02013C20(u32 id);
+extern u32 ZONEDATA_IsBikeEnabled(u32 id);
 extern void GAME_DATA_SetPlayerObjectCode(struct Rec44 *p, u32 v);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
@@ -169,10 +169,10 @@ extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern void FIELDMAP_SetupEdgeMarking(void *a, u32 b);
 extern u8 *FIELD_FOG_Create(u16 heap);
 extern u8 *FIELD_ZONEFOG_Create(u16 heap);
-extern u32 func_02013EEC(u32 id);
-extern u32 func_02013F2C(u32 id);
+extern u32 ZONEDATA_GetFogId(u32 id);
+extern u32 ZONEDATA_GetLightId(u32 id);
 extern void FIELD_ZONEFOG_SetUp(u8 *p, u32 id, u32 c, u8 d);
-extern u8 func_020140DC(struct Sub020140BCObj *p);
+extern u8 ZONEDATA_GetAreaLightType(struct Sub020140BCObj *p);
 extern u32 func_0203F4FC(void);
 extern int COMM_PLAYER_SUPPORT_GetInfoCode(void *a0);
 extern u8 *FIELD_LIGHT_Create(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -211,8 +211,8 @@ int FIELDMAP_SeqCreateSubsystems(int a, char *p)
         F32(0x2c) = 0;
         F32(0x28) = x;
         F32(0x30) = FIELD_PLACE_NAME_Create(a, 0x93, x);
-        F32(0xa0) = FIELDSKILL_MAPEFF_Create(func_02014470(GAME_DATA_GetMoveModelSys((const struct BigObj *)F32(8))), F16(0));
-        F32(0x10) = (int)FIELD_CAMERA_Create(func_02013BBC(F16(0xd0)), 0, (struct Light *)F32(0xa4), (int)(p + 0xf4), F16(0));
+        F32(0xa0) = FIELDSKILL_MAPEFF_Create(FIELD_STATUS_GetMapEffectMask(GAME_DATA_GetMoveModelSys((const struct BigObj *)F32(8))), F16(0));
+        F32(0x10) = (int)FIELD_CAMERA_Create(ZONEDATA_GetCameraId(F16(0xd0)), 0, (struct Light *)F32(0xa4), (int)(p + 0xf4), F16(0));
         F32(0x40) = FLD_SCENEAREA_Create(F16(0), F32(0x10), p);
         F32(0x44) = FLD_SCENEAREA_LOADER_Create(F16(0));
         break;
@@ -250,7 +250,7 @@ int FIELDMAP_SeqCreateSubsystems(int a, char *p)
         FIELD_EFFECT_InitObjectSystem(F32(0x94), 0x5e);
         FIELD_EFFECT_SetPaletteTable((u32 *)F32(0x94), (u32)FIELD_PALACE_SYS_GetPalTable((u32 *)F32(0x9c)));
         FIELD_EFFECT_LoadResources(F32(0x94), sFieldEffectTaskTable, sFieldEffectTaskCount);
-        if (func_02013CC8(F16(0xd0)) == 1 || func_02013CE0(F16(0xd0)) == 1) {
+        if (ZONEDATA_IsZone1A6(F16(0xd0)) == 1 || ZONEDATA_IsZone96Pair(F16(0xd0)) == 1) {
             F32(0x98) = (int)UNION_EFF_Create(F16(0));
         }
         break;
@@ -263,7 +263,7 @@ int FIELDMAP_SeqCreateSubsystems(int a, char *p)
         w = (int)GAMESYSTEM_GetMyPlayerWork((const struct Ctx *)a);
         k = GAME_DATA_GetPlayerDirectionType((const struct Rec44 *)w);
         pos = (V3 *)(w + 4);
-        if (GAME_DATA_GetPlayerObjectCode((const struct Rec44 *)w) == 1 && func_02013C20(F16(0xd0)) == 0) {
+        if (GAME_DATA_GetPlayerObjectCode((const struct Rec44 *)w) == 1 && ZONEDATA_IsBikeEnabled(F16(0xd0)) == 0) {
             GAME_DATA_SetPlayerObjectCode((struct Rec44 *)w, 0);
         }
         F32(0x8c) = (int)FIELD_PLAYER_Create(w, (u32)p, (int)pos, func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus((void *)sys)), F16(0));
@@ -275,9 +275,9 @@ int FIELDMAP_SeqCreateSubsystems(int a, char *p)
         FIELDMAP_SetupEdgeMarking((void *)F32(0xc), (int)FIELDMAP_GetZoneId((u8 *)p));
         F32(0x18) = (int)FIELD_FOG_Create(F16(0));
         F32(0x1c) = (int)FIELD_ZONEFOG_Create(F16(0));
-        r = func_02013EEC(F16(0xd0));
-        FIELD_ZONEFOG_SetUp((u8 *)F32(0x1c), r, func_02013F2C(F16(0xd0)), 1);
-        r = func_020140DC((struct Sub020140BCObj *)F32(0xc));
+        r = ZONEDATA_GetFogId(F16(0xd0));
+        FIELD_ZONEFOG_SetUp((u8 *)F32(0x1c), r, ZONEDATA_GetLightId(F16(0xd0)), 1);
+        r = ZONEDATA_GetAreaLightType((struct Sub020140BCObj *)F32(0xc));
         g = func_0203F4FC();
         F32(0x14) = (int)FIELD_LIGHT_Create(r, g, COMM_PLAYER_SUPPORT_GetInfoCode((void *)a), F32(0x18), F32(0xa8), F16(0));
         r = GAME_DATA_GetBgmInfo((const struct BigObj *)F32(8));

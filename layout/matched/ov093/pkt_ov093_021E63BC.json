@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E63BC",
-    "func_021E6410",
-    "func_021E6414"
+    "HAND_WAZA_DigOnChargeTurn",
+    "HAND_WAZA_DigNoOp",
+    "HAND_WAZA_AddSolarBeam"
+   ],
+   "addresses": [
+    "0x021E63BC",
+    "0x021E6410",
+    "0x021E6414"
    ],
    "evidence": {
     "sole-ref": [

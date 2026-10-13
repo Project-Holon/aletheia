@@ -23,13 +23,13 @@
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021F86D4 0x021F86D4 thumb ov094
  *   func_02030DA8 0x02030DA8 arm
  *   func_021F896C 0x021F896C thumb ov094
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_022090B4 0x022090B4 thumb ov094
  *   func_02209214 0x02209214 thumb ov094
  *   d_0220AED0 0x0220AED0 data a4
@@ -71,13 +71,13 @@ extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigne
 struct Actor;
 struct PtS;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void *func_021F86D4(void);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_022090B4(void *, void *);
 extern void func_02209214(void *);
 Work *func_02208DAC(const Arg *arg, u32 heapId)
@@ -107,7 +107,7 @@ Work *func_02208DAC(const Arg *arg, u32 heapId)
     for (i = 0; i < 6; i++) {
         w->e[i].h = CLACT_CreateActor((void *)w->h0, w->h4, w->hc, w->h8, &pos, 0, w->heap);
         CLACT_GetActorSurfacePos(w->e[i].h, (struct PtS *)&w->e[i].pos, 0);
-        func_0204B92C(w->e[i].h, 1);
+        CLACT_SetActorAutoAnim(w->e[i].h, 1);
         CLACT_SetActorAnimSeq(w->e[i].h, d_0220AB7C[arg->side][arg->idx[i]]);
         w->e[i].frame = d_0220AB7C[2][arg->idx[i]];
         w->e[i].wait = (i + 1) * 6;
@@ -120,7 +120,7 @@ Work *func_02208DAC(const Arg *arg, u32 heapId)
     pos.y = d_0220AB6C[arg->side].y1;
     w->e[i].h = CLACT_CreateActor((void *)w->h0, w->h4, w->hc, w->h8, &pos, 0, w->heap);
     CLACT_GetActorSurfacePos(w->e[i].h, (struct PtS *)&w->e[i].pos, 0);
-    func_0204B92C(w->e[i].h, 1);
+    CLACT_SetActorAutoAnim(w->e[i].h, 1);
     CLACT_SetActorAnimSeq(w->e[i].h, d_0220AB7C[arg->side][4]);
     w->e[i].frame = d_0220AB7C[arg->side][4];
     w->e[i].wait = 0;
@@ -131,7 +131,7 @@ Work *func_02208DAC(const Arg *arg, u32 heapId)
     func_021F896C(func_02030DA8(func_021F86D4(), func_022090B4, ctx, 0), func_02209214, 0);
     w->active = 1;
     ARC_TOOL_DeleteHandle(arc);
-    func_020061E4(0x570);
+    GFL_USE_PlaySeDefaultVolume(0x570);
     return w;
     }
 }

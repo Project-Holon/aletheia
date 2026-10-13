@@ -39,7 +39,7 @@
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
  *   INTRUDE_FIELD_IsCommAllowed  0x0217BFD8  thumb  ov018
  *   INTRUDE_SUBDISP_CreateDisconnectEvent  0x0217CA84  thumb  ov018
- *   func_02026454  0x02026454  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   INTRUDE_FIELD_IsStartRequested  0x0217C070  thumb  ov018
  *   INTRUDE_FIELD_CreateNoticeEvent  0x0217B810  thumb  ov018
@@ -68,7 +68,7 @@
  *   INTRUDE_FindOfferSlotAt  0x021CFAC0  thumb
  *   INTRUDE_StartOfferEvent  0x021CFC14  thumb
  *   FIELD_GetPlayerAreaZoneId  0x021CD440  thumb
- *   func_02013FFC  0x02013FFC  thumb
+ *   ZONEDATA_IsZoneInTableDFB8  0x02013FFC  thumb
  *   EVENTDATA_SYSTEM_GetAutoPosEventScriptId  0x02162940  thumb  ov010
  *   FIELD_EVENT_CHECK_CheckLedgeJump  0x0218B408  thumb
  *   FIELD_EVENT_CHECK_CheckGridConnectFront  0x0218AED4  thumb
@@ -156,7 +156,7 @@ extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern void *FIELD_PLAYER_GetMmdl(u8 *p);
 extern int INTRUDE_FIELD_IsCommAllowed(const struct Ctx *a, int b);
 extern int INTRUDE_SUBDISP_CreateDisconnectEvent(void *sys, int v);
-extern u32 func_02026454(void *obj);
+extern u32 GAME_COMM_GetKind(void *obj);
 extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 extern int INTRUDE_FIELD_IsStartRequested(u8 *p);
 extern void *INTRUDE_FIELD_CreateNoticeEvent(void *a, u8 *pos);
@@ -186,7 +186,7 @@ extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern int INTRUDE_FindOfferSlotAt(u8 *base, int a, int b, int c, int d);
 extern void *INTRUDE_StartOfferEvent(void *a, void *unused, void *c);
 extern int FIELD_GetPlayerAreaZoneId(void *a, u16 *out);
-extern u32 func_02013FFC(u32 id);
+extern u32 ZONEDATA_IsZoneInTableDFB8(u32 id);
 extern u16 EVENTDATA_SYSTEM_GetAutoPosEventScriptId(void *p, void *q, int key);
 extern int FIELD_EVENT_CHECK_CheckLedgeJump(char *p, void *a, void *x);
 extern int FIELD_EVENT_CHECK_CheckGridConnectFront(char *p, int unused, void *a);
@@ -277,7 +277,7 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *sys, struct Obj00020 *pos, int *outA
     model = FIELD_PLAYER_GetMmdl((u8 *)in.f18);
     if (INTRUDE_FIELD_IsCommAllowed((const struct Ctx *)sys, in.f10) == 1)
         return INTRUDE_SUBDISP_CreateDisconnectEvent(sys, 0);
-    if ((int)func_02026454(obj) == 2 && ev != 0) {
+    if ((int)GAME_COMM_GetKind(obj) == 2 && ev != 0) {
         if (GAME_DATA_GetIntrudeCount(in.f8) == 1 && INTRUDE_FIELD_IsStartRequested(ev) == 1)
             return (int)INTRUDE_FIELD_CreateNoticeEvent(sys, (u8 *)pos);
         if (INTRUDE_COMM_ConsumeAreaNoticeSeen(ev, in.f10) == 1)
@@ -335,7 +335,7 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *sys, struct Obj00020 *pos, int *outA
             return (int)INTRUDE_StartOfferEvent(sys, (void *)in.f0, (void *)msg);
         if (FIELD_GetPlayerAreaZoneId(pos, &id) == 1)
             return (int)SCRIPT_SYS_CreateScriptEventSimple((int)sys, 0x271B, 0, in.f0);
-        if (func_02013FFC(in.f10)) {
+        if (ZONEDATA_IsZoneInTableDFB8(in.f10)) {
             msg = EVENTDATA_SYSTEM_GetAutoPosEventScriptId(in.fC, (void *)GAME_DATA_GetEventWork(in.f8), (int)xyz);
             if (msg != 0xFFFF)
                 return (int)SCRIPT_SYS_CreateScriptEventSimple((int)sys, msg, 0, in.f0);

@@ -14,10 +14,10 @@
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   func_02013D5C  0x02013D5C  thumb
- *   func_02013D9C  0x02013D9C  thumb
+ *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
@@ -127,10 +127,10 @@ u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 struct BigObj;
 int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
-u32 func_02013D5C(u32 id);
-u32 func_02013D9C(u32 id);
+u32 ZONEDATA_IsZone117(u32 id);
+u32 ZONEDATA_IsZoneGroup118To120(u32 id);
 int GFL_NET_GetNegotiationNum(void);
-void *func_02045770(struct Descriptor *a0);
+void *BMP_WIN_GetBmp(struct Descriptor *a0);
 void BMP_Clear(struct CharBuf *buf, u8 value);
 void BMP_WIN_TransferChars(struct Descriptor *a0);
 void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -174,7 +174,7 @@ void INTRUDE_SUBDISP_PrintInfoMessage(W *w, u8 *p, u16 q)
     if (w->f108 > 0) {
         w->f108--;
         if (w->f108 == 0 && p == 0) {
-            BMP_Clear((struct CharBuf *)func_02045770((struct Descriptor *)w->f4C), done);
+            BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp((struct Descriptor *)w->f4C), done);
             BMP_WIN_TransferChars((struct Descriptor *)w->f4C);
         }
         return;
@@ -329,16 +329,16 @@ void INTRUDE_SUBDISP_PrintInfoMessage(W *w, u8 *p, u16 q)
             done = 1;
         }
     }
-    if (done == 0 && GAME_DATA_GetIntrudeCount(h) == 1 && func_02013D5C(q) == 0 && func_02013D9C(q) == 0
+    if (done == 0 && GAME_DATA_GetIntrudeCount(h) == 1 && ZONEDATA_IsZone117(q) == 0 && ZONEDATA_IsZoneGroup118To120(q) == 0
         && FIELD_PALACE_SYS_IsZoneFlagSet(h, q) == 0) {
         MSGDATA_ReadString((struct MsgBank *)w->f2C, 0x30, w->f3C);
         done = 1;
     }
     w->f169 = 4;
     if (done == 1) {
-        BMP_Clear((struct CharBuf *)func_02045770((struct Descriptor *)w->f4C), 0);
+        BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp((struct Descriptor *)w->f4C), 0);
         n = w->f28;
-        PRINTSYS_PrintQueColor((void *)n, (int)func_02045770((struct Descriptor *)w->f4C), 0, 0, (u32)w->f3C, w->f1C, 0x3C40);
+        PRINTSYS_PrintQueColor((void *)n, (int)BMP_WIN_GetBmp((struct Descriptor *)w->f4C), 0, 0, (u32)w->f3C, w->f1C, 0x3C40);
         w->f50 = 1;
         w->f108 = 0x5A;
     }

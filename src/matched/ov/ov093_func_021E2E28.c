@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021E2E28, func_021E2E84
+ * function: HAND_WAZA_FuryCutterOnWazaPower, HAND_WAZA_AddAssurance
  * address:  0x021E2E28
  * packet:   pkt_ov093_021E2E28
  * region:   ov093
@@ -12,12 +12,12 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C7CF4  0x021C7CF4  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_POKEPARAM_GetLastUsedMoveId  0x021D67A8  thumb  ov093
  *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
  *   BTL_POKEPARAM_GetMoveStreak  0x021D679C  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
- *   d_021F25AC     0x021F25AC  data  ov093  a4
+ *   gAssuranceHandlers     0x021F25AC  data  ov093  a4
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -25,21 +25,21 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern int BTL_EVENT_GetVar(int key);
 struct QL;
 struct QQ;
-extern void *func_021C7CF4(int *p, int i);
+extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern u16 BTL_POKEPARAM_GetLastUsedMoveId(struct QL *p);
 extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 extern u16 BTL_POKEPARAM_GetMoveStreak(u8 *p);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
-extern u8 d_021F25AC[];
+extern u8 gAssuranceHandlers[];
 
-void func_021E2E28(int u, void *p, int k)
+void HAND_WAZA_FuryCutterOnWazaPower(int u, void *p, int k)
 {
     void *q;
     u32 t;
     u32 n;
     u32 i;
     if (k == BTL_EVENT_GetVar(3)) {
-        q = func_021C7CF4(p, k);
+        q = BTL_SERVER_FLOW_GetPokeParam(p, k);
         if (BTL_POKEPARAM_GetLastUsedMoveId(q) == BTL_EVENT_GetFactorKey((void *)u)) {
             t = BTL_EVENT_GetVar(0x30);
             n = BTL_POKEPARAM_GetMoveStreak(q);
@@ -55,8 +55,8 @@ void func_021E2E28(int u, void *p, int k)
     }
 }
 
-u8 *func_021E2E84(int *p)
+u8 *HAND_WAZA_AddAssurance(int *p)
 {
     *p = 1;
-    return d_021F25AC;
+    return gAssuranceHandlers;
 }

@@ -14,8 +14,8 @@
  *
  * symbols:
  *   func_0200AE54   0x0200AE54  thumb
- *   func_0201AA18   0x0201AA18  thumb
- *   func_0201AB28   0x0201AB28  thumb
+ *   POKEPARTY_GetCount   0x0201AA18  thumb
+ *   POKEPARTY_GetMember   0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
  *   POKE_REGULATION_AdjustLevel   0x0201A26C  thumb
  *   func_02019CA0   0x02019CA0  thumb
@@ -34,8 +34,8 @@ typedef unsigned int u32;
 
 struct Reg;
 extern u32 func_0200AE54(struct Reg *p, u32 id);
-extern u32  func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32  POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32  POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32  POKE_REGULATION_AdjustLevel(void *a0, u32 a1);
 extern void func_02019CA0(void *p, u32 v);
@@ -45,8 +45,8 @@ void POKE_REGULATION_AdjustPartyLevels(void *a0, void *a1)
     u32 v = func_0200AE54(a0, 4);
     int i;
 
-    for (i = 0; i < (int)func_0201AA18(a1); i++) {
-        void *e = func_0201AB28(a1, i);
+    for (i = 0; i < (int)POKEPARTY_GetCount(a1); i++) {
+        void *e = POKEPARTY_GetMember(a1, i);
 
         if (POKE_TOOL_GetPartyValue(e, 0xA9, 0) != 0) {
             u32 w = POKE_TOOL_GetPartyValue(e, 0x9E, 0);

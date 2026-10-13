@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02045EC0  0x02045EC0  arm
  *   OPTION_MENU_InitTextBox  0x021BA1C4  thumb  ov068
  */
@@ -21,7 +21,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void  func_02082BCC(void *p, u32 v, u32 n);
+extern void  MI_CpuFill8(void *p, u32 v, u32 n);
 struct MsgBank;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void OPTION_MENU_InitTextBox(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u16 s2);
@@ -30,7 +30,7 @@ void OPTION_MENU_InitMessageBox(u8 *p, u32 a, u32 b, void *c, u32 s0, u32 s1, u3
 {
     int i;
 
-    func_02082BCC(p, 0, 0x70);
+    MI_CpuFill8(p, 0, 0x70);
     ((struct Obj02763 *)p)->f54 = 0;
     ((struct Obj02763 *)p)->f6C = s1;
     OPTION_MENU_InitTextBox(p, a, b, (u32)c, s0, s2, s3);

@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035D20  0x02035D20  arm
+ *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   UNION_SUBDISP_SelectAppeal  0x021F0628  thumb  ov031
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 
 typedef unsigned char  u8;
@@ -23,12 +23,12 @@ typedef signed short   s16;
 
 typedef struct { s16 x, y; } Pt;
 
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 struct Actor;
 struct PtS;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void UNION_SUBDISP_SelectAppeal(char *p, int sel);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 
 int UNION_SUBDISP_CheckTouch(int *p, u8 *flag)
 {
@@ -41,7 +41,7 @@ int UNION_SUBDISP_CheckTouch(int *p, u8 *flag)
     s16 y0;
     s16 y1;
 
-    if (func_02035D20(&w, &h) == 0)
+    if (TOUCHPANEL_GetPointTrg(&w, &h) == 0)
         return 0;
     for (i = 0; i <= 4; i++) {
         CLACT_GetActorSurfacePos((struct Actor *)p[6 + i], (struct PtS *)&t, 1);
@@ -55,7 +55,7 @@ int UNION_SUBDISP_CheckTouch(int *p, u8 *flag)
                 return 0;
             }
             UNION_SUBDISP_SelectAppeal((char *)p, i);
-            func_020061E4(0x54B);
+            GFL_USE_PlaySeDefaultVolume(0x54B);
             return 1;
         }
     }

@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 int func_021DF8F0(int x, int y)
 {
     int ok = ((unsigned)(x - 80) <= 88) & ((unsigned)(y - 32) <= 56);
-    if (ok) func_020061E4(0x703);
+    if (ok) GFL_USE_PlaySeDefaultVolume(0x703);
     return ok;
 }

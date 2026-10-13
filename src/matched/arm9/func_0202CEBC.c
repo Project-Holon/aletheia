@@ -11,12 +11,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02045768  0x02045768  arm
+ *   BMP_WIN_GetCharOffset  0x02045768  arm
  *   BMP_WIN_GetPalette  0x02045778  arm
- *   func_02045738  0x02045738  arm
- *   func_02045740  0x02045740  arm
- *   func_02045758  0x02045758  arm
- *   func_02045760  0x02045760  arm
+ *   BMP_WIN_GetWidth  0x02045738  arm
+ *   BMP_WIN_GetHeight  0x02045740  arm
+ *   BMP_WIN_GetPosX  0x02045758  arm
+ *   BMP_WIN_GetPosY  0x02045760  arm
  */
 
 typedef unsigned char  u8;
@@ -48,12 +48,12 @@ struct WinMgr {
 };
 
 struct Descriptor;
-extern u16 func_02045768(struct Descriptor *p);
+extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
 extern u8 BMP_WIN_GetPalette(struct Descriptor *p);
-extern u8 func_02045738(struct Descriptor *p);
-extern u8 func_02045740(struct Descriptor *p);
-extern u8 func_02045758(struct Descriptor *p);
-extern u8 func_02045760(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
+extern u8 BMP_WIN_GetHeight(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 
 void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a)
 {
@@ -68,12 +68,12 @@ void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a)
     u32 base;
     s32 cw;
 
-    base = func_02045768(a);
+    base = BMP_WIN_GetCharOffset(a);
     bits = ((u32)BMP_WIN_GetPalette(a) << 0x1c) >> 0x10;
-    cw = func_02045738(a);
-    ch = func_02045740(a);
-    ox = func_02045758(a);
-    oy = func_02045760(a);
+    cw = BMP_WIN_GetWidth(a);
+    ch = BMP_WIN_GetHeight(a);
+    ox = BMP_WIN_GetPosX(a);
+    oy = BMP_WIN_GetPosY(a);
     row = 0;
 
     if (ch > 0) {

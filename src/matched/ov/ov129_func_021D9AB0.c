@@ -11,7 +11,7 @@
  * Extent ends with two bytes of zero alignment padding.
  * symbols:
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021DA158 0x021DA158 thumb ov129
  */
 #include "../include/Obj02185.h"
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef struct { u16 x,y,frame; u8 speed,flag; } Params;
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern int func_021DA158(int x, int flag);
 void func_021D9AB0(char *p)
 {
@@ -46,7 +46,7 @@ void func_021D9AB0(char *p)
         }
     }
     if(((struct Obj02185 *)p)->f334==0 && ((struct Obj02185 *)p)->f338==0) {
-        func_0204B3DC((struct Obj *)((struct Obj02185 *)p)->f15C,0);
-        func_0204B3DC((struct Obj *)((struct Obj02185 *)p)->f178,0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj02185 *)p)->f15C,0);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj02185 *)p)->f178,0);
     }
 }

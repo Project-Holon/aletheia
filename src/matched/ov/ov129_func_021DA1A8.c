@@ -11,7 +11,7 @@
  * Lever: declare i before y, initialise j after loading y, and keep the equality arm separate.
  * symbols:
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
 #include "../include/Obj02187.h"
 #include "../include/Obj03283.h"
@@ -25,7 +25,7 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021DA1A8(char *p,int animate)
 {
     Position s;
@@ -45,7 +45,7 @@ void func_021DA1A8(char *p,int animate)
         CLACT_GetActorSurfacePos((struct Actor *)((struct Obj02187 *)q)->fC,(struct PtS *)&s.z,0);
         if(animate==0) {
             s.z=y;
-            func_0204B404((struct Obj *)(((struct Obj02187 *)q)->fC),(const struct Vec2 *)(&s.z),0);
+            CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj02187 *)q)->fC),(const struct Vec2 *)(&s.z),0);
         } else {
             ((struct Obj02187 *)q)->f14=(y-s.z)/4;
             ((struct Obj02187 *)q)->f16=0;
@@ -62,7 +62,7 @@ void func_021DA1A8(char *p,int animate)
             }
             if(animate==0) {
                 s.x=y;
-                func_0204B404((struct Obj *)(((struct Obj02187 *)q)->f15C),(const struct Vec2 *)(&s),0);
+                CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj02187 *)q)->f15C),(const struct Vec2 *)(&s),0);
             } else {
                 ((struct Obj02187 *)q)->f164=(y-s.x)/4;
                 ((struct Obj02187 *)q)->f166=0;

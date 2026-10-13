@@ -18,10 +18,10 @@
  *   func_02034AC4  0x02034AC4  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   OPTION_MENU_InitScreen  0x021B9850  thumb  ov068
  *   GF_FONT_Create  0x0201D7EC  thumb
- *   func_0201C440  0x0201C440  thumb
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb
  *   func_02045B38  0x02045B38  arm
  *   TCBL_Create  0x0203101C  arm
@@ -75,7 +75,7 @@ extern int func_02034AC4(s32 handle);
 extern void  GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void  func_02082BCC(void *p, u32 v, u32 n);
+extern void  MI_CpuFill8(void *p, u32 v, u32 n);
 extern void OPTION_MENU_InitScreen(u8 *p, u32 a);
 struct Big;
 struct Ctx;
@@ -85,7 +85,7 @@ struct R;
 struct Sub02008700Obj;
 struct Tcbl;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
@@ -111,12 +111,12 @@ int OPTION_MENU_Init(void *proc, int *seq, Args *args)
     func_02034AC4((u32)ov067_id);
     GFL_HEAP_CreateChildHeap(1, 0x1c, 0x21000);
     w = PROCSYS_AllocProcWork(proc, sizeof(Work), 0x1c);
-    func_02082BCC(w, 0, sizeof(Work));
+    MI_CpuFill8(w, 0, sizeof(Work));
     w->args = args;
     w->args->x0 = 0;
     OPTION_MENU_InitScreen((u8 *)w, 0x1c);
     w->font = (u32)GF_FONT_Create(0x17, 0, 0, 0, 0x1c);
-    w->x258 = func_0201C440((void *)0x1c);
+    w->x258 = PRINTSYS_QUE_Create((void *)0x1c);
     w->x260 = (u32)APP_TASKMENU_RES_Create(0, 0xd, w->font, w->x258, 0x1c);
     w->x264 = (u32)APP_TASKMENU_RES_Create(3, 9, w->font, w->x258, 0x1c);
     w->msg = (u32)func_02045B38(0, 2, 0x1d, 0x1c);

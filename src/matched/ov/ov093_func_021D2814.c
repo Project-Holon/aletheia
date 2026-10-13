@@ -1,5 +1,5 @@
 /*
- * function: func_021D2814
+ * function: BTL_CLIENT_StepPlayEffectOnMon
  * address: 0x021D2814
  * packet: pkt_ov093_021D2814
  * region: ov093
@@ -11,7 +11,7 @@
  * blocker: sole-ref/code cannot attest unlabelled ov094:021F7E94 tail stub; owner the integrator.
  * evidence: Thumb 01 49 02 4b 18 47 c0 46; pools 0x26e and 0x021F7A29. No ARM9/SDK blocker work.
  * symbols:
- *   func_021B8E70 0x021B8E70 thumb ov093
+ *   BTL_MAIN_GetViewPosOfSlot 0x021B8E70 thumb ov093
  *   func_021F7E94 0x021F7E94 thumb ov094
  *   func_021F7EB4 0x021F7EB4 thumb ov094
   * note 2026-10-05 (D8 lane16): re-verified MATCH. Callee 0x021F7E94 is an ov094 Thumb tail stub (pool 0x26E, 0x021F7A29); other overlay, not filed. Integrator: seed label.
@@ -19,14 +19,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u8 func_021B8E70(u8 *p, u32 k);
+extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k);
 extern void func_021F7E94(int a);
 extern int func_021F7EB4(void);
-int func_021D2814(char *p, int *state, unsigned int *q)
+int BTL_CLIENT_StepPlayEffectOnMon(char *p, int *state, unsigned int *q)
 {
     switch (*state) {
     case 0:
-        func_021F7E94((u8)func_021B8E70(*(void **)p, (u8)q[0]));
+        func_021F7E94((u8)BTL_MAIN_GetViewPosOfSlot(*(void **)p, (u8)q[0]));
         (*state)++;
         break;
     case 1:

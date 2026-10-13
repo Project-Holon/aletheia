@@ -18,7 +18,7 @@
  * field-passed-to-an-earlier-call.md).
  *
  * symbols:
- *   sub_0207C768   0x0207C768  arm
+ *   FX_Div   0x0207C768  arm
  *   _s32_div_f     0x0209C0A4  arm
  *   _ll_mul        0x0209C054  arm
  *   FIELD_G3D_MAPPER_SetCellGridIndex  0x0218DD80  thumb ov021
@@ -54,7 +54,7 @@ typedef struct Obj {
     u32 count;
 } Obj;
 
-extern u32 sub_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 extern void FIELD_G3D_MAPPER_SetCellGridIndex(u8 *p, u32 v);
 extern Cell *FIELD_G3D_MAPPER_SetCellPos(Cell *c, fx32 x, fx32 y, fx32 z);
 
@@ -83,9 +83,9 @@ void FIELD_G3D_MAPPER_LayoutLayers(Obj *p, Cam *cam, Cell *cells)
     w = p->w;
     total = w * p->h;
     size = p->size;
-    half = (int)sub_0207C768((int)p->size, (int)0x2000);
+    half = (int)FX_Div((int)p->size, (int)0x2000);
     height = p->height;
-    layer = (int)sub_0207C768((int)cam->pos, (int)height) >> 12;
+    layer = (int)FX_Div((int)cam->pos, (int)height) >> 12;
     rem = cam->pos - layer * height;
     if (rem > height / 2)
         dir = 1;

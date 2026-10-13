@@ -17,7 +17,7 @@
  *   FLDEFF_NAMIPOKE_SetFollowMode  0x021ACBB8  thumb  ov021
  *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
  *   FLDEFF_NAMIPOKE_SPLASH_StartOnEffect  0x021AD564  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj04270.h"
@@ -34,7 +34,7 @@ extern u32 FIELD_PLAYER_GetRideEffect(u8 *p);
 extern void FLDEFF_NAMIPOKE_SetFollowMode(u32 a, u8 v);
 extern u32 FIELDMAP_GetEffect(u8 *p);
 extern u32 FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(u32 a, u32 b, void *c);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 
 int FIELD_PLAYER_GRID_EVENT_JumpUpLand(u8 *p)
 {
@@ -46,7 +46,7 @@ int FIELD_PLAYER_GRID_EVENT_JumpUpLand(u8 *p)
     r5 = (void *)FIELD_PLAYER_GetRideEffect((u8 *)(*(u32 *)&((struct Obj04270 *)p)->f3C));
     FLDEFF_NAMIPOKE_SetFollowMode((u32)r5, 1);
     ((struct Obj04270 *)p)->f48 = FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(FIELDMAP_GetEffect((u8 *)(((struct Obj04270 *)p)->f40)), 0, r5);
-    func_020061E4(0x6e2);
+    GFL_USE_PlaySeDefaultVolume(0x6e2);
     ((struct Obj04270 *)p)->f2 = ((struct Obj04270 *)p)->f2 + 1;
     return 0;
 }

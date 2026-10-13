@@ -10,11 +10,11 @@
  * status: EXACT
  * evidence: func_0200CDE0 receives the entry r1 Pokemon pointer; fifth parameter is reassigned in its incoming stack slot.
  * symbols:
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_CalcGender 0x02017F50 thumb
- *   func_0201A98C 0x0201A98C thumb
+ *   POKEPARTY_Add 0x0201A98C thumb
  *   func_022026BC 0x022026BC thumb ov135
  *   func_0220246C 0x0220246C thumb ov135
  */
@@ -30,13 +30,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Blk37;
 extern void func_0200CDE0(struct Blk37 *, void *);
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u8 POKE_TOOL_CalcGender(u32 a, u16 b, u32 c);
 struct Party;
 struct PartyMon;
-extern u32 func_0201A98C(struct Party *,const struct PartyMon *);
+extern u32 POKEPARTY_Add(struct Party *,const struct PartyMon *);
 extern int func_020076D0(void *save, int *pbox, int *pslot);
 struct Sub02007454Entry;
 extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
@@ -47,14 +47,14 @@ void func_022023A4(u8 *p,void *mon,void *unused2,void *unused3,u32 index)
     u32 species, form, pos;
     func_0200CDE0(*(struct Blk37 * *)&((struct Obj23476 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->f10,mon);
     index=0xFF;
-    if(func_0201AA18(((struct Obj23477 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->f8)==6) index=0;
+    if(POKEPARTY_GetCount(((struct Obj23477 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->f8)==6) index=0;
     POKE_TOOL_SetPartyValue(mon,9,0x46);
     species=POKE_TOOL_GetPartyValue(mon,5,0);
     form=POKE_TOOL_GetPartyValue(mon,0x6F,0);
     POKE_TOOL_SetPartyValue(mon,0x6E,POKE_TOOL_CalcGender((u16)species,form,POKE_TOOL_GetPartyValue(mon,0,0)));
     if(index==0xFF) {
-        func_0201A98C(*(struct Party * *)&((struct Obj23478 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->f8,(const struct PartyMon *)mon);
-        pos=func_0201AA18(((struct Obj23479 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->f8);
+        POKEPARTY_Add(*(struct Party * *)&((struct Obj23478 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->f8,(const struct PartyMon *)mon);
+        pos=POKEPARTY_GetCount(((struct Obj23479 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->f8);
         ((struct Obj02864 *)p)->fDC=0xFF;
         pos--;
     } else {

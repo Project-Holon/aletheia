@@ -1,5 +1,5 @@
 /*
- * function: func_02177274
+ * function: GFL_NET_DEVWIRELESS_StartJoinLock
  * address: 0x02177274
  * packet: pkt_ov014_02177274
  * region: ov014
@@ -16,9 +16,9 @@
  */
 
 extern void NET_WHPIPE_StartJoinLock(int a);
-void func_02177274(int a);
+void GFL_NET_DEVWIRELESS_StartJoinLock(int a);
 
-void func_02177274(int a)
+void GFL_NET_DEVWIRELESS_StartJoinLock(int a)
 {
     NET_WHPIPE_StartJoinLock(a);
 }

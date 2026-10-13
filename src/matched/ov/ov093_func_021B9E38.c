@@ -1,5 +1,5 @@
 /*
- * function: func_021B9E38
+ * function: BTL_TRAINER_SLOT_InitPlayer
  * address:  0x021B9E38
  * packet:   pkt_ov093_021B9E38
  * region:   ov093
@@ -28,7 +28,7 @@ extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *func_02008510(void *a, int tag);
 extern void PMSI_PARAM_ClearSentence(void *a);
 
-void func_021B9E38(char *p, int a, int b)
+void BTL_TRAINER_SLOT_InitPlayer(char *p, int a, int b)
 {
     u16 f;
 

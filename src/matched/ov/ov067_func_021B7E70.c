@@ -14,10 +14,10 @@
  * which only the named bound `n = p->f5e - 1` gives.
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_020355C4  0x020355C4  arm
  *   func_020355D8  0x020355D8  arm
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   FRAME_LIST_UpdateHoldStage  0x021B83A0  thumb  ov067
  */
 
@@ -39,27 +39,27 @@ typedef struct S {
     u8 f96;
 } S;
 
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8 v);
-extern unsigned int func_0203630C(void);
+extern unsigned int KEY_GetCont(void);
 extern void FRAME_LIST_UpdateHoldStage(S *p);
 
 int FRAME_LIST_ReadKeys(S *p)
 {
     int n;
 
-    if ((func_020362DC() & 0x3f1) && func_020355C4() == 1) {
+    if ((KEY_GetTrg() & 0x3f1) && func_020355C4() == 1) {
         func_020355D8(0);
         p->f60 = 0xff;
         p->f96 = 8;
         return 0;
     }
-    if (func_0203630C() == 0) {
+    if (KEY_GetCont() == 0) {
         p->f94 = 0;
         p->f95 = 6;
     }
-    if (func_0203630C() & 0x40) {
+    if (KEY_GetCont() & 0x40) {
         func_020355D8(0);
         if (p->f5c != 0) {
             p->f60 = p->f5c;
@@ -74,7 +74,7 @@ int FRAME_LIST_ReadKeys(S *p)
         }
         return 14;
     }
-    if (func_0203630C() & 0x80) {
+    if (KEY_GetCont() & 0x80) {
         func_020355D8(0);
         n = p->f5e - 1;
         if (p->f5c < n) {
@@ -90,7 +90,7 @@ int FRAME_LIST_ReadKeys(S *p)
         }
         return 14;
     }
-    if (func_0203630C() & 0x20) {
+    if (KEY_GetCont() & 0x20) {
         func_020355D8(0);
         if (p->f62 != 0) {
             p->f96 = 4;
@@ -104,7 +104,7 @@ int FRAME_LIST_ReadKeys(S *p)
         }
         return 14;
     }
-    if (func_0203630C() & 0x10) {
+    if (KEY_GetCont() & 0x10) {
         func_020355D8(0);
         if (p->f62 < p->f64) {
             p->f96 = 4;
@@ -118,15 +118,15 @@ int FRAME_LIST_ReadKeys(S *p)
         }
         return 14;
     }
-    if (func_020362DC() & 1)
+    if (KEY_GetTrg() & 1)
         return 12;
-    if (func_020362DC() & 0x200) {
+    if (KEY_GetTrg() & 0x200) {
         func_020355D8(0);
         if (p->f5c != 0 || p->f62 != 0)
             return 8;
         return 14;
     }
-    if (func_020362DC() & 0x100) {
+    if (KEY_GetTrg() & 0x100) {
         func_020355D8(0);
         if (p->f5c != p->f5e - 1 || p->f62 != p->f64)
             return 9;

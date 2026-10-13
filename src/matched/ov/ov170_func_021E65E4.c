@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_021E8F50 0x021E8F50 thumb
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_021DD238 0x021DD238 thumb
  *   func_021EF1A4 0x021EF1A4 thumb
  *   func_020260F4 0x020260F4 thumb
@@ -25,7 +25,7 @@
  *   func_020260E4 0x020260E4 thumb
  *   func_021EF170 0x021EF170 thumb
  *   func_021EE96C 0x021EE96C thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021EE3E4 0x021EE3E4 thumb
  *   func_021DF0BC 0x021DF0BC thumb
  *   func_021ECC1C 0x021ECC1C thumb
@@ -62,7 +62,7 @@ typedef struct {
 } Obj;
 
 extern int func_021E8F50(char *p, int v);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_021DD238(char *p);
 extern unsigned func_021EF1A4(void);
 typedef unsigned char  u8;
@@ -77,7 +77,7 @@ extern void func_021DF040(char *p);
 extern void func_020260E4(struct Sound *obj, u8 sel);
 extern unsigned func_021EF170(void);
 extern unsigned func_021EE96C(char *p);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void func_021EE3E4(char **p, unsigned idx);
 extern void func_021DF0BC(unsigned char *p);
 extern void func_021ECC1C(unsigned char *p);
@@ -100,7 +100,7 @@ int func_021E65E4(Obj *p)
         p->hi = 0;
         return func_021E8F50((char *)p, 0x41);
     }
-    if ((func_020362DC() & 4) && p->lo != 0 && p->b18 == 0) {
+    if ((KEY_GetTrg() & 4) && p->lo != 0 && p->b18 == 0) {
         func_021DD238((char *)p);
         p->lo = 0;
         return func_021E8F50((char *)p, 0x41);
@@ -136,11 +136,11 @@ int func_021E65E4(Obj *p)
     case 0x24:
         if (p->b18 != 0)
             break;
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         func_021DF040((char *)p);
         return func_021E8F50((char *)p, 0x5D);
     case 0x25:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_020260E4(OBJ(p), 0x24);
         func_021EE3E4((char **)p, 0x24);
         if (p->b18 == 0)
@@ -149,7 +149,7 @@ int func_021E65E4(Obj *p)
             func_021ECC1C((unsigned char *)p);
         return func_021E9C94((char *)p, 0, 0x40);
     case 0x26:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_020260E4(OBJ(p), 0x24);
         func_021EE3E4((char **)p, 0x24);
         if (p->b18 == 0)
@@ -160,7 +160,7 @@ int func_021E65E4(Obj *p)
     case 0x29:
         if (p->b18 != 0)
             break;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p->lo = 0;
         return func_021E954C(p, 6, 9, func_021E8F50((char *)p, 0x41));
     case 0x2A:
@@ -171,24 +171,24 @@ int func_021E65E4(Obj *p)
     case -2:
         if (p->b18 == 1)
             return func_021EA514(p, 0xFF);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p->lo = 0;
         return func_021E954C(p, 6, 9, func_021E8F50((char *)p, 0x41));
     case -6:
         if (func_020260E0(OBJ(p)) != 0x24)
             break;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E9C94((char *)p, 0, 0x40);
     case -5:
         if (func_020260E0(OBJ(p)) != 0x24)
             break;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E9CE0((char *)p, 0, 0x40);
     case -4:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         if (p->b18 == 0) {
             unsigned char v = func_020260E0(OBJ(p));
             if (v < 0x24)

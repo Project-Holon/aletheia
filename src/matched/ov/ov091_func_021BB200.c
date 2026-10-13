@@ -33,9 +33,9 @@
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetSurfacePos  0x0204B09C  arm
  *   PLIST_PLATE_CreateMonIcon  0x021BAA50  thumb  ov091
  *   PLIST_PLATE_Draw  0x021BAAE4  thumb  ov091
@@ -54,9 +54,9 @@ struct Obj;
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCharacter(u32 i);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetSurfacePos(int a, int b, s16 *c);
 extern void PLIST_PLATE_CreateMonIcon(u8 *a, u8 *s);
 extern void PLIST_PLATE_Draw(u8 *a, u8 *s, int c);
@@ -79,9 +79,9 @@ void PLIST_PLATE_SetMon(u8 *a, u8 *s, int p, int q)
     *(u16 *)(s + 8) = *(u16 *)(s + 6);
     CLACT_DeleteActor((struct Obj *)(*(int *)(s + 0x30)));
     CLACT_ReleaseCharacter(*(int *)(s + 0x2c));
-    BMP_Clear(func_02045770((struct Descriptor *)(*(u32 *)(s + 0x20))), 0);
-    func_0204B3DC((struct Obj *)(*(int *)(s + 0x3c)), 0);
-    func_0204B3DC((struct Obj *)(*(int *)(s + 0x40)), 0);
+    BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)(*(u32 *)(s + 0x20))), 0);
+    CLACT_SetActorDrawEnable((struct Obj *)(*(int *)(s + 0x3c)), 0);
+    CLACT_SetActorDrawEnable((struct Obj *)(*(int *)(s + 0x40)), 0);
     b[2] = 0;
     b[3] = 0;
     CLACT_SetSurfacePos(*(int *)(s + 0x24), 0, &b[2]);

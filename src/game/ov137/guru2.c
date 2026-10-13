@@ -14,7 +14,7 @@
  *
  * symbols:
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   PROCSYS_Create 0x02031324 arm
  *   PROCSYS_Main 0x02031330 arm
  *   d_021E1A50 0x021E1A50 data a4
@@ -57,7 +57,7 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   func_020056A0 0x020056A0 thumb
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_021DD1E0 0x021DD1E0 thumb ov137
  *   func_021DD3D8 0x021DD3D8 thumb ov137
  *   func_021DD2E0 0x021DD2E0 thumb ov137
@@ -102,6 +102,10 @@
  *   d_021E2268 0x021E2268 data a4
  *   GFL_NET_SetAutoExit  0x0203D7B0  arm  arm9
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
+ *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
+ *   POKEPARTY_GetMember  0x0201AB28  thumb  arm9
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  */
 #include "ov137_types.h"
 struct Guru2Ctx;
@@ -184,7 +188,7 @@ typedef void (*Cb)(void);
 struct State { u32 enable; u32 index; int counter; u32 spare; u8 *object; };
 
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 extern void *PROCSYS_Create(int a0);
 extern u32 PROCSYS_Main(void *);
 extern void func_0203133C(struct S020314B8 *p);
@@ -194,8 +198,8 @@ extern u32 func_020307B0(void *p);
 extern void PROCSYS_Push(void *,int,const void *,void *);
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201292C(const struct BigObj *p);
-extern u32 func_0201AA18(void *);
-extern void *func_0201AB28(void *p, u32 idx);
+extern u32 POKEPARTY_GetCount(void *);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void GFL_NET_SetAutoExit(u8 a0);
 extern u8 *func_02012944(void *p);
 extern void *func_0200CA1C(void *);
@@ -228,7 +232,7 @@ extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern void func_021DD3D8(void *,void *);
 extern void *func_020056A0(u32,u32,u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u32 func_0201C440(void *);
+extern u32 PRINTSYS_QUE_Create(void *);
 extern void func_021DD2E0(u8 *,void *),func_021DD4A8(u8 *,void *),func_021DD5AC(u8 *),func_021DD638(u8 *);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -244,8 +248,8 @@ extern int func_021DE738(void *,int);
 extern void GFL_NET_COMMAND_DeleteCommandTable(unsigned),CLACT_DrawSystem(void);
 extern void TCBL_DeleteAllTasks(struct Tcbl *p);
 extern void TCBL_Destroy(struct S02031140 *p);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void func_021DD570(u8 *p);
 extern u32 func_021DD760(void *);
 extern void func_021DD3B0(u32);
@@ -324,7 +328,7 @@ extern const u32 d_021E1B40[];
 
 
 
-int func_021DC860(void *obj,int a,struct Guru2Ctx *ctx) { u8 *p=PROCSYS_AllocProcWork(obj,36,4); func_02082BCC(p,0,36); *(unsigned int *)&((struct Guru2MainCtx *)p)->f10=ctx->f4; ((struct Guru2MainCtx *)p)->f8=ctx; ((struct Guru2MainCtx *)p)->f20=PROCSYS_Create(1); return 1; }
+int func_021DC860(void *obj,int a,struct Guru2Ctx *ctx) { u8 *p=PROCSYS_AllocProcWork(obj,36,4); MI_CpuFill8(p,0,36); *(unsigned int *)&((struct Guru2MainCtx *)p)->f10=ctx->f4; ((struct Guru2MainCtx *)p)->f8=ctx; ((struct Guru2MainCtx *)p)->f20=PROCSYS_Create(1); return 1; }
 
 
 
@@ -340,7 +344,7 @@ int func_021DC8BC(void *obj,int a,int b,struct Guru2Ctx *p) { func_0203133C(p->f
 
 
 
-void *func_021DC8D0(void *q,int heap) {u8 *p;p=func_02030734((u16)heap,36,0,(const char *)d_021E2260,171);func_02082BCC(p,0,36);*(void * *)&((struct Guru2MainCtx *)p)->f14=q;*(void * *)&((struct Guru2MainCtx *)p)->f18=func_021DCB04((u32)p,heap);return p;}
+void *func_021DC8D0(void *q,int heap) {u8 *p;p=func_02030734((u16)heap,36,0,(const char *)d_021E2260,171);MI_CpuFill8(p,0,36);*(void * *)&((struct Guru2MainCtx *)p)->f14=q;*(void * *)&((struct Guru2MainCtx *)p)->f18=func_021DCB04((u32)p,heap);return p;}
 
 
 
@@ -370,7 +374,7 @@ struct DC950Obj *func_021DC950(struct DC950Src *p,int a,int b)
     v->unk_38=0;
     v->unk_34=a;
     v->unk_3c=b;
-    for(i=0;i<(int)func_0201AA18(v->unk_00);i++) func_0201AB28(v->unk_00,i);
+    for(i=0;i<(int)POKEPARTY_GetCount(v->unk_00);i++) POKEPARTY_GetMember(v->unk_00,i);
     return v;
 }
 
@@ -404,7 +408,7 @@ int func_021DC9AC(u32 *p)
 /*
  * func_020307B0 0x020307B0 arm
  * func_02030734 0x02030734 arm
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * PROCSYS_Push 0x02031348 arm
  * d_021E2260 0x021E2260 data a4
  * gPokeStatusProcData 0x021DC800 data a4 ov131
@@ -422,12 +426,12 @@ int func_021DC9F4(u32 *p)
         func_02012944((void *)p[4]);
         q=func_0200CA1C((void *)p[4]);
         p[7]=(u32)func_02030734(4,40,0,(const char *)d_021E2260,328);
-        func_02082BCC((void *)p[7],0,40);
+        MI_CpuFill8((void *)p[7],0,40);
         r=(void *)func_02012934((void *)p[4]);
         *(void **)p[7]=r;
         *(u32 *)(p[7]+8)=p[4];
         *(u8 *)(p[7]+12)=1;
-        *(u8 *)(p[7]+14)=func_0201AA18(r);
+        *(u8 *)(p[7]+14)=POKEPARTY_GetCount(r);
         *(u8 *)(p[7]+15)=0;
         *(u8 *)(p[7]+13)=1;
         *(u16 *)(p[7]+20)=0;
@@ -479,14 +483,14 @@ void *func_021DCAFC(struct Guru2MainCtx2 *p) { return **(void ** *)&((struct Gur
 
 /*
  * func_02030734 0x02030734 arm
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * d_021E2268 0x021E2268 data a4
  */
 u32 *func_021DCB04(u32 a,int heap)
 {
     u32 *p;
     p=func_02030734(heap,88,0,(const char *)d_021E2268,152);
-    func_02082BCC(p,0,88);
+    MI_CpuFill8(p,0,88);
     p[0]=a;
     p[19]=(u32)func_02030734(heap,0x1be4,0,(const char *)d_021E2268,159);
     p[20]=(u32)func_02030734(heap,0x1be4,0,(const char *)d_021E2268,161);
@@ -872,7 +876,7 @@ int func_021DCE00(struct Guru2MainCtx2 *p, int i)
  * GFL_HEAP_CreateChildHeap 0x0203064C arm
  * func_020490F4 0x020490F4 arm
  * PROCSYS_AllocProcWork 0x0203159C arm
- * func_02082BCC 0x02082BCC arm
+ * MI_CpuFill8 0x02082BCC arm
  * func_0203F8F4 0x0203F8F4 arm
  * func_02045B38 0x02045B38 arm
  * TCBL_Create 0x0203101C arm
@@ -882,7 +886,7 @@ int func_021DCE00(struct Guru2MainCtx2 *p, int i)
  * GF_FONT_Create 0x0201D7EC thumb
  * WIPE_SYS_Start 0x0202208C thumb
  * func_020056A0 0x020056A0 thumb
- * func_0201C440 0x0201C440 thumb
+ * PRINTSYS_QUE_Create 0x0201C440 thumb
  * func_021DD1D0 0x021DD1D0 thumb ov137
  * func_021DD1E0 0x021DD1E0 thumb ov137
  * func_021DD3D8 0x021DD3D8 thumb ov137
@@ -905,7 +909,7 @@ int func_021DCE10(void *a,u32 *state,u8 *ctx)
         GFL_HEAP_CreateChildHeap((u32)((void *)1),114,0x80000);
         arc=func_020490F4(184,114);
         p=PROCSYS_AllocProcWork(a,0x4874,114);
-        func_02082BCC(p,0,0x4874);
+        MI_CpuFill8(p,0,0x4874);
         *(u8 **)(ctx+32)=p; *(u8 **)(p+12)=ctx;
         *(void **)(p+16)=*(void **)(ctx+24);
         func_0203F8F4(114);
@@ -917,7 +921,7 @@ int func_021DCE10(void *a,u32 *state,u8 *ctx)
         func_021DD3D8(p,arc);
         *(void **)(p+48)=func_020056A0((u32)func_021DD1A4,(u32)p,1);
         *(void **)(p+244)=TCBL_Create(114,114,32,32);
-        *(u32 *)(p+236)=func_0201C440((void *)114);
+        *(u32 *)(p+236)=PRINTSYS_QUE_Create((void *)114);
         func_021DD2E0(p,arc); func_021DD4A8(p,arc); func_021DD5AC(p); func_021DD638(p);
         func_021DCB78((u32)(*(void **)(ctx+24)));
         GFL_NET_RestartWithDefaultTimeout(1,114); ARC_TOOL_DeleteHandle(arc);
@@ -1053,7 +1057,7 @@ int func_021DCF80(int a,int b,int c,u8 *p)
 int func_021DD0B8(void *a,int b,void *c,u8 *p)
 {
     TCBL_DeleteAllTasks((struct Tcbl *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fF4)); TCBL_Destroy((struct S02031140 *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fF4));
-    func_0201C6EC((struct PrintSys *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fEC)); func_0201C4C0((struct PrintSys *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fEC));
+    PRINTSYS_QUE_Clear((struct PrintSys *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fEC)); PRINTSYS_QUE_Delete((struct PrintSys *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fEC));
     func_021DD570(p); func_021DD3B0(func_021DD760(p));
     MSGDATA_Delete((struct Rec *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f40)); func_0201ED04((struct WordSet *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f3C)); GF_FONT_Delete((void *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f38));
     *(volatile u16 *)0x04000304 |= 0x8000;

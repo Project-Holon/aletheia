@@ -24,11 +24,11 @@
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   d_021E80C4 0x021E80C4 data a4
  *   func_020355D8 0x020355D8 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021E68F4 0x021E68F4 thumb ov119
  *   func_021DE754 0x021DE754 thumb ov119
  *   func_020355C4 0x020355C4 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_021DE208 0x021DE208 thumb ov119
  *   func_021DD140 0x021DD140 thumb ov119
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
@@ -42,16 +42,16 @@
  *   func_021DD9DC 0x021DD9DC thumb ov119
  *   func_021DD528 0x021DD528 thumb ov119
  *   func_02041570 0x02041570 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021B6558 0x021B6558 thumb ov067
  *   func_021E6B90 0x021E6B90 thumb ov119
  *   WIPE_SYS_Start 0x0202208C thumb
  *   func_021D8A24 0x021D8A24 thumb ov119
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   func_021DE8C0 0x021DE8C0 thumb ov119
- *   func_02039C68 0x02039C68 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  *   DWC_RAP_SetVchatTalkLock 0x0215642C thumb ov009
  *   func_021B9774  0x021B9774  thumb  ov114
  *   func_021B9838  0x021B9838  thumb  ov114
@@ -108,7 +108,7 @@
  *   func_021E6718  0x021E6718  thumb  ov119
  *   func_021E6790  0x021E6790  thumb  ov119
  *   func_021E67A8  0x021E67A8  thumb  ov119
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   func_021E67C4 0x021E67C4 thumb ov119
  *   func_021E68B4  0x021E68B4  thumb  ov119
@@ -128,7 +128,7 @@
  *   sub_02030734   0x02030734  arm
  *   d_021E80F4     0x021E80F4  data  ov119
  *   _s32_div_f      0x0209C0A4  arm
- *   tbl_020A1B38    0x020A1B38  data
+ *   FX_SinCosTable_    0x020A1B38  data
  *   MCSS_SetPosition   0x02015C48  thumb
  *   _s32_to_float    0x0209BDBC  arm
  *   __fdiv           0x0209CE10  arm
@@ -161,12 +161,12 @@
  *   sub_02009D9C  0x02009D9C  thumb
  *   GAME_DATA_GetSaveBlock1F  0x02012F14  thumb
  *   func_02009D9C 0x02009D9C thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02008FEC 0x02008FEC thumb
  *   func_02008FFC 0x02008FFC thumb
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   func_02008C20 0x02008C20 thumb
- *   func_0201AC2C 0x0201AC2C thumb
+ *   POKEPARTY_Copy 0x0201AC2C thumb
  *   GAME_DATA_GetPlayTime 0x02012FCC thumb
  *   func_020086F8 0x020086F8 thumb
  *   func_02007AEC 0x02007AEC thumb
@@ -175,14 +175,14 @@
  *   func_02007B5C 0x02007B5C thumb
  *   PERAPVOICE_IsRecorded   0x02007B50  thumb
  *   PERAPVOICE_ClearRecorded   0x02007B54  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   MAIL_GetBoxSize   0x02008FFC  thumb
  *   MAIL_GetBox   0x02008FEC  thumb
  *   sub_02008C20   0x02008C20  thumb
  *   PLAYTIME_GetStamp   0x020086F0  thumb
  *   BOX_SAVEDATA_GetUsableBoxCount   0x020076A4  thumb
- *   func_0201A920  0x0201A920  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
  *   BOX_SAVEDATA_GetBoxPageSize   0x02007A9C  thumb
  *   BOX_SAVEDATA_GetBoxPokemon   0x02007AF4  thumb
  *   MAIL_FindEmptySlot  0x02009020  thumb
@@ -197,7 +197,7 @@
  *   sub_02009DE8   0x02009DE8  thumb
  *   sub_0200949C   0x0200949C  thumb
  *   sub_020094D8   0x020094D8  thumb
- *   func_0201B9F0  0x0201B9F0  thumb
+ *   POKE_TOOL_HealFull  0x0201B9F0  thumb
  *   func_0202F190  0x0202F190  thumb
  *   sub_02008DF0   0x02008DF0  thumb
  *   func_0200CDE0  0x0200CDE0  thumb
@@ -211,8 +211,8 @@
  *   sub_02009D1C   0x02009D1C  thumb
  *   d_021E8108     0x021E8108  data  ov119
  *   d_021E811C     0x021E811C  data  ov119
- *   func_0201A954 0x0201A954 thumb
- *   func_0201A98C 0x0201A98C thumb
+ *   POKEPARTY_InitEx 0x0201A954 thumb
+ *   POKEPARTY_Add 0x0201A98C thumb
  *   func_020076A4 0x020076A4 thumb
  *   func_02012984 0x02012984 thumb
  *   SHINKA_CHECK_CheckEvolution 0x0201B2B0 thumb
@@ -222,7 +222,7 @@
  *   func_02010904 0x02010904 thumb
  *   func_02010934 0x02010934 thumb
  *   func_0203FB44 0x0203FB44 arm
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   func_021E57A4 0x021E57A4 thumb ov119
  *   func_021E57E8 0x021E57E8 thumb ov119
  *   func_021E5680 0x021E5680 thumb ov119
@@ -238,14 +238,14 @@
  *   func_020275EC 0x020275EC thumb
  *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
  *   UI_SCENE_CreateActor 0x021B629C thumb ov067
- *   func_0204B6F4 0x0204B6F4 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   func_02027720 0x02027720 thumb
  *   func_0202772C 0x0202772C thumb
  *   func_02027738 0x02027738 thumb
  *   func_02027740 0x02027740 thumb
  *   func_02049B40 0x02049B40 arm
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   func_02012FFC 0x02012FFC thumb
@@ -257,25 +257,25 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   TIME_ICON_Delete 0x0202F038 thumb
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_0201F7A8 0x0201F7A8 thumb
  *   func_0201EC64 0x0201EC64 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   TCBL_Create 0x0203101C arm
  *   func_02028590 0x02028590 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   func_0200566C 0x0200566C thumb
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   func_0201ED04 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   TCBL_Destroy 0x02031140 arm
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
  *   func_02028484 0x02028484 thumb
@@ -315,7 +315,7 @@
  *   d_021E7974 0x021E7974 data a4
  *   d_021E790C 0x021E790C data a4
  *   APP_TASKMENU_WIN_CreateEx 0x0202800C thumb
- *   func_0201C6B4 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   func_021DD2F4 0x021DD2F4 thumb ov119
  *   d_021E792C 0x021E792C data
  *   func_02030EAC 0x02030EAC arm
@@ -388,9 +388,9 @@
  *   _ffix 0x0209C494 arm
  *   _fflt 0x0209BDBC arm
  *   d_021E7B9C 0x021E7B9C data a4
- *   func_0201ADE4 0x0201ADE4 thumb
- *   func_0201AE1C 0x0201AE1C thumb
- *   func_0201AE14 0x0201AE14 thumb
+ *   POKE_PERSONAL_Create 0x0201ADE4 thumb
+ *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
+ *   POKE_PERSONAL_Delete 0x0201AE14 thumb
  *   MCSS_TOOL_AddPokeMcss 0x02017270 thumb
  *   MCSS_TOOL_SetAnimeStopCallback 0x020173B4 thumb
  *   MCSS_SetScale 0x02015CAC thumb
@@ -407,7 +407,7 @@
  *   func_0207F9B4 0x0207F9B4 arm
  *   func_0207D84C 0x0207D84C arm
  *   func_0207D810 0x0207D810 arm
- *   d_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  *   func_0207DA8C 0x0207DA8C arm
  *   func_0207D7C4 0x0207D7C4 arm
  *   func_021D8A18 0x021D8A18 thumb ov119
@@ -450,7 +450,7 @@
  *   func_0201BC78 0x0201BC78 thumb
  *   func_0201BCB4 0x0201BCB4 thumb
  *   CLACT_CreateActor 0x0204B294 arm
- *   func_0204B92C 0x0204B92C arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   func_021E69A4 0x021E69A4 thumb ov119
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -458,7 +458,7 @@
  *   func_021E7058 0x021E7058 thumb ov119
  *   func_021D8DD0 0x021D8DD0 thumb ov119
  *   func_021D8E24 0x021D8E24 thumb ov119
- *   func_0204B3F4 0x0204B3F4 arm
+ *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   d_021E82A4 0x021E82A4 data
  *   CLACT_GetActorImageProxy 0x0204B7C8 arm
@@ -466,7 +466,7 @@
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   func_02017E88 0x02017E88 thumb
  *   CLACT_SetActorDrawPriority 0x0204B800 arm
- *   func_0204B404 0x0204B404 arm
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_02049DF4 0x02049DF4 arm
  *   d_021E8530 0x021E8530 data a4
  *   func_0203FCA0 0x0203FCA0 arm
@@ -481,6 +481,8 @@
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb  arm9
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
+ *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb  arm9
+ *   CLACT_SetActorObjMode  0x0204B688  arm  arm9
  */
 #include "pokemontrade_types.h"
 #include "../../matched/include/Obj22746.h"
@@ -999,10 +1001,10 @@ extern void func_021DD09C(char *p);
 extern void func_021D8E84(void *,int);
 extern void func_021DE9E8(void *);
 extern int TOUCHPANEL_HitTrg(const void *);
-extern u32_021DEA24 func_020362DC(void);
+extern u32_021DEA24 KEY_GetTrg(void);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8);
-extern void func_020061E4(u32_021DEA24 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32_021DEA24 a);
 extern void func_021E68F4(int,int);
 extern int func_021DE754(char *,int);
 extern int func_021DE208(char *);
@@ -1018,16 +1020,16 @@ extern void func_021DD588(char *p);
 extern void func_021DD9DC(unsigned char *);
 extern void func_021DD528(char *,int);
 extern void func_02041570(int channel, u16 val);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_021E6B90(char *p);
 extern void WIPE_SYS_Start(void *p1, u32_021DECA0 p2, u32_021DECA0 p3, u32_021DECA0 p4, u32_021DECA0 p5, u32_021DECA0 p6, u32_021DECA0 p7);
 extern int func_021D8A24(void *);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32_021DEDBC b, u32_021DEDBC c, u32_021DEDBC d);
-extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,unsigned int);
 extern void func_021DE8C0(char *p);
-extern void func_02039C68(struct Link *,unsigned,unsigned);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned,unsigned);
 extern void DWC_RAP_SetVchatTalkLock(int);
 extern void func_021B9774(u8 *p);
 extern void func_021B9838(u8 *p);
@@ -1082,7 +1084,7 @@ extern void func_021E62D4(void *p, int a, int b);
 extern void func_021E6718(char *p, int i);
 extern void func_021E6790(void *p, int i, int a);
 extern void func_021E67A8(void *p, int i);
-extern u32_021DF7F0 func_02035D20(u32_021DF7F0 *outA, u32_021DF7F0 *outB);
+extern u32_021DF7F0 TOUCHPANEL_GetPointTrg(u32_021DF7F0 *outA, u32_021DF7F0 *outB);
 extern void func_021E67C4(void *,int);
 extern void func_021E68B4(int p, int n);
 extern void func_021E67E0(void *, int, int);
@@ -1132,7 +1134,7 @@ extern void *func_0200CA1C(void *p);
 extern u32_021DEA24 sub_02009D9C(void);
 extern void *GAME_DATA_GetSaveBlock1F(void **h);
 extern unsigned func_02009D9C(void);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern struct Sub02008F80Obj *func_02008FEC(void *sys);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern int GAME_DATA_GetPlayTime(int p0);
@@ -1141,19 +1143,19 @@ extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
 extern u32_021DEA24 func_02008FFC(void);
 extern u32_021DEA24 func_02008C20(void);
 extern u32_021DEA24 func_02007AEC(void);
-extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
+extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
 extern void func_020086F8(struct PlayTime *p, const struct PlayTimeStamp *in);
 extern void func_02007B5C(struct PerapVoice *p);
 extern void *PERAPVOICE_IsRecorded(void **p);
 extern void PERAPVOICE_ClearRecorded(struct PerapVoice *p);
-extern u32_021DEA24 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32_021DEA24 idx);
+extern u32_021DEA24 POKEPARTY_GetCount(void *p);
+extern void *POKEPARTY_GetMember(void *p, u32_021DEA24 idx);
 extern u32_021DEA24 MAIL_GetBoxSize(void);
 extern struct Sub02008F80Obj *MAIL_GetBox(void *sys);
 extern u32_021DEA24 sub_02008C20(void);
 extern void PLAYTIME_GetStamp(const struct PlayTime *p, struct PlayTimeStamp *out);
 extern u8 BOX_SAVEDATA_GetUsableBoxCount(void *save);
-extern struct Party *func_0201A920(u32_021DEA24 heap);
+extern struct Party *POKEPARTY_Create(u32_021DEA24 heap);
 extern u32_021DEA24 BOX_SAVEDATA_GetBoxPageSize(void);
 extern struct Sub02007AC8Entry *BOX_SAVEDATA_GetBoxPokemon(void **save, u32_021DEA24 box);
 extern int MAIL_FindEmptySlot(void *obj, int v);
@@ -1168,7 +1170,7 @@ extern void func_02008574(struct Sub0200852CObj *obj, u8 a, u8 b);
 extern void sub_02009DE8(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p);
 extern u32_021DEA24 sub_0200949C(const struct Sub02009470Obj *obj, int row, int col);
 extern void sub_020094D8(struct Sub02009470Obj *obj, int row, int col, int value);
-extern void func_0201B9F0(void *mon);
+extern void POKE_TOOL_HealFull(void *mon);
 extern void func_0202F190(void *a0, u32_021DEA24 a1, u32_021DEA24 a2, u32_021DEA24 a3, u16 a4);
 extern u32_021DEA24 sub_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern void func_0200CDE0(struct Blk37 *p, void *m);
@@ -1180,8 +1182,8 @@ extern int func_020075B0(void *save, u32_021DEA24 box, u32_021DEA24 slot, const 
 extern u32_021DEA24 sub_0201283C(const struct BigObj *p);
 extern void sub_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c);
 extern int sub_02009D1C(struct Sub020097BCObj *obj, struct Sub0200852CObj *p, u32_021DEA24 *out);
-extern void func_0201A954(struct Party *p, s32_021E0980 capacity);
-extern u32_021DEA24 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern void POKEPARTY_InitEx(struct Party *p, s32_021E0980 capacity);
+extern u32_021DEA24 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern u8 func_020076A4(void *);
 extern u8 func_02012984(const struct BigObj *p);
 extern u32_021DEA24 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32_021DEA24 context, u32_021DEA24 param, u8 timezone, u32_021DEA24 *methodOut, u16 heap);
@@ -1191,7 +1193,7 @@ extern void *func_020108C4(u32_021DEA24 heap, u32_021DEA24 a1, u32_021DEA24 a2, 
 extern u32_021DEA24 func_02010904(struct Sub0201088CObj *p);
 extern void func_02010934(struct Sub0201088CObj *p);
 extern void func_0203FB44(u32_021DEA24 layer, u32_021DEA24 offset, u32_021DEA24 size);
-extern void func_02043534(u32_021DEA24 planes);
+extern void BG_SYS_SetMainVisiblePlanes(u32_021DEA24 planes);
 extern void func_021E57A4(int);
 extern void func_021E57E8(int);
 extern void func_021E5680(char *p);
@@ -1207,14 +1209,14 @@ extern u32_021DEA24 func_02027600(u32_021DEA24);
 extern u8 func_020275EC(int i);
 extern void UI_SCENE_LoadActorGfx(void *,Descriptor *,int,u16);
 extern int UI_SCENE_CreateActor(void *,int,u8,u8,u8,u16);
-extern void func_0204B6F4(struct Obj *o, u32_021DEA24 v, u32_021DEA24 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32_021DEA24 v, u32_021DEA24 flag);
 extern int func_02027720(int);
 extern int func_0202772C(int);
 extern int func_02027738(int,int);
 extern int func_02027740(int,int);
 extern void func_02049B40(u32_021DEA24 a, u32_021DEA24 b, u32_021DEA24 c, u32_021DEA24 d, u32_021DEA24 e, u16 f);
 extern u32_021DEA24 BMP_WIN_Create(u32_021DEA24 layer, u8 a, u32_021DEA24 b, u32_021DEA24 tiles, u8 c, u8 d, u8 slot);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_SetTextColor(u32_021DEA24,u32_021DEA24,u32_021DEA24);
 extern signed char func_02012FFC(void);
@@ -1226,25 +1228,25 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void TIME_ICON_Delete(u8 *p);
 extern u8 *TIME_ICON_CreateNode(u32_021DEA24 a, void *b, u8 c, u8 d, u16 e);
-extern u32_021DEA24 func_020452E8(struct Descriptor *d);
+extern u32_021DEA24 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_0201F7A8(void *desc, u32_021DEA24 kind);
 extern struct WordSet *func_0201EC64(u32_021DEA24 heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32_021DEA24 heapId);
 extern struct U16Vec *STRBUF_Create(u32_021DEA24 capacity, u32_021DEA24 heapId);
-extern u32_021DEA24 func_0201C440(void *p);
+extern u32_021DEA24 PRINTSYS_QUE_Create(void *p);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32_021DEA24 count, u32_021DEA24 workSize);
 extern void *func_02028590(u32_021DEA24,u32_021DEA24,u32_021DEA24,u32_021DEA24);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32_021DEA24 a2, u32_021DEA24 a3, u16 heap);
 extern void func_0200566C(void);
 extern int APP_KEYCURSOR_Delete(int a0);
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern unsigned int APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern unsigned int func_0201ED04(struct WordSet *p);
 extern u32_021DEA24 GF_FONT_Delete(void *ptr);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 extern s32_021E12AC func_02028484(struct Blk *blk, void *h);
@@ -1277,7 +1279,7 @@ extern void func_021E6334(char *,int,int,void *,int,u32_021DEA24);
 extern void func_021E6E7C(int p);
 extern void func_021E6DEC(int p);
 extern u32_021DEA24 *APP_TASKMENU_WIN_CreateEx(u32_021DEA24 a0, u32_021DEA24 a1, u32_021DEA24 a2, u32_021DEA24 a3, u8 a4, u8 a5, u32_021DEA24 a6, u32_021DEA24 a7, u16 a8);
-extern u32_021DEA24 func_0201C6B4(const struct PrintSys *p);
+extern u32_021DEA24 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern int func_021DD2F4(char *);
 extern void func_02030EAC(struct Node *n);
 extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32_021DEA24 heap);
@@ -1330,9 +1332,9 @@ extern u8 POKE_TOOL_GetGender(void *p);
 extern u16 MCSS_GetSizeX(void *p);
 extern s16_021E33FC MCSS_GetOfsX(void *p);
 extern void MCSS_SetOfsPosition(void *p, u32_021DEA24 *src);
-extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
-extern u32_021DEA24 func_0201AE1C(const struct Personal *p, u32_021DEA24 field);
-extern void func_0201AE14(void *h);
+extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
+extern u32_021DEA24 POKE_PERSONAL_GetParam(const struct Personal *p, u32_021DEA24 field);
+extern void POKE_PERSONAL_Delete(void *h);
 extern void *MCSS_TOOL_AddPokeMcss(void *a0, void *a1, u32_021DEA24 a2, u32_021DEA24 a3, u32_021DEA24 a4, u32_021DEA24 a5);
 extern int MCSS_TOOL_SetAnimeStopCallback(int a0);
 extern void MCSS_SetScale(void *p, u32_021DEA24 *src);
@@ -1385,7 +1387,7 @@ extern int func_0201BC78(void);
 extern int func_0201BCB4(void);
 extern int CLACT_RegisterPaletteCompressed(void *a0, unsigned int a1, unsigned int a2, unsigned int a3, u16 a4);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void func_021E69A4(char *);
 extern void CLACT_ReleasePalette(u32 i);
@@ -1393,15 +1395,15 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern void func_021E7058(void *);
 extern void *func_021D8DD0(void *a, int b, int c, char *p);
 extern char *func_021D8E24(int, int, char *);
-extern u32 func_0204B3F4(struct Obj *p);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void func_0204B688(struct Actor *actor, u32 value);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern s32_021DEA24 func_02061CA4(void *p, u32 a, u32 b, s32_021DEA24 size);
 extern int POKE_TOOL_GetIconPalette(void *a0);
 extern void CLACT_SetActorDrawPriority(int, u8);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern unsigned int func_0201BA68(void *mon);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern unsigned int POKE_TOOL_GetGraphicIndex(void *mon);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_0203FCA0(u32,const BgTemplate *,u32);
@@ -1643,7 +1645,7 @@ extern const Pair_021DF490 d_021E76D4;
 extern const Pair_021DF59C d_021E76EC;
 extern const Table_021DEA24 g_021E7844;
 extern const Tbl d_021E7794;
-extern s16_021DFBF0 tbl_020A1B38[];
+extern s16_021DFBF0 FX_SinCosTable_[];
 extern const char d_021E8130[];
 extern const char d_021E8108[];
 extern const char d_021E811C[];
@@ -1672,7 +1674,6 @@ extern const Vec_021E35A0 data_021E7B00;
 extern const Table_021E3004 data_021E7B0C;
 extern u32_021DEA24 d_021E8178[];
 extern u32_021DEA24 d_021E8168[];
-extern const s16 d_020A1B38[];
 extern const VecFx32_021E3A40 d_021E815C,d_021E79AC,d_021E8150;
 extern const Template_021E3A40 d_021E7C0C;
 extern const char d_021E7CE4[];
@@ -1705,7 +1706,7 @@ extern const BgTemplate d_021E7E24,d_021E7F44;
 
 
 
-static inline int poll(void) { int v=func_020362DC(); if(v)func_020355D8(0); return v; }
+static inline int poll(void) { int v=KEY_GetTrg(); if(v)func_020355D8(0); return v; }
 
 
 
@@ -1738,7 +1739,7 @@ void func_021DEA24(char *p)
         idx=TOUCHPANEL_HitTrg(d_021E80C4);
         if(idx!=sentinel) {
             func_020355D8(1);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021E68F4((int)p,sentinel);
             if(func_021DE754(p,idx)) return;
         }
@@ -1746,7 +1747,7 @@ void func_021DEA24(char *p)
             ((TradeWork *)p)->f10A0%=6;
             if(((TradeWork *)p)->f10A0<0) ((TradeWork *)p)->f10A0=0;
             func_021E68F4((int)p,((TradeWork *)p)->f10A0);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             return;
         }
         if(poll()==1) {
@@ -1754,7 +1755,7 @@ void func_021DEA24(char *p)
         }
         if(func_021DE208(p)) {
             func_021E68F4((int)p,((TradeWork *)p)->f10A0);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
         }
     }
 }
@@ -1774,7 +1775,7 @@ void func_021DEB34(void *p)
 {
     int v;
     if(func_021DD140(p) && func_021E12AC(p)) {
-        v=func_020362DC();
+        v=KEY_GetTrg();
         if(v) func_020355D8(0);
         if(v==0) {
             v=TOUCHPANEL_GetTrg();
@@ -1891,7 +1892,7 @@ void func_021DEC4C(void *p) {
 
 void func_021DECA0(char *p) {
  func_021E4000(p);func_021DF7D0(p);func_021DF8E0(p);func_021E64B8(p);func_021DD588(p);func_021E4570(p);func_021DD9DC((unsigned char *)p);func_021E4888(p);
- func_021DD528(p,1);func_02041570(6,0);func_0204B3DC((struct Obj *)((TradeWork *)p)->fF04,0);
+ func_021DD528(p,1);func_02041570(6,0);CLACT_SetActorDrawEnable((struct Obj *)((TradeWork *)p)->fF04,0);
  func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),1,1);TOUCHBAR_SetButtonEnabled((unsigned char *)(((TradeWork *)p)->f9C0),1,0);func_021E24E8(p,6);
  ((TradeWork *)p)->f108C=0;((TradeWork *)p)->f1084=1;func_021E6B90(p);
  WIPE_SYS_Start(0,1,1,0,6,1,((TradeWork *)p)->f5F4);func_021D8E84(p,(int)func_021DEC4C);
@@ -1967,7 +1968,7 @@ void func_021DEDBC(void *p) {
 
 void func_021DEE00(unsigned char *p) {
  int v;
- if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),21,8)) {
+ if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),21,8)) {
   if(p[0x11e6]==0 && p[0x11e7]==0) {func_021D8E84(p,(int)func_021DEDBC);return;}
   if(p[0x11e6]==0xf0) v=0x9e;
   else if(p[0x11e6]==0xf1) v=0x9f;
@@ -1997,7 +1998,7 @@ void func_021DEEA8(void *p) {
  void *h=GFL_NET_HANDLE_GetCurrentHandle();
  ((TradeWork *)p)->f109A=0;
  if(GFL_NET_SendToHandle((void *)h,0xc11,1,(u32_021DEEA8)((char *)p+0x11e6))) {
-  func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),21,8);
+  GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),21,8);
   if(((TradeWork *)p)->f118C==2) DWC_RAP_SetVchatTalkLock(0);
   func_021D8E84(p,(int)func_021DEE00);
  }
@@ -2162,7 +2163,7 @@ void func_021DF168(void *p) {
   func_021E4888(p);BG_SYS_SetSubVisiblePlanes(4);WIPE_ResetBrightness(4);
   ++*(volatile unsigned char *)&((TradeWork *)p)->f11FA;
   if(*(volatile unsigned char *)&((TradeWork *)p)->f11FA>=3) {func_021D89CC(p);func_021D8E84(p,(int)func_021D9434);return;}
-  func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),31,8);func_021D8E84(p,(int)func_021DF0B8);
+  GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),31,8);func_021D8E84(p,(int)func_021DF0B8);
  }
 }
 
@@ -2205,7 +2206,7 @@ void func_021DF210(char *p)
         b = 1;
     }
     if (func_021D8A24(p)) {
-        if (!func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1A, 8)) {
+        if (!GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1A, 8)) {
             func_021DD24C(p);
             return;
         }
@@ -2281,7 +2282,7 @@ void func_021DF37C(u8 *p) {
   if(func_021D8A24(p)) {
    b=10;
    if(GFL_NET_SendToHandle((void *)h,0xc00,1,(u32_021DF37C)(&b))) {
-    func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),26,8);
+    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),26,8);
     func_021D8E84(p,(int)func_021DF338);return;
    }
   } else {p[0x11e0]=10;p[0x11e1]=10;func_021D8E84(p,(int)func_021DF338);}
@@ -2663,7 +2664,7 @@ void func_021DF7F0(void *p)
     unsigned x,y;
     unsigned char slot;
     if (!func_021D8AA8(p)) return;
-    if (!func_02035D20(&x,&y)) return;
+    if (!TOUCHPANEL_GetPointTrg(&x,&y)) return;
     if(x<8 || x>=104 || y<144 || y>=168) return;
     slot=(x-8)/24U;
     if(slot>=4) slot=3;
@@ -2718,7 +2719,7 @@ void func_021DF8A0(void *p, int a, int b)
     if (func_021D8AA8(p)) {
         func_021E67E0(p,a,b);
         ((unsigned char *)p+b)[0x11e4]=60;
-        if (!GFL_USE_IsSeqPlaying(0x54a)) func_020061E4(0x54a);
+        if (!GFL_USE_IsSeqPlaying(0x54a)) GFL_USE_PlaySeDefaultVolume(0x54a);
     }
 }
 
@@ -2867,7 +2868,7 @@ void func_021DFA60(u32_021DFA60 key)
     local = g_021E7844;
     for (i = 0; i < 25; i++)
         if (key == local.t[i].b)
-            func_020061E4(local.t[i].a);
+            GFL_USE_PlaySeDefaultVolume(local.t[i].a);
 }
 
 
@@ -2887,7 +2888,7 @@ void func_021DFA98(int key)
     unsigned i;
     for (i = 0; i < 22; i++) {
         if (key == t.e[i].key) {
-            func_020061E4(t.e[i].id);
+            GFL_USE_PlaySeDefaultVolume(t.e[i].id);
         }
     }
 }
@@ -2909,7 +2910,7 @@ void func_021DFA98(int key)
  * (+0038) and a dependency of the func_021D7130 tree.  Copies two constant
  * eight-byte-record tables from 0x021E7754 (two records) and 0x021E7764 (six
  * records) to the stack, gates on two bytes of the second argument, then
- * calls func_020061E4 on each record whose id matches arg0.  Both table
+ * calls GFL_USE_PlaySeDefaultVolume on each record whose id matches arg0.  Both table
  * addresses are literal pool words, so they carry no relocation; the byte at
  * +0x11ED picks the six-record table (the `== 0` arm is the fall-through, the
  * unsigned counter is what makes the loop `blo`, not `blt`).
@@ -2927,11 +2928,11 @@ void func_021DFAD0(int a0, u8 *a1)
     if (a1[0x11ED] == 0) {
         for (i = 0; i < 2; i++)
             if (a0 == t1.e[i].id)
-                func_020061E4(t1.e[i].fn);
+                GFL_USE_PlaySeDefaultVolume(t1.e[i].fn);
     } else {
         for (i = 0; i < 6; i++)
             if (a0 == t2.e[i].id)
-                func_020061E4(t2.e[i].fn);
+                GFL_USE_PlaySeDefaultVolume(t2.e[i].fn);
     }
 }
 
@@ -3034,7 +3035,7 @@ void *func_021DFBB4(void *a0, void *a1, void *a2, void *a3, u16 heapId)
  * (+0044) and part of the func_021D7130 tree.  Interpolates between a0 and a1
  * at record stride (the difference divided by f04, scaled by f08), then, when
  * the record's f16 is set and a3 is nonzero, re-derives the position from the
- * sine table tbl_020A1B38 with the phase f14>>4.  The divide's destination
+ * sine table FX_SinCosTable_ with the phase f14>>4.  The divide's destination
  * only reproduces when the quotient is bound to its own local first
  * (`int q = ...; int r = q * a2->f08 + a0;`).
  *
@@ -3046,7 +3047,7 @@ int func_021DFBF0(int a0, int a1, S_021DFBF0 *a2, int a3)
     int r = q * a2->f08 + a0;
 
     if (a2->f16 != 0 && a3 != 0)
-        r = a1 + tbl_020A1B38[2 * (a2->f14 >> 4)] * 8;
+        r = a1 + FX_SinCosTable_[2 * (a2->f14 >> 4)] * 8;
     return r;
 }
 
@@ -3438,7 +3439,7 @@ void func_021E0008(char *p)
 
 void func_021E0030(void *p)
 {
-    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x17, 8)) {
+    if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x17, 8)) {
         func_021D8E84(p, (int)func_021E0980);
     }
 }
@@ -3474,7 +3475,7 @@ void func_021E0054(char *p)
     packet.mode=func_0200960C(saved);
     if(func_021D8A24(p)) {
         if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc12,40,(u32_021DEA24)(&packet))) {
-            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),23,8);
+            GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),23,8);
             func_021D8E84(p,(int)func_021E0030);
             return;
         }
@@ -3635,7 +3636,7 @@ void func_021E0260(char *p)
     if (((TradeWork *)p)->f620) func_020307B0(((TradeWork *)p)->f620);
     if (((TradeWork *)p)->f624) func_020307B0(((TradeWork *)p)->f624);
     zero=0;
-    func_02082BCC(p+0x60c,zero,36);
+    MI_CpuFill8(p+0x60c,zero,36);
     p[0x11f7]=zero;
 }
 
@@ -3674,7 +3675,7 @@ void func_021E02E8(char *p)
     if(((TradeWork *)p)->f618) func_021E01E0(((TradeWork *)p)->f82C,((TradeWork *)p)->f618);
     if(((TradeWork *)p)->f61C) func_021E0240(((TradeWork *)p)->f82C,((TradeWork *)p)->f61C);
     if(((TradeWork *)p)->f620) {
-        func_0201AC2C(((TradeWork *)p)->f620,((TradeWork *)p)->f838);
+        POKEPARTY_Copy(((TradeWork *)p)->f620,((TradeWork *)p)->f838);
         func_020086F8((void *)GAME_DATA_GetPlayTime((int)(((TradeWork *)p)->f82C)),(const struct PlayTimeStamp *)(p+0x628));
         func_020307B0(((TradeWork *)p)->f620);
         *(int *)&((TradeWork *)p)->f620=0;
@@ -3686,7 +3687,7 @@ void func_021E02E8(char *p)
         func_020307B0(((TradeWork *)p)->f624);
     }
     if(((TradeWork *)p)->f62C) func_02007B5C((struct PerapVoice *)GAME_DATA_GetBoxSave(((TradeWork *)p)->f82C));
-    func_02082BCC(p+0x60c,0,0x24);
+    MI_CpuFill8(p+0x60c,0,0x24);
 }
 
 
@@ -3709,15 +3710,15 @@ int func_021E0410(char *p, void *party, int idx)
 
     if (!PERAPVOICE_IsRecorded(voice))
         return count;
-    n = func_0201AA18(party);
+    n = POKEPARTY_GetCount(party);
     for (i = 0; i < n; i++) {
-        if (func_02017E1C(func_0201AB28(party, i), 5, 0) == 0x1B9)
+        if (func_02017E1C(POKEPARTY_GetMember(party, i), 5, 0) == 0x1B9)
             count++;
     }
     if (count != 1)
         return 0;
     count = 0;
-    if (func_02017E1C(func_0201AB28(party, idx), 5, 0) == 0x1B9) {
+    if (func_02017E1C(POKEPARTY_GetMember(party, idx), 5, 0) == 0x1B9) {
         PERAPVOICE_ClearRecorded(voice);
         return 1;
     }
@@ -3804,8 +3805,8 @@ void func_021E049C(char *p)
         I(p, 0x61C) = func_021E0200(I(p, 0x82C), H(p, 0x5F4));
         PLAYTIME_GetStamp((void *)GAME_DATA_GetPlayTime((int)I(p, 0x82C)), (struct PlayTimeStamp *)(p + 0x628));
         if (T(p)->box == BOX_SAVEDATA_GetUsableBoxCount(I(p, 0x828))) {
-            I(p, 0x620) = func_0201A920(H(p, 0x5F4));
-            func_0201AC2C(I(p, 0x838), I(p, 0x620));
+            I(p, 0x620) = POKEPARTY_Create(H(p, 0x5F4));
+            POKEPARTY_Copy(I(p, 0x838), I(p, 0x620));
             W(p, 0x62C) = func_021E0410(p, I(p, 0x838), T(p)->slot);
         } else {
             I(p, 0x624) = sub_02030734(H(p, 0x5F4), BOX_SAVEDATA_GetBoxPageSize(), 0, d_021E8130, 0x271);
@@ -3821,7 +3822,7 @@ void func_021E049C(char *p)
     {
         Trade *t = T(p);
         if (t->box != BOX_SAVEDATA_GetUsableBoxCount(I(p, 0x828))) {
-            mon = func_0201AB28(t->party, 0);
+            mon = POKEPARTY_GetMember(t->party, 0);
             if (func_0202136C(func_02017E1C(mon, 6, 0))) {
                 void *o = MAIL_GetBox(I(p, 0x82C));
                 int idx = MAIL_FindEmptySlot(o, 0);
@@ -3862,9 +3863,9 @@ void func_021E049C(char *p)
         }
     }
 
-    mon = func_0201AB28(T(p)->party, 0);
+    mon = POKEPARTY_GetMember(T(p)->party, 0);
     obj = GAME_DATA_GetTrainerRecord(I(p, 0x82C));
-    func_0201B9F0(mon);
+    POKE_TOOL_HealFull(mon);
     if (func_02017E1C(mon, 0x4C, 0) == 0)
         POKE_TOOL_SetPartyValue(mon, 9, (u32_021DEA24)((void *)0x46));
     if (func_02017E1C(mon, 0x4C, 0))
@@ -3986,13 +3987,13 @@ void func_021E0980(char *p)
         ((struct Obj22762 *)(((TradeWork *)p)->f8))->f28=((TradeWork *)p)->fF88;
         ((struct Obj22763 *)(((TradeWork *)p)->f8))->f2A=((TradeWork *)p)->fF84;
     }
-    func_0201A954(((struct Obj22764 *)(((TradeWork *)p)->f8))->f1C,6);
-    func_0201A98C(((struct Obj22765 *)(((TradeWork *)p)->f8))->f1C,mon);
+    POKEPARTY_InitEx(((struct Obj22764 *)(((TradeWork *)p)->f8))->f1C,6);
+    POKEPARTY_Add(((struct Obj22765 *)(((TradeWork *)p)->f8))->f1C,mon);
     func_0200CDE0(func_0200CA1C(((TradeWork *)p)->f82C),mon);
     t=((TradeWork *)p)->f8;
     if(((struct Obj13908 *)t)->f28!=func_020076A4((*(void * *)&((TradeWork *)p)->f828))) {
         z=0;
-        if(func_0202136C(func_02017E1C(func_0201AB28(((struct Obj13908 *)t)->f1C,0),6,0))) {
+        if(func_0202136C(func_02017E1C(POKEPARTY_GetMember(((struct Obj13908 *)t)->f1C,0),6,0))) {
             func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),106,(void *)(((TradeWork *)p)->f738));
             func_021E1024(p);
             func_021D8E84(p,(int)func_021E0958);
@@ -4073,7 +4074,7 @@ void func_021E0B34(char *p) {func_021E10D8(p);func_02045CAC((struct MsgBank *)((
 
 void func_021E0BA4(void *p)
 {
-    func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, 8);
+    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, 8);
     func_021D8E84(p, (int)func_021E0BC4);
 }
 
@@ -4090,7 +4091,7 @@ void func_021E0BA4(void *p)
 
 void func_021E0BC4(void *p)
 {
-    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, 8)) {
+    if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, 8)) {
         func_021D8E84(p, (int)func_021E0BE8);
     }
 }
@@ -4162,14 +4163,14 @@ void func_021E0CC0(char *p)
     if(((TradeWork *)p)->fF2C>=6 && WIPE_SYS_EndCheck()) {
         if(((TradeWork *)p)->f644) func_0203FB44((int)6,(u16)(((TradeWork *)p)->f644),(u16)(((TradeWork *)p)->f644>>16));
         *(int *)&((TradeWork *)p)->f644=0;
-        func_02043534((int)0);BG_SYS_SetSubVisiblePlanes((int)0);
+        BG_SYS_SetMainVisiblePlanes((int)0);BG_SYS_SetSubVisiblePlanes((int)0);
         CLACT_DeleteUnit((*(void * *)&((TradeWork *)p)->f9C4));
         (*(void * *)&((TradeWork *)p)->f9C4)=CLACT_CreateUnit(0x154,0,((TradeWork *)p)->f5F4);
         func_021E106C(p);func_021E57A4((int)p);func_021E53CC((int)p);
         func_021E57E8(0);func_021E5680(p);func_021E58A0((int)p);
         func_021E467C(p);func_021E4420(p);func_021E3E80(p);
         func_021E3FE4(p);func_021E3F74(p);func_021E3208(p,0);
-        func_02043534((int)31);BG_SYS_SetSubVisiblePlanes((int)30);func_021E3C20(p);
+        BG_SYS_SetMainVisiblePlanes((int)31);BG_SYS_SetSubVisiblePlanes((int)30);func_021E3C20(p);
         GFL_NET_RestartWithDefaultTimeout(1,((TradeWork *)p)->f5F4);
         ((TradeWork *)p)->f11FA=0;
         func_021D8E84(p,(int)func_021DACE4);
@@ -4207,7 +4208,7 @@ void func_021E0DA0(char *p)
 
 
 
-void func_021E0DBC(char *p,void *mon,int index,int slot,int x,int y,int a,u16 b) {Descriptor d;u8 v;int z=0;v=func_02017E1C(mon,index+174,0);d.a=a;d.b=z;d.c=func_020275E4();d.d=func_020275E8();d.e=func_020275F8(v);d.f=func_020275FC(2);d.g=func_02027600(2);d.h=8;d.i=z;d.j=3;UI_SCENE_LoadActorGfx(p,&d,slot,b);((struct Obj13909 *)p)->f10=UI_SCENE_CreateActor(p,slot,x,y,z,b);func_0204B6F4((struct Obj *)(((struct Obj13909 *)p)->f10),func_020275EC(v),1);}
+void func_021E0DBC(char *p,void *mon,int index,int slot,int x,int y,int a,u16 b) {Descriptor d;u8 v;int z=0;v=func_02017E1C(mon,index+174,0);d.a=a;d.b=z;d.c=func_020275E4();d.d=func_020275E8();d.e=func_020275F8(v);d.f=func_020275FC(2);d.g=func_02027600(2);d.h=8;d.i=z;d.j=3;UI_SCENE_LoadActorGfx(p,&d,slot,b);((struct Obj13909 *)p)->f10=UI_SCENE_CreateActor(p,slot,x,y,z,b);CLACT_SetActorPaletteOffset((struct Obj *)(((struct Obj13909 *)p)->f10),func_020275EC(v),1);}
 
 
 
@@ -4267,13 +4268,13 @@ void func_021E0EF4(char *p,int flag,int x,int y,int w,int h)
     func_02049B40(23,5,4,448,32,((TradeWork *)p)->f5F4);
     v=(void *)BMP_WIN_Create(6,(u8)x,(u8)y,(u8)w,h,(u32_021DEA24)14,(u32_021DEA24)0);
     (*(void * *)&((TradeWork *)p)->f71C)=v;
-    BMP_Clear(func_02045770(v),15);
+    BMP_Clear(BMP_WIN_GetBmp(v),15);
     GF_FONT_SetTextColor(1,2,15);
     if(flag==0) {
         (*(unsigned int *)&((TradeWork *)p)->f72C)=PRINTSYS_PrintStream((u32_021DEA24)v,0,0,*(u32_021DEA24 *)&((TradeWork *)p)->f738,*(u32_021DEA24 *)&((TradeWork *)p)->f728,func_02012FFC(),(*(unsigned int *)&((TradeWork *)p)->f744),2,((TradeWork *)p)->f5F4,15);
         func_02028470((u8 *)p+0x11d4,2);
     } else {
-        PRINTSYS_Print(func_02045770(v),0,0,(*(void * *)&((TradeWork *)p)->f738),((TradeWork *)p)->f728);
+        PRINTSYS_Print(BMP_WIN_GetBmp(v),0,0,(*(void * *)&((TradeWork *)p)->f738),((TradeWork *)p)->f728);
     }
     func_0201F73C(v,1,(u16)(((TradeWork *)p)->f644),15);
     BMP_WIN_TransferChars(v);BMP_WIN_MakeScreen(v);func_02041B6C(6);
@@ -4350,7 +4351,7 @@ void func_021E106C(char *p)
         ((TradeWork *)p)->f5F0 = 0;
     }
     if ((*(void * *)&((TradeWork *)p)->f71C)) {
-        func_020452E8((*(void * *)&((TradeWork *)p)->f71C));
+        BMP_WIN_Delete((*(void * *)&((TradeWork *)p)->f71C));
         (*(void * *)&((TradeWork *)p)->f71C) = 0;
     }
 }
@@ -4366,7 +4367,7 @@ void func_021E106C(char *p)
 
 
 
-void func_021E1098(char *p) { if(*(int *)&((TradeWork *)p)->f5F0) {TIME_ICON_Delete((u8 *)(*(int *)&((TradeWork *)p)->f5F0));*(int *)&((TradeWork *)p)->f5F0=0;} if(((TradeWork *)p)->f71C) {BMP_WIN_ClearScreen((struct Descriptor *)(((TradeWork *)p)->f71C));func_02041B6C(6);func_0201F7A8((void *)(((TradeWork *)p)->f71C),2);func_020452E8((struct Descriptor *)(((TradeWork *)p)->f71C));((TradeWork *)p)->f71C=0;} }
+void func_021E1098(char *p) { if(*(int *)&((TradeWork *)p)->f5F0) {TIME_ICON_Delete((u8 *)(*(int *)&((TradeWork *)p)->f5F0));*(int *)&((TradeWork *)p)->f5F0=0;} if(((TradeWork *)p)->f71C) {BMP_WIN_ClearScreen((struct Descriptor *)(((TradeWork *)p)->f71C));func_02041B6C(6);func_0201F7A8((void *)(((TradeWork *)p)->f71C),2);BMP_WIN_Delete((struct Descriptor *)(((TradeWork *)p)->f71C));((TradeWork *)p)->f71C=0;} }
 
 
 
@@ -4388,7 +4389,7 @@ void func_021E10D8(char *p)
     (*(void * *)&((TradeWork *)p)->f734)=STRBUF_Create(128,((TradeWork *)p)->f5F4);
     (*(void * *)&((TradeWork *)p)->f738)=STRBUF_Create(128,((TradeWork *)p)->f5F4);
     ((TradeWork *)p)->f73C=STRBUF_Create(128,((TradeWork *)p)->f5F4);
-    ((TradeWork *)p)->f740=(void *)func_0201C440((void *)(((TradeWork *)p)->f5F4));
+    ((TradeWork *)p)->f740=(void *)PRINTSYS_QUE_Create((void *)(((TradeWork *)p)->f5F4));
     GF_FONT_SetTextColor(1,2,15);
     ((TradeWork *)p)->f744=TCBL_Create(((TradeWork *)p)->f5F4,((TradeWork *)p)->f5F4,2,0);
     ((TradeWork *)p)->f74C=func_02028590(15,1,0,((TradeWork *)p)->f5F4);
@@ -4414,11 +4415,11 @@ void func_021E11A8(char *p)
         APP_KEYCURSOR_Delete((int)(((TradeWork *)p)->f74C));
         func_021E106C(p);
         func_021E12F8(p);
-        if(((TradeWork *)p)->f72C) {func_0201CE48((struct Rec3 *)(((TradeWork *)p)->f72C));((TradeWork *)p)->f72C=0;}
+        if(((TradeWork *)p)->f72C) {PRINTSYS_PrintStreamDelete((struct Rec3 *)(((TradeWork *)p)->f72C));((TradeWork *)p)->f72C=0;}
         if(((TradeWork *)p)->f648) {APP_TASKMENU_WIN_Delete(((TradeWork *)p)->f648);((TradeWork *)p)->f648=0;}
         if(((TradeWork *)p)->f6B0) {APP_TASKMENU_RES_Delete(((TradeWork *)p)->f6B0);((TradeWork *)p)->f6B0=0;}
-        if((*(void * *)&((TradeWork *)p)->f6B4)) {func_020452E8((*(void * *)&((TradeWork *)p)->f6B4));(*(void * *)&((TradeWork *)p)->f6B4)=0;}
-        for(i=0;i<2;i++) {if(*(void **)(p+i*4+0x5bc)) {func_020452E8(*(void **)(p+i*4+0x5bc));*(void **)(p+i*4+0x5bc)=0;}}
+        if((*(void * *)&((TradeWork *)p)->f6B4)) {BMP_WIN_Delete((*(void * *)&((TradeWork *)p)->f6B4));(*(void * *)&((TradeWork *)p)->f6B4)=0;}
+        for(i=0;i<2;i++) {if(*(void **)(p+i*4+0x5bc)) {BMP_WIN_Delete(*(void **)(p+i*4+0x5bc));*(void **)(p+i*4+0x5bc)=0;}}
         func_0201ED04((*(void * *)&((TradeWork *)p)->f724));
         MSGDATA_Delete((*(void * *)&((TradeWork *)p)->f720));
         GF_FONT_Delete(((TradeWork *)p)->f728);
@@ -4426,8 +4427,8 @@ void func_021E11A8(char *p)
         STRBUF_Delete((*(void * *)&((TradeWork *)p)->f734));
         STRBUF_Delete((*(void * *)&((TradeWork *)p)->f738));
         STRBUF_Delete(((TradeWork *)p)->f73C);
-        func_0201C6EC((struct PrintSys *)(*(unsigned *)&((TradeWork *)p)->f740));
-        func_0201C4C0((struct PrintSys *)(*(unsigned *)&((TradeWork *)p)->f740));
+        PRINTSYS_QUE_Clear((struct PrintSys *)(*(unsigned *)&((TradeWork *)p)->f740));
+        PRINTSYS_QUE_Delete((struct PrintSys *)(*(unsigned *)&((TradeWork *)p)->f740));
         TCBL_Destroy(((TradeWork *)p)->f744);
         *(int *)&((TradeWork *)p)->f744=0;
     }
@@ -4444,7 +4445,7 @@ void func_021E11A8(char *p)
 
 
 
-int func_021E12AC(char *p) {int v=1;if(((TradeWork *)p)->f72C) {if(((TradeWork *)p)->f71C)APP_KEYCURSOR_Update((struct Ctx *)(*(int *)&((TradeWork *)p)->f74C),(void *)(((TradeWork *)p)->f72C),(void *)(((TradeWork *)p)->f71C));v=func_02028484((struct Blk *)(p+0x11d4),(void *)(((TradeWork *)p)->f72C));if(v) {if(((TradeWork *)p)->f72C) {func_0201CE48((struct Rec3 *)(((TradeWork *)p)->f72C));((TradeWork *)p)->f72C=0;}}}return v;}
+int func_021E12AC(char *p) {int v=1;if(((TradeWork *)p)->f72C) {if(((TradeWork *)p)->f71C)APP_KEYCURSOR_Update((struct Ctx *)(*(int *)&((TradeWork *)p)->f74C),(void *)(((TradeWork *)p)->f72C),(void *)(((TradeWork *)p)->f71C));v=func_02028484((struct Blk *)(p+0x11d4),(void *)(((TradeWork *)p)->f72C));if(v) {if(((TradeWork *)p)->f72C) {PRINTSYS_PrintStreamDelete((struct Rec3 *)(((TradeWork *)p)->f72C));((TradeWork *)p)->f72C=0;}}}return v;}
 
 
 
@@ -4598,7 +4599,7 @@ void func_021E1718(int a,int b,int x,int y,char *p)
     int i;
     for(i=0;i<6;i++) {
         func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),30+i,(void *)(((TradeWork *)p)->f730));
-        PRINTSYS_Print(func_02045770((struct Descriptor *)b),x,y+16*i,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
+        PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y+16*i,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
     }
 }
 
@@ -4621,7 +4622,7 @@ void func_021E1778(int a,int b,int x,int y,char *p)
     if(v) {
         func_0201EF40((struct WordSet *)(((TradeWork *)p)->f724),0,v);
         func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));
-        PRINTSYS_Print(func_02045770((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
+        PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
     }
 }
 
@@ -4645,7 +4646,7 @@ void func_021E17E8(int a,int b,int x,int y,char *p)
     func_0201EFA4((struct WordSet *)(((TradeWork *)p)->f724),0,v,3,1,1);
     func_0201EFA4((struct WordSet *)(((TradeWork *)p)->f724),1,w,3,1,1);
     func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));
-    PRINTSYS_Print(func_02045770((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
+    PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
 }
 
 
@@ -4667,7 +4668,7 @@ void func_021E1880(int a, int b, int c, int d, char *p)
         func_02045CAC((*(void * *)&((TradeWork *)p)->f720), 0x28, (*(void * *)&((TradeWork *)p)->f734));
         func_0201EFA4((*(void * *)&((TradeWork *)p)->f724), 0, func_02017E1C((void *)a, t.v[i], 0), 3, 1, 1);
         func_0201F250((*(void * *)&((TradeWork *)p)->f724), (*(void * *)&((TradeWork *)p)->f730), (*(void * *)&((TradeWork *)p)->f734));
-        PRINTSYS_Print(func_02045770((struct Descriptor *)b), (s16_021E1880)c, (s16_021E1880)(d + i * 16), (*(void * *)&((TradeWork *)p)->f730), ((TradeWork *)p)->f728);
+        PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b), (s16_021E1880)c, (s16_021E1880)(d + i * 16), (*(void * *)&((TradeWork *)p)->f730), ((TradeWork *)p)->f728);
     }
 }
 
@@ -4685,7 +4686,7 @@ void func_021E1880(int a, int b, int c, int d, char *p)
 void func_021E194C(int a,int b,int x,int y,char *p)
 {
     func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),44,(void *)(((TradeWork *)p)->f730));
-    PRINTSYS_Print(func_02045770((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
+    PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
 }
 
 
@@ -4707,7 +4708,7 @@ void func_021E198C(int a,int b,int x,int y,char *p)
             func_02045CAC((struct MsgBank *)(((TradeWork *)p)->f720),45,(void *)(((TradeWork *)p)->f734));
             func_0201EF34((struct WordSet *)(((TradeWork *)p)->f724),0,v);
             func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));
-            PRINTSYS_Print(func_02045770((struct Descriptor *)b),x,y+16*i,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
+            PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y+16*i,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
         }
     }
 }
@@ -4727,7 +4728,7 @@ void func_021E1A44(int a,int b,int x,int y,char *p)
     int s;
     s=(int)func_02045B38(0,2,24,((TradeWork *)p)->f5F4);
     func_02045CAC((struct MsgBank *)s,func_02018598((void *)a),(void *)(((TradeWork *)p)->f730));
-    PRINTSYS_Print(func_02045770((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
+    PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
     MSGDATA_Delete((struct Rec *)s);
 }
 
@@ -4748,7 +4749,7 @@ void func_021E1AA8(int a,int b,int x,int y,char *p)
     v=func_02017E1C((void *)a,10,0);
     func_0201EF8C((struct WordSet *)(((TradeWork *)p)->f724),0,v);
     func_0201F250((struct WordSet *)(((TradeWork *)p)->f724),(void *)(((TradeWork *)p)->f730),(void *)(((TradeWork *)p)->f734));
-    PRINTSYS_Print(func_02045770((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
+    PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)b),x,y,(*(void * *)&((TradeWork *)p)->f730),((TradeWork *)p)->f728);
 }
 
 
@@ -4780,19 +4781,19 @@ void func_021E1B14(char *p,int i,void *mon)
     old=p;
     old=old+0x5bc;
     index=i*4;
-    if(*(const int *)(old+index))func_020452E8((struct Descriptor *)(*(const int *)(old+index)));
+    if(*(const int *)(old+index))BMP_WIN_Delete((struct Descriptor *)(*(const int *)(old+index)));
     *(int *)(p+0x5bc+index)=(int)BMP_WIN_Create(3,(u8)(*(int *)((char *)&a+index)),1,14,20,14,0);
     GF_FONT_SetTextColor(15,2,0);
     {
-        void *window=func_02045770((struct Descriptor *)*(int *)(p+0x5bc+index));
+        void *window=BMP_WIN_GetBmp((struct Descriptor *)*(int *)(p+0x5bc+index));
         func_021E1430(mon,window,16,0,flag,func_021D8ADC(p),p);
     }
     if(flag==0) {
         char *items=p+0x5bc;
-        void *window=func_02045770((struct Descriptor *)*(int *)(items+index));
+        void *window=BMP_WIN_GetBmp((struct Descriptor *)*(int *)(items+index));
         func_021E1670(mon,window,80,0,p,0,func_021D8ADC(p));
         GF_FONT_SetTextColor(15,2,0);
-        func_021E15F8(mon,func_02045770((struct Descriptor *)*(int *)(items+index)),16,19,p);
+        func_021E15F8(mon,BMP_WIN_GetBmp((struct Descriptor *)*(int *)(items+index)),16,19,p);
         func_021E1778((int)mon,*(int *)(items+index),16,128,p);
         i++;
         func_021E0E68(p+0x8c4+i*20,mon,((TradeWork *)p)->f9C4,*(int *)((char *)&b+index)+16,16,0,((TradeWork *)p)->f5F4,*(int *)((char *)&c+index));
@@ -4875,7 +4876,7 @@ void func_021E1CE8(void *p, int a1)
     func_021E36D8(p, 0);
     func_021E36D8(p, 1);
     BMP_WIN_ClearScreen((struct Descriptor *)(((TradeWork *)p)->f6B4));
-    func_020452E8((struct Descriptor *)(((TradeWork *)p)->f6B4));
+    BMP_WIN_Delete((struct Descriptor *)(((TradeWork *)p)->f6B4));
     ((TradeWork *)p)->f6B4 = 0;
     func_021E3F70(p);
 }
@@ -4957,7 +4958,7 @@ void func_021E1D68(char *p,void *a)
     if(func_021D8AA8(p)==0) {
         func_021E5998(p);
         func_021E3F30(p);
-        func_02043534(29);
+        BG_SYS_SetMainVisiblePlanes(29);
         BG_SYS_SetSubVisiblePlanes(31);
         func_0207D658(0x04001050,26,-8);
         p[0x11f9]=1;
@@ -4988,19 +4989,19 @@ void func_021E1E00(char *p,int mode,void *mon)
     u32_021DEA24 flag;
     if(I(0xf54)<128) side=1;
     func_021E6294(p,11,4);
-    if(P(0x6b4)) func_020452E8(P(0x6b4));
+    if(P(0x6b4)) BMP_WIN_Delete(P(0x6b4));
     I(0x6b4)=BMP_WIN_Create(6,(u8)a.v[side],0,16,18,11,0);
     GF_FONT_SetTextColor(14,15,0);
     flag=func_02017E1C(mon,76,0);
     if(mode==0) {
-        func_021E1430(mon,func_02045770(P(0x6b4)),32,0,flag,0,p);
+        func_021E1430(mon,BMP_WIN_GetBmp(P(0x6b4)),32,0,flag,0,p);
         if(flag==0) {
-            func_021E15F8(mon,func_02045770(P(0x6b4)),32,16,p);
+            func_021E15F8(mon,BMP_WIN_GetBmp(P(0x6b4)),32,16,p);
             func_021E1718((int)mon,I(0x6b4),8,32,p);
             func_021E1778((int)mon,I(0x6b4),24,128,p);
             func_021E17E8((int)mon,I(0x6b4),64,32,p);
             func_021E1880((int)mon,I(0x6b4),80,48,p);
-            func_021E1670(mon,func_02045770(P(0x6b4)),96,0,p,0,0);
+            func_021E1670(mon,BMP_WIN_GetBmp(P(0x6b4)),96,0,p,0,0);
             func_021E5DFC(p,side,mon);
             func_021E5F14(p,side,0,mon);
             func_021E0E68(p+0x8c4,mon,I(0x9c4),b.v[side]+16,16,1,((TradeWork *)p)->f5F4,13);
@@ -5016,10 +5017,10 @@ void func_021E1E00(char *p,int mode,void *mon)
             func_021E194C((int)mon,I(0x6b4),8,0,p);
             func_021E198C((int)mon,I(0x6b4),16,16,p);
             func_02045CAC(P(0x720),36,P(0x730));
-            PRINTSYS_Print(func_02045770(P(0x6b4)),8,80,P(0x730),P(0x728));
+            PRINTSYS_Print(BMP_WIN_GetBmp(P(0x6b4)),8,80,P(0x730),P(0x728));
             func_021E1A44((int)mon,I(0x6b4),16,96,p);
             func_02045CAC(P(0x720),37,P(0x730));
-            PRINTSYS_Print(func_02045770(P(0x6b4)),8,112,P(0x730),P(0x728));
+            PRINTSYS_Print(BMP_WIN_GetBmp(P(0x6b4)),8,112,P(0x730),P(0x728));
             func_021E1AA8((int)mon,I(0x6b4),16,128,p);
         }
     }
@@ -5042,7 +5043,7 @@ void func_021E2054(char *p, void *a, int b, int a3)
 {
     func_021E36D8(p, b);
     if ((*(void * *)&((TradeWork *)p)->f6B4)) {
-        func_020452E8((*(void * *)&((TradeWork *)p)->f6B4));
+        BMP_WIN_Delete((*(void * *)&((TradeWork *)p)->f6B4));
     }
 }
 
@@ -5064,9 +5065,9 @@ void func_021E2070(char *p,void *mon,Quad_021DEA24 *t)
     if(a!=b)
         func_021E0DBC(p+0x900+t->b*20,mon,1,((TradeWork *)p)->f9C4,210,95,0,((TradeWork *)p)->f5F4);
     if(*(void **)(p+t->c*20+0x910))
-        func_0204B3DC(*(void **)(p+t->c*20+0x910),0);
+        CLACT_SetActorDrawEnable(*(void **)(p+t->c*20+0x910),0);
     if(*(void **)(p+t->d*20+0x910))
-        func_0204B3DC(*(void **)(p+t->d*20+0x910),0);
+        CLACT_SetActorDrawEnable(*(void **)(p+t->d*20+0x910),0);
 }
 
 
@@ -5150,16 +5151,16 @@ void func_021E219C(char *p,void *mon,int side,int flag)
     GF_FONT_SetTextColor(15,2,0);
     i=0;
     P(0x6b4)=(void *)BMP_WIN_Create(3,1,0,31,24,14,0);
-    func_021E1430(mon,func_02045770(P(0x6b4)),16,0,flag76,0,p);
+    func_021E1430(mon,BMP_WIN_GetBmp(P(0x6b4)),16,0,flag76,0,p);
     if(flag76==0) {
-        func_021E14DC(mon,func_02045770(P(0x6b4)),0,16,flag76,p);
-        func_021E1594(mon,func_02045770(P(0x6b4)),56,16,flag76,p);
-        func_021E15F8(mon,func_02045770(P(0x6b4)),96,i,p);
-        func_021E1670(mon,func_02045770(P(0x6b4)),80,i,p,i,i);
+        func_021E14DC(mon,BMP_WIN_GetBmp(P(0x6b4)),0,16,flag76,p);
+        func_021E1594(mon,BMP_WIN_GetBmp(P(0x6b4)),56,16,flag76,p);
+        func_021E15F8(mon,BMP_WIN_GetBmp(P(0x6b4)),96,i,p);
+        func_021E1670(mon,BMP_WIN_GetBmp(P(0x6b4)),80,i,p,i,i);
         func_021E1718((int)mon,(int)P(0x6b4),0,32,p);
         for(i=0;i<2;i++) {
             func_02045CAC(P(0x720),i+36,P(0x730));
-            PRINTSYS_Print(func_02045770(P(0x6b4)),0,i*16+0x88,P(0x730),P(0x728));
+            PRINTSYS_Print(BMP_WIN_GetBmp(P(0x6b4)),0,i*16+0x88,P(0x730),P(0x728));
         }
         func_021E17E8((int)mon,(int)P(0x6b4),56,32,p);
         func_021E1880((int)mon,(int)P(0x6b4),72,48,p);
@@ -5172,7 +5173,7 @@ void func_021E219C(char *p,void *mon,int side,int flag)
         func_021E5DFC(p,2,mon);
         func_021E0E68(p+0x8c4,mon,I(0x9c4),12,7,0,((TradeWork *)p)->f5F4,12);
     } else {
-        if(P(0x960)) func_0204B3DC(P(0x960),i);
+        if(P(0x960)) CLACT_SetActorDrawEnable(P(0x960),i);
         func_021E1CC8(p);
         func_021E1CA8(p);
     }
@@ -5192,9 +5193,9 @@ void func_021E219C(char *p,void *mon,int side,int flag)
 void func_021E2438(char *p,int i)
 {
     if (*(int *)(p+0x5bc+4*i)) {
-        BMP_Clear(func_02045770((struct Descriptor *)*(int *)(p+0x5bc+4*i)),0);
+        BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)*(int *)(p+0x5bc+4*i)),0);
         BMP_WIN_ClearScreen((struct Descriptor *)(*(int *)(p+0x5bc+4*i)));
-        func_020452E8((struct Descriptor *)(*(int *)(p+0x5bc+4*i)));
+        BMP_WIN_Delete((struct Descriptor *)(*(int *)(p+0x5bc+4*i)));
         func_02041B6C(3);
         *(int *)(p+0x5bc+4*i)=0;
         func_021E0E4C(p+0x8c4+20*(i+1));
@@ -5236,12 +5237,12 @@ void func_021E2484(char *p,int a)
     func_021E5EF8(p+0x964);
     func_021E5EF8(p+0x978);
     if (((TradeWork *)p)->f6B4) {
-        BMP_Clear(func_02045770((struct Descriptor *)((TradeWork *)p)->f6B4),0);
+        BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)((TradeWork *)p)->f6B4),0);
         if(a) {
             BMP_WIN_ClearScreen((struct Descriptor *)(((TradeWork *)p)->f6B4));
             BMP_WIN_TransferChars((struct Descriptor *)((TradeWork *)p)->f6B4);
         }
-        func_020452E8((struct Descriptor *)(((TradeWork *)p)->f6B4));
+        BMP_WIN_Delete((struct Descriptor *)(((TradeWork *)p)->f6B4));
         ((TradeWork *)p)->f6B4=0;
     }
 }
@@ -5307,7 +5308,7 @@ void func_021E2680(char *p)
     for (i=0;i<4;i++) {
         char *q = p+i*4;
         if (((TradeWork *)q)->f1038) {
-            func_020452E8(((TradeWork *)q)->f1038);
+            BMP_WIN_Delete(((TradeWork *)q)->f1038);
             ((TradeWork *)q)->f1038=0;
         }
     }
@@ -5365,8 +5366,8 @@ void func_021E272C(char *p,int i,void *mon)
     flag=func_02017E1C(mon,76,0);
     index=i*4;
     if(*(int *)(p+i*4+0x5c4)) {
-        func_020452E8((struct Descriptor *)(*(int *)(p+i*4+0x5c4)));
-        func_020452E8((struct Descriptor *)(*(int *)(p+i*4+0x5cc)));
+        BMP_WIN_Delete((struct Descriptor *)(*(int *)(p+i*4+0x5c4)));
+        BMP_WIN_Delete((struct Descriptor *)(*(int *)(p+i*4+0x5cc)));
     }
     layer=*(int *)((char *)&a+index);
     items=p+0x5c4;
@@ -5375,19 +5376,19 @@ void func_021E272C(char *p,int i,void *mon)
     *(int *)(items2+index)=BMP_WIN_Create(1,layer,17,13,2,5,0);
     idx2=i*2;
     col=((u32_021DEA24 *)&colors)[idx2];
-    BMP_Clear(func_02045770((struct Descriptor *)*(int *)(items+index)),(u8)(col|(col<<4)));
+    BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)*(int *)(items+index)),(u8)(col|(col<<4)));
     col2=((u32_021DEA24 *)&colors)[idx2+1];
-    BMP_Clear(func_02045770((struct Descriptor *)*(int *)(items2+index)),(u8)(col2|(col2<<4)));
+    BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)*(int *)(items2+index)),(u8)(col2|(col2<<4)));
     GF_FONT_SetTextColor(1,2,(u8)col);
     {
-        void *window=func_02045770((struct Descriptor *)*(int *)(items+index));
+        void *window=BMP_WIN_GetBmp((struct Descriptor *)*(int *)(items+index));
         func_021E1430(mon,window,16,4,flag,func_021D8ADC(p),p);
     }
     if(flag==0) {
         char *first=p+0x5c4;
-        void *window=func_02045770((struct Descriptor *)*(int *)(first+index));
+        void *window=BMP_WIN_GetBmp((struct Descriptor *)*(int *)(first+index));
         func_021E1670(mon,window,80,4,p,1,func_021D8ADC(p));
-        func_021E15F8(mon,func_02045770((struct Descriptor *)*(int *)(first+index)),16,19,p);
+        func_021E15F8(mon,BMP_WIN_GetBmp((struct Descriptor *)*(int *)(first+index)),16,19,p);
         GF_FONT_SetTextColor(1,2,(u8)col2);
         func_021E1778((int)mon,*(int *)(items2+index),0,0,p);
         func_021E0E68(p+0x8c4+(i+1)*20,mon,((TradeWork *)p)->f9C4,*(int *)((char *)&b+index)+16,16,0,((TradeWork *)p)->f5F4,*(int *)((char *)&c+index));
@@ -5414,8 +5415,8 @@ void func_021E272C(char *p,int i,void *mon)
 void func_021E293C(char *p,int i)
 {
     if (*(int *)(p+0x5c4+4*i)) {
-        func_020452E8((struct Descriptor *)(*(int *)(p+0x5c4+4*i)));
-        func_020452E8((struct Descriptor *)(*(int *)(p+0x5cc+4*i)));
+        BMP_WIN_Delete((struct Descriptor *)(*(int *)(p+0x5c4+4*i)));
+        BMP_WIN_Delete((struct Descriptor *)(*(int *)(p+0x5cc+4*i)));
         func_021E0E4C(p+0x8c4+20*(i+1));
         *(int *)(p+0x5c4+4*i)=0;
         *(int *)(p+0x5cc+4*i)=0;
@@ -5437,7 +5438,7 @@ void *func_021E2984(char *p,int a) {
     ((TradeWork *)p)->f658=0;
     ((TradeWork *)p)->f648=APP_TASKMENU_WIN_CreateEx((u32_021DEA24)(((TradeWork *)p)->f6B0),(u32_021DEA24)(p+0x650),8,21,16,3,0,1,((TradeWork *)p)->f5F4);
     STRBUF_Delete(((TradeWork *)p)->f650);
-    func_0204B3DC((*(void * *)&((TradeWork *)p)->fF04),0);
+    CLACT_SetActorDrawEnable((*(void * *)&((TradeWork *)p)->fF04),0);
     func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),8,0);
     return ((TradeWork *)p)->f648;
 }
@@ -5449,8 +5450,8 @@ void *func_021E2984(char *p,int a) {
 
 
 void func_021E2A1C(char *p,int a,int b) {
-    if (!func_0201C6B4(((TradeWork *)p)->f740)) func_0201C6EC(((TradeWork *)p)->f740);
-    if(a) func_0204B3DC((*(void * *)&((TradeWork *)p)->fF04),1);
+    if (!PRINTSYS_QUE_IsFinished(((TradeWork *)p)->f740)) PRINTSYS_QUE_Clear(((TradeWork *)p)->f740);
+    if(a) CLACT_SetActorDrawEnable((*(void * *)&((TradeWork *)p)->fF04),1);
     if(b) func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),8,func_021DD2F4(p));
     if(((TradeWork *)p)->f648) {
         APP_TASKMENU_WIN_Delete(((TradeWork *)p)->f648);
@@ -6139,9 +6140,9 @@ void func_021E35A0(Work_021E3004 *p, int idx, int side, void *mon, int flag)
     if (flag) {
         u16 species = func_02017E1C(mon, 5, 0);
         u16 form = func_02017E1C(mon, 0x6f, 0);
-        void *h = func_0201ADE4(species, form, p->heap);
-        u32_021DEA24 r = func_0201AE1C(h, 0x22);
-        func_0201AE14(h);
+        void *h = POKE_PERSONAL_Create(species, form, p->heap);
+        u32_021DEA24 r = POKE_PERSONAL_GetParam(h, 0x22);
+        POKE_PERSONAL_Delete(h);
         if (r == 0)
             v.x = -v.x;
     }
@@ -6358,7 +6359,7 @@ void func_021E3838(char *p, int count)
     func_0207F7A0();
     v = func_02030734(((TradeWork *)p)->f5F4, 0x200, 1, d_021E81C0, 0x510);
     for (i = 0; i < count; i++) {
-        func_02082BCC(v, 0, 0x200);
+        MI_CpuFill8(v, 0, 0x200);
         if (i == 0)
             func_021E380C((u16 *)v, (unsigned char *)(p + 0x5B6), 2);
         else
@@ -6394,14 +6395,14 @@ void func_021E3910(int z,int index,u16 a,int b)
 {
     REG(0x04000444)=0;
     REG(0x04000440)=1;
-    func_0207D84C(d_020A1B38[(b>>4)*2],d_020A1B38[(b>>4)*2+1]);
+    func_0207D84C(FX_SinCosTable_[(b>>4)*2],FX_SinCosTable_[(b>>4)*2+1]);
     REG(0x04000444)=0;
-    func_0207D84C(d_020A1B38[(a>>4)*2],d_020A1B38[(a>>4)*2+1]);
+    func_0207D84C(FX_SinCosTable_[(a>>4)*2],FX_SinCosTable_[(a>>4)*2+1]);
     REG(0x04000470)=0;
     REG(0x04000470)=0;
     REG(0x04000470)=z;
-    func_0207D84C(d_020A1B38[(d_021E8144.a>>4)*2],d_020A1B38[(d_021E8144.a>>4)*2+1]);
-    func_0207D810(d_020A1B38[(d_021E8144.b>>4)*2],d_020A1B38[(d_021E8144.b>>4)*2+1]);
+    func_0207D84C(FX_SinCosTable_[(d_021E8144.a>>4)*2],FX_SinCosTable_[(d_021E8144.a>>4)*2+1]);
+    func_0207D810(FX_SinCosTable_[(d_021E8144.b>>4)*2],FX_SinCosTable_[(d_021E8144.b>>4)*2+1]);
     REG(0x0400046c)=0x266;
     REG(0x0400046c)=0x266;
     REG(0x0400046c)=0x266;
@@ -6540,7 +6541,7 @@ void func_021E3C20(char *p)
     Template_021E3A40 t = d_021E7C0C;
     Config_021E3A40 c;
     u16 a, b, d;
-    func_02082BCC(&c, 0, 32);
+    MI_CpuFill8(&c, 0, 32);
     c.f0 = &t;
     c.f4 = 4;
     c.f8 = ((TradeWork *)p)->f9C4;
@@ -6587,9 +6588,9 @@ unsigned char func_021E3D04(void *mon, unsigned int heap)
     if (func_02017E88(mon, 0xA9, 0)) {
         if (!func_02017E88(mon, 0x4C, 0)) {
             unsigned short form = func_02017E88(mon, 0x6F, 0);
-            data = func_0201ADE4((unsigned short)species, form, heap);
-            result = func_0201AE1C(data, 0x21);
-            func_0201AE14(data);
+            data = POKE_PERSONAL_Create((unsigned short)species, form, heap);
+            result = POKE_PERSONAL_GetParam(data, 0x21);
+            POKE_PERSONAL_Delete(data);
         } else {
             result = 1;
             if (species != 0x1EA)
@@ -6626,10 +6627,10 @@ void func_021E3DBC(char *p, void *party, unsigned char *out)
 {
     int count;
     unsigned char i;
-    count = func_0201AA18(party);
+    count = POKEPARTY_GetCount(party);
     for (i = 0; i < 6; i++) {
         if (count > i)
-            out[i] = func_021E3D04(func_020185F0(func_0201AB28(party, i)), ((TradeWork *)p)->f5F4);
+            out[i] = func_021E3D04(func_020185F0(POKEPARTY_GetMember(party, i)), ((TradeWork *)p)->f5F4);
         else
             out[i] = 0;
     }
@@ -6839,7 +6840,7 @@ void func_021E40EC(char *p, int a1, int a2)
     } else {
         func_02040618(4, 0, 0);
     }
-    func_0204B3DC((struct Obj *)((TradeWork *)p)->fF04, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)((TradeWork *)p)->fF04, 0);
     ARC_TOOL_DeleteHandle(v);
     func_02040588(4, 1);
 }
@@ -7024,8 +7025,8 @@ void func_021E4420(char *p)
                 func_02045CAC((*(void * *)&((TradeWork *)p)->f720),16,*(void **)(p+off2));
             else func_0200785C((*(void * *)&((TradeWork *)p)->f828),i,*(void **)(p+off3));
             GF_FONT_SetTextColor(15,2,zero);
-            BMP_Clear(func_02045770(*(void **)(q+a)),zero);
-            PRINTSYS_Print(func_02045770(*(void **)(q+b)),zero,1,*(void **)(p+d),*(void **)(p+c));
+            BMP_Clear(BMP_WIN_GetBmp(*(void **)(q+a)),zero);
+            PRINTSYS_Print(BMP_WIN_GetBmp(*(void **)(q+b)),zero,1,*(void **)(p+d),*(void **)(p+c));
             BMP_WIN_TransferChars(*(void **)(q+e));
             BMP_WIN_SetPosY(*(void **)(q+f),zero);
         } while (++i < (int)((u32)*(int *)(p+g)+1u));
@@ -7041,7 +7042,7 @@ void func_021E4570(char *p)
     int i;
     for (i = 0; i < 25; i++) {
         if (*(void **)(p + i * 4 + 0x6B8)) {
-            func_020452E8(*(void **)(p + i * 4 + 0x6B8));
+            BMP_WIN_Delete(*(void **)(p + i * 4 + 0x6B8));
             *(void **)(p + i * 4 + 0x6B8) = 0;
         }
     }
@@ -7125,10 +7126,10 @@ void func_021E467C(char *p)
             t.pal = 0xf;
             ((TradeWork *)q)->fBB0 = CLACT_CreateActor((*(void * *)&((TradeWork *)p)->f9C4), (unsigned int)(*(void * *)&((TradeWork *)p)->f894),
                 (unsigned int)(*(void * *)&((TradeWork *)p)->f880), (unsigned int)(*(void * *)&((TradeWork *)p)->f8B0), &t, 1, ((TradeWork *)p)->f5F4);
-            func_0204B92C(((TradeWork *)q)->fAC0, z);
-            func_0204B3DC(((TradeWork *)q)->fAC0, z);
-            func_0204B3DC(((TradeWork *)q)->fBB0, z);
-            func_0204B92C(((TradeWork *)q)->fBB0, 1);
+            CLACT_SetActorAutoAnim(((TradeWork *)q)->fAC0, z);
+            CLACT_SetActorDrawEnable(((TradeWork *)q)->fAC0, z);
+            CLACT_SetActorDrawEnable(((TradeWork *)q)->fBB0, z);
+            CLACT_SetActorAutoAnim(((TradeWork *)q)->fBB0, 1);
         }
     }
     ARC_TOOL_DeleteHandle(arc);
@@ -7275,7 +7276,7 @@ void func_021E4A1C(char *p)
         q = p + i * 4;
         for (j = 0; j < 12; j++) {
             r = q + j * 20;
-            if (func_0204B3F4((struct Obj *)((*(int *)&((TradeWork *)r)->fBB0)))) {
+            if (CLACT_GetActorDrawEnable((struct Obj *)((*(int *)&((TradeWork *)r)->fBB0)))) {
                 CLACT_GetActorSurfacePos((struct Actor *)(*(int *)&((TradeWork *)r)->fBB0), (struct PtS *)xy, 1);
                 ((TradeWork *)p)->fF54 = xy[0];
                 ((TradeWork *)p)->fF58 = xy[1];
@@ -7317,7 +7318,7 @@ int func_021E4AA4(int i, int x)
  */
 void func_021E4AB8(int a0, int a1, int a2)
 {
-    func_0204B688((struct Actor *)a1, a2 != 0);
+    CLACT_SetActorObjMode((struct Actor *)a1, a2 != 0);
 }
 
 
@@ -7345,7 +7346,7 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
     Pt pt;
     enum { VRAM_BASE = 0x06600000 } vram;
     if (a == ((TradeWork *)p)->fF74 && func_020355C4() == 0) {
-        func_0204B3DC(((void **)(p + row * 20 + 0xbb0))[((TradeWork *)p)->fF78], 1);
+        CLACT_SetActorDrawEnable(((void **)(p + row * 20 + 0xbb0))[((TradeWork *)p)->fF78], 1);
     }
     for (j = 0; j < 5; j++) {
         rec = func_021E4984(v, a, j, p, &kind);
@@ -7364,7 +7365,7 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
         b3 = e->b3;
         if (id == *(u16 *)(p + row * 10 + j * 2 + 0xca0) && b2 == ((u8 *)(p + row * 5) + j)[0xd18]
             && b3 == ((u8 *)(p + row * 5) + j)[0xd54]) {
-            func_0204B3DC(*(void **)(p + row * 20 + j * 4 + 0xac0), 1);
+            CLACT_SetActorDrawEnable(*(void **)(p + row * 20 + j * 4 + 0xac0), 1);
             func_021E4AD0(p, a, j, rec, kind, row);
         } else if (id != *(u16 *)(p + row * 10 + j * 2 + 0xca0)
             || (id == *(u16 *)(p + row * 10 + j * 2 + 0xca0) && b2 != ((u8 *)(p + row * 5) + j)[0xd18])
@@ -7388,9 +7389,9 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
                 func_02082D44((const void *)(*(int *)&((TradeWork *)p)->f1184 + idx * 0x200), (void *)(vram + info.c), 0x200);
             }
             func_021E4AD0(p, a, j, rec, kind, row);
-            func_0204B6F4(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), POKE_TOOL_GetIconPalette((void *)rec), 1);
-            func_0204B92C(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 0);
-            func_0204B3DC(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 1);
+            CLACT_SetActorPaletteOffset(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), POKE_TOOL_GetIconPalette((void *)rec), 1);
+            CLACT_SetActorAutoAnim(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 0);
+            CLACT_SetActorDrawEnable(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), 1);
         }
         if (func_02017E88((void *)rec, 0x4c, 0) == 0 && func_021E4A84(p, id)) {
             ((u8 *)(p + row * 5) + j)[0xebc] = 1;
@@ -7460,7 +7461,7 @@ void func_021E4E64(int a, char *p, int b)
         ((TradeWork *)p)->f1080 = n;
         for (i = 0; i < 12; i++) {
             for (j = 0; j < 5; j++) {
-                func_0204B3DC((struct Obj *)*(int *)(p + i * 20 + j * 4 + 0xbb0), 0);
+                CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + i * 20 + j * 4 + 0xbb0), 0);
                 *(unsigned char *)(p + i * 5 + j + 0xebc) = 0;
             }
         }
@@ -7512,12 +7513,12 @@ void func_021E4F28(char *p)
                 q = p + row * 20 + j * 4;
                 CLACT_SetActorDrawPriority((*(int *)&((TradeWork *)q)->fAC0), 0x1c - i);
             }
-            func_0204B404((struct Obj *)((*(int *)&((TradeWork *)q)->fAC0)), (const struct Vec2 *)(&b), 1);
+            CLACT_AddActorSurfacePos((struct Obj *)((*(int *)&((TradeWork *)q)->fAC0)), (const struct Vec2 *)(&b), 1);
             if (*(u8 *)(p + row * 5 + j + 0xebc)) {
                 *(Pt_021E4F28 *)(q + 0xdcc) = a;
             }
             b.y = ty + 3;
-            func_0204B404((struct Obj *)((*(int *)&((TradeWork *)q)->fBB0)), (const struct Vec2 *)(&b), 1);
+            CLACT_AddActorSurfacePos((struct Obj *)((*(int *)&((TradeWork *)q)->fBB0)), (const struct Vec2 *)(&b), 1);
         }
         y++;
     }
@@ -7540,7 +7541,7 @@ body:
         for (i = 0; i < 30; i++) {
             if (b == 24 && i == 6) break;
             x = (int)func_021D8DD0((void *)(((TradeWork *)p)->f828), b, i, p);
-            if (x) x = func_0201BA68((void *)x);
+            if (x) x = POKE_TOOL_GetGraphicIndex((void *)x);
             else x = POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0);
             t = (int)func_02049DF4(a, x, 0, (u32)(&out), ((TradeWork *)p)->f5F4);
             func_02082D44(((struct Obj22808 *)out)->f14, (void *)(*(int *)&((TradeWork *)p)->f1184 + n * 512), 512);
@@ -7575,7 +7576,7 @@ void func_021E5164(int p)
     int i, j;
     for (i = 0; i < 12; i++)
         for (j = 0; j < 5; j++)
-            func_0204B3DC((struct Obj *)*(int *)(p + i * 20 + j * 4 + 0xac0), 0);
+            CLACT_SetActorDrawEnable((struct Obj *)*(int *)(p + i * 20 + j * 4 + 0xac0), 0);
 }
 
 
@@ -7660,6 +7661,6 @@ void func_021E53F8(char *p)
     BG_SYS_SetVramBanks((const struct DispVram *)d_021E7D40);
     CLACT_InitSystem((const struct Cfg *)(&d_021E7CC8), (unsigned int)d_021E7D40, ((TradeWork *)p)->f5F4);
     func_021E57E8(0);
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
 }

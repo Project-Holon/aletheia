@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201C6C4 0x0201C6C4 thumb
- *   func_02045770 0x02045770 arm
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  */
 #include "../include/Obj05509.h"
 
 typedef unsigned int   u32;
 struct PrintSys;
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
 int func_021F22E8(unsigned char *p)
@@ -29,7 +29,7 @@ int func_021F22E8(unsigned char *p)
     int r4 = ((struct Obj05509 *)p)->f38;
 
     if (c != 0) {
-        if (func_0201C6C4((struct PrintSys *)r4, (void *)((int)func_02045770((struct Descriptor *)((struct Obj05509 *)p)->f2C))) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)r4, (void *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj05509 *)p)->f2C))) == 0) {
             BMP_WIN_TransferChars((struct Descriptor *)((struct Obj05509 *)p)->f2C);
             p[0x30] = 0;
         }

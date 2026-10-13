@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_InnerFocusPreventFlinch
+ * function: HAND_TOKUSEI_InnerFocusPreventFlinch
  * address:  0x021D8684
  * packet:   pkt_021D8684
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   BTL_CALC_InnerFocusPreventFlinch   0x021D8684  thumb
+ *   HAND_TOKUSEI_InnerFocusPreventFlinch   0x021D8684  thumb
  *   BTL_EVENT_OverwriteVar   0x021D76BC  thumb
  *   BTL_EVENT_GetVar   0x021D775C  thumb
  * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #4; adds r4, r2, #0; bl BTL_EVENT_GetVar; cmp r4, r0; bne loc_021D869A; movs r0, #0x41; movs r1, #1; bl BTL_EVENT_OverwriteVar; pop {r4, pc}.
@@ -24,7 +24,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021D8684  shape F1: gate on BTL_EVENT_GetVar(4) */
-void BTL_CALC_InnerFocusPreventFlinch(int a, int b, int c)
+void HAND_TOKUSEI_InnerFocusPreventFlinch(int a, int b, int c)
 {
     if (c == BTL_EVENT_GetVar(4))
         BTL_EVENT_OverwriteVar(0x41, 1);

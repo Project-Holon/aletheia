@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetBlackGlassesHandlers
+ * function: HAND_ITEM_GetBlackGlassesHandlers
  * address: 0x021DF74C
  * packet: pkt_ov093_021DF74C
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int gBlackGlassesHandlers[];
-int *BTL_HANDLER_ITEM_GetBlackGlassesHandlers(int *p);
+int *HAND_ITEM_GetBlackGlassesHandlers(int *p);
 
-int *BTL_HANDLER_ITEM_GetBlackGlassesHandlers(int *p)
+int *HAND_ITEM_GetBlackGlassesHandlers(int *p)
 {
     *p = 1;
     return gBlackGlassesHandlers;

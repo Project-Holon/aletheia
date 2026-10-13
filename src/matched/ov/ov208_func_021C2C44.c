@@ -18,11 +18,11 @@
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B688  0x0204B688  arm
- *   func_0204B92C  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorObjMode  0x0204B688  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   data_021C8704  0x021C8704  data
  */
 
@@ -48,11 +48,11 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(int a);
-extern void func_02082BCC(void *dst, int v, u32 n);
+extern void MI_CpuFill8(void *dst, int v, u32 n);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B688(struct Actor *actor, u32 value);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 
 struct S {
     u32 f0;
@@ -78,7 +78,7 @@ void func_021C2C44(u16 *heap, struct S *st, int a2)
     ARC_TOOL_DeleteHandle(arc);
     do {
         const u8 *e;
-        func_02082BCC(&pos, 0, 8);
+        MI_CpuFill8(&pos, 0, 8);
         e = data_021C8704[i];
         pos.a = e[0];
         pos.b = e[1];
@@ -86,9 +86,9 @@ void func_021C2C44(u16 *heap, struct S *st, int a2)
         pos.d = e[3];
         pos.e = e[4];
         st->a9c[i] = (u32)CLACT_CreateActor((void *)st->f0, st->a84[e[5]], st->a84[e[6]], st->a84[e[7]], &pos, e[8], *heap);
-        func_0204B3DC((struct Obj *)st->a9c[i], 1);
-        func_0204B688((struct Actor *)st->a9c[i], 1);
+        CLACT_SetActorDrawEnable((struct Obj *)st->a9c[i], 1);
+        CLACT_SetActorObjMode((struct Actor *)st->a9c[i], 1);
         i++;
     } while (i < 7);
-    func_0204B92C((struct Obj *)st->a9c[6], 1);
+    CLACT_SetActorAutoAnim((struct Obj *)st->a9c[6], 1);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A1500
+ * function: FIELD_SUBSCREEN_UpdateReport
  * address:  0x021A1500
  * packet:   pkt_ov021_021A1500
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern void REPORT_ShowPartyIcons(int *p);
 
-void func_021A1500(u32 *p)
+void FIELD_SUBSCREEN_UpdateReport(u32 *p)
 {
     REPORT_ShowPartyIcons((int *)p[8]);
 }

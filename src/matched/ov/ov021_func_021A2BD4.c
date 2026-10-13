@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorVisible  0x0204BA20  arm
  *   gWeatherParticlePosition  0x021D88E0  data  a4
  */
@@ -23,7 +23,7 @@ extern u32 gWeatherParticlePosition[];
 
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-void func_0204B3DC(struct Obj *h, unsigned int v);
+void CLACT_SetActorDrawEnable(struct Obj *h, unsigned int v);
 struct Actor;
 void CLACT_SetActorVisible(struct Actor *a, u32 v);
 
@@ -32,6 +32,6 @@ void WEATHER_TASK_CreateParticleActor(u32 *p, u32 a, const Q *q, int b, u16 e)
 {
     p[0] = a;
     p[1] = (u32)CLACT_CreateActor((void *)b, q->x, q->y, q->z, gWeatherParticlePosition, 0, e);
-    func_0204B3DC((struct Obj *)p[1], 0);
+    CLACT_SetActorDrawEnable((struct Obj *)p[1], 0);
     CLACT_SetActorVisible((struct Actor *)p[1], 0);
 }

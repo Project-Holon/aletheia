@@ -17,8 +17,8 @@
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   CLACT_SetActorSurfacePosAxis  0x0204B49C  arm
  *   CLACT_CreateActor  0x0204B294  arm
- *   func_0204B92C  0x0204B92C  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  */
 #include "../include/Obj05112.h"
 
@@ -50,8 +50,8 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 space, u16 heap);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
 void C_GEAR_SpawnRippleActor(u8 *p, int a, int c)
 {
@@ -74,8 +74,8 @@ void C_GEAR_SpawnRippleActor(u8 *p, int a, int c)
         CLACT_SetActorSurfacePosAxis(sl->obj, s.y, 0, 1);
     } else {
         sl->obj = CLACT_CreateActor((void *)((struct Obj05112 *)p)->f34, ((struct Obj05112 *)p)->f2C, ((struct Obj05112 *)p)->f28, ((struct Obj05112 *)p)->f30, &s, 0, ((struct Obj05112 *)p)->fC);
-        func_0204B92C(sl->obj, 1);
-        func_0204B3DC(sl->obj, 1);
+        CLACT_SetActorAutoAnim(sl->obj, 1);
+        CLACT_SetActorDrawEnable(sl->obj, 1);
     }
     sl->a = a;
     sl->b = c;

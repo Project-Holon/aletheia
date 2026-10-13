@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: BTL_HANDLER_TOKUSEI_UnnerveSkipBerry, BTL_HANDLER_TOKUSEI_AddUnnerve
+ * function: HAND_TOKUSEI_UnnerveSkipBerry, HAND_TOKUSEI_AddUnnerve
  * address: 0x021DCCEC
  * packet: pkt_ov093_021DCCEC
  * region: ov093
@@ -14,25 +14,25 @@
  * reads its halfword at +0 and byte at +4 using a common stack base.
  * symbols:
  *   BTL_EVENT_GetFactorPokeId 0x021D70AC thumb ov093
- *   func_021B9A24 0x021B9A24 thumb ov093
- *   PALANM_IsColorCodeKnown 0x020213C0 thumb
- *   gHandlerTableUnnerve 0x021F0AE8 data a4
+ *   BTL_MAIN_IsPokeSamePair 0x021B9A24 thumb ov093
+ *   ITEM_IsBerry 0x020213C0 thumb
+ *   gUnnerveHandlers 0x021F0AE8 data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u16 h0; u16 pad2; u8 b4; u8 pad5[3]; } Args;
 extern u8 BTL_EVENT_GetFactorPokeId(u8 *);
-extern int func_021B9A24(unsigned int a, unsigned int b);
+extern int BTL_MAIN_IsPokeSamePair(unsigned int a, unsigned int b);
 typedef unsigned int   u32;
-extern int PALANM_IsColorCodeKnown(u32 a);
-extern int gHandlerTableUnnerve;
-int BTL_HANDLER_TOKUSEI_UnnerveSkipBerry(u8 *a,int b,int c,int d,Args e)
+extern int ITEM_IsBerry(u32 a);
+extern int gUnnerveHandlers;
+int HAND_TOKUSEI_UnnerveSkipBerry(u8 *a,int b,int c,int d,Args e)
 {
     if(c==5) {
-        if(!func_021B9A24(BTL_EVENT_GetFactorPokeId(a),e.b4)) {
-            if(PALANM_IsColorCodeKnown(e.h0)) return 1;
+        if(!BTL_MAIN_IsPokeSamePair(BTL_EVENT_GetFactorPokeId(a),e.b4)) {
+            if(ITEM_IsBerry(e.h0)) return 1;
         }
     }
     return 0;
 }
-int *BTL_HANDLER_TOKUSEI_AddUnnerve(int *p) { *p=3; return &gHandlerTableUnnerve; }
+int *HAND_TOKUSEI_AddUnnerve(int *p) { *p=3; return &gUnnerveHandlers; }

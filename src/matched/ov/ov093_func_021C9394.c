@@ -1,5 +1,5 @@
 /*
- * function: func_021C9394
+ * function: BTL_SERVER_FLOW_ExecCmdSetStatStages
  * address:  0x021C9394
  * packet:   pkt_ov093_021C9394
  * region:   ov093
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021C9438  0x021C9438  thumb  ov093
- *   func_021B9934  0x021B9934  thumb  ov093
+ *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb  ov093
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   BTL_POKEPARAM_SetStatStage  0x021D5EA8  thumb  ov093
  *   BTL_SERVER_CMD_Push  0x021CD4B0  thumb  ov093
@@ -20,7 +20,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021C9438(int a, u8 b);
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern int BTL_POKEPARAM_IsFainted(void *p);
 extern void BTL_POKEPARAM_SetStatStage(u8 *p, int i, u8 n);
 extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
@@ -29,12 +29,12 @@ typedef struct {
     u32 w; u8 b[8];
 } Ent;
 
-int func_021C9394(int p, const Ent *e)
+int BTL_SERVER_FLOW_ExecCmdSetStatStages(int p, const Ent *e)
 {
     u8 *a;
 
     if (func_021C9438(p + 0x1ab8, e->b[0])) {
-        a = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, e->b[0]);
+        a = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00003 *)p)->f8, e->b[0]);
         if (BTL_POKEPARAM_IsFainted(a) == 0) {
             BTL_POKEPARAM_SetStatStage(a, 1, e->b[1]);
             BTL_POKEPARAM_SetStatStage(a, 2, e->b[2]);

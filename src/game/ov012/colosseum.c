@@ -25,9 +25,9 @@
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   func_02030734  0x02030734  arm
  *   COMM_PLAYER_Create  0x02167518  thumb
- *   func_0201A920  0x0201A920  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
  *   func_02012934  0x02012934  thumb
- *   func_0201AC2C  0x0201AC2C  thumb
+ *   POKEPARTY_Copy  0x0201AC2C  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
  *   func_02087C6C  0x02087C6C  arm
  *   TRCARD_SYS_BuildProfile  0x0216F40C  thumb
@@ -36,8 +36,8 @@
  *   COMM_PLAYER_Delete  0x0216754C  thumb  ov010
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   POKEPARTY_Init  0x0201A948  thumb
- *   func_02082BCC  0x02082BCC  arm
- *   func_02175358  0x02175358  thumb  ov012
+ *   MI_CpuFill8  0x02082BCC  arm
+ *   COLOSSEUM_SetupBattleMember  0x02175358  thumb  ov012
  *   func_020120F4  0x020120F4  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  */
@@ -78,7 +78,7 @@ struct TrainerCardProfile;
 #define COLOSSEUM_NO_CHOICE 0xFF
 #define COLOSSEUM_RECV_BUFFER_SIZE 0x800
 
-/* One player of the battle (16 bytes, filled by func_02175358). */
+/* One player of the battle (16 bytes, filled by COLOSSEUM_SetupBattleMember). */
 typedef struct ColosseumBattleMember {
     struct Party *party;
     ColosseumPlayer *player;
@@ -106,9 +106,9 @@ extern int POKE_REGULATION_GetDataSize(void);
 extern int GFL_NET_SendToHandle(GFLNetHandle *handle, u32 command, u32 size, const void *data);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *COMM_PLAYER_Create(int playerMax, void *gameSystem, u16 heapId, int sysOption);
-extern struct Party *func_0201A920(u32 heapId);
+extern struct Party *POKEPARTY_Create(u32 heapId);
 extern struct Party *func_02012934(const struct GameData *gameData);
-extern void func_0201AC2C(const struct Party *src, struct Party *dst);
+extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
 extern void MYSTATUS_Copy(const struct MyStatus *src, void *dst);
 extern void func_02087C6C(void *p);
 extern void TRCARD_SYS_BuildProfile(struct TrainerCardProfile *out, const struct GameData *gameData, u32 mode, u32 flag, u32 heapId);
@@ -116,8 +116,8 @@ extern u32 func_020307B0(void *p);
 extern void COMM_PLAYER_Delete(void *gameSystem, void *commPlayer);
 extern int GFL_NET_GetNegotiationNum(void);
 extern void POKEPARTY_Init(struct Party *party);
-extern void func_02082BCC(void *dst, int value, int size);
-extern void func_02175358(ColosseumWork *work, ColosseumBattleMember *out, u8 index, int heapId);
+extern void MI_CpuFill8(void *dst, int value, int size);
+extern void COLOSSEUM_SetupBattleMember(ColosseumWork *work, ColosseumBattleMember *out, u8 index, int heapId);
 extern void *func_020120F4(const struct GameSystem *gameSystem);
 extern void *GAME_DATA_GetTrainerRecord(const struct GameData *gameData);
 u8 *COLOSSEUM_GetRecvBuffer(int netId, u8 *buffer, int size);
@@ -452,7 +452,7 @@ ColosseumWork *COLOSSEUM_Create(const struct GameData *gameData, void *gameSyste
     work->commPlayer = COMM_PLAYER_Create(COLOSSEUM_PLAYER_MAX, gameSystem, COLOSSEUM_HEAP_ID, 0);
     for (i = 0; i < 4; i++) {
         work->trainerCard[i] = func_02030734(COLOSSEUM_HEAP_ID, 0x678, 1, gColosseumAllocFile, 0x38);
-        work->party[i] = func_0201A920(COLOSSEUM_HEAP_ID);
+        work->party[i] = POKEPARTY_Create(COLOSSEUM_HEAP_ID);
     }
     for (i = 0; i < 4; i++) {
         work->choice[i] = COLOSSEUM_NO_CHOICE;
@@ -460,7 +460,7 @@ ColosseumWork *COLOSSEUM_Create(const struct GameData *gameData, void *gameSyste
     }
     work->myChoice = COLOSSEUM_NO_CHOICE;
     work->myChoiceReply = COLOSSEUM_NO_CHOICE;
-    func_0201AC2C(func_02012934(gameData), work->party[selfNetId]);
+    POKEPARTY_Copy(func_02012934(gameData), work->party[selfNetId]);
     self = &work->player[selfNetId];
     MYSTATUS_Copy(myStatus, self);
     func_02087C6C(self->statusExtra);
@@ -624,7 +624,7 @@ void COLOSSEUM_StorePackage(ColosseumWork *work, int netId, const CommPlayerPack
 
 
 /*
- * Recursive MATCH unblocker: callee of func_0217FF78 (ov019) +0024. Only ov012
+ * Recursive MATCH unblocker: callee of COLOSSEUM_UpdateCommPlayers (ov019) +0024. Only ov012
  * has a function start here (ov011 holds the interior of a larger function,
  * ov009 ARM data), so the ov012 shard makes that site attest as matched.
  * The caller's scratch buffer is u32[5] and this leaf copies exactly 0x14
@@ -698,7 +698,7 @@ void COLOSSEUM_SetupBattleInfo(ColosseumWork *work, struct GameSystem *gameSyste
     int position;
 
     count = 0;
-    func_02082BCC(out, 0, 0x58);
+    MI_CpuFill8(out, 0, 0x58);
     out->teamMode = 3;
     for (i = 0; i < 4; i++) {
         if (work->partyReceived[i] == 0) {
@@ -724,7 +724,7 @@ void COLOSSEUM_SetupBattleInfo(ColosseumWork *work, struct GameSystem *gameSyste
         if (slot >= count) {
             func_02034714(gColosseumAssertText2, 0, gColosseumAssertText2);
         }
-        func_02175358(work, &out->member[slot], (u8)i, heapId);
+        COLOSSEUM_SetupBattleMember(work, &out->member[slot], (u8)i, heapId);
     }
     out->trainerRecord = GAME_DATA_GetTrainerRecord(func_020120F4(gameSystem));
 }
@@ -733,10 +733,10 @@ void COLOSSEUM_SetupBattleInfo(ColosseumWork *work, struct GameSystem *gameSyste
 
 
 /*
- * evidence: unlabelled Thumb tail-call leaf (ldr r3,=func_02082BCC; bx r3) after
+ * evidence: unlabelled Thumb tail-call leaf (ldr r3,=MI_CpuFill8; bx r3) after
  * COLOSSEUM_SetupBattleInfo; called by the bl at 0x02174A94 in UNION_MAIN_StepColosseumPartyEntry.
  */
 void COLOSSEUM_ClearBattleInfo(ColosseumBattleInfo *out)
 {
-    func_02082BCC(out, 0, 0x58);
+    MI_CpuFill8(out, 0, 0x58);
 }

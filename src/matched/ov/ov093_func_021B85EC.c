@@ -14,7 +14,7 @@
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
  *   func_021809D8  0x021809D8  thumb  ov231
- *   func_021BA1A8  0x021BA1A8  thumb  ov093
+ *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -25,7 +25,7 @@ extern u8 ov231_id[];
 extern int func_02034AC4(int id);
 extern void func_02034A5C(int id);
 extern int func_021809D8(void);
-extern int func_021BA1A8(char **p, int m);
+extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
 
 int BTL_MAIN_CheckEventOverlayAllowed(u32 **p)
 {
@@ -37,7 +37,7 @@ int BTL_MAIN_CheckEventOverlayAllowed(u32 **p)
         if (r == 0) {
             return 0;
         }
-        if (func_021BA1A8((char **)p, 0x200) == 0) {
+        if (BTL_MAIN_CheckSetupStatusFlag((char **)p, 0x200) == 0) {
             return 1;
         }
     }

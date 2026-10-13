@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   tbl_020A1B38   0x020A1B38  data
+ *   FX_SinCosTable_   0x020A1B38  data
  *
  * The odd-halfword twin of func_0203F684: same signed `x % 360`, same
  * fixed-point multiply by 0xFFFF against the same 360, same `>> 4`, but the
@@ -30,9 +30,9 @@
 typedef short s16;
 typedef int   s32;
 
-extern s16 tbl_020A1B38[];
+extern s16 FX_SinCosTable_[];
 
 s16 func_0203F6D8(s32 x)
 {
-    return tbl_020A1B38[2 * ((((x % 360) * 0xFFFF) / 360) >> 4) + 1];
+    return FX_SinCosTable_[2 * ((((x % 360) * 0xFFFF) / 360) >> 4) + 1];
 }

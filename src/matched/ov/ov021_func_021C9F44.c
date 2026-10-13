@@ -13,7 +13,7 @@
  *
  * symbols:
  *   BSUBWAY_SCR_GetParty  0x021CA210  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  * Addresses are Black-image addresses.
  */
@@ -30,7 +30,7 @@ typedef struct {
 } Stats;
 
 extern void *BSUBWAY_SCR_GetParty(u8 *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *m, u32 id, u32 c);
 
 u32 BSUBWAY_SCR_SetSelectedMembers(u8 *p, u32 x)
@@ -48,7 +48,7 @@ u32 BSUBWAY_SCR_SetSelectedMembers(u8 *p, u32 x)
         if (q[0x7c] - 1 >= 6)
             q[0x7c] = 1;
         q[0x1e] = q[0x7c] - 1;
-        m = (u32)func_0201AB28(h, q[0x1e]);
+        m = (u32)POKEPARTY_GetMember(h, q[0x1e]);
         ((Stats *)p)->a22[i] = POKE_TOOL_GetPartyValue((void *)m, 5, 0);
         ((Stats *)p)->a2a[i] = POKE_TOOL_GetPartyValue((void *)m, 6, 0);
     }

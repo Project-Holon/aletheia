@@ -1,5 +1,5 @@
 /*
- * function: func_021B9CBC
+ * function: BTL_SLOT_FindPokeId
  * address: 0x021B9CBC
  * packet: pkt_ov093_021B9CBC
  * region: ov093
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-int func_021B9CBC(u8 *p, int v) {
+int BTL_SLOT_FindPokeId(u8 *p, int v) {
     int i;
     for(i=0;i<p[24];i++) if(v==BTL_POKEPARAM_GetPokeId(*(void **)((u32)p+(u32)i*4))) return i;
     return -1;

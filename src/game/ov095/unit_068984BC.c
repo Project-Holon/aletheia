@@ -13,12 +13,12 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021C7CF4  0x021C7CF4  thumb
- *   func_021C8010  0x021C8010  thumb
- *   func_021C8838  0x021C8838  thumb
- *   func_021C8860  0x021C8860  thumb
- *   func_021C88A4  0x021C88A4  thumb
- *   func_021C88C8  0x021C88C8  thumb
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb
+ *   BTL_SERVER_FLOW_GetPokeViewPos  0x021C8010  thumb
+ *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb
+ *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb
  *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb
  *   BTL_POKEPARAM_GetMovePPLost  0x021D554C  thumb
  *   func_021D59B4  0x021D59B4  thumb
@@ -37,16 +37,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 
 extern int BTL_EVENT_GetVar(int);
-extern int func_021C8010(void *, u32);
-extern void *func_021C7CF4(void *, int);
+extern int BTL_SERVER_FLOW_GetPokeViewPos(void *, u32);
+extern void *BTL_SERVER_FLOW_GetPokeParam(void *, int);
 extern int BTL_POKEPARAM_IsHpFull(void *);
 extern int func_021D62A8(void *);
 extern u32 BTL_POKEPARAM_GetMoveCount(void *);
 extern u8 BTL_POKEPARAM_GetMovePPLost(void *, u8);
-extern u8 *func_021C88A4(void *, int, int);
-extern void func_021C8838(void *, int, int);
-extern void func_021C8860(void *, u32);
-extern void func_021C88C8(void *, void *);
+extern u8 *BTL_SERVER_FLOW_AllocCmdRecord(void *, int, int);
+extern void BTL_SERVER_FLOW_InitMsgRecord(void *, int, int);
+extern void BTL_SERVER_FLOW_AppendMsgRecordArg(void *, u32);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *, void *);
 extern int func_021D59B4(void *, int);
 extern void BTL_EVENT_RemoveFactor(void *);
 u32 *func_068984BC(u32 *p);
@@ -79,8 +79,8 @@ void func_068984C8(void *a, void *b, u8 c)
     u32 n2;
     u8 v;
     slot = (u8)BTL_EVENT_GetVar(2);
-    if (c == func_021C8010(b, slot)) {
-        m = func_021C7CF4(b, slot);
+    if (c == BTL_SERVER_FLOW_GetPokeViewPos(b, slot)) {
+        m = BTL_SERVER_FLOW_GetPokeParam(b, slot);
         flag = 0;
         if (BTL_POKEPARAM_IsHpFull(m) == 0)
             flag = 1;
@@ -92,37 +92,37 @@ void func_068984C8(void *a, void *b, u8 c)
                 flag = 1;
         }
         if (flag != 0) {
-            p = func_021C88A4(b, 0x37, slot);
+            p = BTL_SERVER_FLOW_AllocCmdRecord(b, 0x37, slot);
             ((struct Obj02149 *)p)->f4 = 0x280;
             p[6] = c;
             p[7] = 6;
             p[11] = 1;
-            func_021C8838(p + 12, 2, 0x2b6);
-            func_021C8860(p + 12, slot);
-            func_021C88C8(b, p);
+            BTL_SERVER_FLOW_InitMsgRecord(p + 12, 2, 0x2b6);
+            BTL_SERVER_FLOW_AppendMsgRecordArg(p + 12, slot);
+            BTL_SERVER_FLOW_CommitCmdRecord(b, p);
             if (BTL_POKEPARAM_IsHpFull(m) == 0) {
-                p = func_021C88A4(b, 5, slot);
+                p = BTL_SERVER_FLOW_AllocCmdRecord(b, 5, slot);
                 p[6] = slot;
                 value = func_021D59B4(m, 14);
                 ((struct Obj02149 *)p)->f4 = value - func_021D59B4(m, 13);
-                func_021C88C8(b, p);
+                BTL_SERVER_FLOW_CommitCmdRecord(b, p);
             }
             if (func_021D62A8(m) != 0) {
-                p = func_021C88A4(b, 11, slot);
+                p = BTL_SERVER_FLOW_AllocCmdRecord(b, 11, slot);
                 p[20] = 1;
                 p[8] = slot;
                 *(int *)(p + 4) = 36;
-                func_021C88C8(b, p);
+                BTL_SERVER_FLOW_CommitCmdRecord(b, p);
             }
             n2 = BTL_POKEPARAM_GetMoveCount(m);
             for (j = 0; j < n2; j++) {
                 v = BTL_POKEPARAM_GetMovePPLost(m, j);
                 if (v != 0) {
-                    p = func_021C88A4(b, 9, slot);
+                    p = BTL_SERVER_FLOW_AllocCmdRecord(b, 9, slot);
                     p[5] = slot;
                     p[4] = v;
                     p[6] = j;
-                    func_021C88C8(b, p);
+                    BTL_SERVER_FLOW_CommitCmdRecord(b, p);
                 }
             }
         }

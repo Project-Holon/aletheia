@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm  arm9
  *   (none)
 
  * Frees the 0x14-byte record at the index held in +0x98.
@@ -19,7 +20,7 @@
 
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 
 void func_021BF63C(int unused, char *p)
 {
@@ -27,7 +28,7 @@ void func_021BF63C(int unused, char *p)
 
     if (i == 6)
         return;
-    func_0204B6F4((struct Obj *)(*(int *)(p + i * 0x14 + 0x1c)), 0, 0);
+    CLACT_SetActorPaletteOffset((struct Obj *)(*(int *)(p + i * 0x14 + 0x1c)), 0, 0);
     ((struct Obj00442 *)p)->f10C = 0;
 }
 

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021F9F58  0x021F9F58  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 
 typedef signed char s8;
@@ -43,7 +43,7 @@ typedef struct {
 } Menu;
 
 extern void func_021F9F58(Menu *m, int dir);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 
 int func_021F9F00(Menu *m, int key)
 {
@@ -61,7 +61,7 @@ int func_021F9F00(Menu *m, int key)
     }
     idx = key + m->page * 4;
     if (idx < m->total) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return m->items[idx].val;
     }
     return -1;

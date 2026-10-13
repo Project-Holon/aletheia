@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020355C4  0x020355C4  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *
  * State select before the notify call.
  */
@@ -24,7 +24,7 @@ typedef signed int s32;
 typedef signed short s16;
 extern u8 func_020355C4(void);
 struct Obj;
-extern void func_0204B3DC(struct Obj *a, unsigned int b);
+extern void CLACT_SetActorDrawEnable(struct Obj *a, unsigned int b);
 
 int func_021FB220(u8 *p)
 {
@@ -38,7 +38,7 @@ int func_021FB220(u8 *p)
         v = ((struct Obj09235 *)p)->f8;
         n = 1;
     }
-    func_0204B3DC((struct Obj *)v, n);
+    CLACT_SetActorDrawEnable((struct Obj *)v, n);
     ((struct Obj09235 *)p)->f48 = 0xa;
     return -1;
 }

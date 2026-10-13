@@ -13,11 +13,11 @@
  * precede their reads here. Stack words at 9F4A/9F4C are c's address;
  * 9F42/9F46 are a/b. All payloads and object fields stay full-width.
  * symbols:
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021E51A4 0x021E51A4 thumb ov119
  *   func_021D8DD0 0x021D8DD0 thumb ov119
  *   func_021DBD70 0x021DBD70 thumb ov119
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021D8AA8 0x021D8AA8 thumb ov119
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DB9B4 0x021DB9B4 thumb ov119
@@ -34,14 +34,14 @@
  */
 typedef unsigned int   u32;
 struct MsgBank;
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int func_021E51A4(char *p, int x, int y, int *outA, int *outB, int *outSlot, int *outColumn, int *outRow);
 extern void *func_021D8DD0(void *a, int b, int c, char *p);
 extern int func_021DBD70(char *,int,int);
 extern int func_021D8AA8(void *);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern int func_021DD0CC(char *,int);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021D8E84(void *,int);
 extern void func_021DB9B4(char *p);
 extern void func_021DF708(void *p);
@@ -56,12 +56,12 @@ extern void func_021D8B38(char *p);
 int func_021D9F24(char *p,int save)
 {
  int x,y,a,b,c,hit,e,result=0;
- if(func_02035D20((u32 *)(&x),(u32 *)(&y))==1) {
+ if(TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y))==1) {
   hit=func_021E51A4(p,x+12,y+12,(int *)(p+0xf80),(int *)(p+0xf7c),&a,&b,&c);
   if(hit) {
    e=(int)func_021D8DD0((void *)I(0x828),I(0xf80),I(0xf7c),p);
    if(func_021DBD70(p,I(0xf80),I(0xf7c))) {
-    func_020061E4(0x626);
+    GFL_USE_PlaySeDefaultVolume(0x626);
     if(!func_021D8AA8(p)) {func_021D8E84(p,(int)func_021DB9B4);return 3;}
     I(0xf98)=I(0xf80);I(0xf94)=I(0xf7c);func_021D8E84(p,(int)func_021DF708);return 3;
    }

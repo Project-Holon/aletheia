@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_USE_GetSeSlot  0x02006148  thumb
- *   func_020061F8  0x020061F8  thumb
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb
  */
 
 typedef unsigned char u8;
@@ -25,7 +25,7 @@ typedef struct {
 
 typedef unsigned int   u32;
 extern int GFL_USE_GetSeSlot(u32 a0);
-extern void func_020061F8(void);
+extern void GFL_USE_StopSeSlot(void);
 
 void FIELD_PLAYER_NOGRID_StopSpin(P *p)
 {
@@ -33,6 +33,6 @@ void FIELD_PLAYER_NOGRID_StopSpin(P *p)
         p->b0 = 0;
         p->h2 = 0;
         GFL_USE_GetSeSlot(0x6d1);
-        func_020061F8();
+        GFL_USE_StopSeSlot();
     }
 }

@@ -15,11 +15,11 @@
  * symbols:
  *   func_0689C9F8  0x0689C9F8  thumb
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
- *   func_021B8E70  0x021B8E70  thumb  ov093
+ *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
  *   func_021EA3E8  0x021EA3E8  thumb  ov093
  *   func_021EA3F8  0x021EA3F8  thumb  ov093
- *   func_021B8D8C  0x021B8D8C  thumb  ov093
- *   func_021B9934  0x021B9934  thumb  ov093
+ *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
+ *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb  ov093
  *   BTL_POKEPARAM_ChangeForm  0x021D66D8  thumb  ov093
  *   func_021EA888  0x021EA888  thumb  ov093
  *   func_021EA8A4  0x021EA8A4  thumb  ov093
@@ -44,15 +44,15 @@
  *   BTL_POKEPARAM_SetSickCont 0x021D6034 thumb ov093
  *   BTL_POKEPARAM_ClearMajorStatus   0x021D61F0  thumb
  *   BTL_POKEPARAM_CureSick 0x021D6238 thumb ov093
- *   func_021B9AEC  0x021B9AEC  thumb  ov093
- *   func_021B9C10  0x021B9C10  thumb  ov093
- *   func_021B9BF0  0x021B9BF0  thumb  ov093
+ *   BTL_SIDE_GetSlotOfClient  0x021B9AEC  thumb  ov093
+ *   BTL_SLOT_Swap  0x021B9C10  thumb  ov093
+ *   BTL_SLOT_GetPoke  0x021B9BF0  thumb  ov093
  *   BTL_POKEPARAM_StartTurnThreshold  0x021D63EC  thumb  ov093
  *   BTL_POKEPARAM_ReloadAndResetEffects  0x021D6580  thumb  ov093
  *   BTL_POKEPARAM_SetTypes 0x021D66B0 thumb ov093
  *   BTL_CALC_UnpackPokeIds  0x021D8090  thumb  ov093
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
- *   func_021D6064  0x021D6064  thumb  ov093
+ *   BTL_POKEPARAM_TickSickCont  0x021D6064  thumb  ov093
  */
 #include "unit_021D3568_types.h"
 
@@ -64,11 +64,11 @@
  */
 
 extern u32 BTL_CLIENT_IsMainStepActive(struct BtlClient *client);
-extern u8 func_021B8E70(struct BtlMain *main, u32 position);
+extern u8 BTL_MAIN_GetViewPosOfSlot(struct BtlMain *main, u32 position);
 extern void func_021EA3E8(struct BtlvCore *view, int viewPosA, int viewPosB, u32 param);
 extern int func_021EA3F8(struct BtlvCore *view);
-extern int func_021B8D8C(struct BtlMain *main, struct BtlPokeContainer *container, u32 pokeId);
-extern struct BtlPokeParam *func_021B9934(struct BtlPokeContainer *container, int pokeId);
+extern int BTL_MAIN_GetTrainerSlotOfPoke(struct BtlMain *main, struct BtlPokeContainer *container, u32 pokeId);
+extern struct BtlPokeParam *BTL_SIDE_GetPokeByIdThunk(struct BtlPokeContainer *container, int pokeId);
 extern void BTL_POKEPARAM_ChangeForm(struct BtlPokeParam *pokeParam, u8 form);
 extern void func_021EA888(struct BtlvCore *view, int viewPos);
 extern int func_021EA8A4(struct BtlvCore *view);
@@ -93,16 +93,16 @@ extern int BTL_POKEPARAM_AddCritStage(struct BtlPokeParam *pokeParam, int delta)
 extern void BTL_POKEPARAM_SetSickCont(struct BtlPokeParam *pokeParam, int sickIndex, union SickCont cont);
 extern void BTL_POKEPARAM_ClearMajorStatus(struct BtlPokeParam *pokeParam);
 extern void BTL_POKEPARAM_CureSick(struct BtlPokeParam *pokeParam, int sickIndex);
-extern void *func_021B9AEC(struct BtlPokeContainer *container, int clientId);
-extern void func_021B9C10(void *party, int indexA, int indexB);
-extern struct BtlPokeParam *func_021B9BF0(void *party, u32 index);
+extern void *BTL_SIDE_GetSlotOfClient(struct BtlPokeContainer *container, int clientId);
+extern void BTL_SLOT_Swap(void *party, int indexA, int indexB);
+extern struct BtlPokeParam *BTL_SLOT_GetPoke(void *party, u32 index);
 extern void BTL_POKEPARAM_StartTurnThreshold(struct BtlPokeParam *pokeParam, u16 threshold);
 extern void BTL_POKEPARAM_ReloadAndResetEffects(struct BtlPokeParam *pokeParam);
 extern void BTL_POKEPARAM_SetTypes(struct BtlPokeParam *pokeParam, int species);
 extern void BTL_CALC_UnpackPokeIds(u32 packed, u8 *out);
 extern u32 func_0689C9F8(u32 index);
 extern int BTL_POKEPARAM_IsFainted(struct BtlPokeParam *pokeParam);
-extern int func_021D6064(struct BtlPokeParam *pokeParam, u32 sickIndex, union SickCont *outCont, int *outCured);
+extern int BTL_POKEPARAM_TickSickCont(struct BtlPokeParam *pokeParam, u32 sickIndex, union SickCont *outCont, int *outCured);
 
 int BTL_CLIENT_CmdSwapViewPositions(struct BtlClient *client, int *seq, u32 *args);
 int BTL_CLIENT_CmdChangeForm(struct BtlClient *client, int *seq, u32 *args);
@@ -140,8 +140,8 @@ int BTL_CLIENT_CmdSwapViewPositions(struct BtlClient *client, int *seq, u32 *arg
         if (BTL_CLIENT_IsMainStepActive(client) != 0) {
             return 1;
         }
-        viewPosA = func_021B8E70(client->main, (u8)args[0]);
-        viewPosB = func_021B8E70(client->main, (u8)args[1]);
+        viewPosA = BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[0]);
+        viewPosB = BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[1]);
         func_021EA3E8(client->view, viewPosA, viewPosB, (u16)args[2]);
         (*seq)++;
     } else {
@@ -160,8 +160,8 @@ int BTL_CLIENT_CmdChangeForm(struct BtlClient *client, int *seq, u32 *args)
 
     switch (*seq) {
     case 0:
-        viewPos = func_021B8E70(client->main, func_021B8D8C(client->main, client->pokeContainer, (u8)args[0]));
-        BTL_POKEPARAM_ChangeForm(func_021B9934(client->pokeContainer, (u8)args[0]), (u8)args[1]);
+        viewPos = BTL_MAIN_GetViewPosOfSlot(client->main, BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->pokeContainer, (u8)args[0]));
+        BTL_POKEPARAM_ChangeForm(BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)args[0]), (u8)args[1]);
         func_021EA888(client->view, viewPos);
         (*seq)++;
         break;
@@ -182,7 +182,7 @@ int BTL_CLIENT_CmdShowStatusPanel(struct BtlClient *client, int *seq, u32 *args)
 {
     int position;
 
-    position = func_021B8D8C(client->main, client->pokeContainer, (u8)args[0]);
+    position = BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->pokeContainer, (u8)args[0]);
     switch (*seq) {
     case 0:
         if (BTL_CLIENT_IsMainStepActive(client) != 0) {
@@ -208,7 +208,7 @@ int BTL_CLIENT_CmdHideStatusPanel(struct BtlClient *client, int *seq, u32 *args)
 {
     int position;
 
-    position = func_021B8D8C(client->main, client->pokeContainer, (u8)args[0]);
+    position = BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->pokeContainer, (u8)args[0]);
     switch (*seq) {
     case 0:
         func_021EA788(client->view, position);
@@ -229,7 +229,7 @@ int BTL_CLIENT_CmdHideStatusPanel(struct BtlClient *client, int *seq, u32 *args)
  */
 int BTL_CLIENT_CmdHpMinus(struct BtlClient *client, int *seq, u32 *args)
 {
-    BTL_POKEPARAM_SubHp(func_021B9934(client->pokeContainer, (u8)args[0]), args[1]);
+    BTL_POKEPARAM_SubHp(BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)args[0]), args[1]);
     return 1;
 }
 
@@ -238,7 +238,7 @@ int BTL_CLIENT_CmdHpPlus(struct BtlClient *client, int *seq, u32 *args)
 {
     struct BtlPokeParam *pokeParam;
 
-    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)args[0]);
     BTL_POKEPARAM_AddHp(pokeParam, args[1]);
     return 1;
 }
@@ -250,7 +250,7 @@ int BTL_CLIENT_CmdPpMinusOriginal(struct BtlClient *client, int *seq, u32 *args)
     u8 moveSlot, amount;
     moveSlot = args[1];
     amount = args[2];
-    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)args[0]);
     BTL_POKEPARAM_DecrementMovePP(pokeParam, moveSlot, amount);
     return 1;
 }
@@ -262,7 +262,7 @@ int BTL_CLIENT_CmdPpMinusWorking(struct BtlClient *client, int *seq, u32 *args)
     u8 moveSlot, amount;
     moveSlot = args[1];
     amount = args[2];
-    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)args[0]);
     BTL_POKEPARAM_DecrementRealMovePP(pokeParam, moveSlot, amount);
     return 1;
 }
@@ -273,7 +273,7 @@ int BTL_CLIENT_CmdMarkMoveUsed(struct BtlClient *client, int *seq, u32 *args)
     struct BtlPokeParam *pokeParam;
     u8 moveSlot;
     moveSlot = args[1];
-    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)args[0]);
     BTL_POKEPARAM_MarkMoveUsed(pokeParam, moveSlot);
     return 1;
 }
@@ -282,7 +282,7 @@ int BTL_CLIENT_CmdMarkMoveUsed(struct BtlClient *client, int *seq, u32 *args)
 /* Command 0x04. Set HP to 0; args: pokeId. */
 int BTL_CLIENT_CmdHpZero(struct BtlClient *client, int *seq, u32 *args)
 {
-    BTL_POKEPARAM_ZeroHp(func_021B9934(client->pokeContainer, (u8)*args));
+    BTL_POKEPARAM_ZeroHp(BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)*args));
     return 1;
 }
 
@@ -291,7 +291,7 @@ int BTL_CLIENT_CmdPpPlusOriginal(struct BtlClient *client, int *seq, u32 *args)
 {
     struct BtlPokeParam *pokeParam;
 
-    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)args[0]);
     BTL_POKEPARAM_RestoreMovePP(pokeParam, (u8)args[1], args[2]);
     return 1;
 }
@@ -301,7 +301,7 @@ int BTL_CLIENT_CmdPpPlusWorking(struct BtlClient *client, int *seq, u32 *args)
 {
     struct BtlPokeParam *pokeParam;
 
-    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)args[0]);
     BTL_POKEPARAM_RestoreRealMovePP(pokeParam, (u8)args[1], args[2]);
     return 1;
 }
@@ -311,7 +311,7 @@ int BTL_CLIENT_CmdStatStageUp(struct BtlClient *client, int *seq, u32 *args)
 {
     struct BtlPokeParam *pokeParam;
 
-    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)args[0]);
     BTL_POKEPARAM_RaiseStatStage(pokeParam, args[1], args[2]);
     return 1;
 }
@@ -321,7 +321,7 @@ int BTL_CLIENT_CmdStatStageDown(struct BtlClient *client, int *seq, u32 *args)
 {
     struct BtlPokeParam *pokeParam;
 
-    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)args[0]);
     BTL_POKEPARAM_LowerStatStage(pokeParam, args[1], args[2]);
     return 1;
 }
@@ -332,7 +332,7 @@ int BTL_CLIENT_CmdSetStatStages(struct BtlClient *client, int *seq, u32 *args)
 {
     struct BtlPokeParam *pokeParam;
 
-    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)args[0]);
     BTL_POKEPARAM_SetStatStage(pokeParam, 1, args[1]);
     BTL_POKEPARAM_SetStatStage(pokeParam, 2, args[2]);
     BTL_POKEPARAM_SetStatStage(pokeParam, 3, args[3]);
@@ -347,7 +347,7 @@ int BTL_CLIENT_CmdSetStatStages(struct BtlClient *client, int *seq, u32 *args)
 /* Command 0x0D. Recover lowered stat stages; args: pokeId. */
 int BTL_CLIENT_CmdRecoverStatStages(struct BtlClient *client, int *seq, u32 *args)
 {
-    BTL_POKEPARAM_RaiseLoweredStatStages(func_021B9934(client->pokeContainer, (u8)*args));
+    BTL_POKEPARAM_RaiseLoweredStatStages(BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)*args));
     return 1;
 }
 
@@ -355,7 +355,7 @@ int BTL_CLIENT_CmdRecoverStatStages(struct BtlClient *client, int *seq, u32 *arg
 /* Command 0x0E. Reset all stat stages to neutral; args: pokeId. */
 int BTL_CLIENT_CmdResetStatStages(struct BtlClient *client, int *seq, u32 *args)
 {
-    BTL_POKEPARAM_ResetStatStages(func_021B9934(client->pokeContainer, (u8)*args));
+    BTL_POKEPARAM_ResetStatStages(BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)*args));
     return 1;
 }
 
@@ -364,7 +364,7 @@ int BTL_CLIENT_CmdAddCritStage(struct BtlClient *client, int *seq, u32 *args)
 {
     struct BtlPokeParam *pokeParam;
 
-    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)args[0]);
     BTL_POKEPARAM_AddCritStage(pokeParam, args[1]);
     return 1;
 }
@@ -380,7 +380,7 @@ int BTL_CLIENT_CmdSetSick(struct BtlClient *client, int *seq, u32 *args)
     struct BtlPokeParam *pokeParam;
     union SickCont cont;
 
-    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)args[0]);
     cont.raw = args[2];
     BTL_POKEPARAM_SetSickCont(pokeParam, args[1], cont);
     return 1;
@@ -390,7 +390,7 @@ int BTL_CLIENT_CmdSetSick(struct BtlClient *client, int *seq, u32 *args)
 /* Command 0x11. Clear the major status; args: pokeId. */
 int BTL_CLIENT_CmdCureMajorSick(struct BtlClient *client, int *seq, u32 *args)
 {
-    BTL_POKEPARAM_ClearMajorStatus(func_021B9934(client->pokeContainer, (u8)*args));
+    BTL_POKEPARAM_ClearMajorStatus(BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)*args));
     return 1;
 }
 
@@ -399,7 +399,7 @@ int BTL_CLIENT_CmdCureSick(struct BtlClient *client, int *seq, u32 *args)
 {
     struct BtlPokeParam *pokeParam;
 
-    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)args[0]);
     BTL_POKEPARAM_CureSick(pokeParam, args[1]);
     return 1;
 }
@@ -419,10 +419,10 @@ int BTL_CLIENT_CmdMemberIn(struct BtlClient *client, int *seq, u32 *args)
 
     indexFrom = client->swapFrom;
     indexTo = client->swapTo;
-    party = func_021B9AEC(client->pokeContainer, (u8)(client->swapClientId));
+    party = BTL_SIDE_GetSlotOfClient(client->pokeContainer, (u8)(client->swapClientId));
     if (indexFrom != indexTo)
-        func_021B9C10(party, indexFrom, indexTo);
-    incoming = func_021B9BF0(party, indexFrom);
+        BTL_SLOT_Swap(party, indexFrom, indexTo);
+    incoming = BTL_SLOT_GetPoke(party, indexFrom);
     BTL_POKEPARAM_StartTurnThreshold(incoming, args[3]);
     BTL_POKEPARAM_ReloadAndResetEffects(incoming);
     return 1;
@@ -433,7 +433,7 @@ int BTL_CLIENT_CmdSetPokeType(struct BtlClient *client, int *seq, u32 *args)
 {
     struct BtlPokeParam *pokeParam;
 
-    pokeParam = func_021B9934(client->pokeContainer, (u8)args[0]);
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)args[0]);
     BTL_POKEPARAM_SetTypes(pokeParam, (u16)args[1]);
     return 1;
 }
@@ -462,9 +462,9 @@ int BTL_CLIENT_CmdCureSickMulti(struct BtlClient *client, int *seq, u32 *args)
         if (sickIndex == 0)
             break;
         for (j = 0; j < pokeCount; j++) {
-            pokeParam = func_021B9934(client->pokeContainer, pokeIds[j]);
+            pokeParam = BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, pokeIds[j]);
             if (BTL_POKEPARAM_IsFainted(pokeParam) == 0)
-                func_021D6064(pokeParam, sickIndex, 0, 0);
+                BTL_POKEPARAM_TickSickCont(pokeParam, sickIndex, 0, 0);
         }
     }
     return 1;

@@ -38,7 +38,7 @@
  *   func_021B9B00 0x021B9B00 thumb ov114
  *   func_021C8E18 0x021C8E18 arm ov114
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   PROCSYS_Push 0x02031348 arm
  *   str_02203C34 0x02203C34 data a1
  *   gNetSaveMainProc 0x021D6338 data ov115 a4
@@ -55,14 +55,14 @@
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201F250 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_0201F73C 0x0201F73C thumb
  *   func_02202878 0x02202878 thumb ov135
  *   func_02202858 0x02202858 thumb ov135
  *   func_022026C4 0x022026C4 thumb ov135
- *   func_02045738 0x02045738 arm
+ *   BMP_WIN_GetWidth 0x02045738 arm
  *   func_022028C8  0x022028C8  thumb  ov135
  *   tbl_022031EC   0x022031EC  data
  *   func_02040C14  0x02040C14  arm
@@ -74,7 +74,7 @@
  *   data_02203242  0x02203242  data
  *   data_022032AE  0x022032AE  data
  *   BGWINFRM_GetPos  0x0202CF98  thumb
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   func_02041300  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
  *   func_02040DA8  0x02040DA8  arm
@@ -82,8 +82,8 @@
  *   BGWINFRM_AddFrame  0x0202CA3C  thumb
  *   func_021F4FF4  0x021F4FF4  thumb
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   func_0204B92C  0x0204B92C  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_02202974  0x02202974  thumb
  *   func_022026D8  0x022026D8  thumb
  *   g_02203CD8     0x02203CD8  data  ov135
@@ -99,11 +99,11 @@
  *   tbl_02203270   0x02203270  data  a1
  *   tbl_022032FE   0x022032FE  data  a1
  *   tbl_02203284   0x02203284  data  a1
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_020355C4  0x020355C4  arm
  *   func_020355D8  0x020355D8  arm
- *   func_020061E4  0x020061E4  thumb
- *   func_0203633C  0x0203633C  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
+ *   KEY_GetRepeat  0x0203633C  arm
  *   func_02034714  0x02034714  arm
  *   tbl_02203348   0x02203348  data  a1
  *   tbl_022032C6   0x022032C6  data  a1
@@ -297,7 +297,7 @@ extern void *BMP_MENUWORK_Create(u32 n, u32 heap);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern s32 BMP_MENULIST_Main(struct Obj *o);
 extern void func_020202EC(struct Obj *obj, u16 *out);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern void func_021F50EC(u8 *);
 extern void func_021F5074(u8 *p);
 extern void func_021F4EC8(u8 *p);
@@ -320,7 +320,7 @@ extern void func_021F4FC4(u8 *p);
 extern void func_021B9B00(u8 *,int);
 extern void func_021C8E18(u8 *,u32);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *p, u32 value, u32 size);
+extern void MI_CpuFill8(void *p, u32 value, u32 size);
 extern void *func_020120F4(const struct Ctx *p);
 extern void PROCSYS_Push(void *h, u32 id, const void *a, void *b);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
@@ -333,21 +333,21 @@ extern void func_0205CC20(void);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_0201F73C(void *, int, int, int);
 extern void func_02202878(void *a, unsigned b, unsigned c, int d, int e, u8 *p);
 extern u32 func_02202858(void *p, u8 b, void *s, u32 x, u32 y, void *out);
 extern int func_022026C4(u32 *p, u32 b, u32 a, u32 c);
-extern u8 func_02045738(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern u32 func_022028C8(u8 *p, u32 z, u32 b, u32 r, u32 d, u32 z2, u16 f, u32 g);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern u32  BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void func_020409B4(u32 layer);
 extern void func_02040DA8(u32, u32, u32);
@@ -355,8 +355,8 @@ extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void *func_02202974(u32 a, u32 b, u32 c, u32 heap);
 extern void func_022026D8(void *ctx, u32 arg);
 extern void func_02202744(u8 *p);
@@ -366,10 +366,10 @@ extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
 extern void func_02202770(void *g);
 extern void func_022029F8(void *printer);
 extern int TOUCHPANEL_HitTrg(const void *p);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8 v);
-extern unsigned int func_0203633C(void);
+extern unsigned int KEY_GetRepeat(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 func_0209C0A4(u8 *p, u32 n, u32 m);
 extern void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages);
@@ -590,7 +590,7 @@ int func_021F8950(void *p, u16 *old)
     result = BMP_MENULIST_Main(p);
     func_020202EC(p, &current);
     if (*old != current) {
-        if (*old != 0xFFFF) func_020061E4(0x548);
+        if (*old != 0xFFFF) GFL_USE_PlaySeDefaultVolume(0x548);
         *old = current;
     }
     return result;
@@ -915,7 +915,7 @@ int func_021F8D10(Work *p)
 {
     State_p01 *s;
     *(State_p01 * *)(void **)&p->req = func_02030734(0x48, sizeof(State_p01), 0, str_02203C34, 0x263);
-    func_02082BCC(*(State_p01 * *)(void **)&p->req, 0, sizeof(State_p01));
+    MI_CpuFill8(*(State_p01 * *)(void **)&p->req, 0, sizeof(State_p01));
     s = *(State_p01 * *)(void **)&p->req;
     s->handle = func_020120F4(((struct Obj23401 *)(*(u8 * *)(void **)&p->ctx))->f40);
     s->f4 = 0;
@@ -961,7 +961,7 @@ int func_021F8DE4(Work *p)
 {
     Req_p02 *r;
     *(Req_p02 * *)(void **)&p->req = func_02030734(72, 28, 0, str_02203C34, 689);
-    func_02082BCC(*(Req_p02 * *)(void **)&p->req, 0, 28);
+    MI_CpuFill8(*(Req_p02 * *)(void **)&p->req, 0, 28);
     r = *(Req_p02 * *)(void **)&p->req;
     r->save = func_020120F4(((struct Obj23403 *)(*(u8 * *)(void **)&p->ctx))->f40);
     r->zero = 0;
@@ -1174,7 +1174,7 @@ void func_021F90B8(Work *p, void *bank, u32 index, int unused1, int unused2, int
     str = func_02045EC0(bank, index);
     func_0201F250(p->words, p->str, str);
     STRBUF_Delete(str);
-    BMP_Clear(func_02045770(p->d40), 15);
+    BMP_Clear(BMP_WIN_GetBmp(p->d40), 15);
     BMP_WIN_TransferChars(p->d40);
     func_0201F73C(p->d40, 0, 1, 14);
     if (slow)
@@ -1197,11 +1197,11 @@ int func_021F914C(void *win, void *str, int x, int align, int unused, int font, 
     switch (align) {
     case 1:
         width = func_022026C4(ctx, (u8)font, (u32)str, (int)0);
-        x = (func_02045738(win) * 8 - width) / 2;
+        x = (BMP_WIN_GetWidth(win) * 8 - width) / 2;
         break;
     case 2:
         width = func_022026C4(ctx, (u8)font, (u32)str, (int)0);
-        x = func_02045738(win) * 8 - width;
+        x = BMP_WIN_GetWidth(win) * 8 - width;
         break;
     }
     return x;
@@ -1269,69 +1269,69 @@ void ov135_func_021F9260(Menu *p, u32 mode)
     switch (mode) {
     case 4:
         p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[14])), 10);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
         for (i = 0; i < 9; i++) {
             p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_022032AE[i][0], data_022032AE[i][1], 3, 2, 1, 1);
-            BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[i])), 10);
+            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
         }
         break;
     case 5:
         p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[14])), 10);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
         p->wins[0] = (void *)BMP_WIN_Create((u8)p->layer, 2, 2, 3, 2, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[0])), 7);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[0])), 7);
         for (i = 1; i < 4; i++) {
             p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_022032AE[i - 1][0], data_022032AE[i - 1][1], 2, 2, 1, 1);
-            BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[i])), 10);
+            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
         }
         break;
     case 0:
         p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[14])), 10);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
         for (i = 0; i < 4; i++) {
             p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_0220322A[i][0], data_0220322A[i][1], 8, 2, 1, 1);
-            BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[i])), 10);
+            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
         }
         p->wins[4] = (void *)BMP_WIN_Create((u8)p->layer, 5, 14, 5, 1, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[4])), 8);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[4])), 8);
         break;
     case 6:
         p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[14])), 10);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
         for (i = 0; i < 9; i++) {
             p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_022032AE[i][0], data_022032AE[i][1], 3, 2, 1, 1);
-            BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[i])), 10);
+            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
         }
         p->wins[15] = (void *)BMP_WIN_Create((u8)p->layer, 1, 2, 9, 2, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[15])), 10);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[15])), 10);
         break;
     case 3:
         p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 24, 17, 6, 2, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[14])), 10);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
         for (i = 0; i < 5; i++) {
             p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_02203242[i][0], data_02203242[i][1], 23, 2, 1, 1);
-            BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[i])), 10);
+            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
         }
         p->wins[5] = (void *)BMP_WIN_Create((u8)p->layer, 14, 16, 5, 1, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[5])), 10);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[5])), 10);
         break;
     case 1:
         p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[14])), 10);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
         for (i = 0; i < 3; i++) {
             p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_02203200[i][0], data_02203200[i][1], 9, 2, 1, 1);
-            BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[i])), 10);
+            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
         }
         break;
     case 2:
         p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[14])), 10);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
         for (i = 0; i < 4; i++) {
             p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_02203206[i][0], data_02203206[i][1], 11, 2, 1, 1);
-            BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[i])), 10);
+            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
         }
         p->wins[4] = (void *)BMP_WIN_Create((u8)p->layer, 5, 14, 5, 1, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->wins[4])), 8);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[4])), 8);
         break;
     }
 }
@@ -1356,76 +1356,76 @@ void func_021F9660(Obj_021F9024 *p, int mode)
     switch (mode) {
     case 4:
         for (i = 0; i < 9; i++) {
-            BMP_Clear(func_02045770(p->win[i]), 10);
+            BMP_Clear(BMP_WIN_GetBmp(p->win[i]), 10);
             BMP_WIN_TransferChars(p->win[i]);
-            func_020452E8(p->win[i]);
+            BMP_WIN_Delete(p->win[i]);
         }
         if (bright[1] == 0x10) {
             func_02041300(2, 5, 0x10, 1, 1, 0xF, 0x10);
             func_02041300(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
             func_020409B4(2);
         }
-        func_020452E8(p->win[14]);
+        BMP_WIN_Delete(p->win[14]);
         break;
     case 5:
         for (i = 0; i < 4; i++) {
-            BMP_Clear(func_02045770(p->win[i]), 10);
+            BMP_Clear(BMP_WIN_GetBmp(p->win[i]), 10);
             BMP_WIN_TransferChars(p->win[i]);
-            func_020452E8(p->win[i]);
+            BMP_WIN_Delete(p->win[i]);
         }
         if (bright[1] == 0x10) {
             func_02041300(2, 5, 0x10, 1, 1, 0xF, 0x10);
             func_02041300(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
             func_020409B4(2);
         }
-        func_020452E8(p->win[14]);
+        BMP_WIN_Delete(p->win[14]);
         break;
     case 0:
         for (i = 0; i < 5; i++) {
-            BMP_Clear(func_02045770(p->win[i]), 10);
+            BMP_Clear(BMP_WIN_GetBmp(p->win[i]), 10);
             BMP_WIN_TransferChars(p->win[i]);
-            func_020452E8(p->win[i]);
+            BMP_WIN_Delete(p->win[i]);
         }
         if (bright[1] == 0x10) {
             func_02041300(2, 5, 0x10, 1, 1, 0xF, 0x10);
             func_02041300(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
             func_020409B4(2);
         }
-        func_020452E8(p->win[14]);
+        BMP_WIN_Delete(p->win[14]);
         break;
     case 6:
         for (i = 0; i < 9; i++) {
-            BMP_Clear(func_02045770(p->win[i]), 10);
+            BMP_Clear(BMP_WIN_GetBmp(p->win[i]), 10);
             BMP_WIN_TransferChars(p->win[i]);
-            func_020452E8(p->win[i]);
+            BMP_WIN_Delete(p->win[i]);
         }
         if (bright[1] == 0x10) {
             func_02041300(2, 5, 0x10, 1, 1, 0xF, 0x10);
             func_02041300(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
             func_020409B4(2);
         }
-        func_020452E8(p->win[14]);
-        func_020452E8(p->win[15]);
+        BMP_WIN_Delete(p->win[14]);
+        BMP_WIN_Delete(p->win[15]);
         break;
     case 3:
         for (i = 0; i < 6; i++) {
-            BMP_Clear(func_02045770(p->win[i]), 10);
+            BMP_Clear(BMP_WIN_GetBmp(p->win[i]), 10);
             BMP_WIN_TransferChars(p->win[i]);
-            func_020452E8(p->win[i]);
+            BMP_WIN_Delete(p->win[i]);
         }
-        func_020452E8(p->win[14]);
+        BMP_WIN_Delete(p->win[14]);
         break;
     case 1:
         for (i = 0; i < 3; i++) {
-            func_020452E8(p->win[i]);
+            BMP_WIN_Delete(p->win[i]);
         }
-        func_020452E8(p->win[14]);
+        BMP_WIN_Delete(p->win[14]);
         break;
     case 2:
         for (i = 0; i < 5; i++) {
-            func_020452E8(p->win[i]);
+            BMP_WIN_Delete(p->win[i]);
         }
-        func_020452E8(p->win[14]);
+        BMP_WIN_Delete(p->win[14]);
         break;
     }
     func_02040DA8(p->f50, 1, 0);
@@ -1466,8 +1466,8 @@ Menu_021F9024 *func_021F9890(Init *init, u32 a, u32 b)
     BGWINFRM_AddFrame(m->frm, 0, 2, 0x20, 0x14);
     func_021F4FF4(m->obj, 0x90, 0x28);
     CLACT_SetActorAnimSeq((struct Obj *)m->obj, 4);
-    func_0204B92C((struct Obj *)m->obj, 1);
-    func_0204B3DC((struct Obj *)m->obj, 0);
+    CLACT_SetActorAutoAnim((struct Obj *)m->obj, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)m->obj, 0);
     m->ctx = func_02202974(0xf, 0xe, 2, 0x48);
     func_022026D8(m->sub, init->arg);
     return m;
@@ -1595,28 +1595,28 @@ int func_021F9A88(Menu *p, u8 *enable)
     if (old < 9) {
         p->last = old;
     }
-    if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC((struct Obj *)((struct Obj *)p->cursor), 1);
+    if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 1);
         func_020355D8(0);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return -1;
     }
-    if (func_0203633C() & 0x40) {
+    if (KEY_GetRepeat() & 0x40) {
         p->pos = tbl_02203348[p->pos].up;
-    } else if (func_0203633C() & 0x80) {
+    } else if (KEY_GetRepeat() & 0x80) {
         p->pos = tbl_02203348[p->pos].down;
-    } else if (func_0203633C() & 0x20) {
+    } else if (KEY_GetRepeat() & 0x20) {
         p->pos = tbl_02203348[p->pos].left;
-    } else if (func_0203633C() & 0x10) {
+    } else if (KEY_GetRepeat() & 0x10) {
         p->pos = tbl_02203348[p->pos].right;
     }
     if (old >= 9 && p->pos < 9) {
-        if (func_0203633C() & 0x40) {
+        if (KEY_GetRepeat() & 0x40) {
             p->pos = p->last;
             while (p->pos + 3 < 9) {
                 p->pos += 3;
             }
-        } else if (func_0203633C() & 0x80) {
+        } else if (KEY_GetRepeat() & 0x80) {
             p->pos = p->last;
             while (p->pos - 3 >= 0) {
                 p->pos -= 3;
@@ -1624,7 +1624,7 @@ int func_021F9A88(Menu *p, u8 *enable)
         }
     }
     if (old != p->pos) {
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021F4FF4(p->cursor, (tbl_022032C6[p->pos].x + 0x10) * 8, tbl_022032C6[p->pos].y * 8);
         if (p->pos == 9) {
             CLACT_SetActorAnimSeq((struct Obj *)((struct Obj *)p->cursor), 5);
@@ -1643,32 +1643,32 @@ int func_021F9A88(Menu *p, u8 *enable)
             CLACT_SetActorAnimSeq((struct Obj *)((struct Obj *)p->cursor), 0x12);
         }
         if (r == 9) {
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             ret = -2;
         } else if (enable == 0 || enable[r] != 0) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             ret = r;
         }
         if (ret == -1 && func_020355C4() == 0) {
-            func_0204B3DC((struct Obj *)((struct Obj *)p->cursor), 0);
+            CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 0);
         }
         func_020355D8(1);
         return ret;
     }
-    if (func_020362DC() & 1) {
+    if (KEY_GetTrg() & 1) {
         if (p->pos == 9) {
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             return -2;
         }
         if (p->pos >= 9) {
             func_02034714((void *)0x02203CEC, 0, (void *)0x02203CEC);
         }
         if (enable == 0 || enable[p->pos] != 0) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             return p->pos;
         }
-    } else if (func_020362DC() & 2) {
-        func_020061E4(0x551);
+    } else if (KEY_GetTrg() & 2) {
+        GFL_USE_PlaySeDefaultVolume(0x551);
         CLACT_SetActorAnimSeq((struct Obj *)((struct Obj *)p->cursor), 5);
         func_021F4FF4(p->cursor, 0xC0, 0x88);
         return -2;
@@ -1718,26 +1718,26 @@ int func_021F9CDC(Menu *p, int base)
     if (old < 3) {
         p->last = old;
     }
-    if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC((struct Obj *)((struct Obj *)p->cursor), 1);
+    if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 1);
         func_020355D8(0);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return -1;
     }
-    if (func_0203633C() & 0x40) {
+    if (KEY_GetRepeat() & 0x40) {
         p->pos = tbl_02203260[p->pos].up;
-    } else if (func_0203633C() & 0x80) {
+    } else if (KEY_GetRepeat() & 0x80) {
         p->pos = tbl_02203260[p->pos].down;
-    } else if (func_0203633C() & 0x20) {
+    } else if (KEY_GetRepeat() & 0x20) {
         p->pos = tbl_02203260[p->pos].left;
-    } else if (func_0203633C() & 0x10) {
+    } else if (KEY_GetRepeat() & 0x10) {
         p->pos = tbl_02203260[p->pos].right;
     }
     if (old == 3 && p->pos < 3) {
         p->pos = p->last;
     }
     if (old != p->pos) {
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         if (p->pos == 3) {
             func_021F4FF4(p->cursor, 0xC0, 0x88);
             CLACT_SetActorAnimSeq((struct Obj *)((struct Obj *)p->cursor), 5);
@@ -1758,33 +1758,33 @@ int func_021F9CDC(Menu *p, int base)
         }
         r = func_021F9CB0((Menu *)p, r);
         if (r == -2) {
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
         } else if (base == 0 || tbl_02203324[p->layout][base + r] != 0) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
         } else {
             r = -1;
             if (func_020355C4() == 0) {
-                func_0204B3DC((struct Obj *)((struct Obj *)p->cursor), 0);
+                CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 0);
             }
         }
         func_020355D8(1);
         return r;
     }
-    if (func_020362DC() & 1) {
+    if (KEY_GetTrg() & 1) {
         r = func_021F9CB0((Menu *)p, p->pos);
         if (r == -1) {
             return r;
         }
         if (r == -2) {
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             return r;
         }
         if (base == 0 || tbl_02203324[p->layout][base + r] != 0) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             return r;
         }
-    } else if (func_020362DC() & 2) {
-        func_020061E4(0x551);
+    } else if (KEY_GetTrg() & 2) {
+        GFL_USE_PlaySeDefaultVolume(0x551);
         CLACT_SetActorAnimSeq((struct Obj *)((struct Obj *)p->cursor), 5);
         func_021F4FF4(p->cursor, 0xC0, 0x88);
         return -2;
@@ -1830,7 +1830,7 @@ int func_021F9F00(Menu *m, int key)
     }
     idx = key + m->page * 4;
     if (idx < m->total) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return m->items[idx].val;
     }
     return -1;
@@ -1849,8 +1849,8 @@ void func_021F9F58(Menu *m, int dir)
         return;
     }
     if (dir < 0) {
-        func_020061E4(0x548);
-        func_0204B92C((struct Obj *)((struct Obj *)m->down), 1);
+        GFL_USE_PlaySeDefaultVolume(0x548);
+        CLACT_SetActorAutoAnim((struct Obj *)((struct Obj *)m->down), 1);
         CLACT_SetActorAnimSeq((struct Obj *)((struct Obj *)m->down), 0x27);
         if (m->page != 0) {
             m->page = m->page - 1;
@@ -1858,8 +1858,8 @@ void func_021F9F58(Menu *m, int dir)
             m->page = last;
         }
     } else {
-        func_020061E4(0x548);
-        func_0204B92C((struct Obj *)((struct Obj *)m->up), 1);
+        GFL_USE_PlaySeDefaultVolume(0x548);
+        CLACT_SetActorAutoAnim((struct Obj *)((struct Obj *)m->up), 1);
         CLACT_SetActorAnimSeq((struct Obj *)((struct Obj *)m->up), 0x26);
         if (m->page < last) {
             m->page = m->page + 1;
@@ -1881,31 +1881,31 @@ int func_021F9FF0(Menu *m)
     int r;
 
     old = m->pos;
-    if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC((struct Obj *)((struct Obj *)m->cursor), 1);
+    if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)m->cursor), 1);
         func_020355D8(0);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return -1;
     }
-    if (func_0203633C() & 0x40) {
+    if (KEY_GetRepeat() & 0x40) {
         if (m->pos != 0) {
             m->pos = m->pos - 1;
         } else {
             m->pos = 4;
         }
-    } else if (func_0203633C() & 0x80) {
+    } else if (KEY_GetRepeat() & 0x80) {
         if (m->pos != 4) {
             m->pos = m->pos + 1;
         } else {
             m->pos = 0;
         }
-    } else if (func_0203633C() & 0x20) {
+    } else if (KEY_GetRepeat() & 0x20) {
         func_021F9F58((Menu *)m, -1);
-    } else if (func_0203633C() & 0x10) {
+    } else if (KEY_GetRepeat() & 0x10) {
         func_021F9F58((Menu *)m, 1);
     }
     if (old != m->pos) {
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021F4FF4(m->cursor, tbl_02203220[m->pos].x, tbl_02203220[m->pos].y);
         if (m->pos == 4) {
             CLACT_SetActorAnimSeq((struct Obj *)((struct Obj *)m->cursor), 5);
@@ -1926,18 +1926,18 @@ int func_021F9FF0(Menu *m)
         }
         r = func_021F9F00((Menu *)m, r);
         if (r == -1 && func_020355C4() == 0) {
-            func_0204B3DC((struct Obj *)((struct Obj *)m->cursor), 0);
+            CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)m->cursor), 0);
         }
         func_020355D8(1);
         return r;
     }
-    if (func_020362DC() & 1) {
+    if (KEY_GetTrg() & 1) {
         return func_021F9F00((Menu *)m, m->pos);
     }
-    if (func_020362DC() & 2) {
+    if (KEY_GetTrg() & 2) {
         func_021F4FF4(m->cursor, 0xC0, 0x88);
         CLACT_SetActorAnimSeq((struct Obj *)((struct Obj *)m->cursor), 5);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return -2;
     }
     return -1;
@@ -1952,19 +1952,19 @@ int func_021FA15C(Menu *p)
     int old = p->pos;
     int r;
 
-    if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC((struct Obj *)((struct Obj *)p->cursor), 1);
+    if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 1);
         func_020355D8(0);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return -1;
     }
-    if (func_0203633C() & 0x40) {
+    if (KEY_GetRepeat() & 0x40) {
         if (p->pos != 0) {
             p->pos = p->pos - 1;
         } else {
             p->pos = 3;
         }
-    } else if (func_0203633C() & 0x80) {
+    } else if (KEY_GetRepeat() & 0x80) {
         if (p->pos != 3) {
             p->pos = p->pos + 1;
         } else {
@@ -1972,7 +1972,7 @@ int func_021FA15C(Menu *p)
         }
     }
     if (old != p->pos) {
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021F4FF4(p->cursor, tbl_0220320E[p->pos].x, tbl_0220320E[p->pos].y);
         if (p->pos == 3) {
             CLACT_SetActorAnimSeq((struct Obj *)((struct Obj *)p->cursor), 5);
@@ -1991,22 +1991,22 @@ int func_021FA15C(Menu *p)
         }
         r = tbl_02203250[r];
         if (r == -2) {
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
         } else {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
         }
         return r;
     }
-    if (func_020362DC() & 1) {
+    if (KEY_GetTrg() & 1) {
         if (tbl_02203250[p->pos] == -2) {
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
         } else {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
         }
         return tbl_02203250[p->pos];
     }
-    if (func_020362DC() & 2) {
-        func_020061E4(0x551);
+    if (KEY_GetTrg() & 2) {
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021F4FF4(p->cursor, 0xC0, 0x88);
         CLACT_SetActorAnimSeq((struct Obj *)((struct Obj *)p->cursor), 5);
         return -2;
@@ -2021,8 +2021,8 @@ int func_021FA15C(Menu *p)
 void func_021FA2B0(Menu *m, int dir)
 {
     if (dir < 0) {
-        func_020061E4(0x548);
-        func_0204B92C((struct Obj *)((struct Obj *)m->down), 1);
+        GFL_USE_PlaySeDefaultVolume(0x548);
+        CLACT_SetActorAutoAnim((struct Obj *)((struct Obj *)m->down), 1);
         CLACT_SetActorAnimSeq((struct Obj *)((struct Obj *)m->down), 0x27);
         if (m->page != 0) {
             m->page = m->page - 1;
@@ -2030,8 +2030,8 @@ void func_021FA2B0(Menu *m, int dir)
             m->page = 2;
         }
     } else {
-        func_020061E4(0x548);
-        func_0204B92C((struct Obj *)((struct Obj *)m->up), 1);
+        GFL_USE_PlaySeDefaultVolume(0x548);
+        CLACT_SetActorAutoAnim((struct Obj *)((struct Obj *)m->up), 1);
         CLACT_SetActorAnimSeq((struct Obj *)((struct Obj *)m->up), 0x26);
         if (m->page < 2) {
             m->page = m->page + 1;
@@ -2053,7 +2053,7 @@ int func_021FA330(Menu *m, int key)
 
     switch (key) {
     case 4:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return -2;
     case 5:
         func_021FA2B0((Menu *)m, -1);
@@ -2064,7 +2064,7 @@ int func_021FA330(Menu *m, int key)
     }
     idx = key + m->page * 4;
     if (idx < m->total) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return m->items[key].val;
     }
     return -1;
@@ -2080,31 +2080,31 @@ int func_021FA394(Menu *m)
     int r;
 
     old = m->pos;
-    if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC((struct Obj *)((struct Obj *)m->cursor), 1);
+    if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)m->cursor), 1);
         func_020355D8(0);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return -1;
     }
-    if (func_0203633C() & 0x40) {
+    if (KEY_GetRepeat() & 0x40) {
         if (m->pos != 0) {
             m->pos = m->pos - 1;
         } else {
             m->pos = 4;
         }
-    } else if (func_0203633C() & 0x80) {
+    } else if (KEY_GetRepeat() & 0x80) {
         if (m->pos != 4) {
             m->pos = m->pos + 1;
         } else {
             m->pos = 0;
         }
-    } else if (func_0203633C() & 0x20) {
+    } else if (KEY_GetRepeat() & 0x20) {
         func_021FA2B0((Menu *)m, -1);
-    } else if (func_0203633C() & 0x10) {
+    } else if (KEY_GetRepeat() & 0x10) {
         func_021FA2B0((Menu *)m, 1);
     }
     if (old != m->pos) {
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021F4FF4(m->cursor, tbl_02203216[m->pos].x, tbl_02203216[m->pos].y);
         if (m->pos == 4) {
             CLACT_SetActorAnimSeq((struct Obj *)((struct Obj *)m->cursor), 5);
@@ -2125,18 +2125,18 @@ int func_021FA394(Menu *m)
         }
         r = func_021FA330((Menu *)m, r);
         if (r == -1 && func_020355C4() == 0) {
-            func_0204B3DC((struct Obj *)((struct Obj *)m->cursor), 0);
+            CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)m->cursor), 0);
         }
         func_020355D8(1);
         return r;
     }
-    if (func_020362DC() & 1) {
+    if (KEY_GetTrg() & 1) {
         return func_021FA330((Menu *)m, m->pos);
     }
-    if (func_020362DC() & 2) {
+    if (KEY_GetTrg() & 2) {
         func_021F4FF4(m->cursor, 0xC0, 0x88);
         CLACT_SetActorAnimSeq((struct Obj *)((struct Obj *)m->cursor), 5);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return -2;
     }
     return -1;
@@ -2180,28 +2180,28 @@ int func_021FA514(Menu *p, u8 *enable)
     if (old < 9) {
         p->last = old;
     }
-    if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC((struct Obj *)((struct Obj *)p->cursor), 1);
+    if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
+        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 1);
         func_020355D8(0);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return -1;
     }
-    if (func_0203633C() & 0x40) {
+    if (KEY_GetRepeat() & 0x40) {
         p->pos = tbl_0220339C[p->pos].up;
-    } else if (func_0203633C() & 0x80) {
+    } else if (KEY_GetRepeat() & 0x80) {
         p->pos = tbl_0220339C[p->pos].down;
-    } else if (func_0203633C() & 0x20) {
+    } else if (KEY_GetRepeat() & 0x20) {
         p->pos = tbl_0220339C[p->pos].left;
-    } else if (func_0203633C() & 0x10) {
+    } else if (KEY_GetRepeat() & 0x10) {
         p->pos = tbl_0220339C[p->pos].right;
     }
     if (old >= 9 && p->pos < 9) {
-        if (func_0203633C() & 0x40) {
+        if (KEY_GetRepeat() & 0x40) {
             p->pos = p->last;
             while (p->pos + 3 < 9) {
                 p->pos += 3;
             }
-        } else if (func_0203633C() & 0x80) {
+        } else if (KEY_GetRepeat() & 0x80) {
             p->pos = p->last;
             while (p->pos - 3 >= 0) {
                 p->pos -= 3;
@@ -2209,7 +2209,7 @@ int func_021FA514(Menu *p, u8 *enable)
         }
     }
     if (old != p->pos) {
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021F4FF4(p->cursor, (tbl_02203298[p->pos].x + 0x10) * 8, tbl_02203298[p->pos].y * 8);
         switch (p->pos) {
         case 9:
@@ -2240,32 +2240,32 @@ int func_021FA514(Menu *p, u8 *enable)
         }
         r = func_021FA4FC((int)p, r);
         if (r == -2) {
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
         } else if (r == 10 || enable == 0 || enable[r] != 0) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
         } else {
             r = -1;
         }
         if (r == -1 && func_020355C4() == 0) {
-            func_0204B3DC((struct Obj *)((struct Obj *)p->cursor), 0);
+            CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 0);
         }
         func_020355D8(1);
         return r;
     }
-    if (func_020362DC() & 1) {
+    if (KEY_GetTrg() & 1) {
         r = func_021FA4FC((int)p, p->pos);
         if (r == -2) {
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             return r;
         }
         if (r == 10 || enable == 0 || enable[r] != 0) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             return r;
         }
-    } else if (func_020362DC() & 2) {
+    } else if (KEY_GetTrg() & 2) {
         func_021F4FF4(p->cursor, 0xC0, 0x88);
         CLACT_SetActorAnimSeq((struct Obj *)((struct Obj *)p->cursor), 5);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return -2;
     }
     return -1;
@@ -2281,7 +2281,7 @@ int func_021FA760(Menu *m, int key)
 
     switch (key) {
     case 5:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return -2;
     case 6:
         func_021FA7C4(m, -1);
@@ -2292,7 +2292,7 @@ int func_021FA760(Menu *m, int key)
     }
     idx = key + m->page * 5;
     if (idx < m->total) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return m->items[idx].val;
     }
     return -1;
@@ -2310,8 +2310,8 @@ void func_021FA7C4(Menu *m, int dir)
         return;
     }
     if (dir < 0) {
-        func_020061E4(0x548);
-        func_0204B92C((struct Obj *)m->down, 1);
+        GFL_USE_PlaySeDefaultVolume(0x548);
+        CLACT_SetActorAutoAnim((struct Obj *)m->down, 1);
         CLACT_SetActorAnimSeq((struct Obj *)m->down, 0x27);
         if (m->page != 0) {
             m->page = m->page - 1;
@@ -2319,8 +2319,8 @@ void func_021FA7C4(Menu *m, int dir)
             m->page = last;
         }
     } else {
-        func_020061E4(0x548);
-        func_0204B92C((struct Obj *)m->up, 1);
+        GFL_USE_PlaySeDefaultVolume(0x548);
+        CLACT_SetActorAutoAnim((struct Obj *)m->up, 1);
         CLACT_SetActorAnimSeq((struct Obj *)m->up, 0x26);
         if (m->page < last) {
             m->page = m->page + 1;
@@ -2341,31 +2341,31 @@ int func_021FA85C(Menu *m)
     int r;
 
     old = m->pos;
-    if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC((struct Obj *)m->cursor, 1);
+    if (KEY_GetTrg() != 0 && func_020355C4() == 1) {
+        CLACT_SetActorDrawEnable((struct Obj *)m->cursor, 1);
         func_020355D8(0);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return -1;
     }
-    if (func_0203633C() & 0x40) {
+    if (KEY_GetRepeat() & 0x40) {
         if (m->pos != 0) {
             m->pos = m->pos - 1;
         } else {
             m->pos = 5;
         }
-    } else if (func_0203633C() & 0x80) {
+    } else if (KEY_GetRepeat() & 0x80) {
         if (m->pos != 5) {
             m->pos = m->pos + 1;
         } else {
             m->pos = 0;
         }
-    } else if (func_0203633C() & 0x20) {
+    } else if (KEY_GetRepeat() & 0x20) {
         func_021FA7C4((Menu *)m, -1);
-    } else if (func_0203633C() & 0x10) {
+    } else if (KEY_GetRepeat() & 0x10) {
         func_021FA7C4((Menu *)m, 1);
     }
     if (old != m->pos) {
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021F4FF4(m->cursor, tbl_02203236[m->pos].x, tbl_02203236[m->pos].y);
         if (m->pos == 5) {
             CLACT_SetActorAnimSeq((struct Obj *)m->cursor, 5);
@@ -2386,16 +2386,16 @@ int func_021FA85C(Menu *m)
         }
         r = func_021FA760((Menu *)m, r);
         if (r == -1 && func_020355C4() == 0) {
-            func_0204B3DC((struct Obj *)m->cursor, 0);
+            CLACT_SetActorDrawEnable((struct Obj *)m->cursor, 0);
         }
         func_020355D8(1);
         return r;
     }
-    if (func_020362DC() & 1) {
+    if (KEY_GetTrg() & 1) {
         return func_021FA760((Menu *)m, m->pos);
     }
-    if (func_020362DC() & 2) {
-        func_020061E4(0x551);
+    if (KEY_GetTrg() & 2) {
+        GFL_USE_PlaySeDefaultVolume(0x551);
         func_021F4FF4(m->cursor, 0xC0, 0x88);
         CLACT_SetActorAnimSeq((struct Obj *)m->cursor, 5);
         return -2;
@@ -2416,7 +2416,7 @@ void func_021FA9C8(Menu *p, int mode, int pos)
     BGWINFRM_GetFrameBuffer(p->mgr, 0);
     func_021F9260(p, mode);
     func_021FBEB8(p->mgr, p->bank, (*(void ***)p)[14], 74, (u8 *)p + 124);
-    func_02082BCC((u8 *)p + 96, 1, 26);
+    MI_CpuFill8((u8 *)p + 96, 1, 26);
     g = (u8 *)p;
     g += 124;
     for (i = 0; i < 9; i++) {
@@ -2525,18 +2525,18 @@ int func_021FAC8C(Menu *p)
 {
     if (!BGWINFRM_IsMoving(*(struct WinMgr * *)&p->mgr, 0)) {
         if (func_020355C4() == 1)
-            func_0204B3DC((*(void * *)&p->cursor), 0);
+            CLACT_SetActorDrawEnable((*(void * *)&p->cursor), 0);
         else
-            func_0204B3DC((*(void * *)&p->cursor), 1);
+            CLACT_SetActorDrawEnable((*(void * *)&p->cursor), 1);
         if (p->f54 == 2) {
-            func_0204B92C((*(void * *)&p->up), 0);
-            func_0204B92C((*(void * *)&p->down), 0);
+            CLACT_SetActorAutoAnim((*(void * *)&p->up), 0);
+            CLACT_SetActorAutoAnim((*(void * *)&p->down), 0);
             CLACT_SetActorAnimSeq((*(void * *)&p->up), 38);
             CLACT_SetActorAnimSeq((*(void * *)&p->down), 39);
             func_021F4FF4(*(u32 *)(void * *)&p->up, 228, 120);
             func_021F4FF4(*(u32 *)(void * *)&p->down, 154, 120);
-            func_0204B3DC((*(void * *)&p->up), 1);
-            func_0204B3DC((*(void * *)&p->down), 1);
+            CLACT_SetActorDrawEnable((*(void * *)&p->up), 1);
+            CLACT_SetActorDrawEnable((*(void * *)&p->down), 1);
         }
         p->state = p->f4C;
     }
@@ -2566,9 +2566,9 @@ int func_021FAD08(Menu *p)
 int func_021FAD24(Menu *p)
 {
     if (CLACT_IsActorAnimActive((*(void * *)&p->cursor))) return -1;
-    func_0204B3DC((*(void * *)&p->cursor), 0);
-    func_0204B3DC((*(void * *)&p->up), 0);
-    func_0204B3DC((*(void * *)&p->down), 0);
+    CLACT_SetActorDrawEnable((*(void * *)&p->cursor), 0);
+    CLACT_SetActorDrawEnable((*(void * *)&p->up), 0);
+    CLACT_SetActorDrawEnable((*(void * *)&p->down), 0);
     if (p->f54 == 3 && p->f4C == 28)
         BGWINFRM_StartMove(p->mgr, 0, 6, 0, 6);
     else
@@ -2598,9 +2598,9 @@ int func_021FAD84(Menu *p)
 int func_021FADA8(Menu *p)
 {
     if (CLACT_IsActorAnimActive((*(void * *)&p->cursor))) return -1;
-    func_0204B3DC((*(void * *)&p->cursor), 0);
-    func_0204B3DC((*(void * *)&p->up), 0);
-    func_0204B3DC((*(void * *)&p->down), 0);
+    CLACT_SetActorDrawEnable((*(void * *)&p->cursor), 0);
+    CLACT_SetActorDrawEnable((*(void * *)&p->up), 0);
+    CLACT_SetActorDrawEnable((*(void * *)&p->down), 0);
     BGWINFRM_StartMove(p->mgr, 0, 4, 0, 4);
     p->state = 2;
     return -1;
@@ -2619,13 +2619,13 @@ int func_021FAE2C(Menu *p)
     u32 sel = func_021F9A88((Menu *)p, (u8 *)p + 96);
     if (sel != -2) {
         if (sel <= 8) {
-            func_0204B3DC((*(void * *)&p->cursor), 1);
+            CLACT_SetActorDrawEnable((*(void * *)&p->cursor), 1);
             CLACT_SetActorAnimSeq((*(void * *)&p->cursor), 19);
             p->state = 8;
             p->layout = sel;
         }
     } else {
-        func_0204B3DC((*(void * *)&p->cursor), 1);
+        CLACT_SetActorDrawEnable((*(void * *)&p->cursor), 1);
         CLACT_SetActorAnimSeq((*(void * *)&p->cursor), CLACT_GetActorAnimSeq((*(void * *)&p->cursor)) + 9);
         p->state = 3;
         p->f4C = 8;
@@ -2641,7 +2641,7 @@ int func_021FAE8C(Menu *p)
 {
     if (CLACT_IsActorAnimActive((*(void * *)&p->cursor))) return -1;
     func_021F9660((Obj_021F9024 *)p, 4);
-    func_0204B3DC((*(void * *)&p->cursor), 0);
+    CLACT_SetActorDrawEnable((*(void * *)&p->cursor), 0);
     if (p->layout >= 0) {
         if (tbl_022033FC[p->layout].count != 1)
             p->state = 10;
@@ -2666,7 +2666,7 @@ int func_021FAEE0(Menu *p)
     BGWINFRM_GetFrameBuffer(p->mgr, 0);
     func_021F9260(p, 4);
     func_021FBEB8(p->mgr, p->bank, (*(void ***)p)[14], 74, (u8 *)p + 124);
-    func_02082BCC((u8 *)p + 96, 1, 26);
+    MI_CpuFill8((u8 *)p + 96, 1, 26);
     g = (u8 *)p + 124;
     for (i = 0; i < 9; i++) {
         str = func_02045EC0(p->bank, i + 116);
@@ -2685,12 +2685,12 @@ int func_021FAEE0(Menu *p)
     CLACT_SetActorAnimSeq((struct Obj *)(p->cursor), 18);
     func_021F4FF4(p->cursor, (tbl_022032C6[p->layout].x + 16) * 8, tbl_022032C6[p->layout].y * 8);
     p->pos = p->layout;
-    func_0204B3DC((struct Obj *)p->cursor, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
     p->state = 7;
     if (func_020355C4() == 1)
-        func_0204B3DC((struct Obj *)p->cursor, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 0);
     else
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
     return -1;
 }
 
@@ -2706,7 +2706,7 @@ int func_021FAFF0(Menu *m)
     BGWINFRM_SetFrameDataArc(m->mgr, 0, 0x60, 0x1A, 1);
     BGWINFRM_GetFrameBuffer(m->mgr, 0);
     ov135_func_021F9260(m, 5);
-    func_02082BCC(m->flags, 1, 0x1A);
+    MI_CpuFill8(m->flags, 1, 0x1A);
     func_021FBE84(m->mgr, m->bank, m->wins[0], m->layout + 0x74, 2, 0x3DC2, m->g);
     for (i = 1; i < tbl_022033F8[m->layout].count + 1; i++) {
         if (func_021FBF6C(m, (int)tbl_02203324[m->layout] + i - 1) > 0) {
@@ -2728,9 +2728,9 @@ int func_021FAFF0(Menu *m)
     }
     func_021F4FF4(m->cursor, (tbl_022032C6[m->pos].x + 0x10) * 8, tbl_022032C6[m->pos].y * 8);
     if (func_020355C4() == 1) {
-        func_0204B3DC((struct Obj *)m->cursor, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)m->cursor, 0);
     } else {
-        func_0204B3DC((struct Obj *)m->cursor, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)m->cursor, 1);
     }
     m->state = 0xB;
     return -1;
@@ -2745,13 +2745,13 @@ int func_021FB164(Menu *p)
     r = func_021F9CDC((Menu *)p, (int)((u8 *)p + 0x60));
     switch ((u32)r) {
     case 0: case 1: case 2: case 3: case 4:
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
         CLACT_SetActorAnimSeq((struct Obj *)(p->cursor), CLACT_GetActorAnimSeq((struct Obj *)(p->cursor)) + 9);
         p->state = 12;
         p->start = r;
         break;
     case -2:
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
         CLACT_SetActorAnimSeq((struct Obj *)(p->cursor), CLACT_GetActorAnimSeq((struct Obj *)(p->cursor)) + 9);
         p->state = 12;
         p->start = -1;
@@ -2763,7 +2763,7 @@ int func_021FB164(Menu *p)
 
 
 
-int func_021FB1E4(Menu *p) { if(CLACT_IsActorAnimActive((*(void * *)&p->cursor)))return -1;func_0204B3DC((*(void * *)&p->cursor),0);func_021F9660((Obj_021F9024 *)p, 5);if(p->start>=0)*(u32 *)&p->state=14;else *(u32 *)&p->state=9;return -1; }
+int func_021FB1E4(Menu *p) { if(CLACT_IsActorAnimActive((*(void * *)&p->cursor)))return -1;CLACT_SetActorDrawEnable((*(void * *)&p->cursor),0);func_021F9660((Obj_021F9024 *)p, 5);if(p->start>=0)*(u32 *)&p->state=14;else *(u32 *)&p->state=9;return -1; }
 
 
 
@@ -2783,7 +2783,7 @@ int func_021FB220(Menu *p)
         v = p->cursor;
         n = 1;
     }
-    func_0204B3DC((struct Obj *)v, n);
+    CLACT_SetActorDrawEnable((struct Obj *)v, n);
     (*(unsigned int *)&p->state) = 0xa;
     return -1;
 }
@@ -2838,7 +2838,7 @@ void func_021FB2F0(Menu *m, int page, int total)
     int i;
 
     for (i = 0; i < 4; i++) {
-        BMP_Clear(func_02045770(m->wins[i]), 0xA);
+        BMP_Clear(BMP_WIN_GetBmp(m->wins[i]), 0xA);
         if (i + page * 4 < total) {
             func_021FAC50(m->mgr, m->wins[i], m->items[page * 4 + i].str, 0, 0x3DC2, m->g);
         } else {
@@ -2855,7 +2855,7 @@ void func_021FB364(Menu *m, int page, int total)
     int i;
 
     for (i = 0; i < 5; i++) {
-        BMP_Clear(func_02045770(m->wins[i]), 0xA);
+        BMP_Clear(BMP_WIN_GetBmp(m->wins[i]), 0xA);
         if (i + page * 5 < total) {
             func_021FAC50(m->mgr, m->wins[i], m->items[page * 5 + i].str, 0, 0x3DC2, m->g);
         } else {
@@ -2887,9 +2887,9 @@ int func_021FB3D8(Menu *p)
     func_021F4FF4(p->up, 0xE4, 0x78);
     func_021F4FF4(p->down, 0x9A, 0x78);
     if (func_020355C4() == 1) {
-        func_0204B3DC((struct Obj *)p->cursor, 0);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 0);
     } else {
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
     }
     if (pages == 1) {
         CLACT_SetActorAnimSeq((struct Obj *)p->up, 0x3D);
@@ -2898,10 +2898,10 @@ int func_021FB3D8(Menu *p)
         CLACT_SetActorAnimSeq((struct Obj *)p->up, 0x26);
         CLACT_SetActorAnimSeq((struct Obj *)p->down, 0x27);
     }
-    func_0204B92C((struct Obj *)p->up, 0);
-    func_0204B92C((struct Obj *)p->down, 0);
-    func_0204B3DC((struct Obj *)p->up, 1);
-    func_0204B3DC((struct Obj *)p->down, 1);
+    CLACT_SetActorAutoAnim((struct Obj *)p->up, 0);
+    CLACT_SetActorAutoAnim((struct Obj *)p->down, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)p->up, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)p->down, 1);
     p->state = 0xF;
     return -1;
 }
@@ -2914,15 +2914,15 @@ int func_021FB510(Menu *p)
     r = func_021F9FF0((Menu *)p);
     switch (r) {
     case -2:
-        func_020061E4(0x551);
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+        GFL_USE_PlaySeDefaultVolume(0x551);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
         CLACT_SetActorAnimSeq((struct Obj *)(p->cursor), CLACT_GetActorAnimSeq((struct Obj *)(p->cursor)) + 9);
         p->state = 16;
         p->f3C = -1;
         break;
     case -1: break;
     default:
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
         CLACT_SetActorAnimSeq((struct Obj *)(p->cursor), CLACT_GetActorAnimSeq((struct Obj *)(p->cursor)) + 9);
         p->state = 3;
         p->f4C = 17;
@@ -2942,9 +2942,9 @@ int func_021FB588(Menu *p)
     if (CLACT_IsActorAnimActive((struct Actor *)(*(u32 *)(void * *)&p->cursor)) != 0) {
         return -1;
     }
-    func_0204B3DC((struct Obj *)*(u32 *)(void * *)&p->cursor, 0);
-    func_0204B3DC((struct Obj *)p->up, 0);
-    func_0204B3DC((struct Obj *)p->down, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(void * *)&p->cursor, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)p->up, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)p->down, 0);
     func_021F9660((Obj_021F9024 *)p, 0x0);
     BMP_MENUWORK_Delete((void *)(*(u32 *)(void **)&p->items));
     *(u32 *)&p->state = (*(s32 *)(g_022033FC + p->layout * 8) != 1) ? 0xd : 0x9;
@@ -2953,7 +2953,7 @@ int func_021FB588(Menu *p)
 
 
 
-int func_021FB5E4(Menu *p) { if(CLACT_IsActorAnimActive((*(void * *)&p->cursor)))return -1;func_0204B3DC((*(void * *)&p->cursor),0);func_021F9660((Obj_021F9024 *)p, 0);BMP_MENUWORK_Delete((void *)p->items);return p->f3C; }
+int func_021FB5E4(Menu *p) { if(CLACT_IsActorAnimActive((*(void * *)&p->cursor)))return -1;CLACT_SetActorDrawEnable((*(void * *)&p->cursor),0);func_021F9660((Obj_021F9024 *)p, 0);BMP_MENUWORK_Delete((void *)p->items);return p->f3C; }
 
 
 
@@ -2979,14 +2979,14 @@ int func_021FB674(Menu *p)
     r = func_021FA514((Menu *)p, (u8 *)p + 0x60);
     switch ((u32)r) {
     case -2:
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
         CLACT_SetActorAnimSeq((struct Obj *)(p->cursor), CLACT_GetActorAnimSeq((struct Obj *)(p->cursor)) + 9);
         p->state = 3;
         p->f4C = 20;
         p->layout = -1;
         break;
     case 10:
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
         CLACT_SetActorAnimSeq((struct Obj *)(p->cursor), CLACT_GetActorAnimSeq((struct Obj *)(p->cursor)) + 9);
         p->state = 3;
         p->f4C = 20;
@@ -2994,7 +2994,7 @@ int func_021FB674(Menu *p)
         break;
     case -1: break;
     default:
-        func_0204B3DC((struct Obj *)p->cursor, 1);
+        CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
         CLACT_SetActorAnimSeq((struct Obj *)(p->cursor), 19);
         p->layout = r;
         p->state = 20;
@@ -3008,7 +3008,7 @@ int func_021FB674(Menu *p)
 int func_021FB704(Menu *p)
 {
     if (CLACT_IsActorAnimActive((*(void * *)&p->cursor)) != 0) return -1;
-    func_0204B3DC((struct Obj *)*(u32 *)(void * *)&p->cursor, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(void * *)&p->cursor, 0);
     func_021F9660((Obj_021F9024 *)p, 6);
     if (p->layout < 0) {
         if (p->layout == -1) return -2;
@@ -3019,7 +3019,7 @@ int func_021FB704(Menu *p)
         } else {
             p->start = 0;
             BGWINFRM_StartMove(p->mgr, 0, -4, 0, 3);
-            if (p->f14 != 0) func_0204B3DC((struct Obj *)p->f14, 0);
+            if (p->f14 != 0) CLACT_SetActorDrawEnable((struct Obj *)p->f14, 0);
             CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)(void * *)&p->cursor), 7);
             p->state = 2;
             BGWINFRM_SetFrameDataArc(p->mgr, 0, 0x60, 0x18, 1);
@@ -3035,11 +3035,11 @@ int func_021FB7A0(Menu *p)
 {
     func_021FA9C8(p, 6, 0x10);
     CLACT_SetActorAnimSeq((struct Obj *)(p->cursor), 18);
-    func_0204B3DC((struct Obj *)p->cursor, 1);
+    CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
     p->pos = p->layout;
     func_021F4FF4(p->cursor, (tbl_02203298[p->pos].x + 16) * 8, tbl_02203298[p->pos].y * 8);
-    if (func_020355C4() == 1) func_0204B3DC((struct Obj *)p->cursor, 0);
-    else func_0204B3DC((struct Obj *)p->cursor, 1);
+    if (func_020355C4() == 1) CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 0);
+    else CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
     p->state = 19;
     return -1;
 }

@@ -10,20 +10,20 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Two identical wrappers around func_02082BCC(p, 0, 0x20).
+ * Two identical wrappers around MI_CpuFill8(p, 0, 0x20).
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  */
 
 void OPTION_MENU_InitInput(void *p, int heap)
 {
-    void func_02082BCC(void *, int, int);
-    func_02082BCC(p, 0, 0x20);
+    void MI_CpuFill8(void *, int, int);
+    MI_CpuFill8(p, 0, 0x20);
 }
 
 void OPTION_MENU_ExitInput(void *p)
 {
-    void func_02082BCC(void *, int, int);
-    func_02082BCC(p, 0, 0x20);
+    void MI_CpuFill8(void *, int, int);
+    MI_CpuFill8(p, 0, 0x20);
 }

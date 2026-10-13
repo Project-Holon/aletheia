@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_SmoothRockExtendSandstorm
+ * function: HAND_ITEM_SmoothRockExtendSandstorm
  * address:  0x021DF4A4
  * packet:   pkt_ov093_021DF4A4
  * region:   ov093
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   BTL_HANDLER_ITEM_ExtendWeatherTurns  0x021DF4E0  thumb  ov093
+ *   HAND_ITEM_ExtendWeatherTurns  0x021DF4E0  thumb  ov093
  */
-extern void BTL_HANDLER_ITEM_ExtendWeatherTurns(void *, int, int, int);
-void BTL_HANDLER_ITEM_SmoothRockExtendSandstorm(void *a, int b, int c)
+extern void HAND_ITEM_ExtendWeatherTurns(void *, int, int, int);
+void HAND_ITEM_SmoothRockExtendSandstorm(void *a, int b, int c)
 {
-    BTL_HANDLER_ITEM_ExtendWeatherTurns(a, b, c, 4);
+    HAND_ITEM_ExtendWeatherTurns(a, b, c, 4);
 }

@@ -15,12 +15,12 @@
  * common subexpressions and the function comes out 20 bytes short.
  *
  * symbols:
- *   func_02045770 0x02045770 arm
- *   func_02045730 0x02045730 arm
- *   func_02045758 0x02045758 arm
- *   func_02045760 0x02045760 arm
- *   func_02045738 0x02045738 arm
- *   func_02045740 0x02045740 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
+ *   BMP_WIN_GetPosX 0x02045758 arm
+ *   BMP_WIN_GetPosY 0x02045760 arm
+ *   BMP_WIN_GetWidth 0x02045738 arm
+ *   BMP_WIN_GetHeight 0x02045740 arm
  *   BMP_Clear 0x02043B5C arm
  *   ARC_UTIL_LoadBgCharDataFromArchive 0x02049DB4 arm
  *   BMP_CreateFromBuffer 0x020436FC arm
@@ -47,12 +47,12 @@ struct Descriptor;
 struct MsgBank;
 struct Obj020437AC;
 struct U16Vec;
-extern void *func_02045770(struct Descriptor *p);
-extern u8 func_02045730(struct Descriptor *p);
-extern u8 func_02045758(struct Descriptor *p);
-extern u8 func_02045760(struct Descriptor *p);
-extern u8 func_02045738(struct Descriptor *p);
-extern u8 func_02045740(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
+extern u8 BMP_WIN_GetHeight(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
@@ -70,7 +70,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 void func_021EB378(char *p, int idx, unsigned msg, unsigned short frame, unsigned short col, int icon)
 {
     void *win = *(void **)(WORK(p) + 0x94 + idx * 8);
-    void *bmp = func_02045770(win);
+    void *bmp = BMP_WIN_GetBmp(win);
     unsigned char w;
     unsigned char h;
     Chr *chr;
@@ -80,11 +80,11 @@ void func_021EB378(char *p, int idx, unsigned msg, unsigned short frame, unsigne
     unsigned char i;
     void *str;
 
-    func_02045730(win);
-    func_02045758(win);
-    func_02045760(win);
-    w = func_02045738(win);
-    h = func_02045740(win);
+    BMP_WIN_GetBgLayer(win);
+    BMP_WIN_GetPosX(win);
+    BMP_WIN_GetPosY(win);
+    w = BMP_WIN_GetWidth(win);
+    h = BMP_WIN_GetHeight(win);
     BMP_Clear(bmp, 4);
     res = ARC_UTIL_LoadBgCharDataFromArchive(0x74, 0x3E, 1, (u32)(&chr), HEAP);
     raw = chr->raw;

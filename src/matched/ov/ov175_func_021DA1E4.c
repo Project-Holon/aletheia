@@ -21,9 +21,9 @@
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   GFL_NET_HANDLE_CheckNegotiation  0x02039ACC  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_02039C68  0x02039C68  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   GFL_NET_HANDLE_GetNegotiationNum  0x020399EC  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   func_021DA384  0x021DA384  thumb
  *   func_021DA390  0x021DA390  thumb
  *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
@@ -52,9 +52,9 @@ extern int GFL_NET_HANDLE_CheckNegotiation(void);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern void func_02039C68(struct Link *h, unsigned int a, unsigned int b);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *h, unsigned int a, unsigned int b);
 extern int GFL_NET_HANDLE_GetNegotiationNum(void);
-extern unsigned int func_02039CB4(struct Link *h, unsigned int a, unsigned int b);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *h, unsigned int a, unsigned int b);
 extern void func_021DA384(char *obj);
 extern int func_021DA390(char *obj);
 extern void GFL_NET_STATE_SetWifiError(void);
@@ -112,7 +112,7 @@ int func_021DA1E4(char *obj)
         }
         break;
     case 4:
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x24);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x24);
         ((struct Obj00839 *)obj)->f1A4 = 0;
         ((struct Obj00839 *)obj)->f40 = 6;
         break;
@@ -121,7 +121,7 @@ int func_021DA1E4(char *obj)
             func_021DA384(obj);
             ((struct Obj00839 *)obj)->f40 = 7;
         } else if (GFL_NET_HANDLE_GetNegotiationNum() && GFL_NET_HANDLE_CheckNegotiation()) {
-            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x24);
+            GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x24);
             ((struct Obj00839 *)obj)->f1A4 = 0;
             ((struct Obj00839 *)obj)->f40 = 6;
         }
@@ -130,7 +130,7 @@ int func_021DA1E4(char *obj)
         if ((((struct Obj00839 *)obj)->f1A4)++ > 0xe10) {
             func_021DA384(obj);
             ((struct Obj00839 *)obj)->f40 = 7;
-        } else if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x24)) {
+        } else if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x24)) {
             ((struct Obj00839 *)obj)->f40 = 8;
         }
         break;

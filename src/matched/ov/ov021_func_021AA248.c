@@ -20,7 +20,7 @@
  *   FIELDMAP_GetWeather  0x02188C6C  thumb  ov021
  *   WEATHER_GetWeatherId  0x021A1BF4  thumb  ov021
  *   FIELD_ENCOUNT_SetupParam  0x021A9350  thumb  ov021
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FIELD_ENCOUNT_PickWfbcMon  0x021A9604  thumb  ov021
  *   BTL_SETUP_Create  0x02013090  thumb
  *   FIELD_ENCOUNT_SetupWildBattle  0x021AA490  thumb  ov021
@@ -69,7 +69,7 @@ extern int FIELD_ENCOUNT_GetEncountType(void **ctx, int mode, u8 *out);
 extern u32 FIELDMAP_GetWeather(u8 *p);
 extern u16 WEATHER_GetWeatherId(u8 *p);
 extern void FIELD_ENCOUNT_SetupParam(struct Sel *s, void *a, int b, int c, u16 d);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern u32 FIELD_ENCOUNT_PickWfbcMon(int obj, struct Sel *sel, struct Out *out);
 extern void *BTL_SETUP_Create(u32 heap);
 extern void FIELD_ENCOUNT_SetupWildBattle(struct Ctx *ctx, struct Unit *u, void *a2, u16 heap, struct Slot14 *slots);
@@ -98,7 +98,7 @@ int FIELD_ENCOUNT_CheckWfbcEncount(struct Ctx *ctx, void *b)
     loc = 0;
     m = FIELD_ENCOUNT_GetEncountType((void **)ctx, 3, &loc);
     FIELD_ENCOUNT_SetupParam(&sel, ctx->f08, m, 3, WEATHER_GetWeatherId((u8 *)FIELDMAP_GetWeather(ctx->f00)));
-    func_02082BCC(slots, 0, 0x28);
+    MI_CpuFill8(slots, 0, 0x28);
     if (!FIELD_ENCOUNT_PickWfbcMon((int)b, &sel, (struct Out *)slots)) {
         return 0;
     }

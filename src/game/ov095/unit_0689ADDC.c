@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8ED8  0x021B8ED8  thumb
+ *   BTL_MAIN_GetSlotFromViewPos  0x021B8ED8  thumb
  *   d_0689D82C     0x0689D82C  data   ov095
  */
 
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 typedef struct { u8 n; u8 pad[2]; u8 d[16]; } St;
 
-extern u8 func_021B8ED8(u32 a, u8 b);
+extern u8 BTL_MAIN_GetSlotFromViewPos(u32 a, u8 b);
 extern u8 d_0689D82C[];
 
 int func_0689ADDC(St *st, int idx, u32 a, u8 *out)
@@ -29,7 +29,7 @@ int func_0689ADDC(St *st, int idx, u32 a, u8 *out)
     u8 i;
 
     if (st->n != 0) {
-        *out = func_021B8ED8(a, d_0689D82C[idx]);
+        *out = BTL_MAIN_GetSlotFromViewPos(a, d_0689D82C[idx]);
         for (i = 0; i < st->n; i++) {
             if (*out == st->d[i])
                 return 1;

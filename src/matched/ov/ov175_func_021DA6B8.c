@@ -14,8 +14,8 @@
  *   func_0200FB24 0x0200FB24 thumb
  *   func_021DAE18 0x021DAE18 thumb ov175
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039C68 0x02039C68 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   func_021DC2C0 0x021DC2C0 thumb ov175
  *   func_021DC2D8 0x021DC2D8 thumb ov175
  *   func_021DEE3C 0x021DEE3C arm ov175
@@ -53,8 +53,8 @@ extern u32 GFL_NET_STATE_GetError(void);
 extern u32 func_0200FB24(void);
 extern void func_021DAE18(char *obj);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void func_02039C68(struct Link *p, u32 lo, u32 hi);
-extern u32 func_02039CB4(struct Link *p, u32 lo, u32 hi);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, u32 lo, u32 hi);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, u32 lo, u32 hi);
 extern int func_021DC2C0(u32 ignored, void *p);
 extern u32 func_021DC2D8(char *, u32 *);
 extern int func_021DEE3C(int theGameId, int ssl_type);
@@ -109,7 +109,7 @@ int func_021DA6B8(char *p, u32 *out)
             *(u32 *)(p + 0x12c) = 4;
             break;
         }
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 4, 0x24);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 4, 0x24);
         *(u32 *)(p + 0x12c) = 1;
         break;
     case 1:
@@ -117,7 +117,7 @@ int func_021DA6B8(char *p, u32 *out)
             *(u32 *)(p + 0x12c) = 4;
             break;
         }
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 4, 0x24) != 0 || *(u32 *)(p + 0x160) != 0)
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 4, 0x24) != 0 || *(u32 *)(p + 0x160) != 0)
             *(u32 *)(p + 0x12c) = 2;
         break;
     case 2:
@@ -199,11 +199,11 @@ int func_021DA6B8(char *p, u32 *out)
         dst = *(char **)(p + 0x1464) + 0x34;
         src = func_021DF224();
         func_02082D44(src, dst, 0x28);
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x24);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x24);
         *(u32 *)(p + 0x12c) = 9;
         break;
     case 9:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x24) != 0 || *(u32 *)(p + 0x160) != 0)
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x24) != 0 || *(u32 *)(p + 0x160) != 0)
             *(u32 *)(p + 0x12c) = 0xa;
         break;
     case 10:
@@ -257,11 +257,11 @@ int func_021DA6B8(char *p, u32 *out)
             *(u32 *)(p + 0x12c) = 0x13;
             break;
         }
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 2, 0x24);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 2, 0x24);
         *(u32 *)(p + 0x12c) = 0xe;
         break;
     case 14:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 2, 0x24) != 0 || *(u32 *)(p + 0x160) != 0)
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 2, 0x24) != 0 || *(u32 *)(p + 0x160) != 0)
             *(u32 *)(p + 0x12c) = 0xf;
         break;
     case 15:
@@ -287,11 +287,11 @@ int func_021DA6B8(char *p, u32 *out)
         }
         break;
     case 17:
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x24);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x24);
         *(u32 *)(p + 0x12c) = 0x12;
         break;
     case 18:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x24) != 0 || *(u32 *)(p + 0x160) != 0)
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x24) != 0 || *(u32 *)(p + 0x160) != 0)
             *(u32 *)(p + 0x12c) = 0x13;
         break;
     case 19:
@@ -338,11 +338,11 @@ int func_021DA6B8(char *p, u32 *out)
         *(u32 *)(p + 0x12c) = 0x17;
         break;
     case 23:
-        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 5, 0x24);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 5, 0x24);
         *(u32 *)(p + 0x12c) = 0x18;
         break;
     case 24:
-        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 5, 0x24) != 0 || *(u32 *)(p + 0x160) != 0)
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 5, 0x24) != 0 || *(u32 *)(p + 0x160) != 0)
             *(u32 *)(p + 0x12c) = 0x19;
         break;
     case 25:

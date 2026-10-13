@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   d_021BB480 0x021BB480 data a1
  */
@@ -21,7 +21,7 @@ extern const Table d_021BB480;
 extern unsigned BMP_WIN_Create(unsigned,unsigned,unsigned,unsigned,u8,u8,u8);
 struct CharBuf;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 void func_021BA3C4(int unused,char*p)
 {
@@ -29,7 +29,7 @@ void func_021BA3C4(int unused,char*p)
     u8 i;
     for(i=0;i<4;i++){
         *(unsigned*)(p+i*4+0x8c)=BMP_WIN_Create(t.r[i].a,t.r[i].b,t.r[i].c,t.r[i].d,t.r[i].e,9,t.r[i].f);
-        BMP_Clear(func_02045770(*(void**)(p+i*4+0x8c)),0);
+        BMP_Clear(BMP_WIN_GetBmp(*(void**)(p+i*4+0x8c)),0);
         *(int*)(p+i*4+0x9c)=1;
     }
     ((struct Obj00182 *)p)->fBC=0;

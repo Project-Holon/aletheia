@@ -13,9 +13,9 @@
  *   func_020413B0 0x020413B0 arm
  *   func_020355C4 0x020355C4 arm
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_020409B4 0x020409B4 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj01427.h"
 typedef unsigned char u8;
@@ -26,8 +26,8 @@ extern u8 func_020355C4(void);
 struct Actor;
 extern void CLACT_RestartActorAnim(struct Actor *a);
 struct Obj;
-extern void func_0204B3DC(struct Obj *,unsigned int);
-extern void func_020409B4(unsigned),func_02082BCC(void *,int,int);
+extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
+extern void func_020409B4(unsigned),MI_CpuFill8(void *,int,int);
 void func_021F1A1C(char *p,int mode,const Rect *rect,int flag,int selected)
 {
     int x;
@@ -59,18 +59,18 @@ void func_021F1A1C(char *p,int mode,const Rect *rect,int flag,int selected)
             ((struct Obj01427 *)p)->fB2=y;
             CLACT_RestartActorAnim(((struct Obj01427 *)p)->fA4);
             CLACT_RestartActorAnim(((struct Obj01427 *)p)->fA8);
-            func_0204B3DC(((struct Obj01427 *)p)->fA4,1);
-            func_0204B3DC(((struct Obj01427 *)p)->fA8,1);
+            CLACT_SetActorDrawEnable(((struct Obj01427 *)p)->fA4,1);
+            CLACT_SetActorDrawEnable(((struct Obj01427 *)p)->fA8,1);
         }
     }
     if(mode==0 || func_020355C4()==1) {
-        func_0204B3DC(((struct Obj01427 *)p)->fA4,0);
-        func_0204B3DC(((struct Obj01427 *)p)->fA8,0);
+        CLACT_SetActorDrawEnable(((struct Obj01427 *)p)->fA4,0);
+        CLACT_SetActorDrawEnable(((struct Obj01427 *)p)->fA8,0);
     }
     func_020409B4(2);
     func_020409B4(1);
     if(mode!=0) {
-        func_02082BCC(p+0x60,0,32);
+        MI_CpuFill8(p+0x60,0,32);
         ((struct Obj01427 *)p)->f80=0;
         ((struct Obj01427 *)p)->f98=1;
     }

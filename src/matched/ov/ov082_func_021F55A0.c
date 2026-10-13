@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetFaceUpWorkPtr  0x02189A60  thumb  ov021
  *   FADE_Start  0x0204E720  arm
@@ -26,7 +26,7 @@ typedef signed int     s32;
 typedef unsigned char  u8;
 struct Ctx;
 struct Obj;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern u8 *FIELDMAP_GetFaceUpWorkPtr(u8 *p);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
@@ -41,7 +41,7 @@ int FLD_FACEUP_CloseEventMain(void *a0, int *st)
     char *w;
     int t;
 
-    obj = GAMESYSTEM_GetFieldMap(func_020124E4(a0));
+    obj = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(a0));
     w = *(char **)FIELDMAP_GetFaceUpWorkPtr(obj);
     switch (*st) {
     case 0:

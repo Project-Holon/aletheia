@@ -1,5 +1,5 @@
 /*
- * function: func_021CE308
+ * function: BTL_CLIENT_InitActionSelection
  * address:  0x021CE308
  * packet:   pkt_ov093_021CE308
  * region:   ov093
@@ -14,10 +14,10 @@
  *   BTL_CLIENT_ClearSlotFlags  0x021CF41C  thumb  ov093
  *   BTL_CLIENT_ClearSlotLinkWords  0x021CF360  thumb  ov093
  *   BTL_CALC_ActionSetNone  0x021D8434  thumb  ov093
- *   func_021B990C  0x021B990C  thumb  ov093
- *   func_021CF470  0x021CF470  thumb  ov093
+ *   BTL_SIDE_GetClientPokeParam  0x021B990C  thumb  ov093
+ *   BTL_CLIENT_IsActionForced  0x021CF470  thumb  ov093
  *   BTL_CLIENT_SetSubFn  0x021CE150  thumb  ov093
- *   func_021CE4D0  0x021CE4D0  thumb  ov093
+ *   BTL_CLIENT_StepSelectAction  0x021CE4D0  thumb  ov093
  */
 #include "../include/Obj03688.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -29,12 +29,12 @@ extern void BTL_CLIENT_BuildSlotChoices(u8 *p, u32 a, u32 b, void *q, void *out)
 extern void BTL_CLIENT_ClearSlotFlags(u8 *p);
 extern void BTL_CLIENT_ClearSlotLinkWords(u8 *p);
 extern void BTL_CALC_ActionSetNone(u32 *p);
-extern void *func_021B990C(char *p, unsigned int i, unsigned int j);
-extern u32 func_021CF470(u8 *p, void *q, u8 *o);
+extern void *BTL_SIDE_GetClientPokeParam(char *p, unsigned int i, unsigned int j);
+extern u32 BTL_CLIENT_IsActionForced(u8 *p, void *q, u8 *o);
 extern void BTL_CLIENT_SetSubFn(u8 *p, void *q);
-extern int func_021CE4D0(u8 *p, u32 *st);
+extern int BTL_CLIENT_StepSelectAction(u8 *p, u32 *st);
 
-u32 func_021CE308(u8 *p)
+u32 BTL_CLIENT_InitActionSelection(u8 *p)
 {
     u32 i = 0;
     u32 w;
@@ -49,12 +49,12 @@ u32 func_021CE308(u8 *p)
         BTL_CALC_ActionSetNone((u32 *)(p + 0x124 + i * 4));
     }
     for (i = 0; i < p[0x11c]; i++) {
-        w = (u32)func_021B990C((char *)(((struct Obj03688 *)p)->f4), p[0x1a6], (u8)i);
-        if (func_021CF470(p, (void *)w, 0) == 0) {
+        w = (u32)BTL_SIDE_GetClientPokeParam((char *)(((struct Obj03688 *)p)->f4), p[0x1a6], (u8)i);
+        if (BTL_CLIENT_IsActionForced(p, (void *)w, 0) == 0) {
             p[0x11f] = i;
             break;
         }
     }
-    BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CE4D0));
+    BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepSelectAction));
     return 0;
 }

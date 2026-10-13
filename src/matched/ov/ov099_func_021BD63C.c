@@ -10,7 +10,7 @@
  * symbols:
  *   func_021BA928 0x021BA928 thumb ov099
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  */
 #include "../include/Obj07950.h"
 typedef unsigned char u8;
@@ -19,12 +19,12 @@ extern int func_021BA928(void *);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, unsigned int, unsigned int);
 int func_021BD63C(char *p, int v)
 {
     int state;
     func_021BA928(p);
-    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1a, 10) != 0) {
+    if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1a, 10) != 0) {
         state = ((struct Obj07950 *)p)->f1357;
         if (state != 0) ((struct Obj07950 *)p)->f1CC = state;
         else ((struct Obj07950 *)p)->f1CC = 0x15;

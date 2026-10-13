@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   func_0204B6F4  0x0204B6F4  arm
+ *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  */
 #include "../include/Obj20676.h"
 
@@ -23,7 +23,7 @@ struct PtS;
 typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 
 void ITEMMENU_UpdateSlotActorPosition(int p, u32 val)
 {
@@ -38,5 +38,5 @@ void ITEMMENU_UpdateSlotActorPosition(int p, u32 val)
             break;
         }
     }
-    func_0204B6F4((struct Obj *)(*(int *)(p + i * 4 + 0x634)), (u8)val, 0);
+    CLACT_SetActorPaletteOffset((struct Obj *)(*(int *)(p + i * 4 + 0x634)), (u8)val, 0);
 }

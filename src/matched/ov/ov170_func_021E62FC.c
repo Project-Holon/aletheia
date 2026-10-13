@@ -16,10 +16,12 @@
  *   func_021ECB20 0x021ECB20 thumb ov170
  *   func_021ED888 0x021ED888 thumb ov170
  *   func_021E8F50 0x021E8F50 thumb ov170
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
  */
 #include "../include/Obj00000.h"
 struct WinMgr;
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Sound;
@@ -27,7 +29,7 @@ struct Struct_02025CD0;
 extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 extern u8 func_020355C4(void);
-extern unsigned func_0201AA18(void *);
+extern unsigned POKEPARTY_GetCount(void *);
 extern void func_021DD14C(char *p);
 extern void func_021DF0BC(unsigned char *);
 extern void func_021DEFEC(char *p, int b);

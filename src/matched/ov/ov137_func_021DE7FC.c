@@ -12,7 +12,7 @@
  *   GFL_NET_SetAutoExit 0x0203D7B0 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02012934 0x02012934 thumb
  *   func_020490F4 0x020490F4 arm
  *   func_021DF800 0x021DF800 thumb ov137
@@ -50,7 +50,7 @@ extern void GFL_NET_SetLoginOption(u8 a0);
 extern void GFL_HEAP_CreateChildHeap(u32 src, u32 dst, u32 size);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,u32);
+extern void MI_CpuFill8(void *,int,u32);
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -84,7 +84,7 @@ int func_021DE7FC(void *obj,int unused,u8 *q)
     GFL_HEAP_CreateChildHeap(1,114,0x80000);
     p=PROCSYS_AllocProcWork(obj,0xdac,114);
     i=0;
-    func_02082BCC(p,0,0xdac);
+    MI_CpuFill8(p,0,0xdac);
     *(u8 * *)&((struct Obj08213 *)q)->f1C=p;
     *(u8 * *)&((struct Obj02208 *)p)->fD8=q;
     ((struct Obj02208 *)p)->fDC=((struct Obj08213 *)q)->f18;

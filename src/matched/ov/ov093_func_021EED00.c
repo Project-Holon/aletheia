@@ -11,7 +11,7 @@
  *
  * symbols:
  *   gBtlMsgState  0x021F6398  data  a4
- *   func_021B9940  0x021B9940  thumb  ov093
+ *   BTL_SIDE_GetPokeById  0x021B9940  thumb  ov093
  *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
  *   func_0201EEF4  0x0201EEF4  thumb
  */
@@ -29,7 +29,7 @@ typedef struct {
 } D;
 
 extern D gBtlMsgState;
-extern u8 *func_021B9940(char *p, u8 i);
+extern u8 *BTL_SIDE_GetPokeById(char *p, u8 i);
 struct Work;
 extern void *BTL_POKEPARAM_GetDisplayMon(struct Work *p);
 struct WordSet;
@@ -37,5 +37,5 @@ extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 
 void BTL_MSG_SetPokeName(u8 a, u32 b)
 {
-    func_0201EEF4(gBtlMsgState.f8, b, BTL_POKEPARAM_GetDisplayMon((struct Work *)func_021B9940((char *)gBtlMsgState.f4, a)));
+    func_0201EEF4(gBtlMsgState.f8, b, BTL_POKEPARAM_GetDisplayMon((struct Work *)BTL_SIDE_GetPokeById((char *)gBtlMsgState.f4, a)));
 }

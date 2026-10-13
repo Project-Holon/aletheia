@@ -10,16 +10,16 @@
  * status: EXACT*
  * extent: two-byte alignment padding at 0x021B6B6E.
  * symbols:
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   BMP_OAM_SetEnabled 0x02025774 thumb
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Obj;
-extern void func_0204B3DC(struct Obj *, u32);
+extern void CLACT_SetActorDrawEnable(struct Obj *, u32);
 extern void BMP_OAM_SetEnabled(u8 *, u32);
 void func_021B6B58(void **p, int v)
 {
-    func_0204B3DC(p[0], v);
+    CLACT_SetActorDrawEnable(p[0], v);
     BMP_OAM_SetEnabled(p[1], v);
 }

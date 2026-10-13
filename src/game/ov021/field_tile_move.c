@@ -17,7 +17,7 @@
  *   sFieldTileMoveSpinTable  0x021DAB24  data  ov021  a4
  *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
  *   GFL_USE_GetSeSlot  0x02006148  thumb
- *   func_020061F8  0x020061F8  thumb
+ *   GFL_USE_StopSeSlot  0x020061F8  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
@@ -30,7 +30,7 @@
  *   FLDMMDL_ClearStatusBit  0x0216D550  thumb  ov010
  *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
  *   FLDMMDL_SetStatusBit  0x0216D548  thumb  ov010
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GFL_USE_IsSeSlotBusy  0x02006224  thumb
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
  *   FLDMMDL_MOVE_HitCheckMoveDir  0x021639C0  thumb  ov010
@@ -42,8 +42,8 @@
  *   func_021ABE8C  0x021ABE8C  thumb  ov021
  *   FIELD_EFFECT_LoadResources  0x021ABE30  thumb  ov021
  *   FLDEFF_NAMIPOKE_SPLASH_StartAtPos  0x021AD598  thumb  ov021
- *   func_02005C64  0x02005C64  thumb
- *   func_0200616C  0x0200616C  thumb
+ *   GFL_USE_IsLoaderBusy  0x02005C64  thumb
+ *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
  */
 #include "../ov010/fldmmdl_types.h"
 
@@ -116,7 +116,7 @@ typedef struct TileSlideWork {
 
 extern int FLDMMDL_CheckEndAcmd(Mmdl *mmdl);
 extern int GFL_USE_GetSeSlot(u32 seId);
-extern void func_020061F8(int seSlot);
+extern void GFL_USE_StopSeSlot(int seSlot);
 extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, GameEventFunc func, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
 extern FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
@@ -131,7 +131,7 @@ extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
 extern void FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bit);
 extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u16 acmd);
 extern int GFL_USE_IsSeSlotBusy(int seSlot);
-extern void func_020061E4(u32 seId);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern u32 FLDMMDL_MOVE_HitCheckMoveDir(Mmdl *mmdl, u16 dir);
 extern u32 FIELD_PLAYER_GetRideEffect(FieldPlayer *player);
 extern u32 FLDEFF_NAMIPOKE_SetWakeEnabled(u32 namipoke, int visible);
@@ -139,8 +139,8 @@ extern FieldEffectCtrl *FIELDMAP_GetEffect(FieldMap *fieldMap);
 extern int func_021ABE8C(FieldEffectCtrl *ctrl, int effectId);
 extern void FIELD_EFFECT_LoadResources(FieldEffectCtrl *ctrl, int *effectIds, int count);
 extern void FLDEFF_NAMIPOKE_SPLASH_StartAtPos(FieldEffectCtrl *ctrl, u32 kind, VecFx32 *pos);
-extern int func_02005C64(void);
-extern void func_0200616C(u32 seId, int seSlot);
+extern int GFL_USE_IsLoaderBusy(void);
+extern void GFL_USE_PlaySeInSlot(u32 seId, int seSlot);
 
 TileSpinEntry *FIELD_TILE_MOVE_FindSpinEntry(u16 attr);
 int FIELD_TILE_MOVE_HasSpinEntry(u16 attr);
@@ -213,7 +213,7 @@ int FIELD_TILE_MOVE_SpinTaskMain(GameEvent *event, int *state, TileSpinWork *wor
         if (FLDMMDL_CheckEndAcmd(work->mmdl)) {
             FIELD_TILE_MOVE_SpinSelectEntry(work);
             if (FIELD_TILE_MOVE_SpinIsBlocked(work)) {
-                func_020061F8(GFL_USE_GetSeSlot(0x694));
+                GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(0x694));
                 *state = 2;
             } else {
                 FIELD_TILE_MOVE_SpinStartStep(work);
@@ -301,7 +301,7 @@ void FIELD_TILE_MOVE_SpinStartStep(TileSpinWork *work)
     FLDMMDL_SetAcmd(work->mmdl, FIELD_TILE_MOVE_GetSpinStepAcmd(work));
     FLDMMDL_SetStatusBit(work->mmdl, MMDL_STABIT_PAUSE_DIR);
     if (GFL_USE_IsSeSlotBusy(GFL_USE_GetSeSlot(0x694)) == 0)
-        func_020061E4(0x694);
+        GFL_USE_PlaySeDefaultVolume(0x694);
 }
 
 void FIELD_TILE_MOVE_SpinSelectEntry(TileSpinWork *work)
@@ -498,27 +498,27 @@ int FIELD_TILE_MOVE_SlideShowSurfPokemon(TileSlideWork *work)
 /* Stops the slide loop SE and plays the bump SE. */
 void FIELD_TILE_MOVE_SlidePlayBumpSe(TileSlideWork *work)
 {
-    if (func_02005C64() == 0) {
-        func_020061F8(work->slideSeSlot);
-        func_0200616C(0x55E, work->bumpSeSlot);
+    if (GFL_USE_IsLoaderBusy() == 0) {
+        GFL_USE_StopSeSlot(work->slideSeSlot);
+        GFL_USE_PlaySeInSlot(0x55E, work->bumpSeSlot);
     }
 }
 
 void FIELD_TILE_MOVE_SlidePlayBumpEffectSe(TileSlideWork *work)
 {
-    if (func_02005C64() == 0)
-        func_0200616C(0x6E2, work->bumpEffectSeSlot);
+    if (GFL_USE_IsLoaderBusy() == 0)
+        GFL_USE_PlaySeInSlot(0x6E2, work->bumpEffectSeSlot);
 }
 
 /* Keeps the slide loop SE (0x769) playing until a bump starts. */
 void FIELD_TILE_MOVE_SlidePlayLoopSe(TileSlideWork *work)
 {
-    if (func_02005C64() == 0 && work->bumpStarted == 0 && GFL_USE_IsSeSlotBusy(work->slideSeSlot) == 0)
-        func_0200616C(0x769, work->slideSeSlot);
+    if (GFL_USE_IsLoaderBusy() == 0 && work->bumpStarted == 0 && GFL_USE_IsSeSlotBusy(work->slideSeSlot) == 0)
+        GFL_USE_PlaySeInSlot(0x769, work->slideSeSlot);
 }
 
 /* Tail-call thunk: stops the slide loop SE. */
 void FIELD_TILE_MOVE_SlideStopLoopSe(TileSlideWork *work)
 {
-    func_020061F8(work->slideSeSlot);
+    GFL_USE_StopSeSlot(work->slideSeSlot);
 }

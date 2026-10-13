@@ -27,7 +27,7 @@
  * src/pending/arm9/func_02060F18.c); it needs that arm9 leaf filed EXACT.
  *
  * symbols:
- *   d_021A8268  0x021A8268  data  ov009  a4
+ *   _pRapHeap  0x021A8268  data  ov009  a4
  *   d_021A1C78  0x021A1C78  data  ov009  a1
  *   d_021A1C7C  0x021A1C7C  data  ov009  a1
  *   func_02034714  0x02034714  arm
@@ -51,7 +51,7 @@ typedef struct {
     u32 f18;
 } Obj;
 
-extern struct Obj *d_021A8268;
+extern struct Obj *_pRapHeap;
 extern char d_021A1C78[];
 extern char d_021A1C7C[];
 
@@ -64,19 +64,19 @@ extern u16 func_02060F40(char *p, u16 v);
 
 void DWC_RAPCOMMON_CreateSubHeap(u32 a, u32 b, u32 c, u32 d)
 {
-    if (d_021A8268 == 0) {
+    if (_pRapHeap == 0) {
         func_02034714(d_021A1C78, 0, d_021A1C78);
     }
-    if (d_021A8268->fC != 0) {
+    if (_pRapHeap->fC != 0) {
         func_02034714(d_021A1C78, 0, d_021A1C78);
     }
-    if (d_021A8268->f8 != 0) {
+    if (_pRapHeap->f8 != 0) {
         func_02034714(d_021A1C78, 0, d_021A1C78);
     }
-    d_021A8268->fC = (u32)func_02030734(d, b - 0x80, 0, d_021A1C7C, 0x62);
-    d_021A8268->f8 = (u32)func_02060C5C((void *)((d_021A8268->fC + 0x1f) & ~0x1f), b - 0xc0, 0);
-    d_021A8268->f10 = a;
-    func_02060F18((char *)d_021A8268->f8, 1);
-    func_02060F40((char *)d_021A8268->f8, 0xea);
-    d_021A8268->f18 = c;
+    _pRapHeap->fC = (u32)func_02030734(d, b - 0x80, 0, d_021A1C7C, 0x62);
+    _pRapHeap->f8 = (u32)func_02060C5C((void *)((_pRapHeap->fC + 0x1f) & ~0x1f), b - 0xc0, 0);
+    _pRapHeap->f10 = a;
+    func_02060F18((char *)_pRapHeap->f8, 1);
+    func_02060F40((char *)_pRapHeap->f8, 0xea);
+    _pRapHeap->f18 = c;
 }

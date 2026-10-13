@@ -14,8 +14,8 @@
  *   func_0201F250  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   PLIST_MESSAGE_RedrawWindow  0x021BBA28  thumb  ov091
- *   func_0201C6EC  0x0201C6EC  thumb
- *   func_02045770  0x02045770  arm
+ *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  */
 #include "../include/Obj09930.h"
@@ -33,9 +33,9 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PLIST_MESSAGE_RedrawWindow(int a, int b);
-extern void func_0201C6EC(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 void PLIST_MESSAGE_PrintText(u8 *a, u32 *s, u32 x)
@@ -51,8 +51,8 @@ void PLIST_MESSAGE_PrintText(u8 *a, u32 *s, u32 x)
         t = n;
     }
     PLIST_MESSAGE_RedrawWindow((int)a, (int)s);
-    func_0201C6EC((struct PrintSys *)s[10]);
-    PRINTSYS_PrintQueColor((void *)s[10], (u32)func_02045770((struct Descriptor *)s[1]), 1, 1, t, ((struct Obj09930 *)a)->f138, 0x440);
+    PRINTSYS_QUE_Clear((struct PrintSys *)s[10]);
+    PRINTSYS_PrintQueColor((void *)s[10], (u32)BMP_WIN_GetBmp((struct Descriptor *)s[1]), 1, 1, t, ((struct Obj09930 *)a)->f138, 0x440);
     s[9] = 1;
     STRBUF_Delete((struct U16Vec *)t);
 }

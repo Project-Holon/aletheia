@@ -1,7 +1,7 @@
 /*
  * file:     scrcmd_pokemon_fld.c
  * unit:     yes
- * function: SCRCMD_POKEMON_FLD_SelectPartyMon, SCRCMD_POKEMON_FLD_StoreMonRecord, SCRCMD_POKEMON_FLD_StorePartySpeciesRecord, SCRCMD_POKEMON_FLD_RegisterRecordSpecies, SCRCMD_POKEMON_FLD_GetMonIvStat, SCRCMD_POKEMON_FLD_LookupThreshold, SCRCMD_POKEMON_FLD_GetPokedexRating, SCRCMD_POKEMON_FLD_GetPokedexComplete, SCRCMD_POKEMON_FLD_GetTutorMoveId, SCRCMD_POKEMON_FLD_GetTutorFriendship, SCRCMD_POKEMON_FLD_CheckTutorGroup, SCRCMD_POKEMON_FLD_FindTutorCandidates, SCRCMD_POKEMON_FLD_GetTutorAvailability, SCRCMD_POKEMON_FLD_GetMonTutorMove, SCRCMD_POKEMON_FLD_CheckMonTutorStatus, SCRCMD_POKEMON_FLD_SelectTutorMon, SCRCMD_POKEMON_FLD_CheckPartyFlagged, SCRCMD_POKEMON_FLD_GetMonTypeForTm, SCRCMD_POKEMON_FLD_StartSelectEvent, SCRCMD_POKEMON_FLD_SelectMonMove, SCRCMD_POKEMON_FLD_StartEggHatch, SCRCMD_POKEMON_FLD_CheckTradeMon, SCRCMD_POKEMON_FLD_StartTradeEvent, SCRCMD_POKEMON_FLD_GetRandomBagPocketValue, SCRCMD_POKEMON_FLD_StoreMonName, SCRCMD_POKEMON_FLD_RegisterStoredName, SCRCMD_POKEMON_FLD_ControlLegendMon, SCRCMD_POKEMON_FLD_SwapPartyMonWithBoxedLegend, SCRCMD_POKEMON_FLD_FindBoxedLegend, SCRCMD_POKEMON_FLD_MoveLegendToFront, SCRCMD_POKEMON_FLD_FindPartyLegend, SCRCMD_POKEMON_FLD_StartOv55SubProc, SCRCMD_POKEMON_FLD_RegisterBirthdayEntry, SCRCMD_POKEMON_FLD_GetMysteryEntryCount, SCRCMD_POKEMON_FLD_GetWarpEntry, SCRCMD_POKEMON_FLD_NoopWarpEntry, SCRCMD_POKEMON_FLD_CountWarpEntries, SCRCMD_POKEMON_FLD_SetWarpTable, SCRCMD_POKEMON_FLD_AddWarpMenuItems, SCRCMD_POKEMON_FLD_WarpToEntry, SCRCMD_POKEMON_FLD_HandleMysteryGift, SCRCMD_POKEMON_FLD_CheckGiftCanReceive, SCRCMD_POKEMON_FLD_PrepareGiftReceiveMessage, SCRCMD_POKEMON_FLD_PrepareGiftFollowUpMessage, SCRCMD_POKEMON_FLD_ReceiveGift, SCRCMD_POKEMON_FLD_GetGiftReceiveType, SCRCMD_POKEMON_FLD_GetDeliveryNpcId, SCRCMD_POKEMON_FLD_CheckDeliveryNpcLoaded, SCRCMD_POKEMON_FLD_FindDeliveryMmdl, SCRCMD_POKEMON_FLD_FindDeliveryNpcObjId, SCRCMD_POKEMON_FLD_IsLibertyPassGift, SCRCMD_POKEMON_FLD_CreateGiftMon, SCRCMD_POKEMON_FLD_CheckGiftMonCanReceive, SCRCMD_POKEMON_FLD_ReceiveGiftMon, SCRCMD_POKEMON_FLD_GetGiftMonReceiveType, SCRCMD_POKEMON_FLD_PrepareGiftMonMessage, SCRCMD_POKEMON_FLD_PrepareGiftMonFollowUpMessage, SCRCMD_POKEMON_FLD_CheckGiftItemCanReceive, SCRCMD_POKEMON_FLD_ReceiveGiftItem, SCRCMD_POKEMON_FLD_GetGiftItemReceiveType, SCRCMD_POKEMON_FLD_PrepareGiftItemMessage, SCRCMD_POKEMON_FLD_PrepareGiftItemFollowUpMessage, SCRCMD_POKEMON_FLD_CheckGiftFlagCanReceive, SCRCMD_POKEMON_FLD_ReceiveGiftFlag, SCRCMD_POKEMON_FLD_GetGiftFlagReceiveType, SCRCMD_POKEMON_FLD_PrepareGiftFlagMessage, SCRCMD_POKEMON_FLD_PrepareGiftFlagFollowUpMessage, SCRCMD_POKEMON_FLD_LookupTableValue, SCRCMD_POKEMON_FLD_CheckTableItemInBag, SCRCMD_POKEMON_FLD_RegisterTableValueNumber, SCRCMD_POKEMON_FLD_AddTableValueToPoints, func_021B7364, func_021B7390, func_021B73B8
+ * function: SCRCMD_POKEMON_FLD_SelectPartyMon, SCRCMD_POKEMON_FLD_StoreMonRecord, SCRCMD_POKEMON_FLD_StorePartySpeciesRecord, SCRCMD_POKEMON_FLD_RegisterRecordSpecies, SCRCMD_POKEMON_FLD_GetMonIvStat, SCRCMD_POKEMON_FLD_LookupThreshold, SCRCMD_POKEMON_FLD_GetPokedexRating, SCRCMD_POKEMON_FLD_GetPokedexComplete, SCRCMD_POKEMON_FLD_GetTutorMoveId, SCRCMD_POKEMON_FLD_GetTutorFriendship, SCRCMD_POKEMON_FLD_CheckTutorGroup, SCRCMD_POKEMON_FLD_FindTutorCandidates, SCRCMD_POKEMON_FLD_GetTutorAvailability, SCRCMD_POKEMON_FLD_GetMonTutorMove, SCRCMD_POKEMON_FLD_CheckMonTutorStatus, SCRCMD_POKEMON_FLD_SelectTutorMon, SCRCMD_POKEMON_FLD_CheckPartyFlagged, SCRCMD_POKEMON_FLD_GetMonTypeForTm, SCRCMD_POKEMON_FLD_StartSelectEvent, SCRCMD_POKEMON_FLD_SelectMonMove, SCRCMD_POKEMON_FLD_StartEggHatch, SCRCMD_POKEMON_FLD_CheckTradeMon, SCRCMD_POKEMON_FLD_StartTradeEvent, SCRCMD_POKEMON_FLD_GetRandomBagPocketValue, SCRCMD_POKEMON_FLD_StoreMonName, SCRCMD_POKEMON_FLD_RegisterStoredName, SCRCMD_POKEMON_FLD_ControlLegendMon, SCRCMD_POKEMON_FLD_SwapPartyMonWithBoxedLegend, SCRCMD_POKEMON_FLD_FindBoxedLegend, SCRCMD_POKEMON_FLD_MoveLegendToFront, SCRCMD_POKEMON_FLD_FindPartyLegend, SCRCMD_POKEMON_FLD_StartOv55SubProc, SCRCMD_POKEMON_FLD_RegisterBirthdayEntry, SCRCMD_POKEMON_FLD_GetMysteryEntryCount, SCRCMD_POKEMON_FLD_GetWarpEntry, SCRCMD_POKEMON_FLD_NoopWarpEntry, SCRCMD_POKEMON_FLD_CountWarpEntries, SCRCMD_POKEMON_FLD_SetWarpTable, SCRCMD_POKEMON_FLD_AddWarpMenuItems, SCRCMD_POKEMON_FLD_WarpToEntry, SCRCMD_POKEMON_FLD_HandleMysteryGift, SCRCMD_POKEMON_FLD_CheckGiftCanReceive, SCRCMD_POKEMON_FLD_PrepareGiftReceiveMessage, SCRCMD_POKEMON_FLD_PrepareGiftFollowUpMessage, SCRCMD_POKEMON_FLD_ReceiveGift, SCRCMD_POKEMON_FLD_GetGiftReceiveType, SCRCMD_POKEMON_FLD_GetDeliveryNpcId, SCRCMD_POKEMON_FLD_CheckDeliveryNpcLoaded, SCRCMD_POKEMON_FLD_FindDeliveryMmdl, SCRCMD_POKEMON_FLD_FindDeliveryNpcObjId, SCRCMD_POKEMON_FLD_IsLibertyPassGift, SCRCMD_POKEMON_FLD_CreateGiftMon, SCRCMD_POKEMON_FLD_CheckGiftMonCanReceive, SCRCMD_POKEMON_FLD_ReceiveGiftMon, SCRCMD_POKEMON_FLD_GetGiftMonReceiveType, SCRCMD_POKEMON_FLD_PrepareGiftMonMessage, SCRCMD_POKEMON_FLD_PrepareGiftMonFollowUpMessage, SCRCMD_POKEMON_FLD_CheckGiftItemCanReceive, SCRCMD_POKEMON_FLD_ReceiveGiftItem, SCRCMD_POKEMON_FLD_GetGiftItemReceiveType, SCRCMD_POKEMON_FLD_PrepareGiftItemMessage, SCRCMD_POKEMON_FLD_PrepareGiftItemFollowUpMessage, SCRCMD_POKEMON_FLD_CheckGiftFlagCanReceive, SCRCMD_POKEMON_FLD_ReceiveGiftFlag, SCRCMD_POKEMON_FLD_GetGiftFlagReceiveType, SCRCMD_POKEMON_FLD_PrepareGiftFlagMessage, SCRCMD_POKEMON_FLD_PrepareGiftFlagFollowUpMessage, SCRCMD_POKEMON_FLD_LookupTableValue, SCRCMD_POKEMON_FLD_CheckTableItemInBag, SCRCMD_POKEMON_FLD_RegisterTableValueNumber, SCRCMD_POKEMON_FLD_AddTableValueToPoints, SCRCMD_POKEMON_FLD_GetDailyGift, SCRCMD_POKEMON_FLD_IsSpecialDate, SCRCMD_POKEMON_FLD_GetDailyGiftIndex
  * address:  0x021B5B4C
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -31,8 +31,8 @@
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_0200C11C  0x0200C11C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_0200C2B0  0x0200C2B0  thumb
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   func_0200C2D0  0x0200C2D0  thumb
@@ -92,14 +92,14 @@
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   func_02007A18  0x02007A18  thumb
  *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb
- *   func_0201AB48  0x0201AB48  thumb
+ *   POKEPARTY_SetMember  0x0201AB48  thumb
  *   POKE_TOOL_Dummy  0x020185F0  thumb
  *   func_020075B0  0x020075B0  thumb
  *   sScrcmdPokemonFldFileName     0x021DE270  data   ov021  a1
  *   func_02007698  0x02007698  thumb
  *   func_02008530  0x02008530  thumb
  *   func_020079BC  0x020079BC  thumb
- *   func_0201AB8C  0x0201AB8C  thumb
+ *   POKEPARTY_SwapMembers  0x0201AB8C  thumb
  *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb ov010
  *   FIELDMAP_GetMapFunc  0x02188D24  thumb ov021
  *   FIELD_SUBPROC_Start  0x021BB990  thumb ov021
@@ -137,7 +137,7 @@
  *   SCRCMD_POKEMON_FLD_CheckDeliveryNpcLoaded  0x021B6E0C  thumb  ov021
  *   SCRCMD_POKEMON_FLD_IsLibertyPassGift  0x021B6EB0  thumb  ov021
  *   FIELD_G3D_MAP_StoreBeaconTrainerKey  0x0216BF74  thumb  ov010
- *   d_021D9970     0x021D9970  data   ov021  a4
+ *   sMysteryGiftKindHandlers     0x021D9970  data   ov021  a4
  *   FLDMMDL_GetObjId  0x0216D588  thumb ov010
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysSearchUseMmdl  0x0216DD1C  thumb  ov010
@@ -146,7 +146,7 @@
  *   EVENTDATA_SYSTEM_GetNpcHeaders  0x02162740  thumb  ov010
  *   EVENTDATA_SYSTEM_GetNpcCount  0x02162744  thumb  ov010
  *   MYSTERY_GIFT_CreateMon  0x02157E9C  thumb  ov010
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   func_0200CDE0  0x0200CDE0  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201EEC4  0x0201EEC4  thumb
@@ -162,11 +162,11 @@
  *   func_0201EFA4  0x0201EFA4  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   func_0200C278  0x0200C278  thumb
- *   d_021D99E8     0x021D99E8  data  a2
- *   d_021D99D4     0x021D99D4  data  a2
+ *   sDailyGifts     0x021D99E8  data  a2
+ *   sDailyGiftSpecialDates     0x021D99D4  data  a2
  *   FIELD_CLOCK_GetMonth  0x021690D0  thumb  ov010
  *   FIELD_CLOCK_GetDay  0x021690E0  thumb  ov010
- *   d_021D99DE     0x021D99DE  data   ov021  a1
+ *   sDailyGiftIndexByDay     0x021D99DE  data   ov021  a1
  */
 #include "../arm9/script_vm_types.h"
 #include "../ov010/fldmmdl_types.h"
@@ -255,8 +255,8 @@ extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 paramId, u32 arg);
 extern void func_0200C11C(struct MiscSave *p, u16 a, u32 b, u32 c, u32 d);
 extern struct Party *GAME_DATA_GetMyParty(const struct GameData *gameData);
-extern int func_0201AA18(const struct Party *party);
-extern void *func_0201AB28(void *p, u32 idx);
+extern int POKEPARTY_GetCount(const struct Party *party);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void func_0200C2B0(struct MiscSave *p, u32 i, const u16 *src);
 extern struct WordSet *SCRIPT_WORK_GetWordSet(ScriptWork *scriptWork);
 extern void func_0200C2D0(struct MiscSave *p, u32 i, u16 *dest);
@@ -313,13 +313,13 @@ extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
 extern void POKE_TOOL_RecalcParam(void *mon);
 extern struct BoxMon *func_02007A18(void **save, u32 box, u32 slot);
 extern void *POKE_TOOL_CreateFromBoxParam(struct BoxMon *p, u32 heap);
-extern void func_0201AB48(struct Party *p, u32 idx, const struct PartyMon *src);
+extern void POKEPARTY_SetMember(struct Party *p, u32 idx, const struct PartyMon *src);
 extern void *POKE_TOOL_Dummy(void *mon);
 extern int func_020075B0(void *save, u32 box, u32 slot, const struct BoxMon *src);
 extern int func_02007698(void);
 extern u32 func_02008530(const struct MyStatus *obj);
 extern int func_020079BC(void **save, u32 box, u32 slot, int field, int arg);
-extern u32 func_0201AB8C(struct Party *p, u32 i, u32 j, u32 heap);
+extern u32 POKEPARTY_SwapMembers(struct Party *p, u32 i, u32 j, u32 heap);
 extern ScriptFieldParam *SCRIPT_WORK_ResetFieldParam(ScriptWork *scriptWork);
 extern u32 FIELDMAP_GetMapFunc(u8 *p);
 extern int *FIELD_SUBPROC_Start(int, int *, const int *);
@@ -363,7 +363,7 @@ extern struct EventDataSystem *GAME_DATA_GetEventData(const struct GameData *gam
 extern MmdlHeader *EVENTDATA_SYSTEM_GetNpcHeaders(struct EventDataSystem *eventData);
 extern u16 EVENTDATA_SYSTEM_GetNpcCount(struct EventDataSystem *eventData);
 extern struct PokemonParam *MYSTERY_GIFT_CreateMon(const MysteryGiftCard *card, u32 heapId, struct GameData *gameData);
-extern u32 func_0201A98C(struct Party *party, const struct PokemonParam *mon);
+extern u32 POKEPARTY_Add(struct Party *party, const struct PokemonParam *mon);
 extern void func_0200CDE0(struct ZukanWork *zukan, struct PokemonParam *mon);
 extern void func_0201F02C(struct WordSet *wordSet, u32 bufferId, struct MyStatus *myStatus);
 extern void func_0201EEC4(struct WordSet *wordSet, u32 bufferId, u32 value);
@@ -403,12 +403,12 @@ int SCRCMD_POKEMON_FLD_AddTableValueToPoints(struct ScriptVm *vm, ScrcmdWork *wo
 extern const u8 sScrcmdTableFileIds[];
 extern int FIELD_CLOCK_GetMonth(struct GameData *gameData);
 extern int FIELD_CLOCK_GetDay(struct GameData *gameData);
-int func_021B7364(void *core, void *work);
-int func_021B7390(u32 month, int day);
-int func_021B73B8(void *core, void *work);
-extern const u16 d_021D99E8[];
-extern const u16 d_021D99D4[];
-extern const u8 d_021D99DE[];
+int SCRCMD_POKEMON_FLD_GetDailyGift(void *core, void *work);
+int SCRCMD_POKEMON_FLD_IsSpecialDate(u32 month, int day);
+int SCRCMD_POKEMON_FLD_GetDailyGiftIndex(void *core, void *work);
+extern const u16 sDailyGifts[];
+extern const u16 sDailyGiftSpecialDates[];
+extern const u8 sDailyGiftIndexByDay[];
 int SCRCMD_POKEMON_FLD_SelectPartyMon(struct ScriptVm *vm, struct ScrcmdWork *work);
 int SCRCMD_POKEMON_FLD_StoreMonRecord(struct ScriptVm *vm, struct ScrcmdWork *work);
 int SCRCMD_POKEMON_FLD_StorePartySpeciesRecord(struct ScriptVm *vm, struct ScrcmdWork *work);
@@ -510,8 +510,8 @@ int SCRCMD_POKEMON_FLD_StorePartySpeciesRecord(struct ScriptVm *vm, struct Scrcm
     recordSlot = SCRIPT_WORK_ReadWorkValue(vm, work);
     for (i = 0; i < 6; i++)
         species[i] = 0;
-    for (j = 0, count = 0; j < (int)func_0201AA18(party); j++) {
-        mon = func_0201AB28(party, j);
+    for (j = 0, count = 0; j < (int)POKEPARTY_GetCount(party); j++) {
+        mon = POKEPARTY_GetMember(party, j);
         if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0)
             species[count++] = POKE_TOOL_GetPartyValue(mon, 5, 0);
     }
@@ -800,12 +800,12 @@ int SCRCMD_POKEMON_FLD_FindTutorCandidates(struct ScriptVm *vm, struct ScrcmdWor
     u32 friendship;
 
     party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(work));
-    partyCount = func_0201AA18(party);
+    partyCount = POKEPARTY_GetCount(party);
     anyInGroup = 0;
     anyEligible = 0;
     *eligibleMask = anyInGroup;
     for (i = 0; i < partyCount; i++) {
-        mon = func_0201AB28(party, i);
+        mon = POKEPARTY_GetMember(party, i);
         if (POKE_TOOL_GetPartyValue(mon, 0x4c, 0) == 1)
             continue;
         if (SCRCMD_POKEMON_FLD_CheckTutorGroup(mon, tutorKind) == 0)
@@ -941,9 +941,9 @@ int SCRCMD_POKEMON_FLD_CheckPartyFlagged(struct ScriptVm *vm, struct ScrcmdWork 
     foundOut = SCRIPT_WORK_ReadWorkPointer(vm, work);
     *foundOut = 0;
     party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(work));
-    partyCount = func_0201AA18(party);
+    partyCount = POKEPARTY_GetCount(party);
     for (i = 0; i < partyCount; i++) {
-        if (POKE_TOOL_GetPartyValue(func_0201AB28(party, i), 0x97, 0) != 0) {
+        if (POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(party, i), 0x97, 0) != 0) {
             *foundOut = 1;
             break;
         }
@@ -1028,9 +1028,9 @@ u32 SCRCMD_POKEMON_FLD_StartEggHatch(struct ScriptVm *vm, struct ScrcmdWork *wor
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     GAME_DATA_GetMyStatus(gameData);
     party = GAME_DATA_GetMyParty(gameData);
-    partyCount = func_0201AA18(party);
+    partyCount = POKEPARTY_GetCount(party);
     for (i = 0; i < partyCount; i++) {
-        void *mon = func_0201AB28(party, i);
+        void *mon = POKEPARTY_GetMember(party, i);
         u32 isEgg = POKE_TOOL_GetPartyValue(mon, 0x4c, 0);
         u32 isBadEgg = POKE_TOOL_GetPartyValue(mon, 3, 0);
         u32 hatchCounter = POKE_TOOL_GetPartyValue(mon, 9, 0);
@@ -1067,7 +1067,7 @@ int SCRCMD_POKEMON_FLD_CheckTradeMon(struct ScriptVm *vm, struct ScrcmdWork *wor
     resultOut = SCRIPT_WORK_ReadWorkPointer(vm, work);
     tradeId = SCRIPT_WORK_ReadWorkValue(vm, work);
     partySlot = SCRIPT_WORK_ReadWorkValue(vm, work);
-    mon = func_0201AB28(GAME_DATA_GetMyParty(gameData), partySlot);
+    mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partySlot);
     trade = FLD_TRADE_Create(heapId, tradeId);
     *resultOut = 0;
     if (*resultOut == 0 && POKE_TOOL_GetPartyValue(mon, 0x4c, 0) == 1) {
@@ -1132,7 +1132,7 @@ u32 SCRCMD_POKEMON_FLD_StoreMonName(struct ScriptVm *vm, struct ScrcmdWork *work
     gameData = GAME_DATA_GetMyParty(gameData);
     partySlot = SCRIPT_WORK_ReadWorkValue(vm, work);
     nameSlot = SCRIPT_WORK_ReadWorkValue(vm, work);
-    func_0200E7BC(nameStore, nameSlot, func_0201AB28(gameData, partySlot));
+    func_0200E7BC(nameStore, nameSlot, POKEPARTY_GetMember(gameData, partySlot));
     return 0;
 }
 
@@ -1225,7 +1225,7 @@ void SCRCMD_POKEMON_FLD_SwapPartyMonWithBoxedLegend(struct ScrcmdWork *work, int
     boxManager = (void *)GAME_DATA_GetBoxManager(gameData);
     mon = func_02030734(heapId, POKE_TOOL_GetPartyParamSize(), 1, (const char *)sScrcmdPokemonFldFileName, 0x4c7);
     monSize = POKE_TOOL_GetPartyParamSize();
-    func_02082D44(func_0201AB28(party, partySlot), mon, monSize);
+    func_02082D44(POKEPARTY_GetMember(party, partySlot), mon, monSize);
     if (func_0202136C(POKE_TOOL_GetPartyValue(mon, 6, 0)) == 1) {
         mailSave = func_02008FEC(gameData);
         mail = MAIL_Create(SCRCMD_WORK_GetHeapId(work));
@@ -1245,7 +1245,7 @@ void SCRCMD_POKEMON_FLD_SwapPartyMonWithBoxedLegend(struct ScrcmdWork *work, int
         POKE_TOOL_RecalcParam(mon);
     }
     boxedPartyMon = POKE_TOOL_CreateFromBoxParam(func_02007A18(boxManager, boxPos[1], boxPos[0]), heapId);
-    func_0201AB48(party, partySlot, boxedPartyMon);
+    POKEPARTY_SetMember(party, partySlot, boxedPartyMon);
     func_020307B0(boxedPartyMon);
     func_020075B0(boxManager, boxPos[1], boxPos[0], POKE_TOOL_Dummy(mon));
     func_020307B0(mon);
@@ -1298,7 +1298,7 @@ void SCRCMD_POKEMON_FLD_MoveLegendToFront(struct ScrcmdWork *work)
     party = GAME_DATA_GetMyParty(gameData);
     partyIndex = SCRCMD_POKEMON_FLD_FindPartyLegend(gameData);
     if (partyIndex >= 0) {
-        func_0201AB8C(party, partyIndex, 0, SCRCMD_WORK_GetHeapId(work));
+        POKEPARTY_SwapMembers(party, partyIndex, 0, SCRCMD_WORK_GetHeapId(work));
     }
 }
 
@@ -1307,12 +1307,12 @@ int SCRCMD_POKEMON_FLD_FindPartyLegend(void *gameData)
 {
     void *party = GAME_DATA_GetMyParty(gameData);
     void *myStatus = GAME_DATA_GetMyStatus(gameData);
-    int partyCount = func_0201AA18(party);
+    int partyCount = POKEPARTY_GetCount(party);
     u32 trainerId = func_02008530(myStatus);
     int i;
 
     for (i = 0; i < partyCount; i++) {
-        void *mon = func_0201AB28(party, i);
+        void *mon = POKEPARTY_GetMember(party, i);
 
         if (trainerId == POKE_TOOL_GetPartyValue(mon, 7, 0)
             && POKE_TOOL_GetPartyValue(mon, 5, 0) == 0x283
@@ -1487,7 +1487,7 @@ int SCRCMD_POKEMON_FLD_HandleMysteryGift(struct ScriptVm *vm, struct ScrcmdWork 
     giftHandle = MYSTERY_DATA_Create(GAME_DATA_GetSaveControl(gameData), 0, (void *)heapId);
     giftData = PDW_POSTMAN_FindMysteryCard(giftHandle, (int *)(&giftIndex), &cardBuffer);
     giftKind = PDW_POSTMAN_GetMysteryGiftType(giftHandle);
-    if (giftKind != d_021D9970[giftKind].kind) {
+    if (giftKind != sMysteryGiftKindHandlers[giftKind].kind) {
         MYSTERY_DATA_Delete(giftHandle);
         return 0;
     }
@@ -1535,7 +1535,7 @@ int SCRCMD_POKEMON_FLD_HandleMysteryGift(struct ScriptVm *vm, struct ScrcmdWork 
 /* Asks the kind handler whether the player can take the gift. 0 when the kind has none. */
 int SCRCMD_POKEMON_FLD_CheckGiftCanReceive(int giftKind, struct ScrcmdWork *work, struct GameData *gameData, MysteryGiftCard *card)
 {
-    MysteryGiftQueryFn canReceive = d_021D9970[giftKind].canReceive;
+    MysteryGiftQueryFn canReceive = sMysteryGiftKindHandlers[giftKind].canReceive;
 
     if (card != 0 && canReceive != 0) {
         return canReceive(work, gameData, card);
@@ -1552,7 +1552,7 @@ int SCRCMD_POKEMON_FLD_PrepareGiftReceiveMessage(int giftKind, MysteryGiftCard *
     MysteryGiftMessageFn prepareMessage;
 
     wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(work));
-    prepareMessage = d_021D9970[giftKind].prepareReceiveMessage;
+    prepareMessage = sMysteryGiftKindHandlers[giftKind].prepareReceiveMessage;
     if (card != 0 && prepareMessage != 0) {
         return prepareMessage(wordSet, card, work);
     }
@@ -1568,7 +1568,7 @@ int SCRCMD_POKEMON_FLD_PrepareGiftFollowUpMessage(int giftKind, MysteryGiftCard 
     MysteryGiftMessageFn prepareMessage;
 
     wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(work));
-    prepareMessage = d_021D9970[giftKind].prepareFollowUpMessage;
+    prepareMessage = sMysteryGiftKindHandlers[giftKind].prepareFollowUpMessage;
     if (card != 0 && prepareMessage != 0) {
         return prepareMessage(wordSet, card, work);
     }
@@ -1578,7 +1578,7 @@ int SCRCMD_POKEMON_FLD_PrepareGiftFollowUpMessage(int giftKind, MysteryGiftCard 
 /* Puts the gift into the save through the kind handler. 1 when a handler ran. */
 int SCRCMD_POKEMON_FLD_ReceiveGift(int giftKind, struct ScrcmdWork *work, struct GameData *gameData, MysteryGiftCard *card)
 {
-    MysteryGiftReceiveFn receive = d_021D9970[giftKind].receive;
+    MysteryGiftReceiveFn receive = sMysteryGiftKindHandlers[giftKind].receive;
 
     if (card != 0 && receive != 0) {
         receive(work, gameData, card);
@@ -1591,7 +1591,7 @@ int SCRCMD_POKEMON_FLD_ReceiveGift(int giftKind, struct ScrcmdWork *work, struct
 /* Asks the kind handler which scene the script plays for the gift. 0 when the kind has none. */
 int SCRCMD_POKEMON_FLD_GetGiftReceiveType(int giftKind, ScrcmdWork *work, struct GameData *gameData, MysteryGiftCard *card)
 {
-    MysteryGiftQueryFn getReceiveType = d_021D9970[giftKind].getReceiveType;
+    MysteryGiftQueryFn getReceiveType = sMysteryGiftKindHandlers[giftKind].getReceiveType;
 
     if (card != 0 && getReceiveType != 0) {
         return getReceiveType(work, gameData, card);
@@ -1691,7 +1691,7 @@ struct PokemonParam *SCRCMD_POKEMON_FLD_CreateGiftMon(ScrcmdWork *work, MysteryG
 /* Kind 1 canReceive: the party has room. */
 int SCRCMD_POKEMON_FLD_CheckGiftMonCanReceive(ScrcmdWork *work, struct GameData *gameData, MysteryGiftCard *card)
 {
-    if (func_0201AA18(GAME_DATA_GetMyParty(gameData)) < MYSTERY_GIFT_PARTY_MAX) {
+    if (POKEPARTY_GetCount(GAME_DATA_GetMyParty(gameData)) < MYSTERY_GIFT_PARTY_MAX) {
         return 1;
     }
     return 0;
@@ -1705,8 +1705,8 @@ void SCRCMD_POKEMON_FLD_ReceiveGiftMon(ScrcmdWork *work, struct GameData *gameDa
 
     party = GAME_DATA_GetMyParty(gameData);
     mon = SCRCMD_POKEMON_FLD_CreateGiftMon(work, card);
-    if (func_0201AA18(party) < MYSTERY_GIFT_PARTY_MAX && mon != 0) {
-        func_0201A98C(party, mon);
+    if (POKEPARTY_GetCount(party) < MYSTERY_GIFT_PARTY_MAX && mon != 0) {
+        POKEPARTY_Add(party, mon);
         func_0200CDE0(func_0200CA1C(gameData), mon);
         func_020307B0(mon);
     }
@@ -1986,7 +1986,7 @@ int SCRCMD_POKEMON_FLD_AddTableValueToPoints(struct ScriptVm *vm, ScrcmdWork *wo
 
 
 /* Script command: return the gift of the given daily index (0 when out of range). */
-int func_021B7364(void *core, void *work)
+int SCRCMD_POKEMON_FLD_GetDailyGift(void *core, void *work)
 {
     u32 index;
     u16 *ret;
@@ -1996,19 +1996,19 @@ int func_021B7364(void *core, void *work)
     if (index >= 11) {
         index = 0;
     }
-    *ret = d_021D99E8[index];
+    *ret = sDailyGifts[index];
     return 0;
 }
 
 /* TRUE when the month and day are one of the five special dates. */
-int func_021B7390(u32 month, int day)
+int SCRCMD_POKEMON_FLD_IsSpecialDate(u32 month, int day)
 {
     u32 i;
     u16 date;
 
     date = (month << 8) | day;
     for (i = 0; i < 5; i++) {
-        if (date == d_021D99D4[i]) {
+        if (date == sDailyGiftSpecialDates[i]) {
             return 1;
         }
     }
@@ -2019,7 +2019,7 @@ int func_021B7390(u32 month, int day)
  * Script command: the daily gift index of today, 10 on a special date.
  * Addresses are Black-image addresses.
  */
-int func_021B73B8(void *core, void *work)
+int SCRCMD_POKEMON_FLD_GetDailyGiftIndex(void *core, void *work)
 {
     u16 *ret;
     struct GameData *gameData;
@@ -2030,9 +2030,9 @@ int func_021B73B8(void *core, void *work)
     gameData = SCRCMD_WORK_GetGameData(work);
     month = FIELD_CLOCK_GetMonth(gameData);
     day = FIELD_CLOCK_GetDay(gameData);
-    if (func_021B7390(month, day) == 1)
+    if (SCRCMD_POKEMON_FLD_IsSpecialDate(month, day) == 1)
         *ret = 10;
     else
-        *ret = d_021D99DE[day % 10];
+        *ret = sDailyGiftIndexByDay[day % 10];
     return 0;
 }

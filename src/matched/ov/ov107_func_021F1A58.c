@@ -9,9 +9,9 @@
  * status: EXACT
  * symbols:
  *   func_02045B38 0x02045B38 arm
- *   func_0201CE48 0x0201CE48 thumb
+ *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
@@ -29,14 +29,14 @@ struct CharBuf;
 struct Rec;
 struct Rec3;
 struct U16Vec;
-extern void func_0201CE48(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *,int,int,int);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_02028470(u8 *p, u32 v);
 struct Descriptor;
-extern void * func_02045770(struct Descriptor *);
+extern void * BMP_WIN_GetBmp(struct Descriptor *);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *PRINTSYS_PrintStream(void *,int,int,void *,void *,int,void *,int,int,int);
 #define P(k) (*(void **)(p+(k)))
@@ -45,10 +45,10 @@ void func_021F1A58(char *p,int a)
 {
     void *s;
     s=func_02045B38(0,3,158,((struct Obj13767 *)p)->f0);
-    if(P(0x18)){func_0201CE48(P(0x18));P(0x18)=0;}
+    if(P(0x18)){PRINTSYS_PrintStreamDelete(P(0x18));P(0x18)=0;}
     I(0x38)=0;I(0x58)=0;
     if(P(0x20)){STRBUF_Delete(P(0x20));P(0x20)=0;}
-    BMP_Clear(func_02045770(P(0x10)),15);
+    BMP_Clear(BMP_WIN_GetBmp(P(0x10)),15);
     P(0x20)=func_02045EC0(s,22);
     P(0x18)=PRINTSYS_PrintStream(P(0x10),0,0,P(0x20),P(0x14),a,P(12),2,((struct Obj13767 *)p)->f0,15);
     func_0201F73C(P(0x10),1,1,13);

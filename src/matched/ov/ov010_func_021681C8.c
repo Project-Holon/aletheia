@@ -31,15 +31,15 @@
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   BTL_SETUP_AllocRecordBuffer  0x02013980  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   func_0201A954  0x0201A954  thumb
+ *   POKEPARTY_InitEx  0x0201A954  thumb
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *   func_02030734  0x02030734  arm
  *   POKE_TOOL_ClearPartyParam  0x02017528  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02019CE0  0x02019CE0  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_02019CA0  0x02019CA0  thumb
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   func_020307B0  0x020307B0  arm
  *   STRBUF_SetString  0x02045924  arm
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
@@ -109,15 +109,15 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void BTL_SETUP_AllocRecordBuffer(struct ZoneData *o, u32 heap);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void func_0201A954(struct Party *p, s32 capacity);
+extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void POKE_TOOL_ClearPartyParam(struct Sav *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void func_02019CA0(void *p, u32 v);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern u32 func_020307B0(void *p);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void PMSI_PARAM_ClearSentence(void *p);
@@ -179,15 +179,15 @@ Bs *FLD_BTL_INST_TOOL_CreateBtlSetup(void *sys, void *partyA, u32 mode0, Rec *re
     vec = GAME_DATA_GetMyStatus(ctx);
     bs->f34[k] = vec;
     party = bs->f24[k];
-    func_0201A954(party, 6);
+    POKEPARTY_InitEx(party, 6);
     mon = func_02030734(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x253);
     POKE_TOOL_ClearPartyParam(mon);
     for (; i < n; i++) {
-        e = func_0201AB28(partyA, i);
+        e = POKEPARTY_GetMember(partyA, i);
         func_02019CE0(e, mon);
         if (POKE_TOOL_GetPartyValue(e, 0x9E, 0) != 0x32)
             func_02019CA0(mon, 0x32);
-        func_0201A98C(party, mon);
+        POKEPARTY_Add(party, mon);
     }
     func_020307B0(mon);
 
@@ -219,11 +219,11 @@ Bs *FLD_BTL_INST_TOOL_CreateBtlSetup(void *sys, void *partyA, u32 mode0, Rec *re
         o->w18.v[7] = recA->w20.v[7];
     }
     partyB = bs->f24[k];
-    func_0201A954(partyB, 6);
+    POKEPARTY_InitEx(partyB, 6);
     mon = func_02030734(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x29E);
     for (i = 0; i < n; i++) {
         FLD_BTL_INST_TOOL_BattleMonToPokemon((const struct BattleMon *)(&recA->mons[i]), mon);
-        func_0201A98C(partyB, mon);
+        POKEPARTY_Add(partyB, mon);
     }
     func_020307B0(mon);
 
@@ -236,11 +236,11 @@ Bs *FLD_BTL_INST_TOOL_CreateBtlSetup(void *sys, void *partyA, u32 mode0, Rec *re
         o->f08 = 0x87;
         STRBUF_SetString(o->f14, (const u16 *)recC->f08);
         partyC = bs->f24[k];
-        func_0201A954(partyC, 6);
+        POKEPARTY_InitEx(partyC, 6);
         mon = func_02030734(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x2C4);
         for (i = 0; i < n; i++) {
             FLD_BTL_INST_TOOL_BattleMonToPokemon((const struct BattleMon *)(&recC->mons[i]), mon);
-            func_0201A98C(partyC, mon);
+            POKEPARTY_Add(partyC, mon);
         }
         func_020307B0(mon);
     }
@@ -254,11 +254,11 @@ Bs *FLD_BTL_INST_TOOL_CreateBtlSetup(void *sys, void *partyA, u32 mode0, Rec *re
         PMSI_PARAM_ClearSentence(&o->w18.v[0]);
         PMSI_PARAM_ClearSentence(&o->w18.v[4]);
         partyD = bs->f24[k];
-        func_0201A954(partyD, 6);
+        POKEPARTY_InitEx(partyD, 6);
         mon = func_02030734(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x2F3);
         for (i = 0; i < n; i++) {
             FLD_BTL_INST_TOOL_BattleMonToPokemon((const struct BattleMon *)(&recB->mons[i]), mon);
-            func_0201A98C(partyD, mon);
+            POKEPARTY_Add(partyD, mon);
         }
         func_020307B0(mon);
     }

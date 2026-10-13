@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   P_STA_OAM_SetBitmapActorsEnabled 0x021DBCA4 thumb ov131
  *   P_STA_OAM_TransferBitmap 0x021DBCF4 thumb ov131
  *   P_STA_SKILL_SetSlotAnim 0x021DBA78 thumb ov131
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void P_STA_OAM_SetBitmapActorsEnabled(u8 *p, int v);
 extern void P_STA_OAM_TransferBitmap(u8 *p);
 extern void P_STA_SKILL_SetSlotAnim(u8 *,int);
@@ -30,12 +30,12 @@ void P_STA_SKILL_SetNewMoveHeld(void *a,u8 *b,int c) {
     if(c==1) {
         CLACT_SetActorAnimSeq(((struct Obj06486 *)p)->f8,16);
         P_STA_OAM_SetBitmapActorsEnabled(((struct Obj06486 *)p)->f14,0);
-        func_0204B3DC(((struct Obj06486 *)p)->fC,0);
+        CLACT_SetActorDrawEnable(((struct Obj06486 *)p)->fC,0);
         P_STA_OAM_TransferBitmap(((struct Obj00026 *)b)->fAC);
         P_STA_OAM_SetBitmapActorsEnabled(((struct Obj00026 *)b)->fAC,1);
     } else {
         P_STA_OAM_SetBitmapActorsEnabled(((struct Obj00026 *)b)->fAC,0);
-        func_0204B3DC(((struct Obj06486 *)p)->fC,1);
+        CLACT_SetActorDrawEnable(((struct Obj06486 *)p)->fC,1);
         if(b[41]==4) P_STA_SKILL_SetSlotAnim(p,1); else P_STA_SKILL_SetSlotAnim(p,0);
         P_STA_OAM_SetBitmapActorsEnabled(((struct Obj06486 *)p)->f14,1);
     }

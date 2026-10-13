@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0218483C  0x0218483C  thumb  ov168
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -19,10 +19,10 @@
 typedef unsigned int u32;
 
 extern int func_0218483C(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 
 int func_0218484C(void)
 {
-    return func_0218483C() == 0 || (func_020362DC() & 2) != 0;
+    return func_0218483C() == 0 || (KEY_GetTrg() & 2) != 0;
 }
 

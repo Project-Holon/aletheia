@@ -16,7 +16,7 @@
  *   EVENT_ENTRANCE_IN_CallFadeOut  0x021BD988  thumb  ov021
  *   EVENT_FIELD_PROCLINK_IsHopDone  0x02161B1C  thumb  ov010
  *   EVENT_FIELD_PROCLINK_IsAnimFlagSet  0x02161B74  thumb  ov010
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj12883.h"
@@ -31,7 +31,7 @@ extern void EVENT_ENTRANCE_IN_ReplaceBgm(u32 *);
 extern void EVENT_ENTRANCE_IN_CallFadeOut(u32 *, u32);
 extern int EVENT_FIELD_PROCLINK_IsHopDone(void *a);
 extern int EVENT_FIELD_PROCLINK_IsAnimFlagSet(int a0);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 
 u32 EVENT_ENTRANCE_IN_RunObjectAnime(u32 a, int *st, u32 *ctx)
 {
@@ -50,7 +50,7 @@ u32 EVENT_ENTRANCE_IN_RunObjectAnime(u32 a, int *st, u32 *ctx)
     case 1:
         if (EVENT_FIELD_PROCLINK_IsAnimFlagSet(ctx[1])) {
             if (((struct Obj12883 *)p)->f38 != 2)
-                func_020061E4(0x559);
+                GFL_USE_PlaySeDefaultVolume(0x559);
             EVENT_ENTRANCE_IN_CallFadeOut(ctx, a);
             (*st)++;
         }

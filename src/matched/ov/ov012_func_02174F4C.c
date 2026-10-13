@@ -14,9 +14,9 @@
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   func_02030734  0x02030734  arm
  *   COMM_PLAYER_Create  0x02167518  thumb
- *   func_0201A920  0x0201A920  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AC2C  0x0201AC2C  thumb
+ *   POKEPARTY_Copy  0x0201AC2C  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
  *   func_02087C6C  0x02087C6C  arm
  *   TRCARD_SYS_BuildProfile  0x0216F40C  thumb
@@ -53,11 +53,11 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *COMM_PLAYER_Create(u32 a, u32 b, u32 c, u32 d);
-extern struct Party *func_0201A920(u32 heap);
+extern struct Party *POKEPARTY_Create(u32 heap);
 struct BigObj;
 struct Rec534;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
+extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
 extern void MYSTATUS_Copy(void *src, void *dst);
 extern void func_02087C6C(void *p);
 extern void TRCARD_SYS_BuildProfile(void *a, u32 b, u32 c, u32 d, u32 e);
@@ -75,7 +75,7 @@ Work *COLOSSEUM_Create(const struct Obj *obj, u32 a1, u32 a2, u32 a3)
     w->f000 = COMM_PLAYER_Create(4, a1, 0x41, 0);
     for (i = 0; i < 4; i++) {
         w->f134[i] = func_02030734(0x41, 0x678, 1, gColosseumAllocFile, 0x38);
-        w->f148[i] = func_0201A920(0x41);
+        w->f148[i] = POKEPARTY_Create(0x41);
     }
     for (i = 0; i < 4; i++) {
         w->fcc[i] = 0xff;
@@ -83,7 +83,7 @@ Work *COLOSSEUM_Create(const struct Obj *obj, u32 a1, u32 a2, u32 a3)
     }
     w->fdc = 0xff;
     w->fdd = 0xff;
-    func_0201AC2C(GAME_DATA_GetMyParty((const struct BigObj *)obj), w->f148[idx]);
+    POKEPARTY_Copy(GAME_DATA_GetMyParty((const struct BigObj *)obj), w->f148[idx]);
     s = w->slot[idx];
     MYSTATUS_Copy((void *)a2, s);
     func_02087C6C(s + 0x20);

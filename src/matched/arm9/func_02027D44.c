@@ -9,12 +9,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020362DC  0x020362DC  arm
- *   func_0203633C  0x0203633C  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   KEY_GetRepeat  0x0203633C  arm
  *   func_020355C4  0x020355C4  arm
  *   func_020355D8  0x020355D8  arm
  *   APP_TASKMENU_SetWinActive  0x02027B30  thumb
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *
  * The TaskMenu per-frame input step: up (0x40) / down (0x80) move the
  * cursor with wrap-around and play 0x548; A (held & 1) confirms (m->f0C = 1,
@@ -59,13 +59,13 @@ struct Menu {
     u32 f34;        /* +0x34 */
 };
 
-extern u32  func_020362DC(void);
-extern unsigned int func_0203633C(void);
+extern u32  KEY_GetTrg(void);
+extern unsigned int KEY_GetRepeat(void);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8 v);
 struct S;
 extern void APP_TASKMENU_SetWinActive(u32 a0, struct S *s, int mode);
-extern void func_020061E4(u32 id);
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 
 void APP_TASKMENU_UpdateKey(struct Menu *m)
 {
@@ -73,8 +73,8 @@ void APP_TASKMENU_UpdateKey(struct Menu *m)
     u32 hit;
     int prev;
 
-    held = func_020362DC();
-    hit  = func_0203633C();
+    held = KEY_GetTrg();
+    hit  = KEY_GetRepeat();
     if (m->f10 == 1) {
         return;
     }
@@ -85,7 +85,7 @@ void APP_TASKMENU_UpdateKey(struct Menu *m)
             }
             APP_TASKMENU_SetWinActive(m->f18[m->cursor], (struct S *)m->f34, 1);
             func_020355D8(0);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             return;
         }
     }
@@ -97,7 +97,7 @@ void APP_TASKMENU_UpdateKey(struct Menu *m)
             m->cursor = (u8)(prev - 1);
         }
         m->h2 = 0;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
     } else if (hit & 0x80) {
         if (prev >= m->count - 1) {
             m->cursor = 0;
@@ -105,19 +105,19 @@ void APP_TASKMENU_UpdateKey(struct Menu *m)
             m->cursor = (u8)(prev + 1);
         }
         m->h2 = 0;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
     } else {
         if (held & 1) {
             m->f0C = 1;
             if (m->f1C[prev].f08 == 1) {
-                func_020061E4(0x551);
+                GFL_USE_PlaySeDefaultVolume(0x551);
             } else {
-                func_020061E4(0x54C);
+                GFL_USE_PlaySeDefaultVolume(0x54C);
             }
         } else if (held & 2) {
             m->cursor = (u8)(m->count - 1);
             m->f0C = 1;
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             func_020355D8(0);
         }
     }

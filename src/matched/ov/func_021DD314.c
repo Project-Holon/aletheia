@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   POKEPARTY_RemoveMember  0x0201A9C8  thumb  arm9
  *
  * Two ranges: below 30 forward all, at or above rebase.
  * The tested field is unsigned: a signed `b` compiles the inverted
@@ -22,12 +23,12 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 struct Party;
 extern void func_02007664(void *save, u32 box, u32 slot);
-extern u32 func_0201A9C8(struct Party *p, s32 idx);
+extern u32 POKEPARTY_RemoveMember(struct Party *p, s32 idx);
 
 void func_021DD314(char **p, int a, unsigned b)
 {
     if (b < 0x1eU)
         func_02007664((void *)(((struct Obj18443 *)(*p))->f4), a, b);
     else
-        func_0201A9C8((struct Party *)(((struct Obj18444 *)(*p))->f8), b - 0x1eU);
+        POKEPARTY_RemoveMember((struct Party *)(((struct Obj18444 *)(*p))->f8), b - 0x1eU);
 }

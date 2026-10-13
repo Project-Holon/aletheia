@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B9AEC 0x021B9AEC thumb ov093
- *   func_021B9D10 0x021B9D10 thumb ov093
+ *   BTL_SIDE_GetSlotOfClient 0x021B9AEC thumb ov093
+ *   BTL_SLOT_UpdateIllusion 0x021B9D10 thumb ov093
  *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
  */
 #include "../include/Obj09972.h"
 typedef unsigned char u8;
 struct Arr;
-extern char *func_021B9AEC(char *, int);
-extern void func_021B9D10(char *, struct Arr *, int);
+extern char *BTL_SIDE_GetSlotOfClient(char *, int);
+extern void BTL_SLOT_UpdateIllusion(char *, struct Arr *, int);
 typedef unsigned int   u32;
 extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 void BTL_SERVER_FLOW_ProcClientMemberChange(u8 *p, u8 *a)
@@ -25,8 +25,8 @@ void BTL_SERVER_FLOW_ProcClientMemberChange(u8 *p, u8 *a)
     unsigned int i;
     struct Arr *arr;
     for (i = 0; i < a[0]; i++) {
-        arr = (struct Arr *)func_021B9AEC(*(char * *)&((struct Obj09972 *)p)->f8, a[i + 1]);
+        arr = (struct Arr *)BTL_SIDE_GetSlotOfClient(*(char * *)&((struct Obj09972 *)p)->f8, a[i + 1]);
         BTL_SERVER_CMD_Push(((struct Obj09972 *)p)->fC, 0x2a, a[i + 1]);
-        func_021B9D10(*(char * *)&((struct Obj09972 *)p)->f4, arr, a[i + 1]);
+        BTL_SLOT_UpdateIllusion(*(char * *)&((struct Obj09972 *)p)->f4, arr, a[i + 1]);
     }
 }

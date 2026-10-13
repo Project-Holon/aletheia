@@ -67,7 +67,7 @@
  *   its own value (register-offset load); assigning the offset first gives the original `lsls` before `adds #4`.
  *   Without the offset local (q only) 3 bytes differ (adds/lsls order swapped). EXACT in --lang c99 and --lang c.
  * symbols:
- *   func_0201C6B4 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   FRAME_LIST_GetScrollRoom 0x021B841C thumb ov067
  *   FRAME_LIST_SetCursorHighlight 0x021B92F0 thumb ov067
@@ -77,7 +77,7 @@
  *   FRAME_LIST_DrawRowA 0x021B91D0 thumb ov067
  *   FRAME_LIST_WrapIndex 0x021B91BC thumb ov067
  *   FRAME_LIST_DrawRowB 0x021B9228 thumb ov067
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_02041EE4 0x02041EE4 arm
  *   gFrameListFlickSteps 0x021B94F8 data a1
  */
@@ -100,7 +100,7 @@ struct S {
  u8 f87,f88,f89; u16 f8a; u32 f8c,f90;
 };
 struct PrintSys;
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern int TOUCHPANEL_HitCont(const void *p);
 extern int FRAME_LIST_GetScrollRoom(u8 *p, int n);
 extern void FRAME_LIST_SetCursorHighlight(struct S *,u32,u32);
@@ -110,14 +110,14 @@ extern s8 FRAME_LIST_GetRowPosition(const s8 *,int);
 extern void FRAME_LIST_DrawRowA(struct S *,int,int);
 extern s8 FRAME_LIST_WrapIndex(s8,s8,int);
 extern void FRAME_LIST_DrawRowB(struct S *p, int i, int a2);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern const u8 gFrameListFlickSteps[];
 #pragma opt_propagation off
 int FRAME_LIST_StepScroll(struct S *s)
 {
  int r,n,v,a; const u8 *q; int o;
- if((int)func_0201C6B4((const struct PrintSys *)s->f34)==0) return 1;
+ if((int)PRINTSYS_QUE_IsFinished((const struct PrintSys *)s->f34)==0) return 1;
  if(s->f50==3 && s->f70==1) {
   r=TOUCHPANEL_HitCont(s->f2c);
   if(s->drag==1) {
@@ -227,8 +227,8 @@ int FRAME_LIST_StepScroll(struct S *s)
   }
   s->f20->b(s->f24,s->f5c+s->f62,1);
   if(s->f6c==1) {
-   if((u16)(s->f50+0xfffe)<=1) func_020061E4(0x645);
-   else func_020061E4(0x548);
+   if((u16)(s->f50+0xfffe)<=1) GFL_USE_PlaySeDefaultVolume(0x645);
+   else GFL_USE_PlaySeDefaultVolume(0x548);
   }
  }
  s->f66=s->f66+s->f67;

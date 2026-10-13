@@ -19,7 +19,7 @@
  *   ov_id 0x00000072 data
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GAME_DATA_GetSaveBlock3B 0x02012EFC thumb
  *   GAME_DATA_GetSaveBlock3A 0x02012EF0 thumb
  *   func_02008B08 0x02008B08 thumb
@@ -40,7 +40,7 @@ extern int func_02034AC4(s32 handle);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008AECObj *func_02008B08(void *sys);
@@ -57,7 +57,7 @@ int func_021D6660(void *ctx,int unused,u8 *q) {
     func_02034AC4((s32)ov_id);
     GFL_HEAP_CreateChildHeap(1,125,0x18000);
     p=PROCSYS_AllocProcWork(ctx,0x185c,125);
-    func_02082BCC(p,0,0x185c);
+    MI_CpuFill8(p,0,0x185c);
     *(u8 **)p=q;
     *(int *)(q+8)=1;
     save=func_020120F4(*(void **)(*(u8 **)p+4));

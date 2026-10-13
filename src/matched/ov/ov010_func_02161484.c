@@ -13,7 +13,7 @@
  * symbols:
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyParty 0x02012934 thumb
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02034A5C 0x02034A5C arm
  *   func_021C3E00 0x021C3E00 thumb ov136
  *   func_021C3E04 0x021C3E04 thumb ov136
@@ -38,7 +38,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 typedef signed int     s32;
 struct BigObj;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern void *func_0201AB28(void *a, u32 b);
+extern void *POKEPARTY_GetMember(void *a, u32 b);
 extern void func_02034A5C(s32 handle);
 extern u32 func_021C3E00(u32 *p);
 extern int func_021C3E04(u32 *p, void *q);
@@ -50,7 +50,7 @@ int EVENT_FIELD_PROCLINK_ReturnMail(Ctx *c, void *p)
     if (c->f08 == 0) {
         if (c->f68 == 0 || c->f68 == 2) {
             if (func_021C3E00(p) == 1) {
-                func_021C3E04(p, func_0201AB28(GAME_DATA_GetMyParty(sv), c->f60));
+                func_021C3E04(p, POKEPARTY_GetMember(GAME_DATA_GetMyParty(sv), c->f60));
                 v = 0;
             } else if (c->f68 == 0) {
                 v = 2;
@@ -67,7 +67,7 @@ int EVENT_FIELD_PROCLINK_ReturnMail(Ctx *c, void *p)
     if (c->f08 == 2) {
         if (c->f68 == 2) {
             if (func_021C3E00(p) == 1) {
-                func_021C3E04(p, func_0201AB28(GAME_DATA_GetMyParty(sv), c->f60));
+                func_021C3E04(p, POKEPARTY_GetMember(GAME_DATA_GetMyParty(sv), c->f60));
                 c->f0c = 0;
             } else {
                 c->f0c = 0;

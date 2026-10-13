@@ -1,5 +1,5 @@
 /*
- * function: func_021CA394
+ * function: BTL_SERVER_FLOW_ProcHandExPromoteActionsByMove
  * address: 0x021CA394
  * packet: pkt_ov093_021CA394
  * region: ov093
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int BTL_SERVER_FLOW_PromoteActionsByMove(u8 *, u8 *);
-u8 func_021CA394(u8 *p, const u8 *q)
+u8 BTL_SERVER_FLOW_ProcHandExPromoteActionsByMove(u8 *p, const u8 *q)
 {
     u8 r;
     if (BTL_SERVER_FLOW_PromoteActionsByMove(p, (u8 *)(u32)*(const u16 *)&((struct Obj21127 *)q)->f4)) r = 1;

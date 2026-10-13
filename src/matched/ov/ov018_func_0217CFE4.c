@@ -11,8 +11,8 @@
  * symbols:
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   func_02030734  0x02030734  arm
- *   func_02026454  0x02026454  thumb
- *   func_02026474  0x02026474  thumb
+ *   GAME_COMM_GetKind  0x02026454  thumb
+ *   GAME_COMM_GetWork  0x02026474  thumb
  *   INTRUDE_SUBDISP_InitTownState  0x0217EFCC  thumb  ov018
  *   func_020490F4  0x020490F4  arm
  *   INTRUDE_SUBDISP_SystemSetup  0x0217D624  thumb  ov018
@@ -51,8 +51,8 @@ extern char str_02183B14[];
 struct Ctx;
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-u32 func_02026454(void *obj);
-u32 func_02026474(void *obj);
+u32 GAME_COMM_GetKind(void *obj);
+u32 GAME_COMM_GetWork(void *obj);
 struct State;
 void INTRUDE_SUBDISP_InitTownState(char *p, char *q);
 void *func_020490F4(u32 id, u32 heap);
@@ -105,8 +105,8 @@ u8 *INTRUDE_SUBDISP_Init(void *a)
         *(u16 *)(w + 0xF0 + i * 8) = 0x1AB;
     }
     p = 0;
-    if (func_02026454(s) == 2) {
-        p = (u8 *)func_02026474(s);
+    if (GAME_COMM_GetKind(s) == 2) {
+        p = (u8 *)GAME_COMM_GetWork(s);
     }
     if (p != 0 && ((FlagsF8 *)(p + 0x8F8))->b == 1) {
         p = 0;

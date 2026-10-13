@@ -1,5 +1,5 @@
 /*
- * function: func_021B8DDC
+ * function: BTL_MAIN_PokeIdToClientIdThunk
  * address:  0x021B8DDC
  * packet:   pkt_021B8DDC
  * region:   ov093
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8D08   0x021B8D08  thumb ov093
- *   func_021B8DDC   0x021B8DDC  thumb ov093
+ *   BTL_MAIN_PokeIdToClientId   0x021B8D08  thumb ov093
+ *   BTL_MAIN_PokeIdToClientIdThunk   0x021B8DDC  thumb ov093
  *
- * tail-call thunk to func_021B8D08
+ * tail-call thunk to BTL_MAIN_PokeIdToClientId
  */
 
 typedef unsigned char u8;
@@ -23,9 +23,9 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern u8 func_021B8D08(u32 x);
+extern u8 BTL_MAIN_PokeIdToClientId(u32 x);
 
-u8 func_021B8DDC(u32 x)
+u8 BTL_MAIN_PokeIdToClientIdThunk(u32 x)
 {
-    return func_021B8D08(x);
+    return BTL_MAIN_PokeIdToClientId(x);
 }

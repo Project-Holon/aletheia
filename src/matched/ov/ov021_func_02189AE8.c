@@ -9,22 +9,22 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Leaf: 0 for id 0x3f, else 0 when func_02013CE0() reports 1, else 1.
+ * Leaf: 0 for id 0x3f, else 0 when ZONEDATA_IsZone96Pair() reports 1, else 1.
  * Callee of FIELDMAP_SetupMmdlSys.  EXACT* because the unlabelled follower
  * (0x02189B04) has no seed; no byte differs.
  *
  * symbols:
- *   func_02013CE0  0x02013CE0  thumb
+ *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  */
 
 typedef unsigned int   u32;
-extern u32 func_02013CE0(u32 id);
+extern u32 ZONEDATA_IsZone96Pair(u32 id);
 
 int FIELDMAP_IsMmdlDrawEnabled(int a)
 {
     if (a == 0x3f)
         return 0;
-    if (func_02013CE0(a) == 1)
+    if (ZONEDATA_IsZone96Pair(a) == 1)
         return 0;
     return 1;
 }

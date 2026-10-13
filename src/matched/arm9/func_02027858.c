@@ -12,13 +12,13 @@
  *
  * symbols:
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_02045730  0x02045730  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *
  * Tear down a task menu: drain every queued item of every cell, destroy the
  * cells, drop the shared owner and release the three blocks.
@@ -65,13 +65,13 @@ struct TaskMenu {
 struct Descriptor;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern u32 func_020307B0(void *p);
 extern void func_02041B6C(u32 bit);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern u8 func_02045730(struct Descriptor *p);
-extern void *func_02045770(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
 void APP_TASKMENU_CloseMenu(struct TaskMenu *m)
 {
@@ -79,18 +79,18 @@ void APP_TASKMENU_CloseMenu(struct TaskMenu *m)
     u8 i;
     u8 j;
 
-    owner = (void *)func_02045730(m->cells[0]);
+    owner = (void *)BMP_WIN_GetBgLayer(m->cells[0]);
 
     for (i = 0; i < m->count; i++) {
-        while (func_0201C6C4(m->unk_34->unk_14,
-                             func_02045770(m->cells[i])) != 0) {
+        while (PRINTSYS_QUE_IsExistTarget(m->unk_34->unk_14,
+                             BMP_WIN_GetBmp(m->cells[i])) != 0) {
             PRINTSYS_QUE_Main(m->unk_34->unk_14);
         }
     }
 
     for (j = 0; j < m->count; j++) {
         BMP_WIN_ClearScreen(m->cells[j]);
-        func_020452E8(m->cells[j]);
+        BMP_WIN_Delete(m->cells[j]);
     }
 
     func_02041B6C((u32)owner);

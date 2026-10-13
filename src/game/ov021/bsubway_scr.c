@@ -46,8 +46,8 @@
  *   func_0200DA54  0x0200DA54  thumb
  *   func_0200DB80  0x0200DB80  thumb
  *   BTL_SETUP_Delete  0x020130B4  thumb
- *   func_02082BCC  0x02082BCC  arm
- *   func_0201AB28  0x0201AB28  thumb
+ *   MI_CpuFill8  0x02082BCC  arm
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_0200DB1C  0x0200DB1C  thumb
  *   func_0200DB08  0x0200DB08  thumb
@@ -114,7 +114,7 @@
  *   FIELD_STATUS_CreateSubProcCallbackEvent  0x02014808  thumb
  *   func_02019ED4  0x02019ED4  thumb
  *   POKE_REGULATION_Load  0x0201A354  thumb
- *   func_0201AA18  0x0201AA18  thumb
+ *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   ISS_SYS_GetSwitchSys  0x0202B578  thumb
  *   ISS_SWITCH_SYS_SwitchOn  0x0202C0D0  thumb
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
@@ -181,9 +181,9 @@
  *   d_021DADF8     0x021DADF8  data  a4
  *   data_021DAEBC  0x021DAEBC  data
  *   func_0200B6E0  0x0200B6E0  thumb
- *   func_0201A920  0x0201A920  thumb
- *   func_0201A954  0x0201A954  thumb
- *   func_0201A98C  0x0201A98C  thumb
+ *   POKEPARTY_Create  0x0201A920  thumb
+ *   POKEPARTY_InitEx  0x0201A954  thumb
+ *   POKEPARTY_Add  0x0201A98C  thumb
  *   FLD_BTL_INST_TOOL_CreateBtlSetup  0x021681C8  thumb  ov010
  *   d_021DB3D0  0x021DB3D0  data
  *   d_021DB3D8  0x021DB3D8  data
@@ -346,8 +346,8 @@ extern void *func_020127A4(void *p);
 extern u16 func_0200DA54(struct BsubwayPlayData *p);
 extern u16 func_0200DB80(struct BsubwayScoreData *p, u32 i);
 extern int BTL_SETUP_Delete(int a0);
-extern void func_02082BCC(void *p, int v, int n);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void MI_CpuFill8(void *p, int v, int n);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 func_02017E1C(void *m, u32 id, u32 v);
 extern void func_0200DB1C(struct BsubwayScoreData *p, u32 i);
 extern void func_0200DB08(struct BsubwayScoreData *p, u32 i, u16 v);
@@ -423,7 +423,7 @@ extern void VM_SetWait(char *p, int val);
 extern void BATTLE_REC_FreeWork(void);
 extern void *FIELD_STATUS_CreateSubProcCallbackEvent(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
 extern void FIELD_GIMMICK_BSUBWAY_HaltTrainSway(int a);
-extern u32 func_0201AA18(void *party);
+extern u32 POKEPARTY_GetCount(void *party);
 extern void func_0200D9E8(struct BsubwayPlayData *p, s32 a, s32 b, s32 c);
 extern void func_0200DA28(struct BsubwayPlayData *p);
 extern void func_0200DB30(struct BsubwayScoreData *p, u32 i);
@@ -462,9 +462,9 @@ extern void *FLDMMDL_AddMmdlParam(void *o, int x, int y, u16 d, u32 a, u32 b, u3
 extern int FLDMMDL_SetParam(int a0, int a1, int a2);
 extern void FLDMMDL_SetEventId(void *h, u16 v);
 extern u32 func_0200B6E0(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub);
-extern struct Party *func_0201A920(u32 heap);
-extern void func_0201A954(struct Party *p, s32 capacity);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern struct Party *POKEPARTY_Create(u32 heap);
+extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
+extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern struct BattleSystem *FLD_BTL_INST_TOOL_CreateBtlSetup(void *gameSystem, void *party, u32 playMode, BtlInstTrainer *trainers, BtlInstTrainer *partner, int memberNum);
 extern u8 FLD_BTL_INST_TOOL_CreateTrainer(BtlInstTrainer *trainer, u16 trainerNo, u8 memberNum, u16 *monsNo, u16 *itemNo, BtlInstDraw *draw, u16 heapId);
 extern void *FLD_BTL_INST_TOOL_InitTrainerHeader(BtlInstTrainer *trainer, int trainerNo, u16 heapId);
@@ -657,7 +657,7 @@ void BSUBWAY_SCR_DeleteWork(GameSystem *gameSystem, BsubwayScrWork *work)
             BTL_SETUP_Delete((int)(work->btlSetup));
             work->btlSetup = 0;
         }
-        func_02082BCC(work, 0, 0x7EC);
+        MI_CpuFill8(work, 0, 0x7EC);
         func_020307B0(work);
     }
     GAME_DATA_SetCurrentEvent(func_020120F4(gameSystem), 0);
@@ -735,7 +735,7 @@ void BSUBWAY_SCR_LoadMembers(BsubwayScrWork *work, u32 unused)
     func_0200D884(work->playData, 5, work->memberIndex);
     party = BSUBWAY_SCR_GetParty(work);
     for (i = 0; i < work->memberNum; i++) {
-        mon = (u32)func_0201AB28(party, work->memberIndex[i]);
+        mon = (u32)POKEPARTY_GetMember(party, work->memberIndex[i]);
         work->memberMonsNo[i] = func_02017E1C((void *)mon, 5, 0);
         work->memberItemNo[i] = func_02017E1C((void *)mon, 6, 0);
     }
@@ -962,7 +962,7 @@ u32 BSUBWAY_SCR_SetSelectedMembers(BsubwayScrWork *work, u32 unused)
         if (work->selectPos[i] - 1 >= 6)
             work->selectPos[i] = 1;
         work->memberIndex[i] = work->selectPos[i] - 1;
-        mon = (u32)func_0201AB28(party, work->memberIndex[i]);
+        mon = (u32)POKEPARTY_GetMember(party, work->memberIndex[i]);
         work->memberMonsNo[i] = func_02017E1C((void *)mon, 5, 0);
         work->memberItemNo[i] = func_02017E1C((void *)mon, 6, 0);
     }
@@ -1372,12 +1372,12 @@ void BSUBWAY_SCR_SaveMemberParty(BsubwayScrWork *work, u32 unused, int slot)
 
     i = 0;
     buf = func_02030734((u16)(((u16)work->heapId & 0x7fff) | 0x8000), 0xb4, 0, d_021DE58C, 0x89a);
-    func_02082BCC(buf, 0, 0xb4);
+    MI_CpuFill8(buf, 0, 0xb4);
     party = BSUBWAY_SCR_GetParty(work);
     for (; i < 3; i++)
-        BSUBWAY_SCR_PackBattleMon(&buf[i], (u32)func_0201AB28(party, work->memberIndex[i]));
+        BSUBWAY_SCR_PackBattleMon(&buf[i], (u32)POKEPARTY_GetMember(party, work->memberIndex[i]));
     func_0200DC50(work->scoreData, slot, buf);
-    func_02082BCC(buf, 0, 0xb4);
+    MI_CpuFill8(buf, 0, 0xb4);
     func_020307B0(buf);
 }
 
@@ -1876,7 +1876,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         break;
     case BSUBWAY_SCR_CMD_CLEAR_RECV_BUF:
         work->recvCount = 0;
-        func_02082BCC(work->recvBuf, 0, 0x46);
+        MI_CpuFill8(work->recvBuf, 0, 0x46);
         break;
     case BSUBWAY_SCR_CMD_START_PARTNER_TASK_A:
         SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartNameBalloonFromRecord(work, (void *)gameSystem, arg1, arg2, 5));
@@ -2014,7 +2014,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         }
         break;
     case BSUBWAY_SCR_CMD_START_BATTLE_REC_PROC:
-        func_02082BCC(&work->btlRecProcParam, 0, 0x18);
+        MI_CpuFill8(&work->btlRecProcParam, 0, 0x18);
         work->btlRecProcParam.gameData = (GameData *)gameData;
         work->btlRecProcParam.mode = 1;
         work->btlRecProcParam.recordNo = 0;
@@ -2067,11 +2067,11 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
             int monIndex;
             int sumBefore;
             int sumAfter;
-            monCount = func_0201AA18(btlParty);
+            monCount = POKEPARTY_GetCount(btlParty);
             sumBefore = 0;
             sumAfter = 0;
             for (monIndex = 0; monIndex < monCount; monIndex++) {
-                void *partyMon = func_0201AB28(btlParty, monIndex);
+                void *partyMon = POKEPARTY_GetMember(btlParty, monIndex);
                 int valueBefore = func_02017E1C(partyMon, 0xa0, 0);
                 int valueAfter = func_02017E1C(partyMon, 0xa1, 0);
                 sumBefore += valueBefore;
@@ -2153,7 +2153,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         *resultDst = GFL_NET_SYSTEM_GetCurrentAid();
         break;
     case BSUBWAY_SCR_CMD_START_WIFI_PROC:
-        func_02082BCC(&work->wifiProcParam, 0, 0x24);
+        MI_CpuFill8(&work->wifiProcParam, 0, 0x24);
         work->wifiProcParam.gameData = (GameData *)gameData;
         work->wifiProcParam.result = 11;
         SCRIPT_SYS_CallEvent(scriptWork, FIELD_STATUS_CreateSubProcCallbackEvent((char *)gameSystem, (int)fieldMap, (u32)ov100_id, (int)data_021BB6A4, (int)&work->wifiProcParam, 0, 0));
@@ -2744,14 +2744,14 @@ int BSUBWAY_SCR_GetTrainNo(void *fieldMap)
  */
 u32 func_021CBD08(BsubwayScrWork *work, int gameSystem)
 {
-    void *partyList = func_0201A920(0x8004);
+    void *partyList = POKEPARTY_Create(0x8004);
     void *party = BSUBWAY_SCR_GetParty(work);
     int i;
     u32 result;
 
-    func_0201A954(partyList, work->memberNum);
+    POKEPARTY_InitEx(partyList, work->memberNum);
     for (i = 0; i < work->memberNum; i++)
-        func_0201A98C(partyList, func_0201AB28(party, work->memberIndex[i]));
+        POKEPARTY_Add(partyList, POKEPARTY_GetMember(party, work->memberIndex[i]));
     result = (u32)FLD_BTL_INST_TOOL_CreateBtlSetup((void *)gameSystem, partyList, work->playMode, work->trainers, &work->partners[work->stateBits.partnerNo], work->memberNum);
     func_020307B0(partyList);
     return result;

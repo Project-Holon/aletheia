@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   INTRUDE_COMM_StoreSessionEntry  0x02175938  thumb ov011
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
@@ -22,7 +22,7 @@
 typedef unsigned int   u32;
 struct Link;
 struct SaveBlock;
-u32 func_02026478(void *obj);
+u32 GAME_COMM_GetGameData(void *obj);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 void INTRUDE_COMM_StoreSessionEntry(u8 *p, const u16 *src, int index);
@@ -37,7 +37,7 @@ void INTRUDE_CMD_RecvMemberEntry(int a, int b, char *c, char *d)
     int v;
     int t;
 
-    v = func_02026478((void *)(((struct Obj19172 *)d)->f4));
+    v = GAME_COMM_GetGameData((void *)(((struct Obj19172 *)d)->f4));
     t = (unsigned char)c[0x24];
     INTRUDE_COMM_StoreSessionEntry((u8 *)(d + 0x1AC), (const u16 *)c, t);
     if (t != GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle()))) {

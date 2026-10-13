@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045758  0x02045758  arm
- *   func_02045760  0x02045760  arm
- *   func_02045748  0x02045748  arm
- *   func_02045750  0x02045750  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetPosX  0x02045758  arm
+ *   BMP_WIN_GetPosY  0x02045760  arm
+ *   BMP_WIN_GetDispWidth  0x02045748  arm
+ *   BMP_WIN_GetDispHeight  0x02045750  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02040804  0x02040804  arm
  *   TALKMSGWIN_GetTailBaseX  0x02194F5C  thumb  ov021
  *   func_0206E0C4  0x0206E0C4  arm
@@ -27,11 +27,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Descriptor;
-extern u8 func_02045758(struct Descriptor *p);
-extern u8 func_02045760(struct Descriptor *p);
-extern u8 func_02045748(struct Descriptor *p);
-extern u8 func_02045750(struct Descriptor *p);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
+extern u8 BMP_WIN_GetDispWidth(struct Descriptor *p);
+extern u8 BMP_WIN_GetDispHeight(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern u32 func_02040804(u32 layer);
 extern void TALKMSGWIN_GetTailBaseX(int x, int w, int side, u16 *a, u16 *b);
 extern void func_0206E0C4(int x, int y, void *c, int z);
@@ -50,11 +50,11 @@ int TALKMSGWIN_CalcTail(u8 *e, int b, int c, void *d, void *f)
     u16 yb;
     u16 v[2];
 
-    x = (func_02045758((struct Descriptor *)(((struct Obj01494 *)e)->fC)) - 1) << 3;
-    y = (func_02045760((struct Descriptor *)(((struct Obj01494 *)e)->fC)) - 1) << 3;
-    w = (func_02045748((struct Descriptor *)(((struct Obj01494 *)e)->fC)) + 2) << 3;
-    h = (func_02045750((struct Descriptor *)(((struct Obj01494 *)e)->fC)) + 2) << 3;
-    y += func_02040804(func_02045730((struct Descriptor *)(((struct Obj01494 *)e)->fC)));
+    x = (BMP_WIN_GetPosX((struct Descriptor *)(((struct Obj01494 *)e)->fC)) - 1) << 3;
+    y = (BMP_WIN_GetPosY((struct Descriptor *)(((struct Obj01494 *)e)->fC)) - 1) << 3;
+    w = (BMP_WIN_GetDispWidth((struct Descriptor *)(((struct Obj01494 *)e)->fC)) + 2) << 3;
+    h = (BMP_WIN_GetDispHeight((struct Descriptor *)(((struct Obj01494 *)e)->fC)) + 2) << 3;
+    y += func_02040804(BMP_WIN_GetBgLayer((struct Descriptor *)(((struct Obj01494 *)e)->fC)));
     switch (((struct Obj01494 *)e)->f4) {
     case 0:
     default:

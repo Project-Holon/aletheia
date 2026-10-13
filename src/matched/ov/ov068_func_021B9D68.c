@@ -20,7 +20,7 @@
  * mask extraction, or the unnested pack, compiles 184 bytes.
  *
  * symbols:
- *   d_020A1B38     0x020A1B38  data  a2
+ *   FX_SinCosTable_     0x020A1B38  data  a2
  *   func_02061CA4  0x02061CA4  arm
  */
 
@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern s16  d_020A1B38[];
+extern s16  FX_SinCosTable_[];
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
 void BLINK_PALANM_BlendStep(u16 *out, u16 *ang, int inc, u32 idx, u8 slot, u16 c0, u16 c1)
@@ -46,7 +46,7 @@ void BLINK_PALANM_BlendStep(u16 *out, u16 *ang, int inc, u32 idx, u8 slot, u16 c
     } else {
         *ang = t;
     }
-    f = (d_020A1B38[((*ang >> 4) << 1) + 1] + 0x1000) / 2;
+    f = (FX_SinCosTable_[((*ang >> 4) << 1) + 1] + 0x1000) / 2;
     r0 = c0 & 0x1f;
     g0 = (c0 & 0x3e0) >> 5;
     b0 = (c0 & 0x7c00) >> 10;

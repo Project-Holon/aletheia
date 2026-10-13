@@ -1,5 +1,5 @@
 /*
- * function: func_021C785C
+ * function: BTL_SERVER_FLOW_NotifyStatStageChangedEvent
  * address:  0x021C785C
  * packet:   pkt_ov093_021C785C
  * region:   ov093
@@ -25,7 +25,7 @@ extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
 extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern void BTL_EVENT_PopVarFrame(int line);
 
-void func_021C785C(u8 *p, u32 a, u8 *b, u32 c, u32 d)
+void BTL_SERVER_FLOW_NotifyStatStageChangedEvent(u8 *p, u32 a, u8 *b, u32 c, u32 d)
 {
     BTL_EVENT_PushVarFrame(12846);
     BTL_EVENT_SetVarReadOnly(3, a);

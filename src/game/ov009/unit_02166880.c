@@ -17,7 +17,7 @@
  *   WCMi_GetSystemWork    0x021657C8  arm  ov009
  *   WM_Init          0x0208E010  arm
  *   WCMi_SetPhase    0x02165A4C  arm  ov009
- *   func_0208EAC8    0x0208EAC8  arm
+ *   WM_SetIndCallback    0x0208EAC8  arm
  *   OS_GetMacAddress 0x02087C6C  arm
  *   func_021665CC    0x021665CC  arm  ov009
  *   func_0208F224    0x0208F224  arm
@@ -38,7 +38,7 @@
  *   WM_Finish  0x0208E2B8  arm
  *   func_0208F2A0  0x0208F2A0  arm
  *   func_0208F328  0x0208F328  arm
- *   func_0208F400  0x0208F400  arm
+ *   WM_Reset  0x0208F400  arm
  *   func_021679C0  0x021679C0  arm  ov009
  *   WCMi_GetCpsifWork  0x02166378  arm  ov009
  *   func_0208FF0C  0x0208FF0C  arm
@@ -169,7 +169,7 @@ extern WCMWork *WCMi_GetSystemWork(void);
 extern void WCMi_SetPhase(unsigned char phase);
 extern void WCMi_Notify(short result, void *para0, void *para1, long para2);
 extern long WM_Init(void *wmSysBuf, unsigned short dmaNo);
-extern long func_0208EAC8(void (*callback)(void *));
+extern long WM_SetIndCallback(void (*callback)(void *));
 extern void OS_GetMacAddress(unsigned char *macAddress);
 extern void func_021665CC(unsigned char *macAddress);
 extern int func_0208F224(char *path);
@@ -182,12 +182,11 @@ extern WMStatus *WMi_GetStatusAddress(void);
 extern long WM_Finish(void);
 extern long func_0208F2A0(void (*callback)(void *));
 extern long func_0208F328(void (*callback)(void *));
-extern long func_0208F400(void (*callback)(void *));
+extern long WM_Reset(void (*callback)(void *));
 extern WCMCpsifWork *WCMi_GetCpsifWork(void);
 extern long func_0208FF0C(void (*callback)(void *), unsigned char *destAdr, unsigned short *sendData, unsigned short sendDataSize);
 extern void OS_SleepThread(void *queue);
 extern unsigned short WM_GetAllowedChannel(void);
-extern int WM_Reset(void (*callback)(void *));
 extern long WM_PowerOn(void (*callback)(void *));
 extern long WM_Disable(void (*callback)(void *));
 extern long WM_SetBeaconIndication(void (*callback)(void *), unsigned short flag);
@@ -266,7 +265,7 @@ long func_02166880(void)
     case 0:
         break;
     }
-    if (func_0208EAC8(WcmWmcbIndication) != 0) {
+    if (WM_SetIndCallback(WcmWmcbIndication) != 0) {
         WCMi_SetPhase(0xb);
         return 7;
     }
@@ -429,7 +428,7 @@ long func_02166C44(void)
         break;
     default:
         wcmw->resetting = 1;
-        wmResult = func_0208F400(WcmWmcbReset);
+        wmResult = WM_Reset(WcmWmcbReset);
         break;
     }
     switch (wmResult) {

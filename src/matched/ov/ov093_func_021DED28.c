@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GripClaw_ExtendBind
+ * function: HAND_ITEM_GripClaw_ExtendBind
  * address:  0x021DED28
  * packet:   pkt_ov093_021DED28
  * region:   ov093
@@ -21,7 +21,7 @@ extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 union U;
 extern void BTLV_CORE_SetSlotIndex(union U *p, int v);
 
-void BTL_HANDLER_ITEM_GripClaw_ExtendBind(int a, int b, int c)
+void HAND_ITEM_GripClaw_ExtendBind(int a, int b, int c)
 {
     int t;
 

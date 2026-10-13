@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02187D30",
+   "name": "EL_SCOREBOARD_IsStateDone",
    "address": "0x02187D30",
    "kind": "game",
    "region": "ov020",

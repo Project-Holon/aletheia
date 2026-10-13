@@ -1,5 +1,5 @@
 /*
- * function: func_021D1E6C
+ * function: BTL_CLIENT_StepShowSideMessage
  * address:  0x021D1E6C
  * packet:   pkt_ov093_021D1E6C
  * region:   ov093
@@ -28,7 +28,7 @@ extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern void func_021EA678(char *p, u16 k, int *c);
 extern int func_021EA710(u32 *p);
 
-int func_021D1E6C(Seq *s, int *state, u32 *a)
+int BTL_CLIENT_StepShowSideMessage(Seq *s, int *state, u32 *a)
 {
     switch (*state) {
     case 0:

@@ -17,7 +17,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02012944 0x02012944 thumb
  *   func_02009470 0x02009470 thumb
@@ -31,7 +31,7 @@
  *   func_0204363C 0x0204363C arm
  *   TCBL_Create 0x0203101C arm
  *   func_02028590 0x02028590 thumb
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_021845B4 0x021845B4 thumb ov219
@@ -46,7 +46,7 @@ struct Tcbl;
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,u32,u32);
+extern void MI_CpuFill8(void *,u32,u32);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u8 *func_02012944(void *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
@@ -61,7 +61,7 @@ extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
 extern void func_0204363C(u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_02028590(u32,u32,u32,u16);
-extern u32 func_0201C440(void *);
+extern u32 PRINTSYS_QUE_Create(void *);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void func_021845B4(char *);
@@ -70,7 +70,7 @@ int func_02183B60(void *obj,void *unused,void *ctx)
     char *p;
     GFL_HEAP_CreateChildHeap((u32)((void *)1),0x7c,0x80000);
     p=PROCSYS_AllocProcWork(obj,0xc3bc,0x7c);
-    func_02082BCC(p,0,0xc3bc);
+    MI_CpuFill8(p,0,0xc3bc);
     *(u32 *)p=0x7c;
     *(void **)(p+4)=ctx;
     *(void **)(p+8)=GAME_DATA_GetSaveControl(ctx);
@@ -90,7 +90,7 @@ int func_02183B60(void *obj,void *unused,void *ctx)
     func_0204363C(0);
     *(void **)(p+0xc0a4)=TCBL_Create((u16)(*(u32 *)p),*(u32 *)p,0x20,0x20);
     *(u32 *)(p+0xc088)=func_02028590(0xf,1,0,*(u32 *)p);
-    *(u32 *)(p+0xc080)=func_0201C440((void *)(u16)*(u32 *)p);
+    *(u32 *)(p+0xc080)=PRINTSYS_QUE_Create((void *)(u16)*(u32 *)p);
     GFL_NET_RestartWithDefaultTimeout(1,(u16)(*(u32 *)p));
     BG_SYS_SetSubPlaneVisible(0x10,1);
     func_021845B4(p);

@@ -12,7 +12,7 @@
  * symbols:
  *   GAME_DATA_GetSeason   0x02012984  thumb
  *   BTL_SETUP_CreateTrainerData   0x02013234  thumb
- *   func_0201A920   0x0201A920  thumb
+ *   POKEPARTY_Create   0x0201A920  thumb
  *   func_0202A3FC   0x0202A3FC  thumb
  *   func_0202A440   0x0202A440  thumb
  *   func_0202A4B4   0x0202A4B4  thumb
@@ -77,7 +77,7 @@ typedef unsigned int   u32;
 struct BigObj;
 struct Out;
 struct Party;
-extern struct Party *func_0201A920(u32 heap);
+extern struct Party *POKEPARTY_Create(u32 heap);
 extern void *BTL_SETUP_CreateTrainerData(u32 heap);
 extern void func_0202A440(u32 id, struct Out *out, u32 heap);
 extern void func_0202A4B4(u32 a, u32 b, u32 c);
@@ -91,7 +91,7 @@ void BTL_SETUP_SetTrainer(u8 *o, u32 *a1, u32 n, u32 *dst, u32 v, u32 h)
     u32 off;
 
     if (*dst == 0) {
-        *dst = (u32)func_0201A920(h);
+        *dst = (u32)POKEPARTY_Create(h);
     }
     off = n * 4;
     base = o + 0x48;

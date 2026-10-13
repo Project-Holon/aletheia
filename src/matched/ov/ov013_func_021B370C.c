@@ -12,7 +12,7 @@
  * symbols:
  *   OSi_ReferSymbol  0x02004EB0  arm
  *   d_02005108     0x02005108  data
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   gVctState     0x021B60CC  data  ov013
  *   gVctSession     0x021B60D8  data  ov013
  *   VCT_SESSION_Init  0x021B0508  arm  ov013
@@ -40,7 +40,7 @@ extern char d_02005108[];
 extern int  gVctState[];
 extern u8   gVctSession[];
 extern void OSi_ReferSymbol(const void *symbol);
-extern void func_02082BCC(void *dst, int c, int n);
+extern void MI_CpuFill8(void *dst, int c, int n);
 extern int  VCT_SESSION_Init(void);
 struct Config;
 extern int VCT_SESSION_InitPeerPool(struct Config *cfg);
@@ -65,7 +65,7 @@ int VCT_Init(Param *p)
         return 0;
     if (p->f10 % 32 != 0)
         return 0;
-    func_02082BCC(gVctSession, 0, 0x18);
+    MI_CpuFill8(gVctSession, 0, 0x18);
     gVctState[4] = p->f18;
     gVctState[5] = p->f1c;
     gVctState[7] = p->f8;

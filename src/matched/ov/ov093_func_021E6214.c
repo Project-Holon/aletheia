@@ -1,5 +1,5 @@
 /*
- * function: func_021E6214
+ * function: HAND_WAZA_GetShadowForceHandlers
  * address: 0x021E6214
  * packet: pkt_ov093_021E6214
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E61BC.c and filed here.
  *
  * symbols:
- *   d_021F2F40 0x021F2F40 data ov093 a4
+ *   gShadowForceHandlers 0x021F2F40 data ov093 a4
  */
 
-int *func_021E6214(int *p);
-extern int d_021F2F40[];
+int *HAND_WAZA_GetShadowForceHandlers(int *p);
+extern int gShadowForceHandlers[];
 
-int *func_021E6214(int *p)
+int *HAND_WAZA_GetShadowForceHandlers(int *p)
 {
     *p = 5;
-    return d_021F2F40;
+    return gShadowForceHandlers;
 }

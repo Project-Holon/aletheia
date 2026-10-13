@@ -11,7 +11,7 @@
  * ABI: 0201CCE4 is a void forwarder in its matched source; caller stores live r0, so declare its observed word return.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   file_0220BC38 0x0220BC38 data a1
  *   func_02049B40 0x02049B40 arm
  *   func_0201EC64 0x0201EC64 thumb
@@ -24,10 +24,10 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_0201ED04 0x0201ED04 thumb
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_02045730 0x02045730 arm
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   TCBL_Create 0x0203101C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
@@ -51,7 +51,7 @@ struct CharBuf;
 struct Tcbl;
 extern char file_0220BC38[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern struct WordSet *func_0201EC64(u32);
 extern void func_0201EE84(struct WordSet *,u32,void *);
@@ -64,10 +64,10 @@ struct Rec;
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 func_0201ED04(struct WordSet *p);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-extern u8 func_02045730(struct Descriptor *);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
@@ -86,7 +86,7 @@ char *func_0220B55C(u16 heap,u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u32 h)
     void *str;
     u8 enabled;
     p=func_02030734(heap,0x5c,0,file_0220BC38,220);
-    func_02082BCC(p,0,0x5c);
+    MI_CpuFill8(p,0,0x5c);
     ((struct Obj00174 *)p)->f0=heap;
     *(u32 *)&((struct Obj00174 *)p)->f4=a;
     ((struct Obj00174 *)p)->f8=b;
@@ -110,12 +110,12 @@ char *func_0220B55C(u16 heap,u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u32 h)
     MSGDATA_Delete((struct Rec *)bank);
     func_0201ED04(ws);
     *(u32 *)&((struct Obj00174 *)p)->f38=BMP_WIN_Create(3,0,0,1,1,9,0);
-    BMP_Clear(func_02045770(*(struct Descriptor * *)&((struct Obj00174 *)p)->f38),0);
+    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj00174 *)p)->f38),0);
     BMP_WIN_TransferChars(*(struct Descriptor * *)&((struct Obj00174 *)p)->f38);
-    func_02041B6C(func_02045730(*(struct Descriptor * *)&((struct Obj00174 *)p)->f38));
+    func_02041B6C(BMP_WIN_GetBgLayer(*(struct Descriptor * *)&((struct Obj00174 *)p)->f38));
     *(struct Tcbl * *)&((struct Obj00174 *)p)->f34=TCBL_Create(((struct Obj00174 *)p)->f0,((struct Obj00174 *)p)->f0,1,0);
     *(u32 *)&((struct Obj00174 *)p)->f24=BMP_WIN_Create(3,1,19,30,4,9,1);
-    BMP_Clear(func_02045770(*(struct Descriptor * *)&((struct Obj00174 *)p)->f24),15);
+    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj00174 *)p)->f24),15);
     GF_FONT_SetTextColor(1,2,15);
     ((struct Obj00174 *)p)->f28=PRINTSYS_PrintStream(*(u32 *)&((struct Obj00174 *)p)->f24,0,0,*(u32 *)&((struct Obj00174 *)p)->f2C,((struct Obj00174 *)p)->f18,func_02012FFC(),*(u32 *)&((struct Obj00174 *)p)->f34,2,((struct Obj00174 *)p)->f0,15);
     ((struct Obj00174 *)p)->f30=func_0201F5DC((void *)3,8,0,((struct Obj00174 *)p)->f0);

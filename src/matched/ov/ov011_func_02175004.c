@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02026478  0x02026478  thumb
+ *   GAME_COMM_GetGameData  0x02026478  thumb
  *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   INTRUDE_COMM_UpdatePlayerObject  0x02175060  thumb ov011
  */
@@ -25,7 +25,7 @@ typedef struct Fl {
 } Fl;
 
 typedef unsigned int   u32;
-u32 func_02026478(void *obj);
+u32 GAME_COMM_GetGameData(void *obj);
 u8 GAME_DATA_IsSaving(const u8 *o);
 void INTRUDE_COMM_UpdatePlayerObject(u8 *p, int i);
 
@@ -33,7 +33,7 @@ void INTRUDE_COMM_UpdatePlayerObjects(u8 *p)
 {
     u8 i;
 
-    if (GAME_DATA_IsSaving((const u8 *)func_02026478((void *)(((struct Obj01838 *)p)->f4))) == 1) {
+    if (GAME_DATA_IsSaving((const u8 *)GAME_COMM_GetGameData((void *)(((struct Obj01838 *)p)->f4))) == 1) {
         return;
     }
     if (((Fl *)(p + 0x904))->b1 == 1) {

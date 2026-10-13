@@ -1,5 +1,5 @@
 /*
- * function: func_021E14E4
+ * function: HAND_WAZA_SonicBoomOnCalcFixedDamage
  * address:  0x021E14E4
  * packet:   pkt_021DFA3C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E14E4   0x021E14E4  thumb
+ *   HAND_WAZA_SonicBoomOnCalcFixedDamage   0x021E14E4  thumb
  *   BTL_EVENT_OverwriteVar   0x021D76BC  thumb
  *   BTL_EVENT_GetVar   0x021D775C  thumb
  * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #3; adds r4, r2, #0; bl BTL_EVENT_GetVar; cmp r4, r0; bne loc_021E14FA; movs r0, #0x37; movs r1, #0x14; bl BTL_EVENT_OverwriteVar; pop {r4, pc}.
@@ -24,7 +24,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021E14E4  shape F1: gate on BTL_EVENT_GetVar(3) */
-void func_021E14E4(int a, int b, int c)
+void HAND_WAZA_SonicBoomOnCalcFixedDamage(int a, int b, int c)
 {
     if (c == BTL_EVENT_GetVar(3))
         BTL_EVENT_OverwriteVar(0x37, 0x14);

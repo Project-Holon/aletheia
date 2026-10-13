@@ -16,7 +16,7 @@
  *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb
  *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb
  *   MAP_ATTR_IsRoughGround  0x021AB4B8  thumb
- *   func_02013C20  0x02013C20  thumb
+ *   ZONEDATA_IsBikeEnabled  0x02013C20  thumb
  */
 
 typedef unsigned char u8;
@@ -30,7 +30,7 @@ extern void *FIELDMAP_GetFieldPlayer(unsigned char *p);
 extern int FIELD_PLAYER_GetNowAttribute();
 extern int MAP_ATTR_GetTerrainId();
 extern int MAP_ATTR_IsRoughGround();
-extern u32 func_02013C20(u32 id);
+extern u32 ZONEDATA_IsBikeEnabled(u32 id);
 
 int EVENTDATA_SYSTEM_CheckBicycleUsable(int a0, int a1, int a2)
 {
@@ -69,7 +69,7 @@ a0 = 0;
     return a0;
 loc_02164542:
 a0 = t6 + 0;
-    a0 = func_02013C20(a0);
+    a0 = ZONEDATA_IsBikeEnabled(a0);
 loc_02164548:
     if (a0 != 0) goto loc_02164550;
 loc_0216454C:

@@ -27,7 +27,7 @@
  *   func_0200E9F4 0x0200E9F4 thumb
  *   func_02012944 0x02012944 thumb
  *   func_021E5548 0x021E5548 thumb ov177
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0200B074 0x0200B074 thumb
  *   func_02082D44 0x02082D44 arm
  *   func_0200EA00 0x0200EA00 thumb
@@ -61,7 +61,7 @@ extern struct Reg *func_0200AE14(struct Reg2 *);
 extern void *func_0200E9F4(void *);
 extern u8 *func_02012944(void *);
 extern int func_021E5548(int *);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern u8 *func_0200B074(struct Reg2 *);
 extern void func_02082D44(const void *, void *, u32);
 struct Sub0200852CObj;
@@ -97,7 +97,7 @@ void func_0217DC28(int *p)
             Rec rec;
             Row *table;
             int total, a, b, c, d;
-            func_02082BCC(&rec, 0, 0xac);
+            MI_CpuFill8(&rec, 0, 0xac);
             func_02082D44(func_0200B074(obj), &rec, 0x92);
             table = (u16 (*)[3])func_0200EA00((int)stats);
             rec.a0 = BSUBWAY_SAVEDATA_GetStat(table, 10, 0);
@@ -114,7 +114,7 @@ void func_0217DC28(int *p)
             Rec rec;
             const u8 *table;
             int a, b, c, d;
-            func_02082BCC(&rec, 0, 0xac);
+            MI_CpuFill8(&rec, 0, 0xac);
             func_02082D44(func_0200B074(obj), &rec, 0x92);
             table = (const u8 *)func_0200EA08((int)stats);
             rec.a0 = func_0200E918(table, 1); rec.a2 = func_0200E918(table, 2);

@@ -1,5 +1,5 @@
 /*
- * function: func_02177BFC
+ * function: NET_WHPIPE_GetEntryBeacon
  * address:  0x02177BFC
  * packet:   pkt_ov014_02177BFC
  * region:   ov014
@@ -30,7 +30,7 @@ typedef struct {
     Sub sub;
 } S;
 
-u8 *func_02177BFC(S *a0, u8 *out)
+u8 *NET_WHPIPE_GetEntryBeacon(S *a0, u8 *out)
 {
     Sub *s = &a0->sub;
 

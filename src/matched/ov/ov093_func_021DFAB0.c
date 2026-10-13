@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetRockyHelmetHandlers
+ * function: HAND_ITEM_GetRockyHelmetHandlers
  * address: 0x021DFAB0
  * packet: pkt_ov093_021DFAB0
  * region: ov093
@@ -15,10 +15,10 @@
  *   gBtlHandlerItemRockyHelmetHandlers 0x021F140C data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetRockyHelmetHandlers(int *p);
+int *HAND_ITEM_GetRockyHelmetHandlers(int *p);
 extern int gBtlHandlerItemRockyHelmetHandlers[];
 
-int *BTL_HANDLER_ITEM_GetRockyHelmetHandlers(int *p)
+int *HAND_ITEM_GetRockyHelmetHandlers(int *p)
 {
     *p = 1;
     return gBtlHandlerItemRockyHelmetHandlers;

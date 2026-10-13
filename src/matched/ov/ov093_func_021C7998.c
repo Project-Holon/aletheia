@@ -1,5 +1,5 @@
 /*
- * function: func_021C7998
+ * function: BTL_SERVER_FLOW_DispatchWeatherChangedEvent
  * address:  0x021C7998
  * packet:   pkt_ov093_021C7998
  * region:   ov093
@@ -27,7 +27,7 @@ extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
 
-void func_021C7998(u8 *p, u32 x)
+void BTL_SERVER_FLOW_DispatchWeatherChangedEvent(u8 *p, u32 x)
 {
     BTL_EVENT_PushVarFrame(12930);
     BTL_EVENT_SetVarReadOnly(0x39, x);

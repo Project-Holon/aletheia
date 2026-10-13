@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf, filed as the blocker of ov093 func_021D2234 (lane S15).
+ * Unlabelled leaf, filed as the blocker of ov093 BTL_CLIENT_StepStartEffectForMon (lane S15).
  *
  * symbols:
  *   d_0220AF20     0x0220AF20  data   ov094

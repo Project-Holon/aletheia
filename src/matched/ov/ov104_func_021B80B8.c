@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  */
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct CharBuf;
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-void func_021B80B8(u8 *p) { BMP_Clear(func_02045770(((struct Obj10245 *)p)->f0),((struct Obj10245 *)p)->f10); BMP_WIN_TransferChars(((struct Obj10245 *)p)->f0); }
+void func_021B80B8(u8 *p) { BMP_Clear(BMP_WIN_GetBmp(((struct Obj10245 *)p)->f0),((struct Obj10245 *)p)->f10); BMP_WIN_TransferChars(((struct Obj10245 *)p)->f0); }

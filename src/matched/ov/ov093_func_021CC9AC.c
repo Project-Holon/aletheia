@@ -1,5 +1,5 @@
 /*
- * function: func_021CC9AC
+ * function: BTL_SERVER_FLOW_AllocHandExRecord
  * address:  0x021CC9AC
  * packet:   pkt_ov093_021CC9AC
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021EFE9C     0x021EFE9C  data  a4
+ *   gHandExRecordSizeTable     0x021EFE9C  data  a4
  */
 
 typedef unsigned char u8;
@@ -39,9 +39,9 @@ struct Pack {
     u8 data[500];
 };
 
-extern struct SizeEntry d_021EFE9C[0x3B];
+extern struct SizeEntry gHandExRecordSizeTable[0x3B];
 
-struct Rec *func_021CC9AC(struct Pack *p, int id, int b)
+struct Rec *BTL_SERVER_FLOW_AllocHandExRecord(struct Pack *p, int id, int b)
 {
     u32 i;
     u32 size;
@@ -52,8 +52,8 @@ struct Rec *func_021CC9AC(struct Pack *p, int id, int b)
     i = 0;
     size = 0;
     for (; i < 0x3B; i++) {
-        if (id == d_021EFE9C[i].id) {
-            size = d_021EFE9C[i].size;
+        if (id == gHandExRecordSizeTable[i].id) {
+            size = gHandExRecordSizeTable[i].size;
             break;
         }
     }

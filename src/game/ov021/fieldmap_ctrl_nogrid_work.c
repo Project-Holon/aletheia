@@ -23,8 +23,8 @@
  *   FIELDMAP_GetCtrlWork  0x02188CA4  thumb  ov021
  *   func_02030734  0x02030734  arm
  *   gFieldMapCtrlNogridWorkFileName     0x021DDF1C  data  a1
- *   func_020362DC  0x020362DC  arm
- *   func_0203630C  0x0203630C  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
@@ -58,8 +58,8 @@ typedef struct FieldMapCtrlNogridWork {
 
 extern u32 func_020307B0(void *memory);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
-extern u32 func_020362DC(void);
-extern unsigned int func_0203630C(void);
+extern u32 KEY_GetTrg(void);
+extern unsigned int KEY_GetCont(void);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern void FIELDMAP_SetCtrlWork(FieldMap *fieldMap, void *ctrlWork);
@@ -150,8 +150,8 @@ void FIELDMAP_CTRL_NOGRID_WORK_FreeWork(void *work)
 /* Moves the player along the rails with this frame's keys. */
 void FIELDMAP_CTRL_NOGRID_WORK_MovePlayer(FieldMapCtrlNogridWork *work)
 {
-    u32 keyTrg = func_020362DC();
-    u32 keyCont = func_0203630C();
+    u32 keyTrg = KEY_GetTrg();
+    u32 keyCont = KEY_GetCont();
 
     FIELD_PLAYER_SetupNogrid(work->player, keyTrg, keyCont);
 }

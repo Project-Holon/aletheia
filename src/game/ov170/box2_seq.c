@@ -16,7 +16,7 @@
  *   func_021DE428 0x021DE428 thumb ov170
  *   func_021DDAE8 0x021DDAE8 thumb ov170
  *   func_021DE66C 0x021DE66C thumb ov170
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021E066C 0x021E066C thumb ov170
  *   func_021EF5C4 0x021EF5C4 thumb ov170
  *   func_021EF400 0x021EF400 thumb
@@ -67,10 +67,10 @@
  *   func_021E01B0 0x021E01B0 thumb
  *   func_021EF60C 0x021EF60C thumb
  *   func_021EF770 0x021EF770 thumb
- *   func_0201C6B4 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   d_021EFA7C 0x021EFA7C data a4
  *   func_02034AC4 0x02034AC4 arm
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_0204363C 0x0204363C arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
@@ -107,7 +107,7 @@
  *   func_02034A5C  0x02034A5C  arm
  *   PALANM_GetFadeRequestBits   0x02021ED8  thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
@@ -119,7 +119,7 @@
  *   d_021EFA2C 0x021EFA2C data a4
  *   func_021DEFEC 0x021DEFEC thumb ov170
  *   func_021EF670 0x021EF670 thumb ov170
- *   func_0201AA18 0x0201AA18 thumb
+ *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   func_021EF68C 0x021EF68C thumb ov170
  *   d_021EF9B4 0x021EF9B4 data
  *   d_021EF950 0x021EF950 data
@@ -131,7 +131,7 @@
  *   func_021EF170 0x021EF170 thumb
  *   func_020260F4 0x020260F4 thumb
  *   func_021DD25C 0x021DD25C thumb
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_021EF5E8 0x021EF5E8 thumb
  *   func_021DF040 0x021DF040 thumb
  *   func_021DD14C 0x021DD14C thumb
@@ -164,7 +164,7 @@
  *   func_021E0778 0x021E0778 thumb
  *   func_021EE520 0x021EE520 thumb
  *   func_02025DE8 0x02025DE8 thumb
- *   func_0203633C 0x0203633C arm
+ *   KEY_GetRepeat 0x0203633C arm
  *   func_020077B8 0x020077B8 thumb
  *   func_020076D0 0x020076D0 thumb
  *   func_021EE544 0x021EE544 thumb
@@ -185,7 +185,7 @@
  *   func_021DF11C 0x021DF11C thumb ov170
  *   func_021EF6CC 0x021EF6CC thumb ov170
  *   func_021DD694 0x021DD694 thumb ov170
- *   func_0201AB28 0x0201AB28 thumb
+ *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   func_02017E88 0x02017E88 thumb
  *   func_021DE7C8 0x021DE7C8 thumb ov170
@@ -242,10 +242,10 @@
  *   d_021EFC20 0x021EFC20 data a1
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_0201C6C4 0x0201C6C4 thumb
- *   func_02045770 0x02045770 arm
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_WIN_MakeScreen  0x02045374  arm  arm9
- *   func_02045730  0x02045730  arm  arm9
+ *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
  *   func_02041B6C  0x02041B6C  arm  arm9
  *   BMP_WIN_ClearScreen  0x020456F8  arm  arm9
  *   func_02045EC0 0x02045EC0 arm
@@ -262,10 +262,10 @@
  *   func_0201EF98 0x0201EF98 thumb
  *   func_0201EF8C 0x0201EF8C thumb
  *   func_0201EF40 0x0201EF40 thumb
- *   func_02045758 0x02045758 arm
- *   func_02045760 0x02045760 arm
- *   func_02045738 0x02045738 arm
- *   func_02045740 0x02045740 arm
+ *   BMP_WIN_GetPosX 0x02045758 arm
+ *   BMP_WIN_GetPosY 0x02045760 arm
+ *   BMP_WIN_GetWidth 0x02045738 arm
+ *   BMP_WIN_GetHeight 0x02045740 arm
  *   func_02049DB4 0x02049DB4 arm
  *   BMP_CreateFromBuffer 0x020436FC arm
  *   BMP_Blit 0x020439A0 arm
@@ -285,7 +285,7 @@
  *   func_0201F7A8  0x0201F7A8  thumb  ov170
  *   func_021EE0FC 0x021EE0FC thumb
  *   func_021EE120 0x021EE120 thumb ov170
- *   func_020434DC 0x020434DC arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_021EE200  0x021EE200  thumb  ov170
  *   func_021DC9D8 0x021DC9D8 thumb ov170
@@ -299,8 +299,8 @@
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorVisible 0x0204BA20 arm
  *   CLACT_IsActorAnimActive  0x0204B98C  arm  arm9
- *   func_0204B3F4  0x0204B3F4  arm  arm9
- *   func_0204B688 0x0204B688 arm
+ *   CLACT_GetActorDrawEnable  0x0204B3F4  arm  arm9
+ *   CLACT_SetActorObjMode 0x0204B688 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
@@ -350,7 +350,7 @@
  *   func_02027768 0x02027768 thumb
  *   d_021EFD34 0x021EFD34 data a4
  *   func_020275EC 0x020275EC thumb
- *   func_0204B6F4 0x0204B6F4 arm
+ *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   func_02020E60 0x02020E60 thumb
  *   func_02020F08 0x02020F08 thumb
  *   func_02049E34 0x02049E34 arm
@@ -379,6 +379,11 @@
  *   CLACT_DeleteUnit  0x0204B1CC  arm  arm9
  *   CLACT_SetActorBgPriority  0x0204B84C  arm  arm9
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
+ *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb  arm9
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
+ *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
+ *   BMP_WIN_Delete  0x020452E8  arm  arm9
  */
 #include "box2_types.h"
 #include "../../matched/include/Obj23878.h"
@@ -822,7 +827,7 @@ typedef struct {
 extern void func_021DE428(unsigned char *p, unsigned a, unsigned b);
 extern int func_021DDAE8(unsigned char *p);
 extern void func_021DE66C(char *p, void *a);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int func_021E066C(char *p);
 extern int func_021EF5C4(struct WinMgr *mgr);
 extern int func_021EF400(unsigned char *p);
@@ -871,9 +876,9 @@ extern void func_021DF43C(char *p, int x, int y);
 extern int func_021DD930(unsigned char *p);
 extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EE3E4(char **p, unsigned idx);
-extern u32 func_0201C6B4(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern int func_02034AC4(int);
-extern void func_02043534(unsigned);
+extern void BG_SYS_SetMainVisiblePlanes(unsigned);
 extern void BG_SYS_SetSubVisiblePlanes(unsigned);
 extern void func_0204363C(unsigned);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
@@ -909,7 +914,7 @@ extern void func_02034A5C(int a);
 extern u32 WIPE_SYS_EndCheck(void);
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
 extern void APP_TASKMENU_UpdateMenu(void *);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
@@ -918,14 +923,14 @@ extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern int func_021DCFC0(char *p);
 extern void func_021DEFEC(char *p, int b);
 extern void func_021EF670(char *);
-extern u32 func_0201AA18(void *p);
+extern u32 POKEPARTY_GetCount(void *p);
 extern void func_021EF68C(char *);
 extern int func_021EF1FC(unsigned *a, unsigned *b);
 extern void func_021DD1C4(char *p, int a);
 extern unsigned func_021EF170(void);
 extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int func_021EF5E8(struct WinMgr *mgr);
 extern void func_021DF040(char *p);
 extern void func_021DD14C(char *p);
@@ -958,7 +963,7 @@ extern unsigned func_021EE474(char *p);
 extern int func_021E0778(unsigned char *p);
 extern void func_021EE520(char *p, unsigned idx);
 extern int func_02025DE8(struct Sound *obj);
-extern unsigned int func_0203633C(void);
+extern unsigned int KEY_GetRepeat(void);
 extern int func_020077B8(void *save, u32 box);
 extern int func_020076D0(void *save, int *pbox, int *pslot);
 extern void func_021EE544(char *p, unsigned int i);
@@ -979,7 +984,7 @@ extern int func_021E01A8(char *p);
 extern void func_021DF11C(char *p, int b);
 extern void func_021EF6CC(struct WinMgr *mgr);
 extern int func_021DD694(void ***, unsigned);
-extern void *func_0201AB28(void *, unsigned);
+extern void *POKEPARTY_GetMember(void *, unsigned);
 extern unsigned func_02017E1C(void *, unsigned, unsigned);
 extern unsigned func_02017E88(void *, unsigned, unsigned);
 extern int func_021DE7C8(unsigned char *p);
@@ -1019,14 +1024,14 @@ extern void func_021EF75C(struct WinMgr *mgr);
 extern void func_0202614C(struct Sound *obj, u32 idx);
 extern void BMP_WIN_Init(u16 heapId);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void *func_02045770(struct Descriptor *p);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 func_02045730(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(unsigned int);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -1043,10 +1048,10 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201EF98(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EF8C(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
-extern u8 func_02045758(struct Descriptor *p);
-extern u8 func_02045760(struct Descriptor *p);
-extern u8 func_02045738(struct Descriptor *p);
-extern u8 func_02045740(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
+extern u8 BMP_WIN_GetHeight(struct Descriptor *p);
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
@@ -1066,7 +1071,7 @@ extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_0201F7A8(void *, int);
 extern void func_021EE0FC(char *p);
 extern void func_021EE120(char *p);
-extern void func_020434DC(unsigned, unsigned);
+extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 extern void func_021EE200(char *);
 extern void CLACT_ExitSystem(void);
@@ -1086,14 +1091,14 @@ extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_0204B92C(struct Obj *, unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void func_0204B3DC(struct Obj *, unsigned int);
-extern u32 func_0204B3F4(struct Obj *p);
+extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern void CLACT_SetActorBgPriority(int, int);
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
-extern void func_0204B688(struct Actor *actor, u32 value);
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
@@ -1106,14 +1111,14 @@ extern int func_0201BC3C(void);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
-extern u32 func_0201BA68(void *mon);
+extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
 extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern int func_020079BC(void **save, u32 box, u32 slot, int field, int arg);
 extern void MIi_CpuCopy32(const void *src, void *dst, unsigned size);
 extern int POKE_TOOL_GetIconPalette(void *a0);
 extern u16 CLACT_GetActorCharacterIndex(u8 *p);
 extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void *POKE_TOOL_GetBoxParam(void *);
 extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
@@ -1559,7 +1564,7 @@ int func_021E09E0(char *p)
         if (func_021DDAE8((unsigned char *)p) == 0) {
             func_021DE66C(p, ((BoxSeq *)s)->f8);
             func_021ED544(p, 6);
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             ((BoxSeq *)s)->fC = 0;
             return 0;
         }
@@ -1698,7 +1703,7 @@ int func_021E0ABC(unsigned char *p)
             func_021EF36C(MGR(p));
             func_021EC5A0((char **)p, 1);
             func_021ECB20((char *)p, 0x82, 1);
-            func_020061E4(0x669);
+            GFL_USE_PlaySeDefaultVolume(0x669);
             func_021EE364((char **)p, 6, p[0x16]);
             func_02026124(*(void **)(WORK(p) + 0x70), 0x27);
             func_02026124(*(void **)(WORK(p) + 0x70), 0x28);
@@ -1711,11 +1716,11 @@ int func_021E0ABC(unsigned char *p)
         if (b->timer == 0) {
             int dir = func_021EF1B4();
             if (dir == 0) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021DD16C(p, 0);
                 b->state = 3;
             } else if (dir == 1) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021DD16C(p, 1);
                 b->state = 4;
             }
@@ -1748,13 +1753,13 @@ int func_021E0ABC(unsigned char *p)
         break;
     case 7:
         if (func_021DEAFC((int)p) == 0) {
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 9;
         }
         break;
     case 8:
         if (func_021DEAFC((int)p) == 0) {
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             if (CNT(p) != 0) {
                 func_021ED108(WORK(p), 0);
                 func_021ED2F4(WORK(p));
@@ -1974,11 +1979,11 @@ int func_021E0FD8(unsigned char *p)
         if (b->timer == 0) {
             int dir = func_021EF1B4();
             if (dir == 0) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021DD16C(p, 0);
                 b->state = 3;
             } else if (dir == 1) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021DD16C(p, 1);
                 b->state = 4;
             }
@@ -2009,7 +2014,7 @@ int func_021E0FD8(unsigned char *p)
             b->state = 7;
     case 7:
         if (func_021DEAFC((int)p) == 0 && b->state == 7) {
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 8;
         }
         break;
@@ -2078,7 +2083,7 @@ int func_021E122C(unsigned char *p)
         if (p[0x17] != 0xFF && p[0x17] != p[0x14]) {
             b->state = 5;
         } else {
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 4;
         }
         break;
@@ -2141,7 +2146,7 @@ int func_021E1324(char *p)
         b->cnt++;
         break;
     case 4:
-        func_020061E4(0x666);
+        GFL_USE_PlaySeDefaultVolume(0x666);
         func_021ED544(p, 8);
         b->state++;
     case 5:
@@ -2190,7 +2195,7 @@ int func_021E1458(char *p)
         b->cnt++;
         break;
     case 2:
-        func_020061E4(0x667);
+        GFL_USE_PlaySeDefaultVolume(0x667);
         func_021ED544(p, 6);
         func_021ED108(WORK(p), 1);
         func_021EBFA8(WORK(p), 10, 2);
@@ -2251,7 +2256,7 @@ int func_021E152C(unsigned char *p)
         break;
     case 4:
         if (func_021DEB08(p) == 0) {
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 5;
         }
         break;
@@ -2353,7 +2358,7 @@ int func_021E1628(unsigned char *p)
         if (busy == 0 && wait == 0 && func_021EF45C(MGR(p)) == 0 && func_021EF248() == 0) {
             func_021EF3D8(MGR(p));
             func_021ECB20((char *)p, 0x81, 1);
-            func_020061E4(0x669);
+            GFL_USE_PlaySeDefaultVolume(0x669);
             func_021EE364((char **)p, 6, p[0x16]);
             func_02026124(*(void **)(WORK(p) + 0x70), 0x27);
             func_02026124(*(void **)(WORK(p) + 0x70), 0x28);
@@ -2366,11 +2371,11 @@ int func_021E1628(unsigned char *p)
         if (b->timer == 0) {
             int dir = func_021EF1B4();
             if (dir == 0) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021DD16C(p, 0);
                 b->state = 3;
             } else if (dir == 1) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021DD16C(p, 1);
                 b->state = 4;
             }
@@ -2396,7 +2401,7 @@ int func_021E1628(unsigned char *p)
     case 7:
     case 8:
         if (func_021DEAFC((int)p) == 0) {
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             if (b->state == 7) {
                 b->state = 9;
             } else if (b->state == 8) {
@@ -2640,7 +2645,7 @@ int func_021E1B1C(unsigned char *p)
             func_021EF35C(MGR(p));
             func_021EF36C(MGR(p));
             func_021EC5A0((char **)p, 1);
-            func_020061E4(0x669);
+            GFL_USE_PlaySeDefaultVolume(0x669);
             func_021EE364((char **)p, 6, p[0x16]);
             func_021EE038((char *)p, 2, 1, 2);
             *(int *)(WORK(p) + 0xA168) = p[0x16];
@@ -2649,11 +2654,11 @@ int func_021E1B1C(unsigned char *p)
         if (b->timer == 0) {
             int dir = func_021EF1B4();
             if (dir == 0) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021DD16C(p, 0);
                 b->state = 6;
             } else if (dir == 1) {
-                func_020061E4(0x548);
+                GFL_USE_PlaySeDefaultVolume(0x548);
                 func_021DD16C(p, 1);
                 b->state = 7;
             }
@@ -2670,7 +2675,7 @@ int func_021E1B1C(unsigned char *p)
         break;
     case 2:
         if (func_021DD930(p) == 0) {
-            func_020061E4(0x667);
+            GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 3;
         }
         break;
@@ -2730,7 +2735,7 @@ extern int (*const d_021EFA7C[])(char *);
 
 int func_021E1E34(char *p, int *state)
 {
-    if (!*(char * *)&((BoxTask *)p)->f2C || !((struct Obj23885 *)(*(char * *)&((BoxTask *)p)->f2C))->f8C || func_0201C6B4(((struct Obj23886 *)(*(char * *)&((BoxTask *)p)->f2C))->f8C))
+    if (!*(char * *)&((BoxTask *)p)->f2C || !((struct Obj23885 *)(*(char * *)&((BoxTask *)p)->f2C))->f8C || PRINTSYS_QUE_IsFinished(((struct Obj23886 *)(*(char * *)&((BoxTask *)p)->f2C))->f8C))
         *state = d_021EFA7C[*state](p);
     if (*state == 0x69)
         return 0;
@@ -2804,7 +2809,7 @@ int func_021E1E34(char *p, int *state)
 int func_021E1E80(u8 *p)
 {
     func_02034AC4((int)ov067_id);
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
@@ -2864,7 +2869,7 @@ int func_021E1F90(u8 *p)
     *(u32 *)&((BoxTask *)p)->f2C = 0;
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
-    func_02043534(0);
+    BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     func_02034A5C((int)ov067_id);
     return *(u32 *)&((BoxTask *)p)->f28;
@@ -3027,12 +3032,12 @@ int func_021E2070(char *p)
 int func_021E2094(char *p)
 {
     if (TOUCHPANEL_GetTrg() == 1) {
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         func_020355D8(1);
         return ((BoxTask *)p)->f28;
     }
-    if (func_020362DC() & 3) {
-        func_020061E4(0x54C);
+    if (KEY_GetTrg() & 3) {
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         func_020355D8(0);
         return ((BoxTask *)p)->f28;
     }
@@ -3195,7 +3200,7 @@ int func_021E216C(u8 *p){if(((BoxTask *)p)->f8!=1){(*(void (**)(u8 *))((u32)&d_0
 
 int func_021E21A0(u8 *p)
 {
-    func_020061E4(0x55C);
+    GFL_USE_PlaySeDefaultVolume(0x55C);
     switch(((struct Obj23887 *)(*(char * *)&((BoxTask *)p)->f0))->f24) {
     case 0:
         func_021EA784((int)p);
@@ -3220,7 +3225,7 @@ int func_021E21A0(u8 *p)
         NEXT(p)=0x39;
         break;
     case 4:
-        if(func_0201AA18(((struct Obj23888 *)(*(char * *)&((BoxTask *)p)->f0))->f8)==0) {
+        if(POKEPARTY_GetCount(((struct Obj23888 *)(*(char * *)&((BoxTask *)p)->f0))->f8)==0) {
             func_021EF670(W(p));
             func_021DEFEC((char *)p,0);
             func_021EE364((char **)p,13,0);
@@ -3259,7 +3264,7 @@ int func_021E21A0(u8 *p)
  */
 int func_021E22B8(int p)
 {
-    if (func_0201C6B4((const struct PrintSys *)(*(int *)(*(int *)&((BoxTask *)p)->f2C + 0x8c))) == 0)
+    if (PRINTSYS_QUE_IsFinished((const struct PrintSys *)(*(int *)(*(int *)&((BoxTask *)p)->f2C + 0x8c))) == 0)
         return 0xc;
     func_021E8F60((void *)p, *(int *)(*(int *)&((BoxTask *)p)->f2C + 0xA198));
 }
@@ -3423,7 +3428,7 @@ int func_021E24EC(unsigned char *p)
         if (y < old) {
             s->dir = 1;
             func_021DD1C4((char *)p, 1);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             if (STATE(p) == 0x15)
                 return func_021E8FC0((char *)p, (int)func_021E19D4, 0xF);
             return func_021E8FC0((char *)p, (int)func_021E1A78, 0xF);
@@ -3431,7 +3436,7 @@ int func_021E24EC(unsigned char *p)
         if (y > old) {
             s->dir = -1;
             func_021DD1C4((char *)p, -1);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             if (STATE(p) == 0x15)
                 return func_021E8FC0((char *)p, (int)func_021E1A28, 0xF);
             return func_021E8FC0((char *)p, (int)func_021E1ACC, 0xF);
@@ -3441,14 +3446,14 @@ int func_021E24EC(unsigned char *p)
         s->left--;
         if (s->dir == 1) {
             func_021DD1C4((char *)p, 1);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             if (STATE(p) == 0x15)
                 return func_021E8FC0((char *)p, (int)func_021E19D4, 0xF);
             return func_021E8FC0((char *)p, (int)func_021E1A78, 0xF);
         }
         if (s->dir == -1) {
             func_021DD1C4((char *)p, -1);
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             if (STATE(p) == 0x15)
                 return func_021E8FC0((char *)p, (int)func_021E1A28, 0xF);
             return func_021E8FC0((char *)p, (int)func_021E1ACC, 0xF);
@@ -3577,7 +3582,7 @@ int func_021E2648(unsigned char *p)
 int func_021E2650(BoxObj *p)
 {
     unsigned r;
-    if (func_020362DC() & 4) {
+    if (KEY_GetTrg() & 4) {
         p->b1B = 0;
         return func_021EA9F4((BoxObj *)p, 0x14);
     }
@@ -3585,8 +3590,8 @@ int func_021E2650(BoxObj *p)
     if (r != -1) {
         func_020260F4(OBJ(p), 0);
         if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
-            func_020061E4(0x666);
-            func_02035D20((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+            GFL_USE_PlaySeDefaultVolume(0x666);
+            TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
             if (func_021EF5E8(MGR(p)) == 0)
                 func_021EB988((unsigned char *)p, d_021EFA10, 6);
             func_021DEFEC((char *)p, r);
@@ -3608,57 +3613,57 @@ int func_021E2650(BoxObj *p)
     r = func_021EE65C((char *)p);
     switch (r) {
     case 0x1E:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         func_021DF040((char *)p);
         return func_021E8F50((char *)p, 0x5D);
     case 0x1F:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DF0BC((unsigned char *)p);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
         return func_021E9C94((char *)p, 1, 0x11);
     case 0x20:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DF0BC((unsigned char *)p);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
         return func_021E9CE0((char *)p, 1, 0x11);
     case 0x21:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 0xA, func_021E8F50((char *)p, 0x1A));
     case 0x22:
-        func_020061E4(0x556);
+        GFL_USE_PlaySeDefaultVolume(0x556);
         p->top->h28 = 1;
         return func_021E954C((BoxObj *)p, 7, 8, 0x10);
     case 0x23:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p->top->h28 = 0;
         return func_021E954C((BoxObj *)p, 6, 9, 0x68);
     case 0x24:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b1B = 0;
         p->lo = 0;
         return func_021E949C((char *)p, 0, func_021E8F50((char *)p, 0x14));
     case 0x25:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b13 = 0;
         p->b17 = p->b14;
         p->x24 = 0x25;
         return func_021E949C((char *)p, 1, 0x4F);
     case 0x26:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b13 = 0;
         p->x24 = 0x26;
         return func_021E949C((char *)p, 2, func_021E8F50((char *)p, 0x50));
     case 0x27:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 3, func_021E8F50((char *)p, 0x55));
     case 0x28:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x59));
     case 0x29: {
         unsigned char k;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         k = p->b16;
         func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
@@ -3669,14 +3674,14 @@ int func_021E2650(BoxObj *p)
         return func_021EAA3C((BoxObj *)p, 0x14);
     case -6:
         if (func_020260E0(OBJ(p)) == 0x1E) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021DF0BC((unsigned char *)p);
             return func_021E9C94((char *)p, 1, 0x11);
         }
         break;
     case -5:
         if (func_020260E0(OBJ(p)) == 0x1E) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021DF0BC((unsigned char *)p);
             return func_021E9CE0((char *)p, 1, 0x11);
         }
@@ -3687,11 +3692,11 @@ int func_021E2650(BoxObj *p)
             func_021DEFEC((char *)p, v);
         else if (v != 0x24 && v != 0x25 && v != 0x26 && v != 0x27 && v != 0x28 && v != 0x29)
             func_021DF040((char *)p);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x11));
     }
     case -2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
             unsigned char k = p->b16;
             func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
@@ -3701,7 +3706,7 @@ int func_021E2650(BoxObj *p)
         p->top->h28 = 0;
         return func_021E954C((BoxObj *)p, 6, 9, 0x68);
     case -4:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -1:
     case -7:
@@ -3709,7 +3714,7 @@ int func_021E2650(BoxObj *p)
         break;
     default:
         if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             func_021EB988((unsigned char *)p, d_021EFA10, 6);
             func_021DEFEC((char *)p, r);
             func_021EEF74(p->work, 0x24, func_020260E0(OBJ(p)));
@@ -3798,7 +3803,7 @@ int func_021E2B88(u8 *p)
         (*(int *)(W(p)+0xA194))++;
         return func_021E8FC0((char *)p,(int)func_021E0190,20);
     case 1:
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         (*(int *)(W(p)+0xA194))++;
         return func_021EA83C((char *)p,20);
     case 2:
@@ -3948,7 +3953,7 @@ int func_021E2CBC(BoxObj *p)
         p->hi = 0;
         return func_021E8F50((char *)p, 0x16);
     }
-    if ((func_020362DC() & 4) && p->lo != 0 && p->b18 == 0) {
+    if ((KEY_GetTrg() & 4) && p->lo != 0 && p->b18 == 0) {
         func_021DD238((char *)p);
         p->lo = 0;
         return func_021E8F50((char *)p, 0x16);
@@ -3959,8 +3964,8 @@ int func_021E2CBC(BoxObj *p)
             func_020260F4(OBJ(p), 0);
             func_021EE008((char *)p, 0, 0);
             if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
-                func_020061E4(0x666);
-                func_02035D20((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+                GFL_USE_PlaySeDefaultVolume(0x666);
+                TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
                 func_021DEFEC((char *)p, r);
                 func_020260E4(OBJ(p), r);
                 return func_021EA064((unsigned char *)p, r, 0x15);
@@ -3985,11 +3990,11 @@ int func_021E2CBC(BoxObj *p)
         func_021EE008((char *)p, 0, 0);
         if (p->b18 != 0)
             break;
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         func_021DF040((char *)p);
         return func_021E8F50((char *)p, 0x5D);
     case 0x1F:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021EE008((char *)p, 0, 0);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
@@ -4001,7 +4006,7 @@ int func_021E2CBC(BoxObj *p)
             func_021ECC1C((unsigned char *)p);
         return func_021E9C94((char *)p, 0, 0x15);
     case 0x20:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021EE008((char *)p, 0, 0);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
@@ -4013,7 +4018,7 @@ int func_021E2CBC(BoxObj *p)
             func_021ECC1C((unsigned char *)p);
         return func_021E9CE0((char *)p, 0, 0x15);
     case 0x27:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         if (p->b18 == 0)
             func_021DF040((char *)p);
         return func_021E949C((char *)p, 0xA, func_021E8F50((char *)p, 0x19));
@@ -4029,12 +4034,12 @@ int func_021E2CBC(BoxObj *p)
             p->b13 = 3;
             p->b1D = func_020260E0(OBJ(p));
         }
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E954C((BoxObj *)p, 8, 1, 0x4F);
     case 0x29:
         if (p->b18 != 0)
             break;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p->lo = 0;
         return func_021E954C((BoxObj *)p, 6, 9, func_021E8F50((char *)p, 0x16));
     case 0x2A:
@@ -4045,34 +4050,34 @@ int func_021E2CBC(BoxObj *p)
     case -2:
         if (p->b18 == 1)
             return func_021EA14C((unsigned char *)p, 0xFF, 0x15);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p->lo = 0;
         return func_021E954C((BoxObj *)p, 6, 9, func_021E8F50((char *)p, 0x16));
     case -8:
         if (func_020260E0(OBJ(p)) != 0x22)
             break;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DD1C4((char *)p, -1);
         return func_021E8FC0((char *)p, (int)func_021E1A28, 0x15);
     case -7:
         if (func_020260E0(OBJ(p)) != 0x25)
             break;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DD1C4((char *)p, 1);
         return func_021E8FC0((char *)p, (int)func_021E19D4, 0x15);
     case -6:
         if (func_020260E0(OBJ(p)) != 0x1E)
             break;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E9C94((char *)p, 0, 0x15);
     case -5:
         if (func_020260E0(OBJ(p)) != 0x1E)
             break;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E9CE0((char *)p, 0, 0x15);
     case -3: {
         unsigned char v;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         v = func_020260E0(OBJ(p));
         if (p->b18 == 0) {
             if (v < 0x1E)
@@ -4087,14 +4092,14 @@ int func_021E2CBC(BoxObj *p)
         return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x15));
     }
     case -4:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case 0x21:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DD1C4((char *)p, -1);
         return func_021E8FC0((char *)p, (int)func_021E1A28, 0x15);
     case 0x26:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DD1C4((char *)p, 1);
         return func_021E8FC0((char *)p, (int)func_021E19D4, 0x15);
     case 0x22:
@@ -4104,7 +4109,7 @@ int func_021E2CBC(BoxObj *p)
         func_021EE008((char *)p, r - 0x22, 1);
         if (p->b18 == 1)
             return func_021EA14C((unsigned char *)p, r + 2, 0x15);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DF040((char *)p);
         *(unsigned char *)(p->work + 0xA17F) = p->b19 + r - 0x22;
         if (*(unsigned char *)(p->work + 0xA17F) >= p->b15)
@@ -4183,7 +4188,7 @@ int func_021E3258(u8 *p)
         func_021EE038((char *)p,0,0,1);
         if(func_020260E0(*(void **)(W(p)+0x70))>=30) func_021DF040((char *)p);
         (*(int *)(W(p)+0xA194))++;
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         return func_021EA858((char *)p,22);
     case 1:
         if(p[0x1B]==1) {
@@ -4331,22 +4336,22 @@ int func_021E3340(unsigned char *p)
     func_021EE038((char *)p, 0, 1, arg);
     switch (MODE(p)) {
     case 2:
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_021ED55C((char **)p, 0);
         func_021EBD1C((char *)p, 2, 0x18);
         return 0x18;
     case 3:
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_021ED55C((char **)p, 0);
         func_021EBD1C((char *)p, 3, 0x18);
         return 0x18;
     case 4:
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_021ED55C((char **)p, 0);
         func_021EBD1C((char *)p, 4, 0x18);
         return 0x18;
     case 5:
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_021ED55C((char **)p, 0);
         func_021EBD78((char *)p, 0);
         return 0x18;
@@ -4493,7 +4498,7 @@ int func_021E35D8(u8 *p)
     case 0:
         func_021EC000(W(p),4,0);
         func_021EE008((char *)p,0,0);
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         (*(int *)(W(p)+0xA194))++;
         return func_021EA858((char *)p,25);
     case 1:
@@ -4501,7 +4506,7 @@ int func_021E35D8(u8 *p)
         func_021EF36C(*(struct WinMgr **)(W(p)+0x74));
         if(p[0x18]==1) func_021EC5A0((char **)p,1);
         else func_021EC5A0((char **)p,0);
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         (*(int *)(W(p)+0xA194))++;
         return func_021E8FC0((char *)p,(int)func_021E01B0,25);
     case 2:
@@ -4621,7 +4626,7 @@ int func_021E36A8(unsigned char *p)
         func_021EC5A0((char **)p, 0);
         if (((struct Obj23895 *)(*(char * *)&((BoxTask *)p)->f0))->f24 == 3)
             func_021ECB20((char *)p, 0x82, 1);
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         (*(int *)(W(p) + 0xA194))++;
         return func_021E8FC0((char *)p, (int)func_021E01B0, 0x1A);
     case 1:
@@ -4713,7 +4718,7 @@ int func_021E36A8(unsigned char *p)
 int func_021E376C(BoxObj *p)
 {
     unsigned r;
-    if (func_020362DC() & 4) {
+    if (KEY_GetTrg() & 4) {
         p->b1B = 1;
         return func_021EA9F4((BoxObj *)p, 0x1F);
     }
@@ -4721,8 +4726,8 @@ int func_021E376C(BoxObj *p)
     if (r != -1) {
         func_020260F4(OBJ(p), 0);
         if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
-            func_020061E4(0x666);
-            func_02035D20((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+            GFL_USE_PlaySeDefaultVolume(0x666);
+            TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
             if (func_021EF5E8(MGR(p)) == 0)
                 func_021EB988((unsigned char *)p, d_021EFA10, 6);
             func_021DEFEC((char *)p, (int)r + 0x1E);
@@ -4744,38 +4749,38 @@ int func_021E376C(BoxObj *p)
     r = func_021EE8A8((char *)p);
     switch (r) {
     case 6:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 0xA, func_021E8F50((char *)p, 0x1C));
     case 7:
-        func_020061E4(0x556);
+        GFL_USE_PlaySeDefaultVolume(0x556);
         p->top->h28 = 1;
         return func_021E954C((BoxObj *)p, 7, 8, 0x10);
     case 8:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return func_021E954C((BoxObj *)p, 6, 9, func_021E8F50((char *)p, 0x1C));
     case 9:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b1B = 1;
         p->lo = 0;
         return func_021E949C((char *)p, 0, func_021E8F50((char *)p, 0x1F));
     case 10:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b17 = p->b14;
         p->b13 = 1;
         return func_021E949C((char *)p, 1, 0x4F);
     case 11:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b13 = 1;
         return func_021E949C((char *)p, 2, func_021E8F50((char *)p, 0x50));
     case 12:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 3, func_021E8F50((char *)p, 0x55));
     case 13:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x59));
     case 14: {
         unsigned char k;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         k = p->b16 - 0x1E;
         func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
@@ -4785,7 +4790,7 @@ int func_021E376C(BoxObj *p)
         p->b1B = 1;
         return func_021EAA3C((BoxObj *)p, 0x1F);
     case -4:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3: {
         unsigned char v = func_020260E0(OBJ(p));
@@ -4793,11 +4798,11 @@ int func_021E376C(BoxObj *p)
             func_021DEFEC((char *)p, v + 0x1E);
         else if (v == 6)
             func_021DF040((char *)p);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x1B));
     }
     case -2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
             unsigned char k = p->b16 - 0x1E;
             func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
@@ -4813,7 +4818,7 @@ int func_021E376C(BoxObj *p)
         break;
     default:
         if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             func_021EB988((unsigned char *)p, d_021EFA10, 6);
             func_021DEFEC((char *)p, (int)r + 0x1E);
             func_021EEF74(p->work, 9, func_020260E0(OBJ(p)));
@@ -4911,7 +4916,7 @@ int func_021E3B50(unsigned char *p)
         func_021DD14C((char *)p);
         func_021EC000(WORK(p), 4, 0);
         func_021EF3A0(MGR(p));
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         STEP(p)++;
         return func_021E8FC0((char *)p, (int)func_021E01B0, 0x1c);
     case 1:
@@ -4958,7 +4963,7 @@ void func_021E3BF8(char *p)
 
 int func_021E3C38(unsigned char *p)
 {
-    func_020061E4(0x667);
+    GFL_USE_PlaySeDefaultVolume(0x667);
     func_021DD530(p);
     func_021EA1E8((char *)p);
     func_020260E4(((struct Obj23898 *)(*(char * *)&((BoxTask *)p)->f2C))->f70, 9);
@@ -5098,7 +5103,7 @@ int func_021E3C88(unsigned char *p)
         return func_021E8FC0((char *)p, (int)func_021E0190, 0x1F);
     case 1:
         if (*(int *)(TOP(p) + 0x24) == 4 && *(int *)(TOP(p) + 0x14) == 1) {
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
             func_021EBD78((char *)p, 0);
             NIB(p)->lo = 0;
             STEP(p) = 0;
@@ -5113,7 +5118,7 @@ int func_021E3C88(unsigned char *p)
             func_021EF36C(MGR(p));
             func_021EC5A0((char **)p, 0);
         }
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         return func_021E8FC0((char *)p, (int)func_021E01B0, 0x1F);
     case 2:
         func_021ECB20((char *)p, 1, 0);
@@ -5219,7 +5224,7 @@ int func_021E3E84(BoxObj *p)
         p->hi = 0;
         return func_021E8F50((char *)p, 0x21);
     }
-    if ((func_020362DC() & 4) && p->lo != 0 && p->b18 == 0) {
+    if ((KEY_GetTrg() & 4) && p->lo != 0 && p->b18 == 0) {
         func_021DD238((char *)p);
         p->lo = 0;
         return func_021E8F50((char *)p, 0x21);
@@ -5229,8 +5234,8 @@ int func_021E3E84(BoxObj *p)
         if (r != -1) {
             func_020260F4(OBJ(p), 0);
             if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
-                func_020061E4(0x666);
-                func_02035D20((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+                GFL_USE_PlaySeDefaultVolume(0x666);
+                TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
                 func_021DEFEC((char *)((BoxObj *)p), r);
                 return func_021EA064((unsigned char *)p, r, 0x20);
             }
@@ -5245,8 +5250,8 @@ int func_021E3E84(BoxObj *p)
         if (r != -1) {
             func_020260F4(OBJ(p), 0);
             if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
-                func_020061E4(0x666);
-                func_02035D20((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+                GFL_USE_PlaySeDefaultVolume(0x666);
+                TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
                 func_021DEFEC((char *)((BoxObj *)p), (int)r + 0x1E);
                 return func_021EA064((unsigned char *)p, r + 0x1E, 0x20);
             }
@@ -5263,11 +5268,11 @@ int func_021E3E84(BoxObj *p)
     case 0x24:
         if (p->b18 != 0)
             break;
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         func_021DF040((char *)p);
         return func_021E8F50((char *)p, 0x5D);
     case 0x25:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_020260E4(OBJ(p), 0x24);
         func_021EE3E4((char **)p, 0x24);
         func_021EE754((unsigned char *)p, 0x24);
@@ -5278,7 +5283,7 @@ int func_021E3E84(BoxObj *p)
             func_021ECC1C((unsigned char *)p);
         return func_021E9C94((char *)p, 0, 0x20);
     case 0x26:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_020260E4(OBJ(p), 0x24);
         func_021EE3E4((char **)p, 0x24);
         func_021EE754((unsigned char *)p, 0x24);
@@ -5289,7 +5294,7 @@ int func_021E3E84(BoxObj *p)
             func_021ECC1C((unsigned char *)p);
         return func_021E9CE0((char *)p, 0, 0x20);
     case 0x27:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         if (p->b18 == 0)
             func_021DF040((char *)p);
         return func_021E949C((char *)p, 0xB, func_021E8F50((char *)p, 0x22));
@@ -5305,12 +5310,12 @@ int func_021E3E84(BoxObj *p)
             p->b13 = 5;
             p->b1D = func_020260E0(OBJ(p));
         }
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E954C((BoxObj *)((BoxObj *)p), 8, 1, 0x4F);
     case 0x29:
         if (p->b18 != 0)
             break;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p->lo = 0;
         return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x21));
     case 0x2A:
@@ -5321,24 +5326,24 @@ int func_021E3E84(BoxObj *p)
     case -2:
         if (p->b18 == 1)
             return func_021EA14C((unsigned char *)p, 0xFF, 0x20);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p->lo = 0;
         return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x21));
     case -6:
         if (func_020260E0(OBJ(p)) != 0x24)
             break;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E9C94((char *)p, 0, 0x20);
     case -5:
         if (func_020260E0(OBJ(p)) != 0x24)
             break;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E9CE0((char *)p, 0, 0x20);
     case -4:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         if (p->b18 == 0) {
             unsigned char v = func_020260E0(OBJ(p));
             if (v < 0x24)
@@ -5392,7 +5397,7 @@ int func_021E432C(u8 *p)
             func_021EF3EC(*(struct WinMgr **)(W(p) + 116));
             *(u32 *)(W(p) + 0xa194) = 1;
         }
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         return func_021E8FC0((char *)p, (int)func_021E01B0, 33);
     case 1:
         *(u32 *)(W(p) + 0xa194) = 0;
@@ -5531,11 +5536,11 @@ int func_021E4470(unsigned char *p)
     case 0:
         func_021EC000(WORK(p), 4, 0);
         func_021EF3A0(MGR(p));
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         STEP(p)++;
         return func_021E8FC0((char *)p, (int)func_021E01B0, 0x22);
     case 1:
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         p[0x19] = p[0x14];
         STEP(p)++;
         return func_021EA83C((char *)p, 0x22);
@@ -5720,7 +5725,7 @@ int func_021E4470(unsigned char *p)
 int func_021E4504(BoxObj *p)
 {
     unsigned r;
-    if (func_020362DC() & 4) {
+    if (KEY_GetTrg() & 4) {
         p->b1B = 0;
         return func_021EA9F4((BoxObj *)((BoxObj *)p), 0x1F);
     }
@@ -5728,8 +5733,8 @@ int func_021E4504(BoxObj *p)
     if (r != -1) {
         func_020260F4(OBJ(p), 0);
         if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
-            func_020061E4(0x666);
-            func_02035D20((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+            GFL_USE_PlaySeDefaultVolume(0x666);
+            TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
             if (func_021EF5E8(MGR(p)) == 0)
                 func_021EB988((unsigned char *)((BoxObj *)p), d_021EF918, 4);
             func_021DEFEC((char *)((BoxObj *)((char *)p)), r);
@@ -5752,51 +5757,51 @@ int func_021E4504(BoxObj *p)
     r = func_021EECE4((char *)p);
     switch (r) {
     case 0x1E:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         func_021DF040((char *)p);
         return func_021E8F50((char *)p, 0x5D);
     case 0x1F:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DF0BC((unsigned char *)p);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
         return func_021E9C94((char *)p, 1, 0x23);
     case 0x20:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DF0BC((unsigned char *)p);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
         return func_021E9CE0((char *)p, 1, 0x23);
     case 0x21:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 0xA, func_021E8F50((char *)p, 0x26));
     case 0x22:
-        func_020061E4(0x556);
+        GFL_USE_PlaySeDefaultVolume(0x556);
         p->top->h28 = 1;
         return func_021E954C((BoxObj *)((BoxObj *)p), 7, 8, 0x10);
     case 0x23:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p->top->h28 = 0;
         return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, 0x68);
     case 0x24:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b1B = 0;
         p->lo = 0;
         return func_021E949C((char *)p, 2, func_021E8F50((char *)p, 0x1F));
     case 0x25:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b13 = 0;
         p->b17 = p->b14;
         p->x24 = 0x25;
         return func_021E949C((char *)p, 3, 0x4F);
     case 0x26:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b13 = 0;
         p->x24 = 0x26;
         return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x50));
     case 0x27: {
         unsigned char k;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         k = p->b16;
         func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
@@ -5807,14 +5812,14 @@ int func_021E4504(BoxObj *p)
         return func_021EAA3C((BoxObj *)((BoxObj *)p), 0x1F);
     case -6:
         if (func_020260E0(OBJ(p)) == 0x1E) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021DF0BC((unsigned char *)p);
             return func_021E9C94((char *)p, 1, 0x23);
         }
         break;
     case -5:
         if (func_020260E0(OBJ(p)) == 0x1E) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021DF0BC((unsigned char *)p);
             return func_021E9CE0((char *)p, 1, 0x23);
         }
@@ -5825,11 +5830,11 @@ int func_021E4504(BoxObj *p)
             func_021DEFEC((char *)((BoxObj *)((char *)p)), v);
         else if (v != 0x24 && v != 0x25 && v != 0x26 && v != 0x27)
             func_021DF040((char *)p);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x23));
     }
     case -2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
             unsigned char k = p->b16;
             func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
@@ -5839,7 +5844,7 @@ int func_021E4504(BoxObj *p)
         p->top->h28 = 0;
         return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, 0x68);
     case -4:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -1:
     case -7:
@@ -5847,7 +5852,7 @@ int func_021E4504(BoxObj *p)
         break;
     default:
         if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             func_021EB988((unsigned char *)((BoxObj *)p), d_021EF918, 4);
             func_021DEFEC((char *)((BoxObj *)((char *)p)), r);
             func_021EEF74(p->work, 0x24, func_020260E0(OBJ(p)));
@@ -5870,7 +5875,7 @@ int func_021E4504(BoxObj *p)
 
 int func_021E4944(unsigned char *p)
 {
-    func_020061E4(0x667);
+    GFL_USE_PlaySeDefaultVolume(0x667);
     func_021DD530(p);
     func_021EA1E8((char *)p);
     func_020260E4(((struct Obj23901 *)(*(char * *)&((BoxTask *)p)->f2C))->f70, 0x24);
@@ -6035,7 +6040,7 @@ int func_021E49CC(unsigned char *p)
         func_021EF34C(MGR(p));
         func_021EF36C(MGR(p));
         func_021EC5A0((char **)p, 0);
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         STEP(p)++;
         return func_021E8FC0((char *)p, (int)func_021E01B0, 0x26);
     case 1:
@@ -6200,7 +6205,7 @@ int func_021E49CC(unsigned char *p)
 int func_021E4A64(BoxObj *p)
 {
     unsigned r;
-    if (func_020362DC() & 4) {
+    if (KEY_GetTrg() & 4) {
         p->b1B = 1;
         return func_021EA9F4((BoxObj *)((BoxObj *)p), 0x1F);
     }
@@ -6208,8 +6213,8 @@ int func_021E4A64(BoxObj *p)
     if (r != -1) {
         func_020260F4(OBJ(p), 0);
         if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
-            func_020061E4(0x666);
-            func_02035D20((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+            GFL_USE_PlaySeDefaultVolume(0x666);
+            TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
             if (func_021EF5E8(MGR(p)) == 0)
                 func_021EB988((unsigned char *)((BoxObj *)p), d_021EF918, 4);
             func_021DEFEC((char *)((BoxObj *)((char *)p)), (int)r + 0x1E);
@@ -6231,32 +6236,32 @@ int func_021E4A64(BoxObj *p)
     r = func_021EEDE0((char *)p);
     switch (r) {
     case 6:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 0xA, func_021E8F50((char *)p, 0x28));
     case 7:
-        func_020061E4(0x556);
+        GFL_USE_PlaySeDefaultVolume(0x556);
         p->top->h28 = 1;
         return func_021E954C((BoxObj *)((BoxObj *)p), 7, 8, 0x10);
     case 8:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x28));
     case 9:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b1B = 1;
         p->lo = 0;
         return func_021E949C((char *)p, 2, func_021E8F50((char *)p, 0x1F));
     case 10:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b13 = 1;
         p->b17 = p->b14;
         return func_021E949C((char *)p, 3, 0x4F);
     case 11:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b13 = 1;
         return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x50));
     case 12: {
         unsigned char k;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         k = p->b16 - 0x1E;
         func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
@@ -6266,7 +6271,7 @@ int func_021E4A64(BoxObj *p)
         p->b1B = 1;
         return func_021EAA3C((BoxObj *)((BoxObj *)p), 0x1F);
     case -2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
             unsigned char k = p->b16 - 0x1E;
             func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
@@ -6275,7 +6280,7 @@ int func_021E4A64(BoxObj *p)
         }
         return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x28));
     case -4:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3: {
         unsigned char v = func_020260E0(OBJ(p));
@@ -6283,7 +6288,7 @@ int func_021E4A64(BoxObj *p)
             func_021DEFEC((char *)((BoxObj *)((char *)p)), v + 0x1E);
         else if (v == 6)
             func_021DF040((char *)p);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x27));
     }
     case -1:
@@ -6294,7 +6299,7 @@ int func_021E4A64(BoxObj *p)
         break;
     default:
         if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             func_021EB988((unsigned char *)((BoxObj *)p), d_021EF918, 4);
             func_021DEFEC((char *)((BoxObj *)((char *)p)), (int)r + 0x1E);
             func_021EEF74(p->work, 9, func_020260E0(OBJ(p)));
@@ -6455,7 +6460,7 @@ int func_021E4DE8(unsigned char *p)
         func_021DD14C((char *)p);
         func_021EC000(WORK(p), 4, 0);
         func_021EF3A0(MGR(p));
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         STEP(p)++;
         return func_021E8FC0((char *)p, (int)func_021E01B0, 0x28);
     case 1:
@@ -6752,8 +6757,8 @@ int func_021E4F60(BoxObj *p)
     if (r != -1) {
         func_020260F4(OBJ(p), 0);
         if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
-            func_020061E4(0x666);
-            func_02035D20((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+            GFL_USE_PlaySeDefaultVolume(0x666);
+            TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
             if (func_021EF5E8(MGR(p)) == 0)
                 func_021EB988((unsigned char *)((BoxObj *)p), d_021EF9B4, 5);
             func_021DEFEC((char *)((BoxObj *)((char *)p)), r);
@@ -6774,46 +6779,46 @@ int func_021E4F60(BoxObj *p)
     r = func_021EE57C((char *)p);
     switch (r) {
     case 0x1E:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         func_021DF040((char *)p);
         return func_021E8F50((char *)p, 0x5D);
     case 0x1F:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DF0BC((unsigned char *)p);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
         return func_021E9C94((char *)p, 0, 0x2C);
     case 0x20:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DF0BC((unsigned char *)p);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
         return func_021E9CE0((char *)p, 0, 0x2C);
     case 0x21:
-        func_020061E4(0x556);
+        GFL_USE_PlaySeDefaultVolume(0x556);
         p->top->h28 = 1;
         return func_021E954C((BoxObj *)((BoxObj *)p), 7, 8, 0x10);
     case 0x22:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p->top->h28 = 0;
         return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, 0x68);
     case 0x23:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 1, func_021E8F50((char *)p, 0x2E));
     case 0x24:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         p->b17 = p->b14;
         p->x24 = 0x24;
         return func_021E949C((char *)p, 2, 0x4F);
     case 0x25:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 3, func_021E8F50((char *)p, 0x55));
     case 0x26:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x59));
     case 0x27: {
         unsigned char k;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         k = p->b16;
         func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
@@ -6821,14 +6826,14 @@ int func_021E4F60(BoxObj *p)
     }
     case -6:
         if (func_020260E0(OBJ(p)) == 0x1E) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021DF0BC((unsigned char *)p);
             return func_021E9C94((char *)p, 0, 0x2C);
         }
         break;
     case -5:
         if (func_020260E0(OBJ(p)) == 0x1E) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021DF0BC((unsigned char *)p);
             return func_021E9CE0((char *)p, 0, 0x2C);
         }
@@ -6839,11 +6844,11 @@ int func_021E4F60(BoxObj *p)
             func_021DEFEC((char *)((BoxObj *)((char *)p)), v);
         else if (v != 0x23 && v != 0x24 && v != 0x25 && v != 0x26 && v != 0x27)
             func_021DF040((char *)p);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x2C));
     }
     case -2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
             unsigned char k = p->b16;
             func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
@@ -6853,7 +6858,7 @@ int func_021E4F60(BoxObj *p)
         p->top->h28 = 0;
         return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, 0x68);
     case -4:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -1:
     case -7:
@@ -6861,7 +6866,7 @@ int func_021E4F60(BoxObj *p)
         break;
     default:
         if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             func_021EB988((unsigned char *)((BoxObj *)p), d_021EF9B4, 5);
             func_021DEFEC((char *)((BoxObj *)((char *)p)), r);
             func_021EEF74(p->work, 0x23, func_020260E0(OBJ(p)));
@@ -7012,9 +7017,9 @@ int func_021E53B0(unsigned char *p)
         STEP(p)++;
         return func_021E8FC0((char *)p, (int)func_021E0190, 0x2e);
     case 1:
-        if (func_0201AA18(((void **)((BoxTask *)p)->f0)[2]) != 6)
+        if (POKEPARTY_GetCount(((void **)((BoxTask *)p)->f0)[2]) != 6)
             return func_021E8F50((char *)p, 0x2f);
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_021EBC58(p, 0, 2, 0x18);
         ((BoxTask *)p)->f28 = 0xe;
         return func_021E8F50((char *)p, 6);
@@ -7034,7 +7039,7 @@ int func_021E543C(u8 *p)
 {
     switch (*(u32 *)(*(u8 **)(p + 44) + 0xa194)) {
     case 0:
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         func_021EC61C(p);
         func_021EF35C((struct WinMgr *)(*(int *)(*(u8 **)(p + 44) + 116)));
         func_021EF36C((struct WinMgr *)(*(int *)(*(u8 **)(p + 44) + 116)));
@@ -7048,7 +7053,7 @@ int func_021E543C(u8 *p)
         (*(u32 *)(*(u8 **)(p + 44) + 0xa194))++;
         return func_021E8FC0((char *)p, (int)func_021E0068, 47);
     case 2:
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         func_021DD530(p);
         func_021EA1E8((char *)p);
         func_021DF040((char *)p);
@@ -7271,8 +7276,8 @@ int func_021E557C(BoxObj *p)
     if (r != -1) {
         func_020260F4(OBJ(p), 0);
         if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
-            func_020061E4(0x666);
-            func_02035D20((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+            GFL_USE_PlaySeDefaultVolume(0x666);
+            TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
             if (func_021EF5E8(MGR(p)) == 0)
                 func_021EB988((unsigned char *)((BoxObj *)p), d_021EF950, 5);
             func_021DEFEC((char *)((BoxObj *)((char *)p)), (int)r + 0x1E);
@@ -7293,36 +7298,36 @@ int func_021E557C(BoxObj *p)
     r = func_021EE474((char *)p);
     switch (r) {
     case 6:
-        func_020061E4(0x556);
+        GFL_USE_PlaySeDefaultVolume(0x556);
         p->top->h28 = 1;
         return func_021E954C((BoxObj *)((BoxObj *)p), 7, 8, 0x10);
     case 7:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p->top->h28 = 0;
         return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, 0x68);
     case 8:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 1, func_021E8F50((char *)p, 0x34));
     case 9:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         p->x24 = 9;
         return func_021E949C((char *)p, 2, 0x4F);
     case 10:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 3, func_021E8F50((char *)p, 0x55));
     case 11:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x59));
     case 12: {
         unsigned char k;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         k = p->b16 - 0x1E;
         func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
         return func_021E949C((char *)p, 5, 0x32);
     }
     case -4:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3: {
         unsigned char v = func_020260E0(OBJ(p));
@@ -7330,11 +7335,11 @@ int func_021E557C(BoxObj *p)
             func_021DEFEC((char *)((BoxObj *)((char *)p)), v + 0x1E);
         else if (v != 8 && v != 9 && v != 10 && v != 11 && v != 12)
             func_021DF040((char *)p);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x31));
     }
     case -2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
             unsigned char k = p->b16 - 0x1E;
             func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
@@ -7351,7 +7356,7 @@ int func_021E557C(BoxObj *p)
         break;
     default:
         if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             func_021EB988((unsigned char *)((BoxObj *)p), d_021EF950, 5);
             func_021DEFEC((char *)((BoxObj *)((char *)p)), (int)r + 0x1E);
             func_021EEF74(p->work, 8, func_020260E0(OBJ(p)));
@@ -7537,14 +7542,14 @@ int func_021E594C(unsigned char *p)
             STEP(p)++;
             return func_021E8FC0((char *)p, (int)func_021E0778, 0x34);
         case 1:
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
             func_021ED6E4((char **)p, 0);
             func_021EBBC8(p, 6, 0x18);
             STATE(p) = 0x33;
             STEP(p) = 0;
             return 6;
         case 2:
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
             func_021ED6E4((char **)p, 0);
             func_021EBC58(p, 0, 5, 0x18);
             STATE(p) = 0x33;
@@ -7553,7 +7558,7 @@ int func_021E594C(unsigned char *p)
         }
         break;
     case 2:
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         func_021EF3A0(MGR(p));
         STEP(p)++;
         return func_021E8FC0((char *)p, (int)func_021E01B0, 0x34);
@@ -7593,10 +7598,10 @@ int func_021E5AD4(unsigned char *p)
 
     r = func_02025DE8(LIST(p));
     if (r == (unsigned)-1) {
-        if (func_0203633C() & 0x200) {
+        if (KEY_GetRepeat() & 0x200) {
             func_021DD238((char *)p);
             r = 2;
-        } else if (func_0203633C() & 0x100) {
+        } else if (KEY_GetRepeat() & 0x100) {
             func_021DD238((char *)p);
             r = 3;
         }
@@ -7606,7 +7611,7 @@ int func_021E5AD4(unsigned char *p)
     case 1:
         func_020260E4(LIST(p), 0);
         if (func_020077B8(*(void **)(TOP(p) + 4), p[0x14]) == 0) {
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
             func_021EBC58(p, 0, 4, 0x18);
             STATE(p) = 0x37;
             return 6;
@@ -7617,27 +7622,27 @@ int func_021E5AD4(unsigned char *p)
         *(unsigned char *)(WORK(p) + 0xA17E) = b;
         p[0x1A] = 0;
         p[0x17] = p[0x14];
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E8F50((char *)p, 0x36);
     case 2:
         func_020260E4(LIST(p), 0);
     case (unsigned)-6:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E9C94((char *)p, 0, 0x35);
     case 3:
         func_020260E4(LIST(p), 0);
     case (unsigned)-5:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E9CE0((char *)p, 0, 0x35);
     case 4:
     case (unsigned)-2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         *(unsigned char *)(WORK(p) + 0xA17E) = 0xFF;
         p[0x17] = p[0x14];
         p[0x1A] = 1;
         return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x36));
     case (unsigned)-4:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case (unsigned)-8:
     case (unsigned)-7:
@@ -7678,7 +7683,7 @@ int func_021E5C5C(unsigned char *p)
         return func_021E8FC0((char *)p, (int)func_021E066C, 0x36);
     case 1:
         func_020307B0(*(void **)(WORK(p) + 0x60));
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         func_021EF36C(MGR(p));
         STEP(p) = 2;
         return func_021E8FC0((char *)p, (int)func_021E01B0, 0x36);
@@ -7687,7 +7692,7 @@ int func_021E5C5C(unsigned char *p)
         STEP(p) = 6;
         return func_021E8FC0((char *)p, (int)func_021E087C, 0x36);
     case 3:
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         func_021EC000(WORK(p), 4, 0);
         func_021EF36C(MGR(p));
         STEP(p) = 7;
@@ -7914,7 +7919,7 @@ int func_021E5E08(unsigned char *p)
 int func_021E5E68(BoxObj *p)
 {
     unsigned r;
-    if (func_020362DC() & 4) {
+    if (KEY_GetTrg() & 4) {
         r = func_021EA9F4((BoxObj *)((BoxObj *)p), 0x3F);
         if (p->lo == 1) {
             unsigned char v = func_020260E0(OBJ(p));
@@ -7929,8 +7934,8 @@ int func_021E5E68(BoxObj *p)
     if (r != -1) {
         func_020260F4(OBJ(p), 0);
         if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
-            func_020061E4(0x666);
-            func_02035D20((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+            GFL_USE_PlaySeDefaultVolume(0x666);
+            TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
             func_021DEFEC((char *)((BoxObj *)((char *)p)), r);
             return func_021EA1F4(p, r);
         }
@@ -7947,40 +7952,40 @@ int func_021E5E68(BoxObj *p)
     r = func_021EEA48((char *)p);
     switch (r) {
     case 0x1E:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         func_021DF040((char *)p);
         return func_021E8F50((char *)p, 0x5D);
     case 0x1F:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DF0BC((unsigned char *)p);
         func_021EC000(p->work, 10, 0);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
         return func_021E9C94((char *)p, 1, 0x39);
     case 0x20:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DF0BC((unsigned char *)p);
         func_021EC000(p->work, 10, 0);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
         return func_021E9CE0((char *)p, 1, 0x39);
     case 0x21:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 10, func_021E8F50((char *)p, 0x1A));
     case 0x22:
-        func_020061E4(0x556);
+        GFL_USE_PlaySeDefaultVolume(0x556);
         p->top->h28 = 1;
         return func_021E954C((BoxObj *)((BoxObj *)p), 7, 8, 0x10);
     case 0x23:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p->top->h28 = 0;
         return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, 0x68);
     case 0x24:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         p->lo = 0;
         return func_021E949C((char *)p, 3, func_021E8F50((char *)p, 0x3F));
     case 0x25:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         if (*(unsigned short *)(p->work + 0xA16C) == 0) {
             p->b13 = 0;
             p->x24 = 0x25;
@@ -7989,7 +7994,7 @@ int func_021E5E68(BoxObj *p)
         return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x50));
     case 0x26: {
         unsigned char k;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         k = p->b16;
         func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
@@ -8007,20 +8012,20 @@ int func_021E5E68(BoxObj *p)
         return r;
     case -6:
         if (func_020260E0(OBJ(p)) == 0x1E) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021DF0BC((unsigned char *)p);
             return func_021E9C94((char *)p, 1, 0x39);
         }
         break;
     case -5:
         if (func_020260E0(OBJ(p)) == 0x1E) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021DF0BC((unsigned char *)p);
             return func_021E9CE0((char *)p, 1, 0x39);
         }
         break;
     case -4:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3: {
         unsigned char v = func_020260E0(OBJ(p));
@@ -8028,11 +8033,11 @@ int func_021E5E68(BoxObj *p)
             func_021DEFEC((char *)((BoxObj *)((char *)p)), v);
         else if (v != 0x24 && v != 0x25 && v != 0x26)
             func_021DF040((char *)p);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x39));
     }
     case -2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
             unsigned char k = p->b16;
             func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
@@ -8047,7 +8052,7 @@ int func_021E5E68(BoxObj *p)
         break;
     default:
         if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             return func_021EA2DC(p, r);
         }
         break;
@@ -8401,7 +8406,7 @@ int func_021E644C(unsigned char *p)
             func_021EF36C(MGR(p));
             func_021EC5A0((char **)p, 0);
         }
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         return func_021E8FC0((char *)p, (int)func_021E01B0, 0x3F);
     case 2:
         STEP(p) = 0;
@@ -8526,7 +8531,7 @@ int func_021E65E4(BoxObj *p)
         p->hi = 0;
         return func_021E8F50((char *)p, 0x41);
     }
-    if ((func_020362DC() & 4) && p->lo != 0 && p->b18 == 0) {
+    if ((KEY_GetTrg() & 4) && p->lo != 0 && p->b18 == 0) {
         func_021DD238((char *)p);
         p->lo = 0;
         return func_021E8F50((char *)p, 0x41);
@@ -8562,11 +8567,11 @@ int func_021E65E4(BoxObj *p)
     case 0x24:
         if (p->b18 != 0)
             break;
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         func_021DF040((char *)p);
         return func_021E8F50((char *)p, 0x5D);
     case 0x25:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_020260E4(OBJ(p), 0x24);
         func_021EE3E4((char **)p, 0x24);
         if (p->b18 == 0)
@@ -8575,7 +8580,7 @@ int func_021E65E4(BoxObj *p)
             func_021ECC1C((unsigned char *)p);
         return func_021E9C94((char *)p, 0, 0x40);
     case 0x26:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_020260E4(OBJ(p), 0x24);
         func_021EE3E4((char **)p, 0x24);
         if (p->b18 == 0)
@@ -8586,7 +8591,7 @@ int func_021E65E4(BoxObj *p)
     case 0x29:
         if (p->b18 != 0)
             break;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p->lo = 0;
         return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x41));
     case 0x2A:
@@ -8597,24 +8602,24 @@ int func_021E65E4(BoxObj *p)
     case -2:
         if (p->b18 == 1)
             return func_021EA514((BoxObj *)((BoxObj *)p), 0xFF);
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p->lo = 0;
         return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x41));
     case -6:
         if (func_020260E0(OBJ(p)) != 0x24)
             break;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E9C94((char *)p, 0, 0x40);
     case -5:
         if (func_020260E0(OBJ(p)) != 0x24)
             break;
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E9CE0((char *)p, 0, 0x40);
     case -4:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         if (p->b18 == 0) {
             unsigned char v = func_020260E0(OBJ(p));
             if (v < 0x24)
@@ -8660,7 +8665,7 @@ int func_021E695C(u8 *p)
             func_021ECB20((char *)p, 1, 1);
             func_021EF3EC(*(struct WinMgr * *)&((struct Obj23907 *)(*(u8 * *)&((BoxTask *)p)->f2C))->f74);
         }
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         (((struct Obj23908 *)(*(u8 * *)&((BoxTask *)p)->f2C))->fA194)++;
         return func_021E8FC0((char *)p, (int)func_021E01B0, 65);
     case 1:
@@ -8765,7 +8770,7 @@ int func_021E6A60(unsigned char *p)
         func_020260E4(OBJ(p), p[0x16]);
         func_021EE038((char *)p, 0, 1, 1);
         if (func_0202136C(ITEM(p)) == 1 && from != p[0x16]) {
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
             func_021EBB28((char *)p, 0x18);
             STATE(p) = 0x44;
             return 6;
@@ -8802,7 +8807,7 @@ int func_021E6A60(unsigned char *p)
         func_021EBFA8(WORK(p), 10, 1);
         func_021EC000(WORK(p), 10, 1);
         func_021ED1C8(WORK(p));
-        func_020061E4(0x666);
+        GFL_USE_PlaySeDefaultVolume(0x666);
         return func_021E8FC0((char *)p, (int)func_021E122C, 0x43);
     }
 }
@@ -8832,7 +8837,7 @@ int func_021E6C3C(unsigned char *p)
     item = *(unsigned short *)(WORK(p) + 0xA16C);
     *(unsigned short *)(WORK(p) + 0xA16C) = 0;
     if (func_0202136C(item) == 1 && slot != old) {
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_021ED55C((char **)p, 0);
         func_021EBB28((char *)p, 0x18);
         ((BoxTask *)p)->f28 = 0x44;
@@ -8965,7 +8970,7 @@ int func_021E6D00(unsigned char *p)
     func_021EBFA8(WORK(p), 10, 1);
     func_021EC000(WORK(p), 10, 1);
     func_021ED1C8(WORK(p));
-    func_020061E4(0x666);
+    GFL_USE_PlaySeDefaultVolume(0x666);
     return func_021E8FC0((char *)p, (int)func_021E122C, 0x43);
 }
 
@@ -9040,7 +9045,7 @@ int func_021E6D00(unsigned char *p)
 int func_021E6EC0(BoxObj *p)
 {
     unsigned r;
-    if (func_020362DC() & 4) {
+    if (KEY_GetTrg() & 4) {
         r = func_021EA9F4((BoxObj *)p, 0x3F);
         if (p->lo == 1) {
             unsigned char v = func_020260E0(OBJ(p));
@@ -9055,8 +9060,8 @@ int func_021E6EC0(BoxObj *p)
     if (r != -1) {
         func_020260F4(OBJ(p), 0);
         if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
-            func_020061E4(0x666);
-            func_02035D20((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
+            GFL_USE_PlaySeDefaultVolume(0x666);
+            TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
             func_021DEFEC((char *)p, (int)r + 0x1E);
             return func_021EA598((BoxObj *)((BoxObj *)p), r + 0x1E);
         }
@@ -9073,21 +9078,21 @@ int func_021E6EC0(BoxObj *p)
     r = func_021EEB40((char *)p);
     switch (r) {
     case 6:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 10, func_021E8F50((char *)p, 0x1C));
     case 7:
-        func_020061E4(0x556);
+        GFL_USE_PlaySeDefaultVolume(0x556);
         p->top->h28 = 1;
         return func_021E954C((BoxObj *)((BoxObj *)p), 7, 8, 0x10);
     case 8:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x1C));
     case 9:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         p->lo = 0;
         return func_021E949C((char *)p, 3, func_021E8F50((char *)p, 0x3F));
     case 10:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         if (*(unsigned short *)(p->work + 0xA16C) == 0) {
             p->b13 = 1;
             p->x24 = 10;
@@ -9096,7 +9101,7 @@ int func_021E6EC0(BoxObj *p)
         return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x50));
     case 11: {
         unsigned char k;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         k = p->b16 - 0x1E;
         func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
@@ -9113,7 +9118,7 @@ int func_021E6EC0(BoxObj *p)
         }
         return r;
     case -4:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3: {
         unsigned char v = func_020260E0(OBJ(p));
@@ -9121,11 +9126,11 @@ int func_021E6EC0(BoxObj *p)
             func_021DEFEC((char *)p, v + 0x1E);
         else if (v == 6)
             func_021DF040((char *)p);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x46));
     }
     case -2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
             unsigned char k = p->b16 - 0x1E;
             func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
@@ -9141,7 +9146,7 @@ int func_021E6EC0(BoxObj *p)
         break;
     default:
         if (func_021DD25C((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             return func_021EA66C((BoxObj *)((BoxObj *)p), r + 0x1E);
         }
         break;
@@ -9198,7 +9203,7 @@ int func_021E7298(u8 *p)
         if (func_0202136C(*(u16 *)(W(p) + 0xa16c)) == 1 && second != p[22]) {
             func_021ECB60((char *)W(p), p[22], 0);
             func_021EBCB4(p, 7, 24);
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
             *(int *)(p + 40) = 14;
             return func_021E8F50((char *)p, 6);
         }
@@ -9208,10 +9213,10 @@ int func_021E7298(u8 *p)
     }
     if (func_0202136C(item) == 1) {
         func_021EA750((char *)p);
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_021ECB60((char *)W(p), p[22], 0);
         func_021EBCB4(p, 7, 24);
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_020260E4(*(void **)(W(p) + 112), 9);
         func_021EE3E4((char **)p, 9);
         func_021ED55C((char **)p, 1);
@@ -9310,7 +9315,7 @@ int func_021E73D8(unsigned char *p)
         func_020260F4(OBJ(p), 1);
         return 0x46;
     }
-    func_020061E4(0x666);
+    GFL_USE_PlaySeDefaultVolume(0x666);
     func_021ED094(WORK(p), ITEM(p));
     func_021ED108(WORK(p), 1);
     func_021EBFA8(WORK(p), 10, 1);
@@ -9330,7 +9335,7 @@ int func_021E754C(unsigned char *p)
 {
     switch (STEP(p)) {
     case 0:
-        func_020061E4(0x667);
+        GFL_USE_PlaySeDefaultVolume(0x667);
         func_021ECB60(WORK(p), **(unsigned short **)(WORK(p) + 0x60), 0);
         func_021ED6E4((char **)p, 0);
         func_021ED108(WORK(p), 1);
@@ -9449,29 +9454,29 @@ int func_021E75E0(BoxObj *p)
         func_021DF0BC((unsigned char *)p);
         break;
     case 0x1F:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DF0BC((unsigned char *)p);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
         return func_021E9C94((char *)p, 0, 0x4B);
     case 0x20:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DF0BC((unsigned char *)p);
         func_020260E4(OBJ(p), 0x1E);
         func_021EE3E4((char **)p, 0x1E);
         return func_021E9CE0((char *)p, 0, 0x4B);
     case 0x21:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         p->top->h28 = 0;
         p->top->b2A = 0xFF;
         p->top->b2B = 0xFF;
         return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, 0x68);
     case 0x22:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x4D));
     case 0x23: {
         unsigned char k;
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         k = p->b16;
         func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
         func_020260E4(OBJ(p), k);
@@ -9479,20 +9484,20 @@ int func_021E75E0(BoxObj *p)
     }
     case -6:
         if (func_020260E0(OBJ(p)) == 0x1E) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021DF0BC((unsigned char *)p);
             return func_021E9C94((char *)p, 0, 0x4B);
         }
         break;
     case -5:
         if (func_020260E0(OBJ(p)) == 0x1E) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021DF0BC((unsigned char *)p);
             return func_021E9CE0((char *)p, 0, 0x4B);
         }
         break;
     case -4:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3: {
         unsigned char v = func_020260E0(OBJ(p));
@@ -9500,11 +9505,11 @@ int func_021E75E0(BoxObj *p)
             func_021DEFEC((char *)p, v);
         else if (v != 0x22 && v != 0x23)
             func_021DF040((char *)p);
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x4B));
     }
     case -2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         if (func_021EF5E8(MGR(p)) == 1) {
             unsigned char k = p->b16;
             func_021EEF74(p->work, k, func_020260E0(OBJ(p)));
@@ -9521,7 +9526,7 @@ int func_021E75E0(BoxObj *p)
         break;
     default:
         if (func_021DD25C((void ***)p, r, p->b14, 0xA9, 0)) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             p->b16 = r;
             func_021EB988((unsigned char *)p, d_021EF8EC, 2);
             func_021DEFEC((char *)p, r);
@@ -9533,7 +9538,7 @@ int func_021E75E0(BoxObj *p)
             func_021EF534(MGR(p));
             return func_021E8FC0((char *)p, (int)func_021E070C, func_021E8FE0((char *)p, 0x4C));
         }
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DEFEC((char *)p, r);
         if (func_021EF5E8(MGR(p)) == 1) {
             func_021EF57C(MGR(p));
@@ -9724,17 +9729,17 @@ int func_021E7A10(unsigned char *p)
         return func_021E8FC0((char *)p, (int)func_021E0190, 0x50);
     }
     case 1:
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_021EBB1C(p, 0x18);
         STATE(p) = 0xE;
         return func_021E8F50((char *)p, 6);
     case 2:
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_021EBCB4(p, 5, 0x18);
         STATE(p) = 0xE;
         return func_021E8F50((char *)p, 6);
     case 3:
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_021EBD78((char *)p, 1);
         STATE(p) = 0x2B;
         return 6;
@@ -9925,7 +9930,7 @@ int func_021E7D64(u8 *p)
         ((struct Obj23921 *)(*(u8 * *)&((BoxTask *)p)->f2C))->fA174 = func_021DD25C((void ***)p, p[22], p[20], 11, 0);
         func_021DF110((char *)p, ((struct Obj23922 *)(*(u8 * *)&((BoxTask *)p)->f2C))->fA174);
         func_021EF6A8(*(struct WinMgr * *)&((struct Obj23923 *)(*(u8 * *)&((BoxTask *)p)->f2C))->f74);
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         (((struct Obj23924 *)(*(u8 * *)&((BoxTask *)p)->f2C))->fA194)++;
         return func_021E8FC0((char *)p, (int)((int (*)(u8 *))func_021E01A8), 85);
     case 2:
@@ -9951,46 +9956,46 @@ int func_021E7E54(u8 *p)
     u8 mask;
     switch ((unsigned)func_02025DE8(((struct Obj23925 *)(*(u8 * *)&((BoxTask *)p)->f2C))->f70)) {
     case 0:
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         func_021EA908((int)p, 0);
         break;
     case 1:
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         func_021EA908((int)p, 1);
         break;
     case 2:
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         func_021EA908((int)p, 2);
         break;
     case 3:
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         func_021EA908((int)p, 3);
         break;
     case 4:
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         func_021EA908((int)p, 4);
         break;
     case 5:
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         func_021EA908((int)p, 5);
         break;
     case 6:
         mask = ((struct Obj23926 *)(*(u8 * *)&((BoxTask *)p)->f2C))->fA174;
         func_021DD2B4((int)p, p[22], p[20], 11, mask);
         func_021DF11C((char *)p, (unsigned)mask);
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         return func_021E94AC((BoxObj *)p, 0, 87);
     case 7:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return func_021E94AC((BoxObj *)p, 1, 87);
     case (unsigned)-2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return func_021E94AC((BoxObj *)p, 1, 87);
     case (unsigned)-3:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E8FD0((char *)p, 88);
     case (unsigned)-4:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     }
     return 86;
@@ -10029,7 +10034,7 @@ int func_021E7F6C(unsigned char *p)
         func_021ECB20((char *)p, 1, 0);
     func_021ECB20((char *)p, 2, 0);
     func_021EF6CC(*(struct WinMgr **)(WORK(p) + 0x74));
-    func_020061E4(0x669);
+    GFL_USE_PlaySeDefaultVolume(0x669);
     return func_021E8FC0((char *)p, (int)((int (*)(unsigned char *))func_021E01A8), func_021E8F50((char *)p, 0xE));
 }
 
@@ -10071,14 +10076,14 @@ int func_021E8024(char *p)
             func_021ECB60(W, ((BoxTask *)p)->f16, 0);
             slot = ((BoxTask *)p)->f16 - 30;
             if (func_021DD694((void ***)p, slot) == 0) {
-                func_020061E4(0x557);
+                GFL_USE_PlaySeDefaultVolume(0x557);
                 func_021EBBC8((u8 *)p, 6, 24);
                 *(u8 *)(W + 0xA170) = 1;
                 ((BoxTask *)p)->f28 = 14;
                 return func_021E8F50(p, 6);
             }
-            if (func_0202136C(func_02017E1C(func_0201AB28(((struct Obj23928 *)(*(char * *)&((BoxTask *)p)->f0))->f8, slot), 6, 0)) == 1) {
-                func_020061E4(0x557);
+            if (func_0202136C(func_02017E1C(POKEPARTY_GetMember(((struct Obj23928 *)(*(char * *)&((BoxTask *)p)->f0))->f8, slot), 6, 0)) == 1) {
+                GFL_USE_PlaySeDefaultVolume(0x557);
                 func_021EBC58((u8 *)p, 0, 5, 24);
                 *(u8 *)(W + 0xA170) = 1;
                 ((BoxTask *)p)->f28 = 14;
@@ -10090,7 +10095,7 @@ int func_021E8024(char *p)
             func_021ECB60(W, ((BoxTask *)p)->f16, 0);
         }
         if (func_02017E88((void *)func_021DD2D0((void ***)p, ((BoxTask *)p)->f14, ((BoxTask *)p)->f16), 0x4c, 0) != 0) {
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
             func_021EBBC8((u8 *)p, 3, 24);
             *(u8 *)(W + 0xA170) = 1;
             ((BoxTask *)p)->f28 = 14;
@@ -10307,23 +10312,23 @@ int func_021E8508(u8 *p)
     unsigned v = func_02025DE8(((struct Obj23929 *)(*(u8 * *)&((BoxTask *)p)->f2C))->f70);
     switch (v) {
     case 0:
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         return func_021E949C((char *)p, 2, func_021E8F50((char *)p, 0x60));
     case 1:
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         ((struct Obj23930 *)(*(u8 * *)&((BoxTask *)p)->f2C))->fA17C = 0;
         return func_021E949C((char *)p, 3, func_021E8F50((char *)p, 0x64));
     case 2:
-        func_020061E4(0x54c);
+        GFL_USE_PlaySeDefaultVolume(0x54c);
         return func_021E949C((char *)p, 4, 0x67);
     case 3:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return func_021E949C((char *)p, 5, func_021E8F50((char *)p, 0x5f));
     case -2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return func_021E949C((char *)p, 5, func_021E8F50((char *)p, 0x5f));
     case -3:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x5e));
     }
     return 0x5e;
@@ -10392,7 +10397,7 @@ int func_021E86EC(unsigned char *p)
     case 1:
         p[0x19] = p[0x14];
         STEP(p)++;
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         return func_021EA83C((char *)p, 0x60);
     case 2:
         STEP(p) = 0;
@@ -10475,11 +10480,11 @@ int func_021E87A0(unsigned char *p)
     r = func_02025DE8(LIST(p));
     switch (r) {
     case 0:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DD1C4((char *)p, -1);
         return func_021E8FC0((char *)p, (int)func_021E1ACC, 0x61);
     case 5:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021DD1C4((char *)p, 1);
         return func_021E8FC0((char *)p, (int)func_021E1A78, 0x61);
     case 1:
@@ -10493,26 +10498,26 @@ int func_021E87A0(unsigned char *p)
             func_021EE008((char *)p, 0, 0);
             return func_021EA798(p, 1);
         }
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         func_021EE008((char *)p, r - 1, 1);
         break;
     case 6:
     case (unsigned)-2:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         return func_021E954C((BoxObj *)((BoxObj *)p), 6, 9, func_021E8F50((char *)p, 0x62));
     case (unsigned)-3:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x61));
     case (unsigned)-8:
         if (func_020260E0(LIST(p)) == 1) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021DD1C4((char *)p, -1);
             return func_021E8FC0((char *)p, (int)func_021E1ACC, 0x61);
         }
         break;
     case (unsigned)-7:
         if (func_020260E0(LIST(p)) == 4) {
-            func_020061E4(0x548);
+            GFL_USE_PlaySeDefaultVolume(0x548);
             func_021DD1C4((char *)p, 1);
             return func_021E8FC0((char *)p, (int)func_021E1A78, 0x61);
         }
@@ -10537,7 +10542,7 @@ int func_021E8950(char *p)
         func_021EBA5C(W, 25);
         func_021DD14C(p);
         func_021EE008(p, 0, 0);
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         S++;
         return func_021EA858(p, 0x62);
     case 1:
@@ -10662,35 +10667,35 @@ int func_021E8BF8(unsigned char *p)
 {
     switch ((unsigned)func_02025DE8(*(void **)(WORK(p) + 0x70))) {
     case 0:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         if (SEL(p) == 0) {
             SEL(p) = 5;
             return func_021E949C((char *)p, 0, func_021E8F50((char *)p, 0x64));
         }
         return func_021EA928(p, 0);
     case 1:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         if (SEL(p) == 0) {
             SEL(p) = 1;
             return func_021E949C((char *)p, 1, func_021E8F50((char *)p, 0x64));
         }
         return func_021EA928(p, 1);
     case 2:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         if (SEL(p) == 0) {
             SEL(p) = 2;
             return func_021E949C((char *)p, 2, func_021E8F50((char *)p, 0x64));
         }
         return func_021EA928(p, 2);
     case 3:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         if (SEL(p) == 0) {
             SEL(p) = 3;
             return func_021E949C((char *)p, 3, func_021E8F50((char *)p, 0x64));
         }
         return func_021EA928(p, 3);
     case 4:
-        func_020061E4(0x54C);
+        GFL_USE_PlaySeDefaultVolume(0x54C);
         if (SEL(p) == 0) {
             SEL(p) = 4;
             return func_021E949C((char *)p, 4, func_021E8F50((char *)p, 0x64));
@@ -10705,19 +10710,19 @@ int func_021E8BF8(unsigned char *p)
         }
         return func_021EA928(p, 4);
     case 5:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         if (SEL(p) == 0)
             return func_021E949C((char *)p, 5, func_021E8F50((char *)p, 0x5F));
         SEL(p) = 0;
         return func_021E949C((char *)p, 5, func_021E8F50((char *)p, 0x64));
     case 0xFFFFFFFE:
-        func_020061E4(0x551);
+        GFL_USE_PlaySeDefaultVolume(0x551);
         if (SEL(p) == 0)
             return func_021E949C((char *)p, 5, func_021E8F50((char *)p, 0x5F));
         SEL(p) = 0;
         return func_021E949C((char *)p, 5, func_021E8F50((char *)p, 0x64));
     case 0xFFFFFFFD:
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         return func_021E8FD0((char *)p, func_021E8FE0((char *)p, 0x65));
     }
     return 0x65;
@@ -11058,7 +11063,7 @@ int func_021E9010(unsigned char *p)
         }
         func_021DEFF8((char *)p, p[0x16]);
     } else {
-        func_020061E4(0x557);
+        GFL_USE_PlaySeDefaultVolume(0x557);
         func_021EBB58((char *)p, 0x18);
     }
     if (func_020355C4() == 1) {
@@ -11302,7 +11307,7 @@ int func_021E91A0(unsigned char *p)
         func_021ED108(WORK(p),1); func_021EBFA8(WORK(p),0xa,2);
         return 0x3b;
     }
-    func_020061E4(0x557); func_021EBCB4(p,6,0x18);
+    GFL_USE_PlaySeDefaultVolume(0x557); func_021EBCB4(p,6,0x18);
     ((BoxTask *)p)->f28=0xe;
     return func_021E8F50((char *)p,6);
 }
@@ -11321,7 +11326,7 @@ int func_021E91A0(unsigned char *p)
  */
 int func_021E9284(char *p)
 {
-    func_020061E4(0x55D);
+    GFL_USE_PlaySeDefaultVolume(0x55D);
     func_021DE898((int *)p);
     ((BoxTask *)p)->f28 = 0x69;
     return func_021E8F90(p, 1);
@@ -12700,7 +12705,7 @@ int func_021E9EC0(unsigned char *p, int i)
     func_021EC768(WORK(p), p[0x16], 0);
     func_021ECB84(WORK(p), p[0x16]);
     func_021ED594((char *)p, 0x24);
-    func_0201AB28(((struct Obj23952 *)(*(char * *)&((BoxTask *)p)->f0))->f8, i - 0x1E);
+    POKEPARTY_GetMember(((struct Obj23952 *)(*(char * *)&((BoxTask *)p)->f0))->f8, i - 0x1E);
     func_021EA1C0(p);
     func_021EE038((char *)p, 2, 2, 1);
     func_021EBA5C(WORK(p), 0x18);
@@ -12732,7 +12737,7 @@ int func_021E9F3C(unsigned char *p, int i)
     func_021EC768(WORK(p), p[0x16], 0);
     func_021ECB84(WORK(p), p[0x16]);
     func_021ED594((char *)p, 0x24);
-    func_0201AB28(((struct Obj23953 *)(*(char * *)&((BoxTask *)p)->f0))->f8, i - 0x1E);
+    POKEPARTY_GetMember(((struct Obj23953 *)(*(char * *)&((BoxTask *)p)->f0))->f8, i - 0x1E);
     func_021EA1C0(p);
     func_021EE038((char *)p, 2, 2, 1);
     func_021EBA5C(WORK(p), 0x18);
@@ -12763,7 +12768,7 @@ int func_021E9FA8(unsigned char *p, int i)
     func_021ED594((char *)p, 0x24);
     func_021ECB20((char *)p, 2, 1);
     func_021ECB60(WORK(p), 0x24, 0);
-    func_0201AB28(((struct Obj23954 *)(*(char * *)&((BoxTask *)p)->f0))->f8, i - 0x1E);
+    POKEPARTY_GetMember(((struct Obj23954 *)(*(char * *)&((BoxTask *)p)->f0))->f8, i - 0x1E);
     func_021EA1C0(p);
     func_021EE038((char *)p, 2, 2, 1);
     func_021EBA5C(WORK(p), 0x18);
@@ -12973,11 +12978,11 @@ int func_021EA14C(unsigned char *p, unsigned i, int v)
         if (k >= p[0x15])
             k -= p[0x15];
         if (k == p[0x14]) {
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
             return 0x15;
         }
         if (func_020077B8((*(BoxTop * *)&((BoxTask *)p)->f0)->x4, k) == 0) {
-            func_020061E4(0x557);
+            GFL_USE_PlaySeDefaultVolume(0x557);
             return 0x15;
         }
     }
@@ -13244,7 +13249,7 @@ int func_021EA39C(BoxObj *p, unsigned i)
         func_020260E4(OBJ(p), p->b16);
         return 0x40;
     }
-    func_020061E4(0x666);
+    GFL_USE_PlaySeDefaultVolume(0x666);
     func_021EC000(p->work, 10, 0);
     func_021ED164(p->work, p->b16, 2);
     func_021ED094(p->work, CNT(p));
@@ -13606,7 +13611,7 @@ int func_021EA798(unsigned char *p, int sel)
         ((BoxTask *)p)->f28 = 0x63;
         break;
     }
-    func_020061E4(0x548);
+    GFL_USE_PlaySeDefaultVolume(0x548);
     return func_021E8FC0((char *)p, (int)cb, ((BoxTask *)p)->f28);
 }
 
@@ -13760,7 +13765,7 @@ int func_021EA8CC(unsigned char *p)
     if (func_021DD694((void ***)p, i) == 0)
         return 1;
     if (func_0202136C((unsigned short)func_02017E1C(
-            func_0201AB28(*(void **)(((struct Obj12168 *)p)->f0 + 8), i), 6, 0)) == 1)
+            POKEPARTY_GetMember(*(void **)(((struct Obj12168 *)p)->f0 + 8), i), 6, 0)) == 1)
         return 2;
     return 0;
 }
@@ -13853,7 +13858,7 @@ void func_021EA984(unsigned char *p) {
 
 int func_021EA9F4(BoxObj *p, int v)
 {
-    func_020061E4(0x54C);
+    GFL_USE_PlaySeDefaultVolume(0x54C);
     if (func_021EF5E8(MGR(p)) == 1)
         p->lo = 2;
     else
@@ -13880,7 +13885,7 @@ int func_021EA9F4(BoxObj *p, int v)
 
 int func_021EAA3C(BoxObj *p, int v)
 {
-    func_020061E4(0x54C);
+    GFL_USE_PlaySeDefaultVolume(0x54C);
     if (func_021EF5E8(MGR(p)) == 1)
         p->lo = 2;
     else
@@ -13932,7 +13937,7 @@ void func_021EAAC4(char *p)
 {
     unsigned i;
     for (i = 0; i < 0x1c; i++)
-        func_020452E8((struct Descriptor *)(*(int *)(((struct Obj18507 *)p)->f2C + i * 8 + 0x94)));
+        BMP_WIN_Delete((struct Descriptor *)(*(int *)(((struct Obj18507 *)p)->f2C + i * 8 + 0x94)));
     BMP_WIN_Exit();
 }
 
@@ -14004,7 +14009,7 @@ void func_021EAB50(unsigned char *w) {
  for(i=0;i<28;i++) {
   print=((struct Obj08242 *)w)->f8C;
   if(w[0x98+i*8]) {
-   if(func_0201C6C4(print,func_02045770(*(void **)(w+i*8+0x94)))==0) {
+   if(PRINTSYS_QUE_IsExistTarget(print,BMP_WIN_GetBmp(*(void **)(w+i*8+0x94)))==0) {
     BMP_WIN_TransferChars(*(void **)(w+i*8+0x94));
     w[0x98+i*8]=0;
    }
@@ -14032,7 +14037,7 @@ void func_021EAB50(unsigned char *w) {
 void func_021EABA0(void **p)
 {
     BMP_WIN_MakeScreen(*p);
-    func_02041B6C(func_02045730(*p));
+    func_02041B6C(BMP_WIN_GetBgLayer(*p));
 }
 
 
@@ -14052,7 +14057,7 @@ void func_021EABA0(void **p)
 void func_021EABB8(void **p)
 {
     BMP_WIN_ClearScreen(*p);
-    func_02041B6C(func_02045730(*p));
+    func_02041B6C(BMP_WIN_GetBgLayer(*p));
 }
 
 
@@ -14072,7 +14077,7 @@ void func_021EABD0(unsigned char *w,int i,void *bank,unsigned idx,int x,int y,un
  void *s; unsigned print;
  s=func_02045EC0(bank,idx);
  print=((struct Obj23962 *)w)->f8C;
- PRINTSYS_PrintQueColor((void *)print,(u32)func_02045770(*(void **)(w+0x94+i*8)),(short)x,(short)y,(u32)s,font,color);
+ PRINTSYS_PrintQueColor((void *)print,(u32)BMP_WIN_GetBmp(*(void **)(w+0x94+i*8)),(short)x,(short)y,(u32)s,font,color);
  *(w+i*8+0x98)=1;
  STRBUF_Delete(s);
 }
@@ -14102,7 +14107,7 @@ void func_021EAC28(char *w, int i, void *bank, u32 idx, int x, int y, u32 font, 
     s = func_02045EC0(bank, idx);
     func_0201F250(((struct Obj00414 *)w)->f84, (void *)(*(u32 *)&((struct Obj00414 *)w)->f88), s);
     print = ((struct Obj00414 *)w)->f8C;
-    PRINTSYS_PrintQueColor((void *)print, (u32)func_02045770(*(void **)(w + i * 8 + 0x94)), (short)x, (short)y, *(u32 *)&((struct Obj00414 *)w)->f88, font, color);
+    PRINTSYS_PrintQueColor((void *)print, (u32)BMP_WIN_GetBmp(*(void **)(w + i * 8 + 0x94)), (short)x, (short)y, *(u32 *)&((struct Obj00414 *)w)->f88, font, color);
     *(unsigned char *)(w + i * 8 + 0x98) = 1;
     STRBUF_Delete(s);
 }
@@ -14145,7 +14150,7 @@ void *func_021EAC98(void)
 void func_021EACA8(unsigned char *p) {
  unsigned char *w; void *bank;
  w=(unsigned char *)WORK(p);
- BMP_Clear(func_02045770(((BoxWork *)w)->f94),0);
+ BMP_Clear(BMP_WIN_GetBmp(((BoxWork *)w)->f94),0);
  bank=func_021EAC98();
  func_021EABD0(w,0,bank,((struct Obj23964 *)(*(char * *)&((BoxTask *)p)->f0))->f24+0x25,0,8,((BoxWork *)w)->f78,0x440);
  MSGDATA_Delete(bank);
@@ -14169,10 +14174,10 @@ void func_021EACFC(u8 *p)
 {
     u8 *q = *(u8 * *)&((BoxTask *)p)->f2C;
 
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((BoxWork *)q)->fE4)), 0);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((BoxWork *)q)->fEC)), 0);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((BoxWork *)q)->fF4)), 0);
-    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((BoxWork *)q)->fFC)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((BoxWork *)q)->fE4)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((BoxWork *)q)->fEC)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((BoxWork *)q)->fF4)), 0);
+    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((BoxWork *)q)->fFC)), 0);
     func_021EABD0(q, 0xa, (void *)(((struct Obj02053 *)q)->f80), 0x6d, 0, 0, ((BoxWork *)q)->f78, 0x440);
     func_021EABD0(q, 0xb, (void *)(((struct Obj02053 *)q)->f80), 0x64, 0, 0, ((BoxWork *)q)->f78, 0x440);
     func_021EABD0(q, 0xc, (void *)(((struct Obj02053 *)q)->f80), 0x65, 0, 0, ((BoxWork *)q)->f78, 0x440);
@@ -14194,7 +14199,7 @@ void func_021EACFC(u8 *p)
 void func_021EADB4(unsigned char *w,Entry_021EADB4 *e,unsigned i) {
  void **windows;
  windows=(void **)(w+0x94);
- BMP_Clear(func_02045770(windows[i*2]),0);
+ BMP_Clear(BMP_WIN_GetBmp(windows[i*2]),0);
  if(!e->flag) {
   func_0201EEA4(((struct Obj00414 *)w)->f84,0,(void *)e->value);
   func_021EAC28((char *)w,i,((struct Obj00414 *)w)->f80,0,0,0,((struct Obj00414 *)w)->f78,0x440);
@@ -14216,7 +14221,7 @@ void func_021EADB4(unsigned char *w,Entry_021EADB4 *e,unsigned i) {
 
 void func_021EAE20(char *p, void **q, int i)
 {
-    BMP_Clear(func_02045770(*(void **)(p + 0x94 + i * 8)), 0);
+    BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
     func_0201EF14(((BoxWork *)p)->f84, 0, *q);
     func_021EAC28(p, i, ((BoxWork *)p)->f80, 1, 0, 0, ((BoxWork *)p)->f78, 0x440);
     func_021EABA0((void **)(p + 0x94 + i * 8));
@@ -14237,7 +14242,7 @@ void func_021EAE20(char *p, void **q, int i)
 void func_021EAE74(char *p, Entry_021EAE74 *e, unsigned i)
 {
     unsigned n;
-    BMP_Clear(func_02045770(*(void **)(p + 0x94 + i * 8)), 0);
+    BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
     if (!e->flag) {
         func_021EAC28(p, i, ((BoxWork *)p)->f80, 107, 0, 0, ((BoxWork *)p)->f78, 0x440);
         n = func_0201D304(((BoxWork *)p)->f88, ((BoxWork *)p)->f78, 0);
@@ -14266,7 +14271,7 @@ void func_021EAE74(char *p, Entry_021EAE74 *e, unsigned i)
  */
 void func_021EAF20(char *p, Entry_021EAF20 *e, unsigned i)
 {
-    BMP_Clear(func_02045770(*(void **)(p + 0x94 + i * 8)), 0);
+    BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
     if (!e->flag && e->enabled == 1) {
         if (e->kind == 0) {
             func_021EABD0((unsigned char *)p, i, ((BoxWork *)p)->f80, 95, 0, 0, ((BoxWork *)p)->f78, 0x14c0);
@@ -14297,7 +14302,7 @@ void func_021EAFBC(char *p,const Entry_021EAFBC *e,u32 i)
 {
     u16 n;
     u32 text;
-    BMP_Clear(func_02045770(*(void **)(W(p)+i*8+148)),0);
+    BMP_Clear(BMP_WIN_GetBmp(*(void **)(W(p)+i*8+148)),0);
     if (e->high == 0) {
         if (*(u32 *)(W(p)+380) == 1)
             n = ((struct Obj06549 *)e)->f4;
@@ -14327,7 +14332,7 @@ void func_021EAFBC(char *p,const Entry_021EAFBC *e,u32 i)
 
 void func_021EB098(char *p, unsigned char *e, int i)
 {
-    BMP_Clear(func_02045770(*(void **)(p + 0x94 + i * 8)), 0);
+    BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
     if (!((Entry_021EB098 *)e)->flag) {
         func_0201EF98(((BoxWork *)p)->f84, 0, e[15]);
         func_021EAC28(p, i, ((BoxWork *)p)->f80, 98, 0, 0, ((BoxWork *)p)->f78, 0x440);
@@ -14351,7 +14356,7 @@ void func_021EB098(char *p, unsigned char *e, int i)
 
 void func_021EB114(char *p, unsigned char *e, int i)
 {
-    BMP_Clear(func_02045770(*(void **)(p + 0x94 + i * 8)), 0);
+    BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
     if (!((Entry_021EB114 *)e)->flag) {
         func_0201EF8C(((BoxWork *)p)->f84, 0, e[14]);
         func_021EAC28(p, i, ((BoxWork *)p)->f80, 97, 0, 0, ((BoxWork *)p)->f78, 0x440);
@@ -14375,7 +14380,7 @@ void func_021EB114(char *p, unsigned char *e, int i)
 
 void func_021EB190(char *p, unsigned char *e, int i)
 {
-    BMP_Clear(func_02045770(*(void **)(p + 0x94 + i * 8)), 0);
+    BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
     if (((struct Obj06549 *)e)->f6 != 0) {
         func_0201EF40(((BoxWork *)p)->f84, 0, ((struct Obj06549 *)e)->f6);
         func_021EAC28(p, i, ((BoxWork *)p)->f80, 99, 0, 0, ((BoxWork *)p)->f78, 0x440);
@@ -14411,7 +14416,7 @@ void func_021EB208(char *p, Entry_021EB208 *e, int i)
     unsigned j;
     void *bank;
     windows = (void **)(p + 0x94);
-    BMP_Clear(func_02045770(windows[i * 2]), 0);
+    BMP_Clear(BMP_WIN_GetBmp(windows[i * 2]), 0);
     j = 0;
     bank = func_02045B38(0, 2, 203, 0x804c);
     if (!e->flag) {
@@ -14550,7 +14555,7 @@ void func_021EB324(Work *w)
     unsigned i;
     for (i = 1; i <= 9; i++) {
         func_021EABB8((void **)(&w->items[i]));
-        BMP_Clear(func_02045770(w->items[i].obj), 0);
+        BMP_Clear(BMP_WIN_GetBmp(w->items[i].obj), 0);
         func_021EAAE4((unsigned char *)w, i);
     }
     func_021EABB8((void **)(&w->items[10]));
@@ -14580,7 +14585,7 @@ void func_021EB324(Work *w)
 void func_021EB378(char *p, int idx, unsigned msg, unsigned short frame, unsigned short col, int icon)
 {
     void *win = *(void **)(WORK(p) + 0x94 + idx * 8);
-    void *bmp = func_02045770(win);
+    void *bmp = BMP_WIN_GetBmp(win);
     unsigned char w;
     unsigned char h;
     Chr *chr;
@@ -14590,11 +14595,11 @@ void func_021EB378(char *p, int idx, unsigned msg, unsigned short frame, unsigne
     unsigned char i;
     void *str;
 
-    func_02045730(win);
-    func_02045758(win);
-    func_02045760(win);
-    w = func_02045738(win);
-    h = func_02045740(win);
+    BMP_WIN_GetBgLayer(win);
+    BMP_WIN_GetPosX(win);
+    BMP_WIN_GetPosY(win);
+    w = BMP_WIN_GetWidth(win);
+    h = BMP_WIN_GetHeight(win);
     BMP_Clear(bmp, 4);
     res = func_02049DB4(0x74, 0x3E, 1, (u32)(&chr), HEAP);
     raw = chr->raw;
@@ -14701,7 +14706,7 @@ void func_021EB6F0(int a, int b, int c)
 
 
 
-void func_021EB708(void *m,unsigned i,void *d){unsigned bg=func_02045730(d);unsigned w=func_02045738(d);unsigned h=func_02045740(d);BGWINFRM_AddFrame(m,i,bg,w,h);BGWINFRM_PutBmpWin(m,i,d);}
+void func_021EB708(void *m,unsigned i,void *d){unsigned bg=BMP_WIN_GetBgLayer(d);unsigned w=BMP_WIN_GetWidth(d);unsigned h=BMP_WIN_GetHeight(d);BGWINFRM_AddFrame(m,i,bg,w,h);BGWINFRM_PutBmpWin(m,i,d);}
 
 
 
@@ -15023,7 +15028,7 @@ void func_021EB988(unsigned char *p, const void *e, unsigned n)
     }
     for (; n < 6; n++) {
         unsigned k = 0x13 - n;
-        BMP_Clear(func_02045770(*(void **)(WORK(p) + k * 8 + 0x94)), 0);
+        BMP_Clear(BMP_WIN_GetBmp(*(void **)(WORK(p) + k * 8 + 0x94)), 0);
         func_021EAAE4((unsigned char *)WORK(p), k);
     }
 }
@@ -15044,7 +15049,7 @@ void func_021EB988(unsigned char *p, const void *e, unsigned n)
  */
 void func_021EBA30(unsigned char *p, void *win)
 {
-    BMP_Clear(func_02045770(win), 0xF);
+    BMP_Clear(BMP_WIN_GetBmp(win), 0xF);
     func_0201F73C(win, 2, (unsigned short)*(int *)(WORK(p) + 0x178), 10);
 }
 
@@ -15546,7 +15551,7 @@ void func_021EBD94(unsigned char *p)
     func_021EBEAC(p);
     func_021EE038((char *)p, p[0x1f], p[0x20], p[0x21]);
     func_021EE120(((BoxTask *)p)->f2C);
-    func_020434DC(16, 1);
+    BG_SYS_SetMainPlaneVisible(16, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
 }
 
@@ -15752,7 +15757,7 @@ void func_021EBFA8(char *p, int i, int v)
 void func_021EBFCC(char *p, int i, int v)
 {
     func_021EBFA8(p, i, v);
-    func_0204B92C((struct Obj *)*(int *)(p + i * 4 + 0x9E74), 1);
+    CLACT_SetActorAutoAnim((struct Obj *)*(int *)(p + i * 4 + 0x9E74), 1);
 }
 
 
@@ -15789,7 +15794,7 @@ void func_021EC000(char *p, int i, int v)
 {
     int x = *(int *)(p + i * 4 + 0x9E74);
     if (x != 0)
-        func_0204B3DC((struct Obj *)x, v);
+        CLACT_SetActorDrawEnable((struct Obj *)x, v);
 }
 
 
@@ -15804,7 +15809,7 @@ void func_021EC000(char *p, int i, int v)
 
 u32 func_021EC01C(char *p, int i)
 {
-    return func_0204B3F4((struct Obj *)(*(int *)(p + i * 4 + 0x9E74)));
+    return CLACT_GetActorDrawEnable((struct Obj *)(*(int *)(p + i * 4 + 0x9E74)));
 }
 
 
@@ -15890,7 +15895,7 @@ void func_021EC048(char *p, int i, int c)
 
 
 
-void func_021EC060(char *p,unsigned i,int b){if(b==1)func_0204B688(*(void **)((unsigned)p+i*4+0x9e74),1);else func_0204B688(*(void **)((unsigned)p+i*4+0x9e74),0);}
+void func_021EC060(char *p,unsigned i,int b){if(b==1)CLACT_SetActorObjMode(*(void **)((unsigned)p+i*4+0x9e74),1);else CLACT_SetActorObjMode(*(void **)((unsigned)p+i*4+0x9e74),0);}
 
 
 
@@ -15910,7 +15915,7 @@ void func_021EC08C(char *p, int i, int a, int b, unsigned short c)
     unsigned short t[2];
     t[0] = a;
     t[1] = b;
-    func_0204B404((struct Obj *)(*(int *)(p + i * 4 + 0x9E74)), (const struct Vec2 *)t, c);
+    CLACT_AddActorSurfacePos((struct Obj *)(*(int *)(p + i * 4 + 0x9E74)), (const struct Vec2 *)t, c);
 }
 
 
@@ -16028,7 +16033,7 @@ void func_021EC2A0(char *p)
  */
 void *func_021EC338(char *p, void *b, void *c)
 {
-    return func_02049E74((void *)(((BoxWork *)p)->f1B0), func_0201BA68(b), 0, (u32)c, 0x4c);
+    return func_02049E74((void *)(((BoxWork *)p)->f1B0), POKE_TOOL_GetGraphicIndex(b), 0, (u32)c, 0x4c);
 }
 
 
@@ -16082,7 +16087,7 @@ void func_021EC428(char *p, int a, int i, int b)
 {
     int v = CLACT_GetActorCharacterIndex((u8 *)(*(int *)(p + 0x9E74 + i * 4)));
     CLACT_TransferCharacterPart(v, (void *)a, 0x200, 0, 0);
-    func_0204B6F4((struct Obj *)(*(int *)(p + 0x9E74 + i * 4)), (unsigned char)b, 1);
+    CLACT_SetActorPaletteOffset((struct Obj *)(*(int *)(p + 0x9E74 + i * 4)), (unsigned char)b, 1);
 }
 
 
@@ -16158,10 +16163,10 @@ void func_021EC4E0(char *p)
 
 void func_021EC4FC(unsigned char *p)
 {
-    unsigned n = func_0201AA18(((struct Obj24004 *)(*(char * *)&((BoxTask *)p)->f0))->f8);
+    unsigned n = POKEPARTY_GetCount(((struct Obj24004 *)(*(char * *)&((BoxTask *)p)->f0))->f8);
     unsigned i;
     for (i = 0; i < n; i++) {
-        func_021EC45C(p, POKE_TOOL_GetBoxParam(func_0201AB28(((struct Obj24005 *)(*(char * *)&((BoxTask *)p)->f0))->f8, i)),
+        func_021EC45C(p, POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(((struct Obj24005 *)(*(char * *)&((BoxTask *)p)->f0))->f8, i)),
                        *(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + i + 0x3DF0));
         func_021EC000(*(char * *)&((BoxTask *)p)->f2C, *(unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + i + 0x3DF0), 0);
     }
@@ -16201,7 +16206,7 @@ void func_021EC548(unsigned i, short *x, short *y, int mode)
 
 void func_021EC5A0(char **p, int flag)
 {
-    unsigned n = func_0201AA18(((void **)p[0])[2]);
+    unsigned n = POKEPARTY_GetCount(((void **)p[0])[2]);
     unsigned i;
     for (i = 0; i < 6; i++) {
         int k = *(unsigned char *)(p[11] + i + 0x3DF0);
@@ -16230,7 +16235,7 @@ void func_021EC5A0(char **p, int flag)
  */
 void func_021EC61C(unsigned char *p)
 {
-    unsigned n = func_0201AA18(((struct Obj24008 *)(*(char * *)&((BoxTask *)p)->f0))->f8);
+    unsigned n = POKEPARTY_GetCount(((struct Obj24008 *)(*(char * *)&((BoxTask *)p)->f0))->f8);
     unsigned i;
     for (i = 0; i < 6; i++) {
         int win = *(unsigned char *)(WORK(p) + i + 0x3DF0);
@@ -16253,7 +16258,7 @@ void func_021EC61C(unsigned char *p)
 
 void func_021EC688(char *p)
 {
-    unsigned n = func_0201AA18(((struct Obj24010 *)(*(char * *)&((BoxTask *)p)->f0))->f8);
+    unsigned n = POKEPARTY_GetCount(((struct Obj24010 *)(*(char * *)&((BoxTask *)p)->f0))->f8);
     unsigned i;
     for (i = 0; i < 6; i++) {
         int win = *(unsigned char *)(WORK(p) + i + 0x3DF0);
@@ -16276,7 +16281,7 @@ void func_021EC688(char *p)
 
 void func_021EC6F4(char *p)
 {
-    unsigned n = func_0201AA18(((struct Obj24012 *)(*(char * *)&((BoxTask *)p)->f0))->f8);
+    unsigned n = POKEPARTY_GetCount(((struct Obj24012 *)(*(char * *)&((BoxTask *)p)->f0))->f8);
     unsigned i;
     for (i = 0; i < 6; i++) {
         int win = *(unsigned char *)(WORK(p) + i + 0x3DF0);
@@ -16505,7 +16510,7 @@ int func_021EC9D8(char *p)
  */
 void func_021ECA24(int *p)
 {
-    func_0204B3DC((struct Obj *)*p, 0);
+    CLACT_SetActorDrawEnable((struct Obj *)*p, 0);
     func_021ECA38(p);
 }
 
@@ -16821,7 +16826,7 @@ void func_021ECF78(char *p)
     for (i = 0; i < 0x11; i++) {
         d.a = i + 0x28;
         *(void **)(p + i * 4 + 0x9EE4) = func_021EBEE0(p, (const Desc *)&d);
-        func_0204B6F4(*(void **)(p + i * 4 + 0x9EE4), (unsigned)func_020275EC((unsigned char)i), 1);
+        CLACT_SetActorPaletteOffset(*(void **)(p + i * 4 + 0x9EE4), (unsigned)func_020275EC((unsigned char)i), 1);
         func_021EC000(p, i + 0x1C, 0);
     }
 }
@@ -16964,7 +16969,7 @@ void func_021ED1C8(char *w)
             d.x = xy[1] + d_021EFCD0[j];
             d.y = xy[0] + d_021EFCC8[j];
             *(void **)(w + j * 4 + 0x9FD4) = func_021EBEE0(w, &d);
-            func_0204B6F4(*(void **)(w + j * 4 + 0x9FD4), (unsigned char)d.e, 1);
+            CLACT_SetActorPaletteOffset(*(void **)(w + j * 4 + 0x9FD4), (unsigned char)d.e, 1);
             func_021EC000(w, j + 0x58, 0);
         }
     } else {
@@ -17127,7 +17132,7 @@ void func_021ED594(char *p, unsigned i)
             d.x = xy[1] + d_021EFCD0[j];
             d.y = xy[0] + d_021EFCC8[j];
             *(void **)(w + j * 4 + 0x9FD4) = func_021EBEE0(w, &d);
-            func_0204B6F4(*(void **)(w + j * 4 + 0x9FD4), (unsigned char)d.e, 1);
+            CLACT_SetActorPaletteOffset(*(void **)(w + j * 4 + 0x9FD4), (unsigned char)d.e, 1);
         }
     } else {
         int n6;

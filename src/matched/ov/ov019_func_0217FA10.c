@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   G3D_SYSTEM_CreateRender  0x02047400  arm
  *   G3D_SYSTEM_CreateAnime  0x02047564  arm
  *   G3D_SYSTEM_CreateObject  0x0204767C  arm
@@ -24,7 +24,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 struct G3dOwner;
 struct G3dRec;
 struct G3dSys;
@@ -35,7 +35,7 @@ extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 
 void UNION_EFF_CreateAnimObj(char *self, u32 *out, u32 a2, u16 a3)
 {
-    func_02082BCC(out, 0, 0x14);
+    MI_CpuFill8(out, 0, 0x14);
     out[0] = a2;
     ((struct Obj02366 *)out)->f10 = a3;
     out[1] = (u32)G3D_SYSTEM_CreateRender((void *)(((struct Obj09421 *)self)->f14), 0, (void *)(((struct Obj09421 *)self)->f14));

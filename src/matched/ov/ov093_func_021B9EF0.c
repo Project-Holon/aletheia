@@ -1,5 +1,5 @@
 /*
- * function: func_021B9EF0
+ * function: BTL_TRAINER_SLOT_InitFromPacket
  * address:  0x021B9EF0
  * packet:   pkt_ov093_021B9EF0
  * region:   ov093
@@ -56,7 +56,7 @@ struct Rec8;
 extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
 extern void PMSI_PARAM_ClearSentence(void *obj);
 
-void func_021B9EF0(struct A *p, const struct B *src)
+void BTL_TRAINER_SLOT_InitFromPacket(struct A *p, const struct B *src)
 {
     unsigned int i;
     int t, u;

@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_GetLightClayHandlers
+ * function: HAND_ITEM_GetLightClayHandlers
  * address: 0x021DEDEC
  * packet: pkt_ov093_021DEDEC
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DED28.c and filed here.
  *
  * symbols:
- *   d_021F143C 0x021F143C data ov093 a4
+ *   gLightClayHandlers 0x021F143C data ov093 a4
  */
 
-int *BTL_HANDLER_ITEM_GetLightClayHandlers(int *p);
-extern int d_021F143C[];
+int *HAND_ITEM_GetLightClayHandlers(int *p);
+extern int gLightClayHandlers[];
 
-int *BTL_HANDLER_ITEM_GetLightClayHandlers(int *p)
+int *HAND_ITEM_GetLightClayHandlers(int *p)
 {
     *p = 1;
-    return d_021F143C;
+    return gLightClayHandlers;
 }

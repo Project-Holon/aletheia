@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020061E4  0x020061E4  thumb
- *   func_02006238  0x02006238  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
+ *   GFL_USE_IsAnySeBusy  0x02006238  thumb
  *   func_021BE4DC  0x021BE4DC  thumb  ov217
  *   func_021BE4E0  0x021BE4E0  thumb  ov217
  *   func_021BFC60  0x021BFC60  thumb  ov217
@@ -43,8 +43,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_020061E4(u32 a);
-extern int func_02006238(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+extern int GFL_USE_IsAnySeBusy(void);
 extern u32 func_021BE4DC(void *p);
 extern void func_021BE4E0(void *p);
 extern void func_021BFC60(char *p);
@@ -84,11 +84,11 @@ void func_021BDF58(u8 *p)
         func_021BE4E0(p);
         break;
     case 1:
-        if (func_02006238() == 0) {
+        if (GFL_USE_IsAnySeBusy() == 0) {
             if (((struct Obj00021 *)p)->f28 >= 0x78)
                 func_021BE4E0(p);
             else
-                func_020061E4(0x76B);
+                GFL_USE_PlaySeDefaultVolume(0x76B);
         }
         break;
     case 2:
@@ -107,7 +107,7 @@ void func_021BDF58(u8 *p)
         func_021BF47C((char *)p);
         if (((struct Obj00021 *)p)->f3CC == 0)
             func_021BE934((char *)p);
-        func_020061E4(0x76C);
+        GFL_USE_PlaySeDefaultVolume(0x76C);
         func_021BE448(p);
         break;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9BC4
+ * function: BTL_SLOT_CountLivingFrom
  * address: 0x021B9BC4
  * packet: pkt_ov093_021B9BC4
  * region: ov093
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int BTL_POKEPARAM_IsAbleToBattle(void *);
-u8 func_021B9BC4(u8 *p,int i) {
+u8 BTL_SLOT_CountLivingFrom(u8 *p,int i) {
     u32 n=0;
     for(;i<p[24];i++) if(BTL_POKEPARAM_IsAbleToBattle(*(void **)((u32)p+(u32)i*4))) n++;
     return n;

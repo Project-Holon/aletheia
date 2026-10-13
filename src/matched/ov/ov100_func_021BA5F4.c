@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_020452E8 0x020452E8 arm
+ *   BMP_WIN_Delete 0x020452E8 arm
  */
 #include "../include/Obj00060.h"
 struct Descriptor;
 typedef unsigned int   u32;
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 void func_021BA5F4(unsigned a)
 {
- if(*(unsigned *)&((struct Obj00060 *)a)->f27C!=0) func_020452E8(*(struct Descriptor * *)&((struct Obj00060 *)a)->f27C);
- if(*(unsigned *)&((struct Obj00060 *)a)->f280!=0) func_020452E8(*(struct Descriptor * *)&((struct Obj00060 *)a)->f280);
+ if(*(unsigned *)&((struct Obj00060 *)a)->f27C!=0) BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj00060 *)a)->f27C);
+ if(*(unsigned *)&((struct Obj00060 *)a)->f280!=0) BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj00060 *)a)->f280);
  *(unsigned *)&((struct Obj00060 *)a)->f27C=0;
  *(unsigned *)&((struct Obj00060 *)a)->f280=0;
 }

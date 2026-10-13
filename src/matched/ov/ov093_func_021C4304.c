@@ -20,7 +20,7 @@
  *   BTL_EVENT_DispatchEventChecked  0x021D70F0  thumb  ov093
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_EVENT_PopVarFrame  0x021D7540  thumb  ov093
- *   func_021C88E4  0x021C88E4  thumb  ov093
+ *   BTL_SERVER_FLOW_GetLockState  0x021C88E4  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -35,7 +35,7 @@ extern u8 *func_021C43E0(u8 *c, u8 i);
 extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_PopVarFrame(int line);
-extern int func_021C88E4(u8 *p);
+extern int BTL_SERVER_FLOW_GetLockState(u8 *p);
 
 int BTL_SERVER_FLOW_DispatchMoveFailCheck(u8 *p, u16 *b, u8 *a, u8 *c, int *out)
 {
@@ -61,7 +61,7 @@ int BTL_SERVER_FLOW_DispatchMoveFailCheck(u8 *p, u16 *b, u8 *a, u8 *c, int *out)
     }
     *out = BTL_EVENT_GetVar(0x51);
     BTL_EVENT_PopVarFrame(9402);
-    if (func_021C88E4(p) != 0) {
+    if (BTL_SERVER_FLOW_GetLockState(p) != 0) {
         return 1;
     }
     return 0;

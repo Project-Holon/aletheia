@@ -15,9 +15,9 @@
  *   func_021F0F30 0x021F0F30 thumb
  *   func_021F1144 0x021F1144 thumb
  *   func_021F1418 0x021F1418 thumb
- *   func_020311B8 0x020311B8 arm
+ *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj00007.h"
 #include "../include/Obj06134.h"
@@ -30,9 +30,9 @@ extern void func_021F0F30(char *e, int a, int b);
 extern void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t);
 struct S02030FB4;
 extern void func_021F1418(void *h, u8 *t);
-extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
+extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 a3);
 extern void *TCBL_GetWork(struct S02030FB4 *p);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 
 void func_021F13A0(char *this, int a, int b, int c, int s)
 {
@@ -41,8 +41,8 @@ void func_021F13A0(char *this, int a, int b, int c, int s)
 
     e = func_021F0F44(this, 0xff);
     if (e != 0) {
-        r = TCBL_GetWork(func_020311B8(*(u32 *)&((struct Obj00007 *)this)->fA0, (void *)func_021F1418, 0x18, 0));
-        func_02082BCC(r, 0, 0x18);
+        r = TCBL_GetWork(TCBL_AddTask(*(u32 *)&((struct Obj00007 *)this)->fA0, (void *)func_021F1418, 0x18, 0));
+        MI_CpuFill8(r, 0, 0x18);
         *(char * *)&((struct Obj06134 *)r)->fC = this;
         r[1] = c;
         *(char * *)&((struct Obj06134 *)r)->f8 = e;

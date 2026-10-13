@@ -10,7 +10,7 @@
  * volatile: hardware halfword stores to 04000050 at 021BC684 and
  * 04001050 at 021BC688; original clears display blend controls.
  * symbols:
- *   func_02043534 0x02043534 arm
+ *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   func_021BC2B0 0x021BC2B0 thumb ov211
@@ -22,7 +22,7 @@
  *   func_021BC2F4 0x021BC2F4 thumb ov211
  *   func_021C93A8 0x021C93A8 thumb ov212
  */
-extern void func_02043534(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned),BG_SYS_SetLcdSwap(unsigned);
+extern void BG_SYS_SetMainVisiblePlanes(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned),BG_SYS_SetLcdSwap(unsigned);
 struct Object;
 extern void func_021BC2B0(void);
 extern void func_021BC318(void);
@@ -33,7 +33,7 @@ extern void func_021BC2F4(unsigned char *p);
 extern void func_021C93A8(unsigned);
 int func_021BC670(char *p)
 {
-    func_02043534(0);BG_SYS_SetSubVisiblePlanes(0);
+    BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     BG_SYS_SetLcdSwap(0);func_021BC2B0();func_021BC318();

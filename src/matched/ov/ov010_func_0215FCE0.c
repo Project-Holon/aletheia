@@ -11,7 +11,7 @@
  *   SCRCMD_NETWORK_CreateBattleRecordLinkEvent 0x0215FC40 thumb ov010
  *   func_020124E8 0x020124E8 thumb
  *   FIELDMAP_GetZoneId 0x02188C9C thumb ov021
- *   func_02013CE0 0x02013CE0 thumb
+ *   ZONEDATA_IsZone96Pair 0x02013CE0 thumb
  */
 
 typedef unsigned int u32;
@@ -22,5 +22,5 @@ extern void *func_020124E8(struct Obj *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 extern u16 FIELDMAP_GetZoneId(u8 *p);
-extern u32 func_02013CE0(u32);
-int SCRCMD_NETWORK_CreateBattleRecordLinkEventForZone(int a, int b, unsigned short c) { int task; u32 *p; task=(int)SCRCMD_NETWORK_CreateBattleRecordLinkEvent(a,b,c); p=func_020124E8((struct Obj *)task); p[6]=func_02013CE0(FIELDMAP_GetZoneId((void *)b)) == 1 ? 5 : 2; return task; }
+extern u32 ZONEDATA_IsZone96Pair(u32);
+int SCRCMD_NETWORK_CreateBattleRecordLinkEventForZone(int a, int b, unsigned short c) { int task; u32 *p; task=(int)SCRCMD_NETWORK_CreateBattleRecordLinkEvent(a,b,c); p=func_020124E8((struct Obj *)task); p[6]=ZONEDATA_IsZone96Pair(FIELDMAP_GetZoneId((void *)b)) == 1 ? 5 : 2; return task; }

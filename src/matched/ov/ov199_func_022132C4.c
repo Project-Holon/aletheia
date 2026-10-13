@@ -19,7 +19,7 @@
  * void BATTLE_REC_UnloadToolOverlay(void) { func_02034A5C(ov188_id); }
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
  *   func_021EEEA8 0x021EEEA8 thumb ov188
@@ -37,7 +37,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *, int, unsigned int);
+extern void MI_CpuFill8(void *, int, unsigned int);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern void BTL_SETUP_Clear(u8 *p);
@@ -52,7 +52,7 @@ extern const char ov093_id[];
 void *func_022132C4(void *unused, int heap, char *p)
 {
     char *work = func_02030734(heap, 0xf0, 0, d_02213D04, 0x6f4);
-    func_02082BCC(work, 0, 0xf0);
+    MI_CpuFill8(work, 0, 0xf0);
     func_02034AC4((s32)ov093_id);
     BTL_SETUP_Clear((u8 *)work);
     BTL_SETUP_InitWithSlots(work, *(void **)(p + 4), heap);

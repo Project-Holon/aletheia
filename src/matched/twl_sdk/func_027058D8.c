@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 typedef unsigned int u32;
 typedef int s32;
@@ -27,12 +30,12 @@ typedef struct Obj150 {
     void *hb8[19];
     void *h104[19];
 } Obj150;
-extern void func_02082BCC(void *p, s32 v, u32 n);
+extern void MI_CpuFill8(void *p, s32 v, u32 n);
 extern void func_0208CADC(void *dst, void *src);
 void DSP_InitProcessContext(Obj150 *o, void *src)
 {
     s32 i;
-    func_02082BCC(o, 0, 0x150);
+    MI_CpuFill8(o, 0, 0x150);
     o->f0 = 0;
     o->f1c = 0;
     if (src == 0) {

@@ -50,7 +50,7 @@
  *   GFL_NET_StartByNetType  0x0203D01C  arm
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GFL_NET_HANDLE_CheckNegotiation  0x02039ACC  arm
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
@@ -58,8 +58,8 @@
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   GFL_NET_IsConnectMember  0x0203D1C0  arm
  *   func_02080D24  0x02080D24  arm
- *   func_02039C68  0x02039C68  arm
- *   func_02039CB4  0x02039CB4  arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_BeaconScanStart  0x0203D010  arm
  *   func_0201F02C  0x0201F02C  thumb
  *   COMM_ENTRY_RunLeaveConfirm  0x021CF068  thumb  ov021
@@ -109,7 +109,7 @@
  *   GFL_NET_COMMAND_DeleteCommandTable  0x0203A5E4  arm
  *   COMM_ENTRY_MENU_GetNameBuffer  0x021CEAF8  thumb  ov021
  *   COMM_ENTRY_MENU_AddMember  0x021CD624  thumb  ov021
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02087C6C  0x02087C6C  arm
  *   GFL_NET_SendData  0x0203D3F8  arm
  *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
@@ -486,7 +486,7 @@ extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_StartByNetType(void);
 extern int GFL_NET_SYSTEM_GetConnectNum(void);
 extern int GFL_NET_HANDLE_CheckNegotiation(void);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_HANDLE_IsNegotiationDone(GFLNetHandle *handle);
 extern int GFL_NET_GetNegotiationNum(void);
@@ -494,8 +494,8 @@ extern void GFL_NET_NotifyUserEvent(GFLNetHandle *handle, void *arg);
 extern u32 GFL_NET_GetHandleNetID(GFLNetHandle *handle);
 extern u32 GFL_NET_IsConnectMember(u32 netId);
 extern u32 func_02080D24(int bits);
-extern void func_02039C68(GFLNetHandle *handle, unsigned int timingNo, unsigned int range);
-extern unsigned int func_02039CB4(GFLNetHandle *handle, unsigned int timingNo, unsigned int range);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(GFLNetHandle *handle, unsigned int timingNo, unsigned int range);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(GFLNetHandle *handle, unsigned int timingNo, unsigned int range);
 extern u32 FIELD_MSGBG_SysWinMain(FieldSysWin *sysWin);
 extern u32 func_0200FB24(void);
 extern void GFL_NET_BeaconScanStart(void);
@@ -534,7 +534,7 @@ extern void func_02045CAC(struct MsgData *msgData, u32 messageId, struct Strbuf 
 extern int FIELD_MSGBG_AddMenuItemStr(struct BmpMenuWork *items, struct Strbuf *text, u32 value, u32 heapId);
 extern GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 id);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 heapId, const void *commandTable, u32 commandCount, void *work);
-extern void func_02082BCC();
+extern void MI_CpuFill8();
 extern void func_02087C6C(void *p);
 extern u32 GFL_NET_SendData(GFLNetHandle *handle, u32 sendId, u32 command, u32 size, const void *data, u32 a, u32 b, u32 c);
 extern u32 GFL_NET_SendDataMask(GFLNetHandle *handle, u32 recipients, u32 command, u32 size, const void *data, u32 a, u32 b, u32 c);
@@ -784,7 +784,7 @@ int COMM_ENTRY_MENU_MainRecruit(CommEntryMenu *menu)
             if (GFL_NET_HANDLE_CheckNegotiation() == 1) {
                 menu->state++;
             }
-        } else if (func_020362DC() & 2) {
+        } else if (KEY_GetTrg() & 2) {
             menu->state = RECRUIT_CONFIRM_QUIT;
             menu->result = COMM_ENTRY_RESULT_CANCEL;
             menu->state = RECRUIT_DONE;
@@ -807,10 +807,10 @@ int COMM_ENTRY_MENU_MainRecruit(CommEntryMenu *menu)
             count = COMM_ENTRY_MENU_CountAcceptedMembers(menu);
             pendingMessage = menu->nextMessage;
             menu->nextMessage = 0xFFFF;
-            if (count >= menu->maxMembers || (count >= menu->minMembers && (func_020362DC() & 1))) {
+            if (count >= menu->maxMembers || (count >= menu->minMembers && (KEY_GetTrg() & 1))) {
                 COMM_ENTRY_MENU_SnapshotStates(menu);
                 menu->state = RECRUIT_CONFIRM_START;
-            } else if (func_020362DC() & 2) {
+            } else if (KEY_GetTrg() & 2) {
                 menu->state = RECRUIT_CONFIRM_QUIT;
             } else if (menu->isChild == 0 && GFL_NET_GetNegotiationNum() <= 1) {
                 menu->state = RECRUIT_SHOW_ALONE_MESSAGE;
@@ -888,7 +888,7 @@ int COMM_ENTRY_MENU_MainRecruit(CommEntryMenu *menu)
             menu->result = COMM_ENTRY_RESULT_START;
             menu->state = RECRUIT_WAIT_START_SYNC;
             menu->readyCount = func_02080D24(menu->readyBits);
-            func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27);
+            GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27);
         }
         break;
     case RECRUIT_WAIT_START_SYNC:
@@ -898,7 +898,7 @@ int COMM_ENTRY_MENU_MainRecruit(CommEntryMenu *menu)
                 menu->result = COMM_ENTRY_RESULT_CANCEL;
                 menu->state = RECRUIT_SHOW_ABORT_MESSAGE;
             }
-        } else if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27) == 1) {
+        } else if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27) == 1) {
             GFLNetInitializeStruct *netInit;
 
             menu->result = COMM_ENTRY_RESULT_START;
@@ -1034,11 +1034,11 @@ int COMM_ENTRY_MENU_MainMode1(CommEntryMenu *menu)
             COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_STARTING);
         }
         menu->state = CHOOSE_WAIT_SYNC;
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27);
         break;
     case CHOOSE_WAIT_SYNC:
         if (menu->isChild != 0 || FIELD_MSGBG_SysWinMain(menu->sysWin) == 1) {
-            if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27) == 1) {
+            if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27) == 1) {
                 menu->result = COMM_ENTRY_RESULT_START;
                 menu->state = CHOOSE_DONE;
             } else if (menu->cancelFlag == 1) {
@@ -1142,11 +1142,11 @@ int COMM_ENTRY_MENU_MainMode2(CommEntryMenu *menu)
             COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_STARTING);
         }
         menu->state = HOST_WAIT_SYNC;
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27);
         break;
     case HOST_WAIT_SYNC:
         if (menu->isChild != 0 || FIELD_MSGBG_SysWinMain(menu->sysWin) == 1) {
-            if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27) == 1) {
+            if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27) == 1) {
                 menu->result = COMM_ENTRY_RESULT_START;
                 menu->state = HOST_DONE;
             } else if (menu->cancelFlag == 1) {
@@ -1264,11 +1264,11 @@ int COMM_ENTRY_MENU_MainMode3(CommEntryMenu *menu)
             COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_STARTING);
         }
         menu->state = JOIN_WAIT_SYNC;
-        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27);
+        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27);
         break;
     case JOIN_WAIT_SYNC:
         if (menu->isChild != 0 || FIELD_MSGBG_SysWinMain(menu->sysWin) == 1) {
-            if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27) == 1) {
+            if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27) == 1) {
                 menu->result = COMM_ENTRY_RESULT_START;
                 menu->state = JOIN_DONE;
             } else if (menu->cancelFlag == 1) {
@@ -1944,7 +1944,7 @@ u32 COMM_ENTRY_MENU_MainYesNo(CommEntryMenu *menu)
                 list->state++;
             }
         } else {
-            if (func_020362DC() & 2) {
+            if (KEY_GetTrg() & 2) {
                 list->returnState = list->state;
                 list->state = LIST_ASK_LEAVE;
             }
@@ -1961,7 +1961,7 @@ u32 COMM_ENTRY_MENU_MainYesNo(CommEntryMenu *menu)
             if (COMM_ENTRY_SendJoinRequest(menu->myStatus, 0, menu->netMode) == 1) {
                 list->state = LIST_WAIT_REPLY;
             }
-        } else if (func_020362DC() & 2) {
+        } else if (KEY_GetTrg() & 2) {
             list->returnState = list->state;
             list->state = LIST_ASK_LEAVE;
         }
@@ -1977,7 +1977,7 @@ u32 COMM_ENTRY_MENU_MainYesNo(CommEntryMenu *menu)
         } else if (menu->joinReply == 2) {
             list->result = LIST_RESULT_REDIRECTED;
             list->state = LIST_FINISHED;
-        } else if (func_020362DC() & 2) {
+        } else if (KEY_GetTrg() & 2) {
             list->returnState = list->state;
             list->state = LIST_ASK_LEAVE;
         }
@@ -2161,7 +2161,7 @@ int COMM_ENTRY_RunLeaveConfirm(CommEntryMenu *menu)
 
     switch (confirm->state) {
     case 0:
-        if (func_020362DC() & 2) {
+        if (KEY_GetTrg() & 2) {
             confirm->menu = FIELD_MSGBG_CreateYesNoMenu(FIELDMAP_GetMsgBg(menu->fieldMap), 0);
             COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_ASK_LEAVE);
             confirm->state = 1;
@@ -2250,7 +2250,7 @@ u32 COMM_ENTRY_SendJoinRequest(const void *myStatus, u32 isChild, u32 netMode)
 {
     CommEntryJoinRequest packet;
 
-    func_02082BCC(&packet, 0, sizeof(CommEntryJoinRequest));
+    MI_CpuFill8(&packet, 0, sizeof(CommEntryJoinRequest));
     MYSTATUS_Copy(myStatus, &packet);
     func_02087C6C(packet.mac);
     packet.isChild = isChild;

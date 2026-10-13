@@ -14,7 +14,7 @@
  *   func_021FC4E4 0x021FC4E4 thumb ov135
  *   func_021FC2A4 0x021FC2A4 thumb ov135
  *   func_022000E4 0x022000E4 thumb ov135
- *   func_0204B3DC 0x0204B3DC arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_021F4EC8 0x021F4EC8 thumb ov135
  */
 #include "../include/Obj00287.h"
@@ -29,6 +29,6 @@ extern void func_021FC568(char *p);
 extern void func_021FC4E4(char *);
 extern void func_021FC2A4(void);
 extern void func_022000E4(char *p);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void func_021F4EC8(u8 *p);
-int func_021FC188(u8 *p) {func_021FC3D0(p);func_021FC568((char *)p);func_021FC4E4((char *)p);func_021FC2A4();func_022000E4((char *)p);func_0204B3DC(((struct Obj00287 *)p)->fD38,0);func_021F4EC8(p);return 0;}
+int func_021FC188(u8 *p) {func_021FC3D0(p);func_021FC568((char *)p);func_021FC4E4((char *)p);func_021FC2A4();func_022000E4((char *)p);CLACT_SetActorDrawEnable(((struct Obj00287 *)p)->fD38,0);func_021F4EC8(p);return 0;}

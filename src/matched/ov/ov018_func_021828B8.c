@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020124E4  0x020124E4  thumb
+ *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   GAME_EVENT_Change  0x0201232C  thumb
@@ -42,7 +42,7 @@ typedef struct {
 typedef unsigned int   u32;
 struct Obj;
 struct WordSet;
-extern void *func_020124E4(struct Obj *p);
+extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
@@ -59,7 +59,7 @@ void EVENT_COMM_COMMON_StartMsgEvent(void *a, Src *b, u16 *c)
     u8 *v;
     Dst *p;
 
-    v = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(func_020124E4(a))));
+    v = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(a))));
     GAME_EVENT_Change(a, (int)EVENT_COMM_COMMON_MsgEventMain, 0xAC);
     p = func_020124E8(a);
     func_02082D44(b, p, 0x98);

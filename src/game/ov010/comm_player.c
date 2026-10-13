@@ -32,7 +32,7 @@
  *   func_0201210C  0x0201210C  thumb
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FIELD_COMM_ACTOR_CTRL_Create  0x02194284  thumb  ov021
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020120F4  0x020120F4  thumb
  *   func_020127A4  0x020127A4  thumb
  *   func_02012B28  0x02012B28  thumb
@@ -159,7 +159,6 @@ extern void FIELD_COMM_ACTOR_CTRL_DeleteActor(void *, u32);
 extern void *func_0201210C(const struct Ctx *p);
 extern void *FIELDMAP_GetMmdlSys(u8 *p);
 extern void *FIELD_COMM_ACTOR_CTRL_Create(int a, void *b, int heap, int c);
-extern void func_02082BCC(void *p, int v, int n);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_020127A4(struct SaveBlock *p);
 extern u32 func_02012B28(const struct Rec44 *p);
@@ -494,7 +493,7 @@ void COMM_PLAYER_Resume(CommPlayerWork *work)
     if (work->playerSys != 0)
         func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
     work->playerSys = FIELD_COMM_ACTOR_CTRL_Create(work->playerMax, FIELDMAP_GetMmdlSys(func_0201210C(work->gameSystem)), work->heapId, work->sysOption);
-    func_02082BCC(&package, 0, 0x14);
+    MI_CpuFill8(&package, 0, 0x14);
     flags = (CommPlayerFlagView *)work;
     flags = (CommPlayerFlagView *)((char *)flags + 0x1C);
     for (i = 0; i < 4; i++) {
@@ -541,7 +540,7 @@ u16 COMM_PLAYER_GetObjCode(CommPlayerWork *work, int index)
 }
 
 /*
- * Recursive MATCH unblocker: callee of func_0217FF78 (ov019) +005C.  An
+ * Recursive MATCH unblocker: callee of COLOSSEUM_UpdateCommPlayers (ov019) +005C.  An
  * unlabelled Thumb leaf inside ov010: `disasm.py` emitted its body as the
  * `pool_02167844` word run because its `push {r4, r5}` prologue saves no `lr`
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  ov009 holds

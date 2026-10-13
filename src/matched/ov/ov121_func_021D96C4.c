@@ -12,7 +12,7 @@
  *   func_0201DD68 0x0201DD68 thumb
  *   func_02030EAC 0x02030EAC arm
  *   func_020307B0 0x020307B0 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021D98C0 0x021D98C0 thumb ov121
  *   func_021D9828 0x021D9828 thumb ov121
  */
@@ -23,7 +23,7 @@ extern void func_02030EAC(struct Node *n);
 extern void func_021D98C0(u8 *p);
 extern void func_021D9828(void *);
 extern void func_0201DD68(void);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void func_021D96C4(u8 *p)
@@ -36,6 +36,6 @@ void func_021D96C4(u8 *p)
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &= 0xFFFF1FFF;
-    func_02082BCC(p,0,28);
+    MI_CpuFill8(p,0,28);
     func_020307B0(p);
 }

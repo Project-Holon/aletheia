@@ -14,11 +14,11 @@
  * symbols:
  *   BTL_MAIN_GetClientTrainerIndex 0x021B8BEC thumb ov093
  *   BTL_MAIN_GetEnemyLanePosFromWork 0x021B8C50 thumb ov093
- *   func_021B8E70 0x021B8E70 thumb ov093
- *   func_021B8FF4 0x021B8FF4 thumb ov093
+ *   BTL_MAIN_GetViewPosOfSlot 0x021B8E70 thumb ov093
+ *   BTL_MAIN_GetOwnClientId 0x021B8FF4 thumb ov093
  *   BTLV_SCU_ProcQuickEntryDouble 0x021EB670 thumb ov093
- *   func_021B8ED8 0x021B8ED8 thumb ov093
- *   func_021B98AC 0x021B98AC thumb ov093
+ *   BTL_MAIN_GetSlotFromViewPos 0x021B8ED8 thumb ov093
+ *   BTL_SIDE_GetPokeAtPos 0x021B98AC thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   func_021ED798 0x021ED798 thumb ov093
  *   func_021ED814 0x021ED814 thumb ov093
@@ -42,8 +42,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct S { int h, x, y, dx, dy; u8 state, cnt; };
 extern int BTLV_SCU_ProcQuickEntryDouble(u8 *, int *);
-extern u8 func_021B8ED8(u8 *p, u8 k);
-extern u8 *func_021B98AC(char *const *q, u8 b);
+extern u8 BTL_MAIN_GetSlotFromViewPos(u8 *p, u8 k);
+extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 struct E;
 struct T;
@@ -64,8 +64,8 @@ extern void *BTL_MAIN_GetCompetitor(void ***);
 extern void func_021F7998(u32);
 extern u8 BTL_MAIN_GetClientTrainerIndex(u8 *, u32, u8);
 extern u8 BTL_MAIN_GetEnemyLanePosFromWork(char **p, u32 v, int k);
-extern u8 func_021B8E70(u8 *, u32);
-extern u8 func_021B8FF4(u8 *);
+extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *, u32);
+extern u8 BTL_MAIN_GetOwnClientId(u8 *);
 int BTLV_SCU_ProcEntryDoubleWild(int *state, u8 *p)
 {
     u8 *b = p + 0xf0;
@@ -77,24 +77,24 @@ int BTLV_SCU_ProcEntryDoubleWild(int *state, u8 *p)
     case 0:
         a = BTL_MAIN_GetClientTrainerIndex(*(u8 * *)&((struct Obj01377 *)p)->f134, p[0x140], 0);
         b[10] = BTL_MAIN_GetEnemyLanePosFromWork(((struct Obj01377 *)p)->f134, a, 0);
-        *(u8 * *)&((struct Obj00406 *)b)->f0 = func_021B98AC(*(char *const * *)&((struct Obj01377 *)p)->f138, b[10]);
+        *(u8 * *)&((struct Obj00406 *)b)->f0 = BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj01377 *)p)->f138, b[10]);
         b[8] = BTL_POKEPARAM_GetPokeId(*(u8 * *)&((struct Obj00406 *)b)->f0);
         b[11] = BTL_MAIN_GetEnemyLanePosFromWork(((struct Obj01377 *)p)->f134, a, 1);
-        *(u8 * *)&((struct Obj00406 *)b)->f4 = func_021B98AC(*(char *const * *)&((struct Obj01377 *)p)->f138, b[11]);
+        *(u8 * *)&((struct Obj00406 *)b)->f4 = BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj01377 *)p)->f138, b[11]);
         b[9] = BTL_POKEPARAM_GetPokeId(*(u8 * *)&((struct Obj00406 *)b)->f4);
         func_021ED798((struct S *)(p + 0x154));
         (*state)++;
         break;
     case 1:
         if (func_021ED814((struct S *)(p + 0x154))) {
-            a = func_021B8E70(*(u8 * *)&((struct Obj01377 *)p)->f134, b[10]);
+            a = BTL_MAIN_GetViewPosOfSlot(*(u8 * *)&((struct Obj01377 *)p)->f134, b[10]);
             func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(((struct Obj00406 *)b)->f0), a);
             (*state)++;
         }
         break;
     case 2:
         if (!func_021F7EB4()) {
-            a = func_021B8E70(*(u8 * *)&((struct Obj01377 *)p)->f134, b[11]);
+            a = BTL_MAIN_GetViewPosOfSlot(*(u8 * *)&((struct Obj01377 *)p)->f134, b[11]);
             func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(((struct Obj00406 *)b)->f4), a);
             func_021F7A28(a, 0x231);
             BTLV_SCU_StartBrightnessFade(2);
@@ -126,11 +126,11 @@ int BTLV_SCU_ProcEntryDoubleWild(int *state, u8 *p)
         if (!func_021F7EB4()) {
             b[12] = 2;
             b[13] = 4;
-            b[15] = func_021B8FF4(*(u8 * *)&((struct Obj01377 *)p)->f134);
+            b[15] = BTL_MAIN_GetOwnClientId(*(u8 * *)&((struct Obj01377 *)p)->f134);
             for (i = 0; i < 2; i++) {
                 q = b + i;
-                q[10] = func_021B8ED8(*(u8 * *)&((struct Obj01377 *)p)->f134, q[12]);
-                ((u8 **)b)[i] = (u8 *)func_021B98AC(*(char *const * *)&((struct Obj01377 *)p)->f138, q[10]);
+                q[10] = BTL_MAIN_GetSlotFromViewPos(*(u8 * *)&((struct Obj01377 *)p)->f134, q[12]);
+                ((u8 **)b)[i] = (u8 *)BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj01377 *)p)->f138, q[10]);
                 if (((u8 **)b)[i]) q[8] = BTL_POKEPARAM_GetPokeId(((u8 **)b)[i]);
             }
             func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(((struct Obj00406 *)b)->f0), b[12]);

@@ -1,5 +1,5 @@
 /*
- * function: func_021E1630
+ * function: HAND_WAZA_AddStockpile
  * address: 0x021E1630
  * packet: pkt_ov093_021E1630
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E15E8.c and filed here.
  *
  * symbols:
- *   d_021F2948 0x021F2948 data ov093 a4
+ *   gStockpileHandlers 0x021F2948 data ov093 a4
  */
 
-int *func_021E1630(int *p);
-extern int d_021F2948[];
+int *HAND_WAZA_AddStockpile(int *p);
+extern int gStockpileHandlers[];
 
-int *func_021E1630(int *p)
+int *HAND_WAZA_AddStockpile(int *p)
 {
     *p = 2;
-    return d_021F2948;
+    return gStockpileHandlers;
 }

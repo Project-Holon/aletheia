@@ -14,7 +14,7 @@
  *   func_021EF57C 0x021EF57C thumb ov170
  *   func_021E8FC0 0x021E8FC0 thumb ov170
  *   func_021E0190 0x021E0190 thumb ov170
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_021EA83C 0x021EA83C thumb ov170
  *   func_021EE008 0x021EE008 thumb ov170
  *   func_021EE364 0x021EE364 thumb ov170
@@ -28,7 +28,7 @@ extern void func_021DD14C(char *p);
 extern void func_021EF57C(struct WinMgr *mgr);
 extern int func_021E8FC0(char *p, int a, int b);
 extern int func_021E0190(char *p);
-extern void func_020061E4(unsigned se);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern int func_021EA83C(char *p, int a);
 extern void func_021EE008(char *p, int a, int b);
 extern void func_021EE364(char **p, int idx, int v);
@@ -50,7 +50,7 @@ int func_021E86EC(unsigned char *p)
     case 1:
         p[0x19] = p[0x14];
         STEP(p)++;
-        func_020061E4(0x669);
+        GFL_USE_PlaySeDefaultVolume(0x669);
         return func_021EA83C((char *)p, 0x60);
     case 2:
         STEP(p) = 0;

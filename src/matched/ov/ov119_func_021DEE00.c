@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   func_021E1024 0x021E1024 thumb ov119
  *   func_021D8E84 0x021D8E84 thumb ov119
@@ -20,7 +20,7 @@
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,unsigned int);
 typedef unsigned int   u32;
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -30,7 +30,7 @@ extern void func_021DEDBC(void *);
 extern void func_021DE8C0(char *p);
 void func_021DEE00(unsigned char *p) {
  int v;
- if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),21,8)) {
+ if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),21,8)) {
   if(p[0x11e6]==0 && p[0x11e7]==0) {func_021D8E84(p,(int)func_021DEDBC);return;}
   if(p[0x11e6]==0xf0) v=0x9e;
   else if(p[0x11e6]==0xf1) v=0x9f;

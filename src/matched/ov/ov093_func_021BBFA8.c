@@ -16,7 +16,7 @@
  *   BTL_SERVER_FLOW_CheckShowdown 0x021BC2B0 thumb ov093
  *   BTL_SERVER_FLOW_ProcTurnCheck 0x021C446C thumb ov093
  *   func_021BC0D8 0x021BC0D8 thumb ov093
- *   func_021C8534 0x021C8534 thumb ov093
+ *   BTL_SERVER_FLOW_IsAnySeenPokeOnField 0x021C8534 thumb ov093
  *   BTL_SERVER_FLOW_CollectChangeRequests 0x021BC4DC thumb ov093
  *   BTL_SERVER_FLOW_ProcClientMemberChange 0x021C6158 thumb ov093
  */
@@ -32,7 +32,7 @@ extern int BTL_SERVER_FLOW_ProcFaintRewards(u8 *p);
 extern int BTL_SERVER_FLOW_CheckShowdown(u8 *p);
 extern int BTL_SERVER_FLOW_ProcTurnCheck(u8 *p);
 extern int func_021BC0D8(void *, int);
-extern int func_021C8534(u8 *p);
+extern int BTL_SERVER_FLOW_IsAnySeenPokeOnField(u8 *p);
 extern int BTL_SERVER_FLOW_CollectChangeRequests(u8 *p, u8 *out);
 extern void BTL_SERVER_FLOW_ProcClientMemberChange(u8 *p, u8 *a);
 u32 BTL_SERVER_FLOW_RunActionOrder(S *p, u32 i)
@@ -58,7 +58,7 @@ u32 BTL_SERVER_FLOW_RunActionOrder(S *p, u32 i)
         if ((u8)BTL_SERVER_FLOW_CheckShowdown((u8 *)p)) { p->state = 4; return p->n; }
         if (stop) { p->state = 3; return p->n; }
         present = func_021BC0D8((u8 *)p + 0x3e0, 0);
-        if (func_021C8534((u8 *)p) || present) {
+        if (BTL_SERVER_FLOW_IsAnySeenPokeOnField((u8 *)p) || present) {
             BTL_SERVER_FLOW_CollectChangeRequests((u8 *)p, (u8 *)p + 0x4ce);
             BTL_SERVER_FLOW_ProcClientMemberChange((u8 *)p, (u8 *)p + 0x4ce);
             p->state = 2;

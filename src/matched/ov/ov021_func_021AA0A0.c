@@ -14,7 +14,7 @@
  *   FIELDMAP_GetWeather  0x02188C6C  thumb
  *   WEATHER_GetWeatherId  0x021A1BF4  thumb
  *   FIELD_ENCOUNT_SetupParam  0x021A9350  thumb
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   BTL_SETUP_Create  0x02013090  thumb
  *   FIELD_ENCOUNT_SetupWildBattle  0x021AA490  thumb
  *   BTL_SETUP_SetStatusFlag  0x02013144  thumb
@@ -56,7 +56,7 @@ struct Sel;
 struct Slot14;
 struct Unit;
 extern void FIELD_ENCOUNT_SetupParam(struct Sel *s, void *a, int b, int c, u16 d);
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern void *BTL_SETUP_Create(u32 heap);
 extern void FIELD_ENCOUNT_SetupWildBattle(struct Ctx *ctx, struct Unit *u, void *a2, u16 heap, struct Slot14 *slots);
 extern void BTL_SETUP_SetStatusFlag(char *p, int v);
@@ -72,7 +72,7 @@ void FIELD_ENCOUNT_StartScriptedWild(S *s, u16 a, u8 b, u32 flags)
     FIELDMAP_GetFieldPlayer((struct Obj00020 *)s->f0);
     FIELD_ENCOUNT_SetupParam((struct Sel *)(&buf), (void *)s->f8, 0xff, 0, WEATHER_GetWeatherId((u8 *)FIELDMAP_GetWeather((u8 *)s->f0)));
     o = &opts;
-    func_02082BCC(o, 0, 0x28);
+    MI_CpuFill8(o, 0, 0x28);
     opts.h0 = a;
     o->b4 = b;
     if (flags & 4) {

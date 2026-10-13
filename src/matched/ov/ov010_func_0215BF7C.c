@@ -24,7 +24,7 @@
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   func_0201AB28  0x0201AB28  thumb
+ *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_SetRotomFormMove  0x02017A20  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200CFA0  0x0200CFA0  thumb
@@ -42,7 +42,7 @@ struct Blk37;
 struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern void *func_0201AB28(void *p, u32 idx);
+extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_SetRotomFormMove(void *p, u32 idx, u32 val);
 extern void *func_0200CA1C(void *);
 extern void func_0200CFA0(struct Blk37 *p, void *m);
@@ -57,7 +57,7 @@ int SCRCMD_PROC_SetRotomFormMove(void *a0, void *a1)
 
     SCRCMD_WORK_GetScriptWork(a1);
     h = GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(a1));
-    e = func_0201AB28(GAME_DATA_GetMyParty(h), (u32)k);
+    e = POKEPARTY_GetMember(GAME_DATA_GetMyParty(h), (u32)k);
     POKE_TOOL_SetRotomFormMove(e, (u32)w, (u32)v);
     func_0200CFA0(func_0200CA1C(h), e);
     return 0;

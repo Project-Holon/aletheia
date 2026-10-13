@@ -17,8 +17,8 @@
  *   func_021BB0E4 0x021BB0E4 thumb ov206
  *   func_0203FB44 0x0203FB44 arm
  *   func_021BC008 0x021BC008 thumb ov206
- *   func_0201C6EC 0x0201C6EC thumb
- *   func_0201C4C0 0x0201C4C0 thumb
+ *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj00173.h"
@@ -37,8 +37,8 @@ extern void func_021BB0E4(char *p);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 struct S;
 extern void func_021BC008(struct S *p);
-extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 func_020307B0(void *p);
 void func_021BA2CC(char *p)
 {
@@ -58,7 +58,7 @@ void func_021BA2CC(char *p)
     func_0203FB44(((struct Obj00173 *)p)->f4E,(u16)((struct Obj00173 *)p)->f34,(u16)(((struct Obj00173 *)p)->f34>>16));
     func_0203FB44(((struct Obj00173 *)p)->f4D,(u16)((struct Obj00173 *)p)->f30,(u16)(((struct Obj00173 *)p)->f30>>16));
     func_021BC008((struct S *)p);
-    func_0201C6EC(((struct Obj00173 *)p)->f2C);
-    func_0201C4C0(((struct Obj00173 *)p)->f2C);
+    PRINTSYS_QUE_Clear(((struct Obj00173 *)p)->f2C);
+    PRINTSYS_QUE_Delete(((struct Obj00173 *)p)->f2C);
     func_020307B0(p);
 }

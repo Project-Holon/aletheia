@@ -17,7 +17,7 @@
  *   func_021CAAE8  0x021CAAE8  arm  ov114
  *   func_021CAAB4  0x021CAAB4  arm  ov114
  *   func_02082D44  0x02082D44  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_021CDB08                    0x021cdb08 arm ov114
  *   func_021CDA38  0x021CDA38  arm  ov114
  *   func_021CD984  0x021CD984  arm  ov114
@@ -145,7 +145,7 @@ typedef struct bn_mont_ctx_st {
 } BN_MONT_CTX_021CCDFC;
 
 extern void func_021CAAE8(void *);
-extern void func_02082BCC(int, int, int);
+extern void MI_CpuFill8(int, int, int);
 extern void *func_021CAAB4(unsigned long);
 extern void func_02082D44(void *, void *, unsigned long);
 extern BN_ULONG func_021CDB08(BN_ULONG *rp, const BN_ULONG *ap, const BN_ULONG *bp, int num);
@@ -384,11 +384,11 @@ void func_021CAC8C(Stack *s)
 
 
 /*
- * Thunk: func_02082BCC(a, 0, 20).
+ * Thunk: MI_CpuFill8(a, 0, 20).
  */
 void func_021CACD0(int a)
 {
-    func_02082BCC(a, 0, 0x14);
+    MI_CpuFill8(a, 0, 0x14);
 }
 
 
@@ -448,7 +448,7 @@ void *func_021CAD1C(void)
  */
 void func_021CAD48(u8 *p)
 {
-    func_02082BCC((int)p, 0, 0x110);
+    MI_CpuFill8((int)p, 0, 0x110);
     *(u32 *)p = 0;
     *(u32 *)(p + 0x108) = 0;
 }
@@ -544,7 +544,7 @@ BIGNUM *func_021CAE20(BIGNUM *a, const BIGNUM *b)
 void func_021CAE94(BIGNUM *p)
 {
     if (p->d != 0)
-        func_02082BCC((int)p->d, 0, p->dmax * 4);
+        MI_CpuFill8((int)p->d, 0, p->dmax * 4);
     p->top = 0;
     p->neg = 0;
 }
@@ -738,7 +738,7 @@ int func_021CB1A8(BIGNUM *r, BIGNUM *a, int n)
 			t[nw + i + 1] |= (l >> rb);
 			t[nw + i] = (l << lb);
 		}
-	func_02082BCC((int)t, 0, nw * 4);
+	MI_CpuFill8((int)t, 0, nw * 4);
 	r->top = a->top + nw + 1;
 	func_021CAC8C((Stack *)r);
 	return 1;

@@ -12,7 +12,7 @@
  * symbols:
  *   EVENTDATA_SYSTEM_DirToPosEventType  0x0216279C  thumb  ov010
  *   EVENTDATA_SYSTEM_IsPosEventGridHitIgnoreHeight  0x02162F74  thumb  ov010
- *   func_020143CC  0x020143CC  thumb
+ *   ZONEDATA_GetEventWorkAddress  0x020143CC  thumb
  */
 
 typedef unsigned short u16;
@@ -35,7 +35,7 @@ struct Ctx {
 extern u16 EVENTDATA_SYSTEM_DirToPosEventType(int mode);
 extern int EVENTDATA_SYSTEM_IsPosEventGridHitIgnoreHeight(char *p, int *v);
 typedef unsigned int   u32;
-extern u32 func_020143CC(u32 a, u32 b);
+extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
 
 struct Rec *EVENTDATA_SYSTEM_SearchPosEventIgnoreHeight(struct Ctx *c, void *a, int *key, int mode)
 {
@@ -52,7 +52,7 @@ struct Rec *EVENTDATA_SYSTEM_SearchPosEventIgnoreHeight(struct Ctx *c, void *a, 
             if (EVENTDATA_SYSTEM_IsPosEventGridHitIgnoreHeight((char *)r, key) != 0 && r->f6 == t) {
                 if (r->f4 == 0)
                     return r;
-                v = *((u16 *)func_020143CC((u32)a, r->f4));
+                v = *((u16 *)ZONEDATA_GetEventWorkAddress((u32)a, r->f4));
                 if (v == r->f2)
                     return r;
             }

@@ -12,7 +12,7 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
- *   func_02013D34  0x02013D34  thumb
+ *   ZONEDATA_IsNoGameEventZone  0x02013D34  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   GAMESYSTEM_GetAlwaysNetFlag  0x0201214C  thumb
  *   INTRUDE_COMM_CheckEntryAllowed  0x02158318  thumb  ov010
@@ -29,10 +29,10 @@
  *
  * The note's 4-byte r0/r1 "tie" (docs/notes/pkt_02012164.c.txt) was a
  * misread arity: GAME_DATA_GetPlayerZoneId is `ldrh r0, [r0]; bx lr`, a getter taking
- * the pointer GAMESYSTEM_GetMyPlayerWork returns, and func_02013D34 takes that u16 in
+ * the pointer GAMESYSTEM_GetMyPlayerWork returns, and ZONEDATA_IsNoGameEventZone takes that u16 in
  * r0 -- so the image keeps it in r0 across the p->f32 test and reads the
  * byte through r1.  `id = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(p))` then
- * `func_02013D34(id)` closes it.
+ * `ZONEDATA_IsNoGameEventZone(id)` closes it.
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -51,7 +51,7 @@ extern u8   *GAMESYSTEM_GetMyPlayerWork(const struct Ctx *p);
 struct Rec44;
 extern u16   GAME_DATA_GetPlayerZoneId(const struct Rec44 *h);
 struct Sub02009210Obj;
-extern u32 func_02013D34(u32 id);
+extern u32 ZONEDATA_IsNoGameEventZone(u32 id);
 extern u32   func_0200FB24(void);
 extern u32   GAMESYSTEM_GetAlwaysNetFlag(const struct Ctx *p);
 extern int INTRUDE_COMM_CheckEntryAllowed(int a0);
@@ -68,7 +68,7 @@ u32 GAMESYSTEM_CanStartAutoComm(struct IcaAnime *p)
     GAMESYSTEM_GetGameComm((const struct Ctx *)p);
     id = GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAMESYSTEM_GetMyPlayerWork((const struct Ctx *)p));
     if (p->f32 == 0
-     && func_02013D34(id) == 0
+     && ZONEDATA_IsNoGameEventZone(id) == 0
      && func_0200FB24() == 0
      && GAMESYSTEM_GetAlwaysNetFlag((const struct Ctx *)p) == 1
      && INTRUDE_COMM_CheckEntryAllowed((int)p) == 1

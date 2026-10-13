@@ -27,7 +27,7 @@
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_SOUND_SYSTEM_PostZoneBgmReplace  0x02029D44  thumb
  *   func_021A834C  0x021A834C  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_021A8324  0x021A8324  thumb  ov021
  *   ENTRANCE_CAMERA_Restore  0x021BDD34  thumb  ov021
  *   ENTRANCE_CAMERA_Delete  0x021BDCB8  thumb  ov021
@@ -80,7 +80,7 @@ extern void *EVENT_FIELD_PROCLINK_StartObjAnim(void *a, void *o);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern void FIELD_SOUND_SYSTEM_PostZoneBgmReplace(u32 a, u32 b, u16 c, u8 d);
 extern int func_021A834C(Work *w);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_021A8324(void *task, Work *w);
 extern void ENTRANCE_CAMERA_Restore(u8 *p);
 extern void ENTRANCE_CAMERA_Delete(u8 *p);
@@ -178,7 +178,7 @@ int func_021A7F38(void *task, int *state, Work *w)
         break;
     case 7:
         if (func_021A834C(w) != 0) {
-            func_020061E4(0x559);
+            GFL_USE_PlaySeDefaultVolume(0x559);
         }
         func_021A8324(task, w);
         *state = func_021A81EC(w);

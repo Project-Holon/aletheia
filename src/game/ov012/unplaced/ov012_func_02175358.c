@@ -1,5 +1,5 @@
 /*
- * function: func_02175358
+ * function: COLOSSEUM_SetupBattleMember
  * address:  0x02175358
  * packet:   pkt_ov012_02175358
  * region:   ov012
@@ -33,7 +33,7 @@ typedef struct ColosseumBattleMember {
     u8 pad0a[6];
 } ColosseumBattleMember;
 
-void func_02175358(ColosseumWork *colosseum, ColosseumBattleMember *member, int playerIndex)
+void COLOSSEUM_SetupBattleMember(ColosseumWork *colosseum, ColosseumBattleMember *member, int playerIndex)
 {
     member->party = colosseum->party[playerIndex];
     member->player = &colosseum->player[playerIndex];

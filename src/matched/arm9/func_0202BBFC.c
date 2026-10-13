@@ -13,7 +13,7 @@
  * Distance falloff: the vector at +4 of the record is taken relative to
  * the caller's point, and the remaining headroom (the radius at +0x10
  * less that distance) is divided by the radius through the hardware
- * divider sub_0207C768.  The quotient is an FX32, so it is scaled back
+ * divider FX_Div.  The quotient is an FX32, so it is scaled back
  * by 4096.0f in float before multiplying the amplitude at +0x14 and
  * truncating; that is the pool word 0x45800000 at 0x0202BC44.
  * Outside the radius the answer is 0.
@@ -24,7 +24,7 @@
  * symbols:
  *   VEC_Subtract   0x0207CA00  arm
  *   VEC_Mag        0x0207CBD0  arm
- *   sub_0207C768   0x0207C768  arm
+ *   FX_Div   0x0207C768  arm
  *   _fflt          0x0209BDBC  arm
  *   _fdiv          0x0209CE10  arm
  *   _fmul          0x0209C77C  arm
@@ -46,7 +46,7 @@ extern void VEC_Subtract(const struct Vec *a, const struct Vec *b,
                          struct Vec *out);
 extern s32  VEC_Mag(const struct Vec *v);
 typedef unsigned int   u32;
-extern u32 sub_0207C768(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 
 s32 func_0202BBFC(struct Rec *r, const struct Vec *p)
 {
@@ -59,6 +59,6 @@ s32 func_0202BBFC(struct Rec *r, const struct Vec *p)
     if (r->radius < mag) {
         return 0;
     }
-    q = (float)(s32)sub_0207C768((s32)(r->radius - mag), (s32)r->radius) / 4096.0f;
+    q = (float)(s32)FX_Div((s32)(r->radius - mag), (s32)r->radius) / 4096.0f;
     return (s32)((float)r->amp * q);
 }

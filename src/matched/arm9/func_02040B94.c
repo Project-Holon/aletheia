@@ -14,7 +14,7 @@
  *   g_020A7E5C     0x020A7E5C  data
  *   sub_02030734   0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020425B4  0x020425B4  arm
  *
  * TU: bg_sys.c.
@@ -39,7 +39,7 @@ extern char g_020A7E5C[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern u32 func_020307B0(void *p);
-extern void  func_02082BCC(void *dst, u32 value, u32 size);
+extern void  MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void  func_020425B4(u32 layer, const void *src, u32 offset, u32 size);
 
 void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId)
@@ -47,7 +47,7 @@ void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId)
     void *buf = sub_02030734((u16)((heapId & 0x7fff) | 0x8000), size, 0,
                              g_020A7E5C, 1362);
 
-    func_02082BCC(buf, 0, size);
+    MI_CpuFill8(buf, 0, size);
     func_020425B4(layer, buf, offset, size);
     func_020307B0(buf);
 }

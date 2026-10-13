@@ -1,5 +1,5 @@
 /*
- * function: func_021E1F18
+ * function: HAND_WAZA_ChargeBoostElectricPower
  * address:  0x021E1F18
  * packet:   pkt_ov093_021E1F18
  * region:   ov093
@@ -19,7 +19,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_MultiplyVar(int a, int b);
 
-void func_021E1F18(int u, int a, int b, int *p)
+void HAND_WAZA_ChargeBoostElectricPower(int u, int a, int b, int *p)
 {
     if (*p == 2) {
         if (b == BTL_EVENT_GetVar(3)) {

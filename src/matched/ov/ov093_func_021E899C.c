@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Recursive MATCH unblocker: named callee of the parked ov093 BTL_HANDLER_ITEM_DestinyKnot_Infatuate
+ * Recursive MATCH unblocker: named callee of the parked ov093 HAND_ITEM_DestinyKnot_Infatuate
  * (+0080, `BTLV_CORE_MakeSlotKind3(c)` stored at record +8).  Packs a 3-bit constant
  * (3) with the low six bits of the argument shifted left by three, as a
  * bitfield union read back as a word; the empty frame is the compiler's

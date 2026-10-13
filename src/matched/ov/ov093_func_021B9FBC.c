@@ -1,5 +1,5 @@
 /*
- * function: func_021B9FBC
+ * function: BTL_MAIN_GetTrainerAiFlags
  * address:  0x021B9FBC
  * packet:   pkt_ov093_021B9FBC
  * region:   ov093
@@ -11,30 +11,30 @@
  *
  * symbols:
  *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
- *   func_021BA1A8  0x021BA1A8  thumb  ov093
+ *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
  *   BTL_MAIN_GetRule  0x021B8588  thumb  ov093
- *   func_021B9F70  0x021B9F70  thumb  ov093
+ *   BTL_MAIN_IsTrainerSlotNpc  0x021B9F70  thumb  ov093
  */
 
 void *BTL_MAIN_GetCompetitor(void ***p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-int func_021BA1A8(char **p, int m);
+int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
 u32 BTL_MAIN_GetRule(void **p);
-int func_021B9F70(u8 *p, int i);
+int BTL_MAIN_IsTrainerSlotNpc(u8 *p, int i);
 
-int func_021B9FBC(char *p, int i)
+int BTL_MAIN_GetTrainerAiFlags(char *p, int i)
 {
     if (BTL_MAIN_GetCompetitor((void ***)p) == 0) {
         i = 8;
-        if (func_021BA1A8((char **)p, i)) {
+        if (BTL_MAIN_CheckSetupStatusFlag((char **)p, i)) {
             return i << 8;
         }
         if (BTL_MAIN_GetRule((void **)p) == 1) {
             return 0x80;
         }
     } else {
-        if (func_021B9F70((u8 *)p, i)) {
+        if (BTL_MAIN_IsTrainerSlotNpc((u8 *)p, i)) {
             return *(int *)(p + i * 0x28 + 0x2c);
         }
     }

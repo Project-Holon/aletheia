@@ -1,5 +1,5 @@
 /*
- * function: func_021BA534
+ * function: BTL_MAIN_IsCommTrainerBattle
  * address: 0x021BA534
  * packet: pkt_ov093_021BA534
  * region: ov093
@@ -14,7 +14,7 @@
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  */
 extern void *BTL_MAIN_GetCompetitor(void ***);
-int func_021BA534(void ***p)
+int BTL_MAIN_IsCommTrainerBattle(void ***p)
 {
     int v = (int)BTL_MAIN_GetCompetitor(p);
     switch (v) {

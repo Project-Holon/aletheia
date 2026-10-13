@@ -9,26 +9,26 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02006CAC  0x02006CAC  thumb
+ *   PM_VOICE_GetPerapVoiceSave  0x02006CAC  thumb
  *   PM_VOICE_Play  0x02006984  thumb
- *   func_02006650  0x02006650  thumb
- *   func_02006B20  0x02006B20  thumb
+ *   PM_VOICE_IsAnyActive  0x02006650  thumb
+ *   PM_VOICE_GetVolume  0x02006B20  thumb
  *   PM_VOICE_AddVolume  0x02006A8C  thumb
- *   func_020065D8  0x020065D8  thumb
+ *   PM_VOICE_StopAll  0x020065D8  thumb
  */
 #include "../include/Obj01214.h"
 #include "../include/Obj09680.h"
 
 typedef unsigned short u16;
 
-void func_02006CAC(void **out);
+void PM_VOICE_GetPerapVoiceSave(void **out);
 unsigned int PM_VOICE_Play(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5, unsigned int a6, unsigned int a7);
-int func_02006650(void);
+int PM_VOICE_IsAnyActive(void);
 typedef signed char    s8;
 typedef unsigned int   u32;
-s8 func_02006B20(u32 i);
+s8 PM_VOICE_GetVolume(u32 i);
 void PM_VOICE_AddVolume(u32 idx, int delta);
-void func_020065D8(void);
+void PM_VOICE_StopAll(void);
 
 int FLD3D_CI_PokemonFinishStep(int a, char *b)
 {
@@ -41,7 +41,7 @@ int FLD3D_CI_PokemonFinishStep(int a, char *b)
         (((struct Obj01214 *)q)->f18)--;
         if (((struct Obj01214 *)q)->f18 == 0) {
             if (((struct Obj01214 *)q)->f0 == 0x1b9) {
-                func_02006CAC((void **)buf);
+                PM_VOICE_GetPerapVoiceSave((void **)buf);
                 ((struct Obj01214 *)q)->f1C = PM_VOICE_Play(((struct Obj01214 *)q)->f0, ((struct Obj01214 *)q)->f4, 0x40, 0, 0, 0, 0, (unsigned int)buf);
             } else {
                 ((struct Obj01214 *)q)->f1C = PM_VOICE_Play(((struct Obj01214 *)q)->f0, ((struct Obj01214 *)q)->f4, 0x40, 0, 0, 0, 0, 0);
@@ -52,14 +52,14 @@ int FLD3D_CI_PokemonFinishStep(int a, char *b)
     }
     r = 0;
     if (((struct Obj01214 *)q)->f18 == 0) {
-        if (func_02006650() == 0) {
+        if (PM_VOICE_IsAnyActive() == 0) {
             r = 1;
         } else if (((struct Obj01214 *)q)->f1A != 0) {
             (((struct Obj01214 *)q)->f1A)--;
-        } else if (func_02006B20(((struct Obj01214 *)q)->f1C) > 0) {
+        } else if (PM_VOICE_GetVolume(((struct Obj01214 *)q)->f1C) > 0) {
             PM_VOICE_AddVolume(((struct Obj01214 *)q)->f1C, r - 16);
         } else {
-            func_020065D8();
+            PM_VOICE_StopAll();
             r = 1;
         }
     }

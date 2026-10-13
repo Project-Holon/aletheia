@@ -15,7 +15,7 @@
  *
  * symbols:
  *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FLDMMDL_SysGetNogridMapper  0x0216D530  thumb
  *   FIELD_NOGRID_MAPPER_GetAttribute  0x021BB3C4  thumb  ov021
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
@@ -62,7 +62,7 @@
  *   VEC_Normalize  0x0207CCA4  arm
  *   d_021D84D4     0x021D84D4  data  ov021  a1
  *   d_021D841C     0x021D841C  data  ov021  a2
- *   d_020A1B38     0x020A1B38  data  a2
+ *   FX_SinCosTable_     0x020A1B38  data  a2
  *   FLDMMDL_MOVE_GetRailMoveRequest  0x02164380  thumb  ov010
  *   FLDMMDL_InitMoveProcWork  0x0216D684  thumb  ov010
  *   FLDMMDL_GetMoveLimitX  0x0216D660  thumb  ov010
@@ -162,7 +162,7 @@ typedef struct {
 #define _SHUTTLE_STEP_ANIM 2
 
 extern void *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
-extern void func_02082BCC(void *dst, u32 value, u32 size);
+extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern FieldSys *FLDMMDL_SysGetNogridMapper(MmdlSys *mmdlSys);
 extern u32 FIELD_NOGRID_MAPPER_GetAttribute(FieldSys *fieldSys, RailLocation *loc);
 extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
@@ -291,7 +291,7 @@ int FLDMMDL_RAIL_ShuttleDeleteBody(Mmdl *mmdl);
 
 extern u8 d_021D84D4[][4];       /* [slope kind][direction] -> angle index */
 extern u16 d_021D841C[];         /* angles: 0, 180, 90, 270 degrees */
-extern s16 d_020A1B38[];         /* sin/cos table, pairs, 4096 = 1.0 */
+extern s16 FX_SinCosTable_[];         /* sin/cos table, pairs, 4096 = 1.0 */
 extern DirListEntry d_021D84E8[];
 extern u32 d_021D84AC[];         /* wait frames, ended by -1 */
 
@@ -574,10 +574,10 @@ void FLDMMDL_RAIL_GetDrawOffsetByDir(Mmdl *mmdl, u32 dir, s16 *outOffset)
     FIELD_RAIL_WORK_GetStepVector(railWork, outOffset);
     slopeKind = FIELD_RAIL_WORK_GetLineKey(railWork);
     sinIndex = (d_021D841C[d_021D84D4[slopeKind][dir]] >> 4) * 2;
-    cos = d_020A1B38[sinIndex + 1];
+    cos = FX_SinCosTable_[sinIndex + 1];
     outOffset[1] = (s16)(((s64)cos * outOffset[1] + 0x800) >> 12);
     setVec(&offsetVec, outOffset[0], outOffset[1], outOffset[2]);
-    func_0207AF1C(rotMtx, d_020A1B38[sinIndex], cos);
+    func_0207AF1C(rotMtx, FX_SinCosTable_[sinIndex], cos);
     func_0207B51C(&offsetVec, rotMtx, &offsetVec);
     VEC_Normalize(&offsetVec, &offsetVec);
     setVec16(outOffset, offsetVec.x, offsetVec.y, offsetVec.z);
@@ -664,7 +664,7 @@ RailMoveWork *FLDMMDL_RAIL_InitMoveWork(Mmdl *mmdl, u32 size)
     if (hasStartLoc) {
         FLDMMDL_RAIL_SetLocation(mmdl, &startLoc);
     } else {
-        func_02082BCC(&startLoc, 0, 8);
+        MI_CpuFill8(&startLoc, 0, 8);
         FLDMMDL_RAIL_SetLocation(mmdl, &startLoc);
     }
     return work;

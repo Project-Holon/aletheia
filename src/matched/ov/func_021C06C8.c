@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
  *   (none)
 
  * Fills four 4-byte entries with the current halfword and clears a word.
@@ -18,7 +19,7 @@
 
 
 typedef unsigned int   u32;
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 
 void func_021C06C8(unsigned short *a, char *b, int a2)
 {
@@ -26,7 +27,7 @@ void func_021C06C8(unsigned short *a, char *b, int a2)
 
     for (i = 0; i < 4; i++) {
         char *e = b + i * 4;
-        ((struct Obj12126 *)e)->f34 = func_0201C440((void *)(*a));
+        ((struct Obj12126 *)e)->f34 = PRINTSYS_QUE_Create((void *)(*a));
         ((struct Obj12126 *)e)->f24 = 0;
     }
 }

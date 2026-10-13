@@ -1,5 +1,5 @@
 /*
- * function: func_021C9ECC
+ * function: BTL_SERVER_FLOW_ProcHandExConsumeItem
  * address:  0x021C9ECC
  * packet:   pkt_ov093_021C9ECC
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9934  0x021B9934  thumb  ov093
+ *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb  ov093
  *   BTL_SERVER_FLOW_PushPokeCmd42  0x021C60D4  thumb  ov093
- *   func_021C99A0  0x021C99A0  thumb  ov093
+ *   BTL_SERVER_FLOW_PushMsgRecord  0x021C99A0  thumb  ov093
  *   BTL_SERVER_FLOW_SetHeldItem  0x021C2250  thumb  ov093
  */
 #include "../include/Obj00003.h"
@@ -26,18 +26,18 @@ struct Cmd {
     u32 w4;
 };
 
-extern u8 *func_021B9934(char *p, int i);
+extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void BTL_SERVER_FLOW_PushPokeCmd42(u8 *p, u8 *a);
 struct Msg;
-extern int func_021C99A0(void *w, const struct Msg *m);
+extern int BTL_SERVER_FLOW_PushMsgRecord(void *w, const struct Msg *m);
 extern void BTL_SERVER_FLOW_SetHeldItem(u8 *p, u8 *a, u16 b, u32 c);
 
-int func_021C9ECC(u8 *w, struct Cmd *c)
+int BTL_SERVER_FLOW_ProcHandExConsumeItem(u8 *w, struct Cmd *c)
 {
-    u8 *r = func_021B9934(*(char * *)&((struct Obj00003 *)w)->f8, (u8)c->id);
+    u8 *r = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj00003 *)w)->f8, (u8)c->id);
     if (c->w4 == 0) {
         BTL_SERVER_FLOW_PushPokeCmd42(w, r);
-        func_021C99A0(w, (const struct Msg *)((u8 *)c + 8));
+        BTL_SERVER_FLOW_PushMsgRecord(w, (const struct Msg *)((u8 *)c + 8));
     }
     BTL_SERVER_FLOW_SetHeldItem(w, r, 0, 1);
     return 1;

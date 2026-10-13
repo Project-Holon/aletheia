@@ -12,17 +12,17 @@
  * symbols:
  *   func_021BC06C  0x021BC06C  thumb  ov099
  *   func_021BA8EC  0x021BA8EC  thumb  ov099
- *   func_020362DC  0x020362DC  arm
+ *   KEY_GetTrg  0x020362DC  arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_021BC06C(char *p);
 extern void func_021BA8EC(char *p);
 
 int func_021BCE30(char *p, int v)
 {
-    if (func_020362DC() != 0) {
+    if (KEY_GetTrg() != 0) {
         func_021BC06C(p);
         func_021BA8EC(p);
         switch (*(int *)(p + 0x135C)) {

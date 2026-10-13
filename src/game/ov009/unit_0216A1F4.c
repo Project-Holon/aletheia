@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02178F30  0x02178F30  arm  ov009
  *   g_021AA874  0x021AA874  data
  *   func_02059F38  0x02059F38  arm
@@ -94,7 +94,7 @@ int func_0216AAE0(char *loginTicket);
 void func_0216A1F4(DWCstLoginControl *logcnt, DWCstAccUserData *userdata, void **pGpObj, int productID, u32 gamecode, u16 *playerName, void (*callback)(int, int, void *), void *param)
 {
 	g_021AA874 = logcnt;
-	func_02082BCC(g_021AA874, 0, 0x260);
+	MI_CpuFill8(g_021AA874, 0, 0x260);
 	g_021AA874->connection = pGpObj;
 	g_021AA874->state = 0;
 	g_021AA874->productID = productID;

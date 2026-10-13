@@ -67,7 +67,7 @@ typedef struct DWCstLoginControl {
 extern DWCstLoginControl *g_021AA874;
 
 /* callees */
-extern void func_02082BCC(void *dstp, u8 data, u32 size);
+extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern int func_02178F30(void);
 extern int func_02059F38(void);
 extern int func_02185948(void **connection);

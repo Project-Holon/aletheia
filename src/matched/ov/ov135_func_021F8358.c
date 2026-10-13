@@ -23,6 +23,7 @@
  *   STRBUF_Create  0x020457B0  arm  arm9
  *   STRBUF_Delete  0x02045808  arm  arm9
  *   MSGDATA_ReadString  0x02045CAC  arm  arm9
+ *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  */
 
 typedef signed char s8;
@@ -52,7 +53,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 func_02202670(u32 a, u32 b, u32 c, u32 d);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern int func_021F91A0(void *win, void *str, u32 c, u32 d, u32 e, u16 f, void *g);
 extern u16 func_021F7F80(int mode);
@@ -82,7 +83,7 @@ void func_021F8358(void *bank, void *ws, void **win, void *mon, MonTag *out, voi
         MSGDATA_ReadString(bank, tbl_02202EB0[form], tmp);
     }
     for (i = 0; i < 3; i++) {
-        BMP_Clear(func_02045770(win[i]), 0);
+        BMP_Clear(BMP_WIN_GetBmp(win[i]), 0);
     }
     func_021F91A0(win[0], title, 1, 0, 0, 0x3C40, g);
     func_021F91A0(win[1], name, 0, 0, 0, 0x3C40, g);

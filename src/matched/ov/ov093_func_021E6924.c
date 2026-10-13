@@ -1,5 +1,5 @@
 /*
- * function: func_021E6924
+ * function: HAND_WAZA_MinimizeSetState
  * address:  0x021E6924
  * packet:   pkt_ov093_021E6924
  * region:   ov093
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C88A4  0x021C88A4  thumb  ov093
- *   func_021C88C8  0x021C88C8  thumb  ov093
+ *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
+ *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  */
 #include "../include/Obj13536.h"
 
@@ -21,17 +21,17 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int key);
-extern void *func_021C88A4(char *p, int a, int b);
-extern void func_021C88C8(void *a, void *b);
+extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
+extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
-void func_021E6924(int a, void *b, int c)
+void HAND_WAZA_MinimizeSetState(int a, void *b, int c)
 {
     u8 *m;
 
     if (c == BTL_EVENT_GetVar(2)) {
-        m = (u8 *)func_021C88A4(b, 0x17, c);
+        m = (u8 *)BTL_SERVER_FLOW_AllocCmdRecord(b, 0x17, c);
         m[8] = c;
         ((struct Obj13536 *)m)->f4 = 8;
-        func_021C88C8(b, m);
+        BTL_SERVER_FLOW_CommitCmdRecord(b, m);
     }
 }

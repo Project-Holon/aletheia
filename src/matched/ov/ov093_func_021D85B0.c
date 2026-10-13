@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_GetPokeSpeed
+ * function: HAND_TOKUSEI_GetPokeSpeed
  * address: 0x021D85B0
  * packet: pkt_ov093_021D85B0
  * region: ov093
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021D58A8(u8 *,int);
-u16 BTL_CALC_GetPokeSpeed(u8 *p) { return func_021D58A8(p,12); }
+u16 HAND_TOKUSEI_GetPokeSpeed(u8 *p) { return func_021D58A8(p,12); }

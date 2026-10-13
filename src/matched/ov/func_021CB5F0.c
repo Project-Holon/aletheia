@@ -1,5 +1,5 @@
 /*
- * function: func_021CB5F0
+ * function: BTL_SERVER_FLOW_AddDefeatEffortValues
  * address:  0x021CB5F0
  * packet:   pkt_021CB5F0
  * region:   ov093
@@ -22,7 +22,7 @@
  * a2[5 + i].  Ends by releasing the savedata record.
  *
  * symbols:
- *   g_021EFDC0      0x021EFDC0  data  ov093
+ *   gEffortValueStatTable      0x021EFDC0  data  ov093
  *   BTL_POKEPARAM_GetSpecies   0x021D5444  thumb ov093
  *   func_021D59B4   0x021D59B4  thumb ov093
  *   BTL_POKEPARAM_GetItem   0x021D5B40  thumb ov093
@@ -40,7 +40,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct T6 { u8 f0; u8 f1; u16 f2; u16 f4; };
-extern struct T6 g_021EFDC0[];
+extern struct T6 gEffortValueStatTable[];
 
 struct QF;
 struct QI;
@@ -57,7 +57,7 @@ extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 
-void func_021CB5F0(u32 *a0, u8 *a1, u8 *a2)
+void BTL_SERVER_FLOW_AddDefeatEffortValues(u32 *a0, u8 *a1, u8 *a2)
 {
     u8 buf[6];
     u8 i;
@@ -70,7 +70,7 @@ void func_021CB5F0(u32 *a0, u8 *a1, u8 *a2)
     m = BTL_POKEPARAM_GetSpecies((struct QF *)a1);
     v6 = (u16)func_021D59B4(a1, 0x13);
     for (i = 0; i < 6; i++) {
-        buf[i] = (u8)func_02019C90((void *)m, v6, g_021EFDC0[i].f0);
+        buf[i] = (u8)func_02019C90((void *)m, v6, gEffortValueStatTable[i].f0);
     }
     if (BTL_POKEPARAM_GetItem((struct QI *)a0) == 0xd7) {
         for (i = 0; i < 6; i++) {
@@ -78,7 +78,7 @@ void func_021CB5F0(u32 *a0, u8 *a1, u8 *a2)
         }
     }
     for (i = 0; i < 6; i++) {
-        t = g_021EFDC0[i].f4;
+        t = gEffortValueStatTable[i].f4;
         if (t == BTL_POKEPARAM_GetItem((struct QI *)a0)) {
             buf[i] = (u8)(buf[i] + (u8)BTL_CALC_GetMonParamWithHeap((void *)t, 2));
         }
@@ -98,7 +98,7 @@ void func_021CB5F0(u32 *a0, u8 *a1, u8 *a2)
         if (v == 0) {
             continue;
         }
-        t = g_021EFDC0[i].f2;
+        t = gEffortValueStatTable[i].f2;
         w = POKE_TOOL_GetPartyValue(rec, t, 0) + v;
         if (w > 0xff) {
             w = 0xff;

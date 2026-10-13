@@ -1,5 +1,5 @@
 /*
- * function: BTL_HANDLER_ITEM_FloatStoneWeightRatio
+ * function: HAND_ITEM_FloatStoneWeightRatio
  * address:  0x021DFA60
  * packet:   pkt_ov093_021DFA60
  * region:   ov093
@@ -17,7 +17,7 @@
 extern int BTL_EVENT_GetVar(int key);
 extern void BTL_EVENT_MultiplyVar(int key, int m);
 
-void BTL_HANDLER_ITEM_FloatStoneWeightRatio(int a, int b, int c)
+void HAND_ITEM_FloatStoneWeightRatio(int a, int b, int c)
 {
     int n = 2;
 

@@ -41,7 +41,7 @@
  *           0xC350; the old draft differed by one pool slot only). (2) Tail shape: case 9 sets n in each
  *           arm, then `*state = n; goto se54c;` (one store after the join; cross-jumping later turns
  *           that join into the hop at 0x2183F8A); se54c sits on `m = 0x54C;` in case 12, followed by
- *           a `call:` label on `func_020061E4(m)`; the case 9 0x551 path does `m = 0x551; goto call;`;
+ *           a `call:` label on `GFL_USE_PlaySeDefaultVolume(m)`; the case 9 0x551 path does `m = 0x551; goto call;`;
  *           case 17 writes `if (W(0xC350) != 1) break; goto se54c;`. The 0x648/0x649 calls then
  *           merge into case 12's call by themselves. d_02185DE6 hint token dropped (contested).
  *           Remaining: three callees with no witness: arm9 func_02025BE8 and GAME_BEACON_SetNationArea and ov219
@@ -50,24 +50,24 @@
  *           manifest picks them up this should verify EXACT.
  *
  * symbols:
- *   func_020362DC 0x020362DC arm
- *   func_0203630C 0x0203630C arm
+ *   KEY_GetTrg 0x020362DC arm
+ *   KEY_GetCont 0x0203630C arm
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_02045B38 0x02045B38 arm
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02040588 0x02040588 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_02045770 0x02045770 arm
+ *   BMP_WIN_GetBmp 0x02045770 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   WIPE_SYS_Start 0x0202208C thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   func_0201C6B4 0x0201C6B4 thumb
- *   func_0201C6C4 0x0201C6C4 thumb
+ *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_MENULIST_Main 0x020200CC thumb
  *   BMP_MENU_CreateYesNo 0x0201FDA0 thumb
  *   BMP_MENU_ProcessYesNo 0x0201FEBC thumb
@@ -77,7 +77,7 @@
  *   func_0200947C 0x0200947C thumb
  *   GAME_BEACON_SetNationArea 0x02027120 thumb
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_02183CBC 0x02183CBC thumb ov219
  *   func_02184734 0x02184734 thumb ov219
  *   func_02184798 0x02184798 thumb ov219
@@ -119,8 +119,8 @@ struct Src;
 struct Descriptor;
 struct CharBuf;
 
-extern u32 func_020362DC(void);
-extern u32 func_0203630C(void);
+extern u32 KEY_GetTrg(void);
+extern u32 KEY_GetCont(void);
 extern int TOUCHPANEL_HitCont(const void *a);
 typedef signed int     s32;
 struct MsgBank;
@@ -129,19 +129,19 @@ struct PrintSys;
 struct Rec;
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int TOUCHPANEL_GetTrg(void);
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BMP_Clear(struct CharBuf *, u8);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-extern void *func_02045770(struct Descriptor *);
+extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 WIPE_SYS_EndCheck(void);
-extern u32 func_0201C6B4(const struct PrintSys *p);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern s32 BMP_MENULIST_Main(struct Obj *o);
 extern void *BMP_MENU_CreateYesNo(const void *a, int b, int c, int d, u16 heap);
 extern u32 BMP_MENU_ProcessYesNo(u8 *p);
@@ -151,7 +151,7 @@ extern u32 func_02025B94(u32 a);
 extern void func_0200947C(u32 a, u32 b, u32 c, u32 d);
 extern void GAME_BEACON_SetNationArea(u8 a, u8 b);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_02183CBC(u8 *p, u32 i);
 extern void func_02184734(u8 *p);
 extern void func_02184798(char *p);
@@ -192,7 +192,7 @@ extern const u8 d_02185ECC[];
 static inline void close_win(u8 *p, int d, int f)
 {
     void *win = *(void **)(p + 0xC080);
-    if (B(f) != 0 && (int)func_0201C6C4(win, func_02045770(*(struct Descriptor **)(p + d))) == 0) {
+    if (B(f) != 0 && (int)PRINTSYS_QUE_IsExistTarget(win, BMP_WIN_GetBmp(*(struct Descriptor **)(p + d))) == 0) {
         BMP_WIN_TransferChars(*(struct Descriptor **)(p + d));
         B(f) = 0;
     }
@@ -212,8 +212,8 @@ int func_02183D14(u8 *p, int *state)
     u32 v;
     u32 w;
 
-    W(0xC354) = func_020362DC();
-    W(0xC358) = func_0203630C();
+    W(0xC354) = KEY_GetTrg();
+    W(0xC358) = KEY_GetCont();
     if (TOUCHPANEL_HitCont(d_02185DE6) != -1) {
         W(0xC360) = (int)TOUCHPANEL_GetPointCont((u32 *)(p + 0xC364), (u32 *)(p + 0xC368));
     } else {
@@ -222,7 +222,7 @@ int func_02183D14(u8 *p, int *state)
     if (W(0xC360) == 1) {
         W(0xC35C) = TOUCHPANEL_GetTrg();
     } else {
-        W(0xC35C) = (int)func_02035D20((u32 *)(p + 0xC364), (u32 *)(p + 0xC368));
+        W(0xC35C) = (int)TOUCHPANEL_GetPointTrg((u32 *)(p + 0xC364), (u32 *)(p + 0xC368));
     }
     switch (*state) {
     case 0:
@@ -260,7 +260,7 @@ int func_02183D14(u8 *p, int *state)
         }
         break;
     case 4:
-        if ((int)func_0201C6B4(*(void **)(p + 0xC080)) == 0) {
+        if ((int)PRINTSYS_QUE_IsFinished(*(void **)(p + 0xC080)) == 0) {
             break;
         }
         r = BMP_MENULIST_Main(*(void **)(p + 0xC04C));
@@ -314,7 +314,7 @@ int func_02183D14(u8 *p, int *state)
         }
         break;
     case 9:
-        if ((int)func_0201C6B4(*(void **)(p + 0xC080)) == 0) {
+        if ((int)PRINTSYS_QUE_IsFinished(*(void **)(p + 0xC080)) == 0) {
             break;
         }
         r = BMP_MENULIST_Main(*(void **)(p + 0xC04C));
@@ -352,7 +352,7 @@ int func_02183D14(u8 *p, int *state)
         }
         break;
     case 12:
-        if ((int)func_0201C6B4(*(void **)(p + 0xC080)) == 0) {
+        if ((int)PRINTSYS_QUE_IsFinished(*(void **)(p + 0xC080)) == 0) {
             break;
         }
         r = BMP_MENULIST_Main(*(void **)(p + 0xC04C));
@@ -368,9 +368,9 @@ int func_02183D14(u8 *p, int *state)
         se54c:
             m = 0x54C;
         call:
-            func_020061E4(m);
+            GFL_USE_PlaySeDefaultVolume(m);
         } else {
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             if (W(0xC318) == 1) {
                 *state = 3;
             } else {
@@ -413,7 +413,7 @@ int func_02183D14(u8 *p, int *state)
         func_021856CC(p);
         func_02184734(p);
         func_02185794((char *)p);
-        BMP_Clear(func_02045770(*(struct Descriptor **)(p + 0xC01C)), 0xF);
+        BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0xC01C)), 0xF);
         BMP_WIN_TransferChars(*(struct Descriptor **)(p + 0xC01C));
         func_02184C2C((char *)p, 1);
         if (W(0xC33C) != 0) {
@@ -426,7 +426,7 @@ int func_02183D14(u8 *p, int *state)
         break;
     case 17:
         old = H(0xC30C);
-        if ((int)func_0201C6B4(*(void **)(p + 0xC080)) == 0) {
+        if ((int)PRINTSYS_QUE_IsFinished(*(void **)(p + 0xC080)) == 0) {
             break;
         }
         func_02184798((char *)p);
@@ -439,8 +439,8 @@ int func_02183D14(u8 *p, int *state)
         if ((v & 2) || ((w = W(0xC320)) & 2)) {
             func_02184C8C(p, 0);
             func_02183CBC(p, 1);
-            func_020061E4(0x551);
-            BMP_Clear(func_02045770(*(struct Descriptor **)(p + 0xC01C)), 0xF);
+            GFL_USE_PlaySeDefaultVolume(0x551);
+            BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0xC01C)), 0xF);
             BMP_WIN_TransferChars(*(struct Descriptor **)(p + 0xC01C));
             *state = 0x13;
             break;
@@ -466,9 +466,9 @@ int func_02183D14(u8 *p, int *state)
         if (old != H(0xC30C)) {
             *state = 0x12;
             if (H(0xC30C) == 0) {
-                func_020061E4(0x649);
+                GFL_USE_PlaySeDefaultVolume(0x649);
             } else {
-                func_020061E4(0x648);
+                GFL_USE_PlaySeDefaultVolume(0x648);
             }
         }
         break;

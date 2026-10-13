@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CFB8C",
+   "name": "BTL_CLIENT_CanMagnetPullTrap",
    "address": "0x021CFB8C",
    "kind": "game",
    "region": "ov093",

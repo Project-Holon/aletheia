@@ -34,7 +34,7 @@
  *   g_021AA830     0x021AA830  data
  *   g_021A1F74     0x021A1F74  data
  *   func_021781DC  0x021781DC  arm  ov009
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_02178224  0x02178224  arm  ov009
  *   func_02178144  0x02178144  arm  ov009
  *   func_0205A1B0  0x0205A1B0  arm

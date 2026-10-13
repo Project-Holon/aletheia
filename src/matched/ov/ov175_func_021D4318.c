@@ -16,13 +16,13 @@
  *   func_02034AC4 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021E5440 0x021E5440 thumb ov177
  *   func_021E5548 0x021E5548 thumb ov177
  *   func_021E567C 0x021E567C thumb ov177
  *   func_021D6698 0x021D6698 thumb ov175
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_02045B38 0x02045B38 arm
  *   func_0201EC74 0x0201EC74 thumb
  *   func_021D9DC8 0x021D9DC8 thumb ov175
@@ -42,7 +42,7 @@ extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *, int, u32);
+extern void MI_CpuFill8(void *, int, u32);
 extern int *func_021E5440(unsigned, int);
 extern int func_021E5548(int *);
 extern u32 *func_021E567C(int unused, int mode, int heap);
@@ -51,7 +51,7 @@ struct GfFont;
 struct MsgBank;
 struct WordSet;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern u32 func_0201C440(void *);
+extern u32 PRINTSYS_QUE_Create(void *);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC74(u32 n, u32 size, unsigned short heap);
 typedef unsigned short u16;
@@ -71,13 +71,13 @@ int func_021D4318(void *sys, int *state, u32 *ctx)
     func_02034AC4((int)ov114_id);
     GFL_HEAP_CreateChildHeap(1, 87, 0x35000);
     p = PROCSYS_AllocProcWork(sys, 0x100, 87);
-    func_02082BCC(p, 0, 0x100);
+    MI_CpuFill8(p, 0, 0x100);
     p[16] = (u32)ctx;
     p[0] = (u32)func_021E5440(1, 87);
     p[1] = (u32)func_021E567C(func_021E5548((int *)p[0]), 2, 87);
     func_021D6698((u32 *)ctx[5], p);
     p[2] = (u32)GF_FONT_Create(23, 0, 0, 0, 87);
-    p[3] = func_0201C440((void *)87);
+    p[3] = PRINTSYS_QUE_Create((void *)87);
     p[4] = (u32)func_02045B38(0, 2, 210, 87);
     p[5] = (u32)func_0201EC74(8, 64, 87);
     p[12] = (u32)func_021D9DC8(((u32 *)p[16])[15], (void *)(((u32 *)ctx[2])[0]), ctx[7], 87);

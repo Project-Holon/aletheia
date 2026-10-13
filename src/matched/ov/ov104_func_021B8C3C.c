@@ -17,7 +17,7 @@
  *   VEC_Normalize 0x0207CCA4 arm
  *   func_021B8E8C 0x021B8E8C thumb ov104
  *   func_021B8DA4 0x021B8DA4 thumb ov104
- *   g_020A1B38 0x020A1B38 data a2
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,7 +30,7 @@ extern void func_0207CA00(const Vec *,const Vec *,Vec *);
 extern void VEC_Normalize(const Vec *,Vec *);
 extern u32 func_021B8E8C(u8 *);
 extern void func_021B8DA4(u8 *,const Point *,const Point *,int,u32);
-extern const s16 g_020A1B38[];
+extern const s16 FX_SinCosTable_[];
 #define SHIFT(v,n) ((int)((u32)(v)<<(n)))
 void func_021B8C3C(u8 *p, const void *a, int color)
 {
@@ -46,8 +46,8 @@ void func_021B8C3C(u8 *p, const void *a, int color)
             offset=tmp;
             if(!func_021B8E8C(p+offset)) {
                 angle=(u16)func_020056EC(65535)>>4;
-                end.x=SHIFT(g_020A1B38[angle*2],8)>>12;
-                end.y=SHIFT(g_020A1B38[angle*2+1],8)>>12;
+                end.x=SHIFT(FX_SinCosTable_[angle*2],8)>>12;
+                end.y=SHIFT(FX_SinCosTable_[angle*2+1],8)>>12;
                 random.x=SHIFT(end.x,12);
                 random.y=SHIFT(end.y,12);
                 random.z=0;

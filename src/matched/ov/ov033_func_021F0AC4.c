@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035D20 0x02035D20 arm
+ *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   func_020355D8 0x020355D8 arm
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   FIELD_SUBSCREEN_RequestMode 0x021A0F30 thumb ov021
  */
@@ -22,14 +22,14 @@
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
-extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void func_020355D8(u8 v);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 typedef unsigned short u16;
 struct Actor;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_020061E4(unsigned);
+extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern int FIELD_SUBSCREEN_RequestMode(u32 a, u32 b);
 
@@ -50,14 +50,14 @@ void DOWSING_UpdateCloseButton(T *p)
     switch (p->f28) {
     case 0:
         hit = 0;
-        if (func_02035D20(&x, &y) != 0) {
+        if (TOUCHPANEL_GetPointTrg(&x, &y) != 0) {
             if (x >= 0xE8 && x < 0x100 && y >= 0xA8 && y < 0xC0) {
                 func_020355D8(1);
                 hit = 1;
             }
         }
         if (hit == 0) {
-            if (func_020362DC() & 0x400) {
+            if (KEY_GetTrg() & 0x400) {
                 func_020355D8(0);
                 hit = 1;
             }
@@ -65,7 +65,7 @@ void DOWSING_UpdateCloseButton(T *p)
         if (hit != 0) {
             p->f28 = 1;
             CLACT_SetActorAnimSeq((struct Obj *)p->f24, 8);
-            func_020061E4(0x556);
+            GFL_USE_PlaySeDefaultVolume(0x556);
             return;
         }
         break;

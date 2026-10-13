@@ -1,5 +1,5 @@
 /*
- * function: func_02177028
+ * function: GFL_NET_DEVWIRELESS_Setup
  * address:  0x02177028
  * packet:   pkt_ov014_02177028
  * region:   ov014
@@ -13,7 +13,7 @@
  *   sFileNetDevWireless     0x0217976C  data   a1
  *   func_02030734  0x02030734  arm
  *   GFL_NET_GetInitParam  0x0203D798  arm
- *   func_02177280  0x02177280  thumb  ov014
+ *   NET_WHPIPE_Create  0x02177280  thumb  ov014
  */
 
 typedef unsigned char u8;
@@ -24,9 +24,9 @@ extern char sFileNetDevWireless[];
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 *GFL_NET_GetInitParam(void);
-extern int func_02177280(int a, int b, u32 c, int d);
+extern int NET_WHPIPE_Create(int a, int b, u32 c, int d);
 
-int func_02177028(int a, u32 b, int c, int d)
+int GFL_NET_DEVWIRELESS_Setup(int a, u32 b, int c, int d)
 {
     int ok;
     u32 *p;
@@ -39,5 +39,5 @@ int func_02177028(int a, u32 b, int c, int d)
     *p = b;
     if (GFL_NET_GetInitParam()[0x65] != 5)
         ok = 0;
-    return func_02177280(a, c, d, ok);
+    return NET_WHPIPE_Create(a, c, d, ok);
 }

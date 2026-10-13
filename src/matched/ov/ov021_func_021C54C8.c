@@ -15,7 +15,7 @@
  *   SHORTCUT_MENU_SetActorsY  0x021C59F8  thumb  ov021
  *   SHORTCUT_MENU_DeleteList  0x021C59A8  thumb  ov021
  *   SHORTCUT_MENU_CreateList  0x021C58CC  thumb  ov021
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 #include "../include/Obj04281.h"
 
@@ -28,7 +28,7 @@ extern u16 BMP_MENULIST_GetRowY(struct Obj *obj, u32 n);
 extern void SHORTCUT_MENU_SetActorsY(int *a, int b);
 extern int SHORTCUT_MENU_DeleteList(u32 a, u32 b, u32 c);
 extern void SHORTCUT_MENU_CreateList(char *p, u16 a, u16 b, u32 heap);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 void SHORTCUT_MENU_OnKeyDown(int *a, int b, int c, int *d)
 {
@@ -46,7 +46,7 @@ void SHORTCUT_MENU_OnKeyDown(int *a, int b, int c, int *d)
             SHORTCUT_MENU_DeleteList((u32)a, 0, 0);
             SHORTCUT_MENU_CreateList((char *)a, 0, 0, ((struct Obj04281 *)a)->f34);
         }
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
         *d = 1;
         return;
     }

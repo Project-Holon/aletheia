@@ -30,7 +30,7 @@
  * volatile: hardware 0x04000050/0x04001050 writes; 0x04000000 at 021BDC48 and 0x04001000 at 021BDC52 are read-modify-written.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_0204363C 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
@@ -56,7 +56,7 @@ struct DispVram;
 extern const struct DispVram d_021BFE4C,d_021BFE1C;
 extern const char d_021C09C0[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_02082BCC(void *,u8,u32);
+extern void MI_CpuFill8(void *,u8,u32);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void func_0204363C(u32);
 extern void BG_SYS_ResetSubDisplay(void);
@@ -75,7 +75,7 @@ void *func_021BDC18(int swap, int mode, u16 heap)
 {
     u8 *p;
     p=func_02030734(heap,20,0,d_021C09C0,406);
-    func_02082BCC(p,0,20);
+    MI_CpuFill8(p,0,20);
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04000000 &=0xFFFF1FFF;

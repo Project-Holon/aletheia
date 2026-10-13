@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02013B38  0x02013B38  thumb
+ *   ZONEDATA_GetAreaId  0x02013B38  thumb
  *   FIELD_BUILDMODEL_GetArchiveMemberIndex  0x0218BC1C  thumb
- *   func_020140D8  0x020140D8  thumb
+ *   ZONEDATA_GetAreaInnerOuter  0x020140D8  thumb
  *   FIELD_BUILDMODEL_LoadModelArchive  0x0218BB0C  thumb
  *   FIELD_BUILDMODEL_CreateG3dResources  0x0218BC40  thumb
  *   FIELD_BUILDMODEL_BuildTableIndex  0x0218BB78  thumb
@@ -26,9 +26,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Sub020140BCObj;
-extern u32 func_02013B38(u32 id);
+extern u32 ZONEDATA_GetAreaId(u32 id);
 extern unsigned short FIELD_BUILDMODEL_GetArchiveMemberIndex(int x);
-extern u8 func_020140D8(struct Sub020140BCObj *p);
+extern u8 ZONEDATA_GetAreaInnerOuter(struct Sub020140BCObj *p);
 extern void FIELD_BUILDMODEL_LoadModelArchive(u8 *s, u16 a, u32 n);
 extern void FIELD_BUILDMODEL_CreateG3dResources(unsigned char *p, int a, int b, int c);
 extern void FIELD_BUILDMODEL_BuildTableIndex(u8 *s, int k);
@@ -42,8 +42,8 @@ void FIELD_BUILDMODEL_LoadArea(char *p, int a, int b, int c)
     int k2;
     int k3;
 
-    s = (void *)FIELD_BUILDMODEL_GetArchiveMemberIndex(func_02013B38(a));
-    if (func_020140D8((struct Sub020140BCObj *)b)) {
+    s = (void *)FIELD_BUILDMODEL_GetArchiveMemberIndex(ZONEDATA_GetAreaId(a));
+    if (ZONEDATA_GetAreaInnerOuter((struct Sub020140BCObj *)b)) {
         k1 = 0xE5;
         k2 = 0xB0;
         k3 = 0x15;

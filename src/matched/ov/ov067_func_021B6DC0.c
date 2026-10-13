@@ -20,7 +20,7 @@
  * symbols:
  *   d_021B9564     0x021B9564  data  a1
  *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   func_020414AC  0x020414AC  arm
  *   func_020490F4  0x020490F4  arm
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
@@ -37,15 +37,15 @@
  *   func_02040588  0x02040588  arm
  *   func_02049B40  0x02049B40  arm
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02045770  0x02045770  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   UI_SCENE_LoadActorGfx  0x021B6208  thumb  ov067
  *   YESNO_MENU_GetButtonPos  0x021B76C8  thumb  ov067
  *   UI_SCENE_CreateActor  0x021B629C  thumb  ov067
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
- *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B92C  0x0204B92C  arm
- *   func_020434DC  0x020434DC  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
+ *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  */
 
@@ -108,7 +108,7 @@ extern const char d_021B9564[];
 
 struct ArcFile;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void func_020414AC(u32 a);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
@@ -128,7 +128,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void UI_SCENE_LoadActorGfx(void *out, In *in, int unused, u16 d);
@@ -136,10 +136,10 @@ extern u8 YESNO_MENU_GetButtonPos(u32 a, u32 b, u32 c);
 extern int UI_SCENE_CreateActor(void *p, int a, u16 x, u16 y, u8 e, u16 f);
 extern void CLACT_SetActorBgPriority(int p, u32 a);
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 struct Obj;
-extern void func_0204B92C(struct Obj *a, u32 b);
-extern void func_020434DC(u32 mask, u32 enable);
+extern void CLACT_SetActorAutoAnim(struct Obj *a, u32 b);
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
 S *YESNO_MENU_Create(u16 heap, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u32 a6, u32 a7)
@@ -158,7 +158,7 @@ S *YESNO_MENU_Create(u16 heap, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u32 a6, u3
 
     p = func_02030734(heap, 0xcc, 0, d_021B9564, 0xd3);
     mode = 0;
-    func_02082BCC(p, 0, 0xcc);
+    MI_CpuFill8(p, 0, 0xcc);
     p->heap = heap;
     p->f4 = a5;
     p->f8 = a6;
@@ -206,9 +206,9 @@ S *YESNO_MENU_Create(u16 heap, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u32 a6, u3
     func_02040588(p->f14, 0);
     func_02049B40(0x17, 5, p->f10, p->f1A << 5, 0x20, p->heap);
     p->f88 = BMP_WIN_Create(p->f18, 0, 5, 0x20, 6, p->f1A, 1);
-    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)p->f88)), 0);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)p->f88)), 0);
     p->f8c = BMP_WIN_Create(p->f18, 0, 0xb, 0x20, 6, p->f1A, 1);
-    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)p->f8c)), 0);
+    BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)p->f8c)), 0);
     func_02040588(p->f18, 0);
     in.f0 = p->f1C;
     in.f4 = 0;
@@ -226,11 +226,11 @@ S *YESNO_MENU_Create(u16 heap, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u32 a6, u3
         p->arrA0[i] = UI_SCENE_CreateActor(q, p->f4, YESNO_MENU_GetButtonPos(p->fC0, i, 0),
                                     YESNO_MENU_GetButtonPos(p->fC0, i, 1), i, p->heap);
         CLACT_SetActorBgPriority(p->arrA0[i], p->f19);
-        func_0204B3DC((struct Obj *)p->arrA0[i], 0);
-        func_0204B92C((struct Obj *)p->arrA0[i], 0);
+        CLACT_SetActorDrawEnable((struct Obj *)p->arrA0[i], 0);
+        CLACT_SetActorAutoAnim((struct Obj *)p->arrA0[i], 0);
     }
     if (p->f1C == 0)
-        func_020434DC(0x10, 1);
+        BG_SYS_SetMainPlaneVisible(0x10, 1);
     else
         BG_SYS_SetSubPlaneVisible(0x10, 1);
     return p;

@@ -12,7 +12,7 @@
  * then loads source into r0 at021FAC5A before storing heap and calling021FAC62.
  * symbols:
  *   func_02034714 0x02034714 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   STRBUF_Clone 0x02045874 arm
  *   func_021FB7B0 0x021FB7B0 thumb ov186
  *   func_021FC124 0x021FC124 thumb ov186
@@ -30,7 +30,7 @@ typedef struct {
 } Fields;
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02082BCC(void *, int, unsigned);
+extern void MI_CpuFill8(void *, int, unsigned);
 struct U16Vec;
 extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
 extern int func_021FB7B0(void *p, int i);
@@ -45,7 +45,7 @@ void func_021FAC20(Fields *ctx, unsigned object, unsigned a, unsigned b, void *o
     const void *work;
     unsigned short heap_value;
     if (ctx->active) func_02034714(d_02200D18, 0, d_02200D18);
-    func_02082BCC(ctx, 0, 0x44);
+    MI_CpuFill8(ctx, 0, 0x44);
     ctx->active = 1;
     ctx->enabled = 1;
     ctx->object = object;
@@ -57,7 +57,7 @@ void func_021FAC20(Fields *ctx, unsigned object, unsigned a, unsigned b, void *o
     ctx->a = a;
     ctx->b = b;
     ctx->work = (unsigned)STRBUF_Clone((struct U16Vec *)work, heap_value);
-    func_02082BCC(&config, 0, 8);
+    MI_CpuFill8(&config, 0, 8);
     config.x = func_021FB7B0((void *)ctx->object, 0);
     config.y = func_021FB7B0((void *)ctx->object, 1);
     config.z = func_021FB7B0((void *)ctx->object, 4);

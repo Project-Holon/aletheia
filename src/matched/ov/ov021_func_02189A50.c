@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf (saves no lr): stores r1 at +0x144.  Callee of ov020
- * func_02187CEC and func_02187CFC.
+ * EL_SCOREBOARD_OnStart and EL_SCOREBOARD_OnFinish.
  *
  * symbols:
  */

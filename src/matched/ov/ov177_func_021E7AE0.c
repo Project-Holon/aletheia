@@ -9,8 +9,8 @@
  * status: EXACT
  * lever: repeat result accumulation in each branch; hoisting through done changes cross-jump and allocation.
  * symbols:
- *   func_02045770 0x02045770 arm
- *   func_0201C6C4 0x0201C6C4 thumb
+ *   BMP_WIN_GetBmp 0x02045770 arm
+ *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   PMS_DRAW_Main 0x0202DBC4 thumb
  *   PMS_DRAW_IsPrintEnd 0x0202DC98 thumb
@@ -22,15 +22,15 @@ typedef unsigned char  u8;
 struct Descriptor;
 struct Obj0202DC98;
 struct PrintSys;
-extern void *func_02045770(struct Descriptor *p);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void PMS_DRAW_Main(u8 *p);
 extern u32 PMS_DRAW_IsPrintEnd(struct Obj0202DC98 *o);
 static inline int poll_entry(unsigned char *e, void *mgr)
 {
     if (e[0x28] != 0) {
-        if (func_0201C6C4(mgr, func_02045770(((struct Obj06582 *)e)->f24)) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget(mgr, BMP_WIN_GetBmp(((struct Obj06582 *)e)->f24)) == 0) {
             BMP_WIN_TransferChars(((struct Obj06582 *)e)->f24);
             e[0x28] = 0;
         }

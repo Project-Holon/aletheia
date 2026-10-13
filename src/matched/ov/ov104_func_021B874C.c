@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_021B6508 0x021B6508 thumb ov101
  */
 #include "../include/Obj22232.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern void func_021B6508(u32 p, u32 a);
-void func_021B874C(u8 *p) { func_021B6508(((struct Obj22232 *)p)->f0,0xf00); func_02082BCC(p,0,0x198); }
+void func_021B874C(u8 *p) { func_021B6508(((struct Obj22232 *)p)->f0,0xf00); MI_CpuFill8(p,0,0x198); }

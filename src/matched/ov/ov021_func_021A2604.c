@@ -10,26 +10,26 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02005C64  0x02005C64  thumb
+ *   GFL_USE_IsLoaderBusy  0x02005C64  thumb
  *   FIELD_SOUND_SYSTEM_ClaimSlotWithOwner  0x02028ACC  thumb
- *   func_020061F0  0x020061F0  thumb
+ *   GFL_USE_PlaySeWithVolume  0x020061F0  thumb
  */
 #include "../include/Obj12714.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-int func_02005C64(void);
+int GFL_USE_IsLoaderBusy(void);
 struct SoundSys2;
 void FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(struct SoundSys2 *s, u32 id, u32 who);
-void func_020061F0(u32 a, u32 b);
+void GFL_USE_PlaySeWithVolume(u32 a, u32 b);
 
 void WEATHER_TASK_PlaySeWithVoice(u8 *p, int a, int b)
 {
-    if (func_02005C64() == 0) {
+    if (GFL_USE_IsLoaderBusy() == 0) {
         if (((struct Obj12714 *)p)->f48 != 0)
             FIELD_SOUND_SYSTEM_ClaimSlotWithOwner((struct SoundSys2 *)(((struct Obj12714 *)p)->fC), a, b);
         else
-            func_020061F0(a, b);
+            GFL_USE_PlaySeWithVolume(a, b);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_GetAdaptabilityHandlers
+ * function: HAND_TOKUSEI_GetAdaptabilityHandlers
  * address: 0x021D8C30
  * packet: pkt_ov093_021D8C30
  * region: ov093
@@ -15,10 +15,10 @@
  *   gAdaptabilityHandlers 0x021F07D8 data ov093 a4
  */
 
-int *BTL_CALC_GetAdaptabilityHandlers(int *p);
+int *HAND_TOKUSEI_GetAdaptabilityHandlers(int *p);
 extern int gAdaptabilityHandlers[];
 
-int *BTL_CALC_GetAdaptabilityHandlers(int *p)
+int *HAND_TOKUSEI_GetAdaptabilityHandlers(int *p)
 {
     *p = 1;
     return gAdaptabilityHandlers;

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021D4E34  0x021D4E34  thumb
- *   func_020452E8  0x020452E8  arm
+ *   BMP_WIN_Delete  0x020452E8  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -24,11 +24,11 @@ typedef signed int     s32;
 
 struct Descriptor;
 extern void func_021D4E34(u8 *p);
-extern u32 func_020452E8(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 void func_021D4E64(u8 *p)
 {
     func_021D4E34(p);
-    func_020452E8(((struct Obj04495 *)p)->f224);
+    BMP_WIN_Delete(((struct Obj04495 *)p)->f224);
     *(u32 *)&((struct Obj04495 *)p)->f224 = 0;
 }

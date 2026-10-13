@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_02034AC4 0x02034AC4 arm
  *   func_021E8A3C 0x021E8A3C thumb ov177
  *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
@@ -35,10 +35,10 @@
  *   func_021E5868 0x021E5868 thumb ov177
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_021E8568 0x021E8568 thumb ov177
  *   func_021E8628  0x021E8628  thumb
- *   func_0201C4C0  0x0201C4C0  thumb
+ *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   func_021E867C  0x021E867C  thumb  ov177
@@ -75,7 +75,7 @@
  *   func_021E7E0C 0x021E7E0C thumb ov177
  *   func_0200E9F4 0x0200E9F4 thumb
  *   func_0200EA08 0x0200EA08 thumb
- *   func_0201A920 0x0201A920 thumb
+ *   POKEPARTY_Create 0x0201A920 thumb
  *   func_0203516C 0x0203516C arm
  *   d_0217E600 0x0217E600 data a4
  *   func_020351A0 0x020351A0 arm
@@ -109,7 +109,7 @@
  *   func_0217E318 0x0217E318 thumb ov176
  *   func_0217E380 0x0217E380 thumb ov176
  *   func_0217E078 0x0217E078 thumb ov176
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_0217E40C 0x0217E40C thumb ov176
  *   func_0217E414 0x0217E414 thumb ov176
  *   func_0200B1A8 0x0200B1A8 thumb
@@ -122,7 +122,7 @@
  *   func_0217D290 0x0217D290 thumb ov176
  *   func_0200AE14 0x0200AE14 thumb
  *   func_0217D2BC 0x0217D2BC thumb ov176
- *   func_0201AA50 0x0201AA50 thumb
+ *   POKEPARTY_GetBattleReadyCount 0x0201AA50 thumb
  *   POKE_REGULATION_CheckParty 0x0201A090 thumb
  *   func_0200BAF4 0x0200BAF4 thumb
  *   func_0200BBC8 0x0200BBC8 thumb
@@ -132,7 +132,7 @@
  *   func_0200AE54 0x0200AE54 thumb
  *   func_0200BBD8 0x0200BBD8 thumb
  *   BATTLE_REC_IsVersionSupported 0x0200BA38 thumb
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_0217E0A8 0x0217E0A8 thumb ov176
  *   func_0217E0B0 0x0217E0B0 thumb ov176
  *   func_0217E158 0x0217E158 thumb ov176
@@ -145,8 +145,8 @@
  *   func_0200E994 0x0200E994 thumb
  *   GFL_USE_StopAllSe 0x02006210 thumb
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02039C68 0x02039C68 arm
- *   func_02039CB4 0x02039CB4 arm
+ *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   func_0217E2C0 0x0217E2C0 thumb ov176
  *   func_0217E2F8 0x0217E2F8 thumb ov176
  *   func_0217E1B8 0x0217E1B8 thumb ov176
@@ -279,7 +279,7 @@ typedef struct { u32_0217CEAC f00, f04, f08, option0, option1, option2, f18, cou
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern int func_02034AC4(signed int);
 extern int *func_021E8A3C(int a, int b, int c);
 extern void BTLV_CORE_IsSlotKind1Index15(int);
@@ -297,10 +297,10 @@ extern u32 *func_021E567C(int unused, int mode, int heap);
 extern void func_021E5868(void *);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_0201C440(void *p);
+extern u32 PRINTSYS_QUE_Create(void *p);
 extern void *func_021E8568(unsigned,unsigned,unsigned,unsigned,void *,void *,unsigned);
 extern void func_021E8628(u32 a);
-extern void func_0201C4C0(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_021E867C(char *p);
@@ -335,7 +335,7 @@ extern void **func_021E7D20(void *,void *,u32_0217B984);
 extern void func_021E7E0C(void **,int);
 extern void *func_0200E9F4(void *);
 extern int func_0200EA08(int p);
-extern struct Party *func_0201A920(u32_0217B984 heap);
+extern struct Party *POKEPARTY_Create(u32_0217B984 heap);
 extern void func_0203516C(int);
 extern int func_020351A0(u32_0217BA9C v);
 extern void func_0217D174(int *);
@@ -367,7 +367,7 @@ extern u32_0217BBDC func_0200BBFC(struct Obj *p, u32_0217BBDC mask);
 extern void func_0217E318(char *,unsigned);
 extern int func_0217E380(char *);
 extern int func_0217E078(u8 *p);
-extern u32_0217BBDC func_020362DC(void);
+extern u32_0217BBDC KEY_GetTrg(void);
 extern void func_0217E40C(int *);
 extern int func_0217E414(char *);
 extern u32_0217BBDC func_0200B1A8(struct Reg2 *p);
@@ -380,7 +380,7 @@ extern int func_0217D2B0(u8 *);
 extern void func_0217D290(u8 *);
 extern void * func_0200AE14(void *);
 extern void func_0217D2BC(u8 *p, const void *q);
-extern u32_0217BFF8 func_0201AA50(void *);
+extern u32_0217BFF8 POKEPARTY_GetBattleReadyCount(void *);
 extern int POKE_REGULATION_CheckParty(void *,void *,u32_0217BFF8 *);
 extern void * func_0200BAF4(int,int);
 extern void func_0200BBC8(struct Obj *p, u32_0217BFF8 v);
@@ -390,7 +390,7 @@ extern u8 func_0200E918(const u8 *base, u32_0217C2EC idx);
 extern u32_0217C2EC func_0200AE54(struct Reg *p, u32_0217C2EC id);
 extern void func_0200BBD8(struct Obj *p, int v);
 extern u32_0217C2EC BATTLE_REC_IsVersionSupported(u32_0217C2EC v);
-extern void func_020061E4(u32_0217C628);
+extern void GFL_USE_PlaySeDefaultVolume(u32_0217C628);
 extern int func_0217E0A8(int *);
 extern int func_0217E0B0(unsigned *);
 extern void func_0217E158(unsigned *);
@@ -403,8 +403,8 @@ extern void func_02082D44(const void *,void *,u32_0217C628);
 extern u32_0217C628 func_0200E994(void *base, void *key);
 extern void GFL_USE_StopAllSe(void);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void func_02039C68(struct Link *,u32_0217C628,u32_0217C628);
-extern u32_0217C628 func_02039CB4(struct Link *,u32_0217C628,u32_0217C628);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,u32_0217C628,u32_0217C628);
+extern u32_0217C628 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,u32_0217C628,u32_0217C628);
 extern u32_0217C628 func_0217E2C0(int unused, int a);
 extern int func_0217E2F8(u8 *p, const void *q);
 extern int func_0217E1B8(int *);
@@ -488,7 +488,7 @@ int func_0217AE20(void *a,void *b,void *context)
     char *p;
     GFL_HEAP_CreateChildHeap(1,0x4e,0x30200);
     p=PROCSYS_AllocProcWork(a,0x34,0x4e);
-    func_02082BCC(p,0,0x34);
+    MI_CpuFill8(p,0,0x34);
     ((struct Obj10694 *)p)->f28=context;
     ((struct Obj10694 *)p)->f0=0x4e;
     func_02034AC4((int)ov67_id);
@@ -584,7 +584,7 @@ void func_0217AF50(char *p)
 {
     ((struct Obj02888 *)p)->fC=GF_FONT_Create(0x17,0,0,0,((struct Obj02888 *)p)->f0);
     ((struct Obj02888 *)p)->f10=func_02045B38(0,2,4,((struct Obj02888 *)p)->f0);
-    ((struct Obj02888 *)p)->f14=(void *)func_0201C440((void *)(((struct Obj02888 *)p)->f0));
+    ((struct Obj02888 *)p)->f14=(void *)PRINTSYS_QUE_Create((void *)(((struct Obj02888 *)p)->f0));
     ((struct Obj02888 *)p)->f8=func_021E8568(0,15,14,10,((struct Obj02888 *)p)->f14,((struct Obj02888 *)p)->fC,((struct Obj02888 *)p)->f0);
 }
 
@@ -595,7 +595,7 @@ void func_0217AF50(char *p)
 void func_0217AF9C(int *p)
 {
     func_021E8628(((struct Obj03869 *)p)->f8);
-    func_0201C4C0((struct PrintSys *)(((struct Obj03869 *)p)->f14));
+    PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj03869 *)p)->f14));
     MSGDATA_Delete((struct Rec *)(((struct Obj03869 *)p)->f10));
     GF_FONT_Delete((void *)(((struct Obj03869 *)p)->fC));
 }
@@ -670,7 +670,7 @@ void func_0217B0C8(int *a,int *state,int *p)
     Data config;
     switch(*state) {
     case 0:
-        func_02082BCC(&config,0,32);
+        MI_CpuFill8(&config,0,32);
         config.words[1]=p[2];
         config.words[2]=p[3];
         config.words[3]=p[4];
@@ -715,7 +715,7 @@ void func_0217B1BC(int *a,int *state,int *p)
     Init_0217AE20 config;
     switch(*state) {
     case 0:
-        func_02082BCC(&config,0,40);
+        MI_CpuFill8(&config,0,40);
         config.w[1]=p[2];
         config.w[2]=p[3];
         config.w[3]=p[5];
@@ -763,7 +763,7 @@ void *func_0217B2E4(const Data *src,unsigned heap)
 {
     char *p;
     p=func_02030734(heap,0x3c,0,d_0217E5E4,0xaf);
-    func_02082BCC(p,0,0x3c);
+    MI_CpuFill8(p,0,0x3c);
     *(Data *)(p+0x14)=*src;
     ((struct Obj10698 *)p)->f34=heap;
     ((struct Obj10698 *)p)->fC=func_02045B38(0,3,0x9e,heap);
@@ -909,7 +909,7 @@ void func_0217B594(int p, int *state, char *q)
     Config config;
     switch (*state) {
     case 0:
-        func_02082BCC(&config, 0, 32);
+        MI_CpuFill8(&config, 0, 32);
         config.mode = 0;
         config.a = ((struct Obj02221 *)q)->f18;
         config.b = ((struct Obj02221 *)q)->f1C;
@@ -940,7 +940,7 @@ void func_0217B620(int p, int *state, char *q)
     Config config;
     switch (*state) {
     case 0:
-        func_02082BCC(&config, 0, 32);
+        MI_CpuFill8(&config, 0, 32);
         config.mode = 1;
         config.a = ((struct Obj02222 *)q)->f18;
         config.b = ((struct Obj02222 *)q)->f1C;
@@ -1034,7 +1034,7 @@ void func_0217B7D8(int *p, int index)
     u8 x,y,width;
     u32 height;
     base=func_0200B358((void *)GAME_DATA_GetSaveControl(((struct Obj01762 *)p)->f30));
-    func_02082BCC(&rec,0,48);
+    MI_CpuFill8(&rec,0,48);
     rec.f00=((struct Obj01762 *)p)->f20;
     rec.f04=((struct Obj01762 *)p)->f1C;
     rec.f08=((struct Obj01762 *)p)->f24;
@@ -1102,7 +1102,7 @@ u8 *func_0217B984(Init_0217B970 *src,u32_0217B984 heap)
     u8 *p;
     size=0x1dc;
     p=func_02030734(heap,size,0,d_0217E600,0x109);
-    func_02082BCC(p,0,size);
+    MI_CpuFill8(p,0,size);
     *(Init_0217B970 *)(p+0x1a0)=*src;
     *(u16 *)(p+0x1c8)=heap;
     *(u32_0217B984 *)(p+0x1d0)=BATTLE_REC_IsDataExist();
@@ -1117,7 +1117,7 @@ u8 *func_0217B984(Init_0217B970 *src,u32_0217B984 heap)
     func_021E7E0C(*(void ***)(p+0x1c),0);
     *(void **)(p+0x38)=func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))),1);
     *(void **)(p+0x34)=(void *)func_0200EA08((int)func_0200E9F4(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))));
-    *(void **)(p+0x30)=func_0201A920(heap);
+    *(void **)(p+0x30)=POKEPARTY_Create(heap);
     if(*(int *)(p+0x1a0)==0)func_0203516C(8);
     return p;
 }
@@ -1209,7 +1209,7 @@ void func_0217BBDC(int *sys,u32_0217BBDC *state,u8 *p)
         int v=func_0217E380(*(char * *)&((struct Obj00053 *)p)->fC);
         if(v){func_021E7E0C(*(void ** *)&((struct Obj00053 *)p)->f1C,0);if(v==1)*state=21;else *state=26;}
         if(func_0217E078(((struct Obj00053 *)p)->fC)==1){func_021E7E0C(*(void ** *)&((struct Obj00053 *)p)->f1C,0);*state=12;}
-        else if(func_020362DC()&2)*state=16;
+        else if(KEY_GetTrg()&2)*state=16;
         break;
     }
     case 16:func_0217E40C(*(int * *)&((struct Obj00053 *)p)->fC);*state=17;break;
@@ -1285,7 +1285,7 @@ void func_0217BFF8(int *sys,u32_0217BFF8 *state,u8 *p)
         u32_0217BFF8 mask=0;
         void *v=func_0200AE14(((struct Obj00053 *)p)->f38);
         func_0217D2BC(p,((struct Obj00053 *)p)->f30);
-        if(func_0201AA50(((struct Obj00053 *)p)->f30)==0)*state=11;
+        if(POKEPARTY_GetBattleReadyCount(((struct Obj00053 *)p)->f30)==0)*state=11;
         else if(POKE_REGULATION_CheckParty(v,((struct Obj00053 *)p)->f30,&mask)==0)*state=13;
         else *state=10;
         break;
@@ -1382,9 +1382,9 @@ void func_0217C628(int *sys,u32_0217C628 *state,u8 *p)
     }
     switch(*state){
     case 0:func_0217CFE8(p,20,1);*state=40;func_021E8AB4((u32_0217C628)sys,1);break;
-    case 1:func_0217CFE8(p,33,0);func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,1);func_020061E4(0x80d);((struct Obj00241 *)p)->f1D4=0;((struct Obj00241 *)p)->f1D8=0;*state=40;func_021E8AB4((u32_0217C628)sys,2);break;
+    case 1:func_0217CFE8(p,33,0);func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,1);GFL_USE_PlaySeDefaultVolume(0x80d);((struct Obj00241 *)p)->f1D4=0;((struct Obj00241 *)p)->f1D8=0;*state=40;func_021E8AB4((u32_0217C628)sys,2);break;
     case 2:if(func_0217E0A8(*(int * *)&((struct Obj00241 *)p)->fC))*state=3;break;
-    case 3:switch(func_0217E0B0(*(unsigned * *)&((struct Obj00241 *)p)->fC)){case 1:*state=13;break;case 2:*state=9;break;}if(func_020362DC()&2)*state=4;break;
+    case 3:switch(func_0217E0B0(*(unsigned * *)&((struct Obj00241 *)p)->fC)){case 1:*state=13;break;case 2:*state=9;break;}if(KEY_GetTrg()&2)*state=4;break;
     case 4:func_0217E158(*(unsigned * *)&((struct Obj00241 *)p)->fC);*state=5;break;
     case 5:if(func_0217E178(*(int * *)&((struct Obj00241 *)p)->fC))*state=6;break;
     case 6:func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);func_0217CFE8(p,21,1);*state=40;func_021E8AB4((u32_0217C628)sys,7);break;
@@ -1413,13 +1413,13 @@ void func_0217C628(int *sys,u32_0217C628 *state,u8 *p)
             *state=16;
         }else{func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);GFL_USE_StopAllSe();*state=21;}
         break;
-    case 16:func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x48,0x1f);*state=17;break;
-    case 17:if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x48,0x1f))*state=18;break;
+    case 16:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x48,0x1f);*state=17;break;
+    case 17:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x48,0x1f))*state=18;break;
     case 18:if(func_0217E2C0((int)(((struct Obj00241 *)p)->fC),(int)((u32_0217C628 *)(p+0x1d4))))*state=19;break;
     case 19:if(func_0217E2F8(((struct Obj00241 *)p)->fC,(u32_0217C628 *)(p+0x1d8)))*state=20;break;
     case 20:
         func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);GFL_USE_StopAllSe();
-        if(((struct Obj00241 *)p)->f1D8&&((struct Obj00241 *)p)->f1D4){func_020061E4(0x63a);*state=27;}else *state=24;break;
+        if(((struct Obj00241 *)p)->f1D8&&((struct Obj00241 *)p)->f1D4){GFL_USE_PlaySeDefaultVolume(0x63a);*state=27;}else *state=24;break;
     case 21:if(func_0217E1B8(*(int * *)&((struct Obj00241 *)p)->fC))*state=22;break;
     case 22:if(func_0217E1C0(*(int * *)&((struct Obj00241 *)p)->fC))*state=23;break;
     case 23:func_0217CFE8(p,22,1);*state=40;func_021E8AB4((u32_0217C628)sys,39);break;
@@ -1433,8 +1433,8 @@ void func_0217C628(int *sys,u32_0217C628 *state,u8 *p)
     case 31:if((((struct Obj00241 *)p)->f1CC)++>300){((struct Obj00241 *)p)->f1CC=0;*state=32;}break;
     case 32:func_02040588(0,1);func_0217CFE8(p,24,1);*state=40;func_021E8AB4((u32_0217C628)sys,33);break;
     case 33:func_0217CFE8(p,35,2);*state=40;func_021E8AB4((u32_0217C628)sys,34);break;
-    case 34:func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x47,0x1f);*state=35;break;
-    case 35:if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x47,0x1f))*state=36;break;
+    case 34:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x47,0x1f);*state=35;break;
+    case 35:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x47,0x1f))*state=36;break;
     case 36:func_02040588(0,1);func_0217CFE8(p,38,2);*state=40;func_021E8AB4((u32_0217C628)sys,37);break;
     case 37:
         if((((struct Obj00241 *)p)->f1CC)++>60){
@@ -1559,7 +1559,7 @@ void func_0217CEAC(u8 *p, int mode)
     Menu_0217B970 rec;
     int layout;
     u8 x, y, width, height;
-    func_02082BCC(&rec, 0, 0x30);
+    MI_CpuFill8(&rec, 0, 0x30);
     rec.f00 = ((struct Obj00053 *)p)->f20;
     rec.f04 = *(u32_0217CEAC *)&((struct Obj00053 *)p)->f1A8;
     rec.f08 = *(u32_0217CEAC *)&((struct Obj00053 *)p)->f1AC;

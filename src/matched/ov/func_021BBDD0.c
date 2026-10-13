@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B92C  0x0204B92C  arm
- *   func_0204B3DC  0x0204B3DC  arm
+ *   CLACT_SetActorAutoAnim  0x0204B92C  arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *
  * Walks the twelve pointers at +0x150 in two halves of six: the first half is
  * handed pair (callee, then join call) with flag ? 1 : 0, the second half with
@@ -40,8 +40,8 @@ typedef signed long    s32;
 typedef int BOOL;
 
 struct Obj;
-extern void func_0204B92C(struct Obj *p, unsigned int v);
-extern void func_0204B3DC(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
 void func_021BBDD0(void *pv, int flag)
 {
@@ -51,11 +51,11 @@ void func_021BBDD0(void *pv, int flag)
     for (i = 0; i < 6; i++) {
         if (*(void **)(s + i * 4 + 0x150) != 0) {
             if (flag != 0) {
-                func_0204B92C(*(void **)(s + i * 4 + 0x150), 1);
-                func_0204B3DC(*(void **)(s + i * 4 + 0x150), 1);
+                CLACT_SetActorAutoAnim(*(void **)(s + i * 4 + 0x150), 1);
+                CLACT_SetActorDrawEnable(*(void **)(s + i * 4 + 0x150), 1);
             } else {
-                func_0204B92C(*(void **)(s + i * 4 + 0x150), 0);
-                func_0204B3DC(*(void **)(s + i * 4 + 0x150), 0);
+                CLACT_SetActorAutoAnim(*(void **)(s + i * 4 + 0x150), 0);
+                CLACT_SetActorDrawEnable(*(void **)(s + i * 4 + 0x150), 0);
             }
         }
     }
@@ -63,11 +63,11 @@ void func_021BBDD0(void *pv, int flag)
     for (i = 6; i < 12; i++) {
         if (*(void **)(s + i * 4 + 0x150) != 0) {
             if (flag != 0) {
-                func_0204B92C(*(void **)(s + i * 4 + 0x150), 0);
-                func_0204B3DC(*(void **)(s + i * 4 + 0x150), 0);
+                CLACT_SetActorAutoAnim(*(void **)(s + i * 4 + 0x150), 0);
+                CLACT_SetActorDrawEnable(*(void **)(s + i * 4 + 0x150), 0);
             } else {
-                func_0204B92C(*(void **)(s + i * 4 + 0x150), 1);
-                func_0204B3DC(*(void **)(s + i * 4 + 0x150), 1);
+                CLACT_SetActorAutoAnim(*(void **)(s + i * 4 + 0x150), 1);
+                CLACT_SetActorDrawEnable(*(void **)(s + i * 4 + 0x150), 1);
             }
         }
     }

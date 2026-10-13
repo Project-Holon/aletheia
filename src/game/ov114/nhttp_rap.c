@@ -24,7 +24,7 @@
  *   func_021BE6BC 0x021BE6BC arm ov114
  *   func_021BE8E8 0x021BE8E8 arm ov114
  *   func_02034714 0x02034714 arm
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   func_0208D80C 0x0208D80C arm
  *   func_021BF308  0x021BF308  arm  ov114
  *   func_021BE698  0x021BE698  arm  ov114
@@ -77,7 +77,7 @@ extern int func_021BE9C8(int a, int b, int c);
 extern int func_021BE6BC(int,const char *,const char *);
 extern int func_021BE8E8(void *handle, char *username_p, char *password_p);
 extern void func_02034714(const char *,u32,const char *);
-extern void func_02082BCC(void *,int,unsigned);
+extern void MI_CpuFill8(void *,int,unsigned);
 extern int func_0208D80C(char *,int,const char *,...);
 extern int func_021BF308(int);
 extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
@@ -191,7 +191,7 @@ int func_021B95D4(int index,u8 *p)
         return 0;
     }
     if(p==0) return 0;
-    func_02082BCC(p+0x410,0,4);
+    MI_CpuFill8(p+0x410,0,4);
     if(index==4) func_0208D80C((char *)(p+0x410),400,(char *)d_021CE284[index].format,((struct Obj08035 *)p)->f8+69);
     else func_0208D80C((char *)(p+0x410),400,(char *)d_021CE284[index].format,((struct Obj08035 *)p)->f5A4,21,2,1,((struct Obj08035 *)p)->f8+69);
     h=(int)func_021BF04C((char *)((u32)(p+0x410)),d_021CE284[index].mode,(char *)(p+0x10),1024,(int (*)(void *, int,  void *))func_021B95C0,(void *)((int)p));
@@ -383,7 +383,7 @@ void func_021B98A0(u8 *p, int a, int b, int c)
         return;
     q = GFL_NET_AllocAligned(a, b + 0x130, (const char *)0x021CE310, 0x1f5);
     ((struct Obj03250 *)p)->f0 = (u32)q;
-    func_02082BCC((void *)((int)q), 0, b + 0x130);
+    MI_CpuFill8((void *)((int)q), 0, b + 0x130);
     func_021B984C((Record_021B95A0 *)p, c);
 }
 
@@ -414,7 +414,7 @@ int func_021B98F8(u8 *p)
         func_02034714(d_021CE2D4, 0, d_021CE2D4);
         return 0;
     }
-    func_02082BCC((void *)((int)(p+0x410)), 0, 4);
+    MI_CpuFill8((void *)((int)(p+0x410)), 0, 4);
     func_0208CADC((char *)(p+0x410), (char *)((u32 *)&d_021CE284)[14]);
     h = (int)func_021BF04C((char *)((u32 *)&d_021CE284)[14], ((u32 *)&d_021CE284)[15], (char *)(p+0x10), 0x400, (int (*)(void *, int,  void *))func_021B95C0, 0);
     if (h == 0) {
@@ -496,7 +496,7 @@ u8 *func_021B9A64(int a, int b, int c)
     int n = b * a;
     u8 *p = func_02030734(c, n, 0, (const char *)0x021CE3A0, 0xb9);
 
-    func_02082BCC((void *)((int)p), 0, n);
+    MI_CpuFill8((void *)((int)p), 0, n);
     return p;
 }
 
@@ -533,7 +533,7 @@ void func_021B9AF8(void *p)
 
 void func_021B9B00(u8 *p, int a)
 {
-    func_02082BCC((void *)((int)p), 0, 0x64);
+    MI_CpuFill8((void *)((int)p), 0, 0x64);
     p[0] = 0x15;
     p[1] = 2;
     p[2] = func_0200856C((const struct Sub0200852CObj *)a);

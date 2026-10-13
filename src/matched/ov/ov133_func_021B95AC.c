@@ -15,7 +15,7 @@
  *   func_021F5450 0x021F5450 thumb ov112
  *   func_021F4ED4 0x021F4ED4 thumb ov112
  *   func_0207CFB8 0x0207CFB8 arm
- *   func_020061E4 0x020061E4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -35,7 +35,7 @@ extern u8 *func_021BA228(u8 *p);
 extern u8 *func_021F5450(u8 *,int);
 extern void func_021F4ED4(u32 unused, u32 p, u16 v);
 extern u16 func_0207CFB8(long,long);
-extern void func_020061E4(u32);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
 static inline int fx(int x)
 {
     if(x>0) return (int)(0.5f+(float)(int)((unsigned)x<<12));
@@ -67,7 +67,7 @@ void func_021B95AC(u8 *p)
         if(absval<0) absval= -absval;
         if(absval>1820) {
             ((struct Obj00004 *)p)->f18C4=0;
-            func_020061E4(1577);
+            GFL_USE_PlaySeDefaultVolume(1577);
         }
         func_021F4ED4((u32)(((struct Obj00004 *)p)->f1884),func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38),((struct Obj23321 *)rec)->f36+adjust);
         *(s16 *)(*(u8 * *)&((struct Obj23323 *)(*(u8 * *)&((struct Obj00004 *)p)->f4))->f4+stride+0x16)=adjust;

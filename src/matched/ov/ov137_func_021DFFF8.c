@@ -16,7 +16,7 @@
  *   func_0201EC64 0x0201EC64 thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   STRBUF_Create 0x020457B0 arm
- *   func_0201C440 0x0201C440 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_021E0338 0x021E0338 thumb ov137
  */
 #include "../include/Obj00835.h"
@@ -37,7 +37,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern struct WordSet *func_0201EC64(u32 heap);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern u32 func_0201C440(void *);
+extern u32 PRINTSYS_QUE_Create(void *);
 extern void func_021E0338(u8 *,int);
 void func_021DFFF8(u8 *p)
 {
@@ -54,6 +54,6 @@ void func_021DFFF8(u8 *p)
     for(i=0;i<5;i++) {*(void **)(p+0xa4+i*4)=STRBUF_Create(8,114);}
     ((struct Obj03306 *)s)->f28=((struct Obj03306 *)s)->f10;
     ((struct Obj03306 *)s)->f2C=0;
-    ((struct Obj03306 *)s)->f58=func_0201C440((void *)114);
+    ((struct Obj03306 *)s)->f58=PRINTSYS_QUE_Create((void *)114);
     func_021E0338(p,((struct Obj23772 *)(*(u8 * *)&((struct Obj00835 *)p)->fD8))->f8);
 }

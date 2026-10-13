@@ -18,9 +18,9 @@
  *   func_021D694C 0x021D694C thumb ov121
  *   func_021DAB50 0x021DAB50 thumb ov121
  *   func_021D9254 0x021D9254 thumb ov121
- *   func_0204B404 0x0204B404 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_020061E4 0x020061E4 thumb
+ *   CLACT_AddActorSurfacePos 0x0204B404 arm
+ *   CLACT_SetActorDrawEnable 0x0204B3DC arm
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   _u32_div_f 0x0209C2B0 arm
  */
 #include "../include/Obj00184.h"
@@ -39,9 +39,9 @@ extern void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first
 struct Obj;
 extern void func_021D9254(char *p, int n);
 struct Vec2;
-extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_020061E4(u32 a);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 void func_021D8EA4(u8 *p)
 {
     Position pos;
@@ -81,13 +81,13 @@ void func_021D8EA4(u8 *p)
             func_021D6D6C((void **)(p+0x118),0);
             func_021D6D6C((void **)(p+0x118),1);
             func_021D6D6C((void **)(p+0x118),2);
-            func_020061E4(0x794);
+            GFL_USE_PlaySeDefaultVolume(0x794);
             return;
         }
         break;
     case 6:
         if((((struct Obj00184 *)p)->f18)++>120) {
-            func_020061E4(0x795);
+            GFL_USE_PlaySeDefaultVolume(0x795);
             ((struct Obj00184 *)p)->f18=0;
             ((struct Obj00184 *)p)->f20=4;
             func_021D9254(((struct Obj00184 *)p)->f28,1);
@@ -97,8 +97,8 @@ void func_021D8EA4(u8 *p)
     case 4:
         pos.x=128;
         pos.y=118-((struct Obj00184 *)p)->f128;
-        func_0204B404(((struct Obj00184 *)p)->f4,(const struct Vec2 *)(&pos),0);
-        func_0204B3DC(((struct Obj00184 *)p)->f4,1);
+        CLACT_AddActorSurfacePos(((struct Obj00184 *)p)->f4,(const struct Vec2 *)(&pos),0);
+        CLACT_SetActorDrawEnable(((struct Obj00184 *)p)->f4,1);
         ((struct Obj00184 *)p)->f1C=0;
         ((struct Obj00184 *)p)->f20=5;
         return;
@@ -140,7 +140,7 @@ void func_021D8EA4(u8 *p)
         break;
     case 10:
         if((((struct Obj00184 *)p)->f18)++>60) {
-            func_020061E4(0x671);
+            GFL_USE_PlaySeDefaultVolume(0x671);
             ((struct Obj00184 *)p)->f18=0;
             ((struct Obj00184 *)p)->f20=11;
             return;

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B3DC   0x0204B3DC  arm
+ *   CLACT_SetActorDrawEnable   0x0204B3DC  arm
  */
 
 typedef unsigned int u32;
@@ -30,7 +30,7 @@ typedef struct {
 } S09CC4;
 
 struct Obj;
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
 void func_02209CC4(int a0, S09CC4 *p)
 {
@@ -40,6 +40,6 @@ void func_02209CC4(int a0, S09CC4 *p)
         return;
     if (--p->f24 != 0)
         return;
-    func_0204B3DC((void *)p->f04, 0);
+    CLACT_SetActorDrawEnable((void *)p->f04, 0);
     p->f28 = 0;
 }

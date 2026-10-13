@@ -12,7 +12,7 @@
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_0220E82C 0x0220E82C thumb ov198
  *   func_0220E7CC 0x0220E7CC thumb ov198
- *   sub_0201BD28 0x0201BD28 thumb
+ *   WAZA_TOOL_GetParam 0x0201BD28 thumb
  *   d_02211DA0 0x02211DA0 data a4
  */
 typedef unsigned char u8;
@@ -27,7 +27,7 @@ typedef struct
 extern int func_022110D4(u8 *, int);
 extern void func_0220E82C(char *p, void *obj, int index, int which);
 extern void func_0220E7CC(u8 *, u32);
-extern u32 sub_0201BD28(u16, u32);
+extern u32 WAZA_TOOL_GetParam(u16, u32);
 extern u32 d_02211DA0[];
 void func_0220F060(u8 *p)
 {
@@ -71,7 +71,7 @@ void func_0220F060(u8 *p)
   {
     offset = (base + i) * 4;
     b = p + 0x1ebc;
-    func_0220E82C((char *)p, *((void **) (b + offset)), slot + i, sub_0201BD28(*((u16 *) ((*((u8 **) p)) + 38)), 0));
+    func_0220E82C((char *)p, *((void **) (b + offset)), slot + i, WAZA_TOOL_GetParam(*((u16 *) ((*((u8 **) p)) + 38)), 0));
     func_0220E7CC(*((u8 **) (b + offset)), (u32) (d_02211DA0 + i));
   }
   ((Flag *) (p + 0x2175))->bit ^= 1;

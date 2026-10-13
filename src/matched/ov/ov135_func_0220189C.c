@@ -18,7 +18,7 @@
  *   func_021F4E98  0x021F4E98  thumb
  *   func_0200AD8C  0x0200AD8C  thumb
  *   func_02202608  0x02202608  thumb
- *   func_0200AD9C  0x0200AD9C  thumb
+ *   WORLDTRADE_CopyPokemon  0x0200AD9C  thumb
  *   func_0201EEF4  0x0201EEF4  thumb
  *   func_0200ADE0  0x0200ADE0  thumb
  *   func_022022B8  0x022022B8  thumb
@@ -75,7 +75,7 @@ struct RegB;
 struct WordSet;
 extern u16 func_0200AD8C(const struct Rec0200AD8C *p);
 extern void *func_02202608(u32 heap);
-extern void func_0200AD9C(void *sys, void *mon);
+extern void WORLDTRADE_CopyPokemon(void *sys, void *mon);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern u16 func_0200ADE0(struct RegB *p);
 extern void func_022022B8(Work *p, void *mon, u32 box, int hatch);
@@ -124,7 +124,7 @@ int func_0220189C(Work *p)
             p->busy = 0;
             if (func_0200AD8C(p->ctx->sys) != 0) {
                 mon = func_02202608(0x48);
-                func_0200AD9C(p->ctx->sys, mon);
+                WORLDTRADE_CopyPokemon(p->ctx->sys, mon);
                 func_0201EEF4(p->words, 0, mon);
                 p->mode = 2;
                 p->state = 0x26;
@@ -139,7 +139,7 @@ int func_0220189C(Work *p)
             p->busy = 0;
             if (func_0200AD8C(p->ctx->sys) != 0) {
                 mon = func_02202608(0x48);
-                func_0200AD9C(p->ctx->sys, mon);
+                WORLDTRADE_CopyPokemon(p->ctx->sys, mon);
                 func_0201EEF4(p->words, 0, mon);
                 p->mode = 3;
                 p->state = 0x26;

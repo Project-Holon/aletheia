@@ -11,15 +11,15 @@
  *
  * symbols:
  *   PMS_DRAW_IsPrintEnd  0x0202DC98  thumb
- *   func_02045770  0x02045770  arm
- *   func_0201C6C4  0x0201C6C4  thumb
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   UNION_CHAT_LOG_GetLine  0x021BBC2C  thumb  ov021
  *   func_02034714  0x02034714  arm
  *   UNION_SUBDISP_DrawChatLine  0x021F07AC  thumb  ov031
  *   UNION_SUBDISP_DrawVisibleChatLines  0x021F09A0  thumb  ov031
  *   UNION_SUBDISP_ScrollChatLines  0x021F0AA0  thumb  ov031
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   sUnionSubdispEmptyStr     0x021F10D0  data  a4
  */
 
@@ -54,15 +54,15 @@ struct Obj0202DC98;
 struct PrintSys;
 extern u32 PMS_DRAW_IsPrintEnd(struct Obj0202DC98 *o);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *a);
-extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void *BMP_WIN_GetBmp(struct Descriptor *a);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *a);
 extern void *UNION_CHAT_LOG_GetLine(void *r, int i);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void UNION_SUBDISP_DrawChatLine(struct Obj *p, const u8 *e, u8 k);
 extern void UNION_SUBDISP_DrawVisibleChatLines(void *a, char *b);
 extern void UNION_SUBDISP_ScrollChatLines(void *a, char *b, int n);
-extern void func_020061E4(u32 se);
+extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern const char sUnionSubdispEmptyStr[];
 
 /*
@@ -75,7 +75,7 @@ static inline int slot_free(struct Obj *p, int i)
 {
     u32 q = p->w40;
     if (p->s[i].f != 0) {
-        if (func_0201C6C4((struct PrintSys *)q, (void *)((u32)func_02045770((struct Descriptor *)p->s[i].h))) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)q, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->s[i].h))) == 0) {
             BMP_WIN_TransferChars((struct Descriptor *)p->s[i].h);
             p->s[i].f = 0;
         }
@@ -119,6 +119,6 @@ void UNION_SUBDISP_UpdateChatLines(struct Obj *p, B *b)
         flag = 1;
     }
     if (flag == 1)
-        func_020061E4(0x548);
+        GFL_USE_PlaySeDefaultVolume(0x548);
     b->m = b->n;
 }

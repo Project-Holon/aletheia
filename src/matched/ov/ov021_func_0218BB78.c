@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FIELD_BUILDMODEL_GetModelDef  0x0218B924  thumb  ov021
  */
 #include "../include/Obj00572.h"
@@ -19,7 +19,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02082BCC(void *p, int v, int n);
+extern void MI_CpuFill8(void *p, int v, int n);
 extern int FIELD_BUILDMODEL_GetModelDef(u8 *p, u32 a1);
 
 void FIELD_BUILDMODEL_BuildTableIndex(u8 *s, int k)
@@ -28,7 +28,7 @@ void FIELD_BUILDMODEL_BuildTableIndex(u8 *s, int k)
     u8 v;
     int j;
 
-    func_02082BCC(s + 0x1c, 0x80, 0x190);
+    MI_CpuFill8(s + 0x1c, 0x80, 0x190);
     for (i = 0; i < ((struct Obj00572 *)s)->f1AC; i++)
         s[*((u16 *)FIELD_BUILDMODEL_GetModelDef(s, i)) + 0x1c] = i;
     v = (s + k)[0x1c];

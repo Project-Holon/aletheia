@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021E2948, func_021E297C
+ * function: HAND_WAZA_PaybackDoublePowerIfTargetMoved, HAND_WAZA_EruptionGetHandlers
  * address:  0x021E2948
  * packet:   pkt_ov093_021E2948
  * region:   ov093
@@ -12,10 +12,10 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021C7CF4  0x021C7CF4  thumb  ov093
+ *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_POKEPARAM_TestTurnFlag  0x021D5BB0  thumb  ov093
  *   BTLV_CORE_EventScaleDamage  0x021E8860  thumb  ov093
- *   d_021F24A4     0x021F24A4  data   ov093  a4
+ *   gEruptionHandlers     0x021F24A4  data   ov093  a4
  */
 
 typedef unsigned char u8;
@@ -23,21 +23,21 @@ typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int key);
 struct UtilWork;
-extern void *func_021C7CF4(int *p, int i);
+extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int BTL_POKEPARAM_TestTurnFlag(struct UtilWork *p, u32 n);
 extern void BTLV_CORE_EventScaleDamage(int n);
-extern int d_021F24A4[];
+extern int gEruptionHandlers[];
 
-void func_021E2948(int a, void *b, int c)
+void HAND_WAZA_PaybackDoublePowerIfTargetMoved(int a, void *b, int c)
 {
     if (c == BTL_EVENT_GetVar(3)) {
-        if (BTL_POKEPARAM_TestTurnFlag(func_021C7CF4(b, (u8)BTL_EVENT_GetVar(4)), 1))
+        if (BTL_POKEPARAM_TestTurnFlag(BTL_SERVER_FLOW_GetPokeParam(b, (u8)BTL_EVENT_GetVar(4)), 1))
             BTLV_CORE_EventScaleDamage(2);
     }
 }
 
-int *func_021E297C(int *p)
+int *HAND_WAZA_EruptionGetHandlers(int *p)
 {
     *p = 1;
-    return d_021F24A4;
+    return gEruptionHandlers;
 }

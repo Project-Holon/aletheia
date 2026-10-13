@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045758  0x02045758  arm
- *   func_02045760  0x02045760  arm
- *   func_02045738  0x02045738  arm
- *   func_02045740  0x02045740  arm
- *   func_02045730  0x02045730  arm
+ *   BMP_WIN_GetPosX  0x02045758  arm
+ *   BMP_WIN_GetPosY  0x02045760  arm
+ *   BMP_WIN_GetWidth  0x02045738  arm
+ *   BMP_WIN_GetHeight  0x02045740  arm
+ *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041300  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
- *   func_020061E4  0x020061E4  thumb
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_02040618  0x02040618  arm
  */
 
@@ -30,14 +30,14 @@ struct C {
 };
 
 struct Descriptor;
-extern u8 func_02045730(struct Descriptor *p);
-extern u8 func_02045738(struct Descriptor *p);
-extern u8 func_02045740(struct Descriptor *p);
-extern u8 func_02045758(struct Descriptor *p);
-extern u8 func_02045760(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
+extern u8 BMP_WIN_GetHeight(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void func_02041300(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u8 a6);
-extern void func_020061E4(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 
 int BTLV_SCU_StepBallWindowClose(int *st, struct C *c)
@@ -50,14 +50,14 @@ int BTLV_SCU_StepBallWindowClose(int *st, struct C *c)
 
     switch (*st) {
     case 0:
-        a = func_02045758(c->f08) - 1;
-        b = func_02045760(c->f08) - 1;
-        e = func_02045738(c->f08) + 2;
-        f = func_02045740(c->f08) + 2;
-        id = func_02045730(c->f08);
+        a = BMP_WIN_GetPosX(c->f08) - 1;
+        b = BMP_WIN_GetPosY(c->f08) - 1;
+        e = BMP_WIN_GetWidth(c->f08) + 2;
+        f = BMP_WIN_GetHeight(c->f08) + 2;
+        id = BMP_WIN_GetBgLayer(c->f08);
         func_02041300(id, 0, (u8)a, (u8)b, (u8)e, (u8)f, 0);
         func_020409B4(id);
-        func_020061E4(0x547);
+        GFL_USE_PlaySeDefaultVolume(0x547);
         (*st)++;
         break;
     case 1:

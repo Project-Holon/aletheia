@@ -1,5 +1,5 @@
 /*
- * function: func_021CA7C4
+ * function: BTL_SERVER_FLOW_ProcHandExSetTurnStateArg
  * address:  0x021CA7C4
  * packet:   pkt_021CA7C4
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CA7C4   0x021CA7C4  thumb
+ *   BTL_SERVER_FLOW_ProcHandExSetTurnStateArg   0x021CA7C4  thumb
  */
 
 typedef unsigned char u8;
@@ -21,7 +21,7 @@ typedef struct {
 } BattleCtx;
 
 /* command handler: copy the argument byte of the command into the state block */
-u8 func_021CA7C4(BattleCtx *s, u8 *cmd)
+u8 BTL_SERVER_FLOW_ProcHandExSetTurnStateArg(BattleCtx *s, u8 *cmd)
 {
     s->state[4] = cmd[4];
     return 1;

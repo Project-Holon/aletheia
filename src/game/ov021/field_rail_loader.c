@@ -16,7 +16,7 @@
  * symbols:
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
- *   func_02082BCC  0x02082BCC  arm
+ *   MI_CpuFill8  0x02082BCC  arm
  *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
  *   d_021DDDB8     0x021DDDB8  data
  *   d_021DDDA0     0x021DDDA0  data
@@ -71,7 +71,7 @@ typedef struct {
 
 extern u32 func_020307B0(void *mem);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
-extern void func_02082BCC(void *dst, u32 value, u32 size);
+extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void *FLDMMDL_SetMoveBit(void *mmdl, u32 bits);
 extern int ARC_UTIL_LoadMemberWithSize(int archive, int member, int a2, int heapId, u32 *outSize);
 extern u32 func_0209C2B0(u32 a, u32 b);
@@ -97,7 +97,7 @@ extern char d_021DDE08[];    /* __FILE__ */
 /* Clear a setting and fill in the limits and function tables. */
 void FIELD_RAIL_LOADER_InitSetting(FieldRailSetting *setting)
 {
-    func_02082BCC(setting, 0, 0x30);
+    MI_CpuFill8(setting, 0, 0x30);
     setting->maxWalkers = 0x14;
     setting->maxLayers = 3;
     setting->maxViews = 3;

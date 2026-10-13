@@ -11,7 +11,7 @@
  * symbols:
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_02082BCC 0x02082BCC arm
+ *   MI_CpuFill8 0x02082BCC arm
  *   ENCEFF_ScreenTexEventMain 0x021F5518 thumb ov075
  */
 #include "../include/Obj13214.h"
@@ -22,14 +22,14 @@ struct Obj;
 struct Work;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_02082BCC(void *,int,int);
+extern void MI_CpuFill8(void *,int,int);
 extern int ENCEFF_ScreenTexEventMain(void *task, int *st, struct Work *w);
 void *ENCEFF_StartScreenTexEffect(void *a,Vec *src,u32 b,u32 c) {
     void *h;
     char *w;
     h=func_020122C0(a,0,(void *)ENCEFF_ScreenTexEventMain,0x30);
     w=func_020124E8(h);
-    func_02082BCC(w,0,0x30);
+    MI_CpuFill8(w,0,0x30);
     *(Vec *)(w+24)=*src;
     ((struct Obj13214 *)w)->f28=b;
     ((struct Obj13214 *)w)->f2C=c;

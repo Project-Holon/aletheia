@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_HANDLER_TOKUSEI_HeavyMetalDoubleWeight",
-    "BTL_HANDLER_TOKUSEI_AddLightMetal"
+    "HAND_TOKUSEI_HeavyMetalDoubleWeight",
+    "HAND_TOKUSEI_AddLightMetal"
    ],
    "addresses": [
     "0x021DCBE8",

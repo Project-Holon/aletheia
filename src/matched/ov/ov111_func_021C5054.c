@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_021C6FA0  0x021C6FA0  thumb  ov111
- *   func_020061E4  0x020061E4  thumb
- *   func_020362DC  0x020362DC  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
+ *   KEY_GetTrg  0x020362DC  arm
  *   func_020355D8  0x020355D8  arm
  *   func_021C513C  0x021C513C  thumb  ov111
  *
@@ -58,26 +58,26 @@ typedef struct {
 } Work;
 
 extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
-extern void func_020061E4(u32 a);
-extern u32 func_020362DC(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
 extern void func_021C513C(Work *p);
 
 int func_021C5054(Work *p)
 {
-    u32 key = func_020362DC();
+    u32 key = KEY_GetTrg();
 
     if (key & 2) {
         if (p->h305E == 0) {
             func_021C6FA0(&p->anim, 0, 9, 1);
-            func_020061E4(0x551);
+            GFL_USE_PlaySeDefaultVolume(0x551);
             func_020355D8(0);
             return 4;
         }
     } else if (key & 0x400) {
         if (p->h305E == 0 && !p->info->f4_7) {
             func_021C6FA0(&p->anim, 1, 8, 1);
-            func_020061E4(0x556);
+            GFL_USE_PlaySeDefaultVolume(0x556);
             return 5;
         }
     } else if (key & 0x30) {
@@ -91,7 +91,7 @@ int func_021C5054(Work *p)
         }
     } else if (key & 1) {
         if (!p->info->f4_7 && p->f3034 == 0) {
-            func_020061E4(0x54C);
+            GFL_USE_PlaySeDefaultVolume(0x54C);
             func_021C6FA0(&p->anim, 2, 0x11, 1);
             return 10;
         }

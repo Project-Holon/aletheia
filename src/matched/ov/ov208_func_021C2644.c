@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02006650  0x02006650  thumb
- *   func_020065D8  0x020065D8  thumb
+ *   PM_VOICE_IsAnyActive  0x02006650  thumb
+ *   PM_VOICE_StopAll  0x020065D8  thumb
  *   func_021C3638  0x021C3638  thumb  ov208
  *   func_021BC97C  0x021BC97C  thumb  ov208
  *   func_021BCA54  0x021BCA54  thumb  ov208
@@ -35,8 +35,8 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern int func_02006650(void);
-extern void func_020065D8(void);
+extern int PM_VOICE_IsAnyActive(void);
+extern void PM_VOICE_StopAll(void);
 extern void func_021C3638(void *unused, char *p, void *a2);
 extern void func_021BC97C(char *p);
 extern void func_021BCA54(u32 a, u32 packed);
@@ -58,8 +58,8 @@ u32 func_021C2644(void *a0, u32 a1, void *a2, u8 *st, void *a4)
 {
     u8 i;
 
-    if (func_02006650() != 0) {
-        func_020065D8();
+    if (PM_VOICE_IsAnyActive() != 0) {
+        PM_VOICE_StopAll();
     }
     func_021C3638(a2, (char *)st, a4);
     func_021BC97C(*(char * *)&((struct Obj03934 *)st)->f80);

@@ -31,9 +31,9 @@
  *   func_02007A18  0x02007A18  thumb
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   func_02017E88  0x02017E88  thumb
- *   func_0201ADE4  0x0201ADE4  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
- *   func_0201AE14  0x0201AE14  thumb
+ *   POKE_PERSONAL_Create  0x0201ADE4  thumb
+ *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
+ *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   func_02082A48  0x02082A48  arm
  *   func_021EC01C 0x021EC01C thumb
@@ -59,12 +59,12 @@
  *   func_020260E0 0x020260E0 thumb
  *   func_020260E4 0x020260E4 thumb
  *   func_02025DE8 0x02025DE8 thumb
- *   func_020362DC 0x020362DC arm
+ *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  *   d_021F0188  0x021F0188  data
  *   d_021F0DCC  0x021F0DCC  data
  *   d_021F0370  0x021F0370  data
- *   func_0203633C 0x0203633C arm
+ *   KEY_GetRepeat 0x0203633C arm
  *   func_021DD238 0x021DD238 thumb
  *   func_021DD25C 0x021DD25C thumb
  *   func_02030734 0x02030734 arm
@@ -203,9 +203,9 @@ extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern void *func_0201ADE4(u32 a, int b, u32 c);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *p);
+extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
+extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern void POKE_PERSONAL_Delete(void *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern void func_02082A48(u32 value, void *dest, u32 size);
 extern u32 func_021EC01C(char *p, int i);
@@ -232,9 +232,9 @@ extern int func_021E066C(char *p);
 extern void func_020260E4(struct Sound *obj, u8 sel);
 extern u8 func_020260E0(struct Sound *obj);
 extern int func_02025DE8(struct Sound *obj);
-extern u32 func_020362DC(void);
+extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
-extern unsigned int func_0203633C(void);
+extern unsigned int KEY_GetRepeat(void);
 extern void func_021DD238(char *p);
 extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -682,9 +682,9 @@ void func_021EDC0C(int **a, int box, u8 *dest)
                 if (func_02017E88(e, 0x4c, 0) == 0) {
                     void *pd;
                     form = func_02017E88(e, 0x6f, 0);
-                    pd = func_0201ADE4((u16)sp, form, 0x4c);
-                    t = (u16)func_0201AE1C(pd, 0x21);
-                    func_0201AE14(pd);
+                    pd = POKE_PERSONAL_Create((u16)sp, form, 0x4c);
+                    t = (u16)POKE_PERSONAL_GetParam(pd, 0x21);
+                    POKE_PERSONAL_Delete(pd);
                 } else {
                     t = (sp == 490) ? 1 : 8;
                 }
@@ -1127,7 +1127,7 @@ unsigned func_021EE474(char *p)
             func_021EE408(p, sel);
             return -1;
         }
-        if (func_020362DC() & 0x400) {
+        if (KEY_GetTrg() & 0x400) {
             func_020355D8(0);
             return 6;
         }
@@ -1207,7 +1207,7 @@ unsigned func_021EE57C(char *p)
             func_021EE408(p, sel);
             return -1;
         }
-        if (func_020362DC() & 0x400) {
+        if (KEY_GetTrg() & 0x400) {
             func_020355D8(0);
             return 0x21;
         }
@@ -1225,11 +1225,11 @@ unsigned func_021EE57C(char *p)
         return -1;
     }
     if (r == -1) {
-        if (func_0203633C() & 0x200) {
+        if (KEY_GetRepeat() & 0x200) {
             func_021DD238(p);
             return 0x1F;
         }
-        if (func_0203633C() & 0x100) {
+        if (KEY_GetRepeat() & 0x100) {
             func_021DD238(p);
             return 0x20;
         }
@@ -1265,7 +1265,7 @@ unsigned func_021EE65C(char *p)
             func_021EE408(p, sel);
             return -1;
         }
-        if (func_020362DC() & 0x400) {
+        if (KEY_GetTrg() & 0x400) {
             func_020355D8(0);
             return 0x22;
         }
@@ -1283,11 +1283,11 @@ unsigned func_021EE65C(char *p)
         return -1;
     }
     if (r == -1) {
-        if (func_0203633C() & 0x200) {
+        if (KEY_GetRepeat() & 0x200) {
             func_021DD238(p);
             return 0x1F;
         }
-        if (func_0203633C() & 0x100) {
+        if (KEY_GetRepeat() & 0x100) {
             func_021DD238(p);
             return 0x20;
         }
@@ -1406,15 +1406,15 @@ unsigned func_021EE850(char *p)
 {
     unsigned r = func_02025DE8(((struct Obj24039 *)(*(char * *)&((BoxTask *)p)->f2C))->f70);
     if (r == -1) {
-        if (func_020362DC() & 0x800) {
+        if (KEY_GetTrg() & 0x800) {
             func_021DD238(p);
             return 0x28;
         }
-        if (func_0203633C() & 0x200) {
+        if (KEY_GetRepeat() & 0x200) {
             func_021DD238(p);
             return 0x1F;
         }
-        if (func_0203633C() & 0x100) {
+        if (KEY_GetRepeat() & 0x100) {
             func_021DD238(p);
             return 0x20;
         }
@@ -1460,7 +1460,7 @@ unsigned func_021EE8A8(char *p)
             func_021EE408(p, sel);
             return -1;
         }
-        if (func_020362DC() & 0x400) {
+        if (KEY_GetTrg() & 0x400) {
             func_020355D8(0);
             return 7;
         }
@@ -1511,15 +1511,15 @@ unsigned func_021EE96C(char *p)
 {
     unsigned r = func_02025DE8(((struct Obj24040 *)(*(char * *)&((BoxTask *)p)->f2C))->f70);
     if (r == -1) {
-        if (func_020362DC() & 0x800) {
+        if (KEY_GetTrg() & 0x800) {
             func_021DD238(p);
             return 0x28;
         }
-        if (func_0203633C() & 0x200) {
+        if (KEY_GetRepeat() & 0x200) {
             func_021DD238(p);
             return 0x25;
         }
-        if (func_0203633C() & 0x100) {
+        if (KEY_GetRepeat() & 0x100) {
             func_021DD238(p);
             return 0x26;
         }
@@ -1619,7 +1619,7 @@ unsigned func_021EEA48(char *p)
             func_021EE408(p, sel);
             return -1;
         }
-        if (func_020362DC() & 0x400) {
+        if (KEY_GetTrg() & 0x400) {
             func_020355D8(0);
             return 0x22;
         }
@@ -1637,11 +1637,11 @@ unsigned func_021EEA48(char *p)
         return -1;
     }
     if (r == -1) {
-        if (func_0203633C() & 0x200) {
+        if (KEY_GetRepeat() & 0x200) {
             func_021DD238(p);
             return 0x1F;
         }
-        if (func_0203633C() & 0x100) {
+        if (KEY_GetRepeat() & 0x100) {
             func_021DD238(p);
             return 0x20;
         }
@@ -1714,7 +1714,7 @@ unsigned func_021EEB40(char *p)
             func_021EE408(p, sel);
             return -1;
         }
-        if (func_020362DC() & 0x400) {
+        if (KEY_GetTrg() & 0x400) {
             func_020355D8(0);
             return 7;
         }
@@ -1880,7 +1880,7 @@ unsigned func_021EECE4(char *p)
             func_021EE408(p, sel);
             return -1;
         }
-        if (func_020362DC() & 0x400) {
+        if (KEY_GetTrg() & 0x400) {
             func_020355D8(0);
             return 0x22;
         }
@@ -1898,11 +1898,11 @@ unsigned func_021EECE4(char *p)
         return -1;
     }
     if (r == -1) {
-        if (func_0203633C() & 0x200) {
+        if (KEY_GetRepeat() & 0x200) {
             func_021DD238(p);
             return 0x1F;
         }
-        if (func_0203633C() & 0x100) {
+        if (KEY_GetRepeat() & 0x100) {
             func_021DD238(p);
             return 0x20;
         }
@@ -1961,7 +1961,7 @@ unsigned func_021EEDE0(char *p)
             func_021EE408(p, sel);
             return -1;
         }
-        if (func_020362DC() & 0x400) {
+        if (KEY_GetTrg() & 0x400) {
             func_020355D8(0);
             return 7;
         }
@@ -2056,8 +2056,8 @@ unsigned func_021EEEA4(char *p)
         return -1;
     }
     if(r==-1) {
-        if(func_0203633C()&0x200) { func_021DD238(p); return 0x1f; }
-        if(func_0203633C()&0x100) { func_021DD238(p); return 0x20; }
+        if(KEY_GetRepeat()&0x200) { func_021DD238(p); return 0x1f; }
+        if(KEY_GetRepeat()&0x100) { func_021DD238(p); return 0x20; }
     }
     return r;
 }
